@@ -43,7 +43,8 @@ public class ServerProxy {
 
 	public void registerMissileItems() { }
 
-	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
+	/** Retired in favor of the version that uses keepAlive */
+	@Deprecated public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) { return null; }
 
 	public void playSound(String sound, Object data) { }
