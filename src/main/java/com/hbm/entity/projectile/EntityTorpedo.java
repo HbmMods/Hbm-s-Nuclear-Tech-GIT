@@ -1,7 +1,7 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.ExplosionCreator;
 
@@ -21,7 +21,7 @@ public class EntityTorpedo extends EntityThrowable {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 
@@ -29,7 +29,7 @@ public class EntityTorpedo extends EntityThrowable {
 			for(int i = 0; i < 15; i++) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "bf");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
 						posX + (rand.nextDouble() - 0.5) * 2,
 						posY + (rand.nextDouble() - 0.5) * 1,
 						posZ + (rand.nextDouble() - 0.5) * 2),
@@ -40,9 +40,9 @@ public class EntityTorpedo extends EntityThrowable {
 		this.lastTickPosX = this.prevPosX = posX;
 		this.lastTickPosY = this.prevPosY = posY;
 		this.lastTickPosZ = this.prevPosZ = posZ;
-		
+
 		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
-		
+
 		this.motionY -= 0.04;
 		if(motionY < -2.5) motionY = -2.5;
 
@@ -59,7 +59,7 @@ public class EntityTorpedo extends EntityThrowable {
 
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) { }
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {

@@ -9,6 +9,7 @@ import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -20,7 +21,6 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -46,12 +46,12 @@ public class XFactoryFolly {
 
 	public static BulletConfig folly_sm;
 	public static BulletConfig folly_nuke;
-	
+
 	public static Consumer<Entity> LAMBDA_SM_UPDATE = (entity) -> {
 		if(entity.worldObj.isRemote) return;
 		EntityBulletBeamBase beam = (EntityBulletBeamBase) entity;
 		Vec3NT dir = new Vec3NT(beam.headingX, beam.headingY, beam.headingZ).normalizeSelf();
-		
+
 		if(beam.ticksExisted < 50) {
 			double spacing = 10;
 			double dist = beam.ticksExisted * spacing;
@@ -63,20 +63,20 @@ public class XFactoryFolly {
 			data.setFloat("pitch", (float) beam.rotationPitch + 90);
 			data.setFloat("yaw", (float) -beam.rotationYaw);
 			data.setFloat("scale", 2F + beam.ticksExisted / (float)(beam.beamLength / spacing) * 3F);
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, beam.posX + dir.xCoord * dist, beam.posY + dir.yCoord * dist, beam.posZ + dir.zCoord * dist), new TargetPoint(beam.dimension, beam.posX, beam.posY, beam.posZ, 250));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, beam.posX + dir.xCoord * dist, beam.posY + dir.yCoord * dist, beam.posZ + dir.zCoord * dist), new TargetPoint(beam.dimension, beam.posX, beam.posY, beam.posZ, 250));
 		}
-		
+
 		if(entity.ticksExisted != 2) return;
-		
+
 		if(beam.thrower != null) ContaminationUtil.contaminate(beam.thrower, HazardType.RADIATION, ContaminationType.CREATIVE, 150F);
 
 		List<Entity> entities = beam.worldObj.getEntitiesWithinAABBExcludingEntity(beam, beam.boundingBox.addCoord(beam.headingX, beam.headingY, beam.headingZ).expand(1.0D, 1.0D, 1.0D));
-		
+
 		for(int i = 1; i < beam.beamLength; i += 2) {
 			int x = (int) Math.floor(beam.posX + dir.xCoord * i);
 			int y = (int) Math.floor(beam.posY + dir.yCoord * i);
 			int z = (int) Math.floor(beam.posZ + dir.zCoord * i);
-			
+
 			for(int ix = x - 1; ix <= x + 1; ix++) for(int iy = y - 1; iy <= y + 1; iy++) for(int iz = z - 1; iz <= z + 1; iz++) {
 				if(iy > 0 && iy < 256) beam.worldObj.setBlock(ix, iy, iz, Blocks.air);
 				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(ix - 1, iy - 1, iz - 1, ix + 2, iy + 2, iz + 2);
@@ -87,7 +87,7 @@ public class XFactoryFolly {
 			}
 		}
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_IMPACT = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 2) return;
 		if(bullet.isDead) return;
@@ -95,7 +95,7 @@ public class XFactoryFolly {
 		bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(bullet.worldObj, 100, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 		EntityNukeTorex.statFac(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100);
 	};
-	
+
 	public static void init() {
 
 		folly_sm = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_SM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setSpectral(true).setDoesPenetrate(true)
@@ -114,7 +114,7 @@ public class XFactoryFolly {
 				.anim(LAMBDA_FOLLY_ANIMS).orchestra(Orchestras.ORCHESTRA_FOLLY)
 				).setUnlocalizedName("gun_folly");
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> {
 		if(ItemGunBaseNT.getState(stack, ctx.configIndex) == GunState.IDLE) {
 			boolean wasAiming = ItemGunBaseNT.getIsAiming(stack);
@@ -122,18 +122,18 @@ public class XFactoryFolly {
 			if(!wasAiming) ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.SPINUP, ctx.configIndex);
 		}
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE = (stack, ctx) -> {
 		Lego.doStandardFire(stack, ctx, AnimType.CYCLE, false);
 	};
-	
+
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> {
 		if(!ItemGunBaseNT.getIsAiming(stack)) return false;
 		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != AnimType.SPINUP) return false;
 		if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
 		return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0;
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_FOLLY = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(25, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
@@ -151,7 +151,7 @@ public class XFactoryFolly {
 				.addBus("BREECH", new BusAnimationSequence().addPos(0, 0, 0, 1000).addPos(0, 0, -0.5, 1000, IType.SIN_FULL).addPos(0, -4, -0.5, 1000, IType.SIN_FULL).addPos(0, -4, -0.5, 2000).addPos(0, 0, -0.5, 1000, IType.SIN_FULL).addPos(0, 0, 0, 1000, IType.SIN_FULL))
 				.addBus("SHELL", new BusAnimationSequence().addPos(0, -4, -4.5, 0).addPos(0, -4, -4.5, 3000).addPos(0, 0, -4.5, 1000, IType.SIN_FULL).addPos(0, 0, 0, 500, IType.SIN_UP));
 		}
-		
+
 		return null;
 	};
 }

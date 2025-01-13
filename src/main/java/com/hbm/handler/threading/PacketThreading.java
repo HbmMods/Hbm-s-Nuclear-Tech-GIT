@@ -4,7 +4,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PrecompiledPacket;
+import com.hbm.packet.threading.PrecompiledPacket;
+import com.hbm.packet.threading.ThreadedPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -63,23 +64,37 @@ public class PacketThreading {
 		}
 	}
 
+	// Prepares a packet by making a PreBuf (or invalidating due to incorrect class).
+	private static boolean preparePacket(IMessage message) {
+		// `message` can be precompiled or not.
+		if(message instanceof PrecompiledPacket)
+			((PrecompiledPacket) message).getCompiledBuffer(); // Gets the precompiled buffer, doing nothing if it already exists.
+		totalCnt++;
+
+		if(!(message instanceof ThreadedPacket)) {
+			MainRegistry.logger.error("Invalid packet class, expected ThreadedPacket, got {}.", message.getClass().getSimpleName());
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Adds a packet to the thread pool to be processed in the future. This is only compatible with the `sendToAllAround` dispatch operation.
 	 * @param message Message to process.
 	 * @param target TargetPoint to send to.
 	 */
 	public static void createAllAroundThreadedPacket(IMessage message, TargetPoint target) {
-		// `message` can be precompiled or not.
-		if(message instanceof PrecompiledPacket)
-			((PrecompiledPacket) message).getPreBuf(); // Gets the precompiled buffer, doing nothing if it already exists.
-		totalCnt++;
+
+		if(preparePacket(message))
+			return;
+
+		ThreadedPacket packet = (ThreadedPacket) message;
 
 		Runnable task = () -> {
 			try {
 				lock.lock();
 				PacketDispatcher.wrapper.sendToAllAround(message, target);
-				if (message instanceof PrecompiledPacket)
-					((PrecompiledPacket) message).getPreBuf().release();
+				packet.getCompiledBuffer().release();
 			} finally {
 				lock.unlock();
 			}
@@ -95,16 +110,17 @@ public class PacketThreading {
 	 * @param player PlayerMP to send to.
 	 */
 	public static void createSendToThreadedPacket(IMessage message, EntityPlayerMP player) {
-		if(message instanceof PrecompiledPacket)
-			((PrecompiledPacket) message).getPreBuf();
-		totalCnt++;
+
+		if(preparePacket(message))
+			return;
+
+		ThreadedPacket packet = (ThreadedPacket) message;
 
 		Runnable task = () -> {
 			try {
 				lock.lock();
 				PacketDispatcher.wrapper.sendTo(message, player);
-				if (message instanceof PrecompiledPacket)
-					((PrecompiledPacket) message).getPreBuf().release();
+				packet.getCompiledBuffer().release();
 			} finally {
 				lock.unlock();
 			}

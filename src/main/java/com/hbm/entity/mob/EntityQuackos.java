@@ -1,7 +1,7 @@
 package com.hbm.entity.mob;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -97,23 +97,23 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * BOW
 	 */
 	public void despawn() {
-		
+
 		if(!worldObj.isRemote) {
 			for(int i = 0; i < 150; i++) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "bf");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
 						posX + rand.nextDouble() * 20 - 10,
 						posY + rand.nextDouble() * 25,
 						posZ + rand.nextDouble() * 20 - 10),
 						new TargetPoint(dimension, posX, posY, posZ, 150));
 			}
-			
+
 			dropItem(ModItems.spawn_duck, 3);
 		}
 		this.isDead = true;
@@ -150,7 +150,7 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		
+
 		if(!worldObj.isRemote && this.posY < -30) {
 			this.setPosition(this.posX + rand.nextGaussian() * 30, 256, this.posZ + rand.nextGaussian() * 30);
 		}

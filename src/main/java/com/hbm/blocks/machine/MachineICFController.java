@@ -4,8 +4,8 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockICFLaserComponent.EnumICFPart;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.machine.TileEntityICFController;
 import com.hbm.util.BobMathUtil;
@@ -209,7 +209,7 @@ public class MachineICFController extends BlockContainer implements ILookOverlay
 			data.setInteger("expires", 5_000);
 			data.setDouble("dist", 128D);
 			if(message != null) data.setString("label", message);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
+			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
 		}
 	}
 

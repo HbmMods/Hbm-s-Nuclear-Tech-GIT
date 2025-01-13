@@ -1640,7 +1640,7 @@ public class ModBlocks {
 		plant_dead = new BlockDeadPlant().setBlockName("plant_dead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		reeds = new BlockReeds().setBlockName("plant_reeds").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		vine_phosphor = new BlockHangingVine(thick_foliage).setBlockName("vine_phosphor").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.5F);
-		
+
 		waste_earth = new WasteEarth(Material.ground, true).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
 		waste_mycelium = new WasteEarth(Material.ground, true).setBlockName("waste_mycelium").setStepSound(Block.soundTypeGrass).setLightLevel(1F).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_mycelium_side");
 		waste_trinitite = new BlockOre(Material.sand).noFortune().setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
@@ -2936,13 +2936,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
 
 		//Crates
-		register(crate_iron);
-		register(crate_steel);
-		register(crate_desh);
-		register(crate_tungsten);
-		register(crate_template);
-		register(safe);
-		register(mass_storage);
+		register(crate_iron, ItemBlockStorageCrate.class);
+		register(crate_steel, ItemBlockStorageCrate.class);
+		register(crate_desh, ItemBlockStorageCrate.class);
+		register(crate_tungsten, ItemBlockStorageCrate.class);
+		register(crate_template, ItemBlockStorageCrate.class);
+		register(safe, ItemBlockStorageCrate.class);
+		register(mass_storage, ItemBlockStorageCrate.class);
 
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());

@@ -3,7 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -26,29 +26,29 @@ public class ItemPowerNetTool extends Item {
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
-		
+
 		Block b = world.getBlock(x, y, z);
-		
+
 		if(b instanceof BlockDummyable) {
 			int[] pos = ((BlockDummyable) b).findCore(world, x, y, z);
-			
+
 			if(pos != null) {
 				x = pos[0];
 				y = pos[1];
 				z = pos[2];
 			}
 		}
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(world.isRemote)
 			return true;
-		
+
 		if((te instanceof IEnergyConductorMK2)) {
 			PowerNode node = Nodespace.getNode(world, x, y, z);
-			
+
 			if(node != null && node.hasValidNet()) {
-				
+
 				PowerNetMK2 net = node.net;
 				String id = Integer.toHexString(net.hashCode());
 				player.addChatComponentMessage(ChatBuilder.start("Start of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
@@ -56,29 +56,29 @@ public class ItemPowerNetTool extends Item {
 				player.addChatComponentMessage(ChatBuilder.start("Providers: " + net.providerEntries.size()).color(EnumChatFormatting.YELLOW).flush());
 				player.addChatComponentMessage(ChatBuilder.start("Receivers: " + net.receiverEntries.size()).color(EnumChatFormatting.YELLOW).flush());
 				player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
-				
+
 				for(PowerNode link : net.links) {
-					
+
 					for(BlockPos pos : link.positions) {
 						NBTTagCompound data = new NBTTagCompound();
 						data.setString("type", "debug");
 						data.setInteger("color", 0xffff00);
 						data.setFloat("scale", 0.5F);
 						data.setString("text", id);
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), radius));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), radius));
 					}
 				}
-				
+
 			} else {
 				player.addChatComponentMessage(ChatBuilder.start("Error: No network found!").color(EnumChatFormatting.RED).flush());
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	private static final int radius = 20;
 
 	@Override

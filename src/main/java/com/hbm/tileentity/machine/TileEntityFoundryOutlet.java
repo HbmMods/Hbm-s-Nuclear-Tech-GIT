@@ -1,8 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
@@ -27,16 +27,16 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase{
 	/** inverts redstone behavior, i.e. when TRUE, the outlet will be blocked by default and only open with redstone */
 	public boolean invertRedstone = false;
 	public boolean lastClosed = false;
-	
+
 	/** if TRUE, prevents all fluids from flowing through the outlet and renders a small barrier */
 	public boolean isClosed() {
 		return invertRedstone ^ this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		if(worldObj.isRemote) {
 			boolean isClosed = isClosed();
 			if(this.lastClosed != isClosed || this.filter != this.lastFilter) {
@@ -49,47 +49,47 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase{
 
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return stack; }
-	
+
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
+
 		if(filter != null && (filter != stack.material ^ invertFilter)) return false;
 		if(isClosed()) return false;
 		if(side != ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite()) return false;
-		
+
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 4, z + 0.5);
-		
+
 		MovingObjectPosition[] mop = new MovingObjectPosition[1];
 		ICrucibleAcceptor acc = CrucibleUtil.getPouringTarget(world, start, end, mop);
-		
+
 		if(acc == null) {
 			return false;
 		}
-		
+
 		return acc.canAcceptPartialPour(world, mop[0].blockX, mop[0].blockY, mop[0].blockZ, mop[0].hitVec.xCoord, mop[0].hitVec.yCoord, mop[0].hitVec.zCoord, ForgeDirection.UP, stack);
 	}
-	
+
 	@Override
 	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		
+
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 4, z + 0.5);
-		
+
 		MovingObjectPosition[] mop = new MovingObjectPosition[1];
 		ICrucibleAcceptor acc = CrucibleUtil.getPouringTarget(world, start, end, mop);
-		
+
 		if(acc == null)
 			return stack;
-		
+
 		MaterialStack didPour = acc.pour(world, mop[0].blockX, mop[0].blockY, mop[0].blockZ, mop[0].hitVec.xCoord, mop[0].hitVec.yCoord, mop[0].hitVec.zCoord, ForgeDirection.UP, stack);
-		
+
 
 		if(stack != null) {
-			
+
 			ForgeDirection dir = side.getOpposite();
 			double hitY = mop[0].blockY + 1;
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "foundry");
 			data.setInteger("color", stack.material.moltenColor);
@@ -97,10 +97,10 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase{
 			data.setFloat("off", 0.375F);
 			data.setFloat("base", 0F);
 			data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(hitY) - 0.875)));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D - dir.offsetX * 0.125, yCoord + 0.125, zCoord + 0.5D - dir.offsetZ * 0.125), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord, zCoord + 0.5, 50));
-		
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D - dir.offsetX * 0.125, yCoord + 0.125, zCoord + 0.5D - dir.offsetZ * 0.125), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord, zCoord + 0.5, 50));
+
 		}
-		
+
 		return didPour;
 	}
 

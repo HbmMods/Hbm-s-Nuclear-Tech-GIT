@@ -540,6 +540,9 @@ public class HbmWorldGen implements IWorldGenerator {
 					safe.setPins(rand.nextInt(999) + 1);
 					safe.lock();
 
+					if(rand.nextInt(10) < 3) // 30% chance
+						safe.fillWithSpiders();
+
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned safe at " + x + " " + (y + 1) +" " + z);
 				}

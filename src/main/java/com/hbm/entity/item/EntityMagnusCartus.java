@@ -1,7 +1,7 @@
 package com.hbm.entity.item;
 
 import com.hbm.entity.cart.EntityMinecartBogie;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -12,7 +12,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityMagnusCartus extends EntityMinecart {
-	
+
 	public EntityMinecartBogie bogie;
 
 	public EntityMagnusCartus(World world) {
@@ -33,12 +33,12 @@ public class EntityMagnusCartus extends EntityMinecart {
 		super.entityInit();
 		this.dataWatcher.addObject(25, new Integer(0));
 	}
-	
+
 	public void setBogie(EntityMinecartBogie bogie) {
 		this.bogie = bogie;
 		this.dataWatcher.updateObject(25, bogie.getEntityId());
 	}
-	
+
 	public int getBogieID() {
 		return this.dataWatcher.getWatchableObjectInt(25);
 	}
@@ -46,12 +46,12 @@ public class EntityMagnusCartus extends EntityMinecart {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			double dist = 3.0D;
 			double force = 0.3D;
-			
+
 			if(bogie == null) {
 				Vec3 vec = Vec3.createVectorHelper(dist, 0, 0);
 				vec.rotateAroundY(rand.nextFloat() * 6.28F);
@@ -59,7 +59,7 @@ public class EntityMagnusCartus extends EntityMinecart {
 				this.setBogie(bog);
 				worldObj.spawnEntityInWorld(bog);
 			}
-			
+
 			Vec3 delta = Vec3.createVectorHelper(posX - bogie.posX, posY - bogie.posY, posZ - bogie.posZ);
 			delta = delta.normalize();
 			delta.xCoord *= dist;
@@ -69,17 +69,17 @@ public class EntityMagnusCartus extends EntityMinecart {
 			double x = posX - delta.xCoord;
 			double y = posY - delta.yCoord;
 			double z = posZ - delta.zCoord;
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaExt");
 			data.setString("mode", "reddust");
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(this.dimension, x, y, z, 25));
-			
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(this.dimension, x, y, z, 25));
+
 			Vec3 pull = Vec3.createVectorHelper(x - bogie.posX, y - bogie.posY, z - bogie.posZ);
 			bogie.motionX += pull.xCoord * force;
 			bogie.motionY += pull.yCoord * force;
 			bogie.motionZ += pull.zCoord * force;
-			
+
 			if(pull.lengthVector() > 1) {
 				this.motionX -= pull.xCoord * force;
 				this.motionY -= pull.yCoord * force;
@@ -87,13 +87,13 @@ public class EntityMagnusCartus extends EntityMinecart {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		int bogieID = nbt.getInteger("bogie");
 		Entity e = worldObj.getEntityByID(bogieID);
-		
+
 		if(e instanceof EntityMinecartBogie) {
 			this.setBogie((EntityMinecartBogie) e);
 		}

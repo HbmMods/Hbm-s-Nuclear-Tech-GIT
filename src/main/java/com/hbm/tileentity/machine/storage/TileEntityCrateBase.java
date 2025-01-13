@@ -14,6 +14,8 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	protected ItemStack slots[];
 	public String customName;
 
+	public boolean hasSpiders = false;
+
 	public TileEntityCrateBase(int count) {
 		slots = new ItemStack[count];
 	}
@@ -108,7 +110,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		slots = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -118,12 +120,13 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		this.hasSpiders = nbt.getBoolean("spiders");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		NBTTagList list = new NBTTagList();
 
 		for (int i = 0; i < slots.length; i++) {
@@ -135,6 +138,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 			}
 		}
 		nbt.setTag("items", list);
+		nbt.setBoolean("spiders", hasSpiders);
 	}
 
 	@Override
@@ -152,5 +156,10 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return !this.isLocked();
+	}
+
+	// Spiders!!!
+	public void fillWithSpiders() {
+		this.hasSpiders = true;
 	}
 }

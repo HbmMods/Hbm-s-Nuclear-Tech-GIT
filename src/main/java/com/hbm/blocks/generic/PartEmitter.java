@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 
@@ -41,7 +41,7 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 			te.markDirty();
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -50,21 +50,21 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 		public static final int range = 150;
 		public int effect = 0;
 		public static final int effectCount = 4;
-		
+
 		@Override
 		public void updateEntity() {
-			
+
 			if(!worldObj.isRemote) {
 
 				double x = xCoord + 0.5;
 				double y = yCoord + 0.5;
 				double z = zCoord + 0.5;
 				NBTTagCompound data = new NBTTagCompound();
-				
+
 				if(effect == 1) {
 					ParticleUtil.spawnGasFlame(worldObj, xCoord + worldObj.rand.nextDouble(), yCoord + 4.5 + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), worldObj.rand.nextGaussian() * 0.2, 0.1, worldObj.rand.nextGaussian() * 0.2);
 				}
-				
+
 				if(effect == 2) {
 					data.setString("type", "tower");
 					data.setFloat("lift", 5F);
@@ -79,15 +79,15 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 					data.setFloat("base", 1F);
 					data.setFloat("max", 10F);
 					data.setInteger("life", 750 + worldObj.rand.nextInt(250));
-		
+
 					x = xCoord + 0.5 + worldObj.rand.nextDouble() * 3 - 1.5;
 					y =  yCoord + 1;
 					z = zCoord + 0.5 + worldObj.rand.nextDouble() * 3 - 1.5;
-					
+
 				}
-				
+
 				if(data.hasKey("type")) {
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 			this.writeToNBT(nbt);
 			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 		}
-		
+
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());

@@ -71,7 +71,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 		BufPacket packet = new BufPacket(xCoord, yCoord, zCoord, this);
 
-		ByteBuf preBuf = packet.getPreBuf();
+		ByteBuf preBuf = packet.getCompiledBuffer();
 
 		// Don't send unnecessary packets, except for maybe one every second or so.
 		// If we stop sending duplicate packets entirely, this causes issues when
