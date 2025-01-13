@@ -1387,17 +1387,21 @@ hazard.sand=Eye Irritants
 
 hbm.key=NTM Hotkeys
 hbm.key.calculator=Calculator
+hbm.key.copyToolAlt=Copy Tool: Switch Paste
+hbm.key.copyToolCtrl=Copy Tool: Paste to Pipes
 hbm.key.craneLoad=Load/Unload Crane
 hbm.key.craneMoveDown=Move Crane Backward
 hbm.key.craneMoveLeft=Move Crane Left
 hbm.key.craneMoveRight=Move Crane Right
 hbm.key.craneMoveUp=Move Crane Forward
-hbm.key.dash=Dash (Unbind from Crouch in config)
+hbm.key.dash=Dash
+hbm.key.gunPrimary=Primary Fire
+hbm.key.gunSecondary=Secondary Fire
+hbm.key.gunTertitary=Gun Sights
 hbm.key.toggleBack=Toggle Jetpack
 hbm.key.toggleHUD=Toggle HUD
+hbm.key.trainInv=Train Inventory
 hbm.key.reload=Reload
-hbm.key.copyToolAlt=Copy Tool: Switch Paste
-hbm.key.copyToolCtrl=Copy Tool: Paste to Pipes
 
 hbmfluid.amat=Antimatter
 hbmfluid.aromatics=Aromatic Hydrocarbons

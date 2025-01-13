@@ -680,13 +680,20 @@ hazard.sand=Augenreizstoffe
 
 hbm.key=NTM Hotkeys
 hbm.key.calculator=Taschenrechner
+hbm.key.copyToolAlt=Kopierwerkzeug: Einfügen umschalten
+hbm.key.copyToolCtrl=Kopierwerkzeug: Auf Rohre einfügen
 hbm.key.craneLoad=Kran laden/entladen
 hbm.key.craneMoveDown=Kran rückwärts
 hbm.key.craneMoveLeft=Kran nach links
 hbm.key.craneMoveRight=Kran nach rechts
 hbm.key.craneMoveUp=Kran vorwärts
+hbm.key.dash=Schub
+hbm.key.gunPrimary=Primärfeuer
+hbm.key.gunSecondary=Sekundärfeuer
+hbm.key.gunTertitary=Zielvisier
 hbm.key.toggleBack=Jetpack umschalten
 hbm.key.toggleHUD=HUD umschalten
+hbm.key.trainInv=Zug-Inventar
 hbm.key.reload=Nachladen
 
 hbmfluid.amat=Antimaterie
