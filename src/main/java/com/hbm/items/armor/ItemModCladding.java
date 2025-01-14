@@ -27,6 +27,6 @@ public class ItemModCladding extends ItemArmorMod {
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + " (+" + rad + " radiation resistence)");
+		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + " (+" + rad + " radiation resistance)");
 	}
 }
