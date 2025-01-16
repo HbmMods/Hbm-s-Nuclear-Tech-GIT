@@ -65,7 +65,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(LAPIS.ore(),		new CrystallizerRecipe(ModItems.crystal_lapis, baseTime));
 		registerRecipe(DIAMOND.ore(),	new CrystallizerRecipe(ModItems.crystal_diamond, baseTime));
 		registerRecipe(U.ore(),			new CrystallizerRecipe(ModItems.crystal_uranium, baseTime), sulfur);
-		for(String ore : OreDictManager.TH232.all(MaterialShapes.ORE)) registerRecipe(ore,	new CrystallizerRecipe(ModItems.crystal_thorium, baseTime), sulfur);
+		for(String ore : OreDictManager.TH232.all(MaterialShapes.ONLY_ORE)) registerRecipe(ore,	new CrystallizerRecipe(ModItems.crystal_thorium, baseTime), sulfur);
 		registerRecipe(PU.ore(),		new CrystallizerRecipe(ModItems.crystal_plutonium, baseTime), sulfur);
 		registerRecipe(TI.ore(),		new CrystallizerRecipe(ModItems.crystal_titanium, baseTime), sulfur);
 		registerRecipe(S.ore(),			new CrystallizerRecipe(ModItems.crystal_sulfur, baseTime));

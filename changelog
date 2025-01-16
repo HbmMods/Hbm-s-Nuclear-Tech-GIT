@@ -1,21 +1,6 @@
-## Added
-* Phosphor vines
-  * Will be used for an upcoming dungeon, don't worry about it
-
 ## Changed
-* Raw bedrock ore taken out of the creative tab now has the stats of the position the player is in, instead of being worthless
-* U233's color coded isotope indicator is now yellow instead of orange, making yellow standard code for "secondary fissile isotope" and orange for "radioisotope"
-* NITAN powders can now be found in the creative tab
-* Coltass' description no longer calls the player a dipshit
+* The bedrock ore processor now has an NEI handler
 
 ## Fixed
-* Fixed raw bedrock ore tooltip not showing the density's color correctly
-* Fixed T45 helmet not protecting against carbon monoxide
-* Fixed general issues regarding the rotary furnace
-* Fixed corrupted broadcaster noise having infinite range
-* Fixed packet issues for explosive charges and custom machines
-* Fixed one of the rotary furnace's visual connections now properly showing up
-* Fixed dupe regarding items on a conveyor belt
-* Potentially fixed chunkloading drones for real this time(tm)
-  * No, I did not test it
-* Fixed missing localization for keybinds
+* Fixed incorrect tooltip in the automatic control rod's GUI
+* Fixed recipe autogen creating recipes for nonexistant thorium bedrock ore

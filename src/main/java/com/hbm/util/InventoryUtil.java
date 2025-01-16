@@ -2,6 +2,7 @@ package com.hbm.util;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityFurnaceBrick;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -428,6 +429,7 @@ public class InventoryUtil {
 			return stacks;
 		}
 
+		MainRegistry.logger.warn("InventoryUtil: extractObject failed for type " + o);
 		return new ItemStack[0][0];
 	}
 

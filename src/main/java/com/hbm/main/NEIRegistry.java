@@ -32,6 +32,7 @@ public class NEIRegistry {
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
 		handlers.add(new ChemplantRecipeHandler());
+		handlers.add(new OreSlopperHandler()); //before acidizing
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());
 		handlers.add(new FusionRecipeHandler());
