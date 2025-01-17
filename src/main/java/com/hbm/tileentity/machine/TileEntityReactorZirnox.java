@@ -43,6 +43,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -516,7 +517,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] ventCarbonDioxide(Context context, Arguments args) {
-		int ventAmount = Math.max(Math.min(args.optInteger(0, 1000), carbonDioxide.getMaxFill()), 0); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
+		int ventAmount = MathHelper.clamp_int(args.optInteger(0, 1000), 0, carbonDioxide.getMaxFill()); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
 		int fill = this.carbonDioxide.getFill();
 		this.carbonDioxide.setFill(Math.max(fill - ventAmount, 0)); // Make sure it isn't a negative number.
 		return new Object[] {};
