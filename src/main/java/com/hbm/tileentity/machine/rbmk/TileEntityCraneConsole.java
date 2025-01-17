@@ -265,7 +265,6 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 			this.posFront = buf.readDouble();
 			this.posLeft = buf.readDouble();
 			this.hasLoaded = buf.readBoolean();
-			this.posLeft = buf.readDouble();
 			this.loadedHeat = buf.readDouble();
 			this.loadedEnrichment = buf.readDouble();
 		}
