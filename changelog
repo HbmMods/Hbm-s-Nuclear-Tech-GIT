@@ -1,5 +1,6 @@
 ## Changed
 * The bedrock ore processor now has an NEI handler
+* Boilers and crucibles will only consume as much heat fom the source as they can actually accept instead of a fixed rate, preventing them from wasting excess heat
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI

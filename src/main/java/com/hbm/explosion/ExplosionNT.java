@@ -28,6 +28,7 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
+@Deprecated
 public class ExplosionNT extends Explosion {
 	
 	public Set<ExAttrib> atttributes = new HashSet();

@@ -322,6 +322,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			if(diff == 0) {
 				return;
 			}
+			
+			diff = Math.min(diff, this.maxHeat - this.heat);
 
 			if(diff > 0) {
 				diff = (int) Math.ceil(diff * diffusion);
