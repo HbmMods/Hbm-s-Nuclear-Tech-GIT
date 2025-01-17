@@ -516,11 +516,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] ventCarbonDioxide(Context context, Arguments args) {
-		int ventAmount = args.optInteger(0, 1000); // Get how much CO2 to vent in mB (1000mB default)
+		int ventAmount = Math.max(Math.min(args.optInteger(0, 1000), carbonDioxide.getMaxFill()), 0); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
 		int fill = this.carbonDioxide.getFill();
-		this.carbonDioxide.setFill(fill - ventAmount);
-		if(this.carbonDioxide.getFill() < 0)
-			this.carbonDioxide.setFill(0);
+		this.carbonDioxide.setFill(Math.max(fill - ventAmount, 0)); // Make sure it isn't a negative number.
 		return new Object[] {};
 	}
 
