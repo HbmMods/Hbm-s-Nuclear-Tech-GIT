@@ -1,7 +1,17 @@
 ## Changed
 * The bedrock ore processor now has an NEI handler
-* Boilers and crucibles will only consume as much heat fom the source as they can actually accept instead of a fixed rate, preventing them from wasting excess heat
+* Boilers and crucibles will only consume as much heat from the source as they can actually accept instead of a fixed rate, preventing them from wasting excess heat
+* Rockets can now be made with rocket fuel in addition to cordite (only requires one)
+* The rocket recipes using cordite now use 3 pieces of smokeless powder instead of 2
+* Iron ore fragments now take 4x longer to process into steal using the rotary furnace, but require only a quarter of the steam per tick
+  * Little known secret: it is, indeed, possible to increase processing throughput by playing more than one machine. Either people don't know this, or they fear the immense cost of the rotary furnace, that being a few stone bricks, iron ingots and copper plates. Truly a king's ransom.
+* Optimized rendering for conveyor belt items, each frame no longer creates a new item stack and item entity instance which need to be removed by the GC right after
+* Changed fuel stats for HEAus, it's now a linear fuel with a multiplier of 35 with a heat/flux of 1.5°C
+* Digamma RBMK fuel now lasts substantially longer
+* RBMK dials now have gamerules for disabling rod depletion and xenon poison
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI
 * Fixed recipe autogen creating recipes for nonexistant thorium bedrock ore
+* Fixed FBI agents spawning both the old and new bullet entities when firing
+* Fixed dupe concerning one of the weapon abilities

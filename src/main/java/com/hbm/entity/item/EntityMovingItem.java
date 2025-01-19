@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityMovingItem extends EntityMovingConveyorObject implements IConveyorItem {
+	
+	public EntityItem cacheForRender = null;
 
 	public EntityMovingItem(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -65,6 +67,23 @@ public class EntityMovingItem extends EntityMovingConveyorObject implements ICon
 	@Override
 	protected void entityInit() {
 		this.getDataWatcher().addObjectByDataType(10, 5);
+	}
+
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		
+		if(worldObj.isRemote) {
+			ItemStack item = this.getItemStack();
+			//initial cache creation
+			if(this.cacheForRender == null) {
+				cacheForRender = new EntityItem(worldObj, 0, 0, 0, item);
+			}
+			//if the cache is no longer relevant, update
+			if(!ItemStack.areItemStacksEqual(cacheForRender.getEntityItem(), item)) {
+				cacheForRender.setEntityItemStack(item);
+			}
+		}
 	}
 
 	@Override

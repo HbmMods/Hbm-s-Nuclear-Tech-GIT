@@ -1623,6 +1623,23 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.casing_9");
 		ignoreMappings.add("hbm:item.casing_50");
 		ignoreMappings.add("hbm:item.casing_buckshot");
+		ignoreMappings.add("hbm:item.assembly_iron");
+		ignoreMappings.add("hbm:item.assembly_steel");
+		ignoreMappings.add("hbm:item.assembly_lead");
+		ignoreMappings.add("hbm:item.assembly_gold");
+		ignoreMappings.add("hbm:item.assembly_schrabidium");
+		ignoreMappings.add("hbm:item.assembly_nightmare");
+		ignoreMappings.add("hbm:item.assembly_desh");
+		ignoreMappings.add("hbm:item.assembly_nopip");
+		ignoreMappings.add("hbm:item.assembly_smg");
+		ignoreMappings.add("hbm:item.assembly_556");
+		ignoreMappings.add("hbm:item.assembly_762");
+		ignoreMappings.add("hbm:item.assembly_45");
+		ignoreMappings.add("hbm:item.assembly_uzi");
+		ignoreMappings.add("hbm:item.assembly_actionexpress");
+		ignoreMappings.add("hbm:item.assembly_calamity");
+		ignoreMappings.add("hbm:item.assembly_lacunae");
+		ignoreMappings.add("hbm:item.assembly_luna");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

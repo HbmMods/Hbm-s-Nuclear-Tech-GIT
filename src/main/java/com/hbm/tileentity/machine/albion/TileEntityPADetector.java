@@ -18,7 +18,7 @@ public class TileEntityPADetector extends TileEntity {
 					yCoord - 2,
 					zCoord - 4,
 					xCoord + 5,
-					yCoord + 1,
+					yCoord + 3,
 					zCoord + 5
 					);
 		}

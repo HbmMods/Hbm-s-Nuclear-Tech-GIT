@@ -89,5 +89,5 @@ public interface IFluidConnector extends ILoadedTile {
 		}
 	}
 	
-	public static final boolean particleDebug = false;
+	public static final boolean particleDebug = true;
 }

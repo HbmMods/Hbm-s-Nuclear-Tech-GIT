@@ -593,25 +593,7 @@ public class ModItems {
 	public static Item mechanism_launcher_2;
 	public static Item mechanism_special;
 	
-	public static Item assembly_iron;
-	public static Item assembly_steel;
-	public static Item assembly_lead;
-	public static Item assembly_gold;
-	public static Item assembly_schrabidium;
-	public static Item assembly_nightmare;
-	public static Item assembly_desh;
-	//public static Item assembly_pip;
-	public static Item assembly_nopip;
-	public static Item assembly_smg;
-	public static Item assembly_556;
-	public static Item assembly_762;
-	public static Item assembly_45;
-	public static Item assembly_uzi;
-	public static Item assembly_actionexpress;
-	public static Item assembly_calamity;
-	public static Item assembly_lacunae;
 	public static Item assembly_nuke;
-	public static Item assembly_luna;
 
 	public static Item casing;
 
@@ -841,6 +823,8 @@ public class ModItems {
 	public static Item demon_core_open;
 	public static Item demon_core_closed;
 
+	public static Item pa_coil;
+	
 	public static Item particle_empty;
 	public static Item particle_hydrogen;
 	public static Item particle_copper;
@@ -2851,24 +2835,7 @@ public class ModItems {
 		mechanism_launcher_1 = new Item().setUnlocalizedName("mechanism_launcher_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_5");
 		mechanism_launcher_2 = new Item().setUnlocalizedName("mechanism_launcher_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_6");
 		mechanism_special = new Item().setUnlocalizedName("mechanism_special").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_7");
-		assembly_iron = new Item().setUnlocalizedName("assembly_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_iron");
-		assembly_steel = new Item().setUnlocalizedName("assembly_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_steel");
-		assembly_lead = new Item().setUnlocalizedName("assembly_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lead");
-		assembly_gold = new Item().setUnlocalizedName("assembly_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_gold");
-		assembly_schrabidium = new Item().setUnlocalizedName("assembly_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_schrabidium");
-		assembly_nightmare = new Item().setUnlocalizedName("assembly_nightmare").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nightmare");
-		assembly_desh = new Item().setUnlocalizedName("assembly_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_desh");
-		assembly_nopip = new Item().setUnlocalizedName("assembly_nopip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nopip");
-		assembly_smg = new Item().setUnlocalizedName("assembly_smg").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_smg");
-		assembly_556 = new Item().setUnlocalizedName("assembly_556").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_556");
-		assembly_762 = new Item().setUnlocalizedName("assembly_762").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_762");
-		assembly_45 = new Item().setUnlocalizedName("assembly_45").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_45");
-		assembly_uzi = new Item().setUnlocalizedName("assembly_uzi").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_uzi");
-		assembly_actionexpress = new Item().setUnlocalizedName("assembly_actionexpress").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_actionexpress");
-		assembly_calamity = new Item().setUnlocalizedName("assembly_calamity").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_calamity");
-		assembly_lacunae = new Item().setUnlocalizedName("assembly_lacunae").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lacunae");
 		assembly_nuke = new Item().setUnlocalizedName("assembly_nuke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nuke");
-		assembly_luna = new Item().setUnlocalizedName("assembly_luna").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_luna");
 		casing = new ItemEnumMulti(ItemEnums.EnumCasingType.class, true, true).setUnlocalizedName("casing").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
@@ -2928,6 +2895,8 @@ public class ModItems {
 
 		demon_core_open = new ItemDemonCore().setUnlocalizedName("demon_core_open").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":demon_core_open");
 		demon_core_closed = new Item().setUnlocalizedName("demon_core_closed").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":demon_core_closed");
+		
+		pa_coil = new ItemPACoil().setUnlocalizedName("pa_coil").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":pa_coil");
 
 		particle_empty = new Item().setUnlocalizedName("particle_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":particle_empty");
 		particle_hydrogen = new Item().setUnlocalizedName("particle_hydrogen").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_hydrogen");
@@ -3488,9 +3457,9 @@ public class ModItems {
 		rbmk_fuel_heaus = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_heaus)
 				.setYield(100000000D)
 				.setStats(35)
-				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setFunction(EnumBurnFunc.LINEAR)
 				.setXenon(0.05D, 50D)
-				.setHeat(2D)
+				.setHeat(1.5D)
 				.setMeltingPoint(5211).setUnlocalizedName("rbmk_fuel_heaus").setTextureName(RefStrings.MODID + ":rbmk_fuel_heaus");
 		rbmk_fuel_po210be = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_po210be)
 				.setYield(25000000D)
@@ -3568,7 +3537,7 @@ public class ModItems {
 				.setMeltingPoint(2744)
 				.setUnlocalizedName("rbmk_fuel_zfb_am_mix").setTextureName(RefStrings.MODID + ":rbmk_fuel_zfb_am_mix");
 		rbmk_fuel_drx = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_drx)
-				.setYield(1000000D)
+				.setYield(10000000D)
 				.setStats(1000, 10)
 				.setFunction(EnumBurnFunc.QUADRATIC)
 				.setHeat(0.1D)
@@ -5714,24 +5683,7 @@ public class ModItems {
 		GameRegistry.registerItem(casing, casing.getUnlocalizedName());
 		
 		//Bullet Assemblies
-		GameRegistry.registerItem(assembly_iron, assembly_iron.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_steel, assembly_steel.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_lead, assembly_lead.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_gold, assembly_gold.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_schrabidium, assembly_schrabidium.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_nightmare, assembly_nightmare.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_desh, assembly_desh.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_556, assembly_556.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_762, assembly_762.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_45, assembly_45.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_uzi, assembly_uzi.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_lacunae, assembly_lacunae.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_actionexpress, assembly_actionexpress.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_calamity, assembly_calamity.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_nuke, assembly_nuke.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_luna, assembly_luna.getUnlocalizedName());
 		
 		//Wiring
 		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
@@ -5784,6 +5736,9 @@ public class ModItems {
 		//DEMON CORE
 		GameRegistry.registerItem(demon_core_open, demon_core_open.getUnlocalizedName());
 		GameRegistry.registerItem(demon_core_closed, demon_core_closed.getUnlocalizedName());
+		
+		//PA
+		GameRegistry.registerItem(pa_coil, pa_coil.getUnlocalizedName());
 		
 		//Particle Containers
 		GameRegistry.registerItem(particle_empty, particle_empty.getUnlocalizedName());

@@ -82,7 +82,7 @@ public abstract class WeaponAbility {
 			if(victim instanceof EntityLivingBase) {
 				
 				EntityLivingBase living = (EntityLivingBase) victim;
-				
+				if(living.getHealth() <= 0) return;
 				living.setHealth(living.getHealth() - amount);
 				if(living.getHealth() <= 0) living.onDeath(DamageSource.magic);
 				player.heal(amount);

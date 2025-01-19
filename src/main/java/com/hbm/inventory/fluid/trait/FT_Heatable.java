@@ -71,7 +71,8 @@ public class FT_Heatable extends FluidTrait {
 		BOILER("Boilable"),
 		HEATEXCHANGER("Heatable"),
 		PWR("PWR Coolant"),
-		ICF("ICF Coolant");
+		ICF("ICF Coolant"),
+		PA("Particle Accelerator Coolant");
 		
 		public String name;
 		

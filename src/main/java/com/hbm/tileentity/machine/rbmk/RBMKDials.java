@@ -37,7 +37,9 @@ public class RBMKDials {
 		KEY_ENABLE_MELTDOWN_OVERPRESSURE("dialEnableMeltdownOverpressure", false),
 		KEY_MODERATOR_EFFICIENCY("dialModeratorEfficiency", 1.0),
 		KEY_ABSORBER_EFFICIENCY("dialAbsorberEfficiency", 1.0),
-		KEY_REFLECTOR_EFFICIENCY("dialReflectorEfficiency", 1.0);
+		KEY_REFLECTOR_EFFICIENCY("dialReflectorEfficiency", 1.0),
+		KEY_DISABLE_DEPLETION("dialDisableDepletion", true),
+		KEY_DISABLE_XENON("dialDisableXenon", true);
 
 		public final String keyString;
 		public final Object defValue;
@@ -108,6 +110,8 @@ public class RBMKDials {
 		gameRules.get(RBMKKeys.KEY_MODERATOR_EFFICIENCY).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_MODERATOR_EFFICIENCY, 0.0D, 1.0D)));
 		gameRules.get(RBMKKeys.KEY_ABSORBER_EFFICIENCY).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_ABSORBER_EFFICIENCY, 0.0D, 1.0D)));
 		gameRules.get(RBMKKeys.KEY_REFLECTOR_EFFICIENCY).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_REFLECTOR_EFFICIENCY, 0.0D, 1.0D)));
+		gameRules.get(RBMKKeys.KEY_DISABLE_DEPLETION).add(new Tuple.Pair<>(world, world.getGameRules().getGameRuleBooleanValue(RBMKKeys.KEY_DISABLE_DEPLETION.keyString)));
+		gameRules.get(RBMKKeys.KEY_DISABLE_XENON).add(new Tuple.Pair<>(world, world.getGameRules().getGameRuleBooleanValue(RBMKKeys.KEY_DISABLE_XENON.keyString)));
 	}
 
 	/**
@@ -350,5 +354,23 @@ public class RBMKDials {
 	 */
 	public static double getReflectorEfficiency(World world) {
 		return (double) getGameRule(world, RBMKKeys.KEY_REFLECTOR_EFFICIENCY);
+	}
+	
+	/**
+	 * Whether fuel rods should deplete, disabling this makes rods last forever
+	 * @param world
+	 * @return
+	 */
+	public static boolean getDepletion(World world) {
+		return !((boolean) getGameRule(world, RBMKKeys.KEY_DISABLE_DEPLETION));
+	}
+	
+	/**
+	 * Whether xenon poison should be calculated
+	 * @param world
+	 * @return
+	 */
+	public static boolean getXenon(World world) {
+		return !((boolean) getGameRule(world, RBMKKeys.KEY_DISABLE_XENON));
 	}
 }
