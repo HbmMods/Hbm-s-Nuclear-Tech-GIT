@@ -43,6 +43,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -60,7 +61,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public FluidTank carbonDioxide;
 	public FluidTank water;
 	protected int output;
-	
+
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
@@ -89,7 +90,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public String getName() {
 		return "container.zirnox";
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return slots_io;
@@ -156,7 +157,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		case 11: return new int[] { 4, 10, 12, 18 };
 		case 12: return new int[] { 5, 11, 13, 19 };
 		case 13: return new int[] { 6, 12, 20 };
-		case 14: return new int[] { 7, 15, 21 }; 
+		case 14: return new int[] { 7, 15, 21 };
 		case 15: return new int[] { 8, 14, 16, 22 };
 		case 16: return new int[] { 9, 15, 23 };
 		case 17: return new int[] { 10, 18 };
@@ -177,14 +178,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		if(!worldObj.isRemote) {
 
 			this.output = 0;
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
-			
+
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
-			
+
 			if(isOn) {
 				for(int i = 0; i < 24; i++) {
 
@@ -196,7 +197,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 					}
 				}
 			}
-			
+
 			//2(fill) + (x * fill%)
 			this.pressure = (this.carbonDioxide.getFill() * 2) + (int)((float)this.heat * ((float)this.carbonDioxide.getFill() / (float)this.carbonDioxide.getMaxFill()));
 
@@ -208,9 +209,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				} else {
 					this.heat -= 10;
 				}
-				
+
 			}
-			
+
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
@@ -244,16 +245,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	}
 
 	private void generateSteam() {
-		
+
 		// function of SHS produced per tick
 		// (heat - 10256)/100000 * steamFill (max efficiency at 14b) * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
 			int cycle = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
 			this.output = cycle;
-			
+
 			water.setFill(water.getFill() - cycle);
 			steam.setFill(steam.getFill() + cycle);
-			
+
 			if(water.getFill() < 0)
 				water.setFill(0);
 
@@ -301,7 +302,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		for(int i = 0; i < decay; i++) {
 			this.heat += num.heat;
 			ItemZirnoxRod.incrementLifeTime(slots[id]);
-			
+
 			if(ItemZirnoxRod.getLifeTime(slots[id]) > num.maxLife) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
@@ -338,16 +339,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	}
 
 	private void zirnoxDebris() {
-		
+
 		for(int i = 0; i < 2; i++) {
 			spawnDebris(DebrisType.EXCHANGER);
 		}
-		
+
 		for(int i = 0; i < 20; i++) {
 			spawnDebris(DebrisType.CONCRETE);
 			spawnDebris(DebrisType.BLANK);
 		}
-		
+
 		for(int i = 0; i < 10; i++) {
 			spawnDebris(DebrisType.ELEMENT);
 			spawnDebris(DebrisType.GRAPHITE);
@@ -369,14 +370,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		worldObj.createExplosion(null, this.xCoord, this.yCoord + 3, this.zCoord, 12.0F, true);
 		zirnoxDebris();
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		
+
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
-		
+
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achZIRNOXBoom);
 		}
-		
+
 		if(MobConfig.enableElementals) {
 			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
@@ -390,11 +391,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			this.trySubscribe(carbonDioxide.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, rot),
 				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, rot),
@@ -420,25 +421,25 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-	
+
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
-	
+
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("control")) {
 			this.isOn = !this.isOn;
 		}
-		
+
 		if(data.hasKey("vent")) {
 			int fill = this.carbonDioxide.getFill();
 			this.carbonDioxide.setFill(fill - 1000);
 			if(this.carbonDioxide.getFill() < 0)
 				this.carbonDioxide.setFill(0);
 		}
-		
+
 		this.markDirty();
 	}
 
@@ -456,7 +457,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { water, steam, carbonDioxide };
 	}
-  
+
 	// do some opencomputer stuff
 	@Override
 	@Optional.Method(modid = "OpenComputers")
@@ -481,12 +482,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public Object[] getWater(Context context, Arguments args) {
 		return new Object[] {water.getFill()};
 	}
-	
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteam(Context context, Arguments args) {
 		return new Object[] {steam.getFill()};
-	}	
+	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
@@ -513,6 +514,15 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		return new Object[] {};
 	}
 
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] ventCarbonDioxide(Context context, Arguments args) {
+		int ventAmount = MathHelper.clamp_int(args.optInteger(0, 1000), 0, carbonDioxide.getMaxFill()); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
+		int fill = this.carbonDioxide.getFill();
+		this.carbonDioxide.setFill(Math.max(fill - ventAmount, 0)); // Make sure it isn't a negative number.
+		return new Object[] {};
+	}
+
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
@@ -524,7 +534,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				"getCarbonDioxide",
 				"isActive",
 				"getInfo",
-				"setActive"
+				"setActive",
+				"ventCarbonDioxide"
 		};
 	}
 
@@ -548,6 +559,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				return getInfo(context, args);
 			case ("setActive"):
 				return setActive(context, args);
+			case ("ventCarbonDioxide"):
+				return ventCarbonDioxide(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
