@@ -15,3 +15,4 @@
 * Fixed recipe autogen creating recipes for nonexistant thorium bedrock ore
 * Fixed FBI agents spawning both the old and new bullet entities when firing
 * Fixed dupe concerning one of the weapon abilities
+* Fixed crates not sending a block update when the contents change, breaking redstone comparator functionality

@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine.albion;
 
+import com.hbm.inventory.container.ContainerPASource;
+import com.hbm.inventory.gui.GUIPASource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -60,11 +62,11 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new ContainerPASource(player.inventory, this);
 	}
 
 	@Override
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new GUIPASource(player.inventory, this);
 	}
 }

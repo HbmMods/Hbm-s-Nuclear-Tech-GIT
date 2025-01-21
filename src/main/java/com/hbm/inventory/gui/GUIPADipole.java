@@ -18,9 +18,9 @@ public class GUIPADipole extends GuiInfoContainer {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/particleaccelerator/gui_dipole.png");
 	private TileEntityPADipole dipole;
 
-	public GUIPADipole(InventoryPlayer player, TileEntityPADipole slopper) {
-		super(new ContainerPADipole(player, slopper));
-		this.dipole = slopper;
+	public GUIPADipole(InventoryPlayer player, TileEntityPADipole dipole) {
+		super(new ContainerPADipole(player, dipole));
+		this.dipole = dipole;
 		
 		this.xSize = 176;
 		this.ySize = 204;
