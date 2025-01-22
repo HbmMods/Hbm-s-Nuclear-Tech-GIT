@@ -2,7 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.machine.albion.TileEntityPASource;
+import com.hbm.tileentity.machine.albion.TileEntityPADetector;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,19 +11,19 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerPASource extends Container {
+public class ContainerPADetector extends Container {
 	
-	private TileEntityPASource source;
+	private TileEntityPADetector detector;
 
-	public ContainerPASource(InventoryPlayer playerInv, TileEntityPASource tile) {
-		source = tile;
+	public ContainerPADetector(InventoryPlayer playerInv, TileEntityPADetector tile) {
+		detector = tile;
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tile, 0, 8, 72));
-		//Inputs
+		//Containers
 		this.addSlotToContainer(new Slot(tile, 1, 62, 18));
 		this.addSlotToContainer(new Slot(tile, 2, 80, 18));
-		//Containers
+		//Outputs
 		this.addSlotToContainer(new SlotTakeOnly(tile, 3, 62, 45));
 		this.addSlotToContainer(new SlotTakeOnly(tile, 4, 80, 45));
 
@@ -40,7 +40,7 @@ public class ContainerPASource extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return source.isUseableByPlayer(player);
+		return detector.isUseableByPlayer(player);
 	}
 
 	@Override
