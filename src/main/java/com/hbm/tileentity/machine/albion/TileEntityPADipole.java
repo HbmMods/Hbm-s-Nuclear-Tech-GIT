@@ -8,13 +8,20 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider {
+
+	public int dirLower;
+	public int dirUpper;
+	public int dirRedstone;
+	public int threshold;
 	
 	public TileEntityPADipole() {
 		super(2);
@@ -43,6 +50,44 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		}
 		
 		super.updateEntity();
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(dirLower);
+		buf.writeInt(dirUpper);
+		buf.writeInt(dirRedstone);
+		buf.writeInt(threshold);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		dirLower = buf.readInt();
+		dirUpper = buf.readInt();
+		dirRedstone = buf.readInt();
+		threshold = buf.readInt();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		dirLower = nbt.getInteger("dirLower");
+		dirUpper = nbt.getInteger("dirUpper");
+		dirRedstone = nbt.getInteger("dirRedstone");
+		threshold = nbt.getInteger("threshold");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setInteger("dirLower", dirLower);
+		nbt.setInteger("dirUpper", dirUpper);
+		nbt.setInteger("dirRedstone", dirRedstone);
+		nbt.setInteger("threshold", threshold);
 	}
 	
 	AxisAlignedBB bb = null;

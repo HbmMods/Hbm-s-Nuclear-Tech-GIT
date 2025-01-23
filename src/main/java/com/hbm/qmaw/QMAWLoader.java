@@ -23,7 +23,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.ResourcePackRepository;
-import net.minecraft.launchwrapper.Launch;
 
 @NotableComments
 public class QMAWLoader implements IResourceManagerReloadListener {
