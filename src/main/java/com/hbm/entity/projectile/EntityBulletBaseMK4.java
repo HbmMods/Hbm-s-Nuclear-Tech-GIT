@@ -78,7 +78,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, gunSpread);
 	}
 	
 	/** For turrets - angles are in radians, and pitch is negative! */
@@ -94,7 +94,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, gunSpread);
 	}
 
 	@Override

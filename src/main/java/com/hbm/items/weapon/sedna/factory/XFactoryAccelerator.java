@@ -143,7 +143,6 @@ public class XFactoryAccelerator {
 			EntityLivingBase entity = ctx.entity;
 			int index = ctx.configIndex;
 			
-			float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 			Receiver primary = ctx.config.getReceivers(stack)[0];
 			BulletConfig config = tauChargeMag.getFirstConfig(stack, ctx.inventory);
 			
@@ -153,7 +152,7 @@ public class XFactoryAccelerator {
 			double sideOffset = offset.zCoord;
 			
 			float damage = Lego.getStandardWearDamage(stack, ctx.config, index) * unitsUsed * 5;
-			float spread = Lego.calcSpread(ctx, stack, primary, true, index, aim);
+			float spread = Lego.calcSpread(ctx, stack, primary, config, true, index, false);
 			EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			entity.worldObj.spawnEntityInWorld(mk4);
 			

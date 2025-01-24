@@ -9,6 +9,8 @@
 * Changed fuel stats for HEAus, it's now a linear fuel with a multiplier of 35 with a heat/flux of 1.5°C
 * Digamma RBMK fuel now lasts substantially longer
 * RBMK dials now have gamerules for disabling rod depletion and xenon poison
+* Changed the way bullet spread is calculated. For most guns, the effective spread will be the same, however this paves the way for better spread control via weapon mods, and also changes a few existing weapons
+  * All sawed-off shotguns (dual shotguns, Broken, Sacred Dragon) now have more spread with shot (+35%), while slugs remain the same
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI
