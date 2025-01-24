@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 
+import com.hbm.world.feature.WorldGenNTMMineable;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
@@ -75,14 +76,18 @@ public class DungeonToolbox {
 	}
 	
 	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore, int meta, Block target) {
-		
+		generateOre(world, rand, chunkX, chunkZ, veinCount, amount, minHeight, variance, ore, meta, target, 0);
+	}
+
+	public static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount, int minHeight, int variance, Block ore, int meta, Block target, int targetMeta) {
+
 		for(int i = 0; i < veinCount; i++) {
-			
+
 			int x = chunkX + rand.nextInt(16);
 			int y = minHeight + (variance > 0 ? rand.nextInt(variance) : 0);
 			int z = chunkZ + rand.nextInt(16);
-	
-			(new WorldGenMinable(ore, meta, amount, target)).generate(world, rand, x, y, z);
+
+			(new WorldGenNTMMineable(ore, meta, amount, target, targetMeta)).generate(world, rand, x, y, z);
 		}
 	}
 

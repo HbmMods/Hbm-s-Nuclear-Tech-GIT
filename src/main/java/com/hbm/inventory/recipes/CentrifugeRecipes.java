@@ -467,6 +467,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_coal_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 1),
 				new ItemStack(ModItems.dust_tiny, 6)});
+
+		recipes.put(new ComparableStack(ModBlocks.ore_limestone_tetrahedrite, 1), new ItemStack[] {
+				new ItemStack(ModItems.powder_iron, 3),
+				new ItemStack(ModItems.powder_copper, 3),
+				new ItemStack(ModItems.powder_limestone, 4),
+				new ItemStack(ModItems.sulfur, 3)});
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();

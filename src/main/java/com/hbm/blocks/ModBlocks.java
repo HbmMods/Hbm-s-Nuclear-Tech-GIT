@@ -106,6 +106,8 @@ public class ModBlocks {
 	public static Block ore_gneiss_rare;
 	public static Block ore_gneiss_gas;
 
+	public static Block ore_limestone_tetrahedrite;
+
 	public static Block gneiss_brick;
 	public static Block gneiss_tile;
 	public static Block gneiss_chiseled;
@@ -1286,6 +1288,8 @@ public class ModBlocks {
 		ore_gneiss_rare = new BlockOre(Material.rock).setBlockName("ore_gneiss_rare").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_gneiss_rare");
 		ore_gneiss_gas = new BlockOre(Material.rock).setBlockName("ore_gneiss_gas").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_gneiss_gas");
 
+		ore_limestone_tetrahedrite = new BlockOre(Material.rock).setBlockName("ore_limestone_tetrahedrite").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":limestone_tetrahedrite");
+
 		gneiss_brick = new BlockGeneric(Material.rock).setBlockName("gneiss_brick").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":gneiss_brick");
 		gneiss_tile = new BlockGeneric(Material.rock).setBlockName("gneiss_tile").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":gneiss_tile");
 		gneiss_chiseled = new BlockPillar(Material.rock, RefStrings.MODID + ":gneiss_tile").setBlockName("gneiss_chiseled").setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":gneiss_chiseled");
@@ -1653,7 +1657,7 @@ public class ModBlocks {
 		plant_dead = new BlockDeadPlant().setBlockName("plant_dead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		reeds = new BlockReeds().setBlockName("plant_reeds").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		vine_phosphor = new BlockHangingVine(thick_foliage).setBlockName("vine_phosphor").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.5F);
-		
+
 		waste_earth = new WasteEarth(Material.ground, true).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
 		waste_mycelium = new WasteEarth(Material.ground, true).setBlockName("waste_mycelium").setStepSound(Block.soundTypeGrass).setLightLevel(1F).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_mycelium_side");
 		waste_trinitite = new BlockOre(Material.sand).noFortune().setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
@@ -2428,6 +2432,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_gneiss_schrabidium, ItemBlockLore.class, ore_gneiss_schrabidium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_gneiss_rare, ItemOreBlock.class, ore_gneiss_rare.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_gneiss_gas, ore_gneiss_gas.getUnlocalizedName());
+
+		//Limestone ores
+		register(ore_limestone_tetrahedrite);
 
 		//Depth ores
 		GameRegistry.registerBlock(ore_depth_cinnebar, ItemBlockBase.class, ore_depth_cinnebar.getUnlocalizedName());
