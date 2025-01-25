@@ -398,11 +398,11 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setThrottle(Context context, Arguments args) {
-		throttleRequest = args.checkInteger(0);
-		if ((throttleRequest < 0) or (throttleRequest > 30)) { // return false without doing anything if number is outside normal
+		int throttleRequest = args.checkInteger(0);
+		if ((throttleRequest < 0) || (throttleRequest > 30)) { // return false without doing anything if number is outside normal
 			return new Object[] {false, "Throttle request outside of range 0-30"};
 		};
-		setting = (int) (throttleRequest);
+		setting = throttleRequest;
 		return new Object[] {true};
 	}
 
