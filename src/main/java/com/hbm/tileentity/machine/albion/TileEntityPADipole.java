@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine.albion;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPADipole;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIPADipole;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -13,10 +15,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider {
+public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver {
 
 	public int dirLower;
 	public int dirUpper;
@@ -34,6 +37,11 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
+		return dir == ForgeDirection.UP || dir == ForgeDirection.DOWN;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir == ForgeDirection.UP || dir == ForgeDirection.DOWN;
 	}
 
@@ -137,5 +145,31 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIPADipole(player.inventory, this);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("lower")) this.dirLower++;
+		if(data.hasKey("upper")) this.dirUpper++;
+		if(data.hasKey("redstone")) this.dirRedstone++;
+		if(data.hasKey("threshold")) this.threshold = data.getInteger("threshold");
+
+		if(this.dirLower > 3) this.dirLower -= 4;
+		if(this.dirUpper > 3) this.dirUpper -= 4;
+		if(this.dirRedstone > 3) this.dirRedstone -= 4;
+		
+		this.threshold = MathHelper.clamp_int(threshold, 0, 999_999_999);
+	}
+	
+	public static ForgeDirection ditToForgeDir(int dir) {
+		if(dir == 1) return ForgeDirection.EAST;
+		if(dir == 2) return ForgeDirection.SOUTH;
+		if(dir == 3) return ForgeDirection.WEST;
+		return ForgeDirection.NORTH;
 	}
 }

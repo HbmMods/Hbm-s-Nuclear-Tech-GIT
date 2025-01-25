@@ -107,6 +107,7 @@ public class EntityMovingItem extends EntityMovingConveyorObject implements ICon
 
 	@Override
 	public void enterBlock(IEnterableBlock enterable, BlockPos pos, ForgeDirection dir) {
+		if(this.isDead) return;
 		
 		if(enterable.canItemEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this)) {
 			enterable.onItemEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this);

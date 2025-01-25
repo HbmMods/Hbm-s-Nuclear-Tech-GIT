@@ -20,7 +20,7 @@ public class ContainerPADipole extends Container {
 		//Battery
 		this.addSlotToContainer(new Slot(tile, 0, 8, 72));
 		//Coil
-		this.addSlotToContainer(new Slot(tile, 1, 89, 36));
+		this.addSlotToContainer(new Slot(tile, 1, 89, 26));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

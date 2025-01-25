@@ -59,7 +59,7 @@ public class Receiver {
 	protected int roundsPerCycle_DNA = 1;
 	protected float spreadInnate_DNA = 0F;
 	protected float spreadMultAmmo_DNA = 1F;
-	protected float spreadPenaltyHipfire_DNA = 0.05F;
+	protected float spreadPenaltyHipfire_DNA = 0.025F;
 	protected float spreadDurability_DNA = 0.125F;
 	protected boolean refireOnHold_DNA = false;
 	protected boolean refireAfterDry_DNA = false;

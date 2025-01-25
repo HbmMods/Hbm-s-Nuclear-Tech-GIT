@@ -6,6 +6,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +41,10 @@ public class ItemFluidIcon extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		if(stack.hasTagCompound()) {
 			if(getQuantity(stack) > 0) list.add(getQuantity(stack) + "mB");
-			if(getPressure(stack) > 0) list.add(EnumChatFormatting.RED + "" + getPressure(stack) + "PU");
+			if(getPressure(stack) > 0) {
+				list.add(EnumChatFormatting.RED + "" + getPressure(stack) + "PU");
+				list.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_RED) + "Pressurized, use compressor!");
+			}
 		}
 		
 		Fluids.fromID(stack.getItemDamage()).addInfo(list);

@@ -68,6 +68,7 @@ public class NEIRegistry {
 		handlers.add(new ArcFurnaceFluidHandler());
 		handlers.add(new RotaryFurnaceHandler());
 		handlers.add(new AmmoPressHandler());
+		handlers.add(new CompressorHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());

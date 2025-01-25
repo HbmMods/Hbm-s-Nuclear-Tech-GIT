@@ -39,5 +39,13 @@ public class BlockPADetector extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.makeExtra(world, x - rot.offsetX * 4, y, z - rot.offsetZ * 4);
+		this.makeExtra(world, x - rot.offsetX * 4, y + 1, z - rot.offsetZ * 4);
+		this.makeExtra(world, x - rot.offsetX * 4, y - 1, z - rot.offsetZ * 4);
+		this.makeExtra(world, x - rot.offsetX * 4 + dir.offsetX, y, z - rot.offsetZ * 4 + dir.offsetZ);
+		this.makeExtra(world, x - rot.offsetX * 4 - dir.offsetX, y, z - rot.offsetZ * 4 - dir.offsetZ);
 	}
 }

@@ -111,6 +111,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				List<EntityItem> list = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord + 0.5, zCoord - 0.5, xCoord + 1.5, yCoord + 1, zCoord + 1.5));
 
 				for(EntityItem item : list) {
+					if(item.isDead) continue;
 					ItemStack stack = item.getEntityItem();
 					if(this.isItemSmeltable(stack)) {
 

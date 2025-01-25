@@ -81,13 +81,11 @@ public class ItemPoolsSingle {
 					weighted(ModItems.powder_power, 0, 1, 5, 1),
 					weighted(ModItems.sat_chip, 0, 1, 1, 1),
 					weighted(Items.diamond, 0, 5, 9, 1),
-					weighted(ModItems.warhead_nuclear, 0, 1, 1, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD.ordinal(), 1, 3, 1),
 					weighted(ModItems.ammo_container, 0, 1, 4, 1),
 					weighted(ModItems.grenade_nuclear, 0, 1, 2, 1),
 					weighted(ModItems.grenade_mirv, 0, 1, 1, 1),
 					weighted(ModItems.powder_yellowcake, 0, 26, 42, 1),
-					weighted(ModItems.ingot_u235, 0, 3, 6, 1),
 					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 18, 32, 1),
 					weighted(ModItems.circuit, EnumCircuitType.BASIC.ordinal(), 6, 12, 1)
@@ -99,16 +97,10 @@ public class ItemPoolsSingle {
 					weighted(ModItems.ammo_container, 0, 3, 6, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_DEMO.ordinal(), 2, 3, 1),
 					weighted(ModItems.gun_carbine, 0, 1, 1, 1),
+					weighted(ModItems.ammo_standard, EnumAmmo.R762_DU.ordinal(), 16, 32, 1),
 					weighted(ModItems.gun_congolake, 0, 1, 1, 1),
-					weighted(ModItems.gun_b92, 0, 1, 1, 1),
-					weighted(ModItems.ingot_combine_steel, 0, 16, 28, 1),
-					weighted(ModItems.man_core, 0, 1, 1, 1),
-					weighted(ModItems.boy_kit, 0, 1, 1, 1),
-					weighted(ModItems.nuke_starter_kit, 0, 1, 1, 1),
-					weighted(ModItems.weaponized_starblaster_cell, 0, 1, 1, 1),
-					weighted(ModItems.warhead_mirv, 0, 1, 1, 1),
 					weighted(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
-					weighted(ModItems.powder_nitan_mix, 0, 16, 32, 1)
+					weighted(ModItems.circuit, EnumCircuitType.ADVANCED.ordinal(), 6, 12, 1)
 			};
 		}};
 		

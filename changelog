@@ -1,16 +1,28 @@
+## Added
+* Perfluoromethyl
+  * Can be used as a coolant for PWRs, ICFs, and RBMK fluid heaters
+  * Can be cooled into cold perflyoromethyl using two compressors to be used as coolant for particle accelerators
+  * Also required for soldering all control units
+  * Standard coolant will be removed soon in favor of perfloromethyl, however for now it continues to function just the same
+
 ## Changed
 * The bedrock ore processor now has an NEI handler
 * Boilers and crucibles will only consume as much heat from the source as they can actually accept instead of a fixed rate, preventing them from wasting excess heat
 * Rockets can now be made with rocket fuel in addition to cordite (only requires one)
 * The rocket recipes using cordite now use 3 pieces of smokeless powder instead of 2
-* Iron ore fragments now take 4x longer to process into steal using the rotary furnace, but require only a quarter of the steam per tick
+* Iron ore fragments now take 2x longer to process into steal using the rotary furnace, but require only a quarter of the steam per tick
   * Little known secret: it is, indeed, possible to increase processing throughput by playing more than one machine. Either people don't know this, or they fear the immense cost of the rotary furnace, that being a few stone bricks, iron ingots and copper plates. Truly a king's ransom.
 * Optimized rendering for conveyor belt items, each frame no longer creates a new item stack and item entity instance which need to be removed by the GC right after
 * Changed fuel stats for HEAus, it's now a linear fuel with a multiplier of 35 with a heat/flux of 1.5°C
 * Digamma RBMK fuel now lasts substantially longer
 * RBMK dials now have gamerules for disabling rod depletion and xenon poison
-* Changed the way bullet spread is calculated. For most guns, the effective spread will be the same, however this paves the way for better spread control via weapon mods, and also changes a few existing weapons
-  * All sawed-off shotguns (dual shotguns, Broken, Sacred Dragon) now have more spread with shot (+35%), while slugs remain the same
+* Changed the way bullet spread is calculated. Instead of the gun's innate inaccuracy being reduced by 75% when using sights, guns now have separate stats for innate inaccuracy (only relevant for things like SMG) as well as a hipfire penalty (roughly the same for all guns)
+  * This also includes a multiplier for ammo spread, which mainly concerns sawed-off shotguns (dual lever action shotguns, Broken and Sacred Dragon) and amplifies the inaccuracy for things like buckshot while slugs perform the same
+* Malachite now spawns in large deposits similar to hematite or bauxite, malachite veins are slightly smaller than bauxite veins
+* Limestone veins are now 50% larger
+* The compressor now has a NEI handler for any non-generic recipe
+* Removed compression recipes for steam, because why would you ever use those?
+* Fluid tanks that use pressurized fluids now say "pressurized, use compressor!" to avoid confusion over what "1PU" means
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI
