@@ -42,8 +42,8 @@ public class ContainerFEL extends Container {
 			ItemStack stack = slot.getStack();
 			rStack = stack.copy();
 
-			if(index == 0) {
-				if(!this.mergeItemStack(stack, 1, this.inventorySlots.size(), false)) {
+			if(index <= 1) {
+				if(!this.mergeItemStack(stack, 2, this.inventorySlots.size(), false)) {
 					return null;
 				}
 			} else {

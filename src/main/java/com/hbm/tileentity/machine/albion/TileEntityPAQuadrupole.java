@@ -2,8 +2,13 @@ package com.hbm.tileentity.machine.albion;
 
 import com.hbm.inventory.container.ContainerPAQuadrupole;
 import com.hbm.inventory.gui.GUIPAQuadrupole;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
+import com.hbm.util.EnumUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +19,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUIProvider {
+public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
+
+	public static final long usage = 1_000_000;
+	public static final int focusGain = 100;
 	
 	public TileEntityPAQuadrupole() {
 		super(2);
@@ -28,6 +36,38 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 	@Override
 	public String getName() {
 		return "container.paQuadrupole";
+	}
+
+	@Override
+	public boolean canParticleEnter(Particle particle, ForgeDirection dir, int x, int y, int z) {
+		ForgeDirection beamlineDir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.DOWN);
+		BlockPos input = new BlockPos(xCoord, yCoord, zCoord).offset(beamlineDir, -1);
+		return input.compare(x, y, z) && beamlineDir == dir;
+	}
+
+	@Override
+	public void onEnter(Particle particle, ForgeDirection dir) {
+		EnumCoilType type = null;
+		
+		int mult = 1;
+		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
+			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
+			mult = type.quadMin > particle.momentum ? 5 : 1;
+		}
+		
+		if(!isCool() || this.power < this.usage * mult || type == null || type.quadMax < particle.momentum) {
+			particle.crash();
+			return;
+		}
+		
+		particle.focus(focusGain);
+		this.power -= this.usage * mult;
+	}
+
+	@Override
+	public BlockPos getExitPos(Particle particle) {
+		ForgeDirection beamlineDir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.DOWN);
+		return new BlockPos(xCoord, yCoord, zCoord).offset(beamlineDir, 2);
 	}
 
 	@Override

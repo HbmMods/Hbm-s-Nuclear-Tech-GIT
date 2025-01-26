@@ -23,7 +23,7 @@ public class BlockPASource extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityPASource();
-		if(meta >= 6) return new TileEntityProxyCombo().power().fluid();
+		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
 		return null;
 	}
 
@@ -39,5 +39,15 @@ public class BlockPASource extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.makeExtra(world, x + rot.offsetX * 4, y, z + rot.offsetZ * 4);
+		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ);
+		this.makeExtra(world, x + dir.offsetX + rot.offsetX * 2, y, z + dir.offsetZ + rot.offsetZ * 2);
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX * 2, y, z + dir.offsetZ - rot.offsetZ * 2);
+		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
+		this.makeExtra(world, x - dir.offsetX + rot.offsetX * 2, y, z - dir.offsetZ + rot.offsetZ * 2);
+		this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y, z - dir.offsetZ - rot.offsetZ * 2);
 	}
 }

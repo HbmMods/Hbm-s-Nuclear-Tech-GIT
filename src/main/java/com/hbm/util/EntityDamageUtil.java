@@ -45,6 +45,7 @@ public class EntityDamageUtil {
 			if(!playerMP.canAttackPlayer(attacker)) return false; //handles wack-ass no PVP rule as well as scoreboard friendly fire
 		}
 		DamageResistanceHandler.setup(pierceDT, pierce);
+		living.attackEntityFrom(source, 0F);
 		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
 		//boolean ret = living.attackEntityFrom(source, amount);
 		DamageResistanceHandler.reset();

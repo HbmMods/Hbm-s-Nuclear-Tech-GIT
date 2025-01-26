@@ -4,8 +4,13 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPADipole;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIPADipole;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
+import com.hbm.util.EnumUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -19,12 +24,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver {
+public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, IParticleUser {
 
 	public int dirLower;
 	public int dirUpper;
 	public int dirRedstone;
 	public int threshold;
+	
+	public static final long usage = 1_000_000;
 	
 	public TileEntityPADipole() {
 		super(2);
@@ -48,6 +55,49 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public String getName() {
 		return "container.paDipole";
+	}
+
+	@Override
+	public boolean canParticleEnter(Particle particle, ForgeDirection dir, int x, int y, int z) {
+		return this.yCoord == y && (this.xCoord == x || this.zCoord == z);
+	}
+
+	@Override
+	public void onEnter(Particle particle, ForgeDirection dir) {
+		EnumCoilType type = null;
+		
+		int mult = 1;
+		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
+			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
+			mult = type.diMin > particle.momentum ? 5 : 1;
+		}
+		
+		if(!isCool() || this.power < this.usage * mult || type == null || type.diMax < particle.momentum) {
+			particle.crash();
+			return;
+		}
+		
+		this.power -= this.usage * mult;
+	}
+
+	@Override
+	public BlockPos getExitPos(Particle particle) {
+		System.out.println(particle.momentum + " / " + this.threshold);
+		if(particle.momentum >= this.threshold) {
+			ForgeDirection dir = this.ditToForgeDir(checkRedstone() ? dirRedstone : dirUpper);
+			particle.dir = dir;
+			return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
+		}
+		ForgeDirection dir = this.ditToForgeDir(dirLower);
+		particle.dir = dir;
+		return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
+	}
+	
+	public boolean checkRedstone() {
+		for(DirPos pos : getConPos()) {
+			if(worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) return true;
+		}
+		return false;
 	}
 
 	@Override

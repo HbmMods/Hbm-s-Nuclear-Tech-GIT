@@ -95,7 +95,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_tau = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(6_400).draw(10).inspect(10).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(4).auto(true).spread(0F)
+						.dmg(25F).spreadHipfire(0F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_TAU))

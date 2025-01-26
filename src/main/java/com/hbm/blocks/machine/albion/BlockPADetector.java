@@ -23,7 +23,7 @@ public class BlockPADetector extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityPADetector();
-		if(meta >= 6) return new TileEntityProxyCombo().power().fluid();
+		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
 		return null;
 	}
 

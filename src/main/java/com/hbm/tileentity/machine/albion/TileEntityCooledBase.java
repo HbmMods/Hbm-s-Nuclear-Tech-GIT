@@ -60,6 +60,10 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 		}
 	}
 	
+	public boolean isCool() {
+		return this.temperature <= this.temperature_target;
+	}
+	
 	public abstract DirPos[] getConPos();
 
 	@Override

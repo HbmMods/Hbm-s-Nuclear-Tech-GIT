@@ -60,7 +60,7 @@ public class XFactoryCatapult {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_DEMO = (bullet, mop) -> {
-		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		if(bullet.isDead) return;
 		bullet.setDead();
 		
@@ -76,7 +76,7 @@ public class XFactoryCatapult {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_HIGH = (bullet, mop) -> {
-		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		if(bullet.isDead) return;
 		bullet.setDead();
 		bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(bullet.worldObj, 35, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
@@ -101,7 +101,7 @@ public class XFactoryCatapult {
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_TINYTOT = (bullet, mop) -> {
-		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		if(bullet.isDead) return;
 		bullet.setDead();
 		
@@ -119,7 +119,7 @@ public class XFactoryCatapult {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_HIVE = (bullet, mop) -> {
-		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		if(bullet.isDead) return;
 		bullet.setDead();
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5);
@@ -140,7 +140,7 @@ public class XFactoryCatapult {
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(100F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
+						.dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))

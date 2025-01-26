@@ -4,6 +4,8 @@ import com.hbm.inventory.container.ContainerPARFC;
 import com.hbm.inventory.gui.GUIPARFC;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +16,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvider {
+public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
+	
+	public static final long usage = 1_000_000;
+	public static final int momentumGain = 100;
+	public static final int defocusGain = 100;
 	
 	public TileEntityPARFC() {
 		super(1);
@@ -28,6 +34,31 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 	@Override
 	public String getName() {
 		return "container.paRFC";
+	}
+
+	@Override
+	public boolean canParticleEnter(Particle particle, ForgeDirection dir, int x, int y, int z) {
+		ForgeDirection rfcDir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.DOWN);
+		BlockPos input = new BlockPos(xCoord, yCoord, zCoord).offset(rfcDir, -4);
+		return input.compare(x, y, z) && rfcDir == dir;
+	}
+
+	@Override
+	public void onEnter(Particle particle, ForgeDirection dir) {
+		if(!isCool() || this.power < this.usage) {
+			particle.crash();
+			return;
+		}
+		
+		particle.momentum += this.momentumGain;
+		particle.defocus(defocusGain);
+		this.power -= this.usage;
+	}
+
+	@Override
+	public BlockPos getExitPos(Particle particle) {
+		ForgeDirection beamlineDir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.DOWN);
+		return new BlockPos(xCoord, yCoord, zCoord).offset(beamlineDir, 5);
 	}
 
 	@Override

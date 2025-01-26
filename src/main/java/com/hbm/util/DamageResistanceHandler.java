@@ -267,13 +267,16 @@ public class DamageResistanceHandler {
 	
 	@SubscribeEvent
 	public void onEntityAttacked(LivingAttackEvent event) {
+		if(event.source.isDamageAbsolute()) return;
+		
 		EntityLivingBase e = event.entityLiving;
 		float amount = event.ammount;
 		
 		float[] vals = getDTDR(e, event.source, amount, currentPDT, currentPDR);
 		float dt = vals[0] - currentPDT;
+		float dr = vals[1] - currentPDR;
 		
-		if(dt > 0 && dt >= event.ammount) {
+		if((dt > 0 && dt >= event.ammount) || dr >= 1F) {
 			event.setCanceled(true);
 			EntityDamageUtil.damageArmorNT(e, amount);
 		}
@@ -378,7 +381,7 @@ public class DamageResistanceHandler {
 			if(exact != null) return exact;
 			Resistance category = categoryResistances.get(typeToCategory(source));
 			if(category != null) return category;
-			return source.isUnblockable() ? null : otherResistance;
+			return otherResistance;
 		}
 
 		public ResistanceStats addExact(String type, float threshold, float resistance) { exactResistances.put(type, new Resistance(threshold, resistance)); return this; }
