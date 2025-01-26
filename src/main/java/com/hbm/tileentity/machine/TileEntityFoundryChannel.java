@@ -24,6 +24,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 
 	protected NTMMaterial neighborType;
 	protected boolean hasCheckedNeighbors;
+	protected int unpropagateTime;
 	
 	@Override
 	public void updateEntity() {
@@ -115,10 +116,19 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 					}
 				}
 			}
+
+			if(neighborType != null && amount == 0) unpropagateTime++;
+
+			// every 5 seconds do a unprop test, will only occur once per contiguous channel per 5 seconds due to the timer getting updated in all channels from the prop
+			if(unpropagateTime > 100) {
+				propagateMaterial(null);
+			}
 			
 			if(this.amount == 0) {
 				this.lastFlow = 0;
 				this.nextUpdate = 5;
+			} else {
+				unpropagateTime = 0;
 			}
 		}
 		
@@ -164,7 +174,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 		return super.pour(world, x, y, z, dX, dY, dZ, side, stack);
 	}
 
-	protected void propagateMaterial(NTMMaterial propType) {
+	public void propagateMaterial(NTMMaterial propType) {
 		if(propType != null && neighborType != null) return; // optimise away any pours that change nothing
 
 		List<TileEntityFoundryChannel> visited = new ArrayList<TileEntityFoundryChannel>();
@@ -181,8 +191,13 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 	}
 
 	protected boolean propagateMaterial(NTMMaterial propType, List<TileEntityFoundryChannel> visited, boolean hasMaterial) {
-		// if emptying, don't allow the channel to be marked as ready for a new material until it is entirely clear
-		if(propType != null) neighborType = propType;
+		// if emptying, don't mark the channel as ready for a new material until it is entirely clear
+		if(propType != null) {
+			neighborType = propType;
+		} else {
+			// and when empty testing, update the last unpropagate time
+			unpropagateTime = 0;
+		}
 
 		for(ForgeDirection dir : new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST }) {
 			TileEntity b = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);

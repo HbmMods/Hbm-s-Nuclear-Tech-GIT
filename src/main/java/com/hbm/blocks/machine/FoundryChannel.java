@@ -176,6 +176,7 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 				}
 				cast.amount = 0;
 				cast.type = null;
+				cast.propagateMaterial(null);
 				cast.markDirty();
 				world.markBlockForUpdate(x, y, z);
 			}
