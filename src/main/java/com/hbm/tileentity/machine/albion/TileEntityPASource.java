@@ -79,7 +79,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 			if(pa.canParticleEnter(particle, particle.dir, particle.x, particle.y, particle.z)) {
 				pa.onEnter(particle, particle.dir);
 				BlockPos exit = pa.getExitPos(particle);
-				particle.move(exit);
+				if(exit != null) particle.move(exit);
 			} else { particle.crash(); worldObj.createExplosion(null, particle.x + 0.5, particle.y + 0.5, particle.z + 0.5, 5, false); return; }
 		} else {
 			System.out.println("derailed!");

@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 
 public class ParticleAcceleratorRecipes extends SerializableRecipe {
 	
-	private static final List<ParticleAcceleratorRecipe> recipes = new ArrayList();
+	public static final List<ParticleAcceleratorRecipe> recipes = new ArrayList();
 	
 	@Override
 	public void registerDefaults() {

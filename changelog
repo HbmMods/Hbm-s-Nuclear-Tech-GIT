@@ -4,6 +4,9 @@
   * Can be cooled into cold perflyoromethyl using two compressors to be used as coolant for particle accelerators
   * Also required for soldering all control units
   * Standard coolant will be removed soon in favor of perfloromethyl, however for now it continues to function just the same
+# Particle accelerator
+  * A new and improved version of the old one
+  * Instead of being assembled block by block with weird rules, the new PA is assembled from six different machine parts, similar to how RBMKs work
 
 ## Changed
 * The bedrock ore processor now has an NEI handler
@@ -25,10 +28,11 @@
 * Removed compression recipes for steam, because why would you ever use those?
 * Fluid tanks that use pressurized fluids now say "pressurized, use compressor!" to avoid confusion over what "1PU" means
 * Damage should no longer register at all when the damage resistance is 100%, similar to how damage is completely nullified by DT (i.e. not even knockback is applied)
+* Anvil construction recipes are now configurable via `hbmAnvil.json`
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI
-* Fixed recipe autogen creating recipes for nonexistant thorium bedrock ore
+* Fixed recipe autogen creating recipes for nonexistant thorium nether ore
 * Fixed FBI agents spawning both the old and new bullet entities when firing
 * Fixed dupe concerning one of the weapon abilities
 * Fixed crates not sending a block update when the contents change, breaking redstone comparator functionality
@@ -37,5 +41,7 @@
 * Gun damage now also does 0 points of vanilla damage, ensuring that certain entity events trigger, e.g. neutral mobs targeting the player
 * Fixed items being deleted by the crucible when using hotbar shortcuts by disabling hotkey shortcuts entirely
   * How about you shift-click like a normal person
+  * Hotkey shortcuts may return, but this requires a substantial rewrite of the container base code because vanilla's implementation is atrocious
 * Fixed legendary crafting causing disconnects on servers
 * Fixed a dupe caused by shift clicking
+* Added more safeguards and range checks to ReaSim water calculation which might fix the issue of ReaSim water breaking completely
