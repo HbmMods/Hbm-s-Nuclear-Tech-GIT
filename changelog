@@ -7,6 +7,11 @@
 # Particle accelerator
   * A new and improved version of the old one
   * Instead of being assembled block by block with weird rules, the new PA is assembled from six different machine parts, similar to how RBMKs work
+* Ammo casing bag
+  * Can be carried around in the inventory, will fill with empty casings when guns are fired
+  * Casings have a fixed 50% recovery rate and are based on the recipe
+  * Can also recover parts of non-standard ammo like plastic from capacitors and lead plates from uranium boxes
+  * Ammo that is used whole, like rockets and mini nukes, do not leave any casing behind
 
 ## Changed
 * The bedrock ore processor now has an NEI handler
@@ -23,12 +28,20 @@
   * This also includes a multiplier for ammo spread, which mainly concerns sawed-off shotguns (dual lever action shotguns, Broken and Sacred Dragon) and amplifies the inaccuracy for things like buckshot while slugs perform the same
   * Guns that cannot be aimed (no sights, akimbo) or where aiming is only useful for special effects (missile launcher lockon, quad launcher steering) do not have a hipfire penalty
 * Malachite now spawns in large deposits similar to hematite or bauxite, malachite veins are slightly smaller than bauxite veins
+* Malachite now drops malachite chunks, 6-8 by default. Malachite drops are subject to fortune, each level adding 2-3 extra chunks
+* Malachite obtained by silk touch is now worth 10 ingots
 * Limestone veins are now 50% larger
 * The compressor now has a NEI handler for any non-generic recipe
 * Removed compression recipes for steam, because why would you ever use those?
 * Fluid tanks that use pressurized fluids now say "pressurized, use compressor!" to avoid confusion over what "1PU" means
 * Damage should no longer register at all when the damage resistance is 100%, similar to how damage is completely nullified by DT (i.e. not even knockback is applied)
 * Anvil construction recipes are now configurable via `hbmAnvil.json`
+* Arc furnace recipe generation has changed
+  * Recipe collision should be fixed, since a recipe will now write its valid inputs to a list, if a subsequent recipe has an ingredient already present in the list, it will not be generated
+  * This means that NTM's custom recipes take precedent, and only some edge cases with vanilla furnace recipes are removed
+  * This means there is no more ambiguity in the NEI handler over what item smelts into what
+  * As a consequence, the arc furnace's recipe generator no longer accepts wildcard meta, in practice this likely doesn't matter since ores and ingots generally don't use wildcard recipes anyway
+  * Recipe lookups should be a tad faster due to a type change
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI

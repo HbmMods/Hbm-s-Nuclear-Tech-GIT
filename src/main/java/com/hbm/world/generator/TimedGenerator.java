@@ -3,8 +3,11 @@ package com.hbm.world.generator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.hbm.interfaces.Spaghetti;
+
 import net.minecraft.world.World;
 
+@Spaghetti("this class should be destroyed")
 public class TimedGenerator {
 	
 	private static final HashMap<Integer, ArrayList<ITimedJob>> operations = new HashMap();

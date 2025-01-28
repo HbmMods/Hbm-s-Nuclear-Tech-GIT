@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -34,13 +35,13 @@ public class XFactory9mm {
 
 	public static void init() {
 		SpentCasing casing9 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(1F, 1F, 0.75F);
-		p9_sp = new BulletConfig().setItem(EnumAmmo.P9_SP)
+		p9_sp = new BulletConfig().setItem(EnumAmmo.P9_SP).setCasing(EnumCasingType.SMALL, 12)
 				.setCasing(casing9.clone().register("p9"));
-		p9_fmj = new BulletConfig().setItem(EnumAmmo.P9_FMJ).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F)
+		p9_fmj = new BulletConfig().setItem(EnumAmmo.P9_FMJ).setCasing(EnumCasingType.SMALL, 12).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F)
 				.setCasing(casing9.clone().register("p9fmj"));
-		p9_jhp = new BulletConfig().setItem(EnumAmmo.P9_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		p9_jhp = new BulletConfig().setItem(EnumAmmo.P9_JHP).setCasing(EnumCasingType.SMALL, 12).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing9.clone().register("p9jhp"));
-		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F)
+		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setCasing(EnumCasingType.SMALL_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9ap"));
 
 		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

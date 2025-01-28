@@ -3,6 +3,7 @@ package com.hbm.inventory.recipes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -28,6 +29,7 @@ import com.hbm.items.machine.ItemScraps;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
+import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -36,43 +38,47 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ArcFurnaceRecipes extends SerializableRecipe {
 
-	public static HashMap<AStack, ArcFurnaceRecipe> recipes = new HashMap();
+	public static List<Pair<AStack, ArcFurnaceRecipe>> recipeList = new ArrayList();
+	/* quick lookup for translating input stacks into the output, created lazily whenever a recipe is checked for the first time */
 	public static HashMap<ComparableStack, ArcFurnaceRecipe> fastCacheSolid = new HashMap();
 	public static HashMap<ComparableStack, ArcFurnaceRecipe> fastCacheLiquid = new HashMap();
+	/* used for the recipe creation process to cache which inputs are already in use to prevent input collisions */
+	public static HashSet<ComparableStack> occupiedSolid = new HashSet();
+	public static HashSet<ComparableStack> occupiedLiquid = new HashSet();
 
 	@Override
 	public void registerDefaults() {
 
-		recipes.put(new OreDictStack(KEY_SAND),			new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(1))));
-		recipes.put(new ComparableStack(Items.flint),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
-		recipes.put(new OreDictStack(QUARTZ.gem()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 3))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(3))));
-		recipes.put(new OreDictStack(QUARTZ.dust()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 3))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(3))));
-		recipes.put(new OreDictStack(QUARTZ.block()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 12))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(12))));
-		recipes.put(new OreDictStack(FIBER.ingot()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
-		recipes.put(new OreDictStack(FIBER.block()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 40))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(9, 2))));
-		recipes.put(new OreDictStack(ASBESTOS.ingot()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
-		recipes.put(new OreDictStack(ASBESTOS.dust()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
-		recipes.put(new OreDictStack(ASBESTOS.block()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 40))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(9, 2))));
+		register(new OreDictStack(KEY_SAND),			new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(1))));
+		register(new ComparableStack(Items.flint),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
+		register(new OreDictStack(QUARTZ.gem()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 3))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(3))));
+		register(new OreDictStack(QUARTZ.dust()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 3))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(3))));
+		register(new OreDictStack(QUARTZ.block()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 12))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(12))));
+		register(new OreDictStack(FIBER.ingot()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
+		register(new OreDictStack(FIBER.block()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 40))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(9, 2))));
+		register(new OreDictStack(ASBESTOS.ingot()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
+		register(new OreDictStack(ASBESTOS.dust()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
+		register(new OreDictStack(ASBESTOS.block()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 40))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(9, 2))));
 
-		recipes.put(new ComparableStack(ModBlocks.sand_quartz), new ArcFurnaceRecipe().solid(new ItemStack(ModBlocks.glass_quartz)));
-		recipes.put(new OreDictStack(BORAX.dust()), new ArcFurnaceRecipe().solid(new ItemStack(ModItems.powder_boron_tiny, 3)).fluid(new MaterialStack(Mats.MAT_BORON, MaterialShapes.NUGGET.q(3))));
+		register(new ComparableStack(ModBlocks.sand_quartz), new ArcFurnaceRecipe().solid(new ItemStack(ModBlocks.glass_quartz)));
+		register(new OreDictStack(BORAX.dust()), new ArcFurnaceRecipe().solid(new ItemStack(ModItems.powder_boron_tiny, 3)).fluid(new MaterialStack(Mats.MAT_BORON, MaterialShapes.NUGGET.q(3))));
 		
 		for(BedrockOreType type : BedrockOreType.values()) {
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 4)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 4)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 4)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 2)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 4)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 2)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 4)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 2)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 4)));
 
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 5), ItemBedrockOreNew.toFluid(type.primary2, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 2), ItemBedrockOreNew.toFluid(type.primary2, 5)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 1), ItemBedrockOreNew.toFluid(type.primary2, 1)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 5), ItemBedrockOreNew.toFluid(type.primary2, 2)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 2), ItemBedrockOreNew.toFluid(type.primary2, 5)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, 1), ItemBedrockOreNew.toFluid(type.primary2, 1)));
 			
 			int i3 = 3;
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductAcid1, i3), ItemBedrockOreNew.toFluid(type.byproductAcid2, i3), ItemBedrockOreNew.toFluid(type.byproductAcid3, i3)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductSolvent1, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent2, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent3, i3)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductRad1, i3), ItemBedrockOreNew.toFluid(type.byproductRad2, i3), ItemBedrockOreNew.toFluid(type.byproductRad3, i3)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductAcid1, i3), ItemBedrockOreNew.toFluid(type.byproductAcid2, i3), ItemBedrockOreNew.toFluid(type.byproductAcid3, i3)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductSolvent1, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent2, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent3, i3)));
+			register(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductRad1, i3), ItemBedrockOreNew.toFluid(type.byproductRad2, i3), ItemBedrockOreNew.toFluid(type.byproductRad3, i3)));
 		}
 		
 		// Autogen for simple single type items
@@ -86,12 +92,9 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 						String name = shape.name() + material.names[0];
 						if(!OreDictionary.getOres(name).isEmpty()) {
 							OreDictStack dict = new OreDictStack(name);
-							ArcFurnaceRecipe recipe = recipes.get(dict);
-							if(recipe == null) recipe = new ArcFurnaceRecipe();
-							if(recipe.fluidOutput == null) {
-								recipe.fluid(new MaterialStack(convert, (int) (shape.q(1) * out / in)));
-								recipes.put(dict, recipe);
-							}
+							ArcFurnaceRecipe recipe = new ArcFurnaceRecipe();
+							recipe.fluid(new MaterialStack(convert, (int) (shape.q(1) * out / in)));
+							register(dict, recipe);
 						}
 					}
 				}
@@ -116,14 +119,28 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			if(input != null && output != null) {
 				ComparableStack comp = new ComparableStack(input);
 				if(OreDictManager.arcSmeltable.contains(comp) || OreDictManager.arcSmeltable.contains(new ComparableStack(output))) {
-					ArcFurnaceRecipe recipe = recipes.get(comp);
-					if(recipe == null) recipe = new ArcFurnaceRecipe();
-					if(recipe.solidOutput == null) {
-						recipe.solid(output.copy());
-						recipes.put(comp, recipe);
-					}
+					ArcFurnaceRecipe recipe = new ArcFurnaceRecipe();
+					recipe.solid(output.copy());
+					register(comp, recipe);
 				}
 			}
+		}
+	}
+	
+	public static void register(AStack input, ArcFurnaceRecipe output) {
+		List<ItemStack> inputs = input.extractForNEI();
+		for(ItemStack stack : inputs) {
+			ComparableStack compStack = new ComparableStack(stack);
+			if(compStack.meta == OreDictionary.WILDCARD_VALUE) compStack.meta = 0;
+			if(output.solidOutput != null) if(occupiedSolid.contains(compStack)) return;
+			if(output.fluidOutput != null) if(occupiedLiquid.contains(compStack)) return;
+		}
+		recipeList.add(new Pair(input, output));
+		for(ItemStack stack : inputs) {
+			ComparableStack compStack = new ComparableStack(stack);
+			if(compStack.meta == OreDictionary.WILDCARD_VALUE) compStack.meta = 0;
+			if(output.solidOutput != null) occupiedSolid.add(compStack);
+			if(output.fluidOutput != null) occupiedLiquid.add(compStack);
 		}
 	}
 	
@@ -135,12 +152,9 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			}
 		}
 		if(smeltables.isEmpty()) return;
-		ArcFurnaceRecipe recipe = recipes.get(astack);
-		if(recipe == null) recipe = new ArcFurnaceRecipe();
-		if(recipe.fluidOutput == null) {
-			recipe.fluid(smeltables.toArray(new MaterialStack[0]));
-			recipes.put(astack, recipe);
-		}
+		ArcFurnaceRecipe recipe = new ArcFurnaceRecipe();
+		recipe.fluid(smeltables.toArray(new MaterialStack[0]));
+		register(astack, recipe);
 	}
 	
 	public static ArcFurnaceRecipe getOutput(ItemStack stack, boolean liquid) {
@@ -160,7 +174,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		if(!liquid && fastCacheSolid.containsKey(cacheKey)) return fastCacheSolid.get(cacheKey);
 		if(liquid && fastCacheLiquid.containsKey(cacheKey)) return fastCacheLiquid.get(cacheKey);
 		
-		for(Entry<AStack, ArcFurnaceRecipe> entry : recipes.entrySet()) {
+		for(Pair<AStack, ArcFurnaceRecipe> entry : recipeList) {
 			if(entry.getKey().matchesRecipe(stack, true)) {
 				ArcFurnaceRecipe rec = entry.getValue();
 				if((liquid && rec.fluidOutput != null) || (!liquid && rec.solidOutput != null)) {
@@ -179,7 +193,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 
 	public static HashMap getSolidRecipes() {
 		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
-		for(Entry<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipes.entrySet()) {
+		for(Pair<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipeList) {
 			if(recipe.getValue().solidOutput != null) recipes.put(recipe.getKey().copy(), recipe.getValue().solidOutput.copy());
 		}
 		return recipes;
@@ -187,7 +201,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 
 	public static HashMap getFluidRecipes() {
 		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
-		for(Entry<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipes.entrySet()) {
+		for(Pair<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipeList) {
 			if(recipe.getValue().fluidOutput != null && recipe.getValue().fluidOutput.length > 0) {
 				Object[] out = new Object[recipe.getValue().fluidOutput.length];
 				for(int i = 0; i < out.length; i++) out[i] = ItemScraps.create(recipe.getValue().fluidOutput[i], true);
@@ -209,12 +223,14 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 
 	@Override
 	public Object getRecipeObject() {
-		return recipes;
+		return recipeList;
 	}
 
 	@Override
 	public void deleteRecipes() {
-		recipes.clear();
+		occupiedSolid.clear();
+		occupiedLiquid.clear();
+		recipeList.clear();
 		fastCacheSolid.clear();
 		fastCacheLiquid.clear();
 	}
@@ -245,12 +261,12 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			}
 		}
 		
-		this.recipes.put(input, arc);
+		register(input, arc);
 	}
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
-		Entry<AStack, ArcFurnaceRecipe> rec = (Entry<AStack, ArcFurnaceRecipe>) recipe;
+		Pair<AStack, ArcFurnaceRecipe> rec = (Pair<AStack, ArcFurnaceRecipe>) recipe;
 
 		writer.name("input");
 		this.writeAStack(rec.getKey(), writer);

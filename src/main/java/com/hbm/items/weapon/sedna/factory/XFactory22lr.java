@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -33,13 +34,13 @@ public class XFactory22lr {
 
 	public static void init() {
 		SpentCasing casing22 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.5F);
-		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setKnockback(0F)
+		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F)
 				.setCasing(casing22.clone().register("p22"));
-		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setKnockback(0F).setDamage(0.8F).setThresholdNegation(1F).setArmorPiercing(0.1F)
+		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F).setDamage(0.8F).setThresholdNegation(1F).setArmorPiercing(0.1F)
 				.setCasing(casing22.clone().register("p22fmj"));
-		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setKnockback(0F).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing22.clone().register("p22jhp"));
-		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setKnockback(0F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(2.5F).setArmorPiercing(0.15F)
+		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setCasing(EnumCasingType.SMALL_STEEL, 24).setKnockback(0F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(2.5F).setArmorPiercing(0.15F)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

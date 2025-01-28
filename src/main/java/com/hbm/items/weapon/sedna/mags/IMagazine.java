@@ -1,8 +1,12 @@
 package com.hbm.items.weapon.sedna.mags;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemCasingBag;
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.particle.SpentCasing;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -45,4 +49,14 @@ public interface IMagazine<T> {
 	public void setAmountAfterReload(ItemStack stack, int amount);
 	/** Cached amount of ammo after the most recent reload */
 	public int getAmountAfterReload(ItemStack stack);
+	
+	public static void handleAmmoBag(IInventory inventory, BulletConfig config, int shotsFired) {
+		if(config.casingItem != null && config.casingAmount > 0 && inventory instanceof InventoryPlayer) {
+			InventoryPlayer inv = (InventoryPlayer) inventory;
+			EntityPlayer player = inv.player;
+			for(ItemStack stack : inv.mainInventory) {
+				if(stack != null && stack.getItem() == ModItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F)) return;
+			}
+		}
+	}
 }

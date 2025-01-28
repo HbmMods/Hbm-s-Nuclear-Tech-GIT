@@ -39,6 +39,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 					int toRemove = Math.min(slot.stackSize, amount);
 					amount -= toRemove;
 					inventory.decrStackSize(i, toRemove);
+					IMagazine.handleAmmoBag(inventory, first, toRemove);
 				}
 			}
 		}

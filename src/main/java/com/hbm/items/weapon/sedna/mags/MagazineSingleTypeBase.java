@@ -70,6 +70,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	@Override
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount) {
 		this.setAmount(stack, this.getAmount(stack, inventory) - amount);
+		IMagazine.handleAmmoBag(inventory, this.getType(stack, inventory), amount);
 	}
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }
