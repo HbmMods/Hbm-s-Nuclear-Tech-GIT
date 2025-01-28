@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -54,11 +55,13 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
 			mult = type.quadMin > particle.momentum ? 5 : 1;
 		}
+
+		if(!isCool())											particle.crash(PAState.CRASH_NOCOOL);
+		if(this.power < this.usage * mult)						particle.crash(PAState.CRASH_NOPOWER);
+		if(type == null)										particle.crash(PAState.CRASH_NOCOIL);
+		if(type != null && type.quadMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
 		
-		if(!isCool() || this.power < this.usage * mult || type == null || type.quadMax < particle.momentum) {
-			particle.crash();
-			return;
-		}
+		if(particle.invalid) return;
 		
 		particle.focus(focusGain);
 		this.power -= this.usage * mult;

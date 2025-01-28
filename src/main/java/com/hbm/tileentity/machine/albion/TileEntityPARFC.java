@@ -4,6 +4,7 @@ import com.hbm.inventory.container.ContainerPARFC;
 import com.hbm.inventory.gui.GUIPARFC;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -45,10 +46,11 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 
 	@Override
 	public void onEnter(Particle particle, ForgeDirection dir) {
-		if(!isCool() || this.power < this.usage) {
-			particle.crash();
-			return;
-		}
+
+		if(!isCool())				particle.crash(PAState.CRASH_NOCOOL);
+		if(this.power < this.usage)	particle.crash(PAState.CRASH_NOPOWER);
+		
+		if(particle.invalid) return;
 		
 		particle.momentum += this.momentumGain;
 		particle.defocus(defocusGain);

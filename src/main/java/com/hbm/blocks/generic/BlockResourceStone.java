@@ -34,7 +34,7 @@ public class BlockResourceStone extends BlockEnumMulti {
 		
 		if(meta == BlockEnums.EnumStoneType.MALACHITE.ordinal()) {
 			ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-			ret.add(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.MALACHITE, 6 + fortune * 2 + world.rand.nextInt(fortune + 3)));
+			ret.add(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.MALACHITE, 3 + fortune + world.rand.nextInt(fortune + 2)));
 			return ret;
 		}
 		
