@@ -75,7 +75,7 @@ public class ItemCasingBag extends Item implements IGUIProvider {
 						int am = Math.min(toAdd.stackSize, slot.getMaxStackSize() - slot.stackSize);
 						toAdd.stackSize -= am;
 						slot.stackSize += am;
-						didSomething = true;
+						if(am > 0) didSomething = true;
 					}
 				}
 				
@@ -88,10 +88,9 @@ public class ItemCasingBag extends Item implements IGUIProvider {
 						break;
 					}
 				}
-
-				bag.stackTagCompound.setFloat(name, bag.stackTagCompound.getFloat(name) - 1F);
 				
 				if(didSomething) {
+					bag.stackTagCompound.setFloat(name, bag.stackTagCompound.getFloat(name) - 1F);
 					ret = true;
 				} else {
 					break;

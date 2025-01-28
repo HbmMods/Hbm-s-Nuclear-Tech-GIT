@@ -117,6 +117,7 @@ public class GUIPADipole extends GuiInfoContainer {
 		int heat = (int) Math.ceil(dipole.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 93, guiTop + 54, 176, 8, 8, 8);
 		if(dipole.slots[1] != null && dipole.slots[1].getItem() == ModItems.pa_coil) drawTexturedModalRect(guiLeft + 103, guiTop + 54, 176, 8, 8, 8);
+		if(dipole.power >= dipole.usage) drawTexturedModalRect(guiLeft + 83, guiTop + 54, 176, 8, 8, 8);
 		
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

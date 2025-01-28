@@ -28,7 +28,7 @@ public interface IMagazine<T> {
 	public int getAmount(ItemStack stack, IInventory inventory);
 	/** Sets the mag's ammo level */
 	public void setAmount(ItemStack stack, int amount);
-	/** removes the specified amount fro mthe magazine */
+	/** removes the specified amount from the magazine */
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount);
 	/** If a reload can even be initiated, i.e. the player even has bullets to load, inventory can be null */
 	public boolean canReload(ItemStack stack, IInventory inventory);
@@ -53,9 +53,8 @@ public interface IMagazine<T> {
 	public static void handleAmmoBag(IInventory inventory, BulletConfig config, int shotsFired) {
 		if(config.casingItem != null && config.casingAmount > 0 && inventory instanceof InventoryPlayer) {
 			InventoryPlayer inv = (InventoryPlayer) inventory;
-			EntityPlayer player = inv.player;
 			for(ItemStack stack : inv.mainInventory) {
-				if(stack != null && stack.getItem() == ModItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F)) return;
+				if(stack != null && stack.getItem() == ModItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
 			}
 		}
 	}

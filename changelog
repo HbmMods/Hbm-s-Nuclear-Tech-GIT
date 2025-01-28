@@ -6,6 +6,7 @@
   * Standard coolant will be removed soon in favor of perfloromethyl, however for now it continues to function just the same
 # Particle accelerator
   * A new and improved version of the old one
+  * Still a work in progress, the recipes will likely not work, the parts have no recipes and the coil balancing is still not done
   * Instead of being assembled block by block with weird rules, the new PA is assembled from six different machine parts, similar to how RBMKs work
 * Ammo casing bag
   * Can be carried around in the inventory, will fill with empty casings when guns are fired
@@ -43,6 +44,7 @@
   * This means there is no more ambiguity in the NEI handler over what item smelts into what
   * As a consequence, the arc furnace's recipe generator no longer accepts wildcard meta, in practice this likely doesn't matter since ores and ingots generally don't use wildcard recipes anyway
   * Recipe lookups should be a tad faster due to a type change
+* Foundry outlets will no longer pour material into a channel if any connected channel contains a different material. This means that it's not much harder to clog foundry channels with different materials, as the output (e.g. a crucible) will wait until the channel is clear before the next type of metal is being poured
 
 ## Fixed
 * Fixed incorrect tooltip in the automatic control rod's GUI

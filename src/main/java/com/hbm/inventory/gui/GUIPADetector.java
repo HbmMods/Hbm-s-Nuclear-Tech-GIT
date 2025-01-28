@@ -58,6 +58,7 @@ public class GUIPADetector extends GuiInfoContainer {
 
 		int heat = (int) Math.ceil(source.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 44, guiTop + 18, 176, 8, 8, 8);
+		if(source.power >= source.usage) drawTexturedModalRect(guiLeft + 44, guiTop + 43, 176, 8, 8, 8);
 
 		source.tanks[0].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);
 		source.tanks[1].renderTank(guiLeft + 152, guiTop + 88, this.zLevel, 16, 52);

@@ -12,6 +12,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -91,6 +92,13 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 				100,
 				new ItemStack(ModItems.nugget),
 				new ItemStack(ModItems.nugget)
+				));
+		recipes.add(new ParticleAcceleratorRecipe(
+				new ComparableStack(Blocks.sand),
+				new ComparableStack(Blocks.sand),
+				10,
+				new ItemStack(ModItems.static_sandwich),
+				new ItemStack(ModItems.static_sandwich)
 				));
 	}
 	

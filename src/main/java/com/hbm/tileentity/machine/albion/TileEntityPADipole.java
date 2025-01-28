@@ -32,7 +32,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	public int dirRedstone;
 	public int threshold;
 	
-	public static final long usage = 1_000_000;
+	public static final long usage = 100_000;
 	
 	public TileEntityPADipole() {
 		super(2);
@@ -40,7 +40,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public long getMaxPower() {
-		return 10_000_000;
+		return 1_000_000;
 	}
 
 	@Override
@@ -79,7 +79,8 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		if(type != null && type.diMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
 		
 		if(particle.invalid) return;
-		
+
+		particle.momentum *= type.diMult;
 		this.power -= this.usage * mult;
 	}
 

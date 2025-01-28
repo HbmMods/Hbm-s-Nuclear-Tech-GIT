@@ -27,8 +27,8 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 	public TileEntityCooledBase(int slotCount) {
 		super(slotCount);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.PERFLUOROMETHYL_COLD, 16_000);
-		tanks[1] = new FluidTank(Fluids.PERFLUOROMETHYL, 16_000);
+		tanks[0] = new FluidTank(Fluids.PERFLUOROMETHYL_COLD, 4_000);
+		tanks[1] = new FluidTank(Fluids.PERFLUOROMETHYL, 4_000);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
  package com.hbm.inventory.gui;
 
+import java.util.Locale;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerPASource;
@@ -36,6 +38,9 @@ public class GUIPASource extends GuiInfoContainer {
 		source.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 36, 16, 52);
 		source.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 36, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, source.power, source.getMaxPower());
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 18, 10, 10, mouseX, mouseY, "Last momentum: " + source.lastSpeed);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 30, 10, 10, mouseX, mouseY, EnumChatFormatting.RED + "Cancel operation");
 	}
 
 	@Override
@@ -61,6 +66,9 @@ public class GUIPASource extends GuiInfoContainer {
 		int heat = (int) Math.ceil(source.temperature);
 		String label = (heat > 123 ? EnumChatFormatting.RED : EnumChatFormatting.AQUA) + "" + heat + "K";
 		this.fontRendererObj.drawString(label, 166 - this.fontRendererObj.getStringWidth(label), 12, 4210752);
+		
+		String state = I18n.format("pa." + this.source.state.name().toLowerCase(Locale.US));
+		this.fontRendererObj.drawString(state, 79 - this.fontRendererObj.getStringWidth(state) / 2, 76, this.source.state.color);
 	}
 
 	@Override
@@ -74,6 +82,16 @@ public class GUIPASource extends GuiInfoContainer {
 
 		int heat = (int) Math.ceil(source.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 44, guiTop + 18, 176, 8, 8, 8);
+		if(source.power >= source.usage) drawTexturedModalRect(guiLeft + 44, guiTop + 43, 176, 8, 8, 8);
+
+		int color = source.state.color;
+		float red = (color & 0xff0000) >> 16;
+		float green = (color & 0x00ff00) >> 8;
+		float blue = (color & 0x0000ff);
+		
+		GL11.glColor4f(red, green, blue, 1.0F);
+		drawTexturedModalRect(guiLeft + 45, guiTop + 73, 176, 52, 68, 14);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		source.tanks[0].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);
 		source.tanks[1].renderTank(guiLeft + 152, guiTop + 88, this.zLevel, 16, 52);

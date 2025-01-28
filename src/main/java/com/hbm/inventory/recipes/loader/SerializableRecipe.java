@@ -74,6 +74,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ArcWelderRecipes());
 		recipeHandlers.add(new RotaryFurnaceRecipes());
 		recipeHandlers.add(new ExposureChamberRecipes());
+		recipeHandlers.add(new ParticleAcceleratorRecipes());
 		recipeHandlers.add(new AmmoPressRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
 		//AFTER Assembler

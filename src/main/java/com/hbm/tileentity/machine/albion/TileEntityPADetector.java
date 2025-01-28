@@ -5,6 +5,7 @@ import com.hbm.inventory.gui.GUIPADetector;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes.ParticleAcceleratorRecipe;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -19,6 +20,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPADetector extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
+
+	public static final long usage = 100_000;
 	
 	public TileEntityPADetector() {
 		super(5);
@@ -44,7 +47,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 
 	@Override
 	public long getMaxPower() {
-		return 10_000_000;
+		return 1_000_000;
 	}
 	
 	AxisAlignedBB bb = null;
@@ -93,8 +96,10 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	public void onEnter(Particle particle, ForgeDirection dir) {
 		particle.invalid = true;
 		//particle will crash if not perfectly focused
-		if(particle.defocus > 0) return;
-		
+		if(particle.defocus > 0) { particle.crash(PAState.CRASH_DEFOCUS); return; }
+		if(this.power < this.usage) { particle.crash(PAState.CRASH_NOPOWER); return; }
+		if(!isCool()) { particle.crash(PAState.CRASH_NOCOOL); return; }
+
 		for(ParticleAcceleratorRecipe recipe : ParticleAcceleratorRecipes.recipes) {
 			
 			if(particle.momentum >= recipe.momentum &&
@@ -116,6 +121,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 						slots[4].stackSize += recipe.output2.stackSize;
 					}
 				}
+				particle.crash(PAState.SUCCESS);
 				return;
 			}
 		}
@@ -131,8 +137,8 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 				//cancel if: output item does not match, meta does not match, resulting stacksize exceeds stack limit
 				if(slots[outputSlot].getItem() != output.getItem() || slots[outputSlot].getItemDamage() != output.getItemDamage() || slots[outputSlot].stackSize + output.stackSize > output.getMaxStackSize()) return false;
 			}
-			if(slots[outputSlot].getItem().hasContainerItem(slots[outputSlot])) {
-				ItemStack container = slots[outputSlot].getItem().getContainerItem(slots[outputSlot]);
+			if(output.getItem().hasContainerItem(output)) {
+				ItemStack container = output.getItem().getContainerItem(output);
 				//cancel if: container slot is empty, container item does not match, meta does not match
 				if(slots[containerSlot] == null || slots[containerSlot].getItem() != container.getItem() || slots[containerSlot].getItemDamage() != container.getItemDamage()) return false;
 			}

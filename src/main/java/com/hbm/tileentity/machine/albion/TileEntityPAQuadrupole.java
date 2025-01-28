@@ -22,7 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
 
-	public static final long usage = 1_000_000;
+	public static final long usage = 100_000;
 	public static final int focusGain = 100;
 	
 	public TileEntityPAQuadrupole() {
@@ -31,7 +31,7 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 
 	@Override
 	public long getMaxPower() {
-		return 10_000_000;
+		return 1_000_000;
 	}
 
 	@Override

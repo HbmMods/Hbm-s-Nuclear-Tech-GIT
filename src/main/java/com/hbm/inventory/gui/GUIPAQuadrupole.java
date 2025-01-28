@@ -60,6 +60,7 @@ public class GUIPAQuadrupole extends GuiInfoContainer {
 		int heat = (int) Math.ceil(quadrupole.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 75, guiTop + 64, 176, 8, 8, 8);
 		if(quadrupole.slots[1] != null && quadrupole.slots[1].getItem() == ModItems.pa_coil) drawTexturedModalRect(guiLeft + 85, guiTop + 64, 176, 8, 8, 8);
+		if(quadrupole.power >= quadrupole.usage) drawTexturedModalRect(guiLeft + 65, guiTop + 64, 176, 8, 8, 8);
 		
 		quadrupole.tanks[0].renderTank(guiLeft + 116, guiTop + 88, this.zLevel, 16, 52);
 		quadrupole.tanks[1].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);

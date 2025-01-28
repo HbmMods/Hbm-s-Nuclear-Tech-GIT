@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
 	
-	public static final long usage = 1_000_000;
+	public static final long usage = 100_000;
 	public static final int momentumGain = 100;
 	public static final int defocusGain = 100;
 	
@@ -29,7 +29,7 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 
 	@Override
 	public long getMaxPower() {
-		return 10_000_000;
+		return 1_000_000;
 	}
 
 	@Override
