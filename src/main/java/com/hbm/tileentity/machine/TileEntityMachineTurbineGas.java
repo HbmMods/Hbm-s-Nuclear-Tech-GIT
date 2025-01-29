@@ -21,6 +21,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
@@ -61,6 +62,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 	public int counter = 0; //used to startup and shutdown
 	public int instantPowerOutput;
+	public double waterToBoil;
 
 	public FluidTank[] tanks;
 
@@ -94,6 +96,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 		if(!worldObj.isRemote) {
 
+			waterToBoil = 0; //reset
 			throttle = powerSliderPos * 100 / 60;
 
 			if(slots[1] != null && slots[1].getItem() instanceof IItemFluidIdentifier) {
@@ -344,8 +347,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 
 	double fuelToConsume; //used to consume 1 mb of fuel at a time when consumption is <1 mb/tick
-	double waterToBoil;
-	double waterPerTick = 0;
 
 	private void makePower(double consMax, int throttle) {
 
@@ -391,19 +392,17 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		this.power += instantPowerOutput;
 
-		waterPerTick = (consMax * energy * (temp - tempIdle) / 220000); //it just works fuck you
+		double waterPerTick = (consMax * energy * (temp - tempIdle) / 220000); //it just works fuck you
 
-		if(tanks[2].getFill() >= Math.ceil(waterPerTick)) { //checks if there's enough water to boil
-
-			waterToBoil += waterPerTick;
-
-			if(tanks[3].getFill() <= 160000 - waterToBoil * 10) { //checks if there's room for steam in the tank
-
-				tanks[2].setFill(tanks[2].getFill() - (int) Math.floor(waterToBoil));
-				tanks[3].setFill(tanks[3].getFill() + 10 * (int) Math.floor(waterToBoil));
-				waterToBoil -= (int) Math.floor(waterToBoil);
-			}
-		}
+		this.waterToBoil = waterPerTick; //caching in a field for the EC compat to use
+		
+		int heatCycles = (int) Math.floor(waterToBoil);
+		int waterCycles = tanks[2].getFill();
+		int steamCycles = (tanks[3].getMaxFill() - tanks[3].getFill()) / 10;
+		int cycles = BobMathUtil.min(heatCycles, waterCycles, steamCycles);
+		
+		tanks[2].setFill(tanks[2].getFill() - cycles);
+		tanks[3].setFill(tanks[3].getFill() + cycles * 10);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

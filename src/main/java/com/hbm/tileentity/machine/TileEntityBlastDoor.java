@@ -289,8 +289,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 
 	public boolean placeDummy(int x, int y, int z) {
 
-		if(!worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
-			return false;
+		if(!worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z)) worldObj.func_147480_a(x, y, z, false);
 
 		worldObj.setBlock(x, y, z, ModBlocks.dummy_block_blast);
 
