@@ -58,6 +58,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 
 	@Override
 	public int getAmount(ItemStack stack, IInventory inventory) {
+		if(inventory == null) return 1; // for EntityAIFireGun
 		BulletConfig first = this.getFirstConfig(stack, inventory);
 		int count = 0;
 		for(int i = 0; i < inventory.getSizeInventory(); i++) {

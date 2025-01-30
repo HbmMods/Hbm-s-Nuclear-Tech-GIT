@@ -3,3 +3,4 @@
 
 ## Fixed
 * Fixed the CCGT's steam output breaking as soon as the steam buffer runs full
+* Fixed crash caused by mobs holding belt-fed guns
