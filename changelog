@@ -1,6 +1,8 @@
 ## Changed
 * Blast doors will now pulverize any block that gets in their way during closing
+* The nuclear and RTG furnaces will be retired, their recipes have been removed but they remain operational for now
 
 ## Fixed
 * Fixed the CCGT's steam output breaking as soon as the steam buffer runs full
 * Fixed crash caused by mobs holding belt-fed guns
+* Fixed boiler heat input being way too low due to operation order (diffusion was applied AFTER the input heat was capped)
