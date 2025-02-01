@@ -44,7 +44,9 @@ public class ModulePatternMatcher {
 		if(iterateAndCheck(names, i ,"nugget")) return;
 		if(iterateAndCheck(names, i ,"plate")) return;
 		
-		if(stack.getHasSubtypes()) {
+		if(stack.getItem() instanceof ItemBedrockOreNew) {
+			modes[i] = MODE_BEDROCK;
+		} else if(stack.getHasSubtypes()) {
 			modes[i] = MODE_EXACT;
 		} else {
 			modes[i] = MODE_WILDCARD;
