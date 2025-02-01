@@ -200,7 +200,7 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		CIRNO(			"Cirno",							"Cirno",			"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
 		MICROWAVE(		"Microwave",						"Microwave",		"OC Compatibility and massive RBMK/packet optimizations",		"they call me the food heater$john optimization",												true,	ScrapType.BOARD_CONVERTER),
 		PEEP(			"Peep",								"LePeeperSauvage",	"Coilgun, Leadburster and Congo Lake models, BDCL QC",		"Fluffy ears can't hide in ash, nor snow.",															true,	ScrapType.CARD_BOARD),
-		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"Industrial lighting, animation tools",						"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
+		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"NBT Structures, industrial lighting, animation tools",				"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket
