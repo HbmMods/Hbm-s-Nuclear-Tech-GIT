@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 	
-	public IIcon[] icons = new IIcon[2];
+	public IIcon[] icons = new IIcon[3];
 
 	public BlockGlyphidSpawner(Material mat) {
 		super(mat);
@@ -61,11 +61,12 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 	public void registerBlockIcons(IIconRegister reg) {
 		icons[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_alt");
 		icons[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_infested");
+		icons[2] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_rad");
 	}
 
 	@Override
 	public int getSubCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -122,15 +123,16 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 					List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 5, yCoord + 1, zCoord - 5, xCoord + 6, yCoord + 7, zCoord + 6));
 					float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 
-					if(list.size() <= 3) {
+					int subtype = this.getBlockMetadata();
+					if(list.size() <= 3 || subtype == EntityGlyphid.TYPE_RADIOACTIVE) {
 
-						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot, this.getBlockMetadata());
+						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot, subtype);
 
 						for(EntityGlyphid glyphid : currentSwarm) {
 							trySpawnEntity(glyphid);
 						}
 
-						if(!initialSpawn && worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0 && soot >= MobConfig.scoutThreshold) {
+						if(!initialSpawn && worldObj.rand.nextInt(MobConfig.scoutSwarmSpawnChance + 1) == 0 && soot >= MobConfig.scoutThreshold && subtype != EntityGlyphid.TYPE_RADIOACTIVE) {
 							EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
 							if(this.getBlockMetadata() == 1) scout.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_INFECTED);
 							trySpawnEntity(scout);
@@ -168,6 +170,7 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 					if(soot >= chance[2] && rand.nextInt(100) <= adjustedChance) {
 						EntityGlyphid entity = glyphid.getKey().apply(worldObj);
 						if(meta == 1) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_INFECTED);
+						if(meta == 2) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_RADIOACTIVE);
 						currentSpawns.add(entity);
 					}
 				}

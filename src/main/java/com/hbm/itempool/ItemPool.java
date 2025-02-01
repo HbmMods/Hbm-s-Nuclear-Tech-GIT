@@ -25,6 +25,7 @@ public class ItemPool {
 		ItemPoolsRedRoom.init();
 		ItemPoolsSatellite.init();
 		ItemPoolsPile.init();
+		ItemPoolsC130.init();
 	}
 	
 	public static HashMap<String, ItemPool> pools = new HashMap();
@@ -63,6 +64,10 @@ public class ItemPool {
 		ItemPool pool = pools.get(name);
 		if(pool == null) return backupPool;
 		return pool.pool;
+	}
+	
+	public static ItemStack getStack(String pool, Random rand) {
+		return getStack(ItemPool.getPool(pool), rand);
 	}
 	
 	public static ItemStack getStack(WeightedRandomChestContent[] pool, Random rand) {

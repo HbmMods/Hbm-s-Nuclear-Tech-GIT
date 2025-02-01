@@ -5,8 +5,8 @@ import java.util.Arrays;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;

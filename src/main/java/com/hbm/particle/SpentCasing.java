@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class SpentCasing implements Cloneable {
 
 	public static final int COLOR_CASE_BRASS = 0xEBC35E;
+	public static final int COLOR_CASE_EQUESTRIAN = 0x957BA0;
 	public static final int COLOR_CASE_12GA = 0x757575;
 	public static final int COLOR_CASE_4GA = 0xD8D8D8;
 	public static final int COLOR_CASE_44 = 0x3E3E3E;
@@ -32,17 +33,13 @@ public class SpentCasing implements Cloneable {
 		}
 	}
 
-	private String registryName;
+	private String registryName = "CHANGEME";
 	private float scaleX = 1F;
 	private float scaleY = 1F;
 	private float scaleZ = 1F;
 	private int[] colors;
 	private CasingType type;
 	private String bounceSound;
-	private float smokeChance;
-	private int smokeDuration;
-	private double smokeLift;
-	private int smokeNodeLife;
 	private float bounceYaw = 0F;
 	private float bouncePitch = 0F;
 	private int maxAge = 240;
@@ -83,13 +80,7 @@ public class SpentCasing implements Cloneable {
 		return this;
 	}
 	
-	public SpentCasing setupSmoke(float chance, double lift, int duration, int nodeLife) {
-		this.smokeChance = chance;
-		this.smokeDuration = duration;
-		this.smokeLift = lift;
-		this.smokeNodeLife = nodeLife;
-		return this;
-	}
+	@Deprecated public SpentCasing setupSmoke(float chance, double lift, int duration, int nodeLife) { return this; }
 	
 	public static SpentCasing fromName(String name) {
 		return casingMap.get(name);
@@ -113,13 +104,9 @@ public class SpentCasing implements Cloneable {
 	public int[] getColors() { return this.colors; }
 	public CasingType getType() { return this.type; }
 	public String getSound() { return this.bounceSound; }
-	public float getSmokeChance() { return this.smokeChance; }
 	public float getBounceYaw() { return this.bounceYaw; }
 	public float getBouncePitch() { return this.bouncePitch; }
 	public int getMaxAge() { return this.maxAge; }
-	public int getSmokeDuration() { return this.smokeDuration; }
-	public double getSmokeLift() { return this.smokeLift; }
-	public int getSmokeNodeLife() { return this.smokeNodeLife; }
 	
 	@Override
 	public SpentCasing clone() {

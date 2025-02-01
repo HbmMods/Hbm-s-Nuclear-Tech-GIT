@@ -11,15 +11,11 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemScraps;
-import com.hbm.packet.NBTPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -32,10 +28,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //god thank you bob for this base class
-public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, INBTPacketReceiver, IInventory {
+public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, IInventory {
 
 	public FluidTank water;
 	public FluidTank steam;
+	private long lastCastTick = 0;
 
 	public String getName() {
 		return "container.machineStrandCaster";
@@ -82,46 +79,52 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			ItemMold.Mold mold = this.getInstalledMold();
 
 			if(canProcess()) {
+				int minAmount = mold.getCost() * 9;
 
-				int itemsCasted = Math.min(amount / mold.getCost(), 9);
-
-				for(int j = 0; j < itemsCasted; j++) {
-					this.amount -= mold.getCost();
-
-					ItemStack out = mold.getOutput(type);
-
-					for(int i = 1; i < 7; i++) {
-						if(slots[i] == null) {
-							slots[i] = out.copy();
-							break;
-						}
-
-						if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
-							slots[i].stackSize += out.stackSize;
-							break;
-						}
-
-					}
+				// Makes it flush the buffers after 10 seconds of inactivity
+				if(worldObj.getWorldTime() >= lastCastTick + 200) {
+					minAmount = mold.getCost();
 				}
-				markChanged();
 
-				water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
-				steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
+				if(this.amount >= minAmount) {
+					int itemsCasted = amount / mold.getCost();
+
+					for(int j = 0; j < itemsCasted; j++) {
+						this.amount -= mold.getCost();
+
+						ItemStack out = mold.getOutput(type);
+
+						for(int i = 1; i < 7; i++) {
+							if(slots[i] == null) {
+								slots[i] = out.copy();
+								break;
+							}
+
+							if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
+								slots[i].stackSize += out.stackSize;
+								break;
+							}
+
+						}
+					}
+					markChanged();
+
+					water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
+					steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
+
+					lastCastTick = worldObj.getWorldTime();
+				}
 			}
-		}
 
-		NBTTagCompound data = new NBTTagCompound();
+			networkPackNT(150);
 
-		water.writeToNBT(data, "w");
-		steam.writeToNBT(data, "s");
-
-		this.networkPack(data, 150);
+	}
 
 	}
 
 	public boolean canProcess() {
 		ItemMold.Mold mold = this.getInstalledMold();
-		if(type != null && mold != null && this.amount >= mold.getCost() * 9 && mold.getOutput(type) != null) {
+		if(type != null && mold != null && mold.getOutput(type) != null) {
 			for(int i = 1; i < 7; i++) {
 				if(slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize + mold.getOutput(type).stackSize <= mold.getOutput(type).getMaxStackSize())
 					return water.getFill() >= getWaterRequired() && steam.getFill() < steam.getMaxFill();
@@ -187,7 +190,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		}
 		return false;
 
-	}
+		}
 
 	@Override
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
@@ -250,20 +253,20 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineStrandCaster(player.inventory, this);
 	}
 
-	public void networkPack(NBTTagCompound nbt, int range) {
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	@Override
+	public void serialize(ByteBuf buf) {
+		water.serialize(buf);
+		steam.serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		water.readFromNBT(nbt, "w");
-		steam.readFromNBT(nbt, "s");
-
+	public void deserialize(ByteBuf buf) {
+		water.deserialize(buf);
+		steam.deserialize(buf);
 	}
 
 	@Override
@@ -271,6 +274,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.writeToNBT(nbt);
 		water.writeToNBT(nbt, "w");
 		steam.writeToNBT(nbt, "s");
+		nbt.setLong("t", lastCastTick);
 	}
 
 	@Override
@@ -278,6 +282,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.readFromNBT(nbt);
 		water.readFromNBT(nbt, "w");
 		steam.readFromNBT(nbt, "s");
+		lastCastTick = nbt.getLong("t");
 	}
 
 	@Override
@@ -338,7 +343,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	}
 
 	public boolean isLoaded = true;
-	
+
 	@Override
 	public boolean isLoaded() {
 		return isLoaded;

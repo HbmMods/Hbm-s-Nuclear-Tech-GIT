@@ -1,7 +1,8 @@
 package api.hbm.energymk2;
 
-import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /** If it receives energy, use this */
+@NotableComments
 public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
 	public default long transferPower(long power) {

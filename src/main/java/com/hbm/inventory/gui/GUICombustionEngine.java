@@ -9,8 +9,8 @@ import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineCombustionEngine;
 import com.hbm.util.EnumUtil;
 

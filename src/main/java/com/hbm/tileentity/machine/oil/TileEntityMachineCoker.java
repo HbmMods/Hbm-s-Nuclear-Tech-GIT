@@ -10,6 +10,7 @@ import com.hbm.inventory.gui.GUIMachineCoker;
 import com.hbm.inventory.recipes.CokerRecipes;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
@@ -19,7 +20,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityMachineCoker extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineCoker extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;
@@ -101,20 +102,14 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 					}
 				}
 
-				if(wasOn && worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 20);
+				if(wasOn && worldObj.getTotalWorldTime() % 5 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
 			}
 			
 			for(DirPos pos : getConPos()) {
 				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("wasOn", this.wasOn);
-			data.setInteger("heat", this.heat);
-			data.setInteger("progress", this.progress);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			this.networkPack(data, 25);
+
+			this.networkPackNT(25);
 		} else {
 			
 			if(this.wasOn) {
@@ -135,7 +130,9 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 			}
 		}
 	}
-	
+
+
+
 	public DirPos[] getConPos() {
 		
 		return new DirPos[] {
@@ -172,16 +169,25 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 		
 		return true;
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.wasOn = nbt.getBoolean("wasOn");
-		this.heat = nbt.getInteger("heat");
-		this.progress = nbt.getInteger("progress");
-		tanks[0].readFromNBT(nbt, "t0");
-		tanks[1].readFromNBT(nbt, "t1");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.wasOn);
+		buf.writeInt(this.heat);
+		buf.writeInt(this.progress);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.wasOn = buf.readBoolean();
+		this.heat = buf.readInt();
+		this.progress = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	protected void tryPullHeat() {
@@ -286,7 +292,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCoker(player.inventory, this);
 	}
 }

@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 import com.hbm.items.ItemAmmoEnums.IAmmoItemEnum;
 import com.hbm.items.ItemEnumMulti;
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
@@ -122,7 +119,7 @@ public class ItemAmmo extends ItemEnumMulti {
 	
 	public ItemAmmo(Class<? extends Enum<?>> clazz, String altName) {
 		super(clazz, true, true);
-		setCreativeTab(MainRegistry.weaponTab);
+		this.setCreativeTab(null);
 		this.altName = altName;
 	}
 
@@ -131,10 +128,6 @@ public class ItemAmmo extends ItemEnumMulti {
 		super.addInformation(stack, player, list, ext);
 		
 		if(!altName.isEmpty()) list.add(EnumChatFormatting.ITALIC + I18nUtil.resolveKey(altName));
-		
-		if(stack.getItem() == ModItems.ammo_rocket && stack.getItemDamage() == AmmoRocket.DIGAMMA.ordinal()) {
-			list.add(player.worldObj.rand.nextInt(3) < 2 ? EnumChatFormatting.RED + "COVER YOURSELF IN OIL" : EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "COVER YOURSELF IN OIL");
-		}
 
 		IAmmoItemEnum item = (IAmmoItemEnum) EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
 		Set<AmmoItemTrait> ammoTraits = item.getTraits();

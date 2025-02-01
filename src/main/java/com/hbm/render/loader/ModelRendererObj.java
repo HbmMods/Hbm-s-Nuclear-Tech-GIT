@@ -21,6 +21,8 @@ public class ModelRendererObj {
 	public float offsetX;
 	public float offsetY;
 	public float offsetZ;
+	
+	public boolean doRender = true;
 
 	String[] parts;
 	IModelCustom model;
@@ -97,11 +99,13 @@ public class ModelRendererObj {
 
 		GL11.glScalef(scale, scale, scale);
 
-		if(parts.length > 0)
-			for(String part : parts)
-				model.renderPart(part);
-		else
-			model.renderAll();
+		if(doRender) {
+			if(parts.length > 0)
+				for(String part : parts)
+					model.renderPart(part);
+			else
+				model.renderAll();
+		}
 
 		GL11.glPopMatrix();
 	}

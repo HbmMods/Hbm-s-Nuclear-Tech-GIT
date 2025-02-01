@@ -1,9 +1,9 @@
 package com.hbm.tileentity.turret;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactory9mm;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -55,7 +55,7 @@ public class TileEntityTurretSentryDamaged extends TileEntityTurretSentry {
 		
 		if(timer % 10 == 0) {
 			
-			BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(BulletConfigSyncingUtil.R5_NORMAL);
+			BulletConfig conf = XFactory9mm.p9_fmj;
 			
 			if(conf != null) {
 				
@@ -63,11 +63,11 @@ public class TileEntityTurretSentryDamaged extends TileEntityTurretSentry {
 				Vec3 vec = Vec3.createVectorHelper(0, 0, 0);
 				Vec3 side = Vec3.createVectorHelper(0, 0, 0);
 				
-				this.cachedCasingConfig = conf.spentCasing;
+				this.cachedCasingConfig = conf.casing;
 				
 				if(shotSide) {
 					this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.sentry_fire", 2.0F, 1.0F);
-					this.spawnBullet(conf);
+					this.spawnBullet(conf, 5F);
 		
 					vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 					vec.rotateAroundZ((float) -this.rotationPitch);

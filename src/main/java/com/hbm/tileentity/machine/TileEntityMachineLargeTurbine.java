@@ -17,6 +17,7 @@ import com.hbm.inventory.gui.GUIMachineLargeTurbine;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -29,11 +30,11 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,7 +44,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine, IFluidCopiable {
 
 	public long power;
 	public FluidTank[] tanks;
@@ -102,6 +103,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		return "container.machineLargeTurbine";
 	}
 
+	private boolean operational;
+
 	@Override
 	public void updateEntity() {
 		
@@ -117,9 +120,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
-			
-			boolean operational = false;
-			
+
 			FluidType in = tanks[0].getTankType();
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
@@ -145,13 +146,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			if(power > maxPower) power = maxPower;
 			
 			tanks[1].unloadTank(5, 6, slots);
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setBoolean("operational", operational);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
+
 		} else {
 			this.lastRotor = this.rotor;
 			this.rotor += this.fanAcceleration;
@@ -199,14 +196,23 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir)
 		};
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		this.shouldTurn = data.getBoolean("operational");
-		tanks[0].readFromNBT(data, "t0");
-		tanks[1].readFromNBT(data, "t1");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeBoolean(operational);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.shouldTurn = buf.readBoolean();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	public long getPowerScaled(int i) {
@@ -355,7 +361,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineLargeTurbine(player.inventory, this);
 	}
 

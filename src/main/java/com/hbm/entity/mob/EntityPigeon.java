@@ -8,8 +8,8 @@ import com.hbm.entity.mob.ai.EntityAIStopFlying;
 import com.hbm.entity.mob.ai.EntityAISwimmingConditional;
 import com.hbm.entity.mob.ai.EntityAIWanderConditional;
 import com.hbm.items.tool.ItemFertilizer;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;

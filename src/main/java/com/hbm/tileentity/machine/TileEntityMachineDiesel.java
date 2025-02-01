@@ -18,6 +18,7 @@ import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
@@ -28,7 +29,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -36,7 +37,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public int soundCycle = 0;
@@ -151,22 +152,26 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 			generate();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("power", (int) power);
-			data.setInteger("powerCap", (int) powerCap);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getInteger("power");
-		powerCap = data.getInteger("powerCap");
-		tank.readFromNBT(data, "t");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt((int) power);
+		buf.writeInt((int) powerCap);
+		tank.serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readInt();
+		this.powerCap = buf.readInt();
+		tank.deserialize(buf);
+	}
+
 	public boolean hasAcceptableFuel() {
 		return getHEFromFuel() > 0;
 	}
@@ -292,7 +297,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineDiesel(player.inventory, this);
 	}
 

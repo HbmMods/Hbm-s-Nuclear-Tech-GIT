@@ -1,21 +1,15 @@
 package com.hbm.handler.guncfg;
 
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.ExplosionNukeSmall.MukeParams;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.*;
-import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -33,36 +27,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class BulletConfigFactory {
-	
-	/// configs should never be loaded manually due to syncing issues: use the syncing util and pass the UID in the DW of the bullet to make the client load the config correctly ////
-	
-	public static BulletConfiguration getTestConfig() {
-		
-		BulletConfiguration bullet = new BulletConfiguration();
-
-		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
-		bullet.velocity = 5.0F;
-		bullet.spread = 0.05F;
-		bullet.wear = 10;
-		bullet.dmgMin = 15;
-		bullet.dmgMax = 17;
-		bullet.bulletsMin = 1;
-		bullet.bulletsMax = 1;
-		bullet.gravity = 0D;
-		bullet.maxAge = 100;
-		bullet.doesRicochet = true;
-		bullet.ricochetAngle = 10;
-		bullet.HBRC = 2;
-		bullet.LBRC = 90;
-		bullet.bounceMod = 0.8;
-		bullet.doesPenetrate = true;
-		bullet.doesBreakGlass = true;
-		bullet.style = 0;
-		bullet.plink = 1;
-		
-		return bullet;
-		
-	}
 	
 	public static final float defaultSpread = 0.005F;
 	
@@ -121,62 +85,6 @@ public class BulletConfigFactory {
 		bullet.style = BulletConfiguration.STYLE_PELLET;
 		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		bullet.leadChance = 10;
-		
-		return bullet;
-	}
-	
-	public static BulletConfiguration standardAirstrikeConfig() {
-		
-		BulletConfiguration bullet = new BulletConfiguration();
-		
-		bullet.velocity = 5.0F;
-		bullet.spread = 0.0F;
-		bullet.wear = 50;
-		bullet.bulletsMin = 1;
-		bullet.bulletsMax = 1;
-		bullet.gravity = 0D;
-		bullet.maxAge = 100;
-		bullet.doesRicochet = false;
-		bullet.doesPenetrate = false;
-		bullet.doesBreakGlass = false;
-		bullet.style = BulletConfiguration.STYLE_BOLT;
-		bullet.leadChance = 0;
-		bullet.vPFX = "reddust";
-		
-		bullet.bntImpact = new IBulletImpactBehaviorNT() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				Random rand = bullet.worldObj.rand;
-				int count = rand.nextInt(11) + 95;
-				
-				for(int i = 0; i < count; i++) {
-
-					double dx = bullet.posX + rand.nextGaussian() * 4;
-					double dy = bullet.posY + 25 + rand.nextGaussian() * 5;
-					double dz = bullet.posZ + rand.nextGaussian() * 4;
-					
-					Vec3 motion = Vec3.createVectorHelper(bullet.posX - dx, bullet.posY - dy, bullet.posZ - dz);
-					motion = motion.normalize();
-					
-					EntityBulletBaseNT bolt = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.R556_FLECHETTE_DU);
-					bolt.setPosition(dx, dy, dz);
-					bolt.setThrowableHeading(motion.xCoord, motion.yCoord, motion.zCoord, 0.5F, 0.1F);
-					bolt.setThrower(bullet.getThrower());
-					bullet.worldObj.spawnEntityInWorld(bolt);
-					
-					if(i < 30) {
-						EntityBSmokeFX bsmoke = new EntityBSmokeFX(bullet.worldObj);
-						bsmoke.setPosition(dx, dy, dz);
-						bullet.worldObj.spawnEntityInWorld(bsmoke);
-					}
-				}
-			}
-		};
 		
 		return bullet;
 	}

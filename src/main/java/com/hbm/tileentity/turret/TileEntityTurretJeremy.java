@@ -3,32 +3,31 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretJeremy;
-import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
-
+	
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.SHELL_NORMAL);
-		configs.add(BulletConfigSyncingUtil.SHELL_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.SHELL_AP);
-		configs.add(BulletConfigSyncingUtil.SHELL_DU);
-		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+		configs.add(XFactoryTurret.shell_normal.id);
+		configs.add(XFactoryTurret.shell_explosive.id);
+		configs.add(XFactoryTurret.shell_ap.id);
+		configs.add(XFactoryTurret.shell_du.id);
+		configs.add(XFactoryTurret.shell_w9.id);
 	}
 	
 	@Override
@@ -88,11 +87,11 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 		
 		if(timer % 40 == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			BulletConfig conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
-				this.cachedCasingConfig = conf.spentCasing;
-				this.spawnBullet(conf);
+				this.cachedCasingConfig = conf.casing;
+				this.spawnBullet(conf, 50F);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 4.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();
@@ -142,7 +141,7 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretJeremy(player.inventory, this);
 	}
 }

@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.ExposureChamberRecipes;
 public class ExposureChamberHandler extends NEIUniversalHandler {
 
 	public ExposureChamberHandler() {
-		super("Exposure Chamber", ModBlocks.machine_exposure_chamber, ExposureChamberRecipes.getRecipes());
+		super(ModBlocks.machine_exposure_chamber.getLocalizedName(), ModBlocks.machine_exposure_chamber, ExposureChamberRecipes.getRecipes());
 	}
 
 	@Override

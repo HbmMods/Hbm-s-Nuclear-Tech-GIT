@@ -8,6 +8,7 @@ public interface IRORInteractive extends IRORInfo {
 	public static String EX_NULL = "Exception: Null Command";
 	public static String EX_NAME = "Exception: Multiple Name Separators";
 
+	/** Runs a function on the ROR component, usually causing the component to change or do something. Returns are optional. */
 	public Object runRORFunction(String name, String[] params);
 	
 	/** Extracts the command name from a full command string */

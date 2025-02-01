@@ -45,6 +45,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
+		this.markDirty();
 	}
 
 	@Override
@@ -98,6 +99,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 				slots[i] = null;
 			}
 
+			this.markDirty();
 			return itemStack1;
 		} else {
 			return null;

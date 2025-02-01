@@ -3,8 +3,8 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 

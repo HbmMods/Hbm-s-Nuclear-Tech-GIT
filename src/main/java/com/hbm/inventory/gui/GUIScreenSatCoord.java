@@ -8,7 +8,7 @@ import com.hbm.items.ISatChip;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.SatCoordPacket;
+import com.hbm.packet.toserver.SatCoordPacket;
 import com.hbm.saveddata.satellites.Satellite.CoordActions;
 import com.hbm.saveddata.satellites.Satellite.Interfaces;
 

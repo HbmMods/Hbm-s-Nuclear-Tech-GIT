@@ -23,6 +23,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.util.Compat;
 
 import net.minecraft.block.Block;
@@ -57,6 +58,11 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
 		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
 
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL),			MAT_GUNMETAL,		PLATE.q(1, 4));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 4));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE),			MAT_GUNMETAL,		PLATE.q(1, 2));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 2));
+
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {
 			registerOre(OreDictManager.IRON.ore(), MAT_IRON, INGOT.q(2), MAT_TITANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
@@ -68,7 +74,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.COAL.ore(), MAT_CARBON, GEM.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.GOLD.ore(), MAT_GOLD, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.U.ore(), MAT_URANIUM, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
-		registerOre(OreDictManager.TH232.ore(), MAT_THORIUM, INGOT.q(2), MAT_URANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
+		for(String ore : OreDictManager.TH232.all(MaterialShapes.ORE)) registerOre(ore, MAT_THORIUM, INGOT.q(2), MAT_URANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.CU.ore(), MAT_COPPER, INGOT.q(2), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.PB.ore(), MAT_LEAD, INGOT.q(2), MAT_GOLD, NUGGET.q(1), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.BE.ore(), MAT_BERYLLIUM, INGOT.q(2), MAT_STONE, QUART.q(1));
@@ -76,7 +82,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.REDSTONE.ore(), MAT_REDSTONE, INGOT.q(4), MAT_STONE, QUART.q(1));
 
 		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(1));
-		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(1));
+		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(6));
 		
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
@@ -93,6 +99,7 @@ public class MatDistribution extends SerializableRecipe {
 		if(key instanceof Item) comp = new ComparableStack((Item) key);
 		if(key instanceof Block) comp = new ComparableStack((Block) key);
 		if(key instanceof ItemStack) comp = new ComparableStack((ItemStack) key);
+		if(key instanceof ComparableStack) comp = (ComparableStack) key;
 		
 		if(comp == null) return;
 		if(matDef.length % 2 == 1) return;

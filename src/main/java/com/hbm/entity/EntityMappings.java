@@ -74,7 +74,6 @@ public class EntityMappings {
 		addEntity(EntityMissileMirv.class, "entity_missile_mirv", 1000);
 		addEntity(EntityMIRV.class, "entity_mirvlet", 1000);
 		addEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 1000);
-		addEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 1000);
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);
 		addEntity(EntityGrenadeTau.class, "entity_grenade_tau", 500);
 		addEntity(EntityChopperMine.class, "entity_chopper_mine", 1000);
@@ -86,10 +85,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 500);
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
-		addEntity(EntityFire.class, "entity_fire", 1000);
-		addEntity(EntityPlasmaBeam.class, "entity_immolator_beam", 1000);
-		addEntity(EntityLN2.class, "entity_LN2", 1000);
-		addEntity(EntityNightmareBlast.class, "entity_ominous_bullet", 1000);
 		addEntity(EntityGrenadePulse.class, "entity_grenade_pulse", 1000);
 		addEntity(EntityLaserBeam.class, "entity_laser_beam", 1000);
 		addEntity(EntityMinerBeam.class, "entity_miner_beam", 1000);
@@ -105,15 +100,14 @@ public class EntityMappings {
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
 		addEntity(EntityMeteor.class, "entity_meteor", 250);
-		addEntity(EntityLaser.class, "entity_laser", 1000);
 		addEntity(EntityBoxcar.class, "entity_boxcar", 1000);
+		addEntity(EntityTorpedo.class, "entity_torpedo", 1000);
 		addEntity(EntityMissileTaint.class, "entity_missile_taint", 1000);
 		addEntity(EntityGrenadeGascan.class, "entity_grenade_gascan", 1000);
 		addEntity(EntityNukeExplosionMK5.class, "entity_nuke_mk5", 1000);
 		addEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 1000);
 		addEntity(EntityAAShell.class, "entity_aa_shell", 1000);
-		addEntity(EntityRocketHoming.class, "entity_stinger", 1000);
 		addEntity(EntityMissileTest.class, "entity_missile_test_mk2", 1000);
 		addEntity(EntityMissileMicro.class, "entity_missile_micronuclear", 1000);
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
@@ -128,6 +122,7 @@ public class EntityMappings {
 		addEntity(EntityGrenadePC.class, "entity_grenade_pink_cloud", 250);
 		addEntity(EntityGrenadeCloud.class, "entity_grenade_cloud", 250);
 		addEntity(EntityBomber.class, "entity_bomber", 1000);
+		addEntity(EntityC130.class, "entity_c130", 1000);
 		addEntity(EntityBombletZeta.class, "entity_zeta", 1000);
 		addEntity(EntityOrangeFX.class, "entity_agent_orange", 1000);
 		addEntity(EntityDeathBlast.class, "entity_laser_blast", 1000);
@@ -151,6 +146,9 @@ public class EntityMappings {
 		addEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod_null", 250);
 		addEntity(EntityFallingNuke.class, "entity_falling_bomb", 1000);
 		addEntity(EntityBulletBaseNT.class, "entity_bullet_mk3", 250, false);
+		addEntity(EntityBulletBaseMK4.class, "entity_bullet_mk4", 250, false);
+		addEntity(EntityBulletBaseMK4CL.class, "entity_bullet_mk4_cl", 250, false);
+		addEntity(EntityBulletBeamBase.class, "entity_beam_mk4", 250, false);
 		addEntity(EntityMinerRocket.class, "entity_miner_lander", 1000);
 		addEntity(EntityFogFX.class, "entity_nuclear_fog", 1000);
 		addEntity(EntityDuchessGambit.class, "entity_duchessgambit", 1000);
@@ -165,6 +163,7 @@ public class EntityMappings {
 		addEntity(EntityBuilding.class, "entity_falling_building", 1000);
 		addEntity(EntitySoyuz.class, "entity_soyuz", 1000);
 		addEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 1000);
+		addEntity(EntityParachuteCrate.class, "entity_parachute_crate", 1000);
 		addEntity(EntityMovingItem.class, "entity_c_item", 1000);
 		addEntity(EntityMovingPackage.class, "entity_c_package", 1000);
 		addEntity(EntityDeliveryDrone.class, "entity_delivery_drone", 250, false);
@@ -204,6 +203,7 @@ public class EntityMappings {
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 250, false);
+		addEntity(EntityFireLingering.class, "entity_fire_lingering", 250, false);
 		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
 		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
 		addEntity(EntityBoatRubber.class, "entity_rubber_boat", 250, false);
@@ -252,6 +252,7 @@ public class EntityMappings {
 		addMob(EntityGlyphidDigger.class, "entity_glyphid_digger", 0x273038, 0x724A21);
 		addMob(EntityPlasticBag.class, "entity_plastic_bag", 0xd0d0d0, 0x808080);
 		addMob(EntityParasiteMaggot.class, "entity_parasite_maggot", 0xd0d0d0, 0x808080);
+		addMob(EntityDummy.class, "entity_ntm_test_dummy", 0xffffff, 0x000000);
 
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());

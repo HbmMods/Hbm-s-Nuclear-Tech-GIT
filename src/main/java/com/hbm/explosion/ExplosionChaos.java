@@ -42,7 +42,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Spaghetti("no")
+@Spaghetti("my eyes are bleeding")
 public class ExplosionChaos {
 
 	private final static Random random = new Random();
@@ -64,29 +64,6 @@ public class ExplosionChaos {
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
 						destruction(world, X, Y, Z);
-					}
-				}
-			}
-		}
-	}
-
-	public static void antiCheat(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						if (rand.nextInt(15) == 0 && world.getBlock(X, Y, Z) != Blocks.air)
-							world.setBlock(X, Y, Z, ModBlocks.cheater_virus);
 					}
 				}
 			}
@@ -405,7 +382,6 @@ public class ExplosionChaos {
 	}
 
 	public static void pDestruction(World world, int x, int y, int z) {
-
 		EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 		world.spawnEntityInWorld(entityfallingblock);
 	}
@@ -775,10 +751,7 @@ public class ExplosionChaos {
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22 + world.rand.nextInt(r22 / 2)) {
-						if (world.getBlock(X, Y, Z) != Blocks.bedrock && world.getBlock(X, Y, Z) != ModBlocks.statue_elb
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_g
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_w
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
+						if(world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
 							world.setBlock(X, Y, Z, ModBlocks.plasma);
 					}
 				}

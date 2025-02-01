@@ -3,6 +3,7 @@ package com.hbm.entity.mob.glyphid;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.main.ResourceManager;
 import com.hbm.world.feature.GlyphidHive;
@@ -61,9 +62,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getScout().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getScout().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getScout().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getScout().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsScout;
+	}
 
 	@Override
 	public boolean isArmorBroken(float amount) {

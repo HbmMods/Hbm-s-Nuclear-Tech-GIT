@@ -8,8 +8,8 @@ import com.hbm.inventory.gui.GUICraneBoxer;
 import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -143,17 +143,21 @@ public class TileEntityCraneBoxer extends TileEntityCraneBase implements IGUIPro
 					worldObj.spawnEntityInWorld(moving);
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setByte("mode", mode);
-			this.networkPack(data, 15);
+
+			this.networkPackNT(15);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.mode = nbt.getByte("mode");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeByte(this.mode);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readByte();
 	}
 
 	@Override
@@ -187,7 +191,7 @@ public class TileEntityCraneBoxer extends TileEntityCraneBase implements IGUIPro
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneBoxer(player.inventory, this);
 	}
 

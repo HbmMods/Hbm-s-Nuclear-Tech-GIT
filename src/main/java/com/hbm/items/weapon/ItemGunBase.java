@@ -18,15 +18,15 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.GunAnimationPacket;
-import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.GunAnimationPacket;
+import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 
@@ -801,7 +801,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	}
 	
 	@Override
-	public void onEquip(EntityPlayer player) {
+	public void onEquip(EntityPlayer player, ItemStack stack) {
 		if(!mainConfig.equipSound.isEmpty() && !player.worldObj.isRemote) {
 			player.worldObj.playSoundAtEntity(player, mainConfig.equipSound, 1, 1);
 		}

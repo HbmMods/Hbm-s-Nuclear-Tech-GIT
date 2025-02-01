@@ -8,13 +8,12 @@ import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.packet.toclient.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -317,7 +316,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineMissileAssembly(player.inventory, this);
 	}
 }

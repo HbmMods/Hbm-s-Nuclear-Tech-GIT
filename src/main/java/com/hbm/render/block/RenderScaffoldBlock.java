@@ -49,14 +49,31 @@ public class RenderScaffoldBlock implements ISimpleBlockRenderingHandler {
 			iicon = renderer.overrideBlockTexture;
 		}
 
-		float rotation = (float) -Math.PI;
+		float ox = x + 0.5F;
+		float oy = y;
+		float oz = z + 0.5F;
 
-		if((world.getBlockMetadata(x, y, z) & 8) == 0)
-			rotation = -90F / 180F * (float) Math.PI;
+		float rotation = (float) Math.PI * -0.5F;
+		float pitch = 0;
 
-		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.scaffold, iicon, tessellator, rotation, true);
-		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
+		int meta = world.getBlockMetadata(x, y, z);
+
+		if(meta >= 12) {
+			pitch = (float) Math.PI * 0.5F;
+			rotation = (float) -Math.PI;
+			ox = x + 1.0F;
+			oy = y + 0.5F;
+		} else if(meta >= 8) {
+			rotation = (float) -Math.PI;
+		} else if(meta >= 4) {
+			pitch = (float) Math.PI * 0.5F;
+			oy = y + 0.5F;
+			oz = z;
+		}
+
+		tessellator.addTranslation(ox, oy, oz);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.scaffold, iicon, tessellator, rotation, pitch, true);
+		tessellator.addTranslation(-ox, -oy, -oz);
 
 		return true;
 	}

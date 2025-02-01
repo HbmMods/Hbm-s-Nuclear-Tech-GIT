@@ -5,12 +5,13 @@ import java.util.List;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -81,7 +82,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 		}
 
 		if(p_70645_1_.getEntity() instanceof EntitySkeleton || (p_70645_1_.isProjectile() && p_70645_1_.getEntity() instanceof EntityArrow && ((EntityArrow) (p_70645_1_.getEntity())).shootingEntity == null)) {
-			this.entityDropItem(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.STOCK), 1);
+			this.entityDropItem(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD), 1);
 		}
 	}
 

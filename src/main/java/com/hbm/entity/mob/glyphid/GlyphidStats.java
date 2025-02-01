@@ -28,15 +28,24 @@ public abstract class GlyphidStats {
 		public final double health;
 		public final double speed;
 		public final double damage;
-		public final float divisor;
-		public final float damageThreshold;
+		@Deprecated public final float divisor;
+		@Deprecated public final float damageThreshold;
+		/** Base threshold is calculated using this number * the glyphid's armor */
+		public final float thresholdMultForArmor;
+		public final float resistanceMult;
 		
 		public StatBundle(double health, double speed, double damage, float divisor, float damageThreshold) {
+			this(health, speed, damage, divisor, damageThreshold, 0F, 0F);
+		}
+		
+		public StatBundle(double health, double speed, double damage, float divisor, float damageThreshold, float thresholdMultPerArmor, float resistanceMult) {
 			this.health = health;
 			this.speed = speed;
 			this.damage = damage;
 			this.divisor = divisor;
 			this.damageThreshold = damageThreshold;
+			this.thresholdMultForArmor = thresholdMultPerArmor;
+			this.resistanceMult = resistanceMult;
 		}
 	}
 	
@@ -74,7 +83,7 @@ public abstract class GlyphidStats {
 
 				if(armor != 0) { //if at least one bit of armor is present
 
-					if(amount < glyphid.getDamageThreshold()) return false;
+					if(amount < glyphid.getStats().damageThreshold) return false;
 
 					 //chances of armor being broken off
 					if(amount > 1 && glyphid.isArmorBroken(amount)) {
@@ -82,11 +91,11 @@ public abstract class GlyphidStats {
 						amount *= 0.25F;
 					}
 
-					amount -= glyphid.getDamageThreshold();
+					amount -= glyphid.getStats().damageThreshold;
 					if(amount < 0) return true;
 				}
 
-				amount = glyphid.calculateDamage(amount);
+				//amount = glyphid.calculateDamage(amount);
 			}
 
 			if(source.isFireDamage()) {
@@ -111,64 +120,22 @@ public abstract class GlyphidStats {
 	public static class GlyphidStatsNT extends GlyphidStats {
 		
 		public GlyphidStatsNT() {
-			this.statsGrunt =		new StatBundle(20D,		1D,		2D,		0.25F,	0F);
-			this.statsBombardier =	new StatBundle(15D,		1D,		2D,		0.25F,	0F);
-			this.statsBrawler =		new StatBundle(35D,		1D,		10D,	0.5F,	0.5F);
-			this.statsDigger =		new StatBundle(50D,		1D,		10D,	0.5F,	0.5F);
-			this.statsBlaster =		new StatBundle(35D,		1D,		10D,	0.5F,	0.5F);
-			this.statsBehemoth =	new StatBundle(125D,	0.8D,	25D,	1.5F,	2F);
-			this.statsBrenda =		new StatBundle(250D,	1.2D,	50D,	2.5F,	5F);
-			this.statsNuclear =		new StatBundle(100D,	0.8D,	50D,	2.5F,	5F);
-			this.statsScout =		new StatBundle(20D,		1.5D,	5D,		0.5F,	0F);
+			this.statsGrunt =		new StatBundle(20D,		1D,		2D,		0.25F,	0F,		1F,		0.1F);
+			this.statsBombardier =	new StatBundle(15D,		1D,		2D,		0.25F,	0F,		1F,		0.1F);
+			this.statsBrawler =		new StatBundle(35D,		1D,		10D,	0.5F,	0.5F,	2F,		0.15F);
+			this.statsDigger =		new StatBundle(50D,		1D,		10D,	0.5F,	0.5F,	3F,		0.20F);
+			this.statsBlaster =		new StatBundle(35D,		1D,		10D,	0.5F,	0.5F,	2F,		0.15F);
+			this.statsBehemoth =	new StatBundle(125D,	0.8D,	25D,	1.5F,	2F,		5F,		0.35F);
+			this.statsBrenda =		new StatBundle(250D,	1.2D,	50D,	2.5F,	5F,		10F,	0.5F);
+			this.statsNuclear =		new StatBundle(100D,	0.8D,	50D,	2.5F,	5F,		10F,	0.5F);
+			this.statsScout =		new StatBundle(20D,		1.5D,	5D,		0.5F,	0F,		0.5F,	0.5F);
 		}
 
 		@Override
 		public boolean handleAttack(EntityGlyphid glyphid, DamageSource source, float amount) {
-			
 			// Completely immune to acid from other glyphids
 			if((source == ModDamageSource.acid || ModDamageSource.s_acid.equals(source.getDamageType())) && source.getSourceOfDamage() instanceof EntityGlyphid) return false;
-			
-			// If damage is armor piercing or nuclear damage, don't apply any armor calculation
-			if(isNuclearDamage(source) || source.isDamageAbsolute() || source.isUnblockable()) {
-				if(source == DamageSource.inWall) amount *= 15F;
-				return glyphid.attackSuperclass(source, amount);
-				// This ensures that nukes will remain hyper-effective
-			}
-			
-			// If damage is fire damage, reduce damage above 5 then ignore armor
-			if(source.isFireDamage()) {
-				float dmg = Math.min(amount, 5F);
-				if(amount > 5) dmg += (amount - 5F) * 0.1F;
-				return glyphid.attackSuperclass(source, dmg);
-				// This ensures that afterburn and flamethrowers remain effective wihin reason
-			}
-			
-			// If damage is explosive, reduce by 25% then ignore armor
-			if(source.isExplosion()) {
-				amount *= 0.5F;
-				return glyphid.attackSuperclass(source, amount);
-				// This ensures that explosions remain mostly effective
-			}
-
-			byte armor = glyphid.getDataWatcher().getWatchableObjectByte(glyphid.DW_ARMOR);
-			amount -= glyphid.getDamageThreshold();
-			if(amount < 0) return armor == 0; // if armor is present, knockback from 0 damage attacks is negated
-			
-			if(armor != 0) {
-				if(glyphid.isArmorBroken(amount)) {
-					glyphid.breakOffArmor();
-					amount *= 0.5F;
-				}
-				
-				amount = glyphid.calculateDamage((float) Math.min(amount, Math.sqrt(amount) * 50D / 7D));
-				// This ensures that higher numbers have a diminishing effect
-			}
-			
 			return glyphid.attackSuperclass(source, amount);
-		}
-		
-		public boolean isNuclearDamage(DamageSource source) {
-			return source == ModDamageSource.nuclearBlast || source == ModDamageSource.radiation;
 		}
 	}
 }

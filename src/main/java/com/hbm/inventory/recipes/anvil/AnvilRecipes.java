@@ -1,12 +1,15 @@
 package com.hbm.inventory.recipes.anvil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
-import com.hbm.inventory.OreNames;
 import com.hbm.inventory.OreDictManager.DictFrame;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -19,21 +22,21 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
-import com.hbm.items.ItemAmmoEnums.*;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 
-public class AnvilRecipes {
+public class AnvilRecipes extends SerializableRecipe {
 
 	private static List<AnvilSmithingRecipe> smithingRecipes = new ArrayList();
 	private static List<AnvilConstructionRecipe> constructionRecipes = new ArrayList();
@@ -42,6 +45,11 @@ public class AnvilRecipes {
 		registerSmithing();
 		registerConstruction();
 	}
+
+	@Override public String getFileName() { return "hbmAnvil.json"; }
+	@Override public Object getRecipeObject() { return constructionRecipes; }
+	@Override public void deleteRecipes() { constructionRecipes.clear(); }
+	@Override public void registerDefaults() { registerConstruction(); }
 	
 	/*
 	 *      //////  //      //  //  //////  //  //  //  //    //  //////
@@ -84,10 +92,11 @@ public class AnvilRecipes {
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.cobalt_decorated_shovel, 1), new ComparableStack(ModItems.cobalt_shovel), new ComparableStack(ModItems.ingot_meteorite)));
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.cobalt_decorated_hoe, 1), new ComparableStack(ModItems.cobalt_hoe), new ComparableStack(ModItems.ingot_meteorite)));
 
-		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.gun_ar15, 1), new ComparableStack(ModItems.gun_thompson), new ComparableStack(ModItems.pipe_lead)));
 		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 		smithingRecipes.add(new AnvilSmithingRecipe(4, new ItemStack(ModItems.flask_infusion, 1, EnumInfusion.SHIELD.ordinal()), new ComparableStack(ModItems.gem_alexandrite), new ComparableStack(ModItems.bottle_nuka)));
 
+		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.ingot_gunmetal, 1), new OreDictStack(CU.ingot()), new OreDictStack(AL.ingot())));
+		
 		smithingRecipes.add(new AnvilSmithingMold(0, new OreDictStack(GOLD.nugget()), new OreDictStack("nugget")));
 		smithingRecipes.add(new AnvilSmithingMold(1, new OreDictStack(U.billet()),  new OreDictStack("billet")));
 		smithingRecipes.add(new AnvilSmithingMold(2, new OreDictStack(IRON.ingot()),  new OreDictStack("ingot")));
@@ -110,17 +119,12 @@ public class AnvilRecipes {
 				new ItemStack(ModItems.stamp_titanium_flat),
 				new ItemStack(ModItems.stamp_obsidian_flat)
 				}));
-		smithingRecipes.add(new AnvilSmithingMold(8, new OreDictStack(STEEL.shell()), new OreDictStack(OreNames.SHELL)));
-		smithingRecipes.add(new AnvilSmithingMold(9, new OreDictStack(STEEL.pipe()), new OreDictStack(OreNames.PIPE)));
+		smithingRecipes.add(new AnvilSmithingMold(8, new OreDictStack(STEEL.shell()), new OreDictStack(MaterialShapes.SHELL.name())));
+		smithingRecipes.add(new AnvilSmithingMold(9, new OreDictStack(STEEL.pipe()), new OreDictStack(MaterialShapes.PIPE.name())));
 		smithingRecipes.add(new AnvilSmithingMold(10, new OreDictStack(IRON.ingot(), 9), new OreDictStack("ingot", 9)));
 		smithingRecipes.add(new AnvilSmithingMold(11, new OreDictStack(IRON.plate(), 9), new OreDictStack("plate", 9)));
 		smithingRecipes.add(new AnvilSmithingMold(12, new OreDictStack(IRON.block()), new OreDictStack("block")));
 		smithingRecipes.add(new AnvilSmithingMold(13, new ComparableStack(ModItems.pipes_steel), new ItemStack[] {new ItemStack(ModItems.pipes_steel)}));
-		smithingRecipes.add(new AnvilSmithingMold(14, new ComparableStack(ModItems.casing_357), new ItemStack[] {new ItemStack(ModItems.casing_357)}));
-		smithingRecipes.add(new AnvilSmithingMold(15, new ComparableStack(ModItems.casing_44), new ItemStack[] {new ItemStack(ModItems.casing_44)}));
-		smithingRecipes.add(new AnvilSmithingMold(16, new ComparableStack(ModItems.casing_9), new ItemStack[] {new ItemStack(ModItems.casing_9)}));
-		smithingRecipes.add(new AnvilSmithingMold(17, new ComparableStack(ModItems.casing_50), new ItemStack[] {new ItemStack(ModItems.casing_50)}));
-		smithingRecipes.add(new AnvilSmithingMold(18, new ComparableStack(ModItems.casing_buckshot), new ItemStack[] {new ItemStack(ModItems.casing_buckshot)}));
 		smithingRecipes.add(new AnvilSmithingMold(20, new OreDictStack(ALLOY.wireDense(), 1),  new OreDictStack("wireDense", 1)));
 		smithingRecipes.add(new AnvilSmithingMold(21, new OreDictStack(ALLOY.wireDense(), 9),  new OreDictStack("wireDense", 9)));
 		
@@ -145,14 +149,16 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(PB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_lead))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_copper))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(ALLOY.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_advanced_alloy))).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(SA326.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_schrabidium))).setTier(3));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CMB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_combine_steel))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(GUNMETAL.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_gunmetal))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(WEAPONSTEEL.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_weaponsteel))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(BIGMT.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_saturnite))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(DURA.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_dura_steel))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(SA326.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_schrabidium))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CMB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_combine_steel))).setTier(3));
 
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
-				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(OreNames.INGOT + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
+			if(mat.autogen.contains(MaterialShapes.WIRE) && OreDictionary.doesOreNameExist(MaterialShapes.INGOT.make(mat))) {
+				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MaterialShapes.INGOT.name() + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
 			}
 		}
 
@@ -182,12 +188,16 @@ public class AnvilRecipes {
 				new AStack[] {new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModBlocks.depth_brick)},
 				new AnvilOutput(new ItemStack(ModBlocks.depth_dnt))).setTier(1916169));
 
-		for(NTMMaterial mat : Mats.orderedList) if(mat.shapes.contains(MaterialShapes.SHELL)) constructionRecipes.add(new AnvilConstructionRecipe(
+		for(NTMMaterial mat : Mats.orderedList) if(mat.autogen.contains(MaterialShapes.SHELL)) constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack(MaterialShapes.PLATE.name() + mat.names[0], 4),
 				new AnvilOutput(new ItemStack(ModItems.shell, 1, mat.id))).setTier(1));
-		for(NTMMaterial mat : Mats.orderedList) if(mat.shapes.contains(MaterialShapes.PIPE)) constructionRecipes.add(new AnvilConstructionRecipe(
-				new OreDictStack(MaterialShapes.PLATE.name() + mat.names[0], 3),
-				new AnvilOutput(new ItemStack(ModItems.pipe, 1, mat.id))).setTier(1));
+		for(NTMMaterial mat : Mats.orderedList) if(mat.autogen.contains(MaterialShapes.PIPE)) {
+			String key = (OreDictionary.doesOreNameExist(MaterialShapes.PLATE.name() + mat.names[0]) ? 
+					MaterialShapes.PLATE.name() + mat.names[0] : MaterialShapes.INGOT.name() + mat.names[0]);
+			constructionRecipes.add(new AnvilConstructionRecipe(
+					new OreDictStack(key, 3),
+					new AnvilOutput(new ItemStack(ModItems.pipe, 1, mat.id))).setTier(1));
+		}
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.coil_copper, 2),
@@ -306,6 +316,14 @@ public class AnvilRecipes {
 						new OreDictStack(CU.plateCast(), 2),
 						new OreDictStack(KEY_BRICK, 16)
 				}, new AnvilOutput(new ItemStack(ModBlocks.furnace_combination))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(Blocks.stonebrick, 8),
+						new ComparableStack(ModItems.ingot_firebrick, 16),
+						new OreDictStack(IRON.ingot(), 4),
+						new OreDictStack(CU.plate(), 8),
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_rotary_furnace))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
@@ -515,13 +533,13 @@ public class AnvilRecipes {
 				new AStack[] {new OreDictStack(TI.plate(), 2), new OreDictStack(STEEL.ingot(), 1), new OreDictStack(STEEL.bolt(), 4)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_titanium))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(IRON.plate(), 4), new OreDictStack(BIGMT.plate(), 2), new ComparableStack(ModItems.plate_armor_titanium, 1)},
-				new AnvilOutput(new ItemStack(ModItems.plate_armor_ajr))).setTier(3));
+				new AStack[] {new OreDictStack(IRON.plate(), 6), new OreDictStack(NB.ingot(), 1), new ComparableStack(ModItems.plate_armor_titanium, 1)},
+				new AnvilOutput(new ItemStack(ModItems.plate_armor_ajr, 2))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(ALLOY.plate(), 4), new ComparableStack(ModItems.plate_armor_titanium, 1), new OreDictStack(W.wireFine(), 6)},
+				new AStack[] {new OreDictStack(ALLOY.plate(), 4), new ComparableStack(ModItems.plate_armor_titanium, 1), new OreDictStack(W.wireFine(), 8)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_hev))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(OreDictManager.getReflector(), 4), new OreDictStack(STAR.ingot(), 1), new OreDictStack(MAGTUNG.wireFine(), 6)},
+				new AStack[] {new OreDictStack(OreDictManager.getReflector(), 4), new OreDictStack(STAR.ingot(), 1), new OreDictStack(MAGTUNG.wireFine(), 8)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_lunar))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.ingot_meteorite_forged, 4), new OreDictStack(DESH.ingot(), 1), new ComparableStack(ModItems.billet_yharonite, 1)},
@@ -562,113 +580,25 @@ public class AnvilRecipes {
 	}
 	
 	public static void registerConstructionAmmo() {
-		
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_357))).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_44))).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_9))).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_50))).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_buckshot))).setTier(1));
 
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_iron_flat), new OreDictStack(GUNMETAL.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.stamp_9))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_iron_flat), new OreDictStack(GUNMETAL.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.stamp_50))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_desh_flat), new OreDictStack(WEAPONSTEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.stamp_desh_9))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_desh_flat), new OreDictStack(WEAPONSTEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.stamp_desh_50))).setTier(4));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(IRON.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 16))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(IRON.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 17))).setTier(1));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 22))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 23))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 24))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 25))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 26))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 27))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 28))).setTier(2));
+		
 		pullFromAssembler(new ComparableStack(ModItems.pellet_buckshot), 1);
 		pullFromAssembler(new ComparableStack(ModItems.pellet_canister), 1);
-
-		constructionRecipes.add(new AnvilConstructionRecipe( new AStack[]{
-				new ComparableStack(ModItems.powder_chlorophyte, 1),
-				new OreDictStack(PB.nugget(), 12),},
-				new AnvilOutput(new ItemStack(ModItems.pellet_chlorophyte, 2))).setTier(1));
-		
-		Object[][] recs = new Object[][] {
-			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.INCENDIARY),	2},
-			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.SHRAPNEL),		2},
-			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	U238.ingot(),										ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.DU),			3},
-			{ModItems.ammo_12gauge.stackFromEnum(120, Ammo12Gauge.STOCK),	ModItems.coin_maskman,								ModItems.ammo_12gauge.stackFromEnum(120, Ammo12Gauge.SLEEK),		4},
-
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.INCENDIARY),	2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHRAPNEL),		2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	ModItems.powder_poison,								ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.CAUSTIC),		2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	DIAMOND.dust(),										ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.SHOCK),			2},
-			{ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.STOCK),	Item.getItemFromBlock(Blocks.soul_sand),			ModItems.ammo_20gauge.stackFromEnum(12, Ammo20Gauge.WITHER),		3},
-			{ModItems.ammo_20gauge.stackFromEnum(120, Ammo20Gauge.STOCK),	ModItems.coin_maskman,								ModItems.ammo_20gauge.stackFromEnum(120, Ammo20Gauge.SLEEK),		4},
-
-			{ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.FLECHETTE),	P_WHITE.ingot(),				ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.FLECHETTE_PHOSPHORUS),	2},
-			{ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.EXPLOSIVE),	ModItems.egg_balefire_shard,	ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.BALEFIRE),				4},
-			{ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.EXPLOSIVE),	ModItems.ammo_rocket,			ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.KAMPF),					2},
-			{ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.KAMPF),		ModItems.pellet_canister,		ModItems.ammo_4gauge.stackFromEnum(12, Ammo4Gauge.CANISTER),				3},
-			{ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.STOCK),		ModItems.pellet_claws,			ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.CLAW),						5},
-			{ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.STOCK),		ModItems.toothpicks,			ModItems.ammo_4gauge.stackFromEnum(4, Ammo4Gauge.VAMPIRE),					5},
-			{ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.STOCK),			ModItems.pellet_charged,		ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VOID),						5},
-			{ModItems.ammo_4gauge.stackFromEnum(120, Ammo4Gauge.STOCK),		ModItems.coin_maskman,			ModItems.ammo_4gauge.stackFromEnum(120, Ammo4Gauge.SLEEK),					4},
-
-			{ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.STOCK),		DURA.ingot(),					ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.AP),			2},
-			{ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.STOCK),		U238.ingot(),					ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.DU),			2},
-			{ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.STOCK),		P_WHITE.ingot(),				ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.PHOSPHORUS),	2},
-			{ModItems.ammo_44.stackFromEnum(12, Ammo44Magnum.DU),			STAR.ingot(),					ModItems.ammo_44.stackFromEnum(12, Ammo44Magnum.STAR),			3},
-			{ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.STOCK),		ModItems.pellet_chlorophyte,	ModItems.ammo_44.stackFromEnum(24, Ammo44Magnum.CHLOROPHYTE),	3},
-
-			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.AP),				3},
-			{ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(32, Ammo45ACP.DU),				3},
-
-			{ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.EXPLOSIVE),		2},
-			{ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.DU),				2},
-			{ModItems.ammo_5mm.stackFromEnum(32, Ammo5mm.DU),		STAR.ingot(),							ModItems.ammo_5mm.stackFromEnum(32, Ammo5mm.STAR),				3},
-			{ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_5mm.stackFromEnum(128, Ammo5mm.CHLOROPHYTE),		3},
-
-			{ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.STOCK),	DURA.ingot(),							ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.AP),				2},
-			{ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.STOCK),	U238.ingot(),							ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.DU),				2},
-			{ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_9mm.stackFromEnum(32, Ammo9mm.CHLOROPHYTE),		3},
-
-			{ModItems.ammo_22lr.stackFromEnum(32, Ammo22LR.STOCK),	DURA.ingot(),							ModItems.ammo_22lr.stackFromEnum(32, Ammo22LR.AP),				2},
-			{ModItems.ammo_22lr.stackFromEnum(32, Ammo22LR.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_22lr.stackFromEnum(32, Ammo22LR.CHLOROPHYTE),		3},
-
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		P_RED.dust(),					ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.INCENDIARY),			2},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		P_WHITE.ingot(),				ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.PHOSPHORUS),			2},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		ModItems.ingot_semtex,			ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.EXPLOSIVE),				2},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		DURA.ingot(),					ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.AP),					2},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		U238.ingot(),					ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.DU),					2},
-			{ModItems.ammo_50bmg.stackFromEnum(8, Ammo50BMG.DU),			STAR.ingot(),					ModItems.ammo_50bmg.stackFromEnum(8, Ammo50BMG.STAR),					3},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		ModItems.pellet_chlorophyte,	ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.CHLOROPHYTE),			3},
-			{ModItems.ammo_50bmg.stackFromEnum(128, Ammo50BMG.STOCK),		ModItems.coin_maskman,			ModItems.ammo_50bmg.stackFromEnum(128, Ammo50BMG.SLEEK),				4},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.STOCK),		ModItems.pellet_flechette,		ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.FLECHETTE),				2},
-			{ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.FLECHETTE),	ModItems.nugget_am_mix,			ModItems.ammo_50bmg.stackFromEnum(16, Ammo50BMG.FLECHETTE_AM),			3},
-			{ModItems.ammo_50bmg.stackFromEnum(32, Ammo50BMG.FLECHETTE),	ModItems.powder_polonium,		ModItems.ammo_50bmg.stackFromEnum(32, Ammo50BMG.FLECHETTE_PO),			3},
-
-			{ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.STOCK),	DURA.ingot(),							ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.AP),						2},
-			{ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.STOCK),	U238.ingot(),							ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.DU),						2},
-			{ModItems.ammo_50ae.stackFromEnum(16, Ammo50AE.DU),		STAR.ingot(),							ModItems.ammo_50ae.stackFromEnum(16, Ammo50AE.STAR),					3},
-			{ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_50ae.stackFromEnum(32, Ammo50AE.CHLOROPHYTE),				3},
-
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		P_WHITE.ingot(),					ModItems.ammo_556.stackFromEnum(32, Ammo556mm.PHOSPHORUS),				2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		DURA.ingot(),						ModItems.ammo_556.stackFromEnum(32, Ammo556mm.AP),						2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		U238.ingot(),						ModItems.ammo_556.stackFromEnum(32, Ammo556mm.DU),						2},
-			{ModItems.ammo_556.stackFromEnum(16, Ammo556mm.DU),			STAR.ingot(),						ModItems.ammo_556.stackFromEnum(16, Ammo556mm.STAR),					3},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		ModItems.pellet_chlorophyte,		ModItems.ammo_556.stackFromEnum(32, Ammo556mm.CHLOROPHYTE),				3},
-			{ModItems.ammo_556.stackFromEnum(128, Ammo556mm.STOCK),		ModItems.coin_maskman,				ModItems.ammo_556.stackFromEnum(128, Ammo556mm.SLEEK),					4},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		Items.redstone,						ModItems.ammo_556.stackFromEnum(32, Ammo556mm.TRACER),					2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.STOCK),		ModItems.pellet_flechette,			ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE),				2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE),	P_RED.dust(),						ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE_INCENDIARY),	2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE),	P_WHITE.ingot(),					ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE_PHOSPHORUS),	2},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE),	U238.ingot(),						ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE_DU),			2},
-			{ModItems.ammo_556.stackFromEnum(100, Ammo556mm.FLECHETTE),	ModItems.coin_maskman,				ModItems.ammo_556.stackFromEnum(128, Ammo556mm.FLECHETTE_SLEEK),		4},
-			{ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE),	ModItems.pellet_chlorophyte,		ModItems.ammo_556.stackFromEnum(32, Ammo556mm.FLECHETTE_CHLOROPHYTE),	3},
-
-			{ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.STOCK),	Items.redstone,						ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.TRACER),				2},
-			{ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.STOCK),	DURA.ingot(),						ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.AP),					2},
-			{ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.STOCK),	P_WHITE.ingot(),					ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.PHOSPHORUS),			2},
-			{ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.STOCK),	U238.ingot(),						ModItems.ammo_762.stackFromEnum(32, Ammo762NATO.DU),					2}
-		};
-		
-		for(Object[] objs : recs) {
-			
-			ComparableStack ammoIn = new ComparableStack((ItemStack) objs[0]);
-			ItemStack out = (ItemStack) objs[2];
-			
-			if(objs[1] instanceof Item) {
-				constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] { ammoIn, new ComparableStack((Item)objs[1], 1) }, new AnvilOutput(out)).setTier((int)objs[3]));
-				
-			} else if(objs[1] instanceof String) {
-				constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] { ammoIn, new OreDictStack((String)objs[1], 1) }, new AnvilOutput(out)).setTier((int)objs[3]));
-			}
-		}
 	}
 	
 	public static void registerConstructionUpgrades() {
@@ -1145,6 +1075,12 @@ public class AnvilRecipes {
 			this.setOverlay(OverlayType.NONE); //no preferred overlay for many:many conversions
 		}
 		
+		public AnvilConstructionRecipe(AStack[] input, Pair<ItemStack, Float>[] output) {
+			for(AStack stack : input) this.input.add(stack);
+			for(Pair<ItemStack, Float> out : output) this.output.add(new AnvilOutput(out.getKey(), out.getValue()));
+			this.setOverlay(OverlayType.NONE); //no preferred overlay for many:many conversions
+		}
+		
 		public AnvilConstructionRecipe setTier(int tier) {
 			this.tierLower = tier;
 			if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMUnlockAnvil) this.tierLower = 1;
@@ -1210,5 +1146,43 @@ public class AnvilRecipes {
 		CONSTRUCTION,
 		RECYCLING,
 		SMITHING;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		
+		AStack[] inputs = this.readAStackArray(obj.get("inputs").getAsJsonArray());
+		Pair<ItemStack, Float>[] outputs = this.readItemStackArrayChance(obj.get("outputs").getAsJsonArray());
+
+		int tierLower = obj.get("tierLower").getAsInt();
+		int tierUpper = obj.has("tierUpper") ? obj.get("tierUpper").getAsInt() : -1;
+		
+		OverlayType overlay = OverlayType.NONE;
+		if(obj.has("overlay")) {
+			String overlayName = obj.get("overlay").getAsString();
+			overlay = OverlayType.valueOf(overlayName);
+			if(overlay == null) overlay = OverlayType.NONE;
+		}
+		
+		this.constructionRecipes.add(new AnvilConstructionRecipe(inputs, outputs).setTierRange(tierLower, tierUpper).setOverlay(overlay));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		AnvilConstructionRecipe rec = (AnvilConstructionRecipe) recipe;
+		
+		writer.name("inputs").beginArray();
+		for(AStack stack : rec.input) this.writeAStack(stack, writer);
+		writer.endArray();
+		
+		writer.name("outputs").beginArray();
+		for(AnvilOutput stack : rec.output) this.writeItemStackChance(new Pair(stack.stack, stack.chance), writer);
+		writer.endArray();
+
+		writer.name("tierLower").value(rec.tierLower);
+		writer.name("tierUpper").value(rec.tierUpper);
+		
+		writer.name("overlay").value(rec.overlay.name());
 	}
 }

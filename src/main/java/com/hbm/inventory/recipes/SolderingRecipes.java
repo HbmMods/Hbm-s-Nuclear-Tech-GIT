@@ -110,6 +110,7 @@ public class SolderingRecipes extends SerializableRecipe {
 
 		// a very, very vague guess on what the recipes should be. testing still needed, upgrade requirements are likely to change. maybe inclusion of caesium?
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER.ordinal()), 400, 15_000,
+				new FluidStack(Fluids.PERFLUOROMETHYL, 1_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CHIP),
 						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CAPACITOR),
@@ -121,6 +122,7 @@ public class SolderingRecipes extends SerializableRecipe {
 						new OreDictStack(PB.wireFine(), 16)}
 		));
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()), 600, 25_000,
+				new FluidStack(Fluids.PERFLUOROMETHYL, 4_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, lbsm ? 8 : 16, EnumCircuitType.CHIP_BISMOID),
 						new ComparableStack(ModItems.circuit, lbsm ? 16 : 48, EnumCircuitType.CAPACITOR_TANTALIUM),
@@ -132,6 +134,7 @@ public class SolderingRecipes extends SerializableRecipe {
 						new OreDictStack(PB.wireFine(), 24)}
 		));
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_QUANTUM.ordinal()), 600, 250_000,
+				new FluidStack(Fluids.PERFLUOROMETHYL_COLD, 6_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, lbsm ? 8 : 16, EnumCircuitType.CHIP_QUANTUM),
 						new ComparableStack(ModItems.circuit, lbsm ? 16 : 48, EnumCircuitType.CHIP_BISMOID),

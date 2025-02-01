@@ -4,21 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.inventory.gui.GUITurretHoward;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -29,7 +28,7 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.DGK_NORMAL);
+		configs.add(XFactoryTurret.dgk_normal.id);
 	}
 	
 	@Override
@@ -115,7 +114,7 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 		} else {
 			
 			if(loaded <= 0) {
-				BulletConfiguration conf = this.getFirstConfigLoaded();
+				BulletConfig conf = this.getFirstConfigLoaded();
 				
 				if(conf != null) {
 					this.conusmeAmmo(conf.ammo);
@@ -216,7 +215,7 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretHoward(player.inventory, this);
 	}
 }

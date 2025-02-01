@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
 import com.hbm.inventory.container.ContainerElectrolyserMetal;
 import com.hbm.inventory.fluid.Fluids;
@@ -23,11 +24,9 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecip
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.I18nUtil;
@@ -39,7 +38,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -50,15 +49,15 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
-	
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IMetalCopiable {
+
 	public long power;
 	public static final long maxPower = 20000000;
 	public static final int usageOreBase = 10_000;
 	public static final int usageFluidBase = 10_000;
 	public int usageOre;
 	public int usageFluid;
-	
+
 	public int progressFluid;
 	public int processFluidTime = 100;
 	public int progressOre;
@@ -69,6 +68,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int maxMaterial = MaterialShapes.BLOCK.q(16);
 
 	public FluidTank[] tanks;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public TileEntityElectrolyser() {
 		//0: Battery
@@ -131,12 +132,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 
-			UpgradeManager.eval(slots, 1, 2);
-			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			upgradeManager.checkSlots(this, slots, 1, 2);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 
-			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
-			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
+			usageOre = usageOreBase - usageOreBase * powerLevel / 4 + usageOreBase * speedLevel;
+			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4 + usageFluidBase * speedLevel;
 
 			for(int i = 0; i < getCycleCount(); i++) {
 				if (this.canProcessFluid()) {
@@ -208,24 +209,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("progressFluid", this.progressFluid);
-			data.setInteger("progressOre", this.progressOre);
-			data.setInteger("usageOre", this.usageOre);
-			data.setInteger("usageFluid", this.usageFluid);
-			data.setInteger("processFluidTime", this.getDurationFluid());
-			data.setInteger("processOreTime", this.getDurationMetal());
-			if(this.leftStack != null) {
-				data.setInteger("leftType", leftStack.material.id);
-				data.setInteger("leftAmount", leftStack.amount);
-			}
-			if(this.rightStack != null) {
-				data.setInteger("rightType", rightStack.material.id);
-				data.setInteger("rightAmount", rightStack.amount);
-			}
-			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "t" + i);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
 
@@ -244,21 +228,47 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeInt(this.progressFluid);
+		buf.writeInt(this.progressOre);
+		buf.writeInt(this.usageOre);
+		buf.writeInt(this.usageFluid);
+		buf.writeInt(this.getDurationFluid());
+		buf.writeInt(this.getDurationMetal());
+		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+		buf.writeBoolean(this.leftStack != null);
+		buf.writeBoolean(this.rightStack != null);
+		if(this.leftStack != null) {
+			buf.writeInt(leftStack.material.id);
+			buf.writeInt(leftStack.amount);
+		}
+		if(this.rightStack != null) {
+			buf.writeInt(rightStack.material.id);
+			buf.writeInt(rightStack.amount);
+		}
+	}
 
-		this.power = nbt.getLong("power");
-		this.progressFluid = nbt.getInteger("progressFluid");
-		this.progressOre = nbt.getInteger("progressOre");
-		this.usageOre = nbt.getInteger("usageOre");
-		this.usageFluid = nbt.getInteger("usageFluid");
-		this.processFluidTime = nbt.getInteger("processFluidTime");
-		this.processOreTime = nbt.getInteger("processOreTime");
-		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
-		else this.leftStack = null;
-		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
-		else this.rightStack = null;
-		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.progressFluid = buf.readInt();
+		this.progressOre = buf.readInt();
+		this.usageOre = buf.readInt();
+		this.usageFluid = buf.readInt();
+		this.processFluidTime = buf.readInt();
+		this.processOreTime = buf.readInt();
+		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
+		boolean left = buf.readBoolean();
+		boolean right = buf.readBoolean();
+		if(left) {
+			this.leftStack = new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt());
+		}
+		if(right) {
+			this.rightStack = new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt());
+		}
 	}
 
 	public boolean canProcessFluid() {
@@ -383,19 +393,19 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
 		int base = result != null ? result.duration : 600;
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) - Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 1);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - Math.min(upgradeManager.getLevel(UpgradeType.POWER), 1);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 	}
 	public int getDurationFluid() {
 		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
 		int base = result != null ? result.duration : 100;
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) - Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 1);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - Math.min(upgradeManager.getLevel(UpgradeType.POWER), 1);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 
 	}
 
 	public int getCycleCount() {
-		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		int speed = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 		return Math.min(1 + speed * 2, 7);
 	}
 
@@ -499,14 +509,14 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(ID == 0) return new GUIElectrolyserFluid(player.inventory, this);
 		return new GUIElectrolyserMetal(player.inventory, this);
 	}
 
 	@Override
 	public void receiveControl(NBTTagCompound data) { }
-	
+
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
@@ -541,10 +551,55 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tanks[0];
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound tag = new NBTTagCompound();
+		if(getFluidIDToCopy().length > 0)
+			tag.setIntArray("fluidID", getFluidIDToCopy());
+		if(getMatsToCopy().length > 0)
+			tag.setIntArray("matFilter", getMatsToCopy());
+		return tag;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		IFluidCopiable.super.pasteSettings(nbt, index, world, player, x, y, z);
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		ArrayList<String> names = new ArrayList<>();
+		int[] fluidIDs = getFluidIDToCopy();
+		int[] matIDs = getMatsToCopy();
+
+		for (int fluidID : fluidIDs) {
+			names.add(Fluids.fromID(fluidID).getUnlocalizedName());
+		}
+		for (int matID : matIDs) {
+			names.add(Mats.matById.get(matID).getUnlocalizedName());
+		}
+
+		return names.toArray(new String[0]);
+	}
+
+	@Override
+	public int[] getMatsToCopy() {
+		ArrayList<Integer> types = new ArrayList<>();
+		if(leftStack != null)	types.add(leftStack.material.id);
+		if(rightStack != null)	types.add(rightStack.material.id);
+		return BobMathUtil.intCollectionToArray(types);
 	}
 }

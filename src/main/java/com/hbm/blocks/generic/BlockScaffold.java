@@ -16,6 +16,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockScaffold extends BlockMulti {
 	
@@ -59,22 +60,34 @@ public class BlockScaffold extends BlockMulti {
 	public IIcon getIcon(int side, int meta) {
 		return this.icons[this.damageDropped(meta)];
 	}
+
+	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float fx, float fy, float fz, int meta) {
+		return side;
+	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		ForgeDirection placed = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 		int meta = stack.getItemDamage();
-
-		if(i % 2 == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		
+		if(placed == ForgeDirection.UP || placed == ForgeDirection.DOWN) {
+			int rot = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			if(rot % 2 == 0) {
+				world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+			} else {
+				world.setBlockMetadataWithNotify(x, y, z, meta + 8, 2);
+			}
+		} else if(placed == ForgeDirection.NORTH || placed == ForgeDirection.SOUTH) {
+			world.setBlockMetadataWithNotify(x, y, z, meta + 4, 2);
 		} else {
-			world.setBlockMetadataWithNotify(x, y, z, meta + 8, 2);
+			world.setBlockMetadataWithNotify(x, y, z, meta + 12, 2);
 		}
 	}
 
 	@Override
 	public int damageDropped(int meta) {
-		return rectify(meta) & 7;
+		return rectify(meta);
 	}
 
 	@Override
@@ -83,27 +96,24 @@ public class BlockScaffold extends BlockMulti {
 	}
 	
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
-		int te = p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_);
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
 		float f = 0.0625F;
 		
-		if((te & 8) != 0)
+		if(meta >= 12) {
+			this.setBlockBounds(0.0F, 2 * f, 0.0F, 1.0F, 14 * f, 1.0F);
+		} else if(meta >= 8) {
 			this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
-		else
+		} else if(meta >= 4) {
+			this.setBlockBounds(0.0F, 2 * f, 0.0F, 1.0F, 14 * f, 1.0F);
+		} else {
 			this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+		}
 	}
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-
-		int te = world.getBlockMetadata(x, y, z);
-		float f = 0.0625F;
-		
-		if((te & 8) != 0)
-			this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
-		else
-			this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
-
+		setBlockBoundsBasedOnState(world, x, y, z);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 }

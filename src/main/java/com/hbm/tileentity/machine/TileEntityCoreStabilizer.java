@@ -14,11 +14,11 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -93,11 +93,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 				}
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("watts", watts);
-			data.setInteger("beam", beam);
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
 	
@@ -106,13 +102,23 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getLong("power");
-		watts = data.getInteger("watts");
-		beam = data.getInteger("beam");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(watts);
+		buf.writeInt(beam);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.watts = buf.readInt();
+		this.beam = buf.readInt();
 	}
 	
 	public long getPowerScaled(long i) {
@@ -225,7 +231,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreStabilizer(player.inventory, this);
 	}
 

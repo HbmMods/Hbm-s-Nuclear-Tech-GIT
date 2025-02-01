@@ -1,13 +1,14 @@
 package com.hbm.lib;
 
-import com.hbm.entity.projectile.*;
-
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMinerBeam;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class ModDamageSource extends DamageSource {
-	
+
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
 	public static DamageSource acid = (new DamageSource("acid")); //.setDamageBypassesArmor();
@@ -93,18 +94,6 @@ public class ModDamageSource extends DamageSource {
 
 	public static DamageSource euthanized(Entity ent, Entity hit) {
 		return (new EntityDamageSourceIndirect(s_euthanized, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeFireDamage(EntityFire ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_flamethrower, ent, hit)).setFireDamage().setDamageBypassesArmor();
-	}
-
-	public static DamageSource causePlasmaDamage(EntityPlasmaBeam ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_immolator, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeIceDamage(EntityLN2 ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_cryolator, ent, hit)).setDamageBypassesArmor();
 	}
 
 	public static DamageSource causeLaserDamage(EntityLaserBeam ent, Entity hit) {

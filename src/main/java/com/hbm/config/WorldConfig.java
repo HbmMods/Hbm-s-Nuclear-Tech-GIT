@@ -24,7 +24,6 @@ public class WorldConfig {
 	public static int rareSpawn = 6;
 	public static int lithiumSpawn = 6;
 	public static int cinnebarSpawn = 1;
-	public static int oilcoalSpawn = 128;
 	public static int gassshaleSpawn = 5;
 	public static int gasbubbleSpawn = 12;
 	public static int explosivebubbleSpawn = 0;
@@ -63,7 +62,6 @@ public class WorldConfig {
 	public static int copperClusterSpawn = 4;
 	public static int alexandriteSpawn = 100;
 
-	public static int malachiteSpawn = 1;
 	public static int limestoneSpawn = 1;
 
 	public static int netherUraniumuSpawn = 8;
@@ -75,9 +73,6 @@ public class WorldConfig {
 	public static int netherCobaltSpawn = 2;
 
 	public static int endTikiteSpawn = 8;
-
-	public static boolean enableRandom = false;
-	public static int randomSpawn = 0;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -144,7 +139,6 @@ public class WorldConfig {
 		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Amount of asbestos ore veins per chunk", 2);
 		lithiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.13_lithiumSpawnRate", "Amount of schist lithium ore veins per chunk", 6);
 		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Amount of rare earth ore veins per chunk", 6);
-		oilcoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.15_oilCoalSpawnRate", "Spawns an oily coal vein every nTH chunk", 128);
 		gassshaleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.16_gasShaleSpawnRate", "Amount of oil shale veins per chunk", 5);
 		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 12);
 		cinnebarSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cinnebarSpawnRate", "Amount of cinnebar ore veins per chunk", 1);
@@ -185,7 +179,6 @@ public class WorldConfig {
 		aluminiumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C02_aluminiumClusterSpawn", "Amount of aluminium cluster veins per chunk", 3);
 		copperClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C03_copperClusterSpawn", "Amount of copper cluster veins per chunk", 4);
 
-		malachiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L01_malachiteSpawn", "Amount of malachite block veins per chunk", 1);
 		limestoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L02_limestoneSpawn", "Amount of limestone block veins per chunk", 1);
 
 		netherUraniumuSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N00_uraniumSpawnrate", "Amount of nether uranium per chunk", 8);
@@ -197,9 +190,6 @@ public class WorldConfig {
 		netherCobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N06_cobaltSpawnrate", "Amount of nether cobalt per chunk", 2);
 
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
-
-		enableRandom = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.R00_enableRandomOre", "Amount of random ore per chunk", false);
-		randomSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.R01_randomOreSpawnrate", "Amount of random ore per chunk", 0);
 
 		final String CATEGORY_DUNGEON = CommonConfig.CATEGORY_DUNGEONS;
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);

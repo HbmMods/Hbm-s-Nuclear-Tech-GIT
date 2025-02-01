@@ -7,10 +7,10 @@ import codechicken.nei.api.INEIGuiHandler;
 import codechicken.nei.api.TaggedInventoryArea;
 import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerBase;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
+
 import cpw.mods.fml.common.Optional;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,6 +22,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -40,36 +41,36 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 	public GuiInfoContainer(Container p_i1072_1_) {
 		super(p_i1072_1_);
 	}
-	
+
 	public void drawElectricityInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			gui.drawInfo(new String[] { BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
 	}
-	
+
 	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String... text) { drawCustomInfoStat(mouseX, mouseY, x, y, width, height, tPosX, tPosY, Arrays.asList(text)); }
-	
+
 	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, List text) {
-		
+
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			this.func_146283_a(text, tPosX, tPosY);
 	}
-	
+
 	public void drawInfo(String[] text, int x, int y) {
 		this.func_146283_a(Arrays.asList(text), x, y);
 	}
-	
+
 	/** Automatically grabs upgrade info out of the tile entity if it's a IUpgradeInfoProvider and crams the available info into a list for display. Automation, yeah! */
 	public List<String> getUpgradeInfo(TileEntity tile) {
 		List<String> lines = new ArrayList();
-		
+
 		if(tile instanceof IUpgradeInfoProvider) {
 			IUpgradeInfoProvider provider = (IUpgradeInfoProvider) tile;
-			
+
 			lines.add(I18nUtil.resolveKey("upgrade.gui.title"));
-			
+
 			for(UpgradeType type : UpgradeType.values()) {
 				if(provider.canProvideInfo(type, 0, false)) {
-					int maxLevel = provider.getMaxLevel(type);
+					int maxLevel = provider.getValidUpgrades().get(type);
 					switch(type) {
 					case SPEED: lines.add(I18nUtil.resolveKey("upgrade.gui.speed", maxLevel)); break;
 					case POWER: lines.add(I18nUtil.resolveKey("upgrade.gui.power", maxLevel)); break;
@@ -81,20 +82,20 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 				}
 			}
 		}
-		
+
 		return lines;
 	}
-	
+
 	@Deprecated
 	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			this.func_146283_a(Arrays.asList(text), mouseX, mouseY);
 	}
-	
+
 	public void drawInfoPanel(int x, int y, int width, int height, int type) {
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiUtil);
-		
+
 		switch(type) {
 		case 0: drawTexturedModalRect(x, y, 0, 0, 8, 8); break; //Small blue I
 		case 1: drawTexturedModalRect(x, y, 0, 8, 8, 8); break; //Small green I
@@ -110,7 +111,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 		case 11: drawTexturedModalRect(x, y, 24, 32, 16, 16); break; //Large grey *
 		}
 	}
-	
+
 	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
 		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
@@ -130,32 +131,32 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 
 		return null;
 	}
-	
+
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
 	}
-	
+
 	/* Getters for external use of the GUI's rect rendering, such as NumberDisplay */
 	public int getGuiTop() {
 		return this.guiTop;
 	}
-	
+
 	public int getGuiLeft() {
 		return this.guiLeft;
 	}
-	
+
 	public float getZLevel() {
 		return this.zLevel;
 	}
-	
+
 	public void setZLevel(float level) {
 		this.zLevel = level;
 	}
-	
+
 	public RenderItem getItemRenderer() {
 		return this.itemRender;
 	}
-	
+
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
 	}
@@ -175,7 +176,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 	}
 
 	protected void drawStackText(List lines, int x, int y, FontRenderer font) {
-		
+
 		if(!lines.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
@@ -189,11 +190,11 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 			while(iterator.hasNext()) {
 				Object[] line = (Object[]) iterator.next();
 				int lineWidth = 0;
-				
+
 				boolean hasStack = false;
-				
+
 				for(Object o : line) {
-					
+
 					if(o instanceof String) {
 						lineWidth += font.getStringWidth((String) o);
 					} else {
@@ -201,7 +202,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 						hasStack = true;
 					}
 				}
-				
+
 				if(hasStack) {
 					height += 18;
 				} else {
@@ -243,19 +244,19 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 			this.drawGradientRect(minX - 3, minY + height + 2, minX + longestline + 3, minY + height + 3, color1, color1);
 
 			for(int index = 0; index < lines.size(); ++index) {
-				
+
 				Object[] line = (Object[]) lines.get(index);
 				int indent = 0;
 				boolean hasStack = false;
-				
+
 				for(Object o : line) {
 					if(!(o instanceof String)) {
 						hasStack = true;
 					}
 				}
-				
+
 				for(Object o : line) {
-					
+
 					if(o instanceof String) {
 						font.drawStringWithShadow((String) o, minX + indent, minY + (hasStack ? 4 : 0), -1);
 						indent += font.getStringWidth((String) o) + 2;
@@ -291,6 +292,11 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
+	
+	public void click() {
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	}
+	
 	///NEI drag and drop support
 	@Override
 	@Optional.Method(modid = "NotEnoughItems")
@@ -301,10 +307,10 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 				if(inventorySlots instanceof ContainerBase) {
 					NBTTagCompound tag = new NBTTagCompound();
 					tag.setInteger("slot", slot.slotNumber);
-					//Item IDs are usually dangerous, but this is only getting called from clientside, while ingame anyway
-					//if someone somehow gets an ID shift with this i will eat my shoe - 70k
-					tag.setInteger("id", Item.getIdFromItem(stack.getItem()));
-					tag.setInteger("meta", stack.getItemDamage());
+
+					NBTTagCompound item = new NBTTagCompound();
+					stack.writeToNBT(item);
+					tag.setTag("stack", item);
 
 					TileEntity te = (TileEntity) ((ContainerBase) inventorySlots).tile;
 					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(tag, te.xCoord, te.yCoord, te.zCoord));

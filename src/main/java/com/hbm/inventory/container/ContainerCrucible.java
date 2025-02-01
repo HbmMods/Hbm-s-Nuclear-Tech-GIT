@@ -39,6 +39,12 @@ public class ContainerCrucible extends Container {
 	}
 
 	@Override
+	public ItemStack slotClick(int slot, int button, int mode, EntityPlayer player) {
+		if(mode == 2) return null;
+		return super.slotClick(slot, button, mode, player);
+	}
+
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack stack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);

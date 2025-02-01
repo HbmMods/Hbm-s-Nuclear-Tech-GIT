@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.CombinationRecipes;
 public class CombinationHandler extends NEIUniversalHandler {
 
 	public CombinationHandler() {
-		super("Combination Furnace", ModBlocks.furnace_combination, CombinationRecipes.getRecipes());
+		super(ModBlocks.furnace_combination.getLocalizedName(), ModBlocks.furnace_combination, CombinationRecipes.getRecipes());
 	}
 
 	@Override

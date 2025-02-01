@@ -19,13 +19,9 @@ import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IOverpressurable;
-import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.IRepairable;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
@@ -37,7 +33,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -53,7 +48,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable{
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -382,13 +377,23 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[] {tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
 	}
 

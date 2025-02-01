@@ -24,8 +24,8 @@ import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.ItemFolderPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.MixerRecipes;
 public class MixerHandler extends NEIUniversalHandler {
 
 	public MixerHandler() {
-		super("Mixer", ModBlocks.machine_mixer, MixerRecipes.getRecipes());
+		super(ModBlocks.machine_mixer.getLocalizedName(), ModBlocks.machine_mixer, MixerRecipes.getRecipes());
 	}
 
 	@Override

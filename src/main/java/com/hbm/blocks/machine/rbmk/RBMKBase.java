@@ -3,6 +3,8 @@ package com.hbm.blocks.machine.rbmk;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKLid;
 import com.hbm.lib.RefStrings;
@@ -11,6 +13,7 @@ import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
 import api.hbm.block.IToolable;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -170,6 +173,10 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 				int i = rbmk.getBlockMetadata();
 				
 				if(rbmk.hasLid() && rbmk.isLidRemovable()) {
+
+					RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(new BlockPos(te));
+					if (node != null)
+						node.removeLid();
 					
 					if(!world.isRemote) {
 						if(i == DIR_NORMAL_LID.ordinal() + offset) {

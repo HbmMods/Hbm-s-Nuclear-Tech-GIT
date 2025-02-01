@@ -1,5 +1,10 @@
 package com.hbm.util;
 
+import com.google.common.collect.Sets;
+import com.hbm.config.GeneralConfig;
+import com.hbm.main.ModEventHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
+
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -7,12 +12,6 @@ import java.util.Base64;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
-import com.hbm.config.GeneralConfig;
-import com.hbm.main.ModEventHandler;
-
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 /**
  * Handles anything regarding hashes, base64 encoding, etc. Shady looking stuff, that is
@@ -54,13 +53,13 @@ public class ShadyUtil {
 	public static String Alcater = "0b399a4a-8545-45a1-be3d-ece70d7d48e9";
 	public static String ege444 = "42ee978c-442a-4cd8-95b6-29e469b6df10";
 	public static String LePeeperSauvage = "433c2bb7-018c-4d51-acfe-27f907432b5e";
-	
+
 	public static final Set<String> hashes = new HashSet();
 	static {
 		hashes.add("41de5c372b0589bbdb80571e87efa95ea9e34b0d74c6005b8eab495b7afd9994");
 		hashes.add("31da6223a100ed348ceb3254ceab67c9cc102cb2a04ac24de0df3ef3479b1036");
 	}
-	
+
 	public static final int c = 0x3d;
 	public static String initializer =	"Ur bp7mN-@UFZKXBx9N[/>M'k\\7\\9m3b";
 	public static String signature =	"dYPq\\YzrNpfn[ZDxdk7PS2jhTY72cZT7SoH|\\WL3dIznfC";
@@ -74,11 +73,11 @@ public class ShadyUtil {
 			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
 			"ccd9aa1c-26b9-4dde-8f37-b96f8d99de22", //kakseao
 			});
-	
+
 	// simple cryptographic utils
 	public static String encode(String msg) { return Base64.getEncoder().encodeToString(msg.getBytes()); }
 	public static String decode(String msg) { return new String(Base64.getDecoder().decode(msg)); }
-	
+
 	public static String offset(String msg, int o) {
 		byte[] bytes = msg.getBytes();
 		for(int i = 0; i < bytes.length; i++) {
@@ -86,10 +85,10 @@ public class ShadyUtil {
 		}
 		return new String(bytes);
 	}
-	
+
 	/** Encryptor for the h-cat answer strings */
 	public static String smoosh(String s1, String s2, String s3, String s4) {
-		
+
 		Random rand = new Random();
 		String s = "";
 
@@ -97,9 +96,9 @@ public class ShadyUtil {
 		byte[] b2 = s2.getBytes();
 		byte[] b3 = s3.getBytes();
 		byte[] b4 = s4.getBytes();
-		
+
 		if(b1.length == 0 || b2.length == 0 || b3.length == 0 || b4.length == 0) return "";
-		
+
 		s += s1;
 		rand.setSeed(b1[0]);
 		s += rand.nextInt(0xffffff);
@@ -117,7 +116,7 @@ public class ShadyUtil {
 		s += rand.nextInt(0xffffff);
 		return getHash(s);
 	}
-	
+
 	/** Simple SHA256 call */
 	public static String getHash(String inp) {
 		try {
@@ -129,10 +128,10 @@ public class ShadyUtil {
 		} catch(NoSuchAlgorithmException e) { }
 		return "";
 	}
-	
+
 	public static void test() {
 		if(!GeneralConfig.enableDebugMode) return; //only run in debug mode
-		
+
 		try {
 			Class test = Class.forName(decode(offset(signature, -2)));
 			Field field = ReflectionHelper.findField(test, decode(offset(checksum, -2)));

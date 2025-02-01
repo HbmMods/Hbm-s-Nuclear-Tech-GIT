@@ -193,7 +193,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				for(int j = 0; j < list.size(); ++j) {
 					Entity entity = (Entity) list.get(j);
 					
-					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay())) {
+					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay()) && entity.isEntityAlive()) {
 						double hitbox = 0.3F;
 						AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
 						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
@@ -235,21 +235,11 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				float hyp = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 				this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 		
-				for(this.rotationPitch = (float) (Math.atan2(this.motionY, (double) hyp) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-					;
-				}
+				for(this.rotationPitch = (float) (Math.atan2(this.motionY, (double) hyp) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
 		
-				while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-					this.prevRotationPitch += 360.0F;
-				}
-		
-				while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
-					this.prevRotationYaw -= 360.0F;
-				}
-		
-				while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-					this.prevRotationYaw += 360.0F;
-				}
+				while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
+				while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
+				while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
 		
 				this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
 				this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;

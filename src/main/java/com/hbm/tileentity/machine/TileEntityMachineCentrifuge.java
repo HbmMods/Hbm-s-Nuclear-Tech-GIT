@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerCentrifuge;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
@@ -27,7 +28,6 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -39,18 +39,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IConfigurableMachine{
-	
+
 	public int progress;
 	public long power;
 	public boolean isProgressing;
 	private int audioDuration = 0;
-	
+
 	private AudioWrapper audio;
 
 	//configurable values
 	public static int maxPower = 100000;
 	public static int processingSpeed = 200;
 	public static int baseConsumption = 200;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public String getConfigName() {
 		return "centrifuge";
@@ -71,7 +73,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	/*
 	 * So why do we do this now? You have a funny mekanism/thermal/whatever pipe and you want to output stuff from a side
-	 * that isn't the bottom, what do? Answer: make all slots accessible from all sides and regulate in/output in the 
+	 * that isn't the bottom, what do? Answer: make all slots accessible from all sides and regulate in/output in the
 	 * dedicated methods. Duh.
 	 */
 	private static final int[] slot_io = new int[] { 0, 2, 3, 4, 5 };
@@ -79,11 +81,11 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public TileEntityMachineCentrifuge() {
 		super(8);
 	}
-	
+
 	public String getName() {
 		return "container.centrifuge";
 	}
-	
+
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return i == 0;
@@ -127,7 +129,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			return false;
 		}
 		ItemStack[] out = CentrifugeRecipes.getOutput(slots[0]);
-		
+
 		if(out == null) {
 			return false;
 		}
@@ -176,7 +178,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public boolean isProcessing() {
 		return this.progress > 0;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 
@@ -185,18 +187,18 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
-			
+
 			int consumption = baseConsumption;
 			int speed = 1;
-			
-			UpgradeManager.eval(slots, 6, 7);
-			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * baseConsumption;
-			
-			speed *= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5);
-			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * baseConsumption * 50;
-			
-			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));
+
+			upgradeManager.checkSlots(this, slots, 6, 7);
+			speed += upgradeManager.getLevel(UpgradeType.SPEED);
+			consumption += upgradeManager.getLevel(UpgradeType.SPEED) * baseConsumption;
+
+			speed *= (1 + upgradeManager.getLevel(UpgradeType.OVERDRIVE) * 5);
+			consumption += upgradeManager.getLevel(UpgradeType.OVERDRIVE) * baseConsumption * 50;
+
+			consumption /= (1 + upgradeManager.getLevel(UpgradeType.POWER));
 
 			if(hasPower() && isProcessing()) {
 				this.power -= consumption;
@@ -222,20 +224,20 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			} else {
 				progress = 0;
 			}
-			
+
 			this.networkPackNT(50);
 		} else {
-			
+
 			if(isProgressing) {
 				audioDuration += 2;
 			} else {
 				audioDuration -= 3;
 			}
-			
+
 			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
-			
+
 			if(audioDuration > 10) {
-				
+
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();
@@ -245,9 +247,9 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 				audio.updateVolume(getVolume(1F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
-				
+
 			} else {
-				
+
 				if(audio != null) {
 					audio.stopSound();
 					audio = null;
@@ -255,7 +257,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			}
 		}
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -263,7 +265,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		buf.writeInt(progress);
 		buf.writeBoolean(isProgressing);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -296,12 +298,12 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			audio = null;
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord,
@@ -312,7 +314,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 					zCoord + 1
 					);
 		}
-		
+
 		return bb;
 	}
 
@@ -345,7 +347,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCentrifuge(player.inventory, this);
 	}
 
@@ -370,11 +372,12 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

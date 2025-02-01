@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 //a """simple""" implementation of an animation system
 //it's the first thing i came up with and i suppose it's relatively simple but
 //it's probably not since i suck at everything
-//i could have jut used collada XML animations but where's the fun in that?
+//i could have just used collada XML animations but where's the fun in that?
 public class BusAnimation {
 	
 	//"buses" with one S since it's not a vehicle

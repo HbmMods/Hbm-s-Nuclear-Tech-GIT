@@ -18,12 +18,12 @@ import com.hbm.util.CompatEnergyControl;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -97,7 +97,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 				
 				if(joules > 0) {
 					
-					long out = joules * 98 / 100;
+					long out = joules * 95 / 100;
 					
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
@@ -111,20 +111,9 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						Block block = worldObj.getBlock(x, y, z);
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
-						if(block instanceof ILaserable) {
-							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof ILaserable) {
-							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof TileEntityCore) {
-							out = ((TileEntityCore)te).burn(out);
-							continue;
-						}
+						if(block instanceof ILaserable) { ((ILaserable)block).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof ILaserable) { ((ILaserable)te).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof TileEntityCore) { out = ((TileEntityCore)te).burn(out); continue; }
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
@@ -169,26 +158,32 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			
 			this.markDirty();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("watts", watts);
-			data.setLong("prev", prev);
-			data.setInteger("beam", beam);
-			data.setBoolean("isOn", isOn);
-			tank.writeToNBT(data, "tank");
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getLong("power");
-		watts = data.getInteger("watts");
-		prev = data.getLong("prev");
-		beam = data.getInteger("beam");
-		isOn = data.getBoolean("isOn");
-		tank.readFromNBT(data, "tank");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(watts);
+		buf.writeLong(prev);
+		buf.writeInt(beam);
+		buf.writeBoolean(isOn);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.watts = buf.readInt();
+		this.prev = buf.readLong();
+		this.beam = buf.readInt();
+		this.isOn = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	public long getPowerScaled(long i) {
@@ -332,7 +327,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreEmitter(player.inventory, this);
 	}
 

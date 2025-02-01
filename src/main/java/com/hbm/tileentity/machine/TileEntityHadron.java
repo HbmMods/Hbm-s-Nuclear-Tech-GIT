@@ -15,8 +15,8 @@ import com.hbm.inventory.recipes.HadronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
@@ -25,9 +25,9 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -170,7 +170,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 			data.setInteger("stat_x", stat_x);
 			data.setInteger("stat_y", stat_y);
 			data.setInteger("stat_z", stat_z);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
 	
@@ -213,21 +213,37 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.isOn = data.getBoolean("isOn");
-		this.power = data.getLong("power");
-		this.analysisOnly = data.getBoolean("analysis");
-		this.ioMode = data.getInteger("ioMode");
-		this.state = EnumHadronState.values()[data.getByte("state")];
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isOn);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.analysisOnly);
+		buf.writeInt(this.ioMode);
+		buf.writeByte((byte) this.state.ordinal());
 
-		this.stat_success = data.getBoolean("stat_success");
-		this.stat_state = EnumHadronState.values()[data.getByte("stat_state")];
-		this.stat_charge = data.getInteger("stat_charge");
-		this.stat_x = data.getInteger("stat_x");
-		this.stat_y = data.getInteger("stat_y");
-		this.stat_z = data.getInteger("stat_z");
+		buf.writeBoolean(this.stat_success);
+		buf.writeByte((byte) this.stat_state.ordinal());
+		buf.writeInt(this.stat_charge);
+		buf.writeInt(this.stat_x);
+		buf.writeInt(this.stat_y);
+		buf.writeInt(this.stat_z);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isOn = buf.readBoolean();
+		this.power = buf.readLong();
+		this.analysisOnly = buf.readBoolean();
+		this.ioMode = buf.readInt();
+		this.state = EnumHadronState.values()[buf.readByte()];
+
+		this.stat_success = buf.readBoolean();
+		this.stat_state = EnumHadronState.values()[buf.readByte()];
+		this.stat_charge = buf.readInt();
+		this.stat_x = buf.readInt();
+		this.stat_y = buf.readInt();
+		this.stat_z = buf.readInt();
 	}
 
 	@Override
@@ -896,7 +912,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIHadron(player.inventory, this);
 	}
 }

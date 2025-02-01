@@ -11,7 +11,10 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Pair;
+
+import net.minecraft.item.ItemStack;
 
 public class CompressorRecipes extends SerializableRecipe {
 	
@@ -19,14 +22,26 @@ public class CompressorRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
-		recipes.put(new Pair(Fluids.STEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.HOTSTEAM, 100)));
-		recipes.put(new Pair(Fluids.HOTSTEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.SUPERHOTSTEAM, 100)));
-		recipes.put(new Pair(Fluids.SUPERHOTSTEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.ULTRAHOTSTEAM, 100)));
-
 		recipes.put(new Pair(Fluids.PETROLEUM, 0), new CompressorRecipe(2_000, new FluidStack(Fluids.PETROLEUM, 2_000, 1), 20));
 		recipes.put(new Pair(Fluids.PETROLEUM, 1), new CompressorRecipe(2_000, new FluidStack(Fluids.LPG, 1_000, 0), 20));
 
 		recipes.put(new Pair(Fluids.BLOOD, 3), new CompressorRecipe(1_000, new FluidStack(Fluids.HEAVYOIL, 250, 0), 200));
+
+		recipes.put(new Pair(Fluids.PERFLUOROMETHYL, 1), new CompressorRecipe(1_000, new FluidStack(Fluids.PERFLUOROMETHYL_COLD, 1_000, 0), 100));
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(Entry<Pair<FluidType, Integer>, CompressorRecipe> entry : CompressorRecipes.recipes.entrySet()) {
+			ItemStack input = ItemFluidIcon.make(entry.getKey().getKey(), entry.getValue().inputAmount, entry.getKey().getValue());
+			ItemStack output = ItemFluidIcon.make(entry.getValue().output);
+			if(input.getItemDamage() == output.getItemDamage()) continue;
+			recipes.put(input, output);
+		}
+		
+		return recipes;
 	}
 	
 	public static class CompressorRecipe {

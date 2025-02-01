@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.effect.EntityMist;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -40,9 +41,10 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBehemoth().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBehemoth().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBehemoth().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBehemoth().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBehemoth;
+	}
 	
 	public int timer = 120;
 	int breathTime = 0;
@@ -86,7 +88,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	public void acidAttack(){
 		if(!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < 20) {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
-			EntityChemical chem = new EntityChemical(worldObj, this);
+			EntityChemical chem = new EntityChemical(worldObj, this, 0, 0, 0);
 
 			chem.setFluid(Fluids.SULFURIC_ACID);
 			worldObj.spawnEntityInWorld(chem);

@@ -2,7 +2,6 @@ package com.hbm.tileentity.network;
 
 import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.entity.item.EntityMovingItem;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
 import com.hbm.items.ModItems;
@@ -13,7 +12,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -26,7 +24,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver, IControlReceiverFilter {
+public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -224,7 +222,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneExtractor(player.inventory, this);
 	}
 	
@@ -256,4 +254,10 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 			setFilterContents(data);
 		}
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
+	}
 }
+

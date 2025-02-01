@@ -394,6 +394,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
+		//registerRBMKRod(rbmk_fuel_curve, saf * rod_rbmk * np237 * rod_rbmk, wst * rod_rbmk * 35F);
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, wst * billet * 21.5F);
@@ -498,8 +499,8 @@ public class HazardRegistry {
 		/*
 		 * Blacklist
 		 */
-		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
-		for(String ore : U.ores()) HazardSystem.blacklist(ore);
+		for(String ore : TH232.all(MaterialShapes.ORE)) HazardSystem.blacklist(ore);
+		for(String ore : U.all(MaterialShapes.ORE)) HazardSystem.blacklist(ore);
 
 		
 		/*
@@ -523,7 +524,7 @@ public class HazardRegistry {
 			};
 			
 			for(MaterialShapes shape : MaterialShapes.allShapes) {
-				for(String prefix : shape.prefixes) {
+				if(!shape.noAutogen) for(String prefix : shape.prefixes) {
 					for(Object[] o : data) {
 						HazardSystem.register(prefix + o[0], new HazardData().setMutex(0b1).addEntry(new HazardEntry(RADIATION, (float) o[1] * shape.q(1) / MaterialShapes.INGOT.q(1))));
 					}

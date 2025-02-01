@@ -62,6 +62,7 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block).mM(10)	.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.snow_layer)					.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
 		/* if it can't be petrified, destroy it */
 		entries.add(new FalloutEntry()	.mMa(Material.wood)						.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
@@ -72,6 +73,9 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange - 5D));
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange - 5D));
+		
+		entries.add(new FalloutEntry()	.mB(ModBlocks.glyphid_base)		.prim(new Triplet(ModBlocks.glyphid_base, 2, 1)));
+		entries.add(new FalloutEntry()	.mB(ModBlocks.glyphid_spawner)	.prim(new Triplet(ModBlocks.glyphid_spawner, 2, 1)));
 
 		entries.add(new FalloutEntry().mB(Blocks.mossy_cobblestone).prim(new Triplet(Blocks.coal_ore, 0, 1)));
 		entries.add(new FalloutEntry().mB(ModBlocks.ore_nether_uranium).prim(new Triplet(ModBlocks.ore_nether_schrabidium, 0, 1), new Triplet(ModBlocks.ore_nether_uranium_scorched, 0, 99)));

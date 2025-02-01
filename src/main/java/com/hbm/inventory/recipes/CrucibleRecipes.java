@@ -258,14 +258,15 @@ public class CrucibleRecipes extends SerializableRecipe {
 			NTMMaterial convert = material.smeltsInto;
 			if(convert.smeltable == SmeltingBehavior.SMELTABLE || convert.smeltable == SmeltingBehavior.ADDITIVE) for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
-				
-				String name = shape.name() + material.names[0];
-				List<ItemStack> ores = OreDictionary.getOres(name);
-				
-				if(!ores.isEmpty()) {
-					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in)), true));
-					map.put(new OreDictStack(name), stacks);
+				if(!shape.noAutogen) {
+					String name = shape.make(material);
+					List<ItemStack> ores = OreDictionary.getOres(name);
+					
+					if(!ores.isEmpty()) {
+						List<ItemStack> stacks = new ArrayList();
+						stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in)), true));
+						map.put(new OreDictStack(name), stacks);
+					}
 				}
 			}
 		}

@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.DummyBlockVault;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEVaultPacket;
+import com.hbm.packet.toclient.TEVaultPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -194,9 +194,8 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	}
 	
 	public boolean placeDummy(int x, int y, int z) {
-		
-		if(!worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
-			return false;
+
+		if(!worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z)) worldObj.func_147480_a(x, y, z, false);
 		
 		worldObj.setBlock(x, y, z, ModBlocks.dummy_block_vault);
 		

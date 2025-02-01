@@ -6,7 +6,7 @@ import com.hbm.inventory.recipes.ArcFurnaceRecipes;
 public class ArcFurnaceFluidHandler extends NEIUniversalHandler {
 
 	public ArcFurnaceFluidHandler() {
-		super("Arc Furnace (Fluid)", ModBlocks.machine_arc_furnace, ArcFurnaceRecipes.getFluidRecipes());
+		super(ModBlocks.machine_arc_furnace.getLocalizedName(), ModBlocks.machine_arc_furnace, ArcFurnaceRecipes.getFluidRecipes());
 	}
 
 	@Override

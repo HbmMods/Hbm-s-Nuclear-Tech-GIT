@@ -1,19 +1,18 @@
 package com.hbm.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import codechicken.nei.recipe.TemplateRecipeHandler;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
 
-import codechicken.nei.recipe.TemplateRecipeHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NEIRegistry {
 
 	public static List<TemplateRecipeHandler> handlers = new ArrayList();
-	
+
 	public static List<TemplateRecipeHandler> listAllHandlers() {
-		
+
 		if(!handlers.isEmpty()) return handlers;
 
 		handlers.add(new AnvilRecipeHandler());
@@ -33,6 +32,7 @@ public class NEIRegistry {
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
 		handlers.add(new ChemplantRecipeHandler());
+		handlers.add(new OreSlopperHandler()); //before acidizing
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());
 		handlers.add(new FusionRecipeHandler());
@@ -51,6 +51,7 @@ public class NEIRegistry {
 		handlers.add(new LiquefactionHandler());
 		handlers.add(new SolidificationHandler());
 		handlers.add(new CokingHandler());
+		handlers.add(new PyroHandler());
 		handlers.add(new FractioningHandler());
 		handlers.add(new BoilingHandler());
 		handlers.add(new CombinationHandler());
@@ -65,10 +66,13 @@ public class NEIRegistry {
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());
+		handlers.add(new RotaryFurnaceHandler());
+		handlers.add(new AmmoPressHandler());
+		handlers.add(new CompressorHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());
-		
+
 		return handlers;
 	}
 }

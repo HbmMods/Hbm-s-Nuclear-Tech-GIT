@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -22,7 +22,7 @@ public class ExplosionLarge {
 	
 	static Random rand = new Random();
 
-	public static void spawnParticles(World world, double x, double y, double z, int count) {
+	@Deprecated public static void spawnParticles(World world, double x, double y, double z, int count) {
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "smoke");
@@ -153,7 +153,7 @@ public class ExplosionLarge {
 		}
 	}
 	
-	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
+	@Deprecated public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
 		world.createExplosion(exploder, x, y, z, strength, true);
 		if(cloud)
 			spawnParticles(world, x, y, z, cloudFunction((int)strength));
@@ -163,7 +163,7 @@ public class ExplosionLarge {
 			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
 	}
 	
-	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+	@Deprecated public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		world.createExplosion(null, x, y, z, strength, true);
 		if(cloud)
 			spawnParticles(world, x, y, z, cloudFunction((int)strength));
@@ -173,7 +173,7 @@ public class ExplosionLarge {
 			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
 	}
 	
-	public static void explodeFire(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+	@Deprecated public static void explodeFire(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		world.newExplosion((Entity)null, (float)x, (float)y, (float)z, strength, true, true);
 		if(cloud)
 			spawnParticles(world, x, y, z, cloudFunction((int)strength));
@@ -245,7 +245,6 @@ public class ExplosionLarge {
 	}
 	
 	public static int cloudFunction(int i) {
-		//return (int)(345 * (1 - Math.pow(Math.E, -i/15)) + 15);
 		return (int)(850 * (1 - Math.pow(Math.E, -i/15)) + 15);
 	}
 	

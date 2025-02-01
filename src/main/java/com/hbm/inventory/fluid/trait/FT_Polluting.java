@@ -20,12 +20,12 @@ public class FT_Polluting extends FluidTrait {
 	//original draft had both of them inside a hashmap for the release type but honestly handling hash maps in hash maps adds more complexity than it removes
 	public HashMap<PollutionType, Float> releaseMap = new HashMap();
 	public HashMap<PollutionType, Float> burnMap = new HashMap();
-	
+
 	public FT_Polluting release(PollutionType type, float amount) {
 		releaseMap.put(type, amount);
 		return this;
 	}
-	
+
 	public FT_Polluting burn(PollutionType type, float amount) {
 		burnMap.put(type, amount);
 		return this;
@@ -38,12 +38,12 @@ public class FT_Polluting extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
-		
+
 		if(!this.releaseMap.isEmpty()) {
 			info.add(EnumChatFormatting.GREEN + "When spilled:");
 			for(Entry<PollutionType, Float> entry : releaseMap.entrySet()) info.add(EnumChatFormatting.GREEN + " - " + entry.getValue() + " " + entry.getKey() + " per mB");
 		}
-		
+
 		if(!this.burnMap.isEmpty()) {
 			info.add(EnumChatFormatting.RED + "When burned:");
 			for(Entry<PollutionType, Float> entry : burnMap.entrySet()) info.add(EnumChatFormatting.RED + " - " + entry.getValue() + " " + entry.getKey() + " per mB");
@@ -60,16 +60,16 @@ public class FT_Polluting extends FluidTrait {
 	public void serializeJSON(JsonWriter writer) throws IOException {
 		writer.name("release").beginObject();
 		for(Entry<PollutionType, Float> entry : releaseMap.entrySet()) {
-			writer.name(entry.toString()).value(entry.getValue());
+			writer.name(entry.getKey().name()).value(entry.getValue());
 		}
 		writer.endObject();
 		writer.name("burn").beginObject();
 		for(Entry<PollutionType, Float> entry : burnMap.entrySet()) {
-			writer.name(entry.toString()).value(entry.getValue());
+			writer.name(entry.getKey().name()).value(entry.getValue());
 		}
 		writer.endObject();
 	}
-	
+
 	@Override
 	public void deserializeJSON(JsonObject obj) {
 		if(obj.has("release")) {
@@ -89,14 +89,14 @@ public class FT_Polluting extends FluidTrait {
 			}
 		}
 	}
-	
+
 	public static void pollute(World world, int x, int y, int z, FluidType type, FluidReleaseType release, float mB) {
 		FT_Polluting trait = type.getTrait(FT_Polluting.class);
 		if(trait == null) return;
 		if(release == FluidReleaseType.VOID) return;
-		
+
 		HashMap<PollutionType, Float> map = release == FluidReleaseType.BURN ? trait.burnMap : trait.releaseMap;
-		
+
 		for(Entry<PollutionType, Float> entry : map.entrySet()) {
 			PollutionHandler.incrementPollution(world, x, y, z, entry.getKey(), entry.getValue() * mB);
 		}

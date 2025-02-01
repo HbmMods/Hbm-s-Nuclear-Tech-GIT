@@ -116,10 +116,17 @@ public class RecipesCommon {
 				this.stacksize = 1;
 				return;
 			}
-			this.item = stack.getItem();
-			if(this.item == null) this.item = ModItems.nothing; //i'm going to bash some fuckard's head in
-			this.stacksize = stack.stackSize;
-			this.meta = stack.getItemDamage();
+			try {
+				this.item = stack.getItem();
+				if(this.item == null) this.item = ModItems.nothing; //i'm going to bash some fuckard's head in
+				this.stacksize = stack.stackSize;
+				this.meta = stack.getItemDamage();
+			} catch(Exception ex) {
+				this.item = ModItems.nothing;
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		public ComparableStack makeSingular() {
@@ -271,6 +278,10 @@ public class RecipesCommon {
 		public AStack copy() {
 			return new ComparableStack(item, stacksize, meta);
 		}
+		
+		public ComparableStack copy(int stacksize) {
+			return new ComparableStack(item, stacksize, meta);
+		}
 
 		@Override
 		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
@@ -381,6 +392,10 @@ public class RecipesCommon {
 
 		@Override
 		public AStack copy() {
+			return new OreDictStack(name, stacksize);
+		}
+		
+		public OreDictStack copy(int stacksize) {
 			return new OreDictStack(name, stacksize);
 		}
 

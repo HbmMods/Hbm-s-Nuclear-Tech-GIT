@@ -30,7 +30,7 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 	public Entity tracking;
 	public double velocity;
 	protected int activationTimer;
-	
+
 	public static double baseSpeed = 1.5D;
 
 	public EntityMissileAntiBallistic(World world) {
@@ -60,22 +60,22 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		super.onUpdate();
 
 		if(!worldObj.isRemote) {
-			
+
 			if(velocity < 6) velocity += 0.1;
-			
+
 			if(activationTimer < 40) {
 				activationTimer++;
 				motionY = baseSpeed;
 			} else {
 				Entity prevTracking = this.tracking;
-				
+
 				if(this.tracking == null || this.tracking.isDead) this.targetMissile();
-				
+
 				if(prevTracking == null && this.tracking != null) {
 					ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 24, 3F);
 				}
-				
-				if(this.tracking != null) {
+        
+				if(this.tracking != null && !this.tracking.isDead) {
 					this.aimAtTarget();
 				} else {
 					if(this.ticksExisted > 600) this.setDead();
@@ -83,15 +83,20 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 			}
 
 			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
-			
+
 			if(this.posY > 2000 && (this.tracking == null || this.tracking.isDead)) this.setDead();
-			
+
 		} else {
-			
+
 			Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-			MainRegistry.proxy.particleControl(posX - vec.xCoord, posY - vec.yCoord, posZ - vec.zCoord, 2);
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "ABMContrail");
+			data.setDouble("posX", posX - vec.xCoord);
+			data.setDouble("posY", posY - vec.yCoord);
+			data.setDouble("posZ", posZ - vec.zCoord);
+			MainRegistry.proxy.effectNT(data);
 		}
-		
+
 		float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 		for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
@@ -102,33 +107,33 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 
 	/** Detects and caches nearby EntityMissileBaseNT */
 	protected void targetMissile() {
-		
+
 		Entity closest = null;
 		double dist = 1_000;
-		
+
 		for(Entity e : TileEntityMachineRadarNT.matchingEntities) {
 			if(e.dimension != this.dimension) continue;
 			if(!(e instanceof EntityMissileBaseNT)) continue; //can only lock onto missiles
 			if(e instanceof EntityMissileStealth) continue; //cannot lack onto missiles with stealth coating
-			
+
 			Vec3 vec = Vec3.createVectorHelper(e.posX - posX, e.posY - posY, e.posZ - posZ);
-			
+
 			if(vec.lengthVector() < dist) {
 				closest = e;
 			}
 		}
-		
+
 		this.tracking = closest;
 	}
-	
+
 	/** Predictive targeting system */
 	protected void aimAtTarget() {
-		
+
 		Vec3 delta = Vec3.createVectorHelper(tracking.posX - posX, tracking.posY - posY, tracking.posZ - posZ);
 		double intercept = delta.lengthVector() / (this.baseSpeed * this.velocity);
 		Vec3 predicted = Vec3.createVectorHelper(tracking.posX + (tracking.posX - tracking.lastTickPosX) * intercept, tracking.posY + (tracking.posY - tracking.lastTickPosY) * intercept, tracking.posZ + (tracking.posZ - tracking.lastTickPosZ) * intercept);
 		Vec3 motion = Vec3.createVectorHelper(predicted.xCoord - posX, predicted.yCoord - posY, predicted.zCoord - posZ).normalize();
-		
+
 		if(delta.lengthVector() < 10 && activationTimer >= 40) {
 			this.setDead();
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, false);
@@ -168,13 +173,13 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		super.readEntityFromNBT(nbt);
 		this.velocity = nbt.getDouble("veloc");
 	}
-	
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		nbt.setDouble("veloc", this.velocity);
 	}
-	
+
 	@Override
 	public void init(Ticket ticket) {
 		if(!worldObj.isRemote) {
@@ -197,7 +202,7 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			
+
 			clearChunkLoader();
 
 			loadedChunks.clear();
@@ -208,13 +213,13 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 			}
 		}
 	}
-	
+
 	@Override
 	public void setDead() {
 		super.setDead();
 		this.clearChunkLoader();
 	}
-	
+
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			for(ChunkCoordIntPair chunk : loadedChunks) {

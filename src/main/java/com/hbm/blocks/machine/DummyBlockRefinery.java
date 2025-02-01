@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +25,7 @@ public class DummyBlockRefinery extends DummyOldBase {
     {
         return Item.getItemFromBlock(ModBlocks.machine_refinery);
     }
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -39,7 +38,7 @@ public class DummyBlockRefinery extends DummyOldBase {
     			int a = ((TileEntityDummy)te).targetX;
     			int b = ((TileEntityDummy)te).targetY;
     			int c = ((TileEntityDummy)te).targetZ;
-    			
+
     			TileEntityMachineRefinery entity = (TileEntityMachineRefinery) world.getTileEntity(a, b, c);
     			if(entity != null)
     			{

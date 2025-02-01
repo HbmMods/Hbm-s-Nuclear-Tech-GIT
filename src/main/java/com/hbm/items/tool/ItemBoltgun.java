@@ -5,8 +5,8 @@ import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EntityDamageUtil;
@@ -127,7 +127,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
 		return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(1, 0, 1, 50)
-						.addKeyframePosition(0, 0, 1, 100));
+						.addPos(1, 0, 1, 50)
+						.addPos(0, 0, 1, 100));
 	}
 }

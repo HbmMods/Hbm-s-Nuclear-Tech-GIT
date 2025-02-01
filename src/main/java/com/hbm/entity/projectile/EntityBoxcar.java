@@ -5,12 +5,16 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -26,6 +30,17 @@ public class EntityBoxcar extends EntityThrowable {
 	@Override
 	public void onUpdate() {
 
+		if(!worldObj.isRemote && this.ticksExisted == 1) {
+			for(int i = 0; i < 50; i++) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "bf");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+						posX + (rand.nextDouble() - 0.5) * 3,
+						posY + (rand.nextDouble() - 0.5) * 15,
+						posZ + (rand.nextDouble() - 0.5) * 3),
+						new TargetPoint(dimension, posX, posY, posZ, 150));
+			}
+		}
 
 		this.lastTickPosX = this.prevPosX = posX;
 		this.lastTickPosY = this.prevPosY = posY;
@@ -52,7 +67,7 @@ public class EntityBoxcar extends EntityThrowable {
 			}
 
 			if(!worldObj.isRemote)
-				worldObj.setBlock((int) (this.posX - 0.5), (int) (this.posY + 0.5), (int) (this.posZ - 0.5), ModBlocks.boxcar);
+				worldObj.setBlock((int) Math.floor(this.posX), (int) Math.floor(this.posY + 0.5), (int) Math.floor(this.posZ), ModBlocks.boxcar);
 		}
 	}
 

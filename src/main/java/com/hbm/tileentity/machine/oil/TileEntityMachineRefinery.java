@@ -24,11 +24,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IOverpressurable;
-import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.IRepairable;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.Tuple.Quintet;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -37,7 +33,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -49,7 +45,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyReceiverMK2, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyReceiverMK2, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
 
 	public long power = 0;
 	public int sulfur = 0;
@@ -193,14 +189,9 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
-			data.setBoolean("exploded", hasExploded);
-			data.setBoolean("onFire", onFire);
-			data.setBoolean("isOn", this.isOn);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
+
 		} else {
 			
 			if(this.isOn) audioTime = 20;
@@ -253,16 +244,25 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			audio = null;
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
-		this.hasExploded = nbt.getBoolean("exploded");
-		this.onFire = nbt.getBoolean("onFire");
-		this.isOn = nbt.getBoolean("isOn");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		for(int i = 0; i < 5; i++) tanks[i].serialize(buf);
+		buf.writeBoolean(this.hasExploded);
+		buf.writeBoolean(this.onFire);
+		buf.writeBoolean(this.isOn);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		for(int i = 0; i < 5; i++) tanks[i].deserialize(buf);
+		this.hasExploded = buf.readBoolean();
+		this.onFire = buf.readBoolean();
+		this.isOn = buf.readBoolean();
 	}
 	
 	private void refine() {
@@ -464,7 +464,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRefinery(player.inventory, this);
 	}
+
 }

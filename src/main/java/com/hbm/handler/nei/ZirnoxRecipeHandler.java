@@ -6,7 +6,7 @@ import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 public class ZirnoxRecipeHandler extends NEIUniversalHandler {
 
 	public ZirnoxRecipeHandler() {
-		super("ZIRNOX", ModBlocks.reactor_zirnox, TileEntityReactorZirnox.fuelMap);
+		super(ModBlocks.reactor_zirnox.getLocalizedName(), ModBlocks.reactor_zirnox, TileEntityReactorZirnox.fuelMap);
 	}
 
 	@Override

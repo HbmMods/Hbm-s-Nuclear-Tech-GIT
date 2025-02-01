@@ -201,7 +201,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		if(!worldObj.isRemote && loaderTicket != null) {
 			clearChunkLoader();
 			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
-			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair((int) Math.ceil((this.posX + this.motionX) / 16D), (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
 		}
 	}
 	

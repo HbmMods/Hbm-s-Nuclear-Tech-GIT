@@ -4,72 +4,68 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityLoadedBase;
-
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.tileentity.IBufPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyReceiverMK2, INBTPacketReceiver {
-	
+public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyReceiverMK2, IBufPacketReceiver {
+
 	private List<EntityPlayer> players = new ArrayList();
 	private long charge = 0;
 	private int lastOp = 0;
-	
+
 	boolean particles = false;
-	
+
 	public int usingTicks;
 	public int lastUsingTicks;
 	public static final int delay = 20;
 
 	@Override
 	public void updateEntity() {
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-		
+
 		if(!worldObj.isRemote) {
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
-			
+
 			players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(0.5, 0.0, 0.5));
-			
+
 			charge = 0;
-			
+
 			for(EntityPlayer player : players) {
-				
+
 				for(int i = 0; i < 5; i++) {
-					
+
 					ItemStack stack = player.getEquipmentInSlot(i);
-					
+
 					if(stack != null && stack.getItem() instanceof IBatteryItem) {
 						IBatteryItem battery = (IBatteryItem) stack.getItem();
 						charge += Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate());
 					}
 				}
 			}
-			
+
 			particles = lastOp > 0;
-			
+
 			if(particles) {
-				
+
 				lastOp--;
-				
+
 				if(worldObj.getTotalWorldTime() % 20 == 0)
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 0.2F, 0.5F);
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("c", charge);
-			data.setBoolean("p", particles);
-			INBTPacketReceiver.networkPack(this, data, 50);
+
+			networkPackNT(50);
 		}
-		
+
 		lastUsingTicks = usingTicks;
-		
+
 		if((charge > 0 || particles) && usingTicks < delay) {
 			usingTicks++;
 			if(usingTicks == 2)
@@ -80,7 +76,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 			if(usingTicks == 4)
 				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "tile.piston.in", 0.5F, 0.5F);
 		}
-		
+
 		if(particles) {
 			Random rand = worldObj.rand;
 			worldObj.spawnParticle("magicCrit",
@@ -94,9 +90,15 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.charge = nbt.getLong("c");
-		this.particles = nbt.getBoolean("p");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.charge);
+		buf.writeBoolean(this.particles);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.charge = buf.readLong();
+		this.particles = buf.readBoolean();
 	}
 
 	@Override
@@ -111,32 +113,32 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 
 	@Override
 	public void setPower(long power) { }
-	
+
 	@Override
 	public long transferPower(long power) {
-		
+
 		if(this.usingTicks < delay || power == 0)
 			return power;
-		
+
 		for(EntityPlayer player : players) {
-			
+
 			for(int i = 0; i < 5; i++) {
-				
+
 				ItemStack stack = player.getEquipmentInSlot(i);
-				
+
 				if(stack != null && stack.getItem() instanceof IBatteryItem) {
 					IBatteryItem battery = (IBatteryItem) stack.getItem();
-					
+
 					long toCharge = Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate());
 					toCharge = Math.min(toCharge, power / 5);
 					battery.chargeBattery(stack, toCharge);
 					power -= toCharge;
-					
+
 					lastOp = 4;
 				}
 			}
 		}
-		
+
 		return power;
 	}
 }

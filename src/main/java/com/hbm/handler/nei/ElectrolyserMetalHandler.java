@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes;
 public class ElectrolyserMetalHandler extends NEIUniversalHandler {
 
 	public ElectrolyserMetalHandler() {
-		super("Electrolysis", ModBlocks.machine_electrolyser, ElectrolyserMetalRecipes.getRecipes());
+		super(ModBlocks.machine_electrolyser.getLocalizedName(), ModBlocks.machine_electrolyser, ElectrolyserMetalRecipes.getRecipes());
 	}
 
 	@Override

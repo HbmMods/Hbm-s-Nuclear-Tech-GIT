@@ -4,7 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockFlammable;
 import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.ParticleBurstPacket;
+import com.hbm.packet.toclient.ParticleBurstPacket;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

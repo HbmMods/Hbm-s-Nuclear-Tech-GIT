@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.lib.Library;
 import com.hbm.module.ModuleBurnTime;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -25,7 +26,6 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -34,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 100_000;
@@ -95,7 +95,9 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 							if(processAsh(ashLevelMisc, EnumAshType.MISC, threshold)) ashLevelMisc -= threshold;
 							
 							this.maxBurnTime = this.burnTime = burn;
+							ItemStack container = slots[0].getItem().getContainerItem(slots[0]);
 							this.decrStackSize(0, 1);
+							if(slots[0] == null && container != null) slots[0] = container.copy();
 							this.markChanged();
 						}
 					}
@@ -234,7 +236,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineWoodBurner(player.inventory, this);
 	}
 
@@ -320,5 +322,10 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, isOn);
 		if(this.liquidBurn) data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, 1D);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, power);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

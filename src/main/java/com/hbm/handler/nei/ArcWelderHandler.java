@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 public class ArcWelderHandler extends NEIUniversalHandler {
 
 	public ArcWelderHandler() {
-		super("Arc Welder", ModBlocks.machine_arc_welder, ArcWelderRecipes.getRecipes());
+		super(ModBlocks.machine_arc_welder.getLocalizedName(), ModBlocks.machine_arc_welder, ArcWelderRecipes.getRecipes());
 	}
 
 	@Override

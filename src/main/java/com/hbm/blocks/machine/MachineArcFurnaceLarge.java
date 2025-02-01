@@ -7,7 +7,6 @@ import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -52,11 +51,11 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y, z + dir.offsetZ * o, new int[] {4, 0, 3, -2, 1, 1}, this, dir);
-		
+
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
-		
+
 		this.makeExtra(world, x + dir.offsetX * 2 + rot.offsetX, y, z + dir.offsetZ * 2 + rot.offsetZ);
 		this.makeExtra(world, x + dir.offsetX * 2 - rot.offsetX, y, z + dir.offsetZ * 2 - rot.offsetZ);
 		this.makeExtra(world, x + rot.offsetX * 2 + dir.offsetX, y, z + rot.offsetZ * 2 + dir.offsetZ);
@@ -64,10 +63,10 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 		this.makeExtra(world, x - rot.offsetX * 2 + dir.offsetX, y, z - rot.offsetZ * 2 + dir.offsetZ);
 		this.makeExtra(world, x - rot.offsetX * 2 - dir.offsetX, y, z - rot.offsetZ * 2 - dir.offsetZ);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
+
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
@@ -77,7 +76,7 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 				return false;
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && ((ItemTool) player.getHeldItem().getItem()).getToolClasses(player.getHeldItem()).contains("shovel")) {
 				TileEntityMachineArcFurnaceLarge crucible = (TileEntityMachineArcFurnaceLarge) world.getTileEntity(pos[0], pos[1], pos[2]);
-				
+
 				for(MaterialStack stack : crucible.liquids) {
 					ItemStack scrap = ItemScraps.create(new MaterialStack(stack.material, stack.amount));
 					if(!player.inventory.addItemStackToInventory(scrap)) {
@@ -85,11 +84,11 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 						world.spawnEntityInWorld(item);
 					}
 				}
-				
+
 				player.inventoryContainer.detectAndSendChanges();
 				crucible.liquids.clear();
 				crucible.markDirty();
-				
+
 			} else {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}

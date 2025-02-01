@@ -11,18 +11,18 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -317,9 +317,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
-			
-			NBTTagCompound data = this.writePacket();
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 			
 			this.didJustShoot = false;
 			
@@ -409,20 +408,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	}
 
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		data.setShort("mode", mode);
-		if(didJustShoot)
-			data.setBoolean("didJustShoot", didJustShoot);
-		return data;
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(this.mode);
+		buf.writeBoolean(this.didJustShoot);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.mode = nbt.getShort("mode");
-		if(nbt.getBoolean("didJustShoot"))
-			this.retracting = true;
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readShort();
+		this.retracting = buf.readBoolean();
 	}
 	
 	@Override
@@ -465,7 +461,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretArty(player.inventory, this);
 	}
 	@Callback

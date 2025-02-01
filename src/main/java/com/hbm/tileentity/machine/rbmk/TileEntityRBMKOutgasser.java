@@ -4,6 +4,8 @@ import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.neutron.NeutronStream;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRBMKOutgasser;
 import com.hbm.inventory.fluid.Fluids;
@@ -17,11 +19,11 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -90,14 +92,13 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
-	public void receiveFlux(NType type, double flux) {
+	public void receiveFlux(NeutronStream stream) {
 		
 		if(canProcess()) {
-			
-			if(type == NType.FAST)
-				flux *= 0.2D;
-			
-			progress += flux * RBMKDials.getOutgasserMod(worldObj);
+
+			double efficiency = Math.min(1 - stream.fluxRatio * 0.8, 1);
+
+			progress += stream.fluxQuantity * efficiency * RBMKDials.getOutgasserMod(worldObj);
 			
 			if(progress > duration) {
 				process();
@@ -166,6 +167,11 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
+	public RBMKNeutronHandler.RBMKType getRBMKType() {
+		return RBMKNeutronHandler.RBMKType.OUTGASSER;
+	}
+
+	@Override
 	public ColumnType getConsoleType() {
 		return ColumnType.OUTGASSER;
 	}
@@ -194,6 +200,20 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		
 		nbt.setDouble("progress", this.progress);
 		this.gas.writeToNBT(nbt, "gas");
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.gas.serialize(buf);
+		buf.writeDouble(this.progress);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.gas.deserialize(buf);
+		this.progress = buf.readDouble();
 	}
 
 	@Override
@@ -271,7 +291,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKOutgasser(player.inventory, this);
 	}
 }

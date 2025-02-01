@@ -54,27 +54,29 @@ public class ParticleMukeCloud extends EntityFX {
 		return 3;
 	}
 	
-    public void onUpdate() {
-    	
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+	public void onUpdate() {
+		
+		this.noClip = this.particleAge <= 2;
 
-        if (this.particleAge++ >= this.particleMaxAge - 2) {
-            this.setDead();
-        }
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
 
-        this.motionY -= 0.04D * (double)this.particleGravity;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= friction;
-        this.motionY *= friction;
-        this.motionZ *= friction;
+		if(this.particleAge++ >= this.particleMaxAge - 2) {
+			this.setDead();
+		}
 
-        if (this.onGround) {
-            this.motionX *= 0.7D;
-            this.motionZ *= 0.7D;
-        }
-    }
+		this.motionY -= 0.04D * (double) this.particleGravity;
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+		this.motionX *= friction;
+		this.motionY *= friction;
+		this.motionZ *= friction;
+
+		if(this.onGround) {
+			this.motionX *= 0.7D;
+			this.motionZ *= 0.7D;
+		}
+	}
 
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 

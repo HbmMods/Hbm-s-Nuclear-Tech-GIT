@@ -12,7 +12,10 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -183,11 +186,11 @@ public class FluidTank {
 	 * @param width
 	 * @param height
 	 */
-	public void renderTank(int x, int y, double z, int width, int height) {
+	@SideOnly(Side.CLIENT) public void renderTank(int x, int y, double z, int width, int height) {
 		renderTank(x, y, z, width, height, 0);
 	}
 	
-	public void renderTank(int x, int y, double z, int width, int height, int orientation) {
+	@SideOnly(Side.CLIENT) public void renderTank(int x, int y, double z, int width, int height, int orientation) {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		
@@ -242,7 +245,7 @@ public class FluidTank {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
-	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
+	@SideOnly(Side.CLIENT) public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
 			List<String> list = new ArrayList();
@@ -251,6 +254,7 @@ public class FluidTank {
 			
 			if(this.pressure != 0) {
 				list.add(EnumChatFormatting.RED + "Pressure: " + this.pressure + " PU");
+				list.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_RED) + "Pressurized, use compressor!");
 			}
 			
 			type.addInfo(list);

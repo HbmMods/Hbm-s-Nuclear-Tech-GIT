@@ -5,8 +5,8 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.enchantment.Enchantment;
@@ -69,7 +69,7 @@ public class ItemCryoCannon extends ItemGunBase {
 
 	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		EntityChemical chem = new EntityChemical(world, player);
+		EntityChemical chem = new EntityChemical(world, player, 0, 0, 0);
 		chem.setFluid(Fluids.OXYGEN);
 		world.spawnEntityInWorld(chem);
 

@@ -1,7 +1,13 @@
 package com.hbm.world;
 
-import com.hbm.packet.BiomeSyncPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BiomeSyncPacket;
+import com.hbm.util.Compat;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -18,21 +24,51 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class WorldUtil {
 
+	private static final MethodHandle getBiomeShortHandle;
+
+	static {
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			try {
+				MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+				MethodType methodType = MethodType.methodType(short[].class);
+				getBiomeShortHandle = lookup.findVirtual(Chunk.class, "getBiomeShortArray", methodType);
+			} catch(Exception e) {
+				throw new AssertionError();
+			}
+		} else {
+			getBiomeShortHandle = null;
+		}
+	}
+
 	public static void setBiome(World world, int x, int z, BiomeGenBase biome) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)] = (byte)(biome.biomeID & 255);
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			short[] array = getBiomeShortArray(chunk);
+			array[(z & 15) << 4 | x & 15] = (short) biome.biomeID;
+		} else {
+			chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)] = (byte)(biome.biomeID & 255);
+		}
 		chunk.isModified = true;
 	}
 
 	public static void syncBiomeChange(World world, int x, int z) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, getBiomeShortArray(chunk)), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		}
 	}
 
 	public static void syncBiomeChangeBlock(World world, int x, int z) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
-		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			short biome = getBiomeShortArray(chunk)[(z & 15) << 4 | (x & 15)];
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		} else {
+			byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+		}
 	}
 	
 	public static void syncBiomeChange(World world, Chunk chunk) {
@@ -47,7 +83,19 @@ public class WorldUtil {
 		
 		/* this sucks ass */
 		ChunkCoordIntPair coord = chunk.getChunkCoordIntPair();
-		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
+		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, getBiomeShortArray(chunk)), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
+		}
+	}
+
+	public static short[] getBiomeShortArray(Chunk chunk) {
+		try {
+			return (short[]) getBiomeShortHandle.invokeExact(chunk);
+		} catch(Throwable ex) {
+			throw new AssertionError();
+		}
 	}
 
 	/**Chunkloads the chunk the entity is going to spawn in and then spawns it
