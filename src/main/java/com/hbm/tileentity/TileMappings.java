@@ -217,6 +217,7 @@ public class TileMappings {
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
 
 		put(TileEntityCharger.class, "tileentity_ntm_charger");
+		put(TileEntityRefueler.class, "tileentity_ntm_refueler");
 		
 		put(TileEntityFileCabinet.class, "tileentity_file_cabinet");
 		
