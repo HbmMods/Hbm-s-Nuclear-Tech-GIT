@@ -21,6 +21,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ItemEnums.EnumCasingType;
@@ -44,7 +45,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(Blocks.golden_rail, MAT_GOLD, INGOT.q(6, 6), MAT_REDSTONE, DUST.q(1, 6));
 		registerEntry(Blocks.detector_rail, MAT_IRON, INGOT.q(6, 6), MAT_REDSTONE, DUST.q(1, 6));
 		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
-		
+
 		//castables
 		registerEntry(ModItems.blade_titanium,				MAT_TITANIUM,		INGOT.q(2));
 		registerEntry(ModItems.blade_tungsten,				MAT_TUNGSTEN,		INGOT.q(2));
@@ -62,15 +63,15 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 4));
 		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE),			MAT_GUNMETAL,		PLATE.q(1, 2));
 		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 2));
-
+		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
+		registerEntry(DictFrame.fromOne(ModItems.chunk_ore, ItemEnums.EnumChunkType.CRYOLITE), MAT_ALUMINIUM, INGOT.q(1), MAT_SODIUM, INGOT.q(1));
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {
 			registerOre(OreDictManager.IRON.ore(), MAT_IRON, INGOT.q(2), MAT_TITANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
 			registerOre(OreDictManager.TI.ore(), MAT_TITANIUM, INGOT.q(2), MAT_IRON, NUGGET.q(3), MAT_STONE, QUART.q(1));
 			registerOre(OreDictManager.W.ore(), MAT_TUNGSTEN, INGOT.q(2), MAT_STONE, QUART.q(1));
-			registerOre(OreDictManager.AL.ore(), MAT_ALUMINIUM, INGOT.q(2), MAT_STONE, QUART.q(1));
 		}
-		
+
 		registerOre(OreDictManager.COAL.ore(), MAT_CARBON, GEM.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.GOLD.ore(), MAT_GOLD, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.U.ore(), MAT_URANIUM, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
@@ -83,7 +84,7 @@ public class MatDistribution extends SerializableRecipe {
 
 		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(1));
 		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(6));
-		
+
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
 		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
@@ -92,7 +93,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.COAL), MAT_CARBON, NUGGET.q(2));
 		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.MISC), MAT_CARBON, NUGGET.q(1));
 	}
-	
+
 	public static void registerEntry(Object key, Object... matDef) {
 		ComparableStack comp = null;
 
@@ -100,32 +101,32 @@ public class MatDistribution extends SerializableRecipe {
 		if(key instanceof Block) comp = new ComparableStack((Block) key);
 		if(key instanceof ItemStack) comp = new ComparableStack((ItemStack) key);
 		if(key instanceof ComparableStack) comp = (ComparableStack) key;
-		
+
 		if(comp == null) return;
 		if(matDef.length % 2 == 1) return;
-		
+
 		List<MaterialStack> stacks = new ArrayList();
-		
+
 		for(int i = 0; i < matDef.length; i += 2) {
 			stacks.add(new MaterialStack((NTMMaterial) matDef[i], (int) matDef[i + 1]));
 		}
-		
+
 		if(stacks.isEmpty()) return;
-		
+
 		materialEntries.put(comp, stacks);
 	}
-	
+
 	public static void registerOre(String key, Object... matDef) {
 		if(matDef.length % 2 == 1) return;
-		
+
 		List<MaterialStack> stacks = new ArrayList();
-		
+
 		for(int i = 0; i < matDef.length; i += 2) {
 			stacks.add(new MaterialStack((NTMMaterial) matDef[i], (int) matDef[i + 1]));
 		}
-		
+
 		if(stacks.isEmpty()) return;
-		
+
 		materialOreEntries.put(key, stacks);
 	}
 
@@ -190,7 +191,7 @@ public class MatDistribution extends SerializableRecipe {
 		Mats.materialEntries.clear();
 		Mats.materialOreEntries.clear();
 	}
-	
+
 	@Override
 	public String getComment() {
 		return "Defines a set of items that can be smelted. Smelting generated from the ore dictionary (prefix + material) is auto-generated and cannot be "

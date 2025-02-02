@@ -24,7 +24,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class CokerRecipes extends SerializableRecipe {
-	
+
 	private static HashMap<FluidType, Triplet<Integer, ItemStack, FluidStack>> recipes = new HashMap();
 
 	@Override
@@ -58,7 +58,7 @@ public class CokerRecipes extends SerializableRecipe {
 		registerSFAuto(WOODOIL, 340_000L, new ItemStack(Items.coal, 1, 1), GAS_COKER);
 
 		registerRecipe(WATZ, 4_000, new ItemStack(ModItems.ingot_mud, 4), null);
-		registerRecipe(REDMUD, 1_000, new ItemStack(Items.iron_ingot, 1), new FluidStack(MERCURY, 50));
+		registerRecipe(REDMUD, 450, new ItemStack(Items.iron_ingot, 1), new FluidStack(MERCURY, 50));
 		registerRecipe(BITUMEN, 16_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_600));
 		registerRecipe(LUBRICANT, 12_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_200));
 		registerRecipe(CALCIUM_SOLUTION, 125, new ItemStack(ModItems.powder_calcium), new FluidStack(SPENTSTEAM, 100));
@@ -74,17 +74,17 @@ public class CokerRecipes extends SerializableRecipe {
 	private static void registerSFAuto(FluidType fluid, long tuPerSF, ItemStack fuel, FluidType type) {
 		long tuFlammable = fluid.hasTrait(FT_Flammable.class) ? fluid.getTrait(FT_Flammable.class).getHeatEnergy() : 0;
 		long tuCombustible = fluid.hasTrait(FT_Combustible.class) ? fluid.getTrait(FT_Combustible.class).getCombustionEnergy() : 0;
-		
+
 		long tuPerBucket = Math.max(tuFlammable, tuCombustible);
-		
+
 		double penalty = 1;//1.1D; //no penalty
-		
+
 		int mB = (int) (tuPerSF * 1000L * penalty / tuPerBucket);
 
 		if(mB > 10_000) mB -= (mB % 1000);
 		else if(mB > 1_000) mB -= (mB % 100);
 		else if(mB > 100) mB -= (mB % 10);
-		
+
 		FluidStack byproduct = type == null ? null : new FluidStack(type, Math.max(10, mB / 10));
 
 		registerRecipe(fluid, mB, fuel, byproduct);
@@ -92,28 +92,28 @@ public class CokerRecipes extends SerializableRecipe {
 	private static void registerRecipe(FluidType type, int quantity, ItemStack output, FluidStack byproduct) {
 		recipes.put(type, new Triplet(quantity, output, byproduct));
 	}
-	
+
 	public static Triplet<Integer, ItemStack, FluidStack> getOutput(FluidType type) {
 		return recipes.get(type);
 	}
 
 	public static HashMap<ItemStack, ItemStack[]> getRecipes() {
-		
+
 		HashMap<ItemStack, ItemStack[]> recipes = new HashMap<ItemStack, ItemStack[]>();
-		
+
 		for(Entry<FluidType, Triplet<Integer, ItemStack, FluidStack>> entry : CokerRecipes.recipes.entrySet()) {
-			
+
 			FluidType type = entry.getKey();
 			int amount = entry.getValue().getX();
 			ItemStack out = entry.getValue().getY().copy();
 			FluidStack byproduct = entry.getValue().getZ();
-			
+
 
 			if(out != null && byproduct != null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {out, ItemFluidIcon.make(byproduct)});
 			if(out != null && byproduct == null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {out});
 			if(out == null && byproduct != null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {ItemFluidIcon.make(byproduct)});
 		}
-		
+
 		return recipes;
 	}
 
