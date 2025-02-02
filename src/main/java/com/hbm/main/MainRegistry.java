@@ -1639,6 +1639,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.assembly_calamity");
 		ignoreMappings.add("hbm:item.assembly_lacunae");
 		ignoreMappings.add("hbm:item.assembly_luna");
+		ignoreMappings.add("hbm:item.pellet_chlorophyte");
+		ignoreMappings.add("hbm:item.pellet_canister");
+		ignoreMappings.add("hbm:item.pellet_claws");
+		ignoreMappings.add("hbm:item.pellet_flechette");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -43,7 +43,6 @@ public class AnvilRecipes extends SerializableRecipe {
 	
 	public static void register() {
 		registerSmithing();
-		registerConstruction();
 	}
 
 	@Override public String getFileName() { return "hbmAnvil.json"; }
@@ -598,7 +597,6 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 28))).setTier(2));
 		
 		pullFromAssembler(new ComparableStack(ModItems.pellet_buckshot), 1);
-		pullFromAssembler(new ComparableStack(ModItems.pellet_canister), 1);
 	}
 	
 	public static void registerConstructionUpgrades() {

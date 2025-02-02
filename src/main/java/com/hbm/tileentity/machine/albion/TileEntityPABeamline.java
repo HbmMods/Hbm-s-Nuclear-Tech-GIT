@@ -19,7 +19,9 @@ public class TileEntityPABeamline extends TileEntity implements IParticleUser {
 	}
 
 	@Override
-	public void onEnter(Particle particle, ForgeDirection dir) { }
+	public void onEnter(Particle particle, ForgeDirection dir) {
+		particle.addDistance(3);
+	}
 
 	@Override
 	public BlockPos getExitPos(Particle particle) {

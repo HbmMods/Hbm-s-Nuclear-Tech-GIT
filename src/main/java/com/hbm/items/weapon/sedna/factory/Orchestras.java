@@ -771,26 +771,27 @@ public class Orchestras {
 	
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_STINGER = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
-		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 
-		AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
-		if(ItemGunStinger.getLockonProgress(stack) > 0 && !ItemGunStinger.getIsLockedOn(stack)) {
-			//start sound
-			if(runningAudio == null || !runningAudio.isPlaying()) {
-				AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.lockon", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
-				ItemGunBaseNT.loopedSounds.put(entity, audio);
-				audio.startSound();
+		if(entity.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+			if(ItemGunStinger.getLockonProgress(stack) > 0 && !ItemGunStinger.getIsLockedOn(stack)) {
+				//start sound
+				if(runningAudio == null || !runningAudio.isPlaying()) {
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.lockon", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
+					ItemGunBaseNT.loopedSounds.put(entity, audio);
+					audio.startSound();
+				}
+				//keepalive
+				if(runningAudio != null && runningAudio.isPlaying()) {
+					runningAudio.keepAlive();
+					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
+				}
+			} else {
+				//stop sound due to timeout
+				if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
 			}
-			//keepalive
-			if(runningAudio != null && runningAudio.isPlaying()) {
-				runningAudio.keepAlive();
-				runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
-			}
-		} else {
-			//stop sound due to timeout
-			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
 		}
 		
 		if(type == AnimType.RELOAD) {

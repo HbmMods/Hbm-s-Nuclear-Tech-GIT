@@ -62,7 +62,8 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 		if(type != null && type.quadMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
 		
 		if(particle.invalid) return;
-		
+
+		particle.addDistance(3);
 		particle.focus(focusGain);
 		this.power -= this.usage * mult;
 	}
