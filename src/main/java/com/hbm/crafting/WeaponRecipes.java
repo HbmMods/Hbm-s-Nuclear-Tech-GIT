@@ -158,8 +158,6 @@ public class WeaponRecipes {
 
 		
 		//Ammo assemblies
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pellet_flechette, 1), new Object[] { " L ", " L ", "LLL", 'L', PB.nugget() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pellet_claws, 1), new Object[] { " X ", "X X", " XX", 'X', STEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_nuke, 1), new Object[] { " WP", "SEP", " WP", 'W', GOLD.wireFine(), 'P', STEEL.plate(), 'S', STEEL.shell(), 'E', ModItems.ball_tatb });
 		
 		//240mm Shells

@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.JsonElement;
@@ -12,7 +13,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -26,65 +26,65 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_hydrogen),
 				new ComparableStack(ModItems.particle_copper),
-				900,
-				new ItemStack(ModItems.particle_aproton),
-				new ItemStack(ModItems.particle_aelectron)
+				300,
+				new ItemStack(ModItems.particle_amat),
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_amat),
 				new ComparableStack(ModItems.particle_amat),
-				900,
+				400,
 				new ItemStack(ModItems.particle_aschrab),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_aschrab),
 				new ComparableStack(ModItems.particle_aschrab),
-				100000,
+				10_000,
 				new ItemStack(ModItems.particle_dark),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_hydrogen),
 				new ComparableStack(ModItems.particle_amat),
-				2000,
+				2_500,
 				new ItemStack(ModItems.particle_muon),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_hydrogen),
 				new ComparableStack(ModItems.particle_lead),
-				5000,
+				6_500,
 				new ItemStack(ModItems.particle_higgs),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_muon),
 				new ComparableStack(ModItems.particle_higgs),
-				2000,
+				5_000,
 				new ItemStack(ModItems.particle_tachyon),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_muon),
 				new ComparableStack(ModItems.particle_dark),
-				100000,
+				12_500,
 				new ItemStack(ModItems.particle_strange),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_strange),
 				new ComparableStack(ModItems.powder_magic),
-				500000,
+				12_500,
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.dust)
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(ModItems.particle_sparkticle),
 				new ComparableStack(ModItems.particle_higgs),
-				1000000,
+				70_000,
 				new ItemStack(ModItems.particle_digamma),
-				new ItemStack(ModItems.particle_empty)
+				null
 				));
 		recipes.add(new ParticleAcceleratorRecipe(
 				new ComparableStack(Items.chicken),
@@ -93,27 +93,33 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget),
 				new ItemStack(ModItems.nugget)
 				));
-		recipes.add(new ParticleAcceleratorRecipe(
-				new ComparableStack(Blocks.sand),
-				new ComparableStack(Blocks.sand),
-				10,
-				new ItemStack(ModItems.static_sandwich),
-				new ItemStack(ModItems.static_sandwich)
-				));
 	}
 	
-	public ParticleAcceleratorRecipe getOutput(ItemStack input1, ItemStack input2, int momentum) {
+	public static ParticleAcceleratorRecipe getOutput(ItemStack input1, ItemStack input2) {
 		
 		for(ParticleAcceleratorRecipe recipe : recipes) {
 			
-			if(momentum >= recipe.momentum &&
-					((recipe.input1.matchesRecipe(input1, true) && recipe.input2.matchesRecipe(input2, true)) ||
+			if(((recipe.input1.matchesRecipe(input1, true) && recipe.input2.matchesRecipe(input2, true)) ||
 							(recipe.input1.matchesRecipe(input2, true) && recipe.input2.matchesRecipe(input1, true)))) {
 				return recipe;
 			}
 		}
 		
 		return null;
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object[], Object> recipes = new HashMap<Object[], Object>();
+		
+		for(ParticleAcceleratorRecipe entry : ParticleAcceleratorRecipes.recipes) {
+			List<ItemStack> outputs = new ArrayList();
+			if(entry.output1 != null) outputs.add(entry.output1);
+			if(entry.output2 != null) outputs.add(entry.output2);
+			recipes.put(new Object[] {entry.input1, entry.input2}, outputs.toArray(new ItemStack[0]));
+		}
+		
+		return recipes;
 	}
 
 	public static class ParticleAcceleratorRecipe {
@@ -176,7 +182,7 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 		
 		writer.name("outputs").beginArray();
 		this.writeItemStack(rec.output1, writer);
-		this.writeItemStack(rec.output2, writer);
+		if(rec.output2 != null) this.writeItemStack(rec.output2, writer);
 		writer.endArray();
 	}
 }

@@ -51,7 +51,8 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 		if(this.power < this.usage)	particle.crash(PAState.CRASH_NOPOWER);
 		
 		if(particle.invalid) return;
-		
+
+		particle.addDistance(9);
 		particle.momentum += this.momentumGain;
 		particle.defocus(defocusGain);
 		this.power -= this.usage;

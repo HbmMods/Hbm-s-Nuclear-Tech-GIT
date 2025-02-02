@@ -1,6 +1,9 @@
 package com.hbm.blocks.machine.albion;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -8,11 +11,12 @@ import com.hbm.tileentity.machine.albion.TileEntityPADipole;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPADipole extends BlockDummyable {
+public class BlockPADipole extends BlockDummyable implements ITooltipProvider {
 
 	public BlockPADipole() {
 		super(Material.iron);
@@ -48,5 +52,10 @@ public class BlockPADipole extends BlockDummyable {
 		this.makeExtra(world, x - 1, y + 1, z);
 		this.makeExtra(world, x, y + 1, z + 1);
 		this.makeExtra(world, x, y + 1, z - 1);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 }

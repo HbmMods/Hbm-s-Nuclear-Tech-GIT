@@ -1,5 +1,7 @@
  package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
@@ -9,6 +11,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.albion.TileEntityPASource;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -39,7 +42,11 @@ public class GUIPASource extends GuiInfoContainer {
 		source.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 36, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, source.power, source.getMaxPower());
 
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 18, 10, 10, mouseX, mouseY, "Last momentum: " + source.lastSpeed);
+		List<String> info = new ArrayList();
+		info.add(EnumChatFormatting.BLUE + "Last momentum: " + EnumChatFormatting.RESET + String.format(Locale.US, "%,d", source.lastSpeed));
+		String[] message = I18nUtil.resolveKeyArray("pa." + this.source.state.name().toLowerCase(Locale.US) + ".desc");
+		for(String s : message) info.add(EnumChatFormatting.YELLOW + s);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 18, 10, 10, mouseX, mouseY, info);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 30, 10, 10, mouseX, mouseY, EnumChatFormatting.RED + "Cancel operation");
 	}
 
@@ -59,7 +66,7 @@ public class GUIPASource extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		
 		String name = this.source.hasCustomInventoryName() ? this.source.getInventoryName() : I18n.format(this.source.getInventoryName());
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 4, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
 		this.fontRendererObj.drawString(EnumChatFormatting.AQUA + "/123K", 136, 22, 4210752);

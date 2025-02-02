@@ -127,7 +127,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		super.serialize(buf);
 		buf.writeInt(debugSpeed);
 		buf.writeByte((byte) this.state.ordinal());
-		buf.writeInt(particle != null ? particle.momentum : 0);
+		buf.writeInt(this.lastSpeed);
 	}
 
 	@Override
@@ -135,10 +135,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		super.deserialize(buf);
 		debugSpeed = buf.readInt();
 		state = EnumUtil.grabEnumSafely(PAState.class, buf.readByte());
-		int lastSpeed = buf.readInt();
-		if(lastSpeed != 0) {
-			this.lastSpeed = lastSpeed;
-		}
+		this.lastSpeed = buf.readInt();
 	}
 	
 	@Override
@@ -243,7 +240,8 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		public ForgeDirection dir;
 		public int momentum;
 		public int defocus;
-		public static final int maxDefocus = 100;
+		public int distanceTraveled;
+		public static final int maxDefocus = 1000;
 		public boolean invalid = false;
 		
 		public ItemStack input1;
@@ -268,7 +266,11 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 			this.x = pos.getX();
 			this.y = pos.getY();
 			this.z = pos.getZ();
+			this.source.lastSpeed = this.momentum;
 		}
+		
+		public void addDistance(int dist) { this.distanceTraveled += dist; }
+		public void resetDistance() { this.distanceTraveled = 0; }
 		
 		public void defocus(int amount) {
 			this.defocus += amount;

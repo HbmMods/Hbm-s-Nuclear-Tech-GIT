@@ -18,6 +18,8 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -70,6 +72,17 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL),	new ComparableStack(ModItems.item_secret, 2, EnumSecretType.CONTROLLER),	new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL),
 				new OreDictStack(BSCCO.ingot(), 16),											new OreDictStack(STAR.block(), 64),											new OreDictStack(BSCCO.ingot(), 16),
 				new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL),	new ComparableStack(ModItems.item_secret, 2, EnumSecretType.CONTROLLER),	new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL))
+				.extra(PedestalExtraCondition.FULL_MOON));
+
+		recipes.add(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.FOLLY_SM.ordinal()),
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),	new OreDictStack(STAR.ingot(), 1),
+				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModBlocks.moon_turf),	new ComparableStack(ModItems.powder_magic),
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),	new OreDictStack(STAR.ingot(), 1))
+				.extra(PedestalExtraCondition.FULL_MOON));
+		recipes.add(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.FOLLY_NUKE.ordinal()),
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),							new OreDictStack(STAR.ingot(), 1),
+				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.ammo_standard, 4, EnumAmmo.NUKE_HIGH),	new ComparableStack(ModItems.powder_magic),
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),							new OreDictStack(STAR.ingot(), 1))
 				.extra(PedestalExtraCondition.FULL_MOON));
 	}
 
