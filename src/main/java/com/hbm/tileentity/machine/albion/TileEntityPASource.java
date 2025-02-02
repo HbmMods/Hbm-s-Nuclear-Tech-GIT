@@ -241,7 +241,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		public int momentum;
 		public int defocus;
 		public int distanceTraveled;
-		public static final int maxDefocus = 100;
+		public static final int maxDefocus = 1000;
 		public boolean invalid = false;
 		
 		public ItemStack input1;

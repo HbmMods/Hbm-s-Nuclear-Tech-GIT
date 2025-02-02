@@ -182,7 +182,7 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 		
 		writer.name("outputs").beginArray();
 		this.writeItemStack(rec.output1, writer);
-		this.writeItemStack(rec.output2, writer);
+		if(rec.output2 != null) this.writeItemStack(rec.output2, writer);
 		writer.endArray();
 	}
 }

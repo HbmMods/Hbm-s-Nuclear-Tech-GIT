@@ -391,14 +391,14 @@ public class Fluids {
 		VITRIOL =				new FluidType("VITRIOL",			0x6E5222, 2, 0, 1, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		SLOP =					new FluidType("SLOP",				0x929D45, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		LEAD =					new FluidType("LEAD",				0x666672, 4, 0, 0, EnumSymbol.NONE).setTemp(350).addTraits(LIQUID, VISCOUS);
-		LEAD_HOT =				new FluidType("LEAD_HOT",		0x776563, 4, 0, 0, EnumSymbol.NONE).setTemp(1500).addTraits(LIQUID, VISCOUS);
+		LEAD_HOT =				new FluidType("LEAD_HOT",			0x776563, 4, 0, 0, EnumSymbol.NONE).setTemp(1500).addTraits(LIQUID, VISCOUS);
 		PERFLUOROMETHYL =		new FluidType("PERFLUOROMETHYL",	0xBDC8DC, 1, 0, 1, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID);
 		PERFLUOROMETHYL_COLD =	new FluidType("PERFLUOROMETHYL_COLD",0x99DADE, 1, 0, 1, EnumSymbol.NONE).setTemp(-150).addTraits(LIQUID);
 		PERFLUOROMETHYL_HOT =	new FluidType("PERFLUOROMETHYL_HOT",0xB899DE, 1, 0, 1, EnumSymbol.NONE).setTemp(250).addTraits(LIQUID);
-		LYE =					new FluidType("LYE",			0xFFECCC, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID);
-		SODIUM_ALUMINATE =		new FluidType("SODIUM_ALUMINATE",			0xFFD191, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
-		BAUXITE_SOLUTION =		new FluidType("BAUXITE_SOLUTION",			0xE2560F, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID, VISCOUS);
-		ALUMINA =				new FluidType(150,"ALUMINA",			0xDDFFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		LYE =					new FluidType("LYE",				0xFFECCC, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID);
+		SODIUM_ALUMINATE =		new FluidType("SODIUM_ALUMINATE",	0xFFD191, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
+		BAUXITE_SOLUTION =		new FluidType("BAUXITE_SOLUTION",	0xE2560F, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID, VISCOUS);
+		ALUMINA =				new FluidType(150,"ALUMINA",		0xDDFFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
