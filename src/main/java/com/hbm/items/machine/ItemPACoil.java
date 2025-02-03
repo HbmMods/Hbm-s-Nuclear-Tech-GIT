@@ -46,5 +46,6 @@ public class ItemPACoil extends ItemEnumMulti {
 		list.add(EnumChatFormatting.BLUE + "Dipole minimum side length: " + EnumChatFormatting.RESET + type.diDistMin);
 		list.add(EnumChatFormatting.RED + "Minimums not met result in a power draw penalty!");
 		list.add(EnumChatFormatting.RED + "Maximums exceeded result in the particle crashing!");
+		list.add(EnumChatFormatting.RED + "Particles will crash in dipoles if both penalties take effect!");
 	}
 }

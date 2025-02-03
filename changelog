@@ -1,25 +1,16 @@
-## Added
-* Bauxite processing
-  * Bauxite is now processed by mixing it with lye, and then fractioning it into sodium aluminate and red mud
-  * Red mud can now be turned into cement
-  * Sodium aluminate can either be processed directly into aluminium in a rotary furnace, or turned into alumina with fluorite to be used in an electrolyzer
-  * Standard aluminium ore is now "aluminium-bearing ore" which drops cryolite, which can either be smelted into aluminium like normal or combination smelted into aluminium and lye
-* Particle accelerator
-  * Should be about finished now
-  * Recipes should now be doable
-  * Added recipes to all the components
-  * Changed the dipole mechanic from a momentum penalty to a power draw penalty for smaller accelerator rings
-  * Added explicit compressor recipes for perfluoromethyl in order to change the standard compression speed of 100 ticks to 50
-  * All the parts have tooltips, you'll figure it out
-
 ## Changed
-* Blast doors will now pulverize any block that gets in their way during closing
-* The nuclear and RTG furnaces will be retired, their recipes have been removed but they remain operational for now
-* Changed the magnetron recipe to be 3 copper plates and 4 tungsten wires
-* Added recipes to some secret ammo types
+* Changed PA power draw penalties from x5 to x10
+* Particles will now crash instantly if the dipole has both penalties in effect (underspeed + undersized ring)
+  * This means that undersized accelerators require appropriate tier coils, and overtiered accelerators (i.e. high coils for low velocities) need to meet the size requirement
+  * Accelerators where both penalties take effect are usually tiny ones with single tier coils (usually the highest tier required) which are lame
+* DNT nano suit helmets now require quantum circuits instead of bismuth ones
+* Made particle capsules more expensive
+  * Since invalid recipes no longer void containers, this shouldn't really be a huge deal
+* Both quadrupoles and dipoles now have a power cap of 2.5MHE
+* RFCs now use 250kHE per pass (instead of 100k)
+* Heavy water extraction now has a NEI handler
 
 ## Fixed
-* Fixed the CCGT's steam output breaking as soon as the steam buffer runs full
-* Fixed crash caused by mobs holding belt-fed guns
-* Fixed boiler heat input being way too low due to operation order (diffusion was applied AFTER the input heat was capped)
-* Fixed stinger playing its lockon sound on the wrong side
+* Fixed particle detector not consuming power
+* Fixed empty capsules not being recoverable from the color coded slots on the particle source
+* Fixed particle detector nor charging from batteries

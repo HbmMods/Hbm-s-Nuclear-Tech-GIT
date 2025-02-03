@@ -164,8 +164,8 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 
 	//reusing the same fucking instance because doing anything else would be retarded
 	public static final BlockPos cheapAss = new BlockPos(0, 0, 0);
-	public static final int[] slotsRed = new int[] {1};
-	public static final int[] slotsYellow = new int[] {2};
+	public static final int[] slotsRed = new int[] {1, 3, 4};
+	public static final int[] slotsYellow = new int[] {2, 3, 4};
 	@Override
 	public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);

@@ -4,6 +4,7 @@ import com.hbm.inventory.container.ContainerPADetector;
 import com.hbm.inventory.gui.GUIPADetector;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes.ParticleAcceleratorRecipe;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
@@ -30,6 +31,16 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	@Override
 	public String getName() {
 		return "container.paDetector";
+	}
+
+	@Override
+	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+		}
+		
+		super.updateEntity();
 	}
 
 	@Override
@@ -131,6 +142,8 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 				return;
 			}
 		}
+		
+		this.power -= this.usage;
 	}
 	
 	public boolean canAccept(ParticleAcceleratorRecipe recipe) {
