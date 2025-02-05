@@ -1,16 +1,3 @@
-## Changed
-* Changed PA power draw penalties from x5 to x10
-* Particles will now crash instantly if the dipole has both penalties in effect (underspeed + undersized ring)
-  * This means that undersized accelerators require appropriate tier coils, and overtiered accelerators (i.e. high coils for low velocities) need to meet the size requirement
-  * Accelerators where both penalties take effect are usually tiny ones with single tier coils (usually the highest tier required) which are lame
-* DNT nano suit helmets now require quantum circuits instead of bismuth ones
-* Made particle capsules more expensive
-  * Since invalid recipes no longer void containers, this shouldn't really be a huge deal
-* Both quadrupoles and dipoles now have a power cap of 2.5MHE
-* RFCs now use 250kHE per pass (instead of 100k)
-* Heavy water extraction now has a NEI handler
-
 ## Fixed
-* Fixed particle detector not consuming power
-* Fixed empty capsules not being recoverable from the color coded slots on the particle source
-* Fixed particle detector nor charging from batteries
+* Fixed items being annihilated when shift clicking them into the particle source
+* Fixed packet optimization not allowing packets to be sent when the day night cycle is halted
