@@ -4866,9 +4866,9 @@ pa.crash_nocoil.desc=The particle has entered a dipole$or quadrupole which lacks
 pa.crash_overspeed=Overspeed!
 pa.crash_overspeed.desc=The particle has entered a dipole$or quadrupole, while its speed exceeded$the coil's rating. Install higher$tier coils, or configure the dipoles$to leave the accelerator ring sooner.
 pa.crash_norecipe=No recipe!
-pa.crash_norecipe.desc=The particle entered a detector with an invalid set of inputs. Ensure the particle source inputs match a valid recipe.
+pa.crash_norecipe.desc=The particle entered a detector$with an invalid set of inputs.$Ensure the particle source inputs$match a valid recipe.
 pa.crash_underspeed=Underspeed!
-pa.crash_underspeed.desc=The particle entered a detector with insufficient speed to perform the current recipe. Ensure the accelerator is configured correctly for the recipe.
+pa.crash_underspeed.desc=The particle entered a detector$with insufficient speed to perform$the current recipe. Ensure the$accelerator is configured$correctly for the recipe.
 
 potion.hbm_bang=! ! !
 potion.hbm_death=Astolfization

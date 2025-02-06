@@ -114,11 +114,12 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 		if(particle.defocus > 0) { particle.crash(PAState.CRASH_DEFOCUS); return; }
 		if(this.power < usage) { particle.crash(PAState.CRASH_NOPOWER); return; }
 		if(!isCool()) { particle.crash(PAState.CRASH_NOCOOL); return; }
+		this.power -= usage;
 
 		for(ParticleAcceleratorRecipe recipe : ParticleAcceleratorRecipes.recipes) {
 			if(!recipe.matchesRecipe(particle.input1, particle.input2)) continue; // another W for continue
+			
 			if(particle.momentum < recipe.momentum) {
-				this.power -= usage;
 				particle.crash(PAState.CRASH_UNDERSPEED);
 				return;
 			}
@@ -141,12 +142,10 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 					}
 				}
 			}
-			this.power -= usage;
 			particle.crash(PAState.SUCCESS);
 			return;
 		}
 
-		this.power -= usage;
 		particle.crash(PAState.CRASH_NORECIPE);
 	}
 
