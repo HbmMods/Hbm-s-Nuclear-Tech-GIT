@@ -17,9 +17,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class ParticleAcceleratorRecipes extends SerializableRecipe {
-	
+
 	public static final List<ParticleAcceleratorRecipe> recipes = new ArrayList();
-	
+
 	@Override
 	public void registerDefaults() {
 
@@ -94,31 +94,31 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget)
 				));
 	}
-	
+
 	public static ParticleAcceleratorRecipe getOutput(ItemStack input1, ItemStack input2) {
-		
+
 		for(ParticleAcceleratorRecipe recipe : recipes) {
-			
+
 			if(((recipe.input1.matchesRecipe(input1, true) && recipe.input2.matchesRecipe(input2, true)) ||
 							(recipe.input1.matchesRecipe(input2, true) && recipe.input2.matchesRecipe(input1, true)))) {
 				return recipe;
 			}
 		}
-		
+
 		return null;
 	}
 
 	public static HashMap getRecipes() {
-		
+
 		HashMap<Object[], Object> recipes = new HashMap<Object[], Object>();
-		
+
 		for(ParticleAcceleratorRecipe entry : ParticleAcceleratorRecipes.recipes) {
 			List<ItemStack> outputs = new ArrayList();
 			if(entry.output1 != null) outputs.add(entry.output1);
 			if(entry.output2 != null) outputs.add(entry.output2);
 			recipes.put(new Object[] {entry.input1, entry.input2}, outputs.toArray(new ItemStack[0]));
 		}
-		
+
 		return recipes;
 	}
 
@@ -128,13 +128,19 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 		public int momentum;
 		public ItemStack output1;
 		public ItemStack output2;
-		
+
 		public ParticleAcceleratorRecipe(AStack in1, AStack in2, int momentum, ItemStack out1, ItemStack out2) {
 			this.input1 = in1;
 			this.input2 = in2;
 			this.momentum = momentum;
 			this.output1 = out1;
 			this.output2 = out2;
+		}
+
+		// it makes more sense to have this logic here
+		public boolean matchesRecipe(ItemStack in1, ItemStack in2) {
+			return this.input1.matchesRecipe(in1, true) && this.input2.matchesRecipe(in2, true)
+				|| this.input1.matchesRecipe(in2, true) && this.input2.matchesRecipe(in1, true);
 		}
 	}
 
@@ -159,7 +165,7 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 		int momentum = obj.get("momentum").getAsInt();
 		AStack[] in = this.readAStackArray(obj.get("inputs").getAsJsonArray());
 		ItemStack[] out = this.readItemStackArray(obj.get("outputs").getAsJsonArray());
-		
+
 		this.recipes.add(new ParticleAcceleratorRecipe(
 				in[0],
 				in[1],
@@ -172,14 +178,14 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
 		ParticleAcceleratorRecipe rec = (ParticleAcceleratorRecipe) recipe;
-		
+
 		writer.name("momentum").value(rec.momentum);
-		
+
 		writer.name("inputs").beginArray();
 		this.writeAStack(rec.input1, writer);
 		this.writeAStack(rec.input2, writer);
 		writer.endArray();
-		
+
 		writer.name("outputs").beginArray();
 		this.writeItemStack(rec.output1, writer);
 		if(rec.output2 != null) this.writeItemStack(rec.output2, writer);
