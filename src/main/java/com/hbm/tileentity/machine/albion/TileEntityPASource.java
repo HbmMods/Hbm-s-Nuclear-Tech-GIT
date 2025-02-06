@@ -25,16 +25,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPASource extends TileEntityCooledBase implements IGUIProvider, IConditionalInvAccess, IControlReceiver {
-	
+
 	public static final long usage = 100_000;
 	public Particle particle;
 	public PAState state = PAState.IDLE;
-	
+
 	public int lastSpeed;
-	
+
 	public int debugSpeed;
-	
-	public static enum PAState {
+
+	public enum PAState {
 		IDLE(0x8080ff),					//no particle active
 		RUNNING(0xffff00),				//running without further issue
 		SUCCESS(0x00ff00),				//completed recipe
@@ -45,17 +45,19 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		CRASH_NOCOOL(0xff0000),			//crash due to lack of cooling
 		CRASH_NOPOWER(0xff0000),		//crash due to power outage
 		CRASH_NOCOIL(0xff0000),			//crash due to no coil installed (QP, DP)
-		CRASH_OVERSPEED(0xff0000);		//crash due to coil max speed exceeded (QP, DP)
-		
-		public int color;
-		
-		private PAState(int color) {
+		CRASH_OVERSPEED(0xff0000),		//crash due to coil max speed exceeded (QP, DP)
+		CRASH_UNDERSPEED(0xff0000),	//crash due to recipe momentum requirements not being met
+		CRASH_NORECIPE(0xff0000);		//crash due to failing to match recipe
+
+		public final int color;
+
+		PAState(int color) {
 			this.color = color;
 		}
 	}
-	
+
 	public void updateState(PAState state) { this.state = state; }
-	
+
 	public TileEntityPASource() {
 		super(5);
 	}
@@ -65,10 +67,10 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
-			
+
 			for(int i = 0; i < 10; i++) {
 				if(particle != null) {
 					this.state = PAState.RUNNING;
@@ -81,14 +83,14 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 				}
 			}
 		}
-		
+
 		super.updateEntity();
 	}
-	
+
 	public void steppy() {
 		if(!worldObj.getChunkProvider().chunkExists(particle.x >> 4, particle.z >> 4)) { this.state = PAState.PAUSE_UNLOADED; return; } //halt if we reach unloaded areas
 		//ExplosionSmallCreator.composeEffect(worldObj, particle.x + 0.5, particle.y + 0.5, particle.z + 0.5, 10, 1, 1);
-		
+
 		Block b = worldObj.getBlock(particle.x, particle.y, particle.z);
 		if(b instanceof BlockDummyable) {
 			int[] pos = ((BlockDummyable) b).findCore(worldObj, particle.x, particle.y, particle.z);
@@ -105,14 +107,14 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 			particle.crash(PAState.CRASH_DERAIL);
 		}
 	}
-	
+
 	public void tryRun() {
 		if(slots[1].getItem().hasContainerItem(slots[1]) && slots[3] != null) return;
 		if(slots[2].getItem().hasContainerItem(slots[2]) && slots[4] != null) return;
 
 		if(slots[1].getItem().hasContainerItem(slots[1])) slots[3] = slots[1].getItem().getContainerItem(slots[1]).copy();
 		if(slots[2].getItem().hasContainerItem(slots[2])) slots[4] = slots[2].getItem().getContainerItem(slots[2]).copy();
-		
+
 		this.power -= usage;
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
@@ -137,7 +139,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		state = EnumUtil.grabEnumSafely(PAState.class, buf.readByte());
 		this.lastSpeed = buf.readInt();
 	}
-	
+
 	@Override
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -171,17 +173,17 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		cheapAss.mutate(x, y, z);
-		
+
 		if(cheapAss.compare(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2) ||
 				cheapAss.compare(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2)) {
 			return slotsYellow;
 		}
-		
+
 		if(cheapAss.compare(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2) ||
 				cheapAss.compare(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2)) {
 			return slotsRed;
 		}
-		
+
 		return getAccessibleSlotsFromSide(side);
 	}
 
@@ -191,10 +193,10 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	}
 
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 4,
@@ -205,10 +207,10 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 					zCoord + 6
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -230,7 +232,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 			this.state = PAState.IDLE;
 		}
 	}
-	
+
 	public static class Particle {
 
 		private TileEntityPASource source;
@@ -243,10 +245,10 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		public int distanceTraveled;
 		public static final int maxDefocus = 1000;
 		public boolean invalid = false;
-		
+
 		public ItemStack input1;
 		public ItemStack input2;
-		
+
 		public Particle(TileEntityPASource source, int x, int y, int z, ForgeDirection dir, ItemStack input1, ItemStack input2) {
 			this.source = source;
 			this.x = x;
@@ -256,27 +258,27 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 			this.input1 = input1;
 			this.input2 = input2;
 		}
-		
+
 		public void crash(PAState state) {
 			this.invalid = true;
 			this.source.updateState(state);
 		}
-		
+
 		public void move(BlockPos pos) {
 			this.x = pos.getX();
 			this.y = pos.getY();
 			this.z = pos.getZ();
 			this.source.lastSpeed = this.momentum;
 		}
-		
+
 		public void addDistance(int dist) { this.distanceTraveled += dist; }
 		public void resetDistance() { this.distanceTraveled = 0; }
-		
+
 		public void defocus(int amount) {
 			this.defocus += amount;
 			if(this.defocus > this.maxDefocus) this.crash(PAState.CRASH_DEFOCUS);
 		}
-		
+
 		public void focus(int amount) {
 			this.defocus -= amount;
 			if(this.defocus < 0) this.defocus = 0;

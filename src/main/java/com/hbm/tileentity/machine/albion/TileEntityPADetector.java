@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPADetector extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
 
 	public static final long usage = 100_000;
-	
+
 	public TileEntityPADetector() {
 		super(5);
 	}
@@ -35,11 +35,11 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}
-		
+
 		super.updateEntity();
 	}
 
@@ -64,12 +64,12 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return slot == 1 || slot == 2; }
 	@Override public boolean canExtractItem(int slot, ItemStack stack, int side) { return slot == 3 || slot == 4; }
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] { 1, 2, 3, 4 }; }
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 4,
@@ -80,10 +80,10 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 					zCoord + 5
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -112,44 +112,48 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 		particle.invalid = true;
 		//particle will crash if not perfectly focused
 		if(particle.defocus > 0) { particle.crash(PAState.CRASH_DEFOCUS); return; }
-		if(this.power < this.usage) { particle.crash(PAState.CRASH_NOPOWER); return; }
+		if(this.power < usage) { particle.crash(PAState.CRASH_NOPOWER); return; }
 		if(!isCool()) { particle.crash(PAState.CRASH_NOCOOL); return; }
 
 		for(ParticleAcceleratorRecipe recipe : ParticleAcceleratorRecipes.recipes) {
-			
-			if(particle.momentum >= recipe.momentum &&
-					((recipe.input1.matchesRecipe(particle.input1, true) && recipe.input2.matchesRecipe(particle.input2, true)) ||
-					(recipe.input1.matchesRecipe(particle.input2, true) && recipe.input2.matchesRecipe(particle.input1, true)))) {
-				if(canAccept(recipe)) {
-					if(recipe.output1.getItem().hasContainerItem(recipe.output1)) this.decrStackSize(1, 1);
-					if(recipe.output2 != null && recipe.output2.getItem().hasContainerItem(recipe.output2)) this.decrStackSize(2, 1);
-					
-					if(slots[3] == null) {
-						slots[3] = recipe.output1.copy();
-					} else {
-						slots[3].stackSize += recipe.output1.stackSize;
-					}
-					
-					if(recipe.output2 != null) {
-						if(slots[4] == null) {
-							slots[4] = recipe.output2.copy();
-						} else {
-							slots[4].stackSize += recipe.output2.stackSize;
-						}
-					}
-				}
-				particle.crash(PAState.SUCCESS);
+			if(!recipe.matchesRecipe(particle.input1, particle.input2)) continue; // another W for continue
+			if(particle.momentum < recipe.momentum) {
+				this.power -= usage;
+				particle.crash(PAState.CRASH_UNDERSPEED);
 				return;
 			}
+
+			if(canAccept(recipe)) {
+				if(recipe.output1.getItem().hasContainerItem(recipe.output1)) this.decrStackSize(1, 1);
+				if(recipe.output2 != null && recipe.output2.getItem().hasContainerItem(recipe.output2)) this.decrStackSize(2, 1);
+
+				if(slots[3] == null) {
+					slots[3] = recipe.output1.copy();
+				} else {
+					slots[3].stackSize += recipe.output1.stackSize;
+				}
+
+				if(recipe.output2 != null) {
+					if(slots[4] == null) {
+						slots[4] = recipe.output2.copy();
+					} else {
+						slots[4].stackSize += recipe.output2.stackSize;
+					}
+				}
+			}
+			this.power -= usage;
+			particle.crash(PAState.SUCCESS);
+			return;
 		}
-		
-		this.power -= this.usage;
+
+		this.power -= usage;
+		particle.crash(PAState.CRASH_NORECIPE);
 	}
-	
+
 	public boolean canAccept(ParticleAcceleratorRecipe recipe) {
 		return checkSlot(recipe.output1, 1, 3) && checkSlot(recipe.output2, 2, 4);
 	}
-	
+
 	public boolean checkSlot(ItemStack output, int containerSlot, int outputSlot) {
 		if(output != null) {
 			if(slots[outputSlot] != null) {
@@ -162,7 +166,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 				if(slots[containerSlot] == null || slots[containerSlot].getItem() != container.getItem() || slots[containerSlot].getItemDamage() != container.getItemDamage()) return false;
 			}
 		}
-		
+
 		return true;
 	}
 
