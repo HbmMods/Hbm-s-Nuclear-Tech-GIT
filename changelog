@@ -1,3 +1,7 @@
+## Changed
+* Particle detectors now print an error for when the recipe could not be completed
+
 ## Fixed
 * Fixed items being annihilated when shift clicking them into the particle source
 * Fixed packet optimization not allowing packets to be sent when the day night cycle is halted
+* Fixed particle detectors not always using power when they should
