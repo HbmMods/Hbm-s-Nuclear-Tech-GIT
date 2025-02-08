@@ -328,6 +328,9 @@ public class LegoClient {
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_PURPLE = (bullet, interp) -> {
 		renderStandardLaser(bullet, interp, 0x60, 0x15, 0x80);
 	};
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_WHITE = (bullet, interp) -> {
+		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x15);
+	};
 	
 	public static void renderStandardLaser(EntityBulletBeamBase bullet, float interp, int r, int g, int b) {
 

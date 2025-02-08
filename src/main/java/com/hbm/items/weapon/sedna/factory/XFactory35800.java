@@ -11,9 +11,12 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.item.ItemStack;
 
@@ -23,21 +26,51 @@ public class XFactory35800 {
 	
 	public static void init() {
 		
-		p35800 = new BulletConfig().setItem(EnumAmmoSecret.P35_800).setupDamageClass(DamageClass.LASER).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		p35800 = new BulletConfig().setItem(EnumAmmoSecret.P35_800).setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
+				.setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xCEB78E).register("35-800")).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
 		ModItems.gun_aberrator = new ItemGunBaseNT(WeaponQuality.SECRET, new GunConfig()
-				.dura(2_000).draw(10).inspect(26).reloadSequential(true).crosshair(Crosshair.CIRCLE)
+				.dura(2_000).draw(10).inspect(26).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(50F).delay(8).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 24).addConfigs(p35800))
+						.dmg(50F).delay(13).dry(21).reload(51).sound("hbm:weapon.fire.aberrator", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 5).addConfigs(p35800))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
-						.setupStandardFire())
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ABERRATOR).orchestra(Orchestras.ORCHESTRA_ABERRATOR)
 				).setUnlocalizedName("gun_aberrator");
 	}
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_ABERRATOR = (stack, type) -> {
+		boolean aim = ItemGunBaseNT.getIsAiming(stack);
+		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null);
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(360, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("RISE", new BusAnimationSequence().addPos(0, -3, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL));
+		case CYCLE: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(aim ? -15 : -25, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("SIGHT", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(aim ? 5 : 15, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 250, IType.SIN_FULL))
+				.addBus("SLIDE", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -1.125, 50, IType.SIN_DOWN).addPos(0, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP))
+				.addBus(ammo <= 1 ? "NULL" : "BULLET", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0.375, 1.125, 150, IType.SIN_UP))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(45, 0, 0, 50).addPos(-45, 0, -1.125, 50, IType.SIN_DOWN).addPos(-20, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 700).addPos(-5, 0, 0, 100, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_FULL))
+				.addBus("SLIDE", new BusAnimationSequence().addPos(0, 0, 0, 550).addPos(0, 0, -1.125, 150, IType.SIN_FULL).addPos(0, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(45, 0, 0, 50).addPos(45, 0, 0, 500).addPos(-45, 0, -1.125, 150, IType.SIN_FULL).addPos(-20, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP));
+		case RELOAD: return new BusAnimation()
+				.addBus("ROLL", new BusAnimationSequence().addPos(0, 0, 20, 150, IType.SIN_FULL).addPos(0, 0, 20, 50).addPos(0, 0, -45, 150, IType.SIN_UP).addPos(0, 0, 0, 150, IType.SIN_FULL))
+				.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, -2, 0, 0).addPos(-15, -5, 0, 350).addPos(-15, 0, 0, 0).addPos(-15, 0, 0, 700).addPos(3, 3, 0, 0).addPos(0, -2, 0, 250, IType.SIN_DOWN).addPos(0, -2, 0, 50).addPos(0, 0, 0, 150, IType.SIN_DOWN))
+				.addBus("MAGROLL", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, 0, -180, 250).addPos(0, 0, 0, 0))
+				.addBus("EQUIP", new BusAnimationSequence().addPos(0, 0, 0, 750).addPos(5, 0, 0, 150, IType.SIN_FULL).addPos(-190, 0, 0, 500, IType.SIN_FULL).addPos(-190, 0, 0, 450).addPos(-360, 0, 0, 350, IType.SIN_DOWN).addPos(0, 0, 0, 0))
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 2350).addPos(-5, 0, 0, 100, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_FULL))
+				.addBus("SLIDE", new BusAnimationSequence().addPos(0, 0, 0, 2200).addPos(0, 0, -1.125, 150, IType.SIN_FULL).addPos(0, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 0, 2250).addPos(-45, 0, -1.125, 100, IType.SIN_FULL).addPos(-20, 0, -1.125, 50).addPos(0, 0, 0, 150, IType.SIN_UP))
+				.addBus("BULLET", new BusAnimationSequence().addPos(ammo > 0 ? 0 : -100, 0, 0, 0).addPos(ammo > 0 ? 0 : -100, 0, 0, 2400).addPos(0, 0, 0, 0).addPos(0, 0.375, 1.125, 150, IType.SIN_UP));
+		case INSPECT: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(0, 0, 0, 0).addPos(-720, 0, 0, 1000, IType.SIN_FULL).addPos(-720, 0, 0, 250).addPos(0, 0, 0, 1000, IType.SIN_FULL));
+		}
+		
 		return null;
 	};
 }
