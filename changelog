@@ -1,7 +1,12 @@
 ## Changed
 * Particle detectors now print an error for when the recipe could not be completed
+* Removed "no ore dict data" line from tooltips with extended view enabled
+* Added a client config called `GUN_ANIMATION_SPEED` which allows the speed of gun animations to be changed
+  * Mostly for debugging, since it only applies to the bus animation system, things like smoke trails and muzzle flashes are unaffected
 
 ## Fixed
 * Fixed items being annihilated when shift clicking them into the particle source
 * Fixed packet optimization not allowing packets to be sent when the day night cycle is halted
 * Fixed particle detectors not always using power when they should
+* Fixed rotary furnace voiding low pressure steam when dealing with input numbers not divisible by 100
+* Fixed state leak causing smoke from the right akimbo weapon to glow when the first one is fired

@@ -48,6 +48,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	public float progress;
 	public int burnTime;
 	public int maxBurnTime;
+	public int steamUsed = 0;
 	public boolean isVenting;
 	public MaterialStack output;
 	public static final int maxOutput = MaterialShapes.BLOCK.q(16);
@@ -124,7 +125,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 				if(this.canProcess(recipe)) {
 					this.progress += 1F / recipe.duration;
 					tanks[1].setFill(tanks[1].getFill() - recipe.steam);
-					tanks[2].setFill(tanks[2].getFill() + recipe.steam / 100);
+					steamUsed += recipe.steam;
 					this.isProgressing = true;
 					
 					if(this.progress >= 1F) {
@@ -142,6 +143,15 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 				} else {
 					this.progress = 0;
 				}
+				
+				if(this.steamUsed >= 100) {
+					int steamReturn = this.steamUsed / 100;
+					int canReturn = tanks[2].getMaxFill() - tanks[2].getFill();
+					int doesReturn = Math.min(steamReturn, canReturn);
+					this.steamUsed -= doesReturn * 100;
+					tanks[2].setFill(tanks[2].getFill() + doesReturn);
+				}
+				
 			} else {
 				this.progress = 0;
 			}
@@ -273,6 +283,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 		if(tanks[1].getFill() < recipe.steam) return false;
 		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam / 100) return false;
+		if(this.steamUsed > 100) return false;
 		
 		if(this.output != null) {
 			if(this.output.material != recipe.output.material) return false;
