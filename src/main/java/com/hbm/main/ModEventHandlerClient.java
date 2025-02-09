@@ -25,6 +25,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.inventory.gui.GUIScreenWikiRender;
+import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
 import com.hbm.items.machine.ItemDepletedFuel;
@@ -1389,6 +1390,8 @@ public class ModEventHandlerClient {
 				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
 			}
 		}
+		
+		if(event.phase == event.phase.END) ItemCustomLore.updateSystem();
 	}
 
 	@SubscribeEvent

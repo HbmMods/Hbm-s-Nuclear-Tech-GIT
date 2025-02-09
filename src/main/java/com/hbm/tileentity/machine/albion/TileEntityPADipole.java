@@ -40,7 +40,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public long getMaxPower() {
-		return 5_000_000;
+		return 2_500_000;
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		int mult = 1;
 		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
 			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
-			if(type.diMin > particle.momentum) mult *= 5;
-			if(type.diDistMin > particle.distanceTraveled) mult *= 5;
+			if(type.diMin > particle.momentum) mult *= 10;
+			if(type.diDistMin > particle.distanceTraveled) mult *= 10;
 		}
 
 		if(!isCool())										particle.crash(PAState.CRASH_NOCOOL);

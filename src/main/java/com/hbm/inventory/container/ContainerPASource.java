@@ -3,6 +3,7 @@ package com.hbm.inventory.container;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.albion.TileEntityPASource;
+import com.hbm.util.InventoryUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,9 +60,9 @@ public class ContainerPASource extends Container {
 			} else {
 				
 				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
-					if(!this.mergeItemStack(stack, 0, 1, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 1, false)) return null;
 				} else {
-					if(!this.mergeItemStack(stack, 1, 3, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 1, 3, false)) return null;
 				}
 			}
 

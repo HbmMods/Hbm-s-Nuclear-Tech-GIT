@@ -121,7 +121,6 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
 		GL11.glTranslated(0, 1, 3);
-
 	}
 
 	@Override

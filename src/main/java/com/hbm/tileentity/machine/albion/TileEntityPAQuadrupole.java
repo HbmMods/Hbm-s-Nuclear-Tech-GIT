@@ -31,7 +31,7 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 
 	@Override
 	public long getMaxPower() {
-		return 1_000_000;
+		return 2_500_000;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 		int mult = 1;
 		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
 			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
-			mult = type.quadMin > particle.momentum ? 5 : 1;
+			mult = type.quadMin > particle.momentum ? 10 : 1;
 		}
 
 		if(!isCool())											particle.crash(PAState.CRASH_NOCOOL);
