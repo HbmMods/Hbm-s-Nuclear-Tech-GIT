@@ -157,7 +157,7 @@ public class ClientProxy extends ServerProxy {
 		registerBlockRenderer();
 
 		Jars.initJars();
-		
+
 		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(new QMAWLoader());
 
 		if(GeneralConfig.enableSoundExtension) {
@@ -831,6 +831,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderRBMKReflector());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKControl());
 		RenderingRegistry.registerBlockHandler(new RenderPribris());
+
+		RenderingRegistry.registerBlockHandler(new RenderBlockWand());
 	}
 
 	@Override
@@ -1733,12 +1735,12 @@ public class ClientProxy extends ServerProxy {
 
 			EntityFX fx = new net.minecraft.client.particle.EntityCritFX(world, x, y, z, mX, mY, mZ);
 			fx.nextTextureIndexX();
-				
+
 			if(data.hasKey("color")) {
 				Color color = new Color(data.getInteger("color"));
 				fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
 			}
-				
+
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 		}
 

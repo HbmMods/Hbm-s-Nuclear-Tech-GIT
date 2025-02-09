@@ -545,37 +545,6 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			}
 
-			if (WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0 && biome != BiomeGenBase.ocean && biome != BiomeGenBase.deepOcean) {
-				int x = i + rand.nextInt(16) + 8;
-				int z = j + rand.nextInt(16) + 8;
-
-				CellularDungeonFactory.meteor.generate(world, x, 10, z, rand);
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + x + " 10 " + z);
-
-				int y = world.getHeightValue(x, z);
-
-				for(int f = 0; f < 3; f++)
-					world.setBlock(x, y + f, z, ModBlocks.meteor_pillar);
-				world.setBlock(x, y + 3, z, ModBlocks.meteor_brick_chiseled);
-
-				for(int f = 0; f < 10; f++) {
-
-					x = i + rand.nextInt(65) - 32;
-					z = j + rand.nextInt(65) - 32;
-					y = world.getHeightValue(x, z);
-
-					if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
-						world.setBlock(x, y, z, Blocks.skull, 1, 2);
-						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y, z);
-
-						if(skull != null)
-							skull.func_145903_a(rand.nextInt(16));
-					}
-				}
-			}
-
 			if((biome == BiomeGenBase.jungle || biome == BiomeGenBase.jungleEdge || biome == BiomeGenBase.jungleHills) &&
 					WorldConfig.jungleStructure > 0 && rand.nextInt(WorldConfig.jungleStructure) == 0) {
 				int x = i + rand.nextInt(16);
