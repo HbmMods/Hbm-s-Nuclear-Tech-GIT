@@ -22,9 +22,10 @@ public class ItemPoolsComponent {
 	public static final String POOL_SOLID_FUEL = "POOL_SOLID_FUEL";
 	public static final String POOL_VAULT_LAB = "POOL_VAULT_LAB";
 	public static final String POOL_VAULT_LOCKERS = "POOL_VAULT_LOCKERS";
-	
+	public static final String POOL_METEOR_SAFE = "POOL_METEOR_SAFE";
+
 	public static void init() {
-		
+
 		//machine parts
 		new ItemPool(POOL_MACHINE_PARTS) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -47,7 +48,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.blade_titanium, 0, 1, 8, 1)
 			};
 		}};
-		
+
 		//fuel isotopes found in bunkers and labs
 		new ItemPool(POOL_NUKE_FUEL) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -68,7 +69,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.screwdriver, 0, 1, 1, 2)
 			};
 		}};
-		
+
 		//missile parts found in silos
 		new ItemPool(POOL_SILO) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -86,7 +87,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.bottle_nuka, 0, 1, 3, 10)
 			};
 		}};
-		
+
 		//low quality items from offices in chests
 		new ItemPool(POOL_OFFICE_TRASH) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -105,7 +106,7 @@ public class ItemPoolsComponent {
 					weighted(ModBlocks.deco_computer, 0, 1, 1, 1)
 			};
 		}};
-		
+
 		//things found in various filing cabinets, paper, books, etc
 		new ItemPool(POOL_FILING_CABINET) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -120,7 +121,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.ink, 0, 1, 1, 1)
 			};
 		}};
-		
+
 		//solid fuels from bunker power rooms
 		new ItemPool(POOL_SOLID_FUEL) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -132,7 +133,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.niter, 0, 1, 3, 1)
 			};
 		}};
-		
+
 		//various lab related items from bunkers
 		new ItemPool(POOL_VAULT_LAB) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -153,7 +154,7 @@ public class ItemPoolsComponent {
 					weighted(ModItems.powder_boron, 0, 1, 1, 1)
 			};
 		}};
-		
+
 		//personal items and gear from vaults
 		new ItemPool(POOL_VAULT_LOCKERS) {{
 			this.pool = new WeightedRandomChestContent[] {
@@ -179,6 +180,21 @@ public class ItemPoolsComponent {
 					weighted(Items.clock, 0, 1, 1, 3),
 					weighted(Items.book, 0, 1, 5, 10),
 					weighted(Items.experience_bottle, 0, 1, 3, 1)
+			};
+		}};
+
+		// Black Book safe in meteor dungeons
+		new ItemPool(POOL_METEOR_SAFE) {{
+			this.pool = new WeightedRandomChestContent[] {
+					weighted(ModItems.book_of_, 0, 1, 1, 1),
+					weighted(ModItems.stamp_book, 0, 1, 1, 1),
+					weighted(ModItems.stamp_book, 1, 1, 1, 1),
+					weighted(ModItems.stamp_book, 2, 1, 1, 1),
+					weighted(ModItems.stamp_book, 3, 1, 1, 1),
+					weighted(ModItems.stamp_book, 4, 1, 1, 1),
+					weighted(ModItems.stamp_book, 5, 1, 1, 1),
+					weighted(ModItems.stamp_book, 6, 1, 1, 1),
+					weighted(ModItems.stamp_book, 7, 1, 1, 1),
 			};
 		}};
 	}
