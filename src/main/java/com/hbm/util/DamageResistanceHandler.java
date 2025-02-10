@@ -158,6 +158,9 @@ public class DamageResistanceHandler {
 				.addExact(DamageClass.LASER.name(), 15F, 0.9F)
 				.addExact(DamageSource.fall.damageType, 10F, 0.5F)
 				.setOther(5F, 0.25F));
+
+		registerSet(ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots, new ResistanceStats()
+				.setOther(1_000_000F, 1F));
 		
 		registerSet(ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots, new ResistanceStats());
 		registerSet(ModItems.hazmat_helmet_red, ModItems.hazmat_plate_red, ModItems.hazmat_legs_red, ModItems.hazmat_boots_red, new ResistanceStats());

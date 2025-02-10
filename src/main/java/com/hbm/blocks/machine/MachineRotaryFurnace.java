@@ -50,7 +50,7 @@ public class MachineRotaryFurnace extends BlockDummyable {
 			this.makeExtra(world, x - dir.offsetX + rot.offsetX * i, y, z - dir.offsetZ + rot.offsetZ * i);
 		}
 		//side fluid
-		this.makeExtra(world, x + dir.offsetX - rot.offsetX * 2, y, z + dir.offsetZ - rot.offsetZ * 2);
+		this.makeExtra(world, x + dir.offsetX + rot.offsetX * 2, y, z + dir.offsetZ + rot.offsetZ * 2);
 		//exhaust
 		this.makeExtra(world, x + rot.offsetX, y + 4, z + rot.offsetZ);
 		//solid fuel
