@@ -1,10 +1,12 @@
 package com.hbm.uninos;
 
+import com.hbm.uninos.UniNodespace.UniNodeWorld;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 public class GenNode<T> {
 	
+	public long id;
 	public BlockPos[] positions;
 	public DirPos[] connections;
 	public INodeNet<T> net;
@@ -12,6 +14,7 @@ public class GenNode<T> {
 	public boolean recentlyChanged = true;
 	
 	public GenNode(BlockPos... positions) {
+		this.id = UniNodeWorld.nextId++;
 		this.positions = positions;
 	}
 	
@@ -37,3 +40,12 @@ public class GenNode<T> {
 		this.recentlyChanged = true;
 	}
 }
+
+/*
+ * 
+ * ok so here's the deal: attempt #1 SUCKED.
+ * making a central nodespaces hashmap that holds one instance of each possible nodespace sounds like a great and simple solution
+ * until you realize that every single fucking fluid under the sun needs to be its own nodespace. which means the update function
+ * has to iterate over every world instance, and for every world instance there's 150 or so nodespaces for fluids alone. not good.
+ * 
+ */
