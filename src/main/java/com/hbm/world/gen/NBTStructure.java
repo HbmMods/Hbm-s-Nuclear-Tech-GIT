@@ -650,6 +650,10 @@ public class NBTStructure {
 		// Maximum amount of components in this structure
 		public int sizeLimit = 8;
 
+		// How far the structure can extend horizontally from the center, maximum of 128
+		// This could be increased by changing GenStructure:range from 8, but this is already quite reasonably large
+		public int rangeLimit = 128;
+
 		// Height modifiers, will clamp height that the start generates at, allowing for:
 		//  * Submarines that must spawn under the ocean surface
 		//  * Bunkers that sit underneath the ground
@@ -967,7 +971,8 @@ public class NBTStructure {
 
 				if(fromComponent.piece.structure.fromConnections == null) continue;
 
-				boolean fallbacksOnly = this.components.size() >= spawn.sizeLimit;
+				int distance = getDistanceTo(fromComponent.getBoundingBox());
+				boolean fallbacksOnly = this.components.size() >= spawn.sizeLimit || distance >= spawn.rangeLimit;
 
 				for(List<JigsawConnection> unshuffledList : fromComponent.piece.structure.fromConnections) {
 					List<JigsawConnection> connectionList = new ArrayList<>(unshuffledList);
@@ -1013,7 +1018,7 @@ public class NBTStructure {
 			}
 
 			if(GeneralConfig.enableDebugMode) {
-				MainRegistry.logger.info("[Debug] Spawning NBT structure at: " + chunkX * 16 + ", " + chunkZ * 16);
+				MainRegistry.logger.info("[Debug] Spawning NBT structure with " + components.size() + " piece(s) at: " + chunkX * 16 + ", " + chunkZ * 16);
 				String componentList = "[Debug] Components: ";
 				for(Object component : this.components) {
 					componentList += ((Component) component).piece.structure.name + " ";
@@ -1068,6 +1073,13 @@ public class NBTStructure {
 			}
 
 			return nextPiece.structure.toHorizontalConnections.get(fromConnection.targetName);
+		}
+
+		private int getDistanceTo(StructureBoundingBox box) {
+			int x = box.getCenterX();
+			int z = box.getCenterZ();
+
+			return Math.max(Math.abs(x - (func_143019_e() << 4)), Math.abs(z - (func_143018_f() << 4)));
 		}
 
 		// post loading, update parent reference for loaded components

@@ -48,6 +48,7 @@ public class StructureManager {
 	public static final NBTStructure meteor_dragon_tesla = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/headloot/loot-tesla.nbt"));
 	public static final NBTStructure meteor_dragon_trap = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/headloot/loot-trap.nbt"));
 	public static final NBTStructure meteor_dragon_crate_crab = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/headloot/loot-crate-crab.nbt"));
+	public static final NBTStructure meteor_dragon_fallback = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/headloot/loot-fallback.nbt"));
 
 
 

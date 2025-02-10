@@ -50,23 +50,23 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
-            put(ModBlocks.meteor_brick, new MeteorBricks());
-        }};
-        Map<Block, BlockSelector> crates = new HashMap<Block, BlockSelector>() {{
-            put(ModBlocks.meteor_brick, new MeteorBricks());
-            put(ModBlocks.crate, new SupplyCrates());
-            put(ModBlocks.meteor_spawner, new CrabSpawners());
-        }};
-        Map<Block, BlockSelector> ooze = new HashMap<Block, BlockSelector>() {{
-            put(ModBlocks.meteor_brick, new MeteorBricks());
-            put(ModBlocks.concrete_colored, new GreenOoze());
-        }};
+			put(ModBlocks.meteor_brick, new MeteorBricks());
+		}};
+		Map<Block, BlockSelector> crates = new HashMap<Block, BlockSelector>() {{
+			put(ModBlocks.meteor_brick, new MeteorBricks());
+			put(ModBlocks.crate, new SupplyCrates());
+			put(ModBlocks.meteor_spawner, new CrabSpawners());
+		}};
+		Map<Block, BlockSelector> ooze = new HashMap<Block, BlockSelector>() {{
+			put(ModBlocks.meteor_brick, new MeteorBricks());
+			put(ModBlocks.concrete_colored, new GreenOoze());
+		}};
 
-        NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			minHeight = 32;
 			maxHeight = 32;
 			sizeLimit = 128;
-            canSpawn = biome -> biome.rootHeight >= 0;
+			canSpawn = biome -> biome.rootHeight >= 0;
 			startPool = "start";
 			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
 				put("start", new JigsawPool() {{
@@ -116,12 +116,16 @@ public class NTMWorldGenerator implements IWorldGenerator {
 					add(new JigsawPiece("meteor_dragon_tesla", StructureManager.meteor_dragon_tesla) {{ blockTable = crates; }}, 1);
 					add(new JigsawPiece("meteor_dragon_trap", StructureManager.meteor_dragon_trap) {{ blockTable = crates; }}, 1);
 					add(new JigsawPiece("meteor_dragon_crate_crab", StructureManager.meteor_dragon_crate_crab) {{ blockTable = crates; }}, 1);
+                    fallback = "headback";
 				}});
 				put("fallback", new JigsawPool() {{
 					add(new JigsawPiece("meteor_fallback", StructureManager.meteor_fallback) {{ blockTable = bricks; }}, 1);
 				}});
 				put("roomback", new JigsawPool() {{
 					add(new JigsawPiece("meteor_room_fallback", StructureManager.meteor_room_fallback) {{ blockTable = bricks; }}, 1);
+				}});
+				put("headback", new JigsawPool() {{
+					add(new JigsawPiece("meteor_loot_fallback", StructureManager.meteor_dragon_fallback) {{ blockTable = crates; }}, 1);
 				}});
 			}};
 		}});
