@@ -1,5 +1,6 @@
 ## Changed
 * Particle detectors now print an error for when the recipe could not be completed
+* Night Vision Goggles toggles with armor HUD
 * Removed "no ore dict data" line from tooltips with extended view enabled
 * Added a client config called `GUN_ANIMATION_SPEED` which allows the speed of gun animations to be changed
   * Mostly for debugging, since it only applies to the bus animation system, things like smoke trails and muzzle flashes are unaffected
