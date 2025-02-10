@@ -49,6 +49,18 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 1;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
+			structure = new JigsawPiece("vertibird", StructureManager.vertibird);
+			spawnWeight = 3;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
+			structure = new JigsawPiece("crashed_vertibird", StructureManager.crashed_vertibird);
+			spawnWeight = 3;
+		}});
+
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
 		}};

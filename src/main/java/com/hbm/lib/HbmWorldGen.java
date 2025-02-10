@@ -28,7 +28,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -256,23 +255,6 @@ public class HbmWorldGen implements IWorldGenerator {
 						int y = world.getHeightValue(x, z);
 
 						new DesertAtom001().generate(world, rand, x, y, z);
-					}
-				}
-			}
-
-			if(!biome.canSpawnLightningBolt() && biome.temperature >= 2F) {
-				if(WorldConfig.vertibirdStructure > 0 && rand.nextInt(WorldConfig.vertibirdStructure) == 0) {
-					for(int a = 0; a < 1; a++) {
-						int x = i + rand.nextInt(16);
-						int z = j + rand.nextInt(16);
-						int y = world.getHeightValue(x, z);
-
-						if(rand.nextInt(2) == 0) {
-							new Vertibird().generate(world, rand, x, y, z);
-						} else {
-							new CrashedVertibird().generate(world, rand, x, y, z);
-						}
-
 					}
 				}
 			}
