@@ -109,7 +109,7 @@ public class ItemCustomLore extends Item {
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		if(stack.getItem() == ModItems.undefined && stack.getItemDamage() != 99) return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+		if(stack.getItem() != ModItems.undefined || stack.getItemDamage() != 99) return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 		
 		return name.getResult();
 	}
