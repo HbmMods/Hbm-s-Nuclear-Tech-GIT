@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 
 import com.hbm.config.ClientConfig;
+import com.hbm.items.ModItems;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
@@ -771,26 +772,27 @@ public class Orchestras {
 
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_STINGER = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
-		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 
-		AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
-		if(ItemGunStinger.getLockonProgress(stack) > 0 && !ItemGunStinger.getIsLockedOn(stack)) {
-			//start sound
-			if(runningAudio == null || !runningAudio.isPlaying()) {
-				AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.lockon", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
-				ItemGunBaseNT.loopedSounds.put(entity, audio);
-				audio.startSound();
+		if(entity.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+			if(ItemGunStinger.getLockonProgress(stack) > 0 && !ItemGunStinger.getIsLockedOn(stack)) {
+				//start sound
+				if(runningAudio == null || !runningAudio.isPlaying()) {
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.lockon", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
+					ItemGunBaseNT.loopedSounds.put(entity, audio);
+					audio.startSound();
+				}
+				//keepalive
+				if(runningAudio != null && runningAudio.isPlaying()) {
+					runningAudio.keepAlive();
+					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
+				}
+			} else {
+				//stop sound due to timeout
+				if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
 			}
-			//keepalive
-			if(runningAudio != null && runningAudio.isPlaying()) {
-				runningAudio.keepAlive();
-				runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
-			}
-		} else {
-			//stop sound due to timeout
-			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
 		}
 
 		if(type == AnimType.RELOAD) {
@@ -1275,6 +1277,33 @@ public class Orchestras {
 
 		if(type == AnimType.CYCLE_DRY) {
 			if(timer == 2) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+		}
+	};
+
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_ABERRATOR = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 0.75F);
+			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 0.75F);
+			if(timer == 42) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.75F);
+		}
+
+		if(type == AnimType.CYCLE) {
+			if(timer == 1) {
+				int cba = (stack.getItem() == ModItems.gun_aberrator_eott && ctx.configIndex == 0) ? -1 : 1;
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? -0.0625 : -0.25D * cba, -0.075, 0.25, 0, 0.01, casing.getName());
+			}
+		}
+
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 1) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
+			if(timer == 9) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.75F);
 		}
 	};
 }

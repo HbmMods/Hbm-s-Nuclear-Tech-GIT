@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -39,20 +40,20 @@ public class XFactory762mm {
 
 	public static void init() {
 		SpentCasing casing762 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS);
-		r762_sp = new BulletConfig().setItem(EnumAmmo.R762_SP)
+		r762_sp = new BulletConfig().setItem(EnumAmmo.R762_SP).setCasing(EnumCasingType.SMALL, 6)
 				.setCasing(casing762.clone().register("r762"));
-		r762_fmj = new BulletConfig().setItem(EnumAmmo.R762_FMJ).setDamage(0.8F).setThresholdNegation(5F).setArmorPiercing(0.1F)
+		r762_fmj = new BulletConfig().setItem(EnumAmmo.R762_FMJ).setCasing(EnumCasingType.SMALL, 6).setDamage(0.8F).setThresholdNegation(5F).setArmorPiercing(0.1F)
 				.setCasing(casing762.clone().register("r762fmj"));
-		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setCasing(EnumCasingType.SMALL, 6).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("r762jhp"));
-		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
+		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
-		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
+		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
 		
-		energy_lacunae = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
-		energy_lacunae_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
-		energy_lacunae_ir = new BulletConfig().setItem(EnumAmmo.CAPACITOR_IR).setupDamageClass(DamageClass.FIRE).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(XFactoryEnergy.LAMBDA_IR_HIT);
+		energy_lacunae = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_lacunae_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_lacunae_ir = new BulletConfig().setItem(EnumAmmo.CAPACITOR_IR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.FIRE).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(XFactoryEnergy.LAMBDA_IR_HIT);
 
 		ModItems.gun_carbine = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)

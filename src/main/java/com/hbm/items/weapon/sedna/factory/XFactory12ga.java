@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -255,15 +256,15 @@ public class XFactory12ga {
 	
 	public static void init() {
 		
-		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setBlackPowder(true).setProjectiles(8).setDamage(0.75F/8F).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
-		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setBlackPowder(true).setProjectiles(4).setDamage(0.75F/4F).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
-		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setBlackPowder(true).setDamage(0.75F).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
-		g12 = new BulletConfig().setItem(EnumAmmo.G12).setProjectiles(8).setDamage(1F/8F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(2F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
-		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setHeadshot(1.5F).setSpread(0.0F).setRicochetAngle(25).setThresholdNegation(4F).setArmorPiercing(0.15F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
-		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setProjectiles(8).setDamage(1F/8F).setThresholdNegation(5F).setThresholdNegation(3F).setArmorPiercing(0.2F).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));
-		g12_magnum = new BulletConfig().setItem(EnumAmmo.G12_MAGNUM).setProjectiles(4).setDamage(2F/4F).setSpread(0.015F).setRicochetAngle(15).setThresholdNegation(4F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x278400, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_MAGNUM"));
-		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setDamage(2.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
-		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"))
+		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setCasing(EnumCasingType.SHOTSHELL, 12).setBlackPowder(true).setProjectiles(8).setDamage(0.75F/8F).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
+		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setCasing(EnumCasingType.SHOTSHELL, 12).setBlackPowder(true).setProjectiles(4).setDamage(0.75F/4F).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
+		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setCasing(EnumCasingType.SHOTSHELL, 12).setBlackPowder(true).setDamage(0.75F).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
+		g12 = new BulletConfig().setItem(EnumAmmo.G12).setCasing(EnumCasingType.BUCKSHOT, 6).setProjectiles(8).setDamage(1F/8F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(2F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
+		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setCasing(EnumCasingType.BUCKSHOT, 6).setHeadshot(1.5F).setSpread(0.0F).setRicochetAngle(25).setThresholdNegation(4F).setArmorPiercing(0.15F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
+		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setCasing(EnumCasingType.BUCKSHOT, 6).setProjectiles(8).setDamage(1F/8F).setThresholdNegation(5F).setThresholdNegation(3F).setArmorPiercing(0.2F).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));
+		g12_magnum = new BulletConfig().setItem(EnumAmmo.G12_MAGNUM).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(4).setDamage(2F/4F).setSpread(0.015F).setRicochetAngle(15).setThresholdNegation(4F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x278400, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_MAGNUM"));
+		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setDamage(2.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
+		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"))
 				.setOnImpact((bullet, mop) -> { if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) { HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit); if(data.phosphorus < 300) data.phosphorus = 300; } });
 		//g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"));
 		g12_equestrian_bj = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOAT).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_EQUESTRIAN, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12gaEquestrianBJ"));
@@ -297,7 +298,7 @@ public class XFactory12ga {
 		ModItems.gun_maresleg_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(600).draw(5).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(16F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
+						.dmg(16F).spreadHipfire(0F).spreadAmmo(1.35F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, 0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
@@ -306,7 +307,7 @@ public class XFactory12ga {
 				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO),
 				new GunConfig().dura(600).draw(5).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(16F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
+						.dmg(16F).spreadHipfire(0F).spreadAmmo(1.35F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(1, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
@@ -317,7 +318,7 @@ public class XFactory12ga {
 		ModItems.gun_maresleg_broken = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(0).draw(5).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(32F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
+						.dmg(32F).spreadAmmo(1.35F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_equestrian_tkr, g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus))
 						.offset(0.75, -0.0625, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_MARESLEG))
@@ -339,7 +340,7 @@ public class XFactory12ga {
 		ModItems.gun_spas12 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(32F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
+						.dmg(32F).spreadHipfire(0F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 8).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))

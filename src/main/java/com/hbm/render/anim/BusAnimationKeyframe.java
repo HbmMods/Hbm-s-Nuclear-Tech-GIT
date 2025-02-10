@@ -1,5 +1,7 @@
 package com.hbm.render.anim;
 
+import com.hbm.config.ClientConfig;
+
 //"pieces" that make up a bus
 public class BusAnimationKeyframe {
 
@@ -84,7 +86,7 @@ public class BusAnimationKeyframe {
 	public BusAnimationKeyframe(double value, int duration) {
 		this();
 		this.value = value;
-		this.duration = duration;
+		this.duration = (int) (duration / Math.max(0.001D, ClientConfig.GUN_ANIMATION_SPEED.get()));
 	}
 
 	public BusAnimationKeyframe(double value, int duration, IType interpolation) {

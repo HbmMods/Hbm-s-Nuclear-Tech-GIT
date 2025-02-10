@@ -28,7 +28,7 @@ public class SILEXRecipes {
 	private static HashMap<Object, SILEXRecipe> recipes = new HashMap();
 	private static HashMap<ComparableStack, ComparableStack> itemTranslation = new HashMap();
 	private static HashMap<String, String> dictTranslation = new HashMap();
-	
+
 	public static void register() {
 
 		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.UF6.getID()), new ComparableStack(ModItems.ingot_uranium));
@@ -37,12 +37,12 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_u235), 1)
 				.addOut(new ItemStack(ModItems.nugget_u238), 11)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.ingot_pu_mix), new SILEXRecipe(900, 100, 2)
 				.addOut(new ItemStack(ModItems.nugget_pu239), 6)
 				.addOut(new ItemStack(ModItems.nugget_pu240), 3)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.ingot_am_mix), new SILEXRecipe(900, 100, 2)
 				.addOut(new ItemStack(ModItems.nugget_am241), 3)
 				.addOut(new ItemStack(ModItems.nugget_am242), 6)
@@ -67,20 +67,20 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_australium_lesser), 5)
 				.addOut(new ItemStack(ModItems.nugget_australium_greater), 1)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.crystal_schraranium), new SILEXRecipe(900, 100, 3)
 				.addOut(new ItemStack(ModItems.nugget_schrabidium), 5)
 				.addOut(new ItemStack(ModItems.nugget_uranium), 2)
 				.addOut(new ItemStack(ModItems.nugget_neptunium), 2)
 				);
-		
+
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new SILEXRecipe(900, 100, EnumWavelengths.UV)
 				.addOut(new ItemStack(ModItems.powder_plutonium), 2)
 				.addOut(new ItemStack(ModItems.powder_cobalt), 3)
 				.addOut(new ItemStack(ModItems.powder_niobium), 3)
 				.addOut(new ItemStack(ModItems.powder_nitan_mix), 2)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.crystal_trixite), new SILEXRecipe(1200, 100, EnumWavelengths.UV)
 				.addOut(new ItemStack(ModItems.powder_plutonium), 2)
 				.addOut(new ItemStack(ModItems.powder_cobalt), 3)
@@ -100,151 +100,161 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.powder_impure_osmiridium), 1)
 				);
 
-		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.VITRIOL.getID()), new SILEXRecipe(1000, 1000, EnumWavelengths.IR)
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.VITRIOL.getID()), new SILEXRecipe(1000, 300, EnumWavelengths.IR)
 				.addOut(new ItemStack(ModItems.powder_bromine), 5)
 				.addOut(new ItemStack(ModItems.powder_iodine), 5)
 				.addOut(new ItemStack(ModItems.powder_iron), 5)
 				.addOut(new ItemStack(ModItems.sulfur), 15)
 				);
-		
+
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.REDMUD.getID()), new SILEXRecipe(300, 50, EnumWavelengths.VISIBLE)
+			.addOut(new ItemStack(ModItems.powder_aluminium), 10)
+			.addOut(new ItemStack(ModItems.powder_neodymium_tiny, 3), 5)
+			.addOut(new ItemStack(ModItems.powder_boron_tiny, 3), 5)
+			.addOut(new ItemStack(ModItems.nugget_zirconium), 5)
+			.addOut(new ItemStack(ModItems.powder_iron), 20)
+			.addOut(new ItemStack(ModItems.powder_titanium), 15)
+			.addOut(new ItemStack(ModItems.powder_sodium), 10)
+		);
+
 		for(int i = 0; i < 5; i++) {
-			
+
 			// UEU //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ueu, 1, i), new SILEXRecipe(600, 100, 1) 	//NU and MEU will breed more plutonium due to their higher concentrations of U-238
 					.addOut(new ItemStack(ModItems.nugget_uranium), 86 - i * 11)	//NU is unenriched to the point where it'll always be lower burnup; so more Pu239 for longer
 					.addOut(i < 2 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 10 + i * 3)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 2 + 3 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 2 + 5 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ueu, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_uranium), 86 - i * 11)
 					.addOut(i < 2 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 10 + i * 3)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 2 + 3 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 1 + 5 * i) );
-			
+
 			// MEU //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_meu, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_uranium_fuel), 84 - i * 16)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 4)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 4 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 6 + 7 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_meu, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_uranium_fuel), 83 - i * 16)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 4)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 4 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 6 + 7 * i) );
-			
+
 			// HEU233 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heu233, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_u233), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM233.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM233.ordinal()), 6 + 12 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heu233, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_u233), 89 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM233.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM233.ordinal()), 6 + 12 * i) );
-			
+
 			// HEU235 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heu235, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_u235), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 6 + 12 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heu235, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_u235), 89 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.URANIUM235.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 6 + 12 * i) );
-			
+
 			// TH232 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_thmeu, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 84 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_u233), 6 + i * 4)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.THORIUM.ordinal()), 10 + 16 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_thmeu, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_thorium_fuel), 83 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_u233), 6 + i * 4)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.THORIUM.ordinal()), 10 + 16 * i) );
-			
+
 			// LEP //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lep, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_plutonium_fuel), 84 - i * 14)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 2)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 7 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 3 + 4 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lep, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_plutonium_fuel), 83 - i * 14)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 2)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 7 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 3 + 4 * i) );
-			
+
 			// MEP //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mep, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_pu_mix), 85 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 10 + 10 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 5 + 5 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mep, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_pu_mix), 84 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 10 + 10 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 5 + 5 * i) );
-			
+
 			// HEP239 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hep239, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_pu239), 85 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 15 + 20 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hep239, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_pu239), 84 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 15 + 20 * i) );
-			
+
 			// HEP241 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hep241, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 85 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 15 + 20 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hep241, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 84 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 15 + 20 * i) );
-			
+
 			// MEN //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_men, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_neptunium_fuel), 84 - i * 14)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 2)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 4 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 6 + 7 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_men, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_neptunium_fuel), 83 - i * 14)
 					.addOut(i < 1 ? new ItemStack(ModItems.nugget_pu239) : new ItemStack(ModItems.nugget_pu_mix), 6 + i * 2)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 4 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 6 + 7 * i) );
-			
+
 			// HEN //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hen, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_neptunium), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 6 + 12 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hen, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_neptunium), 89 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 4 + 8 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 6 + 12 * i) );
-			
+
 			// MOX //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mox, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_mox_fuel), 84 - i * 20)
@@ -253,7 +263,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 2 + 3 * i) );
-			
+
 			//TODO: Readd xenon processing if/when the NEI handler can display more than 6 outputs properly
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mox, 1, i + 5), new SILEXRecipe(600, 100, 1)	//Plutonium processing isn't possible w/o fucking up the NEI handler or removing xenon
 					.addOut(new ItemStack(ModItems.nugget_mox_fuel), 84 - i * 20)		//To prevent people from taking advantage of differing waste types, conform to the latter
@@ -262,33 +272,33 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.URANIUM235.ordinal()), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), 2 + 3 * i) );
-			
+
 			// LEAUS //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_leaus, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_australium_lesser), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_lead), 6 + 12 * i)
 					.addOut(new ItemStack(ModItems.nugget_pb209), 4 + 8 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_leaus, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_australium_lesser), 89 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_lead), 6 + 12 * i)
 					.addOut(new ItemStack(ModItems.nugget_pb209), 4 + 8 * i) );
-			
+
 			// HEAUS //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heaus, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_australium_greater), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_au198), 5 + 10 * i)
 					.addOut(new ItemStack(Items.gold_nugget), 3 + 6 * i)
 					.addOut(new ItemStack(ModItems.nugget_pb209), 2 + 4 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_heaus, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_australium_greater), 89 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_au198), 5 + 10 * i)
 					.addOut(new ItemStack(Items.gold_nugget), 3 + 6 * i)
 					.addOut(new ItemStack(ModItems.nugget_pb209), 2 + 4 * i) );
-			
+
 			// LES //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_les, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_les), 90 - i * 20)
@@ -297,7 +307,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 2 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 1 + 2 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 4 + 8 * i) );
-						
+
 			//TODO: Readd xenon processing if/when the NEI handler can display more than 6 outputs properly
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_les, 1, i + 5), new SILEXRecipe(600, 100, 2)	//I'd rather not fuck up the NEI handler, so six items it is
 					.addOut(new ItemStack(ModItems.nugget_les), 90 - i * 20)			//Just bullshit something about "not enough np237 for extractable amounts of xe135"
@@ -305,8 +315,8 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 2 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 1 + 2 * i)
-					.addOut(new ItemStack(ModItems.powder_coal_tiny), 4 + 8 * i) ); 
-						
+					.addOut(new ItemStack(ModItems.powder_coal_tiny), 4 + 8 * i) );
+
 			// MES //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mes, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_schrabidium_fuel), 90 - i * 20)
@@ -315,7 +325,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 3 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 2 + 4 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 4 + 6 * i) );
-				    
+
 			//TODO: Readd xenon processing if/when the NEI handler can display more than 6 outputs properly
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mes, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_schrabidium_fuel), 90 - i * 20) //ditto
@@ -324,7 +334,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 3 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 2 + 4 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 4 + 6 * i) );
-				    
+
 			// HES //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hes, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_hes), 90 - i * 20)
@@ -333,7 +343,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 4 + 6 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 4 * i) );
-				    
+
 			//TODO: Readd xenon processing if/when the NEI handler can display more than 6 outputs properly
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hes, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_hes), 90 - i * 20) //ditto
@@ -342,17 +352,17 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 4 + 6 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 2 + 4 * i) );
-					
+
 			// BALEFIRE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire, 1, i), new SILEXRecipe(400, 100, 3)
 					.addOut(new ItemStack(ModItems.powder_balefire), 90 - i * 20)
 					.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 10 + 20 * i) );
-			
+
 			// FLASHGOLD //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire_gold, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_au198), 90 - 20 * i)
 					.addOut(new ItemStack(ModItems.powder_balefire), 10 + 20 * i) );
-			
+
 			// FLASHLEAD //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_flashlead, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_au198), 44 - 10 * i)
@@ -360,14 +370,14 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_bismuth), 1 + 6 * i)
 					.addOut(new ItemStack(ModItems.nugget_mercury), 1 + 6 * i)
 					.addOut(new ItemStack(ModItems.nugget_gh336), 10 + 8 * i) ); //Reimumunch
-			
+
 			// POBE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_po210be, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_polonium), 45 - 10 * i)
 					.addOut(new ItemStack(ModItems.nugget_beryllium), 45 - 10 * i)
 					.addOut(new ItemStack(ModItems.nugget_lead), 5 + 10 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 5 + 10 * i) );
-			
+
 			// PUBE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_pu238be, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_pu238), 45 - 10 * i)
@@ -375,7 +385,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_lead), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 5 + 10 * i) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_pu238be, 1, i + 5), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 1)
 					.addOut(new ItemStack(ModItems.nugget_pu238), 44 - 10 * i)
@@ -383,7 +393,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_lead), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 5 + 10 * i) );
-			
+
 			// RABE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ra226be, 1, i), new SILEXRecipe(600, 100, 1)
 					.addOut(new ItemStack(ModItems.nugget_ra226), 45 - 10 * i)
@@ -391,7 +401,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.nugget_lead), 3 + 5 * i)
 					.addOut(new ItemStack(ModItems.nugget_polonium), 2 + 5 * i)
 					.addOut(new ItemStack(ModItems.powder_coal_tiny), 5 + 10 * i) );
-			
+
 			// DRX //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i), new SILEXRecipe(600, 100, 4)
 					.addOut(new ItemStack(ModItems.undefined), 1)
@@ -400,7 +410,7 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.undefined), 1)
 					.addOut(new ItemStack(ModItems.undefined), 1)
 					.addOut(new ItemStack(ModItems.undefined), 1) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i + 5), new SILEXRecipe(600, 100, 4)
 					.addOut(new ItemStack(ModItems.undefined), 1)
 					.addOut(new ItemStack(ModItems.undefined), 1)
@@ -408,41 +418,41 @@ public class SILEXRecipes {
 					.addOut(new ItemStack(ModItems.undefined), 1)
 					.addOut(new ItemStack(ModItems.undefined), 1)
 					.addOut(new ItemStack(ModItems.undefined), 1) );
-			
+
 			// ZFB BI //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_bismuth, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_uranium), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_bismuth), 50 + i * 20)
 					.addOut(new ItemStack(ModItems.nugget_zirconium), 150) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_bismuth, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 3)
 					.addOut(new ItemStack(ModItems.nugget_uranium), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_bismuth), 50 + i * 20)
 					.addOut(new ItemStack(ModItems.nugget_zirconium), 147) );
-			
+
 			// ZFB PU-241 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_pu241, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_u235), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu240), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 50 + i * 20)
 					.addOut(new ItemStack(ModItems.nugget_zirconium), 150) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_pu241, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 3)
 					.addOut(new ItemStack(ModItems.nugget_u235), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu240), 50 - i * 10)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 50 + i * 20)
 					.addOut(new ItemStack(ModItems.nugget_zirconium), 147) );
-			
+
 			// ZFB RG-AM //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_am_mix, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 100 - i * 20)
 					.addOut(new ItemStack(ModItems.nugget_am_mix), 50 + i * 20)
 					.addOut(new ItemStack(ModItems.nugget_zirconium), 150) );
-			
+
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_am_mix, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new ItemStack(ModItems.powder_xe135_tiny), 3)
 					.addOut(new ItemStack(ModItems.nugget_pu241), 100 - i * 20)
@@ -503,7 +513,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_bismuth), 10)
 				.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 29)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.PLUTONIUM239.ordinal()), new SILEXRecipe(900, 100, 1)
 				.addOut(new ItemStack(ModItems.nugget_pu240), 10)
 				.addOut(new ItemStack(ModItems.nugget_pu241), 25)
@@ -519,7 +529,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_u238), 3)
 				.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 39)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.PLUTONIUM240.ordinal()), new SILEXRecipe(900, 100, 1)
 				.addOut(new ItemStack(ModItems.nugget_pu241), 15)
 				.addOut(new ItemStack(ModItems.nugget_neptunium), 5)
@@ -536,7 +546,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_u238), 3)
 				.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 36)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), new SILEXRecipe(900, 100, 2)
 				.addOut(new ItemStack(ModItems.nugget_am241), 25)
 				.addOut(new ItemStack(ModItems.nugget_am242), 35)
@@ -591,7 +601,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.nugget_lead), 45)
 				.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 17)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), new SILEXRecipe(900, 100, 1)
 				.addOut(new ItemStack(ModItems.nugget_solinium), 25)
 				.addOut(new ItemStack(ModItems.nugget_euphemium), 18)
@@ -623,7 +633,7 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.dust_tiny), 20)
 				.addOut(new ItemStack(ModItems.nuclear_waste_tiny), 32)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.fallout, 1), new SILEXRecipe(900, 100, 2)
 				.addOut(new ItemStack(ModItems.dust_tiny), 90)
 				.addOut(new ItemStack(ModItems.nugget_co60), 2)
@@ -632,14 +642,14 @@ public class SILEXRecipes {
 				.addOut(new ItemStack(ModItems.powder_cs137_tiny), 3)
 				.addOut(new ItemStack(ModItems.nugget_au198), 1)
 				);
-		
+
 		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, EnumWavelengths.VISIBLE)
 				.addOut(new ItemStack(Items.flint), 80)
 				.addOut(new ItemStack(ModItems.powder_boron), 5)
 				.addOut(new ItemStack(ModItems.powder_lithium), 10)
 				.addOut(new ItemStack(ModItems.fluorite), 5)
 				);
-		
+
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.FULLERENE.getID()),
 				new SILEXRecipe(1_000, 1_000, EnumWavelengths.VISIBLE).addOut(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1));
 	}
@@ -652,19 +662,19 @@ public class SILEXRecipes {
 		tinyWasteTranslation.put(ModItems.nuclear_waste_short_depleted_tiny, ModItems.nuclear_waste_short_depleted);
 		tinyWasteTranslation.put(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted);
 	}
-	
+
 	public static SILEXRecipe getOutput(ItemStack stack) {
-		
+
 		if(stack == null || stack.getItem() == null)
 			return null;
-		
+
 		ComparableStack comp = translateItem(stack);
-		
+
 		if(recipes.containsKey(comp))
 			return recipes.get(comp);
-		
+
 		String[] dictKeys = comp.getDictKeys();
-		
+
 		for(String key : dictKeys) {
 			String translation = translateDict(key);
 			if(recipes.containsKey(translation))
@@ -680,54 +690,54 @@ public class SILEXRecipes {
 				SILEXRecipe tinyVersion = new SILEXRecipe(fluidProduced, result.fluidConsumed, result.laserStrength);
 				// Shared ownership shouldn't be an issue since the resulting recipe isn't modified by the caller
 				tinyVersion.outputs = result.outputs;
-				
+
 				// TODO: Cache? Might break saving recipes, IDK
 				// recipes.put(comp, tinyVersion);
 
 				return tinyVersion;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static ComparableStack translateItem(ItemStack stack) {
 		ComparableStack orig = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
 		ComparableStack translation = itemTranslation.get(orig);
-		
+
 		if(translation != null)
 			return translation;
-		
+
 		return orig;
 	}
-	
+
 	public static String translateDict(String key) {
-		
+
 		String translation = dictTranslation.get(key);
-		
+
 		if(translation != null)
 			return translation;
-		
+
 		return key;
 	}
-	
+
 	public static List<Object> getAllIngredients() {
 		List<Object> ing = new ArrayList();
-		
+
 		for(Entry<Object, SILEXRecipe> entry : SILEXRecipes.recipes.entrySet())							ing.add(entry.getKey());
 		for(Entry<ComparableStack, ComparableStack> entry : SILEXRecipes.itemTranslation.entrySet())	ing.add(entry.getKey());
 		for(Entry<String, String> entry : SILEXRecipes.dictTranslation.entrySet())						ing.add(entry.getKey());
-		
+
 		return ing;
 	}
 
 	public static Map<Object, SILEXRecipe> getRecipes() {
-		
+
 		Map<Object, SILEXRecipe> recipes = new HashMap<Object, SILEXRecipe>();
 		List<Object> ing = getAllIngredients();
-		
+
 		for(Object ingredient : ing) {
-			
+
 			if(ingredient instanceof String) {
 				List<ItemStack> ingredients = OreDictionary.getOres((String)ingredient);
 				if(ingredients.size() > 0) {
@@ -735,41 +745,41 @@ public class SILEXRecipes {
 					if(output != null)
 						recipes.put(ingredients, output);
 				}
-				
+
 			} else if(ingredient instanceof ComparableStack) {
 				SILEXRecipe output = getOutput(((ComparableStack) ingredient).toStack());
 				if(output != null)
 					recipes.put(((ComparableStack)ingredient).toStack(), output);
 			}
 		}
-		
+
 		return recipes;
 	}
-	
+
 public static class SILEXRecipe {
-		
+
 		public int fluidProduced;
 		public int fluidConsumed;
 		public EnumWavelengths laserStrength;
 		public List<WeightedRandomObject> outputs = new ArrayList();
-		
+
 		public SILEXRecipe(int fluidProduced, int fluidConsumed, EnumWavelengths laserStrength) {
 			this.fluidProduced = fluidProduced;
 			this.fluidConsumed = fluidConsumed;
 			this.laserStrength = laserStrength;
 		}
-		
+
 		public SILEXRecipe(int fluidProduced, int fluidConsumed, int laserStrength) {
 			this(fluidProduced, fluidConsumed, EnumWavelengths.values()[laserStrength]);
 		}
-		
+
 		public SILEXRecipe addOut(ItemStack stack, int weight) {
 			return addOut(new WeightedRandomObject(stack, weight));
-		} 
-		
+		}
+
 		public SILEXRecipe addOut(WeightedRandomObject entry) {
 			outputs.add(entry);
 			return this;
-		} 
+		}
 	}
 }

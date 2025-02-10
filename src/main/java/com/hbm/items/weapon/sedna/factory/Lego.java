@@ -201,7 +201,7 @@ public class Lego {
 		int index = ctx.configIndex;
 		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 		
-		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
+		boolean aim = ItemGunBaseNT.getIsAiming(stack);
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
 		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
@@ -220,7 +220,7 @@ public class Lego {
 		
 		for(int i = 0; i < projectiles; i++) {
 			float damage = calcDamage(ctx, stack, primary, calcWear, index);
-			float spread = calcSpread(ctx, stack, primary, calcWear, index, aim);
+			float spread = calcSpread(ctx, stack, primary, config, calcWear, index, aim);
 			
 			if(config.pType == ProjectileType.BULLET) {
 				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
@@ -260,14 +260,17 @@ public class Lego {
 		return primary.getBaseDamage(stack) * (calcWear ? getStandardWearDamage(stack, ctx.config, index) : 1);
 	}
 	
-	public static float calcSpread(LambdaContext ctx, ItemStack stack, Receiver primary, boolean calcWear, int index, float aim) {
-		return primary.getGunSpread(stack) * aim + (calcWear ? getStandardWearSpread(stack, ctx.config, index) * 0.125F : 0F); //TODO: redo all this spread shit
-		/*
-		 * spread should have multiple additive parts:
-		 *  - hipfire penalty (mitigated by aiming)
-		 *  - innate gun inaccuracy (usually 0, increases with wear)
-		 *  - bullet inaccuray (usually 0, higher with buckshot)
-		 */
+	public static float calcSpread(LambdaContext ctx, ItemStack stack, Receiver primary, BulletConfig config, boolean calcWear, int index, boolean aim) {
+		// the gun's innate spread, SMGs will have poor accuracy no matter what
+		float spreadInnate = primary.getInnateSpread(stack);
+		// the ammo's spread (for example for buckshot) multiplied with the gun's ammo modifier (choke or sawed off barrel)
+		float spreadAmmo = config.spread * primary.getAmmoSpread(stack);
+		// hipfire penalty, i.e. extra spread when not aiming
+		float spreadHipfire = aim ? 0F : primary.getHipfireSpread(stack);
+		// extra spread caused by weapon durability, [0;0.125] by default
+		float spreadWear = !calcWear ? 0F : (getStandardWearSpread(stack, ctx.config, index) * primary.getDurabilitySpread(stack));
+		
+		return spreadInnate + spreadAmmo + spreadHipfire + spreadWear;
 	}
 	
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }

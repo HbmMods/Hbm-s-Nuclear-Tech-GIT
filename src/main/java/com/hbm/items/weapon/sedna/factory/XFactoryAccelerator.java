@@ -80,9 +80,9 @@ public class XFactoryAccelerator {
 	
 	public static void init() {
 
-		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
+		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setCasing(new ItemStack(ModItems.plate_lead, 2), 16).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
-		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
+		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setCasing(new ItemStack(ModItems.plate_lead, 2), 16).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
 
 		coil_tungsten = new BulletConfig().setItem(EnumAmmo.COIL_TUNGSTEN).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
@@ -95,7 +95,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_tau = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(6_400).draw(10).inspect(10).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(4).auto(true).spread(0F)
+						.dmg(25F).spreadHipfire(0F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_TAU))
@@ -143,7 +143,6 @@ public class XFactoryAccelerator {
 			EntityLivingBase entity = ctx.entity;
 			int index = ctx.configIndex;
 			
-			float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 			Receiver primary = ctx.config.getReceivers(stack)[0];
 			BulletConfig config = tauChargeMag.getFirstConfig(stack, ctx.inventory);
 			
@@ -153,7 +152,7 @@ public class XFactoryAccelerator {
 			double sideOffset = offset.zCoord;
 			
 			float damage = Lego.getStandardWearDamage(stack, ctx.config, index) * unitsUsed * 5;
-			float spread = Lego.calcSpread(ctx, stack, primary, true, index, aim);
+			float spread = Lego.calcSpread(ctx, stack, primary, config, true, index, false);
 			EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			entity.worldObj.spawnEntityInWorld(mk4);
 			

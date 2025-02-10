@@ -10,6 +10,7 @@ public class MaterialShapes {
 	public static final List<MaterialShapes> allShapes = new ArrayList();
 	
 	public static final MaterialShapes ANY = new MaterialShapes(0).noAutogen();
+	public static final MaterialShapes ONLY_ORE = new MaterialShapes(0, "ore").noAutogen();
 	public static final MaterialShapes ORE = new MaterialShapes(0, "ore", "oreNether").noAutogen();
 	public static final MaterialShapes ORENETHER = new MaterialShapes(0, "oreNether").noAutogen();
 	

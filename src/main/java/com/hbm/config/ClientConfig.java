@@ -32,6 +32,7 @@ public class ClientConfig {
 	public static ConfigWrapper<Boolean> GUN_ANIMS_LEGACY =					new ConfigWrapper(false);
 	public static ConfigWrapper<Boolean> GUN_MODEL_FOV =					new ConfigWrapper(false);
 	public static ConfigWrapper<Boolean> GUN_VISUAL_RECOIL =				new ConfigWrapper(true);
+	public static ConfigWrapper<Double> GUN_ANIMATION_SPEED =				new ConfigWrapper(1D);
 	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_OREDICT =		new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_CUSTOM_NUKE =	new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> MAIN_MENU_WACKY_SPLASHES =			new ConfigWrapper(true);
@@ -50,6 +51,7 @@ public class ClientConfig {
 		configMap.put("GUN_ANIMS_LEGACY", GUN_ANIMS_LEGACY);
 		configMap.put("GUN_MODEL_FOV", GUN_MODEL_FOV);
 		configMap.put("GUN_VISUAL_RECOIL", GUN_VISUAL_RECOIL);
+		configMap.put("GUN_ANIMATION_SPEED", GUN_ANIMATION_SPEED);
 		configMap.put("ITEM_TOOLTIP_SHOW_OREDICT", ITEM_TOOLTIP_SHOW_OREDICT);
 		configMap.put("ITEM_TOOLTIP_SHOW_CUSTOM_NUKE", ITEM_TOOLTIP_SHOW_CUSTOM_NUKE);
 		configMap.put("MAIN_MENU_WACKY_SPLASHES", MAIN_MENU_WACKY_SPLASHES);

@@ -22,7 +22,10 @@ public class Receiver {
 	public static final String I_DELAYAFTERFIRE =			"I_DELAYAFTERFIRE";
 	public static final String I_DELAYAFTERDRYFIRE =		"I_DELAYAFTERDRYFIRE";
 	public static final String I_ROUNDSPERCYCLE =			"I_ROUNDSPERCYCLE";
-	public static final String F_SPREADMOD =				"F_SPREADMOD";
+	public static final String F_SPRADINNATE =				"F_SPRADINNATE";
+	public static final String F_SPREADAMMO =				"F_SPREADAMMO";
+	public static final String F_SPREADHIPFIRE =			"F_SPREADHIPFIRE";
+	public static final String F_SPREADDURABILITY =			"F_SPREADDURABILITY";
 	public static final String B_REFIREONHOLD =				"B_REFIREONHOLD";
 	public static final String B_REFIREAFTERDRY =			"B_REFIREAFTERDRY";
 	public static final String B_DOESDRYFIRE =				"B_DOESDRYFIRE";
@@ -54,7 +57,10 @@ public class Receiver {
 	protected int delayAfterFire_DNA;
 	protected int delayAfterDryFire_DNA;
 	protected int roundsPerCycle_DNA = 1;
-	protected float spreadModExtra_DNA = 0F;
+	protected float spreadInnate_DNA = 0F;
+	protected float spreadMultAmmo_DNA = 1F;
+	protected float spreadPenaltyHipfire_DNA = 0.025F;
+	protected float spreadDurability_DNA = 0.125F;
 	protected boolean refireOnHold_DNA = false;
 	protected boolean refireAfterDry_DNA = false;
 	protected boolean doesDryFire_DNA = true;
@@ -82,7 +88,10 @@ public class Receiver {
 	public int getDelayAfterFire(ItemStack stack) {				return WeaponUpgradeManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this); }
 	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this); }
 	public int getRoundsPerCycle(ItemStack stack) {				return WeaponUpgradeManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this); }
-	public float getGunSpread(ItemStack stack) {				return WeaponUpgradeManager.eval(this.spreadModExtra_DNA, stack, F_SPREADMOD, this); }
+	public float getInnateSpread(ItemStack stack) {				return WeaponUpgradeManager.eval(this.spreadInnate_DNA, stack, F_SPRADINNATE, this); }
+	public float getAmmoSpread(ItemStack stack) {				return WeaponUpgradeManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this); }
+	public float getHipfireSpread(ItemStack stack) {			return WeaponUpgradeManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this); }
+	public float getDurabilitySpread(ItemStack stack) {			return WeaponUpgradeManager.eval(this.spreadDurability_DNA, stack, F_SPREADDURABILITY, this); }
 	public boolean getRefireOnHold(ItemStack stack) {			return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
 	public boolean getRefireAfterDry(ItemStack stack) {			return WeaponUpgradeManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this); }
 	public boolean getDoesDryFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this); }
@@ -111,7 +120,10 @@ public class Receiver {
 	public Receiver delay(int delay) {								this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;		return this; }
 	public Receiver dry(int delay) {								this.delayAfterDryFire_DNA = delay;									return this; }
 	public Receiver rounds(int rounds) {							this.roundsPerCycle_DNA = rounds;									return this; }
-	public Receiver spread(float spread) {							this.spreadModExtra_DNA = spread;									return this; }
+	public Receiver spread(float spread) {							this.spreadInnate_DNA = spread;										return this; }
+	public Receiver spreadAmmo(float spread) {						this.spreadMultAmmo_DNA = spread;									return this; }
+	public Receiver spreadHipfire(float spread) {					this.spreadPenaltyHipfire_DNA = spread;								return this; }
+	public Receiver spreadDurability(float spread) {				this.spreadDurability_DNA = spread;									return this; }
 	public Receiver auto(boolean auto) {							this.refireOnHold_DNA = auto;										return this; }
 	public Receiver autoAfterDry(boolean auto) {					this.refireAfterDry_DNA = auto;										return this; }
 	public Receiver dryfire(boolean dryfire) {						this.doesDryFire_DNA = dryfire;										return this; }

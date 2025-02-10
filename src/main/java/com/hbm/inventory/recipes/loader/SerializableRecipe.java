@@ -24,6 +24,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
@@ -73,8 +74,11 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ArcWelderRecipes());
 		recipeHandlers.add(new RotaryFurnaceRecipes());
 		recipeHandlers.add(new ExposureChamberRecipes());
+		recipeHandlers.add(new ParticleAcceleratorRecipes());
 		recipeHandlers.add(new AmmoPressRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
+		//AFTER Assembler
+		recipeHandlers.add(new AnvilRecipes());
 		recipeHandlers.add(new PedestalRecipes());
 		
 		recipeHandlers.add(new MatDistribution());

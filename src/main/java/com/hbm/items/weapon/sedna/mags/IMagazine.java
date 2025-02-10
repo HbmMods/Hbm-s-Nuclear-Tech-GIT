@@ -1,8 +1,12 @@
 package com.hbm.items.weapon.sedna.mags;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemCasingBag;
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.particle.SpentCasing;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -24,7 +28,7 @@ public interface IMagazine<T> {
 	public int getAmount(ItemStack stack, IInventory inventory);
 	/** Sets the mag's ammo level */
 	public void setAmount(ItemStack stack, int amount);
-	/** removes the specified amount fro mthe magazine */
+	/** removes the specified amount from the magazine */
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount);
 	/** If a reload can even be initiated, i.e. the player even has bullets to load, inventory can be null */
 	public boolean canReload(ItemStack stack, IInventory inventory);
@@ -45,4 +49,13 @@ public interface IMagazine<T> {
 	public void setAmountAfterReload(ItemStack stack, int amount);
 	/** Cached amount of ammo after the most recent reload */
 	public int getAmountAfterReload(ItemStack stack);
+	
+	public static void handleAmmoBag(IInventory inventory, BulletConfig config, int shotsFired) {
+		if(config.casingItem != null && config.casingAmount > 0 && inventory instanceof InventoryPlayer) {
+			InventoryPlayer inv = (InventoryPlayer) inventory;
+			for(ItemStack stack : inv.mainInventory) {
+				if(stack != null && stack.getItem() == ModItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
+			}
+		}
+	}
 }

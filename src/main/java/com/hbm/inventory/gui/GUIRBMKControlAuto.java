@@ -78,7 +78,7 @@ public class GUIRBMKControlAuto extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 70, 22, 10, mouseX, mouseY, new String[]{ "Select inverse quadratic interpolation" } );
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 26, 30, 10, mouseX, mouseY, new String[]{ "Level at max heat", "Should be smaller than level at min heat" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 37, 30, 10, mouseX, mouseY, new String[]{ "Level at min heat", "Should be larger than level at min heat" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 37, 30, 10, mouseX, mouseY, new String[]{ "Level at min heat", "Should be larger than level at max heat" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 48, 30, 10, mouseX, mouseY, new String[]{ "Max heat", "Must be larger than min heat" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 59, 30, 10, mouseX, mouseY, new String[]{ "Min heat", "Must be smaller than max heat" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 30, 10, mouseX, mouseY, new String[]{ "Save parameters" } );

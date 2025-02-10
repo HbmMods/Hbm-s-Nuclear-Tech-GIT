@@ -41,7 +41,6 @@ import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
 import com.hbm.world.biome.BiomeGenCraterBase;
@@ -830,7 +829,6 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		TileEntityNukeFurnace.registerFuels();
 		MagicRecipes.register();
 		LemegetonRecipes.register();
 		SILEXRecipes.register();
@@ -876,6 +874,7 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal()).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.BAUXITE.ordinal()).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal()).setScaleH(0.1D).setScaleV(0.15D).setThreshold(275);
 		//new BiomeCave().setThreshold(1.5D).setRangeMult(20).setYLevel(40).setMaxRange(20);
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
 		BedrockOre.init();
@@ -1623,6 +1622,27 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.casing_9");
 		ignoreMappings.add("hbm:item.casing_50");
 		ignoreMappings.add("hbm:item.casing_buckshot");
+		ignoreMappings.add("hbm:item.assembly_iron");
+		ignoreMappings.add("hbm:item.assembly_steel");
+		ignoreMappings.add("hbm:item.assembly_lead");
+		ignoreMappings.add("hbm:item.assembly_gold");
+		ignoreMappings.add("hbm:item.assembly_schrabidium");
+		ignoreMappings.add("hbm:item.assembly_nightmare");
+		ignoreMappings.add("hbm:item.assembly_desh");
+		ignoreMappings.add("hbm:item.assembly_nopip");
+		ignoreMappings.add("hbm:item.assembly_smg");
+		ignoreMappings.add("hbm:item.assembly_556");
+		ignoreMappings.add("hbm:item.assembly_762");
+		ignoreMappings.add("hbm:item.assembly_45");
+		ignoreMappings.add("hbm:item.assembly_uzi");
+		ignoreMappings.add("hbm:item.assembly_actionexpress");
+		ignoreMappings.add("hbm:item.assembly_calamity");
+		ignoreMappings.add("hbm:item.assembly_lacunae");
+		ignoreMappings.add("hbm:item.assembly_luna");
+		ignoreMappings.add("hbm:item.pellet_chlorophyte");
+		ignoreMappings.add("hbm:item.pellet_canister");
+		ignoreMappings.add("hbm:item.pellet_claws");
+		ignoreMappings.add("hbm:item.pellet_flechette");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

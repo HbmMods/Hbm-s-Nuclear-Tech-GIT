@@ -36,6 +36,10 @@ public class BlockPos implements Cloneable {
 		return this;
 	}
 	
+	public boolean compare(int x, int y, int z) {
+		return this.x == x && this.y == y && this.z == z;
+	}
+	
 	public BlockPos add(int x, int y, int z) {
 		return x == 0 && y == 0 && z == 0 ? this : new BlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
 	}

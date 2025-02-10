@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -30,12 +31,12 @@ public class XFactory357 {
 	public static BulletConfig m357_express;
 
 	public static void init() {
-		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setDamage(0.75F).setBlackPowder(true);
-		m357_sp = new BulletConfig().setItem(EnumAmmo.M357_SP);
-		m357_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F);
-		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F);
-		m357_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F);
-		m357_express = new BulletConfig().setItem(EnumAmmo.M357_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(2F).setArmorPiercing(0.1F).setWear(1.5F);
+		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setCasing(EnumCasingType.SMALL, 16).setDamage(0.75F).setBlackPowder(true);
+		m357_sp = new BulletConfig().setItem(EnumAmmo.M357_SP).setCasing(EnumCasingType.SMALL, 8);
+		m357_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setCasing(EnumCasingType.SMALL, 8).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F);
+		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setCasing(EnumCasingType.SMALL, 8).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F);
+		m357_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F);
+		m357_express = new BulletConfig().setItem(EnumAmmo.M357_EXPRESS).setCasing(EnumCasingType.SMALL, 8).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(2F).setArmorPiercing(0.1F).setWear(1.5F);
 		
 		ModItems.gun_light_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -60,7 +61,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver_dani = new ItemGunBaseNT(WeaponQuality.LEGENDARY,
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.1F)
+						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.1F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
@@ -69,7 +70,7 @@ public class XFactory357 {
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 0.9F)
+						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 0.9F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))

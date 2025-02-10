@@ -134,12 +134,12 @@ public class BlockPedestal extends BlockContainer {
 					
 					if(recipe.extra == recipe.extra.FULL_MOON) {
 						if(world.getCelestialAngle(0) < 0.35 || world.getCelestialAngle(0) > 0.65) continue;
-						if(world.getMoonPhase() != 0) continue;
+						if(world.provider.getMoonPhase(world.getWorldInfo().getWorldTime()) != 0) continue;
 					}
 					
 					if(recipe.extra == recipe.extra.NEW_MOON) {
 						if(world.getCelestialAngle(0) < 0.35 || world.getCelestialAngle(0) > 0.65) continue;
-						if(world.getMoonPhase() != 4) continue;
+						if(world.provider.getMoonPhase(world.getWorldInfo().getWorldTime()) != 4) continue;
 					}
 					
 					if(recipe.extra == recipe.extra.SUN) {

@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCombustionEngine;
 import com.hbm.inventory.fluid.FluidType;
@@ -22,9 +23,14 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +39,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -342,4 +349,129 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 		if(nbt.hasKey("isOn")) isOn = nbt.getBoolean("isOn");
 		if(nbt.hasKey("burnRate")) setting = nbt.getInteger("burnRate");
 	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_combustion_engine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {tank.getFill(), tank.getMaxFill()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return new Object[] {tank.getTankType().getName()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getThrottle	(Context context, Arguments args) {
+		return new Object[] {setting};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getState(Context context, Arguments args) {
+		return new Object[] {isOn};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEfficiency(Context context, Arguments args) {
+		EnumPistonType piston = EnumUtil.grabEnumSafely(EnumPistonType.class, slots[2].getItemDamage());
+		FT_Combustible trait = tank.getTankType().getTrait(FT_Combustible.class);
+		double eff = piston.eff[trait.getGrade().ordinal()];
+		return new Object[] {eff};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setThrottle(Context context, Arguments args) {
+		int throttleRequest = args.checkInteger(0);
+		if ((throttleRequest < 0) || (throttleRequest > 30)) { // return false without doing anything if number is outside normal
+			return new Object[] {false, "Throttle request outside of range 0-30"};
+		};
+		setting = throttleRequest;
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] start(Context context, Arguments args) {
+		isOn = true;
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] stop(Context context, Arguments args) {
+		isOn = false;
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		EnumPistonType piston = EnumUtil.grabEnumSafely(EnumPistonType.class, slots[2].getItemDamage());
+		FT_Combustible trait = tank.getTankType().getTrait(FT_Combustible.class);
+		double eff = piston.eff[trait.getGrade().ordinal()];
+		return new Object[] {setting, isOn, power, eff, tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getFluid",
+			"getType",
+			"getPower",
+			"getThrottle",
+			"getState",
+			"getEfficiency",
+			"setThrottle",
+			"start",
+			"stop",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("getType"):
+				return getType(context, args);
+			case ("getPower"):
+				return getPower(context, args);
+			case ("getThrottle"):
+				return getThrottle(context, args);
+			case ("getState"):
+				return getState(context, args);
+			case ("getEfficiency"):
+				return getEfficiency(context, args);
+			case ("setThrottle"):
+				return setThrottle(context, args);
+			case ("start"):
+				return start(context, args);
+			case ("stop"):
+				return stop(context, args);
+			case ("getInfo"):
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }

@@ -10,10 +10,12 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.items.machine.ItemFluidIcon;
 
+import net.minecraft.item.ItemStack;
+
 public class BoilingHandler extends NEIUniversalHandler {
 
 	public BoilingHandler() {
-		super(ModBlocks.machine_boiler.getLocalizedName(), ModBlocks.machine_boiler, generateRecipes());
+		super(ModBlocks.machine_boiler.getLocalizedName(), new ItemStack[] { new ItemStack(ModBlocks.machine_boiler), new ItemStack(ModBlocks.machine_industrial_boiler) }, generateRecipes());
 	}
 
 	@Override

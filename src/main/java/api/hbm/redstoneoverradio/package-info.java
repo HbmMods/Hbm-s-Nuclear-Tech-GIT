@@ -32,7 +32,7 @@ INDEX includes:
   optionally returning a value
 
 On the implementation side we can expect:
-- ROR readers, torches which have a list of named values which are read, as well as frequencies on which these values are boradcasted
+- ROR readers, torches which have a list of named values which are read, as well as frequencies on which these values are broadcasted
 - ROR controllers, torches which have one frequency and can receive commands with parameters which will be executed on the component
 - ROR programmers, torches which have a list of frequencies and return frequencies which can receive commands with parameters and
   then send the return value on the return frequency

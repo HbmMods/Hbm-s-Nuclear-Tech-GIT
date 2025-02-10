@@ -41,6 +41,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack uranium = new OreDictStack(U238.ingot());
 		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
+		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
 		OreDictStack he = new OreDictStack(ANY_HIGHEXPLOSIVE.ingot());
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
 		OreDictStack rp = new OreDictStack(P_RED.dust());
@@ -285,23 +286,43 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_HE, 2),
 				null,	dyn,				null,
 				null,	cBig,				null,
-				null,	smokeless.copy(2),	null));
+				null,	smokeless.copy(3),	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_HE, 2),
+				null,	dyn,	null,
+				null,	cBig,	null,
+				null,	rocket,	null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_HEAT, 2),
 				coplate,	he,					null,
 				null,		cBig,				null,
-				null,		smokeless.copy(2),	null));
+				null,		smokeless.copy(3),	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_HEAT, 2),
+				coplate,	he,		null,
+				null,		cBig,	null,
+				null,		rocket,	null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_DEMO, 2),
 				null,	he.copy(2),			null,
 				null,	cBig,				null,
-				null,	smokeless.copy(2),	null));
+				null,	smokeless.copy(3),	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_DEMO, 2),
+				null,	he.copy(2),	null,
+				null,	cBig,		null,
+				null,	rocket,		null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_INC, 2),
 				diesel,	dyn,				null,
 				null,	cBig,				null,
-				null,	smokeless.copy(2),	null));
+				null,	smokeless.copy(3),	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_INC, 2),
+				diesel,	dyn,	null,
+				null,	cBig,	null,
+				null,	rocket,	null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_PHOSPHORUS, 2),
 				wp,		he,					null,
 				null,	cBig,				null,
-				null,	smokeless.copy(2),	null));
+				null,	smokeless.copy(3),	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_PHOSPHORUS, 2),
+				wp,		he,		null,
+				null,	cBig,	null,
+				null,	rocket,	null));
 
 		OreDictStack sPlate = new OreDictStack(STEEL.plate());
 		ComparableStack napalm = new ComparableStack(ModItems.canister_napalm);

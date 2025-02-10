@@ -65,6 +65,7 @@ public class GunFactory {
 		XFactoryFolly.init();
 		XFactoryTurret.init();
 		XFactory10ga.init();
+		XFactory35800.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -124,6 +125,7 @@ public class GunFactory {
 	
 	public static enum EnumAmmoSecret {
 		FOLLY_SM, FOLLY_NUKE,
-		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
+		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN,
+		P35_800
 	}
 }

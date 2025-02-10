@@ -51,7 +51,9 @@ public class ItemEnums {
 	}
 
 	public static enum EnumChunkType {
-		RARE
+		RARE,
+		MALACHITE,
+		CRYOLITE
 	}
 
 	public static enum EnumAchievementType {

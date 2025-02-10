@@ -15,6 +15,7 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -141,16 +142,16 @@ public class XFactory40mm {
 	
 	public static void init() {
 		
-		g26_flare = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("g26Flare"));
-		g26_flare_supply = new BulletConfig().setItem(EnumAmmo.G26_FLARE_SUPPLY).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_SUPPLIESS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F).register("g26FlareSupply"));
-		g26_flare_weapon = new BulletConfig().setItem(EnumAmmo.G26_FLARE_WEAPON).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_WEAPONS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x278400).setScale(2F).register("g26FlareWeapon"));
+		g26_flare = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setCasing(EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("g26Flare"));
+		g26_flare_supply = new BulletConfig().setItem(EnumAmmo.G26_FLARE_SUPPLY).setCasing(EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_SUPPLIESS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F).register("g26FlareSupply"));
+		g26_flare_weapon = new BulletConfig().setItem(EnumAmmo.G26_FLARE_WEAPON).setCasing(EnumCasingType.LARGE, 4).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_WEAPONS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x278400).setScale(2F).register("g26FlareWeapon"));
 		
 		BulletConfig g40_base = new BulletConfig().setLife(200).setVel(2F).setGrav(0.035D);
-		g40_he = g40_base.clone().setItem(EnumAmmo.G40_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x777777).setScale(2, 2F, 1.5F).register("g40"));
-		g40_heat = g40_base.clone().setItem(EnumAmmo.G40_HEAT).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setDamage(0.5F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x5E6854).setScale(2, 2F, 1.5F).register("g40heat"));
-		g40_demo = g40_base.clone().setItem(EnumAmmo.G40_DEMO).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE30000).setScale(2, 2F, 1.5F).register("g40demo"));
-		g40_inc = g40_base.clone().setItem(EnumAmmo.G40_INC).setOnImpact(LAMBDA_STANDARD_EXPLODE_INC).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE86F20).setScale(2, 2F, 1.5F).register("g40inc"));
-		g40_phosphorus = g40_base.clone().setItem(EnumAmmo.G40_PHOSPHORUS).setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xC8C8C8).setScale(2, 2F, 1.5F).register("g40phos"));
+		g40_he = g40_base.clone().setItem(EnumAmmo.G40_HE).setCasing(EnumCasingType.LARGE, 4).setOnImpact(LAMBDA_STANDARD_EXPLODE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x777777).setScale(2, 2F, 1.5F).register("g40"));
+		g40_heat = g40_base.clone().setItem(EnumAmmo.G40_HEAT).setCasing(EnumCasingType.LARGE, 4).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setDamage(0.5F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x5E6854).setScale(2, 2F, 1.5F).register("g40heat"));
+		g40_demo = g40_base.clone().setItem(EnumAmmo.G40_DEMO).setCasing(EnumCasingType.LARGE, 4).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE30000).setScale(2, 2F, 1.5F).register("g40demo"));
+		g40_inc = g40_base.clone().setItem(EnumAmmo.G40_INC).setCasing(EnumCasingType.LARGE, 4).setOnImpact(LAMBDA_STANDARD_EXPLODE_INC).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE86F20).setScale(2, 2F, 1.5F).register("g40inc"));
+		g40_phosphorus = g40_base.clone().setItem(EnumAmmo.G40_PHOSPHORUS).setCasing(EnumCasingType.LARGE, 4).setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xC8C8C8).setScale(2, 2F, 1.5F).register("g40phos"));
 
 		ModItems.gun_flaregun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)

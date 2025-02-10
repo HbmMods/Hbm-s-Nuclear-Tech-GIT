@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -31,10 +32,10 @@ public class XFactory10ga {
 
 	public static void init() {
 		
-		g10 = new BulletConfig().setItem(EnumAmmo.G10).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
-		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
-		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setProjectiles(10).setDamage(1F/4F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
-		g10_slug = new BulletConfig().setItem(EnumAmmo.G10_SLUG).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.1F).setDoesPenetrate(true).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x808080, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GASlug"));
+		g10 = new BulletConfig().setItem(EnumAmmo.G10).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
+		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
+		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/4F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
+		g10_slug = new BulletConfig().setItem(EnumAmmo.G10_SLUG).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.1F).setDoesPenetrate(true).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x808080, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GASlug"));
 
 		ModItems.gun_double_barrel = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(1000).draw(10).inspect(39).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -49,7 +50,7 @@ public class XFactory10ga {
 		ModItems.gun_double_barrel_sacred_dragon = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(6000).draw(10).inspect(39).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(45F).rounds(2).delay(10).reload(41).reloadOnEmpty(true).sound("hbm:weapon.fire.shotgun", 1.0F, 0.9F)
+						.dmg(45F).spreadAmmo(1.35F).rounds(2).delay(10).reload(41).reloadOnEmpty(true).sound("hbm:weapon.fire.shotgun", 1.0F, 0.9F)
 						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))

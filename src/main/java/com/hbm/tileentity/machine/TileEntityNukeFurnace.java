@@ -8,7 +8,6 @@ import com.hbm.inventory.container.ContainerNukeFurnace;
 import com.hbm.inventory.gui.GUINukeFurnace;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
@@ -356,31 +355,6 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	}
 	
 	private static HashMap<ComparableStack, Integer> fuels = new HashMap();
-	//for the int array: [0] => level (1-4) [1] => amount of operations
-	
-	/* 
-	 * I really don't want to have to do this, but it's better then making a new class, for one TE, for not even recipes but just *fuels*
-	 * 
-	 * Who even uses this furnace? Nobody, but it's better then removing it without prior approval
-	 */
-	public static void registerFuels() {
-		setRecipe(BreedingRodType.TRITIUM, 5);
-		setRecipe(BreedingRodType.CO60, 10);
-		setRecipe(BreedingRodType.THF, 30);
-		setRecipe(BreedingRodType.U235, 50);
-		setRecipe(BreedingRodType.NP237, 30);
-		setRecipe(BreedingRodType.PU238, 20);
-		setRecipe(BreedingRodType.PU239, 50);
-		setRecipe(BreedingRodType.RGP, 30);
-		setRecipe(BreedingRodType.WASTE, 20);
-	}
-	
-	/** Sets power for single, dual, and quad rods **/
-	public static void setRecipe(BreedingRodType type, int power) {
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod, 1, type.ordinal())), power);
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, type.ordinal())), power * 2);
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_quad, 1, type.ordinal())), power * 4);
-	}
 	
 	/**
 	 * Returns an integer array of the fuel value of a certain stack

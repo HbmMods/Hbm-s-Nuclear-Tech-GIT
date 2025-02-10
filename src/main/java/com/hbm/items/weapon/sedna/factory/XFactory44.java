@@ -7,6 +7,7 @@ import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityTorpedo;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -66,17 +67,17 @@ public class XFactory44 {
 
 	public static void init() {
 		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
-		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setDamage(0.75F).setBlackPowder(true)
+		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setCasing(EnumCasingType.SMALL, 12).setDamage(0.75F).setBlackPowder(true)
 				.setCasing(casing44.clone().register("m44bp"));
-		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP)
+		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP).setCasing(EnumCasingType.SMALL, 6)
 				.setCasing(casing44.clone().register("m44"));
-		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setDamage(0.8F).setThresholdNegation(3F).setArmorPiercing(0.1F)
+		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setCasing(EnumCasingType.SMALL, 6).setDamage(0.8F).setThresholdNegation(3F).setArmorPiercing(0.1F)
 				.setCasing(casing44.clone().register("m44fmj"));
-		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setCasing(EnumCasingType.SMALL, 6).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing44.clone().register("m44jhp"));
-		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
+		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));
-		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
+		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setCasing(EnumCasingType.SMALL, 6).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
 				.setCasing(casing44.clone().register("m44express"));
 		m44_equestrian_pip = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOXCAR)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianPip"));

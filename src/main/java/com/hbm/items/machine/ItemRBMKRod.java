@@ -134,26 +134,32 @@ public class ItemRBMKRod extends Item {
 		
 		inFlux += selfRate;
 		
-		double xenon = getPoison(stack);
-		xenon -= xenonBurnFunc(inFlux);
-		
-		inFlux *= (1D - getPoisonLevel(stack));
-
-		xenon += xenonGenFunc(inFlux);
-		
-		if(xenon < 0D) xenon = 0D;
-		if(xenon > 100D) xenon = 100D;
-		
-		setPoison(stack, xenon);
+		//if xenon poison is enabled
+		if(RBMKDials.getXenon(world)) {
+			double xenon = getPoison(stack);
+			xenon -= xenonBurnFunc(inFlux);
+			
+			inFlux *= (1D - getPoisonLevel(stack));
+	
+			xenon += xenonGenFunc(inFlux);
+			
+			if(xenon < 0D) xenon = 0D;
+			if(xenon > 100D) xenon = 100D;
+			
+			setPoison(stack, xenon);
+		}
 		
 		double outFlux = reactivityFunc(inFlux, getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
-		
-		double y = getYield(stack);
-		y -= inFlux;
-		
-		if(y < 0D) y = 0D;
-		
-		setYield(stack, y);
+
+		//if depletion is enabled
+		if(RBMKDials.getDepletion(world)) {
+			double y = getYield(stack);
+			y -= inFlux;
+			
+			if(y < 0D) y = 0D;
+			
+			setYield(stack, y);
+		}
 		
 		double coreHeat = this.getCoreHeat(stack);
 		coreHeat += outFlux * heat;

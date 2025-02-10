@@ -32,6 +32,7 @@ public class NEIRegistry {
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
 		handlers.add(new ChemplantRecipeHandler());
+		handlers.add(new OreSlopperHandler()); //before acidizing
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());
 		handlers.add(new FusionRecipeHandler());
@@ -67,6 +68,9 @@ public class NEIRegistry {
 		handlers.add(new ArcFurnaceFluidHandler());
 		handlers.add(new RotaryFurnaceHandler());
 		handlers.add(new AmmoPressHandler());
+		handlers.add(new CompressorHandler());
+		handlers.add(new ParticleAcceleratorHandler());
+		handlers.add(new DeuteriumHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());

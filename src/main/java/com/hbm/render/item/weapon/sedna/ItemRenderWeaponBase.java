@@ -272,6 +272,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glDepthMask(false);
 
 			tess.startDrawingQuads();

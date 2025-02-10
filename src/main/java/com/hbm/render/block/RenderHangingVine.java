@@ -1,8 +1,5 @@
 package com.hbm.render.block;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import com.hbm.blocks.generic.BlockHangingVine;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -15,53 +12,7 @@ import net.minecraft.world.IBlockAccess;
 public class RenderHangingVine implements ISimpleBlockRenderingHandler {
 	
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-		//TextureUtil.func_152777_a(false, false, 1.0F);
-
-		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(30.0F, -1.0F, 0.0F, 0.0F);
-		GL11.glTranslatef(-1.0F, -0.5F, -1.0F);
-		
-		/*GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glScalef(1.0F, 1.0F, -1.0F);
-		GL11.glTranslatef(1.0F, 0.5F, 1.0F);
-		GL11.glScalef(10.0F, 10.0F, 10.0F);*/
-		
-
-		IIcon iicon0 = ((BlockHangingVine) block).iconHang;
-		IIcon iicon1 = ((BlockHangingVine) block).iconHangGlow;
-		renderStandard2D(iicon0);
-		renderStandard2D(iicon1);
-		
-	}
-	
-	public void renderStandard2D(IIcon iicon) {
-		Tessellator tessellator = Tessellator.instance;
-		float f = iicon.getMinU();
-		float f1 = iicon.getMaxU();
-		float f2 = iicon.getMinV();
-		float f3 = iicon.getMaxV();
-		float f4 = 0.0F;
-		float f5 = 0.3F;
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		//GL11.glTranslatef(-f4, -f5, 0.0F);
-		float f6 = 1.5F;
-		//GL11.glScalef(f6, f6, f6);
-		//GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
-		//GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
-		//GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-		//ItemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, iicon.getIconWidth(), iicon.getIconHeight(), 0.0625F);
-		
-		tessellator.startDrawingQuads();
-		tessellator.setNormal(0.0F, 0.0F, 1.0F);
-		tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, (double)f1, (double)f3);
-		tessellator.addVertexWithUV(1.0D, 0.0D, 0.0D, (double)f, (double)f3);
-		tessellator.addVertexWithUV(1.0D, 1.0D, 0.0D, (double)f, (double)f2);
-		tessellator.addVertexWithUV(0.0D, 1.0D, 0.0D, (double)f1, (double)f2);
-		tessellator.draw();
-	}
+	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) { }
 	
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {

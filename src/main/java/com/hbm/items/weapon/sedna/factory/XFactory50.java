@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -32,15 +33,15 @@ public class XFactory50 {
 
 	public static void init() {
 		SpentCasing casing762 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(1.5F);
-		bmg50_sp = new BulletConfig().setItem(EnumAmmo.BMG50_SP)
+		bmg50_sp = new BulletConfig().setItem(EnumAmmo.BMG50_SP).setCasing(EnumCasingType.LARGE, 12)
 				.setCasing(casing762.clone().register("bmg50"));
-		bmg50_fmj = new BulletConfig().setItem(EnumAmmo.BMG50_FMJ).setDamage(0.8F).setThresholdNegation(7F).setArmorPiercing(0.1F)
+		bmg50_fmj = new BulletConfig().setItem(EnumAmmo.BMG50_FMJ).setCasing(EnumCasingType.LARGE, 12).setDamage(0.8F).setThresholdNegation(7F).setArmorPiercing(0.1F)
 				.setCasing(casing762.clone().register("bmg50fmj"));
-		bmg50_jhp = new BulletConfig().setItem(EnumAmmo.BMG50_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		bmg50_jhp = new BulletConfig().setItem(EnumAmmo.BMG50_JHP).setCasing(EnumCasingType.LARGE, 12).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("bmg50jhp"));
-		bmg50_ap = new BulletConfig().setItem(EnumAmmo.BMG50_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(17.5F).setArmorPiercing(0.15F)
+		bmg50_ap = new BulletConfig().setItem(EnumAmmo.BMG50_AP).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(17.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50ap"));
-		bmg50_du = new BulletConfig().setItem(EnumAmmo.BMG50_DU).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setThresholdNegation(21F).setArmorPiercing(0.25F)
+		bmg50_du = new BulletConfig().setItem(EnumAmmo.BMG50_DU).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setThresholdNegation(21F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50du"));
 
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

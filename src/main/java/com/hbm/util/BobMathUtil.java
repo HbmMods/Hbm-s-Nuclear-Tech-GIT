@@ -15,6 +15,38 @@ import java.util.function.ToIntFunction;
 
 public class BobMathUtil {
 
+	//finally!
+	public static int min(int... nums) {
+		int smallest = Integer.MAX_VALUE;
+		for(int num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static int max(int... nums) {
+		int largest = Integer.MIN_VALUE;
+		for(int num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+	public static float min(float... nums) {
+		float smallest = Float.MAX_VALUE;
+		for(float num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static float max(float... nums) {
+		float largest = Float.MIN_VALUE;
+		for(float num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+	public static double min(double... nums) {
+		double smallest = Double.MAX_VALUE;
+		for(double num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static double max(double... nums) {
+		double largest = Double.MIN_VALUE;
+		for(double num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+
 	public static double safeClamp(double val, double min, double max) {
 
 		val = MathHelper.clamp_double(val, min, max);

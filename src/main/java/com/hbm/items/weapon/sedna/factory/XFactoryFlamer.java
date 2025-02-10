@@ -110,13 +110,13 @@ public class XFactoryFlamer {
 	}
 
 	public static void init() {
-		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setupDamageClass(DamageClass.FIRE).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
+		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_DIESEL);
-		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setupDamageClass(DamageClass.FIRE).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
+		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_GAS);
-		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
+		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
-		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
+		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
 		
 		flame_nograv = flame_diesel.clone().setGrav(0);
@@ -138,7 +138,7 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(1F).delay(1).auto(true).reload(90).jam(17)
+						.dmg(1F).spreadHipfire(0F).delay(1).auto(true).reload(90).jam(17)
 						.mag(new MagazineFullReload(0, 300).addConfigs(flame_diesel, flame_gas, flame_napalm, flame_balefire))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
@@ -148,7 +148,7 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer_topaz = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(1.5F).delay(1).auto(true).reload(90).jam(17)
+						.dmg(1.5F).spreadHipfire(0F).delay(1).auto(true).reload(90).jam(17)
 						.mag(new MagazineFullReload(0, 500).addConfigs(flame_topaz_diesel, flame_topaz_gas, flame_topaz_napalm, flame_topaz_balefire))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
@@ -158,7 +158,7 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer_daybreaker = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(10).auto(true).reload(90).jam(17).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(25F).spreadHipfire(0F).delay(10).auto(true).reload(90).jam(17).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 50).addConfigs(flame_daybreaker_diesel, flame_daybreaker_gas, flame_daybreaker_napalm, flame_daybreaker_balefire))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
@@ -169,7 +169,7 @@ public class XFactoryFlamer {
 		ModItems.gun_chemthrower = new ItemGunChemthrower(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.delay(1).auto(true)
+						.delay(1).spreadHipfire(0F).auto(true)
 						.mag(new MagazineFluid(0, 3_000))
 						.offset(0.75, -0.0625, -0.25D)
 						.canFire(ItemGunChemthrower.LAMBDA_CAN_FIRE).fire(ItemGunChemthrower.LAMBDA_FIRE))

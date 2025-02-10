@@ -42,7 +42,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Spaghetti("no")
+@Spaghetti("my eyes are bleeding")
 public class ExplosionChaos {
 
 	private final static Random random = new Random();

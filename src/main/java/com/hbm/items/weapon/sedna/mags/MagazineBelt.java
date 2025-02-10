@@ -39,6 +39,8 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 					int toRemove = Math.min(slot.stackSize, amount);
 					amount -= toRemove;
 					inventory.decrStackSize(i, toRemove);
+					IMagazine.handleAmmoBag(inventory, first, toRemove);
+					if(amount <= 0) return;
 				}
 			}
 		}
@@ -56,6 +58,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 
 	@Override
 	public int getAmount(ItemStack stack, IInventory inventory) {
+		if(inventory == null) return 1; // for EntityAIFireGun
 		BulletConfig first = this.getFirstConfig(stack, inventory);
 		int count = 0;
 		for(int i = 0; i < inventory.getSizeInventory(); i++) {
