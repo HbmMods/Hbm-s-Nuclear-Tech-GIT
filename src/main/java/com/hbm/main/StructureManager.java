@@ -30,6 +30,7 @@ public class StructureManager {
 	public static final NBTStructure meteor_3_book = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/loot3x3/meteor-3-book.nbt"));
 	public static final NBTStructure meteor_3_mku = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/loot3x3/meteor-3-mku.nbt"));
 	public static final NBTStructure meteor_3_statue = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/loot3x3/meteor-3-statue.nbt"));
+	public static final NBTStructure meteor_3_glow = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/loot3x3/meteor-3-glow.nbt"));
 
 	public static final NBTStructure meteor_room_base_end = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/room-base-end.nbt"));
 	public static final NBTStructure meteor_room_base_thru = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/meteor/room10/room-base-thru.nbt"));

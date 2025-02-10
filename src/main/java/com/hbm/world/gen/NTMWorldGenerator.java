@@ -122,6 +122,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 					add(new JigsawPiece("meteor_3_book", StructureManager.meteor_3_book), 1);
 					add(new JigsawPiece("meteor_3_mku", StructureManager.meteor_3_mku), 1);
 					add(new JigsawPiece("meteor_3_statue", StructureManager.meteor_3_statue), 1);
+					add(new JigsawPiece("meteor_3_glow", StructureManager.meteor_3_glow), 1);
+					fallback = "3x3loot"; // generate loot even if we're at the size limit
 				}});
 				put("headloot", new JigsawPool() {{
 					add(new JigsawPiece("meteor_dragon_chest", StructureManager.meteor_dragon_chest) {{ blockTable = crates; }}, 1);
