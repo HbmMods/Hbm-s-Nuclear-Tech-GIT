@@ -157,7 +157,7 @@ public class ClientProxy extends ServerProxy {
 		registerBlockRenderer();
 
 		Jars.initJars();
-		
+
 		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(new QMAWLoader());
 
 		if(GeneralConfig.enableSoundExtension) {
@@ -376,6 +376,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySubstation.class, new RenderSubstation());
 		//chargers
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCharger.class, new RenderCharger());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRefueler.class, new RenderRefueler());
 		//DecoContainer
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFileCabinet.class, new RenderFileCabinet());
 		//multiblocks
@@ -830,6 +831,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderRBMKReflector());
 		RenderingRegistry.registerBlockHandler(new RenderRBMKControl());
 		RenderingRegistry.registerBlockHandler(new RenderPribris());
+
+		RenderingRegistry.registerBlockHandler(new RenderBlockWand());
 	}
 
 	@Override
@@ -1723,6 +1726,22 @@ public class ClientProxy extends ServerProxy {
 
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 			}
+		}
+
+		if("fluidfill".equals(type)) {
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+
+			EntityFX fx = new net.minecraft.client.particle.EntityCritFX(world, x, y, z, mX, mY, mZ);
+			fx.nextTextureIndexX();
+
+			if(data.hasKey("color")) {
+				Color color = new Color(data.getInteger("color"));
+				fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			}
+
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 		}
 
 		if("deadleaf".equals(type)) {

@@ -4,6 +4,9 @@ import com.hbm.inventory.gui.GUIScreenBobble;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.world.gen.INBTTileEntityTransformable;
+import com.hbm.world.gen.INBTTransformable;
+
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +34,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class BlockBobble extends BlockContainer implements IGUIProvider {
+public class BlockBobble extends BlockContainer implements IGUIProvider, INBTTransformable {
 
 	public BlockBobble() {
 		super(Material.iron);
@@ -137,11 +140,16 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 	}
 
 	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return (meta + coordBaseMode * 4) % 16;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityBobble();
 	}
 
-	public static class TileEntityBobble extends TileEntity {
+	public static class TileEntityBobble extends TileEntity implements INBTTileEntityTransformable {
 
 		public BobbleType type = BobbleType.NONE;
 
@@ -173,6 +181,11 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 			super.writeToNBT(nbt);
 			nbt.setByte("type", (byte) type.ordinal());
 		}
+
+		@Override
+		public void transformTE(World world, int coordBaseMode) {
+			type = BobbleType.values()[world.rand.nextInt(BobbleType.values().length - 1) + 1];
+		}
 	}
 
 	public static enum BobbleType {
@@ -200,7 +213,7 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		CIRNO(			"Cirno",							"Cirno",			"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
 		MICROWAVE(		"Microwave",						"Microwave",		"OC Compatibility and massive RBMK/packet optimizations",		"they call me the food heater$john optimization",												true,	ScrapType.BOARD_CONVERTER),
 		PEEP(			"Peep",								"LePeeperSauvage",	"Coilgun, Leadburster and Congo Lake models, BDCL QC",		"Fluffy ears can't hide in ash, nor snow.",															true,	ScrapType.CARD_BOARD),
-		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"Industrial lighting, animation tools",						"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
+		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"NBT Structures, industrial lighting, animation tools",				"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

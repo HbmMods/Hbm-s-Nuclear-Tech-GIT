@@ -14,13 +14,13 @@ public class RenderBlockSideRotation implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-		
+
 		Tessellator tessellator = Tessellator.instance;
 		block.setBlockBoundsForItemRender();
 		renderer.setRenderBoundsFromBlock(block);
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-		
+
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1.0F, 0.0F);
 		renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
@@ -45,7 +45,7 @@ public class RenderBlockSideRotation implements ISimpleBlockRenderingHandler {
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tessellator.draw();
-		
+
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 
@@ -55,20 +55,32 @@ public class RenderBlockSideRotation implements ISimpleBlockRenderingHandler {
 		Tessellator tessellator = Tessellator.instance;
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
-		
+
 		if(!(block instanceof IBlockSideRotation)) {
 			renderer.renderStandardBlock(block, x, y, z);
 			return true;
 		}
-		
+
 		IBlockSideRotation rot = (IBlockSideRotation) block;
-		
+
+		// I'm almost entirely convinced that MCP mistranslated these properties because north/south and west/east are fucking SWAPPED
+		// YEP, they fucking did, god fucking damn it. I manually figured out the correct side for each uv face property to resolve YAYY
+		renderer.uvRotateBottom = rot.getRotationFromSide(world, x, y, z, 0);
 		renderer.uvRotateTop = rot.getRotationFromSide(world, x, y, z, 1);
+		renderer.uvRotateNorth = rot.getRotationFromSide(world, x, y, z, 5);
+		renderer.uvRotateSouth = rot.getRotationFromSide(world, x, y, z, 4);
+		renderer.uvRotateWest = rot.getRotationFromSide(world, x, y, z, 2);
+		renderer.uvRotateEast = rot.getRotationFromSide(world, x, y, z, 3);
 
 		renderer.setRenderBounds(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
 		renderer.renderStandardBlock(block, x, y, z);
-		
+
+		renderer.uvRotateBottom = 0;
 		renderer.uvRotateTop = 0;
+		renderer.uvRotateNorth = 0;
+		renderer.uvRotateSouth = 0;
+		renderer.uvRotateWest = 0;
+		renderer.uvRotateEast = 0;
 		return true;
 	}
 

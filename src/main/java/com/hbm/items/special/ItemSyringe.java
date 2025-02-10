@@ -48,7 +48,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
 				}
-			
+
 				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
@@ -77,7 +77,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
 				}
-			
+
 				VersatileConfig.applyPotionSickness(player, 50);
 			}
 		}
@@ -116,7 +116,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
-				
+
 				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
@@ -135,7 +135,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
-				
+
 				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
@@ -155,7 +155,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
-				
+
 				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
@@ -175,7 +175,7 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
-				
+
 				VersatileConfig.applyPotionSickness(player, 15);
 			}
 		}
@@ -193,7 +193,7 @@ public class ItemSyringe extends Item {
 				player.removePotionEffect(Potion.weakness.id);
 				player.removePotionEffect(Potion.wither.id);
 				player.removePotionEffect(HbmPotion.radiation.id);
-				
+
 				VersatileConfig.applyPotionSickness(player, 15);
 
 				stack.stackSize--;
@@ -283,18 +283,17 @@ public class ItemSyringe extends Item {
 					return stack;
 
 				IFillableItem fillable = (IFillableItem) jetpack.getItem();
-				
+
 				if(!fillable.acceptsFluid(Fluids.KEROSENE, jetpack))
 					return stack;
-				
-				fillable.tryFill(Fluids.KEROSENE, 1000, jetpack);
-				
+
+				if(fillable.tryFill(Fluids.KEROSENE, 1000, jetpack) < 1000) {
+					world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
+					stack.stackSize--;
+				}
+
 				if(jetpack.getItem() != player.inventory.armorInventory[2].getItem())
 					ArmorModHandler.applyMod(player.inventory.armorInventory[2], jetpack);
-
-				world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
-
-				stack.stackSize--;
 			}
 		}
 
@@ -386,11 +385,11 @@ public class ItemSyringe extends Item {
 
 		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
-				
+
 				if(entity instanceof EntityCow) {
-					
+
 					entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 40, 0));
-					
+
 				} else  {
 					entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
 					entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
@@ -592,7 +591,7 @@ public class ItemSyringe extends Item {
 		if(this == ModItems.gun_kit_2) {
 			list.add("Repairs all weapons in hotbar by 50%");
 		}
-		
+
 		if(this == ModItems.syringe_mkunicorn) {
 			list.add(EnumChatFormatting.RED + "?");
 		}

@@ -10,6 +10,7 @@ import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerMachineCustom;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.machine.TileEntityCustomMachine;
 
 import net.minecraft.client.Minecraft;
@@ -44,16 +45,7 @@ public class GUIMachineCustom extends GuiInfoContainer {
 				int tileIndex = slot.getSlotIndex();
 
 				if(this.isMouseOverSlot(slot, x, y) && slot instanceof SlotPattern && custom.matcher.modes[tileIndex - 10] != null) {
-
-					String label = EnumChatFormatting.YELLOW + "";
-
-					switch(custom.matcher.modes[tileIndex - 10]) {
-						case "exact": label += "Item and meta match"; break;
-						case "wildcard": label += "Item matches"; break;
-						default: label += "Ore dict key matches: " + custom.matcher.modes[tileIndex - 10]; break;
-					}
-
-					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", ModulePatternMatcher.getLabel(custom.matcher.modes[tileIndex - 10]) }), x, y - 30);
 				}
 			}
 		}
