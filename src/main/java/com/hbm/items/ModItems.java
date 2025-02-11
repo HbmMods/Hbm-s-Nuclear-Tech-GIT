@@ -1226,10 +1226,7 @@ public class ModItems {
 	public static Item siren_track;
 	public static Item fluid_duct;
 
-	public static Item bobmazon_materials;
-	public static Item bobmazon_machines;
-	public static Item bobmazon_weapons;
-	public static Item bobmazon_tools;
+	public static Item bobmazon;
 	public static Item bobmazon_hidden;
 
 	public static Item launch_code_piece;
@@ -4225,10 +4222,7 @@ public class ModItems {
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":cassette");
 		fluid_duct = new ItemFluidDuct().setUnlocalizedName("fluid_duct").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":duct");
 
-		bobmazon_materials = new ItemCatalog().setUnlocalizedName("bobmazon_materials").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_materials");
-		bobmazon_machines = new ItemCatalog().setUnlocalizedName("bobmazon_machines").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_machines");
-		bobmazon_weapons = new ItemCatalog().setUnlocalizedName("bobmazon_weapons").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_weapons");
-		bobmazon_tools = new ItemCatalog().setUnlocalizedName("bobmazon_tools").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_tools");
+		bobmazon = new ItemCatalog().setUnlocalizedName("bobmazon").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bobmazon");
 		bobmazon_hidden = new ItemCatalog().setUnlocalizedName("bobmazon_hidden").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":bobmazon_special");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.aMatEuph, 0).setUnlocalizedName("euphemium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
@@ -5840,10 +5834,7 @@ public class ModItems {
 		GameRegistry.registerItem(journal_pip, journal_pip.getUnlocalizedName());
 		GameRegistry.registerItem(journal_bj, journal_bj.getUnlocalizedName());
 		GameRegistry.registerItem(journal_silver, journal_silver.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_materials, bobmazon_materials.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_machines, bobmazon_machines.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_weapons, bobmazon_weapons.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_tools, bobmazon_tools.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon, bobmazon.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_hidden, bobmazon_hidden.getUnlocalizedName());
 
 		//Hydraulic Press Stamps

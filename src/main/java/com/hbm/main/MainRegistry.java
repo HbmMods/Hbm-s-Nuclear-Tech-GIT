@@ -1643,6 +1643,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.pellet_canister");
 		ignoreMappings.add("hbm:item.pellet_claws");
 		ignoreMappings.add("hbm:item.pellet_flechette");
+		ignoreMappings.add("hbm:item.bobmazon_materials");
+		ignoreMappings.add("hbm:item.bobmazon_machines");
+		ignoreMappings.add("hbm:item.bobmazon_weapons");
+		ignoreMappings.add("hbm:item.bobmazon_tools");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

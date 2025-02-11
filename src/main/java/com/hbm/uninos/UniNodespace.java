@@ -1,8 +1,8 @@
 package com.hbm.uninos;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.world.World;
@@ -11,29 +11,36 @@ public class UniNodespace {
 	
 	public static HashMap<World, UniNodeWorld> worlds = new HashMap();
 	
-	/*
-	 * attempt #1 went south because there would be an entirely separate nodespace for every single possible type
-	 * which for fluids means at least 150 alone, and that's not great.
-	 * this is attempt #2 which is not good for reasons explained below
-	 */
+	public static GenNode getNode(World world, int x, int y, int z, INetworkProvider type) {
+		UniNodeWorld nodeWorld = worlds.get(world);
+		if(nodeWorld != null) return nodeWorld.nodes.get(new Pair(new BlockPos(x, y, z), type));
+		return null;
+	}
+	
+	public static void createNode(World world, GenNode node) {
+		UniNodeWorld nodeWorld = worlds.get(world);
+		if(nodeWorld == null) {
+			nodeWorld = new UniNodeWorld();
+			worlds.put(world, nodeWorld);
+		}
+		nodeWorld.pushNode(node);
+	}
+	
+	public static void destroyNode(World world, int x, int y, int z, INetworkProvider type) {
+		GenNode node = getNode(world, x, y, z, type);
+		if(node != null) {
+			worlds.get(world).popNode(node);
+		}
+	}
+	
 	public static class UniNodeWorld {
 		
-		public static int nextId = 0;
-
-		//shot in the dark: how well is the dual hashmap system gonna perform?
-		//how are we gonna handle type segregation for network forming?
-		public HashMap<BlockPos, HashSet<Long>> posToId = new HashMap<>();
-		public HashMap<Long, GenNode> idToNode = new HashMap<>();
+		public HashMap<Pair<BlockPos, INetworkProvider>, GenNode<INetworkProvider>> nodes = new HashMap();
 		
 		/** Adds a node at all its positions to the nodespace */
 		public void pushNode(GenNode node) {
 			for(BlockPos pos : node.positions) {
-				HashSet<Long> set = posToId.get(pos);
-				if(set == null) {
-					set = new HashSet();
-					posToId.put(pos, set);
-				}
-				set.add(node.id);
+				nodes.put(new Pair(pos, node.networkProvider), node);
 			}
 		}
 		
@@ -41,19 +48,9 @@ public class UniNodespace {
 		public void popNode(GenNode node) {
 			if(node.net != null) node.net.destroy();
 			for(BlockPos pos : node.positions) {
-				HashSet<Long> set = posToId.get(pos);
-				if(set != null) {
-					set.remove(node.id);
-					if(set.isEmpty()) posToId.remove(pos);
-				}
+				nodes.remove(new Pair(pos, node.networkProvider));
 			}
 			node.expired = true;
 		}
 	}
-	/*
-	 * yeah this shit isn't gonna work because this allows multiple nodes of the same type in the same pos
-	 * (we don't want that) which also makes it near impossible to do per-type position node lookups
-	 * (sure it's possible but we are gonna have to iterate over every possible node in that spot, which is
-	 * usually 1, but who knows how we end up using this system so i'd rather not)
-	 */
 }

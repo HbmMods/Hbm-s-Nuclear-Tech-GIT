@@ -12,6 +12,9 @@
 * Meteorite dungeons now use a new structure system
   * The rooms have been completely changed, and the dungeons are no longer single-level with fixed room sizes
   * Dungeons no longer lag the game to hell when generating
+* Decimated bobmazon
+  * All books have been merged into one with way fewer offers
+  * Sells things like basic gear, MREs, plushies, snow globes, and certain things only found in worldgen like jungle tree saplings and NTM flowers (including mustard willow)
 
 ## Fixed
 * Fixed items being annihilated when shift clicking them into the particle source
