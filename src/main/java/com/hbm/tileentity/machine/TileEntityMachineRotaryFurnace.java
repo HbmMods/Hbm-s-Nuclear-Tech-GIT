@@ -64,9 +64,8 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		.setSolidTimeMod(1.5)
 		.setBalefireTimeMod(1.5)
 
-		.setCokeHeatMod(1.25)
 		.setSolidHeatMod(1.5)
-		.setRocketHeatMod(2.5)
+		.setRocketHeatMod(3)
 		.setBalefireHeatMod(10);
 
 	public TileEntityMachineRotaryFurnace() {
@@ -140,7 +139,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 					float speed = Math.max((float) burnModule.getMod(lastFuel, burnModule.getModHeat()), 1);
 					this.progress += speed / recipe.duration;
 
-					speed = (float) Math.pow(speed, 1.5);
+					speed =  (float)(13 * Math.log10(speed) + 1);
 					tanks[1].setFill((int) (tanks[1].getFill() - recipe.steam * speed));
 					tanks[2].setFill((int) (tanks[2].getFill() + recipe.steam * speed / 100));
 					this.isProgressing = true;
