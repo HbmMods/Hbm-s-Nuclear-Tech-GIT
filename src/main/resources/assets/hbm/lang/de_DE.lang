@@ -5110,6 +5110,7 @@ turret.on=AN
 turret.players=Spieler anzielen: %s
 
 upgrade.consumption=Verbrauch %s
+upgrade.productivity=Produktivität %s
 upgrade.speed=Verarbeitungszeit %s
 
 wavelengths.name.ir=Infrarot

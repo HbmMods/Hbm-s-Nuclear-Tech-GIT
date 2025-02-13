@@ -15,6 +15,12 @@
 * Decimated bobmazon
   * All books have been merged into one with way fewer offers
   * Sells things like basic gear, MREs, plushies, snow globes, and certain things only found in worldgen like jungle tree saplings and NTM flowers (including mustard willow)
+* Each acidizer recipe now has a "productivity" value which is the percent chance that the effectiveness upgrades use, instead of a fixed 5% per level
+  * This means that certain recipes like re-crystallizing gems no longer allow for item duping
+  * Due to duping no longer being a concern, productivity rates for certain recipes can now be much higher
+  * Things like sawdust to cordite have a 75% chance of not using the input at level 3
+  * Effectiveness no longer increases acid consumption (since many recipes now use the acidizer like a solid output "mixer") but instead adds +200% power consumption per level
+* Chemical dyes can now also be made with light oil
 
 ## Fixed
 * Fixed items being annihilated when shift clicking them into the particle source
