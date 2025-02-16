@@ -73,7 +73,10 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatBasic;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -164,6 +167,11 @@ public class MainRegistry {
 	public static CreativeTabs weaponTab = new WeaponTab(CreativeTabs.getNextID(), "tabWeapon");				// turrets, weapons, ammo
 	public static CreativeTabs consumableTab = new ConsumableTab(CreativeTabs.getNextID(), "tabConsumable");	// drinks, kits, tools
 
+	// Statistics
+	public static StatBase statLegendary;
+	public static StatBase statMines;
+	public static StatBase statBullets;
+	
 	// Achievements
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
@@ -656,6 +664,10 @@ public class MainRegistry {
 
 		RodRecipes.registerInit();
 
+		statLegendary = new StatBasic("stat.ntmLegendary", new ChatComponentTranslation("stat.ntmLegendary")).registerStat();
+		statMines = new StatBasic("stat.ntmMines", new ChatComponentTranslation("stat.ntmMines")).registerStat();
+		statBullets = new StatBasic("stat.ntmBullets", new ChatComponentTranslation("stat.ntmBullets")).registerStat();
+
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
 		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 3, 10, new ItemStack(ModItems.fluid_icon, 1, Fluids.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
@@ -710,7 +722,7 @@ public class MainRegistry {
 		achCentrifuge = new Achievement("achievement.centrifuge", "centrifuge", 12, -2, new ItemStack(ModBlocks.machine_centrifuge), achPolymer).initIndependentStat().registerStat();
 		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 5, 5, ModItems.sat_foeq, achDesh).initIndependentStat().setSpecial().registerStat();
 		achSoyuz = new Achievement("achievement.soyuz", "soyuz", 7, 6, Items.baked_potato, achDesh).initIndependentStat().setSpecial().registerStat();
-		achSpace = new Achievement("achievement.space", "space", 9, 7, ModItems.missile_carrier, achDesh).initIndependentStat().setSpecial().registerStat();
+		achSpace = new Achievement("achievement.space", "space", 9, 7, ModItems.missile_soyuz, achDesh).initIndependentStat().setSpecial().registerStat();
 		achSchrab = new Achievement("achievement.schrab", "schrab", 11, 3, ModItems.ingot_schrabidium, achDesh).initIndependentStat().registerStat();
 		achAcidizer = new Achievement("achievement.acidizer", "acidizer", 11, 5, new ItemStack(ModBlocks.machine_crystallizer), achDesh).initIndependentStat().registerStat();
 		achRadium = new Achievement("achievement.radium", "radium", 13, -4, ModItems.coffee_radium, achCentrifuge).initIndependentStat().setSpecial().registerStat();
@@ -1647,6 +1659,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bobmazon_machines");
 		ignoreMappings.add("hbm:item.bobmazon_weapons");
 		ignoreMappings.add("hbm:item.bobmazon_tools");
+		ignoreMappings.add("hbm:item.missile_carrier");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

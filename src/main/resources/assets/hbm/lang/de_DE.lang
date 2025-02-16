@@ -3887,6 +3887,10 @@ shape.wiresDense=Dichte Drähte
 
 soundCategory.ntmMachines=NTM Maschinen
 
+stat.ntmBullets=Schüsse gefeuert
+stat.ntmLegendary=Legendäre Gegenstände hergestellt
+stat.ntmMines=Auf Minen getreten
+
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber

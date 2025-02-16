@@ -3,6 +3,7 @@
   * Like a charging station, but for fluids
 
 ## Changed
+* Updated chinese localization
 * Particle detectors now print an error for when the recipe could not be completed
 * Night Vision Goggles toggles with armor HUD
 * Removed "no ore dict data" line from tooltips with extended view enabled
@@ -20,7 +21,16 @@
   * Due to duping no longer being a concern, productivity rates for certain recipes can now be much higher
   * Things like sawdust to cordite have a 75% chance of not using the input at level 3
   * Effectiveness no longer increases acid consumption (since many recipes now use the acidizer like a solid output "mixer") but instead adds +200% power consumption per level
+  * Effectiveness can be configured with the recipe and caps out at 99% (since 100% would just print free items)
 * Chemical dyes can now also be made with light oil
+* There's now statistics for creating legendary weapons and ammo, stepping on landmines and firing guns
+* Assembly templates no longer specify whether they are persistent and volatile, since volatile templates haven't existed in years
+* Obliterated the HTR-01 item for good
+  * Idk why it still existed
+* Skeletons, slimes and cybercrabs can no longer be gibbed, since they don't have flesh
+* The template folder's description now uses flashing colors to make it harder to ignore
+* Scaled swords no longer use 1.1 scale in the inventory, making them larger than the inventory slot
+* Fissures can now be connected to fluid ducts, providing 1,000mB of lava per tick
 
 ## Fixed
 * Fixed items being annihilated when shift clicking them into the particle source
@@ -29,3 +39,6 @@
 * Fixed rotary furnace voiding low pressure steam when dealing with input numbers not divisible by 100
 * Fixed state leak causing smoke from the right akimbo weapon to glow when the first one is fired
 * Fixed incorrect default values for new RBMK dials
+* Fixed blast doors self-destructing when closing
+* Fixed PA coils being in the wrong creative tab
+* Fixed flux calculation for RBMKs being wrong, mainly affecting reactors using fast flux

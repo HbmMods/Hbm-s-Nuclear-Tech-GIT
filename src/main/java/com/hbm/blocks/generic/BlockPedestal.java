@@ -1,8 +1,11 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
 import com.hbm.inventory.recipes.PedestalRecipes;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.util.Compat;
 
@@ -21,6 +24,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -168,6 +172,9 @@ public class BlockPedestal extends BlockContainer {
 					center.markDirty();
 					world.markBlockForUpdate(x, y, z);
 					ExplosionSmallCreator.composeEffect(world, x + 0.5, y + 1.5, z + 0.5, 10, 2.5F, 1F);
+					
+					List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x + 0.5, y, z + 0.5, x + 0.5, y, z + 0.5).expand(50, 50, 50));
+					for(EntityPlayer player : players) player.addStat(MainRegistry.statLegendary, 1);
 					
 					return;
 				}

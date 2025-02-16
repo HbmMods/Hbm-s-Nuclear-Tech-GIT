@@ -4970,6 +4970,10 @@ shape.wiresDense=Dense Wires
 
 soundCategory.ntmMachines=NTM Machines
 
+stat.ntmBullets=Rounds Fired
+stat.ntmLegendary=Legendary Items Created
+stat.ntmMines=Mines Stepped on
+
 tile.absorber.name=Radiation Absorber
 tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber
