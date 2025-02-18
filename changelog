@@ -2,6 +2,8 @@
 * Large deposits (hematite, malachite, bauxite) and caves (sulfur, asbestos) can now be toggled in the config
 * Removed recipes for most old particle accelerator parts
 * Dense coils no longer have recipes either for the most part, all coils with no recipes can be recycled back into dense wires
+* Natural gas can now be processed in a pyrolysis oven, 12k of gas yields 8k hydrogen and one graphite ingot
 
 ## Fixed
 * Fixed an issue where `/ntmreload` would load fluids after recipes, meaning that recipes using newly added fluids would not work correctly, as the fluids don't exist by the time the recipe is loaded
+* Fixed bedrock coltan being way too common, drowning out almost all other bedrock ores

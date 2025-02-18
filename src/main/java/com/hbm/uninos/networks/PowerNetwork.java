@@ -22,10 +22,6 @@ public class PowerNetwork extends NodeNet<PowerProvider> {
 	public HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
 	
 	public long energyTracker = 0L;
-	
-	public void resetEnergyTracker() {
-		this.energyTracker = 0;
-	}
 
 	@Override // this was all fun and games but let's take a few steps back: this generics stuff is kinda breaking shit, and as it turns out, apparently nothing even uses the type
 	public HashMap<IGenReceiver<PowerProvider>, Long> receiverEntries() {
@@ -39,6 +35,9 @@ public class PowerNetwork extends NodeNet<PowerProvider> {
 	
 	protected static int timeout = 3_000;
 	
+	@Override public void resetTrackers() { this.energyTracker = 0; }
+	
+	@Override
 	public void update() {
 		
 		if(providerEntries.isEmpty()) return;

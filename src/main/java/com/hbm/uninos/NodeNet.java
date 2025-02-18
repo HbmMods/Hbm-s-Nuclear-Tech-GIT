@@ -68,6 +68,7 @@ public abstract class NodeNet<T extends INetworkProvider> {
 	/// GENERAL POWER NET CONTROL ///
 	public void invalidate() { this.valid = false; UniNodespace.activeNodeNets.remove(this); }
 	public boolean isValid() { return this.valid; }
+	public void resetTrackers() { }
 	public abstract void update();
 	
 	public void destroy() {
