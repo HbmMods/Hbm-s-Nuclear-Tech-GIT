@@ -7,7 +7,7 @@ public class GenNode<T extends INetworkProvider> {
 	
 	public BlockPos[] positions;
 	public DirPos[] connections;
-	public INodeNet<T> net;
+	public NodeNet<T> net;
 	public boolean expired = false;
 	public boolean recentlyChanged = true;
 	public T networkProvider;
@@ -34,7 +34,7 @@ public class GenNode<T extends INetworkProvider> {
 		return this.net != null && this.net.isValid();
 	}
 	
-	public void setNet(INodeNet<T> net) {
+	public void setNet(NodeNet<T> net) {
 		this.net = net;
 		this.recentlyChanged = true;
 	}

@@ -2,6 +2,8 @@ package api.hbm.energymk2;
 
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.uninos.IGenProvider;
+import com.hbm.uninos.networkproviders.PowerProvider;
 import com.hbm.util.Compat;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
@@ -12,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /** If it sends energy, use this */
-public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
+public interface IEnergyProviderMK2 extends IEnergyHandlerMK2, IGenProvider<PowerProvider> {
 
 	/** Uses up available power, default implementation has no sanity checking, make sure that the requested power is lequal to the current power */
 	public default void usePower(long power) {

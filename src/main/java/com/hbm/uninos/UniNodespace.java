@@ -1,6 +1,8 @@
 package com.hbm.uninos;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -10,6 +12,7 @@ import net.minecraft.world.World;
 public class UniNodespace {
 	
 	public static HashMap<World, UniNodeWorld> worlds = new HashMap();
+	public static Set<NodeNet> activeNodeNets = new HashSet<>();
 	
 	public static GenNode getNode(World world, int x, int y, int z, INetworkProvider type) {
 		UniNodeWorld nodeWorld = worlds.get(world);

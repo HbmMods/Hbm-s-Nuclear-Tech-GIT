@@ -3,6 +3,7 @@ package com.hbm.tileentity.bomb;
 import java.util.List;
 
 import com.hbm.blocks.bomb.Landmine;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,6 +58,7 @@ public class TileEntityLandmine extends TileEntity {
 					if(isPrimed) {
 						//the explosion is part of the mine block so that the IBomb interface works, i remember now
 						landmine.explode(worldObj, xCoord, yCoord, zCoord);
+						if(o instanceof EntityPlayer) ((EntityPlayer) o).addStat(MainRegistry.statMines, 1);
 					}
 	
 					return;

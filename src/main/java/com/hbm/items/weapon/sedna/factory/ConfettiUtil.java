@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.Locale;
 
+import com.hbm.entity.mob.*;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.AshesCreator;
@@ -10,6 +11,8 @@ import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -39,6 +42,12 @@ public class ConfettiUtil {
 	}
 
 	public static void gib(EntityLivingBase entity) {
+		if(entity instanceof EntityCyberCrab) return;
+		if(entity instanceof EntityTeslaCrab) return;
+		if(entity instanceof EntityTaintCrab) return;
+		if(entity instanceof EntitySkeleton) return;
+		if(entity instanceof EntitySlime) return;
+		
 		NBTTagCompound vdat = new NBTTagCompound();
 		vdat.setString("type", "giblets");
 		vdat.setInteger("ent", entity.getEntityId());

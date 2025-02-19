@@ -26,10 +26,10 @@ public class CommandReloadRecipes extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		try {
+			Fluids.reloadFluids();
 			SerializableRecipe.initialize();
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
-			Fluids.reloadFluids();
 
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Reload complete :)"));
 		} catch(Exception ex) {
