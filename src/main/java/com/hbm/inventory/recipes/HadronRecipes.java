@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -183,45 +182,10 @@ public class HadronRecipes extends SerializableRecipe {
 	}
 
 	@Override
-	public void readRecipe(JsonElement recipe) {
-		JsonObject obj = (JsonObject) recipe;
-		int momentum = obj.get("momentum").getAsInt();
-		boolean lineMode = obj.get("lineMode").getAsBoolean();
-		ItemStack[] in = this.readItemStackArray(obj.get("inputs").getAsJsonArray());
-		ItemStack[] out = this.readItemStackArray(obj.get("outputs").getAsJsonArray());
-		
-		this.recipes.add(new HadronRecipe(
-				in[0],
-				in[1],
-				momentum,
-				out[0],
-				out[1],
-				lineMode
-				));
-	}
+	public void readRecipe(JsonElement recipe) { }
 
 	@Override
-	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
-		HadronRecipe rec = (HadronRecipe) recipe;
-		
-		writer.name("momentum").value(rec.momentum);
-		writer.name("lineMode").value(rec.analysisOnly);
-		
-		writer.name("inputs").beginArray();
-		this.writeItemStack(rec.in1.toStack(), writer);
-		this.writeItemStack(rec.in2.toStack(), writer);
-		writer.endArray();
-		
-		writer.name("outputs").beginArray();
-		this.writeItemStack(rec.out1, writer);
-		this.writeItemStack(rec.out2, writer);
-		writer.endArray();
-	}
-	
-	@Override
-	public String getComment() {
-		return "Rules: Both in- and output stacks cannot be null. Stacksizes are set to 1 for all stacks.";
-	}
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException { }
 
 	@Override
 	public void deleteRecipes() {
