@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUIMachineRotaryFurnace;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.lib.Library;
@@ -239,6 +240,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		this.progress = nbt.getFloat("prog");
 		this.burnTime = nbt.getInteger("burn");
 		this.maxBurnTime = nbt.getInteger("maxBurn");
+		if (nbt.hasKey("outType")) {
+			NTMMaterial mat = Mats.matById.get(nbt.getInteger("outType"));
+			this.output = new MaterialStack(mat, nbt.getInteger("outAmount"));
+		}
 	}
 
 	@Override
@@ -250,6 +255,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		nbt.setFloat("prog", progress);
 		nbt.setInteger("burn", burnTime);
 		nbt.setInteger("maxBurn", maxBurnTime);
+		if (this.output != null) {
+			nbt.setInteger("outType", this.output.material.id);
+			nbt.setInteger("outAmount", this.output.amount);
+		}
 	}
 
 	public DirPos[] getSteamPos() {
