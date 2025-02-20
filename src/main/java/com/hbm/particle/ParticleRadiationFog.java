@@ -21,14 +21,14 @@ import net.minecraft.world.World;
 public class ParticleRadiationFog extends EntityFX {
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/fog.png");
-	private TextureManager theRenderEngine;
+	private final TextureManager theRenderEngine;
 	private int maxAge;
 
 	public ParticleRadiationFog(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_) {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
 		theRenderEngine = p_i1213_1_;
 		maxAge = 100 + rand.nextInt(40);
-		
+
         this.particleRed = this.particleGreen = this.particleBlue = 0;
         this.particleScale = 7.5F;
 	}
@@ -41,7 +41,7 @@ public class ParticleRadiationFog extends EntityFX {
         this.particleRed = red;
         this.particleGreen = green;
         this.particleBlue = blue;
-        
+
         this.particleScale = scale;
 	}
 
@@ -49,14 +49,14 @@ public class ParticleRadiationFog extends EntityFX {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        
+
         if(maxAge < 400)
         {
         	maxAge = 400;
         }
 
         this.particleAge++;
-        
+
         if (this.particleAge >= maxAge)
         {
             this.setDead();
@@ -78,11 +78,11 @@ public class ParticleRadiationFog extends EntityFX {
 	}
 
 	public void renderParticle(Tessellator tess, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_) {
-		
+
 		this.theRenderEngine.bindTexture(texture);
-		
+
 		float alpha = 0;
-		
+
 		alpha = (float) Math.sin(particleAge * Math.PI / (400F)) * 0.125F;
 
         GL11.glColor4f(0.85F, 0.9F, 0.5F, alpha);
@@ -92,22 +92,23 @@ public class ParticleRadiationFog extends EntityFX {
 		GL11.glDepthMask(false);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		RenderHelper.disableStandardItemLighting();
-		
+
 		Random rand = new Random(50);
-		
+
+		GL11.glPushMatrix();
 		for(int i = 0; i < 25; i++) {
 
 			double dX = (rand.nextGaussian() - 1D) * 2.5D;
 			double dY = (rand.nextGaussian() - 1D) * 0.15D;
 			double dZ = (rand.nextGaussian() - 1D) * 2.5D;
 			double size = rand.nextDouble() * particleScale;
-	        
+
 			GL11.glTranslatef((float) dX, (float) dY, (float) dZ);
-			
+
 	        float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double)p_70539_2_ - interpPosX) + rand.nextGaussian() * 0.5);
 	        float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double)p_70539_2_ - interpPosY) + rand.nextGaussian() * 0.5);
 	        float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double)p_70539_2_ - interpPosZ) + rand.nextGaussian() * 0.5);
-			
+
 			tess.startDrawingQuads();
 			tess.setNormal(0.0F, 1.0F, 0.0F);
 			tess.setBrightness(240);
@@ -116,14 +117,13 @@ public class ParticleRadiationFog extends EntityFX {
 			tess.addVertexWithUV((double)(pX + p_70539_3_ * size + p_70539_6_ * size), (double)(pY + p_70539_4_ * size), (double)(pZ + p_70539_5_ * size + p_70539_7_ * size), 0, 0);
 			tess.addVertexWithUV((double)(pX + p_70539_3_ * size - p_70539_6_ * size), (double)(pY - p_70539_4_ * size), (double)(pZ + p_70539_5_ * size - p_70539_7_ * size), 0, 1);
 			tess.draw();
-			
-			GL11.glTranslatef((float) -dX, (float) -dY, (float) -dZ);
 		}
-		
+		GL11.glPopMatrix();
+
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDepthMask(true);
-		
+
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
