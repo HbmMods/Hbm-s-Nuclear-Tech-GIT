@@ -6,31 +6,41 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.hbm.uninos.IGenProvider;
-import com.hbm.uninos.IGenReceiver;
 import com.hbm.uninos.NodeNet;
-import com.hbm.uninos.networkproviders.PowerProvider;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 
-public class PowerNetwork extends NodeNet<PowerProvider> {
+public class PowerNetwork extends NodeNet {
+	
+	/*
+	 * the original idea was to have every part have a generic type <? extends INetworkProvider> so that once you get down to the level of nodes, you can
+	 * still easily create new networks using the generic type. however:
+	 * - having generics everywhere means that some overrides don't work due to "not being castable" (my ass)
+	 * - most of the time, having generics there didn't really do anything, since the interface is already universally usable, and the type that is provided doesn't actually matter
+	 * - for any case where network type does matter, any node handling instance (cable TEs for example) can just do handling separately, worst case it's just one extra cast
+	 * my balls hurt
+	 */
 
 	public HashMap<IEnergyReceiverMK2, Long> receiverEntries = new HashMap();
 	public HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
 	
 	public long energyTracker = 0L;
 
-	@Override // this was all fun and games but let's take a few steps back: this generics stuff is kinda breaking shit, and as it turns out, apparently nothing even uses the type
-	public HashMap<IGenReceiver<PowerProvider>, Long> receiverEntries() {
-		return null;
+	@Override
+	public HashMap receiverEntries() {
+		return receiverEntries;
+		// generic type erasure seems susipcious here - this either works because the types should be castable anyway,
+		// or this doesn't work because the compiler has an aneurysm and dies instantly
+		// technically, generics are obliterated when compiling, and the types are assignable, so i see no issue,
+		// but then again, HashMap *technically* isn't castable to HashMap<T>, and the compiler might scream about it
 	}
 
-	@Override // therefore i should probably consider scrapping the majority of the generic types - they seem to be kinda useless with the current approach
-	public HashMap<IGenProvider<PowerProvider>, Long> providerEntries() {
-		return null;
+	@Override
+	public HashMap providerEntries() {
+		return providerEntries;
 	}
 	
 	protected static int timeout = 3_000;

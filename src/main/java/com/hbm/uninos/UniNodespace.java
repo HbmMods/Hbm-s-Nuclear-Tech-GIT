@@ -38,7 +38,7 @@ public class UniNodespace {
 	
 	public static class UniNodeWorld {
 		
-		public HashMap<Pair<BlockPos, INetworkProvider>, GenNode<INetworkProvider>> nodes = new HashMap();
+		public HashMap<Pair<BlockPos, INetworkProvider>, GenNode> nodes = new HashMap();
 		
 		/** Adds a node at all its positions to the nodespace */
 		public void pushNode(GenNode node) {
