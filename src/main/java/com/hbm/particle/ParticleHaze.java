@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 public class ParticleHaze extends EntityFX {
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/haze.png");
-	private TextureManager theRenderEngine;
-	private int maxAge;
+	private final TextureManager theRenderEngine;
+	private final int maxAge;
 
 	public ParticleHaze(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_) {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
@@ -94,6 +94,7 @@ public class ParticleHaze extends EntityFX {
 
 		Random rand = new Random(50);
 
+		GL11.glPushMatrix();
 		for(int i = 0; i < 25; i++) {
 
 			double dX = rand.nextGaussian() * 2.5D;
@@ -115,9 +116,8 @@ public class ParticleHaze extends EntityFX {
 			tess.addVertexWithUV((double) (pX + p_70539_3_ * size + p_70539_6_ * size), (double) (pY + p_70539_4_ * size), (double) (pZ + p_70539_5_ * size + p_70539_7_ * size), 0, 0);
 			tess.addVertexWithUV((double) (pX + p_70539_3_ * size - p_70539_6_ * size), (double) (pY - p_70539_4_ * size), (double) (pZ + p_70539_5_ * size - p_70539_7_ * size), 0, 1);
 			tess.draw();
-
-			GL11.glTranslatef((float) -dX, (float) -dY, (float) -dZ);
 		}
+		GL11.glPopMatrix();
 
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
