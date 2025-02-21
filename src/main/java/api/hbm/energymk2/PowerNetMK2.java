@@ -170,7 +170,7 @@ public class PowerNetMK2 {
 			
 			toTransfer -= energyUsed;
 		}
-		
+
 		this.energyTracker += energyUsed;
 		long leftover = energyUsed;
 

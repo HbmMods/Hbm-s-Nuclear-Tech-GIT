@@ -5,6 +5,7 @@
 * Dense coils no longer have recipes either for the most part, all coils with no recipes can be recycled back into dense wires
 * Natural gas can now be processed in a pyrolysis oven, 12k of gas yields 8k hydrogen and one graphite ingot
 * Saturnite now has an alternate recipe, adding one pile of borax for doubled output
+* All mass storage units (except wood) are now substantially cheaper
 
 ## Fixed
 * Fixed an issue where `/ntmreload` would load fluids after recipes, meaning that recipes using newly added fluids would not work correctly, as the fluids don't exist by the time the recipe is loaded
