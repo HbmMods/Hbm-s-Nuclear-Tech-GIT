@@ -6,8 +6,12 @@
 * Natural gas can now be processed in a pyrolysis oven, 12k of gas yields 8k hydrogen and one graphite ingot
 * Saturnite now has an alternate recipe, adding one pile of borax for doubled output
 * All mass storage units (except wood) are now substantially cheaper
+* Reduced base spread for all 12 and 10 gauge buckshot shells from 0.05 to 0.035
+* Reduced legendary 12 lever action's spread multiplier from x1.35 to x1.15
 
 ## Fixed
 * Fixed an issue where `/ntmreload` would load fluids after recipes, meaning that recipes using newly added fluids would not work correctly, as the fluids don't exist by the time the recipe is loaded
 * Fixed bedrock coltan being way too common, drowning out almost all other bedrock ores
 * Fixed rotary furnace not saving its output stack
+* Fixed strand caster water check being incorrect, creating negative water by allowing operations with insufficient cooling
+* Fixed radar not using the small remaining amount of power, causing the animation getting stuck

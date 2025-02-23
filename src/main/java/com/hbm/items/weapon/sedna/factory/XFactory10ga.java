@@ -31,10 +31,11 @@ public class XFactory10ga {
 	public static BulletConfig g10_slug;
 
 	public static void init() {
-		
-		g10 = new BulletConfig().setItem(EnumAmmo.G10).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
-		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
-		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/4F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
+
+		float buckshotSpread = 0.035F;
+		g10 = new BulletConfig().setItem(EnumAmmo.G10).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(buckshotSpread).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
+		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(buckshotSpread).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
+		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/4F).setSpread(buckshotSpread).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
 		g10_slug = new BulletConfig().setItem(EnumAmmo.G10_SLUG).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.1F).setDoesPenetrate(true).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x808080, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GASlug"));
 
 		ModItems.gun_double_barrel = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
