@@ -7,60 +7,61 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class NodeNet {
+public abstract class NodeNet<R extends IGenReceiver, P extends IGenProvider, L extends GenNode> {
 	
+	/** Global random for figuring things out like random leftover distribution */
 	public static Random rand = new Random();
 	
 	public boolean valid = true;
-	public Set<GenNode> links = new HashSet();
+	public Set<L> links = new HashSet();
 
-	public abstract HashMap<IGenReceiver, Long> receiverEntries();
-	public abstract HashMap<IGenProvider, Long> providerEntries();
+	public HashMap<R, Long> receiverEntries = new HashMap();
+	public HashMap<P, Long> providerEntries = new HashMap();
 	
 	public NodeNet() {
 		UniNodespace.activeNodeNets.add(this);
 	}
 
 	/// SUBSCRIBER HANDLING ///
-	public boolean isSubscribed(IGenReceiver receiver) { return this.receiverEntries().containsKey(receiver); }
-	public void addReceiver(IGenReceiver receiver) { this.receiverEntries().put(receiver, System.currentTimeMillis()); }
-	public void removeReceiver(IGenReceiver receiver) { this.receiverEntries().remove(receiver); }
+	public boolean isSubscribed(R receiver) { return this.receiverEntries.containsKey(receiver); }
+	public void addReceiver(R receiver) { this.receiverEntries.put(receiver, System.currentTimeMillis()); }
+	public void removeReceiver(R receiver) { this.receiverEntries.remove(receiver); }
 
 	/// PROVIDER HANDLING ///
-	public boolean isProvider(IGenProvider provider) { return this.providerEntries().containsKey(provider); }
-	public void addProvider(IGenProvider provider) { this.providerEntries().put(provider, System.currentTimeMillis()); }
-	public void removeProvider(IGenProvider provider) { this.providerEntries().remove(provider); }
+	public boolean isProvider(P provider) { return this.providerEntries.containsKey(provider); }
+	public void addProvider(P provider) { this.providerEntries.put(provider, System.currentTimeMillis()); }
+	public void removeProvider(P provider) { this.providerEntries.remove(provider); }
 	
 	/** Combines two networks into one */
 	public void joinNetworks(NodeNet network) {
 		if(network == this) return;
 
-		List<GenNode> oldNodes = new ArrayList(network.links.size());
+		List<L> oldNodes = new ArrayList(network.links.size());
 		oldNodes.addAll(network.links);
 		
-		for(GenNode conductor : oldNodes) forceJoinLink(conductor);
+		for(L conductor : oldNodes) forceJoinLink(conductor);
 		network.links.clear();
 
-		for(IGenReceiver connector : network.receiverEntries().keySet()) this.addReceiver(connector);
-		for(IGenProvider connector : network.providerEntries().keySet()) this.addProvider(connector);
+		for(Object /*this is bullshit*/ connector : network.receiverEntries.keySet()) this.addReceiver((R) connector);
+		for(Object /*this is bullshit*/ connector : network.providerEntries.keySet()) this.addProvider((P) connector);
 		network.destroy();
 	}
 
 	/** Adds the node as part of this network's links */
-	public NodeNet joinLink(GenNode node) {
+	public NodeNet joinLink(L node) {
 		if(node.net != null) node.net.leaveLink(node);
 		return forceJoinLink(node);
 	}
 
 	/** Adds the node as part of this network's links, skips the part about removing it from existing networks */
-	public NodeNet forceJoinLink(GenNode node) {
+	public NodeNet forceJoinLink(L node) {
 		this.links.add(node);
 		node.setNet(this);
 		return this;
 	}
 
 	/** Removes the specified node */
-	public void leaveLink(GenNode node) {
+	public void leaveLink(L node) {
 		node.setNet(null);
 		this.links.remove(node);
 	}
@@ -75,7 +76,7 @@ public abstract class NodeNet {
 		this.invalidate();
 		for(GenNode link : this.links) if(link.net == this) link.setNet(null);
 		this.links.clear();
-		this.receiverEntries().clear();
-		this.providerEntries().clear();
+		this.receiverEntries.clear();
+		this.providerEntries.clear();
 	}
 }

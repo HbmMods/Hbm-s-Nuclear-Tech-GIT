@@ -3,26 +3,26 @@ package com.hbm.uninos;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-public class GenNode {
+public class GenNode<N extends NodeNet> {
 	
 	public BlockPos[] positions;
 	public DirPos[] connections;
-	public NodeNet net;
+	public N net;
 	public boolean expired = false;
 	public boolean recentlyChanged = true;
 	public INetworkProvider networkProvider;
 	
-	public GenNode(INetworkProvider provider, BlockPos... positions) {
+	public GenNode(INetworkProvider<N> provider, BlockPos... positions) {
 		this.networkProvider = provider;
 		this.positions = positions;
 	}
 	
-	public GenNode setConnections(DirPos... connections) {
+	public GenNode<N> setConnections(DirPos... connections) {
 		this.connections = connections;
 		return this;
 	}
 	
-	public GenNode addConnection(DirPos connection) {
+	public GenNode<N> addConnection(DirPos connection) {
 		DirPos[] newCons = new DirPos[this.connections.length + 1];
 		for(int i = 0; i < this.connections.length; i++) newCons[i] = this.connections[i];
 		newCons[newCons.length - 1] = connection;
@@ -34,7 +34,7 @@ public class GenNode {
 		return this.net != null && this.net.isValid();
 	}
 	
-	public void setNet(NodeNet net) {
+	public void setNet(N net) {
 		this.net = net;
 		this.recentlyChanged = true;
 	}
