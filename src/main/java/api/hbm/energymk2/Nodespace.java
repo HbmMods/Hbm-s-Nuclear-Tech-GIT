@@ -46,7 +46,6 @@ import net.minecraft.world.World;
 		 * breaking, but it seems to allow those parts to connect back to their neighbor nets as they are supposed to. I am not proud of this solution,
 		 * this issue shouldn't exist to begin with and I am going fucking insane but it is what it is.
 		 */
-		public boolean recentlyChanged = true;
 		
 		public PowerNode(BlockPos... positions) {
 			super(THE_POWER_PROVIDER, positions);
