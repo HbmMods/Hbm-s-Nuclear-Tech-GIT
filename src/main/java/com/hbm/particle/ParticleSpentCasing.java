@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
 
 import cpw.mods.fml.relauncher.Side;
@@ -103,7 +104,7 @@ public class ParticleSpentCasing extends EntityFX {
 			this.motionX *= 0.7D;
 			this.motionZ *= 0.7D;
 			
-			this.rotationPitch = 0;
+			this.rotationPitch = (float) (Math.floor(this.rotationPitch / 180F + 0.5F)) * 180F;
 			this.momentumYaw *= 0.7F;
 			this.onGround = false;
 		}
@@ -201,11 +202,15 @@ public class ParticleSpentCasing extends EntityFX {
 		if (initMoY != motionY) {
 			this.motionY *= -0.5D;
 			
-			if(momentumPitch == 0 && this.motionY > 1e-7) {
-				momentumPitch = (float) rand.nextGaussian() * 10F * this.config.getBouncePitch();
-				momentumYaw = (float) rand.nextGaussian() * 10F * this.config.getBounceYaw();
-			} else if(Math.abs(momentumPitch) > 1e-7)
+			boolean rotFromSpeed = Math.abs(this.motionY) > 0.04;
+			if(rotFromSpeed || Math.abs(momentumPitch) > 1e-7) {
 				momentumPitch *= -0.75F;
+				if(rotFromSpeed) {
+					float mult = (float) BobMathUtil.safeClamp(initMoY / 0.2F, -1F, 1F);
+					momentumPitch += rand.nextGaussian() * 10F * this.config.getBouncePitch() * mult;
+					momentumYaw += (float) rand.nextGaussian() * 10F * this.config.getBounceYaw() * mult;
+				}
+			}
 		}
 		
 		if (initMoZ != motionZ) {

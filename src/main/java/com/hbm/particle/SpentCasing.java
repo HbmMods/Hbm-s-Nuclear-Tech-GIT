@@ -86,6 +86,7 @@ public class SpentCasing implements Cloneable {
 		return casingMap.get(name);
 	}
 	
+	/** Multiplier for default standard deviation of 10deg per tick, per bounce w/ full y speed */
 	public SpentCasing setBounceMotion(float yaw, float pitch) {
 		this.bounceYaw = yaw;
 		this.bouncePitch = pitch;

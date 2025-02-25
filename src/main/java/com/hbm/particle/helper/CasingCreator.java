@@ -75,7 +75,7 @@ public class CasingCreator implements IParticleCreator {
 		int smokeLife = data.getInteger("smokeLife");
 		double smokeLift = data.getDouble("smokeLift");
 		int nodeLife = data.getInteger("nodeLife");
-		ParticleSpentCasing casing = new ParticleSpentCasing(texman, world, x, y, z, mX, mY, mZ, 0, 0, casingConfig, smoking, smokeLife, smokeLift, nodeLife);
+		ParticleSpentCasing casing = new ParticleSpentCasing(texman, world, x, y, z, mX, mY, mZ, (float) (world.rand.nextGaussian() * 10F), (float) (world.rand.nextGaussian() * 5F), casingConfig, smoking, smokeLife, smokeLift, nodeLife);
 		casing.prevRotationYaw = casing.rotationYaw = yaw;
 		casing.prevRotationPitch = casing.rotationPitch = pitch;
 		Minecraft.getMinecraft().effectRenderer.addEffect(casing);
