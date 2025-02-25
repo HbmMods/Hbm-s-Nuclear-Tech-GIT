@@ -16,11 +16,11 @@ import net.minecraft.world.World;
  * 
  * @author hbm
  */
-@Deprecated public class Nodespace {
+public class Nodespace {
 	
 	public static final PowerProvider THE_POWER_PROVIDER = new PowerProvider();
 	
-	public static PowerNode getNode(World world, int x, int y, int z) {
+	@Deprecated public static PowerNode getNode(World world, int x, int y, int z) {
 		return (PowerNode) UniNodespace.getNode(world, x, y, z, THE_POWER_PROVIDER);
 	}
 	
