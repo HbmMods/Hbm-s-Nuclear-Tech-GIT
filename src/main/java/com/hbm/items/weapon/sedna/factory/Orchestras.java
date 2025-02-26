@@ -173,7 +173,7 @@ public class Orchestras {
 		if(type == AnimType.CYCLE) {
 			if(timer == 14) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.5, -0.125, aiming ? -0.125 : -0.375D, 0, 0.12, -0.12, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.5, -0.125, aiming ? -0.125 : -0.375D, 0, 0.12, -0.12, 0.01, 12.5F, 1.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 			if(timer == 12) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.leverCock", 1F, 1F);
 		}
@@ -244,7 +244,7 @@ public class Orchestras {
 		if(type == AnimType.CYCLE) {
 			if(timer == 14) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 : -0.375D, 0, 0.18, -0.12, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 : -0.375D, 0, 0.18, -0.12, 0.01, 12.5F, 2.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.leverCock", 1F, 0.8F);
 		}
@@ -279,7 +279,7 @@ public class Orchestras {
 		if(type == AnimType.CYCLE) {
 			if(timer == 14) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 : -0.375D, 0, -0.08, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 : -0.375D, 0, -0.08, 0, 0.01, 17.5F, 2.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.leverCock", 1F, 0.8F);
 		}
@@ -300,7 +300,7 @@ public class Orchestras {
 			if(timer == 14) {
 				int offset = ctx.configIndex == 0 ? -1 : 1;
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 * offset : -0.375D * offset, 0, -0.08, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, -0.125, aiming ? -0.125 * offset : -0.375D * offset, 0, -0.08, 0, 0.01, 17.5F, 2.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.leverCock", 1F, 0.8F);
 			return;
@@ -358,7 +358,7 @@ public class Orchestras {
 				Receiver rec = ctx.config.getReceivers(stack)[0];
 				IMagazine mag = rec.getMagazine(stack);
 				SpentCasing casing = mag.getCasing(stack, ctx.inventory);
-				if(casing != null) for(int i = 0; i < mag.getCapacity(stack); i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.25, -0.125, -0.125, -0.05, 0, 0, 0.01, casing.getName());
+				if(casing != null) for(int i = 0; i < mag.getCapacity(stack); i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.25, -0.125, -0.125, -0.05, 0, 0, 0.01, 2.5F, 5F, casing.getName());
 			}
 		}
 		if(type == AnimType.CYCLE) {
@@ -384,7 +384,7 @@ public class Orchestras {
 		if(type == AnimType.CYCLE) {
 			if(timer == 2) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.06, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.3125, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.06, 0.01, -10F, 2F, casing.getName(), true, 60, 0.5D, 20);
 			}
 		}
 		if(type == AnimType.CYCLE_DRY) {
@@ -479,7 +479,7 @@ public class Orchestras {
 				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
 				int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack, ctx.inventory);
 				SpentCasing casing = mag.getCasing(stack, ctx.inventory);
-				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, 15F, 2.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 			if(timer == 15) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
 		}
@@ -503,7 +503,7 @@ public class Orchestras {
 			int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack, ctx.inventory);
 			if(timer == 4 && toEject > 0) {
 				SpentCasing casing = mag.getCasing(stack, ctx.inventory);
-				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, 10F, 5F, casing.getName(), true, 60, 0.5D, 20);
 				mag.setAmountAfterReload(stack, 0);
 			}
 			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
@@ -1266,7 +1266,7 @@ public class Orchestras {
 				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
 				int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack, ctx.inventory);
 				SpentCasing casing = mag.getCasing(stack, ctx.inventory);
-				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, 20F, 2.5F, casing.getName(), true, 60, 0.5D, 20);
 			}
 		}
 		
@@ -1297,7 +1297,7 @@ public class Orchestras {
 			if(timer == 1) {
 				int cba = (stack.getItem() == ModItems.gun_aberrator_eott && ctx.configIndex == 0) ? -1 : 1;
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? -0.0625 : -0.25D * cba, -0.075, 0.25, 0, 0.01, casing.getName());
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? -0.0625 : -0.25D * cba, -0.075, 0.25, 0, 0.01, -12.5F, 2.5F, casing.getName());
 			}
 		}
 
