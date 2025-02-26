@@ -222,15 +222,6 @@ public class ParticleSpentCasing extends EntityFX {
 				momentumYaw = (float) rand.nextGaussian() * 10F * this.config.getBounceYaw();
 		}
 		
-		try {
-			this.func_145775_I();
-		} catch (Throwable throwable) {
-			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
-			CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being checked for collision");
-			this.addEntityCrashInfo(crashreportcategory);
-		throw new ReportedException(crashreport);
-		}
-		
 		this.worldObj.theProfiler.endSection();
 	}
 
