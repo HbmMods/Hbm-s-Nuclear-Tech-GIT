@@ -1,13 +1,13 @@
 package com.hbm.uninos.networkproviders;
 
 import com.hbm.uninos.INetworkProvider;
+import com.hbm.uninos.INodeNet;
+import com.hbm.uninos.networks.PowerNetwork;
 
-import api.hbm.energymk2.PowerNetMK2;
-
-public class PowerProvider implements INetworkProvider<PowerNetMK2> {
+public class PowerProvider implements INetworkProvider {
 
 	@Override
-	public PowerNetMK2 provideNetwork() {
-		return new PowerNetMK2();
+	public INodeNet<PowerProvider> provideNetwork() {
+		return new PowerNetwork();
 	}
 }

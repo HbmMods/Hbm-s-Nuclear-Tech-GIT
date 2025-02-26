@@ -3887,10 +3887,6 @@ shape.wiresDense=Dichte Drähte
 
 soundCategory.ntmMachines=NTM Maschinen
 
-stat.ntmBullets=Schüsse gefeuert
-stat.ntmLegendary=Legendäre Gegenstände hergestellt
-stat.ntmMines=Auf Minen getreten
-
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
@@ -5114,7 +5110,6 @@ turret.on=AN
 turret.players=Spieler anzielen: %s
 
 upgrade.consumption=Verbrauch %s
-upgrade.productivity=Produktivität %s
 upgrade.speed=Verarbeitungszeit %s
 
 wavelengths.name.ir=Infrarot

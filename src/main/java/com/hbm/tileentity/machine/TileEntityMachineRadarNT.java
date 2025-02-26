@@ -332,10 +332,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		this.entries.clear();
 
 		if(this.yCoord < radarAltitude) return;
-		if(this.power < consumption) {
-			this.power = 0;
-			return;
-		}
+		if(this.power < consumption) return;
 		this.power -= consumption;
 
 		int scan = this.getRange();
