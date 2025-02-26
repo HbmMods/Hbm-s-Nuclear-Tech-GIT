@@ -222,7 +222,7 @@ public class RBMKNeutronHandler {
 				pos.mutate(origin.tile.xCoord + x, origin.tile.yCoord, origin.tile.zCoord + z);
 
 				NeutronNode node = NeutronNodeWorld.getNode(world, pos);
-				if(node != null) {
+				if(node != null && node instanceof RBMKNeutronNode) {
 					positions[i - 1] = node;
 				} else if(this.origin.tile.getBlockType() instanceof RBMKBase) {
 					TileEntity te = blockPosToTE(world, pos);
@@ -292,7 +292,7 @@ public class RBMKNeutronHandler {
 
 				RBMKType type = (RBMKType) targetNode.data.get("type");
 
-				if(type == RBMKType.OTHER) // pass right on by!
+				if(type == RBMKType.OTHER || type == null) // pass right on by!
 					continue;
 
 				// we established earlier during `getNodes()` that they should all be RBMKBase TEs

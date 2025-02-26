@@ -65,7 +65,7 @@ public class PileNeutronHandler {
 				TileEntity tile;
 
 				NeutronNode node = NeutronNodeWorld.getNode(worldObj, nodePos);
-				if(node != null) {
+				if(node != null && node instanceof PileNeutronNode) {
 					tile = node.tile;
 				} else {
 					tile = blockPosToTE(worldObj, nodePos);
