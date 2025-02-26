@@ -185,7 +185,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 		tank.setFill(tank.getFill() - getRequiredAcid(result.acidAmount));
 
-		float freeChance = this.getFreeChance(result);
+		float freeChance = this.getFreeChance();
 
 		if(freeChance == 0 || freeChance < worldObj.rand.nextFloat())
 			this.decrStackSize(0, result.itemAmount);
@@ -226,13 +226,17 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	public int getRequiredAcid(int base) {
+		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
+		if(efficiency > 0) {
+			return base * (efficiency + 2);
+		}
 		return base;
 	}
 
-	public float getFreeChance(CrystallizerRecipe recipe) {
+	public float getFreeChance() {
 		int efficiency = upgradeManager.getLevel(UpgradeType.EFFECT);
 		if(efficiency > 0) {
-			return Math.min(efficiency * recipe.productivity, 0.99F);
+			return Math.min(efficiency * 0.05F, 0.15F);
 		}
 		return 0;
 	}
@@ -249,8 +253,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public int getPowerRequired() {
 		int speed = upgradeManager.getLevel(UpgradeType.SPEED);
-		int effect = upgradeManager.getLevel(UpgradeType.EFFECT);
-		return (int) (demand + speed * demand + effect * demand * 2);
+		return (int) (demand + Math.min(speed * 1000, 3000));
 	}
 
 	public float getCycleCount() {
@@ -376,8 +379,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.EFFECT) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "x" + level));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 200) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (level * 5) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 100 + 100) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

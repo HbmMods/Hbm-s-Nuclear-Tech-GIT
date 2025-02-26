@@ -8,7 +8,6 @@ import com.hbm.packet.toclient.TEVaultPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -196,8 +195,7 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	
 	public boolean placeDummy(int x, int y, int z) {
 
-		Block present = worldObj.getBlock(x, y, z);
-		if(!present.isReplaceable(worldObj, x, y, z) && present != ModBlocks.dummy_block_vault) worldObj.func_147480_a(x, y, z, false);
+		if(!worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z)) worldObj.func_147480_a(x, y, z, false);
 		
 		worldObj.setBlock(x, y, z, ModBlocks.dummy_block_vault);
 		
