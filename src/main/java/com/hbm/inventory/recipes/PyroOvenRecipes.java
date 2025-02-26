@@ -118,6 +118,10 @@ public class PyroOvenRecipes extends SerializableRecipe {
 		recipes.add(new PyroOvenRecipe(60)
 				.in(new FluidStack(GAS_COKER, 4_000))
 				.out(new FluidStack(Fluids.REFORMGAS, 100)));
+		//hydrogen and carbon from natgas
+		recipes.add(new PyroOvenRecipe(60)
+				.in(new FluidStack(Fluids.GAS, 12_000))
+				.out(new FluidStack(Fluids.HYDROGEN, 8_000)).out(new ItemStack(ModItems.ingot_graphite, 1)));
 	}
 
 	private static void registerSFAuto(FluidType fluid) {

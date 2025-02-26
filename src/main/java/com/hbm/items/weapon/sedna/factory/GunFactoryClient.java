@@ -193,7 +193,7 @@ public class GunFactoryClient {
 		folly_sm.setRendererBeam(LegoClient.RENDER_FOLLY);
 		folly_nuke.setRenderer(LegoClient.RENDER_BIG_NUKE);
 
-		p35800.setRendererBeam(LegoClient.RENDER_LASER_WHITE);
+		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		

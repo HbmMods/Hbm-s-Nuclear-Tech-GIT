@@ -147,7 +147,7 @@ public class PedestalRecipes extends SerializableRecipe {
 	}
 	
 	public static enum PedestalExtraCondition {
-		NONE, FULL_MOON, NEW_MOON, SUN
+		NONE, FULL_MOON, NEW_MOON, SUN, GOOD_KARMA, BAD_KARMA
 	}
 	
 	public static class PedestalRecipe {

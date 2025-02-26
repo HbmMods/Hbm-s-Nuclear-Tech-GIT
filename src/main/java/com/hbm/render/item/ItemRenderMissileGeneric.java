@@ -31,7 +31,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		TYPE_STEALTH,
 		TYPE_ABM,
 		TYPE_NUCLEAR,
-		TYPE_CARRIER,
 		TYPE_ROBIN
 	}
 	
@@ -75,7 +74,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_STEALTH: guiScale = 1.75D; guiOffset = 4.75D; break;
 		case TYPE_ABM: guiScale = 2.25D; guiOffset = 7D; break;
 		case TYPE_NUCLEAR: guiScale = 1.375D; guiOffset = 1.5D; break;
-		case TYPE_CARRIER: guiScale = 0.625D; guiOffset = -17D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
 		}
 

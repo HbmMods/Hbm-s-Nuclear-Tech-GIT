@@ -15,6 +15,7 @@ import com.hbm.inventory.gui.GUIMachineRotaryFurnace;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.lib.Library;
@@ -42,7 +43,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+
 public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable, IConditionalInvAccess, IConfigurableMachine {
+
 
 	public FluidTank[] tanks;
 	public boolean isProgressing;
@@ -159,6 +162,15 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 				} else {
 					this.progress = 0;
 				}
+
+				if(this.steamUsed >= 100) {
+					int steamReturn = this.steamUsed / 100;
+					int canReturn = tanks[2].getMaxFill() - tanks[2].getFill();
+					int doesReturn = Math.min(steamReturn, canReturn);
+					this.steamUsed -= doesReturn * 100;
+					tanks[2].setFill(tanks[2].getFill() + doesReturn);
+				}
+        
 			} else {
 				this.progress = 0;
 			}
@@ -246,9 +258,15 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		this.progress = nbt.getFloat("prog");
 		this.burnTime = nbt.getInteger("burn");
 		this.maxBurnTime = nbt.getInteger("maxBurn");
+    
 		ItemStack nbtFuel = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("lastFuel"));
 		if(nbtFuel != null)
 			this.lastFuel = nbtFuel;
+    
+		if (nbt.hasKey("outType")) {
+			NTMMaterial mat = Mats.matById.get(nbt.getInteger("outType"));
+			this.output = new MaterialStack(mat, nbt.getInteger("outAmount"));
+		}
 	}
 
 	@Override
@@ -261,6 +279,12 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		nbt.setInteger("burn", burnTime);
 		nbt.setInteger("maxBurn", maxBurnTime);
 		nbt.setTag("lastFuel", lastFuel.writeToNBT(new NBTTagCompound()));
+
+		if (this.output != null) {
+			nbt.setInteger("outType", this.output.material.id);
+			nbt.setInteger("outAmount", this.output.amount);
+		}
+
 	}
 
 	public DirPos[] getSteamPos() {
@@ -294,6 +318,8 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 		if(tanks[1].getFill() < recipe.steam) return false;
 		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam / 100) return false;
+
+		if(this.steamUsed > 100) return false;
 
 		if(this.output != null) {
 			if(this.output.material != recipe.output.material) return false;

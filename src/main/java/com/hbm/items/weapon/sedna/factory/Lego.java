@@ -22,6 +22,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -238,6 +239,7 @@ public class Lego {
 			}
 		}
 		
+		if(player != null) player.addStat(MainRegistry.statBullets, 1);
 		mag.useUpAmmo(stack, ctx.inventory, 1);
 		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
 	}
