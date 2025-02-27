@@ -74,6 +74,13 @@ public class WorldConfig {
 
 	public static int endTikiteSpawn = 8;
 
+	public static boolean enableHematite = true;
+	public static boolean enableMalachite = true;
+	public static boolean enableBauxite = true;
+
+	public static boolean enableSulfurCave = true;
+	public static boolean enableAsbestosCave = true;
+
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
@@ -188,6 +195,13 @@ public class WorldConfig {
 		netherCobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N06_cobaltSpawnrate", "Amount of nether cobalt per chunk", 2);
 
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
+
+		enableHematite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L00_enableHematite", "Toggles hematite deposits", true);
+		enableMalachite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L01_enableMalachite", "Toggles malachite deposits", true);
+		enableBauxite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L02_enableBauxite", "Toggles bauxite deposits", true);
+
+		enableSulfurCave = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.C00_enableSulfurCave", "Toggles sulfur caves", true);
+		enableAsbestosCave = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.C01_enableAsbestosCave", "Toggles asbestos caves", true);
 
 		final String CATEGORY_DUNGEON = CommonConfig.CATEGORY_DUNGEONS;
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);

@@ -58,31 +58,31 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	public int getOffset() {
 		return 0;
 	}
-	
+
 	public boolean openInv(World world, int x, int y, int z, EntityPlayer player) {
-		
+
 		if(world.isRemote) {
 			return true;
 		}
-		
+
 		int[] pos = this.findCore(world, x, y, z);
-		
+
 		if(pos == null)
 			return false;
-		
+
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-		
+
 		if(!(te instanceof TileEntityRBMKBase))
 			return false;
-		
+
 		TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
-		
+
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemRBMKLid) {
-			
+
 			if(!rbmk.hasLid())
 				return false;
 		}
-		
+
 		if(!player.isSneaking()) {
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
@@ -93,27 +93,27 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		
+
 		float height = 0.0F;
-		
+
 		int[] pos = this.findCore(world, x, y, z);
-		
+
 		if(pos != null) {
 			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-			
+
 			if(te instanceof TileEntityRBMKBase) {
-				
+
 				TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
-				
+
 				if(rbmk.hasLid()) {
 					height += 0.25F;
 				}
 			}
 		}
-		
+
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY + height, z + this.maxZ);
 	}
-	
+
 	/*
 	 * NORTH: no cover
 	 * EAST: concrete cover
@@ -130,21 +130,21 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(world), this, dir);
 		this.makeExtra(world, x, y + RBMKDials.getColumnHeight(world), z);
 	}
-	
+
 	@Override
 	protected ForgeDirection getDirModified(ForgeDirection dir) {
 		return DIR_NO_LID;
 	}
-	
+
 	public int[] getDimensions(World world) {
 		return new int[] {RBMKDials.getColumnHeight(world), 0, 0, 0, 0, 0};
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
-		
+
 		if(!world.isRemote && dropLids) {
-			
+
 			if(i == DIR_NORMAL_LID.ordinal() + offset) {
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5 + RBMKDials.getColumnHeight(world), z + 0.5, new ItemStack(ModItems.rbmk_lid)));
 			}
@@ -152,32 +152,32 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5 + RBMKDials.getColumnHeight(world), z + 0.5, new ItemStack(ModItems.rbmk_lid_glass)));
 			}
 		}
-		
+
 		super.breakBlock(world, x, y, z, b, i);
 	}
-	
+
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-		
+
 		if(tool != ToolType.SCREWDRIVER)
 			return false;
-		
+
 		int[] pos = this.findCore(world, x, y, z);
-		
+
 		if(pos != null) {
 			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-			
+
 			if(te instanceof TileEntityRBMKBase) {
-				
+
 				TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
 				int i = rbmk.getBlockMetadata();
-				
+
 				if(rbmk.hasLid() && rbmk.isLidRemovable()) {
 
-					RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(new BlockPos(te));
-					if (node != null)
+					RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(world, new BlockPos(te));
+					if(node != null)
 						node.removeLid();
-					
+
 					if(!world.isRemote) {
 						if(i == DIR_NORMAL_LID.ordinal() + offset) {
 							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid)));
@@ -185,15 +185,15 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 						if(i == DIR_GLASS_LID.ordinal() + offset) {
 							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid_glass)));
 						}
-						
-						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + this.offset, 3);
+
+						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + offset, 3);
 					}
-					
+
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
 

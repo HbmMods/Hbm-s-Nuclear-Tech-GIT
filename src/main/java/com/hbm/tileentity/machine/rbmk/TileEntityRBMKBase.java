@@ -14,7 +14,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
@@ -54,7 +53,7 @@ import java.util.Iterator;
  * @author hbm
  *
  */
-public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements IBufPacketReceiver {
+public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 	public double heat;
 
@@ -133,12 +132,12 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		double heatConsumption = RBMKDials.getBoilerHeatConsumption(worldObj);
 		double availableHeat = (this.heat - 100) / heatConsumption;
 		double availableWater = this.water;
-		double availableSpace = this.maxSteam - this.steam;
+		double availableSpace = maxSteam - this.steam;
 
 		int processedWater = (int) Math.floor(BobMathUtil.min(availableHeat, availableWater, availableSpace) * MathHelper.clamp_double(RBMKDials.getReaSimBoilerSpeed(worldObj), 0D, 1D));
 
 		if(processedWater <= 0) return;
-		
+
 		this.water -= processedWater;
 		this.steam += processedWater;
 		this.heat -= processedWater * heatConsumption;
@@ -161,7 +160,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		if(heat == 20 && RBMKDials.getReasimBoilers(worldObj))
 			return;
 
-		List<TileEntityRBMKBase> rec = new ArrayList();
+		List<TileEntityRBMKBase> rec = new ArrayList<>();
 		rec.add(this);
 		double heatTot = this.heat;
 		int waterTot = this.water;
@@ -227,8 +226,13 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	@Override
 	public void invalidate() {
 		super.invalidate();
+		NeutronNodeWorld.removeNode(worldObj, new BlockPos(this)); // woo-fucking-hoo!!!
+	}
 
-		NeutronNodeWorld.removeNode(new BlockPos(this)); // woo-fucking-hoo!!!
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		NeutronNodeWorld.removeNode(worldObj, new BlockPos(this)); // woo-fucking-hoo!!!
 	}
 
 	@Override
@@ -304,6 +308,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		diag = false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
 	public static void diagnosticPrintHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
 
@@ -326,7 +331,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		int pX = resolution.getScaledWidth() / 2 + 8;
 		int pZ = resolution.getScaledHeight() / 2;
 
-		List<String> exceptions = new ArrayList();
+		List<String> exceptions = new ArrayList<>();
 		exceptions.add("x");
 		exceptions.add("y");
 		exceptions.add("z");
@@ -416,10 +421,11 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		worldObj.spawnEntityInWorld(debris);
 	}
 
-	public static HashSet<TileEntityRBMKBase> columns = new HashSet();
-	public static HashSet<IPipeNet> pipes = new HashSet();
+	public static HashSet<TileEntityRBMKBase> columns = new HashSet<>();
+	public static HashSet<IPipeNet> pipes = new HashSet<>();
 
 	//assumes that !worldObj.isRemote
+	@SuppressWarnings("unchecked")
 	public void meltdown() {
 
 		RBMKBase.dropLids = false;
@@ -483,8 +489,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 
 		/* Hanlde overpressure event */
 		if(RBMKDials.getOverpressure(worldObj) && !pipes.isEmpty()) {
-			HashSet<IFluidConductor> pipeBlocks = new HashSet();
-			HashSet<IFluidConnector> pipeReceivers = new HashSet();
+			HashSet<IFluidConductor> pipeBlocks = new HashSet<>();
+			HashSet<IFluidConnector> pipeReceivers = new HashSet<>();
 
 			//unify all parts into single sets to prevent redundancy
 			pipes.forEach(x -> {

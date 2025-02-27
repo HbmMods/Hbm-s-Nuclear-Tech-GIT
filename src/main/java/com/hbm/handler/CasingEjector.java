@@ -94,7 +94,7 @@ public class CasingEjector implements Cloneable {
 	@SideOnly(Side.CLIENT)
 	public void spawnCasing(TextureManager textureManager, SpentCasing config, World world, double x, double y, double z, float pitch, float yaw, boolean crouched) {
 		Vec3 rotatedMotionVec = rotateVector(getMotion(), pitch + (float) rand.nextGaussian() * getPitchFactor(), yaw + (float) rand.nextGaussian() * getPitchFactor(), getPitchFactor(), getPitchFactor());
-		ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x, y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord, (float) (getPitchFactor() * rand.nextGaussian()), (float) (getYawFactor() * rand.nextGaussian()), config, false, 0, 0, 0);
+		ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x, y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord, (float) (world.rand.nextGaussian() * 5F), (float) (world.rand.nextGaussian() * 10F), config, false, 0, 0, 0);
 
 		offsetCasing(casing, getOffset(), pitch, yaw, crouched);
 

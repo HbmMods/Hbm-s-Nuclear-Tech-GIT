@@ -36,7 +36,6 @@ public class NEIRegistry {
 		handlers.add(new CrystallizerRecipeHandler());
 		handlers.add(new BookRecipeHandler());
 		handlers.add(new FusionRecipeHandler());
-		handlers.add(new HadronRecipeHandler());
 		handlers.add(new SILEXRecipeHandler());
 		handlers.add(new FuelPoolHandler());
 		handlers.add(new CrucibleSmeltingHandler());
