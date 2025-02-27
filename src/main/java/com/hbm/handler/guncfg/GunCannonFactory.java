@@ -13,7 +13,7 @@ public class GunCannonFactory {
 	protected static SpentCasing CASINNG240MM;
 	
 	static {
-		CASINNG240MM = new SpentCasing(CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
+		CASINNG240MM = new SpentCasing(CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.5F, 0.5F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
 	}
 
 	public static BulletConfiguration getShellConfig() {

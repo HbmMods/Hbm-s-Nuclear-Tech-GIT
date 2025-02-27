@@ -21,7 +21,7 @@ public class GunFactory {
 
 	public static BulletConfig ammo_debug;
 	
-	public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_44);
+	public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setColor(SpentCasing.COLOR_CASE_44);
 
 	public static void init() {
 		
