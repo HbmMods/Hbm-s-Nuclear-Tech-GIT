@@ -367,6 +367,11 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderScope(resolution, cfg.getScopeTexture(held));
 			}
 		}
+		
+		//prevents NBT changes (read: every fucking tick) on guns from bringing up the item's name over the hotbar
+		if(held != null && held.getItem() instanceof ItemGunBaseNT && Minecraft.getMinecraft().ingameGUI.highlightingItemStack != null && Minecraft.getMinecraft().ingameGUI.highlightingItemStack.getItem() == held.getItem()) {
+			Minecraft.getMinecraft().ingameGUI.highlightingItemStack = held;
+		}
 
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
