@@ -39,9 +39,8 @@ public class RBMKNeutronHandler {
 
 	public static RBMKNeutronNode makeNode(TileEntityRBMKBase tile) {
 		BlockPos pos = new BlockPos(tile);
-		if (NeutronNodeWorld.nodeCache.containsKey(pos))
-			return (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
-		return new RBMKNeutronNode(tile, tile.getRBMKType(), tile.hasLid());
+		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(tile.getWorldObj(), pos);
+		return node != null ? node : new RBMKNeutronNode(tile, tile.getRBMKType(), tile.hasLid());
 	}
 
 	public static class RBMKNeutronNode extends NeutronNode {
@@ -79,16 +78,16 @@ public class RBMKNeutronHandler {
 
 				@Override
 				public BlockPos next() {
-					if (Math.pow(x, 2) + Math.pow(z, 2) <= fluxRange * fluxRange) {
+					if(Math.pow(x, 2) + Math.pow(z, 2) <= fluxRange * fluxRange) {
 						z++;
-						if (z > fluxRange) {
+						if(z > fluxRange) {
 							z = -fluxRange;
 							x++;
 						}
 						return posInstance.mutate(tile.xCoord + x, tile.yCoord, tile.zCoord + z);
 					} else {
 						z++;
-						if (z > fluxRange) {
+						if(z > fluxRange) {
 							z = -fluxRange;
 							x++;
 						}
@@ -102,23 +101,24 @@ public class RBMKNeutronHandler {
 			List<BlockPos> list = new ArrayList<>();
 
 			BlockPos pos = new BlockPos(this.tile);
+			World world = tile.getWorldObj();
 
 			RBMKNeutronStream[] streams = new RBMKNeutronStream[TileEntityRBMKRod.fluxDirs.length];
 
 			// Simulate streams coming out of the RBMK rod.
 			ForgeDirection[] fluxDirs = TileEntityRBMKRod.fluxDirs;
-			for (int i = 0; i < fluxDirs.length; i++) {
+			for(int i = 0; i < fluxDirs.length; i++) {
 				streams[i] = (new RBMKNeutronStream(this, Vec3.createVectorHelper(fluxDirs[i].offsetX, 0, fluxDirs[i].offsetZ)));
 			}
 
 			// Check if the rod should uncache nodes.
-			if (tile instanceof TileEntityRBMKRod && !(tile instanceof TileEntityRBMKRodReaSim)) {
+			if(tile instanceof TileEntityRBMKRod && !(tile instanceof TileEntityRBMKRodReaSim)) {
 				TileEntityRBMKRod rod = (TileEntityRBMKRod) tile;
-				if (!rod.hasRod || rod.lastFluxQuantity == 0) {
+				if(!rod.hasRod || rod.lastFluxQuantity == 0) {
 
-					for (RBMKNeutronStream stream : streams) {
-						for(RBMKNeutronNode node : stream.getNodes(false))
-							if (node != null)
+					for(RBMKNeutronStream stream : streams) {
+						for(NeutronNode node : stream.getNodes(false))
+							if(node != null)
 								list.add(new BlockPos(node.tile));
 					}
 
@@ -130,11 +130,11 @@ public class RBMKNeutronHandler {
 				Iterator<BlockPos> reaSimNodes = getReaSimNodes();
 
 				// Check if the ReaSim rod should be culled from the cache due to no rod or no flux.
-				if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
+				if(tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
 					TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
-					if (!rod.hasRod || rod.lastFluxQuantity == 0) {
+					if(!rod.hasRod || rod.lastFluxQuantity == 0) {
 						reaSimNodes.forEachRemaining((a) -> {
-							if (a != null)
+							if(a != null)
 								list.add(a.clone()); // ae The RAM usage will be really high here but hopefully the GC can take care of it :pray:
 						});
 						return list;
@@ -155,32 +155,32 @@ public class RBMKNeutronHandler {
 					if(nodePos == null)
 						continue;
 
-					NeutronNode node = NeutronNodeWorld.nodeCache.get(nodePos);
+					NeutronNode node = NeutronNodeWorld.getNode(world, nodePos);
 
-					if (node != null && node.tile instanceof TileEntityRBMKRod) {
+					if(node != null && node.tile instanceof TileEntityRBMKRod) {
 
 						TileEntityRBMKRod rod = (TileEntityRBMKRod) node.tile;
 
-						if (rod.hasRod && rod.lastFluxQuantity > 0) {
+						if(rod.hasRod && rod.lastFluxQuantity > 0) {
 							hasRod = true;
 							break;
 						}
 					}
 				}
 
-				if (!hasRod) {
+				if(!hasRod) {
 					list.add(pos);
 					return list;
 				}
 			}
 
 			// Check if non-rod nodes should be uncached due to no rod in range.
-			for (RBMKNeutronStream stream : streams) {
+			for(RBMKNeutronStream stream : streams) {
 
-				RBMKNeutronNode[] nodes = stream.getNodes(false);
+				NeutronNode[] nodes = stream.getNodes(false);
 
-				for (RBMKNeutronNode node : nodes) {
-					if (!(node == null) && node.tile instanceof TileEntityRBMKRod)
+				for(NeutronNode node : nodes) {
+					if(!(node == null) && node.tile instanceof TileEntityRBMKRod)
 						return list;
 				}
 			}
@@ -209,28 +209,28 @@ public class RBMKNeutronHandler {
 
 		// Does NOT include the origin node
 		// USES THE CACHE!!!
-		public RBMKNeutronNode[] getNodes(boolean addNode) {
-			RBMKNeutronNode[] positions = new RBMKNeutronNode[fluxRange];
+		public NeutronNode[] getNodes(boolean addNode) {
+			NeutronNode[] positions = new RBMKNeutronNode[fluxRange];
 
 			BlockPos pos = new BlockPos(origin.tile);
+			World world = origin.tile.getWorldObj();
 
-			for (int i = 1; i <= fluxRange; i++) {
+			for(int i = 1; i <= fluxRange; i++) {
 				int x = (int) Math.floor(0.5 + vector.xCoord * i);
 				int z = (int) Math.floor(0.5 + vector.zCoord * i);
 
 				pos.mutate(origin.tile.xCoord + x, origin.tile.yCoord, origin.tile.zCoord + z);
 
-				if (NeutronNodeWorld.nodeCache.containsKey(pos))
-					positions[i - 1] = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
-
-				else if (this.origin.tile.getBlockType() instanceof RBMKBase) {
-					TileEntity te = blockPosToTE(this.origin.tile.getWorldObj(), pos);
-					if (te instanceof TileEntityRBMKBase) {
+				NeutronNode node = NeutronNodeWorld.getNode(world, pos);
+				if(node != null && node instanceof RBMKNeutronNode) {
+					positions[i - 1] = node;
+				} else if(this.origin.tile.getBlockType() instanceof RBMKBase) {
+					TileEntity te = blockPosToTE(world, pos);
+					if(te instanceof TileEntityRBMKBase) {
 						TileEntityRBMKBase rbmkBase = (TileEntityRBMKBase) te;
-						RBMKNeutronNode node = makeNode(rbmkBase);
+						node = makeNode(rbmkBase);
 						positions[i - 1] = node;
-						if (addNode)
-							NeutronNodeWorld.addNode(node);
+						if(addNode) NeutronNodeWorld.addNode(world, node);
 					}
 				}
 			}
@@ -241,20 +241,21 @@ public class RBMKNeutronHandler {
 		public void runStreamInteraction(World worldObj) {
 
 			// do nothing if there's nothing to do lmao
-			if (fluxQuantity == 0D)
+			if(fluxQuantity == 0D)
 				return;
 
 			BlockPos pos = new BlockPos(origin.tile);
 
 			TileEntityRBMKBase originTE;
 
-			if (NeutronNodeWorld.nodeCache.containsKey(pos))
-				originTE = (TileEntityRBMKBase) NeutronNodeWorld.nodeCache.get(pos).tile;
-			else {
+			NeutronNode node = NeutronNodeWorld.getNode(worldObj, pos);
+			if(node != null) {
+				originTE = (TileEntityRBMKBase) node.tile;
+			} else {
 				originTE = (TileEntityRBMKBase) blockPosToTE(worldObj, pos);
-				if (originTE == null)
-					return; // Doesn't exist anymore!
-				NeutronNodeWorld.addNode(new RBMKNeutronNode(originTE, originTE.getRBMKType(), originTE.hasLid()));
+				if(originTE == null) return; // Doesn't exist anymore!
+
+				NeutronNodeWorld.addNode(worldObj, new RBMKNeutronNode(originTE, originTE.getRBMKType(), originTE.hasLid()));
 			}
 
 			int moderatedCount = 0;
@@ -263,23 +264,22 @@ public class RBMKNeutronHandler {
 
 			while(iterator.hasNext()) {
 
-				BlockPos nodePos = iterator.next();
+				BlockPos targetPos = iterator.next();
 
-				if (fluxQuantity == 0D) // Whoops, used it all up!
+				if(fluxQuantity == 0D) // Whoops, used it all up!
 					return;
 
-				RBMKNeutronNode node;
-
-				if (!NeutronNodeWorld.nodeCache.containsKey(nodePos)) {
-					TileEntity te = blockPosToTE(worldObj, nodePos); // ok, maybe it didn't get added to the list somehow??
-					if (te instanceof TileEntityRBMKBase) {
-						node = makeNode((TileEntityRBMKBase) te);
-						NeutronNodeWorld.addNode(node); // whoops!
+				NeutronNode targetNode = NeutronNodeWorld.getNode(worldObj, targetPos);
+				if(targetNode == null) {
+					TileEntity te = blockPosToTE(worldObj, targetPos); // ok, maybe it didn't get added to the list somehow??
+					if(te instanceof TileEntityRBMKBase) {
+						targetNode = makeNode((TileEntityRBMKBase) te);
+						NeutronNodeWorld.addNode(worldObj, targetNode); // whoops!
 					} else {
-						int hits = getHits(nodePos); // Get the amount of hits on blocks.
-						if (hits == columnHeight) // If stream is fully blocked.
+						int hits = getHits(targetPos); // Get the amount of hits on blocks.
+						if(hits == columnHeight) // If stream is fully blocked.
 							return;
-						else if (hits > 0) { // If stream is partially blocked.
+						else if(hits > 0) { // If stream is partially blocked.
 							irradiateFromFlux(pos, hits);
 							fluxQuantity *= 1 - ((double) hits / columnHeight); // Inverse to get partial blocking by blocks.
 							continue;
@@ -290,81 +290,79 @@ public class RBMKNeutronHandler {
 					}
 				}
 
-				node = (RBMKNeutronNode) NeutronNodeWorld.nodeCache.get(nodePos);
+				RBMKType type = (RBMKType) targetNode.data.get("type");
 
-				RBMKType type = (RBMKType) node.data.get("type");
-
-				if (type == RBMKType.OTHER) // pass right on by!
+				if(type == RBMKType.OTHER || type == null) // pass right on by!
 					continue;
 
 				// we established earlier during `getNodes()` that they should all be RBMKBase TEs
 				// no issue with casting here!
-				TileEntityRBMKBase nodeTE = (TileEntityRBMKBase) node.tile;
+				TileEntityRBMKBase nodeTE = (TileEntityRBMKBase) targetNode.tile;
 
-				if (!(boolean) node.data.get("hasLid"))
-					ChunkRadiationManager.proxy.incrementRad(worldObj, nodePos.getX(), nodePos.getY(), nodePos.getZ(), (float) (this.fluxQuantity * 0.05F));
+				if(!(boolean) targetNode.data.get("hasLid"))
+					ChunkRadiationManager.proxy.incrementRad(worldObj, targetPos.getX(), targetPos.getY(), targetPos.getZ(), (float) (this.fluxQuantity * 0.05F));
 
-				if (type == RBMKType.MODERATOR || nodeTE.isModerated()) {
+				if(type == RBMKType.MODERATOR || nodeTE.isModerated()) {
 					moderatedCount++;
 					moderateStream();
 				}
 
-				if (nodeTE instanceof IRBMKFluxReceiver) {
+				if(nodeTE instanceof IRBMKFluxReceiver) {
 					IRBMKFluxReceiver column = (IRBMKFluxReceiver) nodeTE;
 
-					if (type == RBMKType.ROD) {
+					if(type == RBMKType.ROD) {
 						TileEntityRBMKRod rod = (TileEntityRBMKRod) column;
 
-						if (rod.hasRod) {
+						if(rod.hasRod) {
 							rod.receiveFlux(this);
 							return;
 						}
 
-					} else if (type == RBMKType.OUTGASSER) {
+					} else if(type == RBMKType.OUTGASSER) {
 						TileEntityRBMKOutgasser outgasser = ((TileEntityRBMKOutgasser) column);
 
-						if (outgasser.canProcess()) {
+						if(outgasser.canProcess()) {
 							column.receiveFlux(this);
 							return;
 						}
 					}
 
-				} else if (type == RBMKType.CONTROL_ROD) {
+				} else if(type == RBMKType.CONTROL_ROD) {
 					TileEntityRBMKControl rod = (TileEntityRBMKControl) nodeTE;
 
-					if (rod.level > 0.0D) {
+					if(rod.level > 0.0D) {
 
 						this.fluxQuantity *= rod.getMult();
 						continue;
 					}
 					return;
-				} else if (type == RBMKType.REFLECTOR) {
+				} else if(type == RBMKType.REFLECTOR) {
 
-					if (((TileEntityRBMKBase) this.origin.tile).isModerated())
+					if(((TileEntityRBMKBase) this.origin.tile).isModerated())
 						moderatedCount++;
 
-					if (this.fluxRatio > 0 && moderatedCount > 0)
-						for (int i = 0; i < moderatedCount; i++)
+					if(this.fluxRatio > 0 && moderatedCount > 0)
+						for(int i = 0; i < moderatedCount; i++)
 							moderateStream();
 
-					if (reflectorEfficiency != 1.0D) {
+					if(reflectorEfficiency != 1.0D) {
 						this.fluxQuantity *= reflectorEfficiency;
 						continue;
 					}
 
 					((TileEntityRBMKRod) originTE).receiveFlux(this);
 					return;
-				} else if (type == RBMKType.ABSORBER) {
-					if (absorberEfficiency == 1)
+				} else if(type == RBMKType.ABSORBER) {
+					if(absorberEfficiency == 1)
 						return;
 
 					this.fluxQuantity *= absorberEfficiency;
 				}
 			}
 
-			RBMKNeutronNode[] nodes = getNodes(true);
+			NeutronNode[] nodes = getNodes(true);
 
-			RBMKNeutronNode lastNode = nodes[(nodes.length - 1)];
+			NeutronNode lastNode = nodes[(nodes.length - 1)];
 
 			if(lastNode == null) { // This implies that there was *no* last node, meaning either way it was never caught.
 				// There is really no good way to figure out where exactly it should irradiate, so just irradiate at the origin tile.
@@ -374,9 +372,9 @@ public class RBMKNeutronHandler {
 
 			RBMKType lastNodeType = (RBMKType) lastNode.data.get("type");
 
-			if (lastNodeType == RBMKType.CONTROL_ROD) {
+			if(lastNodeType == RBMKType.CONTROL_ROD) {
 				TileEntityRBMKControl rod = (TileEntityRBMKControl) lastNode.tile;
-				if (rod.getMult() > 0.0D) {
+				if(rod.getMult() > 0.0D) {
 					this.fluxQuantity *= rod.getMult();
 					irradiateFromFlux(new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord));
 				}
@@ -392,7 +390,7 @@ public class RBMKNeutronHandler {
 				// I FUCKING HATE THIS
 				// total count of bugs fixed attributed to this function: 13
 				Block block = origin.tile.getWorldObj().getBlock(pos.getX(), pos.getY() + h, pos.getZ());
-				if (block.isOpaqueCube())
+				if(block.isOpaqueCube())
 					hits += 1;
 			}
 

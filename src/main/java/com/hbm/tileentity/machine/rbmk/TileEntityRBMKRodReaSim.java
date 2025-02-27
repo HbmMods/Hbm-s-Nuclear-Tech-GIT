@@ -28,22 +28,22 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 		if(pos == null)
 			pos = new BlockPos(this);
 
-		if (flux == 0) {
+		if(flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
-			NeutronNodeWorld.removeNode(pos);
+			NeutronNodeWorld.removeNode(worldObj, pos);
 			return;
 		}
 
-		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
+		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(worldObj, pos);
 
 		if(node == null) {
 			node = makeNode(this);
-			NeutronNodeWorld.addNode(node);
+			NeutronNodeWorld.addNode(worldObj, node);
 		}
 
 		int count = RBMKDials.getReaSimCount(worldObj);
 
-		for (int i = 0; i < count; i++) {
+		for(int i = 0; i < count; i++) {
 			Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
 
 			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));

@@ -566,8 +566,7 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onUnload(WorldEvent.Unload event) {
-		NeutronNodeWorld.removeAllWorlds(); // Remove world from worlds when unloaded to avoid world issues.
-		NeutronNodeWorld.removeAllNodes(); // Remove all nodes.
+		NeutronNodeWorld.streamWorlds.remove(event.world);
 	}
 
 	public static boolean didSit = false;

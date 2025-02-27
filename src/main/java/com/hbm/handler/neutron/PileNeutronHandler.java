@@ -28,9 +28,8 @@ public class PileNeutronHandler {
 
 	public static PileNeutronNode makeNode(TileEntityPileBase tile) {
 		BlockPos pos = new BlockPos(tile);
-		if (NeutronNodeWorld.nodeCache.containsKey(pos))
-			return (PileNeutronNode) NeutronNodeWorld.getNode(pos);
-		return new PileNeutronNode(tile);
+		PileNeutronNode node = (PileNeutronNode) NeutronNodeWorld.getNode(tile.getWorldObj(), pos);
+		return node != null ? node : new PileNeutronNode(tile);
 	}
 
 	private static TileEntity blockPosToTE(World worldObj, BlockPos pos) {
@@ -43,6 +42,7 @@ public class PileNeutronHandler {
 			super(origin, vector, flux, 0D, NeutronType.PILE);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void runStreamInteraction(World worldObj) {
 
@@ -51,27 +51,29 @@ public class PileNeutronHandler {
 
 			for(float i = 1; i <= range; i += 0.5F) {
 
-				BlockPos node = new BlockPos(
+				BlockPos nodePos = new BlockPos(
 						(int)Math.floor(pos.getX() + 0.5 + vector.xCoord * i),
 						(int)Math.floor(pos.getY() + 0.5 + vector.yCoord * i),
 						(int)Math.floor(pos.getZ() + 0.5 + vector.zCoord * i)
 				);
 
-				if(node.equals(pos))
+				if(nodePos.equals(pos))
 					continue; // don't interact with itself!
 
-				pos.mutate(node.getX(), node.getY(), node.getZ());
+				pos.mutate(nodePos.getX(), nodePos.getY(), nodePos.getZ());
 
 				TileEntity tile;
 
-				if (NeutronNodeWorld.nodeCache.containsKey(node))
-					tile = NeutronNodeWorld.nodeCache.get(node).tile;
-				else {
-					tile = blockPosToTE(worldObj, node);
-					if (tile == null)
-						return; // Doesn't exist!
-					if (tile instanceof TileEntityPileBase)
-						NeutronNodeWorld.addNode(new PileNeutronNode((TileEntityPileBase) tile));
+				NeutronNode node = NeutronNodeWorld.getNode(worldObj, nodePos);
+				if(node != null && node instanceof PileNeutronNode) {
+					tile = node.tile;
+				} else {
+					tile = blockPosToTE(worldObj, nodePos);
+					if(tile == null) return;
+
+					if(tile instanceof TileEntityPileBase) {
+						NeutronNodeWorld.addNode(worldObj, new PileNeutronNode((TileEntityPileBase) tile));
+					}
 				}
 
 				Block block = tile.getBlockType();
@@ -79,17 +81,17 @@ public class PileNeutronHandler {
 				if(!(tile instanceof TileEntityPileBase)) {
 
 					// Return when a boron block is hit
-					if (block == ModBlocks.block_boron)
+					if(block == ModBlocks.block_boron)
 						return;
 
-					else if (block == ModBlocks.concrete ||
+					else if(block == ModBlocks.concrete ||
 						block == ModBlocks.concrete_smooth ||
 						block == ModBlocks.concrete_asbestos ||
 						block == ModBlocks.concrete_colored ||
 						block == ModBlocks.brick_concrete)
 						fluxQuantity *= 0.25;
 
-					if (block == ModBlocks.block_graphite_rod && (meta & 8) == 0)
+					if(block == ModBlocks.block_graphite_rod && (meta & 8) == 0)
 						return;
 				}
 
@@ -102,9 +104,9 @@ public class PileNeutronHandler {
 						return;
 				}
 
-				int x = (int) (node.getX() + 0.5);
-				int y = (int) (node.getY() + 0.5);
-				int z = (int) (node.getZ() + 0.5);
+				int x = (int) (nodePos.getX() + 0.5);
+				int y = (int) (nodePos.getY() + 0.5);
+				int z = (int) (nodePos.getZ() + 0.5);
 				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x, y, z));
 
 				if(entities != null)

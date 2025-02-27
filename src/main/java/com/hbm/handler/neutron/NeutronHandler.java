@@ -1,13 +1,10 @@
 package com.hbm.handler.neutron;
 
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -21,20 +18,16 @@ public class NeutronHandler {
 		if(event.phase != TickEvent.Phase.START)
 			return;
 
+		// Freshen the node cache every `cacheTime` ticks to prevent huge RAM usage from idle nodes.
+		int cacheTime = 20;
+		boolean cacheClear = ticks >= cacheTime;
+		if(cacheClear) ticks = 0;
+		ticks++;
+
 		// Remove `StreamWorld` objects if they have no streams.
-		{ // aflghdkljghlkbhfjkghgilurbhlkfjghkffdjgn
-			List<World> toRemove = new ArrayList<>();
-			NeutronNodeWorld.streamWorlds.forEach((world, streamWorld) -> {
-				if (streamWorld.streams.isEmpty())
-					toRemove.add(world);
-			});
+		NeutronNodeWorld.removeEmptyWorlds();
 
-			for (World world : toRemove) {
-				NeutronNodeWorld.streamWorlds.remove(world);
-			}
-		}
-
-		for (Map.Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
+		for(Map.Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
 
 			// Gamerule caching because this apparently is kinda slow?
 			// meh, good enough
@@ -48,33 +41,10 @@ public class NeutronHandler {
 			RBMKNeutronHandler.columnHeight = RBMKDials.getColumnHeight(world.getKey()) + 1;
 			RBMKNeutronHandler.fluxRange = RBMKDials.getFluxRange(world.getKey());
 
-			for (NeutronStream stream : world.getValue().streams) {
-				stream.runStreamInteraction(world.getKey());
-			}
+			world.getValue().runStreamInteractions(world.getKey());
 			world.getValue().removeAllStreams();
+
+			if(cacheClear) world.getValue().cleanNodes();
 		}
-
-		// Freshen the node cache every `cacheTime` ticks to prevent huge RAM usage from idle nodes.
-		int cacheTime = 20;
-		if (ticks >= cacheTime) {
-			ticks = 0;
-			List<BlockPos> toRemove = new ArrayList<>();
-			for (NeutronNode cachedNode : NeutronNodeWorld.nodeCache.values()) {
-				if (cachedNode.type == NeutronStream.NeutronType.RBMK) {
-					RBMKNeutronHandler.RBMKNeutronNode node = (RBMKNeutronHandler.RBMKNeutronNode) cachedNode;
-					toRemove.addAll(node.checkNode());
-				}
-					/* TODO: actually do this and uncache pile nodes
-					if (cachedNode.type == NeutronStream.NeutronType.PILE) {
-						PileNeutronNode node = (PileNeutronNode) cachedNode;
-						toRemove.addAll(node.checkNode());
-					}
-					*/
-			}
-
-			toRemove.forEach(NeutronNodeWorld::removeNode);
-
-		}
-		ticks++;
 	}
 }

@@ -17,25 +17,30 @@ public abstract class TileEntityPileBase extends TileEntity {
 	@Override
 	public void invalidate() {
 		super.invalidate();
+		NeutronNodeWorld.removeNode(worldObj, new BlockPos(this));
+	}
 
-		NeutronNodeWorld.removeNode(new BlockPos(this));
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		NeutronNodeWorld.removeNode(worldObj, new BlockPos(this));
 	}
 
 	protected void castRay(int flux) {
 
 		BlockPos pos = new BlockPos(this);
 
-		if (flux == 0) {
+		if(flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
-			NeutronNodeWorld.removeNode(pos);
+			NeutronNodeWorld.removeNode(worldObj, pos);
 			return;
 		}
 
-		PileNeutronNode node = (PileNeutronNode) NeutronNodeWorld.getNode(pos);
+		PileNeutronNode node = (PileNeutronNode) NeutronNodeWorld.getNode(worldObj, pos);
 
 		if(node == null) {
 			node = PileNeutronHandler.makeNode(this);
-			NeutronNodeWorld.addNode(node);
+			NeutronNodeWorld.addNode(worldObj, node);
 		}
 
 		Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
