@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class CasingCreator implements IParticleCreator {
 	
-	//TODO give these + orchestra hardcoding a little bit of randomness cuz it looks off otherwise
 	/** Default casing without smoke */
 	public static void composeEffect(World world, EntityLivingBase player, double frontOffset, double heightOffset, double sideOffset, double frontMotion, double heightMotion, double sideMotion, double motionVariance, String casing) {
 		composeEffect(world, player, frontOffset, heightOffset, sideOffset, frontMotion, heightMotion, sideMotion, motionVariance, 5F, 10F, casing, false, 0, 0, 0);
@@ -25,7 +24,7 @@ public class CasingCreator implements IParticleCreator {
 	
 	/** Casing without smoke */
 	public static void composeEffect(World world, EntityLivingBase player, double frontOffset, double heightOffset, double sideOffset, double frontMotion, double heightMotion, double sideMotion, double motionVariance, float multPitch, float multYaw, String casing) {
-		composeEffect(world, player, frontOffset, heightOffset, sideOffset, frontMotion, heightMotion, sideMotion, motionVariance, 5F, 10F, casing, false, 0, 0, 0);
+		composeEffect(world, player, frontOffset, heightOffset, sideOffset, frontMotion, heightMotion, sideMotion, motionVariance, multPitch, multYaw, casing, false, 0, 0, 0);
 	}
 	
 	/** Default casing, but with smoke*/
