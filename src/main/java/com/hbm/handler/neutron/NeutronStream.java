@@ -1,5 +1,6 @@
 package com.hbm.handler.neutron;
 
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -72,5 +73,5 @@ public abstract class NeutronStream {
 		};
 	}
 
-	public abstract void runStreamInteraction(World worldObj);
+	public abstract void runStreamInteraction(World worldObj, StreamWorld streamWorld);
 }

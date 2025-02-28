@@ -2,6 +2,7 @@ package com.hbm.handler.neutron;
 
 import api.hbm.block.IPileNeutronReceiver;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.tileentity.machine.pile.TileEntityPileBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -26,9 +27,9 @@ public class PileNeutronHandler {
 
 	}
 
-	public static PileNeutronNode makeNode(TileEntityPileBase tile) {
+	public static PileNeutronNode makeNode(StreamWorld streamWorld, TileEntityPileBase tile) {
 		BlockPos pos = new BlockPos(tile);
-		PileNeutronNode node = (PileNeutronNode) NeutronNodeWorld.getNode(tile.getWorldObj(), pos);
+		PileNeutronNode node = (PileNeutronNode) streamWorld.getNode(pos);
 		return node != null ? node : new PileNeutronNode(tile);
 	}
 
@@ -44,7 +45,7 @@ public class PileNeutronHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void runStreamInteraction(World worldObj) {
+		public void runStreamInteraction(World worldObj, StreamWorld streamWorld) {
 
 			TileEntityPileBase originTE = (TileEntityPileBase) origin.tile;
 			BlockPos pos = new BlockPos(originTE);
@@ -64,7 +65,7 @@ public class PileNeutronHandler {
 
 				TileEntity tile;
 
-				NeutronNode node = NeutronNodeWorld.getNode(worldObj, nodePos);
+				NeutronNode node = streamWorld.getNode(nodePos);
 				if(node != null && node instanceof PileNeutronNode) {
 					tile = node.tile;
 				} else {
@@ -72,7 +73,7 @@ public class PileNeutronHandler {
 					if(tile == null) return;
 
 					if(tile instanceof TileEntityPileBase) {
-						NeutronNodeWorld.addNode(worldObj, new PileNeutronNode((TileEntityPileBase) tile));
+						streamWorld.addNode(new PileNeutronNode((TileEntityPileBase) tile));
 					}
 				}
 

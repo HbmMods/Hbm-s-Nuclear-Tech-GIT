@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -34,11 +35,12 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 			return;
 		}
 
-		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(worldObj, pos);
+		StreamWorld streamWorld = NeutronNodeWorld.getOrAddWorld(worldObj);
+		RBMKNeutronNode node = (RBMKNeutronNode) streamWorld.getNode(pos);
 
 		if(node == null) {
-			node = makeNode(this);
-			NeutronNodeWorld.addNode(worldObj, node);
+			node = makeNode(streamWorld, this);
+			streamWorld.addNode(node);
 		}
 
 		int count = RBMKDials.getReaSimCount(worldObj);
@@ -48,7 +50,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 
 			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 
-			new RBMKNeutronHandler.RBMKNeutronStream(makeNode(this), neutronVector, flux, ratio);
+			new RBMKNeutronHandler.RBMKNeutronStream(makeNode(streamWorld, this), neutronVector, flux, ratio);
 			// Create new neutron streams
 		}
 	}

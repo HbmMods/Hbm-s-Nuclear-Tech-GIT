@@ -6,6 +6,7 @@ import com.hbm.blocks.machine.rbmk.RBMKRod;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
@@ -203,11 +204,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			return;
 		}
 
-		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(worldObj, pos);
+		StreamWorld streamWorld = NeutronNodeWorld.getOrAddWorld(worldObj);
+		RBMKNeutronNode node = (RBMKNeutronNode) streamWorld.getNode(pos);
 
 		if(node == null) {
-			node = RBMKNeutronHandler.makeNode(this);
-			NeutronNodeWorld.addNode(worldObj, node);
+			node = RBMKNeutronHandler.makeNode(streamWorld, this);
+			streamWorld.addNode(node);
 		}
 
 		for(ForgeDirection dir : fluxDirs) {
