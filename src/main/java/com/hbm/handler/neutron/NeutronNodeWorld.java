@@ -17,11 +17,6 @@ public class NeutronNodeWorld {
 		return streamWorld != null ? streamWorld.nodeCache.get(pos) : null;
 	}
 
-	public static void addNode(World world, NeutronNode node) {
-		StreamWorld streamWorld = getOrAddWorld(world);
-		streamWorld.nodeCache.put(node.pos, node);
-	}
-
 	public static void removeNode(World world, BlockPos pos) {
 		StreamWorld streamWorld = streamWorlds.get(world);
 		if(streamWorld == null) return;
@@ -58,7 +53,7 @@ public class NeutronNodeWorld {
 
 		public void runStreamInteractions(World world) {
 			for(NeutronStream stream : streams) {
-				stream.runStreamInteraction(world);
+				stream.runStreamInteraction(world, this);
 			}
 		}
 
@@ -75,7 +70,7 @@ public class NeutronNodeWorld {
 			for(NeutronNode cachedNode : nodeCache.values()) {
 				if(cachedNode.type == NeutronStream.NeutronType.RBMK) {
 					RBMKNeutronHandler.RBMKNeutronNode node = (RBMKNeutronHandler.RBMKNeutronNode) cachedNode;
-					toRemove.addAll(node.checkNode());
+					toRemove.addAll(node.checkNode(this));
 				}
 				/* TODO: actually do this and uncache pile nodes
 				if(cachedNode.type == NeutronStream.NeutronType.PILE) {
@@ -88,6 +83,14 @@ public class NeutronNodeWorld {
 			for(BlockPos pos : toRemove) {
 				nodeCache.remove(pos);
 			}
+		}
+
+		public NeutronNode getNode(BlockPos pos) {
+			return nodeCache.get(pos);
+		}
+
+		public void addNode(NeutronNode node) {
+			nodeCache.put(node.pos, node);
 		}
 
 		public void removeNode(BlockPos pos) {

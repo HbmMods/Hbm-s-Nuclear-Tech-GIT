@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.pile;
 
 import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.handler.neutron.PileNeutronHandler;
 import com.hbm.handler.neutron.PileNeutronHandler.PileNeutronStream;
 import com.hbm.handler.neutron.PileNeutronHandler.PileNeutronNode;
@@ -36,11 +37,12 @@ public abstract class TileEntityPileBase extends TileEntity {
 			return;
 		}
 
-		PileNeutronNode node = (PileNeutronNode) NeutronNodeWorld.getNode(worldObj, pos);
+		StreamWorld streamWorld = NeutronNodeWorld.getOrAddWorld(worldObj);
+		PileNeutronNode node = (PileNeutronNode) streamWorld.getNode(pos);
 
 		if(node == null) {
-			node = PileNeutronHandler.makeNode(this);
-			NeutronNodeWorld.addNode(worldObj, node);
+			node = PileNeutronHandler.makeNode(streamWorld, this);
+			streamWorld.addNode(node);
 		}
 
 		Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
