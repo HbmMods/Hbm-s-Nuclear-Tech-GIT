@@ -51,13 +51,13 @@ public class NTMWorldGenerator implements IWorldGenerator {
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
-			structure = new JigsawPiece("vertibird", StructureManager.vertibird);
+			structure = new JigsawPiece("vertibird", StructureManager.vertibird, -3);
 			spawnWeight = 3 * 4;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
-			structure = new JigsawPiece("crashed_vertibird", StructureManager.crashed_vertibird);
+			structure = new JigsawPiece("crashed_vertibird", StructureManager.crashed_vertibird, -10);
 			spawnWeight = 3 * 4;
 		}});
 
