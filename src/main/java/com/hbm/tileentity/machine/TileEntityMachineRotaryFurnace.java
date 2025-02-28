@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.Random;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -17,12 +20,10 @@ import com.hbm.inventory.recipes.RotaryFurnaceRecipes;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.module.ModuleBurnTime;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.tileentity.IConditionalInvAccess;
-import com.hbm.tileentity.IFluidCopiable;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.*;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -42,7 +43,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable, IConditionalInvAccess {
+public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable, IConditionalInvAccess, IConfigurableMachine {
 
 	public FluidTank[] tanks;
 	public boolean isProgressing;
@@ -52,17 +53,29 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	public int steamUsed = 0;
 	public boolean isVenting;
 	public MaterialStack output;
+	public ItemStack lastFuel;
 	public static final int maxOutput = MaterialShapes.BLOCK.q(16);
 
 	public int anim;
 	public int lastAnim;
 
+	/**Given this has no heat, the heat mod instead affects the progress per fuel **/
+	public static ModuleBurnTime burnModule = new ModuleBurnTime()
+		.setCokeTimeMod(1.25)
+		.setRocketTimeMod(1.5)
+		.setSolidTimeMod(1.5)
+		.setBalefireTimeMod(1.5)
+
+		.setSolidHeatMod(1.5)
+		.setRocketHeatMod(3)
+		.setBalefireHeatMod(10);
+
 	public TileEntityMachineRotaryFurnace() {
 		super(5, 50);
 		tanks = new FluidTank[3];
 		tanks[0] = new FluidTank(Fluids.NONE, 16_000);
-		tanks[1] = new FluidTank(Fluids.STEAM, 4_000);
-		tanks[2] = new FluidTank(Fluids.SPENTSTEAM, 40);
+		tanks[1] = new FluidTank(Fluids.STEAM, 12_000);
+		tanks[2] = new FluidTank(Fluids.SPENTSTEAM, 120);
 	}
 
 	@Override
@@ -118,15 +131,19 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			if(recipe != null) {
 
 				if(this.burnTime <= 0 && slots[4] != null && TileEntityFurnace.isItemFuel(slots[4])) {
-					this.maxBurnTime = this.burnTime = TileEntityFurnace.getItemBurnTime(slots[4]) / 2;
+					lastFuel = slots[4];
+					this.maxBurnTime = this.burnTime = burnModule.getBurnTime(lastFuel) / 2;
 					this.decrStackSize(4, 1);
 					this.markChanged();
 				}
 
 				if(this.canProcess(recipe)) {
-					this.progress += 1F / recipe.duration;
-					tanks[1].setFill(tanks[1].getFill() - recipe.steam);
-					steamUsed += recipe.steam;
+					float speed = Math.max((float) burnModule.getMod(lastFuel, burnModule.getModHeat()), 1);
+					this.progress += speed / recipe.duration;
+
+					speed =  (float)(13 * Math.log10(speed) + 1);
+					tanks[1].setFill((int) (tanks[1].getFill() - recipe.steam * speed));
+					tanks[2].setFill((int) (tanks[2].getFill() + recipe.steam * speed / 100));
 					this.isProgressing = true;
 
 					if(this.progress >= 1F) {
@@ -188,7 +205,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			}
 			this.lastAnim = this.anim;
 			if(this.isProgressing) {
-				this.anim++;
+				this.anim += (int) Math.max(burnModule.getMod(slots[4], burnModule.getModHeat()), 1);
 			}
 		}
 	}
@@ -244,6 +261,9 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			NTMMaterial mat = Mats.matById.get(nbt.getInteger("outType"));
 			this.output = new MaterialStack(mat, nbt.getInteger("outAmount"));
 		}
+		ItemStack nbtFuel = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("lastFuel"));
+		if(nbtFuel != null)
+			this.lastFuel = nbtFuel;
 	}
 
 	@Override
@@ -255,6 +275,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		nbt.setFloat("prog", progress);
 		nbt.setInteger("burn", burnTime);
 		nbt.setInteger("maxBurn", maxBurnTime);
+		nbt.setTag("lastFuel", lastFuel.writeToNBT(new NBTTagCompound()));
 		if (this.output != null) {
 			nbt.setInteger("outType", this.output.material.id);
 			nbt.setInteger("outAmount", this.output.amount);
@@ -392,4 +413,23 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineRotaryFurnace(player.inventory, this); }
 	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineRotaryFurnace(player.inventory, this); }
+
+	@Override
+	public String getConfigName() {
+		return "rotaryfurnace";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		if(obj.has("burnModule")) {
+			burnModule.readIfPresent(obj.get("M:burnModule").getAsJsonObject());
+		}
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("M:burnModule").beginObject();
+		burnModule.writeConfig(writer);
+		writer.endObject();
+	}
 }
