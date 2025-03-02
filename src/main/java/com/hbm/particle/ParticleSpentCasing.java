@@ -148,7 +148,6 @@ public class ParticleSpentCasing extends EntityFX {
 		double initMoX = motionX;
 		double initMoY = motionY;
 		double initMoZ = motionZ;
-		AxisAlignedBB axisalignedbb = this.boundingBox.copy();
 		
 		List list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(motionX, motionY, motionZ));
 		

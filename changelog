@@ -1,3 +1,6 @@
+## Added
+* A new legendary weapon
+
 ## Changed
 * Updated russian localization
 * Large deposits (hematite, malachite, bauxite) and caves (sulfur, asbestos) can now be toggled in the config
@@ -10,6 +13,7 @@
 * Reduced legendary 12 lever action's spread multiplier from x1.35 to x1.15
 * Bullet casings now spawn with randomized angular velocity
 * Bullet casings now correctly bounce off walls, and change angles when bouncing
+* Two previously unobtainable legendaries are now in the red room loot pool (about 10x less common than most other items)
 
 ## Fixed
 * Fixed an issue where `/ntmreload` would load fluids after recipes, meaning that recipes using newly added fluids would not work correctly, as the fluids don't exist by the time the recipe is loaded
@@ -22,3 +26,4 @@
 * Fixed issue where DODD fuel item stats would only update when the GUI was open
 * Fixed muzzle flashes not being fullbright
 * Fixed guns having their name permanently visible over the toolbar
+* Fixed hangman being absolutely gigantic when dropped

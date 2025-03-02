@@ -1494,6 +1494,7 @@ public class ModItems {
 	public static Item gun_lasrifle;
 	public static Item gun_coilgun;
 	public static Item gun_hangman;
+	public static Item gun_mas36;
 	public static Item gun_bolter;
 	public static Item gun_folly;
 	public static Item gun_aberrator;
@@ -6481,6 +6482,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_lasrifle, gun_lasrifle.getUnlocalizedName());
 		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hangman, gun_hangman.getUnlocalizedName());
+		GameRegistry.registerItem(gun_mas36, gun_mas36.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
 		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		GameRegistry.registerItem(gun_aberrator, gun_aberrator.getUnlocalizedName());
