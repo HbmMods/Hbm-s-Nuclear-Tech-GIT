@@ -12,7 +12,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ExplosionNukeSmall {
+@Deprecated public class ExplosionNukeSmall {
 
 	public static void explode(World world, double posX, double posY, double posZ, MukeParams params) {
 		

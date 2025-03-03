@@ -82,6 +82,7 @@ public class BusAnimationSequence {
 	/** Repeats the previous keyframe for a duration depending on the previous keyframes. Useful for getting different buses to sync up. */
 	public BusAnimationSequence holdUntil(int end) {
 		int duration = end - getTotalTime();
+		//FIXME: holdUntil breaks as soon as the animation speed is not 1
 		return hold(duration);
 	}
 	
