@@ -135,10 +135,10 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(fluid, mB, fuel);
 	}
 
-	private static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }
-	private static void registerRecipe(FluidType type, int quantity, Block output) { registerRecipe(type, quantity, new ItemStack(output)); }
-	private static void registerRecipe(FluidType type, int quantity, ItemStack output) {
-		recipes.put(type, new Pair<Integer, ItemStack>(quantity, output));
+	public static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }
+	public static void registerRecipe(FluidType type, int quantity, Block output) { registerRecipe(type, quantity, new ItemStack(output)); }
+	public static void registerRecipe(FluidType type, int quantity, ItemStack output) {
+		recipes.put(type, new Pair<>(quantity, output));
 	}
 
 	public static Pair<Integer, ItemStack> getOutput(FluidType type) {

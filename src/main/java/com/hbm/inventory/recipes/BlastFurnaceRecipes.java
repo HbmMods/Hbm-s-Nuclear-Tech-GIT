@@ -34,7 +34,7 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Magic!
- * 
+ *
  * @author UFFR
  */
 public class BlastFurnaceRecipes extends SerializableRecipe {
@@ -50,7 +50,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(IRON.ore(),	COAL,										new ItemStack(ModItems.ingot_steel, 2));
 		addRecipe(IRON.ore(),	ANY_COKE,									new ItemStack(ModItems.ingot_steel, 3));
 		addRecipe(IRON.ore(),	new ComparableStack(ModItems.powder_flux),	new ItemStack(ModItems.ingot_steel, 3));
-		
+
 		addRecipe(CU,									REDSTONE,										new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL,								MINGRADE,										new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W,									COAL,											new ItemStack(ModItems.neutron_reflector, 2));
@@ -77,14 +77,14 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_sword_alloyed));
 	}
 
-	private static void addRecipe(Object in1, Object in2, ItemStack out) {
+	public static void addRecipe(Object in1, Object in2, ItemStack out) {
 
 		if(in1 instanceof Item) in1 = new ComparableStack((Item) in1);
 		if(in1 instanceof Block) in1 = new ComparableStack((Block) in1);
 		if(in2 instanceof Item) in2 = new ComparableStack((Item) in2);
 		if(in2 instanceof Block) in2 = new ComparableStack((Block) in2);
-		
-		blastFurnaceRecipes.add(new Triplet<Object, Object, ItemStack>(in1, in2, out));
+
+		blastFurnaceRecipes.add(new Triplet<>(in1, in2, out));
 	}
 
 	@CheckForNull
@@ -113,25 +113,25 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 	}
 
 	private static AStack[] getRecipeStacks(Object in) {
-		
+
 		AStack[] recipeItem1 = new AStack[0];
-		
+
 		if(in instanceof DictFrame) {
 			DictFrame recipeItem = (DictFrame) in;
 			recipeItem1 = new AStack[] { new OreDictStack(recipeItem.ingot()), new OreDictStack(recipeItem.plate()), new OreDictStack(recipeItem.gem()), new OreDictStack(recipeItem.dust()) };
-		
+
 		} else if(in instanceof AStack) {
 			recipeItem1 = new AStack[] { (AStack) in };
-		
+
 		} else if(in instanceof String) {
 			recipeItem1 = new AStack[] { new OreDictStack((String) in) };
-		
+
 		}/* else if(in instanceof List<?>) {
 			List<?> oreList = (List<?>) in;
 			recipeItem1 = new AStack[oreList.size()];
 			for(int i = 0; i < oreList.size(); i++)
 				recipeItem1[i] = new OreDictStack((String) oreList.get(i));
-		
+
 		}*/
 
 		return recipeItem1;
@@ -194,7 +194,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 	public String getFileName() {
 		return "hbmBlastFurnace.json";
 	}
-	
+
 	@Override
 	public String getComment() {
 		return "Inputs can use the unique 'dictframe' type which is an ore dictionary material suffix. The recipes will accept most ore dictionary entries equivalent to one ingot (gems, dust, plates, etc).";
@@ -208,25 +208,25 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject rec = (JsonObject) recipe;
-		
+
 		ItemStack output = this.readItemStack(rec.get("output").getAsJsonArray());
-		
+
 		Object input1 = null;
 		Object input2 = null;
-		
+
 		JsonArray array1 = rec.get("input1").getAsJsonArray();
 		if(array1.get(0).getAsString().equals("item")) input1 = this.readAStack(array1);
 		if(array1.get(0).getAsString().equals("dict")) input1 = ((OreDictStack) this.readAStack(array1)).name;
 		if(array1.get(0).getAsString().equals("dictframe")) input1 = readDictFrame(array1);
-		
+
 		JsonArray array2 = rec.get("input2").getAsJsonArray();
 		if(array2.get(0).getAsString().equals("item")) input2 = this.readAStack(array2);
 		if(array2.get(0).getAsString().equals("dict")) input2 = ((OreDictStack) this.readAStack(array2)).name;
 		if(array2.get(0).getAsString().equals("dictframe")) input2 = readDictFrame(array2);
-		
+
 		if(input1 != null && input2 != null) {
 			addRecipe(input1, input2, output);
-			
+
 			if(rec.has("hidden") && rec.get("hidden").getAsBoolean()) {
 				this.hiddenRecipes.add(new ComparableStack(output));
 			}
@@ -238,22 +238,22 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		Triplet<Object, Object, ItemStack> rec = (Triplet<Object, Object, ItemStack>) recipe;
 		writer.name("output");
 		this.writeItemStack(rec.getZ(), writer);
-		
+
 		writer.name("input1");
 		if(rec.getX() instanceof ComparableStack) this.writeAStack((ComparableStack) rec.getX(), writer);
 		if(rec.getX() instanceof String) this.writeAStack(new OreDictStack((String) rec.getX()), writer);
 		if(rec.getX() instanceof DictFrame) this.writeDictFrame((DictFrame) rec.getX(), writer);
-		
+
 		writer.name("input2");
 		if(rec.getY() instanceof ComparableStack) this.writeAStack((ComparableStack) rec.getY(), writer);
 		if(rec.getY() instanceof String) this.writeAStack(new OreDictStack((String) rec.getY()), writer);
 		if(rec.getY() instanceof DictFrame) this.writeDictFrame((DictFrame) rec.getY(), writer);
-		
+
 		if(this.hiddenRecipes.contains(new ComparableStack(rec.getZ()))) {
 			writer.name("hidden").value(true);
 		}
 	}
-	
+
 	public static void writeDictFrame(DictFrame frame, JsonWriter writer) throws IOException {
 		writer.beginArray();
 		writer.setIndent("");
@@ -262,7 +262,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		writer.endArray();
 		writer.setIndent("  ");
 	}
-	
+
 	public static DictFrame readDictFrame(JsonArray array) {
 		return new DictFrame(array.get(1).getAsString());
 	}
