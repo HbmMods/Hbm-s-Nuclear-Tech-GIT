@@ -3,7 +3,6 @@ package com.hbm.potion;
 import java.lang.reflect.Field;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
@@ -19,6 +18,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityCow;
@@ -109,15 +109,13 @@ public class HbmPotion extends Potion {
 			
 			if(GeneralConfig.enableHardcoreTaint && !entity.worldObj.isRemote) {
 				
-				int x = (int)(entity.posX - 1);
-				int y = (int)entity.posY;
-				int z = (int)(entity.posZ);
+				int x = (int) Math.floor(entity.posX);
+				int y = (int) Math.floor(entity.posY);
+				int z = (int) Math.floor(entity.posZ);
 				
-				if(entity.worldObj.getBlock(x, y, z)
-						.isReplaceable(entity.worldObj, x, y, z) && 
-						BlockTaint.hasPosNeightbour(entity.worldObj, x, y, z)) {
-					
-					entity.worldObj.setBlock(x, y, z, ModBlocks.taint, 14, 2);
+				Block b = entity.worldObj.getBlock(x, y - 1, z);
+				if(y > 1 && b.isNormalCube() && !b.isAir(entity.worldObj, x, y - 1, z)) {
+					entity.worldObj.setBlock(x, y - 1, z, ModBlocks.taint, 14, 2);
 				}
 			}
 		}

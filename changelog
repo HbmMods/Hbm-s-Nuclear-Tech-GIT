@@ -9,6 +9,16 @@
   * Fat mines now have a base damage of exactly 100, being identical to demolition mini nukes
   * Fat mines now gib affected entities
 * IV bags now use `setHealth` operations instead of dealing damage, preventing health duplication by just avoiding the damage
+* The settings tool can now copy and paste the "paint" from paintable cables and fluid ducts
+* Changed the way taint works
+  * Instead of neon purple vines, taint is bow a greyish sludge
+  * Taint now actively replaces blocks instead of growing along them
+  * Taint is still limited in spread, however taint spread is lower underground, taint decays three times faster in intensity if the block is not exposed to air, making taint spread more along the surface
+  * Taint has a 25% chance of splashing down when replacing a block with no supports, causing structures to collapse and taint to spread faster
+  * Similar to soil sand, entities will sink in taint and get slowed down
+  * The sludge consumeth
 
 ## Fixed
 * Fixed animation error on the MAS-36
+* Fixed drone docks, requester and provider crates not dropping their contents when broken
+* Fixed all missing texture errors that appear in the startup log

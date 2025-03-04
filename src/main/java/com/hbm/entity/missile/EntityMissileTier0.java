@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
@@ -128,7 +127,10 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 				int a = rand.nextInt(11) + (int) this.posX - 5;
 				int b = rand.nextInt(11) + (int) this.posY - 5;
 				int c = rand.nextInt(11) + (int) this.posZ - 5;
-				if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) worldObj.setBlock(a, b, c, ModBlocks.taint);
+				Block block = worldObj.getBlock(a, b, c);
+				if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
+					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+				}
 			}
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.powder_spark_mix, 1); }

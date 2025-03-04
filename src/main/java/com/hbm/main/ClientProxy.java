@@ -771,7 +771,6 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerBlockRenderer() {
 
-		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
 		RenderingRegistry.registerBlockHandler(new RenderScaffoldBlock());
 		RenderingRegistry.registerBlockHandler(new RenderTapeBlock());
 		RenderingRegistry.registerBlockHandler(new RenderSteelBeam());

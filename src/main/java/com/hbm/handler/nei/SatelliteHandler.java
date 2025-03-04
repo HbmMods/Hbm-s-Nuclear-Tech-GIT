@@ -14,12 +14,10 @@ import com.hbm.util.ItemStackUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandomChestContent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
@@ -176,14 +174,5 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 			stacks.add(satelliteDock);
 			return getCycledIngredients(cycleticks / 20, stacks);
 		}
-	}
-
-	private static HashMap<ItemStack, ItemStack> getRecipeMap() {
-		HashMap<ItemStack, ItemStack> recipeMap = new HashMap<>();
-		ItemStack minerStack = new ItemStack(ModItems.sat_miner);
-		ItemStack lunarMinerStack = new ItemStack(ModItems.sat_lunar_miner);
-		Arrays.stream(ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_MINER)).forEach(poolEntry -> recipeMap.put(minerStack, poolEntry.theItemId));
-		Arrays.stream(ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_LUNAR)).forEach(poolEntry -> recipeMap.put(lunarMinerStack, poolEntry.theItemId));
-		return recipeMap;
 	}
 }

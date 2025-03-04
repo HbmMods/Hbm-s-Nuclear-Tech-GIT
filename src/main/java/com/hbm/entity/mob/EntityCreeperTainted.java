@@ -55,8 +55,8 @@ public class EntityCreeperTainted extends EntityCreeper implements IRadiationImm
 						int a = rand.nextInt(15) + (int) posX - 7;
 						int b = rand.nextInt(15) + (int) posY - 7;
 						int c = rand.nextInt(15) + (int) posZ - 7;
-						
-						if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
+						Block block = worldObj.getBlock(a, b, c);
+						if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
 							if(!GeneralConfig.enableHardcoreTaint) {
 								worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 5, 2);
 							} else {
@@ -71,8 +71,8 @@ public class EntityCreeperTainted extends EntityCreeper implements IRadiationImm
 						int a = rand.nextInt(7) + (int) posX - 3;
 						int b = rand.nextInt(7) + (int) posY - 3;
 						int c = rand.nextInt(7) + (int) posZ - 3;
-						
-						if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
+						Block block = worldObj.getBlock(a, b, c);
+						if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
 							if(!GeneralConfig.enableHardcoreTaint) {
 								worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(6) + 10, 2);
 							} else {
