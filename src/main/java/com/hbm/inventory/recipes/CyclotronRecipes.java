@@ -97,7 +97,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 		/// PLUTONIUM END ///
 	}
 
-	public static void makeRecipe(ComparableStack part, AStack in, ItemStack out, int amat) {
+	private static void makeRecipe(ComparableStack part, AStack in, ItemStack out, int amat) {
 		recipes.put(new Pair(part, in), new Pair(out, amat));
 	}
 
