@@ -4,7 +4,7 @@ import com.hbm.interfaces.NotableComments;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.uninos.IGenReceiver;
-import com.hbm.uninos.networkproviders.PowerProvider;
+import com.hbm.uninos.networkproviders.PowerNetProvider;
 import com.hbm.util.Compat;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /** If it receives energy, use this */
 @NotableComments
-public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2, IGenReceiver<PowerProvider> {
+public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2, IGenReceiver<PowerNetProvider> {
 
 	public default long transferPower(long power) {
 		if(power + this.getPower() <= this.getMaxPower()) {

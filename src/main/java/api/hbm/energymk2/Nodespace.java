@@ -3,7 +3,7 @@ package api.hbm.energymk2;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
-import com.hbm.uninos.networkproviders.PowerProvider;
+import com.hbm.uninos.networkproviders.PowerNetProvider;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
  */
 public class Nodespace {
 	
-	public static final PowerProvider THE_POWER_PROVIDER = new PowerProvider();
+	public static final PowerNetProvider THE_POWER_PROVIDER = new PowerNetProvider();
 	
 	@Deprecated public static PowerNode getNode(World world, int x, int y, int z) {
 		return (PowerNode) UniNodespace.getNode(world, x, y, z, THE_POWER_PROVIDER);
