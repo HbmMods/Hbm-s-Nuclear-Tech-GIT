@@ -89,7 +89,7 @@ public class CokerRecipes extends SerializableRecipe {
 
 		registerRecipe(fluid, mB, fuel, byproduct);
 	}
-	public static void registerRecipe(FluidType type, int quantity, ItemStack output, FluidStack byproduct) {
+	private static void registerRecipe(FluidType type, int quantity, ItemStack output, FluidStack byproduct) {
 		recipes.put(type, new Triplet(quantity, output, byproduct));
 	}
 
