@@ -14,10 +14,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.main.MainRegistry;
 
 public class RunningConfig {
 
 	public static final Gson gson = new Gson();
+	
+	public static File getConfig(String name) {
+		File folder = MainRegistry.configHbmDir;
+		return new File(folder.getAbsolutePath() + File.separatorChar + name);
+	}
 
 	public static void readConfig(File config, HashMap<String, ConfigWrapper> configMap) {
 

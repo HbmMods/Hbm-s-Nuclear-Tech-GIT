@@ -33,7 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 //the anti-spaghetti. this class provides so much functionality and saves so much time, i just love you, SerializableRecipe <3
-public abstract class SerializableRecipe {
+public abstract class SerializableRecipe { //TODO: #1969
 	
 	public static final Gson gson = new Gson();
 	public static List<SerializableRecipe> recipeHandlers = new ArrayList();
@@ -141,7 +141,7 @@ public abstract class SerializableRecipe {
 	public abstract void writeRecipe(Object recipe, JsonWriter writer) throws IOException;
 	/** Registers the default recipes */
 	public abstract void registerDefaults();
-	/** Deletes all existing recipes, currenly unused */
+	/** Deletes all existing recipes, currently unused */
 	public abstract void deleteRecipes();
 	/** A routine called after registering all recipes, whether it's a template or not. Good for IMC functionality. */
 	public void registerPost() { }

@@ -3,8 +3,8 @@ package com.hbm.potion;
 import java.lang.reflect.Field;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
 import com.hbm.config.PotionConfig;
+import com.hbm.config.ServerConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.explosion.ExplosionLarge;
@@ -107,7 +107,7 @@ public class HbmPotion extends Potion {
 			if(!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
-			if(GeneralConfig.enableHardcoreTaint && !entity.worldObj.isRemote) {
+			if(ServerConfig.TAINT_TRAILS.get() && !entity.worldObj.isRemote) {
 				
 				int x = (int) Math.floor(entity.posX);
 				int y = (int) Math.floor(entity.posY);

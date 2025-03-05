@@ -3,6 +3,7 @@
   * Functions like `/ntmclient` but for common settings
   * Can toggle `DAMAGE_COMPATIBILITY_MODE`, off by default, enables a more compatible (but slightly jankier) version of the bullet damage code
   * `MINE_<xxx>_DAMAGE` can be used to adjust landmine damage
+  * `TAINT_TRAILS` now replaces the hardcore taint config option, making taint blocks more potent and the potion effect trail taint blocks
 
 ## Changed
 * Fat mines now use the standardized mini nuke code
@@ -17,8 +18,10 @@
   * Taint has a 25% chance of splashing down when replacing a block with no supports, causing structures to collapse and taint to spread faster
   * Similar to soil sand, entities will sink in taint and get slowed down
   * The sludge consumeth
+* `enableGuns` config option now applies to SEDNA system guns, simply canceling all gun-related keybinds
 
 ## Fixed
 * Fixed animation error on the MAS-36
 * Fixed drone docks, requester and provider crates not dropping their contents when broken
 * Fixed all missing texture errors that appear in the startup log
+* Potentially fixed a crash with mekanism during the recipe change phase
