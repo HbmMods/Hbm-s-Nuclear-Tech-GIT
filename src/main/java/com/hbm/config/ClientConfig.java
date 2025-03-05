@@ -1,15 +1,13 @@
 package com.hbm.config;
 
 import com.google.gson.Gson;
-import com.hbm.config.RunningConfig.ConfigWrapper;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
 import java.io.File;
 import java.util.HashMap;
 
 // https://youtube.com/shorts/XTHZWqZt_AI
-public class ClientConfig {
+public class ClientConfig extends RunningConfig {
 
 	public static final Gson gson = new Gson();
 	public static HashMap<String, ConfigWrapper> configMap = new HashMap();
@@ -56,23 +54,20 @@ public class ClientConfig {
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */
 	public static void initConfig() {
 		initDefaults();
-		File folder = MainRegistry.configHbmDir;
-		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
+		File config = getConfig("hbmClient.json");
 		if(config.exists()) readConfig(config);
 		refresh();
 	}
 
 	/** Writes over the config file using the running config. */
 	public static void refresh() {
-		File folder = MainRegistry.configHbmDir;
-		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
+		File config = getConfig("hbmClient.json");
 		writeConfig(config);
 	}
 
 	/** Writes over the running config using the config file. */
 	public static void reload() {
-		File folder = MainRegistry.configHbmDir;
-		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
+		File config = getConfig("hbmClient.json");
 		if(config.exists()) readConfig(config);
 	}
 

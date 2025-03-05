@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
@@ -169,6 +170,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	}
 
 	public void handleKeybind(EntityLivingBase entity, IInventory inventory, ItemStack stack, EnumKeybind keybind, boolean newState) {
+		if(!GeneralConfig.enableGuns) return;
+		
 		int configs = this.configs_DNA.length;
 		
 		for(int i = 0; i < configs; i++) {

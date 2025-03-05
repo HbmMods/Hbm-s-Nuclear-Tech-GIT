@@ -2,6 +2,7 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
@@ -124,7 +125,7 @@ public class BlockCablePaintable extends BlockContainer implements IToolable, IB
 		return IBlockMultiPass.getRenderType();
 	}
 
-	public static class TileEntityCablePaintable extends TileEntityCableBaseNT {
+	public static class TileEntityCablePaintable extends TileEntityCableBaseNT implements ICopiable {
 
 		private Block block;
 		private int meta;
@@ -167,6 +168,24 @@ public class BlockCablePaintable extends BlockContainer implements IToolable, IB
 			super.writeToNBT(nbt);
 			if(block != null) nbt.setInteger("block", Block.getIdFromBlock(block));
 			nbt.setInteger("meta", meta);
+		}
+
+		@Override
+		public NBTTagCompound getSettings(World world, int x, int y, int z) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			if(block != null) {
+				nbt.setInteger("paintblock", Block.getIdFromBlock(block));
+				nbt.setInteger("paintmeta", meta);
+			}
+			return nbt;
+		}
+
+		@Override
+		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+			if(nbt.hasKey("paintblock")) {
+				this.block = Block.getBlockById(nbt.getInteger("paintblock"));
+				this.meta = nbt.getInteger("paintmeta");
+			}
 		}
 	}
 }
