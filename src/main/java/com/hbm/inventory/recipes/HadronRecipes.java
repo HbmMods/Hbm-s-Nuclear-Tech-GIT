@@ -14,7 +14,7 @@ import com.hbm.tileentity.machine.TileEntityHadron.EnumHadronState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class HadronRecipes extends SerializableRecipe {
+@Deprecated public class HadronRecipes extends SerializableRecipe {
 	
 	/*
 	 * Since we're dealing with like 10 or so recipes, using a HashMap (or to combine two keys, a HashMap *in* a HashMap)

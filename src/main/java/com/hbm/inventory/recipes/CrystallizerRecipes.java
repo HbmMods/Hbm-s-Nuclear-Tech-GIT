@@ -235,6 +235,12 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(P_WHITE.dust(), new CrystallizerRecipe(new ItemStack(ModItems.ingot_phosphorus), utilityTime), new FluidStack(Fluids.AROMATICS, 50));
 		}
 
+		/// COMPAT CINNABAR DUST ///
+		List<ItemStack> dustCinnabar = OreDictionary.getOres(CINNABAR.dust());
+		if(dustCinnabar != null && !dustCinnabar.isEmpty()) {
+			registerRecipe(CINNABAR.dust(), new CrystallizerRecipe(new ItemStack(ModItems.cinnebar), utilityTime), new FluidStack(Fluids.PEROXIDE, 50));
+		}
+
 		if(!IMCCrystallizer.buffer.isEmpty()) {
 			recipes.putAll(IMCCrystallizer.buffer);
 			MainRegistry.logger.info("Fetched " + IMCCrystallizer.buffer.size() + " IMC crystallizer recipes!");

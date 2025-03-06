@@ -38,8 +38,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class AnvilRecipes extends SerializableRecipe {
 
-	private static List<AnvilSmithingRecipe> smithingRecipes = new ArrayList();
-	private static List<AnvilConstructionRecipe> constructionRecipes = new ArrayList();
+	public static List<AnvilSmithingRecipe> smithingRecipes = new ArrayList();
+	public static List<AnvilConstructionRecipe> constructionRecipes = new ArrayList();
 	
 	public static void register() {
 		registerSmithing();

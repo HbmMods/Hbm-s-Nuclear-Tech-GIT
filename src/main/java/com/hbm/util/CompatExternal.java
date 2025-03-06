@@ -10,11 +10,14 @@ import java.util.function.Consumer;
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidUser;
+import api.hbm.recipe.IRecipeRegisterListener;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
@@ -186,6 +189,15 @@ public class CompatExternal {
 	public static void setWarheadLabel(WarheadType type, String label) { type.labelCustom = label; }
 	public static void setWarheadImpact(WarheadType type, Consumer<EntityMissileCustom> impact) { type.impactCustom = impact; }
 	public static void setWarheadUpdate(WarheadType type, Consumer<EntityMissileCustom> update) { type.updateCustom = update; }
+	
+	/**
+	 * Registers an IRecipeRegisterListener to the recipe system. The listener is called every time a SerializableRecipe instance has its recipes loaded, before the
+	 * config files are written, but after the defaults are initialized.
+	 * @param listener
+	 */
+	public static void registerRecipeRegisterListener(IRecipeRegisterListener listener) {
+		SerializableRecipe.additionalListeners.add(listener);
+	}
 
 	public static void compatExamples() {
 		// Makes all cows be targeted by turrets if player mode is active in addition to the existing rules. Applies to all entities that inherit EntityCow.

@@ -29,14 +29,16 @@ import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
 
+import api.hbm.recipe.IRecipeRegisterListener;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 //the anti-spaghetti. this class provides so much functionality and saves so much time, i just love you, SerializableRecipe <3
-public abstract class SerializableRecipe { //TODO: #1969
+public abstract class SerializableRecipe {
 	
 	public static final Gson gson = new Gson();
 	public static List<SerializableRecipe> recipeHandlers = new ArrayList();
+	public static List<IRecipeRegisterListener> additionalListeners = new ArrayList();
 	
 	public boolean modified = false;
 	
@@ -113,6 +115,10 @@ public abstract class SerializableRecipe { //TODO: #1969
 			} else {
 				MainRegistry.logger.info("No recipe file found, registering defaults for " + recipe.getFileName());
 				recipe.registerDefaults();
+				
+				for(IRecipeRegisterListener listener : additionalListeners) {
+					listener.onRecipeLoad(recipe.getClass().getSimpleName());
+				}
 				
 				File recTemplate = new File(recDir.getAbsolutePath() + File.separatorChar + "_" + recipe.getFileName());
 				MainRegistry.logger.info("Writing template file " + recTemplate.getName());
