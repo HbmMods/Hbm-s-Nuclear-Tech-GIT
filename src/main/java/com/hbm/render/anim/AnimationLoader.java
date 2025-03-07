@@ -69,7 +69,7 @@ public class AnimationLoader {
 		if(json.has("rotmode")) {
 			for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("rotmode").entrySet()) {
 				String mode = root.getValue().getAsString();
-	
+
 				double[] rotMode = new double[3];
 				rotMode[0] = getRot(mode.charAt(2));
 				rotMode[1] = getRot(mode.charAt(0));
@@ -115,45 +115,27 @@ public class AnimationLoader {
 		if(json.has("location")) {
 			JsonObject location = json.getAsJsonObject("location");
 
-			if(location.has("x")) {
-				addToSequence(sequence, Dimension.TX, location.getAsJsonArray("x"));
-			}
-			if(location.has("y")) {
-				addToSequence(sequence, Dimension.TY, location.getAsJsonArray("y"));
-			}
-			if(location.has("z")) {
-				addToSequence(sequence, Dimension.TZ, location.getAsJsonArray("z"));
-			}
+			if(location.has("x")) addToSequence(sequence, Dimension.TX, location.getAsJsonArray("x"));
+			if(location.has("y")) addToSequence(sequence, Dimension.TY, location.getAsJsonArray("y"));
+			if(location.has("z")) addToSequence(sequence, Dimension.TZ, location.getAsJsonArray("z"));
 		}
 
 		// Rotation fcurves, only euler at the moment
 		if(json.has("rotation_euler")) {
 			JsonObject rotation = json.getAsJsonObject("rotation_euler");
 
-			if(rotation.has("x")) {
-				addToSequence(sequence, Dimension.RX, rotation.getAsJsonArray("x"));
-			}
-			if(rotation.has("y")) {
-				addToSequence(sequence, Dimension.RY, rotation.getAsJsonArray("y"));
-			}
-			if(rotation.has("z")) {
-				addToSequence(sequence, Dimension.RZ, rotation.getAsJsonArray("z"));
-			}
+			if(rotation.has("x")) addToSequence(sequence, Dimension.RX, rotation.getAsJsonArray("x"));
+			if(rotation.has("y")) addToSequence(sequence, Dimension.RY, rotation.getAsJsonArray("y"));
+			if(rotation.has("z")) addToSequence(sequence, Dimension.RZ, rotation.getAsJsonArray("z"));
 		}
 
 		// Scale fcurves
 		if(json.has("scale")) {
 			JsonObject scale = json.getAsJsonObject("scale");
 
-			if(scale.has("x")) {
-				addToSequence(sequence, Dimension.SX, scale.getAsJsonArray("x"));
-			}
-			if(scale.has("y")) {
-				addToSequence(sequence, Dimension.SY, scale.getAsJsonArray("y"));
-			}
-			if(scale.has("z")) {
-				addToSequence(sequence, Dimension.SZ, scale.getAsJsonArray("z"));
-			}
+			if(scale.has("x")) addToSequence(sequence, Dimension.SX, scale.getAsJsonArray("x"));
+			if(scale.has("y")) addToSequence(sequence, Dimension.SY, scale.getAsJsonArray("y"));
+			if(scale.has("z")) addToSequence(sequence, Dimension.SZ, scale.getAsJsonArray("z"));
 		}
 
 		sequence.offset = offset;
