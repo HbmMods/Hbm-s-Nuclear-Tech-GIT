@@ -37,6 +37,14 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	public static enum EnumWatzType {
 
 		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	20D,	0.01D,		new FunctionLinear(1.5D), new FunctionSqrtFalling(10D), null),
+		ANTIMATTER(		0x000000, 0x000000, 0,		20D,	0.005D,		new FunctionLinear(5D),  new FunctionSqrtFalling(100D), null),
+		TESTOBJFOE(		0x3CB371, 0x000000, 0,		11.1D,	0.0011D,	new FunctionExperiment(11.1D), new FunctionSqrtFalling(50D), null),
+		DIGAMMA(		0xFF1493, 0xC71585, 2_500,	2000D,	11D,		new FunctionQuadratic(111000D), new FunctionSqrtFalling(5000D), null),
+		XFE(			0x4169E1, 0x191970, 0,		5D,		0.0050D,	new FunctionLinear(5D), new FunctionSqrtFalling(50D), null),
+		GLDONE(			0xDAA520, 0x8B4513, 0,		10D,	0.0062D,	new FunctionSqrt(16.2D), new FunctionSqrtFalling(15D), null),
+		GLDSX(			0xDAA520, 0xCD853F, 3_100,	3.1D,	0.0062D,	new FunctionLinear(5D), new FunctionSqrtFalling(10D), null),
+		GLDTWO(			0xDAA520, 0x800000, 0,		6.2D,	0.0062D,	new FunctionLinear(10D), new FunctionSqrtFalling(10D), null),
+		GLDSY(			0xDAA520, 0xBC8F8F, 5_000,	10D,	0.005D,		new FunctionLinear(15D), new FunctionSqrtFalling(10D), null),
 		HES(			0x66DCD6, 0x023933, 1_750,	20D,	0.005D,		new FunctionLinear(1.25D), new FunctionSqrtFalling(15D), null),
 		MES(			0xCBEADF, 0x28473C, 1_500,	15D,	0.0025D,	new FunctionLinear(1.15D), new FunctionSqrtFalling(15D), null),
 		LES(			0xABB4A8, 0x0C1105, 1_250,	15D,	0.00125D,	new FunctionLinear(1D), new FunctionSqrtFalling(20D), null),
