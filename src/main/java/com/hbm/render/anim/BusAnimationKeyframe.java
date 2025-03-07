@@ -236,12 +236,12 @@ public class BusAnimationKeyframe {
 
 	// Blender bezier solvers, but rewritten (pain)
 	private double solveCubic(double c0, double c1, double c2, double c3) {
-		if(c3 > 0.000001) {
+		if(c3 > 0.000001 || c3 < -0.000001) {
 			double a = c2 / c3;
 			double b = c1 / c3;
 			double c = c0 / c3;
 			a = a / 3;
-		
+
 			double p = b / 3 - a * a;
 			double q = (2 * a * a * a - a * b + c) / 2;
 			double d = q * q + p * p * p;
