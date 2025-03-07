@@ -861,7 +861,9 @@ public class MainRegistry {
 
 		FalloutConfigJSON.initialize();
 		ItemPoolConfigJSON.initialize();
+		
 		ClientConfig.initConfig();
+		ServerConfig.initConfig();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
@@ -948,6 +950,7 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandSatellites());
 		event.registerServerCommand(new CommandRadiation());
 		event.registerServerCommand(new CommandPacketInfo());
+		event.registerServerCommand(new CommandReloadServer());
 	}
 
 	@EventHandler

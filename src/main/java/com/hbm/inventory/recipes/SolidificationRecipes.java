@@ -56,7 +56,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 	//aromatics can be idfk wax or soap or sth, perhaps artificial lubricant?
 	//on that note, add more leaded variants
 
-	private static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
+	public static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {

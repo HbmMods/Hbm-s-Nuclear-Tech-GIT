@@ -1,17 +1,24 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
-public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	/** channel we're broadcasting on/listening to */
 	public String channel = "";
@@ -102,5 +109,32 @@ public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IC
 		for(int i = 0; i < 16; i++) if(data.hasKey("m" + i)) this.mapping[i] = data.getString("m" + i);
 
 		this.markDirty();
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "radio_torch";
+	}
+
+	@Callback(direct = true, limit = 4, doc = "setChannle(channel: string) -- Set the channel the torch is listening/broadcasting to")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setChannel(Context context, Arguments args) {
+		channel = args.checkString(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "setPolling(value: boolean) -- Switches state change mode to tick-based polling")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setPolling(Context context, Arguments args) {
+		polling = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "setCustomMap(value: boolean) -- Switches redstone passthrough to custom signal mapping")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setCustomMap(Context context, Arguments args) {
+		customMap = args.checkBoolean(0);
+		return new Object[] {};
 	}
 }

@@ -77,7 +77,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_sword_alloyed));
 	}
 
-	private static void addRecipe(Object in1, Object in2, ItemStack out) {
+	public static void addRecipe(Object in1, Object in2, ItemStack out) {
 
 		if(in1 instanceof Item) in1 = new ComparableStack((Item) in1);
 		if(in1 instanceof Block) in1 = new ComparableStack((Block) in1);
