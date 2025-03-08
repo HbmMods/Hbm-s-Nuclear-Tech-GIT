@@ -38,8 +38,8 @@ public class RBMKDials {
 		KEY_MODERATOR_EFFICIENCY("dialModeratorEfficiency", 1.0),
 		KEY_ABSORBER_EFFICIENCY("dialAbsorberEfficiency", 1.0),
 		KEY_REFLECTOR_EFFICIENCY("dialReflectorEfficiency", 1.0),
-		KEY_DISABLE_DEPLETION("dialDisableDepletion", true),
-		KEY_DISABLE_XENON("dialDisableXenon", true);
+		KEY_DISABLE_DEPLETION("dialDisableDepletion", false),
+		KEY_DISABLE_XENON("dialDisableXenon", false);
 
 		public final String keyString;
 		public final Object defValue;

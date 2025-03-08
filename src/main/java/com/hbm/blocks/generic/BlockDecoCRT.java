@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blocks.BlockMulti;
 import com.hbm.lib.RefStrings;
+import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockDecoCRT extends BlockMulti {
+public class BlockDecoCRT extends BlockMulti implements INBTTransformable {
 
 	protected String[] variants = new String[] {"crt_clean", "crt_broken", "crt_blinking", "crt_bsod"};
 	@SideOnly(Side.CLIENT) protected IIcon[] icons;
@@ -24,17 +25,17 @@ public class BlockDecoCRT extends BlockMulti {
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-	
+
 	@Override
 	public int getRenderType(){
 		return renderID;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -45,12 +46,12 @@ public class BlockDecoCRT extends BlockMulti {
 	public void registerBlockIcons(IIconRegister reg) {
 		super.registerBlockIcons(reg);
 		this.icons = new IIcon[variants.length];
-		
+
 		for(int i = 0; i < variants.length; i++) {
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + variants[i]);
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
@@ -61,7 +62,7 @@ public class BlockDecoCRT extends BlockMulti {
 	public int damageDropped(int meta) {
 		return (Math.abs(meta) % 16) / 4;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
@@ -73,4 +74,10 @@ public class BlockDecoCRT extends BlockMulti {
 	public int getSubCount() {
 		return 4;
 	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaDecoModel(meta, coordBaseMode);
+	}
+
 }

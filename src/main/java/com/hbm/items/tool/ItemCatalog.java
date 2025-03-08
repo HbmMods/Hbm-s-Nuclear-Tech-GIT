@@ -20,10 +20,7 @@ public class ItemCatalog extends Item implements IGUIProvider {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
-		if(world.isRemote)
-			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
-		
+		if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		return stack;
 	}
 
@@ -46,7 +43,6 @@ public class ItemCatalog extends Item implements IGUIProvider {
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(BobmazonOfferFactory.getOffers(player.getHeldItem()) != null)
 			return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));
-		
 		return null;
 	}
 }

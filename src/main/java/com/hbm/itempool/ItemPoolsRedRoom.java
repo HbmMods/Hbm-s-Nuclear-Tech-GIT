@@ -30,6 +30,7 @@ public class ItemPoolsRedRoom {
 					weighted(ModItems.heart_container, 0, 1, 1, 10),
 					weighted(ModItems.black_diamond, 0, 1, 1, 10),
 					weighted(ModItems.scrumpy, 0, 1, 1, 10),
+					
 					weighted(ModItems.wild_p, 0, 1, 1, 5),
 					weighted(ModItems.card_aos, 0, 1, 1, 5),
 					weighted(ModItems.card_qos, 0, 1, 1, 5),
@@ -39,6 +40,9 @@ public class ItemPoolsRedRoom {
 					weighted(ModItems.flask_infusion, 0, 1, 1, 5),
 					weighted(ModBlocks.boxcar, 0, 1, 1, 5),
 					weighted(ModItems.book_of_, 0, 1, 1, 5),
+					
+					weighted(ModItems.gun_hangman, 0, 1, 1, 1),
+					weighted(ModItems.gun_mas36, 0, 1, 1, 1),
 			};
 		}};
 		

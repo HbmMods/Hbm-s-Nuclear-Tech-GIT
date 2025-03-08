@@ -3,6 +3,8 @@ package com.hbm.util;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.hbm.config.ServerConfig;
+
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -21,7 +23,8 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class EntityDamageUtil {
 
-	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
+	/** Shitty hack, if the first attack fails, it retries with damage + previous damage, allowing damage to penetrate */
+	@Deprecated public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
 
 		if(!victim.attackEntityFrom(src, damage)) {
 
@@ -38,6 +41,7 @@ public class EntityDamageUtil {
 		}
 	}
 
+	/** New and improved entity damage calc - only use this one */
 	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier, float pierceDT, float pierce) {
 		if(living instanceof EntityPlayerMP && source.getEntity() instanceof EntityPlayer) {
 			EntityPlayerMP playerMP = (EntityPlayerMP) living;
@@ -45,14 +49,55 @@ public class EntityDamageUtil {
 			if(!playerMP.canAttackPlayer(attacker)) return false; //handles wack-ass no PVP rule as well as scoreboard friendly fire
 		}
 		DamageResistanceHandler.setup(pierceDT, pierce);
-		living.attackEntityFrom(source, 0F);
 		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
-		//boolean ret = living.attackEntityFrom(source, amount);
 		DamageResistanceHandler.reset();
 		return ret;
 	}
-
+	
 	private static boolean attackEntityFromNTInternal(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
+		boolean superCompatibility = ServerConfig.DAMAGE_COMPATIBILITY_MODE.get();
+		return superCompatibility
+				? attackEntitySuperCompatibility(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier)
+				: attackEntitySEDNAPatch(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
+	}
+	
+	/**
+	 * MK2 SEDNA damage system, currently untested. An even hackier, yet more compatible solution using the vanilla damage calc directly but tweaking certain apsects.
+	 * Limitation: Does not apply DR piercing to vanilla armor
+	 */
+	private static boolean attackEntitySuperCompatibility(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
+		//disable iframes
+		if(ignoreIFrame) { living.lastDamage = 0F; living.hurtResistantTime = 0; }
+		//cache last velocity
+		double motionX = living.motionX;
+		double motionY = living.motionX;
+		double motionZ = living.motionX;
+		//bam!
+		boolean ret = living.attackEntityFrom(source, amount);
+		//restore last velocity
+		living.motionX = motionX;
+		living.motionY = motionY;
+		living.motionZ = motionZ;
+		//apply own knockback
+		Entity entity = source.getEntity();
+		if(entity != null) {
+			double deltaX = entity.posX - living.posX;
+			double deltaZ;
+
+			for(deltaZ = entity.posZ - living.posZ; deltaX * deltaX + deltaZ * deltaZ < 1.0E-4D; deltaZ = (Math.random() - Math.random()) * 0.01D) {
+				deltaX = (Math.random() - Math.random()) * 0.01D;
+			}
+
+			living.attackedAtYaw = (float) (Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - living.rotationYaw;
+			if(knockbackMultiplier > 0) knockBack(living, entity, amount, deltaX, deltaZ, knockbackMultiplier);
+		}
+		return ret;
+	}
+
+	/** MK1 SEDNA damage system, basically re-implements the vanilla code (only from Entity, child class code is effectively ignored) with some adjustments */
+	private static boolean attackEntitySEDNAPatch(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
+		living.attackEntityFrom(source, 0F);
+		if(ignoreIFrame) living.lastDamage = 0F;
 		if(ForgeHooks.onLivingAttack(living, source, amount) && allowSpecialCancel) return false;
 		if(living.isEntityInvulnerable()) return false;
 		if(living.worldObj.isRemote) return false;
@@ -183,9 +228,7 @@ public class EntityDamageUtil {
 		return amount;
 	}
 
-	public static void damageArmorNT(EntityLivingBase living, float amount) {
-
-	}
+	public static void damageArmorNT(EntityLivingBase living, float amount) { }
 
 	/** Currently just a copy of the vanilla damage code */
 	@Deprecated public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount) {

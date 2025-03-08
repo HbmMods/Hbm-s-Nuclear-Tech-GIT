@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 
 public class BreederRecipes extends SerializableRecipe {
 
-	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
+	public static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {

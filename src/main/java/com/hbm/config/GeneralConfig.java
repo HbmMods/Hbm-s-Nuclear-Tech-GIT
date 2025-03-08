@@ -23,13 +23,11 @@ public class GeneralConfig {
 	public static boolean enableVaults = true;
 	public static boolean enableCataclysm = false;
 	public static boolean enableExtendedLogging = false;
-	public static boolean enableHardcoreTaint = false;
 	public static boolean enableGuns = true;
 	public static boolean enableVirus = true;
 	public static boolean enableCrosshairs = true;
 	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
-	public static boolean enableReEval = true;
 	public static boolean enableSilentCompStackErrors = true;
 	public static boolean enableSkyboxes = true;
 	public static boolean enableImpactWorldProvider = true;
@@ -42,7 +40,6 @@ public class GeneralConfig {
 	public static boolean enableSoundExtension = true;
 	public static boolean enableMekanismChanges = true;
 	public static int normalSoundChannels = 200;
-	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
 
@@ -100,15 +97,12 @@ public class GeneralConfig {
 		enableVaults = config.get(CATEGORY_GENERAL, "1.15_enableVaultSpawn", true, "Allows locked safes to spawn").getBoolean(true);
 		enableCataclysm = config.get(CATEGORY_GENERAL, "1.17_enableCataclysm", false, "Causes satellites to fall whenever a mob dies").getBoolean(false);
 		enableExtendedLogging = config.get(CATEGORY_GENERAL, "1.18_enableExtendedLogging", false, "Logs uses of the detonator, nuclear explosions, missile launches, grenades, etc.").getBoolean(false);
-		enableHardcoreTaint = config.get(CATEGORY_GENERAL, "1.19_enableHardcoreTaint", false, "Allows tainted mobs to spread taint").getBoolean(false);
 		enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true, "Prevents new system guns to be fired").getBoolean(true);
 		enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false, "Allows virus blocks to spread").getBoolean(false);
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true, "Shows custom crosshairs when an NTM gun is being held").getBoolean(true);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false, "Enable old reflector oredict name (\"plateDenseLead\") instead of new \"plateTungCar\"").getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true, "Check invalid render distances (over 16, without OptiFine) and fix it").getBoolean(true);
-		enableReEval = config.get(CATEGORY_GENERAL, "1.27_enableReEval", true, "Allows re-evaluating power networks on link remove instead of destroying and recreating").getBoolean(true);
 		enableSilentCompStackErrors = config.get(CATEGORY_GENERAL, "1.28_enableSilentCompStackErrors", false, "Enabling this will disable log spam created by unregistered items in ComparableStack instances.").getBoolean(false);
-		hintPos = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.29_hudOverlayPosition", "0: Top left\n1: Top right\n2: Center right\n3: Center Left", 0);
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
 		enableStatReRegistering = config.get(CATEGORY_GENERAL, "1.33_enableStatReRegistering", true, "If enabled, will re-register item crafting/breaking/usage stats in order to fix a forge bug where modded items just won't show up.").getBoolean(true);

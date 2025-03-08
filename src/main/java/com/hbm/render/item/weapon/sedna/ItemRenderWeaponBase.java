@@ -331,6 +331,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			double inset = 2;
 			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
 			tess.startDrawingQuads();
+			tess.setBrightness(240);
 			tess.setNormal(0F, 1F, 0F);
 			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
 			
@@ -379,6 +380,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			double lengthOffset = 0.125;
 			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
 			tess.startDrawingQuads();
+			tess.setBrightness(240);
 			tess.setNormal(0F, 1F, 0F);
 			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
 			

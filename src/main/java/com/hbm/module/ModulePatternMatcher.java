@@ -2,18 +2,21 @@ package com.hbm.module;
 
 import java.util.List;
 
+import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ModulePatternMatcher {
 
 	public static final String MODE_EXACT = "exact";
 	public static final String MODE_WILDCARD = "wildcard";
+	public static final String MODE_BEDROCK = "bedrock";
 	public String[] modes;
 	
 	public ModulePatternMatcher() {
@@ -41,7 +44,9 @@ public class ModulePatternMatcher {
 		if(iterateAndCheck(names, i ,"nugget")) return;
 		if(iterateAndCheck(names, i ,"plate")) return;
 		
-		if(stack.getHasSubtypes()) {
+		if(stack.getItem() instanceof ItemBedrockOreNew) {
+			modes[i] = MODE_BEDROCK;
+		} else if(stack.getHasSubtypes()) {
 			modes[i] = MODE_EXACT;
 		} else {
 			modes[i] = MODE_WILDCARD;
@@ -68,8 +73,10 @@ public class ModulePatternMatcher {
 			modes[i] = null;
 			return;
 		}
-		
-		if(stack.getHasSubtypes()) {
+
+		if(stack.getItem() instanceof ItemBedrockOreNew) {
+			modes[i] = MODE_BEDROCK;
+		} else if(stack.getHasSubtypes()) {
 			modes[i] = MODE_EXACT;
 		} else {
 			modes[i] = MODE_WILDCARD;
@@ -88,6 +95,12 @@ public class ModulePatternMatcher {
 		if(modes[i] == null) {
 			modes[i] = MODE_EXACT;
 		} else if(MODE_EXACT.equals(modes[i])) {
+			if(pattern.getItem() instanceof ItemBedrockOreNew) {
+				modes[i] = MODE_BEDROCK;
+			} else {
+				modes[i] = MODE_WILDCARD;
+			}
+		} else if(MODE_BEDROCK.equals(modes[i])) {
 			modes[i] = MODE_WILDCARD;
 		} else if(MODE_WILDCARD.equals(modes[i])) {
 			
@@ -128,6 +141,10 @@ public class ModulePatternMatcher {
 		switch(mode) {
 		case MODE_EXACT: return input.isItemEqual(filter) && ItemStack.areItemStackTagsEqual(input, filter);
 		case MODE_WILDCARD: return input.getItem() == filter.getItem() && ItemStack.areItemStackTagsEqual(input, filter);
+		case MODE_BEDROCK:
+			if(input.getItem() != filter.getItem()) return false;
+			if(!(input.getItem() instanceof ItemBedrockOreNew)) return false;
+			return ((ItemBedrockOreNew)input.getItem()).getGrade(input.getItemDamage()) == ((ItemBedrockOreNew)filter.getItem()).getGrade(filter.getItemDamage());
 		default:
 			List<String> keys = ItemStackUtil.getOreDictNames(input);
 			return keys.contains(mode);
@@ -165,4 +182,14 @@ public class ModulePatternMatcher {
 			modes[i] = BufferUtil.readString(buf);
 		}
 	}
+
+	public static String getLabel(String mode) {
+		switch(mode) {
+		case MODE_EXACT: return EnumChatFormatting.YELLOW + "Item and meta match";
+		case MODE_WILDCARD: return EnumChatFormatting.YELLOW + "Item matches";
+		case MODE_BEDROCK: return EnumChatFormatting.YELLOW + "Item and bedrock grade match";
+		default: return EnumChatFormatting.YELLOW + "Ore dict key matches: " + mode;
+		}
+	}
+
 }

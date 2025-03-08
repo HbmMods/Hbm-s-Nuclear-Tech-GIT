@@ -30,7 +30,7 @@ public class Tuple {
 		
 		@Override
 		public int hashCode() {
-			final int prime = 31;
+			final int prime = 27644437;
 			int result = 1;
 			result = prime * result + ((key == null) ? 0 : key.hashCode());
 			result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -86,7 +86,7 @@ public class Tuple {
 		
 		@Override
 		public int hashCode() {
-			final int prime = 31;
+			final int prime = 27644437;
 			int result = 1;
 			result = prime * result + ((x == null) ? 0 : x.hashCode());
 			result = prime * result + ((y == null) ? 0 : y.hashCode());
@@ -126,7 +126,7 @@ public class Tuple {
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
+			final int prime = 27644437;
 			int result = 1;
 			result = prime * result + ((w == null) ? 0 : w.hashCode());
 			result = prime * result + ((x == null) ? 0 : x.hashCode());
@@ -200,7 +200,7 @@ public class Tuple {
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
+			final int prime = 27644437;
 			int result = 1;
 			result = prime * result + ((v == null) ? 0 : v.hashCode());
 			result = prime * result + ((w == null) ? 0 : w.hashCode());

@@ -3,8 +3,8 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
@@ -13,8 +13,13 @@ import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFence;
@@ -23,6 +28,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -138,7 +144,7 @@ public class Landmine extends BlockContainer implements IBomb {
 
 			if(this == ModBlocks.mine_ap) {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 3F);
-				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 10F).setupPiercing(5F, 0.2F));
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, ServerConfig.MINE_AP_DAMAGE.get()).setupPiercing(5F, 0.2F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
 				vnt.explode();
@@ -146,13 +152,13 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 4F);
 				vnt.setBlockAllocator(new BlockAllocatorStandard());
 				vnt.setBlockProcessor(new BlockProcessorStandard());
-				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 35).setupPiercing(15F, 0.2F));
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, ServerConfig.MINE_HE_DAMAGE.get()).setupPiercing(15F, 0.2F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
 				vnt.explode();
 			} else if(this == ModBlocks.mine_shrap) {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 3F);
-				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 7.5F));
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, ServerConfig.MINE_SHRAP_DAMAGE.get()));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
 				vnt.explode();
@@ -160,7 +166,20 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
 			} else if(this == ModBlocks.mine_fat) {
-				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.PARAMS_MEDIUM);
+				
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 10);
+				vnt.setBlockAllocator(new BlockAllocatorStandard(64));
+				vnt.setBlockProcessor(new BlockProcessorStandard());
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, ServerConfig.MINE_NUKE_DAMAGE.get()).withRangeMod(1.5F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.explode();
+				
+				XFactoryCatapult.incrementRad(world, x, y, z, 1.5F);
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "muke");
+				data.setBoolean("balefire", MainRegistry.polaroidID == 11 || world.rand.nextInt(100) == 0);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
+			
 			}
 		}
 

@@ -557,7 +557,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			if(te instanceof TileEntityRBMKRod){
 				TileEntityRBMKRod fuelChannel = (TileEntityRBMKRod)te;
 				data_table.put("fluxQuantity", fuelChannel.lastFluxQuantity);
-				data_table.put("fluxRatio", fuelChannel.fluxRatio);
+				data_table.put("fluxRatio", fuelChannel.fluxFastRatio);
 			}
 
 			if(te instanceof TileEntityRBMKBoiler){

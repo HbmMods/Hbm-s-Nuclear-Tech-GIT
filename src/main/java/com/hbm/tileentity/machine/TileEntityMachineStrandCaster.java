@@ -60,14 +60,14 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 				this.lastAmount = this.amount;
 			}
 
-            if (this.amount >= this.getCapacity()) {
-                //In case of overfill problems, spit out the excess as scrap
-                if (amount > getCapacity()) {
-                    ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, Math.max(amount - getCapacity(), 0)));
-                    EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, scrap);
-                    worldObj.spawnEntityInWorld(item);
-                }
-                this.amount = this.getCapacity();
+			if(this.amount >= this.getCapacity()) {
+				// In case of overfill problems, spit out the excess as scrap
+				if(amount > getCapacity()) {
+					ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, Math.max(amount - getCapacity(), 0)));
+					EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, scrap);
+					worldObj.spawnEntityInWorld(item);
+				}
+				this.amount = this.getCapacity();
 			}
 
 			if(this.amount == 0) {
@@ -78,56 +78,58 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 			ItemMold.Mold mold = this.getInstalledMold();
 
-			if(canProcess()) {
-				int minAmount = mold.getCost() * 9;
-
-				// Makes it flush the buffers after 10 seconds of inactivity
-				if(worldObj.getWorldTime() >= lastCastTick + 200) {
-					minAmount = mold.getCost();
-				}
-
-				if(this.amount >= minAmount) {
-					int itemsCasted = amount / mold.getCost();
-
-					for(int j = 0; j < itemsCasted; j++) {
-						this.amount -= mold.getCost();
-
-						ItemStack out = mold.getOutput(type);
-
-						for(int i = 1; i < 7; i++) {
-							if(slots[i] == null) {
-								slots[i] = out.copy();
-								break;
-							}
-
-							if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
-								slots[i].stackSize += out.stackSize;
-								break;
-							}
-
-						}
+			if(mold != null) {
+				
+				int itemsCasted = amount / mold.getCost();
+				
+				if(canProcess(itemsCasted)) {
+					int minAmount = mold.getCost() * 9;
+	
+					// Makes it flush the buffers after 10 seconds of inactivity
+					if(worldObj.getWorldTime() >= lastCastTick + 200) {
+						minAmount = mold.getCost();
 					}
-					markChanged();
-
-					water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
-					steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
-
-					lastCastTick = worldObj.getWorldTime();
+	
+					if(this.amount >= minAmount) {
+	
+						for(int j = 0; j < itemsCasted; j++) {
+							this.amount -= mold.getCost();
+	
+							ItemStack out = mold.getOutput(type);
+	
+							for(int i = 1; i < 7; i++) {
+								if(slots[i] == null) {
+									slots[i] = out.copy();
+									break;
+								}
+	
+								if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
+									slots[i].stackSize += out.stackSize;
+									break;
+								}
+	
+							}
+						}
+						markChanged();
+	
+						water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
+						steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
+	
+						lastCastTick = worldObj.getWorldTime();
+					}
 				}
 			}
 
 			networkPackNT(150);
-
+		}
 	}
 
-	}
-
-	public boolean canProcess() {
+	public boolean canProcess(int itemsCasted) {
 		ItemMold.Mold mold = this.getInstalledMold();
 		if(type != null && mold != null && mold.getOutput(type) != null) {
 			for(int i = 1; i < 7; i++) {
 				if(slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize + mold.getOutput(type).stackSize <= mold.getOutput(type).getMaxStackSize())
-					return water.getFill() >= getWaterRequired() && steam.getFill() < steam.getMaxFill();
+					return water.getFill() >= getWaterRequired() * itemsCasted && steam.getFill() < steam.getMaxFill();
 
 			}
 		}
@@ -140,12 +142,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		return new DirPos[] {
-				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX,     yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
-				new DirPos(xCoord - rot.offsetX     - dir.offsetX,     yCoord, zCoord - rot.offsetZ     - dir.offsetZ, rot.getOpposite()),
-				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
-				new DirPos(xCoord - rot.offsetX     - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ     - dir.offsetZ * 5, rot.getOpposite())
-			};
+		return new DirPos[] { new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot), new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()), new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot), new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 5, rot.getOpposite()) };
 	}
 
 	public int[][] getMetalPourPos() {
@@ -153,12 +150,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		return new int[][] {
-			new int[] { xCoord + rot.offsetX - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ - dir.offsetZ },
-			new int[] { xCoord - dir.offsetX, yCoord + 2, zCoord - dir.offsetZ },
-			new int[] { xCoord + rot.offsetX, yCoord + 2, zCoord + rot.offsetZ },
-			new int[] { xCoord, yCoord + 2, zCoord }
-			};
+		return new int[][] { new int[] { xCoord + rot.offsetX - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ - dir.offsetZ }, new int[] { xCoord - dir.offsetX, yCoord + 2, zCoord - dir.offsetZ }, new int[] { xCoord + rot.offsetX, yCoord + 2, zCoord + rot.offsetZ }, new int[] { xCoord, yCoord + 2, zCoord } };
 	}
 
 	@Override
@@ -190,11 +182,12 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		}
 		return false;
 
-		}
+	}
 
 	@Override
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.type != null && this.type != stack.material) return false;
+		if(this.type != null && this.type != stack.material)
+			return false;
 		int limit = this.getInstalledMold() != null ? this.getInstalledMold().getCost() * 9 : this.getCapacity();
 		return !(this.amount >= limit || getInstalledMold() == null);
 	}
@@ -215,10 +208,11 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
- 	@Override
+
+	@Override
 	public Mats.MaterialStack standardAdd(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
 		this.type = stack.material;
-        int limit = this.getInstalledMold() != null ? this.getInstalledMold().getCost() * 9 : this.getCapacity();
+		int limit = this.getInstalledMold() != null ? this.getInstalledMold().getCost() * 9 : this.getCapacity();
 		if(stack.amount + this.amount <= limit) {
 			this.amount += stack.amount;
 			return null;
@@ -231,6 +225,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 		return stack;
 	}
+
 	@Override
 	public FluidTank[] getSendingTanks() {
 		return new FluidTank[] { steam };
@@ -287,7 +282,8 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i == 0) return stack.getItem() == ModItems.mold;
+		if(i == 0)
+			return stack.getItem() == ModItems.mold;
 		return false;
 	}
 
@@ -331,13 +327,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	public AxisAlignedBB getRenderBoundingBox() {
 
 		if(bb == null) {
-			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 7,
-					yCoord,
-					zCoord - 7,
-					xCoord + 7,
-					yCoord + 3,
-					zCoord + 7);
+			bb = AxisAlignedBB.getBoundingBox(xCoord - 7, yCoord, zCoord - 7, xCoord + 7, yCoord + 3, zCoord + 7);
 		}
 		return bb;
 	}

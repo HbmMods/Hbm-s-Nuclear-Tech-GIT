@@ -40,8 +40,8 @@ public class SpentCasing implements Cloneable {
 	private int[] colors;
 	private CasingType type;
 	private String bounceSound;
-	private float bounceYaw = 0F;
-	private float bouncePitch = 0F;
+	private float bounceYaw = 1F;
+	private float bouncePitch = 1F;
 	private int maxAge = 240;
 	
 	public SpentCasing(CasingType type) {
@@ -86,6 +86,7 @@ public class SpentCasing implements Cloneable {
 		return casingMap.get(name);
 	}
 	
+	/** Multiplier for default standard deviation of 10deg per tick, per bounce w/ full y speed */
 	public SpentCasing setBounceMotion(float yaw, float pitch) {
 		this.bounceYaw = yaw;
 		this.bouncePitch = pitch;

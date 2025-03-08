@@ -81,6 +81,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lasrifle,					new ItemRenderLasrifle());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_coilgun,						new ItemRenderCoilgun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hangman,						new ItemRenderHangman());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mas36,						new ItemRenderMAS36());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter,						new ItemRenderBolter());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly,						new ItemRenderFolly());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_aberrator,					new ItemRenderAberrator());
@@ -193,7 +194,7 @@ public class GunFactoryClient {
 		folly_sm.setRendererBeam(LegoClient.RENDER_FOLLY);
 		folly_nuke.setRenderer(LegoClient.RENDER_BIG_NUKE);
 
-		p35800.setRendererBeam(LegoClient.RENDER_LASER_WHITE);
+		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		
@@ -239,6 +240,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_lasrifle)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_coilgun)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_hangman)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_mas36)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_bolter)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_folly)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_aberrator)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_AMMO);

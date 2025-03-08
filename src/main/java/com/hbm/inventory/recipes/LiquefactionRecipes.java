@@ -27,7 +27,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class LiquefactionRecipes extends SerializableRecipe {
 
-	private static HashMap<Object, FluidStack> recipes = new HashMap();
+	public static HashMap<Object, FluidStack> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {

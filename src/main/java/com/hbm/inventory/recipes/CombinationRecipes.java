@@ -34,7 +34,7 @@ import net.minecraft.item.ItemStack;
 
 public class CombinationRecipes extends SerializableRecipe {
 
-	private static HashMap<Object, Pair<ItemStack, FluidStack>> recipes = new HashMap();
+	public static HashMap<Object, Pair<ItemStack, FluidStack>> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {

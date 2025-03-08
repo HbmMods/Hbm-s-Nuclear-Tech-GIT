@@ -106,8 +106,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		@Override
 		public List<PositionedStack> getOtherStacks() {
 			List<PositionedStack> other = new ArrayList();
-			for(PositionedStack pos : output) {
-				other.add(pos);
+			for(int i = 1; i < output.length; i++) {
+				other.add(output[i]);
 			}
 			other.add(machinePositioned);
 			return getCycledIngredients(cycleticks / 20, other);

@@ -1534,6 +1534,7 @@ item.blades_titanium.name=Titansägeblatt
 item.blowtorch.name=Lötlampe
 item.board_copper.name=Kupfertafel
 item.boat_rubber.name=Schlauchboot
+item.bobmazon.name=Bobmazon
 item.bobmazon_hidden.name=Versteckter Katalog
 item.bobmazon_machines.name=Bobmazon: Blöcke und Maschinen
 item.bobmazon_materials.name=Bobmazon: Ressourcen
@@ -2285,6 +2286,7 @@ item.gun_m2.name=üsMG
 item.gun_maresleg.name=Repetierflinte
 item.gun_maresleg_akimbo.name=Repetierflinten
 item.gun_maresleg_broken.name=Broken
+item.gun_mas36.name=Südstern
 item.gun_minigun.name=Minigun
 item.gun_minigun_lacunae.name=Lacunae
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
@@ -3886,6 +3888,10 @@ shape.wiresDense=Dichte Drähte
 
 soundCategory.ntmMachines=NTM Maschinen
 
+stat.ntmBullets=Schüsse gefeuert
+stat.ntmLegendary=Legendäre Gegenstände hergestellt
+stat.ntmMines=Auf Minen getreten
+
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
@@ -5109,6 +5115,7 @@ turret.on=AN
 turret.players=Spieler anzielen: %s
 
 upgrade.consumption=Verbrauch %s
+upgrade.productivity=Produktivität %s
 upgrade.speed=Verarbeitungszeit %s
 
 wavelengths.name.ir=Infrarot

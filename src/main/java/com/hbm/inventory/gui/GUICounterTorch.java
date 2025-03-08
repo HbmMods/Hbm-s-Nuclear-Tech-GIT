@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCounterTorch;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.ModulePatternMatcher;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.network.TileEntityRadioTorchCounter;
@@ -72,16 +73,7 @@ public class GUICounterTorch extends GuiInfoContainer {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
 				if(this.isMouseOverSlot(slot, x, y) && counter.matcher.modes[i] != null) {
-					
-					String label = EnumChatFormatting.YELLOW + "";
-					
-					switch(counter.matcher.modes[i]) {
-					case "exact": label += "Item and meta match"; break;
-					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + counter.matcher.modes[i]; break;
-					}
-					
-					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", ModulePatternMatcher.getLabel(counter.matcher.modes[i]) }), x, y - 30);
 				}
 			}
 		}

@@ -1226,10 +1226,7 @@ public class ModItems {
 	public static Item siren_track;
 	public static Item fluid_duct;
 
-	public static Item bobmazon_materials;
-	public static Item bobmazon_machines;
-	public static Item bobmazon_weapons;
-	public static Item bobmazon_tools;
+	public static Item bobmazon;
 	public static Item bobmazon_hidden;
 
 	public static Item launch_code_piece;
@@ -1420,7 +1417,6 @@ public class ModItems {
 
 	public static Item missile_custom;
 
-	public static Item missile_carrier;
 	public static Item missile_soyuz;
 	public static Item missile_soyuz_lander;
 	public static Item sat_mapper;
@@ -1498,6 +1494,7 @@ public class ModItems {
 	public static Item gun_lasrifle;
 	public static Item gun_coilgun;
 	public static Item gun_hangman;
+	public static Item gun_mas36;
 	public static Item gun_bolter;
 	public static Item gun_folly;
 	public static Item gun_aberrator;
@@ -2896,7 +2893,7 @@ public class ModItems {
 		demon_core_open = new ItemDemonCore().setUnlocalizedName("demon_core_open").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":demon_core_open");
 		demon_core_closed = new Item().setUnlocalizedName("demon_core_closed").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":demon_core_closed");
 
-		pa_coil = new ItemPACoil().setUnlocalizedName("pa_coil").setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":pa_coil");
+		pa_coil = new ItemPACoil().setUnlocalizedName("pa_coil").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pa_coil");
 
 		particle_empty = new Item().setUnlocalizedName("particle_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":particle_empty");
 		particle_hydrogen = new Item().setUnlocalizedName("particle_hydrogen").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_hydrogen");
@@ -3025,7 +3022,8 @@ public class ModItems {
 		iv_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
 			if(user.hurtResistantTime <= 0) {
 				ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_blood));
-				user.attackEntityFrom(DamageSource.magic, 5F);
+				user.setHealth(Math.max(user.getHealth() - 5F, 0F));
+				if(user.getHealth() <= 0) user.onDeath(DamageSource.magic);
 			}
 		}).setUnlocalizedName("iv_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_empty");
 
@@ -3077,7 +3075,7 @@ public class ModItems {
 		gas_mask_filter_combo = new ItemFilter().setUnlocalizedName("gas_mask_filter_combo").setTextureName(RefStrings.MODID + ":gas_mask_filter_combo");
 		gas_mask_filter_rag = new ItemFilter().setUnlocalizedName("gas_mask_filter_rag").setTextureName(RefStrings.MODID + ":gas_mask_filter_rag");
 		gas_mask_filter_piss = new ItemFilter().setUnlocalizedName("gas_mask_filter_piss").setTextureName(RefStrings.MODID + ":gas_mask_filter_piss");
-		jetpack_tank = new ItemSyringe().setUnlocalizedName("jetpack_tank").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":jetpack_tank");
+		jetpack_tank = new ItemSyringe().setUnlocalizedName("jetpack_tank").setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":jetpack_tank");
 		gun_kit_1 = new ItemRepairKit(10).setUnlocalizedName("gun_kit_1").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gun_kit_1");
 		gun_kit_2 = new ItemRepairKit(100).setUnlocalizedName("gun_kit_2").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gun_kit_2");
 		cbt_device = new ItemSyringe().setUnlocalizedName("cbt_device").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":cbt_device");
@@ -3652,7 +3650,6 @@ public class ModItems {
 		missile_shuttle = new ItemMissile(MissileFormFactor.OTHER, MissileTier.TIER3, MissileFuel.KEROSENE_PEROXIDE).setUnlocalizedName("missile_shuttle").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_shuttle");
 		missile_stealth = new ItemMissile(MissileFormFactor.STRONG, MissileTier.TIER1).setUnlocalizedName("missile_stealth").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_stealth");
 		missile_test = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_test").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_micro");
-		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_carrier");
 		missile_soyuz = new ItemSoyuz().setUnlocalizedName("missile_soyuz").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz");
 		missile_soyuz_lander = new ItemCustomLore().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
 		missile_custom = new ItemCustomMissile().setUnlocalizedName("missile_custom").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_custom");
@@ -3833,7 +3830,7 @@ public class ModItems {
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
 		gun_cryolator_ammo = new Item().setUnlocalizedName("gun_cryolator_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryolator_ammo");
-		gun_cryocannon = new ItemCryoCannon(GunEnergyFactory.getCryoCannonConfig()).setUnlocalizedName("gun_cryocannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryocannon");
+		gun_cryocannon = new ItemCryoCannon(GunEnergyFactory.getCryoCannonConfig()).setUnlocalizedName("gun_cryocannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_fireext = new ItemGunBase(GunEnergyFactory.getExtConfig()).setUnlocalizedName("gun_fireext").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fireext");
 
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
@@ -4225,10 +4222,7 @@ public class ModItems {
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":cassette");
 		fluid_duct = new ItemFluidDuct().setUnlocalizedName("fluid_duct").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":duct");
 
-		bobmazon_materials = new ItemCatalog().setUnlocalizedName("bobmazon_materials").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_materials");
-		bobmazon_machines = new ItemCatalog().setUnlocalizedName("bobmazon_machines").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_machines");
-		bobmazon_weapons = new ItemCatalog().setUnlocalizedName("bobmazon_weapons").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_weapons");
-		bobmazon_tools = new ItemCatalog().setUnlocalizedName("bobmazon_tools").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_tools");
+		bobmazon = new ItemCatalog().setUnlocalizedName("bobmazon").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bobmazon");
 		bobmazon_hidden = new ItemCatalog().setUnlocalizedName("bobmazon_hidden").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":bobmazon_special");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.aMatEuph, 0).setUnlocalizedName("euphemium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
@@ -5840,10 +5834,7 @@ public class ModItems {
 		GameRegistry.registerItem(journal_pip, journal_pip.getUnlocalizedName());
 		GameRegistry.registerItem(journal_bj, journal_bj.getUnlocalizedName());
 		GameRegistry.registerItem(journal_silver, journal_silver.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_materials, bobmazon_materials.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_machines, bobmazon_machines.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_weapons, bobmazon_weapons.getUnlocalizedName());
-		GameRegistry.registerItem(bobmazon_tools, bobmazon_tools.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon, bobmazon.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_hidden, bobmazon_hidden.getUnlocalizedName());
 
 		//Hydraulic Press Stamps
@@ -6230,7 +6221,7 @@ public class ModItems {
 		GameRegistry.registerItem(plastic_bag, plastic_bag.getUnlocalizedName());
 
 		GameRegistry.registerItem(casing_bag, casing_bag.getUnlocalizedName());
-		
+
 		//Keys and Locks
 		GameRegistry.registerItem(key, key.getUnlocalizedName());
 		GameRegistry.registerItem(key_red, key_red.getUnlocalizedName());
@@ -6282,7 +6273,6 @@ public class ModItems {
 		GameRegistry.registerItem(missile_doomsday, missile_doomsday.getUnlocalizedName());
 		GameRegistry.registerItem(missile_doomsday_rusted, missile_doomsday_rusted.getUnlocalizedName());
 		//Rockets
-		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz, missile_soyuz.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz_lander, missile_soyuz_lander.getUnlocalizedName());
 		GameRegistry.registerItem(missile_custom, missile_custom.getUnlocalizedName());
@@ -6493,6 +6483,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_lasrifle, gun_lasrifle.getUnlocalizedName());
 		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hangman, gun_hangman.getUnlocalizedName());
+		GameRegistry.registerItem(gun_mas36, gun_mas36.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
 		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		GameRegistry.registerItem(gun_aberrator, gun_aberrator.getUnlocalizedName());

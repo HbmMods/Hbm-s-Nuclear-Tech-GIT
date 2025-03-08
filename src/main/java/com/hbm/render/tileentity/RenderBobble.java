@@ -49,9 +49,14 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_microwave = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/microwave.png");
 	public static final ResourceLocation bobble_peep = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/peep.png");
 	public static final ResourceLocation bobble_mellow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8.png");
+	public static final ResourceLocation bobble_mellow_glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8_glow.png");
+
+	private long time;
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
+		time = System.currentTimeMillis();
+
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		
@@ -288,8 +293,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.75, 0);
-		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed) * amplitude, 1, 0, 0);
-		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed + (Math.PI * 0.5)) * amplitude, 0, 0, 1);
+		GL11.glRotated(Math.sin(time * speed) * amplitude, 1, 0, 0);
+		GL11.glRotated(Math.sin(time * speed + (Math.PI * 0.5)) * amplitude, 0, 0, 1);
 		
 		GL11.glRotated(rotHead[0], 1, 0, 0);
 		GL11.glRotated(rotHead[1], 0, 1, 0);
@@ -342,7 +347,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float) Math.sin(System.currentTimeMillis() * 0.001D) * 0.05F);
+		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float) Math.sin(time * 0.001D) * 0.05F);
 		bobble.renderPart("PelletShine");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -365,8 +370,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0.75, 0);
-		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed) * amplitude, 1, 0, 0);
-		GL11.glRotated(Math.sin(System.currentTimeMillis() * speed + (Math.PI * 0.5)) * amplitude, 0, 0, 1);
+		GL11.glRotated(Math.sin(time * speed) * amplitude, 1, 0, 0);
+		GL11.glRotated(Math.sin(time * speed + (Math.PI * 0.5)) * amplitude, 0, 0, 1);
 		GL11.glTranslated(0, -0.75, 0);
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -452,11 +457,13 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			//shotgun.renderDud(0.0625F);
 			break;
 		case MELLOW:
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			bindTexture(bobble_mellow_glow);
+			renderGuy(type);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 			this.bindTexture(lamp);
 			bobble.renderPart("Fluoro");
 			this.bindTexture(glow);

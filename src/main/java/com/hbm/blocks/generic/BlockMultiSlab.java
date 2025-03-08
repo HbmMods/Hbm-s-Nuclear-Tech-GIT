@@ -39,7 +39,7 @@ public class BlockMultiSlab extends BlockSlab implements IStepTickReceiver {
 			}
 		}
 		
-		this.setBlockTextureName(RefStrings.MODID + ":concrete_smooth");
+		this.setBlockTextureName(RefStrings.MODID + ":concrete");
 	}
 	
 	@Override

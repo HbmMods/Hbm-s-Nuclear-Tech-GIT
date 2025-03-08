@@ -1,6 +1,7 @@
 package com.hbm.lib;
 
 import com.hbm.world.gen.MapGenNTMFeatures;
+import com.hbm.world.gen.NBTStructure;
 import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
@@ -18,9 +19,6 @@ public class HbmWorld {
 	public static NTMWorldGenerator worldGenerator;
 
 	public static void initWorldGen() {
-
-		//MapGenStructureIO.registerStructure(StructureStartTest.class, "HFR_STRUCTURE");
-		//MapGenStructureIO.func_143031_a(StructureComponentTest.class, "HFR_COMPONENT");
 		MapGenStructureIO.registerStructure(MapGenNTMFeatures.Start.class, "NTMFeatures");
 		MapGenStructureIO.registerStructure(BunkerStart.class, "NTMBunker");
 		registerNTMFeatures();
@@ -30,15 +28,16 @@ public class HbmWorld {
 		worldGenerator = new NTMWorldGenerator();
 		registerWorldGen(worldGenerator, 1); //Ideally, move everything over from HbmWorldGen to NTMWorldGenerator
 		MinecraftForge.EVENT_BUS.register(worldGenerator);
-		//registerWorldGen(new WorldGenTest(), 1);
+
+		NBTStructure.register();
 	}
 
-	public static void registerWorldGen(IWorldGenerator nukerWorldGen, int weightedProbability) {
+	private static void registerWorldGen(IWorldGenerator nukerWorldGen, int weightedProbability) {
 		GameRegistry.registerWorldGenerator(nukerWorldGen, weightedProbability);
 	}
 
 	/** Register structures in MapGenStructureIO */
-	public static void registerNTMFeatures() {
+	private static void registerNTMFeatures() {
 		CivilianFeatures.registerComponents();
 		OfficeFeatures.registerComponents();
 		RuinFeatures.registerComponents();

@@ -38,7 +38,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		//6-30, formerly oil cracking, coal liquefaction and solidifciation
+		//6-30, formerly oil cracking, coal liquefaction and solidification
 		registerOtherOil();
 
 		recipes.add(new ChemRecipe(36, "COOLANT", 50)

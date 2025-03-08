@@ -36,7 +36,7 @@ public class CrackingRecipes extends SerializableRecipe {
 	public static final int xyl_crack_aroma = 80;
 	public static final int xyl_crack_petro = 20;
 	
-	private static Map<FluidType, Pair<FluidStack, FluidStack>> cracking = new HashMap();
+	public static Map<FluidType, Pair<FluidStack, FluidStack>> cracking = new HashMap();
 	
 	@Override
 	public void registerDefaults() {

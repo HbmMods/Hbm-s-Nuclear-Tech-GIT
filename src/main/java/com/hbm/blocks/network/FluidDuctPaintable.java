@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
@@ -163,7 +164,7 @@ public class FluidDuctPaintable extends FluidDuctBase implements IToolable, IBlo
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
-	public static class TileEntityPipePaintable extends TileEntityPipeBaseNT {
+	public static class TileEntityPipePaintable extends TileEntityPipeBaseNT implements ICopiable {
 
 		private Block block;
 		private int meta;
@@ -194,6 +195,24 @@ public class FluidDuctPaintable extends FluidDuctBase implements IToolable, IBlo
 			super.writeToNBT(nbt);
 			if(block != null) nbt.setInteger("block", Block.getIdFromBlock(block));
 			nbt.setInteger("meta", meta);
+		}
+
+		@Override
+		public NBTTagCompound getSettings(World world, int x, int y, int z) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			if(block != null) {
+				nbt.setInteger("paintblock", Block.getIdFromBlock(block));
+				nbt.setInteger("paintmeta", meta);
+			}
+			return nbt;
+		}
+
+		@Override
+		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+			if(nbt.hasKey("paintblock")) {
+				this.block = Block.getBlockById(nbt.getInteger("paintblock"));
+				this.meta = nbt.getInteger("paintmeta");
+			}
 		}
 	}
 }

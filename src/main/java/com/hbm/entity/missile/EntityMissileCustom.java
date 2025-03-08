@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
@@ -22,6 +21,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectableNT;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -211,7 +211,8 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 				int a = rand.nextInt(r) + (int) posX - (r / 2 - 1);
 				int b = rand.nextInt(r) + (int) posY - (r / 2 - 1);
 				int c = rand.nextInt(r) + (int) posZ - (r / 2 - 1);
-				if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) {
+				Block block = worldObj.getBlock(a, b, c);
+				if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
 					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
 				}
 			}
