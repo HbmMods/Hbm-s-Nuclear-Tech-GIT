@@ -380,11 +380,11 @@ public class RBMKNeutronHandler {
 
 					// The below code checks if the block after the control rod is actually a block or if it's an RBMK rod.
 					// Resolves GitHub issue #1933.
-					if(!NeutronNodeWorld.nodeCache.containsKey(posAfter)) {
+					if(NeutronNodeWorld.getNode(worldObj, pos) == null) {
 						TileEntity te = blockPosToTE(worldObj, posAfter);
 						if (te instanceof TileEntityRBMKBase) {
-							RBMKNeutronNode node = makeNode((TileEntityRBMKBase) te);
-							NeutronNodeWorld.addNode(node);
+							RBMKNeutronNode nodeAfter = makeNode(NeutronNodeWorld.getOrAddWorld(worldObj), (TileEntityRBMKBase) te);
+							NeutronNodeWorld.getOrAddWorld(worldObj).addNode(nodeAfter);
 						} else {
 							irradiateFromFlux(posAfter); // I'm so mad about this...
 						}
