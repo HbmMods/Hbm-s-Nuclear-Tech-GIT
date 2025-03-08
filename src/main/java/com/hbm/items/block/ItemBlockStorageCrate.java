@@ -90,16 +90,18 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		public ItemStack[] slots;
 
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
+
 			this.player = player;
 			this.crate = crate;
 
 			slots = new ItemStack[this.getSizeInventory()];
 			if(crate.stackTagCompound == null)
 				crate.stackTagCompound = new NBTTagCompound();
-			else {
+			else if(!player.worldObj.isRemote) {
 				for (int i = 0; i < this.getSizeInventory(); i++)
-					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)));
+					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)), false);
 			}
+			this.markDirty();
 		}
 
 		@Nonnull
@@ -152,13 +154,18 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public void setInventorySlotContents(int slot, ItemStack stack) {
+			setInventorySlotContents(slot, stack, true);
+		}
+
+		public void setInventorySlotContents(int slot, ItemStack stack, boolean markDirty) {
 
 			if(stack != null) {
 				stack.stackSize = Math.min(stack.stackSize, this.getInventoryStackLimit());
 			}
 
 			slots[slot] = stack;
-			markDirty();
+			if(markDirty) // This is purely so we don't re-serialize *all* the data when *each* item is loaded during the inventory creation.
+				markDirty();
 		}
 
 		@Override
