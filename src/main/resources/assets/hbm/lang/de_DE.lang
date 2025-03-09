@@ -1275,6 +1275,7 @@ item.ammo_standard.r556_sp.name=5,56mm Patrone (Teilmantelgeschoss)
 item.ammo_standard.r762_ap.name=7,62mm Patrone (Panzerbrechend)
 item.ammo_standard.r762_du.name=7,62mm Patrone (Urangeschoss)
 item.ammo_standard.r762_fmj.name=7,62mm Patrone (Vollmantelgeschoss)
+item.ammo_standard.r762_he.name=7,62mm Patrone (Explosiv)
 item.ammo_standard.r762_jhp.name=7,62mm Patrone (Hohlspitz)
 item.ammo_standard.r762_sp.name=7,62mm Patrone (Teilmantelgeschoss)
 item.ammo_standard.rocket_demo.name=Abrissrakete

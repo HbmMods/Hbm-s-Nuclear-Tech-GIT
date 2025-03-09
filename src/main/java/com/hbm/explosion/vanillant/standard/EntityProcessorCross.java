@@ -28,6 +28,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 	protected double nodeDist = 2D;
 	protected IEntityRangeMutator range;
 	protected ICustomDamageHandler damage;
+	protected double knockbackMult = 1D;
 	protected boolean allowSelfDamage = false;
 	
 	public EntityProcessorCross(double nodeDist) {
@@ -36,6 +37,11 @@ public class EntityProcessorCross implements IEntityProcessor {
 	
 	public EntityProcessorCross setAllowSelfDamage() {
 		this.allowSelfDamage = true;
+		return this;
+	}
+	
+	public EntityProcessorCross setKnockback(double mult) {
+		this.knockbackMult = mult;
 		return this;
 	}
 
@@ -104,13 +110,13 @@ public class EntityProcessorCross implements IEntityProcessor {
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
 					if(!(entity instanceof EntityBulletBaseMK4)) {
-						entity.motionX += deltaX * enchKnockback;
-						entity.motionY += deltaY * enchKnockback;
-						entity.motionZ += deltaZ * enchKnockback;
+						entity.motionX += deltaX * enchKnockback * knockbackMult;
+						entity.motionY += deltaY * enchKnockback * knockbackMult;
+						entity.motionZ += deltaZ * enchKnockback * knockbackMult;
 					}
 
 					if(entity instanceof EntityPlayer) {
-						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
+						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
 					}
 				}
 			}

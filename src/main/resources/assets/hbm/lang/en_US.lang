@@ -1999,6 +1999,7 @@ item.ammo_standard.r556_sp.name=5.56mm Round (Soft Point)
 item.ammo_standard.r762_ap.name=7.62mm Round (Armor Piercing)
 item.ammo_standard.r762_du.name=7.62mm Round (Depleted Uranium)
 item.ammo_standard.r762_fmj.name=7.62mm Round (Full Metal Jacket)
+item.ammo_standard.r762_he.name=7.62mm Round (High-Explosive)
 item.ammo_standard.r762_jhp.name=7.62mm Round (Jacketed Hollow Point)
 item.ammo_standard.r762_sp.name=7.62mm Round (Soft Point)
 item.ammo_standard.rocket_demo.name=Rocket, Demolition

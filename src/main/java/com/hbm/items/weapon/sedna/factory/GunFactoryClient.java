@@ -132,6 +132,7 @@ public class GunFactoryClient {
 		r762_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		r762_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
 		r762_du.setRenderer(LegoClient.RENDER_DU_BULLET);
+		r762_he.setRenderer(LegoClient.RENDER_HE_BULLET);
 		
 		bmg50_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		bmg50_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);

@@ -49,11 +49,11 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	public boolean isProgressing;
 	public float progress;
 	public int burnTime;
+	public double burnHeat = 1D;
 	public int maxBurnTime;
 	public int steamUsed = 0;
 	public boolean isVenting;
 	public MaterialStack output;
-	public ItemStack lastFuel;
 	public static final int maxOutput = MaterialShapes.BLOCK.q(16);
 
 	public int anim;
@@ -131,14 +131,14 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			if(recipe != null) {
 
 				if(this.burnTime <= 0 && slots[4] != null && TileEntityFurnace.isItemFuel(slots[4])) {
-					lastFuel = slots[4];
-					this.maxBurnTime = this.burnTime = burnModule.getBurnTime(lastFuel) / 2;
+					this.burnHeat = burnModule.getMod(slots[4], burnModule.getModHeat());
+					this.maxBurnTime = this.burnTime = burnModule.getBurnTime(slots[4]) / 2;
 					this.decrStackSize(4, 1);
 					this.markChanged();
 				}
 
 				if(this.canProcess(recipe)) {
-					float speed = Math.max((float) burnModule.getMod(lastFuel, burnModule.getModHeat()), 1);
+					float speed = Math.max((float) burnHeat, 1);
 					this.progress += speed / recipe.duration;
 
 					speed =  (float)(13 * Math.log10(speed) + 1);
@@ -256,14 +256,12 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		this.tanks[2].readFromNBT(nbt, "t2");
 		this.progress = nbt.getFloat("prog");
 		this.burnTime = nbt.getInteger("burn");
+		this.burnHeat = nbt.getDouble("heat");
 		this.maxBurnTime = nbt.getInteger("maxBurn");
 		if (nbt.hasKey("outType")) {
 			NTMMaterial mat = Mats.matById.get(nbt.getInteger("outType"));
 			this.output = new MaterialStack(mat, nbt.getInteger("outAmount"));
 		}
-		ItemStack nbtFuel = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("lastFuel"));
-		if(nbtFuel != null)
-			this.lastFuel = nbtFuel;
 	}
 
 	@Override
@@ -274,8 +272,8 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		this.tanks[2].writeToNBT(nbt, "t2");
 		nbt.setFloat("prog", progress);
 		nbt.setInteger("burn", burnTime);
+		nbt.setDouble("heat", burnHeat);
 		nbt.setInteger("maxBurn", maxBurnTime);
-		nbt.setTag("lastFuel", lastFuel.writeToNBT(new NBTTagCompound()));
 		if (this.output != null) {
 			nbt.setInteger("outType", this.output.material.id);
 			nbt.setInteger("outAmount", this.output.amount);

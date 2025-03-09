@@ -27,3 +27,5 @@
 * Fixed drone docks, requester and provider crates not dropping their contents when broken
 * Fixed all missing texture errors that appear in the startup log
 * Potentially fixed a crash with mekanism during the recipe change phase
+* Removed the coke to heavy oil recipe for allowing infinite oil loops
+  * Coke to syngas and coalgas recipes should be fine though, so they stay

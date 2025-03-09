@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4CL;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectTiny;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.NotableComments;
@@ -33,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * "LEGO" - i.e. standardized building blocks which can be used to set up gun configs easily.
@@ -281,6 +283,20 @@ public class Lego {
 		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod).setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+	}
+
+	public static void tinyExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { tinyExplode(bullet, mop, range, 1F); }
+	public static void tinyExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
+		ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+		double x = mop.hitVec.xCoord + dir.offsetX * 0.25D;
+		double y = mop.hitVec.yCoord + dir.offsetY * 0.25D;
+		double z = mop.hitVec.zCoord + dir.offsetZ * 0.25D;
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, x, y, z, range, bullet.getThrower());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod)
+				.setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent).setKnockback(0.25D));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectTiny());
 		vnt.explode();
 	}
 	
