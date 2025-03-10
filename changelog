@@ -4,6 +4,10 @@
   * Can toggle `DAMAGE_COMPATIBILITY_MODE`, off by default, enables a more compatible (but slightly jankier) version of the bullet damage code
   * `MINE_<xxx>_DAMAGE` can be used to adjust landmine damage
   * `TAINT_TRAILS` now replaces the hardcore taint config option, making taint blocks more potent and the potion effect trail taint blocks
+* New ammo types
+  * Explosive 7.62mm
+  * Explosive .50 BMG
+  * Explosive 10 gauge buckshot (unlike 12 gauge which has explosive slugs)
 
 ## Changed
 * Fat mines now use the standardized mini nuke code
@@ -23,7 +27,7 @@
 * Copper wires, like AA and gold, can now be welded into dense wires
 
 ## Fixed
-* Fixed animation error on the MAS-36
+* Fixed animation errors on the MAS-36
 * Fixed drone docks, requester and provider crates not dropping their contents when broken
 * Fixed all missing texture errors that appear in the startup log
 * Potentially fixed a crash with mekanism during the recipe change phase

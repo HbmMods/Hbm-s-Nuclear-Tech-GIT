@@ -3,6 +3,7 @@ package com.hbm.render.world;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.main.ModEventHandlerClient;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 	private IRenderHandler parent;
 
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
+	private static final ResourceLocation lodeStar = new ResourceLocation("hbm:textures/misc/star_lode.png");
 	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/sat_bobmazon.png");
 	
 	/*
@@ -54,6 +56,8 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 			world.provider.setSkyRenderer(this);
 		}
 		
+		Tessellator tessellator = Tessellator.instance;
+		
 		GL11.glPushMatrix();
 		GL11.glDepthMask(false);
 
@@ -68,6 +72,25 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 		
 		GL11.glColor4f(brightness, brightness, brightness, 1.0F);
 		
+		float var12 = 1F + world.rand.nextFloat() * 0.5F;
+		double dist = 100D;
+		
+		if(ModEventHandlerClient.renderLodeStar) {
+			GL11.glPushMatrix();
+			GL11.glRotatef(-75.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(10.0F, 0.0F, 1.0F, 0.0F);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(lodeStar); // GENUINELY shut the fuck up i'm not kidding
+			
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);
+			tessellator.addVertexWithUV(var12, dist, var12, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
+			tessellator.draw();
+			
+			GL11.glPopMatrix();
+		}
+		
 		GL11.glPushMatrix();
 		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -77,10 +100,9 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(digammaStar);
 		
 		float digamma = HbmLivingProps.getDigamma(Minecraft.getMinecraft().thePlayer);
-		float var12 = 1F * (1 + digamma * 0.25F);
-		double dist = 100D - digamma * 2.5;
+		var12 = 1F * (1 + digamma * 0.25F);
+		dist = 100D - digamma * 2.5;
 		
-		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
 		tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);

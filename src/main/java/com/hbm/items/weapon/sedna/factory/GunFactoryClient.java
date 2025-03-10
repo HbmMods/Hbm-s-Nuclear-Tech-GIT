@@ -170,6 +170,7 @@ public class GunFactoryClient {
 		g10_shrapnel.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g10_du.setRenderer(LegoClient.RENDER_DU_BULLET);
 		g10_slug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		g10_explosive.setRenderer(LegoClient.RENDER_HE_BULLET);
 
 		g26_flare.setRenderer(LegoClient.RENDER_FLARE);
 		g26_flare_supply.setRenderer(LegoClient.RENDER_FLARE_SUPPLY);

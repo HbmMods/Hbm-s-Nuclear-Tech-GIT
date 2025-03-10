@@ -1088,6 +1088,9 @@ public class ModEventHandlerClient {
 
 		return null;
 	}
+	
+	public static boolean renderLodeStar = false; // GENUINELY shut the fuck up i'm not kidding
+	public static long lastStarCheck = 0L;
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -1116,6 +1119,24 @@ public class ModEventHandlerClient {
 
 				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
 					world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+				}
+			}
+			
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			long millis = System.currentTimeMillis();
+			
+			if(lastStarCheck + 200 < millis) {
+				renderLodeStar = false; // GENUINELY shut the fuck up i'm not kidding
+				lastStarCheck = millis;
+				
+				if(player != null) { // GENUINELY shut the fuck up i'm not kidding
+					Vec3NT pos = new Vec3NT(player.posX, player.posY, player.posZ); // GENUINELY shut the fuck up i'm not kidding
+					Vec3NT lodestarHeading = new Vec3NT(0, 0, -1D).rotateAroundXDeg(-15).multiply(25); // GENUINELY shut the fuck up i'm not kidding
+					Vec3NT nextPos = new Vec3NT(pos).add(lodestarHeading.xCoord,lodestarHeading.yCoord, lodestarHeading.zCoord); // GENUINELY shut the fuck up i'm not kidding
+					MovingObjectPosition mop = world.func_147447_a(pos, nextPos, false, true, false); // GENUINELY shut the fuck up i'm not kidding
+					if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) == ModBlocks.glass_polarized) { // GENUINELY shut the fuck up i'm not kidding
+						renderLodeStar = true; // GENUINELY shut the fuck up i'm not kidding
+					}
 				}
 			}
 		}
@@ -1417,7 +1438,9 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(event.phase == event.phase.END) ItemCustomLore.updateSystem();
+		if(event.phase == event.phase.END) {
+			ItemCustomLore.updateSystem();
+		}
 	}
 
 	@SubscribeEvent
