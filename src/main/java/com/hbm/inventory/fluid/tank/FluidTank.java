@@ -26,6 +26,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 public class FluidTank {
+	
+	public static final FluidTank[] EMPTY_ARRAY = new FluidTank[0];
 
 	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList<FluidLoadingHandler>();
 	public static final Set<Item> noDualUnload = new HashSet<Item>();

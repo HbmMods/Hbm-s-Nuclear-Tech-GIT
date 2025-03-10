@@ -15,6 +15,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+/**
+ * IFluidProviderMK2 with standard implementation for fluid provision and fluid removal.
+ * @author hbm
+ */
 public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 
 	public default void tryProvide(FluidTank tank, World world, DirPos pos) { tryProvide(tank.getTankType(), tank.getPressure(), world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
@@ -29,8 +33,8 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 		TileEntity te = Compat.getTileStandard(world, x, y, z);
 		boolean red = false;
 		
-		if(te instanceof IFluidConductorMK2) {
-			IFluidConductorMK2 con = (IFluidConductorMK2) te;
+		if(te instanceof IFluidConnectorMK2) {
+			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
 			if(con.canConnect(type, dir.getOpposite())) {
 				
 				GenNode<FluidNetMK2> node = UniNodespace.getNode(world, x, y, z, type.getNetworkProvider());
@@ -102,5 +106,10 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 				amount -= toRem;
 			}
 		}
+	}
+
+	@Override
+	public default long getProviderSpeed(FluidType type, int pressure) {
+		return 1_000_000_000;
 	}
 }

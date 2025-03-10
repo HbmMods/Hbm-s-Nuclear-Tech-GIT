@@ -9,12 +9,12 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidUser, IBufPacketReceiver {
+public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidReceiverMK2, IBufPacketReceiver {
 
 	public long ashTick = 0;
 	public long sootTick = 0;

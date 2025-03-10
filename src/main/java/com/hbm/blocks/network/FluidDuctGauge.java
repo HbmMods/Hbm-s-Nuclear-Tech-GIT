@@ -1,6 +1,7 @@
 package com.hbm.blocks.network;
 
-import api.hbm.fluid.IPipeNet;
+import api.hbm.fluidmk2.FluidNetMK2;
+
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
@@ -30,7 +31,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -109,7 +109,6 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements SimpleComponent, CompatHandler.OCComponent {
 
-		private BigInteger lastMeasurement = BigInteger.valueOf(10);
 		private long deltaTick = 0;
 		private long deltaSecond = 0;
 		private long deltaLastSecond = 0;
@@ -120,22 +119,14 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 
 			if(!worldObj.isRemote) {
 
-				IPipeNet net = this.getPipeNet(this.getType());
+				if(this.node != null && this.node.net != null && this.getType() != Fluids.NONE) {
 
-				if(net != null && this.getType() != Fluids.NONE) {
-					BigInteger total = net.getTotalTransfer();
-					BigInteger delta = total.subtract(this.lastMeasurement);
-					this.lastMeasurement = total;
-
-					try {
-						this.deltaTick = delta.longValueExact();
-						if(worldObj.getTotalWorldTime() % 20 == 0) {
-							this.deltaLastSecond = this.deltaSecond;
-							this.deltaSecond = 0;
-						}
-						this.deltaSecond += deltaTick;
-
-					} catch(Exception ex) { }
+					this.deltaTick = ((FluidNetMK2) this.node.net).fluidTracker;
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						this.deltaLastSecond = this.deltaSecond;
+						this.deltaSecond = 0;
+					}
+					this.deltaSecond += deltaTick;
 				}
 
 				networkPackNT(25);

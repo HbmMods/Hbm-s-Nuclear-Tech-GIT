@@ -3,7 +3,7 @@ package com.hbm.inventory.fluid.tank;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.fluid.FluidType;
 
-import api.hbm.fluid.IFillableItem;
+import api.hbm.fluidmk2.IFillableItem;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 

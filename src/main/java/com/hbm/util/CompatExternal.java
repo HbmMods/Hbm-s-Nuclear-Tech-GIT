@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluidmk2.IFluidUserMK2;
 import api.hbm.recipe.IRecipeRegisterListener;
 
 import com.hbm.blocks.BlockDummyable;
@@ -123,11 +123,11 @@ public class CompatExternal {
 	public static ArrayList<Object[]> getFluidInfoFromTile(TileEntity tile) {
 		ArrayList<Object[]> list = new ArrayList();
 
-		if(!(tile instanceof IFluidUser)) {
+		if(!(tile instanceof IFluidUserMK2)) {
 			return list;
 		}
 
-		IFluidUser container = (IFluidUser) tile;
+		IFluidUserMK2 container = (IFluidUserMK2) tile;
 
 		for(FluidTank tank : container.getAllTanks()) {
 			FluidType type = tank.getTankType();

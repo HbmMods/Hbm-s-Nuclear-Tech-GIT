@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class NodeNet<R extends IGenReceiver, P extends IGenProvider, L extends GenNode> {
+public abstract class NodeNet<R, P, L extends GenNode> {
 	
 	/** Global random for figuring things out like random leftover distribution */
 	public static Random rand = new Random();

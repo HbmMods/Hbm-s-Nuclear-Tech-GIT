@@ -2,7 +2,7 @@ package com.hbm.util;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyHandlerMK2;
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluidmk2.IFluidUserMK2;
 import api.hbm.tile.IInfoProviderEC;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -65,8 +65,8 @@ public class CompatEnergyControl {
 
 		List<Object[]> list = new ArrayList();
 
-		if(tile instanceof IFluidUser) {
-			IFluidUser user = (IFluidUser) tile;
+		if(tile instanceof IFluidUserMK2) {
+			IFluidUserMK2 user = (IFluidUserMK2) tile;
 
 			for(FluidTank tank : user.getAllTanks()) {
 				if(tank.getTankType() == Fluids.SMOKE || tank.getTankType() == Fluids.SMOKE_LEADED || tank.getTankType() == Fluids.SMOKE_POISON) continue;

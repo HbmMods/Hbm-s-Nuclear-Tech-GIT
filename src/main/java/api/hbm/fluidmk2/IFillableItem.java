@@ -1,4 +1,4 @@
-package api.hbm.fluid;
+package api.hbm.fluidmk2;
 
 import com.hbm.inventory.fluid.FluidType;
 

@@ -106,9 +106,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 					this.markChanged();
 				}
 				
-				this.sendingBrake = true;
-				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
-				this.sendingBrake = false;
+				for(DirPos pos : getConPos()) {
+					if(mode == 0 || mode == 2) this.trySubscribe(tank.getTankType(), worldObj, pos);
+					if(mode == 1 || mode == 2) this.tryProvide(tank, worldObj, pos);
+				}
 				
 				tank.loadTank(2, 3, slots);
 				tank.setType(0, 1, slots);

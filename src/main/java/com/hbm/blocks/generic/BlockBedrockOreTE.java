@@ -18,7 +18,7 @@ import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
-import api.hbm.fluid.IFillableItem;
+import api.hbm.fluidmk2.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;

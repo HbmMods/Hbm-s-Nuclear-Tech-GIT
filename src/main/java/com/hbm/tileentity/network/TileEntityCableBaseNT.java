@@ -33,10 +33,6 @@ public class TileEntityCableBaseNT extends TileEntityLoadedBase implements IEner
 		return true;
 	}
 
-	public void onNodeDestroyedCallback() {
-		this.node = null;
-	}
-
 	@Override
 	public void invalidate() {
 		super.invalidate();
