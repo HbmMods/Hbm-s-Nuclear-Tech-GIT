@@ -1,5 +1,6 @@
 package com.hbm.commands;
 
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -27,6 +28,7 @@ public class CommandReloadRecipes extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) {
 		try {
 			SerializableRecipe.initialize();
+			CustomMachineConfigJSON.initialize();
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
 			Fluids.reloadFluids();

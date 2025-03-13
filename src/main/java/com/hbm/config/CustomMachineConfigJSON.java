@@ -25,12 +25,16 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.CraftingManager;
 import com.hbm.main.MainRegistry;
 
+import com.hbm.render.loader.HFRWavefrontObject;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.IModelCustom;
 
 public class CustomMachineConfigJSON {
 
@@ -135,6 +139,21 @@ public class CustomMachineConfigJSON {
 			writer.endObject().setIndent("  ");
 
 			writer.endArray();
+
+			writer.name("customModel").beginObject();
+			writer.name("model").value("models/machines/furnace_steel.obj");
+			writer.name("modelTexture").value("textures/models/machines/furnace_steel.png");
+			writer.name("model_x").value(0.5);
+			writer.name("model_y").value(2.0);
+			writer.name("model_z").value(1.5);
+			writer.name("model_Bounding_x1").value(-1.0);
+			writer.name("model_Bounding_y1").value(0.0);
+			writer.name("model_Bounding_z1").value(0.0);
+			writer.name("model_Bounding_x2").value(1.0);
+			writer.name("model_Bounding_y2").value(5.0);
+			writer.name("model_Bounding_z2").value(2.0);
+			writer.endObject();
+
 			writer.endObject();
 
 			writer.endArray();
@@ -182,32 +201,32 @@ public class CustomMachineConfigJSON {
 					try {
 						JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
 						JsonArray recipeParts = machineObject.get("recipeParts").getAsJsonArray();
-	
+
 						Object[] parts = new Object[recipeShape.size() + recipeParts.size()];
-	
+
 						for(int j = 0; j < recipeShape.size(); j++) {
 							parts[j] = recipeShape.get(j).getAsString();
 						}
-	
+
 						for(int j = 0; j < recipeParts.size(); j++) {
 							Object o = null;
-	
+
 							if(j % 2 == 0) {
 								o = recipeParts.get(j).getAsString().charAt(0); //god is dead and we killed him
 							} else {
 								AStack a = SerializableRecipe.readAStack(recipeParts.get(j).getAsJsonArray());
-	
+
 								if(a instanceof ComparableStack) o = ((ComparableStack) a).toStack();
 								if(a instanceof OreDictStack) o = ((OreDictStack) a).name;
 							}
-	
+
 							parts[j + recipeShape.size()] = o;
 						}
-	
+
 						ItemStack stack = new ItemStack(ModBlocks.custom_machine, 1, i + 100);
 						stack.stackTagCompound = new NBTTagCompound();
 						stack.stackTagCompound.setString("machineType", configuration.unlocalizedName);
-	
+
 						CraftingManager.addRecipeAuto(stack, parts);
 					} catch(Exception ex) {
 						MainRegistry.logger.error("Caught exception trying to parse core recipe for custom machine " + configuration.unlocalizedName);
@@ -233,6 +252,23 @@ public class CustomMachineConfigJSON {
 					}
 
 					configuration.components.add(compDef);
+				}
+
+				if(machineObject.has("customModel")) {
+					JsonObject modelObject = machineObject.get("customModel").getAsJsonObject();
+					MachineConfiguration.CustomModel customModel = new MachineConfiguration.CustomModel();
+					customModel.customModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, modelObject.get("model").getAsString()));
+					customModel.modelTexture = new ResourceLocation(RefStrings.MODID, modelObject.get("modelTexture").getAsString());
+					customModel.model_x = modelObject.get("model_x").getAsDouble();
+					customModel.model_y = modelObject.get("model_y").getAsDouble();
+					customModel.model_z = modelObject.get("model_z").getAsDouble();
+					customModel.model_Bounding_x1 = modelObject.get("model_Bounding_x1").getAsDouble();
+					customModel.model_Bounding_y1 = modelObject.get("model_Bounding_y1").getAsDouble();
+					customModel.model_Bounding_z1 = modelObject.get("model_Bounding_z1").getAsDouble();
+					customModel.model_Bounding_x2 = modelObject.get("model_Bounding_x2").getAsDouble();
+					customModel.model_Bounding_y2 = modelObject.get("model_Bounding_y2").getAsDouble();
+					customModel.model_Bounding_z2 = modelObject.get("model_Bounding_z2").getAsDouble();
+					configuration.customModel = customModel;
 				}
 
 				customMachines.put(configuration.unlocalizedName, configuration);
@@ -280,6 +316,21 @@ public class CustomMachineConfigJSON {
 			public int x;
 			public int y;
 			public int z;
+		}
+		public CustomModel customModel;
+		public static class CustomModel {
+			public IModelCustom customModel;
+			public ResourceLocation modelTexture;
+			public double model_x;
+			public double model_y;
+			public double model_z;
+			public double model_Bounding_x1;
+			public double model_Bounding_y1;
+			public double model_Bounding_z1;
+			public double model_Bounding_x2;
+			public double model_Bounding_y2;
+			public double model_Bounding_z2;
+
 		}
 	}
 }

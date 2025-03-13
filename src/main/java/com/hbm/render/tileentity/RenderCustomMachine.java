@@ -1,6 +1,7 @@
 package com.hbm.render.tileentity;
 
 import com.hbm.config.CustomMachineConfigJSON;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.util.SmallBlockPronter;
 import com.hbm.tileentity.machine.TileEntityCustomMachine;
 
@@ -11,40 +12,55 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RenderCustomMachine extends TileEntitySpecialRenderer {
-	
+
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
-		
+
 		TileEntityCustomMachine custom = (TileEntityCustomMachine) tile;
 		CustomMachineConfigJSON.MachineConfiguration config = custom.config;
 
 		ForgeDirection dir = ForgeDirection.getOrientation(tile.getBlockMetadata());
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		if(config != null && !custom.structureOK) {
-	
-			GL11.glPushMatrix();
-			GL11.glTranslated(x, y, z);
-	
-			bindTexture(TextureMap.locationBlocksTexture);
-			SmallBlockPronter.startDrawing();
-			for(CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition comp : config.components) {
-				int rx = -dir.offsetX * comp.x + rot.offsetX * comp.x;
-				int ry = +comp.y;
-				int rz = -dir.offsetZ * comp.z + rot.offsetZ * comp.z;
-				if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-					rx = +dir.offsetZ * comp.z - rot.offsetZ * comp.z;
-					rz = +dir.offsetX * comp.x - rot.offsetX * comp.x;
+
+		if(config != null) {
+
+			if(!custom.structureOK){
+				GL11.glPushMatrix();
+				GL11.glTranslated(x, y, z);
+
+				bindTexture(TextureMap.locationBlocksTexture);
+				SmallBlockPronter.startDrawing();
+				for (CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition comp : config.components) {
+					int rx = -dir.offsetX * comp.x + rot.offsetX * comp.x;
+					int ry = +comp.y;
+					int rz = -dir.offsetZ * comp.z + rot.offsetZ * comp.z;
+					if (dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+						rx = +dir.offsetZ * comp.z - rot.offsetZ * comp.z;
+						rz = +dir.offsetX * comp.x - rot.offsetX * comp.x;
+					}
+
+					int index = (int) ((System.currentTimeMillis() / 1000) % comp.metas.size());
+					SmallBlockPronter.drawSmolBlockAt(comp.block, comp.metas.get(index).getAsInt(), rx, ry, rz);
+
 				}
-				
-				int index = (int) ((System.currentTimeMillis() / 1000) % comp.metas.size());
-				SmallBlockPronter.drawSmolBlockAt(comp.block, comp.metas.get(index).getAsInt(), rx, ry, rz);
-	
+
+				SmallBlockPronter.draw();
+
+				GL11.glPopMatrix();
 			}
-	
-			SmallBlockPronter.draw();
-	
-			GL11.glPopMatrix();
+			else if(config.customModel!=null){
+				GL11.glPushMatrix();
+				GL11.glTranslated(x + config.customModel.model_x, y + config.customModel.model_y, z + config.customModel.model_z);
+				GL11.glEnable(GL11.GL_LIGHTING);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(config.customModel.modelTexture);
+				config.customModel.customModel.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+
+				GL11.glPopMatrix();
+			}
 		}
 	}
 }
