@@ -27,9 +27,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 
 		this.bindTexture(pyl.color == 0 ? ResourceManager.wire_tex : ResourceManager.wire_greyscale_tex);
 
-		for(int i = 0; i < pyl.connected.size(); i++) {
-
-			int[] wire = pyl.connected.get(i);
+		pyl.getConnected().forEach(wire -> {
 			TileEntity tile = pyl.getWorldObj().getTileEntity(wire[0], wire[1], wire[2]);
 
 			if(tile instanceof TileEntityPylonBase) {
@@ -75,7 +73,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 							first.zCoord + (sZ - first.zCoord) * 0.5);
 				}
 			}
-		}
+		});
 	}
 
 	/**

@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 
-	public List<int[]> connected = new ArrayList<int[]>();
+	protected List<int[]> connected = new ArrayList<>();
 	public int color;
 
 	public static int canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
@@ -136,6 +136,10 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		return mounts[0].addVector(xCoord, yCoord, zCoord);
 	}
 
+	public List<int[]> getConnected() {
+		return connected;
+	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -175,7 +179,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		this.readFromNBT(pkt.func_148857_g());
 	}
 
-	public static enum ConnectionType {
+	public enum ConnectionType {
 		SINGLE,
 		TRIPLE,
 		QUAD
