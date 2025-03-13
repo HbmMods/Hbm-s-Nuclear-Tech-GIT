@@ -138,7 +138,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 	private static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }
 	private static void registerRecipe(FluidType type, int quantity, Block output) { registerRecipe(type, quantity, new ItemStack(output)); }
 	private static void registerRecipe(FluidType type, int quantity, ItemStack output) {
-		recipes.put(type, new Pair<Integer, ItemStack>(quantity, output));
+		recipes.put(type, new Pair<>(quantity, output));
 	}
 
 	public static Pair<Integer, ItemStack> getOutput(FluidType type) {
