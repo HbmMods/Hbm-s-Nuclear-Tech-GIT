@@ -22,6 +22,8 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 	public default long getReceiverSpeed(FluidType type, int pressure) { return 1_000_000_000; }
 	public long getDemand(FluidType type, int pressure);
 	
+	public default int[] getReceivingPressureRange(FluidType type) { return DEFAULT_PRESSURE_RANGE; }
+	
 	public default void trySubscribe(FluidType type, World world, DirPos pos) { trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	
 	public default void trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {

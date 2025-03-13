@@ -1,7 +1,6 @@
 package api.hbm.energymk2;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -153,15 +152,5 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		this.energyTracker += energyUsed;
 		
 		return power - energyUsed;
-	}
-	
-	public static final ReceiverComparator COMP = new ReceiverComparator();
-	
-	public static class ReceiverComparator implements Comparator<IEnergyReceiverMK2> {
-
-		@Override
-		public int compare(IEnergyReceiverMK2 o1, IEnergyReceiverMK2 o2) {
-			return o2.getPriority().ordinal() - o1.getPriority().ordinal();
-		}
 	}
 }

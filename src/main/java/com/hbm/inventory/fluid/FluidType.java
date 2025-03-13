@@ -256,7 +256,7 @@ public class FluidType {
 		return this.stringId;
 	}
 	
-	protected INetworkProvider<FluidNetMK2> NETWORK_PROVIDER = new FluidNetProvider();
+	protected INetworkProvider<FluidNetMK2> NETWORK_PROVIDER = new FluidNetProvider(this);
 	
 	public INetworkProvider<FluidNetMK2> getNetworkProvider() {
 		return NETWORK_PROVIDER;
