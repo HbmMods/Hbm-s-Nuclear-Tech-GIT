@@ -2,6 +2,7 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +37,10 @@ public class ItemModLodestone extends ItemArmorMod {
 	
 	@Override
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
-		
+
+		// No magnet if keybind toggled
+		if (entity instanceof EntityPlayer && !HbmPlayerProps.getData((EntityPlayer) entity).isMagnetActive()) return;
+
 		List<EntityItem> items = entity.worldObj.getEntitiesWithinAABB(EntityItem.class, entity.boundingBox.expand(range, range, range));
 		
 		for(EntityItem item : items) {

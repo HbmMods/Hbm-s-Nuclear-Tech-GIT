@@ -22,6 +22,7 @@ public class HbmKeybinds {
 
 	public static KeyBinding calculatorKey = new KeyBinding(category + ".calculator", Keyboard.KEY_N, category);
 	public static KeyBinding jetpackKey = new KeyBinding(category + ".toggleBack", Keyboard.KEY_C, category);
+	public static KeyBinding magnetKey = new KeyBinding(category + ".toggleMagnet", Keyboard.KEY_Z, category);
 	public static KeyBinding hudKey = new KeyBinding(category + ".toggleHUD", Keyboard.KEY_V, category);
 	public static KeyBinding dashKey = new KeyBinding(category + ".dash", Keyboard.KEY_LSHIFT, category);
 	public static KeyBinding trainKey = new KeyBinding(category + ".trainInv", Keyboard.KEY_R, category);
@@ -43,6 +44,7 @@ public class HbmKeybinds {
 	public static void register() {
 		ClientRegistry.registerKeyBinding(calculatorKey);
 		ClientRegistry.registerKeyBinding(jetpackKey);
+		ClientRegistry.registerKeyBinding(magnetKey);
 		ClientRegistry.registerKeyBinding(hudKey);
 		ClientRegistry.registerKeyBinding(dashKey);
 		ClientRegistry.registerKeyBinding(trainKey);
@@ -98,6 +100,7 @@ public class HbmKeybinds {
 	public static enum EnumKeybind {
 		JETPACK,
 		TOGGLE_JETPACK,
+		TOGGLE_MAGNET,
 		TOGGLE_HEAD,
 		DASH,
 		TRAIN,

@@ -21,12 +21,13 @@ public class ServerProxy {
 	public static final int ID_CABLE = 3;
 	public static final int ID_DRONE = 4;
 	public static final int ID_JETPACK = 5;
-	public static final int ID_HUD = 6;
-	public static final int ID_DETONATOR = 7;
-	public static final int ID_FLUID_ID = 8;
-	public static final int ID_TOOLABILITY = 9;
-	public static final int ID_GUN_MODE = 10;
-	public static final int ID_GAS_HAZARD = 11;
+	public static final int ID_MAGNET = 6;
+	public static final int ID_HUD = 7;
+	public static final int ID_DETONATOR = 8;
+	public static final int ID_FLUID_ID = 9;
+	public static final int ID_TOOLABILITY = 10;
+	public static final int ID_GUN_MODE = 11;
+	public static final int ID_GAS_HAZARD = 12;
 
 	public void registerPreRenderInfo() { }
 	public void registerRenderInfo() { }
