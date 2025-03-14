@@ -47,6 +47,21 @@ public interface IFluidStandardReceiverMK2 extends IFluidReceiverMK2 {
 	}
 
 	@Override
+	public default int[] getReceivingPressureRange(FluidType type) {
+		int lowest = HIGHEST_VALID_PRESSURE;
+		int highest = 0;
+		
+		for(FluidTank tank : getReceivingTanks()) {
+			if(tank.getTankType() == type) {
+				if(tank.getPressure() < lowest) lowest = tank.getPressure();
+				if(tank.getPressure() > highest) highest = tank.getPressure();
+			}
+		}
+		
+		return lowest <= highest ? new int[] {lowest, highest} : DEFAULT_PRESSURE_RANGE;
+	}
+
+	@Override
 	public default long getReceiverSpeed(FluidType type, int pressure) {
 		return 1_000_000_000;
 	}

@@ -33,3 +33,5 @@
 * Potentially fixed a crash with mekanism during the recipe change phase
 * Removed the coke to heavy oil recipe for allowing infinite oil loops
   * Coke to syngas and coalgas recipes should be fine though, so they stay
+* Potentially fixed another issue regarding NPCs firing belt-fed guns
+* Chunk-loading drones may or may not be fixed
