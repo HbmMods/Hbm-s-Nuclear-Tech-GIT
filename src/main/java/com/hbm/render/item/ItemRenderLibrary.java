@@ -991,8 +991,6 @@ public class ItemRenderLibrary {
 				ResourceManager.rbmk_crane_console.renderPart("JoyStick");
 				ResourceManager.rbmk_crane_console.renderPart("Meter1");
 				ResourceManager.rbmk_crane_console.renderPart("Meter2");
-				bindTexture(ResourceManager.ks23_tex); ResourceManager.rbmk_crane_console.renderPart("Shotgun");
-				bindTexture(ResourceManager.mini_nuke_tex); ResourceManager.rbmk_crane_console.renderPart("MiniNuke");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		

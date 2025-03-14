@@ -212,7 +212,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						screen.refZ = zCoord;
 						screen.range = this.getRange();
 						screen.linked = true;
-						networkPackNT(25);
+						screen.networkPackNT(25);
 					}
 				}
 			}

@@ -61,10 +61,10 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 		ResourceManager.rbmk_crane_console.renderPart("Meter2");
 		GL11.glPopMatrix();
 		
-		bindTexture(ResourceManager.ks23_tex);
+		/*bindTexture(ResourceManager.ks23_tex);
 		ResourceManager.rbmk_crane_console.renderPart("Shotgun");
 		bindTexture(ResourceManager.mini_nuke_tex);
-		ResourceManager.rbmk_crane_console.renderPart("MiniNuke");
+		ResourceManager.rbmk_crane_console.renderPart("MiniNuke");*/
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);

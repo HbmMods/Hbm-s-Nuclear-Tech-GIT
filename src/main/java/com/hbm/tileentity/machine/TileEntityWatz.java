@@ -121,7 +121,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			/* send sync packets (order doesn't matter) */
 			for(TileEntityWatz segment : segments) {
 				segment.isOn = turnedOn;
-				this.networkPackNT(25);
+				segment.networkPackNT(25);
 				segment.heat *= 0.99; //cool 1% per tick
 			}
 			
