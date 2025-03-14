@@ -10,16 +10,16 @@ import net.minecraft.world.World;
 
 public class EntityDisperserCanister extends EntityGrenadeBase {
 	
-	public EntityDisperserCanister(World p_i1773_1_) {
-		super(p_i1773_1_);
+	public EntityDisperserCanister(World world) {
+		super(world);
 	}
 
-	public EntityDisperserCanister(World p_i1774_1_, EntityLivingBase p_i1774_2_) {
-		super(p_i1774_1_, p_i1774_2_);
+	public EntityDisperserCanister(World world, EntityLivingBase living) {
+		super(world, living);
 	}
 
-	public EntityDisperserCanister(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_) {
-		super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
+	public EntityDisperserCanister(World world, double x, double y, double z) {
+		super(world, x, y, z);
 	}
 
 	public EntityDisperserCanister setFluid(int id) {
@@ -55,6 +55,7 @@ public class EntityDisperserCanister extends EntityGrenadeBase {
 			mist.setArea(10, 5);
 			mist.setDuration(80);
 			worldObj.spawnEntityInWorld(mist);
+			this.setDead();
 		}
 	}
 
