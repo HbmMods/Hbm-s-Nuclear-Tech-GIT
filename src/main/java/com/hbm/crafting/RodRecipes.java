@@ -124,6 +124,37 @@ public class RodRecipes {
 			ModItems.powder_nitan_mix
 		});
 		
+		// Non-Self-Igniting Advanced Pellets
+		addPellet(PU239,							EnumWatzType.PU239_NSI);  // Plutonium-239
+		addPellet(U235,							EnumWatzType.U235_NSI);   // Uranium-235
+		addPellet(U233,							EnumWatzType.U233_NSI);   // Uranium-233
+		addPellet(ModItems.ingot_am242,			EnumWatzType.AM243_NSI); // Americium-243 (using AM242 as base)
+		addPellet(ModItems.ingot_neptunium,		EnumWatzType.CM245_NSI); // Curium-245 (using neptunium as base)
+		
+		// Non-Self-Igniting Research Pellets
+		addPellet(ModItems.ingot_schrabidium,	EnumWatzType.BK247_NSI); // Berkelium-247 (using schrabidium)
+		addPellet(ModItems.ingot_solinium,		EnumWatzType.ES253_NSI); // Einsteinium-253 (using solinium)
+		addPellet(ModItems.ingot_gh336,			EnumWatzType.FM257_NSI); // Fermium-257 (using gh336)
+		
+		// Non-Self-Igniting Experimental Pellets
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, EnumWatzType.TIBERIUM_NSI.ordinal()), new Object[] { 
+			" T ", "TGT", " T ", 
+			'T', ModItems.ingot_schrabidium_fuel,
+			'G', GRAPHITE.ingot()
+		});
+		
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, EnumWatzType.EUPHEMIUM_NSI.ordinal()), new Object[] { 
+			" E ", "EGE", " E ", 
+			'E', ModItems.nugget_euphemium,
+			'G', GRAPHITE.ingot()
+		});
+		
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, EnumWatzType.STARSTONE_NSI.ordinal()), new Object[] { 
+			" S ", "SGS", " S ", 
+			'S', ModItems.ingot_starmetal,
+			'G', GRAPHITE.ingot()
+		});
+		
 		// Digamma - Extremely powerful with massive yield (2000D) and contamination
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.watz_pellet, 1, EnumWatzType.DIGAMMA.ordinal()), new Object[] { 
 			new ItemStack(ModItems.watz_pellet, 1, EnumWatzType.SCHRABIDIUM.ordinal()),

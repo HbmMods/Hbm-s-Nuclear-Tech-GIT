@@ -59,14 +59,31 @@ public class ItemWatzPellet extends ItemEnumMulti {
 		// New realistic Watz Pellets
 		AM241(			0x4B0082, 0x2E0051, 1_800,	25D,	0.0008D,		new FunctionLinear(2.0D), new FunctionSqrtFalling(20D), null), // High energy density, long half-life
 		CM244(			0xFF6B00, 0xCC5500, 2_200,	30D,	0.0009D,		new FunctionLinear(2.5D), new FunctionSqrtFalling(25D), null), // High neutron emission
-		CF252(			0xFFD700, 0xDAA520, 2_800,	35D,	0.0012D,		new FunctionQuadratic(3.0D), new FunctionSqrtFalling(30D), null), // Powerful neutron emitter
+		CF252(			0xFFD700, 0xDAA520, 2_800,	35D,	0.0012D,		new FunctionLinear(3.0D), new FunctionSqrtFalling(30D), null), // Powerful neutron emitter
 		TH232(			0xC0C0C0, 0x808080, 1_000,	15D,	0.0004D,		new FunctionLinear(1.2D), new FunctionSqrtFalling(15D), null), // Natural thorium fuel
 		MOX(			0x654321, 0x3B2512, 1_600,	20D,	0.0006D,		new FunctionLinear(1.8D), new FunctionSqrtFalling(18D), null), // Mixed oxide fuel
 		LEO(			0x87CEEB, 0x4F94CD, 1_400,	18D,	0.0005D,		new FunctionLinear(1.6D), new FunctionSqrtFalling(16D), null), // Low-enriched osmium
 		HEO(			0x00008B, 0x000066, 2_000,	28D,	0.0007D,		new FunctionLinear(2.2D), new FunctionSqrtFalling(22D), null), // High-enriched osmium
-		BER(			0x50C878, 0x2E8B57, 2_400,	32D,	0.0010D,		new FunctionQuadratic(2.8D), new FunctionSqrtFalling(15D), null), // Berkelium fuel
+		BER(			0x50C878, 0x2E8B57, 2_400,	32D,	0.0010D,		new FunctionLinear(2.8D), new FunctionSqrtFalling(15D), null), // Berkelium fuel
 		NP237(			0x008080, 0x004040, 1_900,	26D,	0.0008D,		new FunctionLinear(2.1D), new FunctionSqrtFalling(21D), null), // Neptunium fuel
-		TPO(			0x4B0082, 0x00008B, 2_600,	34D,	0.0011D,		new FunctionQuadratic(3.2D), new FunctionSqrtFalling(32D), null); // Triple-phase osmium
+		TPO(			0x4B0082, 0x00008B, 2_600,	34D,	0.0011D,		new FunctionLinear(3.2D), new FunctionSqrtFalling(32D), null), // Triple-phase osmium
+		
+		// New Non-Self-Igniting Advanced Pellets
+		PU239_NSI(		0xFF4500, 0xB22222, 0,		20D,	0.0007D,	new FunctionLinear(1.8D), new FunctionSqrtFalling(40D), null), // Plutonium-239, weapons grade
+		U235_NSI(		0x98FB98, 0x228B22, 0,		18D,	0.0006D,	new FunctionLinear(1.6D), new FunctionSqrtFalling(36D), null), // Uranium-235, enriched
+		U233_NSI(		0x7CFC00, 0x32CD32, 0,		16D,	0.0005D,	new FunctionLinear(1.4D), new FunctionSqrtFalling(32D), null), // Uranium-233, thorium cycle
+		AM243_NSI(		0x9370DB, 0x6A5ACD, 0,		22D,	0.0008D,	new FunctionLinear(2.0D), new FunctionSqrtFalling(30D), null), // Americium-243
+		CM245_NSI(		0xFFA500, 0xFF8C00, 0,		24D,	0.0009D,	new FunctionLinear(2.2D), new FunctionSqrtFalling(34D), null), // Curium-245
+		
+		// New Non-Self-Igniting Research Pellets
+		BK247_NSI(		0x48D1CC, 0x20B2AA, 0,		26D,	0.0010D,	new FunctionSqrt(2.4D), new FunctionSqrtFalling(26D), null),   // Berkelium-247
+		ES253_NSI(		0xE6E6FA, 0x9370DB, 0,		28D,	0.0011D,	new FunctionSqrt(2.6D), new FunctionSqrtFalling(28D), null),   // Einsteinium-253
+		FM257_NSI(		0x9932CC, 0x8B008B, 0,		30D,	0.0012D,	new FunctionSqrt(2.8D), new FunctionSqrtFalling(30D), null),   // Fermium-257
+		
+		// New Non-Self-Igniting Experimental Pellets
+		TIBERIUM_NSI(	0x7FFF00, 0x32CD32, 0,		32D,	0.0013D,	new FunctionLinear(3.0D), new FunctionSqrtFalling(32D), null), // Tiberium-based
+		EUPHEMIUM_NSI(	0xFF1493, 0xC71585, 0,		34D,	0.0014D,	new FunctionSqrt(3.2D), new FunctionSqrtFalling(34D), null),   // Euphemium-based
+		STARSTONE_NSI(	0x4169E1, 0x0000CD, 0,		36D,	0.0015D,	new FunctionLinear(3.4D), new FunctionSqrtFalling(36D), null); // Starstone alloy
 		
 		public double yield = 500_000_000;
 		public int colorLight;
