@@ -38,8 +38,8 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	20D,	0.01D,		new FunctionLinear(1.5D), new FunctionSqrtFalling(10D), null),
 		ANTIMATTER(		0x000000, 0x000000, 0,		20D,	0.005D,		new FunctionLinear(5D),  new FunctionSqrtFalling(100D), null),
-		TESTOBJFOE(		0x3CB371, 0x000000, 0,		11.1D,	0.0011D,	new FunctionExperiment(11.1D), new FunctionSqrtFalling(50D), null),
-		DIGAMMA(		0xFF1493, 0xC71585, 2_500,	2000D,	11D,		new FunctionQuadratic(111000D), new FunctionSqrtFalling(5000D), null),
+		TESTOBJFOE(		0x3CB371, 0x000000, 0.5,		11.1D,	0.0011D,	new FunctionExperiment(11.1D), new FunctionSqrtFalling(50D), null),
+		DIGAMMA(        0xFF1493, 0xC71585, 1000000,    1000D,    10D,        new FunctionQuadratic(0.1D), new FunctionSqrtFalling(100000D), null),
 		XFE(			0x4169E1, 0x191970, 0,		5D,		0.0050D,	new FunctionLinear(5D), new FunctionSqrtFalling(50D), null),
 		GLDONE(			0xDAA520, 0x8B4513, 0,		10D,	0.0062D,	new FunctionSqrt(16.2D), new FunctionSqrtFalling(15D), null),
 		GLDSX(			0xDAA520, 0xCD853F, 3_100,	3.1D,	0.0062D,	new FunctionLinear(5D), new FunctionSqrtFalling(10D), null),
@@ -172,6 +172,16 @@ public class ItemWatzPellet extends ItemEnumMulti {
 		if(num.passive > 0){
 			list.add(color + "Base fission rate: " + reset + num.passive);
 			list.add(EnumChatFormatting.RED + "Self-igniting!");
+		}
+		if(num.passive == 1000000) {
+			list.add(EnumChatFormatting.RED + "Self-Combusting!");
+			list.add(EnumChatFormatting.GREEN + "I am the devil!");
+			list.remove(EnumChatFormatting.RED + "Self-igniting!");
+		}
+		if(num.passive == 0.5) {
+			list.add(EnumChatFormatting.YELLOW + "Testing!");
+			list.add(EnumChatFormatting.GOLD + "I want to break free!");
+			list.remove(EnumChatFormatting.RED + "Self-igniting!");
 		}
 		if(num.heatEmission > 0) list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
 		if(num.burnFunc != null) {
