@@ -28,6 +28,7 @@
 * Copper wires, like AA and gold, can now be welded into dense wires
 * Removed the crafting recipe for the small geothermal generator and ZPE generators
 * Removed the gemothermal, ZPE and ambient radiation generators from the creative menu
+* Disabled the horrid flicker on the quad rocket launcher's antenna, making steered mode look less terrible
 
 ## Fixed
 * Fixed animation errors on the MAS-36
