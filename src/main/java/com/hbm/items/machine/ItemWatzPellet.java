@@ -55,7 +55,18 @@ public class ItemWatzPellet extends ItemEnumMulti {
 		BORON(			0xBDC8D2, 0x29343E, 0,		0,		0.0025D,	null, null, new FunctionLinear(10)), //improved absorber, linear
 		DU(				0xC1C7BD, 0x2B3227, 0,		0,		0.0025D,	null, null, new FunctionQuadratic(1D, 1D).withDiv(100)), //absorber with positive coefficient
 		NQD(			0x4B4B4B, 0x121212, 2_000,	20,		0.01D,		new FunctionLinear(2D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null),
-		NQR(			0x2D2D2D, 0x0B0B0B, 2_500,	30,		0.01D,		new FunctionLinear(1.5D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null);
+		NQR(			0x2D2D2D, 0x0B0B0B, 2_500,	30,		0.01D,		new FunctionLinear(1.5D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null),
+		// New realistic Watz Pellets
+		AM241(			0x4B0082, 0x2E0051, 1_800,	25D,	0.0008D,		new FunctionLinear(2.0D), new FunctionSqrtFalling(20D), null), // High energy density, long half-life
+		CM244(			0xFF6B00, 0xCC5500, 2_200,	30D,	0.0009D,		new FunctionLinear(2.5D), new FunctionSqrtFalling(25D), null), // High neutron emission
+		CF252(			0xFFD700, 0xDAA520, 2_800,	35D,	0.0012D,		new FunctionQuadratic(3.0D), new FunctionSqrtFalling(30D), null), // Powerful neutron emitter
+		TH232(			0xC0C0C0, 0x808080, 1_000,	15D,	0.0004D,		new FunctionLinear(1.2D), new FunctionSqrtFalling(15D), null), // Natural thorium fuel
+		MOX(			0x654321, 0x3B2512, 1_600,	20D,	0.0006D,		new FunctionLinear(1.8D), new FunctionSqrtFalling(18D), null), // Mixed oxide fuel
+		LEO(			0x87CEEB, 0x4F94CD, 1_400,	18D,	0.0005D,		new FunctionLinear(1.6D), new FunctionSqrtFalling(16D), null), // Low-enriched osmium
+		HEO(			0x00008B, 0x000066, 2_000,	28D,	0.0007D,		new FunctionLinear(2.2D), new FunctionSqrtFalling(22D), null), // High-enriched osmium
+		BER(			0x50C878, 0x2E8B57, 2_400,	32D,	0.0010D,		new FunctionQuadratic(2.8D), new FunctionSqrtFalling(15D), null), // Berkelium fuel
+		NP237(			0x008080, 0x004040, 1_900,	26D,	0.0008D,		new FunctionLinear(2.1D), new FunctionSqrtFalling(21D), null), // Neptunium fuel
+		TPO(			0x4B0082, 0x00008B, 2_600,	34D,	0.0011D,		new FunctionQuadratic(3.2D), new FunctionSqrtFalling(32D), null); // Triple-phase osmium
 		
 		public double yield = 500_000_000;
 		public int colorLight;

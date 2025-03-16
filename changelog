@@ -1,29 +1,135 @@
-## Added
-* `/ntmserver`
-  * Functions like `/ntmclient` but for common settings
-  * Can toggle `DAMAGE_COMPATIBILITY_MODE`, off by default, enables a more compatible (but slightly jankier) version of the bullet damage code
-  * `MINE_<xxx>_DAMAGE` can be used to adjust landmine damage
-  * `TAINT_TRAILS` now replaces the hardcore taint config option, making taint blocks more potent and the potion effect trail taint blocks
+# Added
+Core Features
+------------
+1. Multi-Segment Tower System
+   - Added support for variable-height reactor towers
+   - Implemented position detection (Top, Bottom, Middle segments)
+   - Added tower height tracking
+   - Each segment maintains its own state while part of the tower
+   - Segments work together for enhanced efficiency
+   - Automatic power distribution across segments
 
-## Changed
-* Fat mines now use the standardized mini nuke code
-  * Fat mines now have a base damage of exactly 100, being identical to demolition mini nukes
-  * Fat mines now gib affected entities
-* IV bags now use `setHealth` operations instead of dealing damage, preventing health duplication by just avoiding the damage
-* The settings tool can now copy and paste the "paint" from paintable cables and fluid ducts
-* Changed the way taint works
-  * Instead of neon purple vines, taint is bow a greyish sludge
-  * Taint now actively replaces blocks instead of growing along them
-  * Taint is still limited in spread, however taint spread is lower underground, taint decays three times faster in intensity if the block is not exposed to air, making taint spread more along the surface
-  * Taint has a 25% chance of splashing down when replacing a block with no supports, causing structures to collapse and taint to spread faster
-  * Similar to soil sand, entities will sink in taint and get slowed down
-  * The sludge consumeth
-* `enableGuns` config option now applies to SEDNA system guns, simply canceling all gun-related keybinds
-* Cinnabar dust, if registered by another mod, can now be acidized into cinnabar using hydrogen peroxide
-* Copper wires, like AA and gold, can now be welded into dense wires
+2. Special Pellet Integration
+   - Full support for all Watz pellet types including:
+     * Digamma (2000D yield, pink/magenta theme)
+     * Test Object FOE (111)
+     * XFE (Experimental Fusion)
+     * Gold Series (GLDONE -> GLDTWO -> GLDSX -> GLDSY)
+     * Antimatter-based pellets
+   - Each pellet maintains unique properties and behaviors
+   - Texture registration using ItemEnumMulti pattern
+   - Support for variant textures using "iconString.variantName" format
+   - Progressive power scaling with tower height
 
-## Fixed
-* Fixed animation error on the MAS-36
-* Fixed drone docks, requester and provider crates not dropping their contents when broken
-* Fixed all missing texture errors that appear in the startup log
-* Potentially fixed a crash with mekanism during the recipe change phase
+Crafting Recipes
+---------------
+1. Special Watz Pellets
+   - Test Object FOE (111):
+     * Schrabidium fuel + antimatter + nitan mix
+     * Requires beryllium and lithium moderators
+     * Experimental behavior in tower setup
+   
+   - Digamma:
+     * Base: Schrabidium Watz Pellet
+     * 2x Digamma particles
+     * Starmetal for stability
+     * Power powder instead of moderators
+     * Extremely powerful (2000D yield)
+     * Optimized for tower configuration
+   
+   - XFE (Experimental Fusion):
+     * Advanced alloy + power powder
+     * Standard moderator configuration
+     * Early-mid game fusion option
+     * Balanced for tower setups
+   
+   - Gold Series (Progressive):
+     * GLDONE -> GLDTWO -> GLDSX -> GLDSY
+     * Each tier requires previous tier + AU198
+     * Varying moderator requirements
+     * Increasing power with each tier
+     * Enhanced efficiency in tower formation
+   
+   - Antimatter:
+     * Uses 2x antimatter particles
+     * Standard moderator configuration
+     * Ultimate power pellet
+     * Maximum tower synergy effects
+
+# Changes and Fixes
+GUI Changes
+----------
+1. Tower Status Display
+   - Added visual indicators for reactor tower segments
+   - Each segment shows its position in the tower
+   - Current segment is highlighted for easy identification
+   - Tower height is visually represented
+   - Removed middle segment numbering for cleaner interface
+   - Interactive tooltips for tower information
+
+2. TU Gauge Evolution
+   Initial Implementation:
+   - Used ROUND_SMALL gauge type
+   - Position: (13, 100)
+   - Heat calculation using logarithmic scaling
+   - Color changes based on heat level
+
+   Experimental Changes (Now Reverted):
+   - Temporarily changed to smooth gauge style
+   - Tested different gauge sizes and positions
+   - Experimented with linear heat scaling
+   - Tried different color schemes (0x7F0000, 0xFF3300, 0xFF0000)
+   - Tested various needle lengths and thicknesses
+
+   Final State (Reverted to Original):
+   - Restored ROUND_SMALL gauge type
+   - Restored original position (13, 100)
+   - Restored logarithmic heat calculation:
+     heat = 1 - (float) Math.log(watz.heat / 100_000D + 1) * 0.4F
+   - Maintained original color scaling
+
+Technical Implementation
+----------------------
+1. TileEntityWatz.java
+   - Added tower status tracking variables
+   - Implemented segment position detection
+   - Added tower height calculation
+   - Added serialization for network sync
+   - Integrated special pellet handling
+   - Tower efficiency calculations
+   - Power distribution logic
+
+2. GUIWatz.java
+   - Implemented tower status visual display
+   - Added segment indicators
+   - Restored original TU gauge implementation
+   - Maintained fluid tank rendering
+   - Preserved power and lock status indicators
+   - Enhanced tooltip system
+
+3. Item Implementation
+   - Extended ItemEnumMulti for variant handling
+   - Implemented standard texture registration pattern
+   - Added support for variant-specific textures
+   - Optimized for multi-pellet support
+   - Tower-aware behavior system
+
+# Visual Effects & Hazards
+-----------------------
+1. Digamma Pellet Effects
+   - Dynamic texture manipulation using TextureAtlasSpriteMutatable
+   - Shaking effect with compound sine/cosine waves
+   - Unique time offset per instance
+   - Theme-appropriate colors (light: 0xFF1493, dark: 0xC71585)
+   - No enchantment glow effect for performance
+   - Enhanced visual feedback in tower setup
+
+2. Contamination System
+   - Digamma contamination when pellet is held in inventory
+   - Uses ContaminationUtil.applyDigammaData
+   - Rate: 0.005F per tick
+   - Only affects player entities
+   - Adds risk factor to handling Digamma pellets
+   - Safety considerations for tower maintenance
+
+Note: Watz Reactors Stacks are now working again. Fixed GUI bugs.
