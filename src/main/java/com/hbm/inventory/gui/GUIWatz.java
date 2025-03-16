@@ -54,7 +54,7 @@ public class GUIWatz extends GuiInfoContainer {
 			String[] towerInfo = new String[] {
 				"§2Watz Reactor Tower",
 				"§7Height: " + watz.towerHeight + " segments",
-				"§7Position: " + position
+				"§7Position: " + position,
 			};
 			this.drawCustomInfoStat(x, y, guiLeft + 147, guiTop + 8, 8, 24, x, y, towerInfo);
 		}
