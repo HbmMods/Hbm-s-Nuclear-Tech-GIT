@@ -97,6 +97,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
+		if(stack == null) return cfg;
 		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
 	}
 	

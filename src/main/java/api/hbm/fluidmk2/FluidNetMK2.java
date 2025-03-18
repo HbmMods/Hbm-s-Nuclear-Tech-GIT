@@ -53,7 +53,7 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 		
 		while(iterator.hasNext()) {
 			Entry<IFluidProviderMK2, Long> entry = iterator.next();
-			if(currentTime - entry.getValue() > timeout) { iterator.remove(); continue; }
+			if(currentTime - entry.getValue() > timeout || isBadLink(entry.getKey())) { iterator.remove(); continue; }
 			IFluidProviderMK2 provider = entry.getKey();
 			int[] pressureRange = provider.getProvidingPressureRange(type);
 			for(int p = pressureRange[0]; p <= pressureRange[1]; p++) {
@@ -69,7 +69,7 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 		
 		while(iterator.hasNext()) {
 			Entry<IFluidReceiverMK2, Long> entry = iterator.next();
-			if(currentTime - entry.getValue() > timeout) { iterator.remove(); continue; }
+			if(currentTime - entry.getValue() > timeout || isBadLink(entry.getKey())) { iterator.remove(); continue; }
 			IFluidReceiverMK2 receiver = entry.getKey();
 			int[] pressureRange = receiver.getReceivingPressureRange(type);
 			for(int p = pressureRange[0]; p <= pressureRange[1]; p++) {

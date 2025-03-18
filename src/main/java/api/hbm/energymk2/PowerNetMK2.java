@@ -40,7 +40,7 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
 		while(provIt.hasNext()) {
 			Entry<IEnergyProviderMK2, Long> entry = provIt.next();
-			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
+			if(timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { provIt.remove(); continue; }
 			long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
 			if(src > 0) {
 				providers.add(new Pair(entry.getKey(), src));
@@ -58,7 +58,7 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		
 		while(recIt.hasNext()) {
 			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
-			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
+			if(timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { recIt.remove(); continue; }
 			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
 			if(rec > 0) {
 				int p = entry.getKey().getPriority().ordinal();
