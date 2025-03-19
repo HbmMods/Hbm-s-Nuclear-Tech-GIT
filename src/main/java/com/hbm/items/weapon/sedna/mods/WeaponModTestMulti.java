@@ -14,7 +14,7 @@ public class WeaponModTestMulti extends WeaponModBase {
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 		
 		if(parent instanceof Receiver && key == Receiver.I_ROUNDSPERCYCLE && base instanceof Integer) {
-			return fagSlop((int) base * 3, base);
+			return fagSlop((Integer) base * 3, base);
 		}
 		
 		return base;

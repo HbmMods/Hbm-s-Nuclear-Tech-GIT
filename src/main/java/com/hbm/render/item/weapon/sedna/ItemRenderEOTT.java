@@ -161,6 +161,14 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -12.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0,-1, 0.5);
+	}
+
+	@Override
 	public void renderInv(ItemStack stack) {
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -224,6 +232,11 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 		ResourceManager.aberrator.renderPart("Slide");
 		ResourceManager.aberrator.renderPart("Sight");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderModTable(ItemStack stack, int index) {
+		renderOther(stack, ItemRenderType.INVENTORY);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public class WeaponModManager {
 	
-	public static final String KEY_MOD_LIST = "KEY_MOD_LIST";
+	public static final String KEY_MOD_LIST = "KEY_MOD_LIST_";
 	
 	/** Mapping of mods to IDs, keep the register order consistent! */
 	public static HashBiMap<Integer, IWeaponMod> idToMod = HashBiMap.create();
@@ -45,9 +45,9 @@ public class WeaponModManager {
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.MULTI.ordinal())).addDefault(TEST_MULTI);
 	}
 	
-	public static ItemStack[] getUpgradeItems(ItemStack stack) {
+	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];
-		int[] modIds = stack.stackTagCompound.getIntArray(KEY_MOD_LIST);
+		int[] modIds = stack.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg);
 		if(modIds.length == 0) return new ItemStack[0];
 		ItemStack[] mods = new ItemStack[modIds.length];
 		for(int i = 0; i < mods.length; i++) {
@@ -61,7 +61,7 @@ public class WeaponModManager {
 	}
 	
 	/** Installs the supplied mods to the gun */
-	public static void install(ItemStack stack, ItemStack... mods) {
+	public static void install(ItemStack stack, int cfg, ItemStack... mods) {
 		List<IWeaponMod> toInstall = new ArrayList();
 		ComparableStack gun = new ComparableStack(stack);
 		
@@ -83,18 +83,18 @@ public class WeaponModManager {
 		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 		int[] modIds = new int[toInstall.size()];
 		for(int i = 0; i < modIds.length; i++) modIds[i] = idToMod.inverse().get(toInstall.get(i));
-		stack.stackTagCompound.setIntArray(KEY_MOD_LIST, modIds);
+		stack.stackTagCompound.setIntArray(KEY_MOD_LIST + cfg, modIds);
 	}
 	
 	/** Wipes all mods from the gun */
-	public static void uninstall(ItemStack stack) {
+	public static void uninstall(ItemStack stack, int cfg) {
 		if(stack.hasTagCompound()) {
-			stack.stackTagCompound.removeTag(KEY_MOD_LIST);
+			stack.stackTagCompound.removeTag(KEY_MOD_LIST + cfg);
 			//no need to clean up empty stackTagCompound because gun NBT is never empty anyway
 		}
 	}
 	
-	public static boolean isApplicable(ItemStack gun, ItemStack mod, boolean checkMutex) {
+	public static boolean isApplicable(ItemStack gun, ItemStack mod, int cfg, boolean checkMutex) {
 		if(gun == null || mod == null) return false; //if either stacks are null
 		WeaponModDefinition def = stackToMod.get(new ComparableStack(mod));
 		if(def == null) return false; //if the mod stack doesn't have a mod definition
@@ -102,7 +102,7 @@ public class WeaponModManager {
 		if(newMod == null) newMod = def.modByGun.get(null); //if there's no per-gun mod, default to null key
 		if(newMod == null) return false; //if there's just no mod applicable
 		
-		if(checkMutex) for(int i : gun.stackTagCompound.getIntArray(KEY_MOD_LIST)) {
+		if(checkMutex) for(int i : gun.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg)) {
 			IWeaponMod iMod = idToMod.get(i);
 			if(iMod != null) for(String mutex0 : newMod.getSlots()) for(String mutex1 : iMod.getSlots()) if(mutex0.equals(mutex1)) return false; //if any of the mod's slots are already taken
 		}
@@ -121,11 +121,11 @@ public class WeaponModManager {
 	/** Scrapes all upgrades, iterates over them and evaluates the given value. The parent (i.e. holder of the base value)
 	 * is passed for context (so upgrades can differentiate primary and secondary receivers for example). Passing a null
 	 * stack causes the base value to be returned. */
-	public static <T> T eval(T base, ItemStack stack, String key, Object parent) {
+	public static <T> T eval(T base, ItemStack stack, String key, Object parent, int cfg) {
 		if(stack == null) return base;
 		if(!stack.hasTagCompound()) return base;
 		
-		for(int i : stack.stackTagCompound.getIntArray(KEY_MOD_LIST)) {
+		for(int i : stack.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg)) {
 			IWeaponMod mod = idToMod.get(i);
 			if(mod != null) base = mod.eval(base, stack, key, parent);
 		}

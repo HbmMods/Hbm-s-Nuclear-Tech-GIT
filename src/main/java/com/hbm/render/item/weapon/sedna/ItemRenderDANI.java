@@ -128,6 +128,14 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, 1.5, 0);
+	}
+
+	@Override
 	public void renderInv(ItemStack stack) {
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -172,6 +180,16 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderModTable(ItemStack stack, int index) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(index == 1 ? ResourceManager.dani_celestial_tex : ResourceManager.dani_lunar_tex);
 		ResourceManager.bio_revolver.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}

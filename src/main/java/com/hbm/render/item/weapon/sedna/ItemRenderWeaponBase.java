@@ -251,6 +251,16 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
 	}
+	
+	public void setupModTable(ItemStack stack) {
+		double scale = -5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+	}
+	
+	public void renderModTable(ItemStack stack, int index) {
+		renderOther(stack, ItemRenderType.INVENTORY);
+	}
 
 	public abstract void renderFirstPerson(ItemStack stack);
 	public void renderOther(ItemStack stack, ItemRenderType type) { }
