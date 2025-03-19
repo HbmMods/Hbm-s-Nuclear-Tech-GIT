@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class NodeNet<R extends IGenReceiver, P extends IGenProvider, L extends GenNode> {
+import api.hbm.tile.ILoadedTile;
+import net.minecraft.tileentity.TileEntity;
+
+public abstract class NodeNet<R, P, L extends GenNode> {
 	
 	/** Global random for figuring things out like random leftover distribution */
 	public static Random rand = new Random();
@@ -78,5 +81,11 @@ public abstract class NodeNet<R extends IGenReceiver, P extends IGenProvider, L 
 		this.links.clear();
 		this.receiverEntries.clear();
 		this.providerEntries.clear();
+	}
+	
+	public static boolean isBadLink(Object o) {
+		if(o instanceof ILoadedTile && !((ILoadedTile) o).isLoaded()) return true;
+		if(o instanceof TileEntity && ((TileEntity) o).isInvalid()) return true;
+		return false;
 	}
 }

@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+import com.hbm.util.ChunkShapeHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,13 +21,13 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, IChunkLoader {
-	
+
 	protected ItemStack[] slots = new ItemStack[this.getSizeInventory()];
 	public FluidStack fluid;
-	
+
 	protected boolean chunkLoading = false;
 	private Ticket loaderTicket;
-	
+
 	public EntityDeliveryDrone(World world) {
 		super(world);
 	}
@@ -60,32 +61,22 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		super.entityInit();
 		this.dataWatcher.addObject(11, new Byte((byte) 0));
 	}
-	
-	public EntityDeliveryDrone setChunkLoading() {
+
+	public void setChunkLoading() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.chunkLoading = true;
-		return this;
 	}
 
-	@Override
-	public void onUpdate() {
-		
-		if(!worldObj.isRemote) {
-			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
-		}
-		
-		super.onUpdate();
-	}
 
 	@Override
 	public double getSpeed() {
 		return this.dataWatcher.getWatchableObjectByte(11) == 1 ? 0.375 * 3 : 0.375;
 	}
-	
+
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
-		
+
 		NBTTagList nbttaglist = new NBTTagList();
 
 		for(int i = 0; i < this.slots.length; ++i) {
@@ -98,7 +89,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		}
 
 		nbt.setTag("Items", nbttaglist);
-		
+
 		if(fluid != null) {
 			nbt.setInteger("fluidType", fluid.type.getID());
 			nbt.setInteger("fluidAmount", fluid.fill);
@@ -111,7 +102,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
-		
+
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
 
@@ -123,14 +114,14 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 				this.slots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		
+
 		if(nbt.hasKey("fluidType")) {
 			FluidType type = Fluids.fromNameCompat(nbt.getString("fluidType"));
 			if(type != Fluids.NONE) {
 				nbt.removeTag(nbt.getString("fluidType"));
 			} else
 				type = Fluids.fromID(nbt.getInteger("fluidType"));
-			
+
 			this.fluid = new FluidStack(type, nbt.getInteger("fluidAmount"));
 		}
 
@@ -142,7 +133,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	public ItemStack getStackInSlot(int slot) {
 		return slots[slot];
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
 		if(this.slots[slot] != null) {
@@ -197,20 +188,23 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	@Override public void openInventory() { }
 	@Override public void closeInventory() { }
 
-	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+	@Override
+	protected void loadNeighboringChunks() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			clearChunkLoader();
-			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
-			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair((int) Math.ceil((this.posX + this.motionX) / 16D), (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			// This is the lowest padding that worked with my drone waypoint path. if they stop getting loaded crank up paddingSize
+			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) this.posX, (int) this.posZ, (int) (this.posX + this.motionX), (int) (this.posZ + this.motionZ), 4)){
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
 		}
 	}
-	
+
 	@Override
 	public void setDead() {
 		super.setDead();
 		this.clearChunkLoader();
 	}
-	
+
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			for(ChunkCoordIntPair chunk : loaderTicket.getChunkList()) {
@@ -227,7 +221,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 				loaderTicket.bindEntity(this);
 				loaderTicket.getModData();
 			}
-			ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+			this.loadNeighboringChunks();
 		}
 	}
 }

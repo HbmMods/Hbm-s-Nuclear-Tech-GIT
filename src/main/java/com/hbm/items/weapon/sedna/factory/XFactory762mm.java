@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -25,6 +26,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory762mm {
 
@@ -33,10 +35,16 @@ public class XFactory762mm {
 	public static BulletConfig r762_jhp;
 	public static BulletConfig r762_ap;
 	public static BulletConfig r762_du;
+	public static BulletConfig r762_he;
 
 	public static BulletConfig energy_lacunae;
 	public static BulletConfig energy_lacunae_overcharge;
 	public static BulletConfig energy_lacunae_ir;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
+		Lego.tinyExplode(bullet, mop, 2F); bullet.setDead();
+	};
 
 	public static void init() {
 		SpentCasing casing762 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS);
@@ -50,6 +58,8 @@ public class XFactory762mm {
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
 		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
+		r762_he = new BulletConfig().setItem(EnumAmmo.R762_HE).setCasing(EnumCasingType.SMALL_STEEL, 6).setWear(3F).setDamage(2F).setOnImpact(LAMBDA_TINY_EXPLODE)
+				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762he"));
 		
 		energy_lacunae = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 		energy_lacunae_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4 * 40).setupDamageClass(DamageClass.LASER).setBeam().setReloadCount(40).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
@@ -59,7 +69,7 @@ public class XFactory762mm {
 				.dura(3_000).draw(10).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(5).dry(15).spread(0.0F).reload(30, 0, 15, 0).jam(60).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 14).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du))
+						.mag(new MagazineFullReload(0, 14).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))
 				.setupStandardConfiguration()
@@ -70,7 +80,7 @@ public class XFactory762mm {
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
-						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du))
+						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
 				.setupStandardConfiguration()
@@ -91,7 +101,7 @@ public class XFactory762mm {
 				.dura(5_000).draw(20).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(30F).delay(25).dry(25).spread(0.0F).reload(43).jam(43).sound("hbm:weapon.fire.rifleHeavy", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 7).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du))
+						.mag(new MagazineFullReload(0, 7).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))
 				.setupStandardConfiguration()

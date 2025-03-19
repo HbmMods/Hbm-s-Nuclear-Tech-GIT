@@ -1,7 +1,5 @@
 package com.hbm.blocks.network;
 
-import api.hbm.fluid.IPipeNet;
-import api.hbm.fluid.PipeNet;
 import com.hbm.blocks.IAnalyzable;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds;
@@ -9,6 +7,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
+import com.hbm.uninos.UniNodespace;
+
+import api.hbm.fluidmk2.FluidNetMK2;
+import api.hbm.fluidmk2.FluidNode;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -123,19 +125,17 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct, IA
 			FluidType type = pipe.getType();
 
 			if(type != null) {
-
-				IPipeNet net = pipe.getPipeNet(type);
-
-				if(net instanceof PipeNet) {
-					PipeNet pipeNet = (PipeNet) net;
+				
+				FluidNode node = (FluidNode) UniNodespace.getNode(world, x, y, z, type.getNetworkProvider());
+				
+				if(node != null && node.net != null) {
+					FluidNetMK2 net = node.net;
 
 					List<String> debug = new ArrayList();
-					debug.add("=== DEBUG START ===");
-					debug.addAll(pipeNet.debug);
-					debug.add("=== DEBUG END ===");
-					debug.add("Links: " + pipeNet.getLinks().size());
-					debug.add("Subscribers: " + pipeNet.getSubscribers().size());
-					debug.add("Transfer: " + pipeNet.getTotalTransfer());
+					debug.add("Links: " + net.links.size());
+					debug.add("Subscribers: " + net.receiverEntries.size());
+					debug.add("Providers: " + net.providerEntries.size());
+					debug.add("Transfer: " + net.fluidTracker);
 					return debug;
 				}
 			}

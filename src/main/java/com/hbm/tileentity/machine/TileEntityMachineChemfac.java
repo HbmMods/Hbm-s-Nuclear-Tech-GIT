@@ -81,7 +81,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 
 			for(DirPos pos : getConPos()) for(FluidTank tank : outTanks()) {
 				if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-					this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(tank, worldObj, pos);
 				}
 			}
 

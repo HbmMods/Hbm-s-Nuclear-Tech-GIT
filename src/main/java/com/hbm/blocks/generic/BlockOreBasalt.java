@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,11 +30,18 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	}
 	
 	public static enum EnumBasaltOreType {
-		SULFUR,
-		FLUORITE,
-		ASBESTOS,
-		GEM,
-		MOLYSITE
+		SULFUR(ModItems.sulfur),
+		FLUORITE(ModItems.fluorite),
+		ASBESTOS(ModItems.ingot_asbestos),
+		GEM(ModItems.gem_volcanic),
+		MOLYSITE(ModItems.powder_molysite);
+		
+		public Item drop;
+		
+		private EnumBasaltOreType(Item drop) {
+			this.drop = drop;
+			if(drop == null) throw new IllegalStateException("EnumBasaltOreType initialized before ModItems!");
+		}
 	}
 	
 	public String getTextureMultiName(Enum num) {
@@ -46,12 +54,8 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune) {
-		if(meta == EnumBasaltOreType.SULFUR.ordinal())		return ModItems.sulfur;
-		if(meta == EnumBasaltOreType.FLUORITE.ordinal())	return ModItems.fluorite;
-		if(meta == EnumBasaltOreType.ASBESTOS.ordinal())	return ModItems.ingot_asbestos;
-		if(meta == EnumBasaltOreType.GEM.ordinal())			return ModItems.gem_volcanic;
-		if(meta == EnumBasaltOreType.MOLYSITE.ordinal())	return ModItems.powder_molysite;
-		return super.getItemDropped(meta, rand, fortune);
+		EnumBasaltOreType type = EnumUtil.grabEnumSafely(EnumBasaltOreType.class, meta);
+		return type.drop;
 	}
 
 	@Override

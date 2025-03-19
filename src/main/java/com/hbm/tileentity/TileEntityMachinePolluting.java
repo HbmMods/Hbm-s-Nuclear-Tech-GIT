@@ -6,7 +6,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IFluidStandardSender;
+
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class TileEntityMachinePolluting extends TileEntityMachineBase implements IFluidUser {
+public abstract class TileEntityMachinePolluting extends TileEntityMachineBase implements IFluidStandardSender {
 
 	public FluidTank smoke;
 	public FluidTank smoke_leaded;

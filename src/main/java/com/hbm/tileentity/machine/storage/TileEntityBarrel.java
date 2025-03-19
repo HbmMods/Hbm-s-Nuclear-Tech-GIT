@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.storage;
 
-import api.hbm.fluid.*;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.FluidContainerRegistry;
@@ -32,24 +33,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
 
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
 	public int age = 0;
-	protected boolean sendingBrake = false;
 	public byte lastRedstone = 0;
 
 	public TileEntityBarrel() {
@@ -75,21 +69,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public long getDemand(FluidType type, int pressure) {
-
-		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
-			return 0;
-
+		if(this.mode == 2 || this.mode == 3) return 0;
 		if(tank.getPressure() != pressure) return 0;
-
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
-	}
-
-	@Override
-	public long transferFluid(FluidType type, int pressure, long fluid) {
-		long toTransfer = Math.min(getDemand(type, pressure), fluid);
-		tank.setFill(tank.getFill() + (int) toTransfer);
-		this.markChanged();
-		return fluid - toTransfer;
 	}
 
 	@Override
@@ -107,10 +89,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.setType(0, 1, slots);
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
-
-			this.sendingBrake = true;
-			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
-			this.sendingBrake = false;
+			
+			for(DirPos pos : getConPos()) {
+				if(mode == 0 || mode == 2) this.trySubscribe(tank.getTankType(), worldObj, pos);
+				if(mode == 1 || mode == 2) this.tryProvide(tank, worldObj, pos);
+			}
 
 			if(tank.getFill() > 0) {
 				checkFluidInteraction();
@@ -143,59 +126,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
 				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
 		};
-	}
-
-	protected static int transmitFluidFairly(World world, FluidTank tank, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
-
-		Set<IPipeNet> nets = new HashSet<>();
-		Set<IFluidConnector> consumers = new HashSet<>();
-		FluidType type = tank.getTankType();
-		int pressure = tank.getPressure();
-
-		for(DirPos pos : connections) {
-
-			TileEntity te = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-
-			if(te instanceof IFluidConductor) {
-				IFluidConductor con = (IFluidConductor) te;
-				if(con.getPipeNet(type) != null) {
-					nets.add(con.getPipeNet(type));
-					con.getPipeNet(type).unsubscribe(that);
-					consumers.addAll(con.getPipeNet(type).getSubscribers());
-				}
-
-			//if it's just a consumer, buffer it as a subscriber
-			} else if(te instanceof IFluidConnector) {
-				consumers.add((IFluidConnector) te);
-			}
-		}
-
-		consumers.remove(that);
-
-		if(fill > 0 && send) {
-			List<IFluidConnector> con = new ArrayList<>();
-			con.addAll(consumers);
-
-			con.removeIf(x -> x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid());
-
-			if(PipeNet.trackingInstances == null) {
-				PipeNet.trackingInstances = new ArrayList<>();
-			}
-
-			PipeNet.trackingInstances.clear();
-			nets.forEach(x -> {
-				if(x instanceof PipeNet) PipeNet.trackingInstances.add((PipeNet) x);
-			});
-
-			fill = (int) PipeNet.fairTransfer(con, type, pressure, fill);
-		}
-
-		//resubscribe to buffered nets, if necessary
-		if(connect) {
-			nets.forEach(x -> x.subscribe(that));
-		}
-
-		return fill;
 	}
 
 	@Override
@@ -296,7 +226,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return (mode == 0 || mode == 1) && !sendingBrake ? new FluidTank[] {tank} : new FluidTank[0];
+		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 
 	@Override

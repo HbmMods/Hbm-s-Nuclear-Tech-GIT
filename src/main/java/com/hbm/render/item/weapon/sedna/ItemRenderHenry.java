@@ -8,8 +8,15 @@ import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderHenry extends ItemRenderWeaponBase {
+	
+	public ResourceLocation texture;
+	
+	public ItemRenderHenry(ResourceLocation texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
@@ -38,7 +45,7 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.henry_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -150,7 +157,7 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.henry_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.henry.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}

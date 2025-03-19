@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.ChemplantRecipes;
@@ -19,7 +18,7 @@ import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -34,7 +33,7 @@ import net.minecraft.tileentity.TileEntity;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidUser, IGUIProvider {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IGUIProvider {
 
 	public long power;
 	public int[] progress;
@@ -344,39 +343,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		this.power = power;
 	}
 
-	/*public int getFluidFill(FluidType type) {
-
-		int fill = 0;
-
-		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type) {
-				fill += tank.getFill();
-			}
-		}
-
-		for(FluidTank tank : outTanks()) {
-			if(tank.getTankType() == type) {
-				fill += tank.getFill();
-			}
-		}
-
-		return fill;
-	}*/
-
-	/* For input only! */
-	public int getMaxFluidFill(FluidType type) {
-
-		int maxFill = 0;
-
-		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type) {
-				maxFill += tank.getMaxFill();
-			}
-		}
-
-		return maxFill;
-	}
-
 	protected List<FluidTank> inTanks() {
 
 		List<FluidTank> inTanks = new ArrayList();
@@ -389,113 +355,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 
 		return inTanks;
-	}
-
-	/*public void receiveFluid(int amount, FluidType type) {
-
-		if(amount <= 0)
-			return;
-
-		List<FluidTank> rec = new ArrayList();
-
-		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type) {
-				rec.add(tank);
-			}
-		}
-
-		if(rec.size() == 0)
-			return;
-
-		int demand = 0;
-		List<Integer> weight = new ArrayList();
-
-		for(FluidTank tank : rec) {
-			int fillWeight = tank.getMaxFill() - tank.getFill();
-			demand += fillWeight;
-			weight.add(fillWeight);
-		}
-
-		for(int i = 0; i < rec.size(); i++) {
-
-			if(demand <= 0)
-				break;
-
-			FluidTank tank = rec.get(i);
-			int fillWeight = weight.get(i);
-			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
-
-			tank.setFill(tank.getFill() + part);
-		}
-	}*/
-
-	public int getFluidFillForTransfer(FluidType type, int pressure) {
-
-		int fill = 0;
-
-		for(FluidTank tank : outTanks()) {
-			if(tank.getTankType() == type && tank.getPressure() == pressure) {
-				fill += tank.getFill();
-			}
-		}
-
-		return fill;
-	}
-
-	public void transferFluid(int amount, FluidType type, int pressure) {
-
-		/*
-		 * this whole new fluid mumbo jumbo extra abstraction layer might just be a bandaid
-		 * on the gushing wound that is the current fluid systemm but i'll be damned if it
-		 * didn't at least do what it's supposed to. half a decade and we finally have multi
-		 * tank support for tanks with matching fluid types!!
-		 */
-		if(amount <= 0)
-			return;
-
-		List<FluidTank> send = new ArrayList();
-
-		for(FluidTank tank : outTanks()) {
-			if(tank.getTankType() == type && tank.getPressure() == pressure) {
-				send.add(tank);
-			}
-		}
-
-		if(send.size() == 0)
-			return;
-
-		int offer = 0;
-		List<Integer> weight = new ArrayList();
-
-		for(FluidTank tank : send) {
-			int fillWeight = tank.getFill();
-			offer += fillWeight;
-			weight.add(fillWeight);
-		}
-
-		int tracker = amount;
-
-		for(int i = 0; i < send.size(); i++) {
-
-			FluidTank tank = send.get(i);
-			int fillWeight = weight.get(i);
-			int part = amount * fillWeight / offer;
-
-			tank.setFill(tank.getFill() - part);
-			tracker -= part;
-		}
-
-		//making sure to properly deduct even the last mB lost by rounding errors
-		for(int i = 0; i < 100 && tracker > 0; i++) {
-
-			FluidTank tank = send.get(i % send.size());
-
-			if(tank.getFill() > 0) {
-				int total = Math.min(tank.getFill(), tracker);
-				tracker -= total;
-				tank.setFill(tank.getFill() - total);
-			}
-		}
 	}
 
 	protected List<FluidTank> outTanks() {
@@ -513,66 +372,18 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	}
 
 	@Override
+	public FluidTank[] getReceivingTanks() {
+		return this.inTanks().toArray(new FluidTank[0]);
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.outTanks().toArray(new FluidTank[0]);
+	}
+
+	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
-	}
-
-	@Override
-	public long transferFluid(FluidType type, int pressure, long fluid) {
-		int amount = (int) fluid;
-
-		if(amount <= 0)
-			return 0;
-
-		List<FluidTank> rec = new ArrayList();
-
-		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type && tank.getPressure() == pressure) {
-				rec.add(tank);
-			}
-		}
-
-		if(rec.size() == 0)
-			return fluid;
-
-		int demand = 0;
-		List<Integer> weight = new ArrayList();
-
-		for(FluidTank tank : rec) {
-			int fillWeight = tank.getMaxFill() - tank.getFill();
-			demand += fillWeight;
-			weight.add(fillWeight);
-		}
-
-		for(int i = 0; i < rec.size(); i++) {
-
-			if(demand <= 0)
-				break;
-
-			FluidTank tank = rec.get(i);
-			int fillWeight = weight.get(i);
-			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
-
-			tank.setFill(tank.getFill() + part);
-			fluid -= part;
-		}
-
-		return fluid;
-	}
-
-	@Override
-	public long getDemand(FluidType type, int pressure) {
-		return getMaxFluidFill(type) - getFluidFillForTransfer(type, pressure);
-	}
-
-	@Override
-	public long getTotalFluidForSend(FluidType type, int pressure) {
-		return getFluidFillForTransfer(type, pressure);
-	}
-
-	@Override
-	public void removeFluidForTransfer(FluidType type, int pressure, long amount) {
-		this.transferFluid((int) amount, type, pressure);
 	}
 
 	@Override

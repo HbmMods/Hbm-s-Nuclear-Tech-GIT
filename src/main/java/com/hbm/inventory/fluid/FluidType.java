@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.uninos.INetworkProvider;
+import com.hbm.uninos.networkproviders.FluidNetProvider;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.fluidmk2.FluidNetMK2;
@@ -255,7 +256,9 @@ public class FluidType {
 		return this.stringId;
 	}
 	
+	protected INetworkProvider<FluidNetMK2> NETWORK_PROVIDER = new FluidNetProvider(this);
+	
 	public INetworkProvider<FluidNetMK2> getNetworkProvider() {
-		return null; //TBI
+		return NETWORK_PROVIDER;
 	}
 }

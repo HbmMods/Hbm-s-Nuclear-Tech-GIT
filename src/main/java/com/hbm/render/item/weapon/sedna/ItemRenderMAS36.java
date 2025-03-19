@@ -76,9 +76,9 @@ public class ItemRenderMAS36 extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 1.125, 0);
+		GL11.glTranslated(0, 0.0625 * 18.5, 0);
 		GL11.glRotated(boltTurn[2], 0, 0, 1);
-		GL11.glTranslated(0, -1.125, 0);
+		GL11.glTranslated(0, 0.0625 * -18.5, 0);
 		GL11.glTranslated(0, 0, boltPull[2]);
 		ResourceManager.mas36.renderPart("Bolt");
 		GL11.glPopMatrix();

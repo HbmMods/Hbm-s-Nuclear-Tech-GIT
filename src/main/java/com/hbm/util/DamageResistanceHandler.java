@@ -381,7 +381,7 @@ public class DamageResistanceHandler {
 			if(exact != null) return exact;
 			Resistance category = categoryResistances.get(typeToCategory(source));
 			if(category != null) return category;
-			return otherResistance;
+			return source.isUnblockable() ? null : otherResistance;
 		}
 
 		public ResistanceStats addExact(String type, float threshold, float resistance) { exactResistances.put(type, new Resistance(threshold, resistance)); return this; }

@@ -7,7 +7,11 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.tileentity.TileEntity;
 
-public interface IFluidPipeMK2 {
+/**
+ * IFluidConductorMK2 with added node creation method
+ * @author hbm
+ */
+public interface IFluidPipeMK2 extends IFluidConnectorMK2 {
 	
 	public default FluidNode createNode(FluidType type) {
 		TileEntity tile = (TileEntity) this;

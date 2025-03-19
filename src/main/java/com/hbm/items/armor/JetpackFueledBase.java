@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.fluid.FluidType;
 
-import api.hbm.fluid.IFillableItem;
+import api.hbm.fluidmk2.IFillableItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

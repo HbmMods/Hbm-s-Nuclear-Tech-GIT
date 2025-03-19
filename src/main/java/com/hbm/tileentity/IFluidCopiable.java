@@ -1,11 +1,12 @@
 package com.hbm.tileentity;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
-import api.hbm.fluid.IFluidUser;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.BobMathUtil;
+
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.fluidmk2.IFluidUserMK2;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +21,7 @@ public interface IFluidCopiable extends ICopiable {
 	 *         none if there is no alt paste support
 	 */
 	default int[] getFluidIDToCopy() {
-		IFluidUser tile = (IFluidUser) this;
+		IFluidUserMK2 tile = (IFluidUserMK2) this;
 		ArrayList<Integer> types = new ArrayList<>();
 
 		for(FluidTank tank : tile.getAllTanks()) {
@@ -33,8 +34,8 @@ public interface IFluidCopiable extends ICopiable {
 
 	default FluidTank getTankToPaste() {
 		TileEntity te = (TileEntity) this;
-		if(te instanceof IFluidStandardTransceiver) {
-			IFluidStandardTransceiver tile = (IFluidStandardTransceiver) this;
+		if(te instanceof IFluidStandardTransceiverMK2) { // why are we using the transceiver here?
+			IFluidStandardTransceiverMK2 tile = (IFluidStandardTransceiverMK2) this;
 			return tile.getReceivingTanks() != null ? tile.getReceivingTanks()[0] : null;
 		}
 		return null;

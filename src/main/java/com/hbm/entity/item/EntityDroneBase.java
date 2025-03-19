@@ -9,7 +9,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityDroneBase extends Entity {
-	
+
 	protected int turnProgress;
 	protected double syncPosX;
 	protected double syncPosY;
@@ -26,7 +26,7 @@ public abstract class EntityDroneBase extends Entity {
 		super(world);
 		this.setSize(1.5F, 2.0F);
 	}
-	
+
 	public void setTarget(double x, double y, double z) {
 		this.targetX = x;
 		this.targetY = y;
@@ -49,7 +49,7 @@ public abstract class EntityDroneBase extends Entity {
 		if(attacker instanceof EntityPlayer) {
 			this.setDead();
 		}
-		
+
 		return false;
 	}
 
@@ -62,7 +62,7 @@ public abstract class EntityDroneBase extends Entity {
 	protected void entityInit() {
 		this.dataWatcher.addObject(10, new Byte((byte) 0));
 	}
-	
+
 	/**
 	 * 0: Empty<br>
 	 * 1: Crate<br>
@@ -71,14 +71,14 @@ public abstract class EntityDroneBase extends Entity {
 	public void setAppearance(int style) {
 		this.dataWatcher.updateObject(10, (byte) style);
 	}
-	
+
 	public int getAppearance() {
 		return this.dataWatcher.getWatchableObjectByte(10);
 	}
-	
+
 	@Override
 	public void onUpdate() {
-		
+
 		if(worldObj.isRemote) {
 			if(this.turnProgress > 0) {
 				double interpX = this.posX + (this.syncPosX - this.posX) / (double) this.turnProgress;
@@ -99,12 +99,12 @@ public abstract class EntityDroneBase extends Entity {
 			this.motionX = 0;
 			this.motionY = 0;
 			this.motionZ = 0;
-			
+
 			if(this.targetY != -1) {
-				
+
 				Vec3 dist = Vec3.createVectorHelper(targetX - posX, targetY - posY, targetZ - posZ);
 				double speed = Math.min(getSpeed(), dist.lengthVector());
-				
+
 				dist = dist.normalize();
 				this.motionX = dist.xCoord * speed;
 				this.motionY = dist.yCoord * speed;
@@ -113,21 +113,26 @@ public abstract class EntityDroneBase extends Entity {
 			if(isCollidedHorizontally){
 				motionY += 1;
 			}
+			this.loadNeighboringChunks();
 			this.moveEntity(motionX, motionY, motionZ);
 		}
+
+		super.onUpdate();
 	}
-	
+
+	protected void loadNeighboringChunks() {}
+
 	public double getSpeed() {
 		return 0.125D;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void setVelocity(double motionX, double motionY, double motionZ) {
 		this.velocityX = this.motionX = motionX;
 		this.velocityY = this.motionY = motionY;
 		this.velocityZ = this.motionZ = motionZ;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
 		this.syncPosX = x;
@@ -138,7 +143,7 @@ public abstract class EntityDroneBase extends Entity {
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 	}
-	
+
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 
@@ -157,7 +162,7 @@ public abstract class EntityDroneBase extends Entity {
 			this.targetY = nbt.getDouble("tY");
 			this.targetZ = nbt.getDouble("tZ");
 		}
-		
+
 		this.dataWatcher.updateObject(10, nbt.getByte("app"));
 	}
 }

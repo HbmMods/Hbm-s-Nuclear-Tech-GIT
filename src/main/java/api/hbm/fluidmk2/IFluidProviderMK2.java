@@ -1,11 +1,12 @@
 package api.hbm.fluidmk2;
 
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.uninos.IGenProvider;
-import com.hbm.uninos.networkproviders.FluidNetProvider;
 
-public interface IFluidProviderMK2 extends IGenProvider<FluidNetProvider> {
+public interface IFluidProviderMK2 extends IFluidUserMK2 {
 
 	public void useUpFluid(FluidType type, int pressure, long amount);
-	public long getProviderSpeed(FluidType type, int pressure);
+	public default long getProviderSpeed(FluidType type, int pressure) { return 1_000_000_000; }
+	public long getFluidAvailable(FluidType type, int pressure);
+	
+	public default int[] getProvidingPressureRange(FluidType type) { return DEFAULT_PRESSURE_RANGE; }
 }

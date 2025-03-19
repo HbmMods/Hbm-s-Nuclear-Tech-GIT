@@ -28,6 +28,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 
 	@Override
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount) {
+		if(inventory == null) return;
 		
 		BulletConfig first = this.getFirstConfig(stack, inventory);
 		

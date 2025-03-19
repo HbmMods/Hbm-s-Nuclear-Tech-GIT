@@ -1,7 +1,6 @@
 package api.hbm.energymk2;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,15 +36,19 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		List<Pair<IEnergyProviderMK2, Long>> providers = new ArrayList();
 		long powerAvailable = 0;
 		
+		// sum up available power
 		Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
 		while(provIt.hasNext()) {
 			Entry<IEnergyProviderMK2, Long> entry = provIt.next();
-			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
+			if(timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { provIt.remove(); continue; }
 			long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
-			providers.add(new Pair(entry.getKey(), src));
-			powerAvailable += src;
+			if(src > 0) {
+				providers.add(new Pair(entry.getKey(), src));
+				powerAvailable += src;
+			}
 		}
 		
+		// sum up total demand, categorized by priority
 		List<Pair<IEnergyReceiverMK2, Long>>[] receivers = new ArrayList[ConnectionPriority.values().length];
 		for(int i = 0; i < receivers.length; i++) receivers[i] = new ArrayList();
 		long[] demand = new long[ConnectionPriority.values().length];
@@ -55,17 +58,20 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		
 		while(recIt.hasNext()) {
 			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
-			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
+			if(timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { recIt.remove(); continue; }
 			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
-			int p = entry.getKey().getPriority().ordinal();
-			receivers[p].add(new Pair(entry.getKey(), rec));
-			demand[p] += rec;
-			totalDemand += rec;
+			if(rec > 0) {
+				int p = entry.getKey().getPriority().ordinal();
+				receivers[p].add(new Pair(entry.getKey(), rec));
+				demand[p] += rec;
+				totalDemand += rec;
+			}
 		}
 
 		long toTransfer = Math.min(powerAvailable, totalDemand);
 		long energyUsed = 0;
 		
+		// add power to receivers, ordered by priority
 		for(int i = ConnectionPriority.values().length - 1; i >= 0; i--) {
 			List<Pair<IEnergyReceiverMK2, Long>> list = receivers[i];
 			long priorityDemand = demand[i];
@@ -82,6 +88,7 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		this.energyTracker += energyUsed;
 		long leftover = energyUsed;
 
+		// remove power from providers
 		for(Pair<IEnergyProviderMK2, Long> entry : providers) {
 			double weight = (double) entry.getValue() / (double) powerAvailable;
 			long toUse = (long) Math.max(energyUsed * weight, 0D);
@@ -89,7 +96,7 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 			leftover -= toUse;
 		}
 		
-		//rounding error compensation, detects surplus that hasn't been used and removes it from random providers
+		// rounding error compensation, detects surplus that hasn't been used and removes it from random providers
 		int iterationsLeft = 100; // whiles without emergency brakes are a bad idea
 		while(iterationsLeft > 0 && leftover > 0 && providers.size() > 0) {
 			iterationsLeft--;
@@ -145,15 +152,5 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
 		this.energyTracker += energyUsed;
 		
 		return power - energyUsed;
-	}
-	
-	public static final ReceiverComparator COMP = new ReceiverComparator();
-	
-	public static class ReceiverComparator implements Comparator<IEnergyReceiverMK2> {
-
-		@Override
-		public int compare(IEnergyReceiverMK2 o1, IEnergyReceiverMK2 o2) {
-			return o2.getPriority().ordinal() - o1.getPriority().ordinal();
-		}
 	}
 }

@@ -4,13 +4,14 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.ct.CT;
 import com.hbm.render.block.ct.CTStitchReceiver;
 import com.hbm.render.block.ct.IBlockCT;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 
-import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -97,7 +98,7 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
-	public static class TileEntityBlockPWR extends TileEntity implements IFluidConnector, ISidedInventory {
+	public static class TileEntityBlockPWR extends TileEntity implements IFluidReceiverMK2, ISidedInventory {
 		
 		public Block block;
 		public int coreX;
@@ -189,13 +190,20 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 
 		@Override
 		public long getDemand(FluidType type, int pressure) {
-			
 			if(this.getBlockMetadata() != 1) return 0;
 			if(block == null) return 0;
 			TileEntityPWRController controller = this.getCore();
 			if(controller != null) return controller.getDemand(type, pressure);
-			
 			return 0;
+		}
+
+		@Override
+		public FluidTank[] getAllTanks() {
+			if(this.getBlockMetadata() != 1) return FluidTank.EMPTY_ARRAY;
+			if(block == null) return FluidTank.EMPTY_ARRAY;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getAllTanks();
+			return FluidTank.EMPTY_ARRAY;
 		}
 
 		@Override

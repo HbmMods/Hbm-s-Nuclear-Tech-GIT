@@ -3,8 +3,9 @@ package com.hbm.lib;
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyConnectorBlock;
 import api.hbm.energymk2.IEnergyConnectorMK2;
-import api.hbm.fluid.IFluidConnector;
-import api.hbm.fluid.IFluidConnectorBlock;
+import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
+import api.hbm.fluidmk2.IFluidConnectorMK2;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -83,8 +84,8 @@ public class Library {
 
 		Block b = world.getBlock(x, y, z);
 
-		if(b instanceof IFluidConnectorBlock) {
-			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
+		if(b instanceof IFluidConnectorBlockMK2) {
+			IFluidConnectorBlockMK2 con = (IFluidConnectorBlockMK2) b;
 
 			if(con.canConnect(type, world, x, y, z, dir.getOpposite() /* machine's connecting side */))
 				return true;
@@ -92,8 +93,8 @@ public class Library {
 
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(te instanceof IFluidConnector) {
-			IFluidConnector con = (IFluidConnector) te;
+		if(te instanceof IFluidConnectorMK2) {
+			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
 
 			if(con.canConnect(type, dir.getOpposite() /* machine's connecting side */))
 				return true;

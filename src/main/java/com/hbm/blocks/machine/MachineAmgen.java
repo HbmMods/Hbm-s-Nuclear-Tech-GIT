@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAmgen;
 
@@ -30,21 +29,6 @@ public class MachineAmgen extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-
-		if(this == ModBlocks.machine_amgen) {
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_side");
-		}
-		if(this == ModBlocks.machine_geo) {
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_side");
-		}
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_deprecated");
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
-	}
-
 }

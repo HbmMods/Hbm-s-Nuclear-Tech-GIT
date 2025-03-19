@@ -128,7 +128,6 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 
 		public RecipeSet(Object in, List<ItemStack> out) {
 			//not the prettiest of solutions but certainly the most pleasant to work with
-			int inLine = 1;
 			int outLine = 1;
 			int inOX = 0;
 			int inOY = 0;

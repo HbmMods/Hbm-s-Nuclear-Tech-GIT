@@ -101,9 +101,6 @@ public class PyroOvenRecipes extends SerializableRecipe {
 		recipes.add(new PyroOvenRecipe(100)
 				.in(new FluidStack(Fluids.HYDROGEN, 500)).in(new OreDictStack(COAL.dust()))
 				.out(new FluidStack(Fluids.HEAVYOIL, 1_000)));
-		recipes.add(new PyroOvenRecipe(100)
-				.in(new FluidStack(Fluids.HYDROGEN, 250)).in(new OreDictStack(ANY_COKE.gem()))
-				.out(new FluidStack(Fluids.HEAVYOIL, 1_000)));
 		//coalgas from coal
 		recipes.add(new PyroOvenRecipe(50)
 				.in(new FluidStack(Fluids.HEAVYOIL, 500)).in(new OreDictStack(COAL.gem()))

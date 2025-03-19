@@ -1,12 +1,11 @@
 package com.hbm.items.tool;
 
-import api.hbm.fluid.IFillableItem;
-
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.fluidmk2.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
