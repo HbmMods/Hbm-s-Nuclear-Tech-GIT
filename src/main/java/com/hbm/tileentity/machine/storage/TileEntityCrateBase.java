@@ -3,15 +3,19 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
+import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class TileEntityCrateBase extends TileEntityLockableBase implements ISidedInventory, IGUIProvider {
 
-	protected ItemStack slots[];
+	protected ItemStack[] slots;
 	public String customName;
 
 	public boolean hasSpiders = false;
@@ -52,7 +56,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
+		return this.customName != null && !this.customName.isEmpty();
 	}
 
 	public void setCustomName(String name) {
@@ -163,5 +167,42 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 	// Spiders!!!
 	public void fillWithSpiders() {
 		this.hasSpiders = true;
+	}
+
+	private static final int numSpiders = 3; // leave that at 3 for now TODO: maybe a config option or smth
+
+	/// For when opening from a TileEntity.
+	public static void spawnSpiders(EntityPlayer player, World worldObj, TileEntityCrateBase crate) {
+		if(crate.hasSpiders) {
+			Random random = new Random();
+
+			for (int i = 0; i < numSpiders; i++) {
+
+				EntityCaveSpider spider = new EntityCaveSpider(worldObj); // lord
+				spider.setLocationAndAngles(crate.xCoord + random.nextGaussian() * 2, crate.yCoord + 1, crate.zCoord + random.nextGaussian() * 2, random.nextFloat(), 0);
+				spider.setAttackTarget(player);
+
+				worldObj.spawnEntityInWorld(spider);
+			}
+			crate.hasSpiders = false;
+			crate.markDirty();
+		}
+	}
+
+	/// For when opening from a player's inventory.
+	public static void spawnSpiders(EntityPlayer player, World worldObj, ItemStack crate) {
+		if(crate.getTagCompound().getBoolean("spiders")) {
+			Random random = new Random();
+
+			for (int i = 0; i < numSpiders; i++) {
+
+				EntityCaveSpider spider = new EntityCaveSpider(worldObj);
+				spider.setLocationAndAngles(player.posX + random.nextGaussian() * 2, player.posY + 1, player.posZ + random.nextGaussian() * 2, random.nextFloat(), 0);
+				spider.setAttackTarget(player);
+
+				worldObj.spawnEntityInWorld(spider);
+			}
+			crate.getTagCompound().removeTag("spiders");
+		}
 	}
 }

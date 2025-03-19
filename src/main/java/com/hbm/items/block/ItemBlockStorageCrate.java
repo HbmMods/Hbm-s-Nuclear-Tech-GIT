@@ -3,7 +3,7 @@ package com.hbm.items.block;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
-import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.storage.*;
@@ -42,16 +42,19 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				for (ItemStack item : player.inventory.mainInventory) {
 					if(item == null) // Skip if no item.
 						continue;
-					if(item.getItem() != ModItems.key || item.stackTagCompound == null) // Skip if item isn't a key or if the NBT is null (wouldn't open it either way).
+					if(!(item.getItem() instanceof ItemKey)) // Skip if item isn't a key.
+						continue;
+					if(item.stackTagCompound == null) // Skip if there is no NBT (wouldn't open it anyway).
 						continue;
 					if (item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
+						TileEntityCrateBase.spawnSpiders(player, world, stack);
 						player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 						break;
 					}
 				}
 				return stack; // Return early if it was locked.
 			}
-
+			TileEntityCrateBase.spawnSpiders(player, world, stack);
 			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0); // If there is no lock then don't bother checking.
 		}
 
@@ -89,6 +92,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		public final ItemStack crate;
 		public ItemStack[] slots;
 
+		private boolean toMarkDirty = false;
+
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 
 			this.player = player;
@@ -99,9 +104,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				crate.stackTagCompound = new NBTTagCompound();
 			else if(!player.worldObj.isRemote) {
 				for (int i = 0; i < this.getSizeInventory(); i++)
-					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)), false);
+					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)));
 			}
+			toMarkDirty = true;
 			this.markDirty();
+			toMarkDirty = false;
 		}
 
 		@Nonnull
@@ -137,7 +144,6 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			if (stack != null) {
 				if (stack.stackSize > amount) {
 					stack = stack.splitStack(amount);
-					markDirty();
 				} else {
 					setInventorySlotContents(slot, null);
 				}
@@ -154,18 +160,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public void setInventorySlotContents(int slot, ItemStack stack) {
-			setInventorySlotContents(slot, stack, true);
-		}
-
-		public void setInventorySlotContents(int slot, ItemStack stack, boolean markDirty) {
-
 			if(stack != null) {
 				stack.stackSize = Math.min(stack.stackSize, this.getInventoryStackLimit());
 			}
 
 			slots[slot] = stack;
-			if(markDirty) // This is purely so we don't re-serialize *all* the data when *each* item is loaded during the inventory creation.
-				markDirty();
 		}
 
 		@Override
@@ -181,11 +180,19 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		@Override
 		public void markDirty() { // I HATE THIS SO MUCH
 
-			ItemStack item = new ItemStack(crate.getItem());
+			if(player.worldObj.isRemote) { // go the fuck away
+				return;
+			}
+
+			if(!toMarkDirty) { // ok fuck you too
+				return;
+			}
 
 			NBTTagCompound nbt = new NBTTagCompound();
 
-			for(int i = 0; i < this.getSizeInventory(); i++) {
+			int invSize = this.getSizeInventory();
+
+			for(int i = 0; i < invSize; i++) {
 
 				ItemStack stack = this.getStackInSlot(i);
 				if(stack == null)
@@ -214,7 +221,7 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 					if(abyte.length > 6000) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
-						for(int i1 = 0; i1 < this.getSizeInventory(); ++i1) {
+						for(int i1 = 0; i1 < invSize; ++i1) {
 							ItemStack itemstack = this.getStackInSlot(i1);
 
 							if(itemstack != null) {
@@ -244,16 +251,17 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 								}
 							}
 						}
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-						player.closeScreen();
+
+						crate.setTagCompound(null); // Wipe tag compound to clear crate.
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, crate);
 						return;
 					}
 				} catch(IOException ignored) { }
 			}
 
-			item.setTagCompound(nbt);
+			crate.setTagCompound(nbt);
 
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, item);
+			player.inventory.setInventorySlotContents(player.inventory.currentItem, crate);
 		}
 
 		@Override
@@ -268,6 +276,9 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public void closeInventory() {
+			toMarkDirty = true;
+			markDirty();
+			toMarkDirty = false;
 			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F);
 		}
 

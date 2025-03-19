@@ -1,19 +1,27 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsSingle;
 import com.hbm.lib.HbmWorldGen;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionCreator;
 
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
@@ -27,6 +35,42 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 
 		if(pos != null) {
+
+			int y = world.getHeightValue(pos.blockX, pos.blockZ);
+
+			Random rand = new Random();
+
+			if(world.getBlock(pos.blockX, y - 1, pos.blockZ).canPlaceTorchOnTop(world, pos.blockX, y - 1, pos.blockZ)) {
+				world.setBlock(pos.blockX, y, pos.blockZ, ModBlocks.safe, rand.nextInt(4) + 2, 2);
+				TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(pos.blockX, y, pos.blockZ);
+
+				switch(rand.nextInt(10)) {
+					case 0: case 1: case 2: case 3:
+						safe.setMod(1);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_RUSTY), safe, rand.nextInt(4) + 3);
+						break;
+					case 4: case 5: case 6:
+						safe.setMod(0.1);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_STANDARD), safe, rand.nextInt(3) + 2);
+						break;
+					case 7: case 8:
+						safe.setMod(0.02);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_REINFORCED), safe, rand.nextInt(3) + 1);
+						break;
+					case 9:
+						safe.setMod(0.0);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_UNBREAKABLE), safe, rand.nextInt(2) + 1);
+						break;
+				}
+
+				safe.setPins(rand.nextInt(999) + 1);
+				safe.lock();
+
+				safe.fillWithSpiders(); // debug
+
+				if(GeneralConfig.enableDebugMode)
+					MainRegistry.logger.info("[Debug] Successfully spawned safe at " + pos.blockX + " " + (y + 1) +" " + pos.blockZ);
+			}
 
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));

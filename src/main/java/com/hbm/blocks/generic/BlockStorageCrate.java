@@ -24,8 +24,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -178,21 +176,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 			if(entity instanceof TileEntityCrateBase && ((TileEntityCrateBase) entity).canAccess(player)) {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 				TileEntityCrateBase crate = (TileEntityCrateBase) entity;
-				if(crate.hasSpiders) {
-					Random random = new Random();
-					int numSpiders = 3; // leave that at 3 for now TODO: maybe a config option or smth
-
-					for (int i = 0; i < numSpiders; i++) {
-
-						EntityCaveSpider spider = new EntityCaveSpider(crate.getWorldObj()); // lord
-						spider.setLocationAndAngles(x + random.nextGaussian() * 2, y + 1, z + random.nextGaussian() * 2, random.nextFloat(), 0);
-						spider.setAttackTarget(player);
-
-						world.spawnEntityInWorld(spider);
-
-						crate.hasSpiders = false;
-					}
-				}
+				TileEntityCrateBase.spawnSpiders(player, world, crate);
 			}
 			return true;
 		} else {
