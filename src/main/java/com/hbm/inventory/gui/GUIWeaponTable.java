@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIWeaponTable extends GuiInfoContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_armor_modifier.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_weapon_modifier.png");
 	public int left;
 	public int top;
 
@@ -37,5 +37,6 @@ public class GUIWeaponTable extends GuiInfoContainer {
 	protected void drawGuiContainerBackgroundLayer(float inter, int mX, int mY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(texture);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 }

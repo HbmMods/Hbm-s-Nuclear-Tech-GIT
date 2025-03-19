@@ -12,6 +12,7 @@ import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -98,7 +99,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
 		if(stack == null) return cfg;
-		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
+		return WeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this);
 	}
 	
 	public int getConfigCount() {
@@ -110,6 +111,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		this.configs_DNA = cfg;
 		this.quality = quality;
 		this.lastShot = new long[cfg.length];
+		for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
 		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL) this.setCreativeTab(MainRegistry.weaponTab);
 		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
@@ -157,6 +159,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
 		case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
+		}
+		
+		for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack)) {
+			list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName()); break;
 		}
 	}
 	
@@ -263,6 +269,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 				}
 			}
 			this.setIsAiming(stack, false);
+			this.setReloadCancel(stack, false);
 			return;
 		}
 		

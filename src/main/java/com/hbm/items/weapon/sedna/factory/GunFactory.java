@@ -66,6 +66,8 @@ public class GunFactory {
 		XFactoryTurret.init();
 		XFactory10ga.init();
 		XFactory35800.init();
+		
+		ModItems.weapon_mod_test = new ItemEnumMulti(EnumModTest.class, true, true).setUnlocalizedName("weapon_mod_test");
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -81,7 +83,7 @@ public class GunFactory {
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
 		BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
 		B75, B75_INC, B75_EXP,
-		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS, //G12_ANTHRAX,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS,
 		G26_FLARE, G26_FLARE_SUPPLY, G26_FLARE_WEAPON,
 		G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
 		ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
@@ -128,5 +130,9 @@ public class GunFactory {
 		FOLLY_SM, FOLLY_NUKE,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN,
 		P35_800
+	}
+	
+	public static enum EnumModTest {
+		FIRERATE, DAMAGE, MULTI;
 	}
 }

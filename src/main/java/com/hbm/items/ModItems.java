@@ -1506,6 +1506,8 @@ public class ModItems {
 	public static Item ammo_standard;
 	public static Item ammo_secret;
 
+	public static Item weapon_mod_test;
+
 	public static Item crucible;
 
 	public static Item stick_dynamite;
@@ -6485,6 +6487,8 @@ public class ModItems {
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());
+		
+		GameRegistry.registerItem(weapon_mod_test, weapon_mod_test.getUnlocalizedName());
 
 		//Ammo
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
