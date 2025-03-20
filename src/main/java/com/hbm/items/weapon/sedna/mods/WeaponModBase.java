@@ -1,6 +1,10 @@
 package com.hbm.items.weapon.sedna.mods;
 
 public abstract class WeaponModBase implements IWeaponMod {
+
+	public static final int PRIORITY_MULTIPLICATIVE = 1_000;
+	public static final int PRIORITY_ADDITIVE = 500;
+	public static final int PRIORITY_MULT_FINAL = -1;
 	
 	public String[] slots;
 	public int priority = 0;
@@ -20,5 +24,5 @@ public abstract class WeaponModBase implements IWeaponMod {
 	 * @param Any value with the type that should be cast to
 	 * @return
 	 */
-	public <T> T fagSlop(Object arg, T castTo) { return (T) arg; } //TODO: rename this to something more tactful
+	public <T> T cast(Object arg, T castTo) { return (T) arg; }
 }

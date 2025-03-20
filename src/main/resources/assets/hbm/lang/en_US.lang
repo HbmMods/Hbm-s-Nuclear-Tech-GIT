@@ -866,6 +866,7 @@ container.uf6_tank=UF6 Tank
 container.vacuumDistill=Vacuum Refinery
 container.wasteDrum=Spent Fuel Pool Drum
 container.watzPowerplant=Watz Power Plant
+container.weaponsTable=Weapon Modification Table
 container.zirnox=ZIRNOX Nuclear Reactor
 
 copytool.filter=Filter
@@ -5760,6 +5761,7 @@ tile.machine_turbofan.name=Turbofan
 tile.machine_uf6_tank.name=Uranium Hexafluoride Tank
 tile.machine_vacuum_distill.name=Vacuum Refinery
 tile.machine_waste_drum.name=Spent Fuel Pool Drum
+tile.machine_weapon_table.name=Weapon Modification Table
 tile.machine_wood_burner.name=Wood-Burning Generator
 tile.machine_wood_burner.desc=Generates 100HE/t when burning items$Collects ashes$Can burn fluids at 50%% efficiency at 40mB/s
 tile.machine_well.name=Oil Derrick

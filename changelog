@@ -9,6 +9,7 @@
   * Explosive .50 BMG
   * Explosive 10 gauge buckshot (unlike 12 gauge which has explosive slugs)
 * Lincoln's repeater, a b-side to the lever action rifle
+* Weapon modification table
 
 ## Changed
 * Fat mines now use the standardized mini nuke code
@@ -29,6 +30,7 @@
 * Removed the crafting recipe for the small geothermal generator and ZPE generators
 * Removed the gemothermal, ZPE and ambient radiation generators from the creative menu
 * Disabled the horrid flicker on the quad rocket launcher's antenna, making steered mode look less terrible
+* All non-legendary .357 revolvers now fire a quarter of a second faster
 
 ## Fixed
 * Fixed animation errors on the MAS-36
@@ -41,3 +43,4 @@
 * Chunk-loading drones may or may not be fixed
 * Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
 * Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens
+* Fixed fat man's piston not being extended correctly in non-first person rendering when unloaded

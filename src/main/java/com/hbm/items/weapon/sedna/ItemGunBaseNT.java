@@ -1,13 +1,18 @@
 package com.hbm.items.weapon.sedna;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.gui.GUIWeaponTable;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
@@ -49,6 +54,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public double shotRand = 0D;
 	
 	public static List<Item> secrets = new ArrayList();
+	public List<ComparableStack> recognizedMods = new ArrayList();
+	
+	public static final DecimalFormatSymbols SYMBOLS_US = new DecimalFormatSymbols(Locale.US);
+	public static final DecimalFormat FORMAT_DMG = new DecimalFormat("#.##", SYMBOLS_US);
 
 	public static float recoilVertical = 0;
 	public static float recoilHorizontal = 0;
@@ -144,10 +153,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 				IMagazine mag = rec.getMagazine(stack);
 				list.add("Ammo: " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
 				float dmg = rec.getBaseDamage(stack);
-				list.add("Base Damage: " + dmg);
+				list.add("Base Damage: " + FORMAT_DMG.format(dmg));
 				if(mag.getType(stack, player.inventory) instanceof BulletConfig) {
 					BulletConfig bullet = (BulletConfig) mag.getType(stack, player.inventory);
-					list.add("Damage with current ammo: " + dmg * bullet.damageMult + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
+					list.add("Damage with current ammo: " + FORMAT_DMG.format(dmg * bullet.damageMult) + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
 				}
 			}
 			
@@ -163,6 +172,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
 		case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
+		}
+		
+		if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable) {
+			list.add(EnumChatFormatting.RED + "Accepts:");
+			for(ComparableStack comp : this.recognizedMods) list.add(EnumChatFormatting.RED + "  " + comp.toStack().getDisplayName());
 		}
 	}
 	

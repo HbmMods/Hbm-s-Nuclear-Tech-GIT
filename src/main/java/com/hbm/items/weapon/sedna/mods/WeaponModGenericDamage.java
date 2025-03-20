@@ -4,18 +4,18 @@ import com.hbm.items.weapon.sedna.Receiver;
 
 import net.minecraft.item.ItemStack;
 
-public class WeaponModTestDamage extends WeaponModBase {
+public class WeaponModGenericDamage extends WeaponModBase {
 	
-	public WeaponModTestDamage(int id, String... slots) {
-		super(id, slots);
-		this.setPriority(PRIORITY_MULT_FINAL);
+	public WeaponModGenericDamage(int id) {
+		super(id, "GENERIC_DAMAGE");
+		this.setPriority(PRIORITY_MULTIPLICATIVE);
 	}
 
 	@Override
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 		
 		if(parent instanceof Receiver && key == Receiver.F_BASEDAMAGE && base instanceof Float) {
-			return cast((Float) base * 1.5F, base);
+			return cast((Float) base * 1.33F, base);
 		}
 		
 		return base;

@@ -31,6 +31,9 @@ public class WeaponRecipes {
 	
 	public static void register() {
 
+		//Weapon mod table
+		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.machine_weapon_table, 1), new Object[] { "PPP", "TCT", "TST", 'P', GUNMETAL.plate(), 'T', STEEL.ingot(), 'C', Blocks.crafting_table, 'S', STEEL.block() });
+		
 		//SEDNA Parts
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.part_stock, 1, Mats.MAT_WOOD.id), new Object[] { "WWW", "  W", 'W', KEY_PLANKS });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.part_grip, 1, Mats.MAT_WOOD.id), new Object[] { "W ", " W", " W", 'W', KEY_PLANKS });

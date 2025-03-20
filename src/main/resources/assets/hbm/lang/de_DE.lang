@@ -461,6 +461,7 @@ container.uf6_tank=UF6 Tank
 container.vacuumDistill=Vakuumraffinerie
 container.wasteDrum=Abklingbecken-Trommel
 container.watzPowerplant=Watzkraftwerk
+container.weaponsTable=Waffenmodifikationstisch
 container.zirnox=ZIRNOX Atomreaktor
 
 crucible.aa=Herstellung - Fortgeschrittene Legierung
@@ -4630,6 +4631,7 @@ tile.machine_turbofan.name=Turbofan
 tile.machine_uf6_tank.name=Uranhexafluorid-Tank
 tile.machine_vacuum_distill.name=Vakuumraffinerie
 tile.machine_waste_drum.name=Abklingbecken-Trommel
+tile.machine_weapon_table.name=Waffenmodifikationstisch
 tile.machine_wood_burner.name=Brennholzgenerator
 tile.machine_wood_burner.desc=Erzeugt 100HE/t aus Items$Sammelt Asche$Kann 40mB/s Flüssigkeiten mit 50%% Effizienz verbrennen
 tile.machine_well.name=Ölbohrturm
