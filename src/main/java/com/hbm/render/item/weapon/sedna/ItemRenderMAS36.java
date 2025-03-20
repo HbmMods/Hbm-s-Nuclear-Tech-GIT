@@ -145,6 +145,28 @@ public class ItemRenderMAS36 extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -7.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, -0.25, -2.5);
+	}
+
+	@Override
+	public void renderModTable(ItemStack stack, int index) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.mas36_tex);
+		ResourceManager.mas36.renderPart("Gun");
+		ResourceManager.mas36.renderPart("Stock");
+		ResourceManager.mas36.renderPart("Bolt");
+		//ResourceManager.mas36.renderPart("Scope");
+		//ResourceManager.mas36.renderPart("Bayonet");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		

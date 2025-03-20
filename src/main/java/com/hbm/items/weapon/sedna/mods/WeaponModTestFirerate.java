@@ -14,7 +14,7 @@ public class WeaponModTestFirerate extends WeaponModBase {
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 
 		if(parent instanceof Receiver && key == Receiver.I_DELAYAFTERFIRE && base instanceof Integer) {
-			return fagSlop(Math.max((int) base / 2, 1), base);
+			return fagSlop(Math.max((Integer) base / 2, 1), base);
 		}
 		
 		return base;

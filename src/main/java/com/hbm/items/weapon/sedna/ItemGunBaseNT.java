@@ -99,7 +99,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
 		if(stack == null) return cfg;
-		return WeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this);
+		return WeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this, index);
 	}
 	
 	public int getConfigCount() {
@@ -150,6 +150,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 					list.add("Damage with current ammo: " + dmg * bullet.damageMult + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
 				}
 			}
+			
+			for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack, i)) {
+				list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());
+			}
 		}
 		
 		switch(this.quality) {
@@ -159,10 +163,6 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
 		case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
-		}
-		
-		for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack)) {
-			list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName()); break;
 		}
 	}
 	

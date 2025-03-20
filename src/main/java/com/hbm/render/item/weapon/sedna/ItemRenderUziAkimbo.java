@@ -139,6 +139,14 @@ public class ItemRenderUziAkimbo extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -6.25D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, 1, -4);
+	}
+
+	@Override
 	public void renderEquipped(ItemStack stack) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -157,6 +165,20 @@ public class ItemRenderUziAkimbo extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
 		ResourceManager.uzi.renderPart("GunMirror");
+		ResourceManager.uzi.renderPart("StockBack");
+		ResourceManager.uzi.renderPart("StockFront");
+		ResourceManager.uzi.renderPart("Slide");
+		ResourceManager.uzi.renderPart("Magazine");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderModTable(ItemStack stack, int index) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+		ResourceManager.uzi.renderPart(index == 1 ? "GunMirror" : "Gun");
 		ResourceManager.uzi.renderPart("StockBack");
 		ResourceManager.uzi.renderPart("StockFront");
 		ResourceManager.uzi.renderPart("Slide");
