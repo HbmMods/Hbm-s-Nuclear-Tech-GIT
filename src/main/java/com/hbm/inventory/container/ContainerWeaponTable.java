@@ -85,6 +85,7 @@ public class ContainerWeaponTable extends Container {
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		
 		if(mode == 999_999) {
+			if(player.worldObj.isRemote) return null;
 			ItemStack stack = gun.getStackInSlot(0);
 			if(stack != null && stack.getItem() instanceof ItemGunBaseNT) {
 				int configs = ((ItemGunBaseNT) stack.getItem()).getConfigCount();

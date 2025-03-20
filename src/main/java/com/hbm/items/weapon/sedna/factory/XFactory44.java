@@ -150,6 +150,7 @@ public class XFactory44 {
 	
 	public static BiConsumer<ItemStack, LambdaContext> SMACK_A_FUCKER = (stack, ctx) -> {
 		if(ItemGunBaseNT.getState(stack, ctx.configIndex) == GunState.IDLE || ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) == AnimType.CYCLE) {
+			ItemGunBaseNT.setIsAiming(stack, false);
 			ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.DRAWING);
 			ItemGunBaseNT.setTimer(stack, ctx.configIndex, ctx.config.getInspectDuration(stack));
 			ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.INSPECT, ctx.configIndex);

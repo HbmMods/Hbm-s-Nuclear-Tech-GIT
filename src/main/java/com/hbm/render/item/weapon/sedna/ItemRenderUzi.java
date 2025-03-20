@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -65,6 +66,9 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.uzi.renderPart("Gun");
 		
+		boolean silenced = hasSilencer(stack, 0);
+		if(silenced) ResourceManager.uzi.renderPart("Silencer");
+		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0.3125D, -5.75);
 		GL11.glRotated(180 - stockFront[0], 1, 0, 0);
@@ -88,23 +92,25 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		if(bullet[0] == 1) ResourceManager.uzi.renderPart("Bullet");
 		GL11.glPopMatrix();
 
-		double smokeScale = 0.5;
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0.75, 8.5);
-		GL11.glRotated(90, 0, 1, 0);
-		GL11.glScaled(smokeScale, smokeScale, smokeScale);
-		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.75D);
-		GL11.glPopMatrix();
-		
-		GL11.glShadeModel(GL11.GL_FLAT);
-
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0.75, 8.5);
-		GL11.glRotated(90, 0, 1, 0);
-		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
-		GL11.glPopMatrix();
+		if(!silenced) {
+			double smokeScale = 0.5;
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0.75, 8.5);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glScaled(smokeScale, smokeScale, smokeScale);
+			this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.75D);
+			GL11.glPopMatrix();
+			
+			GL11.glShadeModel(GL11.GL_FLAT);
+	
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0.75, 8.5);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
+			this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 
 	@Override
@@ -133,7 +139,7 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderModTable(ItemStack stack, int index) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -143,6 +149,34 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		ResourceManager.uzi.renderPart("StockFront");
 		ResourceManager.uzi.renderPart("Slide");
 		ResourceManager.uzi.renderPart("Magazine");
+		if(hasSilencer(stack, index)) ResourceManager.uzi.renderPart("Silencer");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderOther(ItemStack stack, ItemRenderType type) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		boolean silenced = hasSilencer(stack, 0);
+		
+		if(silenced) {
+			double scale = 0.625D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glTranslated(0, 0, -4);
+		}
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+		ResourceManager.uzi.renderPart("Gun");
+		ResourceManager.uzi.renderPart("StockBack");
+		ResourceManager.uzi.renderPart("StockFront");
+		ResourceManager.uzi.renderPart("Slide");
+		ResourceManager.uzi.renderPart("Magazine");
+		if(silenced) ResourceManager.uzi.renderPart("Silencer");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasSilencer(ItemStack stack, int cfg) {
+		return WeaponModManager.hasUpgrade(stack, cfg, WeaponModManager.ID_SILENCER);
 	}
 }

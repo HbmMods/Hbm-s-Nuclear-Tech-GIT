@@ -3,11 +3,13 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderG3 extends ItemRenderWeaponBase {
 
@@ -34,7 +36,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.g3_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -60,7 +62,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		ResourceManager.g3.renderPart("Rifle");
-		ResourceManager.g3.renderPart("Stock");
+		if(hasStock(stack)) ResourceManager.g3.renderPart("Stock");
 		ResourceManager.g3.renderPart("Flash_Hider");
 		ResourceManager.g3.renderPart("Trigger_Rifle.002");
 		
@@ -122,11 +124,19 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	@Override
 	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
-		double scale = 0.875D;
-		GL11.glScaled(scale, scale, scale);
-		GL11.glRotated(25, 1, 0, 0);
-		GL11.glRotated(45, 0, 1, 0);
-		GL11.glTranslated(-0.5, 0.5, 0);
+		if(hasStock(stack)) {
+			double scale = 0.875D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(-0.5, 0.5, 0);
+		} else {
+			double scale = 1.125D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(2.5, 0.5, 0);
+		}
 	}
 
 	@Override
@@ -142,9 +152,9 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.g3_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
 		ResourceManager.g3.renderPart("Rifle");
-		ResourceManager.g3.renderPart("Stock");
+		if(hasStock(stack)) ResourceManager.g3.renderPart("Stock");
 		ResourceManager.g3.renderPart("Magazine");
 		ResourceManager.g3.renderPart("Flash_Hider");
 		ResourceManager.g3.renderPart("Bolt");
@@ -158,5 +168,15 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		ResourceManager.g3.renderPart("Selector_Rifle.001");
 		GL11.glPopMatrix();
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasStock(ItemStack stack) {
+		return !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK);
+	}
+	
+	public ResourceLocation getTexture(ItemStack stack) {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_GREEN)) return ResourceManager.g3_green_tex;
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK)) return ResourceManager.g3_black_tex;
+		return ResourceManager.g3_tex;
 	}
 }
