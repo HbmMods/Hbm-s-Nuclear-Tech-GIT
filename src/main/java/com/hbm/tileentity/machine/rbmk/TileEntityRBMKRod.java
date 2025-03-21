@@ -413,7 +413,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluxQuantity(Context context, Arguments args) {
-		return new Object[] {fluxQuantity};
+		return new Object[] {lastFluxQuantity};
 	}
 
 	@Callback(direct = true)

@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.handler.threading.PacketThreading;
-import com.hbm.packet.PrecompiledPacket;
+import com.hbm.packet.threading.ThreadedPacket;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -20,6 +20,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.CodecException;
 import io.netty.handler.codec.MessageToMessageCodec;
 import net.minecraft.entity.player.EntityPlayerMP;
+
 
 import java.lang.ref.WeakReference;
 import java.util.EnumMap;
@@ -55,8 +56,8 @@ public class NetworkHandler {
 			discriminator = types.get(msgClass);
 			outboundBuf.writeByte(discriminator);
 
-			if(msg instanceof PrecompiledPacket) // Precompiled packet to avoid race conditions/speed up serialization.
-				outboundBuf.writeBytes(((PrecompiledPacket) msg).getPreBuf());
+			if(msg instanceof ThreadedPacket) // Precompiled packet to avoid race conditions/speed up serialization.
+				outboundBuf.writeBytes(((ThreadedPacket) msg).getCompiledBuffer());
 			else if(msg instanceof IMessage)
 				((IMessage) msg).toBytes(outboundBuf);
 			else

@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -36,10 +36,10 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "rbmkmush");
 		data.setFloat("scale", 10);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.posX + 0.5, this.posY + 1, this.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,this.posX + 0.5, this.posY + 1, this.posZ + 0.5, 250));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, this.posX + 0.5, this.posY + 1, this.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,this.posX + 0.5, this.posY + 1, this.posZ + 0.5, 250));
 		MainRegistry.proxy.effectNT(data);
 
-		this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:weapon.robin_explosion", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);	
+		this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:weapon.robin_explosion", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.missile_generic);
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
 		return "radar.target.shuttle";

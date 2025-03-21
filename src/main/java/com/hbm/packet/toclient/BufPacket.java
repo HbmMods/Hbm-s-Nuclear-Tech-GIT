@@ -1,7 +1,7 @@
 package com.hbm.packet.toclient;
 
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PrecompiledPacket;
+import com.hbm.packet.threading.PrecompiledPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

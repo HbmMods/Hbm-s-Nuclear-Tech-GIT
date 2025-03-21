@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.EntityDuck;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -164,7 +165,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			data.setInteger("count", 50);
 			data.setInteger("block", Block.getIdFromBlock(Blocks.soul_sand));
 			data.setInteger("entity", entity.getEntityId());
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
 		}
 
 		if(entity instanceof EntityPlayer) {

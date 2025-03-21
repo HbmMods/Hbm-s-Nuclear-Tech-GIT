@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretMaxwell;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.IUpgradeInfoProvider;
@@ -254,7 +254,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 				NBTTagCompound vdat = new NBTTagCompound();
 				vdat.setString("type", "giblets");
 				vdat.setInteger("ent", this.target.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 150));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 150));
 
 				if(this.screm)
 					worldObj.playSoundEffect(this.target.posX, this.target.posY, this.target.posZ, "hbm:block.screm", 20.0F, 1.0F);

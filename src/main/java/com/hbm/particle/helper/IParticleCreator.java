@@ -2,7 +2,7 @@ package com.hbm.particle.helper;
 
 import java.util.Random;
 
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -24,8 +24,8 @@ public interface IParticleCreator {
 
 	@SideOnly(Side.CLIENT)
 	public void makeParticle(World world, EntityPlayer player, TextureManager texman, Random rand, double x, double y, double z, NBTTagCompound data);
-	
+
 	public static void sendPacket(World world, double x, double y, double z, int range, NBTTagCompound data) {
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, range));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, range));
 	}
 }

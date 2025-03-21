@@ -1,10 +1,10 @@
 package com.hbm.inventory.gui;
 
+import net.minecraft.inventory.IInventory;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCrateTemplate;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.storage.TileEntityCrateTemplate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,22 +13,22 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GUICrateTemplate extends GuiContainer {
-	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_template.png");
-	private TileEntityCrateTemplate diFurnace;
 
-	public GUICrateTemplate(InventoryPlayer invPlayer, TileEntityCrateTemplate tedf) {
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_template.png");
+	private IInventory diFurnace;
+
+	public GUICrateTemplate(InventoryPlayer invPlayer, IInventory tedf) {
 		super(new ContainerCrateTemplate(invPlayer, tedf));
 		diFurnace = tedf;
-		
+
 		this.xSize = 176;
 		this.ySize = 168;
 	}
-	
+
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
-		
+
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}

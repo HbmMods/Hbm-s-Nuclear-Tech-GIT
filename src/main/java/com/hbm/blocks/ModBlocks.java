@@ -2972,13 +2972,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
 
 		//Crates
-		register(crate_iron);
-		register(crate_steel);
-		register(crate_desh);
-		register(crate_tungsten);
-		register(crate_template);
-		register(safe);
-		register(mass_storage);
+		register(crate_iron, ItemBlockStorageCrate.class);
+		register(crate_steel, ItemBlockStorageCrate.class);
+		register(crate_desh, ItemBlockStorageCrate.class);
+		register(crate_tungsten, ItemBlockStorageCrate.class);
+		register(crate_template, ItemBlockStorageCrate.class);
+		register(safe, ItemBlockStorageCrate.class);
+		register(mass_storage, ItemBlockStorageCrate.class);
 
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());

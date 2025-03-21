@@ -5,9 +5,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 
@@ -108,10 +108,10 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
 			data.setBoolean("balefire", true);
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
 			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}
-		
+
 		return BombReturnCode.DETONATED;
 	}
 }

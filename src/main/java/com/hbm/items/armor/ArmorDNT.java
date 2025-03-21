@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorDNT;
 import com.hbm.util.ArmorUtil;
@@ -53,42 +53,42 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 		return models[armorSlot];
 	}
-	
+
 	private static final UUID speed = UUID.fromString("6ab858ba-d712-485c-bae9-e5e765fc555a");
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 
 		super.onArmorTick(world, player, stack);
-		
+
 		if(this != ModItems.dns_plate)
 			return;
 
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
-		
+
 		/// SPEED ///
 		Multimap multimap = super.getAttributeModifiers(stack);
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(speed, "DNT SPEED", 0.25, 0));
 		player.getAttributeMap().removeAttributeModifiers(multimap);
-		
+
 		if(player.isSprinting()) {
 			player.getAttributeMap().applyAttributeModifiers(multimap);
 		}
 
 		if(!world.isRemote) {
-			
+
 			/// JET ///
 			if(this.hasFSBArmor(player) && (props.isJetpackActive() || (!player.onGround && !player.isSneaking() && props.enableBackpack))) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "jetpack_dns");
 				data.setInteger("player", player.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
 			}
 		}
 
 		if(this.hasFSBArmor(player)) {
-			
+
 			ArmorUtil.resetFlightTime(player);
 
 			if(props.isJetpackActive()) {
@@ -102,7 +102,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 			} else if(!player.isSneaking() && !player.onGround && props.enableBackpack) {
 				player.fallDistance = 0;
-				
+
 				if(player.motionY < -1)
 					player.motionY += 0.4D;
 				else if(player.motionY < -0.1)
@@ -112,7 +112,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 				player.motionX *= 1.05D;
 				player.motionZ *= 1.05D;
-				
+
 				if(player.moveForward != 0) {
 					player.motionX += player.getLookVec().xCoord * 0.25 * player.moveForward;
 					player.motionZ += player.getLookVec().zCoord * 0.25 * player.moveForward;
@@ -120,13 +120,13 @@ public class ArmorDNT extends ArmorFSBPowered {
 
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.immolatorShoot", 0.125F, 1.5F);
 			}
-			
+
 			if(player.isSneaking() && !player.onGround) {
 				player.motionY -= 0.1D;
 			}
 		}
 	}
-	
+
 	@Override
 	public void handleAttack(LivingAttackEvent event) {
 
@@ -136,14 +136,14 @@ public class ArmorDNT extends ArmorFSBPowered {
 			EntityPlayer player = (EntityPlayer) e;
 
 			if(ArmorFSB.hasFSBArmor(player)) {
-				
+
 				if(event.source.isExplosion()) {
 					return;
 				}
 
 				//e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 				HbmPlayerProps.plink(player, "random.break", 0.5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
-				
+
 				event.setCanceled(true);
 			}
 		}
@@ -158,12 +158,12 @@ public class ArmorDNT extends ArmorFSBPowered {
 			EntityPlayer player = (EntityPlayer) e;
 
 			if(ArmorFSB.hasFSBArmor(player)) {
-				
+
 				if(event.source.isExplosion()) {
 					event.ammount *= 0.001F;
 					return;
 				}
-				
+
 				event.ammount = 0;
 			}
 		}
@@ -183,7 +183,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 				list.add(EnumChatFormatting.AQUA + "  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
 			}
 		}
-		
+
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));

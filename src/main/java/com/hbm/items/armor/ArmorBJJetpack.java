@@ -3,6 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorBJ;
@@ -33,51 +34,51 @@ public class ArmorBJJetpack extends ArmorBJ {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		
+
 		if(model == null) {
 			model = new ModelArmorBJ(5);
 		}
-		
+
 		return model;
 	}
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
-		
+
 		super.onArmorTick(world, player, stack);
-		
+
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
-		
+
 		if(!world.isRemote) {
-			
+
 			if(this.hasFSBArmor(player) && props.isJetpackActive()) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "jetpack_bj");
 				data.setInteger("player", player.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
 			}
 		}
 
 		if(this.hasFSBArmor(player)) {
-			
+
 			ArmorUtil.resetFlightTime(player);
-			
+
 			if(props.isJetpackActive()) {
-				
+
 				if(player.motionY < 0.4D)
 					player.motionY += 0.1D;
-				
+
 				player.fallDistance = 0;
-				
+
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.immolatorShoot", 0.125F, 1.5F);
-				
+
 			} else if(player.isSneaking()) {
-				
+
 				if(player.motionY < -0.08) {
-					
+
 					double mo = player.motionY * -0.4;
 					player.motionY += mo;
-					
+
 					Vec3 vec = player.getLookVec();
 					vec.xCoord *= mo;
 					vec.yCoord *= mo;

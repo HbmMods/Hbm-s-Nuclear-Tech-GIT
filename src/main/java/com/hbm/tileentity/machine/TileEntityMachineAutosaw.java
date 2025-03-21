@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IBufPacketReceiver;
@@ -107,7 +107,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 						data.setDouble("motion", 0.1D);
 						data.setString("mode", "blockdust");
 						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
 					}
 				}
 

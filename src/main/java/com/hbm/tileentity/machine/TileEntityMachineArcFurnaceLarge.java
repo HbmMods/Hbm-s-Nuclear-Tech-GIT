@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
@@ -22,7 +23,6 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
@@ -171,7 +171,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord + 1 - (float) (Math.ceil(impact.yCoord) - 0.875)));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1, zCoord + 0.5D + dir.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1, zCoord + 0.5D + dir.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 				}
 			}
 

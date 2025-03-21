@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.block.IPileNeutronReceiver;
@@ -37,7 +37,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 				data.setString("type", "vanillaExt");
 				data.setString("mode", "smoke");
 				data.setDouble("mY", 0.05);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.25 + worldObj.rand.nextDouble() * 0.5, yCoord + 1, zCoord + 0.25 + worldObj.rand.nextDouble() * 0.5),
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.25 + worldObj.rand.nextDouble() * 0.5, yCoord + 1, zCoord + 0.25 + worldObj.rand.nextDouble() * 0.5),
 						new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 20));
 			}
 

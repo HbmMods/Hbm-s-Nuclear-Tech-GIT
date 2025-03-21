@@ -376,7 +376,19 @@ public class RBMKNeutronHandler {
 				TileEntityRBMKControl rod = (TileEntityRBMKControl) lastNode.tile;
 				if(rod.getMult() > 0.0D) {
 					this.fluxQuantity *= rod.getMult();
-					irradiateFromFlux(new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord));
+					BlockPos posAfter = new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord);
+
+					// The below code checks if the block after the control rod is actually a block or if it's an RBMK rod.
+					// Resolves GitHub issue #1933.
+					if(NeutronNodeWorld.getNode(worldObj, pos) == null) {
+						TileEntity te = blockPosToTE(worldObj, posAfter);
+						if (te instanceof TileEntityRBMKBase) {
+							RBMKNeutronNode nodeAfter = makeNode(NeutronNodeWorld.getOrAddWorld(worldObj), (TileEntityRBMKBase) te);
+							NeutronNodeWorld.getOrAddWorld(worldObj).addNode(nodeAfter);
+						} else {
+							irradiateFromFlux(posAfter); // I'm so mad about this...
+						}
+					}
 				}
 			}
 		}
@@ -388,7 +400,7 @@ public class RBMKNeutronHandler {
 				// holy fucking shit
 				// I have had this one line cause me like tens of problems
 				// I FUCKING HATE THIS
-				// total count of bugs fixed attributed to this function: 13
+				// total count of bugs fixed attributed to this function: 14
 				Block block = origin.tile.getWorldObj().getBlock(pos.getX(), pos.getY() + h, pos.getZ());
 				if(block.isOpaqueCube())
 					hits += 1;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -16,7 +17,6 @@ import com.hbm.inventory.recipes.SolderingRecipes.SolderingRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
@@ -127,7 +127,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 						NBTTagCompound dPart = new NBTTagCompound();
 						dPart.setString("type", "tau");
 						dPart.setByte("count", (byte) 3);
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5 + rot.offsetX * 0.5, yCoord + 1.125, zCoord + 0.5 - dir.offsetZ * 0.5 + rot.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5 + rot.offsetX * 0.5, yCoord + 1.125, zCoord + 0.5 - dir.offsetZ * 0.5 + rot.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 					}
 
 				} else {

@@ -5,12 +5,12 @@ import java.util.List;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -46,7 +46,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		
+
 		// for some reason the nuclear explosion would damage the already dead entity, reviving it and forcing it to play the death animation
 		if(this.isDead) return false;
 
@@ -96,9 +96,9 @@ public class EntityCreeperNuclear extends EntityCreeper {
 				ContaminationUtil.contaminate((EntityLivingBase) e, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F);
 			}
 		}
-		
+
 		super.onUpdate();
-		
+
 		if(this.isEntityAlive() && this.getHealth() < this.getMaxHealth() && this.ticksExisted % 10 == 0) {
 			this.heal(1.0F);
 		}
@@ -109,14 +109,14 @@ public class EntityCreeperNuclear extends EntityCreeper {
 		if(!this.worldObj.isRemote) {
 
 			this.setDead();
-			
+
 			boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
 			if(this.getPowered()) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "muke");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 
 				if(flag) {

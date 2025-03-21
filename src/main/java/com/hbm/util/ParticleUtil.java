@@ -1,7 +1,7 @@
 package com.hbm.util;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +23,7 @@ public class ParticleUtil {
 			data.setDouble("posZ", z);
 			MainRegistry.proxy.effectNT(data);
 		} else {
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 		}
 	}
 
@@ -41,7 +41,7 @@ public class ParticleUtil {
 			data.setDouble("posZ", z);
 			MainRegistry.proxy.effectNT(data);
 		} else {
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 		}
 	}
 }

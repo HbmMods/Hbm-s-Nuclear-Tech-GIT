@@ -3,9 +3,9 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -194,7 +194,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 			data.setInteger("expires", 5_000);
 			data.setDouble("dist", 128D);
 			if(message != null) data.setString("label", message);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
+			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
 		}
 	}
 

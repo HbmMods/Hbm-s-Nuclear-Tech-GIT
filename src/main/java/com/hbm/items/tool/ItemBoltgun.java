@@ -1,11 +1,11 @@
 package com.hbm.items.tool;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -32,29 +32,29 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	public ItemBoltgun() {
 		this.setMaxStackSize(1);
 		this.setCreativeTab(MainRegistry.controlTab);
-		
+
 		ToolType.BOLT.register(new ItemStack(this));
 	}
-	
+
 	@Override
 	public Item setUnlocalizedName(String unlocalizedName) {
 		super.setUnlocalizedName(unlocalizedName);
 		this.setTextureName(RefStrings.MODID + ":"+ unlocalizedName);
 		return this;
 	}
-	
+
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		
+
 		World world = player.worldObj;
 		if(!entity.isEntityAlive()) return false;
-		
+
 		ItemStack[] bolts = new ItemStack[] { new ItemStack(ModItems.bolt_spike), Mats.MAT_STEEL.make(ModItems.bolt), Mats.MAT_TUNGSTEN.make(ModItems.bolt), Mats.MAT_DURA.make(ModItems.bolt)};
-		
+
 		for(ItemStack bolt : bolts) {
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack slot = player.inventory.getStackInSlot(i);
-				
+
 				if(slot != null) {
 					if(slot.getItem() == bolt.getItem() && slot.getItemDamage() == bolt.getItemDamage()) {
 						if(!world.isRemote) {
@@ -62,7 +62,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 							player.inventory.decrStackSize(i, 1);
 							player.inventoryContainer.detectAndSendChanges();
 							EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, DamageSource.causePlayerDamage(player).setDamageBypassesArmor(), 10F);
-							
+
 							if(!entity.isEntityAlive() && entity instanceof EntityPlayer) {
 								((EntityPlayer) entity).triggerAchievement(MainRegistry.achGoFish);
 							}
@@ -72,7 +72,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 							data.setString("mode", "largeexplode");
 							data.setFloat("size", 1F);
 							data.setByte("count", (byte)1);
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.height / 2 - entity.yOffset, entity.posZ), new TargetPoint(world.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 50));
+							PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.height / 2 - entity.yOffset, entity.posZ), new TargetPoint(world.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 50));
 						} else {
 							// doing this on the client outright removes the packet delay and makes the animation silky-smooth
 							NBTTagCompound d0 = new NBTTagCompound();
@@ -85,15 +85,15 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
-		
+
 		Block b = world.getBlock(x, y, z);
-		
+
 		if(b instanceof IToolable && ((IToolable)b).onScrew(world, player, x, y, z, side, fX, fY, fZ, ToolType.BOLT)) {
 
 			if(!world.isRemote) {
@@ -108,17 +108,17 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 				data.setString("mode", "largeexplode");
 				data.setFloat("size", 1F);
 				data.setByte("count", (byte)1);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + fX + dir.offsetX * off, y + fY + dir.offsetY * off, z + fZ + dir.offsetZ * off), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x + fX + dir.offsetX * off, y + fY + dir.offsetY * off, z + fZ + dir.offsetZ * off), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 
 				NBTTagCompound d0 = new NBTTagCompound();
 				d0.setString("type", "anim");
 				d0.setString("mode", "generic");
-				PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(d0, 0, 0, 0), (EntityPlayerMP) player);
+				PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(d0, 0, 0, 0), (EntityPlayerMP) player);
 			}
-			
+
 			return false;
 		}
-		
+
 		return false;
 	}
 

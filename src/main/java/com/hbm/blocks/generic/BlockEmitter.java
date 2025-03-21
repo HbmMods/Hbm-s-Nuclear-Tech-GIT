@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.block.IToolable;
@@ -169,7 +169,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 							data.setFloat("yaw", 90);
 						}
 
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x, y, z),
 								new TargetPoint(worldObj.provider.dimensionId, x, y, z, 100));
 
 						color = prevColor;

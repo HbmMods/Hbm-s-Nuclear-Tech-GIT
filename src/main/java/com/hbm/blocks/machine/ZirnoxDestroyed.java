@@ -5,10 +5,10 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityZirnoxDestroyed;
@@ -49,29 +49,29 @@ public class ZirnoxDestroyed extends BlockDummyable {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		
+
 		Block block = world.getBlock(x, y + 1, z);
-		
+
 		if(block == Blocks.air) {
 			if(rand.nextInt(10) == 0)
 				world.setBlock(x, y + 1, z, ModBlocks.gas_meltdown);
-			
+
 		} else if(block == ModBlocks.foam_layer || block == ModBlocks.block_foam) {
 			if(rand.nextInt(25) == 0) {
 				int pos[] = this.findCore(world, x, y, z);
-				
+
 				if(pos != null) {
 					TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-					
+
 					if(te instanceof TileEntityZirnoxDestroyed)
 						((TileEntityZirnoxDestroyed)te).onFire = false;
 				}
 			}
 		}
-		
+
 		if(rand.nextInt(10) == 0 && world.getBlock(x, y + 1, z) == Blocks.air)
 			world.setBlock(x, y + 1, z, ModBlocks.gas_meltdown);
-		
+
 		super.updateTick(world, x, y, z, rand);
 	}
 
@@ -89,7 +89,7 @@ public class ZirnoxDestroyed extends BlockDummyable {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "rbmkflame");
 				data.setInteger("maxAge", 90);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.25 + world.rand.nextDouble() * 0.5, y + 1.75, z + 0.25 + world.rand.nextDouble() * 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 1.75, z + 0.5, 75));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x + 0.25 + world.rand.nextDouble() * 0.5, y + 1.75, z + 0.25 + world.rand.nextDouble() * 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 1.75, z + 0.5, 75));
 				MainRegistry.proxy.effectNT(data);
 				world.playSoundEffect(x + 0.5F, y + 0.5, z + 0.5, "fire.fire", 1.0F + world.rand.nextFloat(), world.rand.nextFloat() * 0.7F + 0.3F);
 			}
@@ -117,7 +117,7 @@ public class ZirnoxDestroyed extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {1, 0, 2, 2, 2, 2,}; 
+		return new int[] {1, 0, 2, 2, 2, 2,};
 	}
 
 	@Override
