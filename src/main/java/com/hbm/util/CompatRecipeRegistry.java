@@ -59,7 +59,8 @@ public class CompatRecipeRegistry {
 		for(ItemStack allItems : input.extractForNEI()) {
 			ComparableStack comp = new ComparableStack(allItems);
 			ShredderRecipes.shredderRecipes.put(comp, output);
-			ShredderRecipes.neiShredderRecipes.put(comp, output);
+			if (ShredderRecipes.neiShredderRecipes != null)
+				ShredderRecipes.neiShredderRecipes.put(comp, output);
 		}
 	}
 
