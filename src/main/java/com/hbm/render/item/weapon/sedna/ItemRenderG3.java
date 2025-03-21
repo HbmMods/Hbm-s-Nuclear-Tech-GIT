@@ -19,21 +19,25 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	@Override
 	public float getViewFOV(ItemStack stack, float fov) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
-		return  fov * (1 - aimingProgress * 0.33F);
+		return  fov * (1 - aimingProgress * (isScoped(stack) ? 0.66F : 0.33F));
 	}
 
 	@Override
 	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 0.875);
 		
+		boolean isScoped = this.isScoped(stack);
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.25F * offset, -1F * offset, 2.75F * offset,
-			0, -3.5625 / 8D, 1.75);
+			0, isScoped ? (-5.53125 / 8D) : (-3.5625 / 8D), isScoped ? 1.46875 : 1.75);
 	}
 
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
+		
+		boolean isScoped = this.isScoped(stack);
+		if(isScoped && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
@@ -46,6 +50,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
 		double[] speen = HbmAnimations.getRelevantTransformation("SPEEN");
 		double[] bolt = HbmAnimations.getRelevantTransformation("BOLT");
+		double[] plug = HbmAnimations.getRelevantTransformation("PLUG");
 		double[] handle = HbmAnimations.getRelevantTransformation("HANDLE");
 		double[] bullet = HbmAnimations.getRelevantTransformation("BULLET");
 		
@@ -63,9 +68,11 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		
 		ResourceManager.g3.renderPart("Rifle");
 		if(hasStock(stack)) ResourceManager.g3.renderPart("Stock");
-		ResourceManager.g3.renderPart("Flash_Hider");
-		ResourceManager.g3.renderPart("Trigger_Rifle.002");
+		boolean silenced = hasSilencer(stack);
+		if(!silenced) ResourceManager.g3.renderPart("Flash_Hider");
+		ResourceManager.g3.renderPart("Trigger");
 		
+		Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
 		GL11.glPushMatrix();
 		GL11.glTranslated(mag[0], mag[1], mag[2]);
 		GL11.glTranslated(0, -1.75, -0.5);
@@ -78,10 +85,20 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, bolt[2]);
-		ResourceManager.g3.renderPart("Bolt");
-		GL11.glTranslated(0, 0.625, 0);
+		ResourceManager.g3.renderPart("Guide_And_Bolt");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0.625, plug[2]);
 		GL11.glRotated(handle[2], 0, 0, 1);
 		GL11.glTranslated(0, -0.625, 0);
+		ResourceManager.g3.renderPart("Plug");
+		
+		GL11.glTranslated(0, 0.625, 5.25);
+		GL11.glRotated(22.5, 0, 0, 1);
+		GL11.glRotated(handle[1], 0, 1, 0);
+		GL11.glRotated(-22.5, 0, 0, 1);
+		GL11.glTranslated(0, -0.625, -5.25);
 		ResourceManager.g3.renderPart("Handle");
 		GL11.glPopMatrix();
 		
@@ -89,27 +106,35 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, -0.875, -3.5);
 		GL11.glRotated(-30 * (1 - ItemGunBaseNT.getMode(stack, 0)), 1, 0, 0);
 		GL11.glTranslated(0, 0.875, 3.5);
-		ResourceManager.g3.renderPart("Selector_Rifle.001");
-		GL11.glPopMatrix();
-
-		double smokeScale = 0.75;
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 13);
-		GL11.glRotated(90, 0, 1, 0);
-		GL11.glScaled(smokeScale, smokeScale, smokeScale);
-		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
+		ResourceManager.g3.renderPart("Selector");
 		GL11.glPopMatrix();
 		
-		GL11.glShadeModel(GL11.GL_FLAT);
+		if(silenced || isScoped) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.g3_attachments);
+			if(silenced) ResourceManager.g3.renderPart("Silencer");
+			if(isScoped) ResourceManager.g3.renderPart("Scope");
+		}
 
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 12);
-		GL11.glRotated(90, 0, 1, 0);
-		GL11.glRotated(-25 + gun.shotRand * 10, 1, 0, 0);
-		GL11.glScaled(0.75, 0.75, 0.75);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 10);
-		GL11.glPopMatrix();
+		if(!silenced) {
+			double smokeScale = 0.75;
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0, 13);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glScaled(smokeScale, smokeScale, smokeScale);
+			this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
+			GL11.glPopMatrix();
+			
+			GL11.glShadeModel(GL11.GL_FLAT);
+	
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0, 12);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(-25 + gun.shotRand * 10, 1, 0, 0);
+			GL11.glScaled(0.75, 0.75, 0.75);
+			this.renderMuzzleFlash(gun.lastShot[0], 75, 10);
+			GL11.glPopMatrix();
+		}
 	}
 
 	@Override
@@ -128,13 +153,13 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 			double scale = 0.875D;
 			GL11.glScaled(scale, scale, scale);
 			GL11.glRotated(25, 1, 0, 0);
-			GL11.glRotated(45, 0, 1, 0);
-			GL11.glTranslated(-0.5, 0.5, 0);
+			GL11.glRotated(hasSilencer(stack) ? 50 : 45, 0, 1, 0);
+			GL11.glTranslated(hasSilencer(stack) ? 0.75 : -0.5, 0.5, 0);
 		} else {
 			double scale = 1.125D;
 			GL11.glScaled(scale, scale, scale);
 			GL11.glRotated(25, 1, 0, 0);
-			GL11.glRotated(45, 0, 1, 0);
+			GL11.glRotated(hasSilencer(stack) ? 55 : 45, 0, 1, 0); //preserves proportions whilst limiting size
 			GL11.glTranslated(2.5, 0.5, 0);
 		}
 	}
@@ -151,27 +176,44 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
+		boolean silenced = hasSilencer(stack);
+		boolean isScoped = this.isScoped(stack);
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
 		ResourceManager.g3.renderPart("Rifle");
 		if(hasStock(stack)) ResourceManager.g3.renderPart("Stock");
 		ResourceManager.g3.renderPart("Magazine");
-		ResourceManager.g3.renderPart("Flash_Hider");
-		ResourceManager.g3.renderPart("Bolt");
+		if(!silenced)ResourceManager.g3.renderPart("Flash_Hider");
+		ResourceManager.g3.renderPart("Guide_And_Bolt");
 		ResourceManager.g3.renderPart("Handle");
-		ResourceManager.g3.renderPart("Trigger_Rifle.002");
+		ResourceManager.g3.renderPart("Trigger");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, -0.875, -3.5);
 		GL11.glRotated(-30, 1, 0, 0);
 		GL11.glTranslated(0, 0.875, 3.5);
-		ResourceManager.g3.renderPart("Selector_Rifle.001");
+		ResourceManager.g3.renderPart("Selector");
 		GL11.glPopMatrix();
+		
+		if(silenced || isScoped) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.g3_attachments);
+			if(silenced) ResourceManager.g3.renderPart("Silencer");
+			if(isScoped) ResourceManager.g3.renderPart("Scope");
+		}
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	
 	public boolean hasStock(ItemStack stack) {
 		return !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK);
+	}
+	
+	public boolean hasSilencer(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
+	}
+	
+	public boolean isScoped(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
 	}
 	
 	public ResourceLocation getTexture(ItemStack stack) {

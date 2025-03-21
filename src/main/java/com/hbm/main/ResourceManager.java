@@ -962,6 +962,7 @@ public class ResourceManager {
 	public static final ResourceLocation g3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3.png");
 	public static final ResourceLocation g3_green_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_green.png");
 	public static final ResourceLocation g3_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_black.png");
+	public static final ResourceLocation g3_attachments = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_attachments.png");
 	public static final ResourceLocation shredder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/shredder.png");
 	public static final ResourceLocation shredder_orig_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/shredder_orig.png");
 	public static final ResourceLocation sexy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/sexy.png");
