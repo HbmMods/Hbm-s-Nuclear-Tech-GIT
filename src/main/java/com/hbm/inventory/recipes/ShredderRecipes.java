@@ -422,7 +422,7 @@ public class ShredderRecipes extends SerializableRecipe {
 
 		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
 		if(neiShredderRecipes == null)
-			neiShredderRecipes = new HashMap(shredderRecipes);
+			neiShredderRecipes = new HashMap<>(shredderRecipes);
 
 		return neiShredderRecipes;
 	}
