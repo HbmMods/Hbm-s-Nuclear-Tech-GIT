@@ -22,7 +22,6 @@ import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.toclient.ExtPropPacket;
 import com.hbm.particle.helper.FlameCreator;
@@ -238,7 +237,7 @@ public class EntityEffectHandler {
 					nbt.setString("mode", "blood");
 					nbt.setInteger("count", 25);
 					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 
 					if((world.getTotalWorldTime() + r600) % 600 == 1) {
 						world.playSoundEffect(ix, iy, iz, "hbm:player.vomit", 1.0F, 1.0F);
@@ -253,7 +252,7 @@ public class EntityEffectHandler {
 				nbt.setString("mode", "normal");
 				nbt.setInteger("count", 15);
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 
 				if((world.getTotalWorldTime() + r1200) % 1200 == 1) {
 					world.playSoundEffect(ix, iy, iz, "hbm:player.vomit", 1.0F, 1.0F);
@@ -269,7 +268,7 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", 1);
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 
 			}
 		} else {
@@ -303,7 +302,7 @@ public class EntityEffectHandler {
 				data.setInteger("count", 1);
 				data.setInteger("block", Block.getIdFromBlock(Blocks.soul_sand));
 				data.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
@@ -408,7 +407,7 @@ public class EntityEffectHandler {
 					nbt.setString("mode", "blood");
 					nbt.setInteger("count", 25);
 					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 
 					if((contagion + entity.getEntityId()) % 200 == 19)
 						world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.vomit", 1.0F, 1.0F);
@@ -484,7 +483,7 @@ public class EntityEffectHandler {
 				nbt.setString("mode", "blood");
 				nbt.setInteger("count", 5);
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 
 			if(coughsCoal) {
@@ -493,7 +492,7 @@ public class EntityEffectHandler {
 				nbt.setString("mode", "smoke");
 				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
@@ -520,7 +519,7 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", 1);
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}

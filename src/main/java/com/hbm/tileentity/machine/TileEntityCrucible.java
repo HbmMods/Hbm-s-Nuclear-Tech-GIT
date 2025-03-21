@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.container.ContainerCrucible;
 import com.hbm.inventory.gui.GUICrucible;
 import com.hbm.inventory.material.MaterialShapes;
@@ -18,7 +19,6 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
@@ -171,7 +171,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 
 				}
 
@@ -211,7 +211,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 
 				}
 

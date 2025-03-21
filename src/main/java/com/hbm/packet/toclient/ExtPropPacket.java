@@ -3,7 +3,7 @@ package com.hbm.packet.toclient;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 
-import com.hbm.packet.PrecompiledPacket;
+import com.hbm.packet.threading.PrecompiledPacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

@@ -3,8 +3,9 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.packet.PacketDispatcher;
+
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -40,7 +41,7 @@ public class JetpackBooster extends JetpackFueledBase {
 				data.setString("type", "jetpack");
 				data.setInteger("player", player.getEntityId());
 				data.setInteger("mode", 1);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
 			}
 		}
 

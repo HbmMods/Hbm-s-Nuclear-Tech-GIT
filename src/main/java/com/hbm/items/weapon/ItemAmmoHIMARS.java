@@ -13,9 +13,9 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.potion.HbmPotion;
@@ -39,7 +39,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 public class ItemAmmoHIMARS extends Item {
-	
+
 	public static HIMARSRocket[] itemTypes = new HIMARSRocket[ /* >>> */ 8 /* <<< */ ];
 
 	public static final int SMALL = 0;
@@ -50,7 +50,7 @@ public class ItemAmmoHIMARS extends Item {
 	public static final int LARGE_TB = 5;
 	public static final int SMALL_MINI_NUKE = 6;
 	public static final int SMALL_LAVA = 7;
-	
+
 	public ItemAmmoHIMARS() {
 		this.setHasSubtypes(true);
 		this.setCreativeTab(MainRegistry.weaponTab);
@@ -78,7 +78,7 @@ public class ItemAmmoHIMARS extends Item {
 		String r = EnumChatFormatting.RED + "";
 		String y = EnumChatFormatting.YELLOW + "";
 		String b = EnumChatFormatting.BLUE + "";
-		
+
 		switch(stack.getItemDamage()) {
 		case SMALL:
 			list.add(y + "Strength: 20");
@@ -123,30 +123,30 @@ public class ItemAmmoHIMARS extends Item {
 			break;
 		}
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return "item.ammo_himars_" + itemTypes[Math.abs(stack.getItemDamage()) % itemTypes.length].name;
 	}
-	
+
 	public abstract class HIMARSRocket {
-		
+
 		public final String name;
 		public final ResourceLocation texture;
 		public final int amount;
 		public final int modelType; /* 0 = sixfold/standard ; 1 = single */
-		
+
 		public HIMARSRocket(String name, String texture, int type) {
 			this.name = name;
 			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + texture + ".png");
 			this.amount = type == 0 ? 6 : 1;
 			this.modelType = type;
 		}
-		
+
 		public abstract void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop);
 		public void onUpdate(EntityArtilleryRocket rocket) { }
 	}
-	
+
 	public static void standardExplosion(EntityArtilleryRocket rocket, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks, Block slag, int slagMeta) {
 		Vec3 vec = Vec3.createVectorHelper(rocket.motionX, rocket.motionY, rocket.motionZ).normalize();
 		ExplosionVNT xnt = new ExplosionVNT(rocket.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
@@ -159,14 +159,14 @@ public class ItemAmmoHIMARS extends Item {
 		xnt.explode();
 		rocket.killAndClear();
 	}
-	
+
 	public static void standardMush(EntityArtilleryRocket rocket, MovingObjectPosition mop, float size) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "rbmkmush");
 		data.setFloat("scale", size);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord), new TargetPoint(rocket.dimension, rocket.posX, rocket.posY, rocket.posZ, 250));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord), new TargetPoint(rocket.dimension, rocket.posX, rocket.posY, rocket.posZ, 250));
 	}
-	
+
 	private void init() {
 		/* STANDARD ROCKETS */
 		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard",					0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1); ExplosionCreator.composeEffect(rocket.worldObj, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 15, 5F, 1F, 45F, 10, 0, 50, 1F, 3F, -2F, 200); }};
@@ -181,7 +181,7 @@ public class ItemAmmoHIMARS extends Item {
 				ExplosionNukeSmall.explode(rocket.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		};
-		
+
 		this.itemTypes[SMALL_WP] = new HIMARSRocket("standard_wp", "himars_standard_wp", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
 				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
@@ -201,11 +201,11 @@ public class ItemAmmoHIMARS extends Item {
 				for(int i = 0; i < 10; i++) {
 					NBTTagCompound haze = new NBTTagCompound();
 					haze.setString("type", "haze");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(haze, mop.hitVec.xCoord + rocket.worldObj.rand.nextGaussian() * 15, mop.hitVec.yCoord, mop.hitVec.zCoord + rocket.worldObj.rand.nextGaussian() * 15), new TargetPoint(rocket.dimension, rocket.posX, rocket.posY, rocket.posZ, 150));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(haze, mop.hitVec.xCoord + rocket.worldObj.rand.nextGaussian() * 15, mop.hitVec.yCoord, mop.hitVec.zCoord + rocket.worldObj.rand.nextGaussian() * 15), new TargetPoint(rocket.dimension, rocket.posX, rocket.posY, rocket.posZ, 150));
 				}
 				standardMush(rocket, mop, 15);
 			}};
-			
+
 		this.itemTypes[SMALL_TB] = new HIMARSRocket("standard_tb", "himars_standard_tb", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
 				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
@@ -213,7 +213,7 @@ public class ItemAmmoHIMARS extends Item {
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				standardMush(rocket, mop, 20);
 			}};
-			
+
 		this.itemTypes[LARGE_TB] = new HIMARSRocket("single_tb", "himars_single_tb", 1) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
 				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);

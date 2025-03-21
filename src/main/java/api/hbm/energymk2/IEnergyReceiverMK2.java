@@ -1,7 +1,7 @@
 package api.hbm.energymk2;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.NotableComments;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
 
@@ -26,28 +26,28 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 		this.setPower(this.getMaxPower());
 		return overshoot;
 	}
-	
+
 	public default long getReceiverSpeed() {
 		return this.getMaxPower();
 	}
-	
+
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = Compat.getTileStandard(world, x, y, z);
 		boolean red = false;
-		
+
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			if(!con.canConnect(dir.getOpposite())) return;
-			
+
 			PowerNode node = Nodespace.getNode(world, x, y, z);
-			
+
 			if(node != null && node.net != null) {
 				node.net.addReceiver(this);
 				red = true;
 			}
 		}
-		
+
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "network");
@@ -58,24 +58,24 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 			data.setDouble("mX", -dir.offsetX * (red ? 0.025 : 0.1));
 			data.setDouble("mY", -dir.offsetY * (red ? 0.025 : 0.1));
 			data.setDouble("mZ", -dir.offsetZ * (red ? 0.025 : 0.1));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
-	
+
 	public default void tryUnsubscribe(World world, int x, int y, int z) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			PowerNode node = con.createNode();
-			
+
 			if(node != null && node.net != null) {
 				node.net.removeReceiver(this);
 			}
 		}
 	}
-	
+
 	public enum ConnectionPriority {
 		LOWEST,
 		LOW,

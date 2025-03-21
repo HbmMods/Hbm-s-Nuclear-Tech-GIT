@@ -13,6 +13,7 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -20,7 +21,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.IGUIProvider;
@@ -879,7 +879,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		data.setBoolean("crouched", false);
 		data.setString("name", cachedCasingConfig.getName());
 		if(ej != null) data.setInteger("ej", ej.getId());
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 
 		cachedCasingConfig = null;
 	}

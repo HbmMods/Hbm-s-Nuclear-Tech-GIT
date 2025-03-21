@@ -10,7 +10,7 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -24,14 +24,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityBombletZeta extends EntityThrowable {
-	
+
 	public int type = 0;
 
 	public EntityBombletZeta(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 
@@ -79,14 +79,14 @@ public class EntityBombletZeta extends EntityThrowable {
 					data.setString("type", "muke");
 					if(rand.nextInt(100) == 0)
 						data.setBoolean("balefire", true);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 					worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 				}
 				this.setDead();
 			}
 		}
 	}
-	
+
 	public void rotation() {
         float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -115,7 +115,7 @@ public class EntityBombletZeta extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 	}
-	
+
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)

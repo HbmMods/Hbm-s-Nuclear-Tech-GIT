@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.CasingEjector;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretSentry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory9mm;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 
@@ -182,7 +182,7 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 				data.setString("mode", "largeexplode");
 				data.setFloat("size", 1F);
 				data.setByte("count", (byte)1);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord + side.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord + side.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord + side.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord + side.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 
 				if(shotSide) {
 					this.didJustShootLeft = true;

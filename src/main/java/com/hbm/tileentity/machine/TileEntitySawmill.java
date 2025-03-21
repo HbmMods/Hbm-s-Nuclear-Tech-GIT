@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntitySawblade;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
@@ -103,7 +103,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 							data.setDouble("motion", 0.1D);
 							data.setString("mode", "blockdust");
 							data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
+							PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
 						}
 					}
 

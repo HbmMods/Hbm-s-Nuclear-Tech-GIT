@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ISatChip;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
@@ -27,12 +27,12 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 	public ItemModLens() {
 		super(ArmorModHandler.extra, true, false, false, false);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.AQUA + "Satellite Frequency: " + this.getFreq(itemstack));
 		list.add("");
-		
+
 		super.addInformation(itemstack, player, list, bool);
 	}
 
@@ -46,12 +46,12 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 		World world = entity.worldObj;
 		if(world.isRemote) return;
 		if(!(entity instanceof EntityPlayerMP)) return;
-		
+
 		EntityPlayerMP player = (EntityPlayerMP) entity;
 		ItemStack lens = ArmorModHandler.pryMods(armor)[ArmorModHandler.extra];
-		
+
 		if(lens == null) return;
-		
+
 		int freq = this.getFreq(lens);
 		Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(freq);
 		if(!(sat instanceof SatelliteScanner)) return;
@@ -60,22 +60,22 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 		int y = (int) Math.floor(player.posY);
 		int z = (int) Math.floor(player.posZ);
 		int range = 3;
-		
+
 		int cX = x >> 4;
 		int cZ = z >> 4;
-		
+
 		int height = Math.max(Math.min(y + 10, 255), 64);
 		int seg = (int) (world.getTotalWorldTime() % height);
-		
+
 		int hits = 0;
-		
+
 		for(int chunkX = cX - range; chunkX <= cX + range; chunkX++) {
 			for(int chunkZ = cZ - range; chunkZ <= cZ + range; chunkZ++) {
 				Chunk c = world.getChunkFromChunkCoords(chunkX, chunkZ);
-				
+
 				for(int ix = 0; ix < 16; ix++) {
 					for(int iz = 0; iz < 16; iz++) {
-						
+
 						Block b = c.getBlock(ix, seg, iz);
 						int aX = (chunkX << 4) + ix;
 						int aZ = (chunkZ << 4) + iz;
@@ -94,14 +94,14 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 						if(addIf(ModBlocks.crate_ammo, b, 1, aX, seg, aZ, null, 0x800000, player)) hits++;
 						if(addIf(ModBlocks.crate_can, b, 1, aX, seg, aZ, null, 0x800000, player)) hits++;
 						if(addIf(ModBlocks.ore_bedrock, b, 1, aX, seg, aZ, "Bedrock Ore", 0xff0000, player)) hits++;
-						
+
 						if(hits > 100) return;
 					}
 				}
 			}
 		}
 	}
-	
+
 	private boolean addIf(Block target, Block b, int chance, int x, int y, int z, String label, int color, EntityPlayerMP player) {
 
 		if(target == b && player.getRNG().nextInt(chance) == 0) {
@@ -111,10 +111,10 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 			data.setInteger("expires", 15_000);
 			data.setDouble("dist", 300D);
 			if(label != null) data.setString("label", label);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), player);
+			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, x, y, z), player);
 			return true;
 		}
-		
+
 		return false;
 	}
 }

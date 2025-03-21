@@ -9,8 +9,8 @@ import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IOverpressurable;
@@ -532,7 +532,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "rbmkmush");
 		data.setFloat("scale", smallDim);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, avgX + 0.5, yCoord + 1, avgZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,avgX + 0.5, yCoord + 1, avgZ + 0.5, 250));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, avgX + 0.5, yCoord + 1, avgZ + 0.5), new TargetPoint(worldObj.provider.dimensionId,avgX + 0.5, yCoord + 1, avgZ + 0.5, 250));
 		MainRegistry.proxy.effectNT(data);
 
 		worldObj.playSoundEffect(avgX + 0.5, yCoord + 1, avgZ + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);

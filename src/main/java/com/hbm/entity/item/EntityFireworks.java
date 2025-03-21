@@ -1,6 +1,6 @@
 package com.hbm.entity.item;
 
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityFireworks extends Entity {
-	
+
 	int color;
 	int character;
 
@@ -26,28 +26,28 @@ public class EntityFireworks extends Entity {
 
 	@Override
 	protected void entityInit() { }
-	
+
 	@Override
 	public void onUpdate() {
-		
+
 		this.moveEntity(0.0, 3.0D, 0.0);
 		this.worldObj.spawnParticle("flame", posX, posY, posZ, 0.0, -0.3, 0.0);
 		this.worldObj.spawnParticle("smoke", posX, posY, posZ, 0.0, -0.2, 0.0);
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			ticksExisted++;
-			
+
 			if(this.ticksExisted > 30) {
-				
+
 				this.worldObj.playSoundEffect(posX, posY, posZ, "fireworks.blast", 20, 1F + this.rand.nextFloat() * 0.2F);
-				
+
 				this.setDead();
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "fireworks");
 				data.setInteger("color", color);
 				data.setInteger("char", character);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(this.worldObj.provider.dimensionId, posX, posY, posZ, 300));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(this.worldObj.provider.dimensionId, posX, posY, posZ, 300));
 			}
 		}
 	}

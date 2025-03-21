@@ -20,10 +20,10 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -50,7 +50,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 public class ItemAmmoArty extends Item {
-	
+
 	public static Random rand = new Random();
 	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 12 /* <<< */ ];
 	/* item types */
@@ -67,7 +67,7 @@ public class ItemAmmoArty extends Item {
 	public final int PHOSGENE = 10;
 	public final int MUSTARD = 11;
 	/* non-item shell types */
-	
+
 	public ItemAmmoArty() {
 		this.setHasSubtypes(true);
 		this.setCreativeTab(MainRegistry.weaponTab);
@@ -97,7 +97,7 @@ public class ItemAmmoArty extends Item {
 		String r = EnumChatFormatting.RED + "";
 		String y = EnumChatFormatting.YELLOW + "";
 		String b = EnumChatFormatting.BLUE + "";
-		
+
 		switch(stack.getItemDamage()) {
 		case NORMAL:
 			list.add(y + "Strength: 10");
@@ -137,7 +137,7 @@ public class ItemAmmoArty extends Item {
 			list.add(r + "minecraft's unicode has to offer)");
 			break;
 		case CARGO:
-			
+
 			if(stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
 				ItemStack cargo = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("cargo"));
 				list.add(y + cargo.getDisplayName());
@@ -153,53 +153,53 @@ public class ItemAmmoArty extends Item {
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
-		
+
 		this.icons = new IIcon[itemTypes.length];
 
 		for(int i = 0; i < icons.length; i++) {
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + itemTypes[i].name);
 		}
-		
+
 		this.iconCargo = reg.registerIcon(RefStrings.MODID + ":ammo_arty_cargo_full");
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconIndex(ItemStack stack) {
-		
+
 		if(stack.getItemDamage() == CARGO && stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
 			return this.iconCargo;
 		}
-		
+
 		return this.getIconFromDamage(stack.getItemDamage());
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 		return this.icons[meta];
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return "item." + itemTypes[Math.abs(stack.getItemDamage()) % itemTypes.length].name;
 	}
-	
+
 	protected static SpentCasing SIXTEEN_INCH_CASE = new SpentCasing(CasingType.STRAIGHT).setScale(15F, 15F, 10F).setupSmoke(1F, 1D, 200, 60).setMaxAge(300).setBounceMotion(1F, 0.5F);
-	
+
 	public abstract class ArtilleryShell {
-		
+
 		String name;
 		public SpentCasing casing;
-		
+
 		public ArtilleryShell(String name, int casingColor) {
 			this.name = name;
 			this.casing = SIXTEEN_INCH_CASE.clone().register(name).setColor(casingColor);
 		}
-		
+
 		public abstract void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop);
 		public void onUpdate(EntityArtilleryShell shell) { }
 	}
-	
+
 	public static void standardExplosion(EntityArtilleryShell shell, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks) {
 		Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
 		ExplosionVNT xnt = new ExplosionVNT(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
@@ -213,22 +213,22 @@ public class ItemAmmoArty extends Item {
 		xnt.explode();
 		shell.killAndClear();
 	}
-	
+
 	public static void standardCluster(EntityArtilleryShell shell, int clusterType, int amount, double splitHeight, double deviation) {
 		if(!shell.getWhistle() || shell.motionY > 0) return;
 		if(shell.getTargetHeight() + splitHeight < shell.posY) return;
-		
+
 		shell.killAndClear();
-		
+
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "plasmablast");
 		data.setFloat("r", 1.0F);
 		data.setFloat("g", 1.0F);
 		data.setFloat("b", 1.0F);
 		data.setFloat("scale", 50F);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, shell.posX, shell.posY, shell.posZ),
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, shell.posX, shell.posY, shell.posZ),
 				new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 500));
-		
+
 		for(int i = 0; i < amount; i++) {
 			EntityArtilleryShell cluster = new EntityArtilleryShell(shell.worldObj);
 			cluster.setType(clusterType);
@@ -242,7 +242,7 @@ public class ItemAmmoArty extends Item {
 			shell.worldObj.spawnEntityInWorld(cluster);
 		}
 	}
-	
+
 	private void init() {
 		/* STANDARD SHELLS */
 		this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); ExplosionCreator.composeEffect(shell.worldObj, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 10, 2F, 0.5F, 25F, 5, 0, 20, 0.75F, 1F, -2F, 150); }};
@@ -257,7 +257,7 @@ public class ItemAmmoArty extends Item {
 				ExplosionNukeSmall.explode(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		};
-		
+
 		/* FULL NUKE */
 		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke", SpentCasing.COLOR_CASE_16INCH_NUKE) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
@@ -266,7 +266,7 @@ public class ItemAmmoArty extends Item {
 				shell.setDead();
 			}
 		};
-		
+
 		/* PHOSPHORUS */
 		this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus", SpentCasing.COLOR_CASE_16INCH_PHOS) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
@@ -288,15 +288,15 @@ public class ItemAmmoArty extends Item {
 				for(int i = 0; i < 5; i++) {
 					NBTTagCompound haze = new NBTTagCompound();
 					haze.setString("type", "haze");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(haze, mop.hitVec.xCoord + shell.worldObj.rand.nextGaussian() * 10, mop.hitVec.yCoord, mop.hitVec.zCoord + shell.worldObj.rand.nextGaussian() * 10), new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 150));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(haze, mop.hitVec.xCoord + shell.worldObj.rand.nextGaussian() * 10, mop.hitVec.yCoord, mop.hitVec.zCoord + shell.worldObj.rand.nextGaussian() * 10), new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 150));
 				}
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "rbmkmush");
 				data.setFloat("scale", 10);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord), new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 250));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord), new TargetPoint(shell.dimension, shell.posX, shell.posY, shell.posZ, 250));
 			}
 		};
-		
+
 		/* THIS DOOFUS */
 		this.itemTypes[CARGO] = new ArtilleryShell("ammo_arty_cargo", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 			if(mop.typeOfHit == MovingObjectType.BLOCK) {
@@ -304,7 +304,7 @@ public class ItemAmmoArty extends Item {
 				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 			}
 		}};
-		
+
 		/* GAS */
 		this.itemTypes[CHLORINE] = new ArtilleryShell("ammo_arty_chlorine", SpentCasing.COLOR_CASE_16INCH) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
@@ -363,7 +363,7 @@ public class ItemAmmoArty extends Item {
 				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.POISON, 30F);
 			}
 		};
-		
+
 		/* CLUSTER SHELLS */
 		this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi", SpentCasing.COLOR_CASE_16INCH_PHOS) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[PHOSPHORUS].onImpact(shell, mop); }

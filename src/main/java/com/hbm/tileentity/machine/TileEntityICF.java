@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.container.ContainerICF;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -11,7 +12,6 @@ import com.hbm.inventory.gui.GUIICF;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
@@ -40,7 +40,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
-	
+
 	public long laser;
 	public long maxLaser;
 	public long heat;
@@ -48,7 +48,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	public long heatup;
 	public int consumption;
 	public int output;
-	
+
 	public FluidTank[] tanks;
 
 	public TileEntityICF() {
@@ -66,17 +66,17 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			tanks[0].setType(11, slots);
-			
+
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
+
 			boolean markDirty = false;
-			
+
 			//eject depleted pellet
 			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet_depleted) {
 				for(int i = 6; i < 11; i++) {
@@ -88,7 +88,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 					}
 				}
 			}
-			
+
 			//insert fresh pellet
 			if(slots[5] == null) {
 				for(int i = 0; i < 5; i++) {
@@ -100,9 +100,9 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 					}
 				}
 			}
-			
+
 			this.heatup = 0;
-			
+
 			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet) {
 				if(ItemICFPellet.getFusingDifficulty(slots[5]) <=  this.laser) {
 					this.heatup = ItemICFPellet.react(slots[5], this.laser);
@@ -111,33 +111,33 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 						slots[5] = new ItemStack(ModItems.icf_pellet_depleted);
 						markDirty = true;
 					}
-					
+
 					tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 2.5D / this.maxHeat));
 					if(tanks[2].getFill() > tanks[2].getMaxFill()) tanks[2].setFill(tanks[2].getMaxFill());
-					
+
 					NBTTagCompound dPart = new NBTTagCompound();
 					dPart.setString("type", "hadron");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(dPart, xCoord + 0.5, yCoord + 3.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5, yCoord + 3.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 				}
 			}
-			
+
 			if(heatup == 0) {
 				this.heat += this.laser * 0.25D;
 			}
 
 			this.consumption = 0;
 			this.output = 0;
-			
+
 			if(tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
 				tanks[1].setTankType(step.typeProduced);
-				
+
 				int coolingCycles = tanks[0].getFill() / step.amountReq;
 				int heatingCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
 				int heatCycles = (int) Math.min(this.heat / 4D / step.heatReq * trait.getEfficiency(HeatingType.ICF), this.heat / step.heatReq); //25% cooling per tick
 				int cycles = Math.min(coolingCycles, Math.min(heatingCycles, heatCycles));
-				
+
 				tanks[0].setFill(tanks[0].getFill() - step.amountReq * cycles);
 				tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
 				this.heat -= step.heatReq * cycles;
@@ -145,22 +145,22 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				this.consumption = step.amountReq * cycles;
 				this.output = step.amountProduced * cycles;
 			}
-			
+
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
+
 			this.heat *= 0.999D;
 			if(this.heat > this.maxHeat) this.heat = this.maxHeat;
 			if(markDirty) this.markDirty();
-			
+
 			this.networkPackNT(150);
 			this.laser = 0;
 			this.maxLaser = 0;
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -181,7 +181,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		buf.writeLong(heat);
 		for(int i = 0; i < 3; i++) tanks[i].serialize(buf);
 	}
-	
+
 	@Override public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.laser = buf.readLong();
@@ -206,20 +206,20 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return io;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		for(int i = 0; i < 3; i++) tanks[i].readFromNBT(nbt, "t" + i);
-		
+
 		this.heat = nbt.getLong("heat");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		for(int i = 0; i < 3; i++) tanks[i].writeToNBT(nbt, "t" + i);
-		
+
 		nbt.setLong("heat", heat);
 	}
 
@@ -231,12 +231,12 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 256;
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord + 0.5 - 8,
@@ -247,10 +247,10 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 					zCoord + 0.5 + 9
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -282,7 +282,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIICF(player.inventory, this);
 	}
-	
+
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, heatup > 0);

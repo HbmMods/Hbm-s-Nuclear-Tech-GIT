@@ -3,7 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.Locale;
 
 import com.hbm.entity.mob.*;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.AshesCreator;
 import com.hbm.particle.helper.SkeletonCreator;
@@ -18,7 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 
 public class ConfettiUtil {
-	
+
 	public static void decideConfetti(EntityLivingBase entity, DamageSource source) {
 		if(entity.isEntityAlive()) return;
 		if(source.damageType.equals(DamageClass.LASER.name().toLowerCase(Locale.US))) pulverize(entity);
@@ -47,11 +47,11 @@ public class ConfettiUtil {
 		if(entity instanceof EntityTaintCrab) return;
 		if(entity instanceof EntitySkeleton) return;
 		if(entity instanceof EntitySlime) return;
-		
+
 		NBTTagCompound vdat = new NBTTagCompound();
 		vdat.setString("type", "giblets");
 		vdat.setInteger("ent", entity.getEntityId());
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, entity.posX, entity.posY + entity.height * 0.5, entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY + entity.height * 0.5, entity.posZ, 150));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, entity.posX, entity.posY + entity.height * 0.5, entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY + entity.height * 0.5, entity.posZ, 150));
 		entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + entity.getRNG().nextFloat() * 0.2F);
 	}
 }

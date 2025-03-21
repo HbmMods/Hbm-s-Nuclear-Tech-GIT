@@ -1,10 +1,9 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,16 +36,16 @@ public class EntitySawblade extends EntityThrowableInterp {
 		this.dataWatcher.addObject(10, new Integer(0));
 		this.dataWatcher.addObject(11, new Integer(0));
 	}
-	
+
 	public EntitySawblade setOrientation(int rot) {
 		this.dataWatcher.updateObject(10, rot);
 		return this;
 	}
-	
+
 	public int getOrientation() {
 		return this.dataWatcher.getWatchableObjectInt(10);
 	}
-	
+
 	public int getMeta() {
 		return this.dataWatcher.getWatchableObjectInt(11);
 	}
@@ -55,10 +54,10 @@ public class EntitySawblade extends EntityThrowableInterp {
 	public boolean interactFirst(EntityPlayer player) {
 
 		if(!worldObj.isRemote) {
-			
+
 			if(player.inventory.addItemStackToInventory(new ItemStack(ModItems.sawblade)))
 				this.setDead();
-			
+
 			player.inventoryContainer.detectAndSendChanges();
 		}
 
@@ -72,7 +71,7 @@ public class EntitySawblade extends EntityThrowableInterp {
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
-		
+
 		if(worldObj != null && mop != null && mop.typeOfHit == MovingObjectType.ENTITY && mop.entityHit.isEntityAlive()) {
 			Entity e = mop.entityHit;
 			e.attackEntityFrom(ModDamageSource.rubble, 1000);
@@ -81,18 +80,18 @@ public class EntitySawblade extends EntityThrowableInterp {
 				vdat.setString("type", "giblets");
 				vdat.setInteger("ent", e.getEntityId());
 				vdat.setInteger("cDiv", 5);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
-				
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+
 				worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 			}
 		}
-		
+
 		if(this.ticksExisted > 1 && worldObj != null && mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
-			
+
 			int orientation = this.dataWatcher.getWatchableObjectInt(10);
 
 			if(orientation < 6) {
-				
+
 				if(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector() < 0.75) {
 					this.dataWatcher.updateObject(10, orientation + 6);
 					orientation += 6;
@@ -102,13 +101,13 @@ public class EntitySawblade extends EntityThrowableInterp {
 					this.motionY *= 1 - (Math.abs(side.offsetY) * 2);
 					this.motionZ *= 1 - (Math.abs(side.offsetZ) * 2);
 					worldObj.createExplosion(this, posX, posY, posZ, 3F, false);
-					
+
 					if(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).getExplosionResistance(this) < 50) {
 						worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 					}
 				}
 			}
-			
+
 			if(orientation >= 6) {
 				this.motionX = 0;
 				this.motionY = 0;
@@ -117,20 +116,20 @@ public class EntitySawblade extends EntityThrowableInterp {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onUpdate() {
-		
+
 		if(!worldObj.isRemote) {
 			int orientation = this.dataWatcher.getWatchableObjectInt(10);
 			if(orientation >= 6 && !this.inGround) {
 				this.dataWatcher.updateObject(10, orientation - 6);
 			}
 		}
-		
+
 		super.onUpdate();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
