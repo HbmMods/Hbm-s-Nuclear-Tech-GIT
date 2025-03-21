@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.threading.PacketThreading;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorBJ;
 import com.hbm.util.ArmorUtil;

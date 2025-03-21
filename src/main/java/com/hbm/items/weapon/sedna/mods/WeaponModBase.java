@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.mods;
 
 public abstract class WeaponModBase implements IWeaponMod {
 
+	public static final int PRIORITY_SET = Integer.MAX_VALUE;
 	public static final int PRIORITY_MULTIPLICATIVE = 1_000;
 	public static final int PRIORITY_ADDITIVE = 500;
 	public static final int PRIORITY_MULT_FINAL = -1;

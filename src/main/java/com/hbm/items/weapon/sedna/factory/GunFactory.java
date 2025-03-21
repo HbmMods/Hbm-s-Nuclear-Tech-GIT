@@ -66,10 +66,12 @@ public class GunFactory {
 		XFactoryTurret.init();
 		XFactory10ga.init();
 		XFactory35800.init();
+		XFactory45.init();
 		
 		ModItems.weapon_mod_test = new ItemEnumMulti(EnumModTest.class, true, true).setUnlocalizedName("weapon_mod_test").setMaxStackSize(1);
 		ModItems.weapon_mod_generic = new ItemEnumMulti(EnumModGeneric.class, true, true).setUnlocalizedName("weapon_mod_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
 		ModItems.weapon_mod_special = new ItemEnumMulti(EnumModSpecial.class, true, true).setUnlocalizedName("weapon_mod_special").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
+		ModItems.weapon_mod_caliber = new ItemEnumMulti(EnumModCaliber.class, true, true).setUnlocalizedName("weapon_mod_caliber").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -155,6 +157,11 @@ public class GunFactory {
 	public static enum EnumModSpecial {
 		SILENCER, SCOPE, SAW, GREASEGUN, SLOWDOWN,
 		SPEEDUP, CHOKE, SPEEDLOADER,
-		FURNITURE_GREEN, FURNITURE_BLACK, BAYONET
+		FURNITURE_GREEN, FURNITURE_BLACK, BAYONET,
+		STACK_MAG,
+	}
+	
+	public static enum EnumModCaliber {
+		P9, P45, P22, M357, M44, R556, R762, BMG50,
 	}
 }

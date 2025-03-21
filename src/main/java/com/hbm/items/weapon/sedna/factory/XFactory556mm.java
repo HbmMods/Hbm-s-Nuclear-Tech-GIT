@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.items.ModItems;
@@ -16,6 +17,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
@@ -58,7 +60,7 @@ public class XFactory556mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_G3))
 				.setupStandardConfiguration().ps(Lego.LAMBDA_STANDARD_CLICK_SECONDARY)
 				.anim(LAMBDA_G3_ANIMS).orchestra(Orchestras.ORCHESTRA_G3)
-				).setUnlocalizedName("gun_g3");
+				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3");
 
 		ModItems.gun_stg77 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope_lilmac).smoke(LAMBDA_SMOKE)
@@ -72,6 +74,16 @@ public class XFactory556mm {
 				.anim(LAMBDA_STG77_ANIMS).orchestra(Orchestras.ORCHESTRA_STG77)
 				).setUnlocalizedName("gun_stg77");
 	}
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_G3 = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER) &&
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) && 
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK) && 
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE)) return stack.getUnlocalizedName() + "_infiltrator";
+		if(!WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) && 
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_GREEN)) return stack.getUnlocalizedName() + "_a3";
+		return null;
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 1500, 0.075D, 1.1D, 0);

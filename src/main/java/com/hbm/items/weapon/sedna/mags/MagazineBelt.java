@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class MagazineBelt implements IMagazine<BulletConfig> {
 
-	protected List<BulletConfig> acceptedBullets = new ArrayList();
+	public List<BulletConfig> acceptedBullets = new ArrayList();
 	
 	public MagazineBelt addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
 

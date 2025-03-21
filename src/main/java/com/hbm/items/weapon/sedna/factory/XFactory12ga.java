@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockDetonatable;
@@ -24,6 +25,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.packet.PacketDispatcher;
@@ -296,7 +298,8 @@ public class XFactory12ga {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
-				).setUnlocalizedName("gun_maresleg");
+				).setNameMutator(LAMBDA_NAME_MARESLEG)
+				.setUnlocalizedName("gun_maresleg");
 		ModItems.gun_maresleg_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(600).draw(5).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -381,6 +384,11 @@ public class XFactory12ga {
 				.anim(LAMBDA_SEXY_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER_SEXY)
 				).setUnlocalizedName("gun_autoshotgun_sexy");
 	}
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_MARESLEG = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SAWED_OFF)) return stack.getUnlocalizedName() + "_short";
+		return null;
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_MARESLEG = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));

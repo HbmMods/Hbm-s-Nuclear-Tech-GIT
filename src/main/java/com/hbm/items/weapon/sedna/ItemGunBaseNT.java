@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -42,6 +43,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -103,6 +105,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	/** NEVER ACCESS DIRECTLY - USE GETTER */
 	protected GunConfig[] configs_DNA;
 	
+	public Function<ItemStack, String> LAMBDA_NAME_MUTATOR;
 	public WeaponQuality quality;
 	
 	public GunConfig getConfig(ItemStack stack, int index) {
@@ -143,6 +146,21 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		JAMMED,		//forced delay due to jamming
 	}
 	
+	public ItemGunBaseNT setNameMutator(Function<ItemStack, String> lambda) {
+		this.LAMBDA_NAME_MUTATOR = lambda;
+		return this;
+	}
+
+	public String getItemStackDisplayName(ItemStack stack) {
+		
+		if(this.LAMBDA_NAME_MUTATOR != null) {
+			String unloc = this.LAMBDA_NAME_MUTATOR.apply(stack);
+			if(unloc != null) return (StatCollector.translateToLocal(unloc + ".name")).trim();
+		}
+		
+		return super.getItemStackDisplayName(stack);
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
@@ -174,7 +192,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
 		}
 		
-		if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable) {
+		if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable && !this.recognizedMods.isEmpty()) {
 			list.add(EnumChatFormatting.RED + "Accepts:");
 			for(ComparableStack comp : this.recognizedMods) list.add(EnumChatFormatting.RED + "  " + comp.toStack().getDisplayName());
 		}
