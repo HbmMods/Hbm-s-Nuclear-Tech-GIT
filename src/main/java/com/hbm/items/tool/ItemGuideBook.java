@@ -87,60 +87,30 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 		
 		return pages;
 	}
-	
+
 	//TODO: Make sure this is all correct
 	public static List<GuidePage> statFacRBMK() {
-		
-		List<GuidePage> pages = new ArrayList();
-		pages.add(new GuidePage().addTitle("book.rbmk.title1", 0x800000, 1F)
-				.addText("book.rbmk.page1", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk1.png"), 90, 80, 60));
-		pages.add(new GuidePage().addTitle("book.rbmk.title2", 0x800000, 1F)
-				.addText("book.rbmk.page2", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk2.png"), 95, 52, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title3", 0x800000, 1F)
-				.addText("book.rbmk.page3", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk3.png"), 95, 88, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title4", 0x800000, 1F)
-				.addText("book.rbmk.page4", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk4.png"), 95, 88, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title5", 0x800000, 1F)
-				.addText("book.rbmk.page5", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk5.png"), 95, 80, 42));
-		pages.add(new GuidePage().addTitle("book.rbmk.title6", 0x800000, 1F)
-				.addText("book.rbmk.page6", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk6.png"), 90, 100, 60));
-		pages.add(new GuidePage().addTitle("book.rbmk.title7", 0x800000, 1F)
-				.addText("book.rbmk.page7", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk7.png"), 95, 52, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title8", 0x800000, 1F)
-				.addText("book.rbmk.page8", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk8.png"), 95, 88, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title9", 0x800000, 1F)
-				.addText("book.rbmk.page9", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk9.png"), 95, 88, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title10", 0x800000, 1F)
-				.addText("book.rbmk.page10", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk10.png"), 95, 88, 52));
-		pages.add(new GuidePage().addTitle("book.rbmk.title11", 0x800000, 1F)
-				.addText("book.rbmk.page11", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk11.png"), 75, 85, 72));
-		pages.add(new GuidePage().addTitle("book.rbmk.title12", 0x800000, 1F)
-				.addText("book.rbmk.page12", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk12.png"), 90, 80, 60));
-		pages.add(new GuidePage().addTitle("book.rbmk.title13", 0x800000, 1F)
-				.addText("book.rbmk.page13", 2F));
-		pages.add(new GuidePage()
-				.addText("book.rbmk.page14", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk13.png"), 70, 103, 78));
-		pages.add(new GuidePage().addTitle("book.rbmk.title15", 0x800000, 1F)
-				.addText("book.rbmk.page15", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk15.png"), 100, 48, 48));
-		pages.add(new GuidePage().addTitle("book.rbmk.title16", 0x800000, 1F)
-				.addText("book.rbmk.page16", 2F)
-				.addImage(new ResourceLocation(RefStrings.MODID + ":textures/gui/book/rbmk16.png"), 50, 70, 100));
-		
-		return pages;
+		List<GuidePage> pages = new ArrayList<>();
+		GuidePageHandler handler = new GuidePageHandler(pages);
+		// Creates the pages (at last it's neat)
+		handler.addPage("book.rbmk.title1", "book.rbmk.page1", ":textures/gui/book/rbmk1.png", 90, 80, 60);
+		handler.addPage("book.rbmk.title2", "book.rbmk.page2", ":textures/gui/book/rbmk2.png", 90, 52, 52);
+		handler.addPage("book.rbmk.title3", "book.rbmk.page3", ":textures/gui/book/rbmk3.png", 95, 88, 52);
+		handler.addPage("book.rbmk.title4", "book.rbmk.page4", ":textures/gui/book/rbmk4.png", 95, 88, 52);
+		handler.addPage("book.rbmk.title5", "book.rbmk.page5", ":textures/gui/book/rbmk5.png", 95, 88, 42);
+		handler.addPage("book.rbmk.title6", "book.rbmk.page6", ":textures/gui/book/rbmk6.png", 90, 100, 60);
+		handler.addPage("book.rbmk.title7", "book.rbmk.page7", ":textures/gui/book/rbmk7.png", 95, 52, 52);
+		handler.addPage("book.rbmk.title8", "book.rbmk.page8", ":textures/gui/book/rbmk8.png", 95, 88, 52);
+		handler.addPage("book.rbmk.title9", "book.rbmk.page9", ":textures/gui/book/rbmk9.png", 95, 88, 52);
+		handler.addPage("book.rbmk.title10", "book.rbmk.page10", ":textures/gui/book/rbmk10.png", 95, 52, 52);
+		handler.addPage("book.rbmk.title11", "book.rbmk.page11", ":textures/gui/book/rbmk11.png", 75, 85, 72);
+		handler.addPage("book.rbmk.title12", "book.rbmk.page12", ":textures/gui/book/rbmk12.png", 90, 80, 60);
+		handler.addPage("book.rbmk.title13", "book.rbmk.page13", ":textures/gui/book/rbmk13.png", 70, 103, 78);
+		//handler.addPage("book.rbmk.title14", "book.rbmk.page14", "/textures/gui/book/rbmk14.png", 95, 52, 52);
+		handler.addPage("book.rbmk.title15", "book.rbmk.page15", ":textures/gui/book/rbmk15.png", 100, 48, 48);
+		handler.addPage("book.rbmk.title16", "book.rbmk.page16", ":textures/gui/book/rbmk16.png", 50, 70, 100);
+
+		return handler.getPages();
 	}
 	
 	public static List<GuidePage> statFacHadron() {
@@ -274,6 +244,26 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 			return this;
 		}
 	}
+	public static class GuidePageHandler {
+		private final List<GuidePage> pages;
+
+		public GuidePageHandler(List<GuidePage> existingPages) {
+			this.pages = existingPages;
+		}
+
+		// Creates and adds pages, the end gets those pages
+		public void addPage(String titleKey, String textKey, String imagePath, int yOffset, int sizeX, int sizeY) {
+			GuidePage page = new GuidePage()
+					.addTitle(titleKey, 0x800000, 1F)
+					.addText(textKey, 2F)
+					.addImage(new ResourceLocation(RefStrings.MODID + imagePath), 0, yOffset, sizeX, sizeY);
+			pages.add(page);
+		}
+
+		public List<GuidePage> getPages() {
+			return pages;
+		}
+	}
 	
 	public static class GuideText {
 		public String text;
@@ -315,7 +305,6 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 			this.sizeY = sizeY;
 		}
 	}
-
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
@@ -327,3 +316,4 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 		return new GUIScreenGuide(player);
 	}
 }
+
