@@ -740,7 +740,7 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
 		
 		if(type == AnimType.CYCLE) {
 			if(timer == 0) {
@@ -766,8 +766,8 @@ public class Orchestras {
 		if(type == AnimType.JAMMED) {
 			if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
 			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
-			if(timer == 24) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
-			if(timer == 28) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			if(timer == 26) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
 		}
 	};
 	
