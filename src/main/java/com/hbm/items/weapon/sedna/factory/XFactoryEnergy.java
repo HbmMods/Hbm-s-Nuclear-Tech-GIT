@@ -132,9 +132,9 @@ public class XFactoryEnergy {
 		energy_las_ir = new BulletConfig().setItem(EnumAmmo.CAPACITOR_IR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4).setupDamageClass(DamageClass.FIRE).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(LAMBDA_IR_HIT);
 
 		ModItems.gun_tesla_cannon = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
+				.dura(2_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(20).reload(44).jam(19).sound("hbm:weapon.fire.tesla", 1.0F, 1.0F)
+						.dmg(35F).delay(20).spreadHipfire(1.5F).reload(44).jam(19).sound("hbm:weapon.fire.tesla", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge))
 						.offset(0.75, 0, -0.375).offsetScoped(0.75, 0, -0.25)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
@@ -143,9 +143,9 @@ public class XFactoryEnergy {
 				).setUnlocalizedName("gun_tesla_cannon");
 
 		ModItems.gun_lasrifle = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(2_000).draw(10).inspect(26).reloadSequential(true).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
+				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
 				.rec(new Receiver(0)
-						.dmg(50F).delay(8).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
+						.dmg(50F).delay(8).spreadHipfire(1F).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge, energy_las_ir))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
