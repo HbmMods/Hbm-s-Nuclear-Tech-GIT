@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,7 +12,7 @@ import static com.hbm.items.tool.ItemToolBox.*;
 
 public class ContainerToolBox extends Container {
 
-	private InventoryToolBox box;
+	private final InventoryToolBox box;
 
 	public ContainerToolBox(InventoryPlayer invPlayer, InventoryToolBox box) {
 		this.box = box;
@@ -19,18 +20,18 @@ public class ContainerToolBox extends Container {
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 8; j++) {
-				this.addSlotToContainer(new Slot(box, j + i * 8, 17 + j * 18, 18 + i * 18));
+				this.addSlotToContainer(new SlotNonRetarded(box, j + i * 8, 17 + j * 18, 49 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 98 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 129 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 156));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 187));
 		}
 	}
 
@@ -52,7 +53,7 @@ public class ContainerToolBox extends Container {
 			}
 
 			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+				var4.putStack(null);
 			} else {
 				var4.onSlotChanged();
 			}

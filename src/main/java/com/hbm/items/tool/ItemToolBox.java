@@ -7,12 +7,10 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.ChatBuilder;
 import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -23,7 +21,6 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ItemToolBox extends Item implements IGUIProvider {
 
@@ -56,6 +53,7 @@ public class ItemToolBox extends Item implements IGUIProvider {
 		return renderPass == 1 ? this.iconClosed : getIconFromDamageForRenderPass(stack.getItemDamage(), renderPass);
 	}
 
+	// Finds active rows in the toolbox (rows with items inside them).
 	public List<Integer> getActiveRows(ItemStack box) {
 		ItemStack[] stacks = ItemStackUtil.readStacksFromNBT(box, 24);
 		if(stacks == null)
@@ -110,14 +108,24 @@ public class ItemToolBox extends Item implements IGUIProvider {
 		ItemStack[] stacks = ItemStackUtil.readStacksFromNBT(box, 24);
 		ItemStack[] endingStacks = new ItemStack[24];
 
+		int lowestActiveIndex = Integer.MAX_VALUE; // Lowest active index to find which row to move *to* the hotbar.
+		int lowestInactiveIndex = Integer.MAX_VALUE; // Lowest *inactive* index to find which row to move the hotbar to.
+
 		if(stacks != null) {
 			List<Integer> activeRows = getActiveRows(box);
 
-			int lowestIndex = Integer.MAX_VALUE;
-			{ // Finding the lowest active row to decide what row to move to the hotbar.
-				for (Integer activeRowIndex : activeRows) {
-					lowestIndex = Math.min(activeRowIndex, lowestIndex);
+			{ // despair
+				for (int i = 0; i < 3; i++) {
+					if(activeRows.contains(i))
+						lowestActiveIndex = Math.min(i, lowestActiveIndex);
+					else
+						lowestInactiveIndex = Math.min(i, lowestInactiveIndex);
 				}
+
+				if(lowestInactiveIndex > 2) // No inactive rows...
+					lowestInactiveIndex = 2; // Set to the last possible row; the items will be moved out of the way in time.
+				else
+					lowestInactiveIndex = Math.max(0, lowestInactiveIndex - 1); // A little shittery to make items pop into the row that's *going* to be empty.
 			}
 
 			// This entire section sucks, but honestly it's not actually that bad; it works so....
@@ -125,7 +133,7 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 				int activeIndex = 8 * activeRowIndex;
 
-				if (activeRowIndex == lowestIndex) { // Items to "flow" to the hotbar.
+				if (activeRowIndex == lowestActiveIndex) { // Items to "flow" to the hotbar.
 					hasToolbox = false;
 					for (int i = 0; i < 9; i++) {
 						if(i == player.inventory.currentItem) {
@@ -144,7 +152,7 @@ public class ItemToolBox extends Item implements IGUIProvider {
 		}
 
 		// Finally, move all temporary arrays into their respective locations.
-		System.arraycopy(stacksToTransferToBox, 0, endingStacks, 16, 8);
+		System.arraycopy(stacksToTransferToBox, 0, endingStacks, lowestInactiveIndex * 8, 8);
 
 		for (int i = 0; i < endingHotBar.length; i++) {
 			player.inventory.setInventorySlotContents(i, endingHotBar[i]);
@@ -222,6 +230,11 @@ public class ItemToolBox extends Item implements IGUIProvider {
 			this.target.getTagCompound().removeTag("isOpen");
 			this.player.inventory.setInventorySlotContents(this.player.inventory.currentItem, this.target);
 			super.closeInventory();
+		}
+
+		@Override
+		public boolean isItemValidForSlot(int slot, ItemStack stack) {
+			return stack.getItem() != ModItems.toolbox;
 		}
 	}
 }
