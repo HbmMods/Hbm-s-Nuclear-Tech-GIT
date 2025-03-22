@@ -172,7 +172,7 @@ public class MainRegistry {
 	public static StatBase statLegendary;
 	public static StatBase statMines;
 	public static StatBase statBullets;
-	
+
 	// Achievements
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
@@ -863,7 +863,7 @@ public class MainRegistry {
 
 		FalloutConfigJSON.initialize();
 		ItemPoolConfigJSON.initialize();
-		
+
 		ClientConfig.initConfig();
 		ServerConfig.initConfig();
 
@@ -1671,6 +1671,9 @@ public class MainRegistry {
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		remapItems.put("hbm:item.antiknock", ModItems.fuel_additive);
+
+		remapItems.put("hbm:item.kit_toolbox_empty", ModItems.toolbox);
+		remapItems.put("hbm:item.kit_toolbox", ModItems.legacy_toolbox);
 
 		for(MissingMapping mapping : event.get()) {
 
