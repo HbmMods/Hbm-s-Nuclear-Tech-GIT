@@ -19,7 +19,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	public static final String KEY_MAG_PREV = "magprev";
 	public static final String KEY_MAG_AFTER = "magafter";
 
-	protected List<BulletConfig> acceptedBullets = new ArrayList();
+	public List<BulletConfig> acceptedBullets = new ArrayList();
 	
 	/** A number so the gun tell multiple mags apart */
 	public int index;

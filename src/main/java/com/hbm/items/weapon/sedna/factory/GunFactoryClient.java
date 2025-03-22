@@ -8,6 +8,7 @@ import static com.hbm.items.weapon.sedna.factory.XFactory357.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory35800.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory40mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory44.*;
+import static com.hbm.items.weapon.sedna.factory.XFactory45.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory50.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory556mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory75Bolt.*;
@@ -122,6 +123,12 @@ public class GunFactoryClient {
 		p9_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		p9_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		p9_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
+		
+		p45_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		p45_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		p45_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		p45_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
+		p45_du.setRenderer(LegoClient.RENDER_DU_BULLET);
 
 		r556_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		r556_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);

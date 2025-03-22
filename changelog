@@ -9,6 +9,15 @@
   * Explosive .50 BMG
   * Explosive 10 gauge buckshot (unlike 12 gauge which has explosive slugs)
 * Lincoln's repeater, a b-side to the lever action rifle
+* Weapon modification table
+  * All weapon tiers have generic upgrades for increasing damage and durability
+  * Many guns have specialized attachments. Some examples:
+    * The assault rifle can use silencers, scopes, can have its stock removed and has two different polymer furnitures
+    * .44 revolvers can use scopes
+    * All full-length shotguns can have their barrel sawed off
+    * Most shotguns can make use of a choke to decrease projectile spread (does not work with sawed-offs)
+    * The grease gun has a modernization package, replacing most parts and increasing most stats
+  * Some guns have special mod combos that will change the name
 
 ## Changed
 * Fat mines now use the standardized mini nuke code
@@ -29,6 +38,11 @@
 * Removed the crafting recipe for the small geothermal generator and ZPE generators
 * Removed the gemothermal, ZPE and ambient radiation generators from the creative menu
 * Disabled the horrid flicker on the quad rocket launcher's antenna, making steered mode look less terrible
+* All non-legendary .357 revolvers now fire a quarter of a second faster
+* Changed the detonator's recipe to be less archaic
+* Crates can now be opened when held
+* Crates will not longer show their contents when locked
+* Crates found in structures will sometimes contain things that aren't items
 
 ## Fixed
 * Fixed animation errors on the MAS-36
@@ -41,3 +55,4 @@
 * Chunk-loading drones may or may not be fixed
 * Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
 * Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens
+* Fixed fat man's piston not being extended correctly in non-first person rendering when unloaded

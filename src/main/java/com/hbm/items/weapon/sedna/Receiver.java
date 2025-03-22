@@ -23,7 +23,7 @@ public class Receiver {
 	public static final String I_DELAYAFTERFIRE =			"I_DELAYAFTERFIRE";
 	public static final String I_DELAYAFTERDRYFIRE =		"I_DELAYAFTERDRYFIRE";
 	public static final String I_ROUNDSPERCYCLE =			"I_ROUNDSPERCYCLE";
-	public static final String F_SPRADINNATE =				"F_SPRADINNATE";
+	public static final String F_SPREADINNATE =				"F_SPREADINNATE";
 	public static final String F_SPREADAMMO =				"F_SPREADAMMO";
 	public static final String F_SPREADHIPFIRE =			"F_SPREADHIPFIRE";
 	public static final String F_SPREADDURABILITY =			"F_SPREADDURABILITY";
@@ -90,7 +90,7 @@ public class Receiver {
 	public int getDelayAfterFire(ItemStack stack) {				return WeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
 	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
 	public int getRoundsPerCycle(ItemStack stack) {				return WeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }
-	public float getInnateSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPRADINNATE, this, parent.index); }
+	public float getInnateSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPREADINNATE, this, parent.index); }
 	public float getAmmoSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this, parent.index); }
 	public float getHipfireSpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this, parent.index); }
 	public float getDurabilitySpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadDurability_DNA, stack, F_SPREADDURABILITY, this, parent.index); }

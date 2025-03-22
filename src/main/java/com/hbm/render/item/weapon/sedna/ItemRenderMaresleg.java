@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -170,6 +171,6 @@ public class ItemRenderMaresleg extends ItemRenderWeaponBase {
 	}
 	
 	public boolean getShort(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_maresleg_broken;
+		return stack.getItem() == ModItems.gun_maresleg_broken || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SAWED_OFF);
 	}
 }

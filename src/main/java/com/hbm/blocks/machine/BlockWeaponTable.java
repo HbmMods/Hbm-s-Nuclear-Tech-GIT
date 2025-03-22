@@ -29,9 +29,9 @@ public class BlockWeaponTable extends Block implements IGUIProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":armor_table_top");
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":armor_table_bottom");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":armor_table_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":gun_table_top");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":gun_table_bottom");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":gun_table_side");
 	}
 
 	@Override

@@ -8,13 +8,14 @@ public class WeaponModTestMulti extends WeaponModBase {
 	
 	public WeaponModTestMulti(int id, String... slots) {
 		super(id, slots);
+		this.setPriority(PRIORITY_MULT_FINAL);
 	}
 
 	@Override
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 		
 		if(parent instanceof Receiver && key == Receiver.I_ROUNDSPERCYCLE && base instanceof Integer) {
-			return fagSlop((Integer) base * 3, base);
+			return cast((Integer) base * 3, base);
 		}
 		
 		return base;

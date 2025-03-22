@@ -8,13 +8,14 @@ public class WeaponModTestFirerate extends WeaponModBase {
 	
 	public WeaponModTestFirerate(int id, String... slots) {
 		super(id, slots);
+		this.setPriority(PRIORITY_MULT_FINAL);
 	}
 
 	@Override
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 
 		if(parent instanceof Receiver && key == Receiver.I_DELAYAFTERFIRE && base instanceof Integer) {
-			return fagSlop(Math.max((Integer) base / 2, 1), base);
+			return cast(Math.max((Integer) base / 2, 1), base);
 		}
 		
 		return base;
