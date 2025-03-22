@@ -64,10 +64,17 @@ public class NTMWorldGenerator implements IWorldGenerator {
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = oceanBiomes::contains;
-			structure = new JigsawPiece("aircraft", StructureManager.aircraft);
+			structure = new JigsawPiece("aircraft_carrier", StructureManager.aircraft_carrier);
 			maxHeight = 46;
-			spawnWeight = 75 * 5;
+			spawnWeight = 1;
 		}});
+
+//		NBTStructure.registerStructure(0, new SpawnCondition() {{
+//			canSpawn = oceanBiomes::contains;
+//			structure = new JigsawPiece("oilrig", StructureManager.oilrig);
+//			maxHeight = 56;
+//			spawnWeight = 5 * 5;
+//		}});
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
