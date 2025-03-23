@@ -43,6 +43,7 @@
 * Crates can now be opened when held
 * Crates will not longer show their contents when locked
 * Crates found in structures will sometimes contain things that aren't items
+* Beam weapons are no longer pinpoint accurate when firing unscoped
 
 ## Fixed
 * Fixed animation errors on the MAS-36

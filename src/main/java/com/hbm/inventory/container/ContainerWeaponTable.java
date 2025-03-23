@@ -2,6 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -152,8 +153,33 @@ public class ContainerWeaponTable extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		return null;
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack copy = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
+		
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			copy = stack.copy();
+			
+			if(index < 8) {
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 8, this.inventorySlots.size(), true)) return null;
+				slot.onPickupFromSlot(player, stack);
+			} else {
+				if(stack.getItem() instanceof ItemGunBaseNT) {
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 7, 8, false)) return null;
+				} else {
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 7, false)) return null;
+				}
+			}
+
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+
+		return copy;
 	}
 	
 	public class ModSlot extends Slot {
@@ -171,12 +197,14 @@ public class ContainerWeaponTable extends Container {
 		public void putStack(ItemStack stack) {
 			super.putStack(stack);
 			refreshInstalledMods();
+			WeaponModManager.onInstallStack(gun.getStackInSlot(0), stack, index);
 		}
 
 		@Override
 		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 			super.onPickupFromSlot(player, stack);
 			refreshInstalledMods();
+			WeaponModManager.onUninstallStack(gun.getStackInSlot(0), stack, index);
 		}
 		
 		public void refreshInstalledMods() {
