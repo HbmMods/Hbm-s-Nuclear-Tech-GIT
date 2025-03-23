@@ -37,6 +37,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 	public NTMWorldGenerator() {
 		final List<BiomeGenBase> invalidBiomes = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
 		final List<BiomeGenBase> oceanBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean });
+		final List<BiomeGenBase> beachBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
+
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
@@ -74,7 +76,14 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig);
 			maxHeight = 48;
 			minHeight = 47;
-			spawnWeight = 4;
+			spawnWeight = 3;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = beachBiomes::contains;
+			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol);
+			spawnWeight = 8;
+			maxHeight = 65;
 		}});
 
 		NBTStructure.registerNullWeight(0, 12);
