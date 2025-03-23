@@ -105,7 +105,7 @@ public class GunAnimationPacket implements IMessage {
 				
 				if(animation != null) {
 					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
+					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, type, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
 				}
 				
 			} catch(Exception x) { }
@@ -143,7 +143,7 @@ public class GunAnimationPacket implements IMessage {
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.resetEquippedProgress();
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender = stack;
 				boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-				HbmAnimations.hotbar[slot][gunIndex] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
+				HbmAnimations.hotbar[slot][gunIndex] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, type, isReloadAnimation && config.getReloadAnimSequential(stack));
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
+import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 
 import com.hbm.blocks.ModBlocks;
@@ -91,7 +92,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.unloadTank(4, 5, slots);
 			
 			for(DirPos pos : getConPos()) {
-				if(mode == 0 || mode == 2) this.trySubscribe(tank.getTankType(), worldObj, pos);
+				if(mode == 0 || mode == 1) this.trySubscribe(tank.getTankType(), worldObj, pos);
 				if(mode == 1 || mode == 2) this.tryProvide(tank, worldObj, pos);
 			}
 
@@ -232,6 +233,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public ConnectionPriority getFluidPriority() {
+		return mode == 1 ? ConnectionPriority.LOW : ConnectionPriority.NORMAL;
 	}
 
 	@Override

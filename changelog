@@ -44,6 +44,10 @@
 * Crates will not longer show their contents when locked
 * Crates found in structures will sometimes contain things that aren't items
 * Beam weapons are no longer pinpoint accurate when firing unscoped
+* Reduced the recoil animation's intensity on the G3 by 66%, unless if the stock is sawed off
+* The comically long pistol no longer cancels the inspect animation when fired while inspecting
+  * Instead, it will fire where the gun is pointing, at the player's face
+  * There's no special animation for this, since in survival mode, that would be lethal anyway
 
 ## Fixed
 * Fixed animation errors on the MAS-36
@@ -57,3 +61,4 @@
 * Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
 * Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens
 * Fixed fat man's piston not being extended correctly in non-first person rendering when unloaded
+* Fixed weapon equip animation not playing when switching between two weapons of the same type

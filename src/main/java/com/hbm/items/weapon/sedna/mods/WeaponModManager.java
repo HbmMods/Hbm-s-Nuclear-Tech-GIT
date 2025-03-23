@@ -58,6 +58,14 @@ public class WeaponModManager {
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.DAMAGE.ordinal())).addDefault(TEST_DAMAGE);
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.MULTI.ordinal())).addDefault(TEST_MULTI);
 
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_2_5.ordinal())).addDefault(new WeaponModOverride(3, 2.5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_5.ordinal())).addDefault(new WeaponModOverride(4, 5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_7_5.ordinal())).addDefault(new WeaponModOverride(5, 7.5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_10.ordinal())).addDefault(new WeaponModOverride(6, 10F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_12_5.ordinal())).addDefault(new WeaponModOverride(7, 12_5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_15.ordinal())).addDefault(new WeaponModOverride(8, 15F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_20.ordinal())).addDefault(new WeaponModOverride(9, 20F, "OVERRIDE"));
+
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_generic, 1, EnumModGeneric.IRON_DAMAGE.ordinal())).addMod(ModItems.gun_pepperbox, new WeaponModGenericDamage(100));
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_generic, 1, EnumModGeneric.IRON_DURA.ordinal())).addMod(ModItems.gun_pepperbox, new WeaponModGenericDurability(101));
 
@@ -151,7 +159,7 @@ public class WeaponModManager {
 			.addMod(ModItems.gun_greasegun, new WeaponModCaliber(311, 24, 3F, p45))
 			.addMod(ModItems.gun_uzi, new WeaponModCaliber(312, 24, 3F, p45))
 			.addMod(ModItems.gun_uzi_akimbo, new WeaponModCaliber(313, 24, 3F, p45))
-			.addMod(ModItems.gun_lag, new WeaponModCaliber(314, 24, 25F, p45));
+			.addMod(ModItems.gun_lag, new WeaponModCaliber(314, 15, 25F, p45));
 		new WeaponModDefinition(EnumModCaliber.P22)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(320, 28, 10F, p22))
 			.addMod(ModItems.gun_uzi, new WeaponModCaliber(321, 40, 3F, p22))
@@ -260,6 +268,7 @@ public class WeaponModManager {
 		WeaponModDefinition def = stackToMod.get(new ComparableStack(mod));
 		if(def == null) return null;
 		IWeaponMod newMod = def.modByGun.get(new ComparableStack(gun).makeSingular()); //shift clicking causes the gun to have stack size 0!
+		if(newMod == null) newMod = def.modByGun.get(null);
 		return newMod;
 	}
 	
