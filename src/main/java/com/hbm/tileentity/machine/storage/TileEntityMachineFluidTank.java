@@ -121,7 +121,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 						this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
 
-						if(this.node == null || this.node.expired) {
+						if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 							this.node = this.createNode(tank.getTankType());
 							UniNodespace.createNode(worldObj, this.node);
 							lastType = tank.getTankType();
