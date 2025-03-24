@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,8 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class Spotlight extends Block implements ISpotlight, INBTTransformable {
+
+	public static boolean disableOnGeneration = true;
 
 	// I'd be extending the ReinforcedLamp class if it wasn't for the inverted behaviour of these specific lights
 	// I want these blocks to be eminently useful, so removing the need for redstone by default is desired,
@@ -220,6 +223,31 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 		return ForgeDirection.getOrientation(metadata >> 1);
 	}
 
+	// Replace bulbs on broken lights with a click
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if(!isBroken(meta)) return false;
+
+		repair(world, x, y, z);
+		return true;
+	}
+
+	private void repair(World world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if(!isBroken(meta)) return;
+
+		world.setBlock(x, y, z, getOn(), meta - 1, 2);
+
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			int ox = x + dir.offsetX;
+			int oy = y + dir.offsetY;
+			int oz = z + dir.offsetZ;
+			Block block = world.getBlock(ox, oy, oz);
+			if(block == this) repair(world, ox, oy, oz);
+		}
+	}
+
 	public boolean isBroken(int metadata) {
 		return (metadata & 1) == 1;
 	}
@@ -326,11 +354,13 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
 		// +1 to set as broken, won't turn on until broken and replaced
-		return (INBTTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + 1;
+		int disabled = disableOnGeneration ? 1 : 0;
+		return (INBTTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + disabled;
 	}
 
 	@Override
 	public Block transformBlock(Block block) {
+		if(!disableOnGeneration) return block;
 		if(block == ModBlocks.spotlight_incandescent) return ModBlocks.spotlight_incandescent_off;
 		if(block == ModBlocks.spotlight_fluoro) return ModBlocks.spotlight_fluoro_off;
 		if(block == ModBlocks.spotlight_halogen) return ModBlocks.spotlight_halogen_off;
