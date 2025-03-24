@@ -1,64 +1,9 @@
-## Added
-* `/ntmserver`
-  * Functions like `/ntmclient` but for common settings
-  * Can toggle `DAMAGE_COMPATIBILITY_MODE`, off by default, enables a more compatible (but slightly jankier) version of the bullet damage code
-  * `MINE_<xxx>_DAMAGE` can be used to adjust landmine damage
-  * `TAINT_TRAILS` now replaces the hardcore taint config option, making taint blocks more potent and the potion effect trail taint blocks
-* New ammo types
-  * Explosive 7.62mm
-  * Explosive .50 BMG
-  * Explosive 10 gauge buckshot (unlike 12 gauge which has explosive slugs)
-* Lincoln's repeater, a b-side to the lever action rifle
-* Weapon modification table
-  * All weapon tiers have generic upgrades for increasing damage and durability
-  * Many guns have specialized attachments. Some examples:
-    * The assault rifle can use silencers, scopes, can have its stock removed and has two different polymer furnitures
-    * .44 revolvers can use scopes
-    * All full-length shotguns can have their barrel sawed off
-    * Most shotguns can make use of a choke to decrease projectile spread (does not work with sawed-offs)
-    * The grease gun has a modernization package, replacing most parts and increasing most stats
-  * Some guns have special mod combos that will change the name
-
 ## Changed
-* Fat mines now use the standardized mini nuke code
-  * Fat mines now have a base damage of exactly 100, being identical to demolition mini nukes
-  * Fat mines now gib affected entities
-* IV bags now use `setHealth` operations instead of dealing damage, preventing health duplication by just avoiding the damage
-* The settings tool can now copy and paste the "paint" from paintable cables and fluid ducts
-* Changed the way taint works
-  * Instead of neon purple vines, taint is bow a greyish sludge
-  * Taint now actively replaces blocks instead of growing along them
-  * Taint is still limited in spread, however taint spread is lower underground, taint decays three times faster in intensity if the block is not exposed to air, making taint spread more along the surface
-  * Taint has a 25% chance of splashing down when replacing a block with no supports, causing structures to collapse and taint to spread faster
-  * Similar to soil sand, entities will sink in taint and get slowed down
-  * The sludge consumeth
-* `enableGuns` config option now applies to SEDNA system guns, simply canceling all gun-related keybinds
-* Cinnabar dust, if registered by another mod, can now be acidized into cinnabar using hydrogen peroxide
-* Copper wires, like AA and gold, can now be welded into dense wires
-* Removed the crafting recipe for the small geothermal generator and ZPE generators
-* Removed the gemothermal, ZPE and ambient radiation generators from the creative menu
-* Disabled the horrid flicker on the quad rocket launcher's antenna, making steered mode look less terrible
-* All non-legendary .357 revolvers now fire a quarter of a second faster
-* Changed the detonator's recipe to be less archaic
-* Crates can now be opened when held
-* Crates will not longer show their contents when locked
-* Crates found in structures will sometimes contain things that aren't items
-* Beam weapons are no longer pinpoint accurate when firing unscoped
-* Reduced the recoil animation's intensity on the G3 by 66%, unless if the stock is sawed off
-* The comically long pistol no longer cancels the inspect animation when fired while inspecting
-  * Instead, it will fire where the gun is pointing, at the player's face
-  * There's no special animation for this, since in survival mode, that would be lethal anyway
+* The toolbox' functionality has been completely changed (thanks gamma)
+  * Instead of a crappy backpack substitute that doesn't work half the time, the toolbox can quickly swap out the hotbar when used
+* Updated StG 77 recipe to use two grips and a proper scope
 
 ## Fixed
-* Fixed animation errors on the MAS-36
-* Fixed drone docks, requester and provider crates not dropping their contents when broken
-* Fixed all missing texture errors that appear in the startup log
-* Potentially fixed a crash with mekanism during the recipe change phase
-* Removed the coke to heavy oil recipe for allowing infinite oil loops
-  * Coke to syngas and coalgas recipes should be fine though, so they stay
-* Potentially fixed another issue regarding NPCs firing belt-fed guns
-* Chunk-loading drones may or may not be fixed
-* Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
-* Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens
-* Fixed fat man's piston not being extended correctly in non-first person rendering when unloaded
-* Fixed weapon equip animation not playing when switching between two weapons of the same type
+* Fixed a bunch of singleblocks not accepting fluids (thanks mellow)
+* Fixed fluid valves not properly disconnecting
+* Fixed a dupe regarding the weapon mod table

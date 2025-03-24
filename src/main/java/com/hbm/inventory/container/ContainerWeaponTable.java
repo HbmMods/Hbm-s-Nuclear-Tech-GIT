@@ -27,7 +27,7 @@ public class ContainerWeaponTable extends Container {
 
 			@Override
 			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem() instanceof ItemGunBaseNT;
+				return gun.getStackInSlot(0) == null && stack.getItem() instanceof ItemGunBaseNT;
 			}
 
 			@Override
