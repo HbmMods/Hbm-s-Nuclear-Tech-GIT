@@ -46,7 +46,7 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 			}
 		}
 
-		if(te != this && te instanceof IFluidReceiverMK2 && !(te instanceof IFluidBufferTransceiverMK2)) {
+		if(te != this && te instanceof IFluidReceiverMK2) {
 			IFluidReceiverMK2 rec = (IFluidReceiverMK2) te;
 			if(rec.canConnect(type, dir.getOpposite())) {
 				long provides = Math.min(this.getFluidAvailable(type, pressure), this.getProviderSpeed(type, pressure));

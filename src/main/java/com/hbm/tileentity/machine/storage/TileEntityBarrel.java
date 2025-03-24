@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
-import api.hbm.fluidmk2.IFluidBufferTransceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 
 import java.util.HashSet;
 
@@ -45,10 +45,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidBufferTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
 
 	protected FluidNode node;
-	protected FluidType lastType;
 
 	public FluidTank tank;
 	public short mode = 0;
@@ -100,27 +99,42 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
 
-			if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
+			// In buffer mode, acts like a pipe block, providing fluid to its own node
+			// otherwise, it is a regular providing/receiving machine, blocking further propagation
+			if(mode == 1) {
+				if(this.node == null || this.node.expired) {
 
-				this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
+					this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
 
-				if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
-					this.node = this.createNode(tank.getTankType());
-					UniNodespace.createNode(worldObj, this.node);
-					lastType = tank.getTankType();
+					if(this.node == null || this.node.expired) {
+						this.node = this.createNode(tank.getTankType());
+						UniNodespace.createNode(worldObj, this.node);
+					}
 				}
-			}
 
-			if(mode == 2 || mode == 1) {
 				this.tryProvide(tank, worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
-			} else {
-				if(node != null && node.hasValidNet()) node.net.removeProvider(this);
-			}
-
-			if(mode == 0 || mode == 1) {
 				if(node != null && node.hasValidNet()) node.net.addReceiver(this);
 			} else {
-				if(node != null && node.hasValidNet()) node.net.removeReceiver(this);
+				if(this.node != null) {
+					UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
+					this.node = null;
+				}
+
+				for(DirPos pos : getConPos()) {
+					FluidNode dirNode = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), tank.getTankType().getNetworkProvider());
+
+					if(mode == 2) {
+						tryProvide(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					} else {
+						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
+					}
+
+					if(mode == 0) {
+						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.addReceiver(this);
+					} else {
+						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeReceiver(this);
+					}
+				}
 			}
 
 			if(tank.getFill() > 0) {
