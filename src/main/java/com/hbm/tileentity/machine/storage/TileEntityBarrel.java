@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
-import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.fluidmk2.FluidNode;
+import api.hbm.fluidmk2.IFluidBufferTransceiverMK2;
+
+import java.util.HashSet;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
@@ -20,6 +23,8 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.uninos.UniNodespace;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -37,9 +42,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidBufferTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
+
+	protected FluidNode node;
+	protected FluidType lastType;
 
 	public FluidTank tank;
 	public short mode = 0;
@@ -90,10 +99,28 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.setType(0, 1, slots);
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
-			
-			for(DirPos pos : getConPos()) {
-				if(mode == 0 || mode == 1) this.trySubscribe(tank.getTankType(), worldObj, pos);
-				if(mode == 1 || mode == 2) this.tryProvide(tank, worldObj, pos);
+
+			if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
+
+				this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
+
+				if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
+					this.node = this.createNode(tank.getTankType());
+					UniNodespace.createNode(worldObj, this.node);
+					lastType = tank.getTankType();
+				}
+			}
+
+			if(mode == 2 || mode == 1) {
+				this.tryProvide(tank, worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
+			} else {
+				if(node != null && node.hasValidNet()) node.net.removeProvider(this);
+			}
+
+			if(mode == 0 || mode == 1) {
+				if(node != null && node.hasValidNet()) node.net.addReceiver(this);
+			} else {
+				if(node != null && node.hasValidNet()) node.net.removeReceiver(this);
 			}
 
 			if(tank.getFill() > 0) {
@@ -101,6 +128,30 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			}
 
 			this.networkPackNT(50);
+		}
+	}
+
+	protected FluidNode createNode(FluidType type) {
+		DirPos[] conPos = getConPos();
+
+		HashSet<BlockPos> posSet = new HashSet<>();
+		posSet.add(new BlockPos(this));
+		for(DirPos pos : conPos) {
+			ForgeDirection dir = pos.getDir();
+			posSet.add(new BlockPos(pos.getX() - dir.offsetX, pos.getY() - dir.offsetY, pos.getZ() - dir.offsetZ));
+		}
+
+		return new FluidNode(type.getNetworkProvider(), posSet.toArray(new BlockPos[posSet.size()])).setConnections(conPos);
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(!worldObj.isRemote) {
+			if(this.node != null) {
+				UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
+			}
 		}
 	}
 
@@ -219,6 +270,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
 	}
+
+	@Override public boolean canConnect(FluidType fluid, ForgeDirection dir) { return true; }
 
 	@Override
 	public FluidTank[] getSendingTanks() {
