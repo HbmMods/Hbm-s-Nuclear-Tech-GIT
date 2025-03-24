@@ -66,23 +66,23 @@ public class NTMWorldGenerator implements IWorldGenerator {
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = oceanBiomes::contains;
-			structure = new JigsawPiece("aircraft_carrier", StructureManager.aircraft_carrier);
-			maxHeight = 46;
+			structure = new JigsawPiece("aircraft_carrier", StructureManager.aircraft_carrier, -6);
+			maxHeight = 42;
 			spawnWeight = 1;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> biome == BiomeGenBase.deepOcean;
-			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig);
-			maxHeight = 48;
-			minHeight = 47;
+			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig, -20);
+			maxHeight = 12;
+			minHeight = 11;
 			spawnWeight = 2;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = beachBiomes::contains;
-			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol);
-			minHeight = 63;
+			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol, -5);
+			minHeight = 58;
 			maxHeight = 67;
 			spawnWeight = 8;
 		}});
