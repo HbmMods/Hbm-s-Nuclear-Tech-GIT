@@ -58,6 +58,14 @@ public class WeaponModManager {
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.DAMAGE.ordinal())).addDefault(TEST_DAMAGE);
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.MULTI.ordinal())).addDefault(TEST_MULTI);
 
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_2_5.ordinal())).addDefault(new WeaponModOverride(3, 2.5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_5.ordinal())).addDefault(new WeaponModOverride(4, 5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_7_5.ordinal())).addDefault(new WeaponModOverride(5, 7.5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_10.ordinal())).addDefault(new WeaponModOverride(6, 10F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_12_5.ordinal())).addDefault(new WeaponModOverride(7, 12_5F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_15.ordinal())).addDefault(new WeaponModOverride(8, 15F, "OVERRIDE"));
+		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.OVERRIDE_20.ordinal())).addDefault(new WeaponModOverride(9, 20F, "OVERRIDE"));
+
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_generic, 1, EnumModGeneric.IRON_DAMAGE.ordinal())).addMod(ModItems.gun_pepperbox, new WeaponModGenericDamage(100));
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_generic, 1, EnumModGeneric.IRON_DURA.ordinal())).addMod(ModItems.gun_pepperbox, new WeaponModGenericDurability(101));
 
@@ -127,13 +135,14 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.GREASEGUN).addMod(ModItems.gun_greasegun, new WeaponModGreasegun(ID_GREASEGUN_CLEAN));
 		new WeaponModDefinition(EnumModSpecial.SLOWDOWN).addMod(ModItems.gun_minigun, new WeaponModSlowdown(207));
 		new WeaponModDefinition(EnumModSpecial.SPEEDUP)
-			.addMod(ModItems.gun_minigun, new WeaponModMinigunSpeedup(208))
+			.addMod(ModItems.gun_minigun, new WeaponModMinigunSpeedup(ID_MINIGUN_SPEED))
 			.addMod(new Item[] {ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder}, new WeaponModShredderSpeedup(209));
 		new WeaponModDefinition(EnumModSpecial.CHOKE).addMod(new Item[] {ModItems.gun_pepperbox, ModItems.gun_maresleg, ModItems.gun_double_barrel, ModItems.gun_liberator, ModItems.gun_spas12}, new WeaponModChoke(210));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_GREEN).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_GREEN));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_BLACK).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_BLACK));
 		new WeaponModDefinition(EnumModSpecial.BAYONET).addMod(ModItems.gun_mas36, new WeaponModMASBayonet(ID_MAS_BAYONET));
 		new WeaponModDefinition(EnumModSpecial.STACK_MAG).addMod(new Item[] {ModItems.gun_greasegun, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_aberrator, ModItems.gun_aberrator_eott}, new WeaponModStackMag(214));
+		new WeaponModDefinition(EnumModSpecial.SKIN_SATURNITE).addMod(new Item[] {ModItems.gun_uzi, ModItems.gun_uzi_akimbo}, new WeaponModUziSaturnite(ID_UZI_SATURN));
 
 		BulletConfig[] p9 = new BulletConfig[] {XFactory9mm.p9_sp, XFactory9mm.p9_fmj, XFactory9mm.p9_jhp, XFactory9mm.p9_ap};
 		BulletConfig[] p45 = new BulletConfig[] {XFactory45.p45_sp, XFactory45.p45_fmj, XFactory45.p45_jhp, XFactory45.p45_ap, XFactory45.p45_du};
@@ -150,7 +159,7 @@ public class WeaponModManager {
 			.addMod(ModItems.gun_greasegun, new WeaponModCaliber(311, 24, 3F, p45))
 			.addMod(ModItems.gun_uzi, new WeaponModCaliber(312, 24, 3F, p45))
 			.addMod(ModItems.gun_uzi_akimbo, new WeaponModCaliber(313, 24, 3F, p45))
-			.addMod(ModItems.gun_lag, new WeaponModCaliber(314, 24, 25F, p45));
+			.addMod(ModItems.gun_lag, new WeaponModCaliber(314, 15, 25F, p45));
 		new WeaponModDefinition(EnumModCaliber.P22)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(320, 28, 10F, p22))
 			.addMod(ModItems.gun_uzi, new WeaponModCaliber(321, 40, 3F, p22))
@@ -178,9 +187,11 @@ public class WeaponModManager {
 	public static final int ID_NO_SHIELD = 204;
 	public static final int ID_NO_STOCK = 205;
 	public static final int ID_GREASEGUN_CLEAN = 206;
+	public static final int ID_MINIGUN_SPEED = 208;
 	public static final int ID_FURNITURE_GREEN = 211;
 	public static final int ID_FURNITURE_BLACK = 212;
 	public static final int ID_MAS_BAYONET = 213;
+	public static final int ID_UZI_SATURN = 215;
 	
 	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];
@@ -240,12 +251,29 @@ public class WeaponModManager {
 		}
 	}
 	
-	public static boolean isApplicable(ItemStack gun, ItemStack mod, int cfg, boolean checkMutex) {
-		if(gun == null || mod == null) return false; //if either stacks are null
+	public static void onInstallStack(ItemStack gun, ItemStack mod, int cfg) {
+		IWeaponMod newMod = modFromStack(gun, mod, cfg);
+		if(newMod == null) return;
+		newMod.onInstall(gun, mod, cfg);
+	}
+	
+	public static void onUninstallStack(ItemStack gun, ItemStack mod, int cfg) {
+		IWeaponMod newMod = modFromStack(gun, mod, cfg);
+		if(newMod == null) return;
+		newMod.onUninstall(gun, mod, cfg);
+	}
+	
+	public static IWeaponMod modFromStack(ItemStack gun, ItemStack mod, int cfg) {
+		if(gun == null || mod == null) return null;
 		WeaponModDefinition def = stackToMod.get(new ComparableStack(mod));
-		if(def == null) return false; //if the mod stack doesn't have a mod definition
-		IWeaponMod newMod = def.modByGun.get(new ComparableStack(gun));
-		if(newMod == null) newMod = def.modByGun.get(null); //if there's no per-gun mod, default to null key
+		if(def == null) return null;
+		IWeaponMod newMod = def.modByGun.get(new ComparableStack(gun).makeSingular()); //shift clicking causes the gun to have stack size 0!
+		if(newMod == null) newMod = def.modByGun.get(null);
+		return newMod;
+	}
+	
+	public static boolean isApplicable(ItemStack gun, ItemStack mod, int cfg, boolean checkMutex) {
+		IWeaponMod newMod = modFromStack(gun, mod, cfg);
 		if(newMod == null) return false; //if there's just no mod applicable
 		
 		if(checkMutex) for(int i : gun.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg)) {

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.items.weapon.sedna.mags.MagazineSingleTypeBase;
 
 import net.minecraft.item.ItemStack;
 
@@ -46,7 +49,6 @@ public class WeaponModCaliber extends WeaponModBase {
 				return (T) DUMMY_FULL;
 			}
 			if(base instanceof MagazineBelt) {
-				MagazineBelt original = (MagazineBelt) base;
 				DUMMY_BELT.acceptedBullets = cfg;
 				return (T) DUMMY_BELT;
 			}
@@ -55,5 +57,18 @@ public class WeaponModCaliber extends WeaponModBase {
 			return cast(baseDamage, base);
 		}
 		return base;
+	}
+	
+	/* adding or removing a caliber mod annihilates the loaded rounds */
+	public void onInstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
+	public void onUninstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
+	
+	public void clearMag(ItemStack stack, int index) {
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		IMagazine mag = gun.getConfig(stack, index).getReceivers(stack)[0].getMagazine(stack);
+		if(mag instanceof MagazineSingleTypeBase) {
+			MagazineSingleTypeBase mstb = (MagazineSingleTypeBase) mag;
+			mstb.setAmount(stack, 0);
+		}
 	}
 }

@@ -26,6 +26,16 @@ public class BobMathUtil {
 		for(int num : nums) if(num > largest) largest = num;
 		return largest;
 	}
+	public static long min(long... nums) {
+		long smallest = Long.MAX_VALUE;
+		for(long num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static long max(long... nums) {
+		long largest = Long.MIN_VALUE;
+		for(long num : nums) if(num > largest) largest = num;
+		return largest;
+	}
 	public static float min(float... nums) {
 		float smallest = Float.MAX_VALUE;
 		for(float num : nums) if(num < smallest) smallest = num;

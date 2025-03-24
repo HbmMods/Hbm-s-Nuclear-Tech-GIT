@@ -111,12 +111,12 @@ public class DamageResistanceHandler {
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(0F, 0.15F));
 		registerSet(ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 20F, 0.65F)
-				.addCategory(CATEGORY_FIRE, 10F, 0.75F)
+				.addCategory(CATEGORY_PROJECTILE, 25F, 0.65F)
+				.addCategory(CATEGORY_FIRE, 10F, 0.9F)
 				.addCategory(CATEGORY_EXPLOSION, 15F, 0.25F)
-				.addExact(DamageClass.LASER.name(), 10F, 0.75F)
+				.addExact(DamageClass.LASER.name(), 25F, 0.75F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
-				.setOther(10F, 0.15F));
+				.setOther(15F, 0.3F));
 		ResistanceStats bj = new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
 				.addCategory(CATEGORY_FIRE, 2.5F, 0.5F)

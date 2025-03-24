@@ -191,7 +191,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 
 	/// For when opening from a player's inventory.
 	public static void spawnSpiders(EntityPlayer player, World worldObj, ItemStack crate) {
-		if(crate.getTagCompound().getBoolean("spiders")) {
+		if(crate.hasTagCompound() && crate.getTagCompound().getBoolean("spiders")) {
 			Random random = new Random();
 
 			for (int i = 0; i < numSpiders; i++) {

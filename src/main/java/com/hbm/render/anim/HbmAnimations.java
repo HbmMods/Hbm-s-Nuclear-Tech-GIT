@@ -47,18 +47,22 @@ public class HbmAnimations {
 		public BusAnimation animation;
 		// If set, don't cancel this animation when the timer ends, instead wait for the next to start
 		public boolean holdLastFrame = false;
+		// so we know what type of animation we're playing, only used rarely
+		public AnimType type;
 		
-		public Animation(String key, long startMillis, BusAnimation animation) {
+		public Animation(String key, long startMillis, BusAnimation animation, AnimType type) {
 			this.key = key;
 			this.startMillis = startMillis;
 			this.animation = animation;
+			this.type = type;
 		}
 		
-		public Animation(String key, long startMillis, BusAnimation animation, boolean holdLastFrame) {
+		public Animation(String key, long startMillis, BusAnimation animation, AnimType type, boolean holdLastFrame) {
 			this.key = key;
 			this.startMillis = startMillis;
 			this.animation = animation;
 			this.holdLastFrame = holdLastFrame;
+			this.type = type;
 		}
 	}
 

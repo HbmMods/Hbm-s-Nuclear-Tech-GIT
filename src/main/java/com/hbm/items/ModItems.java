@@ -2136,8 +2136,9 @@ public class ModItems {
 	public static Item hazmat_red_kit;
 	public static Item hazmat_grey_kit;
 	public static Item kit_custom;
-	public static Item kit_toolbox_empty;
-	public static Item kit_toolbox;
+
+	public static Item legacy_toolbox;
+	public static Item toolbox;
 
 	public static Item loot_10;
 	public static Item loot_15;
@@ -4128,8 +4129,8 @@ public class ModItems {
 		hazmat_red_kit = new ItemStarterKit().setUnlocalizedName("hazmat_red_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":hazmat_red_kit");
 		hazmat_grey_kit = new ItemStarterKit().setUnlocalizedName("hazmat_grey_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":hazmat_grey_kit");
 		kit_custom = new ItemKitCustom().setUnlocalizedName("kit_custom").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":kit");
-		kit_toolbox_empty = new Item().setUnlocalizedName("kit_toolbox_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":kit_toolbox_empty");
-		kit_toolbox = new ItemKitNBT().setUnlocalizedName("kit_toolbox").setCreativeTab(MainRegistry.consumableTab).setContainerItem(kit_toolbox_empty).setTextureName(RefStrings.MODID + ":kit_toolbox");
+		toolbox = new ItemToolBox().setUnlocalizedName("toolbox").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":kit_toolbox");
+		legacy_toolbox = new ItemKitNBT().setUnlocalizedName("toolbox_legacy").setContainerItem(toolbox).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":kit_toolbox");
 
 		loot_10 = new ItemLootCrate().setUnlocalizedName("loot_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":loot_10");
 		loot_15 = new ItemLootCrate().setUnlocalizedName("loot_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":loot_15");
@@ -6490,7 +6491,7 @@ public class ModItems {
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());
-		
+
 		GameRegistry.registerItem(weapon_mod_test, weapon_mod_test.getUnlocalizedName());
 		GameRegistry.registerItem(weapon_mod_generic, weapon_mod_generic.getUnlocalizedName());
 		GameRegistry.registerItem(weapon_mod_special, weapon_mod_special.getUnlocalizedName());
@@ -7167,8 +7168,8 @@ public class ModItems {
 		GameRegistry.registerItem(hazmat_grey_kit, hazmat_grey_kit.getUnlocalizedName());
 		GameRegistry.registerItem(kit_custom, kit_custom.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
-		GameRegistry.registerItem(kit_toolbox_empty, kit_toolbox_empty.getUnlocalizedName());
-		GameRegistry.registerItem(kit_toolbox, kit_toolbox.getUnlocalizedName());
+		GameRegistry.registerItem(legacy_toolbox, legacy_toolbox.getUnlocalizedName());
+		GameRegistry.registerItem(toolbox, toolbox.getUnlocalizedName());
 		GameRegistry.registerItem(letter, letter.getUnlocalizedName());
 
 		//Misile Loot Boxes
