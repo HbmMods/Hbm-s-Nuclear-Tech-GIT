@@ -57,6 +57,7 @@ import java.util.Random;
 public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable {
 
 	protected FluidNode node;
+	protected FluidType lastType;
 
 	public FluidTank tank;
 	public short mode = 0;
@@ -116,18 +117,21 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				// In buffer mode, acts like a pipe block, providing fluid to its own node
 				// otherwise, it is a regular providing/receiving machine, blocking further propagation
 				if(mode == 1) {
-					if(this.node == null || this.node.expired) {
+					if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 
 						this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
 
-						if(this.node == null || this.node.expired) {
+						if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 							this.node = this.createNode(tank.getTankType());
 							UniNodespace.createNode(worldObj, this.node);
+							lastType = tank.getTankType();
 						}
 					}
 
-					this.tryProvide(tank, worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
-					if(node != null && node.hasValidNet()) node.net.addReceiver(this);
+					if(node != null && node.hasValidNet()) {
+						node.net.addProvider(this);
+						node.net.addReceiver(this);
+					}
 				} else {
 					if(this.node != null) {
 						UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
