@@ -66,12 +66,10 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new RBMKFuelCraftingHandler());
 		GameRegistry.addRecipe(new MKUCraftingHandler());
-		GameRegistry.addRecipe(new ToolboxCraftingHandler());
 		GameRegistry.addRecipe(new CargoShellCraftingHandler());
 		GameRegistry.addRecipe(new ScrapsCraftingHandler());
 
 		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
-		RecipeSorter.register("hbm:toolbox", ToolboxCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:cargo", CargoShellCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:scraps", ScrapsCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:mku", MKUCraftingHandler.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
@@ -791,7 +789,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.plate_cast, 1, Mats.MAT_STEEL.id), new Object[] { ModBlocks.hadron_plating_voltz });
 		addShapelessAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), new Object[] { ModBlocks.hadron_analysis });
 		addShapelessAuto(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), new Object[] { ModBlocks.hadron_analysis_glass });
-		
+
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_alloy, 1), new Object[] { "WW", "WW", 'W', ALLOY.wireDense() });
 		//addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_gold, 1), new Object[] { "WG", "GW", 'W', ALLOY.wireDense(), 'G', GOLD.wireDense() });
 		//addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_neodymium, 1), new Object[] { "WG", "GW", 'W', ND.wireDense(), 'G', GOLD.wireDense() });
@@ -1171,29 +1169,29 @@ public class CraftingManager {
 			List<IRecipe> toDestroy = new ArrayList();
 
 			List recipeList = net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList();
-			
+
 			synchronized(recipeList) { //this is how threading works. i think.
 				for(Object o : recipeList) {
-	
+
 					if(o instanceof IRecipe) {
 						IRecipe rec = (IRecipe)o;
 						ItemStack stack = rec.getRecipeOutput();
-	
+
 						for(ItemStack target : targets) {
 							if(stack != null && stack.getItem() == target.getItem() && stack.getItemDamage() == target.getItemDamage()) toDestroy.add(rec);
 						}
 					}
 				}
-	
+
 				if(toDestroy.size() > 0) {
 					recipeList.removeAll(toDestroy);
 				}
-	
+
 				if(Loader.isModLoaded("Mekanism")) {
 					Item disassembler = (Item) Item.itemRegistry.getObject("Mekanism:AtomicDisassembler");
 					if(disassembler != null) addRecipeAuto(new ItemStack(disassembler, 1), "GAG", "EIE", " I ", 'G', GOLD.plateCast(), 'A', "alloyUltimate", 'E', "battery", 'I', "ingotRefinedObsidian");
 				}
-	
+
 				if(Loader.isModLoaded("MekanismGenerators")) {
 					Block generator = (Block) Block.blockRegistry.getObject("MekanismGenerators:Generator");
 					if(generator != null) addRecipeAuto(new ItemStack(generator, 1, 6), " T ", "TAT", "BCB", 'T', TI.plateCast(), 'A', "alloyAdvanced", 'B', "battery", 'C', ANY_PLASTIC.ingot());
