@@ -72,21 +72,22 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
-			canSpawn = oceanBiomes::contains;
+			canSpawn = biome -> biome == BiomeGenBase.deepOcean;
 			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig);
 			maxHeight = 48;
 			minHeight = 47;
-			spawnWeight = 3;
+			spawnWeight = 2;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = beachBiomes::contains;
 			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol);
+			minHeight = 63;
+			maxHeight = 67;
 			spawnWeight = 8;
-			maxHeight = 65;
 		}});
 
-		NBTStructure.registerNullWeight(0, 12);
+		NBTStructure.registerNullWeight(0, 2);
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
