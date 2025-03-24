@@ -48,6 +48,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
 
 	protected FluidNode node;
+	protected FluidType lastType;
 
 	public FluidTank tank;
 	public short mode = 0;
@@ -102,18 +103,21 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			// In buffer mode, acts like a pipe block, providing fluid to its own node
 			// otherwise, it is a regular providing/receiving machine, blocking further propagation
 			if(mode == 1) {
-				if(this.node == null || this.node.expired) {
+				if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 
 					this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
 
-					if(this.node == null || this.node.expired) {
+					if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 						this.node = this.createNode(tank.getTankType());
 						UniNodespace.createNode(worldObj, this.node);
+						lastType = tank.getTankType();
 					}
 				}
 
-				this.tryProvide(tank, worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
-				if(node != null && node.hasValidNet()) node.net.addReceiver(this);
+				if(node != null && node.hasValidNet()) {
+					node.net.addProvider(this);
+					node.net.addReceiver(this);
+				}
 			} else {
 				if(this.node != null) {
 					UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
