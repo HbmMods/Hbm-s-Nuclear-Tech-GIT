@@ -212,7 +212,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.cbt_device, 1), new Object[] { STEEL.bolt(), ModItems.wrench });
 
 		addShapelessAuto(new ItemStack(ModItems.toothpicks, 3), new Object[] { KEY_STICK, KEY_STICK, KEY_STICK });
-		addRecipeAuto(new ItemStack(ModItems.ducttape, 6), new Object[] { "FSF", "SPS", "FSF", 'F', Items.string, 'S', KEY_SLIME, 'P', Items.paper });
+		addRecipeAuto(new ItemStack(ModItems.ducttape, 4), new Object[] { "F", "P", "S", 'F', Items.string, 'S', KEY_SLIME, 'P', Items.paper });
 
 		addRecipeAuto(new ItemStack(ModBlocks.radio_torch_sender, 4), new Object[] { "G", "R", "I", 'G', "dustGlowstone", 'R', Blocks.redstone_torch, 'I', NETHERQUARTZ.gem() });
 		addRecipeAuto(new ItemStack(ModBlocks.radio_torch_receiver, 4), new Object[] { "G", "R", "I", 'G', "dustGlowstone", 'R', Blocks.redstone_torch, 'I', IRON.ingot() });

@@ -2,6 +2,9 @@
 * The toolbox' functionality has been completely changed (thanks gamma)
   * Instead of a crappy backpack substitute that doesn't work half the time, the toolbox can quickly swap out the hotbar when used
 * Updated StG 77 recipe to use two grips and a proper scope
+* Buffed the RPA set
+* Tiered damage and durability weapon mods are now craftable
+* Duct tape is now cheaper and less ugly
 
 ## Fixed
 * Fixed a bunch of singleblocks not accepting fluids (thanks mellow)
