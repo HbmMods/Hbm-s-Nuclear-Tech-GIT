@@ -1,5 +1,4 @@
 ## Changed
-<<<<<<< HEAD
 * Fat mines now use the standardized mini nuke code
   * Fat mines now have a base damage of exactly 100, being identical to demolition mini nukes
   * Fat mines now gib affected entities
@@ -37,9 +36,10 @@
 * Fixed disperser canisters not actually despawning on impact, endlessly spawning mist clouds
 * Fixed issues where the new packet system didn't play nice with machines that are being sent packets by other machines, like watz segments and radar screens
 * Fixed fat man's piston not being extended correctly in non-first person rendering when unloaded
+## NTM-1-of-90-Edition:
+Note: Updated fork
+## Core Features
 
-##
-Core Features
 ------------
 1. Multi-Segment Tower System
    - Added support for variable-height reactor towers
@@ -60,6 +60,8 @@ Core Features
    - Texture registration using ItemEnumMulti pattern
    - Support for variant textures using "iconString.variantName" format
    - Progressive power scaling with tower height
+
+
 
 Crafting Recipes
 ---------------
@@ -173,9 +175,4 @@ Technical Implementation
    - Safety considerations for tower maintenance
 
 Note: Watz Reactors Stacks are now working again. Fixed GUI bugs.
-=======
-* .75 bolts now work as advertised
-* Updated lead pipe texture
-* Removed recipes from a few ancient melee weapons, as well as the creative tab listing
-* Removed flat magnets
->>>>>>> b90741f6403e18c5861e709c2940a0fbc903ad6d
+      
