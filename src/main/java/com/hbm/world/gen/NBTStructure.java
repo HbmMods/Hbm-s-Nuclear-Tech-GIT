@@ -1075,7 +1075,7 @@ public class NBTStructure {
 
 								if(!fromComponent.isInsideIgnoringSelf(components, checkPos.getX(), checkPos.getY(), checkPos.getZ())) {
 									nextComponent = buildNextComponent(rand, spawn, spawn.pools.get(nextPool.fallback), fromComponent, fromConnection);
-									if(nextComponent != null) addComponent(nextComponent, fromConnection.placementPriority); // don't add to queued list, we don't want to try continue from fallback
+									addComponent(nextComponent, fromConnection.placementPriority); // don't add to queued list, we don't want to try continue from fallback
 								}
 							}
 						}
@@ -1097,6 +1097,7 @@ public class NBTStructure {
 
 		@SuppressWarnings("unchecked")
 		private void addComponent(Component component, int placementPriority) {
+			if(component == null) return;
 			components.add(component);
 
 			component.parent = this;
