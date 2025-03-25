@@ -15,6 +15,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.MainRegistry;
@@ -25,7 +26,10 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class XFactory9mm {
@@ -64,7 +68,7 @@ public class XFactory9mm {
 						.dmg(25F).delay(4).dry(10).spread(0.005F).reload(53).jam(44).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(LAMBDA_RECOIL_LAG))
+						.setupStandardFire().fire(LAMBDA_FIRE_LAG).recoil(LAMBDA_RECOIL_LAG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LAG_ANIMS).orchestra(Orchestras.ORCHESTRA_LAG)
 				).setUnlocalizedName("gun_lag");
@@ -131,6 +135,27 @@ public class XFactory9mm {
 		GunStateDecider.deciderStandardClearJam(stack, lastState, index);
 		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
 		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getSecondary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE_LAG = (stack, ctx) -> {
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		EntityPlayer player = ctx.getPlayer();
+		if(player != null && type == AnimType.INSPECT && timer > 20 && timer < 60) {
+			int index = ctx.configIndex;
+			Receiver primary = ctx.config.getReceivers(stack)[0];
+			IMagazine mag = primary.getMagazine(stack);
+			BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
+			player.addStat(MainRegistry.statBullets, 1);
+			mag.useUpAmmo(stack, ctx.inventory, 1);
+			ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, primary.getFireSound(stack), primary.getFireVolume(stack), primary.getFirePitch(stack));
+			ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
+			ItemGunBaseNT.setTimer(stack, index, primary.getDelayAfterFire(stack));
+			EntityDamageUtil.attackEntityFromNT(player, BulletConfig.getDamage(player, player, DamageClass.PHYSICAL), 1_000F, true, false, 1D, 5F, 0F);
+		} else {
+			Lego.doStandardFire(stack, ctx, AnimType.CYCLE, true);
+		}
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

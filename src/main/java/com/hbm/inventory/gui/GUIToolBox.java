@@ -1,9 +1,6 @@
 package com.hbm.inventory.gui;
 
-import org.lwjgl.opengl.GL11;
-
-import com.hbm.inventory.container.ContainerLeadBox;
-import com.hbm.items.tool.ItemLeadBox.InventoryLeadBox;
+import com.hbm.inventory.container.ContainerToolBox;
 import com.hbm.lib.RefStrings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,19 +8,22 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
-public class GUILeadBox extends GuiContainer {
+import static com.hbm.items.tool.ItemToolBox.*;
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_containment.png");
-	private final InventoryLeadBox inventory;
+public class GUIToolBox extends GuiContainer {
+
+	private final static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_toolbox.png");
+	private final InventoryToolBox inventory;
 	private ItemStack firstHeld;
 
-	public GUILeadBox(InventoryPlayer invPlayer, InventoryLeadBox box) {
-		super(new ContainerLeadBox(invPlayer, box));
+	public GUIToolBox(InventoryPlayer invPlayer, InventoryToolBox box) {
+		super(new ContainerToolBox(invPlayer, box));
 		this.inventory = box;
 
 		this.xSize = 176;
-		this.ySize = 186;
+		this.ySize = 211;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class GUILeadBox extends GuiContainer {
 			name = inventory.target.getDisplayName();
 		}
 
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 37, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 

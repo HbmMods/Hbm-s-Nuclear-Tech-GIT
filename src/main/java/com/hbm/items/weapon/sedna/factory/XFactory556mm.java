@@ -111,7 +111,7 @@ public class XFactory556mm {
 				.addBus("EQUIP", new BusAnimationSequence().addPos(45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL));
 		case CYCLE: return new BusAnimation()
 				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 20).addPos(0, 0, -4.5, 40).addPos(0, 0, 0, 40))
-				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.5 : -0.75, 25, IType.SIN_DOWN).addPos(0, 0, 0, 75, IType.SIN_FULL));
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, (ItemGunBaseNT.getIsAiming(stack) || !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK)) ? -0.25 : -0.75, 25, IType.SIN_DOWN).addPos(0, 0, 0, 75, IType.SIN_FULL));
 		case CYCLE_DRY: return new BusAnimation()
 				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(0, 0, -0.3125, 100).hold(25).addPos(0, 0, -2.75, 130).hold(50).addPos(0, 0, -2.4375, 50).addPos(0, 0, 0, 85))
 				.addBus("PLUG", new BusAnimationSequence().addPos(0, 0, 0, 250).hold(125).addPos(0, 0, -2.4375, 130).hold(100).addPos(0, 0, 0, 85))
