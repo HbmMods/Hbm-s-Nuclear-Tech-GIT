@@ -3,3 +3,8 @@
 * Updated lead pipe texture
 * Removed recipes from a few ancient melee weapons, as well as the creative tab listing
 * Removed flat magnets
+* Taint should now also affect non-solid blocks that are full cubes
+* Reduced the AoE size of 7.62mm, .50 BMG and 10 gauge explosive projectiles
+
+## Fixed
+* Fixed taint destroying bedrock

@@ -71,8 +71,7 @@ public class WeaponModManager {
 
 		Item[] steelGuns = new Item[] {
 				ModItems.gun_light_revolver, ModItems.gun_light_revolver_atlas,
-				ModItems.gun_henry,
-				ModItems.gun_henry_lincoln,
+				ModItems.gun_henry, ModItems.gun_henry_lincoln,
 				ModItems.gun_greasegun,
 				ModItems.gun_maresleg, ModItems.gun_maresleg_akimbo,
 				ModItems.gun_flaregun };

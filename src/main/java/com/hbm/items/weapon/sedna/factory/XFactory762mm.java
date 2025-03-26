@@ -43,7 +43,7 @@ public class XFactory762mm {
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
-		Lego.tinyExplode(bullet, mop, 2F); bullet.setDead();
+		Lego.tinyExplode(bullet, mop, 1.5F); bullet.setDead();
 	};
 
 	public static void init() {
