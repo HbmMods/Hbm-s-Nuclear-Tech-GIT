@@ -16,6 +16,7 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Quartet;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.*;
@@ -94,7 +95,7 @@ public class NBTStructure {
 		}
 	}
 
-	public static void registerStructure(SpawnCondition spawn, int... dimensionIds) {
+	public static void registerStructure(SpawnCondition spawn, int[] dimensionIds) {
 		for(int dimensionId : dimensionIds) {
 			registerStructure(dimensionId, spawn);
 		}
@@ -265,6 +266,10 @@ public class NBTStructure {
 				}
 
 				palette[i] = new BlockDefinition(blockName, meta);
+
+				if(StructureConfig.debugStructures && palette[i].block == Blocks.air) {
+					palette[i] = new BlockDefinition(ModBlocks.wand_air, meta);
+				}
 			}
 
 
@@ -349,7 +354,7 @@ public class NBTStructure {
 			if(connections.size() > 0) {
 				fromConnections = new ArrayList<>();
 
-				connections.sort((a, b) -> a.selectionPriority - b.selectionPriority); // sort by descending priority, highest first
+				connections.sort((a, b) -> b.selectionPriority - a.selectionPriority); // sort by descending priority, highest first
 
 				// Sort out our from connections, splitting into individual lists for each priority level
 				List<JigsawConnection> innerList = null;
@@ -439,7 +444,7 @@ public class NBTStructure {
 					int ry = by + y;
 
 					Block block = transformBlock(state.definition, null, world.rand);
-					int meta = coordBaseMode != 0 ? transformMeta(state.definition, coordBaseMode) : state.definition.meta;
+					int meta = transformMeta(state.definition, null, coordBaseMode);
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
@@ -496,7 +501,7 @@ public class NBTStructure {
 					int ry = by + oy;
 
 					Block block = transformBlock(state.definition, piece.blockTable, world.rand);
-					int meta = coordBaseMode != 0 ? transformMeta(state.definition, coordBaseMode) : state.definition.meta;
+					int meta = transformMeta(state.definition, piece.blockTable, coordBaseMode);
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
@@ -552,9 +557,15 @@ public class NBTStructure {
 		return definition.block;
 	}
 
-	private int transformMeta(BlockDefinition definition, int coordBaseMode) {
+	private int transformMeta(BlockDefinition definition, Map<Block, BlockSelector> blockTable, int coordBaseMode) {
+		if(blockTable != null && blockTable.containsKey(definition.block)) {
+			return blockTable.get(definition.block).getSelectedBlockMetaData();
+		}
+
 		// Our shit
 		if(definition.block instanceof INBTTransformable) return ((INBTTransformable) definition.block).transformMeta(definition.meta, coordBaseMode);
+
+		if(coordBaseMode == 0) return definition.meta;
 
 		// Vanilla shit
 		if(definition.block instanceof BlockStairs) return INBTTransformable.transformMetaStairs(definition.meta, coordBaseMode);
@@ -566,6 +577,7 @@ public class NBTStructure {
 		if(definition.block instanceof BlockLever) return INBTTransformable.transformMetaLever(definition.meta, coordBaseMode);
 		if(definition.block instanceof BlockSign) return INBTTransformable.transformMetaDeco(definition.meta, coordBaseMode);
 		if(definition.block instanceof BlockLadder) return INBTTransformable.transformMetaDeco(definition.meta, coordBaseMode);
+		if(definition.block instanceof BlockTripWireHook) return INBTTransformable.transformMetaDirectional(definition.meta, coordBaseMode);
 
 		return definition.meta;
 	}
@@ -630,6 +642,11 @@ public class NBTStructure {
 			this.meta = meta;
 		}
 
+		BlockDefinition(Block block, int meta) {
+			this.block = block;
+			this.meta = meta;
+		}
+
 	}
 
 	public static class SpawnCondition {
@@ -668,6 +685,31 @@ public class NBTStructure {
 
 		protected JigsawPool getPool(String name) {
 			return pools.get(name).clone();
+		}
+
+		// Builds all of the pools into neat rows and columns, for editing and debugging!
+		// Make sure structure debug is enabled, or it will no-op
+		// Do not use in generation
+		public void buildAll(World world, int x, int y, int z) {
+			if(!StructureConfig.debugStructures) return;
+
+			int padding = 5;
+			int oz = 0;
+
+			for(JigsawPool pool : pools.values()) {
+				int highestWidth = 0;
+				int ox = 0;
+
+				for(Pair<JigsawPiece, Integer> entry : pool.pieces) {
+					NBTStructure structure = entry.key.structure;
+					structure.build(world, x + ox + (structure.size.x / 2), y, z + oz + (structure.size.z / 2));
+
+					ox += structure.size.x + padding;
+					highestWidth = Math.max(highestWidth, structure.size.z);
+				}
+
+				oz += highestWidth + padding;
+			}
 		}
 
 	}
@@ -790,7 +832,7 @@ public class NBTStructure {
 
 		boolean heightUpdated = false;
 
-		int priority; // placement priority not yet implemented because selection priority is far more useful whatever
+		int priority;
 
 		// this is fucking hacky but we need a way to update ALL component bounds once a Y-level is determined
 		private Start parent;
@@ -941,6 +983,17 @@ public class NBTStructure {
 			return false;
 		}
 
+		protected boolean isInsideIgnoringSelf(LinkedList<StructureComponent> components, int x, int y, int z) {
+			for(StructureComponent component : components) {
+				if(component == this) continue;
+				if(component.getBoundingBox() == null) continue;
+
+				if(component.getBoundingBox().isVecInside(x, y, z)) return true;
+			}
+
+			return false;
+		}
+
 	}
 
 	public static class Start extends StructureStart {
@@ -966,7 +1019,15 @@ public class NBTStructure {
 
 			// Iterate through and build out all the components we intend to spawn
 			while(!queuedComponents.isEmpty()) {
-				final int i = rand.nextInt(queuedComponents.size());
+				queuedComponents.sort((a, b) -> b.priority - a.priority); // sort by placement priority descending
+				int matchPriority = queuedComponents.get(0).priority;
+				int max = 1;
+				while(max < queuedComponents.size()) {
+					if(queuedComponents.get(max).priority != matchPriority) break;
+					max++;
+				}
+
+				final int i = rand.nextInt(max);
 				Component fromComponent = queuedComponents.remove(i);
 
 				if(fromComponent.piece.structure.fromConnections == null) continue;
@@ -1008,9 +1069,14 @@ public class NBTStructure {
 							queuedComponents.add(nextComponent);
 						} else {
 							// If we failed to fit anything in, grab something from the fallback pool, ignoring bounds check
+							// unless we are perfectly abutting another piece, so grid layouts can work!
 							if(nextPool.fallback != null) {
-								nextComponent = buildNextComponent(rand, spawn, spawn.pools.get(nextPool.fallback), fromComponent, fromConnection);
-								addComponent(nextComponent, fromConnection.placementPriority); // don't add to queued list, we don't want to try continue from fallback
+								BlockPos checkPos = getConnectionTargetPosition(fromComponent, fromConnection);
+
+								if(!fromComponent.isInsideIgnoringSelf(components, checkPos.getX(), checkPos.getY(), checkPos.getZ())) {
+									nextComponent = buildNextComponent(rand, spawn, spawn.pools.get(nextPool.fallback), fromComponent, fromConnection);
+									addComponent(nextComponent, fromConnection.placementPriority); // don't add to queued list, we don't want to try continue from fallback
+								}
 							}
 						}
 					}
@@ -1031,10 +1097,23 @@ public class NBTStructure {
 
 		@SuppressWarnings("unchecked")
 		private void addComponent(Component component, int placementPriority) {
+			if(component == null) return;
 			components.add(component);
 
 			component.parent = this;
 			component.priority = placementPriority;
+		}
+
+		private BlockPos getConnectionTargetPosition(Component component, JigsawConnection connection) {
+			// The direction this component is extending towards in ABSOLUTE direction
+			ForgeDirection extendDir = component.rotateDir(connection.dir);
+
+			// Set the starting point for the next structure to the location of the connector block
+			int x = component.getXWithOffset(connection.pos.x, connection.pos.z) + extendDir.offsetX;
+			int y = component.getYWithOffset(connection.pos.y) + extendDir.offsetY;
+			int z = component.getZWithOffset(connection.pos.x, connection.pos.z) + extendDir.offsetZ;
+
+			return new BlockPos(x, y, z);
 		}
 
 		private Component buildNextComponent(Random rand, SpawnCondition spawn, JigsawPool pool, Component fromComponent, JigsawConnection fromConnection) {
@@ -1046,23 +1125,17 @@ public class NBTStructure {
 
 			JigsawConnection toConnection = connectionPool.get(rand.nextInt(connectionPool.size()));
 
-			// The direction this component is extending towards in ABSOLUTE direction
-			ForgeDirection extendDir = fromComponent.rotateDir(fromConnection.dir);
-
 			// Rotate our incoming piece to plug it in
 			int nextCoordBase = fromComponent.getNextCoordBase(fromConnection, toConnection, rand);
 
-			// Set the starting point for the next structure to the location of the connector block
-			int nextX = fromComponent.getXWithOffset(fromConnection.pos.x, fromConnection.pos.z) + extendDir.offsetX;
-			int nextY = fromComponent.getYWithOffset(fromConnection.pos.y) + extendDir.offsetY;
-			int nextZ = fromComponent.getZWithOffset(fromConnection.pos.x, fromConnection.pos.z) + extendDir.offsetZ;
+			BlockPos pos = getConnectionTargetPosition(fromComponent, fromConnection);
 
 			// offset the starting point to the connecting point
-			nextX -= nextPiece.structure.rotateX(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
-			nextY -= toConnection.pos.y;
-			nextZ -= nextPiece.structure.rotateZ(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
+			int ox = nextPiece.structure.rotateX(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
+			int oy = toConnection.pos.y;
+			int oz = nextPiece.structure.rotateZ(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
 
-			return new Component(spawn, nextPiece, rand, nextX, nextY, nextZ, nextCoordBase).connectedFrom(toConnection);
+			return new Component(spawn, nextPiece, rand, pos.getX() - ox, pos.getY() - oy, pos.getZ() - oz, nextCoordBase).connectedFrom(toConnection);
 		}
 
 		private List<JigsawConnection> getConnectionPool(JigsawPiece nextPiece, JigsawConnection fromConnection) {

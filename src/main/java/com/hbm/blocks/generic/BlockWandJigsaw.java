@@ -9,6 +9,7 @@ import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -143,6 +144,8 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 				return true;
 			}
+
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.wand_s) return false;
 
 			if(world.isRemote) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 
