@@ -425,7 +425,7 @@ public class ItemRBMKRod extends Item {
 
 		if(this == ModItems.rbmk_fuel_drx) {
 
-			if(ItemRBMKRod.getHullHeat(stack) >= 50 && ItemRBMKRod.getCoreHeat(stack) >= 50) {
+			if(ItemRBMKRod.getHullHeat(stack) >= 50 || ItemRBMKRod.getCoreHeat(stack) >= 50) {
 				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("desc.item.wasteCooling"));
 			}
 
@@ -449,7 +449,7 @@ public class ItemRBMKRod extends Item {
 
 		} else {
 
-			if(ItemRBMKRod.getHullHeat(stack) >= 50 && ItemRBMKRod.getCoreHeat(stack) >= 50) {
+			if(ItemRBMKRod.getHullHeat(stack) >= 50 || ItemRBMKRod.getCoreHeat(stack) >= 50) {
 				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("desc.item.wasteCooling"));
 			}
 

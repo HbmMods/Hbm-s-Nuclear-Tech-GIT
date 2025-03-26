@@ -38,35 +38,44 @@ public class RBMKRodDisassemblyHandler extends NEIUniversalHandler {
 		return map;
 	}
 
-	public static class ComparableStackHeat extends ComparableStack {
-
-		// I was going to filter by these, but found it is just best to show all possible recipes for everything but heat
-		// that and... I'm actually stumped on how to filter by NBT, seeing as both `isApplicable` and `matchesRecipe` don't seem to work
-		private final boolean matchHot;
-		private final int matchEnrichment;
-		private final boolean matchPoison;
-
-		public ComparableStackHeat(Item item, boolean matchHot) {
-			this(item, matchHot, -1, false);
+	// Don't show recipes for hot rods (which will cause it to only show cooling recipes)
+	@Override
+	public void loadUsageRecipes(ItemStack ingredient) {
+		if(ingredient != null && ingredient.getItem() != null && ingredient.getItem() instanceof ItemRBMKRod) {
+			if(ItemRBMKRod.getCoreHeat(ingredient) > 50 || ItemRBMKRod.getHullHeat(ingredient) > 50) return;
 		}
 
-		public ComparableStackHeat(Item item, boolean matchHot, int matchEnrichment, boolean matchPoison) {
+		super.loadUsageRecipes(ingredient);
+	}
+
+	public static class ComparableStackHeat extends ComparableStack {
+
+		// I was going to filter by all of these, but found it is just best to show all possible recipes for everything but heat
+		private final boolean isHot;
+		private final int enrichment;
+		private final boolean hasPoison;
+
+		public ComparableStackHeat(Item item, boolean isHot) {
+			this(item, isHot, -1, false);
+		}
+
+		public ComparableStackHeat(Item item, boolean isHot, int enrichment, boolean hasPoison) {
 			super(item);
-			this.matchHot = matchHot;
-			this.matchEnrichment = matchEnrichment;
-			this.matchPoison = matchPoison;
+			this.isHot = isHot;
+			this.enrichment = enrichment;
+			this.hasPoison = hasPoison;
 		}
 
 		public ItemStack toStack() {
 			ItemStack stack = super.toStack();
 			ItemRBMKRod rod = (ItemRBMKRod) stack.getItem();
-			if(matchEnrichment >= 0) {
-				ItemRBMKRod.setYield(stack, Math.max(1 - ((double) matchEnrichment) / 5, 0.05) * rod.yield);
+			if(enrichment >= 0) {
+				ItemRBMKRod.setYield(stack, Math.min(1 - ((double) enrichment) / 5, 0.99) * rod.yield);
 			} else {
 				ItemRBMKRod.setYield(stack, 0.2 * rod.yield);
 			}
-			if(matchPoison) ItemRBMKRod.setPoison(stack, 50);
-			if(!matchHot) return stack;
+			if(hasPoison) ItemRBMKRod.setPoison(stack, 50);
+			if(!isHot) return stack;
 			ItemRBMKRod.setCoreHeat(stack, 100);
 			ItemRBMKRod.setHullHeat(stack, 50);
 			return stack;
@@ -76,8 +85,8 @@ public class RBMKRodDisassemblyHandler extends NEIUniversalHandler {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + matchEnrichment;
-			result = prime * result + (matchPoison ? 1 : 0);
+			result = prime * result + enrichment;
+			result = prime * result + (hasPoison ? 1 : 0);
 			return result;
 		}
 
