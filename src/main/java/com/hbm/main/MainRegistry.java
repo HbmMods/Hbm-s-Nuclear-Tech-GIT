@@ -1666,6 +1666,13 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bobmazon_tools");
 		ignoreMappings.add("hbm:item.missile_carrier");
 		ignoreMappings.add("hbm:item.magnet_circular");
+		ignoreMappings.add("hbm:item.mechanism_revolver_1");
+		ignoreMappings.add("hbm:item.mechanism_revolver_2");
+		ignoreMappings.add("hbm:item.mechanism_rifle_1");
+		ignoreMappings.add("hbm:item.mechanism_rifle_2");
+		ignoreMappings.add("hbm:item.mechanism_launcher_1");
+		ignoreMappings.add("hbm:item.mechanism_launcher_2");
+		ignoreMappings.add("hbm:item.mechanism_special");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

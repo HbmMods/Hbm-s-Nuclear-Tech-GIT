@@ -5,6 +5,9 @@
 * Removed flat magnets
 * Taint should now also affect non-solid blocks that are full cubes
 * Reduced the AoE size of 7.62mm, .50 BMG and 10 gauge explosive projectiles
+* Removed the old gun mechanism items, turrets now use the new cast parts
+* A secret weapon and its variant have become craftable
 
 ## Fixed
 * Fixed taint destroying bedrock
+* Fixed ferrouranium plate not being castable
