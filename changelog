@@ -11,3 +11,4 @@
 ## Fixed
 * Fixed taint destroying bedrock
 * Fixed ferrouranium plate not being castable
+* Fixed bayonet not rendering properly in third person
