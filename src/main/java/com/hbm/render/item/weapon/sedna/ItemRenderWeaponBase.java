@@ -84,6 +84,16 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glPushMatrix();
 
 		if(mc.gameSettings.thirdPersonView == 0 && !mc.renderViewEntity.isPlayerSleeping() && !mc.gameSettings.hideGUI && !mc.playerController.enableEverythingIsScrewedUpMode()) {
+			/*ItemRenderer ir = mc.entityRenderer.itemRenderer;
+			float equip = ir.prevEquippedProgress + (ir.equippedProgress- ir.prevEquippedProgress) * interp;
+			Animation current = HbmAnimations.getRelevantAnim();
+			// flicker prevention, if equip is in progress, only render if an animation is playing
+			if(!(equip < 0.25 && ir.prevEquippedProgress < ir.equippedProgress && (current == null || current.type != AnimType.EQUIP))) {
+				entityRenderer.enableLightmap(interp);
+				this.setupTransformsAndRender(stack);
+				entityRenderer.disableLightmap(interp);
+			}*/
+			
 			entityRenderer.enableLightmap(interp);
 			this.setupTransformsAndRender(stack);
 			entityRenderer.disableLightmap(interp);

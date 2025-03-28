@@ -5,6 +5,7 @@ import com.hbm.render.loader.ModelRendererObj;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
@@ -171,6 +172,13 @@ public class ModelArmorBase extends ModelBiped {
 			Object o = RenderManager.instance.entityRenderMap.get(EntityPlayer.class);
 			if(o instanceof RenderPlayer) {
 				RenderPlayer render = (RenderPlayer) o;
+				leftArm.copyRotationFrom(render.modelBipedMain.bipedLeftArm);
+				rightArm.copyRotationFrom(render.modelBipedMain.bipedRightArm);
+			}
+		} else {
+			Object o = RenderManager.instance.entityRenderMap.get(entity.getClass());
+			if(o instanceof RenderBiped) {
+				RenderBiped render = (RenderBiped) o;
 				leftArm.copyRotationFrom(render.modelBipedMain.bipedLeftArm);
 				rightArm.copyRotationFrom(render.modelBipedMain.bipedRightArm);
 			}

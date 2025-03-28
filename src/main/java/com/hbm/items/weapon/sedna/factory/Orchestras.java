@@ -920,7 +920,7 @@ public class Orchestras {
 
 		if(type == AnimType.CYCLE) {
 			if(timer == 0) {
-				int rounds = WeaponModManager.hasUpgrade(stack, ctx.configIndex, 208) ? 2 : 1;
+				int rounds = WeaponModManager.hasUpgrade(stack, ctx.configIndex, WeaponModManager.ID_MINIGUN_SPEED) ? 3 : 1;
 				for(int i = 0; i < rounds; i++) {
 					SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
 					if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, aiming ? 0.125 : 0.5, aiming ? -0.125 : -0.25, aiming ? -0.25 : -0.5D, 0, 0.18, -0.12, 0.01, (float)entity.getRNG().nextGaussian() * 15F, (float)entity.getRNG().nextGaussian() * 15F, casing.getName());
@@ -1301,7 +1301,7 @@ public class Orchestras {
 			if(timer == 1) {
 				int cba = (stack.getItem() == ModItems.gun_aberrator_eott && ctx.configIndex == 0) ? -1 : 1;
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? -0.0625 : -0.25D * cba, -0.05, 0.25, -0.05 * cba, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 10F, (float)entity.getRNG().nextGaussian() * 12.5F, casing.getName());
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.5, aiming ? 0 : -0.125, aiming ? -0.0625 : -0.25D * cba, -0.05, 0.25, -0.05 * cba, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 10F, (float)entity.getRNG().nextGaussian() * 12.5F, casing.getName());
 			}
 		}
 

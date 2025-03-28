@@ -111,12 +111,12 @@ public class DamageResistanceHandler {
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(0F, 0.15F));
 		registerSet(ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 20F, 0.65F)
-				.addCategory(CATEGORY_FIRE, 10F, 0.75F)
+				.addCategory(CATEGORY_PROJECTILE, 25F, 0.65F)
+				.addCategory(CATEGORY_FIRE, 10F, 0.9F)
 				.addCategory(CATEGORY_EXPLOSION, 15F, 0.25F)
-				.addExact(DamageClass.LASER.name(), 10F, 0.75F)
+				.addExact(DamageClass.LASER.name(), 25F, 0.75F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
-				.setOther(10F, 0.15F));
+				.setOther(15F, 0.3F));
 		ResistanceStats bj = new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
 				.addCategory(CATEGORY_FIRE, 2.5F, 0.5F)
@@ -151,6 +151,12 @@ public class DamageResistanceHandler {
 		registerSet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots, new ResistanceStats()
 				.addCategory(CATEGORY_EXPLOSION, 100F, 0.99F)
 				.setOther(100F, 1F));
+		registerSet(ModItems.taurun_helmet, ModItems.taurun_plate, ModItems.taurun_legs, ModItems.taurun_boots, new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 1F, 0.25F)
+				.addCategory(CATEGORY_EXPLOSION, 0F, 0.25F)
+				.addExact(DamageSource.fall.damageType, 4F, 0.5F)
+				.setOther(2F, 0.1F));
 		registerSet(ModItems.trenchmaster_helmet, ModItems.trenchmaster_plate, ModItems.trenchmaster_legs, ModItems.trenchmaster_boots, new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
 				.addCategory(CATEGORY_FIRE, 5F, 0.5F)

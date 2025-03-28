@@ -35,7 +35,7 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(isSaturnite(stack) ? ResourceManager.uzi_saturnite_tex : ResourceManager.uzi_tex);
 		double scale = 0.25D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -143,7 +143,7 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(isSaturnite(stack) ? ResourceManager.uzi_saturnite_tex : ResourceManager.uzi_tex);
 		ResourceManager.uzi.renderPart("Gun");
 		ResourceManager.uzi.renderPart("StockBack");
 		ResourceManager.uzi.renderPart("StockFront");
@@ -159,14 +159,14 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		
 		boolean silenced = hasSilencer(stack, 0);
 		
-		if(silenced) {
+		if(silenced && type == ItemRenderType.INVENTORY) {
 			double scale = 0.625D;
 			GL11.glScaled(scale, scale, scale);
 			GL11.glTranslated(0, 0, -4);
 		}
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(isSaturnite(stack) ? ResourceManager.uzi_saturnite_tex : ResourceManager.uzi_tex);
 		ResourceManager.uzi.renderPart("Gun");
 		ResourceManager.uzi.renderPart("StockBack");
 		ResourceManager.uzi.renderPart("StockFront");
@@ -178,5 +178,9 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 	
 	public boolean hasSilencer(ItemStack stack, int cfg) {
 		return WeaponModManager.hasUpgrade(stack, cfg, WeaponModManager.ID_SILENCER);
+	}
+	
+	public boolean isSaturnite(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_UZI_SATURN);
 	}
 }

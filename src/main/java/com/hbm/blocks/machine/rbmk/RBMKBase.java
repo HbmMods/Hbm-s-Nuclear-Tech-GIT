@@ -206,4 +206,9 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	public static int renderIDRods = RenderingRegistry.getNextAvailableRenderId();
 	public static int renderIDPassive = RenderingRegistry.getNextAvailableRenderId();
 	public static int renderIDControl = RenderingRegistry.getNextAvailableRenderId();
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return meta;
+	}
 }

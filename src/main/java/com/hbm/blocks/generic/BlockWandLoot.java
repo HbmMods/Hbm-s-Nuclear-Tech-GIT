@@ -12,6 +12,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.StructureConfig;
 import com.hbm.itempool.ItemPool;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.I18nUtil;
@@ -248,6 +249,11 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 		}
 
 		private void replace() {
+			if(!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLoot)) {
+				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a loot block but we're doing a TE update as if it is, cancelling!");
+				return;
+			}
+
 			WeightedRandomChestContent[] pool = ItemPool.getPool(poolName);
 
 			worldObj.setBlock(xCoord, yCoord, zCoord, replaceBlock, replaceMeta, 2);

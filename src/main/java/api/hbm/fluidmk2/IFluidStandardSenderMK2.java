@@ -24,29 +24,29 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 	public default void tryProvide(FluidTank tank, World world, DirPos pos) { tryProvide(tank.getTankType(), tank.getPressure(), world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	public default void tryProvide(FluidType type, World world, DirPos pos) { tryProvide(type, 0, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	public default void tryProvide(FluidType type, int pressure, World world, DirPos pos) { tryProvide(type, pressure, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
-	
+
 	public default void tryProvide(FluidTank tank, World world, int x, int y, int z, ForgeDirection dir) { tryProvide(tank.getTankType(), tank.getPressure(), world, x, y, z, dir); }
 	public default void tryProvide(FluidType type, World world, int x, int y, int z, ForgeDirection dir) { tryProvide(type, 0, world, x, y, z, dir); }
-	
+
 	public default void tryProvide(FluidType type, int pressure, World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = Compat.getTileStandard(world, x, y, z);
 		boolean red = false;
-		
+
 		if(te instanceof IFluidConnectorMK2) {
 			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
 			if(con.canConnect(type, dir.getOpposite())) {
-				
+
 				GenNode<FluidNetMK2> node = UniNodespace.getNode(world, x, y, z, type.getNetworkProvider());
-				
+
 				if(node != null && node.net != null) {
 					node.net.addProvider(this);
 					red = true;
 				}
 			}
 		}
-		
-		if(te instanceof IFluidReceiverMK2 && te != this) {
+
+		if(te != this && te instanceof IFluidReceiverMK2) {
 			IFluidReceiverMK2 rec = (IFluidReceiverMK2) te;
 			if(rec.canConnect(type, dir.getOpposite())) {
 				long provides = Math.min(this.getFluidAvailable(type, pressure), this.getProviderSpeed(type, pressure));
@@ -56,7 +56,7 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 				this.useUpFluid(type, pressure, toTransfer);
 			}
 		}
-		
+
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "network");
@@ -71,9 +71,9 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
-	
+
 	public FluidTank[] getSendingTanks();
-	
+
 	@Override
 	public default long getFluidAvailable(FluidType type, int pressure) {
 		long amount = 0;
@@ -112,14 +112,14 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 	public default int[] getProvidingPressureRange(FluidType type) {
 		int lowest = HIGHEST_VALID_PRESSURE;
 		int highest = 0;
-		
+
 		for(FluidTank tank : getSendingTanks()) {
 			if(tank.getTankType() == type) {
 				if(tank.getPressure() < lowest) lowest = tank.getPressure();
 				if(tank.getPressure() > highest) highest = tank.getPressure();
 			}
 		}
-		
+
 		return lowest <= highest ? new int[] {lowest, highest} : DEFAULT_PRESSURE_RANGE;
 	}
 

@@ -12,7 +12,7 @@
 
 * NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
 * NTM Extended Edition (Alcater): https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
-* NTM WarFactory: https://github.com/MisterNorwood/Hbm-s-Nuclear-Tech-GIT/releases
+* NTM Community Edition (WarFactory): https://codeberg.org/MrNorwood/Hbm-s-Nuclear-Tech-CE
 
 For 1.18, try Martin's remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
 

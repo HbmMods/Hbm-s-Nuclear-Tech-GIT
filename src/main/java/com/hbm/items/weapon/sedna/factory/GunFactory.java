@@ -139,7 +139,8 @@ public class GunFactory {
 	}
 	
 	public static enum EnumModTest {
-		FIRERATE, DAMAGE, MULTI;
+		FIRERATE, DAMAGE, MULTI,
+		OVERRIDE_2_5, OVERRIDE_5, OVERRIDE_7_5, OVERRIDE_10, OVERRIDE_12_5, OVERRIDE_15, OVERRIDE_20;
 	}
 	
 	public static enum EnumModGeneric {
@@ -158,7 +159,7 @@ public class GunFactory {
 		SILENCER, SCOPE, SAW, GREASEGUN, SLOWDOWN,
 		SPEEDUP, CHOKE, SPEEDLOADER,
 		FURNITURE_GREEN, FURNITURE_BLACK, BAYONET,
-		STACK_MAG,
+		STACK_MAG, SKIN_SATURNITE,
 	}
 	
 	public static enum EnumModCaliber {

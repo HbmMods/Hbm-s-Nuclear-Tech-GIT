@@ -19,6 +19,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -46,7 +47,7 @@ public class BlockTaint extends Block implements ITooltipProvider {
 			if(Math.abs(i) + Math.abs(j) + Math.abs(k) > 4) continue;
 			if(rand.nextFloat() > 0.25F) continue;
 			Block b = world.getBlock(x + i, y + j, z + k);
-			if(!b.isNormalCube() || b.isAir(world, x + i, y + j, z + k)) continue;
+			if(!b.renderAsNormalBlock() || b.isAir(world, x + i, y + j, z + k) || b == Blocks.bedrock) continue;
 			int targetMeta = meta + 1;
 			boolean hasAir = false;
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

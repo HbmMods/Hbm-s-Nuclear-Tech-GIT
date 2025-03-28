@@ -275,6 +275,7 @@ public class ModBlocks {
 	public static Block part_emitter;
 	public static Block deco_loot;
 	public static Block pedestal;
+	public static Block skeleton_holder;
 	public static Block bobblehead;
 	public static Block snowglobe;
 	public static Block plushie;
@@ -1464,6 +1465,7 @@ public class ModBlocks {
 		part_emitter = new PartEmitter().setBlockName("part_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":part_top");
 		deco_loot = new BlockLoot().setBlockName("deco_loot").setCreativeTab(null).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		pedestal = new BlockPedestal().setBlockName("pedestal").setCreativeTab(null).setHardness(2.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":pedestal_top");
+		skeleton_holder = new BlockSkeletonHolder().setBlockName("skeleton_holder").setCreativeTab(null).setHardness(2.0F).setResistance(10.0F).setBlockTextureName("soul_sand");
 		bobblehead = new BlockBobble().setBlockName("bobblehead").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		snowglobe = new BlockSnowglobe().setBlockName("snowglobe").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":glass_boron");
 		plushie = new BlockPlushie().setBlockName("plushie").setStepSound(Block.soundTypeCloth).setResistance(50_0000.0F).setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
@@ -2608,6 +2610,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(part_emitter, ItemBlockBase.class, part_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_loot, deco_loot.getUnlocalizedName());
 		GameRegistry.registerBlock(pedestal, pedestal.getUnlocalizedName());
+		register(skeleton_holder);
 		GameRegistry.registerBlock(bobblehead, ItemBlockMeta.class, bobblehead.getUnlocalizedName());
 		GameRegistry.registerBlock(snowglobe, ItemBlockMeta.class, snowglobe.getUnlocalizedName());
 		GameRegistry.registerBlock(plushie, ItemBlockBase.class, plushie.getUnlocalizedName());
