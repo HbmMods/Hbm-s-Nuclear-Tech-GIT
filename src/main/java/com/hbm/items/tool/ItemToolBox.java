@@ -11,16 +11,20 @@ import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ItemToolBox extends Item implements IGUIProvider {
 
@@ -157,6 +161,9 @@ public class ItemToolBox extends Item implements IGUIProvider {
 			}
 		}
 
+		if(stacks == null)
+			lowestInactiveIndex = 0; // Fix crash relating to a null NBT causing this value to be Integer.MAX_VALUE.
+
 		// Finally, move all temporary arrays into their respective locations.
 		System.arraycopy(stacksToTransferToBox, 0, endingStacks, lowestInactiveIndex * 8, 8);
 
@@ -166,6 +173,54 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 		box.setTagCompound(new NBTTagCompound());
 		ItemStackUtil.addStacksToNBT(box, endingStacks);
+
+		NBTTagCompound nbt = box.getTagCompound();
+
+		if(!nbt.hasNoTags()) {
+			Random random = new Random();
+
+			try {
+				byte[] abyte = CompressedStreamTools.compress(nbt);
+
+				if (abyte.length > 6000) {
+					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+					ItemStack[] stacks1 = ItemStackUtil.readStacksFromNBT(box, 24 /* Toolbox inv size. */);
+					if(stacks1 == null)
+						return;
+					for (ItemStack itemstack : stacks1) {
+
+						if (itemstack != null) {
+							float f = random.nextFloat() * 0.8F + 0.1F;
+							float f1 = random.nextFloat() * 0.8F + 0.1F;
+							float f2 = random.nextFloat() * 0.8F + 0.1F;
+
+							while (itemstack.stackSize > 0) {
+								int j1 = random.nextInt(21) + 10;
+
+								if (j1 > itemstack.stackSize) {
+									j1 = itemstack.stackSize;
+								}
+
+								itemstack.stackSize -= j1;
+								EntityItem entityitem = new EntityItem(player.worldObj, player.posX + f, player.posY + f1, player.posZ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+								if (itemstack.hasTagCompound()) {
+									entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+								}
+
+								float f3 = 0.05F;
+								entityitem.motionX = (float) random.nextGaussian() * f3 + player.motionX;
+								entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F + player.motionY;
+								entityitem.motionZ = (float) random.nextGaussian() * f3 + player.motionZ;
+								player.worldObj.spawnEntityInWorld(entityitem);
+							}
+						}
+					}
+
+					box.setTagCompound(new NBTTagCompound()); // Reset.
+				}
+			} catch (IOException ignored) {}
+		}
 	}
 
 	@Override
