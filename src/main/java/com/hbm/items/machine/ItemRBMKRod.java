@@ -286,7 +286,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case LOG_TEN: function = "log10(%1$s + 1) * 0.5 * %2$s";
 			break;
-		case PLATEU: function = "(1 - e^-%1$s / 25)) * %2$s";
+		case PLATEU: function = "(1 - e^(-%1$s / 25)) * %2$s";
 			break;
 		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
 			break;

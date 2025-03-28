@@ -36,6 +36,9 @@ public class NTMWorldGenerator implements IWorldGenerator {
 
 	public NTMWorldGenerator() {
 		final List<BiomeGenBase> invalidBiomes = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
+		final List<BiomeGenBase> oceanBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean });
+		final List<BiomeGenBase> beachBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
+
 
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
@@ -60,6 +63,31 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("crashed_vertibird", StructureManager.crashed_vertibird, -10);
 			spawnWeight = 3 * 4;
 		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = oceanBiomes::contains;
+			structure = new JigsawPiece("aircraft_carrier", StructureManager.aircraft_carrier, -6);
+			maxHeight = 42;
+			spawnWeight = 1;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome == BiomeGenBase.deepOcean;
+			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig, -20);
+			maxHeight = 12;
+			minHeight = 11;
+			spawnWeight = 2;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = beachBiomes::contains;
+			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol, -5);
+			minHeight = 58;
+			maxHeight = 67;
+			spawnWeight = 8;
+		}});
+
+		NBTStructure.registerNullWeight(0, 2);
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());

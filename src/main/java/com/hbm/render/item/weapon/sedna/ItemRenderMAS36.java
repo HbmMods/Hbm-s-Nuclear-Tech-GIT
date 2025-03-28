@@ -187,7 +187,7 @@ public class ItemRenderMAS36 extends ItemRenderWeaponBase {
 		ResourceManager.mas36.renderPart("Stock");
 		ResourceManager.mas36.renderPart("Bolt");
 		if(isScoped(stack)) ResourceManager.mas36.renderPart("Scope");
-		GL11.glTranslated(0, -1, -6);
+		if(type != ItemRenderType.EQUIPPED) GL11.glTranslated(0, -1, -6);
 		if(hasBayonet(stack)) ResourceManager.mas36.renderPart("Bayonet");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
