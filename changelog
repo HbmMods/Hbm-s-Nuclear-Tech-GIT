@@ -7,8 +7,11 @@
 * Reduced the AoE size of 7.62mm, .50 BMG and 10 gauge explosive projectiles
 * Removed the old gun mechanism items, turrets now use the new cast parts
 * A secret weapon and its variant have become craftable
+* NEI now shows RBMK fuel rod recycling and cooling
+* Removed most of the old unused siege mobs
 
 ## Fixed
 * Fixed taint destroying bedrock
 * Fixed ferrouranium plate not being castable
 * Fixed bayonet not rendering properly in third person
+* Fixed xenon poison gauge in the RBMK control panel not showing up on colums (oops)
