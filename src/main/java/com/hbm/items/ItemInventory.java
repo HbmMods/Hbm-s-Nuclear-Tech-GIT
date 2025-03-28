@@ -17,7 +17,7 @@ import java.util.Random;
  * Base class for items containing an inventory. This can be seen in crates, containment boxes, and the toolbox.
  * @author BallOfEnergy/Gammawave
  */
-public abstract class IItemInventory implements IInventory {
+public abstract class ItemInventory implements IInventory {
 
 	public EntityPlayer player;
 	public ItemStack[] slots;

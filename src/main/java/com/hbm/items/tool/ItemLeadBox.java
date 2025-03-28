@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.inventory.container.ContainerLeadBox;
 import com.hbm.inventory.gui.GUILeadBox;
-import com.hbm.items.IItemInventory;
+import com.hbm.items.ItemInventory;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
@@ -45,7 +45,7 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 		return new GUILeadBox(player.inventory, new InventoryLeadBox(player, player.getHeldItem()));
 	}
 
-	public static class InventoryLeadBox extends IItemInventory {
+	public static class InventoryLeadBox extends ItemInventory {
 
 		public InventoryLeadBox(EntityPlayer player, ItemStack box) {
 			this.player = player;

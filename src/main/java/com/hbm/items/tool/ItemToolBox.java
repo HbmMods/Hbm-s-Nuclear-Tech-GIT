@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.inventory.container.ContainerToolBox;
 import com.hbm.inventory.gui.GUIToolBox;
-import com.hbm.items.IItemInventory;
+import com.hbm.items.ItemInventory;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -51,6 +51,12 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 		if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean("isOpen") && renderPass == 1) return this.iconOpen;
 		return renderPass == 1 ? this.iconClosed : getIconFromDamageForRenderPass(stack.getItemDamage(), renderPass);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		list.add("Click with the toolbox to swap hotbars in/out of the toolbox.");
+		list.add("Shift-click with the toolbox to open the toolbox.");
 	}
 
 	// Finds active rows in the toolbox (rows with items inside them).
@@ -166,7 +172,7 @@ public class ItemToolBox extends Item implements IGUIProvider {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
 		if(!world.isRemote) {
-			if (player.isSneaking()) {
+			if (!player.isSneaking()) {
 				moveRows(stack, player);
 				player.inventoryContainer.detectAndSendChanges();
 			} else {
@@ -190,7 +196,7 @@ public class ItemToolBox extends Item implements IGUIProvider {
 		return new GUIToolBox(player.inventory, new InventoryToolBox(player, player.getHeldItem()));
 	}
 
-	public static class InventoryToolBox extends IItemInventory {
+	public static class InventoryToolBox extends ItemInventory {
 
 		public InventoryToolBox(EntityPlayer player, ItemStack box) {
 			this.player = player;
