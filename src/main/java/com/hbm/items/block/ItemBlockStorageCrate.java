@@ -3,7 +3,7 @@ package com.hbm.items.block;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
-import com.hbm.items.IItemInventory;
+import com.hbm.items.ItemInventory;
 import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -80,7 +80,7 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		throw new NullPointerException();
 	}
 
-	public static class InventoryCrate extends IItemInventory {
+	public static class InventoryCrate extends ItemInventory {
 
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 
