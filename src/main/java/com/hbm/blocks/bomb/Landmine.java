@@ -68,6 +68,7 @@ public class Landmine extends BlockContainer implements IBomb {
 		if(this == ModBlocks.mine_he) this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
 		if(this == ModBlocks.mine_shrap) this.setBlockBounds(5 * f, 0.0F, 5 * f, 11 * f, 1 * f, 11 * f);
 		if(this == ModBlocks.mine_fat) this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
+		if(this == ModBlocks.mine_naval) this.setBlockBounds(5 * f, 0.0F, 10 * f, 10 * f, 10 * f, 10 * f);
 	}
 
 	@Override
@@ -162,24 +163,36 @@ public class Landmine extends BlockContainer implements IBomb {
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
 				vnt.explode();
-				
+
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
 			} else if(this == ModBlocks.mine_fat) {
-				
+
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 10);
 				vnt.setBlockAllocator(new BlockAllocatorStandard(64));
 				vnt.setBlockProcessor(new BlockProcessorStandard());
 				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, ServerConfig.MINE_NUKE_DAMAGE.get()).withRangeMod(1.5F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
-				
+
 				XFactoryCatapult.incrementRad(world, x, y, z, 1.5F);
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "muke");
 				data.setBoolean("balefire", MainRegistry.polaroidID == 11 || world.rand.nextInt(100) == 0);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
-			
+			} else if(this == ModBlocks.mine_naval) {
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 5, y + 5, z + 5, 25F);
+				vnt.setBlockAllocator(new BlockAllocatorStandard(64));
+				vnt.setBlockProcessor(new BlockProcessorStandard());
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, ServerConfig.MINE_NAVAL_DAMAGE.get()).setupPiercing(5F, 0.2F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
+				vnt.explode();
+
+				ExplosionLarge.spawnParticlesRadial(world, x + 0.5, y + 2, z + 0.5, 10);
+				ExplosionLarge.spawnRubble(world,x + 0.5, y + 0.5, z + 0.5, 5 );
+				ExplosionLarge.spawnSplash(world, x + 0.5, y + 0.5, z + 0.5, 30);
+				ExplosionLarge.spawnFoam(world, x + 0.5, y + 0.5, z + 0.5, 50);
 			}
 		}
 

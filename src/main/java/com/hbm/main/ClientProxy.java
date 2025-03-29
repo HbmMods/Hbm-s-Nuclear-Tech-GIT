@@ -1055,7 +1055,51 @@ public class ClientProxy extends ServerProxy {
 					vec.rotateAroundY(360 / count);
 				}
 			}
+
+			if("waterSplash".equals(mode)) {
+
+				double strength = data.getDouble("range");
+
+				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+
+				for(int i = 0; i < count; i++) {
+
+					vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
+
+					ParticleWater fx = new ParticleWater(man, world, x + vec.xCoord, y, z + vec.zCoord);
+					fx.maxAge = 50;
+					fx.motionY = 0;
+					fx.motionX = 0;
+					fx.motionZ = 0;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+
+					vec.rotateAroundY(360 / count);
+				}
+			}
+
+			if("foamSplash".equals(mode)) {
+
+				double strength = data.getDouble("range");
+
+				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+
+				for(int i = 0; i < count; i++) {
+
+					vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
+
+					ParticleFoam fx = new ParticleFoam(man, world, x + vec.xCoord, y, z + vec.zCoord);
+					fx.maxAge = 50;
+					fx.motionY = 0;
+					fx.motionX = 0;
+					fx.motionZ = 0;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+
+					vec.rotateAroundY(360 / count);
+				}
+			}
 		}
+
+
 
 		if("exhaust".equals(type)) {
 
