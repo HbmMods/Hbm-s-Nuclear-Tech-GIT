@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,7 +21,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockModDoor extends Block {
+public class BlockModDoor extends Block implements INBTTransformable {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] field_150017_a;
 	@SideOnly(Side.CLIENT)
@@ -234,7 +235,7 @@ public class BlockModDoor extends Block {
 		}
 
 		p_149727_1_.playSoundEffect(p_149727_2_, p_149727_3_, p_149727_4_, "hbm:block.openDoor", 1.0F, p_149727_1_.rand.nextFloat() * 0.1F + 0.9F);
-		
+
 		return true;
 	}
 
@@ -311,10 +312,10 @@ public class BlockModDoor extends Block {
 	}
 
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		
+
 		if((p_149650_1_ & 8) != 0)
 			return null;
-		
+
 		if (this == ModBlocks.door_metal)
 			return ModItems.door_metal;
 		else if (this == ModBlocks.door_office)
@@ -395,5 +396,10 @@ public class BlockModDoor extends Block {
 				&& p_149681_1_.getBlock(p_149681_2_, p_149681_3_ - 1, p_149681_4_) == this) {
 			p_149681_1_.setBlockToAir(p_149681_2_, p_149681_3_ - 1, p_149681_4_);
 		}
+	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaDoor(meta, coordBaseMode);
 	}
 }

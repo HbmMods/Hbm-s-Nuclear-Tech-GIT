@@ -3,6 +3,8 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -19,7 +21,9 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory75Bolt {
 
@@ -27,15 +31,29 @@ public class XFactory75Bolt {
 	public static BulletConfig b75_inc;
 	public static BulletConfig b75_exp;
 
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
+		Lego.tinyExplode(bullet, mop, 2F); bullet.setDead();
+	};
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_INC = (bullet, mop) -> {
+		if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) {
+			HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit);
+			if(data.phosphorus < 300) data.phosphorus = 300;
+		}
+	};
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
+		Lego.standardExplode(bullet, mop, 5F); bullet.setDead();
+	};
+
 	public static void init() {
 		SpentCasing casing75 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(2F, 2F, 1.5F);
 		
 		b75 = new BulletConfig().setItem(EnumAmmo.B75)
-				.setCasing(casing75.clone().register("b75"));
+				.setCasing(casing75.clone().register("b75")).setOnImpact(LAMBDA_TINY_EXPLODE);
 		b75_inc = new BulletConfig().setItem(EnumAmmo.B75_INC).setDamage(0.8F).setArmorPiercing(0.1F)
-				.setCasing(casing75.clone().register("b75inc"));
+				.setCasing(casing75.clone().register("b75inc")).setOnImpact(LAMBDA_INC);
 		b75_exp = new BulletConfig().setItem(EnumAmmo.B75_EXP).setDamage(1.5F).setArmorPiercing(-0.25F)
-				.setCasing(casing75.clone().register("b75exp"));
+				.setCasing(casing75.clone().register("b75exp")).setOnImpact(LAMBDA_STANDARD_EXPLODE);
 
 		ModItems.gun_bolter = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)

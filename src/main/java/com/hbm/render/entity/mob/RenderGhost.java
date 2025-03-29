@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.mob.EntityGhost;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelSiegeZombie;
 
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderGhost extends RenderBiped {
 
 	public RenderGhost() {
-		super(new ModelSiegeZombie(0.0F), 0.5F, 1.0F);
+		super(new ModelBiped(0.0F), 0.5F, 1.0F);
 	}
 
 	@Override

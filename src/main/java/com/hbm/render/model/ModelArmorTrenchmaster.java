@@ -62,12 +62,16 @@ public class ModelArmorTrenchmaster extends ModelArmorBase {
 		}
 		if(type == 2) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.trenchmaster_leg);
+			GL11.glTranslated(-0.01, 0, 0);
 			leftLeg.render(par7);
+			GL11.glTranslated(0.02, 0, 0);
 			rightLeg.render(par7);
 		}
 		if(type == 3) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.trenchmaster_leg);
+			GL11.glTranslated(-0.01, 0, 0);
 			leftFoot.render(par7);
+			GL11.glTranslated(0.02, 0, 0);
 			rightFoot.render(par7);
 		}
 		
