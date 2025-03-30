@@ -794,6 +794,7 @@ public class NBTStructure {
 
 	}
 
+
 	// Each jigsaw block in a structure will instance one of these
 	private static class JigsawConnection {
 

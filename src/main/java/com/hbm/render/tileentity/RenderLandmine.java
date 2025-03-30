@@ -55,8 +55,8 @@ public class RenderLandmine extends TileEntitySpecialRenderer {
 			ResourceManager.mine_fat.renderAll();
 		}
 		if(block == ModBlocks.mine_naval) {
-			GL11.glScaled(0.5D, 0.5D, 0.5D);
-			GL11.glTranslated(0, 1, 0);
+			GL11.glScaled(1D, 1D, 1D);
+			GL11.glTranslated(0,0.5,0);
 			bindTexture(ResourceManager.mine_naval_tex);
 			ResourceManager.mine_naval.renderAll();
 		}
