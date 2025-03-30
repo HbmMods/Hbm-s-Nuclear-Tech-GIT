@@ -7,14 +7,12 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -44,7 +42,6 @@ public class RenderSkeletonHolder extends TileEntitySpecialRenderer {
 		
 		if(pedestal.item != null) {
 
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack stack = pedestal.item.copy();
 			
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);

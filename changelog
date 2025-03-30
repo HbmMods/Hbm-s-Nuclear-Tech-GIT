@@ -15,3 +15,4 @@
 * Fixed ferrouranium plate not being castable
 * Fixed bayonet not rendering properly in third person
 * Fixed xenon poison gauge in the RBMK control panel not showing up on colums (oops)
+* Fixed hitscan projectiles colliding with dead mobs

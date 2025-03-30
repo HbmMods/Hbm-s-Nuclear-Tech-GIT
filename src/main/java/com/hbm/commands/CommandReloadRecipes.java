@@ -3,6 +3,7 @@ package com.hbm.commands;
 import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.particle.helper.SkeletonCreator;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.DamageResistanceHandler;
 
@@ -30,6 +31,7 @@ public class CommandReloadRecipes extends CommandBase {
 			SerializableRecipe.initialize();
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
+			SkeletonCreator.init();
 
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Reload complete :)"));
 		} catch(Exception ex) {

@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 import com.hbm.entity.mob.EntityDummy;
+import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.main.ClientProxy;
 import com.hbm.particle.ParticleSkeleton;
 import com.hbm.util.Vec3NT;
@@ -152,6 +153,7 @@ public class SkeletonCreator implements IParticleCreator {
 		skullanizer.put(EntityZombie.class.getSimpleName(), BONES_ZOMBIE);
 		skullanizer.put(EntitySkeleton.class.getSimpleName(), BONES_ZOMBIE);
 		skullanizer.put(EntityPigZombie.class.getSimpleName(), BONES_ZOMBIE);
+		skullanizer.put(EntityUndeadSoldier.class.getSimpleName(), BONES_ZOMBIE);
 		
 		skullanizer.put(EntityVillager.class.getSimpleName(), BONES_VILLAGER);
 		skullanizer.put(EntityWitch.class.getSimpleName(), BONES_VILLAGER);

@@ -67,7 +67,12 @@ public class EntityUndeadSoldier extends EntityMob {
 		this.setCurrentItemOrArmor(2, new ItemStack(ModItems.taurun_legs));
 		this.setCurrentItemOrArmor(1, new ItemStack(ModItems.taurun_boots));
 		
-		this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_heavy_revolver));
+		int gun = rand.nextInt(5);
+		if(gun == 0) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_heavy_revolver));
+		if(gun == 1) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_light_revolver));
+		if(gun == 2) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_carbine));
+		if(gun == 3) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_maresleg));
+		if(gun == 4) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_greasegun));
 	}
 	
 	@Override
