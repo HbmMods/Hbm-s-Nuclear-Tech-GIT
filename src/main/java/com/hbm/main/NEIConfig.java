@@ -84,6 +84,13 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.spotlight_halogen_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_beam));
 
+		API.hideItem(new ItemStack(ModBlocks.conveyor));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_chute));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_lift));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_express));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_double));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_triple));
+
 		API.registerHighlightIdentifier(ModBlocks.plushie, new IHighlightHandler() {
 			@Override public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
 				int x = mop.blockX;

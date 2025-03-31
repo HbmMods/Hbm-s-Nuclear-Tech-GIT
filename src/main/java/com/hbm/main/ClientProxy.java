@@ -66,7 +66,8 @@ import com.hbm.render.anim.BusAnimation;
  import com.hbm.render.entity.rocket.*;
  import com.hbm.render.item.*;
  import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
- import com.hbm.render.item.block.ItemRenderDecoBlock;
+import com.hbm.render.item.block.ItemRenderBlock;
+import com.hbm.render.item.block.ItemRenderDecoBlock;
  import com.hbm.render.item.weapon.*;
  import com.hbm.render.loader.HmfModelLoader;
  import com.hbm.render.model.ModelPigeon;
@@ -559,6 +560,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_decon, new ItemRenderMultitool());
 		//blocks
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_roof), new ItemRenderDecoBlock());
+		MinecraftForgeClient.registerItemRenderer(ModItems.conveyor_wand, new ItemRenderBlock(ModBlocks.conveyor, ModBlocks.conveyor_express, ModBlocks.conveyor_double, ModBlocks.conveyor_triple));
 	}
 
 	@Override
