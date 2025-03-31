@@ -15,6 +15,7 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Float> MINE_HE_DAMAGE =					new ConfigWrapper(35F);
 	public static ConfigWrapper<Float> MINE_SHRAP_DAMAGE =				new ConfigWrapper(7.5F);
 	public static ConfigWrapper<Float> MINE_NUKE_DAMAGE =				new ConfigWrapper(100F);
+	public static ConfigWrapper<Float> MINE_NAVAL_DAMAGE =					new ConfigWrapper(60F);
 	public static ConfigWrapper<Boolean> TAINT_TRAILS =					new ConfigWrapper(false);
 
 	private static void initDefaults() {
@@ -23,6 +24,7 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("MINE_HE_DAMAGE", MINE_HE_DAMAGE);
 		configMap.put("MINE_SHRAP_DAMAGE", MINE_SHRAP_DAMAGE);
 		configMap.put("MINE_NUKE_DAMAGE", MINE_NUKE_DAMAGE);
+		configMap.put("MINE_NAVAL_DAMAGE", MINE_NAVAL_DAMAGE);
 		configMap.put("TAINT_TRAILS", TAINT_TRAILS);
 	}
 
