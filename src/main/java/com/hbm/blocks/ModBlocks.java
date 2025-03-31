@@ -634,6 +634,7 @@ public class ModBlocks {
 	public static Block nuke_gadget;
 	public static Block nuke_boy;
 	public static Block nuke_man;
+	public static Block nuke_mk3;
 	public static Block nuke_mike;
 	public static Block nuke_tsar;
 	public static Block nuke_fleija;
@@ -894,6 +895,18 @@ public class ModBlocks {
 	public static Block pwr_port;
 	public static Block pwr_controller;
 	public static Block pwr_block;
+
+	public static Block vver_fuel;
+	public static Block vver_control;
+	public static Block vver_channel;
+	public static Block vver_heatex;
+	public static Block vver_heatsink;
+	public static Block vver_neutron_source;
+	public static Block vver_reflector;
+	public static Block vver_casing;
+	public static Block vver_port;
+	public static Block vver_controller;
+	public static Block vver_block;
 
 	public static Block fusion_conductor;
 	public static Block fusion_center;
@@ -1712,6 +1725,7 @@ public class ModBlocks {
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
 		nuke_boy = new NukeBoy(Material.iron).setBlockName("nuke_boy").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":lilBoy");
 		nuke_man = new NukeMan(Material.iron).setBlockName("nuke_man").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":fatMan");
+		nuke_mk3 = new NukeMk3(Material.iron).setBlockName("nuke_mk3").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":mk3");
 		nuke_mike = new NukeMike(Material.iron).setBlockName("nuke_mike").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":ivyMike");
 		nuke_tsar = new NukeTsar(Material.iron).setBlockName("nuke_tsar").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":tsarBomba");
 		nuke_fleija = new NukeFleija(Material.iron).setBlockName("nuke_fleija").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":fleija");
@@ -2013,6 +2027,18 @@ public class ModBlocks {
 		pwr_port = new BlockGenericPWR(Material.iron).setBlockName("pwr_port").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_port");
 		pwr_controller = new MachinePWRController(Material.iron).setBlockName("pwr_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_casing_blank");
 		pwr_block = new BlockPWR(Material.iron).setBlockName("pwr_block").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pwr_block");
+
+		vver_fuel = new BlockPillarVVER(Material.iron, RefStrings.MODID + ":vver_fuel_top").setBlockName("vver_fuel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_fuel_side");
+		vver_control = new BlockPillarVVER(Material.iron, RefStrings.MODID + ":vver_control_top").setBlockName("vver_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_control_side");
+		vver_channel = new BlockPillarVVER(Material.iron, RefStrings.MODID + ":vver_channel_top").setBlockName("vver_channel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_channel_side");
+		vver_heatex = new BlockGenericVVER(Material.iron).setBlockName("vver_heatex").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_heatex");
+		vver_heatsink = new BlockGenericVVER(Material.iron).setBlockName("vver_heatsink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_heatsink");
+		vver_neutron_source = new BlockGenericVVER(Material.iron).setBlockName("vver_neutron_source").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_neutron_source");
+		vver_reflector = new BlockGenericVVER(Material.iron).setBlockName("vver_reflector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_reflector");
+		vver_casing = new BlockGenericVVER(Material.iron).setBlockName("vver_casing").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_casing");
+		vver_port = new BlockGenericVVER(Material.iron).setBlockName("vver_port").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_port");
+		vver_controller = new MachineVVERController(Material.iron).setBlockName("vver_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vver_casing_blank");
+		vver_block = new BlockVVER(Material.iron).setBlockName("vver_block").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":vver_block");
 
 		fusion_conductor = new BlockToolConversionPillar(Material.iron).addVariant("_welded").setBlockName("fusion_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_conductor");
 		fusion_center = new BlockPillar(Material.iron, RefStrings.MODID + ":fusion_center_top_alt").setBlockName("fusion_center").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_center_side_alt");
@@ -2857,6 +2883,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(nuke_gadget, nuke_gadget.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_boy, nuke_boy.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_man, nuke_man.getUnlocalizedName());
+		GameRegistry.registerBlock(nuke_mk3, nuke_mk3.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_mike, nuke_mike.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_tsar, nuke_tsar.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_prototype, ItemPrototypeBlock.class, nuke_prototype.getUnlocalizedName());
@@ -3353,6 +3380,19 @@ public class ModBlocks {
 		register(pwr_port);
 		register(pwr_controller);
 		register(pwr_block);
+
+		//VVER!!!
+		register(vver_fuel);
+		register(vver_control);
+		register(vver_channel);
+		register(vver_heatex);
+		register(vver_heatsink);
+		register(vver_neutron_source);
+		register(vver_reflector);
+		register(vver_casing);
+		register(vver_port);
+		register(vver_controller);
+		register(vver_block);
 
 		//Multiblock Generators
 		register(fusion_conductor);

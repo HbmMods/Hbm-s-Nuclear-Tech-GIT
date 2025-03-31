@@ -27,6 +27,7 @@ import com.hbm.items.machine.ItemRBMKRod.EnumBurnFunc;
 import com.hbm.items.machine.ItemRBMKRod.EnumDepleteFunc;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.items.machine.ItemStamp.StampType;
+import com.hbm.items.machine.ItemVVERFuel.EnumVVERFuel;
 import com.hbm.items.special.*;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.*;
@@ -1047,6 +1048,10 @@ public class ModItems {
 	public static Item pwr_fuel;
 	public static Item pwr_fuel_hot;
 	public static Item pwr_fuel_depleted;
+
+	public static Item vver_fuel;
+	public static Item vver_fuel_hot;
+	public static Item vver_fuel_depleted;
 
 	public static Item rbmk_lid;
 	public static Item rbmk_lid_glass;
@@ -3262,6 +3267,10 @@ public class ModItems {
 		pwr_fuel = new ItemPWRFuel().setUnlocalizedName("pwr_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel");
 		pwr_fuel_hot = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_hot").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_hot");
 		pwr_fuel_depleted = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_depleted").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_depleted");
+
+		vver_fuel = new ItemVVERFuel().setUnlocalizedName("vver_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel");
+		vver_fuel_hot = new ItemEnumMulti(EnumVVERFuel.class, true, false).setUnlocalizedName("vver_fuel_hot").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_hot");
+		vver_fuel_depleted = new ItemEnumMulti(EnumVVERFuel.class, true, false).setUnlocalizedName("vver_fuel_depleted").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_depleted");
 
 		rbmk_lid = new ItemRBMKLid().setUnlocalizedName("rbmk_lid").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid");
 		rbmk_lid_glass = new ItemRBMKLid().setUnlocalizedName("rbmk_lid_glass").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_lid_glass");
@@ -6080,6 +6089,11 @@ public class ModItems {
 		GameRegistry.registerItem(pwr_fuel, pwr_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(pwr_fuel_hot, pwr_fuel_hot.getUnlocalizedName());
 		GameRegistry.registerItem(pwr_fuel_depleted, pwr_fuel_depleted.getUnlocalizedName());
+
+		//VVER Parts!!!
+		GameRegistry.registerItem(vver_fuel, vver_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(vver_fuel_hot, vver_fuel_hot.getUnlocalizedName());
+		GameRegistry.registerItem(vver_fuel_depleted, vver_fuel_depleted.getUnlocalizedName());
 
 		//RBMK parts
 		GameRegistry.registerItem(rbmk_lid, rbmk_lid.getUnlocalizedName());

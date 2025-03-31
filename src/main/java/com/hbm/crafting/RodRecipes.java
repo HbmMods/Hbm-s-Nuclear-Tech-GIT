@@ -5,6 +5,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
+import com.hbm.items.machine.ItemVVERFuel.EnumVVERFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.main.CraftingManager;
@@ -155,6 +156,23 @@ public class RodRecipes {
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HES327), new Object[] { "F", "I", "F", 'F', SA327.billet(), 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_AM_MIX), new Object[] { "NFN", "NIN", "NBN", 'F', ModItems.billet_am_mix, 'I', ModItems.plate_polymer, 'B', BI.billet(), 'N', ModItems.nugget_plutonium_fuel });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_PU241), new Object[] { "NFN", "NIN", "NBN", 'F', PU241.billet(), 'I', ModItems.plate_polymer, 'B', BI.billet(), 'N', ModItems.nugget_uranium_fuel });
+		
+		//VVER fuel!!!
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.MEU), new Object[] { "F", "I", "F", 'F', ModItems.billet_uranium_fuel, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEU233), new Object[] { "F", "I", "F", 'F', U233.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEU235), new Object[] { "F", "I", "F", 'F', U235.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.MEN), new Object[] { "F", "I", "F", 'F', ModItems.billet_neptunium_fuel, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEN237), new Object[] { "F", "I", "F", 'F', NP237.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.MOX), new Object[] { "F", "I", "F", 'F', ModItems.billet_mox_fuel, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.MEP), new Object[] { "F", "I", "F", 'F', ModItems.billet_pu_mix, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEP239), new Object[] { "F", "I", "F", 'F', PU239.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEP241), new Object[] { "F", "I", "F", 'F', PU241.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.MEA), new Object[] { "F", "I", "F", 'F', ModItems.billet_am_mix, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HEA242), new Object[] { "F", "I", "F", 'F', AM242.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HES326), new Object[] { "F", "I", "F", 'F', SA326.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.HES327), new Object[] { "F", "I", "F", 'F', SA327.billet(), 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.BFB_AM_MIX), new Object[] { "NFN", "NIN", "NBN", 'F', ModItems.billet_am_mix, 'I', IRON.plate(), 'B', BI.billet(), 'N', ModItems.nugget_plutonium_fuel });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.vver_fuel, EnumVVERFuel.BFB_PU241), new Object[] { "NFN", "NIN", "NBN", 'F', PU241.billet(), 'I', IRON.plate(), 'B', BI.billet(), 'N', ModItems.nugget_uranium_fuel });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.icf_pellet_empty), new Object[] { "ZLZ", "L L", "ZLZ", 'Z', ZR.wireFine(), 'L', PB.wireFine() });
 	}

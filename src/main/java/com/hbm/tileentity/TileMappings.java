@@ -22,6 +22,7 @@ import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
+import com.hbm.blocks.machine.BlockVVER.TileEntityBlockVVER;
 import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
@@ -236,6 +237,9 @@ public class TileMappings {
 
 		put(TileEntityBlockPWR.class, "tileentity_block_pwr");
 		put(TileEntityPWRController.class, "tileentity_pwr_controller");
+
+		put(TileEntityBlockVVER.class, "tileentity_block_vver");
+		put(TileEntityVVERController.class, "tileentity_vver_controller");
 
 		put(TileEntityData.class, "tileentity_data");
 
