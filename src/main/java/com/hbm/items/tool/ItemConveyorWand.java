@@ -234,7 +234,7 @@ public class ItemConveyorWand extends Item {
 			ItemStack held = player.getHeldItem();
 			if(held == null || held.getItem() != this || held.getItemDamage() != stack.getItemDamage()) {
 				stack.stackTagCompound = null;
-				if(!world.isRemote) {
+				if(world.isRemote) {
 					RenderOverhead.clearActionPreview();
 					lastMop = null;
 				}
@@ -242,7 +242,7 @@ public class ItemConveyorWand extends Item {
 		}
 
 		// clientside prediction only
-		if(!world.isRemote && inHand) {
+		if(world.isRemote && inHand) {
 			if(!stack.hasTagCompound()) {
 				RenderOverhead.clearActionPreview();
 				lastMop = null;
