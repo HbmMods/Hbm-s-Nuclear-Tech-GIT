@@ -232,7 +232,7 @@ public class CompatHandler {
         @Override
         @Optional.Method(modid = "OpenComputers")
         default boolean canConnectNode(ForgeDirection side) {
-            return true;
+            return !this.getComponentName().equals(nullComponent);
         }
 
         /**
