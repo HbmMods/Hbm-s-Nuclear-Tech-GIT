@@ -61,7 +61,7 @@ public class ResourceManager {
 	public static final IModelCustom mine_ap = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/ap_mine.obj")).asVBO();
 	public static final IModelCustom mine_marelet = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/marelet.obj")).asVBO();
 	public static final IModelCustom mine_fat = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mine_fat.obj"));
-	public static final IModelCustom mine_naval = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/NMine.obj"));
+	public static final IModelCustom mine_naval = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/NMine.obj")).asVBO();
 
 
 	//Oil Pumps
@@ -353,7 +353,7 @@ public class ResourceManager {
 
 	//Skeleton
 	public static final IModelCustom skeleton_holder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/skeleton_holder.obj"),false).asVBO();
-	
+
 	//Lights
 	public static final IModelCustom lantern = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/trinkets/lantern.obj"));
 	public static final IModelCustom cage_lamp = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/lights/cage_lamp.obj"));
@@ -450,6 +450,7 @@ public class ResourceManager {
 	public static final ResourceLocation mine_shrap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/mine_shrapnel.png");
 	public static final ResourceLocation mine_fat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_fat.png");
 	public static final ResourceLocation mine_naval_tex = new ResourceLocation(RefStrings.MODID, "textures/models/NMine.png");
+
 
 	//Heaters
 	public static final ResourceLocation heater_firebox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/firebox.png");
@@ -768,7 +769,7 @@ public class ResourceManager {
 
 	//Skeleton
 	public static final ResourceLocation skeleton_holder_tex = new ResourceLocation(RefStrings.MODID, "textures/particle/skeleton.png");
-	
+
 	//Lantern
 	public static final ResourceLocation lantern_tex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/lantern.png");
 	public static final ResourceLocation lantern_rusty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/lantern_rusty.png");
