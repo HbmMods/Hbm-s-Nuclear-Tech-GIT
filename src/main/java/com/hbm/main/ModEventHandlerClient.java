@@ -228,6 +228,8 @@ public class ModEventHandlerClient {
 						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
 					}
 				}
+				
+				GL11.glColor4f(1F, 1F, 1F, 1F);
 			}
 
 			/*List<String> text = new ArrayList();
