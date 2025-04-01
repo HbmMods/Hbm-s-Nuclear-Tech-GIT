@@ -1,5 +1,7 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.awt.Color;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 import org.lwjgl.opengl.GL11;
@@ -78,6 +80,15 @@ public class LegoClient {
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length <= 0) return;
 		renderBulletStandard(Tessellator.instance, 0x7F006E, 0xFF7FED, length, true);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_RAINBOW = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		Random rand = new Random(bullet.getEntityId());
+		Color light = new Color(rand.nextInt(2) * 255, rand.nextInt(2) * 255, rand.nextInt(2) * 255);
+		Color dark = new Color(light.getRed() / 2, light.getGreen() / 2, light.getBlue() / 2);
+		renderBulletStandard(Tessellator.instance, dark.getRGB(), light.getRGB(), length, true);
 	};
 	
 	public static void renderBulletStandard(Tessellator tess, int dark, int light, double length, boolean fullbright) { renderBulletStandard(tess, dark, light, length, 0.03125D, 0.03125D * 0.25D, fullbright); }
