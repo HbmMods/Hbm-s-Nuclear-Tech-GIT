@@ -39,7 +39,7 @@ public class ArmorModel extends ItemArmor {
 	private static final ModelCloak modelCloak = new ModelCloak();
 
 	@SideOnly(Side.CLIENT)
-	private final ResourceLocation[] gogglesBlurs = IntStream.range(0, 6)
+	private static final ResourceLocation[] gogglesBlurs = IntStream.range(0, 6)
 		.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
 		.toArray(ResourceLocation[]::new);
 
