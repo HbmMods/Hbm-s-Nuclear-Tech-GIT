@@ -9,33 +9,32 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 public class ModelCloak extends ModelBiped {
+
 	public ModelCloak() {
-		textureWidth = 64;
-		textureHeight = 32;
+		this.textureWidth = 64;
+		this.textureHeight = 32;
 	}
 
 	@Override
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+
 		EntityPlayer player = (EntityPlayer) entity;
-		if(player.isSneaking()) {
-			this.isSneak = true;
-		} else {
-			this.isSneak = false;
-		}
-		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		this.isSneak = player.isSneaking();
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
 	}
 
 	@Override
-	public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7) {
-		if(par1Entity instanceof AbstractClientPlayer) {
-			AbstractClientPlayer player = (AbstractClientPlayer) par1Entity;
+	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+
+		if(entity instanceof AbstractClientPlayer) {
+			AbstractClientPlayer player = (AbstractClientPlayer) entity;
 
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0F, 0.0F, 0.125F);
-			double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * par7 - (player.prevPosX + (player.posX - player.prevPosX) * par7);
-			double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * par7 - (player.prevPosY + (player.posY - player.prevPosY) * par7);
-			double d0 = player.field_71097_bO + (player.field_71085_bR - player.field_71097_bO) * par7 - (player.prevPosZ + (player.posZ - player.prevPosZ) * par7);
-			float f4 = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * par7;
+			double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * scaleFactor - (player.prevPosX + (player.posX - player.prevPosX) * scaleFactor);
+			double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * scaleFactor - (player.prevPosY + (player.posY - player.prevPosY) * scaleFactor);
+			double d0 = player.field_71097_bO + (player.field_71085_bR - player.field_71097_bO) * scaleFactor - (player.prevPosZ + (player.posZ - player.prevPosZ) * scaleFactor);
+			float f4 = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * scaleFactor;
 			double d1 = MathHelper.sin(f4 * (float) Math.PI / 180.0F);
 			double d2 = (-MathHelper.cos(f4 * (float) Math.PI / 180.0F));
 			float f5 = (float) d4 * 10.0F;
@@ -55,8 +54,8 @@ public class ModelCloak extends ModelBiped {
 				f6 = 0.0F;
 			}
 
-			float f8 = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * par7;
-			f5 += MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * par7) * 6.0F) * 32.0F * f8;
+			float f8 = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * scaleFactor;
+			f5 += MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * scaleFactor) * 6.0F) * 32.0F * f8;
 
 			if(player.isSneaking()) {
 				f5 += 25.0F;
@@ -66,7 +65,7 @@ public class ModelCloak extends ModelBiped {
 			GL11.glRotatef(f7 / 2.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(-f7 / 2.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-			this.bipedCloak.render(par7);
+			this.bipedCloak.render(scaleFactor);
 			GL11.glPopMatrix();
 		}
 	}

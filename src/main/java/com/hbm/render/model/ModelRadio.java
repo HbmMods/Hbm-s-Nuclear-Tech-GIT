@@ -5,57 +5,55 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelRadio extends ModelBase {
-	// fields
+
 	ModelRenderer Box;
 	ModelRenderer Plate;
 	ModelRenderer Lever;
 
 	public ModelRadio() {
-		textureWidth = 32;
-		textureHeight = 32;
+		this.textureWidth = 32;
+		this.textureHeight = 32;
 
-		Box = new ModelRenderer(this, 0, 0);
-		Box.addBox(0F, 0F, 0F, 8, 14, 4);
-		Box.setRotationPoint(-4F, 9F, -12F);
-		Box.setTextureSize(32, 32);
-		Box.mirror = true;
-		setRotation(Box, 0F, 0F, 0F);
-		Plate = new ModelRenderer(this, 0, 18);
-		Plate.addBox(0F, 0F, 0F, 7, 13, 1);
-		Plate.setRotationPoint(-3.5F, 9.5F, -12.5F);
-		Plate.setTextureSize(32, 32);
-		Plate.mirror = true;
-		setRotation(Plate, 0F, 0F, 0F);
-		Lever = new ModelRenderer(this, 16, 18);
-		Lever.addBox(0F, -1F, -1F, 2, 8, 2);
-		Lever.setRotationPoint(4F, 16F, -10F);
-		Lever.setTextureSize(32, 32);
-		Lever.mirror = true;
-		setRotation(Lever, 0F, 0F, 0F);
+		this.Box = new ModelRenderer(this, 0, 0);
+		this.Box.addBox(0F, 0F, 0F, 8, 14, 4);
+		this.Box.setRotationPoint(-4F, 9F, -12F);
+		this.Box.setTextureSize(32, 32);
+		this.Box.mirror = true;
+		setRotation(this.Box, 0F, 0F, 0F);
+		this.Plate = new ModelRenderer(this, 0, 18);
+		this.Plate.addBox(0F, 0F, 0F, 7, 13, 1);
+		this.Plate.setRotationPoint(-3.5F, 9.5F, -12.5F);
+		this.Plate.setTextureSize(32, 32);
+		this.Plate.mirror = true;
+		setRotation(this.Plate, 0F, 0F, 0F);
+		this.Lever = new ModelRenderer(this, 16, 18);
+		this.Lever.addBox(0F, -1F, -1F, 2, 8, 2);
+		this.Lever.setRotationPoint(4F, 16F, -10F);
+		this.Lever.setTextureSize(32, 32);
+		this.Lever.mirror = true;
+		setRotation(this.Lever, 0F, 0F, 0F);
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		Box.render(f5);
-		Plate.render(f5);
-		Lever.render(f5);
+	@Override
+	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+
+		this.Box.render(scaleFactor);
+		this.Plate.render(scaleFactor);
+		this.Lever.render(scaleFactor);
 	}
 
-	public void renderModel(float f5, int deg) {
-		Box.render(f5);
-		Plate.render(f5);
-		Lever.rotateAngleX = -(float)(deg / 180F * Math.PI);
-		Lever.render(f5);
+	public void renderModel(float scaleFactor, int rotation) {
+
+		this.Box.render(scaleFactor);
+		this.Plate.render(scaleFactor);
+		this.Lever.rotateAngleX = -(float)(rotation / 180F * Math.PI);
+		this.Lever.render(scaleFactor);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private static void setRotation(ModelRenderer model, float x, float y, float z) {
+
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
-	}
-
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
-		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 	}
 }
