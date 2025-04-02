@@ -47,7 +47,7 @@ public class BlockTaint extends Block implements ITooltipProvider {
 			if(Math.abs(i) + Math.abs(j) + Math.abs(k) > 4) continue;
 			if(rand.nextFloat() > 0.25F) continue;
 			Block b = world.getBlock(x + i, y + j, z + k);
-			if(!b.renderAsNormalBlock() || b.isAir(world, x + i, y + j, z + k) || b == Blocks.bedrock) continue;
+			if(b.isAir(world, x + i, y + j, z + k) || b == Blocks.bedrock) continue;
 			int targetMeta = meta + 1;
 			boolean hasAir = false;
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

@@ -1,3 +1,12 @@
+## Added
+* Lightstone
+  * Stylish stone variant that can be crafted from regular stone and limestone powder
+* Added a few new structures
+  * Aircraft carriers, beached boats and oil rigs
+  * Aircraft carriers can spawn naval mines, which behave like landmines
+* New weapon mods
+  * The laser rifle now has a shotgun barrel, extended capacitor and automatic receiver
+
 ## Changed
 * .75 bolts now work as advertised
 * Updated lead pipe texture
@@ -10,6 +19,12 @@
 * NEI now shows RBMK fuel rod recycling and cooling
 * Removed most of the old unused siege mobs
 * Two weapons with built-in scopes now use the scope item in the crafting recipe
+* Updated the FLEIJA model
+* Cokers can now have their stats read with OC
+* NEI now shows recycling for RBMK fuel rods, and cooling for rods that can't be recycled due to being too hot
+* Taint can now replace any block, not just full cubes
+* Placing conveyor belts now creates a draggable ghost that will automatically attempt to pathfind towards the destination
+  * Lifts and chutes are placed automatically, meaning they no longer need crafting recipes
 
 ## Fixed
 * Fixed taint destroying bedrock
@@ -18,3 +33,6 @@
 * Fixed xenon poison gauge in the RBMK control panel not showing up on columns (oops)
 * Fixed hitscan projectiles colliding with dead mobs
 * Fixed GL state leak caused by blocks with a look overlay
+* Fixed issues with the new crate functionality
+* Fixed dupe regarding the toolbox
+* Fixed dummies with no OC components taking up a ton of component slots
