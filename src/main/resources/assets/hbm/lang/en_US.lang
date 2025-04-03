@@ -5611,6 +5611,7 @@ tile.machine_coker.desc=Cokes oil, creating fluid byproducts.$Requires external 
 tile.machine_combine_factory.name=CMB Steel Furnace
 tile.machine_combustion_engine.name=Industrial Combustion Engine
 tile.machine_compressor.name=Compressor
+tile.machine_compressor_compact.name=Compact Compressor
 tile.machine_condenser.name=Steam Condenser
 tile.machine_condenser_powered.name=High-Power Steam Condenser
 tile.machine_controller.name=Reactor Remote Control Block
