@@ -37,6 +37,7 @@ public class Fluids {
 	public static final Gson gson = new Gson();
 
 	public static FluidType NONE;
+	public static FluidType AIR;
 	public static FluidType WATER;
 	public static FluidType STEAM;
 	public static FluidType HOTSTEAM;
@@ -398,7 +399,8 @@ public class Fluids {
 		LYE =					new FluidType("LYE",				0xFFECCC, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID);
 		SODIUM_ALUMINATE =		new FluidType("SODIUM_ALUMINATE",	0xFFD191, 3, 0, 1, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
 		BAUXITE_SOLUTION =		new FluidType("BAUXITE_SOLUTION",	0xE2560F, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(40), LIQUID, VISCOUS);
-		ALUMINA =				new FluidType(150,"ALUMINA",		0xDDFFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		ALUMINA =				new FluidType("ALUMINA",			0xDDFFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		AIR =					new FluidType(151, "AIR",			0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -414,6 +416,7 @@ public class Fluids {
 		//null
 		metaOrder.add(NONE);
 		//vanilla
+		metaOrder.add(AIR);
 		metaOrder.add(WATER);
 		metaOrder.add(HEAVYWATER);
 		metaOrder.add(HEAVYWATER_HOT);
