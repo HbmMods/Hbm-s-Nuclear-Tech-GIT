@@ -25,6 +25,7 @@
 * Taint can now replace any block, not just full cubes
 * Placing conveyor belts now creates a draggable ghost that will automatically attempt to pathfind towards the destination
   * Lifts and chutes are placed automatically, meaning they no longer need crafting recipes
+* Changed the optimized receiver generic gun mod to +15% damage
 
 ## Fixed
 * Fixed taint destroying bedrock
@@ -36,3 +37,4 @@
 * Fixed issues with the new crate functionality
 * Fixed dupe regarding the toolbox
 * Fixed dummies with no OC components taking up a ton of component slots
+* Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
