@@ -31,13 +31,11 @@ public class ParticleFoam extends EntityFX {
 
 	private static class TrailPoint {
 		double x, y, z;
-		float alpha;
 
 		public TrailPoint(double x, double y, double z, float alpha) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
-			this.alpha = alpha;
 		}
 	}
 

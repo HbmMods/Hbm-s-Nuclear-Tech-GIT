@@ -14,7 +14,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 
 public class ModelJetPack extends ModelBiped {
-	// fields
+
 	ModelRenderer Tank1;
 	ModelRenderer Tank2;
 	ModelRenderer Tip1;
@@ -27,111 +27,87 @@ public class ModelJetPack extends ModelBiped {
 	ModelRenderer JetPack;
 
 	public ModelJetPack() {
-		textureWidth = 32;
-		textureHeight = 32;
+		this.textureWidth = 32;
+		this.textureHeight = 32;
 
 		float x = 0F;
 		float y = 0F;
 		float z = -2F;
-		
-		JetPack = new ModelRenderer(this, 0, 0);
-		JetPack.setRotationPoint(x, y, z);
-		
-		Pack = new ModelRenderer(this, 12, 10);
-		Pack.addBox(0F, 0F, 0F, 4, 6, 1);
-		Pack.setRotationPoint(-2F, 3F, 0F);
-		Pack.setTextureSize(32, 32);
-		Pack.mirror = true;
-		convertToChild(JetPack, Pack);
-		setRotation(Pack, 0F, 0F, 0F);
-		Tank1 = new ModelRenderer(this, 0, 0);
-		Tank1.addBox(0F, 0F, 0F, 3, 8, 3);
-		Tank1.setRotationPoint(0.5F, 2F, 0.5F);
-		Tank1.setTextureSize(32, 32);
-		Tank1.mirror = true;
-		setRotation(Tank1, 0F, 0F, 0F);
-		convertToChild(JetPack, Tank1);
-		Tank2 = new ModelRenderer(this, 0, 11);
-		Tank2.addBox(0F, 0F, 0F, 3, 8, 3);
-		Tank2.setRotationPoint(-3.5F, 2F, 0.5F);
-		Tank2.setTextureSize(32, 32);
-		Tank2.mirror = true;
-		setRotation(Tank2, 0F, 0F, 0F);
-		convertToChild(JetPack, Tank2);
-		Tip1 = new ModelRenderer(this, 0, 22);
-		Tip1.addBox(0F, 0F, 0F, 2, 1, 2);
-		Tip1.setRotationPoint(1F, 1F, 1F);
-		Tip1.setTextureSize(32, 32);
-		Tip1.mirror = true;
-		setRotation(Tip1, 0F, 0F, 0F);
-		convertToChild(JetPack, Tip1);
-		Tip2 = new ModelRenderer(this, 0, 25);
-		Tip2.addBox(0F, 0F, 0F, 2, 1, 2);
-		Tip2.setRotationPoint(-3F, 1F, 1F);
-		Tip2.setTextureSize(32, 32);
-		Tip2.mirror = true;
-		setRotation(Tip2, 0F, 0F, 0F);
-		convertToChild(JetPack, Tip2);
-		Duct1 = new ModelRenderer(this, 8, 22);
-		Duct1.addBox(0F, 0F, 0F, 2, 1, 2);
-		Duct1.setRotationPoint(1F, 9.5F, 1F);
-		Duct1.setTextureSize(32, 32);
-		Duct1.mirror = true;
-		setRotation(Duct1, 0F, 0F, 0F);
-		convertToChild(JetPack, Duct1);
-		Duct2 = new ModelRenderer(this, 8, 25);
-		Duct2.addBox(0F, 0F, 0F, 2, 1, 2);
-		Duct2.setRotationPoint(-3F, 9.5F, 1F);
-		Duct2.setTextureSize(32, 32);
-		Duct2.mirror = true;
-		setRotation(Duct2, 0F, 0F, 0F);
-		convertToChild(JetPack, Duct2);
-		Thruster1 = new ModelRenderer(this, 12, 0);
-		Thruster1.addBox(0F, 0F, 0F, 3, 2, 3);
-		Thruster1.setRotationPoint(0.5F, 10.5F, 0.5F);
-		Thruster1.setTextureSize(32, 32);
-		Thruster1.mirror = true;
-		setRotation(Thruster1, 0F, 0F, 0F);
-		convertToChild(JetPack, Thruster1);
-		Thruster2 = new ModelRenderer(this, 12, 5);
-		Thruster2.addBox(0F, 0F, 0F, 3, 2, 3);
-		Thruster2.setRotationPoint(-3.5F, 10.5F, 0.5F);
-		Thruster2.setTextureSize(32, 32);
-		Thruster2.mirror = true;
-		setRotation(Thruster2, 0F, 0F, 0F);
-		convertToChild(JetPack, Thruster2);
-	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		//super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		
-		/*Tank1.render(f5);
-		Tank2.render(f5);
-		Tip1.render(f5);
-		Tip2.render(f5);
-		Duct1.render(f5);
-		Duct2.render(f5);
-		Thruster1.render(f5);
-		Thruster2.render(f5);*/
-		JetPack.render(f5);
-	}
+		this.JetPack = new ModelRenderer(this, 0, 0);
+		this.JetPack.setRotationPoint(x, y, z);
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+		this.Pack = new ModelRenderer(this, 12, 10);
+		this.Pack.addBox(0F, 0F, 0F, 4, 6, 1);
+		this.Pack.setRotationPoint(-2F, 3F, 0F);
+		this.Pack.setTextureSize(32, 32);
+		this.Pack.mirror = true;
+		convertToChild(this.JetPack, this.Pack);
+		setRotation(this.Pack, 0F, 0F, 0F);
+		this.Tank1 = new ModelRenderer(this, 0, 0);
+		this.Tank1.addBox(0F, 0F, 0F, 3, 8, 3);
+		this.Tank1.setRotationPoint(0.5F, 2F, 0.5F);
+		this.Tank1.setTextureSize(32, 32);
+		this.Tank1.mirror = true;
+		setRotation(this.Tank1, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Tank1);
+		this.Tank2 = new ModelRenderer(this, 0, 11);
+		this.Tank2.addBox(0F, 0F, 0F, 3, 8, 3);
+		this.Tank2.setRotationPoint(-3.5F, 2F, 0.5F);
+		this.Tank2.setTextureSize(32, 32);
+		this.Tank2.mirror = true;
+		setRotation(this.Tank2, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Tank2);
+		this.Tip1 = new ModelRenderer(this, 0, 22);
+		this.Tip1.addBox(0F, 0F, 0F, 2, 1, 2);
+		this.Tip1.setRotationPoint(1F, 1F, 1F);
+		this.Tip1.setTextureSize(32, 32);
+		this.Tip1.mirror = true;
+		setRotation(this.Tip1, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Tip1);
+		this.Tip2 = new ModelRenderer(this, 0, 25);
+		this.Tip2.addBox(0F, 0F, 0F, 2, 1, 2);
+		this.Tip2.setRotationPoint(-3F, 1F, 1F);
+		this.Tip2.setTextureSize(32, 32);
+		this.Tip2.mirror = true;
+		setRotation(this.Tip2, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Tip2);
+		this.Duct1 = new ModelRenderer(this, 8, 22);
+		this.Duct1.addBox(0F, 0F, 0F, 2, 1, 2);
+		this.Duct1.setRotationPoint(1F, 9.5F, 1F);
+		this.Duct1.setTextureSize(32, 32);
+		this.Duct1.mirror = true;
+		setRotation(this.Duct1, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Duct1);
+		this.Duct2 = new ModelRenderer(this, 8, 25);
+		this.Duct2.addBox(0F, 0F, 0F, 2, 1, 2);
+		this.Duct2.setRotationPoint(-3F, 9.5F, 1F);
+		this.Duct2.setTextureSize(32, 32);
+		this.Duct2.mirror = true;
+		setRotation(this.Duct2, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Duct2);
+		this.Thruster1 = new ModelRenderer(this, 12, 0);
+		this.Thruster1.addBox(0F, 0F, 0F, 3, 2, 3);
+		this.Thruster1.setRotationPoint(0.5F, 10.5F, 0.5F);
+		this.Thruster1.setTextureSize(32, 32);
+		this.Thruster1.mirror = true;
+		setRotation(this.Thruster1, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Thruster1);
+		this.Thruster2 = new ModelRenderer(this, 12, 5);
+		this.Thruster2.addBox(0F, 0F, 0F, 3, 2, 3);
+		this.Thruster2.setRotationPoint(-3.5F, 10.5F, 0.5F);
+		this.Thruster2.setTextureSize(32, 32);
+		this.Thruster2.mirror = true;
+		setRotation(this.Thruster2, 0F, 0F, 0F);
+		convertToChild(this.JetPack, this.Thruster2);
 	}
 
 	@Override
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			if (player.isSneaking()) {
-				this.isSneak = true;
-			} else {
-				this.isSneak = false;
-			}
+			this.isSneak = player.isSneaking();
 			ItemStack itemstack = player.inventory.getCurrentItem();
 			this.heldItemRight = itemstack != null ? 1 : 0;
 
@@ -145,7 +121,9 @@ public class ModelJetPack extends ModelBiped {
 				}
 			}
 		}
-		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
+
 		this.JetPack.rotationPointX = this.bipedBody.rotationPointX;
 		this.JetPack.rotationPointY = this.bipedBody.rotationPointY;
 		this.JetPack.rotationPointZ = this.bipedBody.rotationPointZ;
@@ -154,14 +132,38 @@ public class ModelJetPack extends ModelBiped {
 		this.JetPack.rotateAngleZ = this.bipedBody.rotateAngleZ;
 	}
 
-	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild) {
-		parChild.rotationPointX -= parParent.rotationPointX;
-		parChild.rotationPointY -= parParent.rotationPointY;
-		parChild.rotationPointZ -= parParent.rotationPointZ;
-		parChild.rotateAngleX -= parParent.rotateAngleX;
-		parChild.rotateAngleY -= parParent.rotateAngleY;
-		parChild.rotateAngleZ -= parParent.rotateAngleZ;
-		parParent.addChild(parChild);
+	@Override
+	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+
+		//super.render(entity, f, f1, f2, f3, f4, f5);
+		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
+
+		/*Tank1.render(f5);
+		Tank2.render(f5);
+		Tip1.render(f5);
+		Tip2.render(f5);
+		Duct1.render(f5);
+		Duct2.render(f5);
+		Thruster1.render(f5);
+		Thruster2.render(f5);*/
+		this.JetPack.render(scaleFactor);
 	}
 
+	protected static void convertToChild(ModelRenderer parent, ModelRenderer child) {
+
+		child.rotationPointX -= parent.rotationPointX;
+		child.rotationPointY -= parent.rotationPointY;
+		child.rotationPointZ -= parent.rotationPointZ;
+		child.rotateAngleX -= parent.rotateAngleX;
+		child.rotateAngleY -= parent.rotateAngleY;
+		child.rotateAngleZ -= parent.rotateAngleZ;
+		parent.addChild(child);
+	}
+
+	private static void setRotation(ModelRenderer model, float x, float y, float z) {
+
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 }

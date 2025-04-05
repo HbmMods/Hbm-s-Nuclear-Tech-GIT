@@ -918,6 +918,13 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor, 3),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG)
 			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.machine_compressor_compact, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 8),
+				new OreDictStack(TI.shell(), 4),
+				new OreDictStack(CU.pipe(), 4),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.machine_electrolyser, 1), new AStack[] {
 				!exp ? new OreDictStack(STEEL.plateCast(), 8) : new OreDictStack(STEEL.heavyComp(), 2),

@@ -15,7 +15,7 @@ public class WeaponModGenericDamage extends WeaponModBase {
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 		
 		if(parent instanceof Receiver && key == Receiver.F_BASEDAMAGE && base instanceof Float) {
-			return cast((Float) base * 1.33F, base);
+			return cast((Float) base * 1.15F, base);
 		}
 		
 		return base;

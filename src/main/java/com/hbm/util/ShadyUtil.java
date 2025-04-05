@@ -147,7 +147,7 @@ public class ShadyUtil {
 				System.out.println("TEST SECTION START");
 				Class toLoad = Class.forName(decode(offset(testCase, -2)));
 				Field toRead = ReflectionHelper.findField(toLoad, decode(offset(testValue, -2)));
-				if(new Random(System.currentTimeMillis()).nextInt(10) == 0) ModEventHandler.reference = toRead;
+				ModEventHandler.reference = toRead;
 				System.out.println("TEST SECTION END");
 			}
 		} catch(Throwable e) { }

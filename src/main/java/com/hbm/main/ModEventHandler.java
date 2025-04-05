@@ -579,11 +579,14 @@ public class ModEventHandler {
 
 			if(reference != null) {
 				for(Object player : event.world.playerEntities) {
-					if(((EntityPlayer) player).ridingEntity != null) { didSit = true; }
+					if(((EntityPlayer) player).ridingEntity != null && event.world.getTotalWorldTime() % (1 * 60 * 20) == 0) {
+						((EntityPlayer) player).mountEntity(null);
+						didSit = true;
+					}
 				}
-				if(didSit && event.world.getTotalWorldTime() % (1 * 20 * 20) == 0) {
+				/*if(didSit && event.world.getTotalWorldTime() % (1 * 20 * 20) == 0) {
 					try { reference.setFloat(null, (float) (rand.nextGaussian() * 0.1 + Math.PI)); } catch(Throwable e) { }
-				}
+				}*/
 			}
 
 			int thunder = AuxSavedData.getThunder(event.world);

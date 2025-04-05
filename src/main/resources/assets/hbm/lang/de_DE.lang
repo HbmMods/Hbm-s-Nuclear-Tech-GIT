@@ -4478,6 +4478,7 @@ tile.machine_coker.desc=Verkokt Öl, erzeugt fluides Nebenprodukt.$Benötigt ext
 tile.machine_combine_factory.name=CMB-Stahl Hochofen
 tile.machine_combustion_engine.name=Industrieller Verbrennungsmotor
 tile.machine_compressor.name=Kompressor
+tile.machine_compressor_compact.name=Kompakt-Kompressor
 tile.machine_condenser.name=Dampfkondensierer
 tile.machine_condenser_powered.name=Hochleistungs-Dampfkondensierer
 tile.machine_controller.name=Reaktorfernsteuerung

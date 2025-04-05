@@ -20,6 +20,7 @@ import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModSpecial;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -42,9 +43,9 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModBlocks.barbed_wire),	new OreDictStack(WEAPONSTEEL.plate()),		new ComparableStack(ModBlocks.barbed_wire)));
 
 		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_heavy_revolver_lilmac),
-				new OreDictStack(WEAPONSTEEL.plate()),		new OreDictStack(DIAMOND.gem()),					new OreDictStack(WEAPONSTEEL.plate()),
-				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.gun_heavy_revolver),	null,
-				null,										new OreDictStack(BONE.grip()),						new ComparableStack(Items.apple, 3)));
+				null,										new ComparableStack(ModItems.weapon_mod_special, 1, EnumModSpecial.SCOPE),	null,
+				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.gun_heavy_revolver),							new OreDictStack(WEAPONSTEEL.plate()),
+				null,										new OreDictStack(BONE.grip()),												new ComparableStack(Items.apple, 3)));
 
 		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_heavy_revolver_protege),
 				new ComparableStack(ModBlocks.chain, 16),		new OreDictStack(CINNABAR.gem()),					new ComparableStack(ModBlocks.chain, 16),
