@@ -63,13 +63,13 @@ public class GUIMachineRTG extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		if (rtg.hasHeat()) {
-			int i = rtg.getHeatScaled(51);
-			drawTexturedModalRect(guiLeft + 124, guiTop + 60 - i, 176, 10 + (51 - i), 16, i);
+			int i = rtg.getHeatScaled(51); // was 50
+			drawTexturedModalRect(guiLeft + 124, guiTop + 61 - i, 176, 10 + (51 - i), 16, i);
 		}
 
 		if (rtg.hasPower()) {
-			int i = (int) rtg.getPowerScaled(51);
-			drawTexturedModalRect(guiLeft + 146, guiTop + 60 - i, 192, 10 + (51 - i), 16, i);
+			int i = (int) rtg.getPowerScaled(51); // was 50
+			drawTexturedModalRect(guiLeft + 146, guiTop + 61 - i, 192, 10 + (51 - i), 16, i);
 		}
 
 		this.drawInfoPanel(guiLeft - 12, guiTop + 25, 16, 16, 2);
