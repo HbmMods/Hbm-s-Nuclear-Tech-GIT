@@ -45,7 +45,7 @@ public class GUIMachineRTG extends GuiInfoContainer {
 			pelletText[i + 1] = I18nUtil.resolveKey("desc.gui.rtg.pelletPower", I18nUtil.resolveKey(pellet.getUnlocalizedName() + ".name"), pellet.getHeat() * 5);
 		}
 
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 8, guiTop + 25, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 12, guiTop + 25, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);
 	}
 
 	@Override
@@ -72,6 +72,6 @@ public class GUIMachineRTG extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 146, guiTop + 60 - i, 192, 10 + (51 - i), 16, i);
 		}
 
-		this.drawInfoPanel(guiLeft - 8, guiTop + 25, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 12, guiTop + 25, 16, 16, 2);
 	}
 }
