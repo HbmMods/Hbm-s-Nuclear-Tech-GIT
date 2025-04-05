@@ -71,8 +71,7 @@ public class WeaponModManager {
 
 		Item[] steelGuns = new Item[] {
 				ModItems.gun_light_revolver, ModItems.gun_light_revolver_atlas,
-				ModItems.gun_henry,
-				ModItems.gun_henry_lincoln,
+				ModItems.gun_henry, ModItems.gun_henry_lincoln,
 				ModItems.gun_greasegun,
 				ModItems.gun_maresleg, ModItems.gun_maresleg_akimbo,
 				ModItems.gun_flaregun };
@@ -143,6 +142,9 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.BAYONET).addMod(ModItems.gun_mas36, new WeaponModMASBayonet(ID_MAS_BAYONET));
 		new WeaponModDefinition(EnumModSpecial.STACK_MAG).addMod(new Item[] {ModItems.gun_greasegun, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_aberrator, ModItems.gun_aberrator_eott}, new WeaponModStackMag(214));
 		new WeaponModDefinition(EnumModSpecial.SKIN_SATURNITE).addMod(new Item[] {ModItems.gun_uzi, ModItems.gun_uzi_akimbo}, new WeaponModUziSaturnite(ID_UZI_SATURN));
+		new WeaponModDefinition(EnumModSpecial.LAS_SHOTGUN).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasShotgun(ID_LAS_SHOTGUN));
+		new WeaponModDefinition(EnumModSpecial.LAS_CAPACITOR).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasCapacitor(ID_LAS_CAPACITOR));
+		new WeaponModDefinition(EnumModSpecial.LAS_AUTO).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasAuto(ID_LAS_AUTO));
 
 		BulletConfig[] p9 = new BulletConfig[] {XFactory9mm.p9_sp, XFactory9mm.p9_fmj, XFactory9mm.p9_jhp, XFactory9mm.p9_ap};
 		BulletConfig[] p45 = new BulletConfig[] {XFactory45.p45_sp, XFactory45.p45_fmj, XFactory45.p45_jhp, XFactory45.p45_ap, XFactory45.p45_du};
@@ -192,6 +194,9 @@ public class WeaponModManager {
 	public static final int ID_FURNITURE_BLACK = 212;
 	public static final int ID_MAS_BAYONET = 213;
 	public static final int ID_UZI_SATURN = 215;
+	public static final int ID_LAS_SHOTGUN = 216;
+	public static final int ID_LAS_CAPACITOR = 217;
+	public static final int ID_LAS_AUTO = 218;
 	
 	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];

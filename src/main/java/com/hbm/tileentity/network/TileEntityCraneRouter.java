@@ -81,6 +81,7 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneRouter(player.inventory, this);
 	}
+	
 	@Override
 	public void nextMode(int index) {
 		

@@ -23,6 +23,7 @@ public class Receiver {
 	public static final String I_DELAYAFTERFIRE =			"I_DELAYAFTERFIRE";
 	public static final String I_DELAYAFTERDRYFIRE =		"I_DELAYAFTERDRYFIRE";
 	public static final String I_ROUNDSPERCYCLE =			"I_ROUNDSPERCYCLE";
+	public static final String F_SPLITPROJECTILES =			"F_SPLITPROJECTILES";
 	public static final String F_SPREADINNATE =				"F_SPREADINNATE";
 	public static final String F_SPREADAMMO =				"F_SPREADAMMO";
 	public static final String F_SPREADHIPFIRE =			"F_SPREADHIPFIRE";
@@ -59,6 +60,7 @@ public class Receiver {
 	protected int delayAfterFire_DNA;
 	protected int delayAfterDryFire_DNA;
 	protected int roundsPerCycle_DNA = 1;
+	protected float splitProjectiles_DNA = 1;
 	protected float spreadInnate_DNA = 0F;
 	protected float spreadMultAmmo_DNA = 1F;
 	protected float spreadPenaltyHipfire_DNA = 0.025F;
@@ -90,6 +92,7 @@ public class Receiver {
 	public int getDelayAfterFire(ItemStack stack) {				return WeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
 	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
 	public int getRoundsPerCycle(ItemStack stack) {				return WeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }
+	public float getSplitProjectiles(ItemStack stack) {			return WeaponModManager.eval(this.splitProjectiles_DNA, stack, F_SPLITPROJECTILES, this, parent.index); }
 	public float getInnateSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPREADINNATE, this, parent.index); }
 	public float getAmmoSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this, parent.index); }
 	public float getHipfireSpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this, parent.index); }
@@ -122,6 +125,7 @@ public class Receiver {
 	public Receiver delay(int delay) {								this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;		return this; }
 	public Receiver dry(int delay) {								this.delayAfterDryFire_DNA = delay;									return this; }
 	public Receiver rounds(int rounds) {							this.roundsPerCycle_DNA = rounds;									return this; }
+	public Receiver split(float rounds) {							this.splitProjectiles_DNA = rounds;									return this; }
 	public Receiver spread(float spread) {							this.spreadInnate_DNA = spread;										return this; }
 	public Receiver spreadAmmo(float spread) {						this.spreadMultAmmo_DNA = spread;									return this; }
 	public Receiver spreadHipfire(float spread) {					this.spreadPenaltyHipfire_DNA = spread;								return this; }

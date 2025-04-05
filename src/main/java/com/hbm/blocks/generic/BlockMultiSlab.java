@@ -35,13 +35,17 @@ public class BlockMultiSlab extends BlockSlab implements IStepTickReceiver {
 		
 		if(single == null) {
 			for(int i = 0; i < slabMaterials.length; i++) {
-				recipeGen.add(new Object[] {slabMaterials[i], this, i});
+				recipeGen.add(new Object[] {slabMaterials[i], 0, this, i});
 			}
 		}
 		
 		this.setBlockTextureName(RefStrings.MODID + ":concrete");
 	}
 	
+	public BlockMultiSlab(boolean b, Material mat) {
+		super(b, mat);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {

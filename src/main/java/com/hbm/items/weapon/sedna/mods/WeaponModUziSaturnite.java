@@ -18,5 +18,4 @@ public class WeaponModUziSaturnite extends WeaponModBase {
 		if(key == Receiver.F_BASEDAMAGE) return cast((Float) base + 3F, base);
 		return base;
 	}
-
 }

@@ -220,6 +220,7 @@ public class Lego {
 		
 		int projectiles = config.projectilesMin;
 		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
+		projectiles = (int) (projectiles * primary.getSplitProjectiles(stack));
 		
 		for(int i = 0; i < projectiles; i++) {
 			float damage = calcDamage(ctx, stack, primary, calcWear, index);

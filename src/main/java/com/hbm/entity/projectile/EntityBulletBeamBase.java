@@ -126,7 +126,7 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 			for(int j = 0; j < list.size(); ++j) {
 				Entity entity = (Entity) list.get(j);
 				
-				if(entity.canBeCollidedWith() && entity != thrower) {
+				if(entity.canBeCollidedWith() && entity != thrower && entity.isEntityAlive()) {
 					double hitbox = 0.3F;
 					AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
 					MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);

@@ -366,6 +366,10 @@ public class GUIRBMKConsole extends GuiScreen {
 					int fe = (int)Math.ceil((col.data.getDouble("enrichment")) * 8);
 					if(fe > 8) fe = 8;
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + size - fe - 1, 14, 191 - fe, 2, fe);
+					
+					int fx = (int)Math.ceil((col.data.getDouble("xenon")) * 8 / 100);
+					if(fx > 8) fx = 8;
+					drawTexturedModalRect(guiLeft + x + 7, guiTop + y + size - fx - 1, 17, 191 - fx, 2, fx);
 				}
 				break;
 				

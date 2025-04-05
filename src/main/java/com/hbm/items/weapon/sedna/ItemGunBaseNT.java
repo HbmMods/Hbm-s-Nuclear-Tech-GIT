@@ -174,7 +174,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD {
 				list.add("Base Damage: " + FORMAT_DMG.format(dmg));
 				if(mag.getType(stack, player.inventory) instanceof BulletConfig) {
 					BulletConfig bullet = (BulletConfig) mag.getType(stack, player.inventory);
-					list.add("Damage with current ammo: " + FORMAT_DMG.format(dmg * bullet.damageMult) + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
+					int min = (int) (bullet.projectilesMin * rec.getSplitProjectiles(stack));
+					int max = (int) (bullet.projectilesMax * rec.getSplitProjectiles(stack));
+					list.add("Damage with current ammo: " + FORMAT_DMG.format(dmg * bullet.damageMult) + (min > 1 ? (" x" + (min != max ? (min + "-" + max) : min)) : ""));
 				}
 			}
 			

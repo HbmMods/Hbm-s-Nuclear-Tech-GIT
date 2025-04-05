@@ -20,6 +20,7 @@ import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModSpecial;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -42,9 +43,9 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModBlocks.barbed_wire),	new OreDictStack(WEAPONSTEEL.plate()),		new ComparableStack(ModBlocks.barbed_wire)));
 
 		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_heavy_revolver_lilmac),
-				new OreDictStack(WEAPONSTEEL.plate()),		new OreDictStack(DIAMOND.gem()),					new OreDictStack(WEAPONSTEEL.plate()),
-				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.gun_heavy_revolver),	null,
-				null,										new OreDictStack(BONE.grip()),						new ComparableStack(Items.apple, 3)));
+				null,										new ComparableStack(ModItems.weapon_mod_special, 1, EnumModSpecial.SCOPE),	null,
+				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.gun_heavy_revolver),							new OreDictStack(WEAPONSTEEL.plate()),
+				null,										new OreDictStack(BONE.grip()),												new ComparableStack(Items.apple, 3)));
 
 		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_heavy_revolver_protege),
 				new ComparableStack(ModBlocks.chain, 16),		new OreDictStack(CINNABAR.gem()),					new ComparableStack(ModBlocks.chain, 16),
@@ -74,6 +75,15 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL),	new ComparableStack(ModItems.item_secret, 2, EnumSecretType.CONTROLLER),	new ComparableStack(ModItems.item_secret, 4, EnumSecretType.SELENIUM_STEEL))
 				.extra(PedestalExtraCondition.FULL_MOON));
 
+		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_aberrator),
+				null,																	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	null,
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new OreDictStack(BIGMT.mechanism(), 4),									new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),
+				null,																	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	null));
+		recipes.add(new PedestalRecipe(new ItemStack(ModItems.gun_aberrator_eott),
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new OreDictStack(BIGMT.mechanism(), 16),								new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR)));
+
 		recipes.add(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.FOLLY_SM.ordinal()),
 				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),	new OreDictStack(STAR.ingot(), 1),
 				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModBlocks.moon_turf),	new ComparableStack(ModItems.powder_magic),
@@ -84,6 +94,10 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.ammo_standard, 4, EnumAmmo.NUKE_HIGH),	new ComparableStack(ModItems.powder_magic),
 				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),							new OreDictStack(STAR.ingot(), 1))
 				.extra(PedestalExtraCondition.FULL_MOON));
+		recipes.add(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 5, EnumAmmoSecret.P35_800.ordinal()),
+				null,	null,																	null,
+				null,	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	null,
+				null,	null,																	null));
 	}
 
 	@Override

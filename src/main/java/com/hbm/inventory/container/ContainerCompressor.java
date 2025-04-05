@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.tileentity.machine.TileEntityMachineCompressor;
+import com.hbm.tileentity.machine.TileEntityMachineCompressorBase;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCompressor extends Container {
 	
-	private TileEntityMachineCompressor compressor;
+	private TileEntityMachineCompressorBase compressor;
 
-	public ContainerCompressor(InventoryPlayer playerInv, TileEntityMachineCompressor tile) {
+	public ContainerCompressor(InventoryPlayer playerInv, TileEntityMachineCompressorBase tile) {
 		compressor = tile;
 		
 		//Fluid ID
