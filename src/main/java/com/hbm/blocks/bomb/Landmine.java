@@ -6,11 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
-import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
@@ -179,7 +175,7 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
 			} else if(this == ModBlocks.mine_naval) {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 5, y + 5, z + 5, 25F);
-				vnt.setBlockAllocator(new BlockAllocatorStandard(64));
+				vnt.setBlockAllocator(new BlockAllocatorWater(32));
 				vnt.setBlockProcessor(new BlockProcessorStandard());
 				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, ServerConfig.MINE_NAVAL_DAMAGE.get()).setupPiercing(5F, 0.2F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());

@@ -509,6 +509,20 @@ public class ItemRenderLibrary {
 				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 
+		renderers.put(Item.getItemFromBlock(ModBlocks.mine_naval), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, 2, -1);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(0, 0, 0);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.mine_naval_tex);
+				ResourceManager.mine_naval.renderAll();
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			}});
+
 		renderers.put(Item.getItemFromBlock(ModBlocks.mine_fat), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);
