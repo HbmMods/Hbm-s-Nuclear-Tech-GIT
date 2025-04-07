@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotPattern;
+import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.network.TileEntityPneumoTube;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,10 @@ public class ContainerPneumoTube extends ContainerBase {
 				this.addSlotToContainer(new SlotPattern(tube, i * 5 + j, 35 + j * 18, 17 + i * 18));
 			}
 		}
+		
+		//upgrades
+		this.addSlotToContainer(new SlotUpgrade(tube, 15, 152, 23));
+		this.addSlotToContainer(new SlotUpgrade(tube, 16, 152, 47));
 		
 		playerInv(invPlayer, 8, 103, 161);
 	}

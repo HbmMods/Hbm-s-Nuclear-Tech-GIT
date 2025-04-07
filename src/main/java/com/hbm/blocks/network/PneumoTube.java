@@ -7,12 +7,14 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityPneumoTube;
 import com.hbm.util.Compat;
 
 import api.hbm.block.IToolable;
 import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -35,6 +37,7 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 	@SideOnly(Side.CLIENT) public IIcon iconIn;
 	@SideOnly(Side.CLIENT) public IIcon iconOut;
 	@SideOnly(Side.CLIENT) public IIcon iconConnector;
+	@SideOnly(Side.CLIENT) public IIcon iconStraight;
 	@SideOnly(Side.CLIENT) public IIcon activeIcon;
 	
 	public boolean[] renderSides = new boolean[] {true, true, true, true, true, true};
@@ -62,6 +65,7 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		iconIn = reg.registerIcon(RefStrings.MODID + ":pneumatic_tube_in");
 		iconOut = reg.registerIcon(RefStrings.MODID + ":pneumatic_tube_out");
 		iconConnector = reg.registerIcon(RefStrings.MODID + ":pneumatic_tube_connector");
+		iconStraight = reg.registerIcon(RefStrings.MODID + ":pneumatic_tube_straight");
 		
 		this.activeIcon = this.baseIcon = this.blockIcon;
 	}
@@ -81,6 +85,24 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 	public void resetRenderSides() {
 		for(int i = 0; i < 6; i++) renderSides[i] = true;
 	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(player.getHeldItem() != null && ToolType.getType(player.getHeldItem()) == ToolType.SCREWDRIVER) return false;
+		if(!player.isSneaking()) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof TileEntityPneumoTube) {
+				TileEntityPneumoTube tube = (TileEntityPneumoTube) tile;
+				if(tube.isCompressor()) {
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
 	
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
@@ -92,12 +114,12 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		ForgeDirection rot = player.isSneaking() ? tube.ejectionDir : tube.insertionDir;
 		ForgeDirection oth = player.isSneaking() ? tube.insertionDir : tube.ejectionDir;
 		
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 7; i++) {
 			rot = ForgeDirection.getOrientation((rot.ordinal() + 1) % 7);
 			if(rot == ForgeDirection.UNKNOWN) break; //unknown is always valid, simply disables this part
 			if(rot == oth) continue; //skip if both positions collide
 			TileEntity tile = Compat.getTileStandard(world, x + rot.offsetX, y + rot.offsetY, z + rot.offsetZ);
-			if(tile instanceof IInventory) break; //valid if connected to an IInventory
+			if(tile instanceof IInventory && !(tile instanceof TileEntityPneumoTube)) break; //valid if connected to an IInventory
 		}
 		
 		if(player.isSneaking()) tube.ejectionDir = rot; else tube.insertionDir = rot;
@@ -185,12 +207,12 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 
 	public boolean canConnectToAir(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
-		if(tube != null && tube.insertionDir == ForgeDirection.UNKNOWN) return false;
-		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR);
+		if(tube != null && !tube.isCompressor()) return false;
+		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR) && !(world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof TileEntityPneumoTube);
 	}
 	@Override
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
-		return tube != null && tube.insertionDir != ForgeDirection.UNKNOWN;
+		return tube != null && tube.isCompressor();
 	}
 }

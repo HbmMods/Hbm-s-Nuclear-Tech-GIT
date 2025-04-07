@@ -61,6 +61,10 @@ public class GaugeUtil {
 	}
 	
 	public static void drawSmoothGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, int color) {
+		drawSmoothGauge(x, y, z, progress, tipLength, backLength, backSide, color, 0x000000);
+	}
+	
+	public static void drawSmoothGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, int color, int colorOuter) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		progress = MathHelper.clamp_double(progress, 0, 1);
@@ -76,7 +80,7 @@ public class GaugeUtil {
 		
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawing(GL11.GL_TRIANGLES);
-		tess.setColorOpaque_F(0F, 0F, 0F);
+		tess.setColorOpaque_I(colorOuter);
 		double mult = 1.5;
 		tess.addVertex(x + tip.xCoord * mult, y + tip.yCoord * mult, z);
 		tess.addVertex(x + left.xCoord * mult, y + left.yCoord * mult, z);
