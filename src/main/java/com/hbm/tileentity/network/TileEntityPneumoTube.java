@@ -3,11 +3,13 @@ package com.hbm.tileentity.network;
 import com.hbm.inventory.container.ContainerPneumoTube;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIPneumoTube;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
 
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -21,7 +23,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIProvider, IFluidStandardReceiverMK2 {
 
 	public ModulePatternMatcher pattern = new ModulePatternMatcher(15);
 	public ForgeDirection insertionDir = ForgeDirection.UNKNOWN;
@@ -30,7 +32,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public FluidTank compair;
 	
 	public TileEntityPneumoTube() {
-		super(15);
+		super(17);
 		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
 	}
 
@@ -43,9 +45,21 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.isCompressor()) {
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+					if(dir != this.insertionDir && dir != this.ejectionDir) {
+						this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+					}
+				}
+			}
 
 			this.networkPackNT(15);
 		}
+	}
+	
+	public boolean isCompressor() {
+		return this.insertionDir != ForgeDirection.UNKNOWN;
 	}
 
 	@Override
@@ -112,6 +126,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new GUIPneumoTube(player.inventory, this);
 	}
+
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {compair}; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {compair}; }
 }
