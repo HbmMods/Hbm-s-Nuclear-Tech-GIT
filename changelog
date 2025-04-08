@@ -40,7 +40,11 @@
 * Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
 
 ## NTM-1-of-90-Edition:
-Note: Updated fork
+Note: Up-to-date
+# Fixes
+* SERVER-ONLY: Fixed a issue where the Armor Model was loading client-sided on the server, causing a server crash on startup
+* Fixed various Watz Powerplant Gui Bugs
+
 ## Core Features
 
 ------------
@@ -101,7 +105,7 @@ Crafting Recipes
      * Ultimate power pellet
      * Maximum tower synergy effects
 
-# Changes and Fixes
+# Changes
 GUI Changes
 ----------
 1. Tower Status Display
