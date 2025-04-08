@@ -153,6 +153,13 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(new EventHandlerParticleEngine());
 		registerClientEventHandler(theInfoSystem);
 
+		// Initialize client-side resources for armor models
+		try {
+			com.hbm.items.armor.ArmorModel.initializeClientResources();
+		} catch(Exception e) {
+			System.err.println("Failed to initialize client-side armor resources: " + e.getMessage());
+		}
+
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();
 		registerEntityRenderer();
