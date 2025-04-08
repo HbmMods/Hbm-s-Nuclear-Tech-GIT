@@ -49,9 +49,7 @@ public class FluidTank {
 	}
 	
 	public FluidTank withPressure(int pressure) {
-		
 		if(this.pressure != pressure) this.setFill(0);
-		
 		this.pressure = pressure;
 		return this;
 	}

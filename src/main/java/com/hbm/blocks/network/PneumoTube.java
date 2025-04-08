@@ -119,7 +119,8 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 			if(rot == ForgeDirection.UNKNOWN) break; //unknown is always valid, simply disables this part
 			if(rot == oth) continue; //skip if both positions collide
 			TileEntity tile = Compat.getTileStandard(world, x + rot.offsetX, y + rot.offsetY, z + rot.offsetZ);
-			if(tile instanceof IInventory && !(tile instanceof TileEntityPneumoTube)) break; //valid if connected to an IInventory
+			if(tile instanceof TileEntityPneumoTube) continue;
+			if(tile instanceof IInventory) break; //valid if connected to an IInventory
 		}
 		
 		if(player.isSneaking()) tube.ejectionDir = rot; else tube.insertionDir = rot;
@@ -207,8 +208,13 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 
 	public boolean canConnectToAir(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
-		if(tube != null && !tube.isCompressor()) return false;
-		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR) && !(world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof TileEntityPneumoTube);
+		if(tube != null) {
+			if(!tube.isCompressor()) return false;
+			if(tube.ejectionDir == dir || tube.insertionDir == dir) return false;
+		}
+		TileEntity tile = world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+		if(tile instanceof TileEntityPneumoTube) return false;
+		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR);
 	}
 	@Override
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
