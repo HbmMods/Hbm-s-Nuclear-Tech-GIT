@@ -58,24 +58,18 @@ public class GUIPneumoTube extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(checkClick(x, y, 7, 52, 18, 18)) {
+		click(x, y, 7, 52, 18, 18, "redstone");
+		click(x, y, 6, 36, 20, 8, "pressure");
+		click(x, y, 128, 30, 14, 26, "whitelist");
+		click(x, y, 151, 16, 18, 18, "receive");
+		click(x, y, 151, 52, 18, 18, "send");
+	}
+	
+	public void click(int x, int y, int left, int top, int sizeX, int sizeY, String name) {
+		if(checkClick(x, y, left, top, sizeX, sizeY)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("redstone", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, tube.xCoord, tube.yCoord, tube.zCoord));
-		}
-
-		if(checkClick(x, y, 6, 36, 20, 8)) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("pressure", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, tube.xCoord, tube.yCoord, tube.zCoord));
-		}
-
-		if(checkClick(x, y, 128, 30, 14, 26)) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("whitelist", true);
+			data.setBoolean(name, true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, tube.xCoord, tube.yCoord, tube.zCoord));
 		}
 	}
@@ -101,6 +95,9 @@ public class GUIPneumoTube extends GuiInfoContainer {
 		} else {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
 		}
+
+		drawTexturedModalRect(guiLeft + 151, guiTop + 16, 197, 18 * tube.receiveOrder, 18, 18);
+		drawTexturedModalRect(guiLeft + 151, guiTop + 52, 215, 18 * tube.sendOrder, 18, 18);
 		
 		drawTexturedModalRect(guiLeft + 6 + 4 * (tube.compair.getPressure() - 1), guiTop + 36, 179, 18, 4, 8);
 		GaugeUtil.drawSmoothGauge(guiLeft + 16, guiTop + 25, this.zLevel, (double) tube.compair.getFill() / (double) tube.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);

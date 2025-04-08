@@ -12,6 +12,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
+import com.hbm.uninos.networkproviders.PneumaticNetwork;
 import com.hbm.uninos.networkproviders.PneumaticNetworkProvider;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
@@ -43,13 +44,16 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	
 	public boolean whitelist = false;
 	public boolean redstone = false;
+	public byte sendOrder = 0;
+	public byte receiveOrder = 0;
+	public boolean didSend = false;
 	
 	public FluidTank compair;
 	
 	protected PneumaticNode node;
 	
 	public TileEntityPneumoTube() {
-		super(17);
+		super(15);
 		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
 	}
 
@@ -80,25 +84,45 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 			}
 			
 			if(this.isCompressor()) {
+				
+				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
+				
 				if(worldObj.getTotalWorldTime() % 10 == 0) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 					if(dir != this.insertionDir && dir != this.ejectionDir) {
 						this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 					}
 				}
 				
-				if(worldObj.getTotalWorldTime() % 40 == 0 && this.compair.getFill() > 0) {
-					//this.compair.setFill(0);
-					//worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 1.0F, 1.0F);
+				if(randTime % 40 == 0 && didSend) {
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.5F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
+				}
+				
+				if(randTime % 5 == 0 && this.node != null && !this.node.expired && this.node.net != null && this.compair.getFill() >= 50) {
+					TileEntity sendFrom = Compat.getTileStandard(worldObj, xCoord + insertionDir.offsetX, yCoord + insertionDir.offsetY, zCoord + insertionDir.offsetZ);
+					
+					if(sendFrom instanceof IInventory) {
+						PneumaticNetwork net = node.net;
+						
+						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder)) {
+							this.didSend = true;
+							this.compair.setFill(this.compair.getFill() - 50);
+						}
+					}
 				}
 			}
 			
 			if(this.isEndpoint() && this.node != null && this.node.net != null && worldObj.getTotalWorldTime() % 10 == 0) {
 				TileEntity tile = Compat.getTileStandard(worldObj, xCoord + this.ejectionDir.offsetX, yCoord + this.ejectionDir.offsetY, zCoord + this.ejectionDir.offsetZ);
-				if(tile instanceof IInventory) this.node.net.addReceiver((IInventory) tile);
+				if(tile instanceof IInventory) this.node.net.addReceiver((IInventory) tile, this.ejectionDir);
 			}
 
 			this.networkPackNT(15);
 		}
+	}
+	
+	// tactfully copy pasted from BlockPos
+	public static int getIdentifier(int x, int y, int z) {
+		return (y + z * 27644437) * 27644437 + x;
 	}
 
 	@Override
@@ -130,6 +154,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		super.serialize(buf);
 		buf.writeBoolean(redstone);
 		buf.writeBoolean(whitelist);
+		buf.writeByte(sendOrder);
+		buf.writeByte(receiveOrder);
 		pattern.serialize(buf);
 		compair.serialize(buf);
 	}
@@ -139,6 +165,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		super.deserialize(buf);
 		this.redstone = buf.readBoolean();
 		this.whitelist = buf.readBoolean();
+		this.sendOrder = buf.readByte();
+		this.receiveOrder = buf.readByte();
 		pattern.deserialize(buf);
 		compair.deserialize(buf);
 	}
@@ -215,6 +243,14 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 			if(pressure > 5) pressure = 1;
 			this.compair.withPressure(pressure);
 		}
+		if(data.hasKey("send")) {
+			this.sendOrder++;
+			if(this.sendOrder > 2) this.sendOrder = 0;
+		}
+		if(data.hasKey("receive")) {
+			this.receiveOrder++;
+			if(this.receiveOrder > 1) this.receiveOrder = 0;
+		}
 		
 		this.markDirty();
 	}
@@ -225,7 +261,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {compair}; }
 	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {compair}; }
 	
-	public static class PneumaticNode extends GenNode {
+	public static class PneumaticNode extends GenNode<PneumaticNetwork> {
 
 		public PneumaticNode(BlockPos... positions) {
 			super(PneumaticNetworkProvider.THE_PROVIDER, positions);
