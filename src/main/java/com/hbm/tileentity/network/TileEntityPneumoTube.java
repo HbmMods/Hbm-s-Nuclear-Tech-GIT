@@ -46,7 +46,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public boolean redstone = false;
 	public byte sendOrder = 0;
 	public byte receiveOrder = 0;
-	public boolean didSend = false;
+	public int soundDelay = 0;
 	
 	public FluidTank compair;
 	
@@ -79,6 +79,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		
 		if(!worldObj.isRemote) {
 			
+			if(this.soundDelay > 0) this.soundDelay--;
+			
 			if(this.node == null || this.node.expired) {
 				this.node = (PneumaticNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
 				
@@ -95,7 +97,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 				}
 			}
 			
-			if(this.isCompressor()) {
+			if(this.isCompressor() && (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ this.redstone)) {
 				
 				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
 				
@@ -105,10 +107,6 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 					}
 				}
 				
-				if(randTime % 40 == 0 && didSend) {
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.5F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
-				}
-				
 				if(randTime % 5 == 0 && this.node != null && !this.node.expired && this.node.net != null && this.compair.getFill() >= 50) {
 					TileEntity sendFrom = Compat.getTileStandard(worldObj, xCoord + insertionDir.offsetX, yCoord + insertionDir.offsetY, zCoord + insertionDir.offsetZ);
 					
@@ -116,8 +114,12 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 						PneumaticNetwork net = node.net;
 						
 						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()))) {
-							this.didSend = true;
 							this.compair.setFill(this.compair.getFill() - 50);
+							
+							if(this.soundDelay <= 0 && !this.muffled) {
+								worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.25F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
+								this.soundDelay = 20;
+							}
 						}
 					}
 				}

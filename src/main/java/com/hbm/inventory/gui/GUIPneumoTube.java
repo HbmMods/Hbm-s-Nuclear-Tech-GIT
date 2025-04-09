@@ -11,6 +11,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.uninos.networkproviders.PneumaticNetwork;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -42,6 +43,10 @@ public class GUIPneumoTube extends GuiInfoContainer {
 		
 		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 52, 18, 18, x, y, (tube.redstone ? (EnumChatFormatting.GREEN + "ON ") : (EnumChatFormatting.RED + "OFF ")) + EnumChatFormatting.RESET + "with Redstone");
 		this.drawCustomInfoStat(x, y, guiLeft + 6, guiTop + 36, 20, 8, x, y, "Compressor: " + tube.compair.getPressure() + " PU");
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 16, 18, 18, x, y, EnumChatFormatting.YELLOW + "Receiver order:", tube.receiveOrder == PneumaticNetwork.RECEIVE_ROBIN ? "Round robin" : "Random");
+		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 52, 18, 18, x, y, EnumChatFormatting.YELLOW + "Provider slot order:", tube.sendOrder == PneumaticNetwork.SEND_FIRST ? "First to last" : tube.sendOrder == PneumaticNetwork.SEND_LAST ? "Last to first" : "Random");
+
 
 		if(this.mc.thePlayer.inventory.getItemStack() == null) {
 			for(int i = 0; i < 15; ++i) {

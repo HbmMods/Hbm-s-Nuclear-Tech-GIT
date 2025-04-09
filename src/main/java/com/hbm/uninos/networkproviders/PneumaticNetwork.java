@@ -90,7 +90,7 @@ public class PneumaticNetwork extends NodeNet {
 		}
 		
 		int destSide = chosenReceiverEntry.getValue().getKey().getOpposite().ordinal();
-		int[] destSlotAccess = getSlotAccess(source, destSide);
+		int[] destSlotAccess = getSlotAccess(dest, destSide);
 		int itemsLeftToSend = 64;
 		boolean didSomething = false;
 		

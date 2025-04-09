@@ -141,12 +141,12 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		
 		bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
 
-		if(canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1, y + upper, z + upper));
-		if(canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y + lower, z + lower, x + lower, y + upper, z + upper));
-		if(canConnectTo(world, x, y, z, Library.POS_Y) || canConnectToAir(world, x, y, z, Library.NEG_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + upper, z + lower, x + upper, y + 1, z + upper));
-		if(canConnectTo(world, x, y, z, Library.NEG_Y) || canConnectToAir(world, x, y, z, Library.POS_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y, z + lower, x + upper, y + lower, z + upper));
-		if(canConnectTo(world, x, y, z, Library.POS_Z) || canConnectToAir(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + upper, x + upper, y + upper, z + 1));
-		if(canConnectTo(world, x, y, z, Library.NEG_Z) || canConnectToAir(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z, x + upper, y + upper, z + lower));
+		if(canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1, y + upper, z + upper));
+		if(canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y + lower, z + lower, x + lower, y + upper, z + upper));
+		if(canConnectTo(world, x, y, z, Library.POS_Y) || canConnectToAir(world, x, y, z, Library.POS_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + upper, z + lower, x + upper, y + 1, z + upper));
+		if(canConnectTo(world, x, y, z, Library.NEG_Y) || canConnectToAir(world, x, y, z, Library.NEG_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y, z + lower, x + upper, y + lower, z + upper));
+		if(canConnectTo(world, x, y, z, Library.POS_Z) || canConnectToAir(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + upper, x + upper, y + upper, z + 1));
+		if(canConnectTo(world, x, y, z, Library.NEG_Z) || canConnectToAir(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z, x + upper, y + upper, z + lower));
 
 		for(AxisAlignedBB bb : bbs) {
 			if(entityBounding.intersectsWith(bb)) {
@@ -216,6 +216,7 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		if(tile instanceof TileEntityPneumoTube) return false;
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR);
 	}
+	
 	@Override
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
