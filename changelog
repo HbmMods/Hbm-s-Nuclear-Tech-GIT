@@ -38,3 +38,4 @@
 * Fixed dupe regarding the toolbox
 * Fixed dummies with no OC components taking up a ton of component slots
 * Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
+* Fixed top left column not being selectable in the RBMK console

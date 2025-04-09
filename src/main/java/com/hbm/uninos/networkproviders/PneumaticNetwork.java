@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.hbm.tileentity.network.TileEntityPneumoTube;
 import com.hbm.uninos.NodeNet;
@@ -24,6 +25,7 @@ public class PneumaticNetwork extends NodeNet {
 	public static final byte RECEIVE_ROBIN = 0;
 	public static final byte RECEIVE_RANDOM = 1;
 	
+	public Random rand = new Random();
 	public int nextReceiver = 0;
 
 	protected static int timeout = 1_000;
@@ -41,6 +43,11 @@ public class PneumaticNetwork extends NodeNet {
 	}
 	
 	public boolean send(IInventory source, TileEntityPneumoTube tube, ForgeDirection dir, int sendOrder, int receiveOrder) {
+
+		// turns out there may be a short time window where the cleanup hasn't happened yet, but chunkloading has already caused tiles to go invalid
+		// so we just run it again here, just to be sure.
+		long timestamp = System.currentTimeMillis();
+		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getValue() > timeout) || NodeNet.isBadLink(x.getKey()); });
 		
 		if(receivers.isEmpty()) return false;
 		
@@ -65,7 +72,12 @@ public class PneumaticNetwork extends NodeNet {
 		receiverList.sort(comparator);
 		
 		int index = nextReceiver % receivers.size();
-		Entry<IInventory, Pair<ForgeDirection, Long>> chosenReceiverEntry = receiverList.get(index);
+		Entry<IInventory, Pair<ForgeDirection, Long>> chosenReceiverEntry = null;
+
+		if(receiveOrder == RECEIVE_ROBIN) chosenReceiverEntry = receiverList.get(index);
+		if(receiveOrder == RECEIVE_RANDOM) chosenReceiverEntry = receiverList.get(rand.nextInt(receiverList.size()));
+		
+		if(chosenReceiverEntry == null) return false;
 		
 		//TBI - the painful part
 		
