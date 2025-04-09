@@ -61,6 +61,18 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public String getName() {
 		return "container.pneumoTube";
 	}
+	
+	public boolean matchesFilter(ItemStack stack) {
+		
+		for(int i = 0; i < 15; i++) {
+			ItemStack filter = slots[i];
+			if(filter != null && this.pattern.isValidForFilter(filter, i, stack)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -103,7 +115,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 					if(sendFrom instanceof IInventory) {
 						PneumaticNetwork net = node.net;
 						
-						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder)) {
+						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()))) {
 							this.didSend = true;
 							this.compair.setFill(this.compair.getFill() - 50);
 						}
@@ -118,6 +130,16 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 			this.networkPackNT(15);
 		}
+	}
+	
+	public static int getRangeFromPressure(int pressure) {
+		if(pressure == 0) return 0;
+		if(pressure == 1) return 10;
+		if(pressure == 2) return 25;
+		if(pressure == 3) return 100;
+		if(pressure == 4) return 250;
+		if(pressure == 5) return 1_000;
+		return 0;
 	}
 	
 	// tactfully copy pasted from BlockPos

@@ -20,6 +20,9 @@ This should go without saying, but please don't PR code that was never actually 
 
 **Addendum:** Because apparently some people think that testing is somehow optional, it is now **mandatory** to test the code both on a client and on a server. If the PR contains compat code, the game has to work **with and without** the mod that the compat is for.
 
+## No refactor PRs
+Your refactors suck ass and usually something ends up breaking.
+
 ## Communication
 
 If you're planning on adding some new thing or doing a grand change, it's best to ask whether that's a good idea before spending 50 hours on a project that won't end up getting merged, due to issues that could have been entirely avoidable with communication.
