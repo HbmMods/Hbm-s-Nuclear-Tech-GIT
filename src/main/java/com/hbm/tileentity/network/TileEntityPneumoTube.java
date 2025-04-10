@@ -216,7 +216,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		NBTTagCompound nbt = pkt.func_148857_g();
 		this.insertionDir = EnumUtil.grabEnumSafely(ForgeDirection.class, nbt.getByte("insertionDir"));
 		this.ejectionDir = EnumUtil.grabEnumSafely(ForgeDirection.class, nbt.getByte("ejectionDir"));
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord); // that's right, we're gonna cheat
 	}
 
 	@Override

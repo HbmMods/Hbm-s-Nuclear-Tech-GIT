@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
@@ -23,6 +24,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -31,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class PneumoTube extends BlockContainer implements IToolable, IFluidConnectorBlockMK2 {
+public class PneumoTube extends BlockContainer implements IToolable, IFluidConnectorBlockMK2, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon baseIcon;
 	@SideOnly(Side.CLIENT) public IIcon iconIn;
@@ -221,5 +223,10 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
 		return tube != null && tube.isCompressor();
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 }

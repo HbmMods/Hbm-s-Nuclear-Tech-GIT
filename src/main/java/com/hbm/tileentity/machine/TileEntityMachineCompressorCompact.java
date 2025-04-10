@@ -19,7 +19,7 @@ public class TileEntityMachineCompressorCompact extends TileEntityMachineCompres
 			this.prevFanSpin = this.fanSpin;
 
 			if(this.isOn) {
-				this.fanSpin += 15;
+				this.fanSpin += 45;
 
 				if(this.fanSpin >= 360) {
 					this.prevFanSpin -= 360;

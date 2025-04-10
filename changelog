@@ -6,6 +6,18 @@
   * Aircraft carriers can spawn naval mines, which behave like landmines
 * New weapon mods
   * The laser rifle now has a shotgun barrel, extended capacitor and automatic receiver
+* Compact compressor
+  * Only a third as tall as the regular compressor with a footprint less than twice as wide
+  * Comes with a frame that allows for stacking of multiple compressors without it looking ugly
+  * Otherwise identical to the regular compressor
+* Pneumatic tubes
+  * Allows instant item transport without laggy entities
+  * Requires compressed air to work, air compression determines the max range (10 - 1,000m)
+  * Has various filter and order options
+  * Muffler compatible
+* Air intake
+  * Simple machine that uses 100HE/t to produce 1B of compressed air
+  * Also looks really cool to have on the roof of factories
 
 ## Changed
 * .75 bolts now work as advertised
@@ -26,6 +38,8 @@
 * Placing conveyor belts now creates a draggable ghost that will automatically attempt to pathfind towards the destination
   * Lifts and chutes are placed automatically, meaning they no longer need crafting recipes
 * Changed the optimized receiver generic gun mod to +15% damage
+* The xenon chemical plant recipes as well as biogas now require compressed air instead of no fluid at all
+* Removed old unused radar configs
 
 ## Fixed
 * Fixed taint destroying bedrock
@@ -39,3 +53,4 @@
 * Fixed dummies with no OC components taking up a ton of component slots
 * Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
 * Fixed top left column not being selectable in the RBMK console
+* Fixed CIWS hitrate config being read wrong
