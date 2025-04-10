@@ -66,7 +66,7 @@ public class DamageResistanceHandler {
 		
 		if(!config.exists()) {
 			initDefaults();
-			writeDefault(template);
+			//writeDefault(template);
 		} else {
 			///
 		}

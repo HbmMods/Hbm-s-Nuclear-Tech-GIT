@@ -31,20 +31,25 @@ public class RenderPneumoTube implements ISimpleBlockRenderingHandler {
 		
 		renderer.setRenderBounds(lower, lower, 0, upper, upper, 1);
 		
+		renderer.uvRotateTop = 2;
+		renderer.uvRotateBottom = 1;
+		
 		tessellator.startDrawingQuads();
-		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, 0, 0, 0, duct.getIcon(0, 0));
-		tessellator.setNormal(0F, -1F, 0F);	renderer.renderFaceYNeg(block, 0, 0, 0, duct.getIcon(0, 0));
-		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, 0, 0, 0, duct.getIcon(0, 0));
-		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, 0, 0, 0, duct.getIcon(0, 0));
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, 0, 0, 0, duct.iconStraight);
+		tessellator.setNormal(0F, -1F, 0F);	renderer.renderFaceYNeg(block, 0, 0, 0, duct.iconStraight);
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, 0, 0, 0, duct.iconStraight);
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, 0, 0, 0, duct.iconStraight);
 		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, 0, 0, 0, duct.iconConnector);
 		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, 0, 0, 0, duct.iconConnector);
 		tessellator.draw();
-
+		
+		renderer.uvRotateTop = 0;
+		renderer.uvRotateBottom = 0;
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		
+
 		renderer = RenderBlocksNT.INSTANCE.setWorld(world);
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -65,29 +70,46 @@ public class RenderPneumoTube implements ISimpleBlockRenderingHandler {
 		double lower = 0.3125D;
 		double upper = 0.6875D;
 		
+		boolean hasConnections = tile != null && (tile.isCompressor() || tile.isEndpoint());
+		
 		//Straight along X
-		if(mask == 0b110000) {
+		if(mask == 0b110000 && !hasConnections) {
 			renderer.setRenderBounds(0.0D, lower, lower, 1.0D, upper, upper);
 			duct.renderSides[4] = false;
 			duct.renderSides[5] = false;
+			duct.activeIcon = duct.iconStraight;
 			renderer.renderStandardBlock(block, x, y, z);
 			duct.resetRenderSides();
 
 		// Straight along Z
-		} else if(mask == 0b000011) {
+		} else if(mask == 0b000011 && !hasConnections) {
 			renderer.setRenderBounds(lower, lower, 0.0D, upper, upper, 1.0D);
 			duct.renderSides[2] = false;
 			duct.renderSides[3] = false;
+			duct.activeIcon = duct.iconStraight;
+			renderer.uvRotateTop = 2;
+			renderer.uvRotateBottom = 1;
 			renderer.renderStandardBlock(block, x, y, z);
 			duct.resetRenderSides();
+			renderer.uvRotateTop = 0;
+			renderer.uvRotateBottom = 0;
 			
 		//Straight along Y
-		} else if(mask == 0b001100) {
+		} else if(mask == 0b001100 && !hasConnections) {
 			renderer.setRenderBounds(lower, 0.0D, lower, upper, 1.0D, upper);
 			duct.renderSides[0] = false;
 			duct.renderSides[1] = false;
+			duct.activeIcon = duct.iconStraight;
+			renderer.uvRotateNorth = 2;
+			renderer.uvRotateSouth = 2;
+			renderer.uvRotateEast = 2;
+			renderer.uvRotateWest = 2;
 			renderer.renderStandardBlock(block, x, y, z);
 			duct.resetRenderSides();
+			renderer.uvRotateNorth = 0;
+			renderer.uvRotateSouth = 0;
+			renderer.uvRotateEast = 0;
+			renderer.uvRotateWest = 0;
 		//Any
 		} else {
 			renderer.setRenderBounds(lower, lower, lower, upper, upper, upper);
@@ -114,6 +136,8 @@ public class RenderPneumoTube implements ISimpleBlockRenderingHandler {
 				if(duct.canConnectToAir(world, x, y, z, dir)) renderCon(duct, x, y, z, renderer, dir, duct.iconConnector);
 			}
 		}
+		
+		duct.activeIcon = duct.baseIcon;
 		
 		return true;
 	}
@@ -158,10 +182,10 @@ public class RenderPneumoTube implements ISimpleBlockRenderingHandler {
 		if(dir == Library.NEG_Y) {
 			duct.renderSides[1] = false;
 			duct.renderSides[0] = false;
-			renderer.setRenderBounds(lower, upper, lower, upper, cUpper, upper);
+			renderer.setRenderBounds(lower, cLower, lower, upper, lower, upper);
 			renderer.renderStandardBlock(duct, x, y, z); duct.resetRenderSides();
 			duct.activeIcon = newIcon;
-			renderer.setRenderBounds(nLower, cUpper, nLower, nUpper, 1, nUpper);
+			renderer.setRenderBounds(nLower, 0, nLower, nUpper, nLower, nUpper);
 			renderer.renderStandardBlock(duct, x, y, z);
 		}
 
@@ -177,10 +201,10 @@ public class RenderPneumoTube implements ISimpleBlockRenderingHandler {
 		if(dir == Library.NEG_Z) {
 			duct.renderSides[3] = false;
 			duct.renderSides[2] = false;
-			renderer.setRenderBounds(lower, lower, upper, upper, upper, cUpper);
+			renderer.setRenderBounds(lower, lower, cLower, upper, upper, lower);
 			renderer.renderStandardBlock(duct, x, y, z); duct.resetRenderSides();
 			duct.activeIcon = newIcon;
-			renderer.setRenderBounds(nLower, nLower, cUpper, nUpper, nUpper, 1);
+			renderer.setRenderBounds(nLower, nLower, 0, nUpper, nUpper, cLower);
 			renderer.renderStandardBlock(duct, x, y, z);
 		}
 		
