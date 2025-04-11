@@ -143,7 +143,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 					speed =  (float)(13 * Math.log10(speed) + 1);
 					tanks[1].setFill((int) (tanks[1].getFill() - recipe.steam * speed));
-					tanks[2].setFill((int) (tanks[2].getFill() + recipe.steam * speed / 100));
+					steamUsed += recipe.steam * speed;
 					this.isProgressing = true;
 
 					if(this.progress >= 1F) {
@@ -309,8 +309,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			if(this.tanks[0].getFill() < recipe.fluid.fill) return false;
 		}
 
-		if(tanks[1].getFill() < recipe.steam) return false;
-		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam / 100) return false;
+		float speed = Math.max((float) burnHeat, 1);
+		
+		if(tanks[1].getFill() < recipe.steam * speed) return false;
+		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam * speed / 100) return false;
 		if(this.steamUsed > 100) return false;
 
 		if(this.output != null) {

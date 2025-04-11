@@ -40,6 +40,7 @@
 * Changed the optimized receiver generic gun mod to +15% damage
 * The xenon chemical plant recipes as well as biogas now require compressed air instead of no fluid at all
 * Removed old unused radar configs
+* The .22 SMG no longer comes with a silencer, instead a silencer can be attached as a weapon mod
 
 ## Fixed
 * Fixed taint destroying bedrock
@@ -54,3 +55,5 @@
 * Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
 * Fixed top left column not being selectable in the RBMK console
 * Fixed CIWS hitrate config being read wrong
+* Fixed DANI having broken equip animations
+* Fixed break-action revolver cockking sound not syncing up with the animation
