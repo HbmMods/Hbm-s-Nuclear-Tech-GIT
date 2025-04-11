@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.StructureConfig;
@@ -87,7 +88,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 8;
 		}});
 
-		NBTStructure.registerNullWeight(0, 2);
+		NBTStructure.registerNullWeight(0, 2, beachBiomes::contains);
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
