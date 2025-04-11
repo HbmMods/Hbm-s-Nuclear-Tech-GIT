@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -21,6 +23,7 @@ public class TileEntityMachineIntake extends TileEntityLoadedBase implements IEn
 	public long power;
 	public float fan = 0;
 	public float prevFan = 0;
+	private AudioWrapper audio;
 	
 	public TileEntityMachineIntake() {
 		this.compair = new FluidTank(Fluids.AIR, 1_000);
@@ -54,6 +57,23 @@ public class TileEntityMachineIntake extends TileEntityLoadedBase implements IEn
 					this.fan -= 360;
 					this.prevFan -= 360;
 				}
+
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(0.25F));
+				
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
 			}
 		}
 	}
@@ -74,6 +94,19 @@ public class TileEntityMachineIntake extends TileEntityLoadedBase implements IEn
 				new DirPos(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
 				new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite())
 		};
+	}
+
+	@Override public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.motor", xCoord, yCoord, zCoord, 0.25F, 10F, 1.0F, 20);
+	}
+
+	@Override public void onChunkUnload() {
+		if(audio != null) { audio.stopSound(); audio = null; }
+	}
+
+	@Override public void invalidate() {
+		super.invalidate();
+		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 
 	@Override
