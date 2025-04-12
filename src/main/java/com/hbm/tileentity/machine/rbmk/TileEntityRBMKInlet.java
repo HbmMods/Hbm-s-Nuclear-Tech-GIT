@@ -41,8 +41,8 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 						if(te instanceof TileEntityRBMKBase) {
 							TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
 							
-							int prov = Math.min(rbmk.maxWater - rbmk.water, water.getFill());
-							rbmk.water += prov;
+							int prov = Math.min(rbmk.maxWater - rbmk.reasimWater, water.getFill());
+							rbmk.reasimWater += prov;
 							water.setFill(water.getFill() - prov);
 						}
 					}

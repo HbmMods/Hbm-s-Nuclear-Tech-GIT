@@ -14,6 +14,7 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIWeaponTable;
+import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
@@ -47,7 +48,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD {
+public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, IEquipReceiver {
 
 	/** Timestamp for rendering smoke nodes and muzzle flashes */
 	public long[] lastShot;
@@ -230,8 +231,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD {
 		}
 	}
 
+	@Override
 	public void onEquip(EntityPlayer player, ItemStack stack) {
 		for(int i = 0; i < this.configs_DNA.length; i++) {
+			if(this.getLastAnim(stack, i) == AnimType.EQUIP && this.getAnimTimer(stack, i) < 5) continue; 
 			playAnimation(player, stack, AnimType.EQUIP, i);
 			this.setPrimary(stack, i, false);
 			this.setSecondary(stack, i, false);

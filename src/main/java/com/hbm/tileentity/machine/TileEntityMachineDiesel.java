@@ -17,6 +17,8 @@ import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
@@ -40,9 +42,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
-	public int soundCycle = 0;
 	public long powerCap = maxPower;
 	public FluidTank tank;
+
+	public boolean wasOn = false;
+	private AudioWrapper audio;
 	
 	/* CONFIGURABLE CONSTANTS */
 	public static long maxPower = 50000;
@@ -53,7 +57,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		fuelEfficiency.put(FuelGrade.HIGH,		0.75D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
-	public static boolean shutUp = false;
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 1, 2 };
@@ -71,13 +74,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if (i == 0)
-			if (FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0)
-				return true;
-		if (i == 2)
-			if (stack.getItem() instanceof IBatteryItem)
-				return true;
-
+		if(i == 0) return FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0;
+		if(i == 2) return stack.getItem() instanceof IBatteryItem;
 		return false;
 	}
 
@@ -106,17 +104,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		if(i == 1) {
-			if(stack.getItem() == ModItems.canister_empty || stack.getItem() == ModItems.tank_steel) {
-				return true;
-			}
-		}
-		if(i == 2) {
-			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge(stack)) {
-				return true;
-			}
-		}
-
+		if(i == 1) return stack.getItem() == ModItems.canister_empty || stack.getItem() == ModItems.tank_steel;
+		if(i == 2) return stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge(stack);
 		return false;
 	}
 
@@ -128,6 +117,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.wasOn = false;
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
@@ -153,6 +144,49 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			generate();
 
 			this.networkPackNT(50);
+		} else {
+
+			if(wasOn) {
+
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
+
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.engine", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 10);
+	}
+
+	@Override
+	public void onChunkUnload() {
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
@@ -161,6 +195,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super.serialize(buf);
 		buf.writeInt((int) power);
 		buf.writeInt((int) powerCap);
+		buf.writeBoolean(wasOn);
 		tank.serialize(buf);
 	}
 
@@ -169,6 +204,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super.deserialize(buf);
 		this.power = buf.readInt();
 		this.powerCap = buf.readInt();
+		this.wasOn = buf.readBoolean();
 		tank.deserialize(buf);
 	}
 
@@ -200,15 +236,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		if(hasAcceptableFuel()) {
 			if (tank.getFill() > 0) {
 				
-				if(!shutUp) {
-					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", this.getVolume(0.75F), 0.5F);
-					}
-					soundCycle++;
-				}
-
-				if(soundCycle >= 3)
-					soundCycle = 0;
+				this.wasOn = true;
 
 				tank.setFill(tank.getFill() - 1);
 				if(tank.getFill() < 0)
@@ -227,30 +255,12 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		}
 	}
 
-	@Override
-	public long getPower() {
-		return power;
-	}
+	@Override public long getPower() { return power; }
+	@Override public void setPower(long i) { this.power = i; }
+	@Override public long getMaxPower() { return this.maxPower; }
 
-	@Override
-	public void setPower(long i) {
-		this.power = i;
-	}
-
-	@Override
-	public long getMaxPower() {
-		return this.maxPower;
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] {tank};
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
-	}
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {tank}; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
 
 	@Override
 	public String getConfigName() {
@@ -268,7 +278,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 				fuelEfficiency.put(grade, array.get(grade.ordinal()).getAsDouble());
 			}
 		}
-		shutUp = IConfigurableMachine.grab(obj, "B:shutUp", shutUp);
 	}
 
 	@Override
@@ -287,7 +296,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			writer.value(d);
 		}
 		writer.endArray().setIndent("  ");
-		writer.name("B:shutUp").value(shutUp);
 	}
 
 	@Override

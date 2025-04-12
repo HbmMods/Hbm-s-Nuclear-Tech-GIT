@@ -30,7 +30,7 @@ public class DesertAtom003
 	Block Block7 = ModBlocks.deco_tungsten;
 	Block Block8 = ModBlocks.steel_poles;
 	Block Block9 = ModBlocks.tape_recorder;
-	Block Block10 = ModBlocks.machine_nuke_furnace_off;
+	Block Block10 = ModBlocks.machine_rtg_furnace_off;
 	Block Block11 = ModBlocks.reinforced_glass;
 	Block Block12 = ModBlocks.reinforced_lamp_off;
 	Block Block13 = ModBlocks.pole_satellite_receiver;
