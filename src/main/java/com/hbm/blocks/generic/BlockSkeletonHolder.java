@@ -1,6 +1,5 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.world.gen.INBTTransformable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -16,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockSkeletonHolder extends BlockContainer implements INBTTransformable {
+public class BlockSkeletonHolder extends BlockContainer {
 
 	public BlockSkeletonHolder() {
 		super(Material.rock);
@@ -38,7 +37,7 @@ public class BlockSkeletonHolder extends BlockContainer implements INBTTransform
 		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-	}
+	} //I hope you change this shit to not be hardcoded because im not doing it
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -76,11 +75,6 @@ public class BlockSkeletonHolder extends BlockContainer implements INBTTransform
 		}
 
 		super.breakBlock(world, x, y, z, block, meta);
-	}
-
-	@Override
-	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDirectional(meta, coordBaseMode);
 	}
 
 	public static class TileEntitySkeletonHolder extends TileEntity {
