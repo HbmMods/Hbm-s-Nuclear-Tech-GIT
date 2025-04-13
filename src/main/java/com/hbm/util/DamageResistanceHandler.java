@@ -220,7 +220,7 @@ public class DamageResistanceHandler {
 				.setOther(100F, 1F));
 		registerSet(ModItems.taurun_helmet, ModItems.taurun_plate, ModItems.taurun_legs, ModItems.taurun_boots, new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
-				.addCategory(CATEGORY_FIRE, 1F, 0.25F)
+				.addCategory(CATEGORY_FIRE, 0F, 0.25F)
 				.addCategory(CATEGORY_EXPLOSION, 0F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 4F, 0.5F)
 				.setOther(2F, 0.1F));
