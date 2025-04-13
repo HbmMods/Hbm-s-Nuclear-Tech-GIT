@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.world.gen.INBTTransformable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -15,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockSkeletonHolder extends BlockContainer {
+public class BlockSkeletonHolder extends BlockContainer implements INBTTransformable {
 
 	public BlockSkeletonHolder() {
 		super(Material.rock);
@@ -43,9 +44,9 @@ public class BlockSkeletonHolder extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) return true;
 		if(player.isSneaking()) return false;
-		
+
 		TileEntitySkeletonHolder pedestal = (TileEntitySkeletonHolder) world.getTileEntity(x, y, z);
-		
+
 		if(pedestal.item == null && player.getHeldItem() != null) {
 			pedestal.item = player.getHeldItem().copy();
 			player.inventory.mainInventory[player.inventory.currentItem] = null;
@@ -59,13 +60,13 @@ public class BlockSkeletonHolder extends BlockContainer {
 			world.markBlockForUpdate(x, y, z);
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		
+
 		if(!world.isRemote) {
 			TileEntitySkeletonHolder entity = (TileEntitySkeletonHolder) world.getTileEntity(x, y, z);
 			if(entity != null && entity.item != null) {
@@ -73,14 +74,19 @@ public class BlockSkeletonHolder extends BlockContainer {
 				world.spawnEntityInWorld(item);
 			}
 		}
-		
+
 		super.breakBlock(world, x, y, z, block, meta);
+	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaDirectional(meta, coordBaseMode);
 	}
 
 	public static class TileEntitySkeletonHolder extends TileEntity {
 
 		public ItemStack item;
-		
+
 		@Override public boolean canUpdate() { return false; }
 
 		@Override
@@ -89,7 +95,7 @@ public class BlockSkeletonHolder extends BlockContainer {
 			this.writeToNBT(nbt);
 			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 		}
-		
+
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());

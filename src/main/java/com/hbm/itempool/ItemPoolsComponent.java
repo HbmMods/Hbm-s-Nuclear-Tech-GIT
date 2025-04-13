@@ -8,6 +8,7 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemRTGPelletDepleted;
 import com.hbm.items.tool.ItemBlowtorch;
 
 import net.minecraft.init.Items;
@@ -25,6 +26,7 @@ public class ItemPoolsComponent {
 	public static final String POOL_VAULT_LOCKERS = "POOL_VAULT_LOCKERS";
 	public static final String POOL_METEOR_SAFE = "POOL_METEOR_SAFE";
 	public static final String POOL_OIL_RIG = "POOL_OIL_RIG";
+	public static final String POOL_RTG = "POOL_RTG";
 
 	public static void init() {
 
@@ -208,6 +210,13 @@ public class ItemPoolsComponent {
 				weighted(ModBlocks.fraction_spacer,0, 0, 1, 1),
 				weighted(ModItems.circuit,EnumCircuitType.ANALOG.ordinal(), 1, 4, 1),
 				weighted(ModItems.circuit, EnumCircuitType.CAPACITOR.ordinal(), 1, 1, 3),
+			};
+		}};
+
+		new ItemPool(POOL_RTG) {{
+			this.pool = new WeightedRandomChestContent[] {
+				weighted(ModItems.pellet_rtg_depleted, ItemRTGPelletDepleted.DepletedRTGMaterial.LEAD.ordinal(), 1, 1, 40),
+				weighted(ModItems.pellet_rtg_weak,0, 0, 1, 1),
 			};
 		}};
 	}
