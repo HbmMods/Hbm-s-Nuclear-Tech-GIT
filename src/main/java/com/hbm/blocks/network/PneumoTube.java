@@ -176,7 +176,8 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		float lower = 0.3125F;
 		float upper = 0.6875F;
 		
-		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntityPneumoTube tube = tile instanceof TileEntityPneumoTube ? (TileEntityPneumoTube) tile : null;
 
 		boolean nX = canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.NEG_X);
 		boolean pX = canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.POS_X);
@@ -209,7 +210,8 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 	}
 
 	public boolean canConnectToAir(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntityPneumoTube tube = te instanceof TileEntityPneumoTube ? (TileEntityPneumoTube) te : null;
 		if(tube != null) {
 			if(!tube.isCompressor()) return false;
 			if(tube.ejectionDir == dir || tube.insertionDir == dir) return false;

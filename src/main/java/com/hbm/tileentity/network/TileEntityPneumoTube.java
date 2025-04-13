@@ -275,6 +275,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 			this.receiveOrder++;
 			if(this.receiveOrder > 1) this.receiveOrder = 0;
 		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
 		
 		this.markDirty();
 	}

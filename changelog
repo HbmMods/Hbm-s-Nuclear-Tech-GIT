@@ -1,71 +1,11 @@
-## Added
-* Lightstone
-  * Stylish stone variant that can be crafted from regular stone and limestone powder
-* Added a few new structures
-  * Aircraft carriers, beached boats and oil rigs
-  * Aircraft carriers can spawn naval mines, which behave like landmines
-* New weapon mods
-  * The laser rifle now has a shotgun barrel, extended capacitor and automatic receiver
-* Compact compressor
-  * Only a third as tall as the regular compressor with a footprint less than twice as wide
-  * Comes with a frame that allows for stacking of multiple compressors without it looking ugly
-  * Otherwise identical to the regular compressor
-* Pneumatic tubes
-  * Allows instant item transport without laggy entities
-  * Requires compressed air to work, air compression determines the max range (10 - 1,000m)
-  * Has various filter and order options
-  * Muffler compatible
-* Air intake
-  * Simple machine that uses 100HE/t to produce 1B of compressed air
-  * Also looks really cool to have on the roof of factories
-
 ## Changed
-* Updated russian and chinese localizations
-* .75 bolts now work as advertised
-* Updated lead pipe texture
-* Removed recipes from a few ancient melee weapons, as well as the creative tab listing
-* Removed flat magnets
-* Taint should now also affect non-solid blocks that are full cubes
-* Reduced the AoE size of 7.62mm, .50 BMG and 10 gauge explosive projectiles
-* Removed the old gun mechanism items, turrets now use the new cast parts
-* A secret weapon and its variant have become craftable
-* NEI now shows RBMK fuel rod recycling and cooling
-* Removed most of the old unused siege mobs
-* Two weapons with built-in scopes now use the scope item in the crafting recipe
-* Updated the FLEIJA model
-* Cokers can now have their stats read with OC
-* NEI now shows recycling for RBMK fuel rods, and cooling for rods that can't be recycled due to being too hot
-* Taint can now replace any block, not just full cubes
-* Placing conveyor belts now creates a draggable ghost that will automatically attempt to pathfind towards the destination
-  * Lifts and chutes are placed automatically, meaning they no longer need crafting recipes
-* Changed the optimized receiver generic gun mod to +15% damage
-* The xenon chemical plant recipes as well as biogas now require compressed air instead of no fluid at all
-* Removed old unused radar configs
-* The .22 SMG no longer comes with a silencer, instead a silencer can be attached as a weapon mod
-* Updated RT generator's GUI
-* Armor resistance stats are now configurable using `hbmArmor.json`
-  * The config's format is a bit fragile, check the log when making changes to see if it fails loading
-  * If the config fails to load, it will default to standard values
-  * Also works with `/ntmreload`
-* Removed the unused transition hatch block
-* Removed the nuclear furnace (it was already deprecated months ago)
-* The diesel generator now uses a much more pleasant sound loop instead of the deafening vanilla fireworks pop noise
-* Renamed "heavy infinite water barrel" to "large infinite water barrel" because somehow people found that confusing
+* Aluminium-bearing ore is now crucible smeltable, yielding some aluminium and trace amounts of sodium
+* Duds now use their updated model in the item renderer
+* The large drill's bore fluid is now set to none by default to avoid confusion
 
 ## Fixed
-* Fixed taint destroying bedrock
-* Fixed ferrouranium plate not being castable
-* Fixed bayonet not rendering properly in third person
-* Fixed xenon poison gauge in the RBMK control panel not showing up on columns (oops)
-* Fixed hitscan projectiles colliding with dead mobs
-* Fixed GL state leak caused by blocks with a look overlay
-* Fixed issues with the new crate functionality
-* Fixed dupe regarding the toolbox
-* Fixed dummies with no OC components taking up a ton of component slots
-* Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
-* Fixed top left column not being selectable in the RBMK console
-* Fixed CIWS hitrate config being read wrong
-* Fixed DANI having broken equip animations
-* Fixed break-action revolver cocking sound not syncing up with the animation
-* Fixed NBT name collision between ReaSim steam/water values and non-ReaSim steam/water tanks, causing incorrect data to be loaded when using non-ReaSim boilers with ReaSim enabled
-* Fixed gun equip animation not playing in certain circumstances
+* Fixed crash caused by double lightstone slabs
+* Fixed crash caused by pneumatic tubes when placed in front of a spotlight
+* Fixed pneumatic tube filters not working with GTNH-NEI installed
+* Fixed GTNH-NEI causing filters to initialize with a stacksize >1
+* Fau and DNT armor should now be resistant to fire again

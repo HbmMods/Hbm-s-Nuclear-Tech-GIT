@@ -63,8 +63,9 @@ public class BlockMultiSlab extends BlockSlab implements IStepTickReceiver {
 	protected ItemStack createStackedBlock(int meta) {
 		return new ItemStack(Item.getItemFromBlock(single != null ? single : this), 2, (meta & 7) % slabMaterials.length);
 	}
-	
-    @SideOnly(Side.CLIENT)
+
+	@Override
+	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z) {
 		return Item.getItemFromBlock(single != null ? single : this);
 	}
@@ -80,7 +81,8 @@ public class BlockMultiSlab extends BlockSlab implements IStepTickReceiver {
 	public int getDamageValue(World world, int x, int y, int z) {
 		return (super.getDamageValue(world, x, y, z) & 7) % slabMaterials.length;
 	}
-	
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		

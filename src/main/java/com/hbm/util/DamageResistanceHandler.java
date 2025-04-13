@@ -210,11 +210,13 @@ public class DamageResistanceHandler {
 				.setOther(2F, 0.25F));
 		registerSet(ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots, new ResistanceStats()
 				.addCategory(CATEGORY_EXPLOSION, 50F, 0.95F)
+				.addCategory(CATEGORY_FIRE, 0F, 1F)
 				.addExact(DamageClass.LASER.name(), 25F, 0.95F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(100F, 0.99F));
 		registerSet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots, new ResistanceStats()
 				.addCategory(CATEGORY_EXPLOSION, 100F, 0.99F)
+				.addCategory(CATEGORY_FIRE, 0F, 1F)
 				.setOther(100F, 1F));
 		registerSet(ModItems.taurun_helmet, ModItems.taurun_plate, ModItems.taurun_legs, ModItems.taurun_boots, new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)

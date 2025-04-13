@@ -434,19 +434,6 @@ public class ItemRenderLibrary {
 		        ResourceManager.bomb_boy.renderAll();
 			}});
 
-		renderers.put(Item.getItemFromBlock(ModBlocks.crashed_balefire), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, 3, 0);
-				GL11.glScaled(2, 2, 2);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-	            GL11.glDisable(GL11.GL_CULL_FACE);
-		        bindTexture(ResourceManager.dud_tex);
-		        ResourceManager.dud.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
-			}});
-
 		renderers.put(Item.getItemFromBlock(ModBlocks.bomb_multi), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);
