@@ -260,6 +260,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	public void setupEntity(ItemStack stack) {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(-90, 0, 1, 0);
 	}
 	
 	public void setupModTable(ItemStack stack) {
