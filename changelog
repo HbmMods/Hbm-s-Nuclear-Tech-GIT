@@ -1,11 +1,3 @@
-## Changed
-* Aluminium-bearing ore is now crucible smeltable, yielding some aluminium and trace amounts of sodium
-* Duds now use their updated model in the item renderer
-* The large drill's bore fluid is now set to none by default to avoid confusion
-
 ## Fixed
-* Fixed crash caused by double lightstone slabs
-* Fixed crash caused by pneumatic tubes when placed in front of a spotlight
-* Fixed pneumatic tube filters not working with GTNH-NEI installed
-* Fixed GTNH-NEI causing filters to initialize with a stacksize >1
-* Fau and DNT armor should now be resistant to fire again
+* Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
+* Fixed minor display issue where compressed air ducts would visually connect to non-ejector pneumatic tubes

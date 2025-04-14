@@ -156,7 +156,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return dir != this.insertionDir && dir != this.ejectionDir && type == Fluids.AIR;
+		return dir != this.insertionDir && dir != this.ejectionDir && type == Fluids.AIR && this.isCompressor();
 	}
 
 	@Override
