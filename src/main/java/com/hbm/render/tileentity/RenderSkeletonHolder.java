@@ -1,9 +1,9 @@
 package com.hbm.render.tileentity;
 
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockSkeletonHolder.TileEntitySkeletonHolder;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.block.Block;
@@ -24,20 +24,12 @@ public class RenderSkeletonHolder extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 
-		int meta = 0;
-		World world = te.getWorldObj();
-		if (world != null) {
-			meta = world.getBlockMetadata(te.xCoord, te.yCoord, te.zCoord);
-		}
-
-		int rotation = 0;
-		switch (meta) {
-			case 2: rotation = 180; break; // east
-			case 3: rotation = 0; break;   // west
-			case 4: rotation = 270; break; // north
-			case 5: rotation = 90; break;  // south
-		}
-		GL11.glRotatef(rotation, 0F, 1F, 0F);
+		switch(te.getBlockMetadata()) {
+			case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+			case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+			case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
+			case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		} //why the FUCK did this not commit properl;y
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -53,6 +45,10 @@ public class RenderSkeletonHolder extends TileEntitySpecialRenderer {
 			ItemStack stack = pedestal.item.copy();
 
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+
+			if(stack.getItem() instanceof ItemGunBaseNT) {
+				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+			}
 
 			if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
 				GL11.glScaled(1.5, 1.5, 1.5);
