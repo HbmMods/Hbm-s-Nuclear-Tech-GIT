@@ -22,6 +22,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockConveyorLift extends BlockConveyorBase implements IToolable {
 
 	@Override
+	public ForgeDirection getInputDirection(World world, int x, int y, int z) {
+		return ForgeDirection.DOWN;
+	}
+
+	@Override
+	public ForgeDirection getOutputDirection(World world, int x, int y, int z) {
+		return ForgeDirection.UP;
+	}
+
+	@Override
 	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 
 		boolean bottom = !(world.getBlock(x, y - 1, z) instanceof IConveyorBelt);
