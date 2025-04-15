@@ -42,7 +42,7 @@ public class RenderMissileTaint extends Render {
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		if(p_110775_1_ instanceof EntityMissileTaint)
-			return ResourceManager.missileTaint_tex;
+			return ResourceManager.missileMicroTaint_tex;
 		if(p_110775_1_ instanceof EntityMissileBHole)
 			return ResourceManager.missileMicroBHole_tex;
 		if(p_110775_1_ instanceof EntityMissileSchrabidium)
