@@ -24,7 +24,6 @@ import java.util.Map;
  * This class handles the color application for Forge fluids
  * that correspond to HBM fluids.
  */
-@SideOnly(Side.CLIENT)
 public class HBMFluidColorApplier {
 
     // Maps fluid names to their colors
@@ -38,8 +37,11 @@ public class HBMFluidColorApplier {
      * This should be called during mod initialization.
      */
     public static void initialize() {
-        // Register for texture stitch events
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new HBMFluidColorApplier());
+        // Only register for texture stitch events on the client side
+        if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new HBMFluidColorApplier());
+            System.out.println("[HBM] Fluid color applier registered for client-side events");
+        }
 
         System.out.println("[HBM] Fluid color applier initialized");
     }
@@ -65,6 +67,7 @@ public class HBMFluidColorApplier {
      * Log all the fluid colors for debugging
      * This is called after the texture stitch event when all colors are registered
      */
+    @SideOnly(Side.CLIENT)
     private void logFluidColors() {
         System.out.println("[HBM] Fluid color mappings:");
         System.out.println("[HBM] Brightness factor: " + BRIGHTNESS_FACTOR);
@@ -132,6 +135,7 @@ public class HBMFluidColorApplier {
      * @param fluidName The name of the fluid
      * @return true if color was applied, false otherwise
      */
+    @SideOnly(Side.CLIENT)
     public static boolean applyFluidColor(String fluidName) {
         Integer color = fluidColors.get(fluidName.toLowerCase(Locale.US));
 
@@ -149,6 +153,7 @@ public class HBMFluidColorApplier {
      * @param fluid The fluid to apply color to
      * @return true if color was applied, false otherwise
      */
+    @SideOnly(Side.CLIENT)
     public static boolean applyFluidColor(Fluid fluid) {
         if (fluid == null) return false;
         return applyFluidColor(fluid.getName());
@@ -159,6 +164,7 @@ public class HBMFluidColorApplier {
      * @param color The RGB color as an integer
      * @param brightnessFactor Factor to adjust brightness (>1 = brighter, <1 = darker)
      */
+    @SideOnly(Side.CLIENT)
     private static void applyColor(int color, float brightnessFactor) {
         float r = ((color >> 16) & 0xFF) / 255.0f * brightnessFactor;
         float g = ((color >> 8) & 0xFF) / 255.0f * brightnessFactor;
@@ -198,6 +204,7 @@ public class HBMFluidColorApplier {
      * @param fluid The fluid to get the color for
      * @return The color in ARGB format
      */
+    @SideOnly(Side.CLIENT)
     public static int getFluidColorForAE2(Fluid fluid) {
         if (fluid instanceof ColoredForgeFluid) {
             return ((ColoredForgeFluid) fluid).getColorARGB();
