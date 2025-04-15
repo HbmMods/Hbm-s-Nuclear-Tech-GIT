@@ -188,9 +188,10 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void tessellateAll(Tessellator tessellator)
     {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
-            groupObject.render(tessellator);
+            groupObject.render(currentTime, tessellator);
         }
     }
 
@@ -198,13 +199,14 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderOnly(String... groupNames)
     {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
                 if (groupName.equalsIgnoreCase(groupObject.name))
                 {
-                    groupObject.render();
+                    groupObject.render(currentTime);
                 }
             }
         }
@@ -212,13 +214,14 @@ public class HbmModelObject implements IModelCustom {
 
     @SideOnly(Side.CLIENT)
     public void tessellateOnly(Tessellator tessellator, String... groupNames) {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
                 if (groupName.equalsIgnoreCase(groupObject.name))
                 {
-                    groupObject.render(tessellator);
+                    groupObject.render(currentTime, tessellator);
                 }
             }
         }
@@ -228,22 +231,24 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderPart(String partName)
     {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
-                groupObject.render();
+                groupObject.render(currentTime);
             }
         }
     }
 
     @SideOnly(Side.CLIENT)
     public void tessellatePart(Tessellator tessellator, String partName) {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
-                groupObject.render(tessellator);
+                groupObject.render(currentTime, tessellator);
             }
         }
     }
@@ -252,6 +257,7 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderAllExcept(String... excludedGroupNames)
     {
+	float currentTime = System.currentTimeMillis();
         for (HbmGroupObject groupObject : groupObjects)
         {
             boolean skipPart=false;
@@ -264,7 +270,7 @@ public class HbmModelObject implements IModelCustom {
             }
             if(!skipPart)
             {
-                groupObject.render();
+                groupObject.render(currentTime);
             }
         }
     }
@@ -272,6 +278,7 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames)
     {
+	float currentTime = System.currentTimeMillis();
         boolean exclude;
         for (HbmGroupObject groupObject : groupObjects)
         {
@@ -285,7 +292,7 @@ public class HbmModelObject implements IModelCustom {
             }
             if(!exclude)
             {
-                groupObject.render(tessellator);
+                groupObject.render(currentTime, tessellator);
             }
         }
     }
