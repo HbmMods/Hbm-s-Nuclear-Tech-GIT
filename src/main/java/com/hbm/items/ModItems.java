@@ -347,6 +347,8 @@ public class ModItems {
 	public static Item crayon;
 
 	public static Item undefined;
+	public static Item fluid_display_item;
+	public static Item hbm_fluid_compat;
 
 	public static Item ball_resin;
 	public static Item ingot_dura_steel;
@@ -7242,6 +7244,9 @@ public class ModItems {
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 		GameRegistry.registerItem(conveyor_wand, conveyor_wand.getUnlocalizedName());
+
+		// Register the fluid display item for AE2 integration
+		api.ntm1of90.compat.FluidDisplayItem.register();
 	}
 
 	public static void addRemap(String unloc, Item item, Enum sub) {

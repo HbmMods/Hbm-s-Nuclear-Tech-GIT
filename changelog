@@ -1,46 +1,9 @@
-## Added
-* Lightstone
-  * Stylish stone variant that can be crafted from regular stone and limestone powder
-* Added a few new structures
-  * Aircraft carriers, beached boats and oil rigs
-  * Aircraft carriers can spawn naval mines, which behave like landmines
-* New weapon mods
-  * The laser rifle now has a shotgun barrel, extended capacitor and automatic receiver
-
-## Changed
-* .75 bolts now work as advertised
-* Updated lead pipe texture
-* Removed recipes from a few ancient melee weapons, as well as the creative tab listing
-* Removed flat magnets
-* Taint should now also affect non-solid blocks that are full cubes
-* Reduced the AoE size of 7.62mm, .50 BMG and 10 gauge explosive projectiles
-* Removed the old gun mechanism items, turrets now use the new cast parts
-* A secret weapon and its variant have become craftable
-* NEI now shows RBMK fuel rod recycling and cooling
-* Removed most of the old unused siege mobs
-* Two weapons with built-in scopes now use the scope item in the crafting recipe
-* Updated the FLEIJA model
-* Cokers can now have their stats read with OC
-* NEI now shows recycling for RBMK fuel rods, and cooling for rods that can't be recycled due to being too hot
-* Taint can now replace any block, not just full cubes
-* Placing conveyor belts now creates a draggable ghost that will automatically attempt to pathfind towards the destination
-  * Lifts and chutes are placed automatically, meaning they no longer need crafting recipes
-* Changed the optimized receiver generic gun mod to +15% damage
-
-## Fixed
-* Fixed taint destroying bedrock
-* Fixed ferrouranium plate not being castable
-* Fixed bayonet not rendering properly in third person
-* Fixed xenon poison gauge in the RBMK control panel not showing up on columns (oops)
-* Fixed hitscan projectiles colliding with dead mobs
-* Fixed GL state leak caused by blocks with a look overlay
-* Fixed issues with the new crate functionality
-* Fixed dupe regarding the toolbox
-* Fixed dummies with no OC components taking up a ton of component slots
-* Fixed infested glyphids spawning maggots also on the clientside, creating unkillable ghosts
-
 ## NTM-1-of-90-Edition:
 Note: Up-to-date
+#Added
+- Added support for ForgeFluid System
+- Added support for ThermalDynamics, EnderIO, Buildcraft Fluid Pipes
+
 # Fixes
 * SERVER-ONLY: Fixed a issue where the Armor Model was loading client-sided on the server, causing a server crash on startup
 * Fixed various Watz Powerplant Gui Bugs

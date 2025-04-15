@@ -1,0 +1,345 @@
+{
+  "fluids": [
+    {
+      "name": "water",
+      "color": "0x3F76E4",
+      "stillTexture": "forgefluid/water",
+      "flowingTexture": "forgefluid/water",
+      "inventoryTexture": "forgefluid/water"
+    },
+    {
+      "name": "lava",
+      "color": "0xFF5500",
+      "stillTexture": "forgefluid/lava",
+      "flowingTexture": "forgefluid/lava",
+      "inventoryTexture": "forgefluid/lava"
+    },
+    {
+      "name": "sulfuric_acid",
+      "color": "0xD0D050",
+      "stillTexture": "forgefluid/sulfuric_acid",
+      "flowingTexture": "forgefluid/sulfuric_acid",
+      "inventoryTexture": "forgefluid/sulfuric_acid"
+    },
+    {
+      "name": "schrabidic",
+      "color": "0x00A0A0",
+      "stillTexture": "forgefluid/schrabidic",
+      "flowingTexture": "forgefluid/schrabidic",
+      "inventoryTexture": "forgefluid/schrabidic"
+    },
+    {
+      "name": "wastefluid",
+      "color": "0x74A000",
+      "stillTexture": "forgefluid/wastefluid",
+      "flowingTexture": "forgefluid/wastefluid",
+      "inventoryTexture": "forgefluid/wastefluid"
+    },
+    {
+      "name": "watz",
+      "color": "0x8B6914",
+      "stillTexture": "forgefluid/watz",
+      "flowingTexture": "forgefluid/watz",
+      "inventoryTexture": "forgefluid/watz"
+    },
+    {
+      "name": "plasma",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/plasma",
+      "flowingTexture": "forgefluid/plasma",
+      "inventoryTexture": "forgefluid/plasma"
+    },
+    {
+      "name": "amat",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/amat",
+      "flowingTexture": "forgefluid/amat",
+      "inventoryTexture": "forgefluid/amat"
+    },
+    {
+      "name": "aschrab",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/aschrab",
+      "flowingTexture": "forgefluid/aschrab",
+      "inventoryTexture": "forgefluid/aschrab"
+    },
+    {
+      "name": "balefire",
+      "color": "0x00FF00",
+      "stillTexture": "forgefluid/balefire",
+      "flowingTexture": "forgefluid/balefire",
+      "inventoryTexture": "forgefluid/balefire"
+    },
+    {
+      "name": "mud",
+      "color": "0x8B4513",
+      "stillTexture": "forgefluid/mud",
+      "flowingTexture": "forgefluid/mud",
+      "inventoryTexture": "forgefluid/mud"
+    },
+    {
+      "name": "corium",
+      "color": "0xFFAA00",
+      "stillTexture": "forgefluid/corium",
+      "flowingTexture": "forgefluid/corium",
+      "inventoryTexture": "forgefluid/corium"
+    },
+    {
+      "name": "toxic",
+      "color": "0x00FF00",
+      "stillTexture": "forgefluid/toxic",
+      "flowingTexture": "forgefluid/toxic",
+      "inventoryTexture": "forgefluid/toxic"
+    },
+    {
+      "name": "oil",
+      "color": "0x111111",
+      "stillTexture": "forgefluid/oil",
+      "flowingTexture": "forgefluid/oil",
+      "inventoryTexture": "forgefluid/oil"
+    },
+    {
+      "name": "gas",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/gas",
+      "flowingTexture": "forgefluid/gas",
+      "inventoryTexture": "forgefluid/gas"
+    },
+    {
+      "name": "petroleum",
+      "color": "0xFFAA00",
+      "stillTexture": "forgefluid/petroleum",
+      "flowingTexture": "forgefluid/petroleum",
+      "inventoryTexture": "forgefluid/petroleum"
+    },
+    {
+      "name": "diesel",
+      "color": "0xFFCC00",
+      "stillTexture": "forgefluid/diesel",
+      "flowingTexture": "forgefluid/diesel",
+      "inventoryTexture": "forgefluid/diesel"
+    },
+    {
+      "name": "kerosene",
+      "color": "0xFFEE00",
+      "stillTexture": "forgefluid/kerosene",
+      "flowingTexture": "forgefluid/kerosene",
+      "inventoryTexture": "forgefluid/kerosene"
+    },
+    {
+      "name": "naphtha",
+      "color": "0xFFFF00",
+      "stillTexture": "forgefluid/naphtha",
+      "flowingTexture": "forgefluid/naphtha",
+      "inventoryTexture": "forgefluid/naphtha"
+    },
+    {
+      "name": "lightoil",
+      "color": "0xFFFF88",
+      "stillTexture": "forgefluid/lightoil",
+      "flowingTexture": "forgefluid/lightoil",
+      "inventoryTexture": "forgefluid/lightoil"
+    },
+    {
+      "name": "heavyoil",
+      "color": "0xBB8800",
+      "stillTexture": "forgefluid/heavyoil",
+      "flowingTexture": "forgefluid/heavyoil",
+      "inventoryTexture": "forgefluid/heavyoil"
+    },
+    {
+      "name": "biofuel",
+      "color": "0x88FF00",
+      "stillTexture": "forgefluid/biofuel",
+      "flowingTexture": "forgefluid/biofuel",
+      "inventoryTexture": "forgefluid/biofuel"
+    },
+    {
+      "name": "nitan",
+      "color": "0xFF0000",
+      "stillTexture": "forgefluid/nitan",
+      "flowingTexture": "forgefluid/nitan",
+      "inventoryTexture": "forgefluid/nitan"
+    },
+    {
+      "name": "uf6",
+      "color": "0x88FF88",
+      "stillTexture": "forgefluid/uf6",
+      "flowingTexture": "forgefluid/uf6",
+      "inventoryTexture": "forgefluid/uf6"
+    },
+    {
+      "name": "puf6",
+      "color": "0xFF8888",
+      "stillTexture": "forgefluid/puf6",
+      "flowingTexture": "forgefluid/puf6",
+      "inventoryTexture": "forgefluid/puf6"
+    },
+    {
+      "name": "sas3",
+      "color": "0x00FFFF",
+      "stillTexture": "forgefluid/sas3",
+      "flowingTexture": "forgefluid/sas3",
+      "inventoryTexture": "forgefluid/sas3"
+    },
+    {
+      "name": "coolant",
+      "color": "0x00AAFF",
+      "stillTexture": "forgefluid/coolant",
+      "flowingTexture": "forgefluid/coolant",
+      "inventoryTexture": "forgefluid/coolant"
+    },
+    {
+      "name": "cryogel",
+      "color": "0x00FFFF",
+      "stillTexture": "forgefluid/cryogel",
+      "flowingTexture": "forgefluid/cryogel",
+      "inventoryTexture": "forgefluid/cryogel"
+    },
+    {
+      "name": "deuterium",
+      "color": "0x0000FF",
+      "stillTexture": "forgefluid/deuterium",
+      "flowingTexture": "forgefluid/deuterium",
+      "inventoryTexture": "forgefluid/deuterium"
+    },
+    {
+      "name": "tritium",
+      "color": "0x0000AA",
+      "stillTexture": "forgefluid/tritium",
+      "flowingTexture": "forgefluid/tritium",
+      "inventoryTexture": "forgefluid/tritium"
+    },
+    {
+      "name": "steam",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/steam",
+      "flowingTexture": "forgefluid/steam",
+      "inventoryTexture": "forgefluid/steam"
+    },
+    {
+      "name": "hotsteam",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/hotsteam",
+      "flowingTexture": "forgefluid/hotsteam",
+      "inventoryTexture": "forgefluid/hotsteam"
+    },
+    {
+      "name": "superhotsteam",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/superhotsteam",
+      "flowingTexture": "forgefluid/superhotsteam",
+      "inventoryTexture": "forgefluid/superhotsteam"
+    },
+    {
+      "name": "ultrahotsteam",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/ultrahotsteam",
+      "flowingTexture": "forgefluid/ultrahotsteam",
+      "inventoryTexture": "forgefluid/ultrahotsteam"
+    },
+    {
+      "name": "spentsteam",
+      "color": "0xDDDDDD",
+      "stillTexture": "forgefluid/spentsteam",
+      "flowingTexture": "forgefluid/spentsteam",
+      "inventoryTexture": "forgefluid/spentsteam"
+    },
+    {
+      "name": "coolant_hot",
+      "color": "0xFF0000",
+      "stillTexture": "forgefluid/coolant_hot",
+      "flowingTexture": "forgefluid/coolant_hot",
+      "inventoryTexture": "forgefluid/coolant_hot"
+    },
+    {
+      "name": "hydrogen",
+      "color": "0x0088FF",
+      "stillTexture": "forgefluid/hydrogen",
+      "flowingTexture": "forgefluid/hydrogen",
+      "inventoryTexture": "forgefluid/hydrogen"
+    },
+    {
+      "name": "oxygen",
+      "color": "0x00FFFF",
+      "stillTexture": "forgefluid/oxygen",
+      "flowingTexture": "forgefluid/oxygen",
+      "inventoryTexture": "forgefluid/oxygen"
+    },
+    {
+      "name": "xenon",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/xenon",
+      "flowingTexture": "forgefluid/xenon",
+      "inventoryTexture": "forgefluid/xenon"
+    },
+    {
+      "name": "burbonium",
+      "color": "0x7F00FF",
+      "stillTexture": "forgefluid/burbonium",
+      "flowingTexture": "forgefluid/burbonium",
+      "inventoryTexture": "forgefluid/burbonium"
+    },
+    {
+      "name": "mercury",
+      "color": "0xFFFFFF",
+      "stillTexture": "forgefluid/mercury",
+      "flowingTexture": "forgefluid/mercury",
+      "inventoryTexture": "forgefluid/mercury"
+    },
+    {
+      "name": "carbondioxide",
+      "color": "0xAAAAAA",
+      "stillTexture": "forgefluid/carbondioxide",
+      "flowingTexture": "forgefluid/carbondioxide",
+      "inventoryTexture": "forgefluid/carbondioxide"
+    },
+    {
+      "name": "radioactive_water",
+      "color": "0x3F76E4",
+      "stillTexture": "forgefluid/radioactive_water",
+      "flowingTexture": "forgefluid/radioactive_water",
+      "inventoryTexture": "forgefluid/radioactive_water"
+    },
+    {
+      "name": "radioactive_oil",
+      "color": "0x111111",
+      "stillTexture": "forgefluid/radioactive_oil",
+      "flowingTexture": "forgefluid/radioactive_oil",
+      "inventoryTexture": "forgefluid/radioactive_oil"
+    },
+    {
+      "name": "nuclear_waste",
+      "color": "0x336600",
+      "stillTexture": "forgefluid/nuclear_waste",
+      "flowingTexture": "forgefluid/nuclear_waste",
+      "inventoryTexture": "forgefluid/nuclear_waste"
+    },
+    {
+      "name": "nuclear_waste_hot",
+      "color": "0x663300",
+      "stillTexture": "forgefluid/nuclear_waste_hot",
+      "flowingTexture": "forgefluid/nuclear_waste_hot",
+      "inventoryTexture": "forgefluid/nuclear_waste_hot"
+    },
+    {
+      "name": "nuclear_waste_cooled",
+      "color": "0x336633",
+      "stillTexture": "forgefluid/nuclear_waste_cooled",
+      "flowingTexture": "forgefluid/nuclear_waste_cooled",
+      "inventoryTexture": "forgefluid/nuclear_waste_cooled"
+    },
+    {
+      "name": "nuclear_waste_filtered",
+      "color": "0x336666",
+      "stillTexture": "forgefluid/nuclear_waste_filtered",
+      "flowingTexture": "forgefluid/nuclear_waste_filtered",
+      "inventoryTexture": "forgefluid/nuclear_waste_filtered"
+    }
+  ],
+  "defaultSettings": {
+    "stillTexture": "fluid_still",
+    "flowingTexture": "fluid_flowing",
+    "inventoryTexture": "forgefluid/default"
+  }
+}
