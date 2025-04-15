@@ -2,7 +2,7 @@
 Note: Up-to-date
 #Added
 - Added support for ForgeFluid System
-- Added support for ThermalDynamics, EnderIO, Buildcraft Fluid Pipes
+- Added support for ThermalDynamics, EnderIO, Buildcraft Fluid Pipes using an Universal Fluid Barrel
 
 # Fixes
 * SERVER-ONLY: Fixed a issue where the Armor Model was loading client-sided on the server, causing a server crash on startup
