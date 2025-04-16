@@ -66,7 +66,7 @@ public class FluidRegistry {
     private static void loadFluidProperties() {
         try {
             // Load the JSON file
-            InputStream inputStream = FluidRegistry.class.getClassLoader().getResourceAsStream("assets/hbm/fluids/fluid_registry.json");
+            InputStream inputStream = FluidRegistry.class.getClassLoader().getResourceAsStream("assets/hbm/forgefluids/fluid_registry.json");
             if (inputStream == null) {
                 System.err.println("[HBM] Failed to load fluid registry JSON: File not found");
                 // Create default properties

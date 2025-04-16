@@ -960,6 +960,9 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandRadiation());
 		event.registerServerCommand(new CommandPacketInfo());
 		event.registerServerCommand(new CommandReloadServer());
+
+		// Register commands from the proxy
+		proxy.registerCommands(event);
 	}
 
 	@EventHandler

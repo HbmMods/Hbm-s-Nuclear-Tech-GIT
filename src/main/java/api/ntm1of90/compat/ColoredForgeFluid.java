@@ -159,6 +159,16 @@ public class ColoredForgeFluid extends Fluid {
     }
 
     /**
+     * Get the localized display name for this fluid
+     * @return The localized display name
+     */
+    @Override
+    public String getLocalizedName() {
+        // Use our enhanced fluid localization system
+        return HBMFluidLocalization.getForgeFluidDisplayName(this);
+    }
+
+    /**
      * Override to provide the fluid color for Forge rendering
      */
     @Override
