@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
+import api.ntm1of90.compat.FluidMappingRegistry;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -403,5 +404,21 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+
+	 /**
+     * Convert a Forge Fluid to an HBM FluidType
+     * Uses the FluidMappingRegistry to find the best matching fluid type
+     */
+    private FluidType getHbmFluidType(Fluid fluid) {
+        return FluidMappingRegistry.getHbmFluidType(fluid);
+    }
+
+    /**
+     * Convert an HBM FluidType to a Forge Fluid
+     * Uses the FluidMappingRegistry to find the best matching Forge fluid
+     */
+    private Fluid getForgeFluid(FluidType type) {
+        return FluidMappingRegistry.getForgeFluid(type);
+   		}
 	}
 }
