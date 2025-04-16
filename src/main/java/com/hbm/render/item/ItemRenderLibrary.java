@@ -1046,6 +1046,17 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_bat9000_forge), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.bat9000_tex); ResourceManager.bat9000.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_orbus), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);

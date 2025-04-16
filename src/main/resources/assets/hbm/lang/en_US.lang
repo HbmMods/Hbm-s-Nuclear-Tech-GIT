@@ -5513,6 +5513,7 @@ tile.machine_autocrafter.name=Automatic Crafting Table
 tile.machine_autosaw.name=Automatic Buzz Saw
 tile.machine_autosaw.desc=Cuts down nearby plants, re-plants trees$Accepts:$-Wood oil$-Ethanol$-Fish oil$-Heavy oil
 tile.machine_bat9000.name=Big-Ass Tank 9000
+tile.machine_bat9000_forge.name=Universal Big-Ass Tank 9000
 tile.machine_battery.name=Energy Storage Block
 tile.machine_battery_potato.name=Potato Battery Block
 tile.machine_boiler.name=Boiler

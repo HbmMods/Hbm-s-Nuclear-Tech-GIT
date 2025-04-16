@@ -82,6 +82,7 @@ import com.hbm.tileentity.machine.albion.*;
 import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
+import api.ntm1of90.compat.ProxyForgeAdapter;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
@@ -271,6 +272,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemfac.class, new RenderChemfac());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000.class, new RenderBAT9000());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000Forge.class, new RenderBAT9000());
+		ClientRegistry.bindTileEntitySpecialRenderer(ProxyForgeAdapter.class, new RenderMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOrbus.class, new RenderOrbus());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRefinery.class, new RenderRefinery());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFractionTower.class, new RenderFractionTower());

@@ -44,6 +44,8 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000Forge;
+import api.ntm1of90.compat.ProxyForgeAdapter;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 
@@ -208,6 +210,8 @@ public class TileMappings {
 		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
+		put(TileEntityMachineBAT9000Forge.class, "tileentity_bat9000_forge");
+		put(ProxyForgeAdapter.class, "tileentity_proxy_forge");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		put(TileEntityGlpyhidSpawner.class, "tileentity_glyphid_spawner");
 		put(TileEntityCustomMachine.class, "tileentity_custom_machine");
