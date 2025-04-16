@@ -16,13 +16,13 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Handles localization of HBM fluids in the Forge fluid system.
- * This ensures that HBM fluids have proper names when displayed in other mods' GUIs.
+ * Handles localization of NTM fluids in the Forge fluid system.
+ * This ensures that NTM fluids have proper names when displayed in other mods' GUIs.
  *
  * Fluid names are loaded from the language files, using both 'fluid.' and 'hbmfluid.' prefixes.
  * No special cases are handled - all fluid names come from language files or automatic formatting.
  */
-public class HBMFluidLocalization {
+public class NTMFluidLocalization {
 
     // Cache for fluid names loaded from language files
     private static Map<String, String> fluidNameCache = new HashMap<>();
@@ -32,7 +32,7 @@ public class HBMFluidLocalization {
      * This should be called during mod initialization.
      */
     public static void initialize() {
-        System.out.println("[HBM] Initializing fluid localization...");
+        System.out.println("[NTM] Initializing fluid localization...");
         initializeWithNames(false);
     }
 
@@ -44,19 +44,19 @@ public class HBMFluidLocalization {
         fluidNameCache.clear();
         int count = 0;
 
-        // Load all HBM fluids using hbmfluid.* entries
-        for (FluidType hbmFluid : Fluids.getAll()) {
-            if (hbmFluid == Fluids.NONE) continue;
+        // Load all NTM fluids using hbmfluid.* entries
+        for (FluidType ntmFluid : Fluids.getAll()) {
+            if (ntmFluid == Fluids.NONE) continue;
 
-            String hbmName = hbmFluid.getName().toLowerCase(Locale.US);
-            String langKey = "hbmfluid." + hbmName;
+            String ntmName = ntmFluid.getName().toLowerCase(Locale.US);
+            String langKey = "hbmfluid." + ntmName;
 
             // Try to get the name from the language file
             if (StatCollector.canTranslate(langKey)) {
                 String displayName = StatCollector.translateToLocal(langKey);
                 if (!displayName.equals(langKey)) {
-                    fluidNameCache.put(hbmName, displayName);
-                    System.out.println("[HBM] Loaded HBM fluid name from lang: " + hbmName + " -> " + displayName);
+                    fluidNameCache.put(ntmName, displayName);
+                    System.out.println("[NTM] Loaded NTM fluid name from lang: " + ntmName + " -> " + displayName);
                     count++;
                 }
             }
@@ -71,13 +71,13 @@ public class HBMFluidLocalization {
                 String displayName = StatCollector.translateToLocal(langKey);
                 if (!displayName.equals(langKey)) {
                     fluidNameCache.put(fluidName, displayName);
-                    System.out.println("[HBM] Loaded Forge fluid name from lang: " + fluidName + " -> " + displayName);
+                    System.out.println("[NTM] Loaded Forge fluid name from lang: " + fluidName + " -> " + displayName);
                     count++;
                 }
             }
         }
 
-        // Also check for any hbmfluid.* entries that might not be associated with an HBM fluid
+        // Also check for any hbmfluid.* entries that might not be associated with an NTM fluid
         // This allows for custom fluid names to be added to the language file
         for (String fluidName : FluidRegistry.getRegisteredFluids().keySet()) {
             if (fluidNameCache.containsKey(fluidName)) continue; // Skip if we already have a name
@@ -87,31 +87,31 @@ public class HBMFluidLocalization {
                 String displayName = StatCollector.translateToLocal(langKey);
                 if (!displayName.equals(langKey)) {
                     fluidNameCache.put(fluidName, displayName);
-                    System.out.println("[HBM] Loaded Forge fluid name from HBM lang: " + fluidName + " -> " + displayName);
+                    System.out.println("[NTM] Loaded Forge fluid name from NTM lang: " + fluidName + " -> " + displayName);
                     count++;
                 }
             }
         }
 
-        System.out.println("[HBM] Loaded " + count + " fluid names from language files");
+        System.out.println("[NTM] Loaded " + count + " fluid names from language files");
     }
 
     /**
-     * Register localized names for all HBM fluids in the Forge fluid system.
+     * Register localized names for all NTM fluids in the Forge fluid system.
      */
     private static void registerFluidNames() {
         int count = 0;
 
-        // Register names for all HBM fluids
-        for (FluidType hbmFluid : Fluids.getAll()) {
-            if (hbmFluid == Fluids.NONE) continue;
+        // Register names for all NTM fluids
+        for (FluidType ntmFluid : Fluids.getAll()) {
+            if (ntmFluid == Fluids.NONE) continue;
 
-            // Get the Forge fluid for this HBM fluid
-            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(hbmFluid);
+            // Get the Forge fluid for this NTM fluid
+            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(ntmFluid);
             if (forgeFluid == null) continue;
 
             // Get the display name for this fluid
-            String displayName = getDisplayName(hbmFluid);
+            String displayName = getDisplayName(ntmFluid);
 
             // Register the name with Forge - only use string localization
             // We can't use LanguageRegistry.addName() with Fluid objects
@@ -131,14 +131,14 @@ public class HBMFluidLocalization {
             }
 
             // Log the registration
-            System.out.println("[HBM] Registered localized name for fluid: " + forgeFluid.getName() + " -> " + displayName);
+            System.out.println("[NTM] Registered localized name for fluid: " + forgeFluid.getName() + " -> " + displayName);
 
             count++;
         }
 
-        // Also register names for all Forge fluids that don't have an HBM equivalent
+        // Also register names for all Forge fluids that don't have an NTM equivalent
         for (Fluid forgeFluid : FluidRegistry.getRegisteredFluids().values()) {
-            // Skip fluids that are already registered (HBM fluids)
+            // Skip fluids that are already registered (NTM fluids)
             if (FluidMappingRegistry.getHbmFluidType(forgeFluid) != Fluids.NONE) continue;
 
             // Get the display name for this fluid
@@ -153,15 +153,15 @@ public class HBMFluidLocalization {
             String bucketDisplayName = displayName + " Bucket";
             LanguageRegistry.instance().addStringLocalization(bucketName, bucketDisplayName);
 
-            System.out.println("[HBM] Registered localized name for non-HBM fluid: " + forgeFluid.getName() + " -> " + displayName);
+            System.out.println("[NTM] Registered localized name for non-NTM fluid: " + forgeFluid.getName() + " -> " + displayName);
             count++;
         }
 
-        System.out.println("[HBM] Registered localized names for " + count + " fluids");
+        System.out.println("[NTM] Registered localized names for " + count + " fluids");
     }
 
     /**
-     * Get a display name for an HBM fluid.
+     * Get a display name for an NTM fluid.
      * This first checks the cache for a name from the language file.
      * If not found, it checks the language file directly using the "hbmfluid." prefix.
      * If still not found, it converts the internal name (e.g., "SULFURIC_ACID") to a user-friendly name (e.g., "Sulfuric Acid").
@@ -217,7 +217,7 @@ public class HBMFluidLocalization {
         // This method is kept as a placeholder for future compatibility
 
         // Just log that we're skipping this step
-        System.out.println("[HBM] Skipping bucket registration for fluid: " + fluid.getName() + " (handled by Forge)");
+        System.out.println("[NTM] Skipping bucket registration for fluid: " + fluid.getName() + " (handled by Forge)");
     }
 
     /**
@@ -238,12 +238,12 @@ public class HBMFluidLocalization {
             return fluidNameCache.get(fluidName);
         }
 
-        // If it's a ColoredForgeFluid, try to get the name from the HBM fluid
+        // If it's a ColoredForgeFluid, try to get the name from the NTM fluid
         if (fluid instanceof ColoredForgeFluid) {
             ColoredForgeFluid coloredFluid = (ColoredForgeFluid) fluid;
-            FluidType hbmFluid = coloredFluid.getHbmFluidType();
-            if (hbmFluid != null) {
-                return getDisplayName(hbmFluid);
+            FluidType ntmFluid = coloredFluid.getHbmFluidType();
+            if (ntmFluid != null) {
+                return getDisplayName(ntmFluid);
             }
         }
 
@@ -257,11 +257,11 @@ public class HBMFluidLocalization {
             }
         }
 
-        // Try to get the name from the HBM registry (hbmfluid.* entries)
-        String hbmLangKey = "hbmfluid." + fluidName;
-        if (StatCollector.canTranslate(hbmLangKey)) {
-            String displayName = StatCollector.translateToLocal(hbmLangKey);
-            if (!displayName.equals(hbmLangKey)) {
+        // Try to get the name from the NTM registry (hbmfluid.* entries)
+        String ntmLangKey = "hbmfluid." + fluidName;
+        if (StatCollector.canTranslate(ntmLangKey)) {
+            String displayName = StatCollector.translateToLocal(ntmLangKey);
+            if (!displayName.equals(ntmLangKey)) {
                 fluidNameCache.put(fluidName, displayName);
                 return displayName;
             }
@@ -304,11 +304,11 @@ public class HBMFluidLocalization {
      * This is an internal method used for development and debugging.
      */
     private static void reloadFluidNames() {
-        System.out.println("[HBM] Reloading fluid localization...");
+        System.out.println("[NTM] Reloading fluid localization...");
         fluidNameCache.clear();
         loadFluidNamesFromLang();
         registerFluidNames();
-        System.out.println("[HBM] Fluid localization reloaded");
+        System.out.println("[NTM] Fluid localization reloaded");
     }
 
     /**
@@ -319,7 +319,7 @@ public class HBMFluidLocalization {
      */
     public static void initializeWithNames(boolean forceReload) {
         if (forceReload || fluidNameCache.isEmpty()) {
-            System.out.println("[HBM] Initializing fluid localization with names from language files...");
+            System.out.println("[NTM] Initializing fluid localization with names from language files...");
             loadFluidNamesFromLang();
             registerFluidNames();
         }

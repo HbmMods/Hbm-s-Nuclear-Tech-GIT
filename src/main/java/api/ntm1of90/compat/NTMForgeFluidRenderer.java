@@ -20,10 +20,10 @@ import org.lwjgl.opengl.GL11;
 import java.util.Locale;
 
 /**
- * Handles rendering of Forge fluid blocks with HBM colors and textures.
+ * Handles rendering of Forge fluid blocks with NTM colors and textures.
  * This class provides hooks for fluid rendering.
  */
-public class HBMForgeFluidRenderer {
+public class NTMForgeFluidRenderer {
 
     /**
      * Initialize the renderer.
@@ -32,10 +32,10 @@ public class HBMForgeFluidRenderer {
     public static void initialize() {
         // Only register for render events on the client side
         if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new HBMForgeFluidRenderer());
-            System.out.println("[HBM] Forge fluid renderer registered for client-side events");
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new NTMForgeFluidRenderer());
+            System.out.println("[NTM] Forge fluid renderer registered for client-side events");
         }
-        System.out.println("[HBM] Forge fluid renderer initialized");
+        System.out.println("[NTM] Forge fluid renderer initialized");
     }
 
     /**
@@ -48,7 +48,7 @@ public class HBMForgeFluidRenderer {
     @SideOnly(Side.CLIENT)
     public static boolean applyFluidColor(Fluid fluid) {
         if (fluid instanceof ColoredForgeFluid) {
-            return HBMFluidColorApplier.applyFluidColor(fluid);
+            return NTMFluidColorApplier.applyFluidColor(fluid);
         }
         return false;
     }

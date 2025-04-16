@@ -20,11 +20,11 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Applies HBM fluid colors to Forge fluids during rendering.
+ * Applies NTM fluid colors to Forge fluids during rendering.
  * This class handles the color application for Forge fluids
- * that correspond to HBM fluids.
+ * that correspond to NTM fluids.
  */
-public class HBMFluidColorApplier {
+public class NTMFluidColorApplier {
 
     // Maps fluid names to their colors
     private static final Map<String, Integer> fluidColors = new HashMap<>();
@@ -39,11 +39,11 @@ public class HBMFluidColorApplier {
     public static void initialize() {
         // Only register for texture stitch events on the client side
         if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new HBMFluidColorApplier());
-            System.out.println("[HBM] Fluid color applier registered for client-side events");
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new NTMFluidColorApplier());
+            System.out.println("[NTM] Fluid color applier registered for client-side events");
         }
 
-        System.out.println("[HBM] Fluid color applier initialized");
+        System.out.println("[NTM] Fluid color applier initialized");
     }
 
     /**
@@ -52,7 +52,7 @@ public class HBMFluidColorApplier {
      */
     public static void setBrightnessFactor(float factor) {
         BRIGHTNESS_FACTOR = factor;
-        System.out.println("[HBM] Fluid color brightness factor set to " + factor);
+        System.out.println("[NTM] Fluid color brightness factor set to " + factor);
     }
 
     /**
@@ -69,9 +69,9 @@ public class HBMFluidColorApplier {
      */
     @SideOnly(Side.CLIENT)
     private void logFluidColors() {
-        System.out.println("[HBM] Fluid color mappings:");
-        System.out.println("[HBM] Brightness factor: " + BRIGHTNESS_FACTOR);
-        System.out.println("[HBM] Registered fluid colors:");
+        System.out.println("[NTM] Fluid color mappings:");
+        System.out.println("[NTM] Brightness factor: " + BRIGHTNESS_FACTOR);
+        System.out.println("[NTM] Registered fluid colors:");
 
         // Sort fluids by name for cleaner output
         List<String> fluidNames = new ArrayList<>(fluidColors.keySet());
@@ -79,7 +79,7 @@ public class HBMFluidColorApplier {
 
         for (String fluidName : fluidNames) {
             int color = fluidColors.get(fluidName);
-            System.out.println("[HBM]   " + fluidName + ": 0x" + Integer.toHexString(color).toUpperCase());
+            System.out.println("[NTM]   " + fluidName + ": 0x" + Integer.toHexString(color).toUpperCase());
         }
     }
 
@@ -95,15 +95,15 @@ public class HBMFluidColorApplier {
             return;
         }
 
-        // Register colors for all HBM fluids
-        for (FluidType hbmFluid : Fluids.getAll()) {
-            if (hbmFluid == Fluids.NONE) continue;
+        // Register colors for all NTM fluids
+        for (FluidType ntmFluid : Fluids.getAll()) {
+            if (ntmFluid == Fluids.NONE) continue;
 
-            String fluidName = hbmFluid.getName().toLowerCase(Locale.US);
-            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(hbmFluid);
+            String fluidName = ntmFluid.getName().toLowerCase(Locale.US);
+            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(ntmFluid);
 
             if (forgeFluid != null) {
-                registerFluidColor(forgeFluid, hbmFluid);
+                registerFluidColor(forgeFluid, ntmFluid);
             }
         }
     }
@@ -117,16 +117,16 @@ public class HBMFluidColorApplier {
     /**
      * Register color for a specific fluid
      */
-    private void registerFluidColor(Fluid forgeFluid, FluidType hbmFluid) {
+    private void registerFluidColor(Fluid forgeFluid, FluidType ntmFluid) {
         String fluidName = forgeFluid.getName().toLowerCase(Locale.US);
-        int color = hbmFluid.getColor();
+        int color = ntmFluid.getColor();
 
         // Store the color for later use
         fluidColors.put(fluidName, color);
 
         // If the fluid is a ColoredForgeFluid, it already has the color
         if (forgeFluid instanceof ColoredForgeFluid) {
-            System.out.println("[HBM] Registered color for Forge fluid: " + fluidName + " (0x" + Integer.toHexString(color) + ")");
+            System.out.println("[NTM] Registered color for Forge fluid: " + fluidName + " (0x" + Integer.toHexString(color) + ")");
         }
     }
 

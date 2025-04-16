@@ -51,13 +51,13 @@ public class FluidRegistry {
         // Only register for texture stitch events on the client side
         if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == cpw.mods.fml.relauncher.Side.CLIENT) {
             net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new FluidRegistry());
-            System.out.println("[HBM] Registered fluid registry for texture stitch events");
+            System.out.println("[NTM] Registered fluid registry for texture stitch events");
         }
 
         // Load fluid properties from JSON
         loadFluidProperties();
 
-        System.out.println("[HBM] Fluid registry initialized with " + fluidProperties.size() + " fluids");
+        System.out.println("[NTM] Fluid registry initialized with " + fluidProperties.size() + " fluids");
     }
 
     /**
@@ -68,7 +68,7 @@ public class FluidRegistry {
             // Load the JSON file
             InputStream inputStream = FluidRegistry.class.getClassLoader().getResourceAsStream("assets/hbm/forgefluids/fluid_registry.json");
             if (inputStream == null) {
-                System.err.println("[HBM] Failed to load fluid registry JSON: File not found");
+                System.err.println("[NTM] Failed to load fluid registry JSON: File not found");
                 // Create default properties
                 defaultProperties = new FluidProperties(
                     "default",
@@ -109,13 +109,13 @@ public class FluidRegistry {
                 FluidProperties properties = new FluidProperties(name, color, stillTexture, flowingTexture, inventoryTexture);
                 fluidProperties.put(name, properties);
 
-                System.out.println("[HBM] Loaded fluid properties for " + name + ": " + properties);
+                System.out.println("[NTM] Loaded fluid properties for " + name + ": " + properties);
             }
 
             reader.close();
 
         } catch (Exception e) {
-            System.err.println("[HBM] Error loading fluid registry JSON: " + e.getMessage());
+            System.err.println("[NTM] Error loading fluid registry JSON: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -173,10 +173,10 @@ public class FluidRegistry {
                 ((ColoredForgeFluid) forgeFluid).setHasCustomTexture(true);
             }
 
-            System.out.println("[HBM] Registered textures for Forge fluid: " + fluidName +
+            System.out.println("[NTM] Registered textures for Forge fluid: " + fluidName +
                 " (still: " + properties.stillTexture + ", flowing: " + properties.flowingTexture + ")");
         } catch (Exception e) {
-            System.err.println("[HBM] Error registering textures for fluid " + fluidName + ": " + e.getMessage());
+            System.err.println("[NTM] Error registering textures for fluid " + fluidName + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -201,10 +201,10 @@ public class FluidRegistry {
                 ((ColoredForgeFluid) forgeFluid).setInventoryIcon(icon);
             }
 
-            System.out.println("[HBM] Registered inventory icon for fluid: " + fluidName +
+            System.out.println("[NTM] Registered inventory icon for fluid: " + fluidName +
                 " (texture: " + properties.inventoryTexture + ")");
         } catch (Exception e) {
-            System.err.println("[HBM] Error registering inventory icon for fluid " + fluidName + ": " + e.getMessage());
+            System.err.println("[NTM] Error registering inventory icon for fluid " + fluidName + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -220,7 +220,7 @@ public class FluidRegistry {
 
         // If not found, use the default properties
         if (properties == null) {
-            System.out.println("[HBM] No properties found for fluid " + fluidName + ", using defaults");
+            System.out.println("[NTM] No properties found for fluid " + fluidName + ", using defaults");
             properties = defaultProperties;
         }
 

@@ -10,7 +10,7 @@ import java.util.Locale;
  * Mapper for fluid textures.
  * This class provides a bridge between the old texture system and the new FluidRegistry.
  */
-public class HBMFluidTextureMapper {
+public class NTMFluidTextureMapper {
 
     /**
      * Initialize the texture mapper.
@@ -22,7 +22,7 @@ public class HBMFluidTextureMapper {
             initializeClient();
         }
 
-        System.out.println("[HBM] Fluid texture mapper initialized");
+        System.out.println("[NTM] Fluid texture mapper initialized");
     }
 
     /**
@@ -31,7 +31,7 @@ public class HBMFluidTextureMapper {
      */
     @SideOnly(Side.CLIENT)
     private static void initializeClient() {
-        System.out.println("[HBM] Fluid texture mapper client-side initialized");
+        System.out.println("[NTM] Fluid texture mapper client-side initialized");
     }
 
     /**

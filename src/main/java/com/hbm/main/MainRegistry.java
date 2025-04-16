@@ -279,11 +279,11 @@ public class MainRegistry {
 		Fluids.init();
 		// Initialize the fluid mapping registry and texture/color systems
 		api.ntm1of90.compat.FluidMappingRegistry.initialize();
-		api.ntm1of90.compat.HBMFluidTextureMapper.initialize();
-		api.ntm1of90.compat.HBMFluidColorApplier.initialize();
+		api.ntm1of90.compat.NTMFluidTextureMapper.initialize();
+		api.ntm1of90.compat.NTMFluidColorApplier.initialize();
 		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
-		api.ntm1of90.compat.HBMFluidColorApplier.setBrightnessFactor(1.2f);
-		api.ntm1of90.compat.HBMForgeFluidRenderer.initialize();
+		api.ntm1of90.compat.NTMFluidColorApplier.setBrightnessFactor(1.2f);
+		api.ntm1of90.compat.NTMForgeFluidRenderer.initialize();
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();

@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A special item that represents HBM fluids for other mods to use in their inventories.
- * This item ensures that HBM fluids are displayed correctly in other mods' GUIs.
+ * A special item that represents NTM fluids for other mods to use in their inventories.
+ * This item ensures that NTM fluids are displayed correctly in other mods' GUIs.
  */
-public class HBMFluidCompatItem extends Item {
+public class NTMFluidCompatItem extends Item {
     
     // The singleton instance of this item
-    private static HBMFluidCompatItem instance;
+    private static NTMFluidCompatItem instance;
     
     // Maps fluid names to their display items
     private static final Map<String, ItemStack> fluidItems = new HashMap<>();
@@ -32,9 +32,9 @@ public class HBMFluidCompatItem extends Item {
     /**
      * Get the singleton instance of this item
      */
-    public static HBMFluidCompatItem getInstance() {
+    public static NTMFluidCompatItem getInstance() {
         if (instance == null) {
-            instance = new HBMFluidCompatItem();
+            instance = new NTMFluidCompatItem();
         }
         return instance;
     }
@@ -42,9 +42,9 @@ public class HBMFluidCompatItem extends Item {
     /**
      * Private constructor to enforce singleton pattern
      */
-    private HBMFluidCompatItem() {
+    private NTMFluidCompatItem() {
         super();
-        this.setUnlocalizedName("hbm_fluid_compat");
+        this.setUnlocalizedName("ntm_fluid_compat");
         this.setTextureName(RefStrings.MODID + ":forgefluid/water");
         this.setCreativeTab(null); // Not shown in creative tab
     }
@@ -130,7 +130,7 @@ public class HBMFluidCompatItem extends Item {
         // Use the fluid's icon if available
         Fluid fluid = getFluidFromItemStack(stack);
         if (fluid != null) {
-            IIcon icon = HBMFluidCompatRenderer.getFluidIcon(fluid);
+            IIcon icon = NTMFluidCompatRenderer.getFluidIcon(fluid);
             if (icon != null) {
                 return icon;
             }
@@ -146,7 +146,7 @@ public class HBMFluidCompatItem extends Item {
         // Use the fluid's color if available
         Fluid fluid = getFluidFromItemStack(stack);
         if (fluid != null) {
-            return HBMFluidCompatRenderer.getFluidColor(fluid);
+            return NTMFluidCompatRenderer.getFluidColor(fluid);
         }
         
         // Fall back to white

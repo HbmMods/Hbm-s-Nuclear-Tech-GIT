@@ -37,7 +37,7 @@ public class AE2CompatTest {
 
         // Only initialize if AE2 is loaded
         if (!Loader.isModLoaded("appliedenergistics2")) {
-            System.out.println("[HBM] Applied Energistics 2 not detected, skipping AE2 compatibility test");
+            System.out.println("[NTM] Applied Energistics 2 not detected, skipping AE2 compatibility test");
             return;
         }
 
@@ -49,9 +49,9 @@ public class AE2CompatTest {
             // Run the test
             testAE2Integration();
 
-            System.out.println("[HBM] AE2 compatibility test initialized");
+            System.out.println("[NTM] AE2 compatibility test initialized");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 compatibility test: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 compatibility test: " + e.getMessage());
         }
 
         initialized = true;
@@ -73,9 +73,9 @@ public class AE2CompatTest {
             // Test fluid items
             testFluidItems();
 
-            System.out.println("[HBM] AE2 compatibility test completed");
+            System.out.println("[NTM] AE2 compatibility test completed");
         } catch (Exception e) {
-            System.err.println("[HBM] Error testing AE2 integration: " + e.getMessage());
+            System.err.println("[NTM] Error testing AE2 integration: " + e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class AE2CompatTest {
             Map<Fluid, Integer> colors = (Map<Fluid, Integer>) colorsField.get(fluidRenderMap);
 
             // Log information about the colors map
-            System.out.println("[HBM] AE2 FluidRenderMap colors map size: " + colors.size());
+            System.out.println("[NTM] AE2 FluidRenderMap colors map size: " + colors.size());
 
             // Check if our fluids are in the map
             int count = 0;
@@ -113,9 +113,9 @@ public class AE2CompatTest {
                 }
             }
 
-            System.out.println("[HBM] AE2 FluidRenderMap contains " + count + " of our fluids");
+            System.out.println("[NTM] AE2 FluidRenderMap contains " + count + " of our fluids");
         } catch (Exception e) {
-            System.err.println("[HBM] Error testing AE2 FluidRenderMap: " + e.getMessage());
+            System.err.println("[NTM] Error testing AE2 FluidRenderMap: " + e.getMessage());
         }
     }
 
@@ -145,7 +145,7 @@ public class AE2CompatTest {
 
                 if (fluidColorsMap != null) {
                     // Log information about the fluid colors map
-                    System.out.println("[HBM] AE2 FluidCellInventory fluid colors map size: " + fluidColorsMap.size());
+                    System.out.println("[NTM] AE2 FluidCellInventory fluid colors map size: " + fluidColorsMap.size());
 
                     // Check if our fluids are in the map
                     int count = 0;
@@ -157,11 +157,11 @@ public class AE2CompatTest {
                         }
                     }
 
-                    System.out.println("[HBM] AE2 FluidCellInventory contains " + count + " of our fluids");
+                    System.out.println("[NTM] AE2 FluidCellInventory contains " + count + " of our fluids");
                 }
             }
         } catch (Exception e) {
-            System.err.println("[HBM] Error testing AE2 FluidCellInventory: " + e.getMessage());
+            System.err.println("[NTM] Error testing AE2 FluidCellInventory: " + e.getMessage());
         }
     }
 
@@ -207,7 +207,7 @@ public class AE2CompatTest {
 
                 if (fluidItemsMap != null) {
                     // Log information about the fluid items map
-                    System.out.println("[HBM] AE2 FluidCellInventory fluid items map size: " + fluidItemsMap.size());
+                    System.out.println("[NTM] AE2 FluidCellInventory fluid items map size: " + fluidItemsMap.size());
 
                     // Check if our fluids are in the map
                     int count = 0;
@@ -215,18 +215,18 @@ public class AE2CompatTest {
                         if (fluid instanceof ColoredForgeFluid) {
                             if (fluidItemsMap.containsKey(fluid)) {
                                 ItemStack itemStack = fluidItemsMap.get(fluid);
-                                System.out.println("[HBM] AE2 FluidCellInventory contains item for fluid: " + fluid.getName() +
+                                System.out.println("[NTM] AE2 FluidCellInventory contains item for fluid: " + fluid.getName() +
                                     " (item: " + itemStack.getItem().getUnlocalizedName() + ", meta: " + itemStack.getItemDamage() + ")");
                                 count++;
                             }
                         }
                     }
 
-                    System.out.println("[HBM] AE2 FluidCellInventory contains " + count + " of our fluid items");
+                    System.out.println("[NTM] AE2 FluidCellInventory contains " + count + " of our fluid items");
                 }
             }
         } catch (Exception e) {
-            System.err.println("[HBM] Error testing fluid items: " + e.getMessage());
+            System.err.println("[NTM] Error testing fluid items: " + e.getMessage());
         }
     }
 
@@ -242,7 +242,7 @@ public class AE2CompatTest {
 
         // Check if this is an AE2 GUI
         if (gui.getClass().getName().startsWith("appeng.client.gui")) {
-            System.out.println("[HBM] AE2 GUI opened: " + gui.getClass().getName());
+            System.out.println("[NTM] AE2 GUI opened: " + gui.getClass().getName());
         }
     }
 

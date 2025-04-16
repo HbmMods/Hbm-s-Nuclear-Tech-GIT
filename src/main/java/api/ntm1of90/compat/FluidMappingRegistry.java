@@ -37,7 +37,7 @@ public class FluidMappingRegistry {
 
         // Initialize the fluid mapping registry
 
-        System.out.println("[HBM] Starting automatic fluid mapping between HBM and Forge fluid systems...");
+        System.out.println("[NTM] Starting automatic fluid mapping between NTM and Forge fluid systems...");
         int mappedCount = 0;
 
         // Automatically map all HBM fluids to Forge fluids
@@ -50,7 +50,7 @@ public class FluidMappingRegistry {
 
             // Skip fluids with special traits that shouldn't be mapped
             if (fluidType.hasNoContainer() || fluidType.hasNoID()) {
-                System.out.println("[HBM] Skipping special fluid: " + fluidType.getName());
+                System.out.println("[NTM] Skipping special fluid: " + fluidType.getName());
                 continue;
             }
 
@@ -75,20 +75,20 @@ public class FluidMappingRegistry {
                 FluidType hbmFluid = forgeToHbmMap.get(forgeName);
                 Fluid forgeFluid = new ColoredForgeFluid(forgeName, hbmFluid);
                 FluidRegistry.registerFluid(forgeFluid);
-                System.out.println("[HBM] Registered new Forge fluid: " + forgeName + " with color 0x" + Integer.toHexString(((ColoredForgeFluid)forgeFluid).getColor()));
+                System.out.println("[NTM] Registered new Forge fluid: " + forgeName + " with color 0x" + Integer.toHexString(((ColoredForgeFluid)forgeFluid).getColor()));
             }
         }
 
         // All fluids have been registered and mapped
 
-        System.out.println("[HBM] Fluid mapping complete! Mapped " + mappedCount + " HBM fluids to Forge fluid system.");
-        System.out.println("[HBM] Total number of fluid mappings created: " + forgeToHbmMap.size());
+        System.out.println("[NTM] Fluid mapping complete! Mapped " + mappedCount + " NTM fluids to Forge fluid system.");
+        System.out.println("[NTM] Total number of fluid mappings created: " + forgeToHbmMap.size());
 
         // Initialize fluid registry
         api.ntm1of90.compat.FluidRegistry.initialize();
 
         // Initialize fluid localization
-        HBMFluidLocalization.initialize();
+        NTMFluidLocalization.initialize();
 
         // Fluid inventory rendering is now handled by FluidRegistry
 
@@ -102,13 +102,13 @@ public class FluidMappingRegistry {
      * Print a summary of all mapped fluids to the console
      */
     public static void printFluidMappingSummary() {
-        System.out.println("\n[HBM] ===== FLUID MAPPING SUMMARY =====");
-        System.out.println("[HBM] Total HBM fluids mapped: " + hbmToForgeMap.size());
-        System.out.println("[HBM] Total Forge fluid mappings: " + forgeToHbmMap.size());
+        System.out.println("\n[NTM] ===== FLUID MAPPING SUMMARY =====");
+        System.out.println("[NTM] Total NTM fluids mapped: " + hbmToForgeMap.size());
+        System.out.println("[NTM] Total Forge fluid mappings: " + forgeToHbmMap.size());
 
         // Get a set of all unique HBM fluids that have been mapped
         Set<FluidType> mappedHbmFluids = new HashSet<>(hbmToForgeMap.keySet());
-        System.out.println("[HBM] HBM Fluids with Forge Mappings: " + mappedHbmFluids.size());
+        System.out.println("[NTM] NTM Fluids with Forge Mappings: " + mappedHbmFluids.size());
 
         // Sort the HBM fluids by name for easier reading
         List<FluidType> sortedHbmFluids = new ArrayList<>(mappedHbmFluids);
@@ -128,7 +128,7 @@ public class FluidMappingRegistry {
             Collections.sort(forgeNames);
 
             // Print the HBM fluid and all its Forge mappings
-            System.out.println("[HBM]   - " + hbmFluid.getName() + " -> " + String.join(", ", forgeNames));
+            System.out.println("[NTM]   - " + hbmFluid.getName() + " -> " + String.join(", ", forgeNames));
         }
 
         // Check for any HBM fluids that weren't mapped
@@ -141,13 +141,13 @@ public class FluidMappingRegistry {
 
         // Print any unmapped fluids
         if (!unmappedFluids.isEmpty()) {
-            System.out.println("\n[HBM] WARNING: The following HBM fluids were not mapped to Forge fluids:");
+            System.out.println("\n[NTM] WARNING: The following NTM fluids were not mapped to Forge fluids:");
             for (FluidType fluid : unmappedFluids) {
-                System.out.println("[HBM]   - " + fluid.getName());
+                System.out.println("[NTM]   - " + fluid.getName());
             }
         }
 
-        System.out.println("[HBM] ================================\n");
+        System.out.println("[NTM] ================================\n");
     }
 
     /**
@@ -211,7 +211,7 @@ public class FluidMappingRegistry {
         // Check if this mapping already exists
         FluidType existingType = forgeToHbmMap.get(forgeName);
         if (existingType != null && existingType != hbmType) {
-            System.out.println("[HBM] Warning: Overriding existing fluid mapping for '" + forgeName + "' from " +
+            System.out.println("[NTM] Warning: Overriding existing fluid mapping for '" + forgeName + "' from " +
                 existingType.getName() + " to " + hbmType.getName());
         }
 
@@ -220,7 +220,7 @@ public class FluidMappingRegistry {
 
         // Only log if we're not in the initial mapping phase (to avoid console spam)
         if (forgeToHbmMap.size() > 1 && existingType == null) {
-            System.out.println("[HBM] Mapped Forge fluid '" + forgeName + "' to HBM fluid '" + hbmType.getName() + "'");
+            System.out.println("[NTM] Mapped Forge fluid '" + forgeName + "' to NTM fluid '" + hbmType.getName() + "'");
         }
     }
 
@@ -293,7 +293,7 @@ public class FluidMappingRegistry {
         }
 
         // If we still can't find it, log it and return NONE
-        System.out.println("[HBM] Unknown Forge fluid: '" + fluid.getName() + "'. No matching HBM fluid found. This fluid will not be usable in HBM machines.");
+        System.out.println("[NTM] Unknown Forge fluid: '" + fluid.getName() + "'. No matching NTM fluid found. This fluid will not be usable in NTM machines.");
         return Fluids.NONE;
     }
 
@@ -392,7 +392,7 @@ public class FluidMappingRegistry {
             Fluid newFluid = new ColoredForgeFluid(hbmName, color);
             FluidRegistry.registerFluid(newFluid);
             registerFluidMapping(hbmName, type);
-            System.out.println("[HBM] Created new Forge fluid '" + hbmName + "' for HBM fluid '" + type.getName() + "' with color 0x" + Integer.toHexString(color));
+            System.out.println("[NTM] Created new Forge fluid '" + hbmName + "' for NTM fluid '" + type.getName() + "' with color 0x" + Integer.toHexString(color));
             return newFluid;
         }
 

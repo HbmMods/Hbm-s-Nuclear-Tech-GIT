@@ -1,7 +1,7 @@
 package api.ntm1of90.compat.ae2;
 
 import api.ntm1of90.compat.ColoredForgeFluid;
-import api.ntm1of90.compat.HBMFluidColorApplier;
+import api.ntm1of90.compat.NTMFluidColorApplier;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -30,7 +30,7 @@ public class AE2CorePatcher {
 
         // Only initialize if AE2 is loaded
         if (!Loader.isModLoaded("appliedenergistics2")) {
-            System.out.println("[HBM] Applied Energistics 2 not detected, skipping AE2 core patcher");
+            System.out.println("[NTM] Applied Energistics 2 not detected, skipping AE2 core patcher");
             return;
         }
 
@@ -41,9 +41,9 @@ public class AE2CorePatcher {
             // Try to directly access AE2's fluid render map
             directlyPatchAE2();
 
-            System.out.println("[HBM] AE2 core patcher initialized");
+            System.out.println("[NTM] AE2 core patcher initialized");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 core patcher: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 core patcher: " + e.getMessage());
         }
 
         initialized = true;
@@ -88,9 +88,9 @@ public class AE2CorePatcher {
                 }
             }
 
-            System.out.println("[HBM] Successfully patched AE2's FluidRenderMap directly");
+            System.out.println("[NTM] Successfully patched AE2's FluidRenderMap directly");
         } catch (Exception e) {
-            System.err.println("[HBM] Could not patch AE2's FluidRenderMap directly: " + e.getMessage());
+            System.err.println("[NTM] Could not patch AE2's FluidRenderMap directly: " + e.getMessage());
 
             // Try using the registerFluid method
             try {
@@ -106,9 +106,9 @@ public class AE2CorePatcher {
                     }
                 }
 
-                System.out.println("[HBM] Successfully registered fluids with AE2's FluidRenderMap");
+                System.out.println("[NTM] Successfully registered fluids with AE2's FluidRenderMap");
             } catch (Exception ex) {
-                System.err.println("[HBM] Could not register fluids with AE2's FluidRenderMap: " + ex.getMessage());
+                System.err.println("[NTM] Could not register fluids with AE2's FluidRenderMap: " + ex.getMessage());
             }
         }
     }

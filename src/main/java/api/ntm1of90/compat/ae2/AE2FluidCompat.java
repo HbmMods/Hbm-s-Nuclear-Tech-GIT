@@ -2,7 +2,7 @@ package api.ntm1of90.compat.ae2;
 
 import api.ntm1of90.compat.ColoredForgeFluid;
 import api.ntm1of90.compat.FluidDisplayItem;
-import api.ntm1of90.compat.HBMFluidColorApplier;
+import api.ntm1of90.compat.NTMFluidColorApplier;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -39,7 +39,7 @@ public class AE2FluidCompat {
 
         // Only initialize if AE2 is loaded
         if (!Loader.isModLoaded("appliedenergistics2")) {
-            System.out.println("[HBM] Applied Energistics 2 not detected, skipping AE2 compatibility");
+            System.out.println("[NTM] Applied Energistics 2 not detected, skipping AE2 compatibility");
             return;
         }
 
@@ -50,9 +50,9 @@ public class AE2FluidCompat {
             // Initialize AE2 integration
             initializeAE2();
 
-            System.out.println("[HBM] AE2 compatibility initialized");
+            System.out.println("[NTM] AE2 compatibility initialized");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 compatibility: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 compatibility: " + e.getMessage());
         }
 
         initialized = true;
@@ -87,9 +87,9 @@ public class AE2FluidCompat {
             // Initialize the test class
             AE2CompatTest.initialize();
 
-            System.out.println("[HBM] Successfully initialized AE2 integration");
+            System.out.println("[NTM] Successfully initialized AE2 integration");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 integration: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 integration: " + e.getMessage());
         }
     }
 
@@ -112,9 +112,9 @@ public class AE2FluidCompat {
                 }
             }
 
-            System.out.println("[HBM] Registered " + count + " fluids with AE2");
+            System.out.println("[NTM] Registered " + count + " fluids with AE2");
         } catch (Exception e) {
-            System.err.println("[HBM] Error registering fluids with AE2: " + e.getMessage());
+            System.err.println("[NTM] Error registering fluids with AE2: " + e.getMessage());
         }
     }
 
@@ -151,11 +151,11 @@ public class AE2FluidCompat {
                         }
                     }
 
-                    System.out.println("[HBM] Successfully patched AE2's fluid cell inventory");
+                    System.out.println("[NTM] Successfully patched AE2's fluid cell inventory");
                 }
             }
         } catch (Exception e) {
-            System.err.println("[HBM] Error patching AE2's fluid cell inventory: " + e.getMessage());
+            System.err.println("[NTM] Error patching AE2's fluid cell inventory: " + e.getMessage());
         }
     }
 
@@ -207,19 +207,19 @@ public class AE2FluidCompat {
                             ItemStack itemStack = FluidDisplayItem.getItemStackForFluid(fluid);
                             if (itemStack != null) {
                                 fluidItemsMap.put(fluid, itemStack);
-                                System.out.println("[HBM] Registered item for fluid in AE2: " + fluid.getName());
+                                System.out.println("[NTM] Registered item for fluid in AE2: " + fluid.getName());
                                 count++;
                             }
                         }
                     }
 
-                    System.out.println("[HBM] Registered " + count + " fluid items with AE2");
+                    System.out.println("[NTM] Registered " + count + " fluid items with AE2");
                 }
             } else {
-                System.err.println("[HBM] Could not find fluid items field in FluidCellInventory");
+                System.err.println("[NTM] Could not find fluid items field in FluidCellInventory");
             }
         } catch (Exception e) {
-            System.err.println("[HBM] Error registering fluid items with AE2: " + e.getMessage());
+            System.err.println("[NTM] Error registering fluid items with AE2: " + e.getMessage());
         }
     }
 

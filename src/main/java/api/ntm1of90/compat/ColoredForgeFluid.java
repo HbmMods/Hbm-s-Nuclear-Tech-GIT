@@ -36,7 +36,7 @@ public class ColoredForgeFluid extends Fluid {
         this.setTemperature(hbmFluid.temperature);
         this.setLuminosity(0); // No glowing trait found in the codebase
 
-        // Textures will be set by HBMFluidTextureMapper during texture stitching
+        // Textures will be set by NTMFluidTextureMapper during texture stitching
     }
 
     /**
@@ -48,7 +48,7 @@ public class ColoredForgeFluid extends Fluid {
         super(fluidName);
         this.color = color;
 
-        // Textures will be set by HBMFluidTextureMapper during texture stitching
+        // Textures will be set by NTMFluidTextureMapper during texture stitching
     }
 
     /**
@@ -89,7 +89,7 @@ public class ColoredForgeFluid extends Fluid {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getStillIcon() {
-        IIcon icon = HBMFluidTextureMapper.getStillIcon(getName());
+        IIcon icon = NTMFluidTextureMapper.getStillIcon(getName());
         return icon != null ? icon : super.getStillIcon();
     }
 
@@ -99,7 +99,7 @@ public class ColoredForgeFluid extends Fluid {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getFlowingIcon() {
-        IIcon icon = HBMFluidTextureMapper.getFlowingIcon(getName());
+        IIcon icon = NTMFluidTextureMapper.getFlowingIcon(getName());
         return icon != null ? icon : super.getFlowingIcon();
     }
 
@@ -165,7 +165,7 @@ public class ColoredForgeFluid extends Fluid {
     @Override
     public String getLocalizedName() {
         // Use our enhanced fluid localization system
-        return HBMFluidLocalization.getForgeFluidDisplayName(this);
+        return NTMFluidLocalization.getForgeFluidDisplayName(this);
     }
 
     /**

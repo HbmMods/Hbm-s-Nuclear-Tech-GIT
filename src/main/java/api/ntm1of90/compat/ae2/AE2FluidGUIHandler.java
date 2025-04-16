@@ -1,7 +1,7 @@
 package api.ntm1of90.compat.ae2;
 
 import api.ntm1of90.compat.ColoredForgeFluid;
-import api.ntm1of90.compat.HBMFluidColorApplier;
+import api.ntm1of90.compat.NTMFluidColorApplier;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -43,7 +43,7 @@ public class AE2FluidGUIHandler {
 
         // Only initialize if AE2 is loaded
         if (!Loader.isModLoaded("appliedenergistics2")) {
-            System.out.println("[HBM] Applied Energistics 2 not detected, skipping AE2 fluid GUI handler");
+            System.out.println("[NTM] Applied Energistics 2 not detected, skipping AE2 fluid GUI handler");
             return;
         }
 
@@ -54,9 +54,9 @@ public class AE2FluidGUIHandler {
             // Initialize AE2 integration
             initializeAE2();
 
-            System.out.println("[HBM] AE2 fluid GUI handler initialized");
+            System.out.println("[NTM] AE2 fluid GUI handler initialized");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 fluid GUI handler: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 fluid GUI handler: " + e.getMessage());
         }
 
         initialized = true;
@@ -79,9 +79,9 @@ public class AE2FluidGUIHandler {
             // Register our fluid colors with AE2
             registerFluidColors();
 
-            System.out.println("[HBM] Successfully hooked into AE2's GUI system");
+            System.out.println("[NTM] Successfully hooked into AE2's GUI system");
         } catch (Exception e) {
-            System.err.println("[HBM] Could not hook into AE2's GUI system: " + e.getMessage());
+            System.err.println("[NTM] Could not hook into AE2's GUI system: " + e.getMessage());
         }
     }
 
@@ -107,16 +107,16 @@ public class AE2FluidGUIHandler {
                     try {
                         Method registerColorMethod = fluidRenderClass.getMethod("registerFluidColor", Fluid.class, int.class);
                         registerColorMethod.invoke(null, fluid, color);
-                        System.out.println("[HBM] Registered color for fluid in AE2 GUI: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
+                        System.out.println("[NTM] Registered color for fluid in AE2 GUI: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
                     } catch (Exception e) {
-                        System.err.println("[HBM] Could not register color for fluid in AE2 GUI: " + e.getMessage());
+                        System.err.println("[NTM] Could not register color for fluid in AE2 GUI: " + e.getMessage());
                     }
                 }
             }
 
-            System.out.println("[HBM] Registered fluid colors with AE2's GUI system");
+            System.out.println("[NTM] Registered fluid colors with AE2's GUI system");
         } catch (Exception e) {
-            System.err.println("[HBM] Could not register fluid colors with AE2's GUI system: " + e.getMessage());
+            System.err.println("[NTM] Could not register fluid colors with AE2's GUI system: " + e.getMessage());
         }
     }
 

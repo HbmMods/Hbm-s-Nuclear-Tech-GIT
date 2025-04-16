@@ -1,7 +1,7 @@
 package api.ntm1of90.compat.ae2;
 
 import api.ntm1of90.compat.ColoredForgeFluid;
-import api.ntm1of90.compat.HBMFluidColorApplier;
+import api.ntm1of90.compat.NTMFluidColorApplier;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -25,16 +25,16 @@ public class AE2FluidColorHandler {
 
         // Only initialize if AE2 is loaded
         if (!Loader.isModLoaded("appliedenergistics2")) {
-            System.out.println("[HBM] Applied Energistics 2 not detected, skipping AE2 fluid color handler");
+            System.out.println("[NTM] Applied Energistics 2 not detected, skipping AE2 fluid color handler");
             return;
         }
 
         try {
             // Register for AE2 events
             initializeAE2();
-            System.out.println("[HBM] AE2 fluid color handler initialized");
+            System.out.println("[NTM] AE2 fluid color handler initialized");
         } catch (Exception e) {
-            System.err.println("[HBM] Error initializing AE2 fluid color handler: " + e.getMessage());
+            System.err.println("[NTM] Error initializing AE2 fluid color handler: " + e.getMessage());
         }
 
         initialized = true;
@@ -86,7 +86,7 @@ public class AE2FluidColorHandler {
         // Register colors for all fluids
         for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
             if (fluid instanceof ColoredForgeFluid) {
-                int color = HBMFluidColorApplier.getFluidColorForAE2(fluid);
+                int color = NTMFluidColorApplier.getFluidColorForAE2(fluid);
                 registerFluidColorWithAE2(fluid, color);
             }
         }
@@ -104,9 +104,9 @@ public class AE2FluidColorHandler {
                 Class<?> fluidRenderClass = Class.forName("appeng.client.render.FluidRendererRegistry");
                 Object instance = fluidRenderClass.getMethod("instance").invoke(null);
                 fluidRenderClass.getMethod("setFluidColor", Fluid.class, int.class).invoke(instance, fluid, color);
-                System.out.println("[HBM] Registered AE2 color for fluid via FluidRendererRegistry: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
+                System.out.println("[NTM] Registered AE2 color for fluid via FluidRendererRegistry: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
             } catch (Exception e) {
-                System.err.println("[HBM] Could not use FluidRendererRegistry: " + e.getMessage());
+                System.err.println("[NTM] Could not use FluidRendererRegistry: " + e.getMessage());
             }
 
             // Second approach: Register with AE2's FluidRenderMap
@@ -114,9 +114,9 @@ public class AE2FluidColorHandler {
                 Class<?> fluidRenderMapClass = Class.forName("appeng.client.texture.FluidRenderMap");
                 Object instance = fluidRenderMapClass.getMethod("instance").invoke(null);
                 fluidRenderMapClass.getMethod("registerFluid", Fluid.class, int.class).invoke(instance, fluid, color);
-                System.out.println("[HBM] Registered AE2 color for fluid via FluidRenderMap: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
+                System.out.println("[NTM] Registered AE2 color for fluid via FluidRenderMap: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
             } catch (Exception e) {
-                System.err.println("[HBM] Could not use FluidRenderMap: " + e.getMessage());
+                System.err.println("[NTM] Could not use FluidRenderMap: " + e.getMessage());
             }
 
             // Third approach: Register with AE2's CellInventoryHandler
@@ -124,9 +124,9 @@ public class AE2FluidColorHandler {
                 Class<?> cellInventoryHandlerClass = Class.forName("appeng.me.storage.CellInventoryHandler");
                 // This is a static method that registers fluid colors for cell rendering
                 cellInventoryHandlerClass.getMethod("registerFluidColor", Fluid.class, int.class).invoke(null, fluid, color);
-                System.out.println("[HBM] Registered AE2 color for fluid via CellInventoryHandler: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
+                System.out.println("[NTM] Registered AE2 color for fluid via CellInventoryHandler: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
             } catch (Exception e) {
-                System.err.println("[HBM] Could not use CellInventoryHandler: " + e.getMessage());
+                System.err.println("[NTM] Could not use CellInventoryHandler: " + e.getMessage());
             }
 
             // Fourth approach: Register with AE2's FluidCellInventory
@@ -134,13 +134,13 @@ public class AE2FluidColorHandler {
                 Class<?> fluidCellInventoryClass = Class.forName("appeng.me.storage.FluidCellInventory");
                 // This is a static method that registers fluid colors for cell rendering
                 fluidCellInventoryClass.getMethod("registerFluidColor", Fluid.class, int.class).invoke(null, fluid, color);
-                System.out.println("[HBM] Registered AE2 color for fluid via FluidCellInventory: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
+                System.out.println("[NTM] Registered AE2 color for fluid via FluidCellInventory: " + fluid.getName() + " (0x" + Integer.toHexString(color) + ")");
             } catch (Exception e) {
-                System.err.println("[HBM] Could not use FluidCellInventory: " + e.getMessage());
+                System.err.println("[NTM] Could not use FluidCellInventory: " + e.getMessage());
             }
 
         } catch (Exception e) {
-            System.err.println("[HBM] Error registering AE2 color for fluid " + fluid.getName() + ": " + e.getMessage());
+            System.err.println("[NTM] Error registering AE2 color for fluid " + fluid.getName() + ": " + e.getMessage());
         }
     }
 }

@@ -12,10 +12,10 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
- * A utility class for registering HBM fluid compatibility with other mods.
+ * A utility class for registering NTM fluid compatibility with other mods.
  * This class provides methods for registering fluid items and renderers.
  */
-public class HBMFluidCompat {
+public class NTMFluidCompat {
     
     /**
      * Initialize fluid compatibility
@@ -25,10 +25,10 @@ public class HBMFluidCompat {
         // Register the fluid compat item
         registerFluidCompatItem();
         
-        // Register fluid items for all HBM fluids
+        // Register fluid items for all NTM fluids
         registerFluidItems();
         
-        System.out.println("[HBM] Fluid compatibility initialized");
+        System.out.println("[NTM] Fluid compatibility initialized");
     }
     
     /**
@@ -36,29 +36,29 @@ public class HBMFluidCompat {
      */
     private static void registerFluidCompatItem() {
         // Register the fluid compat item
-        Item fluidCompatItem = HBMFluidCompatItem.getInstance();
-        GameRegistry.registerItem(fluidCompatItem, "hbm_fluid_compat");
+        Item fluidCompatItem = NTMFluidCompatItem.getInstance();
+        GameRegistry.registerItem(fluidCompatItem, "ntm_fluid_compat");
         ModItems.hbm_fluid_compat = fluidCompatItem;
         
-        System.out.println("[HBM] Registered fluid compat item");
+        System.out.println("[NTM] Registered fluid compat item");
     }
     
     /**
-     * Register fluid items for all HBM fluids
+     * Register fluid items for all NTM fluids
      */
     private static void registerFluidItems() {
         int count = 0;
         
-        // Register fluid items for all HBM fluids
-        for (FluidType hbmFluid : Fluids.getAll()) {
-            if (hbmFluid == Fluids.NONE) continue;
+        // Register fluid items for all NTM fluids
+        for (FluidType ntmFluid : Fluids.getAll()) {
+            if (ntmFluid == Fluids.NONE) continue;
             
-            // Get the Forge fluid for this HBM fluid
-            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(hbmFluid);
+            // Get the Forge fluid for this NTM fluid
+            Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(ntmFluid);
             if (forgeFluid == null) continue;
             
             // Create an item for this fluid
-            ItemStack fluidItem = HBMFluidCompatItem.getItemStackForFluid(forgeFluid);
+            ItemStack fluidItem = NTMFluidCompatItem.getItemStackForFluid(forgeFluid);
             if (fluidItem == null) continue;
             
             // Register the fluid item with the fluid registry
@@ -70,7 +70,7 @@ public class HBMFluidCompat {
             count++;
         }
         
-        System.out.println("[HBM] Registered " + count + " fluid items");
+        System.out.println("[NTM] Registered " + count + " fluid items");
     }
     
     /**
@@ -79,7 +79,7 @@ public class HBMFluidCompat {
      * @return An ItemStack that represents the fluid
      */
     public static ItemStack getFluidItem(Fluid fluid) {
-        return HBMFluidCompatItem.getItemStackForFluid(fluid);
+        return NTMFluidCompatItem.getItemStackForFluid(fluid);
     }
     
     /**
@@ -93,14 +93,14 @@ public class HBMFluidCompat {
     }
     
     /**
-     * Get an ItemStack that represents an HBM fluid
-     * @param hbmFluid The HBM fluid to represent
+     * Get an ItemStack that represents an NTM fluid
+     * @param ntmFluid The NTM fluid to represent
      * @return An ItemStack that represents the fluid
      */
-    public static ItemStack getFluidItem(FluidType hbmFluid) {
-        if (hbmFluid == null || hbmFluid == Fluids.NONE) return null;
+    public static ItemStack getFluidItem(FluidType ntmFluid) {
+        if (ntmFluid == null || ntmFluid == Fluids.NONE) return null;
         
-        Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(hbmFluid);
+        Fluid forgeFluid = FluidMappingRegistry.getForgeFluid(ntmFluid);
         return getFluidItem(forgeFluid);
     }
 }
