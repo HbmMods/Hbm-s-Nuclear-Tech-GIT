@@ -32,6 +32,28 @@ import com.hbm.render.model.ModelHat;
 // clientonly...
 public class ArmorModel extends ItemArmor {
 
+	// Static model instances for client-side rendering
+	@SideOnly(Side.CLIENT)
+	private static ModelGoggles modelGoggles;
+	@SideOnly(Side.CLIENT)
+	private static ModelHat modelHat;
+	@SideOnly(Side.CLIENT)
+	private static ModelCloak modelCloak;
+	@SideOnly(Side.CLIENT)
+	private static ResourceLocation[] gogglesBlurs;
+
+	/**
+	 * Initializes client-side resources for armor models
+	 */
+	@SideOnly(Side.CLIENT)
+	public static void initializeClientResources() {
+		modelGoggles = new ModelGoggles();
+		modelHat = new ModelHat(0);
+		modelCloak = new ModelCloak();
+		gogglesBlurs = IntStream.range(0, 6)
+				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
+				.toArray(ResourceLocation[]::new);
+	}
 
 
 	public ArmorModel(ArmorMaterial armorMaterial, int armorType) {
@@ -45,7 +67,7 @@ public class ArmorModel extends ItemArmor {
 		if (modelGoggles == null) {
 			initializeClientResources();
 		}
-		
+
 		if(this == ModItems.goggles) {
 			if(armorSlot == 0) {
 				if(modelGoggles == null) modelGoggles = new ModelGoggles();
@@ -97,7 +119,7 @@ public class ArmorModel extends ItemArmor {
 
 		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
 			return;
-		
+
 		if(gogglesBlurs == null) gogglesBlurs = IntStream.range(0, 6)
 				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
 				.toArray(ResourceLocation[]::new);

@@ -17,11 +17,11 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public class BiomeGenNoMansLand extends BiomeGenBase {
-	
+
 	public static final BiomeGenBase noMansLand = new BiomeGenNoMansLand(99).setBiomeName("No Man's Land");
-	public static final List EMPTY_LIST = new ArrayList(0);
-	public static final List HOSTILE_LIST = new ArrayList(0);
-	
+	private final List EMPTY_LIST = new ArrayList(0);
+	private final List HOSTILE_LIST = new ArrayList(0);
+
 	public static void initDictionary() {
 		BiomeDictionary.registerBiomeType(noMansLand,	DEAD,	PLAINS,	WASTELAND);
 		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(noMansLand, 5));
@@ -39,17 +39,17 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 		this.theBiomeDecorator.flowersPerChunk = 0;
 		this.theBiomeDecorator.grassPerChunk = 0;
 		this.flowers.clear();
-		
+
 		this.HOSTILE_LIST.add(new BiomeGenBase.SpawnListEntry(EntityUndeadSoldier.class, 1, 4, 6));
 	}
-	
+
 	@Override
 	public List getSpawnableList(EnumCreatureType type) {
 		if(type == type.monster) return this.HOSTILE_LIST;
-		if(!EMPTY_LIST.isEmpty()) EMPTY_LIST.clear();
-		return EMPTY_LIST;
+		if(!this.EMPTY_LIST.isEmpty()) this.EMPTY_LIST.clear();
+		return this.EMPTY_LIST;
 	}
-	
+
 	@Override @SideOnly(Side.CLIENT)
 	public int getBiomeGrassColor(int x, int y, int z) { return 0x696F59; }
 
