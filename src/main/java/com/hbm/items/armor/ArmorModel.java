@@ -32,27 +32,7 @@ import com.hbm.render.model.ModelHat;
 // clientonly...
 public class ArmorModel extends ItemArmor {
 
-	// Client-side model instances
-	@SideOnly(Side.CLIENT)
-	private static ModelGoggles modelGoggles;
-	@SideOnly(Side.CLIENT)
-	private static ModelHat modelHat;
-	@SideOnly(Side.CLIENT)
-	private static ModelCloak modelCloak;
 
-	@SideOnly(Side.CLIENT)
-	private static ResourceLocation[] gogglesBlurs;
-	
-	// Static initializer for client-side resources
-	@SideOnly(Side.CLIENT)
-	public static void initializeClientResources() {
-		modelGoggles = new ModelGoggles();
-		modelHat = new ModelHat(0);
-		modelCloak = new ModelCloak();
-		gogglesBlurs = IntStream.range(0, 6)
-			.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
-			.toArray(ResourceLocation[]::new);
-	}
 
 	public ArmorModel(ArmorMaterial armorMaterial, int armorType) {
 		super(armorMaterial, 0, armorType);
@@ -68,16 +48,19 @@ public class ArmorModel extends ItemArmor {
 		
 		if(this == ModItems.goggles) {
 			if(armorSlot == 0) {
+				if(modelGoggles == null) modelGoggles = new ModelGoggles();
 				return modelGoggles;
 			}
 		}
 		if(this == ModItems.hat) {
 			if(armorSlot == 0) {
+				if(modelHat == null) modelHat = new ModelHat(0);
 				return modelHat;
 			}
 		}
 		if(this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
 			if(armorSlot == 1) {
+				if(modelCloak == null) modelCloak = new ModelCloak();
 				return modelCloak;
 			}
 		}
@@ -114,6 +97,10 @@ public class ArmorModel extends ItemArmor {
 
 		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
 			return;
+		
+		if(gogglesBlurs == null) gogglesBlurs = IntStream.range(0, 6)
+				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
+				.toArray(ResourceLocation[]::new);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -144,15 +131,8 @@ public class ArmorModel extends ItemArmor {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-
-		if(this == ModItems.cape_radiation) {
-			list.add("Avalible for everyone");
-		}
-		if(this == ModItems.cape_gasmask) {
-			list.add("Avalible for everyone");
-		}
-		if(this == ModItems.cape_schrabidium) {
-			list.add("Avalible for everyone");
-		}
+		if(this == ModItems.cape_radiation) list.add("Avalible for everyone");
+		if(this == ModItems.cape_gasmask) list.add("Avalible for everyone");
+		if(this == ModItems.cape_schrabidium) list.add("Avalible for everyone");
 	}
 }

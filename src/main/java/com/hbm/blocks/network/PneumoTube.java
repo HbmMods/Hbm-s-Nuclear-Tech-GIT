@@ -3,7 +3,7 @@ package com.hbm.blocks.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -12,7 +12,6 @@ import com.hbm.tileentity.network.TileEntityPneumoTube;
 import com.hbm.util.Compat;
 
 import api.hbm.block.IToolable;
-import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -23,6 +22,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class PneumoTube extends BlockContainer implements IToolable, IFluidConnectorBlockMK2 {
+public class PneumoTube extends BlockContainer implements IToolable, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon baseIcon;
 	@SideOnly(Side.CLIENT) public IIcon iconIn;
@@ -141,12 +141,12 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		
 		bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
 
-		if(canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1, y + upper, z + upper));
-		if(canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y + lower, z + lower, x + lower, y + upper, z + upper));
-		if(canConnectTo(world, x, y, z, Library.POS_Y) || canConnectToAir(world, x, y, z, Library.NEG_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + upper, z + lower, x + upper, y + 1, z + upper));
-		if(canConnectTo(world, x, y, z, Library.NEG_Y) || canConnectToAir(world, x, y, z, Library.POS_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y, z + lower, x + upper, y + lower, z + upper));
-		if(canConnectTo(world, x, y, z, Library.POS_Z) || canConnectToAir(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + upper, x + upper, y + upper, z + 1));
-		if(canConnectTo(world, x, y, z, Library.NEG_Z) || canConnectToAir(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z, x + upper, y + upper, z + lower));
+		if(canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1, y + upper, z + upper));
+		if(canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y + lower, z + lower, x + lower, y + upper, z + upper));
+		if(canConnectTo(world, x, y, z, Library.POS_Y) || canConnectToAir(world, x, y, z, Library.POS_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + upper, z + lower, x + upper, y + 1, z + upper));
+		if(canConnectTo(world, x, y, z, Library.NEG_Y) || canConnectToAir(world, x, y, z, Library.NEG_Y)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y, z + lower, x + upper, y + lower, z + upper));
+		if(canConnectTo(world, x, y, z, Library.POS_Z) || canConnectToAir(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + upper, x + upper, y + upper, z + 1));
+		if(canConnectTo(world, x, y, z, Library.NEG_Z) || canConnectToAir(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z, x + upper, y + upper, z + lower));
 
 		for(AxisAlignedBB bb : bbs) {
 			if(entityBounding.intersectsWith(bb)) {
@@ -174,7 +174,8 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		float lower = 0.3125F;
 		float upper = 0.6875F;
 		
-		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntityPneumoTube tube = tile instanceof TileEntityPneumoTube ? (TileEntityPneumoTube) tile : null;
 
 		boolean nX = canConnectTo(world, x, y, z, Library.NEG_X) || canConnectToAir(world, x, y, z, Library.NEG_X);
 		boolean pX = canConnectTo(world, x, y, z, Library.POS_X) || canConnectToAir(world, x, y, z, Library.POS_X);
@@ -207,7 +208,8 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 	}
 
 	public boolean canConnectToAir(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntityPneumoTube tube = te instanceof TileEntityPneumoTube ? (TileEntityPneumoTube) te : null;
 		if(tube != null) {
 			if(!tube.isCompressor()) return false;
 			if(tube.ejectionDir == dir || tube.insertionDir == dir) return false;
@@ -216,9 +218,9 @@ public class PneumoTube extends BlockContainer implements IToolable, IFluidConne
 		if(tile instanceof TileEntityPneumoTube) return false;
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR);
 	}
+
 	@Override
-	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
-		return tube != null && tube.isCompressor();
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 }

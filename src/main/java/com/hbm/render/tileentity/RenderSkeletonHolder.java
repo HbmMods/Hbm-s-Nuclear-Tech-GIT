@@ -3,7 +3,6 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockSkeletonHolder.TileEntitySkeletonHolder;
-import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.block.Block;
@@ -45,10 +44,6 @@ public class RenderSkeletonHolder extends TileEntitySpecialRenderer {
 			ItemStack stack = pedestal.item.copy();
 			
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-			
-			if(stack.getItem() instanceof ItemGunBaseNT) {
-				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
-			}
 
 			if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
 				GL11.glScaled(1.5, 1.5, 1.5);

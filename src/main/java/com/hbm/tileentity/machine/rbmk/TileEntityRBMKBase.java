@@ -56,9 +56,9 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 	public double heat;
 
-	public int water;
+	public int reasimWater;
 	public static final int maxWater = 16000;
-	public int steam;
+	public int reasimSteam;
 	public static final int maxSteam = 16000;
 
 	public boolean hasLid() {
@@ -130,15 +130,15 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 		double heatConsumption = RBMKDials.getBoilerHeatConsumption(worldObj);
 		double availableHeat = (this.heat - 100) / heatConsumption;
-		double availableWater = this.water;
-		double availableSpace = maxSteam - this.steam;
+		double availableWater = this.reasimWater;
+		double availableSpace = maxSteam - this.reasimSteam;
 
 		int processedWater = (int) Math.floor(BobMathUtil.min(availableHeat, availableWater, availableSpace) * MathHelper.clamp_double(RBMKDials.getReaSimBoilerSpeed(worldObj), 0D, 1D));
 
 		if(processedWater <= 0) return;
 
-		this.water -= processedWater;
-		this.steam += processedWater;
+		this.reasimWater -= processedWater;
+		this.reasimSteam += processedWater;
 		this.heat -= processedWater * heatConsumption;
 	}
 
@@ -162,8 +162,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		List<TileEntityRBMKBase> rec = new ArrayList<>();
 		rec.add(this);
 		double heatTot = this.heat;
-		int waterTot = this.water;
-		int steamTot = this.steam;
+		int waterTot = this.reasimWater;
+		int steamTot = this.reasimSteam;
 
 		int index = 0;
 		for(ForgeDirection dir : neighborDirs) {
@@ -188,8 +188,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 			if(base != null) {
 				rec.add(base);
 				heatTot += base.heat;
-				waterTot += base.water;
-				steamTot += base.steam;
+				waterTot += base.reasimWater;
+				steamTot += base.reasimSteam;
 			}
 		}
 
@@ -210,13 +210,13 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 				rbmk.heat += delta * stepSize;
 
 				//set to the averages, rounded down
-				rbmk.water = tWater;
-				rbmk.steam = tSteam;
+				rbmk.reasimWater = tWater;
+				rbmk.reasimSteam = tSteam;
 			}
 
 			//add the modulo to make up for the losses coming from rounding
-			this.water += rWater;
-			this.steam += rSteam;
+			this.reasimWater += rWater;
+			this.reasimSteam += rSteam;
 
 			this.markDirty();
 		}
@@ -271,8 +271,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		}
 
 		this.heat = nbt.getDouble("heat");
-		this.water = nbt.getInteger("water");
-		this.steam = nbt.getInteger("steam");
+		this.reasimWater = nbt.getInteger("reasimWater");
+		this.reasimSteam = nbt.getInteger("reasimSteam");
 	}
 
 	@Override
@@ -283,22 +283,22 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		}
 
 		nbt.setDouble("heat", this.heat);
-		nbt.setInteger("water", this.water);
-		nbt.setInteger("steam", this.steam);
+		nbt.setInteger("reasimWater", this.reasimWater);
+		nbt.setInteger("reasimSteam", this.reasimSteam);
 	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(this.heat);
-		buf.writeInt(this.water);
-		buf.writeInt(this.steam);
+		buf.writeInt(this.reasimWater);
+		buf.writeInt(this.reasimSteam);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.heat = buf.readDouble();
-		this.water = buf.readInt();
-		this.steam = buf.readInt();
+		this.reasimWater = buf.readInt();
+		this.reasimSteam = buf.readInt();
 	}
 
 	public void getDiagData(NBTTagCompound nbt) {

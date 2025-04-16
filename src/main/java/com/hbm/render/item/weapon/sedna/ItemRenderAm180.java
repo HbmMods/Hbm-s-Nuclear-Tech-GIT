@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -38,6 +39,8 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.am180_tex);
 		double scale = 0.1875D;
 		GL11.glScaled(scale, scale, scale);
+		
+		boolean silenced = this.hasSilencer(stack);
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
@@ -59,7 +62,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 
 		HbmAnimations.applyRelevantTransformation("Gun");
 		ResourceManager.am180.renderPart("Gun");
-		ResourceManager.am180.renderPart("Silencer");
+		if(silenced) ResourceManager.am180.renderPart("Silencer");
 
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Trigger");
@@ -98,7 +101,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 1.875, 17);
+		GL11.glTranslated(0, 1.875, silenced ? 17 : 13);
 		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
 		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.25D);
@@ -107,11 +110,12 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 1.875, 16.75);
+		GL11.glTranslated(0, 1.875, silenced ? 16.75 : 12);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		GL11.glScaled(0.5, 0.5, 0.5);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
+		double flashScale = silenced ? 0.5 : 0.75;
+		GL11.glScaled(flashScale, flashScale, flashScale);
+		this.renderMuzzleFlash(gun.lastShot[0], silenced ? 75 : 50, silenced ? 5 : 7.5);
 		GL11.glPopMatrix();
 	}
 
@@ -148,7 +152,16 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.am180_tex);
-		ResourceManager.am180.renderAll();
+		ResourceManager.am180.renderPart("Gun");
+		if(this.hasSilencer(stack)) ResourceManager.am180.renderPart("Silencer");
+		ResourceManager.am180.renderPart("Trigger");
+		ResourceManager.am180.renderPart("Bolt");
+		ResourceManager.am180.renderPart("Mag");
+		ResourceManager.am180.renderPart("MagPlate");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasSilencer(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
 	}
 }

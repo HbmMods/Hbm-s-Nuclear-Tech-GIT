@@ -46,7 +46,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public boolean redstone = false;
 	public byte sendOrder = 0;
 	public byte receiveOrder = 0;
-	public boolean didSend = false;
+	public int soundDelay = 0;
 	
 	public FluidTank compair;
 	
@@ -61,11 +61,25 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public String getName() {
 		return "container.pneumoTube";
 	}
+	
+	public boolean matchesFilter(ItemStack stack) {
+		
+		for(int i = 0; i < 15; i++) {
+			ItemStack filter = slots[i];
+			if(filter != null && this.pattern.isValidForFilter(filter, i, stack)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.soundDelay > 0) this.soundDelay--;
 			
 			if(this.node == null || this.node.expired) {
 				this.node = (PneumaticNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
@@ -83,7 +97,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 				}
 			}
 			
-			if(this.isCompressor()) {
+			if(this.isCompressor() && (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ this.redstone)) {
 				
 				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
 				
@@ -93,19 +107,19 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 					}
 				}
 				
-				if(randTime % 40 == 0 && didSend) {
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.5F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
-				}
-				
 				if(randTime % 5 == 0 && this.node != null && !this.node.expired && this.node.net != null && this.compair.getFill() >= 50) {
 					TileEntity sendFrom = Compat.getTileStandard(worldObj, xCoord + insertionDir.offsetX, yCoord + insertionDir.offsetY, zCoord + insertionDir.offsetZ);
 					
 					if(sendFrom instanceof IInventory) {
 						PneumaticNetwork net = node.net;
 						
-						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder)) {
-							this.didSend = true;
+						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()))) {
 							this.compair.setFill(this.compair.getFill() - 50);
+							
+							if(this.soundDelay <= 0 && !this.muffled) {
+								worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.25F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
+								this.soundDelay = 20;
+							}
 						}
 					}
 				}
@@ -120,6 +134,16 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		}
 	}
 	
+	public static int getRangeFromPressure(int pressure) {
+		if(pressure == 0) return 0;
+		if(pressure == 1) return 10;
+		if(pressure == 2) return 25;
+		if(pressure == 3) return 100;
+		if(pressure == 4) return 250;
+		if(pressure == 5) return 1_000;
+		return 0;
+	}
+	
 	// tactfully copy pasted from BlockPos
 	public static int getIdentifier(int x, int y, int z) {
 		return (y + z * 27644437) * 27644437 + x;
@@ -132,7 +156,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return dir != this.insertionDir && dir != this.ejectionDir && type == Fluids.AIR;
+		return dir != this.insertionDir && dir != this.ejectionDir && type == Fluids.AIR && this.isCompressor();
 	}
 
 	@Override
@@ -192,7 +216,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		NBTTagCompound nbt = pkt.func_148857_g();
 		this.insertionDir = EnumUtil.grabEnumSafely(ForgeDirection.class, nbt.getByte("insertionDir"));
 		this.ejectionDir = EnumUtil.grabEnumSafely(ForgeDirection.class, nbt.getByte("ejectionDir"));
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord); // that's right, we're gonna cheat
 	}
 
 	@Override
@@ -250,6 +274,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		if(data.hasKey("receive")) {
 			this.receiveOrder++;
 			if(this.receiveOrder > 1) this.receiveOrder = 0;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
 		}
 		
 		this.markDirty();

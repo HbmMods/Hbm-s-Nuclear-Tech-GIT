@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.items.ModItems;
@@ -15,6 +16,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -46,14 +48,20 @@ public class XFactory22lr {
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(2F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
+						.dmg(2F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.greaseGun", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AM180))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
-				).setUnlocalizedName("gun_am180");
+				).setNameMutator(LAMBDA_NAME_AM180)
+				.setUnlocalizedName("gun_am180");
 	}
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_AM180 = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER)) return stack.getUnlocalizedName() + "_silenced";
+		return null;
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 3000, 0.05D, 1.1D, 0);

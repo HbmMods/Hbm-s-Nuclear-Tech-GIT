@@ -45,6 +45,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
 import com.hbm.world.biome.BiomeGenCraterBase;
+import com.hbm.world.biome.BiomeGenNoMansLand;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -306,6 +307,7 @@ public class MainRegistry {
 		OreDictManager.registerOres();
 
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
+		BiomeGenNoMansLand.initDictionary();
 
 		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
 		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -1683,13 +1685,16 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.mechanism_launcher_1");
 		ignoreMappings.add("hbm:item.mechanism_launcher_2");
 		ignoreMappings.add("hbm:item.mechanism_special");
+		ignoreMappings.add("hbm:tile.transission_hatch");
+		ignoreMappings.add("hbm:tile.machine_nuke_furnace_off");
+		ignoreMappings.add("hbm:tile.machine_nuke_furnace_on");
+		ignoreMappings.add("hbm:item.singularity_micro");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		remapItems.put("hbm:item.antiknock", ModItems.fuel_additive);
-
 		remapItems.put("hbm:item.kit_toolbox_empty", ModItems.toolbox);
 		remapItems.put("hbm:item.kit_toolbox", ModItems.legacy_toolbox);
 
@@ -1707,7 +1712,6 @@ public class MainRegistry {
 			}
 
 			if(mapping.type == GameRegistry.Type.ITEM) {
-
 				if(remapItems.get(mapping.name) != null) {
 					mapping.remap(remapItems.get(mapping.name));
 					continue;

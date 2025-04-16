@@ -67,7 +67,7 @@ public class XFactory357 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
+				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 0.9F)
@@ -76,7 +76,7 @@ public class XFactory357 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
+				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
 				).setUnlocalizedName("gun_light_revolver_dani");
 	}
 	
@@ -95,10 +95,10 @@ public class XFactory357 {
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
 				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 300).addPos(0, 0, 0, 200))
-				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, 0, 1, 200));
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(0, 0, 1, 200));
 		case CYCLE_DRY: return new BusAnimation()
 				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 200).addPos(0, 0, 0, 200))
-				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, 0, 1, 200));
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(0, 0, 1, 200));
 		case RELOAD: return new BusAnimation()
 				.addBus("LATCH", new BusAnimationSequence().addPos(0, 0, 90, 300).addPos(0, 0, 90, 2000).addPos(0, 0, 0, 150))
 				.addBus("FRONT", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(0, 0, 45, 150).addPos(0, 0, 45, 2000).addPos(0, 0, 0, 75))
@@ -118,5 +118,13 @@ public class XFactory357 {
 		}
 		
 		return null;
+	};
+	
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_DANI_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation().addBus("EQUIP", new BusAnimationSequence().addPos(360 * 3, 0, 0, 1000, IType.SIN_DOWN));
+		}
+		
+		return LAMBDA_ATLAS_ANIMS.apply(stack, type);
 	};
 }

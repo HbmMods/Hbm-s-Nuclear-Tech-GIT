@@ -37,6 +37,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 		int slot = nbt.getInteger("slot");
 		NBTTagCompound stack = nbt.getCompoundTag("stack");
 		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
+		item.stackSize = 1;
 		inv.setInventorySlotContents(slot, item);
 		nextMode(slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);

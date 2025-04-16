@@ -134,7 +134,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			
 			int index = ((mouseX - bX - guiLeft) / size + (mouseY - bY - guiTop) / size * 15);
 			
-			if(index > 0 && index < selection.length && console.columns[index] != null) {
+			if(index >= 0 && index < selection.length && console.columns[index] != null) {
 				this.selection[index] = !this.selection[index];
 				
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.75F + (this.selection[index] ? 0.25F : 0.0F)));

@@ -4,6 +4,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -30,6 +31,8 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	public default long getReceiverSpeed() {
 		return this.getMaxPower();
 	}
+
+	public default void trySubscribe(World world, DirPos pos) { trySubscribe(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 

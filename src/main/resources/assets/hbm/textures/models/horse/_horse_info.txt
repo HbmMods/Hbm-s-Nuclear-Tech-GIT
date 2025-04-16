@@ -9,7 +9,7 @@ despite the UV being generally crappy, the added overlap does simplify the textu
 
 no further improvements have been deemend necessary. a few edge-cases where body parts would be otherwise invisible could be handled by making the texture transparent. horn sizes can be solved by moving the horn inwards (this only works for shrinking, limiting the max size to the current 4 pixels, unless proper scaling is involved which is a possibility). any other cosmetics or posing will be subject to the horse printing utlity (HPU) using basic GL transformation.
 
-in general, the standard approach for posable models has been taken: all major movable groups (mostly individual boxes, as well as a few larger groups like the wings, tail and head/neck/ears) are different objects (groups with prefix "o", as per the wavefront OBJ standard) as well as some switchable parts (horns, noses). most pixot points use the default multiple of 0.0625 positions to make posing easier and consistent.
+in general, the standard approach for posable models has been taken: all major movable groups (mostly individual boxes, as well as a few larger groups like the wings, tail and head/neck/ears) are different objects (groups with prefix "o", as per the wavefront OBJ standard) as well as some switchable parts (horns, noses). most pivot points use the default multiple of 0.0625 positions to make posing easier and consistent.
 
 a short explanation of the horse template texture sheet:
 * the yellow region "H" is the horn, of the top two pixels only the left one is used (by the box horn, on the top) while the right one is not visible in the original MiLP standard, nor unwrapped in the new model

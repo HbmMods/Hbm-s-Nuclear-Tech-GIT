@@ -198,4 +198,8 @@ public class ItemStackUtil {
 			world.func_147453_f(x, y, z, block);
 		}
 	}
+	
+	public static boolean areStacksCompatible(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage() && ItemStack.areItemStackTagsEqual(sta1, sta2);
+	}
 }
