@@ -36,7 +36,7 @@
       "inventoryTexture": "forgefluid/wastefluid"
     },
     {
-      "name": "watz",
+      "name": "Poisonous Mud",
       "color": "0x8B6914",
       "stillTexture": "forgefluid/watz",
       "flowingTexture": "forgefluid/watz",
