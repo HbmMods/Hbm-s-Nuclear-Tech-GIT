@@ -34,5 +34,6 @@ public class MachineBigAssTank9000Forge extends MachineBigAssTank9000 {
         super.addInformation(stack, persistentTag, player, list, ext);
         list.add(EnumChatFormatting.YELLOW + "Compatible with Forge Fluid System");
         list.add(EnumChatFormatting.YELLOW + "(Buildcraft, Thermal Expansion, etc.)");
+        list.add(EnumChatFormatting.GREEN + "50% faster extraction rate");
     }
 }

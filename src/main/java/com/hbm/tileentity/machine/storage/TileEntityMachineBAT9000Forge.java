@@ -14,6 +14,13 @@ import net.minecraftforge.fluids.IFluidHandler;
  * A Big Ass Tank that supports both HBM's Fluids System and Forge's fluid system (for compatibility with mods like Thermal Dynamics)
  *
  * This class extends TileEntityMachineBAT9000 and inherits all its functionality, including GUI and container.
+ *
+ *
+ * The tank respects the mode settings from the GUI:
+ * - Mode 0: Input only
+ * - Mode 1: Input/Output
+ * - Mode 2: Output only
+ * - Mode 3: Disabled
  */
 public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 implements IFluidHandler {
 
@@ -40,6 +47,11 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        // Check if the tank is in a mode that allows filling (mode 0 = input only, mode 1 = input/output)
+        if (mode != 0 && mode != 1) {
+            return 0; // Not in input mode
+        }
+
         if (resource == null || resource.amount <= 0) {
             return 0;
         }
@@ -92,6 +104,11 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        // Check if the tank is in a mode that allows draining (mode 1 = input/output, mode 2 = output only)
+        if (mode != 1 && mode != 2) {
+            return null; // Not in output mode
+        }
+
         if (maxDrain <= 0 || tank.getTankType() == Fluids.NONE || tank.getFill() <= 0) {
             return null;
         }
@@ -101,14 +118,16 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
         if (forgeFluid == null) {
             return null; // Unknown fluid type
         }
-
-        // Calculate how much we can drain
-        int toDrain = Math.min(maxDrain, tank.getFill());
+        
+        int increasedMaxDrain = (int)(maxDrain * 3.0);
+        int toDrain = Math.min(increasedMaxDrain, tank.getFill());
         if (toDrain <= 0) {
             return null;
         }
 
-        FluidStack result = new FluidStack(forgeFluid, toDrain);
+        // Limit the result to the original maxDrain to avoid returning more than requested
+        int resultAmount = Math.min(toDrain, maxDrain);
+        FluidStack result = new FluidStack(forgeFluid, resultAmount);
 
         if (doDrain) {
             // Drain the tank
@@ -127,6 +146,11 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
+        // Check if the tank is in a mode that allows filling (mode 0 = input only, mode 1 = input/output)
+        if (mode != 0 && mode != 1) {
+            return false; // Not in input mode
+        }
+
         // Check if we know this fluid type
         FluidType hbmType = getHbmFluidType(fluid);
         if (hbmType == null || hbmType == Fluids.NONE) {
@@ -139,6 +163,11 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        // Check if the tank is in a mode that allows draining (mode 1 = input/output, mode 2 = output only)
+        if (mode != 1 && mode != 2) {
+            return false; // Not in output mode
+        }
+
         // Check if the tank contains this fluid
         FluidType hbmType = getHbmFluidType(fluid);
         return hbmType != null && tank.getTankType() == hbmType && tank.getFill() > 0;
@@ -180,6 +209,20 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
         return true;
     }
 
+    /**
+     * This allows the Big Ass Tank Forge to extract fluids faster when connected to Forge fluid pipes
+     * Also respects the mode settings from the GUI
+     */
+    @Override
+    public long getProviderSpeed(FluidType type, int pressure) {
+        // Check if the tank is in a mode that allows output (mode 1 = input/output, mode 2 = output only)
+        if (mode != 1 && mode != 2) {
+            return 0; // Not in output mode
+        }
+
+        return (long)(super.getProviderSpeed(type, pressure) * 3.0);
+    }
+
     // Methods for compatibility with various mods that use Forge fluid system
 
     /**
@@ -214,28 +257,32 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
      * Method used by EnderIO conduits
      */
     public boolean canInputFluid(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows filling (mode 0 = input only, mode 1 = input/output)
+        return mode == 0 || mode == 1;
     }
 
     /**
      * Method used by EnderIO conduits
      */
     public boolean canOutputFluid(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows draining (mode 1 = input/output, mode 2 = output only)
+        return mode == 1 || mode == 2;
     }
 
     /**
      * Method used by Mekanism pipes
      */
     public boolean canReceiveFrom(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows filling (mode 0 = input only, mode 1 = input/output)
+        return mode == 0 || mode == 1;
     }
 
     /**
      * Method used by Mekanism pipes
      */
     public boolean canSendTo(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows draining (mode 1 = input/output, mode 2 = output only)
+        return mode == 1 || mode == 2;
     }
 
     /**
@@ -249,14 +296,16 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
      * Method used by some mods to check if a tile entity can connect to fluid pipes
      */
     public boolean canAcceptFluid(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows filling (mode 0 = input only, mode 1 = input/output)
+        return mode == 0 || mode == 1;
     }
 
     /**
      * Method used by some mods to check if a tile entity can connect to fluid pipes
      */
     public boolean canProvideFluid(ForgeDirection from) {
-        return true;
+        // Check if the tank is in a mode that allows draining (mode 1 = input/output, mode 2 = output only)
+        return mode == 1 || mode == 2;
     }
 
     /**
