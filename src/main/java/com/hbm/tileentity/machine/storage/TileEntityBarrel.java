@@ -403,5 +403,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+
 	}
 }
