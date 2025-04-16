@@ -1,3 +1,4 @@
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
 * Fixed minor display issue where compressed air ducts would visually connect to non-ejector pneumatic tubes
+* Fixed special creeper types being able to spawn in other dimensions
