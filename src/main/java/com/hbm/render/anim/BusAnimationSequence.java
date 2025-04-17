@@ -86,11 +86,25 @@ public class BusAnimationSequence {
 		return hold(duration);
 	}
 	
+	public BusAnimationSequence multiplyTime(double mult) {
+		
+		for(Dimension dim : Dimension.values()) {
+			List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dim.ordinal());
+			for(BusAnimationKeyframe keyframe : keyframes) keyframe.duration *= mult;
+		}
+		return this;
+	}
+	
 	/** Grabs the numerical value for the most recent keyframe on the given dimension */
 	private double getLast(Dimension dim) {
+		BusAnimationKeyframe frame = getLastFrame(dim);
+		return frame != null ? frame.value : 0D;
+	}
+	
+	private BusAnimationKeyframe getLastFrame(Dimension dim) {
 		List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dim.ordinal());
-		if(keyframes.isEmpty()) return 0D;
-		return keyframes.get(keyframes.size() - 1).value;
+		if(keyframes.isEmpty()) return null;
+		return keyframes.get(keyframes.size() - 1);
 	}
 	
 	//all transformation data is absolute, additive transformations have not yet been implemented
