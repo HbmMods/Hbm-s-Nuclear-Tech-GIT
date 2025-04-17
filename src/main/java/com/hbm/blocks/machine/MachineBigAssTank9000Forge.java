@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import api.ntm1of90.compat.ProxyForgeAdapter;
+import api.ntm1of90.compat.ProxyForgeAdapterHBM;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000Forge;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class MachineBigAssTank9000Forge extends MachineBigAssTank9000 {
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
         if(meta >= 12) return new TileEntityMachineBAT9000Forge();
-        if(meta >= 6) return new ProxyForgeAdapter(false, false, true);
+        if(meta >= 6) return new ProxyForgeAdapterHBM(false, false, true);
         return null;
     }
 

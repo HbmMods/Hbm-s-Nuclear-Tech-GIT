@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.storage;
 import api.ntm1of90.compat.FluidMappingRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -118,7 +119,7 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
         if (forgeFluid == null) {
             return null; // Unknown fluid type
         }
-        
+
         int increasedMaxDrain = (int)(maxDrain * 3.0);
         int toDrain = Math.min(increasedMaxDrain, tank.getFill());
         if (toDrain <= 0) {
@@ -207,6 +208,17 @@ public class TileEntityMachineBAT9000Forge extends TileEntityMachineBAT9000 impl
     @Override
     public boolean canConnect(FluidType fluid, ForgeDirection dir) {
         return true;
+    }
+
+    // Override these methods to ensure HBM's fluid pipes can connect properly
+    @Override
+    public FluidTank[] getSendingTanks() {
+        return super.getSendingTanks(); // This calls the parent method which checks the mode
+    }
+
+    @Override
+    public FluidTank[] getReceivingTanks() {
+        return super.getReceivingTanks(); // This calls the parent method which checks the mode
     }
 
     /**
