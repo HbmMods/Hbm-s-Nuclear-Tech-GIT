@@ -285,6 +285,9 @@ public class MainRegistry {
 		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
 		api.ntm1of90.compat.NTMFluidColorApplier.setBrightnessFactor(1.2f);
 		api.ntm1of90.compat.NTMForgeFluidRenderer.initialize();
+		// Initialize the Forge fluid compatibility system
+		api.ntm1of90.compat.ForgeFluidCompatManager.initialize();
+		// Note: Flow rate setting is no longer used as the system now respects the tank capacities and transfer rates
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();

@@ -1,10 +1,13 @@
-#NTM-1-of-90-Edition:
+## NTM-1-of-90-Edition:
 Up-to-date (HBM X5299)
 
 ## Added
-- Added Universal Big Ass Tank 9000 
+- Forge Fluid Support for Tanks, Barrels and HBM Machines
+(supports Fluid Pipes from various Mods: Buildcraft, EnderIO, Thermal Dynamics)
+(If it doesn't work: Use an extraction pipe from the mods listed above)
 
-## Fixed
-- Fixed minor issues when loading Armor Model
-- Fixed NullPointerException in BiomeGenNoMansLand
+## Removed
+In order to keep consistency with the rest of the mod according to updated Forge Fluid Support:
+- Removed Universal Fluid Barrel
+- Removed Universal Big Ass Tank
 

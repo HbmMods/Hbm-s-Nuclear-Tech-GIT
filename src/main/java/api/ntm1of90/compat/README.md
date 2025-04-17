@@ -10,6 +10,9 @@ The NTM Forge Fluid Compatibility API provides several key components:
 2. **NTMFluidNetworkAdapter**: Adapts NTM fluid tanks to work with Forge's IFluidHandler interface
 3. **NTMFluidNetworkBridge**: Transfers fluids between NTM's network and Forge's fluid system
 4. **ProxyForgeAdapter**: Adapts proxy tile entities to work with Forge's IFluidHandler interface for multiblock structures
+5. **ForgeFluidHandlerAdapter**: Base adapter class for implementing IFluidHandler in HBM tile entities
+6. **HBMForgeFluidCompat**: Utility class for adding Forge fluid compatibility to HBM tile entities
+7. **HBMForgeFluidBlockCompat**: Utility class for adding Forge fluid compatibility to HBM blocks
 
 ## Using ProxyForgeAdapter
 
@@ -116,3 +119,74 @@ These methods are used by various mods to check if a tile entity can connect to 
 The `ProxyForgeAdapter` class is designed to be a drop-in replacement for `TileEntityProxyCombo` in multiblock structures that need to interact with Forge fluid pipes. It maintains its own state for fluid handling capabilities, rather than relying on the internal state of `TileEntityProxyCombo`, making it more suitable for use in an API context.
 
 This design allows for better encapsulation and avoids exposing internal implementation details of the mod, making the API more stable and easier to maintain.
+
+## Using ForgeFluidHandlerAdapter
+
+The `ForgeFluidHandlerAdapter` class is a base adapter class that implements Forge's IFluidHandler interface for HBM tile entities. It makes it easier to add Forge fluid compatibility to HBM tile entities by handling the conversion between HBM's fluid system and Forge's fluid system.
+
+### Example Usage
+
+```java
+public class YourTileEntity extends TileEntityMachineBase implements IFluidHandler {
+
+    private ForgeFluidHandlerAdapter forgeAdapter = new ForgeFluidHandlerAdapter() {
+        @Override
+        protected FluidTank[] getHbmTanks() {
+            return new FluidTank[] { tank };
+        }
+
+        @Override
+        protected TileEntity getTileEntity() {
+            return YourTileEntity.this;
+        }
+
+        @Override
+        protected boolean isValidDirection(ForgeDirection from) {
+            // Only allow fluid transfer if the tank is in the right mode
+            return true; // Allow from all directions
+        }
+    };
+
+    // Implement IFluidHandler methods by delegating to the adapter
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        return forgeAdapter.fill(from, resource, doFill);
+    }
+
+    // Implement other IFluidHandler methods similarly
+}
+```
+
+## Using HBMForgeFluidCompat
+
+The `HBMForgeFluidCompat` class provides utility methods for adding Forge fluid compatibility to HBM tile entities. It includes methods for checking if a tile entity is a Forge fluid handler, transferring fluids between HBM and Forge fluid systems, and creating Forge-compatible fluid handlers for HBM tile entities.
+
+### Example Usage
+
+```java
+// Check if a tile entity is a Forge fluid handler
+boolean isForgeHandler = HBMForgeFluidCompat.isForgeFluidHandler(tileEntity);
+
+// Transfer fluid from an HBM tank to a Forge fluid handler
+int transferred = HBMForgeFluidCompat.transferToForge(hbmTank, forgeHandler, direction, maxAmount);
+
+// Create a Forge-compatible fluid handler for an HBM tile entity
+IFluidHandler forgeHandler = HBMForgeFluidCompat.createForgeFluidHandler(tileEntity, hbmTank);
+```
+
+## Using HBMForgeFluidBlockCompat
+
+The `HBMForgeFluidBlockCompat` class provides utility methods for adding Forge fluid compatibility to HBM blocks. It includes methods for checking if a block is a Forge fluid block or handler, transferring fluids between HBM and Forge fluid systems, and creating Forge-compatible fluid handlers for HBM blocks.
+
+### Example Usage
+
+```java
+// Check if a block is a Forge fluid handler
+boolean isForgeHandler = HBMForgeFluidBlockCompat.isForgeFluidHandler(world, x, y, z);
+
+// Transfer fluid from an HBM tank to a Forge fluid handler block
+int transferred = HBMForgeFluidBlockCompat.transferToForgeBlock(hbmTank, world, x, y, z, direction, maxAmount);
+
+// Create a Forge-compatible fluid handler for an HBM block
+IFluidHandler forgeHandler = HBMForgeFluidBlockCompat.createForgeFluidHandler(world, x, y, z, hbmTank);
+```
