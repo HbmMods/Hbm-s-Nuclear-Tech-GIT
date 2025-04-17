@@ -65,6 +65,16 @@ public class BusAnimation {
 	}
 	
 	/**
+	 * Multiplies all keyframe durations by the supplied double. Numbers below 1 make the animation play faster.
+	 * @param mult
+	 */
+	public void setTimeMult(double mult) {
+		for(Entry<String, BusAnimationSequence> sequence : animationBuses.entrySet()) {
+			sequence.getValue().multiplyTime(mult);
+		}
+	}
+	
+	/**
 	 * Gets the state of a bus at a specified time
 	 * @param name the name of the bus in question
 	 * @param millis the elapsed time since the animation started in milliseconds
@@ -76,15 +86,6 @@ public class BusAnimation {
 			return animationBuses.get(name).getTransformation(millis);
 		
 		return null;
-	}
-	
-	/**
-	 * reads all buses and checks if inbetween the last invocation and this one, a sound was scheduled
-	 * @param lastMillis the last time the bus was checked
-	 * @param millis the current time
-	 */
-	public void playPendingSounds(int lastMillis, int millis) {
-		//TODO: pending
 	}
 	
 	public int getDuration() {

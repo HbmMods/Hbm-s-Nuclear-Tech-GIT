@@ -1,6 +1,7 @@
 package com.hbm.items.weapon.sedna.mags;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.tool.ItemCasingBag;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.particle.SpentCasing;
@@ -57,5 +58,15 @@ public interface IMagazine<T> {
 				if(stack != null && stack.getItem() == ModItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
 			}
 		}
+	}
+	
+	public static boolean shouldUseUpTrenchie(IInventory inv) {
+		if(inv instanceof InventoryPlayer) {
+			InventoryPlayer invPlayer = (InventoryPlayer) inv;
+			boolean trenchie = ArmorTrenchmaster.isTrenchMaster(invPlayer.player);
+			boolean aos = ArmorTrenchmaster.hasAoS(invPlayer.player);
+			if(trenchie || aos) return invPlayer.player.getRNG().nextInt(3) < 2;
+		}
+		return true;
 	}
 }
