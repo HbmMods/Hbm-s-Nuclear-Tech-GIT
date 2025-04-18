@@ -3,8 +3,8 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
-import api.ntm1of90.compat.FluidMappingRegistry;
-import api.ntm1of90.compat.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
 import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.HashSet;

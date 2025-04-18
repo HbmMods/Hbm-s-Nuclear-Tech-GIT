@@ -11,8 +11,8 @@ import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
-import api.ntm1of90.compat.HBMForgeFluidCompat;
-import api.ntm1of90.compat.NTMFluidNetworkBridge;
+import api.ntm1of90.compat.fluid.HBMForgeFluidCompat;
+import api.ntm1of90.compat.fluid.bridge.NTMFluidNetworkBridge;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

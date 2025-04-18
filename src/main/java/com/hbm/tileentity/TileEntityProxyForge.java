@@ -1,7 +1,7 @@
 package com.hbm.tileentity;
 
 import api.hbm.fluidmk2.IFluidConnectorMK2;
-import api.ntm1of90.compat.FluidMappingRegistry;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import net.minecraft.nbt.NBTTagCompound;

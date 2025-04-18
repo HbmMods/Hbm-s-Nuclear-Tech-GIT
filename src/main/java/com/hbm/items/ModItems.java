@@ -7244,7 +7244,7 @@ public class ModItems {
 		GameRegistry.registerItem(conveyor_wand, conveyor_wand.getUnlocalizedName());
 
 		// Register the fluid display item for AE2 integration
-		api.ntm1of90.compat.FluidDisplayItem.register();
+		api.ntm1of90.compat.fluid.NTMFluidCompat.initialize();
 	}
 
 	public static void addRemap(String unloc, Item item, Enum sub) {

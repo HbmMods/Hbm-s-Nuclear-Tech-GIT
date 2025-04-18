@@ -1,7 +1,7 @@
 package api.ntm1of90.compat.ae2;
 
-import api.ntm1of90.compat.ColoredForgeFluid;
-import api.ntm1of90.compat.FluidDisplayItem;
+import api.ntm1of90.compat.fluid.FluidDisplayItem;
+import api.ntm1of90.compat.fluid.render.ColoredForgeFluid;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

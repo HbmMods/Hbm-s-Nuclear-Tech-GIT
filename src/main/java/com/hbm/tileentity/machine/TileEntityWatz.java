@@ -29,8 +29,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
-import api.ntm1of90.compat.FluidMappingRegistry;
-import api.ntm1of90.compat.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

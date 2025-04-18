@@ -27,8 +27,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import api.ntm1of90.compat.FluidMappingRegistry;
-import api.ntm1of90.compat.NTMFluidNetworkBridge;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
+import api.ntm1of90.compat.fluid.bridge.NTMFluidNetworkBridge;
 
 @Optional.InterfaceList({
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
