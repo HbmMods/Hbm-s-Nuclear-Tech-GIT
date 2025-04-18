@@ -18,13 +18,16 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public class BiomeGenNoMansLand extends BiomeGenBase {
 
+	public static BiomeGenNoMansLand instance;
+
 	public static void initDictionary() {
-		BiomeDictionary.registerBiomeType(noMansLand,	DEAD,	PLAINS,	WASTELAND);
-		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(noMansLand, 5));
+		BiomeDictionary.registerBiomeType(instance,	DEAD,	PLAINS,	WASTELAND);
+		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(instance, 5));
 	}
 
 	public BiomeGenNoMansLand(int id) {
 		super(id);
+		instance = this;
 		this.theBiomeDecorator = new BiomeDecoratorNoMansLand();
 		this.waterColorMultiplier = 0x6F6F12;
 		this.spawnableCreatureList.clear();
@@ -36,12 +39,12 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 		this.theBiomeDecorator.grassPerChunk = 0;
 		this.flowers.clear();
 
-		this.HOSTILE_LIST.add(new BiomeGenBase.SpawnListEntry(EntityUndeadSoldier.class, 1, 4, 6));
+		this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityUndeadSoldier.class, 1, 4, 6));
 	}
 
 	@Override
 	public List getSpawnableList(EnumCreatureType type) {
-
+		return super.getSpawnableList(type);
 	}
 
 	@Override @SideOnly(Side.CLIENT)
