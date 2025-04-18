@@ -277,6 +277,16 @@ public class MainRegistry {
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
+		// Initialize the fluid mapping registry and texture/color systems
+		api.ntm1of90.compat.FluidMappingRegistry.initialize();
+		api.ntm1of90.compat.NTMFluidTextureMapper.initialize();
+		api.ntm1of90.compat.NTMFluidColorApplier.initialize();
+		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
+		api.ntm1of90.compat.NTMFluidColorApplier.setBrightnessFactor(1.2f);
+		api.ntm1of90.compat.NTMForgeFluidRenderer.initialize();
+		// Initialize the Forge fluid compatibility system
+		api.ntm1of90.compat.ForgeFluidCompatManager.initialize();
+		// Note: Flow rate setting is no longer used as the system now respects the tank capacities and transfer rates
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -954,6 +964,9 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandRadiation());
 		event.registerServerCommand(new CommandPacketInfo());
 		event.registerServerCommand(new CommandReloadServer());
+
+		// Register commands from the proxy
+		proxy.registerCommands(event);
 	}
 
 	@EventHandler

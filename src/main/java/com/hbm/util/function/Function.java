@@ -87,4 +87,10 @@ public abstract class Function {
 		@Override public String getLabelForFuel() { return getXName(true) + "² * " + String.format(Locale.US, "%,.1f", this.level) + (vOff != 0 ? (" + " + String.format(Locale.US, "%,.1f", vOff)) : ""); }
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"; }
 	}
+	public static class FunctionExperiment extends FunctionSingleArg {
+		public FunctionExperiment(double level) { super(level); }
+		@Override public double effonix(double x) { return getX(x) * this.level; }
+		@Override public String getLabelForFuel()  { return getXName(true) + " * " + String.format(Locale.US, "%,.1f", this.level); }
+		@Override public String getDangerFromFuel() { return EnumChatFormatting.DARK_RED + "Dangerous / Experimental DO NOT USE"; }
+	}
 }
