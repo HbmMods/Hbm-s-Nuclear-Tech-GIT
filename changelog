@@ -1,3 +1,15 @@
+## Changed
+* Trenchmaster armor now has the fast reload and more ammo traits again
+  * Fast reload now also plays the animation twice as fast
+  * More ammo does not apply to weapons that can only hold one round, like nuke and rocket launchers
+* Ace of spades now works as advertised again
+* Clay tablets now have "pools", tablets obtained from a black room no longer shows recipes for things not related to black rooms
+* Pedestal crafting extras `GOOD_KARMA` and `BAD_KARMA` are now properly implemented
+  * If you don't know what this means, just ignore it
+* Pneumatic tubes now have a special case when supplying autocrafters, they will only send single items since larger stacks are not accepted
+* Simplified turbofan recipe
+* Solar boilers will now show a tooltip when they are too cold
+
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
 * Fixed minor display issue where compressed air ducts would visually connect to non-ejector pneumatic tubes

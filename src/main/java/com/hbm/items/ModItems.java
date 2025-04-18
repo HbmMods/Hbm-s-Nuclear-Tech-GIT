@@ -6571,7 +6571,6 @@ public class ModItems {
 		GameRegistry.registerItem(schrabidium_hammer, schrabidium_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_sledge, shimmer_sledge.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_axe, shimmer_axe.getUnlocalizedName());
-		//GameRegistry.registerItem(pch, pch.getUnlocalizedName()); //sike, nevermind
 		GameRegistry.registerItem(wood_gavel, wood_gavel.getUnlocalizedName());
 		GameRegistry.registerItem(lead_gavel, lead_gavel.getUnlocalizedName());
 		GameRegistry.registerItem(diamond_gavel, diamond_gavel.getUnlocalizedName());

@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.recipes.PedestalRecipes;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
 import com.hbm.lib.RefStrings;
@@ -58,26 +59,10 @@ public class BlockPedestal extends BlockContainer {
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
-	@Override
-	public int getRenderType() {
-		return renderID;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-		return true;
-	}
+	@Override public int getRenderType() { return renderID; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
+	@Override @SideOnly(Side.CLIENT) public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) { return true; }
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -133,9 +118,11 @@ public class BlockPedestal extends BlockContainer {
 				TileEntityPedestal se = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.SOUTH.offsetX * 2 + ForgeDirection.EAST.offsetX * 2, y, z + ForgeDirection.SOUTH.offsetZ * 2 + ForgeDirection.EAST.offsetZ * 2));
 				
 				TileEntityPedestal[] tileArray = new TileEntityPedestal[] {nw, n, ne, w, center, e, sw, s, se};
+				List<EntityPlayer> nearbyPlayers = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(20, 20, 20));
 				
 				outer: for(PedestalRecipe recipe : PedestalRecipes.recipes) {
 					
+					/// EXTRA CONDITIONS ///
 					if(recipe.extra == recipe.extra.FULL_MOON) {
 						if(world.getCelestialAngle(0) < 0.35 || world.getCelestialAngle(0) > 0.65) continue;
 						if(world.provider.getMoonPhase(world.getWorldInfo().getWorldTime()) != 0) continue;
@@ -150,6 +137,19 @@ public class BlockPedestal extends BlockContainer {
 						if(world.getCelestialAngle(0) > 0.15 && world.getCelestialAngle(0) < 0.85) continue;
 					}
 					
+					if(recipe.extra == recipe.extra.BAD_KARMA) {
+						boolean matches = false;
+						for(EntityPlayer player : nearbyPlayers) if(HbmPlayerProps.getData(player).reputation <= -10) { matches = true; break; }
+						if(!matches) continue;
+					}
+					
+					if(recipe.extra == recipe.extra.GOOD_KARMA) {
+						boolean matches = false;
+						for(EntityPlayer player : nearbyPlayers) if(HbmPlayerProps.getData(player).reputation >= 10) { matches = true; break; }
+						if(!matches) continue;
+					}
+					
+					/// CHECK ITEMS ///
 					for(int i = 0; i < 9; i++) {
 						ItemStack pedestal = tileArray[i] != null ? tileArray[i].item : null;
 						if(pedestal == null && recipe.input[i] != null) continue outer;
@@ -159,6 +159,7 @@ public class BlockPedestal extends BlockContainer {
 						if(!recipe.input[i].matchesRecipe(pedestal, true) || recipe.input[i].stacksize != pedestal.stackSize) continue outer;
 					}
 					
+					/// REMOVE ITEMS ///
 					for(int i = 0; i < 9; i++) {
 						if(i == 4) continue;
 						ItemStack pedestal = tileArray[i] != null ? tileArray[i].item : null;
@@ -167,7 +168,8 @@ public class BlockPedestal extends BlockContainer {
 						tileArray[i].markDirty();
 						world.markBlockForUpdate(tileArray[i].xCoord, tileArray[i].yCoord, tileArray[i].zCoord);
 					}
-					
+
+					/// PRODUCE RESULT ///
 					center.item = recipe.output.copy();
 					center.markDirty();
 					world.markBlockForUpdate(x, y, z);
@@ -191,10 +193,7 @@ public class BlockPedestal extends BlockContainer {
 
 		public ItemStack item;
 		
-		@Override
-		public boolean canUpdate() {
-			return false;
-		}
+		@Override public boolean canUpdate() { return false; }
 
 		@Override
 		public Packet getDescriptionPacket() {

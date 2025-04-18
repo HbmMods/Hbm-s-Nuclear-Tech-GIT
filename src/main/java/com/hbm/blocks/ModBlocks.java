@@ -851,11 +851,7 @@ public class ModBlocks {
 	public static Block machine_transformer_dnt;
 	public static Block machine_transformer_dnt_20;
 
-	public static Block bomb_multi_large;
-	public static final int guiID_bomb_multi_large = 18;
-
 	public static Block machine_solar_boiler;
-	public static final int guiID_solar_boiler = 18;
 	public static Block solar_mirror;
 
 	public static Block struct_launcher;
