@@ -1,5 +1,8 @@
 ## NTM-1-of-90-Edition:
 Up-to-date
 
+## Added
+- Reorganized ntm1of90 API structure
+
 ## Fixed
-- Fixed Watz Powerplant GUI not opening on world reload
+- Fixed ForgeFluids Implementation causing crashes
