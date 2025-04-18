@@ -18,9 +18,10 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public class BiomeGenNoMansLand extends BiomeGenBase {
 	
-	public static final BiomeGenBase noMansLand = new BiomeGenNoMansLand(99).setBiomeName("No Man's Land");
 	public static final List EMPTY_LIST = new ArrayList(0);
-	public static final List HOSTILE_LIST = new ArrayList(0);
+	public static final List HOSTILE_LIST = new ArrayList(1);
+	
+	public static final BiomeGenBase noMansLand = new BiomeGenNoMansLand(99).setBiomeName("No Man's Land");
 	
 	public static void initDictionary() {
 		BiomeDictionary.registerBiomeType(noMansLand,	DEAD,	PLAINS,	WASTELAND);
@@ -45,7 +46,13 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 	
 	@Override
 	public List getSpawnableList(EnumCreatureType type) {
-		if(type == type.monster) return this.HOSTILE_LIST;
+		if(type == type.monster) {
+			if(this.HOSTILE_LIST.size() != 1) {
+				this.HOSTILE_LIST.clear();
+				this.HOSTILE_LIST.add(new BiomeGenBase.SpawnListEntry(EntityUndeadSoldier.class, 1, 4, 6));
+			}
+			return this.HOSTILE_LIST;
+		}
 		if(!EMPTY_LIST.isEmpty()) EMPTY_LIST.clear();
 		return EMPTY_LIST;
 	}
