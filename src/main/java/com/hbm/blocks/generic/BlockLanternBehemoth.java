@@ -53,7 +53,7 @@ public class BlockLanternBehemoth extends BlockDummyable implements IToolable, I
 		
 		if(didRepair) {
 			HbmPlayerProps data = HbmPlayerProps.getData(player);
-			data.reputation++;
+			if(data.reputation < 25) data.reputation++;
 		}
 		
 		return didRepair;

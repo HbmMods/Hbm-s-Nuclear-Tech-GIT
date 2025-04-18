@@ -10,6 +10,7 @@ import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
 import com.hbm.config.ClientConfig;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.CustomMachineHandler;
+import com.hbm.items.ItemEnums.EnumIngotMetal;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -42,6 +43,8 @@ public class NEIConfig implements IConfigureNEI {
 			for(int i = 0; i < EnumAmmoSecret.values().length; i++) API.hideItem(new ItemStack(ModItems.ammo_secret, 1, i));
 			for(int i = 0; i < EnumSecretType.values().length; i++) API.hideItem(new ItemStack(ModItems.item_secret, 1, i));
 		}
+		
+		for(int i = 0; i < EnumIngotMetal.values().length; i++) API.hideItem(new ItemStack(ModItems.ingot_metal, 1, i));
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

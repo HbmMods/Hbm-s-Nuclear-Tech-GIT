@@ -18,10 +18,6 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public class BiomeGenNoMansLand extends BiomeGenBase {
 
-	public static final BiomeGenBase noMansLand = new BiomeGenNoMansLand(99).setBiomeName("No Man's Land");
-	private final List EMPTY_LIST = new ArrayList(0);
-	private final List HOSTILE_LIST = new ArrayList(0);
-
 	public static void initDictionary() {
 		BiomeDictionary.registerBiomeType(noMansLand,	DEAD,	PLAINS,	WASTELAND);
 		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(noMansLand, 5));
@@ -45,9 +41,7 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 
 	@Override
 	public List getSpawnableList(EnumCreatureType type) {
-		if(type == type.monster) return this.HOSTILE_LIST;
-		if(!this.EMPTY_LIST.isEmpty()) this.EMPTY_LIST.clear();
-		return this.EMPTY_LIST;
+
 	}
 
 	@Override @SideOnly(Side.CLIENT)
