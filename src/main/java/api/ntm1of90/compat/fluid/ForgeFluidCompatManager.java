@@ -40,20 +40,23 @@ public class ForgeFluidCompatManager {
         // Initialize the fluid capability hook
         ForgeFluidCapabilityHook.initialize();
 
-        // Initialize the fluid texture mapper
-        NTMFluidTextureMapper.initialize();
-
         // Initialize the fluid localization
         NTMFluidLocalization.initialize();
 
-        // Initialize the fluid renderer
-        NTMForgeFluidRenderer.initialize();
-
-        // Initialize the fluid compat renderer
-        NTMFluidCompatRenderer.initialize();
-
         // Initialize the fluid compat
         NTMFluidCompat.initialize();
+
+        // Only initialize client-side components when on the client
+        if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == cpw.mods.fml.relauncher.Side.CLIENT) {
+            // Initialize the fluid texture mapper
+            NTMFluidTextureMapper.initialize();
+
+            // Initialize the fluid renderer
+            NTMForgeFluidRenderer.initialize();
+
+            // Initialize the fluid compat renderer
+            NTMFluidCompatRenderer.initialize();
+        }
 
         initialized = true;
         System.out.println("[NTM] Forge Fluid Compatibility API initialized");
