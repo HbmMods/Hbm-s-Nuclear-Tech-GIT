@@ -82,6 +82,7 @@ import com.hbm.tileentity.machine.albion.*;
 import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
+
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
@@ -147,6 +148,13 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(new ModEventHandlerRenderer());
 		registerClientEventHandler(new EventHandlerParticleEngine());
 		registerClientEventHandler(theInfoSystem);
+
+		// Initialize client-side resources for armor models
+		try {
+			com.hbm.items.armor.ArmorModel.initializeClientResources();
+		} catch(Exception e) {
+			System.err.println("Failed to initialize client-side armor resources: " + e.getMessage());
+		}
 
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();
@@ -283,7 +291,9 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadarScreen.class, new RenderRadarScreen());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityReactorResearch.class, new RenderSmallReactor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTesla.class, new RenderTesla());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBarrel.class, new RenderFluidBarrel());
+		// Register barrel renderer
+		RenderFluidBarrel barrelRenderer = new RenderFluidBarrel();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBarrel.class, barrelRenderer);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRotaryFurnace.class, new RenderRotaryFurnace());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCrystallizer.class, new RenderCrystallizer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMicrowave.class, new RenderMicrowave());
