@@ -278,18 +278,6 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(biome.temperature == 0.5F || biome.temperature == 2.0F) {
-				if(WorldConfig.satelliteStructure > 0 && rand.nextInt(WorldConfig.satelliteStructure) == 0) {
-					for(int a = 0; a < 1; a++) {
-						int x = i + rand.nextInt(16);
-						int z = j + rand.nextInt(16);
-						int y = world.getHeightValue(x, z);
-
-						new Satellite().generate(world, rand, x, y, z);
-					}
-				}
-			}
-
 			if(!biome.canSpawnLightningBolt() && biome.temperature >= 1.5F) {
 				if(rand.nextInt(200) == 0) {
 					for(int a = 0; a < 1; a++) {

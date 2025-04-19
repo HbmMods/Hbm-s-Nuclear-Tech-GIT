@@ -60,15 +60,15 @@ public class ModelRendererObj {
 	}
 
 	public void copyRotationFrom(ModelRenderer model) {
-		/*offsetX = model.offsetX;
+		offsetX = model.offsetX;
 		offsetY = model.offsetY;
-		offsetZ = model.offsetZ;*/
+		offsetZ = model.offsetZ;
 		rotateAngleX = model.rotateAngleX;
 		rotateAngleY = model.rotateAngleY;
 		rotateAngleZ = model.rotateAngleZ;
-		/*rotationPointX = model.rotationPointX;
+		rotationPointX = model.rotationPointX;
 		rotationPointY = model.rotationPointY;
-		rotationPointZ = model.rotationPointZ;*/
+		rotationPointZ = model.rotationPointZ;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -79,23 +79,14 @@ public class ModelRendererObj {
 
 		GL11.glPushMatrix();
 
-		GL11.glTranslatef(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
-
 		GL11.glTranslatef(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
 
-		if(this.rotateAngleZ != 0.0F) {
-			GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
-		}
+		if(this.rotateAngleZ != 0.0F) GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+		if(this.rotateAngleY != 0.0F) GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+		if(this.rotateAngleX != 0.0F) GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 
-		if(this.rotateAngleY != 0.0F) {
-			GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
-		}
-
-		if(this.rotateAngleX != 0.0F) {
-			GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
-		}
-
-		GL11.glTranslatef(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.originPointZ * scale); //yes, that is correct
+		GL11.glTranslatef(-this.originPointX * scale, -this.originPointY * scale, -this.originPointZ * scale);
+		GL11.glTranslatef(-this.offsetX * scale, -this.offsetY * scale, -this.offsetZ * scale);
 
 		GL11.glScalef(scale, scale, scale);
 
@@ -111,26 +102,18 @@ public class ModelRendererObj {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void postRender(float p_78794_1_) {
+	public void postRender(float scale) {
 
 		if(this.rotateAngleX == 0.0F && this.rotateAngleY == 0.0F && this.rotateAngleZ == 0.0F) {
 			if(this.rotationPointX != 0.0F || this.rotationPointY != 0.0F || this.rotationPointZ != 0.0F) {
-				GL11.glTranslatef(this.rotationPointX * p_78794_1_, this.rotationPointY * p_78794_1_, this.rotationPointZ * p_78794_1_);
+				GL11.glTranslatef(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
 			}
 		} else {
-			GL11.glTranslatef(this.rotationPointX * p_78794_1_, this.rotationPointY * p_78794_1_, this.rotationPointZ * p_78794_1_);
+			GL11.glTranslatef(this.rotationPointX * scale, this.rotationPointY * scale, this.rotationPointZ * scale);
 
-			if(this.rotateAngleZ != 0.0F) {
-				GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
-			}
-
-			if(this.rotateAngleY != 0.0F) {
-				GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
-			}
-
-			if(this.rotateAngleX != 0.0F) {
-				GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
-			}
+			if(this.rotateAngleZ != 0.0F) GL11.glRotatef(this.rotateAngleZ * (180F / (float) Math.PI), 0.0F, 0.0F, 1.0F);
+			if(this.rotateAngleY != 0.0F) GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+			if(this.rotateAngleX != 0.0F) GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 		}
 	}
 }

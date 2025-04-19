@@ -14,8 +14,8 @@ public class ModelArmorTaurun extends ModelArmorBase {
 
 		this.head = new ModelRendererObj(ResourceManager.armor_taurun, "Helmet");
 		this.body = new ModelRendererObj(ResourceManager.armor_taurun, "Chest");
-		this.leftArm = new ModelRendererObj(ResourceManager.armor_taurun, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
-		this.rightArm = new ModelRendererObj(ResourceManager.armor_taurun, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.leftArm = new ModelRendererObj(ResourceManager.armor_taurun, "LeftArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.rightArm = new ModelRendererObj(ResourceManager.armor_taurun, "RightArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
 		this.leftLeg = new ModelRendererObj(ResourceManager.armor_taurun, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		this.rightLeg = new ModelRendererObj(ResourceManager.armor_taurun, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
 		this.leftFoot = new ModelRendererObj(ResourceManager.armor_taurun, "LeftBoot").setRotationPoint(1.9F, 12.0F, 0.0F);

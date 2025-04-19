@@ -91,7 +91,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	public TileEntityMachineExcavator() {
 		super(14);
-		this.tank = new FluidTank(Fluids.SULFURIC_ACID, 16_000);
+		this.tank = new FluidTank(Fluids.NONE, 16_000);
 	}
 
 	@Override

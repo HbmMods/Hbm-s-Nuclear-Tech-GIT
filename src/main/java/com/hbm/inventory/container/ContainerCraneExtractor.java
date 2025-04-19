@@ -24,15 +24,9 @@ public class ContainerCraneExtractor extends ContainerBase {
 				this.addSlotToContainer(new SlotPattern(extractor, j + i * 3, 71 + j * 18, 17 + i * 18));
 			}
 		}
-		/*
+		
 		//buffer
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(extractor, 9 + j + i * 3, 8 + j * 18, 17 + i * 18));
-			}
-		}*/
 		addSlots(extractor,9,8,17,3,3);
-
 
 		//upgrades
 		this.addSlotToContainer(new SlotUpgrade(extractor, 18, 152, 23));

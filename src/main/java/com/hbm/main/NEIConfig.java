@@ -7,8 +7,10 @@ import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
+import com.hbm.config.ClientConfig;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.CustomMachineHandler;
+import com.hbm.items.ItemEnums.EnumIngotMetal;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -36,17 +38,18 @@ public class NEIConfig implements IConfigureNEI {
 			registerHandlerBypass(new CustomMachineHandler(conf));
 		}
 
-		for(Item item : ItemGunBaseNT.secrets) {
-			API.hideItem(new ItemStack(item));
+		if(ClientConfig.NEI_HIDE_SECRETS.get()) {
+			for(Item item : ItemGunBaseNT.secrets) API.hideItem(new ItemStack(item));
+			for(int i = 0; i < EnumAmmoSecret.values().length; i++) API.hideItem(new ItemStack(ModItems.ammo_secret, 1, i));
+			for(int i = 0; i < EnumSecretType.values().length; i++) API.hideItem(new ItemStack(ModItems.item_secret, 1, i));
 		}
-
-		for(int i = 0; i < EnumAmmoSecret.values().length; i++) API.hideItem(new ItemStack(ModItems.ammo_secret, 1, i));
+		
+		for(int i = 0; i < EnumIngotMetal.values().length; i++) API.hideItem(new ItemStack(ModItems.ingot_metal, 1, i));
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
 		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));
 
-		for(int i = 0; i < EnumSecretType.values().length; i++) API.hideItem(new ItemStack(ModItems.item_secret, 1, i));
 		API.hideItem(new ItemStack(ModBlocks.machine_electric_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));

@@ -87,13 +87,13 @@ public class DungeonSpawner extends BlockContainer {
 		int z = tile.zCoord;
 		if(tile.phase == 0) {
 			if(world.getTotalWorldTime() % 20 != 0) return false;
-			return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(20, 10, 20)).isEmpty();
+			//return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(20, 10, 20)).isEmpty();
 		}
 		if(tile.phase < 3) {
 			if(world.getTotalWorldTime() % 20 != 0 || tile.timer < 60) return false;
-			return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(50, 20, 50)).isEmpty();
+			//return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(50, 20, 50)).isEmpty();
 		}
-		return true;
+		return false;
 	};
 	
 	public static Consumer<TileEntityDungeonSpawner> PHASE_TEST = (tile) -> {

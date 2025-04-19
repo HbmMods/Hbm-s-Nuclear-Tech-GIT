@@ -3,6 +3,7 @@ package com.hbm.packet.toclient;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
@@ -105,6 +106,7 @@ public class GunAnimationPacket implements IMessage {
 				
 				if(animation != null) {
 					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
+					if(isReloadAnimation && ArmorTrenchmaster.isTrenchMaster(player)) animation.setTimeMult(0.5D);
 					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, type, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
 				}
 				
@@ -143,6 +145,7 @@ public class GunAnimationPacket implements IMessage {
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.resetEquippedProgress();
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender = stack;
 				boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
+				if(isReloadAnimation && ArmorTrenchmaster.isTrenchMaster(player)) animation.setTimeMult(0.5D);
 				HbmAnimations.hotbar[slot][gunIndex] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, type, isReloadAnimation && config.getReloadAnimSequential(stack));
 			}
 		}

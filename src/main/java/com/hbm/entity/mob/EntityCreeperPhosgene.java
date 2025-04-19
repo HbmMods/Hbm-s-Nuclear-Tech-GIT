@@ -25,6 +25,11 @@ public class EntityCreeperPhosgene extends EntityCreeper {
 		
 		return super.attackEntityFrom(source, amount);
 	}
+	
+	@Override
+	public boolean getCanSpawnHere() {
+		return super.getCanSpawnHere() && this.dimension == 0;
+	}
 
 	@Override
 	public void func_146077_cc() {

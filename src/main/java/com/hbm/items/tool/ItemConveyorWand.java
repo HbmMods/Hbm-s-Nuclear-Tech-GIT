@@ -1,14 +1,17 @@
 package com.hbm.items.tool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.BlockConveyorBase;
 import com.hbm.blocks.network.BlockConveyorBendable;
 import com.hbm.blocks.network.BlockCraneBase;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.WorldInAJar;
@@ -32,11 +35,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class ItemConveyorWand extends Item {
+public class ItemConveyorWand extends Item implements ILookOverlay {
 
 	public ItemConveyorWand() {
 		setHasSubtypes(true);
@@ -307,6 +311,8 @@ public class ItemConveyorWand extends Item {
 	// In creative, auto delete connected conveyors
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer playerEntity) {
+		if(!playerEntity.isSneaking()) return false;
+
 		World world = playerEntity.worldObj;
 		Block block = world.getBlock(x, y, z);
 
@@ -316,9 +322,11 @@ public class ItemConveyorWand extends Item {
 		EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 
 		if(!world.isRemote && block instanceof BlockConveyorBase) {
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				breakExtra(world, player, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, 32);
-			}
+			BlockConveyorBase conveyor = (BlockConveyorBase) block;
+			ForgeDirection input = conveyor.getInputDirection(world, x, y, z);
+			ForgeDirection output = conveyor.getOutputDirection(world, x, y, z);
+			breakExtra(world, player, x + input.offsetX, y + input.offsetY, z + input.offsetZ, 32);
+			breakExtra(world, player, x + output.offsetX, y + output.offsetY, z + output.offsetZ, 32);
 		}
 
 		return false;
@@ -332,6 +340,10 @@ public class ItemConveyorWand extends Item {
 		int meta = world.getBlockMetadata(x, y, z);
 		if(!(block instanceof BlockConveyorBase)) return;
 
+		BlockConveyorBase conveyor = (BlockConveyorBase) block;
+		ForgeDirection input = conveyor.getInputDirection(world, x, y, z);
+		ForgeDirection output = conveyor.getOutputDirection(world, x, y, z);
+
 		BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world, player.theItemInWorldManager.getGameType(), player, x, y, z);
 		if(event.isCanceled())
 			return;
@@ -342,10 +354,8 @@ public class ItemConveyorWand extends Item {
 		}
 
 		player.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
-
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			breakExtra(world, player, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, depth);
-		}
+		breakExtra(world, player, x + input.offsetX, y + input.offsetY, z + input.offsetZ, depth);
+		breakExtra(world, player, x + output.offsetX, y + output.offsetY, z + output.offsetZ, depth);
 	}
 
 	// attempts to construct a conveyor between two points, including bends, lifts, and chutes
@@ -392,7 +402,7 @@ public class ItemConveyorWand extends Item {
 		ForgeDirection horDir = dir == ForgeDirection.UP || dir == ForgeDirection.DOWN ? ForgeDirection.getOrientation(getFacingMeta(player)).getOpposite() : dir;
 
 		// Initial dropdown to floor level, if possible
-		if(y > ty) {
+		if(hasVertical && y > ty) {
 			if(routeWorld.getBlock(x, y - 1, z).isReplaceable(routeWorld, x, y - 1, z)) {
 				dir = ForgeDirection.DOWN;
 			}
@@ -490,6 +500,20 @@ public class ItemConveyorWand extends Item {
 
 	private static int taxiDistance(int x1, int y1, int z1, int x2, int y2, int z2) {
 		return Math.abs(x1 - x2) + Math.abs(y1 - y2) + Math.abs(z1 - z2);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		EntityPlayer player = MainRegistry.proxy.me();
+		if(player == null || !player.isSneaking() || !player.capabilities.isCreativeMode) return;
+
+		Block block = world.getBlock(x, y, z);
+		if(block instanceof BlockConveyorBase) {
+			List<String> text = new ArrayList<>();
+			text.add("Break whole conveyor line");
+			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(block.getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+		}
 	}
 
 }

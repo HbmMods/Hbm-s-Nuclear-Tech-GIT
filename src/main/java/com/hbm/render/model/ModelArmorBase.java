@@ -1,6 +1,5 @@
 package com.hbm.render.model;
 
-import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.render.loader.ModelRendererObj;
 
 import net.minecraft.client.Minecraft;
@@ -10,8 +9,6 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,8 +30,8 @@ public class ModelArmorBase extends ModelBiped {
 		// Generate null defaults to prevent major breakage from using incomplete models
 		this.head = new ModelRendererObj(null);
 		this.body = new ModelRendererObj(null);
-		this.leftArm = new ModelRendererObj(null).setRotationPoint(-5.0F, 2.0F, 0.0F);
-		this.rightArm = new ModelRendererObj(null).setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.leftArm = new ModelRendererObj(null).setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.rightArm = new ModelRendererObj(null).setRotationPoint(-5.0F, 2.0F, 0.0F);
 		this.leftLeg = new ModelRendererObj(null).setRotationPoint(1.9F, 12.0F, 0.0F);
 		this.rightLeg = new ModelRendererObj(null).setRotationPoint(-1.9F, 12.0F, 0.0F);
 		this.leftFoot = new ModelRendererObj(null).setRotationPoint(1.9F, 12.0F, 0.0F);
@@ -51,68 +48,31 @@ public class ModelArmorBase extends ModelBiped {
 			RenderPlayer renderPlayer = (RenderPlayer) render;
 			this.copyPropertiesFromBiped(renderPlayer.modelBipedMain);
 			calculateRotations = false;
+			
 		} else if(render instanceof RenderBiped) {
 			RenderBiped renderBiped = (RenderBiped) render;
 			this.copyPropertiesFromBiped(renderBiped.modelBipedMain);
 			calculateRotations = false;
 		}
 
-		this.rightFoot.rotateAngleX = this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.leftFoot.rotateAngleX = this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
-		this.rightFoot.rotateAngleY = this.rightLeg.rotateAngleY = 0.0F;
-		this.leftFoot.rotateAngleY = this.leftLeg.rotateAngleY = 0.0F;
-
-		if(entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entity;
-
-			this.aimedBow = false;
-
-			if(player.getHeldItem() != null) {
-
-				int hold = 1;
-
-				if(player.getItemInUseCount() > 0) {
-
-					EnumAction action = player.getHeldItem().getItemUseAction();
-
-					if(action == EnumAction.block)
-						hold = 3;
-
-					if(action == EnumAction.bow)
-						this.aimedBow = true;
-				}
-
-				if(player.getHeldItem().getItem() instanceof IHoldableWeapon)
-					this.aimedBow = true;
-
-				if(calculateRotations)
-					this.rightArm.rotateAngleX = this.rightArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F) * hold;
-			}
-		}
-
-		this.isSneak = entity.isSneaking();
-		this.isRiding = entity.isRiding();
-
-		if(this.isRiding) {
-			this.rightFoot.rotateAngleX = this.rightLeg.rotateAngleX = -((float) Math.PI * 2F / 5F);
-			this.leftFoot.rotateAngleX = this.leftLeg.rotateAngleX = -((float) Math.PI * 2F / 5F);
-			this.rightFoot.rotateAngleY = this.rightLeg.rotateAngleY = ((float) Math.PI / 10F);
-			this.leftFoot.rotateAngleY = this.leftLeg.rotateAngleY = -((float) Math.PI / 10F);
-		}
-
-		if(this.isSneak) {
-			this.rightFoot.offsetZ = this.rightLeg.offsetZ = 4.0F;
-			this.leftFoot.offsetZ = this.leftLeg.offsetZ = 4.0F;
-			this.rightFoot.offsetY = this.rightLeg.offsetY = -3.0F;
-			this.leftFoot.offsetY = this.leftLeg.offsetY = -3.0F;
-		} else {
-			this.rightFoot.offsetZ = this.rightLeg.offsetZ = 0.1F;
-			this.leftFoot.offsetZ = this.leftLeg.offsetZ = 0.1F;
-			this.rightFoot.offsetY = this.rightLeg.offsetY = 0.0F;
-			this.leftFoot.offsetY = this.leftLeg.offsetY = 0.0F;
-		}
-
+		/// FALLBACK ///
 		if(calculateRotations) {
+
+			this.isSneak = entity.isSneaking();
+			this.isRiding = entity.isRiding();
+
+			if(this.isSneak) {
+				this.rightFoot.offsetZ = this.rightLeg.offsetZ = 4.0F;
+				this.leftFoot.offsetZ = this.leftLeg.offsetZ = 4.0F;
+				this.rightFoot.offsetY = this.rightLeg.offsetY = -3.0F;
+				this.leftFoot.offsetY = this.leftLeg.offsetY = -3.0F;
+			} else {
+				this.rightFoot.offsetZ = this.rightLeg.offsetZ = 0.1F;
+				this.leftFoot.offsetZ = this.leftLeg.offsetZ = 0.1F;
+				this.rightFoot.offsetY = this.rightLeg.offsetY = 0.0F;
+				this.leftFoot.offsetY = this.leftLeg.offsetY = 0.0F;
+			}
+			
 			this.head.rotateAngleY = netHeadYaw / (180F / (float) Math.PI);
 			this.head.rotateAngleX = headPitch / (180F / (float) Math.PI);
 			this.rightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F;
@@ -194,20 +154,22 @@ public class ModelArmorBase extends ModelBiped {
 	}
 
 	protected static void bindTexture(ResourceLocation location) {
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(location);
 	}
 
 	private void copyPropertiesFromBiped(ModelBiped modelBiped) {
 
 		this.head.copyRotationFrom(modelBiped.bipedHead);
-		this.head.offsetY = modelBiped.bipedHead.offsetY;
 		this.body.copyRotationFrom(modelBiped.bipedBody);
 		this.leftArm.copyRotationFrom(modelBiped.bipedLeftArm);
-		this.leftArm.rotationPointX = modelBiped.bipedLeftArm.rotationPointX;
-		this.leftArm.rotationPointZ = modelBiped.bipedLeftArm.rotationPointZ;
 		this.rightArm.copyRotationFrom(modelBiped.bipedRightArm);
-		this.rightArm.rotationPointX = modelBiped.bipedRightArm.rotationPointX;
-		this.rightArm.rotationPointZ = modelBiped.bipedRightArm.rotationPointZ;
+		this.leftLeg.copyRotationFrom(modelBiped.bipedLeftLeg);
+		this.rightLeg.copyRotationFrom(modelBiped.bipedRightLeg);
+		this.leftFoot.copyRotationFrom(modelBiped.bipedLeftLeg);
+		this.rightFoot.copyRotationFrom(modelBiped.bipedRightLeg);
+		// compat crap
+		this.aimedBow = modelBiped.aimedBow;
+		this.isSneak = modelBiped.isSneak;
+		this.isRiding = modelBiped.isRiding;
 	}
 }

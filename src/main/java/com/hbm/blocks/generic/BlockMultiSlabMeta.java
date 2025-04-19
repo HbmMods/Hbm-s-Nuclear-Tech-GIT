@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IIcon;
 
-// kinda ugly solution, but no other stairs use metadata-dependent blocks anyway. feel free to refactor/merge them once needed
 public class BlockMultiSlabMeta extends BlockMultiSlab {
 	
 	public int[] metas;
@@ -41,9 +40,9 @@ public class BlockMultiSlabMeta extends BlockMultiSlab {
 		return block.getIcon(side, metas[meta]);
 	}
 	
-	//blocks don't have meta-dependent unlocalized names by default, so we have to do this ugly solution
 	@Override
 	public String func_150002_b(int meta) {
+		meta = (meta & 7) % slabMaterials.length;
 		return super.func_150002_b(meta) + "." + metas[meta];
 	}
 }

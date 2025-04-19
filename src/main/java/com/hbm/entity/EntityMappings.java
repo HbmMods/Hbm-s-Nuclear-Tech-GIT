@@ -71,7 +71,6 @@ public class EntityMappings {
 		addEntity(EntityMissileRain.class, "entity_missile_rain", 1000);
 		addEntity(EntityMissileDrill.class, "entity_missile_drill", 1000);
 		addEntity(EntityMissileMirv.class, "entity_missile_mirv", 1000);
-		addEntity(EntityMIRV.class, "entity_mirvlet", 1000);
 		addEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 1000);
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);
 		addEntity(EntityGrenadeTau.class, "entity_grenade_tau", 500);
@@ -106,7 +105,6 @@ public class EntityMappings {
 		addEntity(EntityNukeExplosionMK5.class, "entity_nuke_mk5", 1000);
 		addEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 1000);
-		addEntity(EntityAAShell.class, "entity_aa_shell", 1000);
 		addEntity(EntityMissileTest.class, "entity_missile_test_mk2", 1000);
 		addEntity(EntityMissileMicro.class, "entity_missile_micronuclear", 1000);
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
@@ -214,7 +212,6 @@ public class EntityMappings {
 		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
 		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
 		addEntity(TrainCargoTramTrailer.class, "entity_ntm_cargo_tram_trailer", 250, false);
-		addEntity(TrainTunnelBore.class, "entity_ntm_tunnel_bore", 250, false);
 
 		addEntity(EntityDisperserCanister.class, "entity_disperser", 250);
 		addEntity(EntityWaypoint.class, "entity_waypoint", 250, false);

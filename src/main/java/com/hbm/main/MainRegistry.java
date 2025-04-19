@@ -299,6 +299,7 @@ public class MainRegistry {
 		OreDictManager.registerOres();
 
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
+		//BiomeGenNoMansLand.initDictionary();
 
 		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
 		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;

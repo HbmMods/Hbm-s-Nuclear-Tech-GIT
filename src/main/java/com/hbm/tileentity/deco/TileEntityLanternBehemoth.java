@@ -74,7 +74,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 50, yCoord - 50, zCoord - 50, xCoord + 51, yCoord + 51, zCoord + 51));
 		for(EntityPlayer player : players) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.reputation > -10) props.reputation--;
+			if(props.reputation > -25) props.reputation--;
 		}
 	}
 
