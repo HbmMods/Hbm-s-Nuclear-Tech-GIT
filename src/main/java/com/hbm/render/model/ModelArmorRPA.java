@@ -20,8 +20,8 @@ public class ModelArmorRPA extends ModelArmorBase {
 		this.body = new ModelRendererObj(ResourceManager.armor_remnant, "Body");
 		this.fan = new ModelRendererObj(ResourceManager.armor_remnant, "Fan");
 		this.glow = new ModelRendererObj(ResourceManager.armor_remnant, "Glow");
-		this.leftArm = new ModelRendererObj(ResourceManager.armor_remnant, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
-		this.rightArm = new ModelRendererObj(ResourceManager.armor_remnant, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.leftArm = new ModelRendererObj(ResourceManager.armor_remnant, "LeftArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.rightArm = new ModelRendererObj(ResourceManager.armor_remnant, "RightArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
 		this.leftLeg = new ModelRendererObj(ResourceManager.armor_remnant, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		this.rightLeg = new ModelRendererObj(ResourceManager.armor_remnant, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
 		this.leftFoot = new ModelRendererObj(ResourceManager.armor_remnant, "LeftBoot").setRotationPoint(1.9F, 12.0F, 0.0F);

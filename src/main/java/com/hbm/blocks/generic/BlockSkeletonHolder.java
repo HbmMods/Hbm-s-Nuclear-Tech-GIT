@@ -37,15 +37,15 @@ public class BlockSkeletonHolder extends BlockContainer {
 		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-	}
+	} //I hope you change this shit to not be hardcoded because im not doing it
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) return true;
 		if(player.isSneaking()) return false;
-		
+
 		TileEntitySkeletonHolder pedestal = (TileEntitySkeletonHolder) world.getTileEntity(x, y, z);
-		
+
 		if(pedestal.item == null && player.getHeldItem() != null) {
 			pedestal.item = player.getHeldItem().copy();
 			player.inventory.mainInventory[player.inventory.currentItem] = null;
@@ -59,13 +59,13 @@ public class BlockSkeletonHolder extends BlockContainer {
 			world.markBlockForUpdate(x, y, z);
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		
+
 		if(!world.isRemote) {
 			TileEntitySkeletonHolder entity = (TileEntitySkeletonHolder) world.getTileEntity(x, y, z);
 			if(entity != null && entity.item != null) {
@@ -73,14 +73,14 @@ public class BlockSkeletonHolder extends BlockContainer {
 				world.spawnEntityInWorld(item);
 			}
 		}
-		
+
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	public static class TileEntitySkeletonHolder extends TileEntity {
 
 		public ItemStack item;
-		
+
 		@Override public boolean canUpdate() { return false; }
 
 		@Override
@@ -89,7 +89,7 @@ public class BlockSkeletonHolder extends BlockContainer {
 			this.writeToNBT(nbt);
 			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 		}
-		
+
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());

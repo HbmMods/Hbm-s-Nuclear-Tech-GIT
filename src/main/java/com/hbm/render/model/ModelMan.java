@@ -15,8 +15,8 @@ public class ModelMan extends ModelArmorBase {
 
 		this.head = new ModelRendererObj(ResourceManager.player_manly_af, "Head");
 		this.body = new ModelRendererObj(ResourceManager.player_manly_af, "Body");
-		this.leftArm = new ModelRendererObj(ResourceManager.player_manly_af, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
-		this.rightArm = new ModelRendererObj(ResourceManager.player_manly_af, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.leftArm = new ModelRendererObj(ResourceManager.player_manly_af, "LeftArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.rightArm = new ModelRendererObj(ResourceManager.player_manly_af, "RightArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
 		this.leftLeg = new ModelRendererObj(ResourceManager.player_manly_af, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		this.rightLeg = new ModelRendererObj(ResourceManager.player_manly_af, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
 	}

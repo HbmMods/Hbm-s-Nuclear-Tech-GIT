@@ -14,8 +14,8 @@ public class ModelArmorAJRO extends ModelArmorBase {
 
 		this.head = new ModelRendererObj(ResourceManager.armor_ajr, "Head");
 		this.body = new ModelRendererObj(ResourceManager.armor_ajr, "Body");
-		this.leftArm = new ModelRendererObj(ResourceManager.armor_ajr, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
-		this.rightArm = new ModelRendererObj(ResourceManager.armor_ajr, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.leftArm = new ModelRendererObj(ResourceManager.armor_ajr, "LeftArm").setRotationPoint(5.0F, 2.0F, 0.0F);
+		this.rightArm = new ModelRendererObj(ResourceManager.armor_ajr, "RightArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
 		this.leftLeg = new ModelRendererObj(ResourceManager.armor_ajr, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		this.rightLeg = new ModelRendererObj(ResourceManager.armor_ajr, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
 		this.leftFoot = new ModelRendererObj(ResourceManager.armor_ajr, "LeftBoot").setRotationPoint(1.9F, 12.0F, 0.0F);

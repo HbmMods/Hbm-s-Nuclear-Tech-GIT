@@ -59,6 +59,8 @@ public class StructureManager {
 	public static final NBTStructure aircraft_carrier = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/aircraft_carrier.nbt"));
 	public static final NBTStructure oil_rig = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/oil_rig.nbt"));
 	public static final NBTStructure beached_patrol = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/beached_patrol.nbt"));
+	public static final NBTStructure lighthouse = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/lighthouse.nbt"));
+	public static final NBTStructure dish = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/dish.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
 	// public static final NBTStructure test_jigsaw = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw.nbt"));

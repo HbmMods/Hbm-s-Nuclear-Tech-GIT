@@ -10,29 +10,32 @@ import com.hbm.util.ContaminationUtil;
 
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityGeiger extends TileEntity implements SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
-	
+
 	int timer = 0;
 	int ticker = 0;
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		timer++;
-		
+
 		if(timer == 10) {
 			timer = 0;
 			ticker = check();
 		}
-		
+
 		if(timer % 5 == 0) {
 			if(ticker > 0) {
 				List<Integer> list = new ArrayList<Integer>();
@@ -53,16 +56,16 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 					list.add(5);
 				if(ticker > 25)
 					list.add(6);
-			
+
 				int r = list.get(worldObj.rand.nextInt(list.size()));
-				
+
 				if(r > 0)
 		        	worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:item.geiger" + r, 1.0F, 1.0F);
 			} else if(worldObj.rand.nextInt(50) == 0) {
 				worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:item.geiger"+ (1 + worldObj.rand.nextInt(1)), 1.0F, 1.0F);
 			}
 		}
-		
+
 	}
 
 	public int check() {
@@ -86,5 +89,18 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 		int rads = check();
 		String chunkPrefix = ContaminationUtil.getPreffixFromRad(rads);
 		data.setString(CompatEnergyControl.S_CHUNKRAD, chunkPrefix + rads + " RAD/s");
+
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }
