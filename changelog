@@ -9,8 +9,12 @@
 * Pneumatic tubes now have a special case when supplying autocrafters, they will only send single items since larger stacks are not accepted
 * Simplified turbofan recipe
 * Solar boilers will now show a tooltip when they are too cold
+* Updated the satellite dish structure, due to the new spawn rules it's also no longer obscenely rare
+* The rare small lab structures have been removed and replaced with a new lighthouse
 
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
 * Fixed minor display issue where compressed air ducts would visually connect to non-ejector pneumatic tubes
 * Fixed special creeper types being able to spawn in other dimensions
+* Fixed modeled armor using weird rotation rules, causing issues with Customizable Player Models
+* Fixed rotation issues for certain blocks using the new structure system

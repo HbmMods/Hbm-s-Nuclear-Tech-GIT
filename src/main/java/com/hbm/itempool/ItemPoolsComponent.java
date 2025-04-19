@@ -11,7 +11,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted;
 import com.hbm.items.tool.ItemBlowtorch;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
 

@@ -91,9 +91,10 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 		data.setString(CompatEnergyControl.S_CHUNKRAD, chunkPrefix + rads + " RAD/s");
 
 	}
+	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
 
 	@Override
