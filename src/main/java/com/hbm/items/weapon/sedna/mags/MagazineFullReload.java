@@ -75,7 +75,7 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 
 					if(config.ammo.matchesRecipe(slot, true)) {
 						int alreadyLoaded = this.getAmount(stack, inventory);
-						int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount) - (alreadyLoaded / config.ammoReloadCount);
+						int wantsToLoad = (int) Math.ceil((double) (this.getCapacity(stack) - alreadyLoaded) / (double) config.ammoReloadCount);
 						int toLoad = Math.min(wantsToLoad, slot.stackSize);
 						this.setAmount(stack, Math.min((toLoad * config.ammoReloadCount) + alreadyLoaded, this.capacity));
 						inventory.decrStackSize(i, toLoad);
