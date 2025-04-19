@@ -85,7 +85,7 @@ public class ModelRendererObj {
 		if(this.rotateAngleY != 0.0F) GL11.glRotatef(this.rotateAngleY * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
 		if(this.rotateAngleX != 0.0F) GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 
-		GL11.glTranslatef(-this.rotationPointX * scale, -this.originPointY * scale, -this.originPointZ * scale);
+		GL11.glTranslatef(-this.originPointX * scale, -this.originPointY * scale, -this.originPointZ * scale);
 		GL11.glTranslatef(-this.offsetX * scale, -this.offsetY * scale, -this.offsetZ * scale);
 
 		GL11.glScalef(scale, scale, scale);
