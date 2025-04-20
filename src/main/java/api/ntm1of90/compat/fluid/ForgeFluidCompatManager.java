@@ -76,6 +76,6 @@ public class ForgeFluidCompatManager {
      * @return The default flow rate in NTM units
      */
     public static int getDefaultForgeFlowRate() {
-        return 1000; // 1000 mB = 1 bucket
+        return 10000; //Flow rate in mB
     }
 }
