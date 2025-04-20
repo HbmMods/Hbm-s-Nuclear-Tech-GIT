@@ -22,7 +22,7 @@ public class NTMFluidInteractionHandler {
 
     /**
      * Transfer fluid from an NTM tile entity to a Forge fluid handler
-     * 
+     *
      * @param sender The NTM tile entity that sends fluid
      * @param receiver The Forge fluid handler that receives fluid
      * @param direction The direction to transfer in (from the perspective of the Forge handler)
@@ -59,32 +59,30 @@ public class NTMFluidInteractionHandler {
 
             // Calculate how much can be drained
             int maxDrain = Math.min(currentFill, ForgeFluidCompatManager.getDefaultForgeFlowRate());
-            
+
             // Create a fluid stack for the fluid to transfer
             FluidStack stack = new FluidStack(forgeFluid, NTMForgeFluidConverter.toForgeAmount(maxDrain));
-            
+
             // Try to fill the receiver
             int filled = receiver.fill(direction.getOpposite(), stack, true);
-            
+
             if (filled <= 0) {
                 continue; // Receiver couldn't accept any fluid
             }
-            
+
             // Calculate how much was actually transferred in NTM units
             int ntmTransferred = NTMForgeFluidConverter.toNTMAmount(filled);
-            
+
             // Drain the tank
             int newFill = currentFill - ntmTransferred;
             tank.setFill(newFill);
-            
-            // If the tank is now empty, reset the type
-            if (newFill <= 0) {
-                tank.setTankType(Fluids.NONE);
-            }
-            
+
+            // We don't reset the tank type when it's empty anymore
+            // This allows the tank to remember what fluid it contained
+
             // Add to the total transferred
             totalTransferred += ntmTransferred;
-            
+
             // Only transfer from one tank per operation
             break;
         }
@@ -94,7 +92,7 @@ public class NTMFluidInteractionHandler {
 
     /**
      * Transfer fluid from a Forge fluid handler to an NTM tile entity
-     * 
+     *
      * @param sender The Forge fluid handler that sends fluid
      * @param receiver The NTM tile entity that receives fluid
      * @param direction The direction to transfer in (from the perspective of the Forge handler)
@@ -142,25 +140,25 @@ public class NTMFluidInteractionHandler {
                 }
 
                 // Actually drain from the sender
-                FluidStack actuallyDrained = sender.drain(direction.getOpposite(), 
+                FluidStack actuallyDrained = sender.drain(direction.getOpposite(),
                         NTMForgeFluidConverter.toForgeAmount(fillAmount), true);
-                
+
                 if (actuallyDrained == null || actuallyDrained.amount <= 0) {
                     continue; // Nothing was actually drained
                 }
-                
+
                 // Calculate how much was actually transferred in NTM units
                 int ntmTransferred = NTMForgeFluidConverter.toNTMAmount(actuallyDrained.amount);
-                
+
                 // Fill the tank
                 if (currentFill == 0) {
                     tank.setTankType(ntmFluid);
                 }
                 tank.setFill(currentFill + ntmTransferred);
-                
+
                 // Add to the total transferred
                 totalTransferred += ntmTransferred;
-                
+
                 // Only transfer to one tank per operation
                 break;
             }
@@ -171,7 +169,7 @@ public class NTMFluidInteractionHandler {
 
     /**
      * Check if a Forge fluid handler can accept a specific NTM fluid
-     * 
+     *
      * @param handler The Forge fluid handler to check
      * @param fluid The NTM fluid type to check
      * @param direction The direction to check (from the perspective of the Forge handler)
@@ -194,7 +192,7 @@ public class NTMFluidInteractionHandler {
 
     /**
      * Check if a Forge fluid handler can provide a specific NTM fluid
-     * 
+     *
      * @param handler The Forge fluid handler to check
      * @param fluid The NTM fluid type to check
      * @param direction The direction to check (from the perspective of the Forge handler)

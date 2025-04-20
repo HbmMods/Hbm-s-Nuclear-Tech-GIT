@@ -94,9 +94,9 @@
     {
       "name": "corium",
       "color": "0xFFAA00",
-      "stillTexture": "forgefluid/corium",
-      "flowingTexture": "forgefluid/corium",
-      "inventoryTexture": "forgefluid/corium"
+      "stillTexture": "forgefluid/corium_still",
+      "flowingTexture": "forgefluid/corium_flowing",
+      "inventoryTexture": "forgefluid/corium_still"
     },
     {
       "name": "toxic",

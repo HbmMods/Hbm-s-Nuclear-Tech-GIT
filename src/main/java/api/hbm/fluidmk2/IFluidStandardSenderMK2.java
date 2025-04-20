@@ -80,9 +80,8 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 						if(transferred > 0) {
 							// Update the tank
 							tank.setFill(tank.getFill() - transferred);
-							if(tank.getFill() <= 0) {
-								tank.setTankType(Fluids.NONE);
-							}
+							// We don't reset the tank type when it's empty anymore
+							// This allows the tank to remember what fluid it contained
 						}
 					}
 				}

@@ -84,10 +84,8 @@ public class NTMFluidNetworkBridge {
         int newFill = ntmFill - ntmTransferred;
         ntmTank.setFill(newFill);
 
-        // If the tank is now empty, reset the type
-        if (newFill <= 0) {
-            ntmTank.setTankType(Fluids.NONE);
-        }
+        // We don't reset the tank type when it's empty anymore
+        // This allows the tank to remember what fluid it contained
 
         return ntmTransferred;
     }
@@ -459,10 +457,8 @@ public class NTMFluidNetworkBridge {
             if (doDrain) {
                 tank.setFill(currentFill - drainAmount);
 
-                // If the tank is now empty, reset the type
-                if (tank.getFill() <= 0) {
-                    tank.setTankType(Fluids.NONE);
-                }
+                // We don't reset the tank type when it's empty anymore
+                // This allows the tank to remember what fluid it contained
             }
 
             // Create a fluid stack for the drained fluid
