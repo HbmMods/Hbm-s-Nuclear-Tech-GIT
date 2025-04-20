@@ -358,179 +358,111 @@ public class ModEventHandler {
 
 		Map<Integer, List<WeightedRandomObject>> slotPools = new HashMap<>();
 
-
 		if (entity instanceof EntityZombie) {
-			//bleh i dont like how this is done but whatever
 			if (world.rand.nextFloat() < 0.005F) { // full hazmat zombine
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.hazmat_helmet));
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.hazmat_plate));
-				entity.setCurrentItemOrArmor(2, new ItemStack(ModItems.hazmat_legs));
-				entity.setCurrentItemOrArmor(1, new ItemStack(ModItems.hazmat_boots));
+				equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
 				return;
 			}
 
 			if (world.rand.nextFloat() < 0.005F) { // full security zombine
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.security_helmet));
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.security_plate));
-				entity.setCurrentItemOrArmor(2, new ItemStack(ModItems.security_legs));
-				entity.setCurrentItemOrArmor(1, new ItemStack(ModItems.security_boots));
+				equipFullSet(entity, ModItems.security_helmet, ModItems.security_plate, ModItems.security_legs, ModItems.security_boots);
 				return;
 			}
 
-			//helms
-			ArrayList<WeightedRandomObject> helmetPool = new ArrayList<>();
-			helmetPool.add(new WeightedRandomObject(null, 8000));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_m65), 16));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_olde), 12));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.mask_of_infamy), 8));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_mono), 8));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_helmet), 32));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.no9), 16));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_helmet), 2));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.rag_piss), 1));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.hat), 1));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_helmet), 2));
-
-			slotPools.put(4, helmetPool);
-			//chest
-
-			ArrayList<WeightedRandomObject> chestPool = new ArrayList<>();
-			chestPool.add(new WeightedRandomObject(null, 7000));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.starmetal_plate), 1)); //lol
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_plate), 2));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_plate), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.jackt), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.jackt2), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_plate), 2));
-
-
-			slotPools.put(3, chestPool);
-			//legs
-
-			ArrayList<WeightedRandomObject> LegsPool = new ArrayList<>();
-			LegsPool.add(new WeightedRandomObject(null, 7000));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.zirconium_legs), 1));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_legs), 2));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_legs), 16));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.titanium_legs), 8));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_legs), 32));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_legs), 2));
-			slotPools.put(2, LegsPool);
-			//boots
-
-			ArrayList<WeightedRandomObject> BootPool = new ArrayList<>();
-			BootPool.add(new WeightedRandomObject(null, 7000));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_boots), 32));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_boots), 16));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_boots), 2));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_boots), 2));
-			slotPools.put(1, BootPool);
-
-			//weapons
-			ArrayList<WeightedRandomObject> handPool = new ArrayList<>();
-			handPool.add(new WeightedRandomObject(null, 10000));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.pipe_lead), 30));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.crowbar), 25));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.geiger_counter), 20));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.reer_graar), 16));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_pickaxe), 12));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.stopsign), 10));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.sopsign), 8));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.chernobylsign), 6));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_sword), 15));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_axe), 5));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.titanium_sword), 8));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.lead_gavel), 4));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.wrench), 20));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_decorated_sword), 2));
-			handPool.add(new WeightedRandomObject(new ItemStack(ModItems.detonator_de), 1)); // me when
-			slotPools.put(0, handPool);
-		}
-		else if (entity instanceof EntitySkeleton) {
+			slotPools.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
+				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+			}));
+			slotPools.put(3, createSlotPool(7000, new Object[][]{
+				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
+				{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
+				{ModItems.steel_plate, 2}
+			}));
+			slotPools.put(2, createSlotPool(7000, new Object[][]{
+				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
+			}));
+			slotPools.put(1, createSlotPool(7000, new Object[][]{
+				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
+			}));
+			slotPools.put(0, createSlotPool(10000, new Object[][]{
+				{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
+				{ModItems.reer_graar, 16}, {ModItems.steel_pickaxe, 12}, {ModItems.stopsign, 10},
+				{ModItems.sopsign, 8}, {ModItems.chernobylsign, 6}, {ModItems.steel_sword, 15},
+				{ModItems.alloy_axe, 5}, {ModItems.titanium_sword, 8}, {ModItems.lead_gavel, 4},
+				{ModItems.wrench, 20}, {ModItems.cobalt_decorated_sword, 2}, {ModItems.detonator_de, 1}
+			}));
+		} else if (entity instanceof EntitySkeleton) {
 			float soot = PollutionHandler.getPollution(entity.worldObj,
-				MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT);
+				MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT); //uhfgfg
 
-			//helms
-			ArrayList<WeightedRandomObject> helmetPool = new ArrayList<>();
-			helmetPool.add(new WeightedRandomObject(null, 12000)); //why more then zombies? because it would be annoying asf otherwise
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_m65), 16));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_olde), 12));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.mask_of_infamy), 8));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.gas_mask_mono), 8));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_helmet), 32));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.no9), 16));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_helmet), 2));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.rag_piss), 1));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.hat), 1));
-			helmetPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_helmet), 2));
-
-			slotPools.put(4, helmetPool);
-			//chest
-
-			ArrayList<WeightedRandomObject> chestPool = new ArrayList<>();
-			chestPool.add(new WeightedRandomObject(null, 10000));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.starmetal_plate), 1)); //lol
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_plate), 2));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_plate), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.jackt), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.jackt2), 32));
-			chestPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_plate), 2));
-
-			slotPools.put(3, chestPool);
-			//legs
-
-			ArrayList<WeightedRandomObject> LegsPool = new ArrayList<>();
-			LegsPool.add(new WeightedRandomObject(null, 10000));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.zirconium_legs), 1));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_legs), 2));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_legs), 16));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.titanium_legs), 8));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_legs), 32));
-			LegsPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_legs), 2));
-			slotPools.put(2, LegsPool);
-			//boots
-
-			ArrayList<WeightedRandomObject> BootPool = new ArrayList<>();
-			BootPool.add(new WeightedRandomObject(null, 10000));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.robes_boots), 32));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.steel_boots), 16));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.cobalt_boots), 2));
-			BootPool.add(new WeightedRandomObject(new ItemStack(ModItems.alloy_boots), 2));
-			slotPools.put(1, BootPool);
+			slotPools.put(4, createSlotPool(12000, new Object[][]{
+				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+			}));
+			slotPools.put(3, createSlotPool(10000, new Object[][]{
+				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
+				{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
+			}));
+			slotPools.put(2, createSlotPool(10000, new Object[][]{
+				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
+			}));
+			slotPools.put(1, createSlotPool(10000, new Object[][]{
+				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
+				{ModItems.titanium_boots, 6}
+			}));
 
 			ItemStack bowReplacement = getSkelegun(soot, world.rand);
-			ArrayList<WeightedRandomObject> handPool = new ArrayList<>();
-			handPool.add(new WeightedRandomObject(null, 100)); //should work ig
-			if (bowReplacement != null) {
-				handPool.add(new WeightedRandomObject(bowReplacement, 1));
-			}
-			slotPools.put(0, handPool);
+			slotPools.put(0, createSlotPool(100, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
 		}
+		assignItemsToEntity(entity, slotPools);
+	}
 
-		for (Map.Entry<Integer, List<WeightedRandomObject>> e : slotPools.entrySet()) {
-			int slot = e.getKey();
-			List<WeightedRandomObject> pool = e.getValue();
+	private void equipFullSet(EntityLivingBase entity, Item helmet, Item chest, Item legs, Item boots) { //for brainlets (me) to add more armorsets later when i forget about how this works
+		entity.setCurrentItemOrArmor(4, new ItemStack(helmet)); //p_70062_1_ is the slot number
+		entity.setCurrentItemOrArmor(3, new ItemStack(chest));
+		entity.setCurrentItemOrArmor(2, new ItemStack(legs));
+		entity.setCurrentItemOrArmor(1, new ItemStack(boots));
+	}
 
-			WeightedRandomObject choice = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool);
+	private List<WeightedRandomObject> createSlotPool(int nullWeight, Object[][] items) { // nullWeight is the weight of the empty slot (no shit)
+		List<WeightedRandomObject> pool = new ArrayList<>();
+		pool.add(new WeightedRandomObject(null, nullWeight));
+		for (Object[] item : items) {
+			pool.add(new WeightedRandomObject(new ItemStack((Item) item[0]), (int) item[1]));
+		}
+		return pool;
+	}
+
+	private void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
+		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
+			int slot = entry.getKey();
+			List<WeightedRandomObject> pool = entry.getValue();
+
+			WeightedRandomObject choice = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool); //NullPointerException sludge fix
 			if (choice == null) {
 				continue;
 			}
 
 			ItemStack stack = choice.asStack();
 			if (stack == null || stack.getItem() == null) {
-				// If the selected item is null skip item assignment
 				continue;
 			}
 
-			if (stack.getItem() == ModItems.gas_mask_m65 || //please do it like this when adding more so i can actually see it not go off the screen
-				stack.getItem() == ModItems.gas_mask_olde ||
-				stack.getItem() == ModItems.gas_mask_mono) {
+			if (stack.getItem() == ModItems.gas_mask_m65 //eyesore
+				|| stack.getItem() == ModItems.gas_mask_olde
+				|| stack.getItem() == ModItems.gas_mask_mono) {
 				ArmorUtil.installGasMaskFilter(stack, new ItemStack(ModItems.gas_mask_filter));
 			}
 
 			entity.setCurrentItemOrArmor(slot, stack);
 
-			// If skeleton got a gun, add AI
+			//Give skeleton AI if it has a gun
 			if (slot == 0 && entity instanceof EntitySkeleton && pool == slotPools.get(0)) {
 				addFireTask((EntityLiving) entity);
 			}
