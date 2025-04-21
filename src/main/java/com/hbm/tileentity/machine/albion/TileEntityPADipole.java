@@ -66,12 +66,15 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public void onEnter(Particle particle, ForgeDirection dir) {
 		EnumCoilType type = null;
+		boolean isInline = dir.equals(getExitDir(particle));
 
 		int mult = 1;
 		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
 			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
+
 			if(type.diMin > particle.momentum) mult *= 10;
 			if(type.diDistMin > particle.distanceTraveled) mult *= 10;
+			if(isInline) mult = 1;
 		}
 
 		if(!isCool())										particle.crash(PAState.CRASH_NOCOOL);
@@ -81,20 +84,26 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 		if(particle.invalid) return;
 
-		particle.resetDistance();
+		if (isInline) {
+			particle.addDistance(3);
+		} else {
+			particle.resetDistance();
+		}
+
 		this.power -= this.usage * mult;
 	}
 
 	@Override
 	public BlockPos getExitPos(Particle particle) {
-		if(particle.momentum >= this.threshold) {
-			ForgeDirection dir = this.ditToForgeDir(checkRedstone() ? dirRedstone : dirUpper);
-			particle.dir = dir;
-			return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
-		}
-		ForgeDirection dir = this.ditToForgeDir(dirLower);
-		particle.dir = dir;
-		return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
+		particle.dir = getExitDir(particle);
+		return new BlockPos(xCoord, yCoord, zCoord).offset(particle.dir, 2);
+	}
+
+	public ForgeDirection getExitDir(Particle particle) {
+		int dit = particle.momentum < this.threshold
+			? dirLower : checkRedstone()
+			? dirRedstone : dirUpper;
+		return ditToForgeDir(dit);
 	}
 
 	public boolean checkRedstone() {
