@@ -233,6 +233,47 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		}
 	}
 
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		NBTTagCompound particleTag = new NBTTagCompound();
+		particleTag.setInteger("x", particle.x);
+		particleTag.setInteger("y", particle.y);
+		particleTag.setInteger("z", particle.z);
+		particleTag.setByte("dir", (byte) particle.dir.ordinal());
+		particleTag.setInteger("momentum", particle.momentum);
+		particleTag.setInteger("defocus", particle.defocus);
+		particleTag.setInteger("dist", particle.distanceTraveled);
+
+		NBTTagCompound inputTag1 = new NBTTagCompound();
+		NBTTagCompound inputTag2 = new NBTTagCompound();
+		particle.input1.writeToNBT(inputTag1);
+		particle.input2.writeToNBT(inputTag2);
+
+		particleTag.setTag("input1", inputTag1);
+		particleTag.setTag("input2", inputTag2);
+		nbt.setTag("particle", particleTag);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		if(!nbt.hasKey("particle")) return;
+
+		NBTTagCompound particleTag = nbt.getCompoundTag("particle");
+		int x = particleTag.getInteger("x");
+		int y = particleTag.getInteger("y");
+		int z = particleTag.getInteger("z");
+		ForgeDirection dir = EnumUtil.grabEnumSafely(ForgeDirection.class, particleTag.getInteger("dir"));
+		ItemStack input1 = ItemStack.loadItemStackFromNBT(particleTag.getCompoundTag("input1"));
+		ItemStack input2 = ItemStack.loadItemStackFromNBT(particleTag.getCompoundTag("input2"));
+
+		this.particle = new Particle(this, x, y, z, dir, input1, input2);
+		this.particle.momentum = particleTag.getInteger("momentum");
+		this.particle.defocus = particleTag.getInteger("defocus");
+		this.particle.distanceTraveled = particleTag.getInteger("dist");
+	}
+
 	public static class Particle {
 
 		private TileEntityPASource source;

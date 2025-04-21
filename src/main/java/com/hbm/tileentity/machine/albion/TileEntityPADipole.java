@@ -31,9 +31,9 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	public int dirUpper;
 	public int dirRedstone;
 	public int threshold;
-	
+
 	public static final long usage = 100_000;
-	
+
 	public TileEntityPADipole() {
 		super(2);
 	}
@@ -66,37 +66,46 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public void onEnter(Particle particle, ForgeDirection dir) {
 		EnumCoilType type = null;
-		
+		boolean isInline = dir.equals(getExitDir(particle));
+
 		int mult = 1;
 		if(slots[1] != null && slots[1].getItem() == ModItems.pa_coil) {
 			type = EnumUtil.grabEnumSafely(EnumCoilType.class, slots[1].getItemDamage());
+
 			if(type.diMin > particle.momentum) mult *= 10;
 			if(type.diDistMin > particle.distanceTraveled) mult *= 10;
+			if(isInline) mult = 1;
 		}
 
 		if(!isCool())										particle.crash(PAState.CRASH_NOCOOL);
 		if(this.power < this.usage * mult)					particle.crash(PAState.CRASH_NOPOWER);
 		if(type == null)									particle.crash(PAState.CRASH_NOCOIL);
 		if(type != null && type.diMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
-		
+
 		if(particle.invalid) return;
-		
-		particle.resetDistance();
+
+		if (isInline) {
+			particle.addDistance(3);
+		} else {
+			particle.resetDistance();
+		}
+
 		this.power -= this.usage * mult;
 	}
 
 	@Override
 	public BlockPos getExitPos(Particle particle) {
-		if(particle.momentum >= this.threshold) {
-			ForgeDirection dir = this.ditToForgeDir(checkRedstone() ? dirRedstone : dirUpper);
-			particle.dir = dir;
-			return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
-		}
-		ForgeDirection dir = this.ditToForgeDir(dirLower);
-		particle.dir = dir;
-		return new BlockPos(xCoord, yCoord, zCoord).offset(dir, 2);
+		particle.dir = getExitDir(particle);
+		return new BlockPos(xCoord, yCoord, zCoord).offset(particle.dir, 2);
 	}
-	
+
+	public ForgeDirection getExitDir(Particle particle) {
+		int dit = particle.momentum < this.threshold
+			? dirLower : checkRedstone()
+			? dirRedstone : dirUpper;
+		return ditToForgeDir(dit);
+	}
+
 	public boolean checkRedstone() {
 		for(DirPos pos : getConPos()) {
 			if(worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) return true;
@@ -106,11 +115,11 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}
-		
+
 		super.updateEntity();
 	}
 
@@ -151,12 +160,12 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		nbt.setInteger("dirRedstone", dirRedstone);
 		nbt.setInteger("threshold", threshold);
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -167,10 +176,10 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -216,10 +225,10 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		if(this.dirLower > 3) this.dirLower -= 4;
 		if(this.dirUpper > 3) this.dirUpper -= 4;
 		if(this.dirRedstone > 3) this.dirRedstone -= 4;
-		
+
 		this.threshold = MathHelper.clamp_int(threshold, 0, 999_999_999);
 	}
-	
+
 	public static ForgeDirection ditToForgeDir(int dir) {
 		if(dir == 1) return ForgeDirection.EAST;
 		if(dir == 2) return ForgeDirection.SOUTH;
