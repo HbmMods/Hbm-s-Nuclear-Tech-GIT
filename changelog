@@ -11,6 +11,8 @@
 * Solar boilers will now show a tooltip when they are too cold
 * Updated the satellite dish structure, due to the new spawn rules it's also no longer obscenely rare
 * The rare small lab structures have been removed and replaced with a new lighthouse
+* ReaSim connectors will no longer function if ReaSim boilers are disabled
+* Updated the placed geiger counter model
 
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
@@ -18,3 +20,4 @@
 * Fixed special creeper types being able to spawn in other dimensions
 * Fixed modeled armor using weird rotation rules, causing issues with Customizable Player Models
 * Fixed rotation issues for certain blocks using the new structure system
+* Fixed ReaSim water never moving if the reactor is at 20°
