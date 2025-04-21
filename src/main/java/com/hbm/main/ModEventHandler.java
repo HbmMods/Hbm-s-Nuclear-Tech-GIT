@@ -417,7 +417,7 @@ public class ModEventHandler {
 			}));
 
 			ItemStack bowReplacement = getSkelegun(soot, world.rand);
-			slotPools.put(0, createSlotPool(100, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
+			slotPools.put(0, createSlotPool(50, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
 		}
 		assignItemsToEntity(entity, slotPools);
 	}
@@ -429,14 +429,22 @@ public class ModEventHandler {
 		entity.setCurrentItemOrArmor(1, new ItemStack(boots));
 	}
 
-	private List<WeightedRandomObject> createSlotPool(int nullWeight, Object[][] items) { // nullWeight is the weight of the empty slot (no shit)
+	private List<WeightedRandomObject> createSlotPool(int nullWeight, Object[][] items) {
 		List<WeightedRandomObject> pool = new ArrayList<>();
 		pool.add(new WeightedRandomObject(null, nullWeight));
 		for (Object[] item : items) {
-			pool.add(new WeightedRandomObject(new ItemStack((Item) item[0]), (int) item[1]));
+			Object obj = item[0];
+			int weight = (int) item[1];
+
+			if (obj instanceof Item) {
+				pool.add(new WeightedRandomObject(new ItemStack((Item) obj), weight));
+			} else if (obj instanceof ItemStack) {		//lol just make it pass ItemStack aswell
+				pool.add(new WeightedRandomObject(obj, weight));
+			}
 		}
 		return pool;
 	}
+
 
 	private void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
 		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
