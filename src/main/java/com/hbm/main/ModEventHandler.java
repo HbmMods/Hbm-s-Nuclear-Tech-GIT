@@ -351,55 +351,118 @@ public class ModEventHandler {
 		EntityLivingBase entity = event.entityLiving;
 		World world = event.world;
 
-		if(!MobConfig.enableMobGear || entity.isChild() || world.isRemote)
+		if (!MobConfig.enableMobGear || entity.isChild() || world.isRemote) {
 			return;
-
-		if(entity instanceof EntityZombie) {
-			if(rand.nextInt(64) == 0) {
-				ItemStack mask = new ItemStack(ModItems.gas_mask_m65);
-				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
-				entity.setCurrentItemOrArmor(4, mask);
-			}
-			if(rand.nextInt(128) == 0) {
-				ItemStack mask = new ItemStack(ModItems.gas_mask_olde);
-				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
-				entity.setCurrentItemOrArmor(4, mask);
-			}
-			if(rand.nextInt(256) == 0)
-				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(1024) == 0)
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.starmetal_plate, 1, world.rand.nextInt(ModItems.starmetal_plate.getMaxDamage())));
-
-			if(rand.nextInt(64) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_lead, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.reer_graar, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.geiger_counter, 1));
-			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.stopsign));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.sopsign));
-			if(rand.nextInt(512) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
 		}
-		if(entity instanceof EntitySkeleton) {
-			if(rand.nextInt(16) == 0) {
-				ItemStack mask = new ItemStack(ModItems.gas_mask_m65);
-				ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter));
-				entity.setCurrentItemOrArmor(4, mask);
-			}
-			if(rand.nextInt(64) == 0)
-				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
 
-			float soot = PollutionHandler.getPollution(entity.worldObj, MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT);
-			ItemStack bowReplacement = getSkelegun(soot, entity.worldObj.rand);
-			if(bowReplacement != null) {
-				entity.setCurrentItemOrArmor(0, bowReplacement);
+		Map<Integer, List<WeightedRandomObject>> slotPools = new HashMap<>();
+
+		if (entity instanceof EntityZombie) {
+			if (world.rand.nextFloat() < 0.005F) { // full hazmat zombine
+				equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
+				return;
+			}
+
+			if (world.rand.nextFloat() < 0.005F) { // full security zombine
+				equipFullSet(entity, ModItems.security_helmet, ModItems.security_plate, ModItems.security_legs, ModItems.security_boots);
+				return;
+			}
+
+			slotPools.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
+				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+			}));
+			slotPools.put(3, createSlotPool(7000, new Object[][]{
+				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
+				{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
+				{ModItems.steel_plate, 2}
+			}));
+			slotPools.put(2, createSlotPool(7000, new Object[][]{
+				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
+			}));
+			slotPools.put(1, createSlotPool(7000, new Object[][]{
+				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
+			}));
+			slotPools.put(0, createSlotPool(10000, new Object[][]{
+				{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
+				{ModItems.reer_graar, 16}, {ModItems.steel_pickaxe, 12}, {ModItems.stopsign, 10},
+				{ModItems.sopsign, 8}, {ModItems.chernobylsign, 6}, {ModItems.steel_sword, 15},
+				{ModItems.alloy_axe, 5}, {ModItems.titanium_sword, 8}, {ModItems.lead_gavel, 4},
+				{ModItems.wrench, 20}, {ModItems.cobalt_decorated_sword, 2}, {ModItems.detonator_de, 1}
+			}));
+		} else if (entity instanceof EntitySkeleton) {
+			float soot = PollutionHandler.getPollution(entity.worldObj,
+				MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT); //uhfgfg
+
+			slotPools.put(4, createSlotPool(12000, new Object[][]{
+				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+			}));
+			slotPools.put(3, createSlotPool(10000, new Object[][]{
+				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
+				{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
+			}));
+			slotPools.put(2, createSlotPool(10000, new Object[][]{
+				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
+			}));
+			slotPools.put(1, createSlotPool(10000, new Object[][]{
+				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
+				{ModItems.titanium_boots, 6}
+			}));
+
+			ItemStack bowReplacement = getSkelegun(soot, world.rand);
+			slotPools.put(0, createSlotPool(100, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
+		}
+		assignItemsToEntity(entity, slotPools);
+	}
+
+	private void equipFullSet(EntityLivingBase entity, Item helmet, Item chest, Item legs, Item boots) { //for brainlets (me) to add more armorsets later when i forget about how this works
+		entity.setCurrentItemOrArmor(4, new ItemStack(helmet)); //p_70062_1_ is the slot number
+		entity.setCurrentItemOrArmor(3, new ItemStack(chest));
+		entity.setCurrentItemOrArmor(2, new ItemStack(legs));
+		entity.setCurrentItemOrArmor(1, new ItemStack(boots));
+	}
+
+	private List<WeightedRandomObject> createSlotPool(int nullWeight, Object[][] items) { // nullWeight is the weight of the empty slot (no shit)
+		List<WeightedRandomObject> pool = new ArrayList<>();
+		pool.add(new WeightedRandomObject(null, nullWeight));
+		for (Object[] item : items) {
+			pool.add(new WeightedRandomObject(new ItemStack((Item) item[0]), (int) item[1]));
+		}
+		return pool;
+	}
+
+	private void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
+		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
+			int slot = entry.getKey();
+			List<WeightedRandomObject> pool = entry.getValue();
+
+			WeightedRandomObject choice = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool); //NullPointerException sludge fix
+			if (choice == null) {
+				continue;
+			}
+
+			ItemStack stack = choice.asStack();
+			if (stack == null || stack.getItem() == null) {
+				continue;
+			}
+
+			if (stack.getItem() == ModItems.gas_mask_m65 //eyesore
+				|| stack.getItem() == ModItems.gas_mask_olde
+				|| stack.getItem() == ModItems.gas_mask_mono) {
+				ArmorUtil.installGasMaskFilter(stack, new ItemStack(ModItems.gas_mask_filter));
+			}
+
+			entity.setCurrentItemOrArmor(slot, stack);
+
+			//Give skeleton AI if it has a gun
+			if (slot == 0 && entity instanceof EntitySkeleton && pool == slotPools.get(0)) {
 				addFireTask((EntityLiving) entity);
 			}
 		}
@@ -1235,9 +1298,9 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onChunkLoad(ChunkEvent.Load event) {
-		
+
 		//test for automatic in-world block replacement
-		
+
 		/*for(int x = 0; x < 16; x++) for(int y = 0; y < 255; y++) for(int z = 0; z < 16; z++) {
 			if(event.getChunk().getBlock(x, y, z) instanceof MachineArcFurnace) {
 				event.getChunk().func_150807_a(x, y, z, Blocks.air, 0);
