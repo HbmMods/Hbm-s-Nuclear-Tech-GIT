@@ -12,10 +12,18 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
+/**
+ * Unified Nodespace, a Nodespace for all applications.
+ * "Nodespace" is an invisible "dimension" where nodes exist, a node is basically the "soul" of a tile entity with networking capabilities.
+ * Instead of tile entities having to find each other which is costly and assumes the tiles are loaded, tiles simply create nodes at their
+ * respective position in nodespace, the nodespace itself handles stuff like connections which can also happen in unloaded chunks.
+ * A node is so to say the "soul" of a tile entity which can act independent of its "body".
+ * @author hbm
+ */
 public class UniNodespace {
 	
 	public static HashMap<World, UniNodeWorld> worlds = new HashMap();
-	public static Set<NodeNet> activeNodeNets = new HashSet<>();
+	public static Set<NodeNet> activeNodeNets = new HashSet();
 	
 	public static GenNode getNode(World world, int x, int y, int z, INetworkProvider type) {
 		UniNodeWorld nodeWorld = worlds.get(world);

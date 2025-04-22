@@ -77,6 +77,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_lacunae,				new ItemRenderMinigun(ResourceManager.minigun_lacunae_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_missile_launcher,			new ItemRenderMissileLauncher());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tesla_cannon,				new ItemRenderTeslaCannon());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_laser_pistol,				new ItemRenderLaserPistol(ResourceManager.laser_pistol_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_stg77,						new ItemRenderSTG77());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tau,							new ItemRenderTau());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman,						new ItemRenderFatMan());

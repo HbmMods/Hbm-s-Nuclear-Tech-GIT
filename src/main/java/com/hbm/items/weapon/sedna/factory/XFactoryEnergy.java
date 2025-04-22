@@ -142,6 +142,17 @@ public class XFactoryEnergy {
 				.anim(LAMBDA_TESLA_ANIMS).orchestra(Orchestras.ORCHESTRA_TESLA)
 				).setUnlocalizedName("gun_tesla_cannon");
 
+		ModItems.gun_laser_pistol = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
+				.rec(new Receiver(0)
+						.dmg(50F).delay(8).spread(1F).spreadHipfire(2.5F).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 30).addConfigs(energy_las, energy_las_overcharge, energy_las_ir))
+						.offset(0.75, -0.0625 * 1.5, -0.1875)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_LASER_PISTOL).orchestra(Orchestras.ORCHESTRA_LASER_PISTOL)
+				).setUnlocalizedName("gun_laser_pistol");
+
 		ModItems.gun_lasrifle = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
 				.rec(new Receiver(0)
@@ -172,6 +183,10 @@ public class XFactoryEnergy {
 				.addBus("SQUEEZE", new BusAnimationSequence().addPos(1, 1, 1, 0).addPos(1, 1, 1, 750).addPos(1, 1, 0.5, 125).addPos(1, 1, 1, 125));
 		}
 
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LASER_PISTOL = (stack, type) -> {
 		return null;
 	};
 

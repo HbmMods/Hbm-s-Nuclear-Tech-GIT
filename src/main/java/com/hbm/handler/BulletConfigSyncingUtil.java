@@ -13,8 +13,6 @@ public class BulletConfigSyncingUtil {
 
 	public static int TEST_CONFIG = i++;
 
-	public static int CRYO_NORMAL = i++;
-
 	public static int FEXT_NORMAL = i++;
 	public static int FEXT_FOAM = i++;
 	public static int FEXT_SAND = i++;
@@ -35,8 +33,6 @@ public class BulletConfigSyncingUtil {
 
 	public static void loadConfigsForSync() {
 
-		configSet.put(CRYO_NORMAL, GunEnergyFactory.getCryoConfig());
-		
 		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
 		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
 		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());

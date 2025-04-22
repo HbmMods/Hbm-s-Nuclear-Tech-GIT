@@ -56,30 +56,6 @@ public class GunEnergyFactory {
 		
 		return config;
 	}
-
-	public static GunConfiguration getCryoCannonConfig() {
-		
-		GunConfiguration config = new GunConfiguration();
-		
-		config.rateOfFire = 1;
-		config.roundsPerCycle = 1;
-		config.gunMode = GunConfiguration.MODE_NORMAL;
-		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.firingDuration = 0;
-		config.ammoCap = 1_000;
-		config.durability = 10_000;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
-		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_CIRCLE;
-		
-		config.name = "Cryo Cannon";
-		config.manufacturer = EnumGunManufacturer.DRG;
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.CRYO_NORMAL);
-		
-		return config;
-	}
 	
 	public static BulletConfiguration getFextConfig() {
 		
@@ -333,15 +309,6 @@ public class GunEnergyFactory {
 			}
 		};
 		
-		return bullet;
-	}
-	
-	public static BulletConfiguration getCryoConfig() {
-		BulletConfiguration bullet = new BulletConfiguration();
-		bullet.ammo = new ComparableStack(ModItems.gun_cryolator_ammo);
-		bullet.ammoCount = 100;
-		bullet.bulletsMin = 1;
-		bullet.bulletsMax = 1;
 		return bullet;
 	}
 

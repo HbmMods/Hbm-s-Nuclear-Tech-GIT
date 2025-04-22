@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.entity.mob.EntityCreeperNuclear;
+import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -26,7 +28,6 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.toclient.ExtPropPacket;
 import com.hbm.particle.helper.FlameCreator;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
@@ -41,6 +42,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -119,7 +125,8 @@ public class EntityEffectHandler {
 
 		handleContamination(entity);
 		handleContagion(entity);
-		handleRadiation(entity);
+		handleRadiationEffect(entity);
+		handleRadiationFX(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
 		handleOil(entity);
@@ -137,37 +144,18 @@ public class EntityEffectHandler {
 		HbmPlayerProps props = HbmPlayerProps.getData(player);
 
 		if(props.isOnLadder) {
-			float f5 = 0.15F;
+			double climbSpeed = 0.15;
 
-			if(player.motionX < (double) (-f5)) {
-				player.motionX = (double) (-f5);
-			}
-
-			if(player.motionX > (double) f5) {
-				player.motionX = (double) f5;
-			}
-
-			if(player.motionZ < (double) (-f5)) {
-				player.motionZ = (double) (-f5);
-			}
-
-			if(player.motionZ > (double) f5) {
-				player.motionZ = (double) f5;
-			}
+			if(player.motionX < -climbSpeed) player.motionX = -climbSpeed;
+			if(player.motionX > climbSpeed) player.motionX = climbSpeed;
+			if(player.motionZ < -climbSpeed) player.motionZ = -climbSpeed;
+			if(player.motionZ > climbSpeed) player.motionZ = climbSpeed;
 
 			player.fallDistance = 0.0F;
 
-			if(player.motionY < -0.15D) {
-				player.motionY = -0.15D;
-			}
-
-			if(player.isSneaking() && player.motionY < 0.0D) {
-				player.motionY = 0.0D;
-			}
-
-			if(player.isCollidedHorizontally) {
-				player.motionY = 0.2D;
-			}
+			if(player.motionY < -climbSpeed) player.motionY = -climbSpeed;
+			if(player.isSneaking() && player.motionY < 0.0D) player.motionY = 0.0D;
+			if(player.isCollidedHorizontally) player.motionY = 0.2D;
 
 			props.isOnLadder = false;
 
@@ -185,24 +173,106 @@ public class EntityEffectHandler {
 
 		for(ContaminationEffect con : contamination) {
 			ContaminationUtil.contaminate(entity, HazardType.RADIATION, con.ignoreArmor ? ContaminationType.RAD_BYPASS : ContaminationType.CREATIVE, con.getRad());
-
 			con.time--;
-
-			if(con.time <= 0)
-				rem.add(con);
+			if(con.time <= 0) rem.add(con);
 		}
 
 		contamination.removeAll(rem);
 	}
 
-	private static void handleRadiation(EntityLivingBase entity) {
+	/** Handles entity transformation via radiation and applied potion effects */
+	private static void handleRadiationEffect(EntityLivingBase entity) {
+
+		if(entity.isDead) return;
+		if(entity.worldObj.isRemote) return;
+		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) return;
+		
+		World world = entity.worldObj;
+
+		float eRad = HbmLivingProps.getRadiation(entity);
+
+		/// TRANSFORMATIONS ///
+		if(entity.getClass().equals(EntityCreeper.class) && eRad >= 200 && entity.getHealth() > 0) {
+
+			if(world.rand.nextInt(3) == 0) {
+				EntityCreeperNuclear creep = new EntityCreeperNuclear(world);
+				creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+				world.spawnEntityInWorld(creep);
+				entity.setDead();
+			} else {
+				entity.attackEntityFrom(ModDamageSource.radiation, 100F);
+			}
+			return;
+		} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom) && eRad >= 50) {
+			EntityMooshroom cow = new EntityMooshroom(world);
+			cow.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			world.spawnEntityInWorld(cow);
+			entity.setDead();
+			return;
+		} else if(entity instanceof EntityVillager && eRad >= 500) {
+			EntityZombie zomb = new EntityZombie(world);
+			zomb.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			world.spawnEntityInWorld(zomb);
+			entity.setDead();
+			return;
+		} else if(entity.getClass().equals(EntityDuck.class) && eRad >= 200) {
+			EntityQuackos quacc = new EntityQuackos(world);
+			quacc.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			world.spawnEntityInWorld(quacc);
+			entity.setDead();
+			return;
+		}
+
+		if(eRad < 200 || ContaminationUtil.isRadImmune(entity)) return;
+		if(eRad > 2500) HbmLivingProps.setRadiation(entity, 2500);
+
+		/// EFFECTS ///
+		if(eRad >= 1000) {
+
+			entity.attackEntityFrom(ModDamageSource.radiation, 1000F);
+			HbmLivingProps.setRadiation(entity, 0);
+
+			if(entity.getHealth() > 0) {
+				entity.setHealth(0);
+				entity.onDeath(ModDamageSource.radiation);
+			}
+
+			if(entity instanceof EntityPlayer) ((EntityPlayer) entity).triggerAchievement(MainRegistry.achRadDeath);
+
+		} else if(eRad >= 800) {
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+			if(world.rand.nextInt(500) == 0) entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
+			if(world.rand.nextInt(700) == 0) entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
+
+		} else if(eRad >= 600) {
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+			if(world.rand.nextInt(500) == 0) entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
+
+		} else if(eRad >= 400) {
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+			if(world.rand.nextInt(500) == 0) entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
+
+		} else if(eRad >= 200) {
+			if(world.rand.nextInt(300) == 0) entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+			if(world.rand.nextInt(500) == 0) entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
+
+			if(entity instanceof EntityPlayer) ((EntityPlayer) entity).triggerAchievement(MainRegistry.achRadPoison);
+		}
+	}
+
+	/** Handles contamination from the chunk, the dimension as well as particle effects related to radiation sickness */
+	private static void handleRadiationFX(EntityLivingBase entity) {
 
 		World world = entity.worldObj;
 
 		if(!world.isRemote) {
 
-			if(ContaminationUtil.isRadImmune(entity))
-				return;
+			if(ContaminationUtil.isRadImmune(entity)) return;
 
 			int ix = (int)MathHelper.floor_double(entity.posX);
 			int iy = (int)MathHelper.floor_double(entity.posY);
@@ -213,16 +283,9 @@ public class EntityEffectHandler {
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
 				rad = (float) RadiationConfig.hellRad;
 
-			if(rad > 0) {
-				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
-			}
+			if(rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 
-			if(entity.worldObj.isRaining() && BombConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
-				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, BombConfig.cont * 0.0005F);
-			}
-
-			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
-				return;
+			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode) return;
 
 			Random rand = new Random(entity.getEntityId());
 
@@ -649,19 +712,16 @@ public class EntityEffectHandler {
 			}
 
 			int dashCount = armorDashCount + armorModDashCount;
-
 			boolean dashActivated = props.getKeyPressed(EnumKeybind.DASH);
 
-			if(dashCount * 30 < props.getStamina())
-				props.setStamina(dashCount * 30);
+			if(dashCount * 30 < props.getStamina()) props.setStamina(dashCount * 30);
 
 			if(dashCount > 0) {
 
 				int perDash = 30;
-
-				props.setDashCount(dashCount);
-
 				int stamina = props.getStamina();
+				
+				props.setDashCount(dashCount);
 
 				if(props.getDashCooldown() <= 0) {
 
@@ -674,8 +734,7 @@ public class EntityEffectHandler {
 						int forward = (int) Math.signum(player.moveForward);
 						int strafe = (int) Math.signum(player.moveStrafing);
 
-						if(forward == 0 && strafe == 0)
-							forward = 1;
+						if(forward == 0 && strafe == 0) forward = 1;
 
 						player.addVelocity(lookingIn.xCoord * forward + strafeVec.xCoord * strafe, 0, lookingIn.zCoord * forward + strafeVec.zCoord * strafe);
 						player.motionY = 0;
@@ -694,7 +753,6 @@ public class EntityEffectHandler {
 					stamina++;
 
 					if(stamina % perDash == perDash-1) {
-
 						player.playSound("hbm:item.techBoop", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
 						stamina++;
 					}
@@ -702,7 +760,6 @@ public class EntityEffectHandler {
 
 				props.setStamina(stamina);
 			}
-
 		}
 	}
 

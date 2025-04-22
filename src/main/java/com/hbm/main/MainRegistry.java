@@ -1678,6 +1678,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.machine_nuke_furnace_off");
 		ignoreMappings.add("hbm:tile.machine_nuke_furnace_on");
 		ignoreMappings.add("hbm:item.singularity_micro");
+		ignoreMappings.add("hbm:item.gun_cryocannon");
+		ignoreMappings.add("hbm:item.gun_cryolator_ammo");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

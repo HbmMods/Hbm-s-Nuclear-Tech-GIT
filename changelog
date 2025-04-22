@@ -13,6 +13,12 @@
 * The rare small lab structures have been removed and replaced with a new lighthouse
 * ReaSim connectors will no longer function if ReaSim boilers are disabled
 * Updated the placed geiger counter model
+* Updated random gear on hostile mobs, there's now more variety in what armor/weapons mobs can have
+* Removed the cryo cannon. It was the last true weapon to use the NT system and may return later
+* Mines will no longer trigger from all ambient creatures (originally just bats) and water creatures
+* Mines can no longer be triggered if a non-air block is above them
+* Moved the cooling tower particle toggle from `hbm.cfg` to the client config, named `COOLING_TOWER_PARTICLES`
+* Updated HSS textures
 
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
