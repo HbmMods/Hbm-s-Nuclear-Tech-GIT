@@ -143,7 +143,7 @@ public class XFactoryEnergy {
 				).setUnlocalizedName("gun_tesla_cannon");
 
 		ModItems.gun_laser_pistol = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
+				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
 						.dmg(50F).delay(8).spread(1F).spreadHipfire(2.5F).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(energy_las, energy_las_overcharge, energy_las_ir))

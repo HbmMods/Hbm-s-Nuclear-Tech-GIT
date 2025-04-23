@@ -71,6 +71,8 @@ public class EntityNukeTorex extends Entity {
 				lastSpawnY = posY - 3;
 			}
 			
+			if(ticksExisted < 100) this.worldObj.lastLightningBolt = 2;
+			
 			int spawnTarget = Math.max(worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ)) - 3, 1);
 			double moveSpeed = 0.5D;
 			

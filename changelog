@@ -1,3 +1,6 @@
+## Added
+* Laser pistol
+
 ## Changed
 * Trenchmaster armor now has the fast reload and more ammo traits again
   * Fast reload now also plays the animation twice as fast
@@ -19,6 +22,9 @@
 * Mines can no longer be triggered if a non-air block is above them
 * Moved the cooling tower particle toggle from `hbm.cfg` to the client config, named `COOLING_TOWER_PARTICLES`
 * Updated HSS textures
+* The diesel generator and turbofan will both now halt operation when powered by redstone
+* Infinite batteries will now also drain energy when put into a charging slot
+* TOREX effects now cause the sky to go fullbright again for 10 seconds after they spawn
 
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled

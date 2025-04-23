@@ -7,8 +7,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityFallingBlockNT;
-import com.hbm.entity.missile.EntityMissileAntiBallistic;
-import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityModFX;
@@ -645,91 +643,6 @@ public class ExplosionChaos {
 				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 				if (d9 < wat) {
 					entity.setPosition(entity.posX += a, entity.posY += b, entity.posZ += c);
-				}
-			}
-		}
-
-		radius = (int) f;
-	}
-
-	public static Entity getHomingTarget(World world, int x, int y, int z, int radius, Entity e) {
-		float f = radius;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius * 2;
-
-		radius *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (true) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					if (entity instanceof EntityMissileBase && !(entity instanceof EntityMissileAntiBallistic)) {
-						return entity;
-					}
-				}
-			}
-		}
-
-		radius = (int) f;
-		return null;
-	}
-
-	public static void delMissiles(World world, int x, int y, int z, int radius, Entity e) {
-		float f = radius;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius * 2;
-
-		radius *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (true) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					if (entity instanceof EntityMissileBase) {
-						entity = null;
-					}
 				}
 			}
 		}

@@ -6,19 +6,15 @@ import java.util.Random;
 import com.hbm.config.VersatileConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
 import api.hbm.fluidmk2.IFillableItem;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -27,80 +23,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
+@Spaghetti("fuck")
 public class ItemSyringe extends Item {
 
 	Random rand = new Random();
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-
-		if(this == ModItems.syringe_antidote && !VersatileConfig.hasPotionSickness(player)) {
-			if(!world.isRemote) {
-				player.clearActivePotions();
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.syringe_empty);
-				}
-
-				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-				}
-
-				VersatileConfig.applyPotionSickness(player, 5);
-			}
-		}
-
-		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(player)) {
-			if(!world.isRemote) {
-				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
-				player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
-				player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
-				player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
-				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
-				player.addPotionEffect(new PotionEffect(HbmPotion.radx.id, 50 * 20, 9));
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.syringe_empty);
-				}
-
-				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-				}
-
-				VersatileConfig.applyPotionSickness(player, 50);
-			}
-		}
-
-		if(this == ModItems.syringe_poison) {
-			if(!world.isRemote) {
-				if(rand.nextInt(2) == 0)
-					player.attackEntityFrom(ModDamageSource.euthanizedSelf, 30);
-				else
-					player.attackEntityFrom(ModDamageSource.euthanizedSelf2, 30);
-
-				stack.stackSize--;
-				world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(stack.stackSize <= 0) {
-					return new ItemStack(ModItems.syringe_empty);
-				}
-
-				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-				}
-			}
-		}
 
 		if(this == ModItems.syringe_metal_stimpak && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
@@ -345,92 +274,8 @@ public class ItemSyringe extends Item {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack p_77636_1_) {
-		if(this == ModItems.syringe_awesome) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public EnumRarity getRarity(ItemStack p_77613_1_) {
-		if(this == ModItems.syringe_awesome) {
-			return EnumRarity.uncommon;
-		}
-		return EnumRarity.common;
-	}
-
-	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer) {
 		World world = entity.worldObj;
-
-		if(this == ModItems.syringe_antidote && !VersatileConfig.hasPotionSickness(entity)) {
-			if(!world.isRemote) {
-				entity.clearActivePotions();
-				VersatileConfig.applyPotionSickness(entity, 5);
-
-				stack.stackSize--;
-				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(entityPlayer instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) entityPlayer;
-					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-					}
-				}
-			}
-		}
-
-		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(entity)) {
-			if(!world.isRemote) {
-
-				if(entity instanceof EntityCow) {
-
-					entity.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 40, 0));
-
-				} else  {
-					entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
-					entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
-					entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 50 * 20, 0));
-					entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 50 * 20, 24));
-					entity.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 50 * 20, 9));
-					entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 50 * 20, 6));
-					entity.addPotionEffect(new PotionEffect(Potion.jump.id, 50 * 20, 9));
-					entity.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
-					entity.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
-					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
-					VersatileConfig.applyPotionSickness(entity, 50);
-				}
-
-				stack.stackSize--;
-				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(entityPlayer instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) entityPlayer;
-					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-					}
-				}
-			}
-		}
-
-		if(this == ModItems.syringe_poison) {
-			if(!world.isRemote) {
-				entity.attackEntityFrom(ModDamageSource.euthanized(entityPlayer, entityPlayer), 30);
-
-				stack.stackSize--;
-				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
-
-				if(entityPlayer instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) entityPlayer;
-					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
-						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
-					}
-				}
-			}
-		}
 
 		if(this == ModItems.syringe_metal_stimpak && !VersatileConfig.hasPotionSickness(entity)) {
 			if(!world.isRemote) {
