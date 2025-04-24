@@ -996,6 +996,7 @@ public class ResourceManager {
 	public static final ResourceLocation tesla_cannon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tesla_cannon.png");
 	public static final ResourceLocation laser_pistol_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_pistol.png");
 	public static final ResourceLocation laser_pistol_pew_pew_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_pistol_pew_pew.png");
+	public static final ResourceLocation laser_pistol_morning_glory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_pistol_morning_glory.png");
 	public static final ResourceLocation stg77_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/stg77.png");
 	public static final ResourceLocation tau_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tau.png");
 	public static final ResourceLocation fatman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman.png");

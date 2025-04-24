@@ -240,6 +240,7 @@
     "weapon.fire.loudestNoiseOnEarth": {"category": "player", "sounds": ["weapon/fire/loudestNoiseOnEarth"]},
     "weapon.fire.disintegration": {"category": "player", "sounds": ["weapon/fire/disintegration"]},
     "weapon.fire.laser": {"category": "player", "sounds": ["weapon/fire/laser"]},
+    "weapon.fire.laserPistol": {"category": "player", "sounds": ["weapon/fire/laserPistol"]},
     "weapon.fire.laserGatling": {"category": "player", "sounds": ["weapon/fire/laserGatling"]},
     "weapon.fire.silenced": {"category": "player", "sounds": ["weapon/fire/silenced"]},
     "weapon.fire.assault": {"category": "player", "sounds": ["weapon/fire/assault"]},

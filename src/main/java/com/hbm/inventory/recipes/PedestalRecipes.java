@@ -72,6 +72,11 @@ public class PedestalRecipes extends SerializableRecipe {
 				null,																			new ComparableStack(ModItems.powder_magic, 4),	null)
 				.extra(PedestalExtraCondition.FULL_MOON));
 
+		register(new PedestalRecipe(new ItemStack(ModItems.gun_laser_pistol_morning_glory),
+				null,																			new ComparableStack(ModItems.morning_glory, 1),	null,
+				new ComparableStack(ModItems.item_secret, 2, EnumSecretType.SELENIUM_STEEL),	new ComparableStack(ModItems.gun_laser_pistol),	new ComparableStack(ModItems.item_secret, 2, EnumSecretType.SELENIUM_STEEL),
+				null,																			new OreDictStack(STAR.ingot(), 4),				null));
+
 		register(new PedestalRecipe(new ItemStack(ModItems.gun_folly),
 				new ComparableStack(ModItems.item_secret, 4, EnumSecretType.FOLLY),	new ComparableStack(ModItems.item_secret, 2, EnumSecretType.CONTROLLER),	new ComparableStack(ModItems.item_secret, 4, EnumSecretType.FOLLY),
 				new OreDictStack(BSCCO.ingot(), 16),								new OreDictStack(STAR.block(), 64),											new OreDictStack(BSCCO.ingot(), 16),
