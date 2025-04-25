@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
+import com.hbm.util.Clock;
 import com.hbm.render.loader.HmfController;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
@@ -77,7 +78,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 		
 		bindTexture(ResourceManager.chemplant_spinner_tex);
 
-		int rotation = (int) (System.currentTimeMillis() % (360 * 5)) / 5;
+		int rotation = (int) (Clock.get_ms() % (360 * 5)) / 5;
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(-0.625, 0, 0.625);
@@ -101,7 +102,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 		ResourceManager.chemplant_spinner.renderAll();
 		GL11.glPopMatrix();
 
-		double push = Math.sin((System.currentTimeMillis() % 2000) / 1000D * Math.PI) * 0.25 - 0.25;
+		double push = Math.sin((Clock.get_ms() % 2000) / 1000D * Math.PI) * 0.25 - 0.25;
 
 		bindTexture(ResourceManager.chemplant_piston_tex);
 

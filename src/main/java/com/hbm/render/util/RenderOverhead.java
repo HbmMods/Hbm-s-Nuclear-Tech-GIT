@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.WorldInAJar;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -272,7 +273,7 @@ public class RenderOverhead {
 
 			tagList.add(entry);
 
-			if(marker.expire > 0 && System.currentTimeMillis() > marker.expire) {
+			if(marker.expire > 0 && Clock.get_ms() > marker.expire) {
 				it.remove();
 			} else if(marker.maxDist > 0) {
 				double aX = pX + (maxX - minX) / 2D;
