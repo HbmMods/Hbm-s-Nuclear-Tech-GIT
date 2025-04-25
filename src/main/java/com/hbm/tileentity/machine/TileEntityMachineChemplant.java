@@ -173,7 +173,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			if(isProgressing && volume > 0) {
 
 				if(audio == null) {
-					audio = this.createAudioLoop();
+					audio = createAudioLoop();
 					audio.updateVolume(volume);
 					audio.startSound();
 				} else if(!audio.isPlaying()) {

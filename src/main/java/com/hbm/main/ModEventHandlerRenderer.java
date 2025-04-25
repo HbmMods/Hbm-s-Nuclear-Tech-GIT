@@ -10,6 +10,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
+import com.hbm.util.Clock;
 import com.hbm.world.biome.BiomeGenCraterBase;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -544,11 +545,11 @@ public class ModEventHandlerRenderer {
 	/** Same procedure as getting the blended sky color but for fog */
 	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, float red, float green, float blue, double partialTicks) {
 
-		long millis = System.currentTimeMillis() - fogTimer;
+		long millis = Clock.get_ms() - fogTimer;
 		if(playerX == fogX && playerZ == fogZ && fogInit && millis < 3000) return fogRGBMultiplier;
 
 		fogInit = true;
-		fogTimer = System.currentTimeMillis();
+		fogTimer = Clock.get_ms();
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		int[] ranges = ForgeModContainer.blendRanges;
 		int distance = 0;
