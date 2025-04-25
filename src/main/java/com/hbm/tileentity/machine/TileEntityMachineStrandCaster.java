@@ -129,7 +129,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		if(type != null && mold != null && mold.getOutput(type) != null) {
 			for(int i = 1; i < 7; i++) {
 				if(slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize + mold.getOutput(type).stackSize <= mold.getOutput(type).getMaxStackSize())
-					return water.getFill() >= getWaterRequired() * itemsCasted && steam.getFill() < steam.getMaxFill();
+					return water.getFill() >= getWaterRequired() * itemsCasted && steam.getFill() + getWaterRequired() <= steam.getMaxFill();
 
 			}
 		}

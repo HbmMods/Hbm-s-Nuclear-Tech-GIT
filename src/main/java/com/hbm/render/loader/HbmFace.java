@@ -7,6 +7,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
+@Deprecated
 public class HbmFace {
     public Vertex[] vertices;
     public Vertex[] vertexNormals;

@@ -23,6 +23,7 @@ import net.minecraftforge.client.model.obj.Vertex;
 
 import com.hbm.util.Clock;
 
+@Deprecated
 public class HbmModelObject implements IModelCustom {
     private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
     private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");

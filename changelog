@@ -35,3 +35,4 @@
 * Fixed modeled armor using weird rotation rules, causing issues with Customizable Player Models
 * Fixed rotation issues for certain blocks using the new structure system
 * Fixed ReaSim water never moving if the reactor is at 20°
+* Fixed strand caster LPS gauge exceeding the limit
