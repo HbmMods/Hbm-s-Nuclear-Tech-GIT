@@ -440,7 +440,7 @@ public class ModEventHandler {
 	}
 
 
-	private void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
+	public void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
 		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
 			int slot = entry.getKey();
 			List<WeightedRandomObject> pool = entry.getValue();
