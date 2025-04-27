@@ -33,6 +33,8 @@ public interface IMagazine<T> {
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount);
 	/** If a reload can even be initiated, i.e. the player even has bullets to load, inventory can be null */
 	public boolean canReload(ItemStack stack, IInventory inventory);
+	/** On the begin of a reload, potentially change the mag type before the reload happens for animation purposes */
+	public void initNewType(ItemStack stack, IInventory inventory);
 	/** The action done at the end of one reload cycle, either loading one shell or replacing the whole mag, inventory can be null */
 	public void reloadAction(ItemStack stack, IInventory inventory);
 	/** The stack that should be displayed for the ammo HUD */

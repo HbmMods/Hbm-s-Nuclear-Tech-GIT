@@ -650,6 +650,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.containment_box, 1), new Object[] { "LUL", "UCU", "LUL", 'L', PB.plate(), 'U', U238.billet(), 'C', ModBlocks.crate_steel });
 		addRecipeAuto(new ItemStack(ModItems.casing_bag, 1), new Object[] { " L ", "LGL", " L ", 'L', Items.leather, 'G', GUNMETAL.plate() });
 		addRecipeAuto(new ItemStack(ModItems.casing_bag, 1), new Object[] { " L ", "LGL", " L ", 'L', ANY_RUBBER.ingot(), 'G', GUNMETAL.plate() });
+		addRecipeAuto(new ItemStack(ModItems.ammo_bag, 1), new Object[] { "LLL", "MGM", "LLL", 'L', Items.leather, 'G', WEAPONSTEEL.plate(), 'M', WEAPONSTEEL.mechanism() });
+		addRecipeAuto(new ItemStack(ModItems.ammo_bag, 1), new Object[] { "LLL", "MGM", "LLL", 'L', ANY_RUBBER.ingot(), 'G', WEAPONSTEEL.plate(), 'M', WEAPONSTEEL.mechanism() });
 
 		addRecipeAuto(new ItemStack(ModBlocks.absorber, 1), new Object[] { "ICI", "CPC", "ICI", 'I', CU.ingot(), 'C', COAL.dust(), 'P', PB.dust() });
 		addRecipeAuto(new ItemStack(ModBlocks.absorber_red, 1), new Object[] { "ICI", "CPC", "ICI", 'I', TI.ingot(), 'C', COAL.dust(), 'P', ModBlocks.absorber });
@@ -752,7 +754,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.struct_watz_core, 1), new Object[] { "CBC", "BHB", "CBC", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'B', ANY_RESISTANTALLOY.plateCast(), 'H', ModBlocks.watz_cooler });
 		addShapelessAuto(new ItemStack(ModBlocks.fusion_heater), new Object[] { ModBlocks.fusion_hatch });
 		addShapelessAuto(new ItemStack(ModItems.energy_core), new Object[] { ModItems.fusion_core, ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModItems.catalytic_converter, 1), new Object[] { "PCP", "PBP", "PCP", 'P', ANY_HARDPLASTIC.ingot(), 'C', CO.dust(), 'B', BI.ingot() });
+		addRecipeAuto(new ItemStack(ModItems.catalytic_converter, 1), new Object[] { "PCP", "PBP", "PCP", 'P', ANY_HARDPLASTIC.ingot(), 'C', CO.dust(), 'B', ANY_BISMOID.ingot() });
 
 		addRecipeAuto(new ItemStack(ModItems.upgrade_nullifier, 1), new Object[] { "SPS", "PUP", "SPS", 'S', STEEL.plate(), 'P', ModItems.powder_fire, 'U', ModItems.upgrade_template });
 		addRecipeAuto(new ItemStack(ModItems.upgrade_smelter, 1), new Object[] { "PHP", "CUC", "DTD", 'P', CU.plate(), 'H', Blocks.hopper, 'C', ModItems.coil_tungsten, 'U', ModItems.upgrade_template, 'D', ModItems.coil_copper, 'T', ModBlocks.machine_transformer });

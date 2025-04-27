@@ -65,7 +65,8 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_akimbo,					new ItemRenderUziAkimbo());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12,						new ItemRenderSPAS12());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_panzerschreck,				new ItemRenderPanzerschreck());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3,							new ItemRenderG3());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3,							new ItemRenderG3(ResourceManager.g3_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3_zebra,					new ItemRenderG3(ResourceManager.g3_zebra_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_stinger,						new ItemRenderStinger());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_chemthrower,					new ItemRenderChemthrower());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_m2,							new ItemRenderM2());
@@ -137,6 +138,8 @@ public class GunFactoryClient {
 		r556_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		r556_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		r556_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
+		
+		setRendererBulk(LegoClient.RENDER_AP_BULLET, r556_inc_sp, r556_inc_fmj, r556_inc_jhp, r556_inc_ap);
 		
 		r762_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		r762_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
@@ -238,6 +241,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_spas12)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_panzerschreck)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_g3)							.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_g3_zebra)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_stinger)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_chemthrower)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_m2)							.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

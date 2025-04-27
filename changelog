@@ -2,6 +2,11 @@
 * Laser pistol
   * Saturnite-tier pistol using capacitors
   * Also has variants
+* B-side for the assault rifle
+* Ammo bag
+  * Holds up to 8 stacks of items with no NBT
+  * Reloading guns will access the contents of the bag directly without it having to be emptied first
+  * Comes with a handy little indicator to shot roughly how full it is
 
 ## Changed
 * Trenchmaster armor now has the fast reload and more ammo traits again
@@ -27,6 +32,10 @@
 * The diesel generator and turbofan will both now halt operation when powered by redstone
 * Infinite batteries will now also drain energy when put into a charging slot
 * TOREX effects now cause the sky to go fullbright again for 10 seconds after they spawn
+* Weapon tooltips now show the weapon's condition
+* Updated the catalytic cracking tower model
+* Leviathan turbine and powered condenser tooltip now use thousand separaators to make the numbers actually readable
+* Catalytic converters can now be crafted with `ANY_BISMOID` instead of just bismuth (that includes arsenic)
 
 ## Fixed
 * Fixed fatal gamebreaking hard drive corrupting issue where taurun leggings were misspelled
@@ -36,3 +45,5 @@
 * Fixed rotation issues for certain blocks using the new structure system
 * Fixed ReaSim water never moving if the reactor is at 20°
 * Fixed strand caster LPS gauge exceeding the limit
+* The SPAS-12 and congo lake now change type immediately when hitting the reload key, fixing an issue where the first loaded round may have the worng color when the ammo type changes
+* Fixed crash caused by `/ntmreload` when NEI is not installed

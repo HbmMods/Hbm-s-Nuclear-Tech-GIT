@@ -182,6 +182,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 				}
 			}
 			
+			float maxDura = config.getDurability(stack);
+			int dura = MathHelper.clamp_int((int)((maxDura - this.getWear(stack, i)) * 100 / maxDura), 0, 100);
+			list.add("Condition: " + dura + "%");
+			
 			for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack, i)) {
 				list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());
 			}
@@ -315,6 +319,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 					this.setState(stack, i, GunState.DRAWING);
 					this.setTimer(stack, i, configs[i].getDrawDuration(stack));
 				}
+				this.setLastAnim(stack, i, AnimType.CYCLE); //prevents new guns from initializing with DRAWING, 0
 			}
 			this.setIsAiming(stack, false);
 			this.setReloadCancel(stack, false);

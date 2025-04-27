@@ -1149,6 +1149,7 @@ public class ModItems {
 	public static Item containment_box;
 	public static Item plastic_bag;
 
+	public static Item ammo_bag;
 	public static Item casing_bag;
 
 	public static Item test_nuke_igniter;
@@ -1463,6 +1464,7 @@ public class ModItems {
 	public static Item gun_spas12;
 	public static Item gun_panzerschreck;
 	public static Item gun_g3;
+	public static Item gun_g3_zebra;
 	public static Item gun_stinger;
 	public static Item gun_chemthrower;
 	public static Item gun_m2;
@@ -3538,6 +3540,7 @@ public class ModItems {
 		containment_box = new ItemLeadBox().setUnlocalizedName("containment_box").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":containment_box");
 		plastic_bag = new ItemPlasticBag().setUnlocalizedName("plastic_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":plastic_bag");
 
+		ammo_bag = new ItemAmmoBag().setUnlocalizedName("ammo_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ammo_bag");
 		casing_bag = new ItemCasingBag().setUnlocalizedName("casing_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":casing_bag");
 
 		debris_graphite = new Item().setUnlocalizedName("debris_graphite").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_graphite");
@@ -6170,6 +6173,7 @@ public class ModItems {
 		GameRegistry.registerItem(containment_box, containment_box.getUnlocalizedName());
 		GameRegistry.registerItem(plastic_bag, plastic_bag.getUnlocalizedName());
 
+		GameRegistry.registerItem(ammo_bag, ammo_bag.getUnlocalizedName());
 		GameRegistry.registerItem(casing_bag, casing_bag.getUnlocalizedName());
 
 		//Keys and Locks
@@ -6405,6 +6409,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
 		GameRegistry.registerItem(gun_g3, gun_g3.getUnlocalizedName());
+		GameRegistry.registerItem(gun_g3_zebra, gun_g3_zebra.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
 		GameRegistry.registerItem(gun_m2, gun_m2.getUnlocalizedName());

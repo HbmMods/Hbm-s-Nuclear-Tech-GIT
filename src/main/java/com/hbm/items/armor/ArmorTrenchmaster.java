@@ -89,10 +89,12 @@ public class ArmorTrenchmaster extends ArmorFSB {
 	}
 
 	public static boolean isTrenchMaster(EntityPlayer player) {
+		if(player == null) return false;
 		return player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() == ModItems.trenchmaster_plate && ArmorFSB.hasFSBArmor(player);
 	}
 
 	public static boolean hasAoS(EntityPlayer player) {
+		if(player == null) return false;
 		if(player.inventory.armorInventory[3] != null) {
 			ItemStack[] mods =  ArmorModHandler.pryMods(player.inventory.armorInventory[3]);
 			ItemStack helmet = mods[ArmorModHandler.helmet_only];

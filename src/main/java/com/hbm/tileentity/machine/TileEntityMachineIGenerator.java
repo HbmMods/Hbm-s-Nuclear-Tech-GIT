@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.gui.GUIIGenerator;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -290,7 +289,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIIGenerator(player.inventory, this);
+		return null;
 	}
 
 	@Override

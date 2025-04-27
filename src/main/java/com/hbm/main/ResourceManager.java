@@ -75,7 +75,7 @@ public class ResourceManager {
 	public static final IModelCustom refinery_exploded = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/refinery_exploded.obj")).asVBO();
 	public static final IModelCustom fraction_tower = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/fraction_tower.obj"));
 	public static final IModelCustom fraction_spacer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/fraction_spacer.obj"));
-	public static final IModelCustom cracking_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/cracking_tower.obj")).asVBO();
+	public static final IModelCustom cracking_tower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/catalytic_cracker.obj")).asVBO();
 	public static final IModelCustom catalytic_reformer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/catalytic_reformer.obj")).asVBO();
 	public static final IModelCustom hydrotreater = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/hydrotreater.obj")).asVBO();
 	public static final IModelCustom liquefactor = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/liquefactor.obj")).asVBO();
@@ -492,7 +492,7 @@ public class ResourceManager {
 	public static final ResourceLocation vacuum_distill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/vacuum_distill.png");
 	public static final ResourceLocation fraction_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fraction_tower.png");
 	public static final ResourceLocation fraction_spacer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fraction_spacer.png");
-	public static final ResourceLocation cracking_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/cracking_tower.png");
+	public static final ResourceLocation cracking_tower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/catalytic_cracker.png");
 	public static final ResourceLocation catalytic_reformer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/catalytic_reformer.png");
 	public static final ResourceLocation hydrotreater_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/hydrotreater.png");
 	public static final ResourceLocation liquefactor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/liquefactor.png");
@@ -982,6 +982,7 @@ public class ResourceManager {
 	public static final ResourceLocation uzi_saturnite_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/uzi_saturnite.png");
 	public static final ResourceLocation panzerschreck_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/panzerschreck.png");
 	public static final ResourceLocation g3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3.png");
+	public static final ResourceLocation g3_zebra_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_zebra.png");
 	public static final ResourceLocation g3_green_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_green.png");
 	public static final ResourceLocation g3_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_black.png");
 	public static final ResourceLocation g3_attachments = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_attachments.png");

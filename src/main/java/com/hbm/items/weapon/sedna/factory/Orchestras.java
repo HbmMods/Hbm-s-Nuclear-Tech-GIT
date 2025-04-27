@@ -740,8 +740,9 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
-    
+		boolean scoped = stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !scoped;
+
 		if(type == AnimType.CYCLE) {
 			if(timer == 0) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);

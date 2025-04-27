@@ -83,7 +83,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
-				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{4, -1, 3, -1, 1, 1}, x, y, z, dir) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{8, -1, 3, -1, 2, 0}, x, y, z, dir) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{13, 0, 0, 3, 2, 1}, x, y, z, dir) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{14, -13, -1, 2, 1, 0}, x, y, z, dir) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{3, -1, 2, 3, -1, 3}, x, y, z, dir);
@@ -93,7 +93,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{4, -1, 3, -1, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{8, -1, 3, -1, 2, 0}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{13, 0, 0, 3, 2, 1}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{14, -13, -1, 2, 1, 0}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{3, -1, 2, 3, -1, 3}, this, dir);

@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.handler.nei.BoilingHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.trait.*;
@@ -892,7 +891,6 @@ public class Fluids {
 		} else {
 			readTraits(config);
 		}
-		BoilingHandler.isReload=true;
 	}
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
 

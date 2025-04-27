@@ -343,7 +343,7 @@ public class XFactory12ga {
 				).setUnlocalizedName("gun_liberator");
 
 		ModItems.gun_spas12 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.dura(600).draw(20).inspect(39).reloadSequential(true).reloadChangeType(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(32F).spreadHipfire(0F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 8).addConfigs(all))

@@ -76,6 +76,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_spas12, 1), new Object[] { "BRM", "BGS", 'B', DESH.lightBarrel(), 'R', DESH.lightReceiver(), 'M', GUNMETAL.mechanism(), 'G', ANY_PLASTIC.grip(), 'S', DESH.stock() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_panzerschreck, 1), new Object[] { "BBB", "PGM", 'B', DESH.heavyBarrel(), 'P', STEEL.plateCast(), 'G', DESH.grip(), 'M', GUNMETAL.mechanism() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_g3, 1), new Object[] { "BRM", "WGS", 'B', WEAPONSTEEL.lightBarrel(), 'R', WEAPONSTEEL.lightReceiver(), 'M', WEAPONSTEEL.mechanism(), 'W', WOOD.grip(), 'G', RUBBER.grip(), 'S', WOOD.stock() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_g3_zebra, 1), new Object[] { " M ", "MPM", " M ", 'M', BIGMT.mechanism(), 'P', ModItems.gun_g3 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_stinger, 1), new Object[] { "BBB", "PGM", 'B', WEAPONSTEEL.heavyBarrel(), 'P', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'G', WEAPONSTEEL.grip(), 'M', WEAPONSTEEL.mechanism() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_chemthrower, 1), new Object[] { "MHW", "PSS", 'M', WEAPONSTEEL.mechanism(), 'H', RUBBER.pipe(), 'W', ModItems.wrench, 'P', WEAPONSTEEL.heavyBarrel(), 'S', WEAPONSTEEL.shell() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_m2, 1), new Object[] { "  G", "BRM", "  G", 'G', WOOD.grip(), 'B', FERRO.heavyBarrel(), 'R', FERRO.heavyReceiver(), 'M', WEAPONSTEEL.mechanism() });

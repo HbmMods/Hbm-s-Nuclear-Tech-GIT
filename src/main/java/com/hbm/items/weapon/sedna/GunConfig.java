@@ -34,6 +34,7 @@ public class GunConfig {
 	public static final String I_INSPECTCANCEL =				"I_INSPECTCANCEL";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
 	public static final String B_HIDECROSSHAIR =				"B_HIDECROSSHAIR";
+	public static final String B_RELOADREQUIRESTYPECHANGE =		"B_RELOADREQUIRESTYPECHANGE";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
 	public static final String O_SCOPETEXTURE =					"O_SCOPETEXTURE";
 	public static final String CON_SMOKE =						"CON_SMOKE";
@@ -61,6 +62,7 @@ public class GunConfig {
 	protected boolean inspectCancel_DNA = true;
 	protected Crosshair crosshair_DNA;
 	protected boolean hideCrosshair_DNA = true;
+	protected boolean reloadRequiresTypeChange_DNA = false;
 	protected boolean reloadAnimationsSequential_DNA;
 	protected ResourceLocation scopeTexture_DNA;
 	/** Handles smoke clientside */
@@ -92,6 +94,7 @@ public class GunConfig {
 	public boolean getInspectCancel(ItemStack stack) {								return WeaponModManager.eval(inspectCancel_DNA, stack, I_INSPECTCANCEL, this, this.index); }
 	public Crosshair getCrosshair(ItemStack stack) {								return WeaponModManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this, this.index); }
 	public boolean getHideCrosshair(ItemStack stack) {								return WeaponModManager.eval(hideCrosshair_DNA, stack, B_HIDECROSSHAIR, this, this.index); }
+	public boolean getReloadChangesType(ItemStack stack) {							return WeaponModManager.eval(reloadRequiresTypeChange_DNA, stack, B_RELOADREQUIRESTYPECHANGE, this, this.index); }
 	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponModManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this, this.index); }
 	public ResourceLocation getScopeTexture(ItemStack stack) {						return WeaponModManager.eval(scopeTexture_DNA, stack, O_SCOPETEXTURE, this, this.index); }
 	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponModManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this, this.index); }
@@ -121,6 +124,7 @@ public class GunConfig {
 	public GunConfig inspectCancel(boolean flag) {			this.inspectCancel_DNA = flag; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {		this.crosshair_DNA = crosshair; return this; }
 	public GunConfig hideCrosshair(boolean flag) {			this.hideCrosshair_DNA = flag; return this; }
+	public GunConfig reloadChangeType(boolean flag) {		this.reloadRequiresTypeChange_DNA = flag; return this; }
 	public GunConfig reloadSequential(boolean flag) {		this.reloadAnimationsSequential_DNA = flag; return this; }
 	public GunConfig scopeTexture(ResourceLocation tex) {	this.scopeTexture_DNA = tex; return this; }
 
