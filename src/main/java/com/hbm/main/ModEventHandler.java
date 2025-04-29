@@ -655,7 +655,10 @@ public class ModEventHandler {
 
 			if(event.phase == Phase.END) {
 
-				for(Object e : event.world.loadedEntityList) {
+				List loadedEntityList = new ArrayList();
+				loadedEntityList.addAll(event.world.loadedEntityList); // ConcurrentModificationException my balls
+				
+				for(Object e : loadedEntityList) {
 
 					if(e instanceof EntityItem) {
 						EntityItem item = (EntityItem) e;
