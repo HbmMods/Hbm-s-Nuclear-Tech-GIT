@@ -581,27 +581,14 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt) {
-		super.readEntityFromNBT(nbt);
-		int cfg = nbt.getInteger("config");
-		this.config = BulletConfigSyncingUtil.pullConfig(cfg);
-		this.dataWatcher.updateObject(16, (byte)this.config.style);
-		this.dataWatcher.updateObject(17, (byte)this.config.trail);
-
-		if(this.config == null) {
-			this.setDead();
-			return;
-		}
-
-		this.overrideDamage = nbt.getFloat("damage");
-		this.dataWatcher.updateObject(18, cfg);
+	public boolean writeToNBTOptional(NBTTagCompound nbt) {
+		return false;
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) {
-		super.writeEntityToNBT(nbt);
-		nbt.setInteger("config", dataWatcher.getWatchableObjectInt(18));
-		nbt.setFloat("damage", this.overrideDamage);
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		this.setDead();
 	}
 
 	public static interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
