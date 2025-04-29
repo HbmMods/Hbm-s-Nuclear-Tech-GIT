@@ -202,27 +202,19 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 		this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 	}
 	
-	@SideOnly(Side.CLIENT)
-    public int getBlockColor()
-    {
-        double d0 = 0.5D;
-        double d1 = 1.0D;
-        return ColorizerGrass.getGrassColor(d0, d1);
-    }
 	
-	/**
-     * Returns the color this block should be rendered. Used by leaves.
-     */
+	
     @SideOnly(Side.CLIENT)
     public int getRenderColor(int meta)
     {
-        return meta == 0 ? 16777215 : ColorizerGrass.getGrassColor(0.5F, 1F);
+    	if (meta == 1 || meta == 3) {
+    		return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+        } else return 0xFFFFFF;
     }
+    // if you need to make another tinted plant just throw the metadata value
+    // into the if statements above and below i really do not want to make this more 
+    // complicated than it needs to be
 
-    /**
-     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
-     * when first determining what to render.
-     */
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
@@ -241,8 +233,11 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
             }
         }
         int meta = world.getBlockMetadata(x, y, z);
-        return meta == 0 ? 16777215 : ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+        if (meta == 1 || meta == 3) {
+        	return ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+        } else return 0xFFFFFF;
     }
+    
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }
