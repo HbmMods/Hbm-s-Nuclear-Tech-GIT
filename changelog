@@ -1,9 +1,14 @@
 ## Changed
 * Nerfed AP and DU round damage multiplier
   * Effective damage is still much higher than on gunmetal ammo due to the armor piercing effect
+* Increased flamethrower turret detection range from 32 to 48 blocks
+* Flamethrower turrets now use the green fire effect when using balefire fuel
+* Flamethrower turret projectile damage is now capped to 20
+  * Balefire fuel should no longer instantly vaporize bosses
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed
 * Fixed potential crash related to hazard handling for dropped items
 * Fixed errors thrown when loading in old system bullet entities
 * Fixed dupe regarding breaking transport drones
+* Fixed 12 gauge flechette DT negation not being the intended value
