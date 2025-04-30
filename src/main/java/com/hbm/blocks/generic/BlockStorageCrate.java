@@ -214,18 +214,10 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-		if(i == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-		if(i == 1) {
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		}
-		if(i == 2) {
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		}
-		if(i == 3) {
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
+		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 	}
 
 	@Override

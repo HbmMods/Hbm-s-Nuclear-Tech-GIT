@@ -984,11 +984,17 @@ public class ModEventHandlerClient {
 					ItemDepletedFuel.class,
 					ItemFluidDuct.class
 				);
+				
+				String prefix = "Gun ";
+				int scale = 8;
+				boolean ignoreNonNTM = true;
 
 				List<ItemStack> stacks = new ArrayList<ItemStack>();
 				for (Object reg : Item.itemRegistry) {
 					Item item = (Item) reg;
+					if(ignoreNonNTM && !Item.itemRegistry.getNameForObject(item).startsWith("hbm:")) continue;
 					if(ignoredItems.contains(item)) continue;
+					if(!(item instanceof ItemGunBaseNT) && prefix.toLowerCase(Locale.US).startsWith("gun")) continue;
 					if(collapsedClasses.contains(item.getClass())) {
 						stacks.add(new ItemStack(item));
 					} else {
@@ -996,7 +1002,7 @@ public class ModEventHandlerClient {
 					}
 				}
 
-				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), "Block ", "wiki-block-renders-256", 8));
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", scale));
 			}
 		} else {
 			isRenderingItems = false;
