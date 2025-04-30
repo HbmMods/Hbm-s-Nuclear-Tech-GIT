@@ -266,9 +266,6 @@ public class ItemToolBox extends Item implements IGUIProvider {
 			if(fromNBT != null) {
 				System.arraycopy(fromNBT, 0, slots, 0, slots.length);
 			}
-			toMarkDirty = true;
-			this.markDirty();
-			toMarkDirty = false;
 		}
 
 		@Override

@@ -35,6 +35,8 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	@Override
 	public boolean hitByEntity(Entity attacker) {
 
+		if(this.isDead) return false;
+		
 		if(attacker instanceof EntityPlayer && !worldObj.isRemote) {
 			this.setDead();
 			for (ItemStack stack : slots) {

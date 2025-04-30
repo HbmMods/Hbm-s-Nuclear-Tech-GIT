@@ -8,6 +8,7 @@ import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.storage.*;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -34,12 +35,10 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		if(!world.isRemote && stack.stackSize == 1) {
 			if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("lock")) {
 				for (ItemStack item : player.inventory.mainInventory) {
-					if(item == null) // Skip if no item.
-						continue;
-					if(!(item.getItem() instanceof ItemKey)) // Skip if item isn't a key.
-						continue;
-					if(item.stackTagCompound == null) // Skip if there is no NBT (wouldn't open it anyway).
-						continue;
+					
+					if(item == null) continue; // Skip if no item.
+					if(!(item.getItem() instanceof ItemKey)) continue; // Skip if item isn't a key.
+					if(item.stackTagCompound == null) continue; // Skip if there is no NBT (wouldn't open it anyway).
 					if (item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
 						TileEntityCrateBase.spawnSpiders(player, world, stack);
 						player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
@@ -81,22 +80,19 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	}
 
 	public static class InventoryCrate extends ItemInventory {
-
+		
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 
 			this.player = player;
 			this.target = crate;
-
-			slots = new ItemStack[this.getSizeInventory()];
-			if(crate.stackTagCompound == null)
-				crate.stackTagCompound = new NBTTagCompound();
-			else if(!player.worldObj.isRemote) {
-				for (int i = 0; i < this.getSizeInventory(); i++)
-					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)));
+			
+			this.slots = new ItemStack[this.getSizeInventory()];
+			if(target.stackTagCompound == null) {
+				target.stackTagCompound = new NBTTagCompound();
 			}
-			toMarkDirty = true;
-			this.markDirty();
-			toMarkDirty = false;
+			
+			for(int i = 0; i < slots.length; i++)
+				this.slots[i] = ItemStack.loadItemStackFromNBT(target.stackTagCompound.getCompoundTag("slot" + i));
 		}
 
 		@Nonnull
@@ -128,38 +124,36 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public void markDirty() { // I HATE THIS SO MUCH
-
-			if(player.getEntityWorld().isRemote || !toMarkDirty) { // go the fuck away
-				return;
-			}
-
 			NBTTagCompound nbt = new NBTTagCompound();
-
 			int invSize = this.getSizeInventory();
 
 			for(int i = 0; i < invSize; i++) {
 
 				ItemStack stack = this.getStackInSlot(i);
-				if(stack == null)
-					continue;
+				if(stack == null) continue;
 
 				NBTTagCompound slot = new NBTTagCompound();
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
 			}
 
-			if(target.stackTagCompound != null) { // yes it's a bit jank, but it wants to clear otherwise so...
-				if(target.stackTagCompound.hasKey("lock"))
-					nbt.setInteger("lock", target.stackTagCompound.getInteger("lock"));
-				if(target.stackTagCompound.hasKey("lockMod"))
-					nbt.setDouble("lockMod", target.stackTagCompound.getDouble("lockMod"));
-				if(target.stackTagCompound.hasKey("spiders"))
-					nbt.setBoolean("spiders", target.stackTagCompound.getBoolean("spiders")); // fuck you!!
+			/*if(target.stackTagCompound != null) { // yes it's a bit jank, but it wants to clear otherwise so...
+				if(target.stackTagCompound.hasKey("lock")) nbt.setInteger("lock", target.stackTagCompound.getInteger("lock"));
+				if(target.stackTagCompound.hasKey("lockMod")) nbt.setDouble("lockMod", target.stackTagCompound.getDouble("lockMod"));
+				if(target.stackTagCompound.hasKey("spiders")) nbt.setBoolean("spiders", target.stackTagCompound.getBoolean("spiders")); // fuck you!!
+			}*/
+
+			/*
+			 * target and held item stacks constantly desync, not being the same reference, while still holding the same value.
+			 * code was tested with a copy of the containment box code using the CB's GUI and container to no avail.
+			 * hypothesis: minecraft's keybind handling has some special bullshit case for ItemBlocks, since that is the only difference in the test.
+			 * solution (?): check equality, then just access the held stack directly. if not, pray the target reference is still accurate and use that.
+			 */
+			if(player.getHeldItem() != null && ItemStack.areItemStacksEqual(player.getHeldItem(), target)) {
+				player.getHeldItem().setTagCompound(checkNBT(nbt));
+			} else {
+				target.setTagCompound(checkNBT(nbt));
 			}
-
-			target.setTagCompound(checkNBT(nbt));
-
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, target);
 		}
 	}
 }

@@ -29,7 +29,6 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-
 		if(!world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		return stack;
 	}
@@ -60,9 +59,6 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 			if(fromNBT != null) {
 				System.arraycopy(fromNBT, 0, slots, 0, slots.length);
 			}
-			toMarkDirty = true;
-			this.markDirty();
-			toMarkDirty = false;
 		}
 
 		@Override

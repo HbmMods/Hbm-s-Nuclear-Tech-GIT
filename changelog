@@ -6,3 +6,4 @@
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed
 * Fixed potential crash related to hazard handling for dropped items
 * Fixed errors thrown when loading in old system bullet entities
+* Fixed dupe regarding breaking transport drones
