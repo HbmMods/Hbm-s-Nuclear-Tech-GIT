@@ -349,13 +349,15 @@ public class ModEventHandler {
 
 		Map<Integer, List<WeightedRandomObject>> slotPools = new HashMap<>();
 
+		float soot = PollutionHandler.getPollution(entity.worldObj, MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT); //uhfgfg
+
 		if(entity instanceof EntityZombie) {
-			if(world.rand.nextFloat() < 0.005F) { // full hazmat zombine
+			if(world.rand.nextFloat() < 0.005F && soot > 2) { // full hazmat zombine
 				equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
 				return;
 			}
 
-			if(world.rand.nextFloat() < 0.005F) { // full security zombine
+			if(world.rand.nextFloat() < 0.005F && soot > 20) { // full security zombine
 				equipFullSet(entity, ModItems.security_helmet, ModItems.security_plate, ModItems.security_legs, ModItems.security_boots);
 				return;
 			}
@@ -385,10 +387,8 @@ public class ModEventHandler {
 				{ModItems.alloy_axe, 5}, {ModItems.titanium_sword, 8}, {ModItems.lead_gavel, 4},
 				{ModItems.wrench, 20}, {ModItems.cobalt_decorated_sword, 2}, {ModItems.detonator_de, 1}
 			}));
-			
+
 		} else if(entity instanceof EntitySkeleton) {
-			float soot = PollutionHandler.getPollution(entity.worldObj,
-				MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT); //uhfgfg
 
 			slotPools.put(4, createSlotPool(12000, new Object[][]{
 				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
@@ -412,7 +412,7 @@ public class ModEventHandler {
 			ItemStack bowReplacement = getSkelegun(soot, world.rand);
 			slotPools.put(0, createSlotPool(50, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
 		}
-		
+
 		assignItemsToEntity(entity, slotPools);
 	}
 
@@ -440,7 +440,7 @@ public class ModEventHandler {
 	}
 
 
-	private void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
+	public void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
 		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
 			int slot = entry.getKey();
 			List<WeightedRandomObject> pool = entry.getValue();
@@ -655,14 +655,17 @@ public class ModEventHandler {
 
 			if(event.phase == Phase.END) {
 
-				for(Object e : event.world.loadedEntityList) {
+				List loadedEntityList = new ArrayList();
+				loadedEntityList.addAll(event.world.loadedEntityList); // ConcurrentModificationException my balls
+				
+				for(Object e : loadedEntityList) {
 
 					if(e instanceof EntityItem) {
 						EntityItem item = (EntityItem) e;
 						HazardSystem.updateDroppedItem(item);
 					}
 				}
-				
+
 				EntityRailCarBase.updateMotion(event.world);
 			}
 		}

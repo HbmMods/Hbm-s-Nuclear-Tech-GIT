@@ -23,13 +23,8 @@ public abstract class ItemInventory implements IInventory {
 	public ItemStack[] slots;
 	public ItemStack target;
 
-	public boolean toMarkDirty = false;
-
 	@Override
 	public void markDirty() {
-
-		if(!toMarkDirty || player.getEntityWorld().isRemote)
-			return;
 
 		for(int i = 0; i < getSizeInventory(); ++i) {
 			if(getStackInSlot(i) != null && getStackInSlot(i).stackSize == 0) {
@@ -38,7 +33,6 @@ public abstract class ItemInventory implements IInventory {
 		}
 
 		ItemStackUtil.addStacksToNBT(target, slots); // Maintain compatibility with the containment boxes.
-
 		target.setTagCompound(checkNBT(target.getTagCompound()));
 
 	}
@@ -93,9 +87,10 @@ public abstract class ItemInventory implements IInventory {
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
 		ItemStack stack = getStackInSlot(slot);
-		if (stack != null) {
+		if(stack != null) {
 			if (stack.stackSize > amount) {
 				stack = stack.splitStack(amount);
+				markDirty();
 			} else {
 				setInventorySlotContents(slot, null);
 			}
@@ -110,6 +105,7 @@ public abstract class ItemInventory implements IInventory {
 		}
 
 		slots[slot] = stack;
+		markDirty();
 	}
 
 	@Override
@@ -119,36 +115,12 @@ public abstract class ItemInventory implements IInventory {
 		return stack;
 	}
 
-	@Override
-	public ItemStack getStackInSlot(int slot) {
-		return slots[slot];
-	}
+	@Override public ItemStack getStackInSlot(int slot) { return slots[slot]; }
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return true;
-	}
+	@Override public boolean isUseableByPlayer(EntityPlayer player) { return true; }
+	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return true; }
+	@Override public int getInventoryStackLimit() { return 64; }
 
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return true;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public void openInventory() {
-		player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateOpen", 1.0F, 0.8F);
-	}
-
-	@Override
-	public void closeInventory() {
-		toMarkDirty = true;
-		markDirty();
-		toMarkDirty = false;
-		player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F);
-	}
+	@Override public void openInventory() { player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateOpen", 1.0F, 0.8F); }
+	@Override public void closeInventory() { player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F); }
 }
