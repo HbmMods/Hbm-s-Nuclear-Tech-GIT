@@ -127,7 +127,8 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 					}
 				}
 				
-				if(slot.getItem() == ModItems.ammo_bag) {
+				boolean infBag = slot.getItem() == ModItems.ammo_bag_infinite;
+				if(slot.getItem() == ModItems.ammo_bag || infBag) {
 					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
 					
 					for(int j = 0; j < bag.getSizeInventory(); j++) {
@@ -142,9 +143,9 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 									if(config.ammo.matchesRecipe(bagslot, true)) {
 										this.setType(stack, config);
 										int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount);
-										int toLoad = BobMathUtil.min(wantsToLoad, bagslot.stackSize, loadLimit);
+										int toLoad = BobMathUtil.min(wantsToLoad, infBag ? 9_999 : bagslot.stackSize, loadLimit);
 										this.setAmount(stack, Math.min(toLoad * config.ammoReloadCount, this.capacity));
-										bag.decrStackSize(j, toLoad);
+										if(!infBag) bag.decrStackSize(j, toLoad);
 										break;
 									}
 								}
@@ -156,9 +157,9 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 								if(config.ammo.matchesRecipe(bagslot, true)) {
 									int alreadyLoaded = this.getAmount(stack, bag);
 									int wantsToLoad = (int) Math.ceil((double) (this.getCapacity(stack) - alreadyLoaded) / (double) config.ammoReloadCount);
-									int toLoad = BobMathUtil.min(wantsToLoad, bagslot.stackSize, loadLimit);
+									int toLoad = BobMathUtil.min(wantsToLoad, infBag ? 9_999 : bagslot.stackSize, loadLimit);
 									this.setAmount(stack, Math.min((toLoad * config.ammoReloadCount) + alreadyLoaded, this.capacity));
-									bag.decrStackSize(j, toLoad);
+									if(!infBag) bag.decrStackSize(j, toLoad);
 								}
 							}
 						}
@@ -176,29 +177,29 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 			ItemStack slot = inventory.getStackInSlot(i);
 			
 			if(slot != null) {
-				if(this.getAmount(stack, inventory) == 0) {
+				if(this.getAmount(stack, null) == 0) {
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) return config;
 					}
 				} else {
-					BulletConfig config = this.getType(stack, inventory);
+					BulletConfig config = this.getType(stack, null);
 					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
 					if(config.ammo.matchesRecipe(slot, true)) return config;
 				}
 				
-				if(slot.getItem() == ModItems.ammo_bag) {
+				if(slot.getItem() == ModItems.ammo_bag || slot.getItem() == ModItems.ammo_bag_infinite) {
 					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
 					
 					for(int j = 0; j < bag.getSizeInventory(); j++) {
 						ItemStack bagslot = bag.getStackInSlot(j);
 						
 						if(bagslot != null) {
-							if(this.getAmount(stack, bag) == 0) {
+							if(this.getAmount(stack, null) == 0) {
 								for(BulletConfig config : this.acceptedBullets) {
 									if(config.ammo.matchesRecipe(bagslot, true)) return config;
 								}
 							} else {
-								BulletConfig config = this.getType(stack, bag);
+								BulletConfig config = this.getType(stack, null);
 								if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
 								if(config.ammo.matchesRecipe(bagslot, true)) return config;
 							}

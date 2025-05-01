@@ -1031,6 +1031,7 @@ item.ammo_arty_phosgene.name=16" Artilleriegranate (Phosgen)
 item.ammo_arty_phosphorus.name=16" Phosphor-Artilleriegranate
 item.ammo_arty_phosphorus_multi.name=16" Mehrfach-Phosphor-Artilleriegranate
 item.ammo_bag.name=Munitionstasche
+item.ammo_bag_infinite.name=Unendliche Munitionstasche
 item.ammo_dgk.name=Goalkeeper-Zwilling CIWS 200er Gürtel
 item.ammo_fireext.name=Feuerlöscher-Wassertank
 item.ammo_fireext_foam.name=Feuerlöscher-Schaumtank

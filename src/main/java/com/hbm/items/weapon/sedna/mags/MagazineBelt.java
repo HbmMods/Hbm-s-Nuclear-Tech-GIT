@@ -47,7 +47,8 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 					if(amount <= 0) return;
 				}
 
-				if(slot.getItem() == ModItems.ammo_bag) {
+				boolean infBag = slot.getItem() == ModItems.ammo_bag_infinite;
+				if(slot.getItem() == ModItems.ammo_bag || infBag) {
 					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
 					for(int j = 0; j < bag.getSizeInventory(); j++) {
 						ItemStack bagslot = bag.getStackInSlot(j);
@@ -56,7 +57,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 							if(first.ammo.matchesRecipe(bagslot, true)) {
 								int toRemove = Math.min(bagslot.stackSize, amount);
 								amount -= toRemove;
-								bag.decrStackSize(j, toRemove);
+								if(!infBag) bag.decrStackSize(j, toRemove);
 								IMagazine.handleAmmoBag(inventory, first, toRemove);
 								if(amount <= 0) return;
 							}
@@ -89,13 +90,17 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 			if(slot != null) {
 				if(first.ammo.matchesRecipe(slot, true)) count += slot.stackSize;
 
-				if(slot.getItem() == ModItems.ammo_bag) {
+				boolean infBag = slot.getItem() == ModItems.ammo_bag_infinite;
+				if(slot.getItem() == ModItems.ammo_bag || infBag) {
 					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
 					for(int j = 0; j < bag.getSizeInventory(); j++) {
 						ItemStack bagslot = bag.getStackInSlot(j);
 						
 						if(bagslot != null) {
-							if(first.ammo.matchesRecipe(bagslot, true)) count += bagslot.stackSize;
+							if(first.ammo.matchesRecipe(bagslot, true)) {
+								if(infBag) return 9_999;
+								count += bagslot.stackSize;
+							}
 						}
 					}
 				}
@@ -132,7 +137,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 					if(config.ammo.matchesRecipe(slot, true)) return config;
 				}
 
-				if(slot.getItem() == ModItems.ammo_bag) {
+				if(slot.getItem() == ModItems.ammo_bag || slot.getItem() == ModItems.ammo_bag_infinite) {
 					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
 					for(int j = 0; j < bag.getSizeInventory(); j++) {
 						ItemStack bagslot = bag.getStackInSlot(j);
