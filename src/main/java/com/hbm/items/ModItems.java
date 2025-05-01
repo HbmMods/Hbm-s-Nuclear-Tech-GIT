@@ -1150,6 +1150,7 @@ public class ModItems {
 	public static Item plastic_bag;
 
 	public static Item ammo_bag;
+	public static Item ammo_bag_infinite;
 	public static Item casing_bag;
 
 	public static Item test_nuke_igniter;
@@ -3541,6 +3542,7 @@ public class ModItems {
 		plastic_bag = new ItemPlasticBag().setUnlocalizedName("plastic_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":plastic_bag");
 
 		ammo_bag = new ItemAmmoBag().setUnlocalizedName("ammo_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ammo_bag");
+		ammo_bag_infinite = new ItemAmmoBag().setUnlocalizedName("ammo_bag_infinite").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ammo_bag_infinite");
 		casing_bag = new ItemCasingBag().setUnlocalizedName("casing_bag").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":casing_bag");
 
 		debris_graphite = new Item().setUnlocalizedName("debris_graphite").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":debris_graphite");
@@ -6174,6 +6176,7 @@ public class ModItems {
 		GameRegistry.registerItem(plastic_bag, plastic_bag.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_bag, ammo_bag.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_bag_infinite, ammo_bag_infinite.getUnlocalizedName());
 		GameRegistry.registerItem(casing_bag, casing_bag.getUnlocalizedName());
 
 		//Keys and Locks
