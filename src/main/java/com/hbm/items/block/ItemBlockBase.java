@@ -20,9 +20,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 public class ItemBlockBase extends ItemBlock {
+	
+	private Block block;
 
 	public ItemBlockBase(Block block) {
 		super(block);
+		this.block = block;
 		
 		if(block instanceof IBlockMulti) {
 			this.setMaxDamage(0);
@@ -88,4 +91,10 @@ public class ItemBlockBase extends ItemBlock {
 		
 		return EnumRarity.common;
 	}
+	
+	@SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int pass)
+    {
+        return this.block.getRenderColor(stack.getItemDamage());
+    }
 }

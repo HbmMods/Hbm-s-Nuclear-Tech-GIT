@@ -2811,8 +2811,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_pipe_quad_green_rusted, ItemBlockBase.class, deco_pipe_quad_green_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_quad_red, ItemBlockBase.class, deco_pipe_quad_red.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_quad_marked, ItemBlockBase.class, deco_pipe_quad_marked.getUnlocalizedName());
-		GameRegistry.registerBlock(plant_flower, ItemBlockBaseColored.class, plant_flower.getUnlocalizedName());
-		GameRegistry.registerBlock(plant_tall, ItemBlockBaseColored.class, plant_tall.getUnlocalizedName());
+		register(plant_flower);
+		register(plant_tall);
 		register(plant_dead);
 		register(reeds);
 		register(vine_phosphor);
