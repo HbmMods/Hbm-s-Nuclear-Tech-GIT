@@ -1756,6 +1756,7 @@ item.ammo_arty_phosgene.name=16" Phosgene Artillery Shell
 item.ammo_arty_phosphorus.name=16" Phosphorus Shell
 item.ammo_arty_phosphorus_multi.name=16" Multi Phosphorus Shell
 item.ammo_bag.name=Ammo Bag
+item.ammo_bag_infinite.name=Infinite Ammo Bag
 item.ammo_container.name=Ammo Container
 item.ammo_dgk.name=Goalkeeper Twin CIWS 200 Round Belt
 item.ammo_fireext.name=Fire Extinguisher Water Tank

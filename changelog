@@ -1,10 +1,21 @@
+## Added
+* Infinite ammo bag
+  * Identical to the regular ammo bag, but ammo is never depleted
+  * Provides 9,999 units of ammo for the purposes of reloading/belts, meaning that even a single bullet in the bag allows a full reload
+  * Obviously creative-only
+
 ## Changed
 * Nerfed AP and DU round damage multiplier
   * Effective damage is still much higher than on gunmetal ammo due to the armor piercing effect
 * Increased flamethrower turret detection range from 32 to 48 blocks
-* Flamethrower turrets now use the green fire effect when using balefire fuel
+* Flamethrower turrets and chemthrower now use the green fire effect when using balefire fuel
 * Flamethrower turret projectile damage is now capped to 20
   * Balefire fuel should no longer instantly vaporize bosses
+* Tobacco and Hemp plants are now biome tinted and are no longer radioactive green
+* Most chemthrower ammo types with variable damage output are now capped to 15 damage per shot (that is still a ton)
+* Chemthrower combustible liquids now use SEDNA type fire particles
+* Halved recoil on the zebra rifle
+* The laser pistols now make a click when dry firing
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed
@@ -12,3 +23,4 @@
 * Fixed errors thrown when loading in old system bullet entities
 * Fixed dupe regarding breaking transport drones
 * Fixed 12 gauge flechette DT negation not being the intended value
+* Fixed carbine mistakenly showing a round being chambered even after firing the last loaded round

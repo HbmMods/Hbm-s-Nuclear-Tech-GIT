@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.inventory.container.ContainerAmmoBag;
 import com.hbm.inventory.gui.GUIAmmoBag;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
@@ -46,6 +47,7 @@ public class ItemAmmoBag extends Item implements IGUIProvider {
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
+		if(this == ModItems.ammo_bag_infinite) return false;
 		return !stack.hasTagCompound() || getDurabilityForDisplay(stack) != 0;
 	}
 
