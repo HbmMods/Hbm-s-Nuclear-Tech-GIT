@@ -3,6 +3,9 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
+import net.minecraftforge.fluids.IFluidHandler;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -40,6 +43,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -54,7 +58,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IFluidHandler {
 
 	protected FluidNode node;
 	protected FluidType lastType;
@@ -457,6 +461,62 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Override
 	public FluidTank getTankToPaste() {
 		return tank;
+	}
+
+	// Forge IFluidHandler implementation
+
+	private ForgeFluidHandlerAdapter forgeAdapter = new ForgeFluidHandlerAdapter() {
+		@Override
+		protected FluidTank[] getHbmTanks() {
+			return new FluidTank[] { tank };
+		}
+
+		@Override
+		protected TileEntity getTileEntity() {
+			return TileEntityMachineFluidTank.this;
+		}
+
+		@Override
+		protected boolean isValidDirection(ForgeDirection from) {
+			// Only allow fluid transfer if the tank is in the right mode
+			if(hasExploded) return false;
+			return (mode == 0 || mode == 1); // Only allow in input or buffer mode
+		}
+	};
+
+	static {
+		// Initialize the fluid mapping registry
+		FluidMappingRegistry.initialize();
+	}
+
+	@Override
+	public int fill(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doFill) {
+		return forgeAdapter.fill(from, resource, doFill);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doDrain) {
+		return forgeAdapter.drain(from, resource, doDrain);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return forgeAdapter.drain(from, maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canFill(from, fluid);
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canDrain(from, fluid);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return forgeAdapter.getTankInfo(from);
 	}
 
 	@Override

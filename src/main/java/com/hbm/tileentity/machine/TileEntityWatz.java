@@ -19,9 +19,9 @@ import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
@@ -29,6 +29,9 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,21 +47,30 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable, IFluidHandler {
 
 	public FluidTank[] tanks;
-	public FluidTank[] sharedTanks;
 	public int heat;
 	public double fluxLastBase;		//flux created by the previous passive emission, only used for display
 	public double fluxLastReaction;	//flux created by the previous reaction, used for the next reaction
 	public double fluxDisplay;
 	public boolean isOn;
-	
+
+	// Tower status
+	public boolean isInTower = false;
+	public boolean isTopSegment = false;
+	public boolean isBottomSegment = false;
+	public int towerHeight = 1;
+	public int segmentNumber = 0; // 0 = bottom, towerHeight-1 = top
+
 	/* lock types for item IO */
 	public boolean isLocked = false;
 	public ItemStack[] locks;
-	
+
 	public TileEntityWatz() {
 		super(24);
 		this.locks = new ItemStack[slots.length];
@@ -66,50 +78,69 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		this.tanks[0] = new FluidTank(Fluids.COOLANT, 64_000);
 		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 64_000);
 		this.tanks[2] = new FluidTank(Fluids.WATZ, 64_000);
-		resetSharedTanks();
 	}
 
 	@Override
 	public String getName() {
 		return "container.watz";
 	}
-	
-	protected void resetSharedTanks() {
-		this.sharedTanks = new FluidTank[3];
-		this.sharedTanks[0] = new FluidTank(Fluids.COOLANT, 64_000);
-		this.sharedTanks[1] = new FluidTank(Fluids.COOLANT_HOT, 64_000);
-		this.sharedTanks[2] = new FluidTank(Fluids.WATZ, 64_000);
-		this.sharedTanks[0].setFill(tanks[0].getFill());
-		this.sharedTanks[1].setFill(tanks[1].getFill());
-		this.sharedTanks[2].setFill(tanks[2].getFill());
-	}
 
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote) resetSharedTanks();
-		
+
 		if(!worldObj.isRemote && !updateLock()) {
-			
-			boolean turnedOn = worldObj.getBlock(xCoord, yCoord + 3, zCoord) == ModBlocks.watz_pump && worldObj.getIndirectPowerLevelTo(xCoord, yCoord + 5, zCoord, 0) > 0;
-			List<TileEntityWatz> segments = new ArrayList();
-			segments.add(this);
-			this.subscribeToTop();
-			
-			/* accumulate all segments */
-			for(int y = yCoord - 3; y >= 0; y -= 3) {
-				TileEntity tile = Compat.getTileStandard(worldObj, xCoord, y, zCoord);
-				if(tile instanceof TileEntityWatz) {
-					segments.add((TileEntityWatz) tile);
+
+			// First find the bottom segment of the tower
+			TileEntity bottomSegment = this;
+			int bottomY = yCoord;
+			while(true) {
+				TileEntity below = Compat.getTileStandard(worldObj, xCoord, bottomY - 3, zCoord);
+				if(below instanceof TileEntityWatz) {
+					bottomSegment = below;
+					bottomY -= 3;
 				} else {
 					break;
 				}
 			}
-			
-			/* set up shared tanks */
+
+			// Then find the top segment and check for power
+			TileEntity topSegment = bottomSegment;
+			int topY = bottomY;
+			List<TileEntityWatz> segments = new ArrayList();
+			segments.add((TileEntityWatz)bottomSegment);
+
+			while(true) {
+				TileEntity above = Compat.getTileStandard(worldObj, xCoord, topY + 3, zCoord);
+				if(above instanceof TileEntityWatz) {
+					topSegment = above;
+					segments.add((TileEntityWatz)above);
+					topY += 3;
+				} else {
+					break;
+				}
+			}
+
+			// Power check is now relative to the top segment
+			boolean turnedOn = worldObj.getBlock(xCoord, topY + 3, zCoord) == ModBlocks.watz_pump &&
+							 worldObj.getIndirectPowerLevelTo(xCoord, topY + 5, zCoord, 0) > 0;
+
+			// Update tower status for all segments
+			int totalSegments = segments.size();
+			for(int i = 0; i < segments.size(); i++) {
+				TileEntityWatz segment = segments.get(i);
+				segment.isOn = turnedOn;
+				segment.isInTower = totalSegments > 1;
+				segment.isTopSegment = i == totalSegments - 1;
+				segment.isBottomSegment = i == 0;
+				segment.towerHeight = totalSegments;
+				segment.segmentNumber = i;
+				segment.subscribeToTop();
+			}
+
+			/* accumulate all segments */
 			FluidTank[] sharedTanks = new FluidTank[3];
 			for(int i = 0; i < 3; i++) sharedTanks[i] = new FluidTank(tanks[i].getTankType(), 0);
-			
+
 			for(TileEntityWatz segment : segments) {
 				segment.setupCoolant();
 				for(int i = 0; i < 3; i++) {
@@ -117,33 +148,29 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					sharedTanks[i].setFill(sharedTanks[i].getFill() + segment.tanks[i].getFill());
 				}
 			}
-			
-			//update coolant, bottom to top
-			for(int i = segments.size() - 1; i >= 0; i--) {
+
+			/* update coolant, bottom to top */
+			for(int i = 0; i < segments.size(); i++) {
 				TileEntityWatz segment = segments.get(i);
 				segment.updateCoolant(sharedTanks);
 			}
-			
-			/* update reaction, top to bottom */
-			this.updateReaction(null, sharedTanks, turnedOn);
+
+			/* update reaction, bottom to top */
+			segments.get(0).updateReaction(segments.size() > 1 ? segments.get(1) : null, sharedTanks, turnedOn);
 			for(int i = 1; i < segments.size(); i++) {
 				TileEntityWatz segment = segments.get(i);
-				TileEntityWatz above = segments.get(i - 1);
+				TileEntityWatz above = (i < segments.size() - 1) ? segments.get(i + 1) : null;
 				segment.updateReaction(above, sharedTanks, turnedOn);
 			}
-			
-			/* send sync packets (order doesn't matter) */
+
+			/* send sync packets and cool down */
 			for(TileEntityWatz segment : segments) {
-				segment.sharedTanks[0] = sharedTanks[0];
-				segment.sharedTanks[1] = sharedTanks[1];
-				segment.sharedTanks[2] = sharedTanks[2];
-				segment.isOn = turnedOn;
 				segment.networkPackNT(25);
 				segment.heat *= 0.99; //cool 1% per tick
 			}
-			
+
 			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
-			for(int i = segments.size() - 1; i >= 0; i--) {
+			for(int i = 0; i < segments.size(); i++) {
 				TileEntityWatz segment = segments.get(i);
 				for(int j = 0; j < 3; j++) {
 					int min = Math.min(segment.tanks[j].getMaxFill(), sharedTanks[j].getFill());
@@ -151,9 +178,9 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					segment.tanks[j].setFill(min);
 				}
 			}
-			
-			segments.get(segments.size() - 1).sendOutBottom();
-			
+
+			segments.get(0).sendOutBottom();
+
 			/* explode on mud overflow */
 			if(sharedTanks[2].getFill() > 0) {
 				for(int x = -3; x <= 3; x++) {
@@ -164,39 +191,39 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					}
 				}
 				this.disassemble();
-				
+
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord + 1, zCoord, 1_000F);
-				
+
 				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "rbmkmush");
 				data.setFloat("scale", 5);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 2, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 				MainRegistry.proxy.effectNT(data);
-				
+
 				return;
 			}
 		}
 	}
-	
+
 	/** basic sanity checking, usually wouldn't do anything except when NBT loading borks */
 	public void setupCoolant() {
 		tanks[0].setTankType(Fluids.COOLANT);
 		tanks[1].setTankType(tanks[0].getTankType().getTrait(FT_Heatable.class).getFirstStep().typeProduced);
 	}
-	
+
 	public void updateCoolant(FluidTank[] tanks) {
-		
+
 		double coolingFactor = 0.2D; //20% per tick
 		double heatToUse = this.heat * coolingFactor;
-		
+
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 		HeatingStep step = trait.getFirstStep();
-		
+
 		int heatCycles = (int) (heatToUse / step.heatReq);
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
-		
+
 		int cycles = Math.min(heatCycles, Math.min(hotCycles, coolCycles));
 		this.heat -= cycles * step.heatReq;
 		tanks[0].setFill(tanks[0].getFill() - cycles * step.amountReq);
@@ -205,34 +232,34 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
 	public void updateReaction(TileEntityWatz above, FluidTank[] tanks, boolean turnedOn) {
-		
+
 		if(turnedOn) {
 			List<ItemStack> pellets = new ArrayList();
-			
+
 			for(int i = 0; i < 24; i++) {
 				ItemStack stack = slots[i];
 				if(stack != null && stack.getItem() == ModItems.watz_pellet) {
 					pellets.add(stack);
 				}
 			}
-			
+
 			double baseFlux = 0D;
-			
+
 			/* init base flux */
 			for(ItemStack stack : pellets) {
 				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 				baseFlux += type.passive;
 			}
-			
+
 			double inputFlux = baseFlux + fluxLastReaction;
 			double addedFlux = 0D;
 			double addedHeat = 0D;
-			
+
 			for(ItemStack stack : pellets) {
 				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 				Function burnFunc = type.burnFunc;
 				Function heatDiv = type.heatDiv;
-				
+
 				if(burnFunc != null) {
 					double div = heatDiv != null ? heatDiv.effonix(heat) : 1D;
 					double burn = burnFunc.effonix(inputFlux) / div;
@@ -242,11 +269,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * burn));
 				}
 			}
-			
+
 			for(ItemStack stack : pellets) {
 				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 				Function absorbFunc = type.absorbFunc;
-				
+
 				if(absorbFunc != null) {
 					double absorb = absorbFunc.effonix(baseFlux + fluxLastReaction);
 					addedHeat += absorb;
@@ -254,38 +281,38 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * absorb));
 				}
 			}
-			
+
 			this.heat += addedHeat;
 			this.fluxLastBase = baseFlux;
 			this.fluxLastReaction = addedFlux;
-			
+
 		} else {
 			this.fluxLastBase = 0;
 			this.fluxLastReaction = 0;
-			
+
 		}
-		
+
 		for(int i = 0; i < 24; i++) {
 			ItemStack stack = slots[i];
-			
+
 			/* deplete */
 			if(stack != null && stack.getItem() == ModItems.watz_pellet && ItemWatzPellet.getEnrichment(stack) <= 0) {
 				slots[i] = new ItemStack(ModItems.watz_pellet_depleted, 1, stack.getItemDamage());
 				continue; // depleted pellets may persist for one tick
 			}
 		}
-		
+
 		if(above != null) {
 			for(int i = 0; i < 24; i++) {
 				ItemStack stackBottom = slots[i];
 				ItemStack stackTop = above.slots[i];
-				
+
 				/* items fall down if the bottom slot is empty */
 				if(stackBottom == null && stackTop != null) {
 					slots[i] = stackTop.copy();
 					above.decrStackSize(i, stackTop.stackSize);
 				}
-				
+
 				/* items switch places if the top slot is depleted */
 				if(stackBottom != null && stackBottom.getItem() == ModItems.watz_pellet && stackTop != null && stackTop.getItem() == ModItems.watz_pellet_depleted) {
 					ItemStack buf = stackTop.copy();
@@ -303,7 +330,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		buf.writeBoolean(isOn);
 		buf.writeBoolean(isLocked);
 		buf.writeDouble(this.fluxLastReaction + this.fluxLastBase);
-		for(FluidTank tank : sharedTanks) {
+		buf.writeBoolean(isInTower);
+		buf.writeBoolean(isTopSegment);
+		buf.writeBoolean(isBottomSegment);
+		buf.writeInt(towerHeight);
+		buf.writeInt(segmentNumber);
+		for (FluidTank tank : tanks) {
 			tank.serialize(buf);
 		}
 	}
@@ -315,33 +347,45 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		this.isOn = buf.readBoolean();
 		this.isLocked = buf.readBoolean();
 		this.fluxDisplay = buf.readDouble();
-		for(FluidTank tank : tanks) {
+		this.isInTower = buf.readBoolean();
+		this.isTopSegment = buf.readBoolean();
+		this.isBottomSegment = buf.readBoolean();
+		this.towerHeight = buf.readInt();
+		this.segmentNumber = buf.readInt();
+		for (FluidTank tank : tanks) {
 			tank.deserialize(buf);
 		}
 	}
-	
+
 	/** Prevent manual updates when another segment is above this one */
 	public boolean updateLock() {
 		return Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz;
 	}
-	
+
 	protected void subscribeToTop() {
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + 2, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord - 2, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord + 2, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord - 2, ForgeDirection.UP);
-	}
-	
-	protected void sendOutBottom() {
-		
-		for(DirPos pos : getSendingPos()) {
-			if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		// Only subscribe if this is the top segment or if there's no segment above
+		if(!(Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz)) {
+			// Input points in a cross pattern
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + 2, yCoord + 3, zCoord, ForgeDirection.UP);
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord - 2, yCoord + 3, zCoord, ForgeDirection.UP);
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord + 2, ForgeDirection.UP);
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord - 2, ForgeDirection.UP);
 		}
 	}
-	
+
+	protected void sendOutBottom() {
+		// Only send out if this is the bottom segment or if there's no segment below
+		if(!(Compat.getTileStandard(worldObj, xCoord, yCoord - 3, zCoord) instanceof TileEntityWatz)) {
+			for(DirPos pos : getSendingPos()) {
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+		}
+	}
+
 	protected DirPos[] getSendingPos() {
+		// Output points in a cross pattern
 		return new DirPos[] {
 				new DirPos(xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN),
 				new DirPos(xCoord + 2, yCoord - 1, zCoord, ForgeDirection.DOWN),
@@ -350,13 +394,13 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				new DirPos(xCoord, yCoord - 1, zCoord - 2, ForgeDirection.DOWN)
 		};
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		NBTTagList list = nbt.getTagList("locks", 10);
-		
+
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
@@ -364,21 +408,26 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				locks[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-		
+
 		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 		this.heat = nbt.getInteger("heat");
 		this.fluxLastBase = nbt.getDouble("lastFluxB");
 		this.fluxLastReaction = nbt.getDouble("lastFluxR");
-		
+
 		this.isLocked = nbt.getBoolean("isLocked");
+		this.isInTower = nbt.getBoolean("isInTower");
+		this.isTopSegment = nbt.getBoolean("isTopSegment");
+		this.isBottomSegment = nbt.getBoolean("isBottomSegment");
+		this.towerHeight = nbt.getInteger("towerHeight");
+		this.segmentNumber = nbt.getInteger("segmentNumber");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < locks.length; i++) {
 			if(locks[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
@@ -388,13 +437,18 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			}
 		}
 		nbt.setTag("locks", list);
-		
+
 		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 		nbt.setInteger("heat", this.heat);
 		nbt.setDouble("lastFluxB", fluxLastBase);
 		nbt.setDouble("lastFluxR", fluxLastReaction);
-		
+
 		nbt.setBoolean("isLocked", isLocked);
+		nbt.setBoolean("isInTower", isInTower);
+		nbt.setBoolean("isTopSegment", isTopSegment);
+		nbt.setBoolean("isBottomSegment", isBottomSegment);
+		nbt.setInteger("towerHeight", towerHeight);
+		nbt.setInteger("segmentNumber", segmentNumber);
 	}
 
 	@Override
@@ -404,9 +458,9 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+
 		if(data.hasKey("lock")) {
-			
+
 			if(this.isLocked) {
 				this.locks = new ItemStack[slots.length];
 			} else {
@@ -414,7 +468,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					this.locks[i] = slots[i];
 				}
 			}
-			
+
 			this.isLocked = !this.isLocked;
 			this.markChanged();
 		}
@@ -426,7 +480,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		if(!this.isLocked) return true;
 		return this.locks[i] != null && this.locks[i].getItem() == stack.getItem() && locks[i].getItemDamage() == stack.getItemDamage();
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
@@ -443,10 +497,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 3,
@@ -457,16 +511,16 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					zCoord + 4
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-	
+
 	private void disassemble() {
 
 		int count = 20;
@@ -486,7 +540,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.mud_block);
 		worldObj.setBlock(xCoord, yCoord + 1, zCoord, ModBlocks.mud_block);
 		worldObj.setBlock(xCoord, yCoord + 2, zCoord, ModBlocks.mud_block);
-		
+
 		setBrokenColumn(0, ModBlocks.watz_element, 0, 1, 0);
 		setBrokenColumn(0, ModBlocks.watz_element, 0, 2, 0);
 		setBrokenColumn(0, ModBlocks.watz_element, 0, 0, 1);
@@ -507,7 +561,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -2, -1);
 		setBrokenColumn(0, ModBlocks.watz_cooler, 0, 1, -2);
 		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -1, -2);
-		
+
 		for(int j = -1; j < 2; j++) {
 			setBrokenColumn(1, ModBlocks.watz_end, 1, 3, j);
 			setBrokenColumn(1, ModBlocks.watz_end, 1, j, 3);
@@ -518,20 +572,20 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		setBrokenColumn(1, ModBlocks.watz_end, 1, 2, -2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, 2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, -2);
-		
+
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
-		
+
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achWatzBoom);
 		}
 	}
-	
+
 	private void setBrokenColumn(int minHeight, Block b, int meta, int x, int z) {
-		
+
 		int height = minHeight + worldObj.rand.nextInt(3 - minHeight);
-		
+
 		for(int i = 0; i < 3; i++) {
-			
+
 			if(i <= height) {
 				worldObj.setBlock(xCoord + x, yCoord + i, zCoord + z, b, meta, 3);
 			} else {
@@ -552,8 +606,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	@Override
-	public FluidTank[] getAllTanks() {
-		return tanks;
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
 	}
 
 	@Override
@@ -562,12 +616,62 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] { tanks[0] };
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	// Forge IFluidHandler implementation
+
+	private ForgeFluidHandlerAdapter forgeAdapter = new ForgeFluidHandlerAdapter() {
+		@Override
+		protected FluidTank[] getHbmTanks() {
+			return tanks;
+		}
+
+		@Override
+		protected TileEntity getTileEntity() {
+			return TileEntityWatz.this;
+		}
+
+		@Override
+		protected boolean isValidDirection(ForgeDirection from) {
+			return true; // Allow fluid transfer from all directions
+		}
+	};
+
+	static {
+		// Initialize the fluid mapping registry
+		FluidMappingRegistry.initialize();
 	}
 
 	@Override
-	public FluidTank getTankToPaste() {
-		return null;
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		return forgeAdapter.fill(from, resource, doFill);
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+		return forgeAdapter.drain(from, resource, doDrain);
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return forgeAdapter.drain(from, maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canFill(from, fluid);
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canDrain(from, fluid);
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return forgeAdapter.getTankInfo(from);
 	}
 }
+

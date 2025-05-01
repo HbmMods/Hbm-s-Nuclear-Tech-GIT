@@ -45,6 +45,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
 import com.hbm.world.biome.BiomeGenCraterBase;
+import com.hbm.world.biome.BiomeRegistry;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -277,6 +278,19 @@ public class MainRegistry {
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
+		// Initialize the fluid mapping registry and texture/color systems
+		api.ntm1of90.compat.fluid.registry.FluidMappingRegistry.initialize();
+		api.ntm1of90.compat.fluid.render.NTMFluidTextureMapper.initialize();
+		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.initialize();
+		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
+		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.setBrightnessFactor(1.2f);
+		api.ntm1of90.compat.fluid.render.NTMForgeFluidRenderer.initialize();
+		// Initialize the Forge fluid compatibility system
+		api.ntm1of90.compat.fluid.ForgeFluidCompatManager.initialize();
+		// Initialize the adapter registry and capability hook
+		api.ntm1of90.compat.fluid.registry.ForgeFluidAdapterRegistry.initialize();
+		api.ntm1of90.compat.fluid.ForgeFluidCapabilityHook.initialize();
+		// Note: Flow rate setting is no longer used as the system now respects the tank capacities and transfer rates
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -299,7 +313,7 @@ public class MainRegistry {
 		OreDictManager.registerOres();
 
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
-		//BiomeGenNoMansLand.initDictionary();
+		BiomeRegistry.registerBiomes();
 
 		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
 		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -954,6 +968,9 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandRadiation());
 		event.registerServerCommand(new CommandPacketInfo());
 		event.registerServerCommand(new CommandReloadServer());
+
+		// Register commands from the proxy
+		proxy.registerCommands(event);
 	}
 
 	@EventHandler
