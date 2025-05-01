@@ -1,6 +1,7 @@
 package com.hbm.inventory.gui;
 
 import java.awt.Color;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
@@ -38,6 +40,12 @@ public class GUIMachineRotaryFurnace extends GuiInfoContainer {
 		furnace.tanks[0].renderTankInfo(this, x, y, guiLeft + 8, guiTop + 36, 52, 16);
 		furnace.tanks[1].renderTankInfo(this, x, y, guiLeft + 134, guiTop + 18, 16, 52);
 		furnace.tanks[2].renderTankInfo(this, x, y, guiLeft + 152, guiTop + 18, 16, 52);
+		
+		Slot slot = (Slot) this.inventorySlots.inventorySlots.get(4);
+		if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
+			List<String> bonuses = this.furnace.burnModule.getDesc();
+			if(!bonuses.isEmpty()) this.func_146283_a(bonuses, x, y);
+		}
 		
 		if(furnace.output == null) {
 			this.drawCustomInfoStat(x, y, guiLeft + 98, guiTop + 18, 16, 52, x, y, EnumChatFormatting.RED + "Empty");

@@ -16,6 +16,7 @@
 * Chemthrower combustible liquids now use SEDNA type fire particles
 * Halved recoil on the zebra rifle
 * The laser pistols now make a click when dry firing
+* Solid fuel in the rotary furnace no longer ticks down if no recipe is actually being done
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed

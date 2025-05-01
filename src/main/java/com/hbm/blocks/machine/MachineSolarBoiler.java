@@ -75,7 +75,7 @@ public class MachineSolarBoiler extends BlockDummyable implements ILookOverlay {
 		for(int i = 0; i < tanks.length; i++)
 			text.add((i < 1 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + tanks[i].getTankType().getLocalizedName() + ": " + tanks[i].getFill() + "/" + tanks[i].getMaxFill() + "mB");
 
-		if(boiler.heat < 50) {
+		if(boiler.display < 1) {
 			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]Too cold!");
 		}
 		

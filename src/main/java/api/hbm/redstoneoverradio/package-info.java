@@ -43,4 +43,7 @@ ROR programmers can indeed do everything that the readers and controllers can, b
 which are more time-consuming to set up and limits the amount of command channels available, hence why readers and controllers exist
 when only a simple solution is required
 
+Addendum: While the RTTY system can support any arbitrary object as a signal, INDEX will strictly use strings, since that simplifies
+things regarding serialization and saving signals to NBT. Counters already use a parse to int32 function, so this still checks out.
+
 */

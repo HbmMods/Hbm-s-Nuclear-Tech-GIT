@@ -94,30 +94,20 @@ public class TileEntityRadioTorchLogic extends TileEntityLoadedBase implements I
 			};
 
 			switch(conditions[index]) {
-			default:
-				return sig < map;
-			case 1:
-				return sig <= map;
-			case 2:
-				return sig >= map;
-			case 3:
-				return sig > map;
-			case 4:
-				return sig == map;
-			case 5:
-				return sig != map;
+			default: return sig < map;
+			case 1: return sig <= map;
+			case 2: return sig >= map;
+			case 3: return sig > map;
+			case 4: return sig == map;
+			case 5: return sig != map;
 			}
 		}
 
 		switch(conditions[index]) {
-		default:
-			return signal.equals(mapping[index]);
-		case 7:
-			return !signal.equals(mapping[index]);
-		case 8:
-			return signal.contains(mapping[index]);
-		case 9:
-			return !signal.contains(mapping[index]);
+		default: return signal.equals(mapping[index]);
+		case 7: return !signal.equals(mapping[index]);
+		case 8: return signal.contains(mapping[index]);
+		case 9: return !signal.contains(mapping[index]);
 		}
 	}
 

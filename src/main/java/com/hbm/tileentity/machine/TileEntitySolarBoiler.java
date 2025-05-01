@@ -21,7 +21,7 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 
 	private FluidTank water;
 	private FluidTank steam;
-	public int displayHeat;
+	public int display;
 	public int heat;
 
 	public HashSet<ChunkCoordinates> primary = new HashSet();
@@ -41,10 +41,9 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 
 			int process = heat / 50;
+			this.display = process;
 			process = Math.min(process, water.getFill());
 			process = Math.min(process, (steam.getMaxFill() - steam.getFill()) / 100);
-			
-			this.displayHeat = this.heat;
 
 			if(process < 0) process = 0;
 
@@ -124,14 +123,14 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 
 	@Override
 	public void serialize(ByteBuf buf) {
-		buf.writeInt(displayHeat);
+		buf.writeInt(display);
 		water.serialize(buf);
 		steam.serialize(buf);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		this.displayHeat = buf.readInt();
+		this.display = buf.readInt();
 		water.deserialize(buf);
 		steam.deserialize(buf);
 	}

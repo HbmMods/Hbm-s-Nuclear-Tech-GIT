@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 
 import java.util.HashSet;
 
@@ -45,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider {
 
 	protected FluidNode node;
 	protected FluidType lastType;
@@ -403,5 +404,22 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "type",
+				PREFIX_VALUE + "fill",
+				PREFIX_VALUE + "fillpercent",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "type").equals(name))		return tank.getTankType().getName();
+		if((PREFIX_VALUE + "fill").equals(name))		return "" + tank.getFill();
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + (tank.getFill() * 100 / tank.getMaxFill());
+		return null;
 	}
 }

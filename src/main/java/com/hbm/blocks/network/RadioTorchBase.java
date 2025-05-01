@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -119,6 +120,8 @@ public abstract class RadioTorchBase extends BlockContainer implements IGUIProvi
 			return !player.isSneaking();
 		}
 	}
+
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {

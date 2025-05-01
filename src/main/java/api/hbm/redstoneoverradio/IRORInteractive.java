@@ -9,13 +9,14 @@ public interface IRORInteractive extends IRORInfo {
 	public static String EX_NAME = "Exception: Multiple Name Separators";
 
 	/** Runs a function on the ROR component, usually causing the component to change or do something. Returns are optional. */
-	public Object runRORFunction(String name, String[] params);
+	public String runRORFunction(String name, String[] params);
 	
 	/** Extracts the command name from a full command string */
 	public static String getCommand(String input) {
 		if(input == null || input.isEmpty()) throw new RORFunctionException(EX_NULL);
 		String[] parts = input.split(NAME_SEPARATOR);
 		if(parts.length <= 0 || parts.length > 2) throw new RORFunctionException(EX_NAME);
+		if(parts[0].isEmpty()) throw new RORFunctionException(EX_NULL);
 		return parts[0];
 	}
 	
