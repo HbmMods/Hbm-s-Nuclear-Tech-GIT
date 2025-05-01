@@ -24,6 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -299,6 +300,43 @@ public class BlockTallPlant extends BlockEnumMulti implements IPlantable, IGrowa
 	public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);
 	}
+	
+	@SideOnly(Side.CLIENT)
+    public int getRenderColor(int meta)
+    {
+		if (meta == 0 || meta == 8) {
+        	return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+        } else return 0xFFFFFF;
+    }
+    // if you need to make another tinted plant just throw the metadata value
+    // into the if statements above and below i really do not want to make this more 
+    // complicated than it needs to be
+	// the second meta value is for the top of the plant
+
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z)
+    {
+    	int l = 0;
+        int i1 = 0;
+        int j1 = 0;
+
+        for (int k1 = -1; k1 <= 1; ++k1)
+        {
+            for (int l1 = -1; l1 <= 1; ++l1)
+            {
+                int i2 = world.getBiomeGenForCoords(x + l1, z + k1).getBiomeFoliageColor(x + l1, y, z + k1);
+                l += (i2 & 16711680) >> 16;
+                i1 += (i2 & 65280) >> 8;
+                j1 += i2 & 255;
+            }
+        }
+        int meta = world.getBlockMetadata(x, y, z);
+
+        if (meta == 0 || meta == 8) {
+        	return ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+        } else return 0xFFFFFF;
+    }
+    
 	
 
 	@Override
