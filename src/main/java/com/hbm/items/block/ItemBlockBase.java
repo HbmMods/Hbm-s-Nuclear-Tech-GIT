@@ -21,11 +21,8 @@ import net.minecraft.util.StatCollector;
 
 public class ItemBlockBase extends ItemBlock {
 	
-	private Block block;
-
 	public ItemBlockBase(Block block) {
 		super(block);
-		this.block = block;
 		
 		if(block instanceof IBlockMulti) {
 			this.setMaxDamage(0);
@@ -91,10 +88,10 @@ public class ItemBlockBase extends ItemBlock {
 		
 		return EnumRarity.common;
 	}
-	
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int pass)
-    {
-        return this.block.getRenderColor(stack.getItemDamage());
-    }
+	public int getColorFromItemStack(ItemStack stack, int pass) {
+		return this.field_150939_a.getRenderColor(stack.getItemDamage());
+	}
 }
