@@ -260,6 +260,16 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 
 			TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
 
+			if(te == null || te instanceof TileEntityWandLoot) {
+				// Some generator has broken the TE->block relationship, which, honestly, rude.
+				// so we're just gonna hop in and force update the TE
+
+				MainRegistry.logger.warn("TE set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
+
+				te = replaceBlock.createTileEntity(worldObj, replaceMeta);
+				worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
+			}
+
 			if(te instanceof IInventory) {
 				int count = minItems;
 				if(maxItems - minItems > 0) count += worldObj.rand.nextInt(maxItems - minItems);
@@ -271,15 +281,20 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			// Shouldn't happen but let's guard anyway, if it fails we just don't rotate the chest block correctly
 			if(!(worldObj instanceof WorldServer)) return;
 
-			if(fakePlayer == null || fakePlayer.worldObj != worldObj) {
-				fakePlayer = FakePlayerFactory.get((WorldServer)worldObj, FAKE_PROFILE);
+			try {
+				if(fakePlayer == null || fakePlayer.worldObj != worldObj) {
+					fakePlayer = FakePlayerFactory.get((WorldServer)worldObj, FAKE_PROFILE);
+				}
+
+				fakePlayer.rotationYaw = fakePlayer.rotationYawHead = placedRotation;
+
+				ItemStack fakeStack = new ItemStack(replaceBlock, 1, replaceMeta);
+
+				replaceBlock.onBlockPlacedBy(worldObj, xCoord, yCoord, zCoord, fakePlayer, fakeStack);
+			} catch(Exception ex) {
+				MainRegistry.logger.warn("Failed to correctly rotate loot block at: " + xCoord + ", " + yCoord + ", " + zCoord);
+				MainRegistry.logger.catching(ex);
 			}
-
-			fakePlayer.rotationYaw = fakePlayer.rotationYawHead = placedRotation;
-
-			ItemStack fakeStack = new ItemStack(replaceBlock, 1, replaceMeta);
-
-			replaceBlock.onBlockPlacedBy(worldObj, xCoord, yCoord, zCoord, fakePlayer, fakeStack);
 		}
 
 		private List<String> getPoolNames(boolean loot) {
@@ -306,6 +321,8 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			nbt.setInteger("max", maxItems);
 			nbt.setString("pool", poolName);
 			nbt.setFloat("rot", placedRotation);
+
+			nbt.setBoolean("trigger", triggerReplace);
 		}
 
 		@Override
@@ -319,6 +336,8 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			placedRotation = nbt.getFloat("rot");
 
 			if(replaceBlock == null) replaceBlock = ModBlocks.deco_loot;
+
+			triggerReplace = nbt.getBoolean("trigger");
 		}
 
 		@Override
