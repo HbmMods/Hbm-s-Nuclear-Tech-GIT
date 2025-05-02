@@ -13,7 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 
@@ -25,17 +27,17 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityBlastDoor();
 	}
-	
+
 	@Override
 	public int getRenderType(){
 		return -1;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -43,23 +45,23 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {
-		
+
 		if(!world.isRemote) {
 			TileEntityBlastDoor entity = (TileEntityBlastDoor) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				
+
 				if(!entity.isLocked()) {
 					entity.tryToggle();
 					return BombReturnCode.TRIGGERED;
 				}
-				
+
 				return BombReturnCode.ERROR_INCOMPATIBLE;
 			}
 		}
-		
+
 		return BombReturnCode.UNDEFINED;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -67,9 +69,9 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 			return true;
 		} else if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 			return false;
-			
+
 		} if(!player.isSneaking()) {
-			
+
 			TileEntityBlastDoor entity = (TileEntityBlastDoor) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
@@ -80,20 +82,20 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 					entity.tryToggle();
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		
+
 		TileEntityBlastDoor te = (TileEntityBlastDoor) world.getTileEntity(x, y, z);
-		
+
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
+
 		if(i == 0)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -110,7 +112,7 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		}
-		
+
 		//frame
 		if(!(te.placeDummy(x, y + 1, z) &&
 			te.placeDummy(x, y + 2, z) &&
@@ -121,4 +123,8 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 			world.func_147480_a(x, y, z, true);
 	}
 
+	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		return side == ForgeDirection.UP || super.isSideSolid(world, x, y, z, side);
+	}
 }

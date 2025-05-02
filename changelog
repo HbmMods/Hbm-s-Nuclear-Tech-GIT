@@ -3,6 +3,7 @@
   * Identical to the regular ammo bag, but ammo is never depleted
   * Provides 9,999 units of ammo for the purposes of reloading/belts, meaning that even a single bullet in the bag allows a full reload
   * Obviously creative-only
+* Sliding blast door can have rails placed on them and replaces them back when opening
 
 ## Changed
 * Nerfed AP and DU round damage multiplier
