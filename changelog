@@ -32,3 +32,4 @@
 * Fixed dupe regarding breaking transport drones
 * Fixed 12 gauge flechette DT negation not being the intended value
 * Fixed carbine mistakenly showing a round being chambered even after firing the last loaded round
+* Fixed huge log spam due to a block not being saved correctly

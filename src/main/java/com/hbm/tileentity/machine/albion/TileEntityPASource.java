@@ -236,6 +236,8 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		if(particle == null) return;
+
 		NBTTagCompound particleTag = new NBTTagCompound();
 		particleTag.setInteger("x", particle.x);
 		particleTag.setInteger("y", particle.y);
