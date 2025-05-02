@@ -123,7 +123,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setupDamageClass(DamageClass clazz) {							this.dmgClass = clazz; return this; }
 	public BulletConfig setRicochetAngle(float angle) {									this.ricochetAngle = angle; return this; }
 	public BulletConfig setRicochetCount(int count) {									this.maxRicochetCount = count; return this; }
-	public BulletConfig setDamageFalloutByPen(boolean falloff) {						this.damageFalloffByPen = falloff; return this; }
+	public BulletConfig setDamageFalloffByPen(boolean falloff) {						this.damageFalloffByPen = falloff; return this; }
 	public BulletConfig setGrav(double gravity) {										this.gravity = gravity; return this; }
 	public BulletConfig setLife(int expires) {											this.expires = expires; return this; }
 	public BulletConfig setImpactsEntities(boolean impact) {							this.impactsEntities = impact; return this; }

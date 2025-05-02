@@ -76,6 +76,7 @@ public class PneumaticNetwork extends NodeNet {
 		
 		int index = nextReceiver % receivers.size();
 		Entry<IInventory, Pair<ForgeDirection, Long>> chosenReceiverEntry = null;
+		nextReceiver++;
 
 		if(receiveOrder == RECEIVE_ROBIN) chosenReceiverEntry = receiverList.get(index);
 		if(receiveOrder == RECEIVE_RANDOM) chosenReceiverEntry = receiverList.get(rand.nextInt(receiverList.size()));
@@ -93,7 +94,6 @@ public class PneumaticNetwork extends NodeNet {
 		if(tile1 != null && tile2 != null) {
 			int sq = (tile1.xCoord - tile2.xCoord) * (tile1.xCoord - tile2.xCoord) + (tile1.yCoord - tile2.yCoord) * (tile1.yCoord - tile2.yCoord) + (tile1.zCoord - tile2.zCoord) * (tile1.zCoord - tile2.zCoord);
 			if(sq > maxRange * maxRange) {
-				nextReceiver++;
 				return false;
 			}
 		}
@@ -160,7 +160,6 @@ public class PneumaticNetwork extends NodeNet {
 		
 		// make sure both parties are saved to disk and increment the counter for round robin
 		if(didSomething) {
-			nextReceiver++;
 			source.markDirty();
 			dest.markDirty();
 		}

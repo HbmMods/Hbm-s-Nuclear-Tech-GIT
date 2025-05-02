@@ -47,11 +47,11 @@ public class XFactory50 {
 				.setCasing(casing762.clone().register("bmg50fmj"));
 		bmg50_jhp = new BulletConfig().setItem(EnumAmmo.BMG50_JHP).setCasing(EnumCasingType.LARGE, 12).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("bmg50jhp"));
-		bmg50_ap = new BulletConfig().setItem(EnumAmmo.BMG50_AP).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.25F).setThresholdNegation(17.5F).setArmorPiercing(0.15F)
+		bmg50_ap = new BulletConfig().setItem(EnumAmmo.BMG50_AP).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(17.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50ap"));
-		bmg50_du = new BulletConfig().setItem(EnumAmmo.BMG50_DU).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(21F).setArmorPiercing(0.25F)
+		bmg50_du = new BulletConfig().setItem(EnumAmmo.BMG50_DU).setCasing(EnumCasingType.LARGE_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(21F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50du"));
-		bmg50_he = new BulletConfig().setItem(EnumAmmo.BMG50_HE).setCasing(EnumCasingType.LARGE_STEEL, 12).setWear(3F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.75F).setOnImpact(LAMBDA_STANDARD_EXPLODE)
+		bmg50_he = new BulletConfig().setItem(EnumAmmo.BMG50_HE).setCasing(EnumCasingType.LARGE_STEEL, 12).setWear(3F).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.75F).setOnImpact(LAMBDA_STANDARD_EXPLODE)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50he"));
 
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

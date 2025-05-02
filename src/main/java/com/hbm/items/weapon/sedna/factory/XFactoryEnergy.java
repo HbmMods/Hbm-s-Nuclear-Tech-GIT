@@ -1,5 +1,7 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
@@ -38,8 +40,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -49,6 +53,8 @@ public class XFactoryEnergy {
 
 	public static BulletConfig energy_tesla;
 	public static BulletConfig energy_tesla_overcharge;
+	public static BulletConfig energy_tesla_ir;
+	public static BulletConfig energy_tesla_ir_sub;
 
 	public static BulletConfig energy_las;
 	public static BulletConfig energy_las_overcharge;
@@ -95,6 +101,28 @@ public class XFactoryEnergy {
 		}
 	};
 
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_LIGHTNING_SPLIT = (beam, mop) -> {
+		LAMBDA_LIGHTNING_HIT.accept(beam, mop);
+		if(mop.typeOfHit != mop.typeOfHit.ENTITY) return;
+		
+		double range = 20;
+		List<EntityLivingBase> potentialTargets = beam.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord).expand(range, range, range));
+		Collections.shuffle(potentialTargets);
+		
+		for(EntityLivingBase target : potentialTargets) {
+			if(target == beam.thrower) continue;
+			if(target == mop.entityHit) continue;
+			
+			Vec3 delta = Vec3.createVectorHelper(target.posX - mop.hitVec.xCoord, target.posY + target.height / 2 - mop.hitVec.yCoord, target.posZ - mop.hitVec.zCoord);
+			if(delta.lengthVector() > 20) continue;
+			EntityBulletBeamBase sub = new EntityBulletBeamBase(beam.thrower, energy_tesla_ir_sub, beam.damage);
+			sub.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+			sub.setRotationsFromVector(delta);
+			sub.performHitscanExternal(delta.lengthVector());
+			beam.worldObj.spawnEntityInWorld(sub);
+		}
+	};
+
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_IR_HIT = (beam, mop) -> {
 		BulletConfig.LAMBDA_STANDARD_BEAM_HIT.accept(beam, mop);
 
@@ -129,6 +157,10 @@ public class XFactoryEnergy {
 				.setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
 		energy_tesla_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4).setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
 				.setDamage(1.5F).setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
+		energy_tesla_ir = new BulletConfig().setItem(EnumAmmo.CAPACITOR_IR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4).setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false)
+				.setDamage(0.8F).setOnBeamImpact(LAMBDA_LIGHTNING_SPLIT);
+		energy_tesla_ir_sub = new BulletConfig().setItem(EnumAmmo.CAPACITOR_IR).setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(3).setWear(3F).setRenderRotations(false).setDoesPenetrate(true)
+				.setDamage(0.5F).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
 		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4).setupDamageClass(DamageClass.LASER).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setCasing(new ItemStack(ModItems.ingot_polymer, 2), 4).setupDamageClass(DamageClass.LASER).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
@@ -142,7 +174,7 @@ public class XFactoryEnergy {
 				.dura(1_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
 						.dmg(35F).delay(20).spreadHipfire(1.5F).reload(44).jam(19).sound("hbm:weapon.fire.tesla", 1.0F, 1.0F)
-						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge))
+						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge, energy_tesla_ir))
 						.offset(0.75, 0, -0.375).offsetScoped(0.75, 0, -0.25)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()

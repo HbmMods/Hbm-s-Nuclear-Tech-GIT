@@ -54,9 +54,9 @@ public class XFactory762mm {
 				.setCasing(casing762.clone().register("r762fmj"));
 		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setCasing(EnumCasingType.SMALL, 6).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("r762jhp"));
-		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.25F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
+		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
-		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
+		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.5F).setThresholdNegation(15F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
 		r762_he = new BulletConfig().setItem(EnumAmmo.R762_HE).setCasing(EnumCasingType.SMALL_STEEL, 6).setWear(3F).setDamage(1.75F).setOnImpact(LAMBDA_TINY_EXPLODE)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762he"));

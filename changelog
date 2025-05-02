@@ -17,6 +17,13 @@
 * Halved recoil on the zebra rifle
 * The laser pistols now make a click when dry firing
 * Solid fuel in the rotary furnace no longer ticks down if no recipe is actually being done
+* Pneumatic tube round robin will now progress even if a destination is not accessible, preventing cases where the tubes are stuck if one of the containers has run full
+* Tesla cannons now accept low-wavelength capacitors
+  * The resulting beam is non-penetrating and 20% less powerful than standard capacitor beams
+  * In addition to the splash damage, the beam will split and fire smaller beams at any living entity in a 20 block radius, with half damage
+  * Sub-beams do not cause splash damage
+  * Sub-beams will strike the initially hit entity again, meaning that the more sub-beams there are, the more powerful the initial strike ends up being
+* Renamed the default capacitor ammo to "capacitor (standard)" to avoid confusion
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed

@@ -394,14 +394,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
-			case "getFluidStored":
-				return getFluidStored(context, args);
-			case "getMaxStored":
-				return getMaxStored(context, args);
-			case "getTypeStored":
-				return getTypeStored(context, args);
-			case "getInfo":
-				return getInfo(context, args);
+			case "getFluidStored": return getFluidStored(context, args);
+			case "getMaxStored": return getMaxStored(context, args);
+			case "getTypeStored": return getTypeStored(context, args);
+			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
 	}

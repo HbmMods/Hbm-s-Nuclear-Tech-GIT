@@ -273,6 +273,25 @@ public class LegoClient {
 		RenderArcFurnace.fullbright(false);
 	};
 	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LIGHTNING_SUB = (bullet, interp) -> {
+
+		RenderArcFurnace.fullbright(true);
+		GL11.glPushMatrix();
+		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
+		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
+		Vec3 delta = Vec3.createVectorHelper(0, bullet.beamLength, 0);
+		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
+		GL11.glScaled(age / 2 + 0.15, 1, age / 2 + 0.15);
+		double scale = 0.075D;
+		int colorInner = ((int)(0x20 * age) << 16) | ((int)(0x20 * age) << 8) | (int) (0x40 * age);
+		int colorOuter = ((int)(0x40 * age) << 16) | ((int)(0x40 * age) << 8) | (int) (0x80 * age);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), (float)scale * 1F, 4, 0.25F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
+	};
+	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU = (bullet, interp) -> {
 
 		RenderArcFurnace.fullbright(true);
