@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 
 import com.hbm.blocks.BlockDummyable;
@@ -55,7 +56,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IRORValueProvider {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	protected FluidNode node;
 	protected FluidType lastType;
@@ -537,14 +538,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
-			case "getFluidStored":
-				return getFluidStored(context, args);
-			case "getMaxStored":
-				return getMaxStored(context, args);
-			case "getTypeStored":
-				return getTypeStored(context, args);
-			case "getInfo":
-				return getInfo(context, args);
+			case "getFluidStored": return getFluidStored(context, args);
+			case "getMaxStored": return getMaxStored(context, args);
+			case "getTypeStored": return getTypeStored(context, args);
+			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
@@ -555,14 +552,37 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				PREFIX_VALUE + "type",
 				PREFIX_VALUE + "fill",
 				PREFIX_VALUE + "fillpercent",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
 		};
 	}
 
 	@Override
 	public String provideRORValue(String name) {
-		if("type".equals(name))			return tank.getTankType().getName();
-		if("fill".equals(name))			return "" + tank.getFill();
-		if("fillpercent".equals(name))	return "" + (tank.getFill() * 100 / tank.getMaxFill());
+		if((PREFIX_VALUE + "type").equals(name))		return tank.getTankType().getName();
+		if((PREFIX_VALUE + "fill").equals(name))		return "" + tank.getFill();
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + (tank.getFill() * 100 / tank.getMaxFill());
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length > 0) {
+			int mode = IRORInteractive.parseInt(params[0], 0, 3);
+			
+			if(mode != this.mode) {
+				this.mode = (short) mode;
+				this.markChanged();
+				return null;
+			} else if(params.length > 1) {
+				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
+				this.mode = (short) altmode;
+				this.markChanged();
+				return null;
+			}
+			return null;
+		}
 		return null;
 	}
 }

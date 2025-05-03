@@ -7,6 +7,7 @@ public interface IRORInteractive extends IRORInfo {
 
 	public static String EX_NULL = "Exception: Null Command";
 	public static String EX_NAME = "Exception: Multiple Name Separators";
+	public static String EX_FORMAT = "Exception: Parameter in Invalid Format";
 
 	/** Runs a function on the ROR component, usually causing the component to change or do something. Returns are optional. */
 	public String runRORFunction(String name, String[] params);
@@ -29,5 +30,12 @@ public interface IRORInteractive extends IRORInfo {
 		String paramList = parts[1];
 		String[] params = paramList.split(PARAM_SEPARATOR);
 		return params;
+	}
+	
+	public static int parseInt(String val, int min, int max) {
+		int result = 0;
+		try { result = Integer.parseInt(val); } catch(Exception x) { throw new RORFunctionException(EX_FORMAT); };
+		if(result < min || result > max) throw new RORFunctionException(EX_FORMAT);
+		return result;
 	}
 }

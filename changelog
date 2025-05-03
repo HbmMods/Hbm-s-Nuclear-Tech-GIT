@@ -24,6 +24,7 @@
   * Sub-beams do not cause splash damage
   * Sub-beams will strike the initially hit entity again, meaning that the more sub-beams there are, the more powerful the initial strike ends up being
 * Renamed the default capacitor ammo to "capacitor (standard)" to avoid confusion
+* Low wavelength capacitors now need niobium instead of silicon to make
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed

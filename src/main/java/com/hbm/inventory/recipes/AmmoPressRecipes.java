@@ -40,6 +40,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack plastic = new OreDictStack(ANY_PLASTIC.ingot());
 		OreDictStack uranium = new OreDictStack(U238.ingot());
 		OreDictStack ferro = new OreDictStack(FERRO.ingot());
+		OreDictStack nb = new OreDictStack(NB.ingot());
 		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
 		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
@@ -386,9 +387,9 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	silicon.copy(6),	null,
 				null,	plastic,			null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CAPACITOR_IR, 4),
-				null,	plastic,			null,
-				null,	silicon.copy(4),	null,
-				null,	plastic,			null));
+				null,	plastic,	null,
+				null,	nb,			null,
+				null,	plastic,	null));
 
 		OreDictStack lPlate = new OreDictStack(PB.plate());
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.TAU_URANIUM, 16),
