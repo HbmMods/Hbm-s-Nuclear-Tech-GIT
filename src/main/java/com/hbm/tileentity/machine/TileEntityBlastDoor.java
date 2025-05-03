@@ -9,6 +9,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -22,6 +23,8 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 	public long sysTime;
 	private int timer = 0;
 	public boolean redstoned = false;
+	private String railName = "";
+	private int railMetadata = -1;
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -291,6 +294,10 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 	public boolean placeDummy(int x, int y, int z) {
 
 		Block present = worldObj.getBlock(x, y, z);
+		if(present instanceof BlockRailBase) {
+			railName = Block.blockRegistry.getNameForObject(present);
+			railMetadata = worldObj.getBlockMetadata(x, y, z);
+		}
 		if(!present.isReplaceable(worldObj, x, y, z) && present != ModBlocks.dummy_block_blast) worldObj.func_147480_a(x, y, z, false);
 
 		worldObj.setBlock(x, y, z, ModBlocks.dummy_block_blast);
@@ -311,7 +318,17 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 
 		if(worldObj.getBlock(x, y, z) == ModBlocks.dummy_block_blast) {
 			DummyBlockBlast.safeBreak = true;
-			worldObj.setBlock(x, y, z, Blocks.air);
+			if(y == yCoord + 1 && !railName.isEmpty()) {
+				Block railBlock = Block.getBlockFromName(railName);
+				if(railBlock != null) {
+					worldObj.setBlock(x, y, z, railBlock);
+					worldObj.setBlockMetadataWithNotify(x, y, z, railMetadata, 3);
+				} else {
+					worldObj.setBlock(x, y, z, Blocks.air);
+				}
+			} else {
+				worldObj.setBlock(x, y, z, Blocks.air);
+			}
 			DummyBlockBlast.safeBreak = false;
 		}
 	}
@@ -324,6 +341,13 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 		sysTime = nbt.getLong("sysTime");
 		timer = nbt.getInteger("timer");
 		redstoned = nbt.getBoolean("redstoned");
+		if (nbt.hasKey("railName")) {
+			railName = nbt.getString("railName");
+			railMetadata = nbt.getInteger("railMetadata");
+		} else {
+			railName = "";
+			railMetadata = -1;
+		}
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -334,6 +358,10 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 		nbt.setLong("sysTime", sysTime);
 		nbt.setInteger("timer", timer);
 		nbt.setBoolean("redstoned", redstoned);
+		if(!railName.isEmpty()) {
+			nbt.setString("railName", railName);
+			nbt.setInteger("railMetadata", railMetadata);
+		}
 	}
 
 }
