@@ -1356,7 +1356,7 @@ public class Orchestras {
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity,
 						0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.25D,
 						-0.05, 0.2, -0.025,
-						0.01, -10F + (float) entity.getRNG().nextGaussian() * 10F, (float) entity.getRNG().nextGaussian() * 12.5F, casing.getName());
+						0.01, -10F + (float) entity.getRNG().nextGaussian() * 10F, (float) entity.getRNG().nextGaussian() * 12.5F, casing.getName(), true, 60, 0.5D, 10);
 			}
 		}
 		

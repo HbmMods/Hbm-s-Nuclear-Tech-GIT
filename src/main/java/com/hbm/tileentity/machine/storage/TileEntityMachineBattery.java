@@ -6,6 +6,8 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.machine.MachineBattery;
@@ -18,6 +20,7 @@ import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.CompatEnergyControl;
+import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -36,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -364,5 +367,70 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setLong(CompatEnergyControl.L_DIFF_HE, (log[0] - log[19]) / 20L);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "fill",
+				PREFIX_VALUE + "fillpercent",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
+				PREFIX_FUNCTION + "setpriority" + NAME_SEPARATOR + "priority",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "fill").equals(name))		return "" + power;
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + getPowerRemainingScaled(100);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length > 0) {
+			int mode = IRORInteractive.parseInt(params[0], 0, 3);
+			
+			if(mode != this.redLow) {
+				this.redLow = (short) mode;
+				this.markChanged();
+				return null;
+			} else if(params.length > 1) {
+				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
+				this.redLow = (short) altmode;
+				this.markChanged();
+				return null;
+			}
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "setredmode").equals(name) && params.length > 0) {
+			int mode = IRORInteractive.parseInt(params[0], 0, 3);
+			
+			if(mode != this.redHigh) {
+				this.redHigh = (short) mode;
+				this.markChanged();
+				return null;
+			} else if(params.length > 1) {
+				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
+				this.redHigh = (short) altmode;
+				this.markChanged();
+				return null;
+			}
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "setpriority").equals(name) && params.length > 0) {
+			int priority = IRORInteractive.parseInt(params[0], 0, 2) + 1;
+			ConnectionPriority p = EnumUtil.grabEnumSafely(ConnectionPriority.class, priority);
+			this.priority = p;
+			this.markChanged();
+			return null;
+		}
+		return null;
 	}
 }

@@ -45,7 +45,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 					if(name == null || name.isEmpty()) continue;
 					
 					String value = prov.provideRORValue(IRORValueProvider.PREFIX_VALUE + name);
-					if(value == null) continue; //don't actually do this
+					if(value == null) continue;
 					
 					if(polling || !value.equals(previous)) {
 						RTTYSystem.broadcast(worldObj, channel, value);

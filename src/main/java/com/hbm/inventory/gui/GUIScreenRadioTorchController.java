@@ -104,6 +104,10 @@ public class GUIScreenRadioTorchController extends GuiScreen {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
+		if(rtty.polling) {
+			drawTexturedModalRect(guiLeft + 173, guiTop + 17, 0, 42, 18, 18);
+		}
+		
 		this.frequency.drawTextBox();
 	}
 

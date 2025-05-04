@@ -49,6 +49,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 
 	@Override
 	public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
+		if(density < 0.125) return 0; //shitty hack
 		return (float) (fixedDamage * (1 - distanceScaled));
 	}
 }

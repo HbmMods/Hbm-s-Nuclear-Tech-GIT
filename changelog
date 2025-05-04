@@ -3,6 +3,12 @@
   * Identical to the regular ammo bag, but ammo is never depleted
   * Provides 9,999 units of ammo for the purposes of reloading/belts, meaning that even a single bullet in the bag allows a full reload
   * Obviously creative-only
+* Redstone-over-radio reader
+  * Can read certain values from connected machines and send them as signals
+  * Currently supports batteries, capacitors and tanks
+* Redstone-over-radio controller
+  * Can receive control signals to perform certain actions within the connected machine
+  * Currently supports mode and priority changes for batteries and tanks
 
 ## Changed
 * Nerfed AP and DU round damage multiplier
@@ -25,6 +31,17 @@
   * Sub-beams will strike the initially hit entity again, meaning that the more sub-beams there are, the more powerful the initial strike ends up being
 * Renamed the default capacitor ammo to "capacitor (standard)" to avoid confusion
 * Low wavelength capacitors now need niobium instead of silicon to make
+* Bayonets can now be applied to the carbine, making it the first standard arsenal gun that can take the mod
+* VNT type explosions with smooth damage falloff (used by guns, mines, etc) no longer calculate entity distance using the entity's origin position (i.e. in the center at the ground) but rather the closest hitbox intercept
+  * This means that shooting entities directly with explosives should deal roughly the same damage no matter where they are hit, instead of dealing more damage closer to the feet
+  * This also fixes an issue where entities with large hitboxes (eg. mas man) are unaffected by small explosions that deal direct hits (like explosive buckshot)
+* VNT type explosions with smooth damage falloff should no longer deal any damage if more than 1 in 8 blocks between the source and the target are solid
+  * This prevents any damage taken if the target is behind a wall
+  * This also means that thin walls do not protect against sufficiently large explosions
+* Added circuits to the turbofan recipe
+* Simplified the industrial combustion engine recipe
+* Removed the old hadron core recipe
+* Changed the old pylon and energy storage block textures to use standardized red copper connectors instead of the non-standard three prong outlets
 
 ## Fixed
 * Fixed a potential crash caused by cargo dropships landing on cargo docks with no satellite chip installed
@@ -33,3 +50,5 @@
 * Fixed dupe regarding breaking transport drones
 * Fixed 12 gauge flechette DT negation not being the intended value
 * Fixed carbine mistakenly showing a round being chambered even after firing the last loaded round
+* Fixed `any` OD prefix not registering correctly, breaking some recipe compatibility as well as older recipe configs
+* Fixed bug where changing a pipe's type with a fluid ID will keep a "zombie" pipe of the previous type around, which keeps a connection up even when the pipe nets end up separated

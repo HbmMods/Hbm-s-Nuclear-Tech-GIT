@@ -10,6 +10,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidConnectorMK2;
 import api.hbm.fluidmk2.IFluidReceiverMK2;
 import api.hbm.redstoneoverradio.IRORInfo;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
@@ -30,7 +31,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -524,6 +525,12 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override
 	public String provideRORValue(String name) {
 		if(getTile() instanceof IRORValueProvider) return ((IRORValueProvider) getTile()).provideRORValue(name);
-		return "";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if(getTile() instanceof IRORInteractive) return ((IRORInteractive) getTile()).runRORFunction(name, params);
+		return null;
 	}
 }

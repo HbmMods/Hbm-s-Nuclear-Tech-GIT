@@ -7,6 +7,9 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 
 import com.hbm.util.BufferUtil;
+
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -17,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter {
+public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter, IRORValueProvider, IRORInteractive {
 
 	private int stack = 0;
 	public boolean output = false;
@@ -228,5 +231,37 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	@Override
 	public int[] getFilterSlots() {
 		return new int[]{1,2};
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "type",
+				PREFIX_VALUE + "fill",
+				PREFIX_VALUE + "fillpercent",
+				PREFIX_FUNCTION + "toggleoutput",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "fill").equals(name))		return "" + this.stack;
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.stack * 100 / this.capacity;
+		if((PREFIX_VALUE + "type").equals(name)) {
+			if(slots[1] == null) return "None";
+			return slots[1].getDisplayName();
+		}
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "toggleoutput").equals(name)) {
+			this.output = !this.output;
+			this.markDirty();
+		}
+		
+		return null;
 	}
 }
