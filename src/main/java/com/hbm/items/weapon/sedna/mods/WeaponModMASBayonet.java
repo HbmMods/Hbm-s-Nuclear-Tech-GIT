@@ -49,7 +49,7 @@ public class WeaponModMASBayonet extends WeaponModBase {
 				MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), 3.0D);
 				if(mop != null) {
 					if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-						float damage = 10F;
+						float damage = 15F;
 						mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(ctx.getPlayer()), damage);
 						mop.entityHit.motionX *= 2;
 						mop.entityHit.motionZ *= 2;

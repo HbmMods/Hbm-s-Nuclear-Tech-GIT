@@ -374,6 +374,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return new String[] {
 				PREFIX_VALUE + "fill",
 				PREFIX_VALUE + "fillpercent",
+				PREFIX_VALUE + "delta",
 				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
 				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
 				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode",
@@ -386,6 +387,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "fill").equals(name))		return "" + power;
 		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + getPowerRemainingScaled(100);
+		if((PREFIX_VALUE + "delta").equals(name))		return "" + delta;
 		return null;
 	}
 
