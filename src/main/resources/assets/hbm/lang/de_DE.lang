@@ -4743,6 +4743,7 @@ tile.sand_lead.name=Bleisand
 tile.sand_polonium.name=Poloniumsand
 tile.sand_quartz.name=Quarzsand
 tile.sand_uranium.name=Uransand
+tile.sandbags.name=Sandsäcke
 tile.sat_dock.name=Frachtlandeplattform
 tile.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse (Dekoblock)
 tile.sat_laser.name=Orbitaler Todesstrahl (Dekoblock)
@@ -4875,6 +4876,7 @@ tile.watz_end.name=Watz-Stabilitätselement
 tile.watz_end_bolted.name=Watz-Stabilitätselement (Genietet)
 tile.watz_hatch.name=Watzreaktorzugriffsluke
 tile.watz_pump.name=Watz-Druckpumpe
+tile.wood_barrier.name=Holzbarriere
 tile.yellow_barrel.name=Radioaktives Fass
 tile.zirnox_destroyed.name=Zerstörter ZINOX
 

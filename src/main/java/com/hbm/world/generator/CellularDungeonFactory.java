@@ -2,6 +2,7 @@ package com.hbm.world.generator;
 
 import com.hbm.world.generator.room.*;
 
+@Deprecated
 public class CellularDungeonFactory {
 
 	public static CellularDungeon jungle;

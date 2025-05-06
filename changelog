@@ -1,7 +1,17 @@
+## Added
+* Sandbags
+  * Connect to other sandbags or solid blocks
+  * Pretts
+* Wooden barrier
+  * Pretty
+  * Automatically walls off connected solid blocks in addition to the direction it was placed in
+
 ## Changed
 * Increased bayonet damage from 5 to 7.5 hearts
 * Two numeric redstone over radio signals sent over the same channel will now be added together instead of one signal replacing the other
   * This means that reading the fill state of multiple batteries over the same channel should result the combined fill state of all batteries
+* Halved base spread of the .22 SMG
+* Certain secret guns now have a proper way of being obtained
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe

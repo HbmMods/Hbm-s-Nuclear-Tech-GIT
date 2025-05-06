@@ -5898,6 +5898,7 @@ tile.sand_lead.name=Lead Sand
 tile.sand_polonium.name=Polonium Sand
 tile.sand_quartz.name=Quartz Sand
 tile.sand_uranium.name=Uranium Sand
+tile.sandbags.name=Sandbags
 tile.sat_dock.name=Cargo Landing Pad
 tile.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion (Deco Block)
 tile.sat_laser.name=Orbital Death Ray (Deco Block)
@@ -6037,6 +6038,7 @@ tile.watz_end.name=Watz Reactor Stability Element
 tile.watz_end_bolted.name=Watz Reactor Stability Element (Riveted)
 tile.watz_hatch.name=Watz Reactor Access Hatch
 tile.watz_pump.name=Watz Pressure Pump
+tile.wood_barrier.name=Wooden Barrier
 tile.yellow_barrel.name=Radioactive Barrel
 tile.zirnox_destroyed.name=Destroyed ZIRNOX
 

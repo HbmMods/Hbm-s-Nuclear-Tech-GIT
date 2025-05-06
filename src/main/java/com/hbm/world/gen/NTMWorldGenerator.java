@@ -40,6 +40,13 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		final List<BiomeGenBase> beachBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
 		final List<BiomeGenBase> lighthouseBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
 
+		/// SPIRE ///
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome.heightVariation <= 0.05F && !invalidBiomes.contains(biome);
+			structure = new JigsawPiece("spire", StructureManager.spire, -1);
+			spawnWeight = 2;
+		}});
+		
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new MapGenNTMFeatures.Start(d.getW(), d.getX(), d.getY(), d.getZ());
@@ -177,7 +184,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 					add(new JigsawPiece("meteor_dragon_tesla", StructureManager.meteor_dragon_tesla) {{ blockTable = crates; }}, 1);
 					add(new JigsawPiece("meteor_dragon_trap", StructureManager.meteor_dragon_trap) {{ blockTable = crates; }}, 1);
 					add(new JigsawPiece("meteor_dragon_crate_crab", StructureManager.meteor_dragon_crate_crab) {{ blockTable = crates; }}, 1);
-                    fallback = "headback";
+					fallback = "headback";
 				}});
 				put("fallback", new JigsawPool() {{
 					add(new JigsawPiece("meteor_fallback", StructureManager.meteor_fallback) {{ blockTable = bricks; }}, 1);
