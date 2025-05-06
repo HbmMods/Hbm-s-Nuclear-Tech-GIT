@@ -886,6 +886,7 @@ public class ResourceManager {
 	public static final IModelCustom double_barrel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/sacred_dragon.obj")).asVBO();
 	public static final IModelCustom aberrator = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/aberrator.obj")).asVBO();
 	public static final IModelCustom mas36 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/mas36.obj")).asVBO();
+	public static final IModelCustom charge_thrower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/charge_thrower.obj")).asVBO();
 
 	public static final HashMap<String, BusAnimation> spas_12_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/spas12.json"));
 	public static final HashMap<String, BusAnimation> congolake_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/congolake.json"));
@@ -1012,6 +1013,10 @@ public class ResourceManager {
 	public static final ResourceLocation aberrator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/aberrator.png");
 	public static final ResourceLocation eott_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/eott.png");
 	public static final ResourceLocation mas36_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/mas36.png");
+	public static final ResourceLocation charge_thrower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/charge_thrower.png");
+	public static final ResourceLocation charge_thrower_hook_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/charge_thrower_hook.png");
+	public static final ResourceLocation charge_thrower_mortar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/charge_thrower_mortar.png");
+	public static final ResourceLocation charge_thrower_rocket_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/charge_thrower_rocket.png");
 
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

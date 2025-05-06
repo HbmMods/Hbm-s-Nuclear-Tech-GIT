@@ -13,10 +13,9 @@ public class WeaponModScope extends WeaponModBase {
 
 	@Override
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
-		
-		if(key == GunConfig.O_SCOPETEXTURE) {
-			return (T) XFactory44.scope_lilmac;
-		}
+
+		if(key == GunConfig.O_SCOPETEXTURE) return (T) XFactory44.scope_lilmac;
+		if(key == GunConfig.B_HIDECROSSHAIR) return cast(true, base); // just in case
 		
 		return base;
 	}

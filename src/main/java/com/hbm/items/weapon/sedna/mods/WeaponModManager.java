@@ -127,7 +127,7 @@ public class WeaponModManager {
 
 		new WeaponModDefinition(EnumModSpecial.SPEEDLOADER).addMod(ModItems.gun_liberator, new WeaponModLiberatorSpeedloader(200));
 		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_g3}, new WeaponModSilencer(ID_SILENCER));
-		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_g3, ModItems.gun_mas36}, new WeaponModScope(ID_SCOPE));
+		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_g3, ModItems.gun_mas36, ModItems.gun_charge_thrower}, new WeaponModScope(ID_SCOPE));
 		new WeaponModDefinition(EnumModSpecial.SAW)
 			.addMod(new Item[] {ModItems.gun_maresleg, ModItems.gun_double_barrel}, new WeaponModSawedOff(ID_SAWED_OFF))
 			.addMod(ModItems.gun_panzerschreck, new WeaponModPanzerschreckSawedOff(ID_NO_SHIELD))

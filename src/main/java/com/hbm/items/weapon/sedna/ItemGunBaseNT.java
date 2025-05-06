@@ -136,6 +136,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		B_SIDE,
 		LEGENDARY,
 		SPECIAL,
+		UTILITY,
 		SECRET,
 		DEBUG
 	}
@@ -196,6 +197,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		case B_SIDE: list.add(EnumChatFormatting.GOLD + "B-Side"); break;
 		case LEGENDARY: list.add(EnumChatFormatting.RED + "Legendary Weapon"); break;
 		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
+		case UTILITY: list.add(EnumChatFormatting.GREEN + "Utility"); break;
 		case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
 		}

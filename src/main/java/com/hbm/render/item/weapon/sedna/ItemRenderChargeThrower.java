@@ -1,0 +1,118 @@
+package com.hbm.render.item.weapon.sedna;
+
+import org.lwjgl.opengl.GL11;
+
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.main.ResourceManager;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+
+public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
+
+	@Override
+	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 0F : -0.5F; }
+
+	@Override
+	public float getViewFOV(ItemStack stack, float fov) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return  fov * (1 - aimingProgress * (isScoped(stack) ? 0.66F : 0.33F));
+	}
+
+	@Override
+	public void setupFirstPerson(ItemStack stack) {
+		GL11.glTranslated(0, 0, 0.875);
+
+		float offset = 0.8F;
+		float zoom = 0.5F;
+		
+		if(isScoped(stack)) standardAimingTransform(stack,
+				-1.5F * offset, -1.25F * offset, 3.5F * offset,
+				-0.15625, -6.5 / 8D, 1.6875);
+		else standardAimingTransform(stack,
+				-1.5F * offset, -1.25F * offset, 3.5F * offset,
+				-1.5F * zoom, -1.25F * zoom, 3.5F * zoom);
+	}
+
+	@Override
+	public void renderFirstPerson(ItemStack stack) {
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		if(this.isScoped(stack) && gun.aimingProgress == 1 && gun.prevAimingProgress == 1) {
+			double scale = 3.5D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glTranslated(-0.5, -1.5, -4);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_tex);
+			ResourceManager.charge_thrower.renderPart("Gun");
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+			ResourceManager.charge_thrower.renderPart("Mortar");
+			ResourceManager.charge_thrower.renderPart("Oomph");
+			return;
+		}
+		
+		double scale = 0.5D;
+		GL11.glScaled(scale, scale, scale);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_tex);
+		ResourceManager.charge_thrower.renderPart("Gun");
+		if(isScoped(stack)) ResourceManager.charge_thrower.renderPart("Scope");
+		
+		//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
+		//ResourceManager.charge_thrower.renderPart("Hook");
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+		ResourceManager.charge_thrower.renderPart("Mortar");
+		ResourceManager.charge_thrower.renderPart("Oomph");
+		//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_rocket_tex);
+		//ResourceManager.charge_thrower.renderPart("Rocket");
+		
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void setupThirdPerson(ItemStack stack) {
+		super.setupThirdPerson(stack);
+		double scale = 1.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glTranslated(0.75, 1, 4);
+	}
+
+	@Override
+	public void setupInv(ItemStack stack) {
+		super.setupInv(stack);
+		double scale = 1.25D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(25, 1, 0, 0);
+		GL11.glRotated(45, 0, 1, 0);
+		GL11.glTranslated(0, 0, -0.625);
+	}
+
+	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -8.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, 0, -1);
+	}
+
+	@Override
+	public void renderOther(ItemStack stack, ItemRenderType type) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_tex);
+		ResourceManager.charge_thrower.renderPart("Gun");
+		if(isScoped(stack)) ResourceManager.charge_thrower.renderPart("Scope");
+		//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
+		//ResourceManager.charge_thrower.renderPart("Hook");
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+		ResourceManager.charge_thrower.renderPart("Mortar");
+		//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_rocket_tex);
+		//ResourceManager.charge_thrower.renderPart("Rocket");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean isScoped(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+	}
+}

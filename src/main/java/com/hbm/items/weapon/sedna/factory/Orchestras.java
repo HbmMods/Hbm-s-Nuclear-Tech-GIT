@@ -1384,4 +1384,15 @@ public class Orchestras {
 			if(timer == 17) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
 		}
 	};
+
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_CHARGE_THROWER = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertRocket", 1F, 1F);
+		}
+	};
 }
