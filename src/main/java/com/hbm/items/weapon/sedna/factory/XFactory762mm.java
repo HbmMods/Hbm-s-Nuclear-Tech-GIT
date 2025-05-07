@@ -11,6 +11,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -96,6 +97,28 @@ public class XFactory762mm {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN)
 				).setUnlocalizedName("gun_minigun_lacunae");
+		ModItems.gun_minigun_dual = new ItemGunBaseNT(WeaponQuality.DEBUG,
+				new GunConfig()
+				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
+						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
+						.offset(1, -0.0625 * 2.5, 0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN_DUAL),
+				new GunConfig()
+				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
+						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
+						.offset(1, -0.0625 * 2.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
+				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(LAMBDA_SECOND_MINIGUN)
+				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN_DUAL)
+				).setUnlocalizedName("gun_minigun_dual");
 
 		ModItems.gun_mas36 = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
@@ -108,6 +131,15 @@ public class XFactory762mm {
 				.anim(LAMBDA_MAS36_ANIMS).orchestra(Orchestras.ORCHESTRA_MAS36)
 				).setUnlocalizedName("gun_mas36");
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SECOND_MINIGUN = (stack, ctx) -> {
+		int index = ctx.configIndex;
+		GunState lastState = ItemGunBaseNT.getState(stack, index);
+		GunStateDecider.deciderStandardFinishDraw(stack, lastState, index);
+		GunStateDecider.deciderStandardClearJam(stack, lastState, index);
+		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
+		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getSecondary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 1500, 0.075D, 1.1D, 0);

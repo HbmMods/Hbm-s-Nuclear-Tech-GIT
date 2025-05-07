@@ -57,6 +57,7 @@ import net.minecraft.world.World;
  * - also comes with tons of legacy code to ensure compat (sadly)
  * @author hbm
  */
+@Deprecated
 public class EntityBulletBaseNT extends EntityThrowableInterp implements IBulletBase {
 
 	@Override public double prevX() { return prevRenderX; }

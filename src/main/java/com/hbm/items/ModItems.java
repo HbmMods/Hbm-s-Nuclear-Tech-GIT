@@ -1475,6 +1475,7 @@ public class ModItems {
 	public static Item gun_quadro;
 	public static Item gun_lag;
 	public static Item gun_minigun;
+	public static Item gun_minigun_dual;
 	public static Item gun_minigun_lacunae;
 	public static Item gun_missile_launcher;
 	public static Item gun_tesla_cannon;
@@ -6424,6 +6425,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
+		GameRegistry.registerItem(gun_minigun_dual, gun_minigun_dual.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun_lacunae, gun_minigun_lacunae.getUnlocalizedName());
 		GameRegistry.registerItem(gun_missile_launcher, gun_missile_launcher.getUnlocalizedName());
 		GameRegistry.registerItem(gun_tesla_cannon, gun_tesla_cannon.getUnlocalizedName());

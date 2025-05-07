@@ -2,7 +2,9 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -12,23 +14,48 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.Vec3NT;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactoryTool {
 	
 	public static BulletConfig ct_hook;
 
+	public static Consumer<Entity> LAMBDA_SET_HOOK = (entity) -> {
+		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
+		if(!bullet.worldObj.isRemote && bullet.ticksExisted < 2 && bullet.getThrower() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) bullet.getThrower();
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_charge_thrower) {
+				ItemGunChargeThrower.setLastHook(player.getHeldItem(), bullet.getEntityId());
+			}
+		}
+		bullet.ignoreFrustumCheck = true;
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_HOOK = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			Vec3NT vec = new Vec3NT(-bullet.motionX, -bullet.motionY, -bullet.motionZ).normalizeSelf().multiply(0.05);
+			bullet.setPosition(mop.hitVec.xCoord + vec.xCoord, mop.hitVec.yCoord + vec.yCoord, mop.hitVec.zCoord + vec.zCoord);
+			bullet.getStuck(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
+		}
+	};
+
 	public static void init() {
 
-		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK);
+		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK).setRenderRotations(false).setLife(1200).setVel(2F).setGrav(0.035D).setDoesPenetrate(true).setDamageFalloffByPen(false)
+				.setOnUpdate(LAMBDA_SET_HOOK).setOnImpact(LAMBDA_HOOK);
 		
-		ModItems.gun_charge_thrower = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
+		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(4).dry(40).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(55).sound("hbm:weapon.fire.grenade", 1.0F, 1.0F)

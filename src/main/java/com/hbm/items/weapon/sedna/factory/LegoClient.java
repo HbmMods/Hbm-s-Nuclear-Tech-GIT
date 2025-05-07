@@ -6,8 +6,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
 import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
+import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderArcFurnace;
@@ -20,6 +22,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -444,4 +447,133 @@ public class LegoClient {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_CT_HOOK = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		
+		GL11.glRotatef(bullet.prevRotationYaw + (bullet.rotationYaw - bullet.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(bullet.prevRotationPitch + (bullet.rotationPitch - bullet.prevRotationPitch) * interp + 180, 0.0F, 0.0F, 1.0F);
+		
+		GL11.glScalef(0.125F, 0.125F, 0.125F);
+		GL11.glRotated(90, 0, -1, 0);
+		GL11.glRotated(180, 0, 0, 1);
+		GL11.glTranslatef(0, 0, -6F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
+		ResourceManager.charge_thrower.renderPart("Hook");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+		
+		if(bullet.getThrower() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) bullet.getThrower();
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_charge_thrower && ItemGunChargeThrower.getLastHook(player.getHeldItem()) == bullet.getEntityId()) {
+				renderWire(bullet, interp);
+			}
+		}
+	};
+	
+	public static void renderWire(EntityBulletBaseMK4 bullet, float interp) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.wire_greyscale_tex);
+
+		double bx = bullet.prevPosX + (bullet.posX - bullet.prevPosX) * interp;
+		double by = bullet.prevPosY + (bullet.posY - bullet.prevPosY) * interp;
+		double bz = bullet.prevPosZ + (bullet.posZ - bullet.prevPosZ) * interp;
+		
+		Entity thrower = bullet.getThrower();
+		double x = thrower.prevPosX + (thrower.posX - thrower.prevPosX) * interp;
+		double y = thrower.prevPosY + (thrower.posY - thrower.prevPosY) * interp;
+		double z = thrower.prevPosZ + (thrower.posZ - thrower.prevPosZ) * interp;
+		double eyaw = thrower.prevRotationYaw + (thrower.rotationYaw - thrower.prevRotationYaw) * interp;
+		double epitch = thrower.prevRotationPitch + (thrower.rotationPitch - thrower.prevRotationPitch) * interp;
+		
+		Vec3 offset = Vec3.createVectorHelper(0.125D, 0.25, -0.75);
+		offset.rotateAroundX((float) -epitch / 180F * (float) Math.PI);
+		offset.rotateAroundY((float) -eyaw / 180F * (float) Math.PI);
+		
+		Vec3 target = Vec3.createVectorHelper(x - offset.xCoord, y + thrower.getEyeHeight() - offset.yCoord, z - offset.zCoord);
+
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+
+		double deltaX = target.xCoord - bx;
+		double deltaY = target.yCoord - by;
+		double deltaZ = target.zCoord - bz;
+		Vec3 delta = Vec3.createVectorHelper(deltaX, deltaY, deltaZ);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		
+		int count = 10;
+		double hang = Math.min(delta.lengthVector() / 15D, 0.5D);
+
+		double girth = 0.03125D;
+		double hyp = Math.sqrt(delta.xCoord * delta.xCoord + delta.zCoord * delta.zCoord);
+		double yaw = Math.atan2(delta.xCoord, delta.zCoord);
+		double pitch = Math.atan2(delta.yCoord, hyp);
+		double rotator = Math.PI * 0.5D;
+		double newPitch = pitch + rotator;
+		double newYaw = yaw + rotator;
+		double iZ = Math.cos(yaw) * Math.cos(newPitch) * girth;
+		double iX = Math.sin(yaw) * Math.cos(newPitch) * girth;
+		double iY = Math.sin(newPitch) * girth;
+		double jZ = Math.cos(newYaw) * girth;
+		double jX = Math.sin(newYaw) * girth;
+		
+		for(float j = 0; j < count; j++) {
+
+			float k = j + 1;
+
+			double sagJ = Math.sin(j / count * Math.PI) * hang;
+			double sagK = Math.sin(k / count * Math.PI) * hang;
+			double sagMean = (sagJ + sagK) / 2D;
+
+			double ja = j + 0.5D;
+			double ix = bx + deltaX / (double)(count) * ja;
+			double iy = by + deltaY / (double)(count) * ja - sagMean;
+			double iz = bz + deltaZ / (double)(count) * ja;
+
+			int brightness = bullet.worldObj.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
+			tess.setBrightness(brightness);
+
+			tess.setColorOpaque_I(0x606060);
+
+			drawLineSegment(tess,
+					(deltaX * j / count),
+					(deltaY * j / count) - sagJ,
+					(deltaZ * j / count),
+					(deltaX * k / count),
+					(deltaY * k / count) - sagK,
+					(deltaZ * k / count),
+					iX, iY, iZ, jX, jZ);
+		}
+		
+		tess.draw();
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+	}
+	
+	public static void drawLineSegment(Tessellator tessellator, double x, double y, double z, double a, double b, double c, double iX, double iY, double iZ, double jX, double jZ) {
+
+		double deltaX = a - x;
+		double deltaY = b - y;
+		double deltaZ = c - z;
+		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+		int wrap = (int) Math.ceil(length * 8);
+
+		if(deltaX + deltaZ < 0) {
+			wrap *= -1;
+			jZ *= -1;
+			jX *= -1;
+		}
+
+		tessellator.addVertexWithUV(x + iX, y + iY, z + iZ, 0, 0);
+		tessellator.addVertexWithUV(x - iX, y - iY, z - iZ, 0, 1);
+		tessellator.addVertexWithUV(a - iX, b - iY, c - iZ, wrap, 1);
+		tessellator.addVertexWithUV(a + iX, b + iY, c + iZ, wrap, 0);
+		tessellator.addVertexWithUV(x + jX, y, z + jZ, 0, 0);
+		tessellator.addVertexWithUV(x - jX, y, z - jZ, 0, 1);
+		tessellator.addVertexWithUV(a - jX, b, c - jZ, wrap, 1);
+		tessellator.addVertexWithUV(a + jX, b, c + jZ, wrap, 0);
+	}
 }

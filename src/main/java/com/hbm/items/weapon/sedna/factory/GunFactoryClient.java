@@ -77,6 +77,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_quadro,						new ItemRenderQuadro());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun,						new ItemRenderMinigun(ResourceManager.minigun_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_lacunae,				new ItemRenderMinigun(ResourceManager.minigun_lacunae_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_dual,				new ItemRenderMinigunDual());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_missile_launcher,			new ItemRenderMissileLauncher());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tesla_cannon,				new ItemRenderTeslaCannon());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_laser_pistol,				new ItemRenderLaserPistol(ResourceManager.laser_pistol_tex));
@@ -218,7 +219,7 @@ public class GunFactoryClient {
 
 		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 
-		ct_hook.setRenderer(LegoClient.RENDER_HIVE);
+		ct_hook.setRenderer(LegoClient.RENDER_CT_HOOK);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		
@@ -283,6 +284,8 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_maresleg_akimbo)		.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_uzi_akimbo)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
 		((ItemGunBaseNT) ModItems.gun_uzi_akimbo)			.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_minigun_dual)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
+		((ItemGunBaseNT) ModItems.gun_minigun_dual)			.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_aberrator_eott)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_AMMO_MIRROR);
 		((ItemGunBaseNT) ModItems.gun_aberrator_eott)		.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_AMMO);
 	}

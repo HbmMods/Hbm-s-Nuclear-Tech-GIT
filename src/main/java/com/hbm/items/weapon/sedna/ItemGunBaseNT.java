@@ -126,7 +126,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		this.quality = quality;
 		this.lastShot = new long[cfg.length];
 		for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
-		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL) this.setCreativeTab(MainRegistry.weaponTab);
+		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL || quality == WeaponQuality.UTILITY) this.setCreativeTab(MainRegistry.weaponTab);
 		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
 	}

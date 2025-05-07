@@ -133,9 +133,9 @@ public class WeaponModManager {
 			.addMod(ModItems.gun_panzerschreck, new WeaponModPanzerschreckSawedOff(ID_NO_SHIELD))
 			.addMod(new Item[] {ModItems.gun_g3, ModItems.gun_g3_zebra}, new WeapnModG3SawedOff(ID_NO_STOCK));
 		new WeaponModDefinition(EnumModSpecial.GREASEGUN).addMod(ModItems.gun_greasegun, new WeaponModGreasegun(ID_GREASEGUN_CLEAN));
-		new WeaponModDefinition(EnumModSpecial.SLOWDOWN).addMod(ModItems.gun_minigun, new WeaponModSlowdown(207));
+		new WeaponModDefinition(EnumModSpecial.SLOWDOWN).addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModSlowdown(207));
 		new WeaponModDefinition(EnumModSpecial.SPEEDUP)
-			.addMod(ModItems.gun_minigun, new WeaponModMinigunSpeedup(ID_MINIGUN_SPEED))
+			.addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModMinigunSpeedup(ID_MINIGUN_SPEED))
 			.addMod(new Item[] {ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder}, new WeaponModShredderSpeedup(209));
 		new WeaponModDefinition(EnumModSpecial.CHOKE).addMod(new Item[] {ModItems.gun_pepperbox, ModItems.gun_maresleg, ModItems.gun_double_barrel, ModItems.gun_liberator, ModItems.gun_spas12}, new WeaponModChoke(210));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_GREEN).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_GREEN));
@@ -177,13 +177,13 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModCaliber.R556)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(350, 10, 10F, r556))
 			.addMod(ModItems.gun_carbine, new WeaponModCaliber(351, 20, 15F, r556))
-			.addMod(ModItems.gun_minigun, new WeaponModCaliber(352, 0, 6F, r556));
+			.addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModCaliber(352, 0, 6F, r556));
 		new WeaponModDefinition(EnumModCaliber.R762)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(360, 8, 10F, r762))
 			.addMod(ModItems.gun_g3, new WeaponModCaliber(361, 24, 5F, r762));
 		new WeaponModDefinition(EnumModCaliber.BMG50)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(370, 5, 10F, bmg50))
-			.addMod(ModItems.gun_minigun, new WeaponModCaliber(371, 0, 6F, bmg50));
+			.addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModCaliber(371, 0, 6F, bmg50));
 	}
 
 	public static final int ID_SILENCER = 201;
