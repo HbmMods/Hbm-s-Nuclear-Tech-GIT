@@ -26,12 +26,12 @@ public class XFactoryTool {
 
 	public static void init() {
 
-		ct_hook = new BulletConfig().setItem(EnumAmmo.P9_SP);
+		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK);
 		
 		ModItems.gun_charge_thrower = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
-				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCUMFLEX)
+				.dura(3_000).draw(20).inspect(31).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(4).dry(40).auto(true).spread(0.015F).reload(60).jam(55).sound("hbm:weapon.fire.grenade", 1.0F, 1.0F)
+						.dmg(5F).delay(4).dry(40).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(55).sound("hbm:weapon.fire.grenade", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 1).addConfigs(ct_hook))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CT))
@@ -50,8 +50,6 @@ public class XFactoryTool {
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-90, 0, 0, 0).addPos(0, 0, 0, 350, IType.SIN_DOWN));
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
-				.addBus("HAMMER", new BusAnimationSequence().addPos(15, 0, 0, 50).addPos(15, 0, 0, 550).addPos(0, 0, 0, 100));
-		case CYCLE_DRY: return new BusAnimation()
 				.addBus("HAMMER", new BusAnimationSequence().addPos(15, 0, 0, 50).addPos(15, 0, 0, 550).addPos(0, 0, 0, 100));
 		case RELOAD: return new BusAnimation()
 				.addBus("OPEN", new BusAnimationSequence().addPos(45, 0, 0, 200, IType.SIN_FULL).addPos(45, 0, 0, 750).addPos(0, 0, 0, 200, IType.SIN_UP))

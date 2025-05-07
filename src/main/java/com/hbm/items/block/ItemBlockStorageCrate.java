@@ -150,9 +150,24 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			 * solution (?): check equality, then just access the held stack directly. if not, pray the target reference is still accurate and use that.
 			 */
 			if(player.getHeldItem() != null && ItemStack.areItemStacksEqual(player.getHeldItem(), target)) {
-				player.getHeldItem().setTagCompound(checkNBT(nbt));
+				player.getHeldItem().setTagCompound(nbt);
+				this.target = player.getHeldItem(); // just fuckin whatever
 			} else {
-				target.setTagCompound(checkNBT(nbt));
+				target.setTagCompound(nbt);
+			}
+		}
+		
+		@Override
+		public void closeInventory() {
+			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F);
+			
+			/*
+			 * realistically, we only need one NBT size check (and we only *want* one because CompressedStreamTools is expensive) so we do that part only when closing
+			 */
+			if(player.getHeldItem() != null && ItemStack.areItemStacksEqual(player.getHeldItem(), target)) {
+				player.getHeldItem().setTagCompound(checkNBT(target.getTagCompound()));
+			} else {
+				target.setTagCompound(checkNBT(target.getTagCompound()));
 			}
 		}
 	}
