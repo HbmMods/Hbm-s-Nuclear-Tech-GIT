@@ -139,7 +139,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 
 			if(operational) turnTimer = 25;
 			networkPackNT(150);
-      
+
 		} else {
 
 			this.lastRotor = this.rotor;
@@ -306,7 +306,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getType(Context context, Arguments args) {
-		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
 	}
 
 	@Callback(direct = true, limit = 4)

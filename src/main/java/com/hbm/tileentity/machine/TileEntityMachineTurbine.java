@@ -364,7 +364,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getType(Context context, Arguments args) {
-		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
 	}
 
 	@Callback(direct = true, limit = 4)
