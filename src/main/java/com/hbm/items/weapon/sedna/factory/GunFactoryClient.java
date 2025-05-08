@@ -220,6 +220,8 @@ public class GunFactoryClient {
 		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 
 		ct_hook.setRenderer(LegoClient.RENDER_CT_HOOK);
+		ct_mortar.setRenderer(LegoClient.RENDER_CT_MORTAR);
+		ct_mortar_charge.setRenderer(LegoClient.RENDER_CT_MORTAR_CHARGE);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		

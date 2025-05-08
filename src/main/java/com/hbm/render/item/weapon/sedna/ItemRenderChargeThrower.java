@@ -58,14 +58,20 @@ public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
 		if(isScoped(stack) && !usingScope) ResourceManager.charge_thrower.renderPart("Scope");
 		
 		if(mag.getAmount(stack, null) > 0) {
-			
+
 			if(mag.getType(stack, null) == XFactoryTool.ct_hook) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
 				ResourceManager.charge_thrower.renderPart("Hook");
 			}
-			//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
-			//ResourceManager.charge_thrower.renderPart("Mortar");
-			//ResourceManager.charge_thrower.renderPart("Oomph");
+			if(mag.getType(stack, null) == XFactoryTool.ct_mortar) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+				ResourceManager.charge_thrower.renderPart("Mortar");
+			}
+			if(mag.getType(stack, null) == XFactoryTool.ct_mortar_charge) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+				ResourceManager.charge_thrower.renderPart("Mortar");
+				ResourceManager.charge_thrower.renderPart("Oomph");
+			}
 			//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_rocket_tex);
 			//ResourceManager.charge_thrower.renderPart("Rocket");
 		}
@@ -116,6 +122,15 @@ public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
 			if(mag.getType(stack, null) == XFactoryTool.ct_hook) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
 				ResourceManager.charge_thrower.renderPart("Hook");
+			}
+			if(mag.getType(stack, null) == XFactoryTool.ct_mortar) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+				ResourceManager.charge_thrower.renderPart("Mortar");
+			}
+			if(mag.getType(stack, null) == XFactoryTool.ct_mortar_charge) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_mortar_tex);
+				ResourceManager.charge_thrower.renderPart("Mortar");
+				ResourceManager.charge_thrower.renderPart("Oomph");
 			}
 		}
 		
