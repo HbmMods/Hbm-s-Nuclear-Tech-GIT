@@ -9,7 +9,6 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorBulkie;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
-import com.hbm.explosion.vanillant.standard.BlockMutatorBulkie;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
@@ -87,11 +86,11 @@ public class XFactoryTool {
 
 	public static void init() {
 
-		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK).setRenderRotations(false).setLife(6_000).setVel(2F).setGrav(0.035D).setDoesPenetrate(true).setDamageFalloffByPen(false)
+		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK).setRenderRotations(false).setLife(6_000).setVel(3F).setGrav(0.035D).setDoesPenetrate(true).setDamageFalloffByPen(false)
 				.setOnUpdate(LAMBDA_SET_HOOK).setOnImpact(LAMBDA_HOOK);
-		ct_mortar = new BulletConfig().setItem(EnumAmmo.CT_MORTAR).setLife(200).setVel(2F).setGrav(0.035D)
+		ct_mortar = new BulletConfig().setItem(EnumAmmo.CT_MORTAR).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR);
-		ct_mortar_charge = new BulletConfig().setItem(EnumAmmo.CT_MORTAR_CHARGE).setLife(200).setVel(2F).setGrav(0.035D)
+		ct_mortar_charge = new BulletConfig().setItem(EnumAmmo.CT_MORTAR_CHARGE).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR_CHARGE);
 		
 		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
