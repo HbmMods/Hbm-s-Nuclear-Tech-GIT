@@ -1011,6 +1011,7 @@ public class ResourceManager {
 	public static final ResourceLocation tau_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tau.png");
 	public static final ResourceLocation fatman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman.png");
 	public static final ResourceLocation fatman_mininuke_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman_mininuke.png");
+	public static final ResourceLocation fatman_balefire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman_balefire.png");
 	public static final ResourceLocation lasrifle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lasrifle.png");
 	public static final ResourceLocation lasrifle_mods_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lasrifle_mods.png");
 	public static final ResourceLocation hangman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/hangman.png");

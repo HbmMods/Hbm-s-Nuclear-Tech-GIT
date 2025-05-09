@@ -12,6 +12,7 @@ import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.weapon.sedna.ItemRenderFatMan;
 import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
@@ -431,6 +432,18 @@ public class LegoClient {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.fatman_mininuke_tex);
 		ResourceManager.fatman.renderPart("MiniNuke");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_NUKE_BALEFIRE = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.125F, 0.125F, 0.125F);
+		GL11.glRotated(-90, 0, 1, 0);
+		GL11.glTranslatef(0, -1, 1F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		ItemRenderFatMan.renderBalefire(interp);
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	};
