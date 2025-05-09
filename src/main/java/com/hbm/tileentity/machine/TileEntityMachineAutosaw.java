@@ -216,6 +216,9 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		if(b == ModBlocks.plant_tall) {
 			return meta == EnumTallFlower.CD2.ordinal() + 8 || meta == EnumTallFlower.CD3.ordinal() + 8;
 		}
+		if(b == Blocks.sapling) {
+			return true;
+		}
 
 		return false;
 	}
