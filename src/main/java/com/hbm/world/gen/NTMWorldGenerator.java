@@ -46,7 +46,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("spire", StructureManager.spire, -1);
 			spawnWeight = 2;
 		}});
-		
+
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new MapGenNTMFeatures.Start(d.getW(), d.getX(), d.getY(), d.getZ());
@@ -102,8 +102,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 8;
 		}});
 
-		NBTStructure.registerNullWeight(0, 2, oceanBiomes::contains); //why the fuck did this change
-    
+
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("dish", StructureManager.dish, -10);
@@ -112,8 +111,58 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 1;
 		}});
 
-		NBTStructure.registerNullWeight(0, 2, biome -> biome == BiomeGenBase.plains);
-		NBTStructure.registerNullWeight(0, 2, oceanBiomes::contains);
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsA", StructureManager.ntmruinsA, -1) {{conformToTerrain = true;}};
+			spawnWeight = 20;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsB", StructureManager.ntmruinsB, -1) {{conformToTerrain = true;}};
+			spawnWeight = 25;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsC", StructureManager.ntmruinsC, -1) {{conformToTerrain = true;}};
+			spawnWeight = 25;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsD", StructureManager.ntmruinsD, -1) {{conformToTerrain = true;}};
+			spawnWeight = 30;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsE", StructureManager.ntmruinsE, -1) {{conformToTerrain = true;}};
+			spawnWeight = 30;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsF", StructureManager.ntmruinsF, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsG", StructureManager.ntmruinsG, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsH", StructureManager.ntmruinsH, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsI", StructureManager.ntmruinsI, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsJ", StructureManager.ntmruinsJ, -1) {{conformToTerrain = true;}};
+			spawnWeight = 35;
+		}});
+
+		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
