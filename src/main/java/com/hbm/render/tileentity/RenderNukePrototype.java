@@ -27,10 +27,11 @@ public class RenderNukePrototype extends TileEntitySpecialRenderer {
 		case 3:
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
-
+		GL11.glShadeModel(GL11.GL_SMOOTH);
         bindTexture(ResourceManager.bomb_prototype_tex);
         ResourceManager.bomb_prototype.renderAll();
-        
+		GL11.glShadeModel(GL11.GL_FLAT);
+
         GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
