@@ -355,29 +355,35 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		return "ntm_turbine";
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():table -- Gets current tanks state. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluid(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the current input tank fluid type. 0 stands for steam, 1 for dense steam, 2 for super dense steam and 3 for ultra dense steam.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getType(Context context, Arguments args) {
-		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 4, doc = "function(type:number) -- Sets the input tank fluid type. Refer getType() for the accepted values information.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setType(Context context, Arguments args) {
 		tanks[0].setTankType(CompatHandler.intToSteamType(args.checkInteger(0)));
 		return new Object[] {true};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the power buffer of the turbine.")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true, doc = "function():table -- Gets information about this turbine. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>, <input tank fluid type>, <power>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())};
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())[0], power};
 	}
 
 	@Override
