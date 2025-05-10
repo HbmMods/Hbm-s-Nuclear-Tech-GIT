@@ -7,6 +7,7 @@ import com.hbm.items.weapon.sedna.factory.XFactoryTool;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -51,14 +52,34 @@ public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
 			double scale = 0.5D;
 			GL11.glScaled(scale, scale, scale);
 		}
+
+		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("AMMO") != null;
+		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		double[] raise = HbmAnimations.getRelevantTransformation("RAISE");
+		double[] ammo = HbmAnimations.getRelevantTransformation("AMMO");
+		double[] twist = HbmAnimations.getRelevantTransformation("TWIST");
+
+		GL11.glTranslated(0, 0, -7);
+		GL11.glRotated(equip[0], -1, 0, 0);
+		GL11.glTranslated(0, 0, 7);
+		
+		GL11.glTranslated(0, -7, 4);
+		GL11.glRotated(raise[0], 1, 0, 0);
+		GL11.glTranslated(0, 7, -4);
+
+		GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_tex);
 		ResourceManager.charge_thrower.renderPart("Gun");
 		if(isScoped(stack) && !usingScope) ResourceManager.charge_thrower.renderPart("Scope");
 		
-		if(mag.getAmount(stack, null) > 0) {
+		if(mag.getAmount(stack, null) > 0 || reloading) {
 
+			GL11.glTranslated(ammo[0], ammo[1], ammo[2]);
+			GL11.glRotated(twist[2], 0, 0, 1);
+			
 			if(mag.getType(stack, null) == XFactoryTool.ct_hook) {
 				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_hook_tex);
 				ResourceManager.charge_thrower.renderPart("Hook");
