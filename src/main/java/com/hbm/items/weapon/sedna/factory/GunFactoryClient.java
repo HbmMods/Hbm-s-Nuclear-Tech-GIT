@@ -203,6 +203,7 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_NUKE, nuke_standard, nuke_demo, nuke_high);
 		nuke_tots.setRenderer(LegoClient.RENDER_GRENADE);
 		nuke_hive.setRenderer(LegoClient.RENDER_HIVE);
+		nuke_balefire.setRenderer(LegoClient.RENDER_NUKE_BALEFIRE);
 
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING, energy_tesla, energy_tesla_overcharge, energy_tesla_ir);
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING_SUB, energy_tesla_ir_sub);
@@ -220,6 +221,8 @@ public class GunFactoryClient {
 		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 
 		ct_hook.setRenderer(LegoClient.RENDER_CT_HOOK);
+		ct_mortar.setRenderer(LegoClient.RENDER_CT_MORTAR);
+		ct_mortar_charge.setRenderer(LegoClient.RENDER_CT_MORTAR_CHARGE);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		

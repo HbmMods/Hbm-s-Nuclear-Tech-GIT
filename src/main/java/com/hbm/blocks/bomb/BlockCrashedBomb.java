@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.handler.threading.PacketThreading;
@@ -9,7 +10,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,10 +19,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockCrashedBomb extends BlockContainer implements IBomb {
+public class BlockCrashedBomb extends BlockEnumMulti implements ITileEntityProvider, IBomb {
+	
+	public static enum EnumDudType {
+		BALEFIRE, CONVENTIONAL, NUKE, SALTED
+	}
 
 	public BlockCrashedBomb(Material mat) {
-		super(mat);
+		super(mat, EnumDudType.class, false, false);
 	}
 
 	@Override
