@@ -38,7 +38,7 @@ public abstract class ItemInventory implements IInventory {
 	}
 
 	public NBTTagCompound checkNBT(NBTTagCompound nbt) {
-		if(!nbt.hasNoTags()) {
+		if(nbt == null || !nbt.hasNoTags()) {
 			Random random = new Random();
 
 			try {

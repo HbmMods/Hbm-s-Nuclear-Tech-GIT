@@ -67,6 +67,7 @@ public class GunFactory {
 		XFactory10ga.init();
 		XFactory35800.init();
 		XFactory45.init();
+		XFactoryTool.init();
 		
 		ModItems.weapon_mod_test = new ItemEnumMulti(EnumModTest.class, true, true).setUnlocalizedName("weapon_mod_test").setMaxStackSize(1);
 		ModItems.weapon_mod_generic = new ItemEnumMulti(EnumModGeneric.class, true, true).setUnlocalizedName("weapon_mod_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
@@ -99,6 +100,8 @@ public class GunFactory {
 		G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
 		R762_HE, BMG50_HE, G10_EXPLOSIVE,
 		P45_SP, P45_FMJ, P45_JHP, P45_AP, P45_DU,
+		CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
+		NUKE_BALEFIRE,
 		
 		//ONLY ADD NEW ENTRIES AT THE BOTTOM TO AVOID SHIFTING!
 		;
@@ -124,7 +127,8 @@ public class GunFactory {
 			CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
 			TAU_URANIUM,
 			COIL_TUNGSTEN, COIL_FERROURANIUM,
-			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE, NUKE_BALEFIRE,
+			CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
 		};
 		
 		public Enum[] getOrder() {

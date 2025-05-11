@@ -36,6 +36,8 @@ public class BlockBarrier extends Block implements ISBRHUniversal {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 
+		if(world.getBlockMetadata(x, y, z) != 0) return;
+		
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -45,23 +47,15 @@ public class BlockBarrier extends Block implements ISBRHUniversal {
 	}
 
 	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
+		return side >= 2 && side <= 5 ? side : meta;
+	}
+
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
 		int meta = world.getBlockMetadata(x, y, z);
 		setBlockBounds(0, 0, 0, 1, 1, 1);
-
-		/*Block nx = world.getBlock(x - 1, y, z);
-		Block px = world.getBlock(x + 1, y, z);
-		Block nz = world.getBlock(x, y, z - 1);
-		Block pz = world.getBlock(x, y, z + 1);
-		
-		int count = 0;
-		if(nx.isOpaqueCube() || nx.isNormalCube() || meta == Library.POS_X.ordinal()) count++;
-		if(nz.isOpaqueCube() || nz.isNormalCube() || meta == Library.POS_Z.ordinal()) count++;
-		if(px.isOpaqueCube() || px.isNormalCube() || meta == Library.NEG_X.ordinal()) count++;
-		if(pz.isOpaqueCube() || pz.isNormalCube() || meta == Library.NEG_Z.ordinal()) count++;
-		
-		if(count > 1) return;*/
 		
 		if(meta == Library.POS_X.ordinal()) setBlockBounds(0, 0, 0, 0.125F, 1, 1);
 		if(meta == Library.POS_Z.ordinal()) setBlockBounds(0, 0, 0, 1, 1, 0.125F);

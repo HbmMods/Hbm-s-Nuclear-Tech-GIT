@@ -59,6 +59,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		ResourceManager.minigun.renderPart("Gun");
+		ResourceManager.minigun.renderPart("Grip");
 		
 		GL11.glPushMatrix();
 		GL11.glRotated(rotate[2], 0, 0, 1);
@@ -124,7 +125,9 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		ResourceManager.minigun.renderAll();
+		ResourceManager.minigun.renderPart("Gun");
+		ResourceManager.minigun.renderPart("Grip");
+		ResourceManager.minigun.renderPart("Barrels");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }
