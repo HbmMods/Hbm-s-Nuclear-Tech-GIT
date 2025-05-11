@@ -8,15 +8,9 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityCrashedBomb extends TileEntity {
 	
 	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
+	public AxisAlignedBB getRenderBoundingBox() { return TileEntity.INFINITE_EXTENT_AABB; }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
-	}
-
+	public double getMaxRenderDistanceSquared() { return 65536.0D; }
 }

@@ -138,7 +138,6 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.minigun_dual_tex);
 		ResourceManager.minigun.renderPart(index == 0 ? "GunDual" : "Gun");
-		ResourceManager.minigun.renderPart("Grip");
 		ResourceManager.minigun.renderPart("Barrels");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}

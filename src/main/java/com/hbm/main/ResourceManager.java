@@ -279,6 +279,9 @@ public class ResourceManager {
 	public static final IModelCustom bomb_multi = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/BombGeneric.obj"));
 	public static final IModelCustom fstbmb = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/fstbmb.obj")).asVBO();
 	public static final IModelCustom dud_balefire = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_balefire.obj")).asVBO();
+	public static final IModelCustom dud_conventional = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_conventional.obj")).asVBO();
+	public static final IModelCustom dud_nuke = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_nuke.obj")).asVBO();
+	public static final IModelCustom dud_salted = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_salted.obj")).asVBO();
 
 	//Satellites
 	public static final IModelCustom sat_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_base.obj"));
@@ -731,6 +734,9 @@ public class ResourceManager {
 	public static final ResourceLocation n45_chain_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/n45_chain.png");
 	public static final ResourceLocation fstbmb_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/fstbmb.png");
 	public static final ResourceLocation dud_balefire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/dud_balefire.png");
+	public static final ResourceLocation dud_conventional_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/dud_conventional.png");
+	public static final ResourceLocation dud_nuke_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/dud_nuke.png");
+	public static final ResourceLocation dud_salted_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/dud_salted.png");
 
 	//Satellites
 	public static final ResourceLocation sat_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/sat_base.png");
@@ -1005,6 +1011,7 @@ public class ResourceManager {
 	public static final ResourceLocation tau_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tau.png");
 	public static final ResourceLocation fatman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman.png");
 	public static final ResourceLocation fatman_mininuke_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman_mininuke.png");
+	public static final ResourceLocation fatman_balefire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/fatman_balefire.png");
 	public static final ResourceLocation lasrifle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lasrifle.png");
 	public static final ResourceLocation lasrifle_mods_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lasrifle_mods.png");
 	public static final ResourceLocation hangman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/hangman.png");

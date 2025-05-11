@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
@@ -22,6 +23,7 @@ import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -1419,9 +1421,15 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-
+		
+		if(type == AnimType.CYCLE_DRY) {
+			Entity e = entity.worldObj.getEntityByID(ItemGunChargeThrower.getLastHook(stack));
+			if(timer == 0 && e == null) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
+		}
+		
 		if(type == AnimType.RELOAD) {
-			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertRocket", 1F, 1F);
+			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertRocket", 1F, 1F);
+			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 1F, 1F);
 		}
 	};
 }
