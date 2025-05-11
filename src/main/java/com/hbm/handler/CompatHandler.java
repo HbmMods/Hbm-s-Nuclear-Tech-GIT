@@ -38,16 +38,15 @@ public class CompatHandler {
      * @return Object[] array containing an int with the "compression level"
      */
     public static Object[] steamTypeToInt(FluidType type) {
-        switch(type.getID()) {
-            case(4): // Fluids.HOTSTEAM
-                return new Object[] {1};
-            case(5): // Fluids.SUPERHOTSTEAM
-                return new Object[] {2};
-            case(6): // Fluids.ULTRAHOTSTEAM
-                return new Object[] {3};
-			default:
-				return new Object[] {0};
-        }
+		final int typeId = type.getID();
+		if(typeId == Fluids.HOTSTEAM.getID()) {
+			return new Object[]{1};
+		} else if(typeId == Fluids.SUPERHOTSTEAM.getID()) {
+			return new Object[]{2};
+		} else if(typeId == Fluids.ULTRAHOTSTEAM.getID()) {
+			return new Object[]{3};
+		}
+		return new Object[] {0};
     }
 
     /**
