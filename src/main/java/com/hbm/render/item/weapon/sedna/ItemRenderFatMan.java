@@ -3,8 +3,10 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.util.RenderMiscEffects;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -34,7 +36,7 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 	
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
-		
+
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_tex);
 		double scale = 0.5D;
@@ -81,10 +83,9 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 
 		if(isLoaded || nuke[0] != 0 || nuke[1] != 0 || nuke[2] != 0) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_mininuke_tex);
 			GL11.glPushMatrix();
 			GL11.glTranslated(nuke[0], nuke[1], nuke[2]);
-			ResourceManager.fatman.renderPart("MiniNuke");
+			renderNuke(gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getType(stack, null));
 			GL11.glPopMatrix();
 		}
 		
@@ -132,8 +133,71 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 		ResourceManager.fatman.renderPart("Lid");
 		if(!isLoaded) GL11.glTranslated(0, 0, 3);
 		ResourceManager.fatman.renderPart("Piston");
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_mininuke_tex);
-		if(isLoaded) ResourceManager.fatman.renderPart("MiniNuke");
+		if(isLoaded) renderNuke(gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getType(stack, null));
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public void renderNuke(Object type) {
+		if(type == XFactoryCatapult.nuke_balefire) {
+			renderBalefire(interp);
+		} else {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_mininuke_tex);
+			ResourceManager.fatman.renderPart("MiniNuke");
+		}
+	}
+	
+	public static void renderBalefire(float interp) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		mc.renderEngine.bindTexture(ResourceManager.fatman_balefire_tex);
+		ResourceManager.fatman.renderPart("MiniNuke");
+		mc.renderEngine.bindTexture(RenderMiscEffects.glintBF);
+		mc.entityRenderer.disableLightmap(interp);
+
+		float scale = 2F;
+		float r = 0F;
+		float g = 0.8F;
+		float b = 0.15F;
+		float speed = -6;
+		float glintColor = 0.76F;
+		int layers = 3;
+		
+		GL11.glPushMatrix();
+		float offset = mc.thePlayer.ticksExisted + interp;
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+		GL11.glDepthFunc(GL11.GL_EQUAL);
+		GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+		GL11.glDepthMask(false);
+
+		for(int k = 0; k < layers; ++k) {
+
+			GL11.glColor4f(r * glintColor, g * glintColor, b * glintColor, 1.0F);
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+
+			float movement = offset * (0.001F + (float) k * 0.003F) * speed;
+
+			GL11.glScalef(scale, scale, scale);
+			GL11.glRotatef(30.0F - k * 60.0F, 0.0F, 0.0F, 1.0F);
+			GL11.glTranslatef(0F, movement, 0F);
+
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+			ResourceManager.fatman.renderPart("MiniNuke");
+		}
+
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glMatrixMode(GL11.GL_TEXTURE);
+		GL11.glDepthMask(true);
+		GL11.glLoadIdentity();
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDepthFunc(GL11.GL_LEQUAL);
+		GL11.glPopMatrix();
+		
+		mc.entityRenderer.enableLightmap(interp);
 	}
 }
