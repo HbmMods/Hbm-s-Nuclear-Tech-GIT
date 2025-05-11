@@ -62,6 +62,10 @@ public class StructureManager {
 	public static final NBTStructure lighthouse = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/lighthouse.nbt"));
 	public static final NBTStructure dish = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/dish.nbt"));
 
+	public static final NBTStructure plane1 = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/crashed_plane_1.nbt"));
+	public static final NBTStructure plane2 = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/crashed_plane_2.nbt"));
+
+
 	public static final NBTStructure spire = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/spire.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
