@@ -299,8 +299,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if(WorldConfig.dudStructure > 0 && rand.nextInt(WorldConfig.dudStructure) == 0) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
+				int x = i + 8 + rand.nextInt(16);
+				int z = j + 8 + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
 				new Dud().generate(world, rand, x, y, z);

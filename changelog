@@ -12,6 +12,7 @@
   * This means that reading the fill state of multiple batteries over the same channel should result the combined fill state of all batteries
 * Halved base spread of the .22 SMG
 * Certain secret guns now have a proper way of being obtained
+* Demolition mini nukes now create fire again
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe

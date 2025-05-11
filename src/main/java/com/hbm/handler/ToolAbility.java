@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -60,22 +61,35 @@ public abstract class ToolAbility {
 			if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack)
 				return false;
 			
-			List<Integer> indices = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5});
-			Collections.shuffle(indices);
-			
 			pos.clear();
-			
-			for(Integer i : indices) {
-				switch(i) {
-				case 0: breakExtra(world, x + 1, y, z, x, y, z, player, tool, 0); break;
-				case 1: breakExtra(world, x - 1, y, z, x, y, z, player, tool, 0); break;
-				case 2: breakExtra(world, x, y + 1, z, x, y, z, player, tool, 0); break;
-				case 3: breakExtra(world, x, y - 1, z, x, y, z, player, tool, 0); break;
-				case 4: breakExtra(world, x, y, z + 1, x, y, z, player, tool, 0); break;
-				case 5: breakExtra(world, x, y, z - 1, x, y, z, player, tool, 0); break;
+
+			recurse(world, x, y, z, x, y, z, player, tool, 0);
+
+			return false;
+		}
+
+		private static final List<ThreeInts> offsets = new ArrayList<>(3*3*3-1);
+
+		static {
+			for (int dx = -1; dx <= 1; dx++) {
+				for (int dy = -1; dy <= 1; dy++) {
+					for (int dz = -1; dz <= 1; dz++) {
+						if (dx != 0 || dy != 0 || dz != 0) {
+							offsets.add(new ThreeInts(dx, dy, dz));
+						}
+					}
 				}
 			}
-			return false;
+		}
+
+		private void recurse(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, IItemAbility tool, int depth) {
+			
+			List<ThreeInts> shuffledOffsets = new ArrayList<>(offsets);
+			Collections.shuffle(shuffledOffsets);
+			
+			for(ThreeInts offset : shuffledOffsets) {
+				breakExtra(world, x + offset.x, y + offset.y, z + offset.z, refX, refY, refZ, player, tool, depth);
+			}
 		}
 		
 		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, IItemAbility tool, int depth) {
@@ -112,20 +126,8 @@ public abstract class ToolAbility {
 				return;
 			
 			tool.breakExtraBlock(world, x, y, z, player, refX, refY, refZ);
-			
-			List<Integer> indices = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5});
-			Collections.shuffle(indices);
-			
-			for(Integer i : indices) {
-				switch(i) {
-				case 0: breakExtra(world, x + 1, y, z, refX, refY, refZ, player, tool, depth); break;
-				case 1: breakExtra(world, x - 1, y, z, refX, refY, refZ, player, tool, depth); break;
-				case 2: breakExtra(world, x, y + 1, z, refX, refY, refZ, player, tool, depth); break;
-				case 3: breakExtra(world, x, y - 1, z, refX, refY, refZ, player, tool, depth); break;
-				case 4: breakExtra(world, x, y, z + 1, refX, refY, refZ, player, tool, depth); break;
-				case 5: breakExtra(world, x, y, z - 1, refX, refY, refZ, player, tool, depth); break;
-				}
-			}
+
+			recurse(world, x, y, z, refX, refY, refZ, player, tool, depth);
 		}
 		
 		private boolean isSameBlock(Block b1, Block b2) {

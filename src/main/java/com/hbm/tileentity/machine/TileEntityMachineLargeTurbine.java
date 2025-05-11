@@ -49,7 +49,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public long power;
 	public FluidTank[] tanks;
 	protected double[] info = new double[3];
-	
+
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
@@ -57,7 +57,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 
 	private AudioWrapper audio;
 	private float audioDesync;
-	
+
 	//Configurable Values
 	public static long maxPower = 100000000;
 	public static int inputTankSize = 512_000;
@@ -67,7 +67,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 
 	public TileEntityMachineLargeTurbine() {
 		super(7);
-		
+
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, inputTankSize);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, outputTankSize);
@@ -107,11 +107,11 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.info = new double[3];
-			
+
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.tryProvide(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
 			for(DirPos pos : getConPos()) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -144,7 +144,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
-			
+
 			tanks[1].unloadTank(5, 6, slots);
 
 			this.networkPackNT(50);
@@ -152,12 +152,12 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		} else {
 			this.lastRotor = this.rotor;
 			this.rotor += this.fanAcceleration;
-				
+
 			if(this.rotor >= 360) {
 				this.rotor -= 360;
 				this.lastRotor -= 360;
 			}
-			
+
 			if(shouldTurn) {
 				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.075F + audioDesync));
@@ -172,7 +172,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
 			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
-				
+
 				if(audio != null) {
 					if(this.fanAcceleration > 0) {
 						float turbineSpeed = this.fanAcceleration / 15F;
@@ -186,7 +186,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 		}
 	}
-	
+
 	protected DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -214,11 +214,11 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
-	
+
 	public long getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -226,7 +226,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks[1].readFromNBT(nbt, "steam");
 		power = nbt.getLong("power");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -249,12 +249,12 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public long getMaxPower() {
 		return this.maxPower;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -281,11 +281,11 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public String getComponentName() {
 		return "ntm_turbine";
 	}
-	
+
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		
+
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
@@ -302,29 +302,35 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		}
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():table -- Gets current tanks state. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluid(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the current input tank fluid type. 0 stands for steam, 1 for dense steam, 2 for super dense steam and 3 for ultra dense steam.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getType(Context context, Arguments args) {
-		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 4, doc = "function(type:number) -- Sets the input tank fluid type. Refer getType() for the accepted values information.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setType(Context context, Arguments args) {
 		tanks[0].setTankType(CompatHandler.intToSteamType(args.checkInteger(0)));
 		return new Object[] {};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the power buffer of the turbine.")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true, doc = "function():table -- Gets information about this turbine. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>, <input tank fluid type>, <power>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())};
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())[0], power};
 	}
 
 	@Override
@@ -334,6 +340,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				"getFluid",
 				"getType",
 				"setType",
+				"getPower",
 				"getInfo"
 		};
 	}
