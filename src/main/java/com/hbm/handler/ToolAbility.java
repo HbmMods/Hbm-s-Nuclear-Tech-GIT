@@ -33,7 +33,6 @@ import net.minecraft.world.World;
 
 public abstract class ToolAbility {
 
-	//how to potentially save this: cancel the event/operation so that ItemInWorldManager's harvest method falls short, then recreate it with a more sensible structure
 	public boolean onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) { return false; }
 	public abstract String getName();
 	public abstract String getFullName();
@@ -187,6 +186,63 @@ public abstract class ToolAbility {
 		@Override
 		public String getName() {
 			return "tool.ability.hammer";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public String getExtension() {
+			return " (" + range + ")";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityHammer;
+		}
+	}
+
+	public static class HammerSilkAbility extends ToolAbility {
+
+		int range;
+		
+		public HammerSilkAbility(int range) {
+			this.range = range;
+		}
+		
+		@Override
+		public boolean onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+			if(EnchantmentHelper.getSilkTouchModifier(player) || player.getHeldItem() == null)
+				return false;
+			
+			ItemStack stack = player.getHeldItem();
+			EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
+			
+			for(int a = x - range; a <= x + range; a++) {
+				for(int b = y - range; b <= y + range; b++) {
+					for(int c = z - range; c <= z + range; c++) {
+						
+						if(a == x && b == y && c == z)
+							continue;
+						
+						tool.breakExtraBlock(world, a, b ,c, player, x, y, z);
+					}
+				}
+			}
+			if(player instanceof EntityPlayerMP)
+				IItemAbility.standardDigPost(world, x, y, z, (EntityPlayerMP) player);
+			
+			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
+			
+			return false;
+			
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.hammersilk";
 		}
 
 		@Override

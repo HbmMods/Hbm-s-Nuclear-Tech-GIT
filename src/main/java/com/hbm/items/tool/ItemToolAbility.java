@@ -9,11 +9,15 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.hbm.inventory.gui.GUIScreenToolAbility;
+import com.hbm.handler.HbmKeybinds;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.*;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ChatBuilder;
 import com.hbm.handler.WeaponAbility;
 
@@ -28,6 +32,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -35,7 +40,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool {
+public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool, IGUIProvider {
 	
 	protected boolean isShears = false;
 	protected EnumToolType toolType;
@@ -228,7 +233,15 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(world.isRemote || this.breakAbility.size() < 2 || !canOperate(stack))
+		if(this.breakAbility.size() < 2 || !canOperate(stack))
+			return super.onItemRightClick(stack, world, player);
+
+		if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
+			if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
+			return stack;
+		}
+
+		if(world.isRemote)
 			return super.onItemRightClick(stack, world, player);
 
 		int i = getAbility(stack);
@@ -299,5 +312,16 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 	@Override
 	public boolean isShears(ItemStack stack) {
 		return this.isShears;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenToolAbility(this);
 	}
 }
