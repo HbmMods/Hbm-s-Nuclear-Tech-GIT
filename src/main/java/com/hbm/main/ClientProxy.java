@@ -1783,7 +1783,8 @@ public class ClientProxy extends ServerProxy {
 								.addPos(90, 0, 1, 800)
 								.addPos(0, 0, 1, 50));
 
-				HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
+				String id = ModItems.crucible.getUnlocalizedName();
+				HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
 			}
 
 			/* crucible swing */
@@ -1804,8 +1805,8 @@ public class ClientProxy extends ServerProxy {
 									.addPos(0, 0, 0, 500));
 
 					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
-
-					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
+					String id = ModItems.crucible.getUnlocalizedName();
+					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
 				}
 			}
 

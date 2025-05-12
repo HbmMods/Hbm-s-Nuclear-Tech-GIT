@@ -1,6 +1,7 @@
 package com.hbm.items.block;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.items.ItemInventory;
@@ -29,6 +30,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if(!ServerConfig.CRATE_OPEN_HELD.get()) return stack;
+		
 		Block block = Block.getBlockFromItem(player.getHeldItem().getItem());
 		if(block == ModBlocks.mass_storage) return stack; // Genuinely can't figure out how to make this part work, so I'm just not gonna mess with it.
 
@@ -81,10 +84,13 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 	public static class InventoryCrate extends ItemInventory {
 		
+		public int heldIndex;
+		
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 
 			this.player = player;
 			this.target = crate;
+			this.heldIndex = player.inventory.currentItem;
 			
 			this.slots = new ItemStack[this.getSizeInventory()];
 			if(target.stackTagCompound == null) {
@@ -143,17 +149,9 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				if(target.stackTagCompound.hasKey("spiders")) nbt.setBoolean("spiders", target.stackTagCompound.getBoolean("spiders")); // fuck you!!
 			}*/
 
-			/*
-			 * target and held item stacks constantly desync, not being the same reference, while still holding the same value.
-			 * code was tested with a copy of the containment box code using the CB's GUI and container to no avail.
-			 * hypothesis: minecraft's keybind handling has some special bullshit case for ItemBlocks, since that is the only difference in the test.
-			 * solution (?): check equality, then just access the held stack directly. if not, pray the target reference is still accurate and use that.
-			 */
-			if(player.getHeldItem() != null && ItemStack.areItemStacksEqual(player.getHeldItem(), target)) {
+			// i have completely given up
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == this.target.getItem() && player.inventory.currentItem == this.heldIndex) {
 				player.getHeldItem().setTagCompound(nbt);
-				this.target = player.getHeldItem(); // just fuckin whatever
-			} else {
-				target.setTagCompound(nbt);
 			}
 		}
 		
@@ -164,10 +162,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			/*
 			 * realistically, we only need one NBT size check (and we only *want* one because CompressedStreamTools is expensive) so we do that part only when closing
 			 */
-			if(player.getHeldItem() != null && ItemStack.areItemStacksEqual(player.getHeldItem(), target)) {
-				player.getHeldItem().setTagCompound(checkNBT(target.getTagCompound()));
-			} else {
-				target.setTagCompound(checkNBT(target.getTagCompound()));
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == this.target.getItem() && player.inventory.currentItem == this.heldIndex) {
+				player.getHeldItem().setTagCompound(checkNBT(player.getHeldItem().getTagCompound()));
 			}
 		}
 	}

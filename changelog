@@ -13,6 +13,11 @@
 * Halved base spread of the .22 SMG
 * Certain secret guns now have a proper way of being obtained
 * Demolition mini nukes now create fire again
+* New server configs
+  * `CRATE_OPEN_HELD` can toggle whether crates can be opened when held
+  * `CRATE_KEEP_CONTENTS` can toggle whether crates keep their contents when broken
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe
+* Either fixed the crate dupe/voiding issues or made them even worse
+* Fixed skeletons and pedestals allowing blocks to be placed inside the player

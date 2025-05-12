@@ -102,6 +102,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.STONE_AP, 6), new Object[] { "C", "P", "G", 'C', Items.flint, 'P', Items.paper, 'G', Items.gunpowder });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.STONE_SHOT, 6), new Object[] { "C", "P", "G", 'C', Blocks.gravel, 'P', Items.paper, 'G', Items.gunpowder });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.STONE_IRON, 6), new Object[] { "C", "P", "G", 'C', IRON.ingot(), 'P', Items.paper, 'G', Items.gunpowder });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR_CHARGE, 1), new Object[] { DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR), ModItems.ducttape, ModItems.ducttape });
 
 		//SEDNA Mods
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.weapon_mod_generic, 1, EnumModGeneric.IRON_DAMAGE.ordinal()), new Object[] { GUNMETAL.ingot(), IRON.ingot(), IRON.ingot(), IRON.ingot(), ModItems.ducttape });
