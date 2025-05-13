@@ -80,4 +80,8 @@ public class BlockEnums {
 		FLUORESCENT,
 		HALOGEN
 	}
+
+	public static enum EnumGroundType {
+		TRENCH
+	}
 }

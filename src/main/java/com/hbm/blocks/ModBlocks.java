@@ -499,6 +499,7 @@ public class ModBlocks {
 	public static Block frozen_grass;
 	public static Block frozen_log;
 	public static Block frozen_planks;
+	public static Block ground;
 	public static Block dirt_dead;
 	public static Block dirt_oily;
 	public static Block sand_dirty;
@@ -1702,6 +1703,7 @@ public class ModBlocks {
 		tektite = new BlockGeneric(Material.sand).setBlockName("tektite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":tektite");
 		ore_tektite_osmiridium = new BlockGeneric(Material.sand).setBlockName("ore_tektite_osmiridium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":ore_tektite_osmiridium");
 		impact_dirt = new BlockDirt(Material.ground, true).setBlockName("impact_dirt").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":waste_earth_bottom");
+		ground = new BlockEnumMulti(Material.ground, EnumGroundType.class, true, true).setBlockName("ground").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":ground");
 		dirt_dead = new BlockFalling(Material.ground).setBlockName("dirt_dead").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":dirt_dead");
 		dirt_oily = new BlockFalling(Material.ground).setBlockName("dirt_oily").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":dirt_oily");
 		sand_dirty = new BlockFalling(Material.sand).setBlockName("sand_dirty").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_dirty");
@@ -2849,6 +2851,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(frozen_dirt, frozen_dirt.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_log, frozen_log.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_planks, frozen_planks.getUnlocalizedName());
+		register(ground);
 		GameRegistry.registerBlock(dirt_dead, dirt_dead.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_oily, dirt_oily.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_dirty, sand_dirty.getUnlocalizedName());

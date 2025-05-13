@@ -47,6 +47,21 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 2;
 		}});
 		
+		/// TRENCH ///
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			sizeLimit = 128;
+			startPool = "trench";
+			spawnWeight = 200;
+			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
+				put("trench", new JigsawPool() {{
+					add(new JigsawPiece("trench", StructureManager.trench) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_left", StructureManager.trench_left) {{ heightOffset = -4; conformToTerrain = true; }}, 10);
+					add(new JigsawPiece("trench_right", StructureManager.trench_right) {{ heightOffset = -4; conformToTerrain = true; }}, 10);
+					add(new JigsawPiece("trench_junction", StructureManager.trench_junction) {{ heightOffset = -4; conformToTerrain = true; }}, 25);
+				}});
+			}};
+		}});
+		
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new MapGenNTMFeatures.Start(d.getW(), d.getX(), d.getY(), d.getZ());

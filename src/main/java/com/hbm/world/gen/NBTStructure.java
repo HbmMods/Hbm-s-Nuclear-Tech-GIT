@@ -1235,7 +1235,5 @@ public class NBTStructure {
 
 			return null;
 		}
-
 	}
-
 }

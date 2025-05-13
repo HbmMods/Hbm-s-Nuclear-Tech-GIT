@@ -106,8 +106,8 @@ public class DungeonSpawner extends BlockContainer {
 				for(int i = 0; i < 10; i++) {
 					EntityUndeadSoldier mob = new EntityUndeadSoldier(world);
 					for(int j = 0; j < 7; j++) {
-						mob.setPositionAndRotation(x + 0.5 + vec.xCoord, y - 5, z + 0.5 + vec.zCoord, i * 36F, 0);
-						if(mob.getCanSpawnHere()) {
+						mob.setPositionAndRotation(x + 0.5 + vec.xCoord, y - 5 + j, z + 0.5 + vec.zCoord, i * 36F, 0);
+						if(mob.worldObj.checkNoEntityCollision(mob.boundingBox) && mob.worldObj.getCollidingBoundingBoxes(mob, mob.boundingBox).isEmpty() && !mob.worldObj.isAnyLiquid(mob.boundingBox)) {
 							mob.onSpawnWithEgg(null);
 							world.spawnEntityInWorld(mob);
 							break;

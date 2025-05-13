@@ -9,7 +9,7 @@ import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsSingle;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-
+import com.hbm.main.StructureManager;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -31,40 +31,8 @@ public class ItemWandD extends Item {
 		if(pos != null) {
 
 			int y = world.getHeightValue(pos.blockX, pos.blockZ);
-
-			Random rand = new Random();
-
-			if(world.getBlock(pos.blockX, y - 1, pos.blockZ).canPlaceTorchOnTop(world, pos.blockX, y - 1, pos.blockZ)) {
-				world.setBlock(pos.blockX, y, pos.blockZ, ModBlocks.safe, rand.nextInt(4) + 2, 2);
-				TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(pos.blockX, y, pos.blockZ);
-
-				switch(rand.nextInt(10)) {
-					case 0: case 1: case 2: case 3:
-						safe.setMod(1);
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_RUSTY), safe, rand.nextInt(4) + 3);
-						break;
-					case 4: case 5: case 6:
-						safe.setMod(0.1);
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_STANDARD), safe, rand.nextInt(3) + 2);
-						break;
-					case 7: case 8:
-						safe.setMod(0.02);
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_REINFORCED), safe, rand.nextInt(3) + 1);
-						break;
-					case 9:
-						safe.setMod(0.0);
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_UNBREAKABLE), safe, rand.nextInt(2) + 1);
-						break;
-				}
-
-				safe.setPins(rand.nextInt(999) + 1);
-				safe.lock();
-
-				safe.fillWithSpiders(); // debug
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("[Debug] Successfully spawned safe at " + pos.blockX + " " + (y + 1) +" " + pos.blockZ);
-			}
+			
+			StructureManager.spire.build(world, pos.blockX, y, pos.blockZ);
 
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));

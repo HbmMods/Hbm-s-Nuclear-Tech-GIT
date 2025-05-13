@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.Library;
 import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
+import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,7 +24,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockBarrier extends Block implements ISBRHUniversal {
+public class BlockBarrier extends Block implements ISBRHUniversal, INBTTransformable {
 
 	public BlockBarrier(Material mat) {
 		super(mat);
@@ -157,5 +158,10 @@ public class BlockBarrier extends Block implements ISBRHUniversal {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 }
