@@ -42,6 +42,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
     }
 
     public static enum HarvestAbility {
+        // region handlers
         None(
             new IToolHarvestAbility() {
                 @Override
@@ -100,7 +101,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
                 return ToolConfig.abilityLuck;
             }
 
-            final int[] powerAtLevel = {1, 2, 3, 4, 5, 9};
+            public final int[] powerAtLevel = {1, 2, 3, 4, 5, 9};
 
             @Override
             public int levels() {
@@ -311,6 +312,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
                 }
             }
         });
+        // endregion handlers
 
         public IToolHarvestAbility handler;
 
