@@ -61,7 +61,7 @@ public class EntityBomber extends EntityPlaneBase {
 			
 			if(type == 3) {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
-				ExplosionChaos.spawnChlorine(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
+				ExplosionChaos.spawnPoisonCloud(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
 
 			} else if(type == 5) {
 
@@ -75,7 +75,7 @@ public class EntityBomber extends EntityPlaneBase {
 
 			} else if(type == 7) {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
-				ExplosionChaos.spawnChlorine(worldObj, this.posX, worldObj.getHeightValue((int) this.posX, (int) this.posZ) + 2, this.posZ, 10, 1, 2);
+				ExplosionChaos.spawnPoisonCloud(worldObj, this.posX, worldObj.getHeightValue((int) this.posX, (int) this.posZ) + 2, this.posZ, 10, 1, 2);
 			
 			} else {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "hbm:entity.bombWhistle", 10.0F, 0.9F + rand.nextFloat() * 0.2F);

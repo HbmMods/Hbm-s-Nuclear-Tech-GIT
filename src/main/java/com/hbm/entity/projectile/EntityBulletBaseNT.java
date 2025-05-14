@@ -9,7 +9,6 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -446,11 +445,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
-
-		if(config.chlorine > 0 && !worldObj.isRemote) {
-			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
-			worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
-		}
 
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow);
