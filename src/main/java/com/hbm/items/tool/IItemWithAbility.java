@@ -22,7 +22,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
-public interface IItemAbility {
+public interface IItemWithAbility {
 	
 	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack);
 	public boolean isShears(ItemStack stack);

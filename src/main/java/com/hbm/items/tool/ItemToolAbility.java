@@ -40,7 +40,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool, IGUIProvider {
+public class ItemToolAbility extends ItemTool implements IItemWithAbility, IDepthRockTool, IGUIProvider {
 	
 	protected boolean isShears = false;
 	protected EnumToolType toolType;

@@ -4,7 +4,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.IItemAbility;
+import com.hbm.items.tool.IItemWithAbility;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 
 public abstract class WeaponAbility {
 
-	public abstract void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool);
+	public abstract void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool);
 	public abstract String getName();
 	public abstract String getFullName();
 
@@ -51,7 +52,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase)
 				ContaminationUtil.contaminate((EntityLivingBase)victim, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
@@ -77,7 +78,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase) {
 
@@ -109,7 +110,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase) {
 
@@ -130,6 +131,50 @@ public abstract class WeaponAbility {
 			return I18n.format(getName()) + " (" + duration + ")";
 		}
 	}
+	
+	public static class BlendAbility extends WeaponAbility {
+
+		int divider;
+
+		public BlendAbility(int divider) {
+			this.divider = divider;
+		}
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+
+			if(victim instanceof EntityLivingBase) {
+
+				EntityLivingBase living = (EntityLivingBase) victim;
+
+
+				if(living.getHealth() <= 0.0F) {
+					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
+					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "mob.zombie.woodbreak", 0.5F, 1.0F);
+					victim.attackEntityFrom(ModDamageSource.turbofan, 100);
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "giblets");
+						data.setInteger("count", count * 4);
+						data.setInteger("ent", victim.getEntityId());
+						data.setInteger("cDiv", 5);
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
+						living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
+			    }
+			}
+		}
+
+
+
+		@Override
+		public String getName() {
+			return "weapon.ability.blender";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (1:" + divider + ")";
+		}
+	}
 
 	public static class PhosphorusAbility extends WeaponAbility {
 
@@ -140,7 +185,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase) {
 
@@ -170,7 +215,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase) {
 				victim.setFire(duration);
@@ -197,7 +242,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase) {
 
@@ -241,7 +286,7 @@ public abstract class WeaponAbility {
 	public static class BeheaderAbility extends WeaponAbility {
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityLivingBase && ((EntityLivingBase) victim).getHealth() <= 0.0F) {
 
@@ -294,7 +339,7 @@ public abstract class WeaponAbility {
 	public static class BobbleAbility extends WeaponAbility {
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
 
 			if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
 

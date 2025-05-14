@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemSwordAbility extends ItemSword implements IItemAbility {
+public class ItemSwordAbility extends ItemSword implements IItemWithAbility {
 
 	private EnumRarity rarity = EnumRarity.common;
 	// was there a reason for this to be private?
