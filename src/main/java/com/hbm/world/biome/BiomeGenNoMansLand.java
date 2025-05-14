@@ -36,7 +36,7 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 		this.spawnableCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
 		this.spawnableCaveCreatureList.clear();
-		this.setHeight(height_LowPlains);
+		this.setHeight(new BiomeGenBase.Height(0.125F, 0.0125F));
 		this.theBiomeDecorator.treesPerChunk = -999;
 		this.theBiomeDecorator.flowersPerChunk = 0;
 		this.theBiomeDecorator.grassPerChunk = 0;

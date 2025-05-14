@@ -65,10 +65,26 @@ public class StructureManager {
 	public static final NBTStructure spire = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/spire.nbt"));
 	
 	/// TRENCH ///
-	public static final NBTStructure trench = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/trench.nbt"));
-	public static final NBTStructure trench_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/trench_left.nbt"));
-	public static final NBTStructure trench_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/trench_right.nbt"));
-	public static final NBTStructure trench_junction = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/trench_junction.nbt"));
+	public static final NBTStructure trench_straight = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight.nbt"));
+	public static final NBTStructure trench_straight_dirt = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_dirt.nbt"));
+	public static final NBTStructure trench_straight_bridge = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_bridge.nbt"));
+	public static final NBTStructure trench_straight_stairs = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_stairs.nbt"));
+	public static final NBTStructure trench_straight_door_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_door_left.nbt"));
+	public static final NBTStructure trench_straight_door_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_door_right.nbt"));
+	public static final NBTStructure trench_t_outer = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/t_outer.nbt"));
+	public static final NBTStructure trench_t_inner = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/t_inner.nbt"));
+	public static final NBTStructure trench_s_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/s_left.nbt"));
+	public static final NBTStructure trench_s_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/s_right.nbt"));
+	public static final NBTStructure trench_end_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/end_left.nbt"));
+	public static final NBTStructure trench_end_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/end_right.nbt"));
+	public static final NBTStructure trench_cross = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/cross.nbt"));
+	public static final NBTStructure trench_curve_outer = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/curve_outer.nbt"));
+	public static final NBTStructure trench_curve_inner = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/curve_inner.nbt"));
+	public static final NBTStructure trench_bunker_small = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_small.nbt"));
+	public static final NBTStructure trench_bunker_large = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_large.nbt"));
+	public static final NBTStructure trench_bunker_fuel = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_fuel.nbt"));
+	public static final NBTStructure trench_bunker_collapsed = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_collapsed.nbt"));
+	public static final NBTStructure trench_bunker_folly = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_folly.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
 	// public static final NBTStructure test_jigsaw = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw.nbt"));

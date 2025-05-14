@@ -684,6 +684,7 @@ public class NBTStructure {
 		}
 
 		protected JigsawPool getPool(String name) {
+			if(!pools.containsKey(name)) throw new IllegalStateException("Structure with start " + startPool + " trying to access invalid pool " + name);
 			return pools.get(name).clone();
 		}
 

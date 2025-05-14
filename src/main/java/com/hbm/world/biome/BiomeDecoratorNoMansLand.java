@@ -8,9 +8,7 @@ import com.hbm.world.feature.WorldGenSurfaceSpot;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenDeadBush;
-import net.minecraft.world.gen.feature.WorldGenLiquids;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -88,7 +86,7 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 		if(this.randomGenerator.nextInt(10) == 0) trees++;
 
 		/// TREES ///
-		doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, TREE);
+		/*doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, TREE);
 		for(int i = 0; doGen && i < trees; ++i) {
 			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
@@ -99,7 +97,7 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 			if(worldgenabstracttree.generate(this.currentWorld, this.randomGenerator, x, y, z)) {
 				worldgenabstracttree.func_150524_b(this.currentWorld, this.randomGenerator, x, y, z);
 			}
-		}
+		}*/
 
 		/// TALL GRASS ///
 		doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, GRASS);
@@ -121,7 +119,7 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 		}
 
 		/// LAKES ///
-		doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, LAKE);
+		/*doGen = TerrainGen.decorate(currentWorld, randomGenerator, chunk_X, chunk_Z, LAKE);
 		if(doGen && this.generateLakes) {
 			for(int i = 0; i < 50; ++i) {
 				x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
@@ -129,7 +127,7 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 				z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 				(new WorldGenLiquids(Blocks.flowing_water)).generate(this.currentWorld, this.randomGenerator, x, y, z);
 			}
-		}
+		}*/
 
 		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorld, randomGenerator, chunk_X, chunk_Z));
 	}

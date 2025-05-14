@@ -36,6 +36,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -133,6 +134,19 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 		if(!(te instanceof TileEntityWandJigsaw)) return false;
 
 		TileEntityWandJigsaw jigsaw = (TileEntityWandJigsaw) te;
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == Items.paper) {
+			TileEntityWandJigsaw.copyMode = true;
+			if(!player.getHeldItem().hasTagCompound()) {
+				player.getHeldItem().stackTagCompound = new NBTTagCompound();
+				jigsaw.writeToNBT(player.getHeldItem().stackTagCompound);
+			} else {
+				jigsaw.readFromNBT(player.getHeldItem().stackTagCompound);
+				jigsaw.markDirty();
+			}
+			TileEntityWandJigsaw.copyMode = false;
+			return true;
+		}
 
 		if(!player.isSneaking()) {
 			Block block = getBlock(world, player.getHeldItem());
@@ -203,6 +217,7 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 		private Block replaceBlock = Blocks.air;
 		private int replaceMeta = 0;
 		private boolean isRollable = true; // sets joint type, rollable joints can be placed in any orientation for vertical jigsaw connections
+		public static boolean copyMode = false;
 
 		@Override
 		public void updateEntity() {
@@ -237,8 +252,10 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
-			super.writeToNBT(nbt);
-			nbt.setInteger("direction", this.getBlockMetadata());
+			if(!copyMode) {
+				super.writeToNBT(nbt);
+				nbt.setInteger("direction", this.getBlockMetadata());
+			}
 
 			nbt.setInteger("selection", selectionPriority);
 			nbt.setInteger("placement", placementPriority);
@@ -252,7 +269,9 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
-			super.readFromNBT(nbt);
+			if(!copyMode) {
+				super.readFromNBT(nbt);
+			}
 
 			selectionPriority = nbt.getInteger("selection");
 			placementPriority = nbt.getInteger("placement");

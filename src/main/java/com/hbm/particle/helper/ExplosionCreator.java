@@ -55,7 +55,7 @@ public class ExplosionCreator implements IParticleCreator {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void makeParticle(World world, EntityPlayer player, TextureManager man, Random rand, double x, double y, double z, NBTTagCompound data) {
-		
+
 		int cloudCount = data.getByte("cloudCount");
 		float cloudScale = data.getFloat("cloudScale");
 		float cloudSpeedMult = data.getFloat("cloudSpeedMult");

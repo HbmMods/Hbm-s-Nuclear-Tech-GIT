@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -11,12 +12,20 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.StructureManager;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.hbm.world.biome.BiomeGenNoMansLand;
+import com.hbm.world.gen.NBTStructure;
+import com.hbm.world.gen.NTMWorldGenerator;
+import com.hbm.world.gen.NBTStructure.JigsawPiece;
+import com.hbm.world.gen.NBTStructure.JigsawPool;
+import com.hbm.world.gen.NBTStructure.SpawnCondition;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -32,7 +41,9 @@ public class ItemWandD extends Item {
 
 			int y = world.getHeightValue(pos.blockX, pos.blockZ);
 			
-			StructureManager.spire.build(world, pos.blockX, y, pos.blockZ);
+			NTMWorldGenerator.TRENCH.canSpawn = biome -> { return true; };
+			NBTStructure.Start start = new NBTStructure.Start(world, world.rand, NTMWorldGenerator.TRENCH, pos.blockX >> 4, pos.blockZ >> 4);
+			start.generateStructure(world, world.rand, new StructureBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
 
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
