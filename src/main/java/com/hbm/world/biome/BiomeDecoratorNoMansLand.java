@@ -20,17 +20,22 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 
 	public WorldGenerator sellafiteGen;
 	public WorldGenerator gravelGen;
+	public WorldGenerator dirtGen;
 	public int sellafitePerChunk;
 	public int gravelPerChunk;
+	public int dirtPerChunk;
 	
 	public BiomeDecoratorNoMansLand() {
 		super();
 
 		//TODO: instead of multiple localized shitty generators, make one that covers everything
-		this.sellafiteGen = new WorldGenSurfaceSpot(ModBlocks.sellafield_slaked, 6, 0.15F);
-		this.gravelGen = new WorldGenSurfaceSpot(ModBlocks.sellafield_slaked, 6, 0.15F);
-		this.sellafitePerChunk = 2;
-		this.gravelPerChunk = 2;
+		this.sellafiteGen = new WorldGenSurfaceSpot(ModBlocks.sellafield_slaked, 8, 0.25F);
+		this.gravelGen = new WorldGenSurfaceSpot(Blocks.gravel, 8, 0.15F);
+		this.dirtGen = new WorldGenSurfaceSpot(ModBlocks.ground, 8, 0.15F);
+		this.sellafitePerChunk = 4;
+		this.gravelPerChunk = 0;
+		this.dirtPerChunk = 4;
+		this.generateLakes = false;
 	}
 
 	protected void genDecorations(BiomeGenBase biome) {
@@ -69,6 +74,13 @@ public class BiomeDecoratorNoMansLand extends BiomeDecorator {
 			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
 			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
 			this.gravelGen.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getTopSolidOrLiquidBlock(x, z), z);
+		}
+		
+		/// DIRT ///
+		for(int i = 0; i < this.dirtPerChunk; ++i) {
+			x = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
+			z = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
+			this.dirtGen.generate(this.currentWorld, this.randomGenerator, x, this.currentWorld.getTopSolidOrLiquidBlock(x, z), z);
 		}
 
 		int trees = this.treesPerChunk;

@@ -25,7 +25,8 @@ public class BiomeGenNoMansLand extends BiomeGenBase {
 	
 	public static void initDictionary() {
 		BiomeDictionary.registerBiomeType(noMansLand,	DEAD,	PLAINS,	WASTELAND);
-		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(noMansLand, 5));
+		BiomeManager.addBiome(BiomeType.WARM, new BiomeEntry(noMansLand, 500));
+		BiomeManager.addBiome(BiomeType.COOL, new BiomeEntry(noMansLand, 500));
 	}
 
 	public BiomeGenNoMansLand(int id) {

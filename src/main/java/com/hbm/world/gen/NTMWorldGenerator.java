@@ -9,6 +9,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.StructureConfig;
 import com.hbm.main.StructureManager;
+import com.hbm.world.biome.BiomeGenNoMansLand;
 import com.hbm.world.gen.NBTStructure.JigsawPiece;
 import com.hbm.world.gen.NBTStructure.JigsawPool;
 import com.hbm.world.gen.NBTStructure.SpawnCondition;
@@ -49,15 +50,16 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		
 		/// TRENCH ///
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome == BiomeGenNoMansLand.noMansLand;
 			sizeLimit = 128;
 			startPool = "trench";
 			spawnWeight = 200;
 			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
 				put("trench", new JigsawPool() {{
 					add(new JigsawPiece("trench", StructureManager.trench) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-					add(new JigsawPiece("trench_left", StructureManager.trench_left) {{ heightOffset = -4; conformToTerrain = true; }}, 10);
-					add(new JigsawPiece("trench_right", StructureManager.trench_right) {{ heightOffset = -4; conformToTerrain = true; }}, 10);
-					add(new JigsawPiece("trench_junction", StructureManager.trench_junction) {{ heightOffset = -4; conformToTerrain = true; }}, 25);
+					add(new JigsawPiece("trench_left", StructureManager.trench_left) {{ heightOffset = -4; conformToTerrain = true; }}, 25);
+					add(new JigsawPiece("trench_right", StructureManager.trench_right) {{ heightOffset = -4; conformToTerrain = true; }}, 25);
+					add(new JigsawPiece("trench_junction", StructureManager.trench_junction) {{ heightOffset = -4; conformToTerrain = true; }}, 35);
 				}});
 			}};
 		}});
