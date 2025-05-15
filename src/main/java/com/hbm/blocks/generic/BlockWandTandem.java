@@ -2,12 +2,14 @@ package com.hbm.blocks.generic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -18,8 +20,11 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.INBTTransformable;
 import com.hbm.world.gen.NBTStructure;
+import com.hbm.world.gen.NBTStructure.Component;
+import com.hbm.world.gen.NBTStructure.JigsawConnection;
 import com.hbm.world.gen.NBTStructure.JigsawPiece;
 import com.hbm.world.gen.NBTStructure.JigsawPool;
 
@@ -50,6 +55,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * You're familiar with Billy Mitchell, World Video Game Champion? He could probably do it.
@@ -217,6 +223,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 
 		List<String> text = new ArrayList<String>();
 
+		text.add(EnumChatFormatting.GRAY + "Target pool: " + EnumChatFormatting.RESET + jigsaw.pool);
 		text.add(EnumChatFormatting.GRAY + "Target name: " + EnumChatFormatting.RESET + jigsaw.target);
 		text.add(EnumChatFormatting.GRAY + "Turns into: " + EnumChatFormatting.RESET + GameRegistry.findUniqueIdentifierFor(jigsaw.replaceBlock).toString());
 		text.add(EnumChatFormatting.GRAY + "   with meta: " + EnumChatFormatting.RESET + jigsaw.replaceMeta);
@@ -228,6 +235,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 
 	public static class TileEntityWandTandem extends TileEntityLoadedBase implements IControlReceiver {
 
+		private String pool = "default";
 		private String target = "default";
 		private Block replaceBlock = Blocks.air;
 		private int replaceMeta = 0;
@@ -245,23 +253,61 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		}
 		
 		private void tryGenerate() {
-			if(!this.isArmed || target == null || target.isEmpty()) return;
-			JigsawPool pool = NBTStructure.tandemSharedJiggies.get(target);
+			if(this.isArmed || target == null || target.isEmpty() || pool == null || pool.isEmpty()) return;
+			JigsawPool pool = NBTStructure.tandemSharedJiggies.get(this.pool);
 			if(pool == null) return;
 			JigsawPiece nextPiece = pool.get(worldObj.rand);
 			if(nextPiece == null) return;
+
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+			//JigsawConnection fromConnection = new JigsawConnection(new ThreeInts(xCoord, yCoord, zCoord), dir, this.pool, target, false, 0, 0);
+			JigsawConnection fromConnection = new JigsawConnection(new ThreeInts(0, 0, 0 /* ??? */), dir, this.pool, target, false, 0, 0);
 			
-			//death
-			/*int ox = nextPiece.structure.rotateX(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
+			List<JigsawConnection> connectionPool = getConnectionPool(nextPiece, fromConnection);
+			if(connectionPool == null) return;
+
+			JigsawConnection toConnection = connectionPool.get(worldObj.rand.nextInt(connectionPool.size()));
+			int nextCoordBase = directionOffsetToCoordBase(fromConnection.dir.getOpposite(), toConnection.dir);
+
+			BlockPos pos = getConnectionTargetPosition(fromConnection.dir.getOpposite(), nextPiece, fromConnection, nextCoordBase);
+			
+			int ox = nextPiece.structure.rotateX(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
 			int oy = toConnection.pos.y;
 			int oz = nextPiece.structure.rotateZ(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
-			nextPiece.structure.build(world, x, y, z, coordBaseMode);*/
+			System.out.println((pos.getX() - ox) + " " + (pos.getY() - oy) + " " + (pos.getZ() - oz));
+			nextPiece.structure.build(worldObj, pos.getX() - ox, pos.getY() - oy, pos.getZ() - oz, nextCoordBase);
 			
 			worldObj.setBlock(xCoord, yCoord, zCoord, replaceBlock, replaceMeta, 2);
 		}
 
+		private BlockPos getConnectionTargetPosition(ForgeDirection extendDir, JigsawPiece piece, JigsawConnection connection, int coordBaseMode) {
+			int x = xCoord + piece.structure.rotateX(connection.pos.x, connection.pos.z, coordBaseMode) + extendDir.offsetX;
+			int y = yCoord + connection.pos.y + extendDir.offsetY;
+			int z = zCoord + piece.structure.rotateZ(connection.pos.x, connection.pos.z, coordBaseMode) + extendDir.offsetZ;
+			return new BlockPos(x, y, z);
+		}
+
+		private int directionOffsetToCoordBase(ForgeDirection from, ForgeDirection to) {
+			for(int i = 0; i < 4; i++) {
+				if(from == to) return i % 4;
+				from = from.getRotation(ForgeDirection.DOWN);
+			}
+			return 0;
+		}
+
+		private List<JigsawConnection> getConnectionPool(JigsawPiece nextPiece, JigsawConnection fromConnection) {
+			if(fromConnection.dir == ForgeDirection.DOWN) {
+				return nextPiece.structure.toTopConnections.get(fromConnection.targetName);
+			} else if(fromConnection.dir == ForgeDirection.UP) {
+				return nextPiece.structure.toBottomConnections.get(fromConnection.targetName);
+			}
+
+			return nextPiece.structure.toHorizontalConnections.get(fromConnection.targetName);
+		}
+
 		@Override
 		public void serialize(ByteBuf buf) {
+			BufferUtil.writeString(buf, pool);
 			BufferUtil.writeString(buf, target);
 			buf.writeInt(Block.getIdFromBlock(replaceBlock));
 			buf.writeInt(replaceMeta);
@@ -270,6 +316,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void deserialize(ByteBuf buf) {
+			pool = BufferUtil.readString(buf);
 			target = BufferUtil.readString(buf);
 			replaceBlock = Block.getBlockById(buf.readInt());
 			replaceMeta = buf.readInt();
@@ -284,6 +331,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 				nbt.setBoolean("isArmed", isArmed);
 			}
 
+			nbt.setString("pool", pool);
 			nbt.setString("target", target);
 			nbt.setString("block", GameRegistry.findUniqueIdentifierFor(replaceBlock).toString());
 			nbt.setInteger("meta", replaceMeta);
@@ -297,6 +345,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 				isArmed = nbt.getBoolean("isArmed");
 			}
 
+			pool = nbt.getString("pool");
 			target = nbt.getString("target");
 			replaceBlock = Block.getBlockFromName(nbt.getString("block"));
 			replaceMeta = nbt.getInteger("meta");
@@ -319,6 +368,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 
 		private final TileEntityWandTandem jigsaw;
 
+		private GuiTextField textPool;
 		private GuiTextField textTarget;
 
 		private GuiButton jointToggle;
@@ -331,6 +381,9 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		public void initGui() {
 			Keyboard.enableRepeatEvents(true);
 
+			textPool = new GuiTextField(fontRendererObj, this.width / 2 - 150, 50, 300, 20);
+			textPool.setText(jigsaw.pool);
+
 			textTarget = new GuiTextField(fontRendererObj, this.width / 2 + 10, 100, 140, 20);
 			textTarget.setText(jigsaw.target);
 
@@ -340,6 +393,9 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		@Override
 		public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 			drawDefaultBackground();
+
+			drawString(fontRendererObj, "Target pool:", this.width / 2 - 150, 37, 0xA0A0A0);
+			textPool.drawTextBox();
 
 			drawString(fontRendererObj, "Target name:", this.width / 2 + 10, 87, 0xA0A0A0);
 			textTarget.drawTextBox();
@@ -357,6 +413,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 			NBTTagCompound data = new NBTTagCompound();
 			jigsaw.writeToNBT(data);
 
+			data.setString("pool", textPool.getText());
 			data.setString("target", textTarget.getText());
 			data.setBoolean("roll", jointToggle.displayString == "Rollable");
 
@@ -366,12 +423,14 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		@Override
 		protected void keyTyped(char typedChar, int keyCode) {
 			super.keyTyped(typedChar, keyCode);
+			textPool.textboxKeyTyped(typedChar, keyCode);
 			textTarget.textboxKeyTyped(typedChar, keyCode);
 		}
 
 		@Override
 		protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 			super.mouseClicked(mouseX, mouseY, mouseButton);
+			textPool.mouseClicked(mouseX, mouseY, mouseButton);
 			textTarget.mouseClicked(mouseX, mouseY, mouseButton);
 
 			if(jointToggle.mousePressed(mc, mouseX, mouseY)) {

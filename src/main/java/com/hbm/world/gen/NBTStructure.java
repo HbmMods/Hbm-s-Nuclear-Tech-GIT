@@ -72,10 +72,10 @@ public class NBTStructure {
 	private List<Pair<Short, String>> itemPalette;
 	private BlockState[][][] blockArray;
 
-	private List<List<JigsawConnection>> fromConnections;
-	private Map<String, List<JigsawConnection>> toTopConnections;
-	private Map<String, List<JigsawConnection>> toBottomConnections;
-	private Map<String, List<JigsawConnection>> toHorizontalConnections;
+	public List<List<JigsawConnection>> fromConnections;
+	public Map<String, List<JigsawConnection>> toTopConnections;
+	public Map<String, List<JigsawConnection>> toBottomConnections;
+	public Map<String, List<JigsawConnection>> toHorizontalConnections;
 
 	public NBTStructure(ResourceLocation resource) {
 		// Can't use regular resource loading, servers don't know how!
@@ -596,7 +596,7 @@ public class NBTStructure {
 		return definition.meta;
 	}
 
-	private int rotateX(int x, int z, int coordBaseMode) {
+	public int rotateX(int x, int z, int coordBaseMode) {
 		switch(coordBaseMode) {
 		case 1: return size.z - 1 - z;
 		case 2: return size.x - 1 - x;
@@ -605,7 +605,7 @@ public class NBTStructure {
 		}
 	}
 
-	private int rotateZ(int x, int z, int coordBaseMode) {
+	public int rotateZ(int x, int z, int coordBaseMode) {
 		switch(coordBaseMode) {
 		case 1: return x;
 		case 2: return size.z - 1 - z;
@@ -811,23 +811,23 @@ public class NBTStructure {
 
 
 	// Each jigsaw block in a structure will instance one of these
-	private static class JigsawConnection {
+	public static class JigsawConnection {
 
-		private final ThreeInts pos;
-		private final ForgeDirection dir;
+		public final ThreeInts pos;
+		public final ForgeDirection dir;
 
 		// what pool should we look through to find a connection
-		private final String poolName;
+		public final String poolName;
 
 		// when we successfully find a pool, what connections in that jigsaw piece can we target
-		private final String targetName;
+		public final String targetName;
 
-		private final boolean isRollable;
+		public final boolean isRollable;
 
-		private final int selectionPriority;
-		private final int placementPriority;
+		public final int selectionPriority;
+		public final int placementPriority;
 
-		private JigsawConnection(ThreeInts pos, ForgeDirection dir, String poolName, String targetName, boolean isRollable, int selectionPriority, int placementPriority) {
+		public JigsawConnection(ThreeInts pos, ForgeDirection dir, String poolName, String targetName, boolean isRollable, int selectionPriority, int placementPriority) {
 			this.pos = pos;
 			this.dir = dir;
 			this.poolName = poolName;
@@ -930,21 +930,21 @@ public class NBTStructure {
 		// Overrides to fix Mojang's fucked rotations which FLIP instead of rotating in two instances
 		// vaer being in the mines doing this the hard way for years was absolutely not for naught
 		@Override
-		protected int getXWithOffset(int x, int z) {
+		public int getXWithOffset(int x, int z) {
 			return boundingBox.minX + piece.structure.rotateX(x, z, coordBaseMode);
 		}
 
 		@Override
-		protected int getYWithOffset(int y) {
+		public int getYWithOffset(int y) {
 			return boundingBox.minY + y;
 		}
 
 		@Override
-		protected int getZWithOffset(int x, int z) {
+		public int getZWithOffset(int x, int z) {
 			return boundingBox.minZ + piece.structure.rotateZ(x, z, coordBaseMode);
 		}
 
-		private ForgeDirection rotateDir(ForgeDirection dir) {
+		public ForgeDirection rotateDir(ForgeDirection dir) {
 			if(dir == ForgeDirection.UP || dir == ForgeDirection.DOWN) return dir;
 			switch(coordBaseMode) {
 				default: return dir;
