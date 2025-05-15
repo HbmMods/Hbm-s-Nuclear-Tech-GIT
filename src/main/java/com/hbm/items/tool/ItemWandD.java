@@ -40,10 +40,6 @@ public class ItemWandD extends Item {
 		if(pos != null) {
 
 			int y = world.getHeightValue(pos.blockX, pos.blockZ);
-			
-			NTMWorldGenerator.TRENCH.canSpawn = biome -> { return true; };
-			NBTStructure.Start start = new NBTStructure.Start(world, world.rand, NTMWorldGenerator.TRENCH, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
 
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));

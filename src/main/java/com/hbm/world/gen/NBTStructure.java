@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockWand;
+import com.hbm.blocks.generic.BlockWandTandem.TileEntityWandTandem;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.ThreeInts;
@@ -57,6 +58,11 @@ public class NBTStructure {
 
 	// serialization data
 	protected static Map<String, JigsawPiece> jigsawMap = new HashMap<>();
+	
+	// getting jiggy with it
+	// since TANDEM blocks run after structure gen and therefore have no
+	// reference to the structure itself, we just make the pools publically accessible
+	public static HashMap<String, JigsawPool> tandemSharedJiggies = new HashMap();
 
 	private String name;
 
@@ -99,6 +105,10 @@ public class NBTStructure {
 		for(int dimensionId : dimensionIds) {
 			registerStructure(dimensionId, spawn);
 		}
+	}
+	
+	public static void getJiggyWithIt(String jingle, JigsawPool pringles) {
+		tandemSharedJiggies.put(jingle, pringles);
 	}
 
 	// Add a chance for nothing to spawn at a given valid spawn location
@@ -408,6 +418,10 @@ public class NBTStructure {
 
 		if(te instanceof INBTTileEntityTransformable) {
 			((INBTTileEntityTransformable) te).transformTE(world, coordBaseMode);
+		}
+		
+		if(te instanceof TileEntityWandTandem) {
+			((TileEntityWandTandem) te).isArmed = true;
 		}
 
 		return te;

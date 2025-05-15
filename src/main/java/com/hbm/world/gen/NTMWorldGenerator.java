@@ -8,7 +8,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.StructureConfig;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.StructureManager;
 import com.hbm.world.biome.BiomeGenNoMansLand;
 import com.hbm.world.gen.NBTStructure.JigsawPiece;
@@ -23,7 +22,6 @@ import com.hbm.world.gen.component.Component.SupplyCrates;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -37,59 +35,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 
 	boolean regTest = false;
 	
-	public static final NBTStructure trench_straight = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight.nbt"));
-	public static final NBTStructure trench_straight_dirt = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_dirt.nbt"));
-	public static final NBTStructure trench_straight_bridge = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_bridge.nbt"));
-	public static final NBTStructure trench_straight_stairs = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_stairs.nbt"));
-	public static final NBTStructure trench_straight_door_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/straight_door_left.nbt"));
-	public static final NBTStructure trench_t_outer = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/t_outer.nbt"));
-	public static final NBTStructure trench_t_inner = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/t_inner.nbt"));
-	public static final NBTStructure trench_s_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/s_left.nbt"));
-	public static final NBTStructure trench_s_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/s_right.nbt"));
-	public static final NBTStructure trench_end_left = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/end_left.nbt"));
-	public static final NBTStructure trench_end_right = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/end_right.nbt"));
-	public static final NBTStructure trench_cross = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/cross.nbt"));
-	public static final NBTStructure trench_curve_outer = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/curve_outer.nbt"));
-	public static final NBTStructure trench_curve_inner = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/curve_inner.nbt"));
-	public static final NBTStructure trench_bunker_small = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_small.nbt"));
-	public static final NBTStructure trench_bunker_large = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_large.nbt"));
-	public static final NBTStructure trench_bunker_fuel = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_fuel.nbt"));
-	public static final NBTStructure trench_bunker_collapsed = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_collapsed.nbt"));
-	public static final NBTStructure trench_bunker_folly = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/trench/bunker_folly.nbt"));
-	
-	public static SpawnCondition TRENCH = new SpawnCondition() {{
-		canSpawn = biome -> biome == BiomeGenNoMansLand.noMansLand;
-		sizeLimit = 128;
-		startPool = "trench";
-		spawnWeight = 200;
-		pools = new HashMap<String, NBTStructure.JigsawPool>() {{
-			put("trench", new JigsawPool() {{
-				add(new JigsawPiece("trench_straight", StructureManager.trench_straight) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_straight_dirt", StructureManager.trench_straight_dirt) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_straight_bridge", StructureManager.trench_straight_bridge) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_straight_stairs", StructureManager.trench_straight_stairs) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_straight_door_left", StructureManager.trench_straight_door_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_straight_door_right", StructureManager.trench_straight_door_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_s_left", StructureManager.trench_s_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_s_right", StructureManager.trench_s_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_end_left", StructureManager.trench_end_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_end_right", StructureManager.trench_end_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_curve_outer", StructureManager.trench_curve_outer) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_curve_inner", StructureManager.trench_curve_inner) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_t_outer", StructureManager.trench_t_outer) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_t_inner", StructureManager.trench_t_inner) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-				add(new JigsawPiece("trench_cross", StructureManager.trench_cross) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
-			}});
-			put("bunker", new JigsawPool() {{
-				add(new JigsawPiece("trench_bunker_small", StructureManager.trench_bunker_small) {{ heightOffset = -6; }}, 100);
-				add(new JigsawPiece("trench_bunker_large", StructureManager.trench_bunker_large) {{ heightOffset = -6; }}, 100);
-				add(new JigsawPiece("trench_bunker_fuel", StructureManager.trench_bunker_fuel) {{ heightOffset = -3; }}, 100);
-				add(new JigsawPiece("trench_bunker_collapsed", StructureManager.trench_bunker_collapsed) {{ heightOffset = -3; }}, 100);
-				add(new JigsawPiece("trench_bunker_folly", StructureManager.trench_bunker_folly) {{ heightOffset = -3; }}, 100);
-			}});
-		}};
-	}};
-
 	public NTMWorldGenerator() {
 		final List<BiomeGenBase> invalidBiomes = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
 		final List<BiomeGenBase> oceanBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean });
@@ -104,7 +49,46 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 		
 		/// TRENCH ///
-		NBTStructure.registerStructure(0, TRENCH);
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome == BiomeGenNoMansLand.noMansLand;
+			sizeLimit = 128;
+			startPool = "trench";
+			spawnWeight = 200;
+			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
+				put("trench", new JigsawPool() {{
+					add(new JigsawPiece("trench_straight", StructureManager.trench_straight) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_straight_dirt", StructureManager.trench_straight_dirt) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_straight_bridge", StructureManager.trench_straight_bridge) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_straight_stairs", StructureManager.trench_straight_stairs) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_straight_door_left", StructureManager.trench_straight_door_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_straight_door_right", StructureManager.trench_straight_door_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_s_left", StructureManager.trench_s_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_s_right", StructureManager.trench_s_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_end_left", StructureManager.trench_end_left) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_end_right", StructureManager.trench_end_right) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_curve_outer", StructureManager.trench_curve_outer) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_curve_inner", StructureManager.trench_curve_inner) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_t_outer", StructureManager.trench_t_outer) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_t_inner", StructureManager.trench_t_inner) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+					add(new JigsawPiece("trench_cross", StructureManager.trench_cross) {{ heightOffset = -4; conformToTerrain = true; }}, 100);
+				}});
+				put("bunker", new JigsawPool() {{
+					add(new JigsawPiece("trench_bunker_small", StructureManager.trench_bunker_small) {{ heightOffset = -6; }}, 100);
+					add(new JigsawPiece("trench_bunker_large", StructureManager.trench_bunker_large) {{ heightOffset = -6; }}, 100);
+					add(new JigsawPiece("trench_bunker_fuel", StructureManager.trench_bunker_fuel) {{ heightOffset = -3; }}, 100);
+					add(new JigsawPiece("trench_bunker_collapsed", StructureManager.trench_bunker_collapsed) {{ heightOffset = -3; }}, 100);
+					add(new JigsawPiece("trench_bunker_folly", StructureManager.trench_bunker_folly) {{ heightOffset = -3; }}, 100);
+				}});
+			}};
+		}});
+		
+		NBTStructure.getJiggyWithIt("trench_bunker", new JigsawPool() {{
+			add(new JigsawPiece("tandem:trench_bunker_small", StructureManager.trench_bunker_small), 100);
+			add(new JigsawPiece("tandem:trench_bunker_large", StructureManager.trench_bunker_large), 100);
+			add(new JigsawPiece("tandem:trench_bunker_fuel", StructureManager.trench_bunker_fuel), 100);
+			add(new JigsawPiece("tandem:trench_bunker_collapsed", StructureManager.trench_bunker_collapsed), 100);
+			add(new JigsawPiece("tandem:trench_bunker_folly", StructureManager.trench_bunker_folly), 100);
+		}});
 		
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
