@@ -1,10 +1,11 @@
 ## Added
 * Sandbags
   * Connect to other sandbags or solid blocks
-  * Pretts
+  * Pretty
 * Wooden barrier
   * Pretty
   * Automatically walls off connected solid blocks in addition to the direction it was placed in
+* Some other wooden blocks like a roof, ceiling and scaffold
 
 ## Changed
 * Increased bayonet damage from 5 to 7.5 hearts
@@ -16,8 +17,12 @@
 * New server configs
   * `CRATE_OPEN_HELD` can toggle whether crates can be opened when held
   * `CRATE_KEEP_CONTENTS` can toggle whether crates keep their contents when broken
+* Duds now have multiple variants
+  * Dismantling different variants yields different drops
+  * Magnetic extraction can no longer be performed
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe
 * Either fixed the crate dupe/voiding issues or made them even worse
 * Fixed skeletons and pedestals allowing blocks to be placed inside the player
+* Fixed artillery shells not playing the explosion animation when directly impacting entities
