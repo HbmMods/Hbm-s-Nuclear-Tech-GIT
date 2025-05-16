@@ -8,6 +8,7 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.config.ServerConfig;
 import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.ai.EntityAIFireGun;
 import com.hbm.entity.mob.EntityCreeperTainted;
@@ -655,14 +656,18 @@ public class ModEventHandler {
 
 			if(event.phase == Phase.END) {
 
-				List loadedEntityList = new ArrayList();
-				loadedEntityList.addAll(event.world.loadedEntityList); // ConcurrentModificationException my balls
+				int tickrate = Math.max(1, ServerConfig.ITEM_HAZARD_DROP_TICKRATE.get());
 				
-				for(Object e : loadedEntityList) {
-
-					if(e instanceof EntityItem) {
-						EntityItem item = (EntityItem) e;
-						HazardSystem.updateDroppedItem(item);
+				if(event.world.getTotalWorldTime() % tickrate == 0) {
+					List loadedEntityList = new ArrayList();
+					loadedEntityList.addAll(event.world.loadedEntityList); // ConcurrentModificationException my balls
+					
+					for(Object e : loadedEntityList) {
+	
+						if(e instanceof EntityItem) {
+							EntityItem item = (EntityItem) e;
+							HazardSystem.updateDroppedItem(item);
+						}
 					}
 				}
 

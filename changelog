@@ -17,12 +17,16 @@
 * New server configs
   * `CRATE_OPEN_HELD` can toggle whether crates can be opened when held
   * `CRATE_KEEP_CONTENTS` can toggle whether crates keep their contents when broken
+  * `ITEM_HAZARD_DROP_TICKRATE` can change the time between ticks for dropped item hazard checks (gunpowder, lithium), default is 2, lowest is 1
 * Duds now have multiple variants
   * Dismantling different variants yields different drops
   * Magnetic extraction can no longer be performed
+* `isItemBlacklisted` on the item hazard checks now employs caching instead of doing a full ore dictionary lookup for every single check, this should make it marginally more performant
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe
 * Either fixed the crate dupe/voiding issues or made them even worse
 * Fixed skeletons and pedestals allowing blocks to be placed inside the player
 * Fixed artillery shells not playing the explosion animation when directly impacting entities
+* Fixed bauxite and malachite vein toggles being on backwards
+* Fixed penumatic tube order settings not saving
