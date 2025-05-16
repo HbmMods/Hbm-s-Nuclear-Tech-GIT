@@ -50,13 +50,13 @@ public class GUIScreenToolAbility extends GuiScreen {
 
 	static {
 		abilitiesArea.add(new AbilityInfo(null, 0, 91, false));
-		abilitiesArea.add(new AbilityInfo("tool.ability.recursion", 32, 91, false));
+		abilitiesArea.add(new AbilityInfo("tool.ability.recursion", 32, 91, true));
 		abilitiesArea.add(new AbilityInfo("tool.ability.hammer", 64, 91, true));
 		abilitiesArea.add(new AbilityInfo("tool.ability.explosion", 96, 91, true));
 	
 		abilitiesHarvest.add(new AbilityInfo(null, 0, 107, false));
 		abilitiesHarvest.add(new AbilityInfo("tool.ability.silktouch", 32, 107, false));
-		abilitiesHarvest.add(new AbilityInfo("tool.ability.luck", 64, 107, false));
+		abilitiesHarvest.add(new AbilityInfo("tool.ability.luck", 64, 107, true));
 		abilitiesHarvest.add(new AbilityInfo("tool.ability.smelter", 96, 107, false));
 		abilitiesHarvest.add(new AbilityInfo("tool.ability.shredder", 128, 107, false));
 		abilitiesHarvest.add(new AbilityInfo("tool.ability.centrifuge", 160, 107, false));
@@ -72,6 +72,7 @@ public class GUIScreenToolAbility extends GuiScreen {
 	int selectedLevelHarvest = 0;
 	int selectedPreset = 0;
 	int totalPresets = 1;
+	String selectedPresetName = "lorem ipsum";
 	
 	public GUIScreenToolAbility(ItemToolAbility toolDef) {
 		super();
@@ -101,13 +102,6 @@ public class GUIScreenToolAbility extends GuiScreen {
 		this.drawDefaultBackground();
 
 		drawGuiContainerBackgroundLayer(mouseX, mouseY);
-
-		if(!Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && Mouse.next()) {
-			int scroll = Mouse.getEventDWheel() / 6;
-			
-			// TODO
-			selectedPreset = (selectedPreset + totalPresets + scroll) % totalPresets;
-		}
 	}
 
 	protected void drawGuiContainerBackgroundLayer(int mouseX, int mouseY) {
@@ -135,7 +129,13 @@ public class GUIScreenToolAbility extends GuiScreen {
 		}
 
 		// Draw tooltip
-		// TODO
+		if (!"".equals(selectedPresetName)) {
+			int tooltipWidth = Math.max(6, fontRendererObj.getStringWidth(selectedPresetName));
+			int tooltipX = guiLeft + xSize / 2 - tooltipWidth / 2;
+			int tooltipY = guiTop + ySize + 1 + 4;
+			drawStretchedRect(tooltipX - 5, tooltipY - 4, 0, 76, tooltipWidth + 10, 186, 15, 3, 3);
+			fontRendererObj.drawString(selectedPresetName, tooltipX, tooltipY, 0xffffffff);
+		}
 	}
 
 	protected void drawStretchedRect(int x, int y, int u, int v, int realWidth, int width, int height, int keepLeft, int keepRight) {
@@ -202,6 +202,18 @@ public class GUIScreenToolAbility extends GuiScreen {
 	}
 
 	@Override
+	public void handleMouseInput() {
+		super.handleMouseInput();
+
+		if(Mouse.getEventButton() == -1) {
+			int scroll = Mouse.getEventDWheel();
+
+			if(scroll > 0 && selectedPreset > 0) selectedPreset -= 1;
+			if(scroll < 0 && selectedPreset < totalPresets) selectedPreset += 1;
+		}
+	}
+
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		// TODO
 		boolean clicked = false;
@@ -213,7 +225,7 @@ public class GUIScreenToolAbility extends GuiScreen {
 
 			if (available && isInAABB(mouseX, mouseY, guiLeft + 15 + 20 * i, guiTop + 25, 16, 16)) {
 				if (abilityInfo.hasLevels) {
-					int availableLevels = 5;
+					int availableLevels = 10;
 
 					if (i == selectionIdxArea) {
 						selectedLevelArea = (selectedLevelArea + 1) % availableLevels;
@@ -234,9 +246,9 @@ public class GUIScreenToolAbility extends GuiScreen {
 
 			if (available && isInAABB(mouseX, mouseY, guiLeft + 15 + 20 * i, guiTop + 45, 16, 16)) {
 				if (abilityInfo.hasLevels) {
-					int availableLevels = 5;
+					int availableLevels = 11;
 
-					if (i == selectionIdxArea) {
+					if (i == selectionIdxHarvest) {
 						selectedLevelHarvest = (selectedLevelHarvest + 1) % availableLevels;
 					} else {
 						selectedLevelHarvest = 0;
@@ -250,7 +262,7 @@ public class GUIScreenToolAbility extends GuiScreen {
 		}
 
 		if (clicked) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBoop"), 1F));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBoop"), 2F));
 		}
 		
 		// TODO
