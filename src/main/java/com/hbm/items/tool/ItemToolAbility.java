@@ -11,6 +11,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.inventory.gui.GUIScreenToolAbility;
+import com.hbm.items.IItemControlReceiver;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmPlayerProps;
@@ -22,9 +23,11 @@ import com.hbm.handler.ability.ToolPreset;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
+import com.hbm.packet.toserver.NBTItemControlPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.item.IDepthRockTool;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -54,7 +57,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider {
+public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider, IItemControlReceiver {
 	
 	protected boolean isShears = false;
 	protected EnumToolType toolType;
@@ -251,13 +254,13 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		
 		if(!canOperate(stack))
 			return super.onItemRightClick(stack, world, player);
-		
-		Configuration config = getConfiguration(stack);
 
 		if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
 			if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 			return stack;
 		}
+		
+		Configuration config = getConfiguration(stack);
 
 		if(config.presets.size() < 2 || world.isRemote)
 			return super.onItemRightClick(stack, world, player);
@@ -425,7 +428,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			
 			presets = new ArrayList<ToolPreset>(nbtPresets.tagCount());
 			
-			for(int i = 0; i < presets.size(); i++) {
+			for(int i = 0; i < nbtPresets.tagCount(); i++) {
 				NBTTagCompound nbtPreset = nbtPresets.getCompoundTagAt(i);
 				ToolPreset preset = new ToolPreset();
 				preset.readFromNBT(nbtPreset);
@@ -442,10 +445,14 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			presets.add(new ToolPreset());
 
 			availableAbilities.getToolAreaAbilities().forEach((ability, level) -> {
+				if (ability == IToolAreaAbility.NONE)
+					return;
 				presets.add(new ToolPreset(ability, level, IToolHarvestAbility.NONE, 0));
 			});
 
 			availableAbilities.getToolHarvestAbilities().forEach((ability, level) -> {
+				if (ability == IToolHarvestAbility.NONE)
+					return;
 				presets.add(new ToolPreset(IToolAreaAbility.NONE, 0, ability, level));
 			});
 		}
@@ -478,7 +485,15 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
 
-		config.writeToNBT(stack.getTagCompound());
+		config.writeToNBT(stack.stackTagCompound);
+	}
+
+	@Override
+	public void receiveControl(ItemStack stack, NBTTagCompound data) {
+		Configuration config = new Configuration();
+		config.readFromNBT(data);
+		config.restrictTo(availableAbilities);
+		setConfiguration(stack, config);
 	}
 
 	@Override

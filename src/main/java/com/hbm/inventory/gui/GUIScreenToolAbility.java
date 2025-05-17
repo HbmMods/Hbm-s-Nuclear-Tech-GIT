@@ -11,12 +11,12 @@ import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.ToolPreset;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.tool.ItemToolAbility;
-import com.hbm.items.tool.ItemToolAbility.Configuration;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.PlayerInformPacket;
+import com.hbm.packet.toserver.NBTItemControlPacket;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
@@ -81,6 +81,7 @@ public class GUIScreenToolAbility extends GuiScreen {
         super();
         
         this.availableAbilities = availableAbilities;
+        
         this.xSize = 186;  // Note: increased dynamically
         this.ySize = 76;
 
@@ -91,10 +92,12 @@ public class GUIScreenToolAbility extends GuiScreen {
     @Override
     public void initGui() {
         this.toolStack = this.mc.thePlayer.getHeldItem();
-        
+
         if(this.toolStack == null) {
             doClose();
         }
+
+        this.config = ((ItemToolAbility) this.toolStack.getItem()).getConfiguration(this.toolStack);
         
         guiLeft = (width - xSize) / 2;
         guiTop = (height - ySize) / 2;
@@ -239,13 +242,17 @@ public class GUIScreenToolAbility extends GuiScreen {
         return x <= mouseX && x + width > mouseX && y <= mouseY && y + height > mouseY;
     }
 
-    @Override
-    public void updateScreen() {
-        EntityPlayer player = this.mc.thePlayer;
-
-        if(player.getHeldItem() == null || player.getHeldItem() != toolStack)
-            player.closeScreen();
-    }
+    // Note: This spuriously trigger way too often, and I can't see why. I'll disable it altogether, I guess
+    // @Override
+    // public void updateScreen() {
+    //     EntityPlayer player = this.mc.thePlayer;
+    //
+    //     if(player.getHeldItem() == null || player.getHeldItem().getItem() != toolStack.getItem()) {
+    //         // TODO: Remove
+    //         MainRegistry.logger.warn("GUIScreenToolAbility.updateScreen: toolStack changed!");
+    //         player.closeScreen();
+    //     }
+    // }
 
     @Override
     public void handleMouseInput() {
@@ -264,9 +271,16 @@ public class GUIScreenToolAbility extends GuiScreen {
         ToolPreset activePreset = config.getActivePreset();
         
         // Process switches
-        handleSwitchesClicked(abilitiesArea, activePreset.areaAbility, activePreset.areaAbilityLevel, hoverIdxArea, mouseX, mouseY);
-        handleSwitchesClicked(abilitiesHarvest, activePreset.harvestAbility, activePreset.harvestAbilityLevel, hoverIdxHarvest, mouseX, mouseY);
-        
+        Pair<IBaseAbility, Integer> clickResult;
+
+        clickResult = handleSwitchesClicked(abilitiesArea, activePreset.areaAbility, activePreset.areaAbilityLevel, hoverIdxArea, mouseX, mouseY);
+        activePreset.areaAbility = (IToolAreaAbility)clickResult.key;
+        activePreset.areaAbilityLevel = clickResult.value;
+
+        clickResult = handleSwitchesClicked(abilitiesHarvest, activePreset.harvestAbility, activePreset.harvestAbilityLevel, hoverIdxHarvest, mouseX, mouseY);
+        activePreset.harvestAbility = (IToolHarvestAbility)clickResult.key;
+        activePreset.harvestAbilityLevel = clickResult.value;
+
         // Process extra buttons
         if (hoverIdxExtraBtn != -1) {
             switch (hoverIdxExtraBtn) {
@@ -284,6 +298,7 @@ public class GUIScreenToolAbility extends GuiScreen {
 
         // Allow quick-closing
         if (!isInAABB(mouseX, mouseY, guiLeft, guiTop, xSize, ySize)) {
+            MainRegistry.logger.info("GUIScreenToolAbility.mouseClicked: Clicked outside GUI, closing...");
             doClose();
         }
     }
@@ -370,6 +385,10 @@ public class GUIScreenToolAbility extends GuiScreen {
     }
 
     protected void doClose() {
+        // A bit messy, but I suppose it works
+        ((ItemToolAbility) this.toolStack.getItem()).setConfiguration(toolStack, config);
+        PacketDispatcher.wrapper.sendToServer(new NBTItemControlPacket(this.toolStack.getTagCompound()));
+
         this.mc.thePlayer.closeScreen();
 
         MainRegistry.proxy.displayTooltip(config.getActivePreset().getMessage().getFormattedText(), MainRegistry.proxy.ID_TOOLABILITY);

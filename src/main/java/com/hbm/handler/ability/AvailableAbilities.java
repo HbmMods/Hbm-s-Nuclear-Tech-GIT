@@ -1,11 +1,12 @@
 package com.hbm.handler.ability;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Functions;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +15,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 // All abilities available on a given tool
 public class AvailableAbilities {
-    private HashMap<IBaseAbility, Integer> abilities = new HashMap<IBaseAbility, Integer>();
+    // Insertion order matters
+    private LinkedHashMap<IBaseAbility, Integer> abilities = new LinkedHashMap<IBaseAbility, Integer>();
 
     public AvailableAbilities() {}
 
@@ -63,15 +65,15 @@ public class AvailableAbilities {
     }
 
     public Map<IBaseAbility, Integer> getToolAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> a, a -> abilities.get(a)));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
     }
 
     public Map<IToolAreaAbility, Integer> getToolAreaAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility).collect(Collectors.toMap(a -> (IToolAreaAbility)a, a -> abilities.get(a)));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility).collect(Collectors.toMap(a -> (IToolAreaAbility)a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
     }
 
     public Map<IToolHarvestAbility, Integer> getToolHarvestAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> (IToolHarvestAbility)a, a -> abilities.get(a)));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> (IToolHarvestAbility)a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
     }
 
     public int size() {
@@ -90,7 +92,10 @@ public class AvailableAbilities {
             list.add("Abilities: ");
 
             toolAbilities.forEach((ability, level) -> {
-                list.add("  " + EnumChatFormatting.GOLD + ability.getFullName(level));
+                String fullName = ability.getFullName(level);
+                if (!fullName.isEmpty()) {
+                    list.add("  " + EnumChatFormatting.GOLD + fullName);
+                }
             });
 
 			list.add("Right click to cycle through abilities!");
