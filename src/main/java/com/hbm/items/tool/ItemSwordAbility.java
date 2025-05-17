@@ -25,7 +25,7 @@ public class ItemSwordAbility extends ItemSword {
 	// was there a reason for this to be private?
 	protected float damage;
 	protected double movement;
-	private AvailableAbilities hitAbilities = new AvailableAbilities();
+	private AvailableAbilities abilities = new AvailableAbilities();
 
 	public ItemSwordAbility(float damage, double movement, ToolMaterial material) {
 		super(material);
@@ -33,8 +33,8 @@ public class ItemSwordAbility extends ItemSword {
 		this.movement = movement;
 	}
 
-	public ItemSwordAbility addHitAbility(IWeaponAbility weaponAbility, int level) {
-		this.hitAbilities.addAbility(weaponAbility, level);
+	public ItemSwordAbility addAbility(IWeaponAbility weaponAbility, int level) {
+		this.abilities.addAbility(weaponAbility, level);
 		return this;
 	}
 
@@ -56,8 +56,8 @@ public class ItemSwordAbility extends ItemSword {
 			if(this == ModItems.mese_gavel)
 				attacker.worldObj.playSoundAtEntity(victim, "hbm:weapon.whack", 3.0F, 1.F);
 
-			this.hitAbilities.get().forEach((ability, level) -> {
-				((IWeaponAbility)ability).onHit(level, attacker.worldObj, (EntityPlayer) attacker, victim, this);
+			this.abilities.getWeaponAbilities().forEach((ability, level) -> {
+				ability.onHit(level, attacker.worldObj, (EntityPlayer) attacker, victim, this);
 			});
 		}
 
@@ -77,7 +77,7 @@ public class ItemSwordAbility extends ItemSword {
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		hitAbilities.addInformation(list);
+		abilities.addInformation(list);
 	}
 
 	protected boolean canOperate(ItemStack stack) {

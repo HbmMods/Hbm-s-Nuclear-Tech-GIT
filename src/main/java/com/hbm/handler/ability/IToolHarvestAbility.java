@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.IItemWithAbility;
+import com.hbm.items.tool.ItemToolAbility;
 import com.hbm.util.EnchantmentUtil;
 
 import net.minecraft.block.Block;
@@ -37,7 +37,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
             player.getHeldItem().damageItem(1, player);
         } else if (player instanceof EntityPlayerMP) {
             // Break the block conventionally
-            IItemWithAbility.standardDigPost(world, x, y, z, (EntityPlayerMP) player);
+            ItemToolAbility.standardDigPost(world, x, y, z, (EntityPlayerMP) player);
         }
     }
 
@@ -45,7 +45,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
     public static final IToolHarvestAbility NONE = new IToolHarvestAbility() {
         @Override
         public String getName() {
-            // TODO: null? empty? otherwise i18n
             return "";
         }
 
@@ -310,4 +309,15 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
     };
     // endregion handlers
+
+    static final IToolHarvestAbility[] abilities = {NONE, SILK, LUCK, SMELTER, SHREDDER, CENTRIFUGE, CRYSTALLIZER, MERCURY};
+
+    static IToolHarvestAbility getByName(String name) {
+        for(IToolHarvestAbility ability : abilities) {
+            if(ability.getName().equals(name))
+                return ability;
+        }
+        
+        return NONE;
+    }
 }

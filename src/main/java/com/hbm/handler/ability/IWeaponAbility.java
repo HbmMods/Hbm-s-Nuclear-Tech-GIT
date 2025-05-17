@@ -42,7 +42,6 @@ public interface IWeaponAbility extends IBaseAbility {
     public static final IWeaponAbility NONE = new IWeaponAbility() {
         @Override
         public String getName() {
-            // TODO: null? empty? otherwise i18n
             return "";
         }
 
@@ -349,4 +348,15 @@ public interface IWeaponAbility extends IBaseAbility {
         }
     };
     // endregion handlers
+
+    static final IWeaponAbility[] abilities = {NONE, RADIATION, VAMPIRE, STUN, BLEND, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE};
+
+    static IWeaponAbility getByName(String name) {
+        for(IWeaponAbility ability : abilities) {
+            if(ability.getName().equals(name))
+                return ability;
+        }
+        
+        return NONE;
+    }
 }

@@ -6,14 +6,20 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.ToolPreset;
 import com.hbm.items.tool.ItemToolAbility;
+import com.hbm.items.tool.ItemToolAbility.Configuration;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -31,9 +37,6 @@ public class GUIScreenToolAbility extends GuiScreen {
     protected int xSize;
     protected int ySize;
     protected int insetWidth;
-
-    protected ItemToolAbility toolDef;
-    protected ItemStack toolStack;
 
     public static class AbilityInfo {
         public IBaseAbility ability;
@@ -65,23 +68,19 @@ public class GUIScreenToolAbility extends GuiScreen {
         abilitiesHarvest.add(new AbilityInfo(IToolHarvestAbility.MERCURY, 224, 107));
     }
 
-    // TODO: availability status for abilities; list of presets; selected preset index;
-    // TODO: Remove this in favor of current preset
-    int selectionIdxArea = 0;
-    int selectedLevelArea = 0;
-    int selectionIdxHarvest = 0;
-    int selectedLevelHarvest = 0;
-    int selectedPreset = 0;
-    int totalPresets = 1;
+    // TODO: Use availableAbilities
+    protected ItemStack toolStack;
+    AvailableAbilities availableAbilities;
+    ItemToolAbility.Configuration config;
     
     int hoverIdxArea = -1;
     int hoverIdxHarvest = -1;
     int hoverIdxExtraBtn = -1;
     
-    public GUIScreenToolAbility(ItemToolAbility toolDef) {
+    public GUIScreenToolAbility(AvailableAbilities availableAbilities) {
         super();
         
-        this.toolDef = toolDef;
+        this.availableAbilities = availableAbilities;
         this.xSize = 186;  // Note: increased dynamically
         this.ySize = 76;
 
@@ -112,12 +111,13 @@ public class GUIScreenToolAbility extends GuiScreen {
         drawStretchedRect(guiLeft, guiTop, 0, 0, xSize, xSize - insetWidth, ySize, 74, 76);
         
         // Draw the switches
-        hoverIdxArea = drawSwitches(abilitiesArea, selectionIdxArea, selectedLevelArea, guiLeft + 15, guiTop + 25, mouseX, mouseY);
-        hoverIdxHarvest = drawSwitches(abilitiesHarvest, selectionIdxHarvest, selectedLevelHarvest, guiLeft + 15, guiTop + 45, mouseX, mouseY);
+        ToolPreset activePreset = config.getActivePreset();
+        hoverIdxArea = drawSwitches(abilitiesArea, activePreset.areaAbility, activePreset.areaAbilityLevel, guiLeft + 15, guiTop + 25, mouseX, mouseY);
+        hoverIdxHarvest = drawSwitches(abilitiesHarvest, activePreset.harvestAbility, activePreset.harvestAbilityLevel, guiLeft + 15, guiTop + 45, mouseX, mouseY);
 
         // Draw preset indicator
-        drawNumber(selectedPreset + 1, guiLeft + insetWidth + 115, guiTop + 25);
-        drawNumber(totalPresets, guiLeft + insetWidth + 149, guiTop + 25);
+        drawNumber(config.currentPreset + 1, guiLeft + insetWidth + 115, guiTop + 25);
+        drawNumber(config.presets.size(), guiLeft + insetWidth + 149, guiTop + 25);
 
         // Draw extra buttons hover highlights
         int extraBtnsX = guiLeft + xSize - 86;
@@ -135,14 +135,14 @@ public class GUIScreenToolAbility extends GuiScreen {
 
         if (hoverIdxArea != -1) {
             int level = 0;
-            if (hoverIdxArea == selectionIdxArea) {
-                level = selectedLevelArea;
+            if (abilitiesArea.get(hoverIdxArea).ability == activePreset.areaAbility) {
+                level = activePreset.areaAbilityLevel;
             }
             tooltipValue = abilitiesArea.get(hoverIdxArea).ability.getFullName(level);
         } else if (hoverIdxHarvest != -1) {
             int level = 0;
-            if (hoverIdxHarvest == selectionIdxHarvest) {
-                level = selectedLevelHarvest;
+            if (abilitiesHarvest.get(hoverIdxHarvest).ability == activePreset.harvestAbility) {
+                level = activePreset.harvestAbilityLevel;
             }
             tooltipValue = abilitiesHarvest.get(hoverIdxHarvest).ability.getFullName(level);
         } else if (hoverIdxExtraBtn != -1) {
@@ -176,12 +176,13 @@ public class GUIScreenToolAbility extends GuiScreen {
         drawTexturedModalRect(x + keepLeft + realMidWidth, y, u + keepLeft + midWidth, v, keepRight, height);
     }
 
-    protected int drawSwitches(List<AbilityInfo> abilities, int selectionIdx, int selectedLevel, int x, int y, int mouseX, int mouseY) {
+    protected int drawSwitches(List<AbilityInfo> abilities, IBaseAbility selectedAbility, int selectedLevel, int x, int y, int mouseX, int mouseY) {
         int hoverIdx = -1;
 
         for (int i = 0; i < abilities.size(); ++i) {
             AbilityInfo abilityInfo = abilities.get(i);
-            boolean available = true;  // TODO
+            boolean available = availableAbilities.supportsAbility(abilityInfo.ability);
+            boolean selected = abilityInfo.ability == selectedAbility;
 
             // Draw switch
             drawTexturedModalRect(x + 20 * i, y, abilityInfo.textureU + (available ? 16 : 0), abilityInfo.textureV, 16, 16);
@@ -190,11 +191,11 @@ public class GUIScreenToolAbility extends GuiScreen {
             if (abilityInfo.ability.levels() > 1) {
                 int level = 0;
 
-                if (i == selectionIdx) {
+                if (selected) {
                     level = selectedLevel + 1;
                 }
 
-                // TODO: Max allowed level instead?
+                // Note: only visual effect for the LEDs
                 // int maxLevel = Math.min(abilityInfo.ability.levels(), 5);
                 int maxLevel = 5;
                 
@@ -212,7 +213,7 @@ public class GUIScreenToolAbility extends GuiScreen {
                 hoverIdx = i;
             }
 
-            if (i == selectionIdx) {
+            if (selected) {
                 // Draw selection highlight
                 drawTexturedModalRect(x + 20 * i - 1, y - 1, 220, 9, 18, 18);
             } else if (available && isHovered) {
@@ -242,7 +243,7 @@ public class GUIScreenToolAbility extends GuiScreen {
     public void updateScreen() {
         EntityPlayer player = this.mc.thePlayer;
 
-        if(player.getHeldItem() == null || player.getHeldItem().getItem() != toolDef)
+        if(player.getHeldItem() == null || player.getHeldItem() != toolStack)
             player.closeScreen();
     }
 
@@ -253,77 +254,29 @@ public class GUIScreenToolAbility extends GuiScreen {
         if(Mouse.getEventButton() == -1) {
             int scroll = Mouse.getEventDWheel();
 
-            if(scroll < 0 && selectedPreset > 0) selectedPreset -= 1;
-            if(scroll > 0 && selectedPreset < totalPresets - 1) selectedPreset += 1;
+            if(scroll < 0) doPrevPreset(true);
+            if(scroll > 0) doNextPreset(true);
         }
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
+        ToolPreset activePreset = config.getActivePreset();
+        
         // Process switches
-        // TODO: Encapsulate in a method
-        if (hoverIdxArea != -1) {
-            boolean available = true;  // TODO
-
-            if (available) {
-                int availableLevels = abilitiesArea.get(hoverIdxArea).ability.levels();
-
-                if (hoverIdxArea != selectionIdxArea || availableLevels > 1) {
-                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBoop"), 2F));
-                }
-
-                if (hoverIdxArea == selectionIdxArea) {
-                    selectedLevelArea = (selectedLevelArea + 1) % availableLevels;
-                } else {
-                    selectedLevelArea = 0;
-                }
-
-                selectionIdxArea = hoverIdxArea;
-            }
-        }
-
-        if (hoverIdxHarvest != -1) {
-            boolean available = true;  // TODO
-
-            if (available) {
-                int availableLevels = abilitiesHarvest.get(hoverIdxHarvest).ability.levels();
-
-                if (hoverIdxHarvest == selectionIdxHarvest) {
-                    selectedLevelHarvest = (selectedLevelHarvest + 1) % availableLevels;
-                } else {
-                    selectedLevelHarvest = 0;
-                }
-
-                selectionIdxHarvest = hoverIdxHarvest;
-
-                mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBoop"), 2F));
-            }
-        }
+        handleSwitchesClicked(abilitiesArea, activePreset.areaAbility, activePreset.areaAbilityLevel, hoverIdxArea, mouseX, mouseY);
+        handleSwitchesClicked(abilitiesHarvest, activePreset.harvestAbility, activePreset.harvestAbilityLevel, hoverIdxHarvest, mouseX, mouseY);
         
         // Process extra buttons
         if (hoverIdxExtraBtn != -1) {
             switch (hoverIdxExtraBtn) {
-            case 0:
-                doResetPresets();
-                break;
-            case 1:
-                doDelPreset();
-                break;
-            case 2:
-                doAddPreset();
-                break;
-            case 3:
-                doZeroPreset();
-                break;
-            case 4:
-                doNextPreset();
-                break;
-            case 5:
-                doPrevPreset();
-                break;
-            case 6:
-                doClose();
-                break;
+            case 0: doResetPresets(); break;
+            case 1: doDelPreset(); break;
+            case 2: doAddPreset(); break;
+            case 3: doZeroPreset(); break;
+            case 4: doNextPreset(false); break;
+            case 5: doPrevPreset(false); break;
+            case 6: doClose(); break;
             }
 
             mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.5F));
@@ -333,6 +286,31 @@ public class GUIScreenToolAbility extends GuiScreen {
         if (!isInAABB(mouseX, mouseY, guiLeft, guiTop, xSize, ySize)) {
             doClose();
         }
+    }
+
+    protected Pair<IBaseAbility, Integer> handleSwitchesClicked(List<AbilityInfo> abilities, IBaseAbility selectedAbility, int selectedLevel, int hoverIdx, int mouseX, int mouseY) {
+        if (hoverIdx != -1) {
+            IBaseAbility hoveredAbility = abilities.get(hoverIdx).ability;
+            boolean available = availableAbilities.supportsAbility(hoveredAbility);
+
+            if (available) {
+                int availableLevels = availableAbilities.maxLevel(hoveredAbility) + 1;
+
+                if (hoveredAbility != selectedAbility || availableLevels > 1) {
+                    mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBoop"), 2F));
+                }
+
+                if (hoveredAbility == selectedAbility) {
+                    selectedLevel = (selectedLevel + 1) % availableLevels;
+                } else {
+                    selectedLevel = 0;
+                }
+
+                selectedAbility = hoveredAbility;
+            }
+        }
+
+        return new Pair<>(selectedAbility, selectedLevel);
     }
 
     @Override
@@ -351,46 +329,51 @@ public class GUIScreenToolAbility extends GuiScreen {
     }
 
     protected void doResetPresets() {
-        // TODO
-        totalPresets = 1;
-        selectedPreset = 0;
-        selectionIdxArea = 0;
-        selectedLevelArea = 0;
-        selectionIdxHarvest = 0;
-        selectedLevelHarvest = 0;
+        config.reset(availableAbilities);
     }
 
     protected void doDelPreset() {
-        // TODO
-        if (totalPresets <= 1) {
+        if (config.presets.size() <= 1) {
             return;
         }
-        totalPresets -= 1;
-        selectedPreset -= 1;
+        config.presets.remove(config.currentPreset);
+        config.currentPreset = Math.min(config.currentPreset, config.presets.size() - 1);
     }
 
     protected void doAddPreset() {
-        // TODO
-        totalPresets += 1;
-        selectedPreset += 1;
+        config.presets.add(config.currentPreset + 1, new ToolPreset());
+        config.currentPreset += 1;
     }
 
     protected void doZeroPreset() {
-        // TODO
-        selectedPreset = 0;
+        config.currentPreset = 0;
     }
 
-    protected void doNextPreset() {
-        // TODO
-        selectedPreset = (selectedPreset + 1) % totalPresets;
+    protected void doNextPreset(boolean bound) {
+        if (bound) {
+            if (config.currentPreset < config.presets.size() - 1) {
+                config.currentPreset += 1;
+            }
+        } else {
+            config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+        }
     }
 
-    protected void doPrevPreset() {
-        // TODO
-        selectedPreset = (selectedPreset + totalPresets - 1) % totalPresets;
+    protected void doPrevPreset(boolean bound) {
+        if (bound) {
+            if (config.currentPreset > 0) {
+                config.currentPreset -= 1;
+            }
+        } else {
+            config.currentPreset = (config.currentPreset + config.presets.size() - 1) % config.presets.size();
+        }
     }
 
     protected void doClose() {
         this.mc.thePlayer.closeScreen();
+
+        MainRegistry.proxy.displayTooltip(config.getActivePreset().getMessage().getFormattedText(), MainRegistry.proxy.ID_TOOLABILITY);
+
+		this.mc.theWorld.playSoundAtEntity(this.mc.thePlayer, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
     }
 }

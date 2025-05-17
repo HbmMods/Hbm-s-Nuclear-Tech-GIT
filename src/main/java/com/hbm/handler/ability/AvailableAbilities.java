@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,10 +20,18 @@ public class AvailableAbilities {
 
     public AvailableAbilities addAbility(IBaseAbility ability, int level) {
         if (level < 0 || level >= ability.levels()) {
-            throw new IllegalArgumentException("Illegal level " + level + " for ability " + ability.getName());
+            MainRegistry.logger.warn("Illegal level " + level + " for ability " + ability.getName());
+            level = ability.levels() - 1;
         }
 
-        abilities.put(ability, level);
+        if (abilities.containsKey(ability)) {
+            MainRegistry.logger.warn("Ability " + ability.getName() + " already had level " + abilities.get(ability) + ", overwriting with level " + level);
+        }
+
+        if (ability.isAllowed()) {
+            abilities.put(ability, level);
+        }
+
         return this;
     }
 
@@ -47,6 +58,22 @@ public class AvailableAbilities {
         return Collections.unmodifiableMap(abilities);
     }
 
+    public Map<IWeaponAbility, Integer> getWeaponAbilities() {
+        return abilities.keySet().stream().filter(a -> a instanceof IWeaponAbility).collect(Collectors.toMap(a -> (IWeaponAbility)a, a -> abilities.get(a)));
+    }
+
+    public Map<IBaseAbility, Integer> getToolAbilities() {
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> a, a -> abilities.get(a)));
+    }
+
+    public Map<IToolAreaAbility, Integer> getToolAreaAbilities() {
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility).collect(Collectors.toMap(a -> (IToolAreaAbility)a, a -> abilities.get(a)));
+    }
+
+    public Map<IToolHarvestAbility, Integer> getToolHarvestAbilities() {
+        return abilities.keySet().stream().filter(a -> a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> (IToolHarvestAbility)a, a -> abilities.get(a)));
+    }
+
     public int size() {
         return abilities.size();
     }
@@ -57,12 +84,12 @@ public class AvailableAbilities {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(List list) {
-        boolean hasToolAbilities = abilities.keySet().stream().anyMatch(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility);
+        Map<IBaseAbility, Integer> toolAbilities = getToolAbilities();
         
-        if (hasToolAbilities) {
+        if (!toolAbilities.isEmpty()) {
             list.add("Abilities: ");
 
-            abilities.forEach((ability, level) -> {
+            toolAbilities.forEach((ability, level) -> {
                 list.add("  " + EnumChatFormatting.GOLD + ability.getFullName(level));
             });
 
@@ -71,12 +98,12 @@ public class AvailableAbilities {
 			list.add("Alt-click to open ability selection GUI!");
         }
         
-        boolean hasWeaponModifiers = abilities.keySet().stream().anyMatch(a -> a instanceof IWeaponAbility);
+        Map<IWeaponAbility, Integer> weaponAbilities = getWeaponAbilities();
         
-        if (hasWeaponModifiers) {
+        if (!weaponAbilities.isEmpty()) {
             list.add("Weapon modifiers: ");
             
-            abilities.forEach((ability, level) -> {
+            weaponAbilities.forEach((ability, level) -> {
                 list.add("  " + EnumChatFormatting.RED + ability.getFullName(level));
             });
         }

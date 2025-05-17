@@ -11,7 +11,7 @@ import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.ThreeInts;
 import com.hbm.inventory.OreDictManager;
-import com.hbm.items.tool.IItemWithAbility;
+import com.hbm.items.tool.ItemToolAbility;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,18 +27,17 @@ public interface IToolAreaAbility extends IBaseAbility {
     // The initial block is always implicitly broken and shouldn't be included.
     // If true is returned, no block breaking is handled by the tool
     // (neither for the original block nor for the extras)
-    public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool);
+    public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
     
     // region handlers
     public static final IToolAreaAbility NONE = new IToolAreaAbility() {
         @Override
         public String getName() {
-            // TODO: null? empty? otherwise i18n
             return "";
         }
         
         @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             return false;
         }
     };
@@ -73,7 +72,7 @@ public interface IToolAreaAbility extends IBaseAbility {
         private Set<ThreeInts> pos = new HashSet<>();
 
         @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             Block b = world.getBlock(x, y, z);
             
             if(!ToolConfig.recursiveStone) {
@@ -112,7 +111,7 @@ public interface IToolAreaAbility extends IBaseAbility {
             }
         }};
 
-        private void recurse(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, IItemWithAbility tool, int depth, int radius) {
+        private void recurse(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
             List<ThreeInts> shuffledOffsets = new ArrayList<>(offsets);
             Collections.shuffle(shuffledOffsets);
             
@@ -121,7 +120,7 @@ public interface IToolAreaAbility extends IBaseAbility {
             }
         }
         
-        private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, IItemWithAbility tool, int depth, int radius) {
+        private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
             if(pos.contains(new ThreeInts(x, y, z)))
                 return;
             
@@ -190,7 +189,7 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             int range = rangeAtLevel[level];
             
             for(int a = x - range; a <= x + range; a++) {
@@ -233,7 +232,7 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             float strength = strengthAtLevel[level];
             
             ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
@@ -249,4 +248,15 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
     };
     // endregion handlers
+
+    static final IToolAreaAbility[] abilities = {NONE, RECURSION, HAMMER, EXPLOSION};
+
+    static IToolAreaAbility getByName(String name) {
+        for(IToolAreaAbility ability : abilities) {
+            if(ability.getName().equals(name))
+                return ability;
+        }
+        
+        return NONE;
+    }
 }
