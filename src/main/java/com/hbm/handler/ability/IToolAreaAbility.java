@@ -31,20 +31,18 @@ public interface IToolAreaAbility extends IBaseAbility {
 
     public static enum AreaAbility {
         // region handlers
-        None(
-            new IToolAreaAbility() {
-                @Override
-                public String getName() {
-                    // TODO: null? empty? otherwise i18n
-                    return "";
-                }
-
-                @Override
-                public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
-                    return false;
-                }
+        None(new IToolAreaAbility() {
+            @Override
+            public String getName() {
+                // TODO: null? empty? otherwise i18n
+                return "";
             }
-        ),
+
+            @Override
+            public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool) {
+                return false;
+            }
+        }),
 
         Recursion(new IToolAreaAbility() {
             @Override

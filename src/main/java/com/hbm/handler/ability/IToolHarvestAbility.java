@@ -43,8 +43,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
     public static enum HarvestAbility {
         // region handlers
-        None(
-            new IToolHarvestAbility() {
+        None(new IToolHarvestAbility() {
                 @Override
                 public String getName() {
                     // TODO: null? empty? otherwise i18n
@@ -55,8 +54,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
                 public boolean skipDefaultDrops(int level) {
                     return false;
                 }
-            }
-        ),
+        }),
 
         Silk(new IToolHarvestAbility() {
             @Override
