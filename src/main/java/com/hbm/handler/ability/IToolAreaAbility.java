@@ -27,7 +27,7 @@ public interface IToolAreaAbility extends IBaseAbility {
     // The initial block is always implicitly broken and shouldn't be included.
     // If true is returned, no block breaking is handled by the tool
     // (neither for the original block nor for the extras)
-    boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool);
+    public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, IItemWithAbility tool);
     
     // region handlers
     public static final IToolAreaAbility NONE = new IToolAreaAbility() {

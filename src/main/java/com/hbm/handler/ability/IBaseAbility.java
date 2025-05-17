@@ -3,17 +3,17 @@ package com.hbm.handler.ability;
 import net.minecraft.client.resources.I18n;
 
 public interface IBaseAbility {
-    String getName();
+    public String getName();
 
-	default String getExtension(int level) {
+	public default String getExtension(int level) {
         return "";
     }
 
-	default String getFullName(int level) {
+	public default String getFullName(int level) {
         return I18n.format(getName()) + getExtension(level);
     }
 
-    default boolean isAllowed() {
+    public default boolean isAllowed() {
         return true;
     }
 

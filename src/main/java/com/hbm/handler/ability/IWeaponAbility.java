@@ -35,7 +35,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public interface IWeaponAbility extends IBaseAbility {
-    void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool);
+    public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool);
     
     // region handlers
     public static final IWeaponAbility NONE = new IWeaponAbility() {

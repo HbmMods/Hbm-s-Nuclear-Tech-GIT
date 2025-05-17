@@ -23,14 +23,14 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 
 public interface IToolHarvestAbility extends IBaseAbility {
-    default void preHarvestAll(int level, World world, EntityPlayer player) {}
+    public default void preHarvestAll(int level, World world, EntityPlayer player) {}
 
-    default void postHarvestAll(int level, World world, EntityPlayer player) {}
+    public default void postHarvestAll(int level, World world, EntityPlayer player) {}
 
-    boolean skipDefaultDrops(int level);
+    public boolean skipDefaultDrops(int level);
 
     // Call IToolHarvestAbility.super.onHarvestBlock to emulate the actual block breaking
-    default void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
+    public default void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
         if (skipDefaultDrops(level)) {
             // Emulate the block breaking without drops
             world.setBlockToAir(x, y, z);
