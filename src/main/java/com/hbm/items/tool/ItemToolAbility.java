@@ -464,7 +464,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	public Configuration getConfiguration(ItemStack stack) {
 		Configuration config = new Configuration();
 
-		if(!stack.hasTagCompound()) {
+		if(!stack.hasTagCompound() || !stack.stackTagCompound.hasKey("ability") || !stack.stackTagCompound.hasKey("abilityPresets")) {
 			config.reset(availableAbilities);
 			return config;
 		}
