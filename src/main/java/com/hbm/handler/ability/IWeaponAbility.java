@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.IItemWithAbility;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
@@ -26,6 +25,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,7 +35,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public interface IWeaponAbility extends IBaseAbility {
-    public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool);
+    // Note: tool is currently unused in weapon abilities
+    public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool);
     
     // region handlers
     public static final IWeaponAbility NONE = new IWeaponAbility() {
@@ -46,7 +47,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {}
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {}
     };
 
     public static final IWeaponAbility RADIATION = new IWeaponAbility() {
@@ -68,7 +69,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityLivingBase)
                 ContaminationUtil.contaminate((EntityLivingBase)victim, HazardType.RADIATION, ContaminationType.CREATIVE, radAtLevel[level]);
         }
@@ -93,7 +94,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             float amount = amountAtLevel[level];
             
             if(victim instanceof EntityLivingBase) {
@@ -125,7 +126,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int duration = durationAtLevel[level];
             
             if(victim instanceof EntityLivingBase) {
@@ -156,7 +157,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int divider = dividerAtLevel[level];
             
             if(victim instanceof EntityLivingBase) {
@@ -198,7 +199,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int duration = durationAtLevel[level];
             
             if(victim instanceof EntityLivingBase) {
@@ -228,7 +229,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityLivingBase) {
                 victim.setFire(durationAtLevel[level]);
             }
@@ -241,7 +242,7 @@ public interface IWeaponAbility extends IBaseAbility {
             return "weapon.ability.chainsaw";
         }
 
-        public final int[] dividerAtLevel = {10, 15};
+        public final int[] dividerAtLevel = {15, 10};
 
         @Override
         public int levels() {
@@ -254,7 +255,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int divider = dividerAtLevel[level];
 
             if(victim instanceof EntityLivingBase) {
@@ -291,7 +292,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityLivingBase && ((EntityLivingBase) victim).getHealth() <= 0.0F) {
                 EntityLivingBase living = (EntityLivingBase) victim;
 
@@ -332,7 +333,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, IItemWithAbility tool) {
+        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
                 EntityMob mob = (EntityMob) victim;
 
