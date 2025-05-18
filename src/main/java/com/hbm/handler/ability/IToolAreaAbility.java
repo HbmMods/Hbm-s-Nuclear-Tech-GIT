@@ -24,8 +24,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public interface IToolAreaAbility extends IBaseAbility {
     // Should call tool.breakExtraBlock on a bunch of blocks.
-    // The initial block should be included if you want it broken!
-    public void onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
+    // The initial block is implicitly broken, so don't call breakExtraBlock on it.
+    // Returning true skips the reference block from being broken
+    public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
     
     // Whether breakExtraBlock is called at all. Currently only false for explosion
     public default boolean allowsHarvest(int level) {
@@ -47,8 +48,8 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
         
         @Override
-        public void onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
-            tool.breakExtraBlock(world, x, y, z, player, x, y, z);
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+            return false;
         }
     };
 
@@ -87,24 +88,22 @@ public interface IToolAreaAbility extends IBaseAbility {
         private Set<ThreeInts> pos = new HashSet<>();
 
         @Override
-        public void onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             Block b = world.getBlock(x, y, z);
             
             if(b == Blocks.stone && !ToolConfig.recursiveStone) {
-                tool.breakExtraBlock(world, x, y, z, player, x, y, z);
-                return;
+                return false;
             }
 
             if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack) {
-                tool.breakExtraBlock(world, x, y, z, player, x, y, z);
-                return;
+                return false;
             }
             
             pos.clear();
 
             recurse(world, x, y, z, x, y, z, player, tool, 0, radiusAtLevel[level]);
 
-            tool.breakExtraBlock(world, x, y, z, player, x, y, z);
+            return false;
         }
 
         private final List<ThreeInts> offsets = new ArrayList<ThreeInts>(3*3*3-1) {{
@@ -202,7 +201,7 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
 
         @Override
-        public void onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             int range = rangeAtLevel[level];
             
             for(int a = x - range; a <= x + range; a++) {
@@ -210,12 +209,13 @@ public interface IToolAreaAbility extends IBaseAbility {
                     for(int c = z - range; c <= z + range; c++) {
                         if (a == x && b == y && c == z)
                             continue;
+                        
                         tool.breakExtraBlock(world, a, b ,c, player, x, y, z);
                     }
                 }
             }
 
-            tool.breakExtraBlock(world, x, y, z, player, x, y, z);
+            return false;
         }
     };
 
@@ -253,7 +253,7 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
 
         @Override
-        public void onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             float strength = strengthAtLevel[level];
             
             ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
@@ -264,6 +264,8 @@ public interface IToolAreaAbility extends IBaseAbility {
             ex.doExplosionB(false);
             
             player.worldObj.createExplosion(player, x + 0.5, y + 0.5, z + 0.5, 0.1F, false);
+        
+            return true;
         }
     };
     // endregion handlers

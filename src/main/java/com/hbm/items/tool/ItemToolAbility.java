@@ -167,8 +167,12 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 			preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, world, player);
 
-			preset.areaAbility.onDig(preset.areaAbilityLevel, world, x, y, z, player, this);
+			boolean skipRef = preset.areaAbility.onDig(preset.areaAbilityLevel, world, x, y, z, player, this);
 		
+			if (!skipRef) {
+				breakExtraBlock(world, x, y, z, player, x, y, z);
+			}
+
 			preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, world, player);
 
 			return true;
