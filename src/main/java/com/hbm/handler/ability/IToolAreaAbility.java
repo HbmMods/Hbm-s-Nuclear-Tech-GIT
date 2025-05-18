@@ -208,10 +208,14 @@ public interface IToolAreaAbility extends IBaseAbility {
             for(int a = x - range; a <= x + range; a++) {
                 for(int b = y - range; b <= y + range; b++) {
                     for(int c = z - range; c <= z + range; c++) {
+                        if (a == x && b == y && c == z)
+                            continue;
                         tool.breakExtraBlock(world, a, b ,c, player, x, y, z);
                     }
                 }
             }
+
+            tool.breakExtraBlock(world, x, y, z, player, x, y, z);
         }
     };
 
