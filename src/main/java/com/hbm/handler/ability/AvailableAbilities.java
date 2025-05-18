@@ -2,7 +2,7 @@ package com.hbm.handler.ability;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import net.minecraft.util.EnumChatFormatting;
 // All abilities available on a given tool
 public class AvailableAbilities {
     // Insertion order matters
-    private LinkedHashMap<IBaseAbility, Integer> abilities = new LinkedHashMap<IBaseAbility, Integer>();
+    private HashMap<IBaseAbility, Integer> abilities = new HashMap<IBaseAbility, Integer>();
 
     public AvailableAbilities() {}
 
@@ -66,15 +66,15 @@ public class AvailableAbilities {
     }
 
     public Map<IBaseAbility, Integer> getToolAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility || a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> a, a -> abilities.get(a)));
     }
 
     public Map<IToolAreaAbility, Integer> getToolAreaAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility).collect(Collectors.toMap(a -> (IToolAreaAbility)a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolAreaAbility).collect(Collectors.toMap(a -> (IToolAreaAbility)a, a -> abilities.get(a)));
     }
 
     public Map<IToolHarvestAbility, Integer> getToolHarvestAbilities() {
-        return abilities.keySet().stream().filter(a -> a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> (IToolHarvestAbility)a, a -> abilities.get(a), (x, y) -> y, LinkedHashMap::new));
+        return abilities.keySet().stream().filter(a -> a instanceof IToolHarvestAbility).collect(Collectors.toMap(a -> (IToolHarvestAbility)a, a -> abilities.get(a)));
     }
 
     public int size() {
@@ -87,23 +87,23 @@ public class AvailableAbilities {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(List list) {
-        Map<IBaseAbility, Integer> toolAbilities = getToolAbilities();
+        List<Map.Entry<IBaseAbility, Integer>> toolAbilities = abilities.entrySet().stream().filter(entry ->
+            (entry.getKey() instanceof IToolAreaAbility && entry != IToolAreaAbility.NONE) ||
+            (entry.getKey() instanceof IToolHarvestAbility && entry != IToolHarvestAbility.NONE)
+        ).sorted(
+            Comparator
+                .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
+                .thenComparing(Map.Entry<IBaseAbility, Integer>::getValue)
+        ).collect(Collectors.toList());
         
         if (!toolAbilities.isEmpty()) {
             list.add("Abilities: ");
 
-            toolAbilities.entrySet().stream().sorted(
-                Comparator
-                    .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
-                    .thenComparing(Map.Entry<IBaseAbility, Integer>::getValue)
-            ).forEach(entry -> {
+            toolAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();
                 int level = entry.getValue();
                 
-                String fullName = ability.getFullName(level);
-                if (!fullName.isEmpty()) {
-                    list.add("  " + EnumChatFormatting.GOLD + fullName);
-                }
+                list.add("  " + EnumChatFormatting.GOLD + ability.getFullName(level));
             });
 
 			list.add("Right click to cycle through presets!");
@@ -111,17 +111,19 @@ public class AvailableAbilities {
 			list.add("Alt-click to open customization GUI!");
         }
         
-        Map<IWeaponAbility, Integer> weaponAbilities = getWeaponAbilities();
+        List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream().filter(entry ->
+            (entry.getKey() instanceof IWeaponAbility && entry != IWeaponAbility.NONE)
+        ).sorted(
+            Comparator
+                .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
+                .thenComparing(Map.Entry<IBaseAbility, Integer>::getValue)
+        ).collect(Collectors.toList());
         
         if (!weaponAbilities.isEmpty()) {
             list.add("Weapon modifiers: ");
             
-            weaponAbilities.entrySet().stream().sorted(
-                Comparator
-                    .comparing(Map.Entry<IWeaponAbility, Integer>::getKey)
-                    .thenComparing(Map.Entry<IWeaponAbility, Integer>::getValue)
-            ).forEach(entry -> {
-                IWeaponAbility ability = entry.getKey();
+            weaponAbilities.forEach(entry -> {
+                IBaseAbility ability = entry.getKey();
                 int level = entry.getValue();
 
                 list.add("  " + EnumChatFormatting.RED + ability.getFullName(level));
