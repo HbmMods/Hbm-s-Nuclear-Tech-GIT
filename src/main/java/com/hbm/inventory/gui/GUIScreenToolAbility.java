@@ -109,7 +109,7 @@ public class GUIScreenToolAbility extends GuiScreen {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
         // Draw window background
-        drawStretchedRect(guiLeft, guiTop, 0, 0, xSize, xSize - insetWidth, ySize, 74, 76);
+        drawStretchedRect(guiLeft, guiTop, 0, 0, xSize, xSize - insetWidth, ySize, 74, 87);
         
         // Draw the switches
         ToolPreset activePreset = config.getActivePreset();
