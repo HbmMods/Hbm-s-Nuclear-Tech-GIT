@@ -11,7 +11,6 @@ import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.ToolPreset;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.tool.ItemToolAbility;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -68,14 +67,13 @@ public class GUIScreenToolAbility extends GuiScreen {
         abilitiesHarvest.add(new AbilityInfo(IToolHarvestAbility.MERCURY, 224, 107));
     }
 
-    // TODO: Use availableAbilities
     protected ItemStack toolStack;
-    AvailableAbilities availableAbilities;
-    ItemToolAbility.Configuration config;
+    protected AvailableAbilities availableAbilities;
+    protected ItemToolAbility.Configuration config;
     
-    int hoverIdxArea = -1;
-    int hoverIdxHarvest = -1;
-    int hoverIdxExtraBtn = -1;
+    protected int hoverIdxHarvest = -1;
+    protected int hoverIdxArea = -1;
+    protected int hoverIdxExtraBtn = -1;
     
     public GUIScreenToolAbility(AvailableAbilities availableAbilities) {
         super();
@@ -184,7 +182,7 @@ public class GUIScreenToolAbility extends GuiScreen {
 
         for (int i = 0; i < abilities.size(); ++i) {
             AbilityInfo abilityInfo = abilities.get(i);
-            boolean available = availableAbilities.supportsAbility(abilityInfo.ability);
+            boolean available = abilityAvailable(abilityInfo.ability);
             boolean selected = abilityInfo.ability == selectedAbility;
 
             // Draw switch
@@ -242,6 +240,19 @@ public class GUIScreenToolAbility extends GuiScreen {
         return x <= mouseX && x + width > mouseX && y <= mouseY && y + height > mouseY;
     }
 
+    private boolean abilityAvailable(IBaseAbility ability) {
+        if (!availableAbilities.supportsAbility(ability)) {
+            return false;
+        }
+
+        ToolPreset activePreset = config.getActivePreset();
+        if (ability instanceof IToolHarvestAbility && !activePreset.areaAbility.allowsHarvest(activePreset.areaAbilityLevel)) {
+            return false;
+        }
+
+        return true;
+    }
+
     // Note: This spuriously trigger way too often, and I can't see why. I'll disable it altogether, I guess
     // @Override
     // public void updateScreen() {
@@ -281,6 +292,11 @@ public class GUIScreenToolAbility extends GuiScreen {
         activePreset.harvestAbility = (IToolHarvestAbility)clickResult.key;
         activePreset.harvestAbilityLevel = clickResult.value;
 
+        if (!activePreset.areaAbility.allowsHarvest(activePreset.areaAbilityLevel)) {
+            activePreset.harvestAbility = IToolHarvestAbility.NONE;
+            activePreset.harvestAbilityLevel = 0;
+        }
+
         // Process extra buttons
         if (hoverIdxExtraBtn != -1) {
             switch (hoverIdxExtraBtn) {
@@ -306,7 +322,7 @@ public class GUIScreenToolAbility extends GuiScreen {
     protected Pair<IBaseAbility, Integer> handleSwitchesClicked(List<AbilityInfo> abilities, IBaseAbility selectedAbility, int selectedLevel, int hoverIdx, int mouseX, int mouseY) {
         if (hoverIdx != -1) {
             IBaseAbility hoveredAbility = abilities.get(hoverIdx).ability;
-            boolean available = availableAbilities.supportsAbility(hoveredAbility);
+            boolean available = abilityAvailable(hoveredAbility);
 
             if (available) {
                 int availableLevels = availableAbilities.maxLevel(hoveredAbility) + 1;

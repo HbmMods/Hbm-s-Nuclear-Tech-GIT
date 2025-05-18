@@ -29,6 +29,11 @@ public interface IToolAreaAbility extends IBaseAbility {
     // (neither for the original block nor for the extras)
     public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
     
+    // Whether breakExtraBlock is called at all. Currently only false for explosion
+    public default boolean allowsHarvest(int level) {
+        return true;
+    }
+
     // region handlers
     public static final IToolAreaAbility NONE = new IToolAreaAbility() {
         @Override
@@ -229,6 +234,11 @@ public interface IToolAreaAbility extends IBaseAbility {
         @Override
         public String getExtension(int level) {
             return " (" + strengthAtLevel[level] + ")";
+        }
+
+        @Override
+        public boolean allowsHarvest(int level) {
+            return false;
         }
 
         @Override

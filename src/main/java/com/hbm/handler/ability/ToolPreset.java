@@ -80,6 +80,11 @@ public class ToolPreset {
             areaAbilityLevel = 0;
         }
 
+        if (!areaAbility.allowsHarvest(areaAbilityLevel)) {
+            harvestAbility = IToolHarvestAbility.NONE;
+            harvestAbilityLevel = 0;
+        }
+
         int maxHarvestLevel = availableAbilities.maxLevel(harvestAbility);
 
         if (maxHarvestLevel == -1) {
