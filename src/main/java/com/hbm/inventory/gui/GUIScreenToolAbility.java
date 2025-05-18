@@ -246,7 +246,7 @@ public class GUIScreenToolAbility extends GuiScreen {
         }
 
         ToolPreset activePreset = config.getActivePreset();
-        if (ability instanceof IToolHarvestAbility && !activePreset.areaAbility.allowsHarvest(activePreset.areaAbilityLevel)) {
+        if (ability instanceof IToolHarvestAbility && ability != IToolHarvestAbility.NONE && !activePreset.areaAbility.allowsHarvest(activePreset.areaAbilityLevel)) {
             return false;
         }
 
