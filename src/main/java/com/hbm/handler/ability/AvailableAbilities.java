@@ -106,9 +106,9 @@ public class AvailableAbilities {
                 }
             });
 
-			list.add("Right click to cycle through abilities!");
-			list.add("Sneak-click to turn ability off!");
-			list.add("Alt-click to open ability selection GUI!");
+			list.add("Right click to cycle through presets!");
+			list.add("Sneak-click to go to first preset!");
+			list.add("Alt-click to open customization GUI!");
         }
         
         Map<IWeaponAbility, Integer> weaponAbilities = getWeaponAbilities();
@@ -123,7 +123,7 @@ public class AvailableAbilities {
             ).forEach(entry -> {
                 IWeaponAbility ability = entry.getKey();
                 int level = entry.getValue();
-                
+
                 list.add("  " + EnumChatFormatting.RED + ability.getFullName(level));
             });
         }
