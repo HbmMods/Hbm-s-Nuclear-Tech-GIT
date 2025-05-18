@@ -27,11 +27,14 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
     public default void postHarvestAll(int level, World world, EntityPlayer player) {}
 
-    public boolean skipDefaultDrops(int level);
-
-    // Call IToolHarvestAbility.super.onHarvestBlock to emulate the actual block breaking
+    // You must call harvestBlock to actually break the block.
+    // If you don't, visual glitches ensue
     public default void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
-        if (skipDefaultDrops(level)) {
+        harvestBlock(false, world, x, y, z, player);
+    }
+
+    public static void harvestBlock(boolean skipDefaultDrops, World world, int x, int y, int z, EntityPlayer player) {
+        if (skipDefaultDrops) {
             // Emulate the block breaking without drops
             world.setBlockToAir(x, y, z);
             player.getHeldItem().damageItem(1, player);
@@ -54,11 +57,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         public int sortOrder() {
             return SORT_ORDER_BASE + 0;
         }
-
-        @Override
-        public boolean skipDefaultDrops(int level) {
-            return false;
-        }
     };
 
     public static final IToolHarvestAbility SILK = new IToolHarvestAbility() {
@@ -75,11 +73,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         @Override
         public int sortOrder() {
             return SORT_ORDER_BASE + 1;
-        }
-
-        @Override
-        public boolean skipDefaultDrops(int level) {
-            return false;
         }
 
         @Override
@@ -127,11 +120,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return false;
-        }
-
-        @Override
         public void preHarvestAll(int level, World world, EntityPlayer player) {
             ItemStack stack = player.getHeldItem();
             EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, powerAtLevel[level]);
@@ -164,11 +152,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return true;
-        }
-
-        @Override
         public void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
             List<ItemStack> drops = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
             
@@ -186,11 +169,12 @@ public interface IToolHarvestAbility extends IBaseAbility {
                 }
             }
             
+            harvestBlock(doesSmelt, world, x, y, z, player);
+
             if(doesSmelt) {
-                IToolHarvestAbility.super.onHarvestBlock(level, world, x, y, z, player, block, meta);
-                
-                for(ItemStack stack : drops)
+                for(ItemStack stack : drops) {
                     world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
+                }
             }
         }
     };
@@ -212,11 +196,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return true;
-        }
-
-        @Override
         public void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
             //a band-aid on a gaping wound
             if(block == Blocks.lit_redstone_ore)
@@ -224,9 +203,12 @@ public interface IToolHarvestAbility extends IBaseAbility {
             
             ItemStack stack = new ItemStack(block, 1, meta);
             ItemStack result = ShredderRecipes.getShredderResult(stack);
+
+            boolean doesShred = result != null && result.getItem() != ModItems.scrap;
+
+            harvestBlock(doesShred, world, x, y, z, player);
             
-            if(result != null && result.getItem() != ModItems.scrap) {
-                IToolHarvestAbility.super.onHarvestBlock(level, world, x, y, z, player, block, meta);
+            if(doesShred) {
                 world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
             }
         }
@@ -249,11 +231,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return true;
-        }
-
-        @Override
         public void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
             //a band-aid on a gaping wound
             if(block == Blocks.lit_redstone_ore)
@@ -261,13 +238,16 @@ public interface IToolHarvestAbility extends IBaseAbility {
             
             ItemStack stack = new ItemStack(block, 1, meta);
             ItemStack[] result = CentrifugeRecipes.getOutput(stack);
+
+            boolean doesCentrifuge = result != null;
             
-            if(result != null) {
-                IToolHarvestAbility.super.onHarvestBlock(level, world, x, y, z, player, block, meta);
-                
+            harvestBlock(doesCentrifuge, world, x, y, z, player);
+            
+            if(doesCentrifuge) {
                 for(ItemStack st : result) {
-                    if(st != null)
+                    if(st != null) {
                         world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, st.copy()));
+                    }
                 }
             }
         }
@@ -290,11 +270,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return true;
-        }
-
-        @Override
         public void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
             //a band-aid on a gaping wound
             if(block == Blocks.lit_redstone_ore)
@@ -302,9 +277,12 @@ public interface IToolHarvestAbility extends IBaseAbility {
             
             ItemStack stack = new ItemStack(block, 1, meta);
             CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.PEROXIDE);
+
+            boolean doesCrystallize = result != null;
             
-            if(result != null) {
-                IToolHarvestAbility.super.onHarvestBlock(level, world, x, y, z, player, block, meta);
+            harvestBlock(doesCrystallize, world, x, y, z, player);
+            
+            if(doesCrystallize) {
                 world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.output.copy()));
             }
         }
@@ -327,11 +305,6 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
-        public boolean skipDefaultDrops(int level) {
-            return true;
-        }
-
-        @Override
         public void onHarvestBlock(int level, World world, int x, int y, int z, EntityPlayer player, Block block, int meta) {
             //a band-aid on a gaping wound
             if(block == Blocks.lit_redstone_ore)
@@ -344,8 +317,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
             if(block == Blocks.redstone_block)
                 mercury = player.getRNG().nextInt(7) + 8;
             
-            if(mercury > 0) {
-                IToolHarvestAbility.super.onHarvestBlock(level, world, x, y, z, player, block, meta);
+            boolean doesConvert = mercury > 0;
+            
+            harvestBlock(doesConvert, world, x, y, z, player);
+            
+            if(doesConvert) {
                 world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ingot_mercury, mercury)));
             }
         }
