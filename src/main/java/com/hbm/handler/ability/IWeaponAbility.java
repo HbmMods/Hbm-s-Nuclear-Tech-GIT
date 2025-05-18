@@ -214,7 +214,7 @@ public interface IWeaponAbility extends IBaseAbility {
 
         @Override
         public int sortOrder() {
-            return SORT_ORDER_BASE + 5;
+            return SORT_ORDER_BASE + 6;
         }
 
         @Override
@@ -245,7 +245,7 @@ public interface IWeaponAbility extends IBaseAbility {
 
         @Override
         public int sortOrder() {
-            return SORT_ORDER_BASE + 6;
+            return SORT_ORDER_BASE + 7;
         }
 
         @Override
@@ -287,7 +287,7 @@ public interface IWeaponAbility extends IBaseAbility {
 
         @Override
         public int sortOrder() {
-            return SORT_ORDER_BASE + 7;
+            return SORT_ORDER_BASE + 8;
         }
 
         @Override
@@ -333,7 +333,7 @@ public interface IWeaponAbility extends IBaseAbility {
 
         @Override
         public int sortOrder() {
-            return SORT_ORDER_BASE + 8;
+            return SORT_ORDER_BASE + 9;
         }
 
         @Override

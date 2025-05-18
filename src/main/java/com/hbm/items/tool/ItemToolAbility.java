@@ -426,10 +426,11 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			currentPreset = nbt.getInteger("ability");
 
 			NBTTagList nbtPresets = nbt.getTagList("abilityPresets", 10);
+			int numPresets = Math.min(nbtPresets.tagCount(), 99);
 			
-			presets = new ArrayList<ToolPreset>(nbtPresets.tagCount());
+			presets = new ArrayList<ToolPreset>(numPresets);
 			
-			for(int i = 0; i < nbtPresets.tagCount(); i++) {
+			for(int i = 0; i < numPresets; i++) {
 				NBTTagCompound nbtPreset = nbtPresets.getCompoundTagAt(i);
 				ToolPreset preset = new ToolPreset();
 				preset.readFromNBT(nbtPreset);

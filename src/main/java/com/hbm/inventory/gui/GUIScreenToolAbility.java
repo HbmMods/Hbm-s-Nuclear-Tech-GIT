@@ -372,6 +372,10 @@ public class GUIScreenToolAbility extends GuiScreen {
     }
 
     protected void doAddPreset() {
+        if (config.presets.size() >= 99) {
+            return;
+        }
+
         config.presets.add(config.currentPreset + 1, new ToolPreset());
         config.currentPreset += 1;
     }
