@@ -1,6 +1,7 @@
 package com.hbm.handler.ability;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +92,14 @@ public class AvailableAbilities {
         if (!toolAbilities.isEmpty()) {
             list.add("Abilities: ");
 
-            toolAbilities.forEach((ability, level) -> {
+            toolAbilities.entrySet().stream().sorted(
+                Comparator
+                    .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
+                    .thenComparing(Map.Entry<IBaseAbility, Integer>::getValue)
+            ).forEach(entry -> {
+                IBaseAbility ability = entry.getKey();
+                int level = entry.getValue();
+                
                 String fullName = ability.getFullName(level);
                 if (!fullName.isEmpty()) {
                     list.add("  " + EnumChatFormatting.GOLD + fullName);
@@ -108,7 +116,14 @@ public class AvailableAbilities {
         if (!weaponAbilities.isEmpty()) {
             list.add("Weapon modifiers: ");
             
-            weaponAbilities.forEach((ability, level) -> {
+            weaponAbilities.entrySet().stream().sorted(
+                Comparator
+                    .comparing(Map.Entry<IWeaponAbility, Integer>::getKey)
+                    .thenComparing(Map.Entry<IWeaponAbility, Integer>::getValue)
+            ).forEach(entry -> {
+                IWeaponAbility ability = entry.getKey();
+                int level = entry.getValue();
+                
                 list.add("  " + EnumChatFormatting.RED + ability.getFullName(level));
             });
         }

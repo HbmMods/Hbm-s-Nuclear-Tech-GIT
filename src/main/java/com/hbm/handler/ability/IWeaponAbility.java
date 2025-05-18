@@ -38,11 +38,18 @@ public interface IWeaponAbility extends IBaseAbility {
     // Note: tool is currently unused in weapon abilities
     public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool);
     
+    public final static int SORT_ORDER_BASE = 200;
+
     // region handlers
     public static final IWeaponAbility NONE = new IWeaponAbility() {
         @Override
         public String getName() {
             return "";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 0;
         }
 
         @Override
@@ -68,6 +75,11 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 1;
+        }
+
+        @Override
         public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityLivingBase)
                 ContaminationUtil.contaminate((EntityLivingBase)victim, HazardType.RADIATION, ContaminationType.CREATIVE, radAtLevel[level]);
@@ -90,6 +102,11 @@ public interface IWeaponAbility extends IBaseAbility {
         @Override
         public String getExtension(int level) {
             return " (" + amountAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 2;
         }
 
         @Override
@@ -125,6 +142,11 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 3;
+        }
+
+        @Override
         public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int duration = durationAtLevel[level];
             
@@ -153,6 +175,11 @@ public interface IWeaponAbility extends IBaseAbility {
         @Override
         public String getExtension(int level) {
             return " (1:" + dividerAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 4;
         }
 
         @Override
@@ -198,6 +225,11 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 5;
+        }
+
+        @Override
         public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             int duration = durationAtLevel[level];
             
@@ -228,6 +260,11 @@ public interface IWeaponAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 5;
+        }
+
+        @Override
         public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
             if(victim instanceof EntityLivingBase) {
                 victim.setFire(durationAtLevel[level]);
@@ -251,6 +288,11 @@ public interface IWeaponAbility extends IBaseAbility {
         @Override
         public String getExtension(int level) {
             return " (1:" + dividerAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 6;
         }
 
         @Override
@@ -288,6 +330,11 @@ public interface IWeaponAbility extends IBaseAbility {
         @Override
         public String getName() {
             return "weapon.ability.beheader";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 7;
         }
 
         @Override
@@ -329,6 +376,11 @@ public interface IWeaponAbility extends IBaseAbility {
         @Override
         public String getName() {
             return "weapon.ability.bobble";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 8;
         }
 
         @Override

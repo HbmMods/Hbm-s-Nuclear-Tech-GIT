@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -455,6 +456,14 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 					return;
 				presets.add(new ToolPreset(IToolAreaAbility.NONE, 0, ability, level));
 			});
+
+			presets.sort(
+				Comparator
+					.comparing((ToolPreset p) -> p.harvestAbility)
+					.thenComparingInt(p -> p.harvestAbilityLevel)
+					.thenComparing(p -> p.areaAbility)
+					.thenComparingInt(p -> p.areaAbilityLevel)
+			);
 		}
 
 		public void restrictTo(AvailableAbilities availableAbilities) {

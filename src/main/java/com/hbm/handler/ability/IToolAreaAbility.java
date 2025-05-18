@@ -34,11 +34,18 @@ public interface IToolAreaAbility extends IBaseAbility {
         return true;
     }
 
+    public final static int SORT_ORDER_BASE = 0;
+
     // region handlers
     public static final IToolAreaAbility NONE = new IToolAreaAbility() {
         @Override
         public String getName() {
             return "";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 0;
         }
         
         @Override
@@ -68,6 +75,11 @@ public interface IToolAreaAbility extends IBaseAbility {
         @Override
         public String getExtension(int level) {
             return " (" + radiusAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 1;
         }
 
         // Note: if reusing it across different instatces of a tool
@@ -194,6 +206,11 @@ public interface IToolAreaAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 2;
+        }
+
+        @Override
         public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             int range = rangeAtLevel[level];
             
@@ -239,6 +256,11 @@ public interface IToolAreaAbility extends IBaseAbility {
         @Override
         public boolean allowsHarvest(int level) {
             return false;
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 3;
         }
 
         @Override

@@ -41,11 +41,18 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
     }
 
+    public final static int SORT_ORDER_BASE = 100;
+
     // region handlers
     public static final IToolHarvestAbility NONE = new IToolHarvestAbility() {
         @Override
         public String getName() {
             return "";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 0;
         }
 
         @Override
@@ -63,6 +70,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         @Override
         public boolean isAllowed() {
             return ToolConfig.abilitySilk;
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 1;
         }
 
         @Override
@@ -110,6 +122,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 2;
+        }
+
+        @Override
         public boolean skipDefaultDrops(int level) {
             return false;
         }
@@ -139,6 +156,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         @Override
         public boolean isAllowed() {
             return ToolConfig.abilityFurnace;
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 3;
         }
 
         @Override
@@ -185,6 +207,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 4;
+        }
+
+        @Override
         public boolean skipDefaultDrops(int level) {
             return true;
         }
@@ -214,6 +241,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         @Override
         public boolean isAllowed() {
             return ToolConfig.abilityCentrifuge;
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 5;
         }
 
         @Override
@@ -253,6 +285,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
 
         @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 6;
+        }
+
+        @Override
         public boolean skipDefaultDrops(int level) {
             return true;
         }
@@ -282,6 +319,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
         @Override
         public boolean isAllowed() {
             return ToolConfig.abilityMercury;
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 7;
         }
 
         @Override

@@ -2,7 +2,7 @@ package com.hbm.handler.ability;
 
 import net.minecraft.client.resources.I18n;
 
-public interface IBaseAbility {
+public interface IBaseAbility extends Comparable<IBaseAbility> {
     public String getName();
 
 	public default String getExtension(int level) {
@@ -23,5 +23,14 @@ public interface IBaseAbility {
     // with a level between 0 and levels()-1 (inclusive).
     default int levels() {
         return 1;
+    }
+
+    default int sortOrder() {
+        return hashCode();
+    }
+
+    @Override
+    default int compareTo(IBaseAbility o) {
+        return sortOrder() - o.sortOrder();
     }
 }
