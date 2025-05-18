@@ -35,6 +35,7 @@ import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.CranePartitioner.TileEntityCranePartitioner;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
+import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
@@ -198,14 +199,6 @@ public class TileMappings {
 		put(TileEntityLantern.class, "tileentity_lantern_ordinary");
 		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
-		put(TileEntityCableBaseNT.class, "tileentity_ohgod"); // what?
-		put(TileEntityCablePaintable.class, "tileentity_cable_paintable");
-		put(TileEntityCableGauge.class, "tileentity_cable_gauge");
-		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
-		put(TileEntityPipePaintable.class, "tileentity_pipe_paintable");
-		put(TileEntityPipeGauge.class, "tileentity_pipe_gauge");
-		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
-		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		put(TileEntityGlpyhidSpawner.class, "tileentity_glyphid_spawner");
@@ -402,6 +395,8 @@ public class TileMappings {
 
 	private static void putNetwork() {
 		put(TileEntityCableBaseNT.class, "tileentity_cable", "tileentity_wirecoated");
+		put(TileEntityCablePaintable.class, "tileentity_cable_paintable");
+		put(TileEntityCableGauge.class, "tileentity_cable_gauge");
 		put(TileEntityCableSwitch.class, "tileentity_cable_switch");
 		put(TileEntityDiode.class, "tileentity_cable_diode");
 
@@ -410,6 +405,13 @@ public class TileMappings {
 		put(TileEntityPylonMedium.class, "tileentity_pylon_medium");
 		put(TileEntityPylonLarge.class, "tileentity_pylon_large");
 		put(TileEntitySubstation.class, "tileentity_substation");
+
+		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
+		put(TileEntityPipePaintable.class, "tileentity_pipe_paintable");
+		put(TileEntityPipeGauge.class, "tileentity_pipe_gauge");
+		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
+		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
+		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");

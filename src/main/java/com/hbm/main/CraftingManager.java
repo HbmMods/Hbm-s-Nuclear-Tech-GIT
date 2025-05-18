@@ -482,7 +482,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.rail_highspeed, 16), new Object[] { "S S", "SIS", "S S", 'S', STEEL.ingot(), 'I', IRON.plate() });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_booster, 6), new Object[] { "S S", "CIC", "SRS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'R', MINGRADE.ingot(), 'C', ModItems.coil_copper });
 
-		addRecipeAuto(new ItemStack(ModBlocks.rail_large_straight, 4), new Object[] { "B B", "SSS", "W W", 'B', ModItems.bolt_spike, 'S', ModBlocks.steel_beam, 'W', KEY_SLAB });
+		/*addRecipeAuto(new ItemStack(ModBlocks.rail_large_straight, 4), new Object[] { "B B", "SSS", "W W", 'B', ModItems.bolt_spike, 'S', ModBlocks.steel_beam, 'W', KEY_SLAB });
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight, 1), new Object[] { ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short });
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight_short, 5), new Object[] { ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_buffer, 1), new Object[] { " S", "RS", 'R', ModBlocks.rail_large_straight, 'S', STEEL.ingot() });
@@ -492,7 +492,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_ramp, 1), new Object[] { " R ", "SSS", 'R', ModBlocks.rail_large_straight, 'S', KEY_SLAB });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_switch, 1), new Object[] { "R R", " RR", "  R", 'R', ModBlocks.rail_large_straight });
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch), new Object[] { ModBlocks.rail_large_switch_flipped });
-		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch_flipped), new Object[] { ModBlocks.rail_large_switch });
+		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch_flipped), new Object[] { ModBlocks.rail_large_switch });*/
 
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.bomb_multi), 1), new Object[] { "AAD", "CHF", "AAD", 'A', AL.wireFine(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'H', AL.shell(), 'F', ModItems.fins_quad_titanium, 'D', KEY_WHITE });
 		addShapelessAuto(new ItemStack(ModItems.powder_ice, 4), new Object[] { Items.snowball, KNO.dust(), REDSTONE.dust() });
@@ -607,6 +607,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.fluid_duct_gauge), new Object[] { ModBlocks.fluid_duct_paintable, STEEL.ingot(), DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC) });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_valve, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.fluid_duct_paintable });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_switch, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.fluid_duct_paintable });
+		addRecipeAuto(new ItemStack(ModBlocks.fluid_pump, 1), new Object[] { " S ", "PGP", "IMI", 'S', STEEL.shell(), 'P', STEEL.pipe(), 'G', GRAPHITE.ingot(), 'I', STEEL.ingot(), 'M', ModItems.motor });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 8), new Object[] { "CRC", 'C', CU.plateCast(), 'R', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.pneumatic_tube, 24), new Object[] { "CRC", 'C', CU.plateWelded(), 'R', ANY_RUBBER.ingot() });
 		

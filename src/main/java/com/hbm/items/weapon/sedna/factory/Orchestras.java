@@ -836,6 +836,56 @@ public class Orchestras {
 		}
 	};
 
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_AMAT = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.EQUIP) {
+			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 0.5F, 1.25F);
+			if(timer == 15) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 0.5F, 1.25F);
+		}
+		
+		if(type == AnimType.CYCLE) {
+			if(timer == 7) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltOpen", 0.5F, 1F);
+			if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
+			if(timer == 12) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity,
+						0.375, aiming ? 0 : -0.125, -0.25D,
+						-0.05, 0.2, -0.025,
+						0.01, -10F + (float) entity.getRNG().nextGaussian() * 10F, (float) entity.getRNG().nextGaussian() * 12.5F, casing.getName(), true, 60, 0.5D, 10);
+			}
+		}
+		
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
+			if(timer == 7) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltOpen", 0.5F, 1F);
+			if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
+		}
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 2) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltOpen", 0.5F, 1F);
+			if(timer == 41) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
+		}
+
+		if(type == AnimType.JAMMED) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltOpen", 0.5F, 1F);
+			if(timer == 12) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
+			if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltOpen", 0.5F, 1F);
+			if(timer == 23) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 0.5F, 1F);
+		}
+
+		if(type == AnimType.INSPECT) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 0.5F, 1F);
+			if(timer == 45) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 0.5F, 1F);
+		}
+	};
+
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_M2 = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		if(entity.worldObj.isRemote) return;
