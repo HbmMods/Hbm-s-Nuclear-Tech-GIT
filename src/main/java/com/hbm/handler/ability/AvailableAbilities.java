@@ -88,8 +88,8 @@ public class AvailableAbilities {
     @SideOnly(Side.CLIENT)
     public void addInformation(List list) {
         List<Map.Entry<IBaseAbility, Integer>> toolAbilities = abilities.entrySet().stream().filter(entry ->
-            (entry.getKey() instanceof IToolAreaAbility && entry != IToolAreaAbility.NONE) ||
-            (entry.getKey() instanceof IToolHarvestAbility && entry != IToolHarvestAbility.NONE)
+            (entry.getKey() instanceof IToolAreaAbility && entry.getKey() != IToolAreaAbility.NONE) ||
+            (entry.getKey() instanceof IToolHarvestAbility && entry.getKey() != IToolHarvestAbility.NONE)
         ).sorted(
             Comparator
                 .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
@@ -112,7 +112,7 @@ public class AvailableAbilities {
         }
         
         List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream().filter(entry ->
-            (entry.getKey() instanceof IWeaponAbility && entry != IWeaponAbility.NONE)
+            (entry.getKey() instanceof IWeaponAbility && entry.getKey() != IWeaponAbility.NONE)
         ).sorted(
             Comparator
                 .comparing(Map.Entry<IBaseAbility, Integer>::getKey)
