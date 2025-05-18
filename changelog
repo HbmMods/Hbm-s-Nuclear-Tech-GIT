@@ -44,3 +44,4 @@
 * Fixed bauxite and malachite vein toggles being on backwards
 * Fixed pneumatic tube order settings not saving
 * Fixed crash caused by launching ABMs with blank target designators
+* Fixed particle source throwing errors when trying to save nonexistant particles
