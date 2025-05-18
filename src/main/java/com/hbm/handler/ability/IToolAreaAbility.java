@@ -92,18 +92,8 @@ public interface IToolAreaAbility extends IBaseAbility {
         public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
             Block b = world.getBlock(x, y, z);
             
-            if(!ToolConfig.recursiveStone) {
-                Item item = Item.getItemFromBlock(b);
-                List<ItemStack> stone = OreDictionary.getOres(OreDictManager.KEY_STONE);
-                for(ItemStack stack : stone) {
-                    if(stack.getItem() == item)
-                        return false;
-                }
-                List<ItemStack> cobble = OreDictionary.getOres(OreDictManager.KEY_COBBLESTONE);
-                for(ItemStack stack : cobble) {
-                    if(stack.getItem() == item)
-                        return false;
-                }
+            if(b == Blocks.stone && !ToolConfig.recursiveStone) {
+                return false;
             }
 
             if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack)

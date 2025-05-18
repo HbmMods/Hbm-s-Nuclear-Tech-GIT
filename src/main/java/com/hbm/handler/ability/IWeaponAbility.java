@@ -159,53 +159,6 @@ public interface IWeaponAbility extends IBaseAbility {
         }
     };
 
-    public static final IWeaponAbility BLEND = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.blender";
-        }
-
-        public final int[] dividerAtLevel = {12};
-
-        @Override
-        public int levels() {
-            return dividerAtLevel.length;
-        }
-
-        @Override
-        public String getExtension(int level) {
-            return " (1:" + dividerAtLevel[level] + ")";
-        }
-
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 4;
-        }
-
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            int divider = dividerAtLevel[level];
-            
-            if(victim instanceof EntityLivingBase) {
-                EntityLivingBase living = (EntityLivingBase) victim;
-
-                if(living.getHealth() <= 0.0F) {
-                    int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
-                    world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "mob.zombie.woodbreak", 0.5F, 1.0F);
-                    victim.attackEntityFrom(ModDamageSource.turbofan, 100);
-                    
-                    NBTTagCompound data = new NBTTagCompound();
-                    data.setString("type", "giblets");
-                    data.setInteger("count", count * 4);
-                    data.setInteger("ent", victim.getEntityId());
-                    data.setInteger("cDiv", 5);
-                    PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
-                    living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
-                }
-            }
-        }
-    };
-
     public static final IWeaponAbility PHOSPHORUS = new IWeaponAbility() {
         @Override
         public String getName() {
@@ -226,7 +179,7 @@ public interface IWeaponAbility extends IBaseAbility {
 
         @Override
         public int sortOrder() {
-            return SORT_ORDER_BASE + 5;
+            return SORT_ORDER_BASE + 4;
         }
 
         @Override
@@ -401,7 +354,7 @@ public interface IWeaponAbility extends IBaseAbility {
     };
     // endregion handlers
 
-    static final IWeaponAbility[] abilities = {NONE, RADIATION, VAMPIRE, STUN, BLEND, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE};
+    static final IWeaponAbility[] abilities = {NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE};
 
     static IWeaponAbility getByName(String name) {
         for(IWeaponAbility ability : abilities) {
