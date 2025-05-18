@@ -6,6 +6,18 @@
   * Pretty
   * Automatically walls off connected solid blocks in addition to the direction it was placed in
 * Some other wooden blocks like a roof, ceiling and scaffold
+* Flow control pump
+  * The fluid equivalent to a diode
+  * Supports up to 10,000mB/t
+  * Unlike the diode, it is configured via GUI
+  * Can be shut off with redstone like a fluid valve
+* Charge thrower
+  * A new weapon/tool
+  * Can fire two tiers of demolition charges or a grappling hook
+  * The grappling hook's line can be controlled via left and right mouse buttons
+* Anti-materiel rifle
+  * Fires 12.7mm of fun
+  * x5 magnification scope
 
 ## Changed
 * Increased bayonet damage from 5 to 7.5 hearts
@@ -22,6 +34,7 @@
   * Dismantling different variants yields different drops
   * Magnetic extraction can no longer be performed
 * `isItemBlacklisted` on the item hazard checks now employs caching instead of doing a full ore dictionary lookup for every single check, this should make it marginally more performant
+* The unfinished trains stuff is no longer listed in the creative tabs
 
 ## Fixed
 * Fixed RoR controller having the wrong recipe
@@ -29,4 +42,6 @@
 * Fixed skeletons and pedestals allowing blocks to be placed inside the player
 * Fixed artillery shells not playing the explosion animation when directly impacting entities
 * Fixed bauxite and malachite vein toggles being on backwards
-* Fixed penumatic tube order settings not saving
+* Fixed pneumatic tube order settings not saving
+* Fixed crash caused by launching ABMs with blank target designators
+* Fixed particle source throwing errors when trying to save nonexistant particles

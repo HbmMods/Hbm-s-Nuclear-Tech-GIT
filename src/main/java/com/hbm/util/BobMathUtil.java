@@ -180,6 +180,14 @@ public class BobMathUtil {
 
 		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
 	}
+	
+	/**
+	 * @param amount
+	 * @return the number as a string with thousand group commas
+	 */
+	public static String format(int amount) {
+		return String.format(Locale.US, "%,d", amount);
+	}
 
 	public static boolean getBlink() {
 		return System.currentTimeMillis() % 1000 < 500;

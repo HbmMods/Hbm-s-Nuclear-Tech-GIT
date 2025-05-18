@@ -97,11 +97,10 @@ public class ItemRenderLibrary {
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
+				GL11.glTranslated(0, -4.5, 0);
 				GL11.glScaled(4.5, 4.5, 4.5);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				bindTexture(ResourceManager.breeder_tex); ResourceManager.breeder.renderAll();

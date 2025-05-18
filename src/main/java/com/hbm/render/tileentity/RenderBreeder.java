@@ -40,8 +40,6 @@ public class RenderBreeder extends TileEntitySpecialRenderer {
 				GL11.glPopMatrix();
 			}
 		
-		GL11.glScaled(0.5, 0.5, 0.5);
-
         bindTexture(ResourceManager.breeder_tex);
         
         GL11.glShadeModel(GL11.GL_SMOOTH);
