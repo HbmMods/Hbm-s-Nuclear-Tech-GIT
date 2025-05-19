@@ -83,8 +83,8 @@ public class BlockCrashedBomb extends BlockEnumMulti implements ITileEntityProvi
 
 		if(!world.isRemote) {
 
-			world.setBlockToAir(x, y, z);
 			EnumDudType type = EnumUtil.grabEnumSafely(EnumDudType.class, world.getBlockMetadata(x, y, z));
+			world.setBlockToAir(x, y, z);
 
 			if(type == type.BALEFIRE) {
 				EntityBalefire bf = new EntityBalefire(world);

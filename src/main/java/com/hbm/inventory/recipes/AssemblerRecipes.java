@@ -1075,6 +1075,31 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor, 4),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BISMOID)
 			}, 100);
+		
+		
+		/// PLATES ///
+		makeRecipe(new ComparableStack(ModItems.plate_desh, 4), new AStack[] {
+				new OreDictStack(DESH.ingot(), 4),
+				new OreDictStack(ANY_PLASTIC.dust(), 2),
+				new OreDictStack(DURA.ingot(), 1),
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.plate_bismuth, 1), new AStack[] {
+				new ComparableStack(ModItems.nugget_bismuth, 2),
+				new OreDictStack(U238.billet(), 2),
+				new OreDictStack(NB.dust(), 1),
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.plate_euphemium, 1), new AStack[] {
+				new OreDictStack(EUPH.ingot(), 4),
+				new OreDictStack(AT.dust(), 3),
+				new OreDictStack(BI.dust(), 1),
+				new OreDictStack(VOLCANIC.gem(), 1),
+				new ComparableStack(ModItems.ingot_osmiridium),
+			}, 600);
+		makeRecipe(new ComparableStack(ModItems.plate_dineutronium, 4), new AStack[] {
+				new OreDictStack(DNT.ingot(), 4),
+				new ComparableStack(ModItems.powder_spark_mix, 2),
+				new OreDictStack(DESH.ingot(), 1),
+			}, 600);
 
 		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.NUKA)), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.QUANTUM)), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
@@ -1239,6 +1264,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(DURA.bolt(), 16),
 				new ComparableStack(ModItems.motor, 2)
 		}, 200);
+		
 		makeRecipe(new ComparableStack(ModBlocks.large_vehicle_door, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 16), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 4), new OreDictStack(DURA.bolt(), 16), new OreDictStack("dyeGreen", 4)}, 400);
 		makeRecipe(new ComparableStack(ModBlocks.water_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 16), new OreDictStack(DURA.bolt(), 4), new OreDictStack("dyeRed", 1)}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.qe_containment, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 4), new OreDictStack(ALLOY.plate(), 4), new ComparableStack(ModItems.plate_polymer, 8), new ComparableStack(ModItems.motor, 2), new OreDictStack(DURA.bolt(), 32), new OreDictStack("dyeBlack", 4)}, 400);
