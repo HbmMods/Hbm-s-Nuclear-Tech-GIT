@@ -1,7 +1,10 @@
 ## Changed
 * All compound plates can now also be made in the assembler
+* Opening crates when held is now disabled by default
 
 ## Fixed
 * Fixed all dud variants having the balefire explosion effect
 * Fixed demolition charges being able to explode multiple times when hitting entities
 * Condensers are no longer affected by post-impact effects, fixing an issue where HP condenser tanks would go into the negatives
+* Probably fixed particle accelerator recipe config not working
+* Fixed potential dupe bug involving many held inventories

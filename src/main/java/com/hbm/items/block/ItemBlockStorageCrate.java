@@ -30,7 +30,7 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(!ServerConfig.CRATE_OPEN_HELD.get()) return stack;
+		if(!ServerConfig.CRATE_ALLOW_OPEN_HELD.get()) return stack;
 		
 		Block block = Block.getBlockFromItem(player.getHeldItem().getItem());
 		if(block == ModBlocks.mass_storage) return stack; // Genuinely can't figure out how to make this part work, so I'm just not gonna mess with it.
