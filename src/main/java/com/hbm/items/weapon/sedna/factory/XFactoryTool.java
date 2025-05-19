@@ -71,6 +71,7 @@ public class XFactoryTool {
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();
+		bullet.setDead();
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_MORTAR_CHARGE = (bullet, mop) -> {
@@ -82,6 +83,7 @@ public class XFactoryTool {
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		ExplosionCreator.composeEffectSmall(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord);
 		vnt.explode();
+		bullet.setDead();
 	};
 
 	public static void init() {

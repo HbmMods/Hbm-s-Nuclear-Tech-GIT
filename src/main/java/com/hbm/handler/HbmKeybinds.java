@@ -14,6 +14,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.MouseInputEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 
 public class HbmKeybinds {
@@ -81,6 +82,7 @@ public class HbmKeybinds {
 	@SubscribeEvent
 	public void keyEvent(KeyInputEvent event) {
 		if (calculatorKey.getIsKeyPressed()) { // handle the calculator client-side only
+			Minecraft.getMinecraft().thePlayer.closeScreen();
 			FMLCommonHandler.instance().showGuiScreen(new GUICalculator());
 		}
 		

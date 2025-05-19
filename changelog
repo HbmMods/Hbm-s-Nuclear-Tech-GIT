@@ -1,47 +1,10 @@
-## Added
-* Sandbags
-  * Connect to other sandbags or solid blocks
-  * Pretty
-* Wooden barrier
-  * Pretty
-  * Automatically walls off connected solid blocks in addition to the direction it was placed in
-* Some other wooden blocks like a roof, ceiling and scaffold
-* Flow control pump
-  * The fluid equivalent to a diode
-  * Supports up to 10,000mB/t
-  * Unlike the diode, it is configured via GUI
-  * Can be shut off with redstone like a fluid valve
-* Charge thrower
-  * A new weapon/tool
-  * Can fire two tiers of demolition charges or a grappling hook
-  * The grappling hook's line can be controlled via left and right mouse buttons
-* Anti-materiel rifle
-  * Fires 12.7mm of fun
-  * x5 magnification scope
-
 ## Changed
-* Increased bayonet damage from 5 to 7.5 hearts
-* Two numeric redstone over radio signals sent over the same channel will now be added together instead of one signal replacing the other
-  * This means that reading the fill state of multiple batteries over the same channel should result the combined fill state of all batteries
-* Halved base spread of the .22 SMG
-* Certain secret guns now have a proper way of being obtained
-* Demolition mini nukes now create fire again
-* New server configs
-  * `CRATE_OPEN_HELD` can toggle whether crates can be opened when held
-  * `CRATE_KEEP_CONTENTS` can toggle whether crates keep their contents when broken
-  * `ITEM_HAZARD_DROP_TICKRATE` can change the time between ticks for dropped item hazard checks (gunpowder, lithium), default is 2, lowest is 1
-* Duds now have multiple variants
-  * Dismantling different variants yields different drops
-  * Magnetic extraction can no longer be performed
-* `isItemBlacklisted` on the item hazard checks now employs caching instead of doing a full ore dictionary lookup for every single check, this should make it marginally more performant
-* The unfinished trains stuff is no longer listed in the creative tabs
+* All compound plates can now also be made in the assembler
+* Opening crates when held is now disabled by default
 
 ## Fixed
-* Fixed RoR controller having the wrong recipe
-* Either fixed the crate dupe/voiding issues or made them even worse
-* Fixed skeletons and pedestals allowing blocks to be placed inside the player
-* Fixed artillery shells not playing the explosion animation when directly impacting entities
-* Fixed bauxite and malachite vein toggles being on backwards
-* Fixed pneumatic tube order settings not saving
-* Fixed crash caused by launching ABMs with blank target designators
-* Fixed particle source throwing errors when trying to save nonexistant particles
+* Fixed all dud variants having the balefire explosion effect
+* Fixed demolition charges being able to explode multiple times when hitting entities
+* Condensers are no longer affected by post-impact effects, fixing an issue where HP condenser tanks would go into the negatives
+* Probably fixed particle accelerator recipe config not working
+* Fixed potential dupe bug involving many held inventories
