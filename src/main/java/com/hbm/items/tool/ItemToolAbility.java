@@ -297,6 +297,10 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 		ItemStack stack = player.getHeldItem();
 
+		if (stack == null) {
+			return;
+		}
+
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
@@ -485,7 +489,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	public Configuration getConfiguration(ItemStack stack) {
 		Configuration config = new Configuration();
 
-		if(!stack.hasTagCompound() || !stack.stackTagCompound.hasKey("ability") || !stack.stackTagCompound.hasKey("abilityPresets")) {
+		if(stack == null || !stack.hasTagCompound() || !stack.stackTagCompound.hasKey("ability") || !stack.stackTagCompound.hasKey("abilityPresets")) {
 			config.reset(availableAbilities);
 			return config;
 		}
@@ -496,8 +500,13 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	}
 
 	public void setConfiguration(ItemStack stack, Configuration config) {
-		if(!stack.hasTagCompound())
+		if (stack == null) {
+			return;
+		}
+
+		if (!stack.hasTagCompound()) {
 			stack.stackTagCompound = new NBTTagCompound();
+		}
 
 		config.writeToNBT(stack.stackTagCompound);
 	}
