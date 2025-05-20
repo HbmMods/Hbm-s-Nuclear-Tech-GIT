@@ -28,21 +28,27 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		super(block);
 	}
 
+	// IF WE PUT ROCKS IN THE SHAPE OF A RUNWAY GOD WILL GIVE US HIGH-FRUCTOSE CORN SYRUP
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return 1;
+	}
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		if(!ServerConfig.CRATE_ALLOW_OPEN_HELD.get()) return stack;
-		
+
 		Block block = Block.getBlockFromItem(player.getHeldItem().getItem());
 		if(block == ModBlocks.mass_storage) return stack; // Genuinely can't figure out how to make this part work, so I'm just not gonna mess with it.
 
 		if(!world.isRemote && stack.stackSize == 1) {
-			if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("lock")) {
-				for (ItemStack item : player.inventory.mainInventory) {
-					
+			if(stack.stackTagCompound != null && stack.stackTagCompound.hasKey("lock")) {
+				for(ItemStack item : player.inventory.mainInventory) {
+
 					if(item == null) continue; // Skip if no item.
 					if(!(item.getItem() instanceof ItemKey)) continue; // Skip if item isn't a key.
 					if(item.stackTagCompound == null) continue; // Skip if there is no NBT (wouldn't open it anyway).
-					if (item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
+					if(item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
 						TileEntityCrateBase.spawnSpiders(player, world, stack);
 						player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 						break;
@@ -83,20 +89,16 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	}
 
 	public static class InventoryCrate extends ItemInventory {
-		
-		public int heldIndex;
-		
-		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 
+		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 			this.player = player;
 			this.target = crate;
-			this.heldIndex = player.inventory.currentItem;
-			
+
 			this.slots = new ItemStack[this.getSizeInventory()];
 			if(target.stackTagCompound == null) {
 				target.stackTagCompound = new NBTTagCompound();
 			}
-			
+
 			for(int i = 0; i < slots.length; i++)
 				this.slots[i] = ItemStack.loadItemStackFromNBT(target.stackTagCompound.getCompoundTag("slot" + i));
 		}
@@ -129,42 +131,35 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		}
 
 		@Override
-		public void markDirty() { // I HATE THIS SO MUCH
-			NBTTagCompound nbt = new NBTTagCompound();
+		public void markDirty() { // You have been blessed by the unfuck
+
+			// Preserve existing NBT so we keep lock data and piders
+			NBTTagCompound nbt = target.stackTagCompound != null ? target.stackTagCompound : new NBTTagCompound();
 			int invSize = this.getSizeInventory();
 
 			for(int i = 0; i < invSize; i++) {
 
 				ItemStack stack = this.getStackInSlot(i);
-				if(stack == null) continue;
+				if(stack == null) {
+					nbt.removeTag("slot" + i);
+					continue;
+				}
 
 				NBTTagCompound slot = new NBTTagCompound();
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
 			}
 
-			/*if(target.stackTagCompound != null) { // yes it's a bit jank, but it wants to clear otherwise so...
-				if(target.stackTagCompound.hasKey("lock")) nbt.setInteger("lock", target.stackTagCompound.getInteger("lock"));
-				if(target.stackTagCompound.hasKey("lockMod")) nbt.setDouble("lockMod", target.stackTagCompound.getDouble("lockMod"));
-				if(target.stackTagCompound.hasKey("spiders")) nbt.setBoolean("spiders", target.stackTagCompound.getBoolean("spiders")); // fuck you!!
-			}*/
-
-			// i have completely given up
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() == this.target.getItem() && player.inventory.currentItem == this.heldIndex) {
-				player.getHeldItem().setTagCompound(nbt);
-			}
+			target.setTagCompound(nbt);
 		}
-		
+
 		@Override
 		public void closeInventory() {
-			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F);
-			
-			/*
-			 * realistically, we only need one NBT size check (and we only *want* one because CompressedStreamTools is expensive) so we do that part only when closing
-			 */
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() == this.target.getItem() && player.inventory.currentItem == this.heldIndex) {
-				player.getHeldItem().setTagCompound(checkNBT(player.getHeldItem().getTagCompound()));
-			}
+			super.closeInventory();
+
+			// Check for 6kb item vomit
+			target.setTagCompound(checkNBT(target.getTagCompound()));
+			player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 }
