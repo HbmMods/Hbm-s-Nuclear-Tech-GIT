@@ -10,14 +10,11 @@ import net.minecraft.tileentity.TileEntity;
 
 public class ContainerCrateBase extends ContainerBase {
 
-	//just there so prev stuff doesnt break
-	protected IInventory crate = tile;
-
 	public ContainerCrateBase(InventoryPlayer invPlayer, IInventory tedf) {
 		super(invPlayer, tedf);
 		tile.openInventory();
 	}
-	
+
 	@Override
 	public void playerInv(InventoryPlayer invPlayer, int playerInvX, int playerInvY, int playerHotbarY) {
 		for(int i = 0; i < 3; i++) {
@@ -35,7 +32,7 @@ public class ContainerCrateBase extends ContainerBase {
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		// prevents the player from moving around the currently open box
 		if(player.inventory.getStackInSlot(player.inventory.currentItem) != null &&
-			player.inventory.getStackInSlot(player.inventory.currentItem).getItem() instanceof ItemBlockStorageCrate && !(this.crate instanceof TileEntity)) {
+			player.inventory.getStackInSlot(player.inventory.currentItem).getItem() instanceof ItemBlockStorageCrate && !(this.tile instanceof TileEntity)) {
 			if (mode == 2 && button == player.inventory.currentItem) {
 				return null;
 			}
@@ -51,7 +48,7 @@ public class ContainerCrateBase extends ContainerBase {
 		super.onContainerClosed(p_75134_1_);
 		tile.closeInventory();
 	}
-	
+
 	public class SlotPlayerCrate extends SlotNonRetarded {
 
 		public SlotPlayerCrate(IInventory inventory, int id, int x, int y) {
@@ -66,7 +63,7 @@ public class ContainerCrateBase extends ContainerBase {
 		public boolean canTakeStack(EntityPlayer player) {
 			if(player.inventory.currentItem == this.getSlotIndex() && // If this slot is the current held slot.
 				this.getStack() != null && this.getStack().getItem() instanceof ItemBlockStorageCrate && // If the slot contains a storage crate.
-				player.openContainer instanceof ContainerCrateBase && !(ContainerCrateBase.this.crate instanceof TileEntity)) // If the player is currently inside a crate container.
+				player.openContainer instanceof ContainerCrateBase && !(ContainerCrateBase.this.tile instanceof TileEntity)) // If the player is currently inside a crate container.
 				return false;
 			return super.canTakeStack(player);
 		}

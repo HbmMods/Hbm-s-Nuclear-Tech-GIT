@@ -1,10 +1,12 @@
 ## Changed
-* All compound plates can now also be made in the assembler
-* Opening crates when held is now disabled by default
+* Updated chinese localiation
+* Duds now have a radioactive AoE effect around them based on type
+* HPS is no longer tagged as radioactive and no longer requires hazardous materials tanks to store
+  * Somehow, these meaningless tags triggered people exceptionally hard. Go annoy someone else.
+* Solderers and arc welders can now use overdrive upgrades
+  * Do note that processing speed rises linearly, but power draw rises exponentially
 
 ## Fixed
-* Fixed all dud variants having the balefire explosion effect
-* Fixed demolition charges being able to explode multiple times when hitting entities
-* Condensers are no longer affected by post-impact effects, fixing an issue where HP condenser tanks would go into the negatives
-* Probably fixed particle accelerator recipe config not working
-* Fixed potential dupe bug involving many held inventories
+* Crates? Maybe?
+* Fixed conveyor placer not being usable on the conveyor sorter
+* Fixed crucible trying to autogen recipes for nonexistant nether thorium ore

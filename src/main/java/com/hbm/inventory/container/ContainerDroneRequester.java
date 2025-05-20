@@ -39,11 +39,11 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 
 			if(par2 < 9) return null; //ignore filters
 
-			if(par2 <= crate.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, crate.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 <= tile.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(var5, tile.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 9, crate.getSizeInventory(), false)) {
+			} else if(!this.mergeItemStack(var5, 9, tile.getSizeInventory(), false)) {
 				return null;
 			}
 
@@ -75,25 +75,25 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 
 		ItemStack ret = null;
 		ItemStack held = player.inventory.getItemStack();
-		TileEntityDroneRequester requester = (TileEntityDroneRequester) crate;
-		
+		TileEntityDroneRequester requester = (TileEntityDroneRequester) tile;
+
 		if(slot.getHasStack())
 			ret = slot.getStack().copy();
-		
+
 		if(button == 1 && mode == 0 && slot.getHasStack()) {
 			requester.nextMode(index);
 			return ret;
-			
+
 		} else {
 			slot.putStack(held != null ? held.copy() : null);
-			
+
 			if(slot.getHasStack()) {
 				slot.getStack().stackSize = 1;
 			}
-			
+
 			slot.onSlotChanged();
 			requester.matcher.initPatternStandard(requester.getWorldObj(), slot.getStack(), index);
-			
+
 			return ret;
 		}
 	}
