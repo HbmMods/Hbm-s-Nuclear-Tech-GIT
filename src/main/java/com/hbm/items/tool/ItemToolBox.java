@@ -10,6 +10,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,6 +34,11 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 	public ItemToolBox() {
 		this.setMaxStackSize(1);
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return 1;
 	}
 
 	@Override
@@ -285,9 +291,11 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 		@Override
 		public void closeInventory() {
-			this.target.getTagCompound().removeTag("isOpen");
-			this.player.inventory.setInventorySlotContents(this.player.inventory.currentItem, this.target);
 			super.closeInventory();
+
+			this.target.getTagCompound().removeTag("isOpen");
+			this.target.getTagCompound().setInteger("rand", player.worldObj.rand.nextInt()); // a boolean changing isn't sufficient to detect the change
+			player.inventoryContainer.detectAndSendChanges();
 		}
 
 		@Override
