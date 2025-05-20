@@ -9,3 +9,4 @@
 ## Fixed
 * Crates? Maybe?
 * Fixed conveyor placer not being usable on the conveyor sorter
+* Fixed crucible trying to autogen recipes for nonexistant nether thorium ore
