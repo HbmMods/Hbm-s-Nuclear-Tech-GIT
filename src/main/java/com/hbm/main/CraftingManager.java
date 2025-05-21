@@ -929,7 +929,6 @@ public class CraftingManager {
 
 		addShapelessAuto(new ItemStack(ModItems.book_guide, 1, BookType.TEST.ordinal()), new Object[] { Items.book, ModItems.canned_conserve.stackFromEnum(EnumFoodType.JIZZ) });
 		addShapelessAuto(new ItemStack(ModItems.book_guide, 1, BookType.RBMK.ordinal()), new Object[] { Items.book, Items.potato });
-		addShapelessAuto(new ItemStack(ModItems.book_guide, 1, BookType.HADRON.ordinal()), new Object[] { Items.book, ModItems.fuse });
 		addShapelessAuto(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()), new Object[] { Items.book, Items.iron_ingot });
 
 		addRecipeAuto(new ItemStack(ModBlocks.charger), new Object[] { "G", "S", "C", 'G', Items.glowstone_dust, 'S', STEEL.ingot(), 'C', ModItems.coil_copper });

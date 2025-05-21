@@ -39,7 +39,7 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
 		for(int i = 1; i < BookType.values().length; i++)
-			list.add(new ItemStack(item, 1, i));
+			if(i != 2) list.add(new ItemStack(item, 1, i));
 	}
 	
 	@Override

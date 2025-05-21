@@ -24,11 +24,9 @@ import com.hbm.handler.ability.ToolPreset;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
-import com.hbm.packet.toserver.NBTItemControlPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.item.IDepthRockTool;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

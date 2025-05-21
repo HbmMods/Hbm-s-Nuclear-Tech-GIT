@@ -1,12 +1,10 @@
 ## Changed
-* Updated chinese localiation
-* Duds now have a radioactive AoE effect around them based on type
-* HPS is no longer tagged as radioactive and no longer requires hazardous materials tanks to store
-  * Somehow, these meaningless tags triggered people exceptionally hard. Go annoy someone else.
-* Solderers and arc welders can now use overdrive upgrades
-  * Do note that processing speed rises linearly, but power draw rises exponentially
+* The RBMK console's grid can now be rotated using a screwdriver
+* Tool abilities have changed
+  * Righ-clicking while holding ALT now opens a configuration window
+  * The configuration window allows creation of tool presets
+  * Area and block abilities can now be toggled independently from each other. For example, the vein miner ability can be combined with silk touch
+  * Clicking on the same ability allows switching between levels
+* Updated textures for the armor and gun modification tables
 
 ## Fixed
-* Crates? Maybe?
-* Fixed conveyor placer not being usable on the conveyor sorter
-* Fixed crucible trying to autogen recipes for nonexistant nether thorium ore
