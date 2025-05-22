@@ -1,6 +1,8 @@
 package com.hbm.tileentity.network;
 
 import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IEnterableBlock;
+
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
@@ -123,6 +125,11 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 									moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 									moving.setItemStack(stack);
 									worldObj.spawnEntityInWorld(moving);
+
+									if (b instanceof IEnterableBlock) {
+										((IEnterableBlock)b).onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide, moving);
+									}
+
 									hasSent = true;
 									break;
 								}
