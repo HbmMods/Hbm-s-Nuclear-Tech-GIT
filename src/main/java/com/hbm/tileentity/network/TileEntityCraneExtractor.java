@@ -119,22 +119,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 									inv.decrStackSize(index, toSend);
 									stack.stackSize = toSend;
 									
-									EntityMovingItem moving = new EntityMovingItem(worldObj);
-									Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
-									Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
-									moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
-									moving.setItemStack(stack);
-									worldObj.spawnEntityInWorld(moving);
-
-									if (b instanceof IEnterableBlock) {
-										IEnterableBlock enterable = (IEnterableBlock) b;
-
-										if(enterable.canItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving)) {
-											enterable.onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving);
-											moving.setDead();
-										}
-									}
-
+									sendItem(stack, belt, outputSide);
 									hasSent = true;
 									break;
 								}
@@ -154,12 +139,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 								decrStackSize(i, toSend);
 								stack.stackSize = toSend;
 								
-								EntityMovingItem moving = new EntityMovingItem(worldObj);
-								Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
-								Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
-								moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
-								moving.setItemStack(stack);
-								worldObj.spawnEntityInWorld(moving);
+								sendItem(stack, belt, outputSide);
 								break;
 							}
 						}
@@ -168,6 +148,24 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 			}
 
 			this.networkPackNT(15);
+		}
+	}
+
+	private void sendItem(ItemStack stack, IConveyorBelt belt, ForgeDirection outputSide) {
+		EntityMovingItem moving = new EntityMovingItem(worldObj);
+		Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+		Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
+		moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+		moving.setItemStack(stack);
+		worldObj.spawnEntityInWorld(moving);
+
+		if (belt instanceof IEnterableBlock) {
+			IEnterableBlock enterable = (IEnterableBlock) belt;
+
+			if(enterable.canItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving)) {
+				enterable.onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving);
+				moving.setDead();
+			}
 		}
 	}
 
