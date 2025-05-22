@@ -127,7 +127,12 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 									worldObj.spawnEntityInWorld(moving);
 
 									if (b instanceof IEnterableBlock) {
-										((IEnterableBlock)b).onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide, moving);
+										IEnterableBlock enterable = (IEnterableBlock) b;
+
+										if(enterable.canItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide, moving)) {
+											enterable.onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide, moving);
+											moving.setDead();
+										}
 									}
 
 									hasSent = true;
