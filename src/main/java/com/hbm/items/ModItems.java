@@ -1469,6 +1469,8 @@ public class ModItems {
 	public static Item gun_stinger;
 	public static Item gun_chemthrower;
 	public static Item gun_amat;
+	public static Item gun_amat_subtlety;
+	public static Item gun_amat_penance;
 	public static Item gun_m2;
 	public static Item gun_autoshotgun;
 	public static Item gun_autoshotgun_shredder;

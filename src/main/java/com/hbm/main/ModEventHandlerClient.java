@@ -1313,14 +1313,21 @@ public class ModEventHandlerClient {
 
 		if(hudOn) {
 			RenderOverhead.renderMarkers(event.partialTicks);
+			boolean thermalSights = false;
 
 			if(ArmorFSB.hasFSBArmor(player)) {
 				ItemStack plate = player.inventory.armorInventory[2];
 				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
 
-				if(chestplate.thermal)
-					RenderOverhead.renderThermalSight(event.partialTicks);
+				if(chestplate.thermal) thermalSights = true;
 			}
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) player.getHeldItem().getItem();
+				for(int i = 0; i < gun.getConfigCount(); i++) if(gun.getConfig(player.getHeldItem(), i).hasThermalSights(player.getHeldItem())) thermalSights = true;
+			}
+
+			if(thermalSights) RenderOverhead.renderThermalSight(event.partialTicks);
 		}
 
 		RenderOverhead.renderActionPreview(event.partialTicks);

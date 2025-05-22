@@ -159,6 +159,8 @@ public class GunFactoryClient {
 		bmg50_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
 		bmg50_du.setRenderer(LegoClient.RENDER_DU_BULLET);
 		bmg50_he.setRenderer(LegoClient.RENDER_HE_BULLET);
+		bmg50_sm.setRenderer(LegoClient.RENDER_SM_BULLET);
+		bmg50_black.setRenderer(LegoClient.RENDER_BLACK_BULLET);
 
 		b75.setRenderer(LegoClient.RENDER_AP_BULLET);
 		b75_inc.setRenderer(LegoClient.RENDER_AP_BULLET);

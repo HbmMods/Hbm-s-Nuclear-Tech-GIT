@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ItemSwordAbility extends ItemSword {
 
