@@ -74,44 +74,42 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 			this.updateConnections();
 
-			ItemMold.Mold mold = this.getInstalledMold();
+			int moldsToCast = maxProcessable();
+		
+			// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
+			if (moldsToCast > 0 && (moldsToCast == 10 || worldObj.getWorldTime() >= lastCastTick + 200)) {
 
-			if (mold != null) {
-				int itemsCasted = maxProcessable();
-			
-				// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
-				if (itemsCasted == 10 || worldObj.getWorldTime() >= lastCastTick + 200) {
-					
-					this.amount -= itemsCasted * mold.getCost();
+				ItemMold.Mold mold = this.getInstalledMold();
+				
+				this.amount -= moldsToCast * mold.getCost();
 
-					ItemStack out = mold.getOutput(type);
-					int remaining = out.stackSize * itemsCasted;
-					out.stackSize = out.getMaxStackSize();
+				ItemStack out = mold.getOutput(type);
+				int remaining = out.stackSize * moldsToCast;
+				out.stackSize = out.getMaxStackSize();
 
-					for (int i = 1; i < 7; i++) {
-						if (remaining <= 0) {
-							break;
-						}
-
-						if (slots[i] == null) {
-							slots[i] = new ItemStack(out.getItem(), 0, out.getItemDamage());
-						}
-
-						if (slots[i].isItemEqual(out)) {
-							int toDeposit = Math.min(remaining, out.stackSize - slots[i].stackSize);
-							slots[i].stackSize += toDeposit;
-							remaining -= toDeposit;
-						}
+				for (int i = 1; i < 7; i++) {
+					if (remaining <= 0) {
+						break;
 					}
 
-					markChanged();
+					if (slots[i] == null) {
+						slots[i] = new ItemStack(out.getItem(), 0, out.getItemDamage());
+					}
 
-					water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
-					steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
+					if (slots[i].isItemEqual(out)) {
+						int toDeposit = Math.min(remaining, out.stackSize - slots[i].stackSize);
+						slots[i].stackSize += toDeposit;
+						remaining -= toDeposit;
+					}
 				}
 
-				lastCastTick = worldObj.getWorldTime();
+				markChanged();
+
+				water.setFill(water.getFill() - getWaterRequired() * moldsToCast);
+				steam.setFill(steam.getFill() + getWaterRequired() * moldsToCast);
 			}
+
+			lastCastTick = worldObj.getWorldTime();
 
 			networkPackNT(150);
 		}
@@ -134,12 +132,12 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			}
 		}
 
-		int itemsCasted = amount / mold.getCost();
-		itemsCasted = Math.min(itemsCasted, freeSlots / mold.getOutput(type).stackSize);
-		itemsCasted = Math.min(itemsCasted, water.getFill() / getWaterRequired());
-		itemsCasted = Math.min(itemsCasted, (steam.getMaxFill() - steam.getFill()) / getWaterRequired());
+		int moldsToCast = amount / mold.getCost();
+		moldsToCast = Math.min(moldsToCast, freeSlots / mold.getOutput(type).stackSize);
+		moldsToCast = Math.min(moldsToCast, water.getFill() / getWaterRequired());
+		moldsToCast = Math.min(moldsToCast, (steam.getMaxFill() - steam.getFill()) / getWaterRequired());
 
-		return itemsCasted;
+		return moldsToCast;
 	}
 
 	public DirPos[] getFluidConPos() {
