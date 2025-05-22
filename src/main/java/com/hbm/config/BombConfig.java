@@ -26,7 +26,8 @@ public class BombConfig {
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
 	public static boolean chunkloading = true;
-	
+	public static boolean parallelization = true;
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_NUKES = CommonConfig.CATEGORY_NUKES;
@@ -92,7 +93,8 @@ public class BombConfig {
 		Property falloutDelayProp = config.get(CATEGORY_NUKE, "6.04_falloutDelay", 4);
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();
-		
+
 		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
+		parallelization = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableParallelization", "Allows explosions to use multiple threads.", true);
 	}
 }
