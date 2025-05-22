@@ -11,6 +11,7 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemScraps;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.relauncher.Side;
@@ -77,7 +78,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			int moldsToCast = maxProcessable();
 		
 			// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
-			if (moldsToCast > 0 && (moldsToCast == 10 || worldObj.getWorldTime() >= lastCastTick + 200)) {
+			if (moldsToCast > 0 && (moldsToCast >= 9 || worldObj.getWorldTime() >= lastCastTick + 200)) {
 
 				ItemMold.Mold mold = this.getInstalledMold();
 				
@@ -107,9 +108,9 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 				water.setFill(water.getFill() - getWaterRequired() * moldsToCast);
 				steam.setFill(steam.getFill() + getWaterRequired() * moldsToCast);
-			}
 
-			lastCastTick = worldObj.getWorldTime();
+				lastCastTick = worldObj.getWorldTime();
+			}
 
 			networkPackNT(150);
 		}
@@ -117,7 +118,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	private int maxProcessable() {
 		ItemMold.Mold mold = this.getInstalledMold();
-		if (type == null || mold == null || mold.getOutput(type) != null) {
+		if (type == null || mold == null || mold.getOutput(type) == null) {
 			return 0;
 		}
 
