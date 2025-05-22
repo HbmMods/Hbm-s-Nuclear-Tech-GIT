@@ -57,8 +57,9 @@ public class TileEntityCraneSplitter extends TileEntityLoadedBase {
 		position = nbt.getBoolean("pos");
 		remaining = nbt.getByte("count");
 
-		leftRatio = nbt.getByte("left");
-		rightRatio = nbt.getByte("right");
+		// Make sure existing conveyors are initialised with ratios
+		leftRatio = (byte)Math.max(nbt.getByte("left"), 1);
+		rightRatio = (byte)Math.max(nbt.getByte("right"), 1);
 	}
 
 	@Override
