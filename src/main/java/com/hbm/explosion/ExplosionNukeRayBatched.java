@@ -272,6 +272,13 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 			processChunk();
 	}
 
+	@Override
+	public void cancel() {
+		isAusf3Complete = true;
+		if (perChunk != null) perChunk.clear();
+		if (orderedChunks != null) orderedChunks.clear();
+	}
+
 	public class FloatTriplet {
 		public float xCoord;
 		public float yCoord;

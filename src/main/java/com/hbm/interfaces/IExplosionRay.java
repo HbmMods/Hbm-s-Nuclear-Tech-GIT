@@ -6,4 +6,6 @@ public interface IExplosionRay {
 	void cacheChunksTick(int processTime);
 
 	void destructionTick(int processTime);
+
+	void cancel();
 }

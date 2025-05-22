@@ -134,6 +134,13 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	}
 
 	@Override
+	public void setDead(){
+		if(explosion != null)
+			explosion.cancel();
+		super.setDead();
+	}
+
+	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.ticksExisted = nbt.getInteger("ticksExisted");
 	}

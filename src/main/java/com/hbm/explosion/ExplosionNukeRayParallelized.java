@@ -195,6 +195,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		return collectFinished && destroyFinished;
 	}
 
+	@Override
 	public void cancel() {
 		this.collectFinished = true;
 		this.destroyFinished = true;
