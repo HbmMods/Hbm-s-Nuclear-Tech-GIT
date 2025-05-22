@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBuilding;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
@@ -37,6 +38,16 @@ public class XFactory50 {
 	public static BulletConfig bmg50_he;
 	public static BulletConfig bmg50_sm;
 	public static BulletConfig bmg50_black;
+	public static BulletConfig bmg50_equestrian;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_BUILDING = (bullet, mop) -> {
+		EntityBuilding silver = new EntityBuilding(bullet.worldObj);
+		silver.posX = mop.hitVec.xCoord;
+		silver.posY = mop.hitVec.yCoord + 50;
+		silver.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(silver);
+		bullet.setDead();
+	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
@@ -61,7 +72,9 @@ public class XFactory50 {
 				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50sm"));
 		bmg50_black = new BulletConfig().setItem(EnumAmmoSecret.BMG50_BLACK).setWear(5F).setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true).setDamage(1.5F).setHeadshot(3F).setThresholdNegation(30F).setArmorPiercing(0.35F)
 				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("bmg50black"));
-
+		bmg50_equestrian = new BulletConfig().setItem(EnumAmmoSecret.BMG50_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BUILDING)
+				.setCasing(casing50.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("bmg50equestrian"));
+		
 		ModItems.gun_amat = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(350).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(XFactory44.scope_lilmac).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
@@ -72,6 +85,26 @@ public class XFactory50 {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
 				).setUnlocalizedName("gun_amat");
+		ModItems.gun_amat_subtlety = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
+				.dura(1_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(XFactory44.scope_lilmac).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(50F).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound("hbm:weapon.fire.amat", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_equestrian, bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he))
+						.offset(1, -0.0625 * 1.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
+				).setUnlocalizedName("gun_amat_subtlety");
+		ModItems.gun_amat_penance = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
+				.dura(5_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(XFactory44.scope_lilmac).thermalSights(true).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(45F).delay(25).dry(25).spreadHipfire(0F).reload(51).jam(43).sound("hbm:weapon.silencerShoot", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_black))
+						.offset(1, -0.0625 * 1.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
+				).setUnlocalizedName("gun_amat_penance");
 		
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)

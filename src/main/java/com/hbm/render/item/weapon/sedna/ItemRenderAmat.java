@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
@@ -9,8 +10,15 @@ import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderAmat extends ItemRenderWeaponBase {
+	
+	public ResourceLocation texture;
+	
+	public ItemRenderAmat(ResourceLocation texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
@@ -38,7 +46,7 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 		if(isScoped && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.amat_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -177,7 +185,7 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.amat_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.amat.renderPart("Gun");
 		ResourceManager.amat.renderPart("Bolt");
 		ResourceManager.amat.renderPart("Magazine");
@@ -202,6 +210,6 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 	}
 	
 	public boolean isSilenced(ItemStack stack) {
-		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
+		return stack.getItem() == ModItems.gun_amat_penance || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
 	}
 }

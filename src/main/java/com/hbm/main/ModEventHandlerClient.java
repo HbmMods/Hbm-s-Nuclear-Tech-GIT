@@ -1322,7 +1322,7 @@ public class ModEventHandlerClient {
 				if(chestplate.thermal) thermalSights = true;
 			}
 			
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == 1) {
 				ItemGunBaseNT gun = (ItemGunBaseNT) player.getHeldItem().getItem();
 				for(int i = 0; i < gun.getConfigCount(); i++) if(gun.getConfig(player.getHeldItem(), i).hasThermalSights(player.getHeldItem())) thermalSights = true;
 			}
