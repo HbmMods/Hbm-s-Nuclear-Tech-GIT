@@ -85,7 +85,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 				ItemStack out = mold.getOutput(type);
 				int remaining = out.stackSize * moldsToCast;
-				out.stackSize = out.getMaxStackSize();
+				final int maxStackSize = out.getMaxStackSize();
 
 				for (int i = 1; i < 7; i++) {
 					if (remaining <= 0) {
@@ -97,7 +97,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 					}
 
 					if (slots[i].isItemEqual(out)) {
-						int toDeposit = Math.min(remaining, out.stackSize - slots[i].stackSize);
+						int toDeposit = Math.min(remaining, maxStackSize - slots[i].stackSize);
 						slots[i].stackSize += toDeposit;
 						remaining -= toDeposit;
 					}
