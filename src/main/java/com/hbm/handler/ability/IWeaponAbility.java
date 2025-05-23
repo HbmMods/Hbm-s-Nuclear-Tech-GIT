@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
@@ -35,333 +34,337 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public interface IWeaponAbility extends IBaseAbility {
-    // Note: tool is currently unused in weapon abilities
-    public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool);
-    
-    public final static int SORT_ORDER_BASE = 200;
+	// Note: tool is currently unused in weapon abilities
+	public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool);
 
-    // region handlers
-    public static final IWeaponAbility NONE = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "";
-        }
+	public final static int SORT_ORDER_BASE = 200;
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 0;
-        }
+	// region handlers
+	public static final IWeaponAbility NONE = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "";
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {}
-    };
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 0;
+		}
 
-    public static final IWeaponAbility RADIATION = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.radiation";
-        }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+		}
+	};
 
-        public final float[] radAtLevel = {15F, 50F, 500F};
+	public static final IWeaponAbility RADIATION = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.radiation";
+		}
 
-        @Override
-        public int levels() {
-            return radAtLevel.length;
-        }
+		public final float[] radAtLevel = { 15F, 50F, 500F };
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + radAtLevel[level] + ")";
-        }
+		@Override
+		public int levels() {
+			return radAtLevel.length;
+		}
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 1;
-        }
+		@Override
+		public String getExtension(int level) {
+			return " (" + radAtLevel[level] + ")";
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            if(victim instanceof EntityLivingBase)
-                ContaminationUtil.contaminate((EntityLivingBase)victim, HazardType.RADIATION, ContaminationType.CREATIVE, radAtLevel[level]);
-        }
-    };
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 1;
+		}
 
-    public static final IWeaponAbility VAMPIRE = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.vampire";
-        }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			if(victim instanceof EntityLivingBase)
+				ContaminationUtil.contaminate((EntityLivingBase) victim, HazardType.RADIATION, ContaminationType.CREATIVE, radAtLevel[level]);
+		}
+	};
 
-        public final float[] amountAtLevel = {2F, 3F, 5F, 10F, 50F};
+	public static final IWeaponAbility VAMPIRE = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.vampire";
+		}
 
-        @Override
-        public int levels() {
-            return amountAtLevel.length;
-        }
+		public final float[] amountAtLevel = { 2F, 3F, 5F, 10F, 50F };
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + amountAtLevel[level] + ")";
-        }
+		@Override
+		public int levels() {
+			return amountAtLevel.length;
+		}
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 2;
-        }
+		@Override
+		public String getExtension(int level) {
+			return " (" + amountAtLevel[level] + ")";
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            float amount = amountAtLevel[level];
-            
-            if(victim instanceof EntityLivingBase) {
-                EntityLivingBase living = (EntityLivingBase) victim;
-                if(living.getHealth() <= 0) return;
-                living.setHealth(living.getHealth() - amount);
-                if(living.getHealth() <= 0) living.onDeath(DamageSource.magic);
-                player.heal(amount);
-            }
-        }
-    };
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 2;
+		}
 
-    public static final IWeaponAbility STUN = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.stun";
-        }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			float amount = amountAtLevel[level];
 
-        public final int[] durationAtLevel = {2, 3, 5, 10, 15};
+			if(victim instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) victim;
+				if(living.getHealth() <= 0)
+					return;
+				living.setHealth(living.getHealth() - amount);
+				if(living.getHealth() <= 0)
+					living.onDeath(DamageSource.magic);
+				player.heal(amount);
+			}
+		}
+	};
 
-        @Override
-        public int levels() {
-            return durationAtLevel.length;
-        }
+	public static final IWeaponAbility STUN = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.stun";
+		}
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + durationAtLevel[level] + ")";
-        }
+		public final int[] durationAtLevel = { 2, 3, 5, 10, 15 };
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 3;
-        }
+		@Override
+		public int levels() {
+			return durationAtLevel.length;
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            int duration = durationAtLevel[level];
-            
-            if(victim instanceof EntityLivingBase) {
-                EntityLivingBase living = (EntityLivingBase) victim;
+		@Override
+		public String getExtension(int level) {
+			return " (" + durationAtLevel[level] + ")";
+		}
 
-                living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, duration * 20, 4));
-                living.addPotionEffect(new PotionEffect(Potion.weakness.id, duration * 20, 4));
-            }
-        }
-    };
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 3;
+		}
 
-    public static final IWeaponAbility PHOSPHORUS = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.phosphorus";
-        }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			int duration = durationAtLevel[level];
 
-        public final int[] durationAtLevel = {60, 90};
+			if(victim instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) victim;
 
-        @Override
-        public int levels() {
-            return durationAtLevel.length;
-        }
+				living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, duration * 20, 4));
+				living.addPotionEffect(new PotionEffect(Potion.weakness.id, duration * 20, 4));
+			}
+		}
+	};
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + durationAtLevel[level] + ")";
-        }
+	public static final IWeaponAbility PHOSPHORUS = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.phosphorus";
+		}
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 4;
-        }
+		public final int[] durationAtLevel = { 60, 90 };
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            int duration = durationAtLevel[level];
-            
-            if(victim instanceof EntityLivingBase) {
-                EntityLivingBase living = (EntityLivingBase) victim;
+		@Override
+		public int levels() {
+			return durationAtLevel.length;
+		}
 
-                living.addPotionEffect(new PotionEffect(HbmPotion.phosphorus.id, duration * 20, 4));
-            }
-        }
-    };
+		@Override
+		public String getExtension(int level) {
+			return " (" + durationAtLevel[level] + ")";
+		}
 
-    public static final IWeaponAbility FIRE = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.fire";
-        }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 4;
+		}
 
-        public final int[] durationAtLevel = {5, 10};
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			int duration = durationAtLevel[level];
 
-        @Override
-        public int levels() {
-            return durationAtLevel.length;
-        }
+			if(victim instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) victim;
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + durationAtLevel[level] + ")";
-        }
+				living.addPotionEffect(new PotionEffect(HbmPotion.phosphorus.id, duration * 20, 4));
+			}
+		}
+	};
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 6;
-        }
+	public static final IWeaponAbility FIRE = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.fire";
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            if(victim instanceof EntityLivingBase) {
-                victim.setFire(durationAtLevel[level]);
-            }
-        }
-    };
+		public final int[] durationAtLevel = { 5, 10 };
 
-    public static final IWeaponAbility CHAINSAW = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.chainsaw";
-        }
+		@Override
+		public int levels() {
+			return durationAtLevel.length;
+		}
 
-        public final int[] dividerAtLevel = {15, 10};
+		@Override
+		public String getExtension(int level) {
+			return " (" + durationAtLevel[level] + ")";
+		}
 
-        @Override
-        public int levels() {
-            return dividerAtLevel.length;
-        }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 6;
+		}
 
-        @Override
-        public String getExtension(int level) {
-            return " (1:" + dividerAtLevel[level] + ")";
-        }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			if(victim instanceof EntityLivingBase) {
+				victim.setFire(durationAtLevel[level]);
+			}
+		}
+	};
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 7;
-        }
+	public static final IWeaponAbility CHAINSAW = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.chainsaw";
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            int divider = dividerAtLevel[level];
+		public final int[] dividerAtLevel = { 15, 10 };
 
-            if(victim instanceof EntityLivingBase) {
-                EntityLivingBase living = (EntityLivingBase) victim;
+		@Override
+		public int levels() {
+			return dividerAtLevel.length;
+		}
 
-                if(living.getHealth() <= 0.0F) {
-                    int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
+		@Override
+		public String getExtension(int level) {
+			return " (1:" + dividerAtLevel[level] + ")";
+		}
 
-                    for(int i = 0; i < count; i++) {
-                        living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
-                        world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
-                    }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 7;
+		}
 
-                    if(player instanceof EntityPlayerMP) {
-                        NBTTagCompound data = new NBTTagCompound();
-                        data.setString("type", "vanillaburst");
-                        data.setInteger("count", count * 4);
-                        data.setDouble("motion", 0.1D);
-                        data.setString("mode", "blockdust");
-                        data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-                        PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, living.posX, living.posY + living.height * 0.5, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
-                    }
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			int divider = dividerAtLevel[level];
 
-                    world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "hbm:weapon.chainsaw", 0.5F, 1.0F);
-                }
-            }
-        }
-    };
+			if(victim instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) victim;
 
-    public static final IWeaponAbility BEHEADER = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.beheader";
-        }
+				if(living.getHealth() <= 0.0F) {
+					int count = Math.min((int) Math.ceil(living.getMaxHealth() / divider), 250); // safeguard to prevent funnies from bosses with obscene  health
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 8;
-        }
+					for(int i = 0; i < count; i++) {
+						living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
+						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
+					}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            if(victim instanceof EntityLivingBase && ((EntityLivingBase) victim).getHealth() <= 0.0F) {
-                EntityLivingBase living = (EntityLivingBase) victim;
+					if(player instanceof EntityPlayerMP) {
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "vanillaburst");
+						data.setInteger("count", count * 4);
+						data.setDouble("motion", 0.1D);
+						data.setString("mode", "blockdust");
+						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, living.posX, living.posY + living.height * 0.5, living.posZ),
+								new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
+					}
 
-                if(living instanceof EntitySkeleton) {
-                    if(((EntitySkeleton)living).getSkeletonType() == 0) {
-                        living.entityDropItem(new ItemStack(Items.skull, 1, 0), 0.0F);
-                    } else {
-                        if(world.rand.nextInt(20) == 0)
-                            living.entityDropItem(new ItemStack(Items.skull, 1, 1), 0.0F);
-                        else
-                            living.entityDropItem(new ItemStack(Items.coal, 3), 0.0F);
-                    }
-                } else if(living instanceof EntityZombie) {
-                    living.entityDropItem(new ItemStack(Items.skull, 1, 2), 0.0F);
-                } else if(living instanceof EntityCreeper) {
-                    living.entityDropItem(new ItemStack(Items.skull, 1, 4), 0.0F);
-                } else if(living instanceof EntityMagmaCube) {
-                    living.entityDropItem(new ItemStack(Items.magma_cream, 3), 0.0F);
-                } else if(living instanceof EntitySlime) {
-                    living.entityDropItem(new ItemStack(Items.slime_ball, 3), 0.0F);
-                } else if(living instanceof EntityPlayer) {
-                    ItemStack head = new ItemStack(Items.skull, 1, 3);
-                    head.stackTagCompound = new NBTTagCompound();
-                    head.stackTagCompound.setString("SkullOwner", ((EntityPlayer) living).getDisplayName());
-                    living.entityDropItem(head, 0.0F);
-                } else {
-                    living.entityDropItem(new ItemStack(Items.rotten_flesh, 3, 0), 0.0F);
-                    living.entityDropItem(new ItemStack(Items.bone, 2, 0), 0.0F);
-                }
-            }
-        }
-    };
+					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "hbm:weapon.chainsaw", 0.5F, 1.0F);
+				}
+			}
+		}
+	};
 
-    public static final IWeaponAbility BOBBLE = new IWeaponAbility() {
-        @Override
-        public String getName() {
-            return "weapon.ability.bobble";
-        }
+	public static final IWeaponAbility BEHEADER = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.beheader";
+		}
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 9;
-        }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 8;
+		}
 
-        @Override
-        public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
-            if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
-                EntityMob mob = (EntityMob) victim;
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			if(victim instanceof EntityLivingBase && ((EntityLivingBase) victim).getHealth() <= 0.0F) {
+				EntityLivingBase living = (EntityLivingBase) victim;
 
-                int chance = 1000;
+				if(living instanceof EntitySkeleton) {
+					if(((EntitySkeleton) living).getSkeletonType() == 0) {
+						living.entityDropItem(new ItemStack(Items.skull, 1, 0), 0.0F);
+					} else {
+						if(world.rand.nextInt(20) == 0)
+							living.entityDropItem(new ItemStack(Items.skull, 1, 1), 0.0F);
+						else
+							living.entityDropItem(new ItemStack(Items.coal, 3), 0.0F);
+					}
+				} else if(living instanceof EntityZombie) {
+					living.entityDropItem(new ItemStack(Items.skull, 1, 2), 0.0F);
+				} else if(living instanceof EntityCreeper) {
+					living.entityDropItem(new ItemStack(Items.skull, 1, 4), 0.0F);
+				} else if(living instanceof EntityMagmaCube) {
+					living.entityDropItem(new ItemStack(Items.magma_cream, 3), 0.0F);
+				} else if(living instanceof EntitySlime) {
+					living.entityDropItem(new ItemStack(Items.slime_ball, 3), 0.0F);
+				} else if(living instanceof EntityPlayer) {
+					ItemStack head = new ItemStack(Items.skull, 1, 3);
+					head.stackTagCompound = new NBTTagCompound();
+					head.stackTagCompound.setString("SkullOwner", ((EntityPlayer) living).getDisplayName());
+					living.entityDropItem(head, 0.0F);
+				} else {
+					living.entityDropItem(new ItemStack(Items.rotten_flesh, 3, 0), 0.0F);
+					living.entityDropItem(new ItemStack(Items.bone, 2, 0), 0.0F);
+				}
+			}
+		}
+	};
 
-                if(mob.getMaxHealth() > 20) {
-                    chance = 750;
-                }
+	public static final IWeaponAbility BOBBLE = new IWeaponAbility() {
+		@Override
+		public String getName() {
+			return "weapon.ability.bobble";
+		}
 
-                if(world.rand.nextInt(chance) == 0)
-                    mob.entityDropItem(new ItemStack(ModBlocks.bobblehead, 1, world.rand.nextInt(BobbleType.values().length - 1) + 1), 0.0F);
-            }
-        }
-    };
-    // endregion handlers
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 9;
+		}
 
-    static final IWeaponAbility[] abilities = {NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE};
+		@Override
+		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
+			if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
+				EntityMob mob = (EntityMob) victim;
 
-    static IWeaponAbility getByName(String name) {
-        for(IWeaponAbility ability : abilities) {
-            if(ability.getName().equals(name))
-                return ability;
-        }
-        
-        return NONE;
-    }
+				int chance = 1000;
+
+				if(mob.getMaxHealth() > 20) {
+					chance = 750;
+				}
+
+				if(world.rand.nextInt(chance) == 0)
+					mob.entityDropItem(new ItemStack(ModBlocks.bobblehead, 1, world.rand.nextInt(BobbleType.values().length - 1) + 1), 0.0F);
+			}
+		}
+	};
+	// endregion handlers
+
+	static final IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE };
+
+	static IWeaponAbility getByName(String name) {
+		for(IWeaponAbility ability : abilities) {
+			if(ability.getName().equals(name))
+				return ability;
+		}
+
+		return NONE;
+	}
 }

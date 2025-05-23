@@ -492,27 +492,6 @@ public class ModEventHandlerClient {
 		ItemStack held = player.getHeldItem();
 
 		if(held == null) return;
-		if(!(held.getItem() instanceof ItemGunBase)) return;
-
-		GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
-
-		if(config == null) return;
-		if(config.zoomFOV == 0F || !player.isSneaking()) return;
-
-		if(config.absoluteFOV) {
-			event.newfov = config.zoomFOV;
-		} else {
-			event.newfov += config.zoomFOV;
-		}
-	}
-
-	@SubscribeEvent
-	public void setupNewFOV(FOVUpdateEvent event) {
-
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack held = player.getHeldItem();
-
-		if(held == null) return;
 
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
 		if(!(customRenderer instanceof ItemRenderWeaponBase)) return;

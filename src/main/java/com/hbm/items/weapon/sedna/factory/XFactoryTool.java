@@ -25,23 +25,165 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.tileentity.IRepairable;
+import com.hbm.tileentity.IRepairable.EnumExtinguishType;
+import com.hbm.util.CompatExternal;
 import com.hbm.util.Vec3NT;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryTool {
+	
+	public static BulletConfig fext_water;
+	public static BulletConfig fext_foam;
+	public static BulletConfig fext_sand;
 	
 	public static BulletConfig ct_hook;
 	public static BulletConfig ct_mortar;
 	public static BulletConfig ct_mortar_charge;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_WATER_HIT = (bullet, mop) -> {
+		if(!bullet.worldObj.isRemote) {
+			int ix = mop.blockX;
+			int iy = mop.blockY;
+			int iz = mop.blockZ;
+			boolean fizz = false;
+			for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) for(int k = -1; k <= 1; k++) {
+				Block block = bullet.worldObj.getBlock(ix + i, iy + j, iz + k);
+				if(block == Blocks.fire || block == ModBlocks.foam_layer || block == ModBlocks.block_foam) {
+					bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+					fizz = true;
+				}
+			}
+			TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+			if(core instanceof IRepairable) ((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.WATER);
+			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+			bullet.setDead();
+		}
+	};
+	
+	public static Consumer<Entity> LAMBDA_WATER_UPDATE = (bullet) -> {
+		if(bullet.worldObj.isRemote) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", "blockdust");
+			data.setInteger("block", Block.getIdFromBlock(Blocks.water));
+			data.setDouble("posX", bullet.posX); data.setDouble("posY", bullet.posY); data.setDouble("posZ", bullet.posZ);
+			data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.05);
+			data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.05);
+			data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.05);
+			MainRegistry.proxy.effectNT(data);
+		} else {
+			int x = (int)Math.floor(bullet.posX);
+			int y = (int)Math.floor(bullet.posY);
+			int z = (int)Math.floor(bullet.posZ);
+			if(bullet.worldObj.getBlock(x, y, z) == ModBlocks.volcanic_lava_block && bullet.worldObj.getBlockMetadata(x, y, z) == 0) {
+				bullet.worldObj.setBlock(x, y, z, Blocks.obsidian);
+				bullet.setDead();
+			}
+		}
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_FOAM_HIT = (bullet, mop) -> {
+		if(!bullet.worldObj.isRemote) {
+			int ix = mop.blockX;
+			int iy = mop.blockY;
+			int iz = mop.blockZ;
+			boolean fizz = false;
+			for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) for(int k = -1; k <= 1; k++) {
+				Block b = bullet.worldObj.getBlock(ix + i, iy + j, iz + k);
+				if(b.getMaterial() == Material.fire) {
+					bullet.worldObj.setBlock(ix + i, iy + j, iz + k, Blocks.air);
+					fizz = true;
+				}
+			}
+			TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+			if(core instanceof IRepairable) { ((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.FOAM); return; }
+			if(bullet.worldObj.rand.nextBoolean()) {
+				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+				ix += dir.offsetX; iy += dir.offsetY; iz += dir.offsetZ;
+			}
+			Block b = bullet.worldObj.getBlock(ix, iy, iz);
+			if(b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+				if(b != ModBlocks.foam_layer) {
+					bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.foam_layer);
+				} else {
+					int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+					if(meta < 6) bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.block_foam);
+				}
+			}
+			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+		}
+	};
+	
+	public static Consumer<Entity> LAMBDA_FOAM_UPDATE = (bullet) -> {
+		if(bullet.worldObj.isRemote) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", "blockdust");
+			data.setInteger("block", Block.getIdFromBlock(ModBlocks.block_foam));
+			data.setDouble("posX", bullet.posX); data.setDouble("posY", bullet.posY); data.setDouble("posZ", bullet.posZ);
+			data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.1);
+			data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.1);
+			data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.1);
+			MainRegistry.proxy.effectNT(data);
+		}
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_SAND_HIT = (bullet, mop) -> {
+		if(!bullet.worldObj.isRemote) {
+			int ix = mop.blockX;
+			int iy = mop.blockY;
+			int iz = mop.blockZ;
+			TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+			if(core instanceof IRepairable) { ((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.SAND); return; }
+			if(bullet.worldObj.rand.nextBoolean()) {
+				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+				ix += dir.offsetX; iy += dir.offsetY; iz += dir.offsetZ;
+			}
+			Block b = bullet.worldObj.getBlock(ix, iy, iz);
+			if((b.isReplaceable(bullet.worldObj, ix, iy, iz) || b == ModBlocks.sand_boron_layer) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
+				if(b != ModBlocks.sand_boron_layer) {
+					bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron_layer);
+				} else {
+					int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
+					if(meta < 6) bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
+					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron);
+				}
+				if(b.getMaterial() == Material.fire) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+			}
+		}
+	};
+	
+	public static Consumer<Entity> LAMBDA_SAND_UPDATE = (bullet) -> {
+		if(bullet.worldObj.isRemote) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaExt");
+			data.setString("mode", "blockdust");
+			data.setInteger("block", Block.getIdFromBlock(ModBlocks.sand_boron));
+			data.setDouble("posX", bullet.posX); data.setDouble("posY", bullet.posY); data.setDouble("posZ", bullet.posZ);
+			data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.1);
+			data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.1);
+			data.setDouble("mZ", bullet.motionZ + bullet.worldObj.rand.nextGaussian() * 0.1);
+			MainRegistry.proxy.effectNT(data);
+		}
+	};
 
 	public static Consumer<Entity> LAMBDA_SET_HOOK = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
@@ -88,12 +230,36 @@ public class XFactoryTool {
 
 	public static void init() {
 
+		fext_water = new BulletConfig().setItem(new ItemStack(ModItems.ammo_fireext, 1, 0)).setReloadCount(300).setLife(100).setVel(0.75F).setGrav(0.04D).setSpread(0.025F)
+				.setOnUpdate(LAMBDA_WATER_UPDATE)
+				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
+				.setOnRicochet(LAMBDA_WATER_HIT);
+		fext_foam = new BulletConfig().setItem(new ItemStack(ModItems.ammo_fireext, 1, 1)).setReloadCount(300).setLife(100).setVel(0.75F).setGrav(0.04D).setSpread(0.05F)
+				.setOnUpdate(LAMBDA_FOAM_UPDATE)
+				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
+				.setOnRicochet(LAMBDA_FOAM_HIT);
+		fext_sand = new BulletConfig().setItem(new ItemStack(ModItems.ammo_fireext, 1, 1)).setReloadCount(300).setLife(100).setVel(0.75F).setGrav(0.04D).setSpread(0.05F)
+				.setOnUpdate(LAMBDA_SAND_UPDATE)
+				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
+				.setOnRicochet(LAMBDA_SAND_HIT);
+		
 		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK).setRenderRotations(false).setLife(6_000).setVel(3F).setGrav(0.035D).setDoesPenetrate(true).setDamageFalloffByPen(false)
 				.setOnUpdate(LAMBDA_SET_HOOK).setOnImpact(LAMBDA_HOOK);
 		ct_mortar = new BulletConfig().setItem(EnumAmmo.CT_MORTAR).setDamage(2.5F).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR);
 		ct_mortar_charge = new BulletConfig().setItem(EnumAmmo.CT_MORTAR_CHARGE).setDamage(5F).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR_CHARGE);
+		
+		ModItems.gun_fireext = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
+				.dura(5_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCLE)
+				.rec(new Receiver(0)
+						.dmg(0F).delay(1).dry(0).auto(true).spread(0F).spreadHipfire(0F).reload(20).jam(0).sound("hbm:weapon.extinguisher", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 300).addConfigs(fext_water, fext_foam, fext_sand))
+						.offset(1, -0.0625 * 2.5, -0.25D)
+						.setupStandardFire())
+				.setupStandardConfiguration()
+				.orchestra(Orchestras.ORCHESTRA_FIREEXT)
+				).setUnlocalizedName("gun_fireext");
 		
 		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)

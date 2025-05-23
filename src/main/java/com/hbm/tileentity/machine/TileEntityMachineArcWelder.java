@@ -99,7 +99,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 				this.processTime = recipe.duration - (recipe.duration * redLevel / 6) + (recipe.duration * blueLevel / 3);
 				this.consumption = recipe.consumption + (recipe.consumption * redLevel) - (recipe.consumption * blueLevel / 6);
 				this.consumption *= Math.pow(2, blackLevel);
-				intendedMaxPower = recipe.consumption * 20;
+				intendedMaxPower = consumption * 20;
 
 				if(canProcess(recipe)) {
 					this.progress += (1 + blackLevel);

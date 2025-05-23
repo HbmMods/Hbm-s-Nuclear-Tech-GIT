@@ -13,10 +13,6 @@ public class BulletConfigSyncingUtil {
 
 	public static int TEST_CONFIG = i++;
 
-	public static int FEXT_NORMAL = i++;
-	public static int FEXT_FOAM = i++;
-	public static int FEXT_SAND = i++;
-
 	public static int TURBINE = i++;
 
 	public static int MASKMAN_BULLET = i++;
@@ -32,10 +28,6 @@ public class BulletConfigSyncingUtil {
 	public static int UFO_ROCKET = i++;
 
 	public static void loadConfigsForSync() {
-
-		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
-		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
-		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 

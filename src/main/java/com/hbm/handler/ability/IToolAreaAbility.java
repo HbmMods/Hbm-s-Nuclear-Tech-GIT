@@ -10,274 +10,274 @@ import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.ThreeInts;
-import com.hbm.inventory.OreDictManager;
 import com.hbm.items.tool.ItemToolAbility;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public interface IToolAreaAbility extends IBaseAbility {
-    // Should call tool.breakExtraBlock on a bunch of blocks.
-    // The initial block is implicitly broken, so don't call breakExtraBlock on it.
-    // Returning true skips the reference block from being broken
-    public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
-    
-    // Whether breakExtraBlock is called at all. Currently only false for explosion
-    public default boolean allowsHarvest(int level) {
-        return true;
-    }
+	// Should call tool.breakExtraBlock on a bunch of blocks.
+	// The initial block is implicitly broken, so don't call breakExtraBlock on it.
+	// Returning true skips the reference block from being broken
+	public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool);
 
-    public final static int SORT_ORDER_BASE = 0;
+	// Whether breakExtraBlock is called at all. Currently only false for explosion
+	public default boolean allowsHarvest(int level) {
+		return true;
+	}
 
-    // region handlers
-    public static final IToolAreaAbility NONE = new IToolAreaAbility() {
-        @Override
-        public String getName() {
-            return "";
-        }
+	public final static int SORT_ORDER_BASE = 0;
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 0;
-        }
-        
-        @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
-            return false;
-        }
-    };
+	// region handlers
+	public static final IToolAreaAbility NONE = new IToolAreaAbility() {
+		@Override
+		public String getName() {
+			return "";
+		}
 
-    public static final IToolAreaAbility RECURSION = new IToolAreaAbility() {
-        @Override
-        public String getName() {
-            return "tool.ability.recursion";
-        }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 0;
+		}
 
-        @Override
-        public boolean isAllowed() {
-            return ToolConfig.abilityVein;
-        }
+		@Override
+		public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+			return false;
+		}
+	};
 
-        public final int[] radiusAtLevel = {3, 4, 5, 6, 7, 9, 10};
+	public static final IToolAreaAbility RECURSION = new IToolAreaAbility() {
+		@Override
+		public String getName() {
+			return "tool.ability.recursion";
+		}
 
-        @Override
-        public int levels() {
-            return radiusAtLevel.length;
-        }
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityVein;
+		}
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + radiusAtLevel[level] + ")";
-        }
+		public final int[] radiusAtLevel = { 3, 4, 5, 6, 7, 9, 10 };
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 1;
-        }
+		@Override
+		public int levels() {
+			return radiusAtLevel.length;
+		}
 
-        // Note: if reusing it across different instatces of a tool
-        // is a problem here, then it had already been one before
-        // the refactor! The solution is to simply make this a local
-        // of the onDig method and pass it around as a parameter.
-        private Set<ThreeInts> pos = new HashSet<>();
+		@Override
+		public String getExtension(int level) {
+			return " (" + radiusAtLevel[level] + ")";
+		}
 
-        @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
-            Block b = world.getBlock(x, y, z);
-            
-            if(b == Blocks.stone && !ToolConfig.recursiveStone) {
-                return false;
-            }
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 1;
+		}
 
-            if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack) {
-                return false;
-            }
-            
-            pos.clear();
+		// Note: if reusing it across different instatces of a tool
+		// is a problem here, then it had already been one before
+		// the refactor! The solution is to simply make this a local
+		// of the onDig method and pass it around as a parameter.
+		private Set<ThreeInts> pos = new HashSet<>();
 
-            recurse(world, x, y, z, x, y, z, player, tool, 0, radiusAtLevel[level]);
+		@Override
+		public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+			Block b = world.getBlock(x, y, z);
 
-            return false;
-        }
+			if(b == Blocks.stone && !ToolConfig.recursiveStone) {
+				return false;
+			}
 
-        private final List<ThreeInts> offsets = new ArrayList<ThreeInts>(3*3*3-1) {{
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    for (int dz = -1; dz <= 1; dz++) {
-                        if (dx != 0 || dy != 0 || dz != 0) {
-                            add(new ThreeInts(dx, dy, dz));
-                        }
-                    }
-                }
-            }
-        }};
+			if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack) {
+				return false;
+			}
 
-        private void recurse(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
-            List<ThreeInts> shuffledOffsets = new ArrayList<>(offsets);
-            Collections.shuffle(shuffledOffsets);
-            
-            for(ThreeInts offset : shuffledOffsets) {
-                breakExtra(world, x + offset.x, y + offset.y, z + offset.z, refX, refY, refZ, player, tool, depth, radius);
-            }
-        }
-        
-        private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
-            if(pos.contains(new ThreeInts(x, y, z)))
-                return;
-            
-            depth += 1;
-            
-            if(depth > ToolConfig.recursionDepth)
-                return;
-            
-            pos.add(new ThreeInts(x, y, z));
-            
-            //don't lose the ref block just yet
-            if(x == refX && y == refY && z == refZ)
-                return;
-            
-            if(Vec3.createVectorHelper(x - refX, y - refY, z - refZ).lengthVector() > radius)
-                return;
-            
-            Block b = world.getBlock(x, y, z);
-            Block ref = world.getBlock(refX, refY, refZ);
-            int meta = world.getBlockMetadata(x, y, z);
-            int refMeta = world.getBlockMetadata(refX, refY, refZ);
-            
-            if(!isSameBlock(b, ref))
-                return;
-            
-            if(meta != refMeta)
-                return;
-            
-            if(player.getHeldItem() == null)
-                return;
-            
-            tool.breakExtraBlock(world, x, y, z, player, refX, refY, refZ);
+			pos.clear();
 
-            recurse(world, x, y, z, refX, refY, refZ, player, tool, depth, radius);
-        }
-        
-        private boolean isSameBlock(Block b1, Block b2) {
-            if(b1 == b2) return true;
-            if((b1 == Blocks.redstone_ore && b2 == Blocks.lit_redstone_ore) || (b1 == Blocks.lit_redstone_ore && b2 == Blocks.redstone_ore)) return true;
-            
-            return false;
-        }
-    };
+			recurse(world, x, y, z, x, y, z, player, tool, 0, radiusAtLevel[level]);
 
-    public static final IToolAreaAbility HAMMER = new IToolAreaAbility() {
-        @Override
-        public String getName() {
-            return "tool.ability.hammer";
-        }
+			return false;
+		}
 
-        @Override
-        public boolean isAllowed() {
-            return ToolConfig.abilityHammer;
-        }
+		private final List<ThreeInts> offsets = new ArrayList<ThreeInts>(3 * 3 * 3 - 1) {
+			{
+				for(int dx = -1; dx <= 1; dx++) {
+					for(int dy = -1; dy <= 1; dy++) {
+						for(int dz = -1; dz <= 1; dz++) {
+							if(dx != 0 || dy != 0 || dz != 0) {
+								add(new ThreeInts(dx, dy, dz));
+							}
+						}
+					}
+				}
+			}
+		};
 
-        public final int[] rangeAtLevel = {1, 2, 3, 4};
+		private void recurse(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
+			List<ThreeInts> shuffledOffsets = new ArrayList<>(offsets);
+			Collections.shuffle(shuffledOffsets);
 
-        @Override
-        public int levels() {
-            return rangeAtLevel.length;
-        }
+			for(ThreeInts offset : shuffledOffsets) {
+				breakExtra(world, x + offset.x, y + offset.y, z + offset.z, refX, refY, refZ, player, tool, depth, radius);
+			}
+		}
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + rangeAtLevel[level] + ")";
-        }
+		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth, int radius) {
+			if(pos.contains(new ThreeInts(x, y, z)))
+				return;
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 2;
-        }
+			depth += 1;
 
-        @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
-            int range = rangeAtLevel[level];
-            
-            for(int a = x - range; a <= x + range; a++) {
-                for(int b = y - range; b <= y + range; b++) {
-                    for(int c = z - range; c <= z + range; c++) {
-                        if (a == x && b == y && c == z)
-                            continue;
-                        
-                        tool.breakExtraBlock(world, a, b ,c, player, x, y, z);
-                    }
-                }
-            }
+			if(depth > ToolConfig.recursionDepth)
+				return;
 
-            return false;
-        }
-    };
+			pos.add(new ThreeInts(x, y, z));
 
-    public static final IToolAreaAbility EXPLOSION = new IToolAreaAbility() {
-        @Override
-        public String getName() {
-            return "tool.ability.explosion";
-        }
+			// don't lose the ref block just yet
+			if(x == refX && y == refY && z == refZ)
+				return;
 
-        @Override
-        public boolean isAllowed() {
-            return ToolConfig.abilityExplosion;
-        }
+			if(Vec3.createVectorHelper(x - refX, y - refY, z - refZ).lengthVector() > radius)
+				return;
 
-        public final float[] strengthAtLevel = {2.5F, 5F, 10F, 15F};
+			Block b = world.getBlock(x, y, z);
+			Block ref = world.getBlock(refX, refY, refZ);
+			int meta = world.getBlockMetadata(x, y, z);
+			int refMeta = world.getBlockMetadata(refX, refY, refZ);
 
-        @Override
-        public int levels() {
-            return strengthAtLevel.length;
-        }
+			if(!isSameBlock(b, ref))
+				return;
 
-        @Override
-        public String getExtension(int level) {
-            return " (" + strengthAtLevel[level] + ")";
-        }
+			if(meta != refMeta)
+				return;
 
-        @Override
-        public boolean allowsHarvest(int level) {
-            return false;
-        }
+			if(player.getHeldItem() == null)
+				return;
 
-        @Override
-        public int sortOrder() {
-            return SORT_ORDER_BASE + 3;
-        }
+			tool.breakExtraBlock(world, x, y, z, player, refX, refY, refZ);
 
-        @Override
-        public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
-            float strength = strengthAtLevel[level];
-            
-            ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
-            ex.addAttrib(ExAttrib.ALLDROP);
-            ex.addAttrib(ExAttrib.NOHURT);
-            ex.addAttrib(ExAttrib.NOPARTICLE);
-            ex.doExplosionA();
-            ex.doExplosionB(false);
-            
-            player.worldObj.createExplosion(player, x + 0.5, y + 0.5, z + 0.5, 0.1F, false);
-        
-            return true;
-        }
-    };
-    // endregion handlers
+			recurse(world, x, y, z, refX, refY, refZ, player, tool, depth, radius);
+		}
 
-    static final IToolAreaAbility[] abilities = {NONE, RECURSION, HAMMER, EXPLOSION};
+		private boolean isSameBlock(Block b1, Block b2) {
+			if(b1 == b2)
+				return true;
+			if((b1 == Blocks.redstone_ore && b2 == Blocks.lit_redstone_ore) || (b1 == Blocks.lit_redstone_ore && b2 == Blocks.redstone_ore))
+				return true;
 
-    static IToolAreaAbility getByName(String name) {
-        for(IToolAreaAbility ability : abilities) {
-            if(ability.getName().equals(name))
-                return ability;
-        }
-        
-        return NONE;
-    }
+			return false;
+		}
+	};
+
+	public static final IToolAreaAbility HAMMER = new IToolAreaAbility() {
+		@Override
+		public String getName() {
+			return "tool.ability.hammer";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityHammer;
+		}
+
+		public final int[] rangeAtLevel = { 1, 2, 3, 4 };
+
+		@Override
+		public int levels() {
+			return rangeAtLevel.length;
+		}
+
+		@Override
+		public String getExtension(int level) {
+			return " (" + rangeAtLevel[level] + ")";
+		}
+
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 2;
+		}
+
+		@Override
+		public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+			int range = rangeAtLevel[level];
+
+			for(int a = x - range; a <= x + range; a++) {
+				for(int b = y - range; b <= y + range; b++) {
+					for(int c = z - range; c <= z + range; c++) {
+						if(a == x && b == y && c == z)
+							continue;
+
+						tool.breakExtraBlock(world, a, b, c, player, x, y, z);
+					}
+				}
+			}
+
+			return false;
+		}
+	};
+
+	public static final IToolAreaAbility EXPLOSION = new IToolAreaAbility() {
+		@Override
+		public String getName() {
+			return "tool.ability.explosion";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityExplosion;
+		}
+
+		public final float[] strengthAtLevel = { 2.5F, 5F, 10F, 15F };
+
+		@Override
+		public int levels() {
+			return strengthAtLevel.length;
+		}
+
+		@Override
+		public String getExtension(int level) {
+			return " (" + strengthAtLevel[level] + ")";
+		}
+
+		@Override
+		public boolean allowsHarvest(int level) {
+			return false;
+		}
+
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 3;
+		}
+
+		@Override
+		public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+			float strength = strengthAtLevel[level];
+
+			ExplosionNT ex = new ExplosionNT(player.worldObj, player, x + 0.5, y + 0.5, z + 0.5, strength);
+			ex.addAttrib(ExAttrib.ALLDROP);
+			ex.addAttrib(ExAttrib.NOHURT);
+			ex.addAttrib(ExAttrib.NOPARTICLE);
+			ex.doExplosionA();
+			ex.doExplosionB(false);
+
+			player.worldObj.createExplosion(player, x + 0.5, y + 0.5, z + 0.5, 0.1F, false);
+
+			return true;
+		}
+	};
+	// endregion handlers
+
+	static final IToolAreaAbility[] abilities = { NONE, RECURSION, HAMMER, EXPLOSION };
+
+	static IToolAreaAbility getByName(String name) {
+		for(IToolAreaAbility ability : abilities) {
+			if(ability.getName().equals(name))
+				return ability;
+		}
+
+		return NONE;
+	}
 }
