@@ -86,7 +86,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	}
 
 	private static float getNukeResistance(Block b) {
-		// if (b.getMaterial().isLiquid()) return 0.1F;
+		if (b.getMaterial().isLiquid()) return 0.1F;
 		if (b == Blocks.sandstone) return Blocks.stone.getExplosionResistance(null);
 		if (b == Blocks.obsidian) return Blocks.stone.getExplosionResistance(null) * 3;
 		return b.getExplosionResistance(null);
@@ -128,7 +128,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 			Chunk chunk = world.getChunkFromChunkCoords(cp.chunkXPos, cp.chunkZPos);
 			ExtendedBlockStorage[] storages = chunk.getBlockStorageArray();
-			boolean ChunkModified = false;
+			boolean chunkModified = false;
 
 			for (int subY = 0; subY < storages.length; subY++) {
 				ExtendedBlockStorage storage = storages[subY];
@@ -157,7 +157,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					int zLocal = zGlobal & 0xF;
 					storage.func_150818_a(xLocal, yLocal, zLocal, Blocks.air);
 					storage.setExtBlockMetadata(xLocal, yLocal, zLocal, 0);
-					ChunkModified = true;
+					chunkModified = true;
 
 					world.notifyBlocksOfNeighborChange(xGlobal, yGlobal, zGlobal, Blocks.air);
 					world.markBlockForUpdate(xGlobal, yGlobal, zGlobal);
@@ -170,7 +170,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				}
 			}
 
-			if (ChunkModified) {
+			if (chunkModified) {
 				chunk.setChunkModified();
 				world.markBlockRangeForRenderUpdate(cp.chunkXPos << 4, 0, cp.chunkZPos << 4, (cp.chunkXPos << 4) | 15, WORLD_HEIGHT - 1, (cp.chunkZPos << 4) | 15);
 			}
@@ -387,7 +387,6 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 		}
 	}
-
 	private class RayTask {
 		final int dirIndex;
 		double px, py, pz;
@@ -396,40 +395,51 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		double tMaxX, tMaxY, tMaxZ, tDeltaX, tDeltaY, tDeltaZ;
 		int stepX, stepY, stepZ;
 		boolean initialised = false;
+		double currentRayPosition;
+
+		private static final double RAY_DIRECTION_EPSILON = 1e-6;
+		private static final double PROCESSING_EPSILON = 1e-9;
+		private static final float MIN_EFFECTIVE_DIST_FOR_ENERGY_CALC = 0.01f;
 
 		RayTask(int dirIdx) {
 			this.dirIndex = dirIdx;
 		}
 
 		void init() {
-			Vec3 dir = directions.get(dirIndex);
-			px = explosionX;
-			py = explosionY;
-			pz = explosionZ;
-			x = originX;
-			y = originY;
-			z = originZ;
-			energy = strength;
+			Vec3 dir = directions.get(this.dirIndex);
+			this.px = explosionX;
+			this.py = explosionY;
+			this.pz = explosionZ;
+			this.x = originX;
+			this.y = originY;
+			this.z = originZ;
+			// This scales the crate. higher = bigger crate. Adjust if the radius of the crate deviates from expected.
+			this.energy = strength * 0.3F;
+			this.currentRayPosition = 0.0;
 
+			double dirX = dir.xCoord;
+			double dirY = dir.yCoord;
+			double dirZ = dir.zCoord;
 
-			final double EPS = 1e-6;
-			double ax = Math.abs(dir.xCoord);
-			stepX = ax < EPS ? 0 : (dir.xCoord > 0 ? 1 : -1);
-			double invDx = stepX == 0 ? Double.POSITIVE_INFINITY : 1.0 / ax;
-			double ay = Math.abs(dir.yCoord);
-			stepY = ay < EPS ? 0 : (dir.yCoord > 0 ? 1 : -1);
-			double invDy = stepY == 0 ? Double.POSITIVE_INFINITY : 1.0 / ay;
-			double az = Math.abs(dir.zCoord);
-			stepZ = az < EPS ? 0 : (dir.zCoord > 0 ? 1 : -1);
-			double invDz = stepZ == 0 ? Double.POSITIVE_INFINITY : 1.0 / az;
+			double absDirX = Math.abs(dirX);
+			this.stepX = (absDirX < RAY_DIRECTION_EPSILON) ? 0 : (dirX > 0 ? 1 : -1);
+			this.tDeltaX = (stepX == 0) ? Double.POSITIVE_INFINITY : 1.0 / absDirX;
+			this.tMaxX = (stepX == 0) ? Double.POSITIVE_INFINITY :
+				((stepX > 0 ? (this.x + 1 - this.px) : (this.px - this.x)) * this.tDeltaX);
 
-			tDeltaX = invDx;
-			tDeltaY = invDy;
-			tDeltaZ = invDz;
-			tMaxX = stepX == 0 ? Double.POSITIVE_INFINITY : ((stepX > 0 ? (x + 1 - px) : (px - x)) * invDx);
-			tMaxY = stepY == 0 ? Double.POSITIVE_INFINITY : ((stepY > 0 ? (y + 1 - py) : (py - y)) * invDy);
-			tMaxZ = stepZ == 0 ? Double.POSITIVE_INFINITY : ((stepZ > 0 ? (z + 1 - pz) : (pz - z)) * invDz);
-			initialised = true;
+			double absDirY = Math.abs(dirY);
+			this.stepY = (absDirY < RAY_DIRECTION_EPSILON) ? 0 : (dirY > 0 ? 1 : -1);
+			this.tDeltaY = (stepY == 0) ? Double.POSITIVE_INFINITY : 1.0 / absDirY;
+			this.tMaxY = (stepY == 0) ? Double.POSITIVE_INFINITY :
+				((stepY > 0 ? (this.y + 1 - this.py) : (this.py - this.y)) * this.tDeltaY);
+
+			double absDirZ = Math.abs(dirZ);
+			this.stepZ = (absDirZ < RAY_DIRECTION_EPSILON) ? 0 : (dirZ > 0 ? 1 : -1);
+			this.tDeltaZ = (stepZ == 0) ? Double.POSITIVE_INFINITY : 1.0 / absDirZ;
+			this.tMaxZ = (stepZ == 0) ? Double.POSITIVE_INFINITY :
+				((stepZ > 0 ? (this.z + 1 - this.pz) : (this.pz - this.z)) * this.tDeltaZ);
+
+			this.initialised = true;
 		}
 
 		void trace() {
@@ -440,15 +450,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 
 			while (energy > 0) {
-				if (y < 0 || y >= WORLD_HEIGHT) {
-					break;
-				}
-				double dxBlock = x + 0.5 - explosionX;
-				double dyBlock = y + 0.5 - explosionY;
-				double dzBlock = z + 0.5 - explosionZ;
-				if (dxBlock * dxBlock + dyBlock * dyBlock + dzBlock * dzBlock > radius * radius) {
-					break;
-				}
+				if (y < 0 || y >= WORLD_HEIGHT) break;
+				if (currentRayPosition >= radius - PROCESSING_EPSILON) break;
 
 				ChunkKey ck = new ChunkKey(x >> 4, z >> 4, y >> 4);
 				SubChunkSnapshot snap = snapshots.get(ck);
@@ -458,21 +461,40 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					rayQueue.offer(this);
 					return;
 				}
-				if (snap != SubChunkSnapshot.EMPTY) {
-					Block block = snap.getBlock(x & 15, y & 15, z & 15);
+				double t_exit_voxel = Math.min(tMaxX, Math.min(tMaxY, tMaxZ));
+				double segmentLenInVoxel = t_exit_voxel - this.currentRayPosition;
+				double segmentLenForProcessing;
+				boolean stopAfterThisSegment = false;
+
+				if (this.currentRayPosition + segmentLenInVoxel > radius - PROCESSING_EPSILON) {
+					segmentLenForProcessing = Math.max(0.0, radius - this.currentRayPosition);
+					stopAfterThisSegment = true;
+				} else {
+					segmentLenForProcessing = segmentLenInVoxel;
+				}
+
+				if (snap != SubChunkSnapshot.EMPTY && segmentLenForProcessing > PROCESSING_EPSILON) {
+					Block block = snap.getBlock(x & 0xF, y & 0xF, z & 0xF);
 					if (block != Blocks.air) {
-						float res = getNukeResistance(block);
-						float resistanceCutoff = 2_000_000F;
-						if (res >= resistanceCutoff) break;
-						double distToBlock = Math.sqrt(dxBlock * dxBlock + dyBlock * dyBlock + dzBlock * dzBlock);
-						double effectiveDist = Math.max(distToBlock, 0.01);
-						energy -= (float) (Math.pow(res + 1.0, 3.0 * (effectiveDist / radius)) - 1.0);
-						if (energy > 0) {
-							ConcurrentBitSet bs = destructionMap.computeIfAbsent(ck.pos, posKey -> new ConcurrentBitSet());
-							bs.set(((255 - y) << 8) | ((x & 15) << 4) | (z & 15));
-						} else break;
+						float resistance = getNukeResistance(block);
+						if (resistance >= 2_000_000F) { // cutoff
+							energy = 0;
+						} else {
+							double energyLossFactor = getEnergyLossFactor(resistance);
+							energy -= (float) (energyLossFactor * segmentLenForProcessing);
+							if (energy > 0) {
+								ConcurrentBitSet bs = destructionMap.computeIfAbsent(
+									ck.pos,
+									posKey -> new ConcurrentBitSet()
+								);
+								int bitIndex = ((WORLD_HEIGHT - 1 - y) << 8) | ((x & 0xF) << 4) | (z & 0xF);
+								bs.set(bitIndex);
+							}
+						}
 					}
 				}
+				this.currentRayPosition = t_exit_voxel;
+				if (energy <= 0 || stopAfterThisSegment || this.currentRayPosition >= radius - PROCESSING_EPSILON) break;
 
 				if (tMaxX < tMaxY) {
 					if (tMaxX < tMaxZ) {
@@ -493,6 +515,19 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				}
 			}
 			latch.countDown();
+		}
+
+		private double getEnergyLossFactor(float resistance) {
+			double dxBlockToCenter = (this.x + 0.5) - explosionX;
+			double dyBlockToCenter = (this.y + 0.5) - explosionY;
+			double dzBlockToCenter = (this.z + 0.5) - explosionZ;
+			double distToBlockCenterSq = dxBlockToCenter * dxBlockToCenter +
+				dyBlockToCenter * dyBlockToCenter +
+				dzBlockToCenter * dzBlockToCenter;
+			double distToBlockCenter = Math.sqrt(distToBlockCenterSq);
+
+			double effectiveDist = Math.max(distToBlockCenter, MIN_EFFECTIVE_DIST_FOR_ENERGY_CALC);
+			return (Math.pow(resistance + 1.0, 3.0 * (effectiveDist / radius)) - 1.0);
 		}
 	}
 }
