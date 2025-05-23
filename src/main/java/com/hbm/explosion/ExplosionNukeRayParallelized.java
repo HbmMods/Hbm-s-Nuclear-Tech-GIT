@@ -28,7 +28,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private final int strength;
 	private final int radius;
 
-	private final List<Vec3> directions;
+	private volatile List<Vec3> directions;
+	private final CompletableFuture<List<Vec3>> directionsFuture;
 	private final ConcurrentMap<ChunkCoordIntPair, ConcurrentBitSet> destructionMap;
 	private final ConcurrentMap<ChunkKey, SubChunkSnapshot> snapshots;
 
@@ -67,7 +68,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 		int workers = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
 		this.pool = Executors.newWorkStealingPool(workers);
-		this.directions = generateSphereRays(rayCount);
+		this.directionsFuture = CompletableFuture.supplyAsync(() -> generateSphereRays(rayCount));
 
 		for (int i = 0; i < rayCount; i++) rayQueue.add(new RayTask(i));
 		for (int i = 0; i < workers; i++) pool.submit(new Worker());
@@ -406,6 +407,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		}
 
 		void init() {
+			if (directions == null) directions = directionsFuture.join();
 			Vec3 dir = directions.get(this.dirIndex);
 			this.px = explosionX;
 			this.py = explosionY;
@@ -413,7 +415,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			this.x = originX;
 			this.y = originY;
 			this.z = originZ;
-			// This scales the crate. higher = bigger crate. Adjust if the radius of the crate deviates from expected.
+			// This scales the crater. higher = bigger.
+			// Currently the crater is a little bit bigger than the original implementation
 			this.energy = strength * 0.3F;
 			this.currentRayPosition = 0.0;
 
