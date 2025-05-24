@@ -27,6 +27,7 @@ public class BombConfig {
 	public static int limitExplosionLifespan = 0;
 	public static boolean chunkloading = true;
 	public static boolean parallelization = true;
+	public static boolean accumulatedDestruction = true;
 
 	public static void loadFromConfig(Configuration config) {
 
@@ -96,5 +97,6 @@ public class BombConfig {
 
 		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
 		parallelization = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableParallelization", "Allows explosions to use multiple threads.", true);
+		accumulatedDestruction = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableAccumulatedDestruction", "Enables the accumulated destruction model for explosions. Blocks accumulate damage and are only destroyed once their resistance is exceeded.\nMore physically accurate, slightly slower. Requires enableParallelization = true.", true);
 	}
 }

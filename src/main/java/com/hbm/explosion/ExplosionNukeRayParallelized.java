@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import com.hbm.config.BombConfig;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.main.MainRegistry;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Level;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.DoubleAdder;
 
 public class ExplosionNukeRayParallelized implements IExplosionRay {
 
@@ -31,6 +33,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private volatile List<Vec3> directions;
 	private final CompletableFuture<List<Vec3>> directionsFuture;
 	private final ConcurrentMap<ChunkCoordIntPair, ConcurrentBitSet> destructionMap;
+	private final ConcurrentMap<ChunkCoordIntPair, ChunkDamageAccumulator> accumulatedDamageMap;
+
 	private final ConcurrentMap<ChunkKey, SubChunkSnapshot> snapshots;
 
 	private final BlockingQueue<RayTask> rayQueue;
@@ -40,8 +44,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private final Thread latchWatcherThread;
 	private final List<ChunkCoordIntPair> orderedChunks;
 	private volatile boolean collectFinished = false;
+	private volatile boolean consolidationFinished = false;
 	private volatile boolean destroyFinished = false;
-
 
 	public ExplosionNukeRayParallelized(World world, double x, double y, double z, int strength, int speed, int radius) {
 		this.world = world;
@@ -60,6 +64,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 		this.latch = new CountDownLatch(rayCount);
 		this.destructionMap = new ConcurrentHashMap<>();
+		this.accumulatedDamageMap = new ConcurrentHashMap<>();
 		this.snapshots = new ConcurrentHashMap<>();
 		this.orderedChunks = new ArrayList<>();
 
@@ -80,6 +85,11 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				Thread.currentThread().interrupt();
 			} finally {
 				collectFinished = true;
+				if (BombConfig.accumulatedDestruction) {
+					pool.submit(this::runConsolidation);
+				} else {
+					consolidationFinished = true;
+				}
 			}
 		}, "ExplosionNuke-LatchWatcher-" + System.nanoTime());
 		this.latchWatcherThread.setDaemon(true);
@@ -110,7 +120,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	@Override
 	public void destructionTick(int timeBudgetMs) {
-		if (!collectFinished || destroyFinished) return;
+		if (!collectFinished || !consolidationFinished || destroyFinished) return; // Added consolidationFinished check
+
 		final long deadline = System.nanoTime() + timeBudgetMs * 1_000_000L;
 
 		if (orderedChunks.isEmpty() && !destructionMap.isEmpty()) {
@@ -193,12 +204,13 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	@Override
 	public boolean isComplete() {
-		return collectFinished && destroyFinished;
+		return collectFinished && consolidationFinished && destroyFinished;
 	}
 
 	@Override
 	public void cancel() {
 		this.collectFinished = true;
+		this.consolidationFinished = true;
 		this.destroyFinished = true;
 
 		if (this.rayQueue != null) this.rayQueue.clear();
@@ -227,6 +239,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 		}
 		if (this.destructionMap != null) this.destructionMap.clear();
+		if (this.accumulatedDamageMap != null) this.accumulatedDamageMap.clear();
 		if (this.snapshots != null) this.snapshots.clear();
 		if (this.orderedChunks != null) this.orderedChunks.clear();
 	}
@@ -291,6 +304,72 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		return list;
 	}
 
+	private void runConsolidation() {
+		Iterator<Map.Entry<ChunkCoordIntPair, ChunkDamageAccumulator>> chunkEntryIterator = accumulatedDamageMap.entrySet().iterator();
+		while (chunkEntryIterator.hasNext()) {
+			Map.Entry<ChunkCoordIntPair, ChunkDamageAccumulator> entry = chunkEntryIterator.next();
+			ChunkCoordIntPair cp = entry.getKey();
+			ChunkDamageAccumulator accumulator = entry.getValue();
+
+			if (accumulator.isEmpty()) {
+				chunkEntryIterator.remove();
+				continue;
+			}
+
+			ConcurrentBitSet chunkDestructionBitSet = destructionMap.computeIfAbsent(cp, k -> new ConcurrentBitSet());
+
+			Iterator<Map.Entry<Integer, DoubleAdder>> damageEntryIterator = accumulator.entrySet().iterator();
+			while (damageEntryIterator.hasNext()) {
+				Map.Entry<Integer, DoubleAdder> damageEntry = damageEntryIterator.next();
+				int bitIndex = damageEntry.getKey();
+
+				float accumulatedDamage = (float) damageEntry.getValue().sum();
+
+				if (accumulatedDamage <= 0.0f) {
+					damageEntryIterator.remove();
+					continue;
+				}
+
+				int yGlobal = 255 - (bitIndex >>> 8);
+				int subY = yGlobal >> 4;
+
+				if (subY < 0) {
+					damageEntryIterator.remove();
+					continue;
+				}
+
+				ChunkKey snapshotKey = new ChunkKey(cp.chunkXPos, cp.chunkZPos, subY);
+				SubChunkSnapshot snap = snapshots.get(snapshotKey);
+				Block originalBlock;
+
+				if (snap == null || snap == SubChunkSnapshot.EMPTY) {
+					damageEntryIterator.remove();
+					continue;
+				} else {
+					int xLocal = (bitIndex >>> 4) & 0xF;
+					int zLocal = bitIndex & 0xF;
+					originalBlock = snap.getBlock(xLocal, yGlobal & 0xF, zLocal);
+					if (originalBlock == Blocks.air) {
+						damageEntryIterator.remove();
+						continue;
+					}
+				}
+
+				float resistance = getNukeResistance(originalBlock);
+				if (accumulatedDamage >= resistance) {
+					chunkDestructionBitSet.set(bitIndex);
+					damageEntryIterator.remove();
+				}
+			}
+
+			if (accumulator.isEmpty()) {
+				chunkEntryIterator.remove();
+			}
+		}
+		accumulatedDamageMap.clear();
+		consolidationFinished = true;
+	}
+
 	private static class ChunkKey {
 		final ChunkCoordIntPair pos;
 		final int subY;
@@ -349,7 +428,13 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			if (bit < 0 || bit >= BITSET_SIZE) return;
 			int wd = bit >>> 6;
 			long m = ~(1L << (bit & 63));
-			words.set(wd, words.get(wd) & m);
+			while (true) {
+				long oldWord = words.get(wd);
+				long newWord = oldWord & m;
+				if (oldWord == newWord || words.compareAndSet(wd, oldWord, newWord)) {
+					return;
+				}
+			}
 		}
 
 		int nextSetBit(int from) {
@@ -367,6 +452,35 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		boolean isEmpty() {
 			for (int i = 0; i < WORDS_PER_SET; i++) if (words.get(i) != 0) return false;
 			return true;
+		}
+	}
+
+	private static class ChunkDamageAccumulator {
+		// key = bitIndex, value = total accumulated damage
+		private final ConcurrentHashMap<Integer, DoubleAdder> damageMap = new ConcurrentHashMap<>();
+
+		public void addDamage(int bitIndex, float damageAmount) {
+			if (damageAmount <= 0) return;
+			DoubleAdder adder = damageMap.computeIfAbsent(bitIndex, k -> new DoubleAdder());
+			adder.add(damageAmount);
+		}
+
+		public float getDamage(int bitIndex) {
+			DoubleAdder adder = damageMap.get(bitIndex);
+			return adder == null ? 0f : (float) adder.sum();
+		}
+
+		public void clearDamage(int bitIndex) {
+			damageMap.remove(bitIndex);
+		}
+
+		public Set<Map.Entry<Integer, DoubleAdder>> entrySet() {
+			return damageMap.entrySet();
+		}
+
+
+		public boolean isEmpty() {
+			return damageMap.isEmpty();
 		}
 	}
 
@@ -409,15 +523,15 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		void init() {
 			if (directions == null) directions = directionsFuture.join();
 			Vec3 dir = directions.get(this.dirIndex);
+			// This scales the crater. Higher = bigger.
+			// Currently the crater is a little bit bigger than the original implementation
+			this.energy = strength * 0.3F;
 			this.px = explosionX;
 			this.py = explosionY;
 			this.pz = explosionZ;
 			this.x = originX;
 			this.y = originY;
 			this.z = originZ;
-			// This scales the crater. higher = bigger.
-			// Currently the crater is a little bit bigger than the original implementation
-			this.energy = strength * 0.3F;
 			this.currentRayPosition = 0.0;
 
 			double dirX = dir.xCoord;
@@ -484,14 +598,24 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 							energy = 0;
 						} else {
 							double energyLossFactor = getEnergyLossFactor(resistance);
-							energy -= (float) (energyLossFactor * segmentLenForProcessing);
-							if (energy > 0) {
-								ConcurrentBitSet bs = destructionMap.computeIfAbsent(
-									ck.pos,
-									posKey -> new ConcurrentBitSet()
-								);
+							float damageDealt = (float) (energyLossFactor * segmentLenForProcessing);
+							energy -= damageDealt;
+							if (damageDealt > 0) {
 								int bitIndex = ((WORLD_HEIGHT - 1 - y) << 8) | ((x & 0xF) << 4) | (z & 0xF);
-								bs.set(bitIndex);
+								if (BombConfig.accumulatedDestruction) {
+									ChunkCoordIntPair chunkPos = ck.pos;
+									ChunkDamageAccumulator chunkAccumulator =
+										accumulatedDamageMap.computeIfAbsent(chunkPos, k -> new ChunkDamageAccumulator());
+									chunkAccumulator.addDamage(bitIndex, damageDealt);
+								} else {
+									if (energy > 0) {
+										ConcurrentBitSet bs = destructionMap.computeIfAbsent(
+											ck.pos,
+											posKey -> new ConcurrentBitSet()
+										);
+										bs.set(bitIndex);
+									}
+								}
 							}
 						}
 					}
