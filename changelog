@@ -1,3 +1,11 @@
+## Added
+* Two new anti-material rifle variants
+  * .50 BMG demolisher rounds are finally usable
+  * Added a special ammo type exclusive to one of the variants
+* Starmetal .50 BMG now returns
+  * Overall better armor piercing stats than DU
+  * Not compatible with the M2, only usable in amat rifles
+
 ## Changed
 * The RBMK console's grid can now be rotated using a screwdriver
 * Tool abilities have changed
@@ -13,3 +21,4 @@
 * Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts
 * Fixed strand caster fluid gauges going out of bounds
 * Fixed arc welder and soldering station not changing buffer size based on upgrade, preventing use of higher overdrive tiers
+* Fixed non-standard template folder recipes not using the correct icon

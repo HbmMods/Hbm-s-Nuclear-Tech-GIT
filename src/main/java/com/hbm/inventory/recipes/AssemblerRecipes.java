@@ -28,6 +28,7 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
@@ -36,6 +37,7 @@ import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.Loader;
@@ -792,6 +794,18 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(Fluids.PEROXIDE.getDict(1_000), 16),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED),
 			}, 100);
+
+		makeRecipe(new ComparableStack(ModItems.ammo_standard, 6, EnumAmmo.BMG50_SM), new AStack[] {
+				new ComparableStack(ModItems.casing, 1, EnumCasingType.LARGE_STEEL),
+				new OreDictStack(ANY_SMOKELESS.dust(), 6),
+				new OreDictStack(STAR.ingot(), 3),
+			}, 100, ModItems.journal_silver);
+		makeRecipe(new ComparableStack(ModItems.ammo_secret, 12, EnumAmmoSecret.BMG50_BLACK), new AStack[] {
+				new ComparableStack(ModItems.casing, 2, EnumCasingType.LARGE_STEEL),
+				new OreDictStack(ANY_SMOKELESS.dust(), 24),
+				new OreDictStack(WEAPONSTEEL.ingot(), 8),
+				new ComparableStack(ModItems.black_diamond),
+			}, 1200, ModItems.journal_silver);
 
 		makeRecipe(new ComparableStack(ModBlocks.machine_silex, 1), new AStack[] {
 				new ComparableStack(ModBlocks.glass_quartz, 16),

@@ -54,8 +54,8 @@ public class ItemAssemblyTemplate extends Item {
 		//LEGACY
 		if(out == null) out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
 
-		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(stack);
-		
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(out);
+
 		if(recipe != null && !recipe.folders.contains(ModItems.template_folder))
 			return this.hiddenIcon;
 
