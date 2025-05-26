@@ -489,6 +489,7 @@ crucible.tcalloy=Herstellung - Technetiumstahl
 
 damage.inset=Resistenz wenn in Set getragen:
 damage.item=Resistenz wenn getragen:
+damage.category.EN=Energie
 damage.category.EXPL=Explosion
 damage.category.FIRE=Feuer
 damage.category.PROJ=Projektil

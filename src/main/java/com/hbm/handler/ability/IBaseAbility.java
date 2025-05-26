@@ -1,6 +1,6 @@
 package com.hbm.handler.ability;
 
-import net.minecraft.client.resources.I18n;
+import com.hbm.util.i18n.I18nUtil;
 
 public interface IBaseAbility extends Comparable<IBaseAbility> {
 	public String getName();
@@ -11,7 +11,7 @@ public interface IBaseAbility extends Comparable<IBaseAbility> {
 
 	// Note: only usable client-side. Server-side, use ChatComponentTranslation manually instead
 	public default String getFullName(int level) {
-		return I18n.format(getName()) + getExtension(level);
+		return I18nUtil.format(getName()) + getExtension(level);
 	}
 
 	public default boolean isAllowed() {

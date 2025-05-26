@@ -25,3 +25,5 @@
 * Fixed arc welder and soldering station not changing buffer size based on upgrade, preventing use of higher overdrive tiers
 * Fixed non-standard template folder recipes not using the correct icon
 * Fixed jetpack flight time not resetting when equipped like armor, causing kicks on servers that don't have flying cheats allowed
+* Fixed missing energy damage category localization
+* Fixed server crash caused by tool abilities

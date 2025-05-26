@@ -905,6 +905,7 @@ crucible.tcalloy=Technetium Steel Production
 
 damage.inset=Resistances when worn in set:
 damage.item=Resistances when worn:
+damage.category.EN=Energy
 damage.category.EXPL=Explosion
 damage.category.FIRE=Fire
 damage.category.PROJ=Projectile
