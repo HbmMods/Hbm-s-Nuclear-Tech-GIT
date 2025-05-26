@@ -65,6 +65,7 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 	public float check() {
 		return ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord);
 	}
+	
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
