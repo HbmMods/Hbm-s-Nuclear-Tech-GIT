@@ -11,7 +11,6 @@ import com.hbm.entity.train.EntityRailCarRidable;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.HbmKeybinds;
@@ -31,14 +30,12 @@ import com.hbm.items.armor.*;
 import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
-import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.AuxButtonPacket;
-import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.packet.toserver.KeybindPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -348,15 +345,6 @@ public class ModEventHandlerClient {
 		/// HANDLE SCOPE OVERLAY ///
 		ItemStack held = player.getHeldItem();
 
-		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase && event.type == event.type.HOTBAR)  {
-			GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
-
-			if(config.scopeTexture != null) {
-				ScaledResolution resolution = event.resolution;
-				RenderScreenOverlay.renderScope(resolution, config.scopeTexture);
-			}
-		}
-
 		if(held != null && held.getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == ItemGunBaseNT.prevAimingProgress && ItemGunBaseNT.aimingProgress == 1F && event.type == event.type.HOTBAR)  {
 			ItemGunBaseNT gun = (ItemGunBaseNT) held.getItem();
 			GunConfig cfg = gun.getConfig(held, 0);
@@ -587,36 +575,6 @@ public class ModEventHandlerClient {
 			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) ||			player.getDisplayName().equals("the_NCR"))			RenderAccessoryUtility.renderWings(event, 3);
 			if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) ||		player.getDisplayName().equals("pheo7"))			RenderAccessoryUtility.renderAxePack(event);
 			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage"))	RenderAccessoryUtility.renderFaggot(event);
-		}
-	}
-
-	@SubscribeEvent
-	public void clickHandler(MouseEvent event) {
-
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
-		if(player.getHeldItem() != null) {
-
-			Item held = player.getHeldItem().getItem();
-
-			if(held instanceof ItemGunBase) {
-
-				if(event.button == 0)
-					event.setCanceled(true);
-
-				ItemGunBase item = (ItemGunBase)player.getHeldItem().getItem();
-
-				if(event.button == 0 && !item.m1 && !item.m2) {
-					item.m1 = true;
-					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
-					item.startActionClient(player.getHeldItem(), player.worldObj, player, true);
-				}
-				else if(event.button == 1 && !item.m2 && !item.m1) {
-					item.m2 = true;
-					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
-					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
-				}
-			}
 		}
 	}
 

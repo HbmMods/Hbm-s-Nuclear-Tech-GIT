@@ -21,9 +21,7 @@ import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.threading.PacketThreading;
-import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
@@ -38,7 +36,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -109,24 +106,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 		thrower = entity;
 
-		ItemStack gun = entity.getHeldItem();
 		boolean offsetShot = true;
 		boolean accuracyBoost = false;
-
-		if(gun != null && gun.getItem() instanceof ItemGunBase) {
-			GunConfiguration cfg = ((ItemGunBase) gun.getItem()).mainConfig;
-
-			if(cfg != null) {
-				if(cfg.hasSights && entity.isSneaking()) {
-					offsetShot = false;
-					accuracyBoost = true;
-				}
-
-				if(cfg.isCentered){
-					offsetShot = false;
-				}
-			}
-		}
 
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 

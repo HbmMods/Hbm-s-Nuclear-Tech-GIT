@@ -35,8 +35,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ExtPropPacket.Handler.class, ExtPropPacket.class, i++, Side.CLIENT);
 		//Packet for force fields
 		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
-		//Sends button information for ItemGunBase
-		wrapper.registerMessage(GunButtonPacket.Handler.class, GunButtonPacket.class, i++, Side.SERVER);
 		//Signals server to buy offer from bobmazon
 		wrapper.registerMessage(ItemBobmazonPacket.Handler.class, ItemBobmazonPacket.class, i++, Side.SERVER);
 		//Packet to send missile multipart information to TEs

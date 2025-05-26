@@ -9,16 +9,19 @@
 ## Changed
 * The RBMK console's grid can now be rotated using a screwdriver
 * Tool abilities have changed
-  * Righ-clicking while holding ALT now opens a configuration window
+  * Right-clicking while holding ALT now opens a configuration window
   * The configuration window allows creation of tool presets
   * Area and block abilities can now be toggled independently from each other. For example, the vein miner ability can be combined with silk touch
   * Clicking on the same ability allows switching between levels
 * Updated textures for the armor and gun modification tables
 * Ported the fire extinguisher to the SEDNA gun system, eliminating the final remaining ItemGunBase gun
 * Water extinguishers can now wash away foam blocks
+* Obliterated Fabsol's vodka
+* Tier 4 heart piece is now called "heart of darkness"
 
 ## Fixed
 * Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts
 * Fixed strand caster fluid gauges going out of bounds
 * Fixed arc welder and soldering station not changing buffer size based on upgrade, preventing use of higher overdrive tiers
 * Fixed non-standard template folder recipes not using the correct icon
+* Fixed jetpack flight time not resetting when equipped like armor, causing kicks on servers that don't have flying cheats allowed

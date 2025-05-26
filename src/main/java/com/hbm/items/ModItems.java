@@ -1599,7 +1599,6 @@ public class ModItems {
 	public static Item med_schizophrenia;
 
 	public static Item canteen_vodka;
-	public static Item canteen_fab;
 
 	public static Item defuser;
 	public static Item reacher;
@@ -2052,7 +2051,6 @@ public class ModItems {
 	public static Item wd40;
 	public static Item scrumpy;
 	public static Item wild_p;
-	public static Item fabsols_vodka;
 	public static Item shackles;
 	public static Item injector_5htp;
 	public static Item injector_knife;
@@ -3087,7 +3085,6 @@ public class ModItems {
 		wd40 = new ItemModWD40().setUnlocalizedName("wd40").setTextureName(RefStrings.MODID + ":wd40");
 		scrumpy = new ItemModRevive(1).setUnlocalizedName("scrumpy").setTextureName(RefStrings.MODID + ":scrumpy");
 		wild_p = new ItemModRevive(3).setUnlocalizedName("wild_p").setTextureName(RefStrings.MODID + ":wild_p");
-		fabsols_vodka = new ItemModRevive(9999).setUnlocalizedName("fabsols_vodka").setTextureName(RefStrings.MODID + ":fabsols_vodka");
 		shackles = new ItemModShackles().setUnlocalizedName("shackles").setTextureName(RefStrings.MODID + ":shackles");
 		injector_5htp = new ItemModAuto().setUnlocalizedName("injector_5htp").setTextureName(RefStrings.MODID + ":injector_5htp");
 		injector_knife = new ItemModKnife().setUnlocalizedName("injector_knife").setTextureName(RefStrings.MODID + ":injector_knife");
@@ -3870,7 +3867,6 @@ public class ModItems {
 		static_sandwich = new ItemLemon(6, 1F, false).setUnlocalizedName("static_sandwich").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":static_sandwich");
 		pudding = new ItemLemon(6, 1F, false).setUnlocalizedName("pudding").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pudding");
 		canteen_vodka = new ItemCanteen(3 * 60).setUnlocalizedName("canteen_vodka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_vodka");
-		canteen_fab = new ItemCanteen(2 * 60).setUnlocalizedName("canteen_fab").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_fab");
 		pancake = new ItemPancake(20, 20, false).setUnlocalizedName("pancake").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pancake");
 		nugget = new ItemLemon(200, 1F, false).setUnlocalizedName("nugget").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":nugget");
 		peas = new ItemPeas().setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
@@ -6709,7 +6705,6 @@ public class ModItems {
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		GameRegistry.registerItem(canteen_vodka, canteen_vodka.getUnlocalizedName());
-		GameRegistry.registerItem(canteen_fab, canteen_fab.getUnlocalizedName());
 		GameRegistry.registerItem(mucho_mango, mucho_mango.getUnlocalizedName());
 		GameRegistry.registerItem(chocolate, chocolate.getUnlocalizedName());
 
@@ -6833,7 +6828,6 @@ public class ModItems {
 		GameRegistry.registerItem(wd40, wd40.getUnlocalizedName());
 		GameRegistry.registerItem(scrumpy, scrumpy.getUnlocalizedName());
 		GameRegistry.registerItem(wild_p, wild_p.getUnlocalizedName());
-		GameRegistry.registerItem(fabsols_vodka, fabsols_vodka.getUnlocalizedName());
 		GameRegistry.registerItem(shackles, shackles.getUnlocalizedName());
 		GameRegistry.registerItem(injector_5htp, injector_5htp.getUnlocalizedName());
 		GameRegistry.registerItem(injector_knife, injector_knife.getUnlocalizedName());
