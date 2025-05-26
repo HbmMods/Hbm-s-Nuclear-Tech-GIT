@@ -8,7 +8,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKScreen;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

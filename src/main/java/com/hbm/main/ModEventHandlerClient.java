@@ -57,6 +57,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;

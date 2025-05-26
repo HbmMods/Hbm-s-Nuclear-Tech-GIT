@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.EnumChatFormatting;

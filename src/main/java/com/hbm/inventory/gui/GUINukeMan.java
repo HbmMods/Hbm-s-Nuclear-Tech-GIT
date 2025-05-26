@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerNukeMan;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 public class GUINukeMan extends GuiInfoContainer {
 	

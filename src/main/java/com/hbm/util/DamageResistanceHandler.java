@@ -18,6 +18,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.entity.IResistanceProvider;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

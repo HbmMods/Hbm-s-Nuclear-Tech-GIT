@@ -12,7 +12,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -24,7 +24,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -162,7 +161,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		if(!effects.isEmpty()) {
 			List potionList = new ArrayList();
 			for(PotionEffect effect : effects) {
-				potionList.add(I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
+				potionList.add(I18nUtil.format(Potion.potionTypes[effect.getPotionID()].getName()));
 			}
 			
 			toAdd.add(EnumChatFormatting.AQUA + String.join(", ", potionList));

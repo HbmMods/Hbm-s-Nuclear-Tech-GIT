@@ -14,7 +14,7 @@ import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;

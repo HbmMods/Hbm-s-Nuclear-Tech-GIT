@@ -18,7 +18,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.gen.INBTTransformable;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;

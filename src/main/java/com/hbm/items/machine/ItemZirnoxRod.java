@@ -6,7 +6,7 @@ import java.util.Locale;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

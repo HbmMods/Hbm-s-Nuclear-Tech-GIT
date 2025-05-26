@@ -7,7 +7,7 @@ import com.hbm.entity.effect.EntityVortex;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

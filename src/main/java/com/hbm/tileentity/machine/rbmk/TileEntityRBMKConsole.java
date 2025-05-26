@@ -17,7 +17,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;

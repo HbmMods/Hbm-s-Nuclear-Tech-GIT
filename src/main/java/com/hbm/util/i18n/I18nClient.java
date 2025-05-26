@@ -1,47 +1,31 @@
-package com.hbm.util;
+package com.hbm.util.i18n;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SideOnly(Side.CLIENT)
-public class I18nUtil {
+public class I18nClient implements ITranslate {
 
-	/**
-	 * Simple wrapper for I18n, for consistency
-	 * @param s
-	 * @param args
-	 * @return
-	 */
+	@Override
 	@SideOnly(Side.CLIENT)
-	public static String resolveKey(String s, Object... args) {
+	public String resolveKey(String s, Object... args) {
 		return I18n.format(s, args);
 	}
 
-	/**
-	 * Wrapper for I18n but cuts up the result using NTM's line break character ($)
-	 * @param s
-	 * @param args
-	 * @return
-	 */
+	@Override
 	@SideOnly(Side.CLIENT)
-	public static String[] resolveKeyArray(String s, Object... args) {
+	public String[] resolveKeyArray(String s, Object... args) {
 		return resolveKey(s, args).split("\\$");
 	}
 
-	/**
-	 * The same as autoBreak, but it also respects NTM's break character ($) for manual line breaking in addition to the automatic ones
-	 * @param fontRenderer
-	 * @param text
-	 * @param width
-	 * @return
-	 */
+	@Override
 	@SideOnly(Side.CLIENT)
-	public static List<String> autoBreakWithParagraphs(FontRenderer fontRenderer, String text, int width) {
+	public List<String> autoBreakWithParagraphs(Object fontRenderer, String text, int width) {
 
 		String[] paragraphs = text.split("\\$");
 		List<String> lines = new ArrayList();
@@ -53,16 +37,11 @@ public class I18nUtil {
 		return lines;
 	}
 
-	/**
-	 * Turns one string into a list of strings, cutting sentences up to fit within the defined width if they were rendered in a GUI
-	 * @param fontRenderer
-	 * @param text
-	 * @param width
-	 * @return
-	 */
+	@Override
 	@SideOnly(Side.CLIENT)
-	public static List<String> autoBreak(FontRenderer fontRenderer, String text, int width) {
+	public List<String> autoBreak(Object o, String text, int width) {
 
+		FontRenderer fontRenderer = (FontRenderer) o;
 		List<String> lines = new ArrayList();
 		//split the text by all spaces
 		String[] words = text.split(" ");

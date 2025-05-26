@@ -8,7 +8,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineAutosaw;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

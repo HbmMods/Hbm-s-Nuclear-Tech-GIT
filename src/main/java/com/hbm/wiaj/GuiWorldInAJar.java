@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.actors.ActorFancyPanel;
 import com.hbm.wiaj.actors.ISpecialActor;
 import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;

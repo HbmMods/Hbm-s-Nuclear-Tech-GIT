@@ -3,6 +3,9 @@ package com.hbm.main;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.i18n.I18nServer;
+import com.hbm.util.i18n.ITranslate;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerProxy {
+	
+	private static final I18nServer I18N = new I18nServer();
 
 	//sort by estimated time of display. longer lasting ones should be sorted at the top.
 	public static final int ID_DUCK = 0;
@@ -28,6 +33,8 @@ public class ServerProxy {
 	public static final int ID_TOOLABILITY = 10;
 	public static final int ID_GUN_MODE = 11;
 	public static final int ID_GAS_HAZARD = 12;
+	
+	public ITranslate getI18n() { return I18N; }
 
 	public void registerPreRenderInfo() { }
 	public void registerRenderInfo() { }
