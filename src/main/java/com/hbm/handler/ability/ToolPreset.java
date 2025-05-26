@@ -27,26 +27,32 @@ public class ToolPreset {
 		this.harvestAbilityLevel = harvestAbilityLevel;
 	}
 
-	public ChatComponentText getMessage() {
-		if(isNone())
-			return ChatBuilder.start("[Tool ability deactivated]").color(EnumChatFormatting.GOLD).flush();
+    public ChatComponentText getMessage() {
+        if (isNone()) {
+            return ChatBuilder.start("[Tool ability deactivated]").color(EnumChatFormatting.GOLD).flush();
+        }
 
-		String areaPart = areaAbility.getFullName(areaAbilityLevel);
-		String harvestPart = harvestAbility.getFullName(harvestAbilityLevel);
+        boolean hasArea = areaAbility != IToolAreaAbility.NONE;
+        boolean hasHarvest = harvestAbility != IToolHarvestAbility.NONE;
+        
+        ChatBuilder builder = ChatBuilder.start("[Enabled ");
 
-		ChatBuilder builder = ChatBuilder.start("[Enabled ");
+        if (hasArea) {
+            builder.nextTranslation(areaAbility.getName());
+            builder.next(areaAbility.getExtension(areaAbilityLevel));
+        }
 
-		if(!areaPart.isEmpty())
-			builder.next(areaPart);
+        if (hasArea && hasHarvest) {
+            builder.next(" + ");
+        }
 
-		if(!areaPart.isEmpty() && !harvestPart.isEmpty())
-			builder.next(" + ");
-
-		if(!harvestPart.isEmpty())
-			builder.next(harvestPart);
-
-		return builder.colorAll(EnumChatFormatting.YELLOW).flush();
-	}
+        if (hasHarvest) {
+            builder.nextTranslation(harvestAbility.getName());
+            builder.next(harvestAbility.getExtension(harvestAbilityLevel));
+        }
+        
+        return builder.colorAll(EnumChatFormatting.YELLOW).flush();
+    }
 
 	public boolean isNone() {
 		return areaAbility == IToolAreaAbility.NONE && harvestAbility == IToolHarvestAbility.NONE;
