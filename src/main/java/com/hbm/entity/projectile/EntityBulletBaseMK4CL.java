@@ -60,9 +60,7 @@ public class EntityBulletBaseMK4CL extends EntityBulletBaseMK4 implements IChunk
 	
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			ForgeChunkManager.releaseTicket(loaderTicket);
 		}
 	}
 

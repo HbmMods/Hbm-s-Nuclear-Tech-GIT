@@ -27,3 +27,5 @@
 * Fixed jetpack flight time not resetting when equipped like armor, causing kicks on servers that don't have flying cheats allowed
 * Fixed missing energy damage category localization
 * Fixed server crash caused by tool abilities
+* Fixed chunkloading entities not releasing their loading tickets properly
+* Potentially fixed a dupe issue related to tool abilities

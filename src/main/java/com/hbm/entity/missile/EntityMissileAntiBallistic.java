@@ -74,7 +74,6 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 				if(prevTracking == null && this.tracking != null) {
 					ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 24, 3F);
 				}
-        
 				if(this.tracking != null && !this.tracking.isDead) {
 					this.aimAtTarget();
 				} else {
@@ -222,9 +221,7 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			ForgeChunkManager.releaseTicket(loaderTicket);
 		}
 	}
 

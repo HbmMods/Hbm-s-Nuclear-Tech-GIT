@@ -31,7 +31,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,7 +46,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
@@ -370,14 +368,6 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 					player.destroyCurrentEquippedItem();
 				}
 			}
-			
-			// TODO: Missing from other method, may be unneeded
-			if(flag && flag1) {
-				block.harvestBlock(world, player, x, y, z, l);
-			}
-			
-			// TODO: Added from other method, may be unneeded
-			Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
 		}
 
 		// Why was this commented out?

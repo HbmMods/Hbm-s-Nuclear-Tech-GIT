@@ -178,9 +178,7 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			ForgeChunkManager.releaseTicket(loaderTicket);
 		}
 	}
 

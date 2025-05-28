@@ -187,7 +187,7 @@ public abstract class EntityPlaneBase extends Entity implements IChunkLoader {
 	
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			ForgeChunkManager.releaseTicket(loaderTicket);
 		}
 	}
 

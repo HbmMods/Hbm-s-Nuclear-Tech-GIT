@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.machine.TileEntityMachineChemicalPlant;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -14,6 +15,7 @@ public class MachineChemicalPlant extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+		if(meta >= 12) return new TileEntityMachineChemicalPlant();
 		return null;
 	}
 
