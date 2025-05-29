@@ -1021,7 +1021,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				"getTargeting",
 				"hasTarget",
 				"getAngle",
-				"isAligned"
+				"isAligned",
 				"getPos"
 		};
 	}
