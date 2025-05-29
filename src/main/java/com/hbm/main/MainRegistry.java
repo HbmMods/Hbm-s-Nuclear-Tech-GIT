@@ -1682,6 +1682,14 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gun_cryolator_ammo");
 		ignoreMappings.add("hbm:item.canteen_fab");
 		ignoreMappings.add("hbm:item.fabsols_vodka");
+		ignoreMappings.add("hbm:item.test_nuke_igniter");
+		ignoreMappings.add("hbm:item.test_nuke_propellant");
+		ignoreMappings.add("hbm:item.test_nuke_tier1_shielding");
+		ignoreMappings.add("hbm:item.test_nuke_tier2_shielding");
+		ignoreMappings.add("hbm:item.test_nuke_tier1_bullet");
+		ignoreMappings.add("hbm:item.test_nuke_tier2_bullet");
+		ignoreMappings.add("hbm:item.test_nuke_tier1_target");
+		ignoreMappings.add("hbm:item.test_nuke_tier2_target");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -350,16 +350,16 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		Block block = world.getBlock(x, y, z);
 		int l = world.getBlockMetadata(x, y, z);
 		world.playAuxSFXAtEntity(player, 2001, x, y, z, Block.getIdFromBlock(block) + (world.getBlockMetadata(x, y, z) << 12));
-		boolean flag = false;
+		boolean removedByPlayer = false;
 
 		if(player.capabilities.isCreativeMode) {
-			flag = removeBlock(world, x, y, z, false, player);
+			removedByPlayer = removeBlock(world, x, y, z, false, player);
 			player.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
 		} else {
 			ItemStack itemstack = player.getCurrentEquippedItem();
-			boolean flag1 = block.canHarvestBlock(player, l);
+			boolean canHarvest = block.canHarvestBlock(player, l);
 
-			flag = removeBlock(world, x, y, z, flag1, player);
+			removedByPlayer = removeBlock(world, x, y, z, canHarvest, player);
 
 			if(itemstack != null) {
 				itemstack.func_150999_a(world, block, x, y, z, player);
@@ -367,6 +367,10 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 				if(itemstack.stackSize == 0) {
 					player.destroyCurrentEquippedItem();
 				}
+			}
+			
+			if(removedByPlayer && canHarvest) {
+				block.harvestBlock(world, player, x, y, z, l);
 			}
 		}
 
