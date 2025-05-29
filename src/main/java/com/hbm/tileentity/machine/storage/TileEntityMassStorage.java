@@ -170,12 +170,12 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	@Override
 	public void openInventory() {
-		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 1.0F, 1.0F);
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 0.5F, 1.0F);
 	}
 
 	@Override
 	public void closeInventory() {
-		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 1.0F, 1.0F);
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 0.5F, 1.0F);
 	}
 
 	@Override
