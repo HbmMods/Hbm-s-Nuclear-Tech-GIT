@@ -712,7 +712,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				"getAmount",
 				"isIndexPlayer",
 				"getIndexType",
-				"getEntityAtIndex"
+				"getEntityAtIndex",
 				"getPos"
 		};
 	}
