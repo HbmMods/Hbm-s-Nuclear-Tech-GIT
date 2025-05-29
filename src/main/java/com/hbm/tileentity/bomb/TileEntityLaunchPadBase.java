@@ -528,6 +528,12 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		return new Object[] {false};
 	}
 
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPos(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
+	}
+
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
@@ -536,7 +542,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				"getFluid",
 				"canLaunch",
 				"getTier",
-				"launch"
+				"launch",
+				"getPos"
 		};
 	}
 
@@ -554,6 +561,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
+			case ("getPos"):
+				return getPos(context, args);
 		}
 	throw new NoSuchMethodException();
 	}
