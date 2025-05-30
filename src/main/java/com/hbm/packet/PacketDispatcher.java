@@ -67,6 +67,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(BiomeSyncPacket.Handler.class, BiomeSyncPacket.class, i++, Side.CLIENT);
 		//The not-so-convenient but not laggy one
 		wrapper.registerMessage(BufPacket.Handler.class, BufPacket.class, i++, Side.CLIENT);
+		//Syncs server recipe configs to the client
+		wrapper.registerMessage(SerializableRecipePacket.Handler.class, SerializableRecipePacket.class, i++, Side.CLIENT);
 	}
 
 }
