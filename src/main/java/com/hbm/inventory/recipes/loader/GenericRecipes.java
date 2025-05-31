@@ -12,8 +12,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
@@ -29,17 +27,19 @@ import net.minecraft.util.WeightedRandom;
  * 
  * @author hbm
  */
-public abstract class GenericRecipes extends SerializableRecipe {
+public abstract class GenericRecipes<T extends GenericRecipe> extends SerializableRecipe {
 	
 	public static final Random RNG = new Random();
 
-	public List<GenericRecipe> recipeOrderedList = new ArrayList();
-	public HashMap<String, GenericRecipe> recipeNameMap = new HashMap();
+	public List<T> recipeOrderedList = new ArrayList();
+	public HashMap<String, T> recipeNameMap = new HashMap();
 
 	public abstract int inputItemLimit();
 	public abstract int inputFluidLimit();
 	public abstract int outputItemLimit();
 	public abstract int outputFluidLimit();
+	public boolean hasDuration() { return true; }
+	public boolean hasPower() { return true; }
 
 	@Override
 	public Object getRecipeObject() {
@@ -52,7 +52,7 @@ public abstract class GenericRecipes extends SerializableRecipe {
 		this.recipeNameMap.clear();
 	}
 	
-	public void register(GenericRecipe recipe) {
+	public void register(T recipe) {
 		this.recipeOrderedList.add(recipe);
 		this.recipeNameMap.put(recipe.name, recipe);
 	}
@@ -60,28 +60,67 @@ public abstract class GenericRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement element) {
 		JsonObject obj = (JsonObject) element;
-		GenericRecipe recipe = instantiateRecipe(obj.get("name").getAsString(), obj.get("duration").getAsInt());
+		T recipe = instantiateRecipe(obj.get("name").getAsString());
 
-		if(this.inputItemLimit() > 0) recipe.inputItem = this.readAStackArray(obj.get("inputItem").getAsJsonArray());
-		if(this.inputFluidLimit() > 0) recipe.inputFluid = this.readFluidArray(obj.get("inputFluid").getAsJsonArray());
+		if(this.inputItemLimit() > 0 && obj.has("inputItem")) recipe.inputItem = this.readAStackArray(obj.get("inputItem").getAsJsonArray());
+		if(this.inputFluidLimit() > 0 && obj.has("inputFluid")) recipe.inputFluid = this.readFluidArray(obj.get("inputFluid").getAsJsonArray());
 		
-		if(this.outputItemLimit() > 0) recipe.outputItem = this.readOutputArray(obj.get("outputItem").getAsJsonArray());
-		if(this.outputFluidLimit() > 0) recipe.outputFluid = this.readFluidArray(obj.get("outputFluid").getAsJsonArray());
+		if(this.outputItemLimit() > 0 && obj.has("outputItem")) recipe.outputItem = this.readOutputArray(obj.get("outputItem").getAsJsonArray());
+		if(this.outputFluidLimit() > 0 && obj.has("outputFluid")) recipe.outputFluid = this.readFluidArray(obj.get("outputFluid").getAsJsonArray());
+
+		if(this.hasDuration()) recipe.setDuration(obj.get("duration").getAsInt());
+		if(this.hasPower()) recipe.setPower(obj.get("power").getAsLong());
+		
+		if(obj.has("icon")) recipe.setIcon(this.readItemStack(obj.get("icon").getAsJsonArray()));
 		
 		readExtraData(element, recipe);
 		
 		register(recipe);
 	}
 
-	public GenericRecipe instantiateRecipe(String name, int duration) { return new GenericRecipe(name, duration); }
-	public void readExtraData(JsonElement element, GenericRecipe recipe) { }
+	public abstract T instantiateRecipe(String name);
+	public void readExtraData(JsonElement element, T recipe) { }
 
 	@Override
-	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+	public void writeRecipe(Object recipeObject, JsonWriter writer) throws IOException {
+		T recipe = (T) recipeObject;
 		
+		if(this.inputItemLimit() > 0 && recipe.inputItem != null) {
+			writer.name("inputItem").beginArray();
+			for(AStack stack : recipe.inputItem) this.writeAStack(stack, writer);
+			writer.endArray();
+		}
+		
+		if(this.inputFluidLimit() > 0 && recipe.inputFluid != null) {
+			writer.name("inputFluid").beginArray();
+			for(FluidStack stack : recipe.inputFluid) this.writeFluidStack(stack, writer);
+			writer.endArray();
+		}
+		
+		if(this.outputItemLimit() > 0 && recipe.outputItem != null) {
+			writer.name("outputItem").beginArray();
+			for(IOutput stack : recipe.outputItem) stack.serialize(writer);
+			writer.endArray();
+		}
+		
+		if(this.outputFluidLimit() > 0 && recipe.outputFluid != null) {
+			writer.name("outputFluid").beginArray();
+			for(FluidStack stack : recipe.outputFluid) this.writeFluidStack(stack, writer);
+			writer.endArray();
+		}
+
+		if(this.hasDuration()) writer.name("duration").value(recipe.duration);
+		if(this.hasPower()) writer.name("power").value(recipe.power);
+		
+		if(recipe.writeIcon) {
+			writer.name("icon");
+			this.writeItemStack(recipe.icon, writer);
+		}
+		
+		writeExtraData(recipe, writer);
 	}
 	
-	public void writeExtraData(Object recipe, JsonWriter writer) { }
+	public void writeExtraData(T recipe, JsonWriter writer) { }
 	
 	public IOutput[] readOutputArray(JsonArray array) {
 		IOutput[] output = new IOutput[array.size()];
@@ -110,45 +149,6 @@ public abstract class GenericRecipes extends SerializableRecipe {
 	///////////////
 	/// CLASSES ///
 	///////////////
-	
-	public static class GenericRecipe {
-		
-		public String name;
-		public AStack[] inputItem;
-		public FluidStack[] inputFluid;
-		public IOutput[] outputItem;
-		public FluidStack[] outputFluid;
-		public int duration;
-		public ItemStack icon;
-		
-		public GenericRecipe(String name, int duration) {
-			this.name = name;
-			this.duration = duration;
-		}
-		
-		public GenericRecipe setIcon(ItemStack icon) {
-			this.icon = icon;
-			return this;
-		}
-		
-		public ItemStack getIcon() {
-			
-			if(icon == null) {
-				if(outputItem != null) {
-					if(outputItem[0] instanceof ChanceOutput) icon = ((ChanceOutput) outputItem[0]).stack.copy();
-					if(outputItem[0] instanceof ChanceOutputMulti) icon = ((ChanceOutputMulti) outputItem[0]).pool.get(0).stack.copy();
-					return icon;
-				}
-				if(outputFluid != null) {
-					icon = ItemFluidIcon.make(outputFluid[0]);
-				}
-			}
-			
-			if(icon == null) icon = new ItemStack(ModItems.nothing);
-			return icon;
-		}
-	}
-	
 	public static interface IOutput {
 		public boolean possibleMultiOutput();
 		public ItemStack collapse();
@@ -184,16 +184,21 @@ public abstract class GenericRecipes extends SerializableRecipe {
 		@Override
 		public void serialize(JsonWriter writer) throws IOException {
 			boolean standardStack = chance >= 1 && itemWeight == 0;
-			if(!standardStack) writer.beginArray();
+			
+			writer.beginArray();
+			writer.setIndent("");
 			
 			if(itemWeight == 0) writer.value("single");
 			SerializableRecipe.writeItemStack(stack, writer);
+			writer.setIndent("");
 			
 			if(!standardStack) {
 				writer.value(chance);
 				if(itemWeight > 0) writer.value(itemWeight);
-				writer.endArray();
 			}
+			
+			writer.endArray();
+			writer.setIndent("  ");
 		}
 		
 		@Override

@@ -81,6 +81,9 @@ public abstract class SerializableRecipe {
 		//AFTER Assembler
 		recipeHandlers.add(new AnvilRecipes());
 		recipeHandlers.add(new PedestalRecipes());
+		
+		//GENERIC
+		recipeHandlers.add(new ChemicalPlantRecipes());
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
