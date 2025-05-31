@@ -70,7 +70,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 
 		if(explosion == null) {
 			explosionStart = System.currentTimeMillis();
-			if (BombConfig.parallelization) {
+			if (BombConfig.explosionAlgorithm == 1 || BombConfig.explosionAlgorithm == 2) {
 				explosion = new ExplosionNukeRayParallelized(worldObj, posX, posY, posZ,
 					strength, speed, length);
 			} else {
@@ -82,20 +82,17 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 		if(!explosion.isComplete()) {
 			explosion.cacheChunksTick(BombConfig.mk5);
 			explosion.destructionTick(BombConfig.mk5);
-		} else if(fallout) {
-			if(GeneralConfig.enableExtendedLogging && explosionStart != 0)
-				MainRegistry.logger.log(Level.INFO, "[NUKE] Explosion complete. Time elapsed: " + (System.currentTimeMillis() - explosionStart) + "ms");
-			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj);
-			fallout.posX = this.posX;
-			fallout.posY = this.posY;
-			fallout.posZ = this.posZ;
-			fallout.setScale((int)(this.length * 2.5 + falloutAdd) * BombConfig.falloutRange / 100);
-
-			this.worldObj.spawnEntityInWorld(fallout);
-
-			this.clearChunkLoader();
-			this.setDead();
 		} else {
+			if(GeneralConfig.enableExtendedLogging && explosionStart != 0)
+				MainRegistry.logger.log(Level.INFO, "[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
+			if(fallout) {
+				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj);
+				fallout.posX = this.posX;
+				fallout.posY = this.posY;
+				fallout.posZ = this.posZ;
+				fallout.setScale((int)(this.length * 2.5 + falloutAdd) * BombConfig.falloutRange / 100);
+				this.worldObj.spawnEntityInWorld(fallout);
+			}
 			this.clearChunkLoader();
 			this.setDead();
 		}
@@ -153,7 +150,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	public static EntityNukeExplosionMK5 statFac(World world, int r, double x, double y, double z) {
 
 		if(GeneralConfig.enableExtendedLogging && !world.isRemote)
-			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
+			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, r);
 
 		if(r == 0)
 			r = 25;

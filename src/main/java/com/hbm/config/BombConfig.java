@@ -26,8 +26,7 @@ public class BombConfig {
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
 	public static boolean chunkloading = true;
-	public static boolean parallelization = true;
-	public static boolean accumulatedDestruction = true;
+	public static int explosionAlgorithm = 2;
 
 	public static void loadFromConfig(Configuration config) {
 
@@ -95,8 +94,7 @@ public class BombConfig {
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();
 
-		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
-		parallelization = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableParallelization", "Allows explosions to use multiple threads.", true);
-		accumulatedDestruction = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableAccumulatedDestruction", "Enables the accumulated destruction model for explosions. Blocks accumulate damage and are only destroyed once their resistance is exceeded.\nMore physically accurate, slightly slower. Requires enableParallelization = true.", true);
+		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.05_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
+		explosionAlgorithm = CommonConfig.createConfigInt(config, CATEGORY_NUKE, "6.06_explosionAlgorithm", "Configures the algorithm of mk5 explosion. \n0 = Legacy, 1 = Threaded DDA, 2 = Threaded DDA with damage accumulation.", 2);
 	}
 }

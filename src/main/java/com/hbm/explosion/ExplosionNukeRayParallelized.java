@@ -3,6 +3,9 @@ package com.hbm.explosion;
 import com.hbm.config.BombConfig;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ChunkKey;
+import com.hbm.util.ConcurrentBitSet;
+import com.hbm.util.SubChunkSnapshot;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
@@ -15,14 +18,14 @@ import org.apache.logging.log4j.Level;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.DoubleAdder;
+
+import static com.hbm.util.SubChunkSnapshot.getSnapshot;
 
 public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	private static final int WORLD_HEIGHT = 256;
 	private static final int BITSET_SIZE = 16 * WORLD_HEIGHT * 16;
-	private static final int WORDS_PER_SET = BITSET_SIZE >>> 6; // (16*256*16)/64
 
 	protected final World world;
 	private final double explosionX, explosionY, explosionZ;
@@ -85,7 +88,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				Thread.currentThread().interrupt();
 			} finally {
 				collectFinished = true;
-				if (BombConfig.accumulatedDestruction) {
+				if (BombConfig.explosionAlgorithm == 2) {
 					pool.submit(this::runConsolidation);
 				} else {
 					consolidationFinished = true;
@@ -112,7 +115,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			ChunkKey ck = cacheQueue.poll();
 			if (ck == null) break;
 			snapshots.computeIfAbsent(ck, key -> {
-				SubChunkSnapshot snap = createSubChunk(key.pos, key.subY);
+				SubChunkSnapshot snap = getSnapshot(this.world, key.pos, key.subY);
 				return snap == null ? SubChunkSnapshot.EMPTY : snap;
 			});
 		}
@@ -146,37 +149,33 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				ExtendedBlockStorage storage = storages[subY];
 				if (storage == null) continue;
 
-				int yPrimeMin = 255 - ((subY << 4) + 15);
-				int startBit = yPrimeMin << 8;
-				int yPrimeMax = 255 - (subY << 4);
-				int endBit = (yPrimeMax << 8) | 0xFF;
+				int startBit = (WORLD_HEIGHT - 1 - ((subY << 4) + 15)) << 8;
+				int endBit = ((WORLD_HEIGHT - 1 - (subY << 4)) << 8) | 0xFF;
 
 				int bit = bs.nextSetBit(startBit);
-				if (bit < 0 || bit > endBit) continue;
 
 				while (bit >= 0 && bit <= endBit && System.nanoTime() < deadline) {
-					int yGlobal = 255 - (bit >>> 8);
+					int yGlobal = WORLD_HEIGHT - 1 - (bit >>> 8);
 					int xGlobal = (cp.chunkXPos << 4) | ((bit >>> 4) & 0xF);
 					int zGlobal = (cp.chunkZPos << 4) | (bit & 0xF);
-
-					if (world.getTileEntity(xGlobal, yGlobal, zGlobal) != null) {
-						chunk.removeTileEntity(xGlobal & 0xF, yGlobal, zGlobal & 0xF); // world Y
-						world.removeTileEntity(xGlobal, yGlobal, zGlobal);
-					}
-
 					int xLocal = xGlobal & 0xF;
 					int yLocal = yGlobal & 0xF;
 					int zLocal = zGlobal & 0xF;
-					storage.func_150818_a(xLocal, yLocal, zLocal, Blocks.air);
-					storage.setExtBlockMetadata(xLocal, yLocal, zLocal, 0);
-					chunkModified = true;
+					if (storage.getBlockByExtId(xLocal, yLocal, zLocal) != Blocks.air) {
+						if (world.getTileEntity(xGlobal, yGlobal, zGlobal) != null) {
+							world.removeTileEntity(xGlobal, yGlobal, zGlobal);
+						}
 
-					world.notifyBlocksOfNeighborChange(xGlobal, yGlobal, zGlobal, Blocks.air);
-					world.markBlockForUpdate(xGlobal, yGlobal, zGlobal);
+						storage.func_150818_a(xLocal, yLocal, zLocal, Blocks.air);
+						storage.setExtBlockMetadata(xLocal, yLocal, zLocal, 0);
+						chunkModified = true;
 
-					world.updateLightByType(EnumSkyBlock.Sky, xGlobal, yGlobal, zGlobal);
-					world.updateLightByType(EnumSkyBlock.Block, xGlobal, yGlobal, zGlobal);
+						world.notifyBlocksOfNeighborChange(xGlobal, yGlobal, zGlobal, Blocks.air);
+						world.markBlockForUpdate(xGlobal, yGlobal, zGlobal);
 
+						world.updateLightByType(EnumSkyBlock.Sky, xGlobal, yGlobal, zGlobal);
+						world.updateLightByType(EnumSkyBlock.Block, xGlobal, yGlobal, zGlobal);
+					}
 					bs.clear(bit);
 					bit = bs.nextSetBit(bit + 1);
 				}
@@ -186,7 +185,6 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				chunk.setChunkModified();
 				world.markBlockRangeForRenderUpdate(cp.chunkXPos << 4, 0, cp.chunkZPos << 4, (cp.chunkXPos << 4) | 15, WORLD_HEIGHT - 1, (cp.chunkZPos << 4) | 15);
 			}
-
 			if (bs.isEmpty()) {
 				destructionMap.remove(cp);
 				for (int sy = 0; sy < (WORLD_HEIGHT >> 4); sy++) {
@@ -244,49 +242,6 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		if (this.orderedChunks != null) this.orderedChunks.clear();
 	}
 
-	private SubChunkSnapshot createSubChunk(ChunkCoordIntPair cpos, int subY) {
-		if (!world.getChunkProvider().chunkExists(cpos.chunkXPos, cpos.chunkZPos)) {
-			return SubChunkSnapshot.EMPTY;
-		}
-		Chunk chunk = world.getChunkFromChunkCoords(cpos.chunkXPos, cpos.chunkZPos);
-		ExtendedBlockStorage ebs = chunk.getBlockStorageArray()[subY];
-		if (ebs == null || ebs.isEmpty()) {
-			return SubChunkSnapshot.EMPTY;
-		}
-
-		short[] data = new short[16 * 16 * 16];
-		List<Block> palette = new ArrayList<>();
-		palette.add(Blocks.air);
-		Map<Block, Short> idxMap = new HashMap<>();
-		idxMap.put(Blocks.air, (short) 0);
-		boolean allAir = true;
-
-		for (int ly = 0; ly < 16; ly++) {
-			for (int lz = 0; lz < 16; lz++) {
-				for (int lx = 0; lx < 16; lx++) {
-					Block block = ebs.getBlockByExtId(lx, ly, lz);
-					int idx;
-					if (block == Blocks.air) {
-						idx = 0;
-					} else {
-						allAir = false;
-						Short e = idxMap.get(block);
-						if (e == null) {
-							idxMap.put(block, (short) palette.size());
-							palette.add(block);
-							idx = palette.size() - 1;
-						} else {
-							idx = e;
-						}
-					}
-					data[(ly << 8) | (lz << 4) | lx] = (short) idx;
-				}
-			}
-		}
-		if (allAir) return SubChunkSnapshot.EMPTY;
-		return new SubChunkSnapshot(palette.toArray(new Block[0]), data);
-	}
-
 	private List<Vec3> generateSphereRays(int count) {
 		List<Vec3> list = new ArrayList<>(count);
 		if (count <= 0) return list;
@@ -316,7 +271,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				continue;
 			}
 
-			ConcurrentBitSet chunkDestructionBitSet = destructionMap.computeIfAbsent(cp, k -> new ConcurrentBitSet());
+			ConcurrentBitSet chunkDestructionBitSet = destructionMap.computeIfAbsent(cp, k -> new ConcurrentBitSet(BITSET_SIZE));
 
 			Iterator<Map.Entry<Integer, DoubleAdder>> damageEntryIterator = accumulator.entrySet().iterator();
 			while (damageEntryIterator.hasNext()) {
@@ -330,7 +285,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					continue;
 				}
 
-				int yGlobal = 255 - (bitIndex >>> 8);
+				int yGlobal = WORLD_HEIGHT - 1 - (bitIndex >>> 8);
 				int subY = yGlobal >> 4;
 
 				if (subY < 0) {
@@ -368,91 +323,6 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		}
 		accumulatedDamageMap.clear();
 		consolidationFinished = true;
-	}
-
-	private static class ChunkKey {
-		final ChunkCoordIntPair pos;
-		final int subY;
-
-		ChunkKey(int cx, int cz, int sy) {
-			this.pos = new ChunkCoordIntPair(cx, cz);
-			this.subY = sy;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (!(o instanceof ChunkKey)) return false;
-			ChunkKey k = (ChunkKey) o;
-			return subY == k.subY && pos.equals(k.pos);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(pos.chunkXPos, pos.chunkZPos, subY);
-		}
-	}
-
-	private static class SubChunkSnapshot {
-		private static final SubChunkSnapshot EMPTY = new SubChunkSnapshot(new Block[]{Blocks.air}, null);
-		private final Block[] palette;
-		private final short[] data;
-
-		SubChunkSnapshot(Block[] p, short[] d) {
-			this.palette = p;
-			this.data = d;
-		}
-
-		Block getBlock(int x, int y, int z) {
-			if (this == EMPTY || data == null) return Blocks.air;
-			short idx = data[(y << 8) | (z << 4) | x];
-			return (idx >= 0 && idx < palette.length) ? palette[idx] : Blocks.air;
-		}
-	}
-
-	private static final class ConcurrentBitSet {
-		private final AtomicLongArray words = new AtomicLongArray(WORDS_PER_SET);
-
-		void set(int bit) {
-			if (bit < 0 || bit >= BITSET_SIZE) return;
-			int wd = bit >>> 6;
-			long m = 1L << (bit & 63);
-			while (true) {
-				long o = words.get(wd);
-				long u = o | m;
-				if (o == u || words.compareAndSet(wd, o, u)) return;
-			}
-		}
-
-		void clear(int bit) {
-			if (bit < 0 || bit >= BITSET_SIZE) return;
-			int wd = bit >>> 6;
-			long m = ~(1L << (bit & 63));
-			while (true) {
-				long oldWord = words.get(wd);
-				long newWord = oldWord & m;
-				if (oldWord == newWord || words.compareAndSet(wd, oldWord, newWord)) {
-					return;
-				}
-			}
-		}
-
-		int nextSetBit(int from) {
-			if (from < 0) from = 0;
-			int wd = from >>> 6;
-			if (wd >= WORDS_PER_SET) return -1;
-			long w = words.get(wd) & (~0L << (from & 63));
-			while (true) {
-				if (w != 0) return (wd << 6) + Long.numberOfTrailingZeros(w);
-				if (++wd == WORDS_PER_SET) return -1;
-				w = words.get(wd);
-			}
-		}
-
-		boolean isEmpty() {
-			for (int i = 0; i < WORDS_PER_SET; i++) if (words.get(i) != 0) return false;
-			return true;
-		}
 	}
 
 	private static class ChunkDamageAccumulator {
@@ -602,7 +472,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 							energy -= damageDealt;
 							if (damageDealt > 0) {
 								int bitIndex = ((WORLD_HEIGHT - 1 - y) << 8) | ((x & 0xF) << 4) | (z & 0xF);
-								if (BombConfig.accumulatedDestruction) {
+								if (BombConfig.explosionAlgorithm == 2) {
 									ChunkCoordIntPair chunkPos = ck.pos;
 									ChunkDamageAccumulator chunkAccumulator =
 										accumulatedDamageMap.computeIfAbsent(chunkPos, k -> new ChunkDamageAccumulator());
@@ -611,7 +481,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 									if (energy > 0) {
 										ConcurrentBitSet bs = destructionMap.computeIfAbsent(
 											ck.pos,
-											posKey -> new ConcurrentBitSet()
+											posKey -> new ConcurrentBitSet(BITSET_SIZE)
 										);
 										bs.set(bitIndex);
 									}
