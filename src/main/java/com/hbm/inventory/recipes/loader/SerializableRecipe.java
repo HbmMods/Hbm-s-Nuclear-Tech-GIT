@@ -83,7 +83,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new PedestalRecipes());
 		
 		//GENERIC
-		recipeHandlers.add(new ChemicalPlantRecipes());
+		recipeHandlers.add(ChemicalPlantRecipes.INSTANCE);
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());

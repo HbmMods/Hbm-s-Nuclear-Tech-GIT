@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineChemicalPlant;
 import com.hbm.inventory.fluid.Fluids;
@@ -11,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalPlant;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.module.ModuleMachineChemplant;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -24,10 +26,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IGUIProvider {
+public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider {
 
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
@@ -37,6 +41,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	public int progress;
 	public int maxProgress;
 
+	public ModuleMachineChemplant chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
 	public TileEntityMachineChemicalPlant() {
@@ -48,6 +53,9 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			this.inputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 			this.outputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 		}
+		
+		this.chemplantModule = new ModuleMachineChemplant(0, this, slots)
+				.iInput(4, 5, 6).iOutput(7, 8, 9);
 	}
 
 	@Override
@@ -91,6 +99,28 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		this.progress = buf.readInt();
 		this.maxProgress = buf.readInt();
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		for(int i = 0; i < 3; i++) {
+			this.inputTanks[i].readFromNBT(nbt, "i" + i);
+			this.outputTanks[i].readFromNBT(nbt, "o" + i);
+		}
+		
+		this.chemplantModule.fInput(inputTanks[0], inputTanks[1], inputTanks[2]).fOutput(outputTanks[0], outputTanks[1], outputTanks[2]);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		for(int i = 0; i < 3; i++) {
+			this.inputTanks[i].writeToNBT(nbt, "i" + i);
+			this.outputTanks[i].writeToNBT(nbt, "o" + i);
+		}
+	}
 
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
@@ -103,6 +133,27 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineChemicalPlant(player.inventory, this); }
 	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineChemicalPlant(player.inventory, this); }
 
+	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if(bb == null) bb = AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 3, zCoord + 2);
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
 		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;

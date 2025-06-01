@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineChemicalPlant;
+import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalPlant;
 
@@ -34,6 +35,13 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		}
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, chemplant.power, chemplant.maxPower);
+	}
+	
+	@Override
+	protected void mouseClicked(int x, int y, int button) {
+		super.mouseClicked(x, y, button);
+		
+		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, "", 0, this);
 	}
 
 	@Override

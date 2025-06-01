@@ -10,6 +10,8 @@ import com.hbm.items.ModItems;
 import net.minecraft.item.ItemStack;
 
 public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
+	
+	public static final ChemicalPlantRecipes INSTANCE = new ChemicalPlantRecipes();
 
 	@Override public int inputItemLimit() { return 3; }
 	@Override public int inputFluidLimit() { return 3; }

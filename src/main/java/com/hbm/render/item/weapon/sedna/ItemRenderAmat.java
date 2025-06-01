@@ -149,7 +149,7 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		double scale = 1.5D;
+		double scale = 1.25D;
 		GL11.glScaled(scale, scale, scale);
 		GL11.glTranslated(0, 0.5, 6.75);
 	}
