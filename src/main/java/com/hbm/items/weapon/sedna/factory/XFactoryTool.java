@@ -25,6 +25,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.render.anim.BusAnimation;
@@ -45,9 +46,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryTool {
+
+	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_tool.png");
 	
 	public static BulletConfig fext_water;
 	public static BulletConfig fext_foam;

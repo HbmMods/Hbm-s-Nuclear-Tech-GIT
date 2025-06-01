@@ -18,6 +18,8 @@
 * Water extinguishers can now wash away foam blocks
 * Obliterated Fabsol's vodka
 * Tier 4 heart piece is now called "heart of darkness"
+* Thermal sights now render dead mobs in black
+* Guns now have unique scope overlays instead of reusing the .44 scope for everything
 
 ## Fixed
 * Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts

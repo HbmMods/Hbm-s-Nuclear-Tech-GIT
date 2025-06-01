@@ -29,6 +29,7 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
+import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
@@ -803,7 +804,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.ammo_secret, 12, EnumAmmoSecret.BMG50_BLACK), new AStack[] {
 				new ComparableStack(ModItems.casing, 2, EnumCasingType.LARGE_STEEL),
 				new OreDictStack(ANY_SMOKELESS.dust(), 24),
-				new OreDictStack(WEAPONSTEEL.ingot(), 8),
+				new ComparableStack(ModItems.item_secret, 1, EnumSecretType.SELENIUM_STEEL),
 				new ComparableStack(ModItems.black_diamond),
 			}, 1200, ModItems.journal_silver);
 
