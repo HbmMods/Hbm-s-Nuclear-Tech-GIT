@@ -79,13 +79,7 @@ public class ContainerMassStorage extends ContainerBase {
 		if(storage.getStockpile() > 0)
 			return ret;
 
-		slot.putStack(held != null ? held.copy() : null);
-		
-		if(slot.getHasStack()) {
-			slot.getStack().stackSize = 1;
-		}
-		
-		slot.onSlotChanged();
+		slot.putStack(held);
 		
 		return ret;
 	}

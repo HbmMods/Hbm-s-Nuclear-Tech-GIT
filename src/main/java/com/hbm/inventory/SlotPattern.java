@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class SlotPattern extends Slot {
 
@@ -24,6 +25,15 @@ public class SlotPattern extends Slot {
 		return 1;
 	}
 	
+	@Override
+	public void putStack(ItemStack stack) {
+		if (stack != null) {
+			stack = stack.copy();
+			stack.stackSize = 1;
+		}
+		super.putStack(stack);
+	}
+
 	public SlotPattern disableHover() {
 		this.canHover = false;
 		return this;
