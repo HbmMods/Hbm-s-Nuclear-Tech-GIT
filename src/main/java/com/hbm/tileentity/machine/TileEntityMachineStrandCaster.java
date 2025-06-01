@@ -32,7 +32,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	public FluidTank water;
 	public FluidTank steam;
-	private long lastCastTick = 0;
+	private long lastProgressTick = 0;
 
 	public String getName() {
 		return "container.machineStrandCaster";
@@ -77,7 +77,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			int moldsToCast = maxProcessable();
 		
 			// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
-			if (moldsToCast > 0 && (moldsToCast >= 9 || worldObj.getWorldTime() >= lastCastTick + 200)) {
+			if (moldsToCast > 0 && (moldsToCast >= 9 || worldObj.getWorldTime() >= lastProgressTick + 200)) {
 
 				ItemMold.Mold mold = this.getInstalledMold();
 				
@@ -108,7 +108,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 				water.setFill(water.getFill() - getWaterRequired() * moldsToCast);
 				steam.setFill(steam.getFill() + getWaterRequired() * moldsToCast);
 
-				lastCastTick = worldObj.getWorldTime();
+				lastProgressTick = worldObj.getWorldTime();
 			}
 
 			networkPackNT(150);
@@ -226,6 +226,8 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 		stack.amount -= required;
 
+		lastProgressTick = world.getWorldTime();
+
 		return stack;
 	}
 
@@ -272,7 +274,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.writeToNBT(nbt);
 		water.writeToNBT(nbt, "w");
 		steam.writeToNBT(nbt, "s");
-		nbt.setLong("t", lastCastTick);
+		nbt.setLong("t", lastProgressTick);
 	}
 
 	@Override
@@ -280,7 +282,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		super.readFromNBT(nbt);
 		water.readFromNBT(nbt, "w");
 		steam.readFromNBT(nbt, "s");
-		lastCastTick = nbt.getLong("t");
+		lastProgressTick = nbt.getLong("t");
 	}
 
 	@Override
