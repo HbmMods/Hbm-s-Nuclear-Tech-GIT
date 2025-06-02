@@ -10,9 +10,16 @@ import net.minecraft.item.ItemStack;
 public class SlotPattern extends Slot {
 
 	protected boolean canHover = true;
+
+	protected boolean allowStackSize = false;
 	
 	public SlotPattern(IInventory inv, int index, int x, int y) {
 		super(inv, index, x, y);
+	}
+
+	public SlotPattern(IInventory inv, int index, int x, int y, boolean allowStackSize) {
+		super(inv, index, x, y);
+		this.allowStackSize = allowStackSize;
 	}
 	
 	@Override
@@ -29,7 +36,9 @@ public class SlotPattern extends Slot {
 	public void putStack(ItemStack stack) {
 		if (stack != null) {
 			stack = stack.copy();
-			stack.stackSize = 1;
+			
+			if (!allowStackSize)
+				stack.stackSize = 1;
 		}
 		super.putStack(stack);
 	}

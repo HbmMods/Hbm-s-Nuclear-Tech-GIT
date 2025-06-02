@@ -24,7 +24,7 @@ public class ContainerAutocrafter extends ContainerBase {
 				this.addSlotToContainer(new SlotPattern(tedf, j + i * 3, 44 + j * 18, 22 + i * 18));
 			}
 		}
-		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40));
+		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40, true));
 
 		/* RECIPE */
 		addSlots(tedf,10, 44, 86, 3, 3);
