@@ -1252,10 +1252,11 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onAnvilRepair(AnvilRepairEvent event) {
-		
+
 		// Anvil renaming no longer increments the repair cost
+		// Note: Forge has a bug, the names are wrong. Right is output, output is left, left is right
 		if(event.left == null && event.right != null && event.output != null) {
-			event.output.setRepairCost(event.right.getRepairCost());
+			event.right.setRepairCost(event.output.getRepairCost());
 		}
 	}
 
