@@ -1256,7 +1256,17 @@ public class ModEventHandler {
 		// Anvil renaming no longer increments the repair cost
 		// Note: Forge has a bug, the names are wrong. Right is output, output is left, left is right
 		if(event.left == null && event.right != null && event.output != null) {
-			event.right.setRepairCost(event.output.getRepairCost());
+			int oldRepairCost = event.output.getRepairCost();
+
+			if (oldRepairCost > 0) {
+				event.right.setRepairCost(oldRepairCost);
+			} else if (event.right.hasTagCompound()) {
+				NBTTagCompound nbt = event.right.getTagCompound();
+				nbt.removeTag("RepairCost");
+				if (nbt.hasNoTags()) {
+					event.right.setTagCompound(null);
+				}
+			}
 		}
 	}
 
