@@ -62,7 +62,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			if(this.getType() == null)
 				this.stack = 0;
 
-			if(getType() != null && getStockpile() < getCapacity() && slots[0] != null && slots[0].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[0], getType())) {
+			if(canInsert(slots[0])) {
 
 				int remaining = getCapacity() - getStockpile();
 				int toRemove = Math.min(remaining, slots[0].stackSize);
@@ -93,6 +93,26 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 			networkPackNT(15);
 		}
+	}
+
+	public boolean canInsert(ItemStack stack) {
+		return getType() != null && getStockpile() < getCapacity() && stack != null && stack.isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(stack, getType());
+	}
+
+	public boolean insert(ItemStack stack) {
+		if (!canInsert(stack))
+			return false;
+		
+		int remaining = getCapacity() - getStockpile();
+
+		if (remaining < stack.stackSize)
+			return false;
+
+		this.stack += stack.stackSize;
+		stack.stackSize = 0;
+		this.markDirty();
+
+		return true;
 	}
 
 	@Override
@@ -196,9 +216,9 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		if(data.hasKey("toggle")) {
 			this.output = !output;
 		}
+
 		if(data.hasKey("slot") && this.getStockpile() <= 0){
 			setFilterContents(data);
-			if(slots[1] != null) slots[1].stackSize = 1;
 		}
 	}
 

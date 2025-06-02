@@ -27,32 +27,35 @@ public class ContainerMassStorage extends ContainerBase {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack result = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
+		if(slot != null && slot.getHasStack()) {
+			ItemStack initial = slot.getStack();
+			result = initial.copy();
 
-			if(par2 == 0 || par2 == 2) {
-				if(!this.mergeItemStack(var5, storage.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(index == 0 || index == 2) {
+				if(!this.mergeItemStack(initial, storage.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, 1, false)) {
-				return null;
-			}
-
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				// Try to insert instantly, then fall back to regular slot behavior
+				if(!storage.insert(initial) && !this.mergeItemStack(initial, 0, 1, false)) {
+					return null;
+				}
 			}
 
-			var4.onPickupFromSlot(player, var5);
+			if(initial.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			slot.onPickupFromSlot(player, initial);
 		}
 
-		return var3;
+		return result;
 	}
 
 	@Override
