@@ -98,6 +98,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -1251,10 +1252,10 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onAnvilRepair(AnvilRepairEvent event) {
-
+		
 		// Anvil renaming no longer increments the repair cost
-		if(event.left != null && event.right == null && event.output != null) {
-			event.output.setRepairCost(event.left.getRepairCost());
+		if(event.left == null && event.right != null && event.output != null) {
+			event.output.setRepairCost(event.right.getRepairCost());
 		}
 	}
 
