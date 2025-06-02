@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
@@ -39,8 +40,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ITooltipProvider {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -373,5 +375,21 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 				}
 			}
 		}
+	}
+
+	@Override
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if (!(te instanceof IInventory))
+			return;
+
+		IInventory inv = (IInventory) te;
+
+		if (!inv.hasCustomInventoryName())
+			return;
+		
+		ILookOverlay.printGeneric(event, inv.getInventoryName(), 0xffff00, 0x404000, new ArrayList<String>(0));
 	}
 }
