@@ -72,6 +72,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		if(this.hasPower()) recipe.setPower(obj.get("power").getAsLong());
 		
 		if(obj.has("icon")) recipe.setIcon(this.readItemStack(obj.get("icon").getAsJsonArray()));
+		if(obj.has("named") && obj.get("named").getAsBoolean()) recipe.setNamed();
 		
 		readExtraData(element, recipe);
 		
@@ -116,6 +117,8 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 			writer.name("icon");
 			this.writeItemStack(recipe.icon, writer);
 		}
+		
+		if(recipe.customLocalization) writer.name("named").value(true);
 		
 		writeExtraData(recipe, writer);
 	}

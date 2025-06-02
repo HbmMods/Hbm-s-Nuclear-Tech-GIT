@@ -3,6 +3,9 @@ package com.hbm.inventory.recipes;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
@@ -40,5 +43,12 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 							pool.add(new ChanceOutput(new ItemStack(ModItems.billet_cobalt), 5));
 						}})
 				.setOutputFluids(new FluidStack(Fluids.BIOGAS, 2000)));
+		
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.autogen.contains(MaterialShapes.CASTPLATE)) this.register(new GenericRecipe(mat.getUnlocalizedName() + ".plate").setup(60, 100).setOutputItems(new ChanceOutput(new ItemStack(ModItems.plate_cast, 1, mat.id))));
+			if(mat.autogen.contains(MaterialShapes.WELDEDPLATE)) this.register(new GenericRecipe(mat.getUnlocalizedName() + ".weld").setup(60, 100).setOutputItems(new ChanceOutput(new ItemStack(ModItems.plate_welded, 1, mat.id))));
+			if(mat.autogen.contains(MaterialShapes.DENSEWIRE)) this.register(new GenericRecipe(mat.getUnlocalizedName() + ".wire").setup(60, 100).setOutputItems(new ChanceOutput(new ItemStack(ModItems.wire_dense, 1, mat.id))));
+			if(mat.autogen.contains(MaterialShapes.MECHANISM)) this.register(new GenericRecipe(mat.getUnlocalizedName() + ".mechanism").setup(60, 100).setOutputItems(new ChanceOutput(new ItemStack(ModItems.part_mechanism, 1, mat.id))));
+		}
 	}
 }
