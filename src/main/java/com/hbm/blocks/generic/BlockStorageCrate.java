@@ -152,8 +152,13 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 				}
 			}
 
-			if(inv instanceof TileEntityCrateBase)
-				nbt.setBoolean("spiders", ((TileEntityCrateBase) inv).hasSpiders);
+			if(inv instanceof TileEntityCrateBase) {
+				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
+				// Saves memory and ensures consistency between crafted crates and mined ones
+				if (crate.hasSpiders) {
+					nbt.setBoolean("spiders", true);
+				}
+			}
 
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
