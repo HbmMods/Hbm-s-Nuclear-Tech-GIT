@@ -171,16 +171,18 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IT
 				}
 			}
 
-			try {
-				byte[] abyte = CompressedStreamTools.compress(drop.stackTagCompound);
+			if (drop.hasTagCompound()) {
+				try {
+					byte[] abyte = CompressedStreamTools.compress(drop.stackTagCompound);
 
-				if(abyte.length > 6000) {
-					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
-					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this)));
-					return world.setBlockToAir(x, y, z);
-				}
+					if(abyte.length > 6000) {
+						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+						world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this)));
+						return world.setBlockToAir(x, y, z);
+					}
 
-			} catch(IOException e) { }
+				} catch(IOException e) { }
+			}
 
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, drop));
 		}
