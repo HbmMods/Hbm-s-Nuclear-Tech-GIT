@@ -31,6 +31,11 @@ public class ContainerMassStorage extends ContainerBase {
 		ItemStack result = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
 
+		// Refill instantly if needed, then do regular slot behavior
+		if(index == 2 && slot != null && !slot.getHasStack()) {
+			slot.putStack(storage.quickExtract());
+		}
+
 		if(slot != null && slot.getHasStack()) {
 			ItemStack initial = slot.getStack();
 			result = initial.copy();
@@ -41,7 +46,7 @@ public class ContainerMassStorage extends ContainerBase {
 				}
 			} else {
 				// Try to insert instantly, then fall back to regular slot behavior
-				if(!storage.insert(initial) && !this.mergeItemStack(initial, 0, 1, false)) {
+				if(!storage.quickInsert(initial) && !this.mergeItemStack(initial, 0, 1, false)) {
 					return null;
 				}
 			}

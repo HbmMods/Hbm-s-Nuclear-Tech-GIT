@@ -99,7 +99,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		return getType() != null && getStockpile() < getCapacity() && stack != null && stack.isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(stack, getType());
 	}
 
-	public boolean insert(ItemStack stack) {
+	public boolean quickInsert(ItemStack stack) {
 		if (!canInsert(stack))
 			return false;
 		
@@ -113,6 +113,24 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		this.markDirty();
 
 		return true;
+	}
+
+	public ItemStack quickExtract() {
+		if (!output) {
+			return null;
+		}
+
+		int amount = getType().getMaxStackSize();
+
+		if (getStockpile() < amount)
+			return null;
+		
+		ItemStack result = slots[1].copy();
+		result.stackSize = amount;
+		this.stack -= amount;
+		this.markDirty();
+
+		return result;
 	}
 
 	@Override
