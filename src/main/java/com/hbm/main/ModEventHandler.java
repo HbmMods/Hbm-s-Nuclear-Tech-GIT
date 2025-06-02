@@ -107,6 +107,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -1245,6 +1246,15 @@ public class ModEventHandler {
 					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
 				}
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onAnvilRepair(AnvilRepairEvent event) {
+
+		// Anvil renaming no longer increments the repair cost
+		if(event.left != null && event.right == null && event.output != null) {
+			event.output.setRepairCost(event.left.getRepairCost());
 		}
 	}
 
