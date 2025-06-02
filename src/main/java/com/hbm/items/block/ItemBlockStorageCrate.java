@@ -122,7 +122,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public String getInventoryName() {
-			return findCrateType(target.getItem()).getInventoryName();
+			TileEntityCrateBase tile = findCrateType(target.getItem());
+			if (hasCustomInventoryName()) {
+				tile.setCustomName(target.getDisplayName());
+			}
+			return tile.getInventoryName();
 		}
 
 		@Override
