@@ -154,6 +154,10 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				nbt.setTag("slot" + i, slot);
 			}
 
+			if (nbt.hasNoTags()) {
+				nbt = null;
+			}
+
 			target.setTagCompound(nbt);
 		}
 
