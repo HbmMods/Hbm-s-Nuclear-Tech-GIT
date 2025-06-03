@@ -78,7 +78,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 		if(!worldObj.isRemote) {
 
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
+			if(!isSuspended && worldObj.getTotalWorldTime() % 20 == 0) {
 				if(tank.getFill() > 0) {
 					tank.setFill(tank.getFill() - 1);
 					this.isOn = true;
