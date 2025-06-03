@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -103,10 +104,13 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				List<Entity> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 + Math.min(x, 0), yCoord + 0.5 + Math.min(y, 0), zCoord + 0.5 + Math.min(z, 0), xCoord + 0.5 + Math.max(x, 0), yCoord + 0.5 + Math.max(y, 0), zCoord + 0.5 + Math.max(z, 0)).expand(0.5, 0.5, 0.5));
 				
 				for(Entity e : affected) {
+
+					double dist = e.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+					double coeff = push * (1 - dist / range / 2);
 					
-					e.motionX += dir.offsetX * push;
-					e.motionY += dir.offsetY * push;
-					e.motionZ += dir.offsetZ * push;
+					e.motionX += dir.offsetX * coeff;
+					e.motionY += dir.offsetY * coeff;
+					e.motionZ += dir.offsetZ * coeff;
 				}
 				
 				if(worldObj.isRemote && worldObj.rand.nextInt(30) == 0) {
