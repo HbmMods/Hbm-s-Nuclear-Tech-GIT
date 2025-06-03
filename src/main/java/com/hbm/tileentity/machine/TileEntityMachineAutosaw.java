@@ -63,6 +63,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	private int state = 0;
 
 	private int turnProgress;
+	private int forceSkip = 0;
 
 	public float spin;
 	public float lastSpin;
@@ -126,40 +127,42 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 						this.rotationYaw -= 360;
 					}
 
-					final double CUT_ANGLE = Math.toRadians(5);
-					double rotationYawRads = Math.toRadians((rotationYaw + 270) % 360);
+					if(forceSkip > 0) {
+						forceSkip--;
+					} else {
+						final double CUT_ANGLE = Math.toRadians(5);
+						double rotationYawRads = Math.toRadians((rotationYaw + 270) % 360);
 
-					outer:
-					for(int dx = -9; dx <= 9; dx++) {
-						for(int dz = -9; dz <= 9; dz++) {
-							int sqrDst = dx * dx + dz * dz;
+						outer:
+						for(int dx = -9; dx <= 9; dx++) {
+							for(int dz = -9; dz <= 9; dz++) {
+								int sqrDst = dx * dx + dz * dz;
 
-							if(sqrDst <= 4 || sqrDst > 81)
-								continue;
-							
-							double angle = Math.atan2(dz, dx);
-							double relAngle = Math.abs(angle - rotationYawRads);
-							relAngle = Math.abs((relAngle + Math.PI) % (2 * Math.PI) - Math.PI);
+								if(sqrDst <= 4 || sqrDst > 81)
+									continue;
+								
+								double angle = Math.atan2(dz, dx);
+								double relAngle = Math.abs(angle - rotationYawRads);
+								relAngle = Math.abs((relAngle + Math.PI) % (2 * Math.PI) - Math.PI);
 
-							if(relAngle > CUT_ANGLE)
-								continue;
+								if(relAngle > CUT_ANGLE)
+									continue;
 
-							int x = xCoord + dx;
-							int y = yCoord + 1;
-							int z = zCoord + dz;
+								int x = xCoord + dx;
+								int y = yCoord + 1;
+								int z = zCoord + dz;
 
-							Block b = worldObj.getBlock(x, y, z);
-							if(!(b.getMaterial() == Material.wood || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants))
-								continue;
+								Block b = worldObj.getBlock(x, y, z);
+								if(!(b.getMaterial() == Material.wood || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants))
+									continue;
 
-							int meta = worldObj.getBlockMetadata(x, y, z);
-							if(shouldIgnore(worldObj, x, y, z, b, meta))
-								continue;
-							
-							// com.hbm.main.MainRegistry.logger.info("[Abel] found target at " + x + ", " + y + ", " + z + ", angle=" + rotationYaw);
-							
-							state = 1;
-							break outer;
+								int meta = worldObj.getBlockMetadata(x, y, z);
+								if(shouldIgnore(worldObj, x, y, z, b, meta))
+									continue;
+								
+								state = 1;
+								break outer;
+							}
 						}
 					}
 				}
@@ -247,20 +250,21 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 
-		if(shouldIgnore(worldObj, x, y, z, b, meta)) {
-			return;
-		}
-
-		if(b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
-			cutCrop(x, y, z);
-			return;
-		}
-
-		if(b.getMaterial() == Material.wood) {
-			fellTree(x, y, z);
-			if(state == 1) {
-				state = 2;
+		if(!shouldIgnore(worldObj, x, y, z, b, meta)) {
+			if(b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
+				cutCrop(x, y, z);
+			} else if(b.getMaterial() == Material.wood) {
+				fellTree(x, y, z);
+				if(state == 1) {
+					state = 2;
+				}
 			}
+		}
+
+		// Return when hitting a wall
+		if(state == 1 && worldObj.getBlock(x, y, z).isNormalCube(worldObj, x, y, z)) {
+			state = 2;
+			forceSkip = 5;
 		}
 	}
 
