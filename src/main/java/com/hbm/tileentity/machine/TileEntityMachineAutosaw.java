@@ -52,6 +52,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public FluidTank tank;
 
 	public boolean isOn;
+	private int forceSkip;
 	public float syncYaw;
 	public float rotationYaw;
 	public float prevRotationYaw;
@@ -63,7 +64,6 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	private int state = 0;
 
 	private int turnProgress;
-	private int forceSkip = 0;
 
 	public float spin;
 	public float lastSpin;
@@ -365,6 +365,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.isOn = nbt.getBoolean("isOn");
+		this.forceSkip = nbt.getInteger("skip");
 		this.rotationYaw = nbt.getFloat("yaw");
 		this.rotationPitch = nbt.getFloat("pitch");
 		this.state = nbt.getInteger("state");
@@ -375,6 +376,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isOn", this.isOn);
+		nbt.setInteger("skip", this.forceSkip);
 		nbt.setFloat("yaw", this.rotationYaw);
 		nbt.setFloat("pitch", this.rotationPitch);
 		nbt.setInteger("state", this.state);
