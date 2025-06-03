@@ -81,7 +81,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				
 				int range = 10;
 				int effRange = 0;
-				double push = 0.1;
+				double push = 0.15;
 				
 				for(int i = 1; i <= range; i++) {
 					Block block = worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i);
