@@ -5188,6 +5188,7 @@ tile.machine_assemfac.name=装配厂
 tile.machine_autocrafter.name=自动工作台
 tile.machine_autosaw.name=自动嗡嗡锯
 tile.machine_autosaw.desc=砍伐附近的植物，重新种植树木$接受：$-木油$-乙醇$-鱼油$-重油
+tile.machine_autosaw.suspended=暂停
 tile.machine_bat9000.name=巨尻-9000 储罐
 tile.machine_battery.name=蓄电池
 tile.machine_battery_potato.name=马铃薯电池组

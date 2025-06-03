@@ -52,6 +52,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public FluidTank tank;
 
 	public boolean isOn;
+	public boolean isSuspended;
 	private int forceSkip;
 	public float syncYaw;
 	public float rotationYaw;
@@ -88,7 +89,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				this.subscribeToAllAround(tank.getTankType(), this);
 			}
 
-			if(isOn) {
+			if(isOn && !isSuspended) {
 				Vec3 pivot = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.75, zCoord + 0.5);
 				Vec3 upperArm = Vec3.createVectorHelper(0, 0, -4);
 				upperArm.rotateAroundX((float) Math.toRadians(80 - rotationPitch));
@@ -202,7 +203,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 			this.lastSpin = this.spin;
 
-			if(isOn) {
+			if(isOn && !isSuspended) {
 				this.spin += 15F;
 
 				Vec3 vec = Vec3.createVectorHelper(0.625, 0, 1.625);
@@ -347,6 +348,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.isSuspended);
 		buf.writeFloat(this.rotationYaw);
 		buf.writeFloat(this.rotationPitch);
 		this.tank.serialize(buf);
@@ -355,6 +357,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.isOn = buf.readBoolean();
+		this.isSuspended = buf.readBoolean();
 		this.syncYaw = buf.readFloat();
 		this.syncPitch = buf.readFloat();
 		this.turnProgress = 3; //use 3-ply for extra smoothness
@@ -365,6 +368,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.isOn = nbt.getBoolean("isOn");
+		this.isSuspended = nbt.getBoolean("isSuspended");
 		this.forceSkip = nbt.getInteger("skip");
 		this.rotationYaw = nbt.getFloat("yaw");
 		this.rotationPitch = nbt.getFloat("pitch");
@@ -376,6 +380,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isOn", this.isOn);
+		nbt.setBoolean("isSuspended", this.isSuspended);
 		nbt.setInteger("skip", this.forceSkip);
 		nbt.setFloat("yaw", this.rotationYaw);
 		nbt.setFloat("pitch", this.rotationPitch);

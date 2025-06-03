@@ -5720,6 +5720,7 @@ tile.machine_assemfac.name=Сборочный завод
 tile.machine_autocrafter.name=Автоматический верстак
 tile.machine_autosaw.name=Автоматическая пила
 tile.machine_autosaw.desc=Срубает ближайшие растения, пересаживает деревья$Принимает:$-Древесное масло$-Этанол$-Рыбное масло$-Тяжелую нефть
+tile.machine_autosaw.suspended=Приостановлена
 tile.machine_bat9000.name=Охереть-большая цистерна 9000
 tile.machine_battery.name=Энергохранилище
 tile.machine_battery_potato.name=Картофельная батарея

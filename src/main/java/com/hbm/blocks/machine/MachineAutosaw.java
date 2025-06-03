@@ -10,6 +10,7 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineAutosaw;
 import com.hbm.util.i18n.I18nUtil;
 
+import api.hbm.block.IToolable;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +23,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineAutosaw extends BlockContainer implements ILookOverlay, ITooltipProvider {
+public class MachineAutosaw extends BlockContainer implements ILookOverlay, ITooltipProvider, IToolable {
 
 	public MachineAutosaw() {
 		super(Material.iron);
@@ -73,6 +74,24 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 	}
 
 	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
+
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof TileEntityMachineAutosaw))
+			return false;
+		
+		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
+
+		saw.isSuspended = !saw.isSuspended;
+		saw.markDirty();
+
+		return true;
+	}
+
+	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -84,6 +103,10 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 		
 		List<String> text = new ArrayList();
 		text.add(saw.tank.getTankType().getLocalizedName() + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
+
+		if (saw.isSuspended) {
+			text.add(EnumChatFormatting.RED + "! " + I18nUtil.resolveKey(getUnlocalizedName() + ".suspended") + " !");
+		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}

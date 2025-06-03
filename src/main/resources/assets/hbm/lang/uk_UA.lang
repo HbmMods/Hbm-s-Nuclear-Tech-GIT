@@ -5458,6 +5458,7 @@ tile.machine_assemfac.name=Збиральна фабрика
 tile.machine_autocrafter.name=Автоматичний верстак
 tile.machine_autosaw.name=Автоматична пила
 tile.machine_autosaw.desc=Вирубує рослини поруч, заново висажує дерева$Приймає:$-Деревну смолу$-Етанол$-Риб'ячий жир$-Важку нафту
+tile.machine_autosaw.suspended=Припинено
 tile.machine_bat9000.name=Big-Ass цистерна 9000
 tile.machine_battery.name=Блок накопичувач енергії
 tile.machine_battery_potato.name=Блок картопляних батарейок
