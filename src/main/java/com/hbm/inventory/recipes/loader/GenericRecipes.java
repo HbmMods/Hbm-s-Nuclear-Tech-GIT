@@ -14,6 +14,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.WeightedRandom;
 
 /**
@@ -157,6 +158,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		public ItemStack collapse();
 		public void serialize(JsonWriter writer) throws IOException;
 		public void deserialize(JsonArray array);
+		public String[] getLabel();
 	}
 	
 	/** A chance output, produces either an ItemStack or null */
@@ -216,6 +218,11 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 				if(array.size() > 2) this.itemWeight = array.get(2).getAsInt();
 			}
 		}
+		
+		@Override
+		public String[] getLabel() {
+			return new String[] {EnumChatFormatting.GRAY + "" + this.stack.stackSize + "x " + this.stack.getDisplayName() + (this.chance >= 1 ? "" : " (" + (int)(this.chance * 1000) / 10F + "%)")};
+		}
 	}
 	
 	/** Multiple choice chance output, produces a ChanceOutput chosen randomly by weight */
@@ -241,6 +248,19 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 				output.deserialize(element.getAsJsonArray());
 				pool.add(output);
 			}
+		}
+		
+		@Override
+		public String[] getLabel() {
+			String[] label = new String[pool.size() + 1];
+			label[0] = "One of:";
+			int totalWeight = WeightedRandom.getTotalWeight(pool);
+			for(int i = 1; i < label.length; i++) {
+				ChanceOutput output = pool.get(i - 1);
+				float chance = (float) output.itemWeight / (float) totalWeight * output.chance;
+				label[i] = "  " + EnumChatFormatting.GRAY + output.stack.stackSize + "x " + output.stack.getDisplayName() + " (" + (int)(chance * 1000F) / 10F + "%)";
+			}
+			return label;
 		}
 	}
 }

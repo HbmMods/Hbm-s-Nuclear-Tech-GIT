@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.IUpgradeInfoProvider;
@@ -161,7 +162,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 		return this.fontRendererObj;
 	}
 
-
+	/** Draws item with label, excludes all the GL state setup */
 	protected void drawItemStack(ItemStack stack, int x, int y, String label) {
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 		this.zLevel = 200.0F;
@@ -173,6 +174,27 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 		itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), stack, x, y, label);
 		this.zLevel = 0.0F;
 		itemRender.zLevel = 0.0F;
+	}
+	
+	public static final ItemStack TEMPLATE_FOLDER = new ItemStack(ModItems.template_folder);
+	
+	/** Standardsized item rendering from GUIScreenRecipeSelector */
+	public void renderItem(ItemStack stack, int x, int y) {
+		renderItem(stack, x, y, 100F);
+	}
+	
+	public void renderItem(ItemStack stack, int x, int y, float layer) {
+		FontRenderer font = stack.getItem().getFontRenderer(stack);
+		if(font == null) font = fontRendererObj;
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		itemRender.zLevel = layer;
+		itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, guiLeft + x, guiTop + y);
+		itemRender.zLevel = 0.0F;
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glDisable(GL11.GL_LIGHTING);
 	}
 
 	protected void drawStackText(List lines, int x, int y, FontRenderer font) {

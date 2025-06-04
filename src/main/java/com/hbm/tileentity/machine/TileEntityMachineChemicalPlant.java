@@ -10,6 +10,7 @@ import com.hbm.inventory.container.ContainerMachineChemicalPlant;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalPlant;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.module.ModuleMachineChemplant;
@@ -26,6 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -38,8 +40,6 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	
 	public long power;
 	public long maxPower = 1_000_000;
-	public int progress;
-	public int maxProgress;
 
 	public ModuleMachineChemplant chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
@@ -85,8 +85,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		for(FluidTank tank : outputTanks) tank.serialize(buf);
 		buf.writeLong(power);
 		buf.writeLong(maxPower);
-		buf.writeInt(progress);
-		buf.writeInt(maxProgress);
+		this.chemplantModule.serialize(buf);
 	}
 
 	@Override
@@ -96,8 +95,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		for(FluidTank tank : outputTanks) tank.deserialize(buf);
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
-		this.progress = buf.readInt();
-		this.maxProgress = buf.readInt();
+		this.chemplantModule.deserialize(buf);
 	}
 	
 	@Override
@@ -122,6 +120,16 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		}
 	}
 
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot == 0) return true; // battery
+		if(slot >= 2 && slot <= 3 && stack.getItem() instanceof ItemMachineUpgrade) return true; // upgades
+		if(slot >= 10 && slot <= 12) return true; // input fluid
+		if(slot >= 16 && slot <= 18) return true; // output fluid
+		if(this.chemplantModule.isItemValid(slot, stack)) return true; // recipe input crap
+		return false;
+	}
+
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
@@ -137,7 +145,12 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+		if(data.hasKey("index") && data.hasKey("selection")) {
+			int index = data.getInteger("index");
+			String selection = data.getString("selection");
+			if(index == 0) this.chemplantModule.recipe = selection;
+			this.markChanged();
+		}
 	}
 	
 	AxisAlignedBB bb = null;

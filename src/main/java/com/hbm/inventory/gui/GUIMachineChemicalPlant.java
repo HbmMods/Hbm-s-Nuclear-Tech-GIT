@@ -4,12 +4,16 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineChemicalPlant;
 import com.hbm.inventory.recipes.ChemicalPlantRecipes;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalPlant;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineChemicalPlant extends GuiInfoContainer {
@@ -35,6 +39,15 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		}
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, chemplant.power, chemplant.maxPower);
+
+		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 125 < mouseY && guiTop + 125 + 18 >= mouseY) {
+			if(this.chemplant.chemplantModule.recipe != null && ChemicalPlantRecipes.INSTANCE.recipeNameMap.containsKey(this.chemplant.chemplantModule.recipe)) {
+				GenericRecipe recipe = (GenericRecipe) ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.chemplant.chemplantModule.recipe);
+				this.func_146283_a(recipe.print(), mouseX, mouseY);
+			} else {
+				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + "Click to set recipe", mouseX, mouseY);
+			}
+		}
 	}
 	
 	@Override
@@ -61,9 +74,32 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		int p = (int) (chemplant.power * 61 / chemplant.maxPower);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 79 - p, 176, 61 - p, 16, p);
 
-		if(chemplant.maxProgress > 0) {
-			int j = chemplant.progress * 70 / chemplant.maxProgress;
+		if(chemplant.chemplantModule.progress > 0) {
+			int j = (int) Math.ceil(70 * chemplant.chemplantModule.progress);
 			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
+		}
+		
+		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplant.chemplantModule.recipe);
+		this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 8, 126);
+		
+		if(recipe != null && recipe.inputItem != null) {
+			for(int i = 0; i < recipe.inputItem.length; i++) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(chemplant.chemplantModule.inputSlots[i]);
+				if(!slot.getHasStack()) this.renderItem(recipe.inputItem[i].extractForCyclingDisplay(20), slot.xDisplayPosition, slot.yDisplayPosition, 10F);
+			}
+
+			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glColor4f(1F, 1F, 1F, 0.5F);
+			GL11.glEnable(GL11.GL_BLEND);
+			this.zLevel = 300F;
+			for(int i = 0; i < recipe.inputItem.length; i++) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(chemplant.chemplantModule.inputSlots[i]);
+				if(!slot.getHasStack()) drawTexturedModalRect(guiLeft + slot.xDisplayPosition, guiTop + slot.yDisplayPosition, slot.xDisplayPosition, slot.yDisplayPosition, 16, 16);
+			}
+			this.zLevel = 0F;
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+			GL11.glDisable(GL11.GL_BLEND);
 		}
 
 		for(int i = 0; i < 3; i++) {

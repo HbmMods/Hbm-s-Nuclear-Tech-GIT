@@ -5,6 +5,8 @@ import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -23,7 +25,7 @@ public class ModuleMachineChemplant {
 	public FluidTank[] inputTanks = new FluidTank[3];
 	public FluidTank[] outputTanks = new FluidTank[3];
 	
-	public String recipe;
+	public String recipe = "null";
 	public float progress;
 
 	public ModuleMachineChemplant(int index, IEnergyHandlerMK2 battery, ItemStack[] slots) {
@@ -45,11 +47,33 @@ public class ModuleMachineChemplant {
 	public void resetProgress() { this.progress = 0F; }
 	
 	public void update() {
+		//TBI
+	}
+	
+	public boolean isItemValid(int slot, ItemStack stack) {
+		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+		if(recipe == null) return false;
+		if(recipe.inputItem == null) return false;
 		
+		for(int i = 0; i < Math.min(inputSlots.length, recipe.inputItem.length); i++) {
+			if(recipe.inputItem[i].matchesRecipe(stack, true)) return true;
+		}
+		
+		return false;
 	}
 
 	public ModuleMachineChemplant iInput(int a, int b, int c) { inputSlots[0] = a; inputSlots[1] = b; inputSlots[2] = c; return this; }
 	public ModuleMachineChemplant iOutput(int a, int b, int c) { outputSlots[0] = a; outputSlots[1] = b; outputSlots[2] = c; return this; }
 	public ModuleMachineChemplant fInput(FluidTank a, FluidTank b, FluidTank c) { inputTanks[0] = a; inputTanks[1] = b; inputTanks[2] = c; return this; }
 	public ModuleMachineChemplant fOutput(FluidTank a, FluidTank b, FluidTank c) { outputTanks[0] = a; outputTanks[1] = b; outputTanks[2] = c; return this; }
+	
+	public void serialize(ByteBuf buf) {
+		buf.writeFloat(progress);
+		ByteBufUtils.writeUTF8String(buf, recipe);
+	}
+	
+	public void deserialize(ByteBuf buf) {
+		this.progress = buf.readFloat();
+		this.recipe = ByteBufUtils.readUTF8String(buf);
+	}
 }
