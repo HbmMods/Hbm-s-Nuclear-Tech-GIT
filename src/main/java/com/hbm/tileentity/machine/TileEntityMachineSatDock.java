@@ -111,6 +111,8 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -127,6 +129,10 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 
 	@Override public int[] getAccessibleSlotsFromSide(int p_94128_1_) { return access; }

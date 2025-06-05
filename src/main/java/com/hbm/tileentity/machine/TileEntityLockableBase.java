@@ -6,6 +6,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.ArmorUtil;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,6 +49,24 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		nbt.setInteger("lock", lock);
 		nbt.setBoolean("isLocked", isLocked);
 		nbt.setDouble("lockMod", lockMod);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeInt(lock);
+		buf.writeBoolean(isLocked);
+		buf.writeDouble(lockMod);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		lock = buf.readInt();
+		isLocked = buf.readBoolean();
+		lockMod = buf.readDouble();
 	}
 
 	public boolean canAccess(EntityPlayer player) {

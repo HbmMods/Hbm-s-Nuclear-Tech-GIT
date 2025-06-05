@@ -115,6 +115,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.redHigh = nbt.getShort("redHigh");
 		this.lastRedstone = nbt.getByte("lastRedstone");
 		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
+
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -126,6 +128,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		nbt.setShort("redHigh", redHigh);
 		nbt.setByte("lastRedstone", lastRedstone);
 		nbt.setByte("priority", (byte)this.priority.ordinal());
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 
 	@Override

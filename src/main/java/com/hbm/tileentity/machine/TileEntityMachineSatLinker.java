@@ -132,6 +132,8 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -148,6 +150,10 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	@Override

@@ -127,6 +127,8 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 			}
 		}
 		this.hasSpiders = nbt.getBoolean("spiders");
+
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -145,6 +147,10 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 		}
 		nbt.setTag("items", list);
 		nbt.setBoolean("spiders", hasSpiders);
+
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 
 	@Override

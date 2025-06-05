@@ -154,6 +154,8 @@ public class TileEntityNukeMan extends TileEntity implements ISidedInventory, IG
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -172,6 +174,10 @@ public class TileEntityNukeMan extends TileEntity implements ISidedInventory, IG
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	public boolean exp1() {

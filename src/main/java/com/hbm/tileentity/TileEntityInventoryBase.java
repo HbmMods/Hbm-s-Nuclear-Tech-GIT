@@ -145,6 +145,8 @@ public abstract class TileEntityInventoryBase extends TileEntity implements ISid
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -163,5 +165,9 @@ public abstract class TileEntityInventoryBase extends TileEntity implements ISid
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 }

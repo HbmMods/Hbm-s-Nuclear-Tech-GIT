@@ -156,6 +156,8 @@ public class TileEntityBombMulti extends TileEntity implements ISidedInventory, 
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -174,6 +176,10 @@ public class TileEntityBombMulti extends TileEntity implements ISidedInventory, 
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	public boolean isLoaded(){

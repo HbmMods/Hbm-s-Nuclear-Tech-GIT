@@ -211,6 +211,8 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -233,6 +235,10 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 
 	@Override
