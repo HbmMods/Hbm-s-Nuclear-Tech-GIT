@@ -5,6 +5,9 @@
 * Starmetal .50 BMG now returns
   * Overall better armor piercing stats than DU
   * Not compatible with the M2, only usable in amat rifles
+* Reworked chemical plant
+  * No longer needs template items for everything, comes with a convenient recipe selector GUI
+  * Three item and three fluids for in and outputs
 
 ## Changed
 * The RBMK console's grid can now be rotated using a screwdriver
@@ -20,6 +23,24 @@
 * Tier 4 heart piece is now called "heart of darkness"
 * Thermal sights now render dead mobs in black
 * Guns now have unique scope overlays instead of reusing the .44 scope for everything
+* The new chemplant has slightly altered recipes
+  * Very basic mixing recipes (e.g. coolant) have been removed, it's now required to use the mixer
+  * Water to hydrogen peroxide is now 1,000 : 1,000 (instead of 1,000 : 800)
+  * Sulfuric acid's peroxide requirement has been adjusted accordingly
+  * Nitric acid has an alternate recipe using air and water, however it takes 4x as long and has a base consumption of 2kHE/t
+  * Desh now only takes 10 seconds to produce instead of 15
+  * Laminate now only takes 50mB of either fluid per recipe and processes much quicker
+  * Ducrete now uses U238 in the form of ferrouranium, and no longer requires gravel at all
+  * All recipes for nuclear fuel production now have a higher base consumption
+  * Cordite now uses sawdust instead of wood planks and sugar
+  * Kevlar is now made from aromatics, nitric acid and chlorine (or phosgene in 528 mode)
+  * Electrolysis using the chemplant has been removed. Hydrogen can be made using water and coal (or coke), and oxygen can be distilled from intake air
+  * Solid nuclear waste can also be vitrified now
+  * Thorium salt reprocessing now only has a 50% chance to produce a U233 nugget and a 25% chance to produce nuclear waste, making it less absurdly powerful and easier to deal with the waste
+  * Glyphid meat processing is now less autistic
+  * Making rusty steel now only takes 2 seconds per recipe
+  * Perfluoromethyl can now also be made in the chemical plant (technically, the process isn't just simple mixing after all)
+* Removed niter to nitric acid liquefaction recipe
 
 ## Fixed
 * Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts

@@ -103,8 +103,8 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		}
 
 		for(int i = 0; i < 3; i++) {
-			chemplant.inputTanks[i].renderTank(guiLeft + 8, guiTop + 52, this.zLevel, 16, 34);
-			chemplant.outputTanks[i].renderTank(guiLeft + 80, guiTop + 52, this.zLevel, 16, 34);
+			chemplant.inputTanks[i].renderTank(guiLeft + 8 + i * 18, guiTop + 52, this.zLevel, 16, 34);
+			chemplant.outputTanks[i].renderTank(guiLeft + 80 + i * 18, guiTop + 52, this.zLevel, 16, 34);
 		}
 	}
 }

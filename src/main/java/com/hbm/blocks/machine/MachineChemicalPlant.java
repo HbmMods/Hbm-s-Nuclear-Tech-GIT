@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineChemicalPlant extends BlockDummyable {
 
@@ -27,4 +28,16 @@ public class MachineChemicalPlant extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {2, 0, 1, 1, 1, 1}; }
 	@Override public int getOffset() { return 1; }
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		x -= dir.offsetX;
+		z -= dir.offsetZ;
+		
+		for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) {
+			if(i != 0 || j != 0) this.makeExtra(world, x + i, y, z + j);
+		}
+	}
 }

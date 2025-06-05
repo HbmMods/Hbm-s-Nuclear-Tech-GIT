@@ -11,8 +11,10 @@ import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutputMulti;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -41,12 +43,19 @@ public class GenericRecipe {
 	public GenericRecipe setIcon(ItemStack icon) { this.icon = icon; this.writeIcon = true; return this; }
 	public GenericRecipe setIcon(Item item, int meta) { return this.setIcon(new ItemStack(item, 1, meta)); }
 	public GenericRecipe setIcon(Item item) { return this.setIcon(new ItemStack(item)); }
+	public GenericRecipe setIcon(Block block) { return this.setIcon(new ItemStack(block)); }
 	public GenericRecipe setNamed() { this.customLocalization = true; return this; }
 
-	public GenericRecipe setInputItems(AStack... input) { this.inputItem = input; return this; }
-	public GenericRecipe setInputFluids(FluidStack... input) { this.inputFluid = input; return this; }
-	public GenericRecipe setOutputItems(IOutput... output) { this.outputItem = output; return this; }
-	public GenericRecipe setOutputFluids(FluidStack... output) { this.outputFluid = output; return this; }
+	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; return this; }
+	public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
+	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
+	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
+	
+	public GenericRecipe outputItems(ItemStack... output) {
+		this.outputItem = new IOutput[output.length];
+		for(int i = 0; i < outputItem.length; i++) this.outputItem[i] = new ChanceOutput(output[i]);
+		return this;
+	}
 	
 	public ItemStack getIcon() {
 		
@@ -77,18 +86,21 @@ public class GenericRecipe {
 	public List<String> print() {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
+		if(duration > 0) list.add(EnumChatFormatting.RED + "Duration: " + this.duration / 20D + "s");
+		if(power > 0) list.add(EnumChatFormatting.RED + "Consumption: " + BobMathUtil.getShortNumber(power) + "HE/t");
 		list.add(EnumChatFormatting.BOLD + "Input:");
 		if(inputItem != null) for(AStack stack : inputItem) {
 			ItemStack display = stack.extractForCyclingDisplay(20);
 			list.add("  " + EnumChatFormatting.GRAY + display.stackSize + "x " + display.getDisplayName());
 		}
-		if(inputFluid != null) for(FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : "at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
+		if(inputFluid != null) for(FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
 		list.add(EnumChatFormatting.BOLD + "Output:");
 		if(outputItem != null) for(IOutput output : outputItem) for(String line : output.getLabel()) list.add("  " + line);
-		if(outputFluid != null) for(FluidStack fluid : outputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : "at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
+		if(outputFluid != null) for(FluidStack fluid : outputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
 		return list;
 	}
 	
+	/** Default impl only matches localized name substring, can be extended to include ingredients as well */
 	public boolean matchesSearch(String substring) {
 		return getLocalizedName().toLowerCase(Locale.US).contains(substring.toLowerCase(Locale.US));
 	}

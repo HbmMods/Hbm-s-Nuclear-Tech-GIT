@@ -55,6 +55,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	
 	public void register(T recipe) {
 		this.recipeOrderedList.add(recipe);
+		if(recipeNameMap.containsKey(recipe.name)) throw new IllegalStateException("Recipe " + recipe.name + " has been reciped with a duplicate ID!");
 		this.recipeNameMap.put(recipe.name, recipe);
 	}
 
@@ -154,8 +155,12 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	/// CLASSES ///
 	///////////////
 	public static interface IOutput {
+		/** true for ChanceOutputMulti with a poolsize >1 */
 		public boolean possibleMultiOutput();
+		/** Decides an output, returns a copy of the held result */
 		public ItemStack collapse();
+		/** Returns an itemstack only if possibleMultiOutput is false, null otherwise */
+		public ItemStack getSingle();
 		public void serialize(JsonWriter writer) throws IOException;
 		public void deserialize(JsonArray array);
 		public String[] getLabel();
@@ -172,6 +177,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		public ChanceOutput() { super(0); } // for deserialization
 		public ChanceOutput(ItemStack stack) { this(stack, 1F, 0); }
 		public ChanceOutput(ItemStack stack, int weight) { this(stack, 1F, weight); }
+		public ChanceOutput(ItemStack stack, float chance) { this(stack, chance, 0); }
 		public ChanceOutput(ItemStack stack, float chance, int weight) {
 			super(weight);
 			this.stack = stack;
@@ -180,10 +186,11 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 
 		@Override 
 		public ItemStack collapse() {
-			if(this.chance >= 1F) return this.stack;
-			return RNG.nextFloat() <= chance ? this.stack : null;
+			if(this.chance >= 1F) return getSingle().copy();
+			return RNG.nextFloat() <= chance ? getSingle().copy() : null;
 		}
 		
+		@Override public ItemStack getSingle() { return this.stack; }
 		@Override public boolean possibleMultiOutput() { return false; }
 		
 		@Override
@@ -232,6 +239,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		
 		@Override public ItemStack collapse() { return ((ChanceOutput) WeightedRandom.getRandomItem(RNG, pool)).collapse(); }
 		@Override public boolean possibleMultiOutput() { return pool.size() > 1; }
+		@Override public ItemStack getSingle() { return possibleMultiOutput() ? null : pool.get(0).getSingle(); }
 		
 		@Override
 		public void serialize(JsonWriter writer) throws IOException {
