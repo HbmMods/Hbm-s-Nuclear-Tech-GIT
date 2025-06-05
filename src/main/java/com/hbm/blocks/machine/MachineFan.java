@@ -3,11 +3,13 @@ package com.hbm.blocks.machine;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
@@ -16,9 +18,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -66,10 +68,11 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		return false;
 	}
 	
-	public static class TileEntityFan extends TileEntity {
+	public static class TileEntityFan extends TileEntityLoadedBase {
 
 		public float spin;
 		public float prevSpin;
+		public boolean falloff = true;
 
 		@Override
 		public void updateEntity() {
@@ -81,7 +84,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				
 				int range = 10;
 				int effRange = 0;
-				double push = 0.15;
+				double push = 0.1;
 				
 				for(int i = 1; i <= range; i++) {
 					Block block = worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i);
@@ -105,8 +108,12 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				
 				for(Entity e : affected) {
 
-					double dist = e.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
-					double coeff = push * (1 - dist / range / 2);
+					double coeff = push;
+
+					if(!falloff) {
+						double dist = e.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+						coeff *= 1.5 * (1 - dist / range / 2);
+					}
 					
 					e.motionX += dir.offsetX * coeff;
 					e.motionY += dir.offsetY * coeff;
@@ -125,6 +132,10 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				this.prevSpin -= 360;
 				this.spin -= 360;
 			}
+
+			if(!worldObj.isRemote) {
+				networkPackNT(150);
+			}
 		}
 		
 		@Override
@@ -132,21 +143,61 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		public double getMaxRenderDistanceSquared() {
 			return 65536.0D;
 		}
+
+		@Override
+		public void readFromNBT(NBTTagCompound nbt) {
+			super.readFromNBT(nbt);
+			this.falloff = nbt.getBoolean("falloff");
+		}
+
+		@Override
+		public void writeToNBT(NBTTagCompound nbt) {
+			super.writeToNBT(nbt);
+			nbt.setBoolean("falloff", falloff);
+		}
+
+		@Override
+		public void serialize(ByteBuf buf) {
+			buf.writeBoolean(falloff);
+		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			falloff = buf.readBoolean();
+		}
 	}
 
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-		if(tool != ToolType.SCREWDRIVER) return false;
-		int meta = world.getBlockMetadata(x, y, z);
+		if(tool == ToolType.SCREWDRIVER) {
+			int meta = world.getBlockMetadata(x, y, z);
 
-		if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
-		if(meta == 1) world.setBlockMetadataWithNotify(x, y, z, 0, 3);
-		if(meta == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 3);
-		if(meta == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
-		if(meta == 4) world.setBlockMetadataWithNotify(x, y, z, 5, 3);
-		if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
-		
-		return true;
+			if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+			if(meta == 1) world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+			if(meta == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 3);
+			if(meta == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
+			if(meta == 4) world.setBlockMetadataWithNotify(x, y, z, 5, 3);
+			if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
+			
+			return true;
+		}
+
+		if(tool == ToolType.HAND_DRILL) {
+			TileEntityFan tile = (TileEntityFan) world.getTileEntity(x, y, z);
+
+			if(tile != null) {
+				tile.falloff = !tile.falloff;
+				tile.markDirty();
+
+				if(!world.isRemote) {
+					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.click", 0.5F, 0.5F);
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
