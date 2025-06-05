@@ -3,7 +3,11 @@ package com.hbm.blocks.machine;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.ChatBuilder;
 
 import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
@@ -17,10 +21,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -190,6 +196,8 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				tile.markDirty();
 
 				if(!world.isRemote) {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(this.getUnlocalizedName() + (tile.falloff ? ".falloffOn" : ".falloffOff")).color(EnumChatFormatting.GOLD).flush(), MainRegistry.proxy.ID_FAN_MODE), (EntityPlayerMP) player);
+
 					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.click", 0.5F, 0.5F);
 				}
 			}
