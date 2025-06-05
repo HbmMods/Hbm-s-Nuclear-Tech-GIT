@@ -92,6 +92,7 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

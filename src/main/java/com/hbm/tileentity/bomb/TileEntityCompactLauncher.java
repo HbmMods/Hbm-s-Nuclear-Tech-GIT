@@ -109,6 +109,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

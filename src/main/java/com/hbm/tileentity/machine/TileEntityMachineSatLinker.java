@@ -73,6 +73,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

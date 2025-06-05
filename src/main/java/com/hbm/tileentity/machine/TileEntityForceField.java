@@ -143,6 +143,7 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

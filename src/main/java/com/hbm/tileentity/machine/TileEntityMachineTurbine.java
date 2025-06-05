@@ -136,6 +136,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

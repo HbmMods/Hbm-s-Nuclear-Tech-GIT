@@ -92,6 +92,7 @@ public class TileEntityNukeMike extends TileEntity implements ISidedInventory, I
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

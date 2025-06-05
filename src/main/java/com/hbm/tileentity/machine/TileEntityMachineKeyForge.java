@@ -73,6 +73,7 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

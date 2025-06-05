@@ -91,6 +91,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

@@ -94,6 +94,7 @@ public class TileEntityBombMulti extends TileEntity implements ISidedInventory, 
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

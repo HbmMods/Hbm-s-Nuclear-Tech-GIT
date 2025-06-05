@@ -118,6 +118,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

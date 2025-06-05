@@ -66,6 +66,7 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

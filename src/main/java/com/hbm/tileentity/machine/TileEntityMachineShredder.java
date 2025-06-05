@@ -83,6 +83,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

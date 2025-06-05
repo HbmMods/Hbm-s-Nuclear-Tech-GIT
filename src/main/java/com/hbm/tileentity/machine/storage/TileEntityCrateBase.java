@@ -61,6 +61,7 @@ public abstract class TileEntityCrateBase extends TileEntityLockableBase impleme
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

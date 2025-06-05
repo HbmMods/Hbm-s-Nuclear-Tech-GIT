@@ -79,6 +79,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

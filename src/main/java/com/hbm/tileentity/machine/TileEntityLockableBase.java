@@ -26,11 +26,12 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 			MainRegistry.logger.error("A block has been set to locked state before setting pins, this should not happen and may cause errors! " + this.toString());
 		}
 		isLocked = true;
+		markDirty();
 	}
 
-	public void setPins(int pins) { lock = pins; }
+	public void setPins(int pins) { lock = pins; markDirty(); }
 	public int getPins() { return lock; }
-	public void setMod(double mod) { lockMod = mod; }
+	public void setMod(double mod) { lockMod = mod; markDirty(); }
 	public double getMod() { return lockMod; }
 
 	@Override

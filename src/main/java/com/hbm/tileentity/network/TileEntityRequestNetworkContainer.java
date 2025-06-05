@@ -70,7 +70,7 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.customName : getName(); }
 	public abstract String getName();
 	@Override public boolean hasCustomInventoryName() { return this.customName != null && this.customName.length() > 0; }
-	public void setCustomName(String name) { this.customName = name; }
+	public void setCustomName(String name) { this.customName = name; markDirty(); }
 	@Override public int getInventoryStackLimit() { return 64; }
 
 	@Override

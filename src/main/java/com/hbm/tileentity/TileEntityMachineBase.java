@@ -71,6 +71,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

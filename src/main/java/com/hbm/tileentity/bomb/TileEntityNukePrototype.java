@@ -93,6 +93,7 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override

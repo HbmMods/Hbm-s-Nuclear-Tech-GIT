@@ -79,6 +79,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
