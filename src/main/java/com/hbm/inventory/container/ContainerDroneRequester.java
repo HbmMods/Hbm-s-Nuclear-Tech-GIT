@@ -85,13 +85,7 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 			return ret;
 
 		} else {
-			slot.putStack(held != null ? held.copy() : null);
-
-			if(slot.getHasStack()) {
-				slot.getStack().stackSize = 1;
-			}
-
-			slot.onSlotChanged();
+			slot.putStack(held);
 			requester.matcher.initPatternStandard(requester.getWorldObj(), slot.getStack(), index);
 
 			return ret;

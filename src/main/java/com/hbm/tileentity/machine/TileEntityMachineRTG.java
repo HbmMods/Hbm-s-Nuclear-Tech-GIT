@@ -83,6 +83,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -151,6 +152,8 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -169,6 +172,10 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 
 	@Override

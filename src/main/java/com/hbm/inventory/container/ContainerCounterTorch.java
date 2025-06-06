@@ -48,13 +48,7 @@ public class ContainerCounterTorch extends ContainerBase {
 			return ret;
 			
 		} else {
-			slot.putStack(held != null ? held.copy() : null);
-			
-			if(slot.getHasStack()) {
-				slot.getStack().stackSize = 1;
-			}
-			
-			slot.onSlotChanged();
+			slot.putStack(held);
 			radio.matcher.initPatternStandard(radio.getWorldObj(), slot.getStack(), index);
 			
 			return ret;

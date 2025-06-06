@@ -38,49 +38,52 @@ public abstract class ItemInventory implements IInventory {
 	}
 
 	public NBTTagCompound checkNBT(NBTTagCompound nbt) {
-		if(nbt != null && !nbt.hasNoTags()) {
-			Random random = new Random();
+		
+		if(nbt == null || nbt.hasNoTags())
+			return null;
 
-			try {
-				byte[] abyte = CompressedStreamTools.compress(nbt);
+		Random random = new Random();
 
-				if (abyte.length > 6000) {
-					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
-					for (int i1 = 0; i1 < this.getSizeInventory(); ++i1) {
-						ItemStack itemstack = this.getStackInSlot(i1);
+		try {
+			byte[] abyte = CompressedStreamTools.compress(nbt);
 
-						if (itemstack != null) {
-							float f = random.nextFloat() * 0.8F + 0.1F;
-							float f1 = random.nextFloat() * 0.8F + 0.1F;
-							float f2 = random.nextFloat() * 0.8F + 0.1F;
+			if (abyte.length > 6000) {
+				player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+				for (int i1 = 0; i1 < this.getSizeInventory(); ++i1) {
+					ItemStack itemstack = this.getStackInSlot(i1);
 
-							while (itemstack.stackSize > 0) {
-								int j1 = random.nextInt(21) + 10;
+					if (itemstack != null) {
+						float f = random.nextFloat() * 0.8F + 0.1F;
+						float f1 = random.nextFloat() * 0.8F + 0.1F;
+						float f2 = random.nextFloat() * 0.8F + 0.1F;
 
-								if (j1 > itemstack.stackSize) {
-									j1 = itemstack.stackSize;
-								}
+						while (itemstack.stackSize > 0) {
+							int j1 = random.nextInt(21) + 10;
 
-								itemstack.stackSize -= j1;
-								EntityItem entityitem = new EntityItem(player.worldObj, player.posX + f, player.posY + f1, player.posZ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-
-								if (itemstack.hasTagCompound()) {
-									entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-								}
-
-								float f3 = 0.05F;
-								entityitem.motionX = (float) random.nextGaussian() * f3 + player.motionX;
-								entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F + player.motionY;
-								entityitem.motionZ = (float) random.nextGaussian() * f3 + player.motionZ;
-								player.worldObj.spawnEntityInWorld(entityitem);
+							if (j1 > itemstack.stackSize) {
+								j1 = itemstack.stackSize;
 							}
+
+							itemstack.stackSize -= j1;
+							EntityItem entityitem = new EntityItem(player.worldObj, player.posX + f, player.posY + f1, player.posZ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+							if (itemstack.hasTagCompound()) {
+								entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+							}
+
+							float f3 = 0.05F;
+							entityitem.motionX = (float) random.nextGaussian() * f3 + player.motionX;
+							entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F + player.motionY;
+							entityitem.motionZ = (float) random.nextGaussian() * f3 + player.motionZ;
+							player.worldObj.spawnEntityInWorld(entityitem);
 						}
 					}
-
-					return new NBTTagCompound(); // Reset.
 				}
-			} catch (IOException ignored) {}
-		}
+
+				return null; // Reset.
+			}
+		} catch (IOException ignored) {}
+		
 		return nbt;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockEnumMulti;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.util.EnumUtil;
@@ -16,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -53,7 +55,7 @@ public class BlockWoodStructure extends BlockEnumMulti implements ISBRHUniversal
 		EnumWoodStructure type = EnumUtil.grabEnumSafely(EnumWoodStructure.class, world.getBlockMetadata(x, y, z));
 		setBlockBounds(0, 0, 0, 1, 1, 1);
 		if(type == type.ROOF) setBlockBounds(0F, 0F, 0F, 1F, 0.1875F, 1F);
-		if(type == type.SCAFFOLD) setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+		if(type == type.SCAFFOLD) setBlockBounds(0.0625F, 0F, 0.0625F, 1F - 0.0625F, 1F, 1F - 0.0625F);
 		if(type == type.CEILING) setBlockBounds(0F, 0.875F, 0F, 1F, 1F, 1F);
 	}
 
@@ -61,6 +63,21 @@ public class BlockWoodStructure extends BlockEnumMulti implements ISBRHUniversal
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity collider) {
 		setBlockBoundsBasedOnState(world, x, y, z);
 		super.addCollisionBoxesToList(world, x, y, z, aabb, list, collider);
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+	}
+  
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int i, int j, int k) {
+		int meta = world.getBlockMetadata(i, j, k);
+		EnumWoodStructure type = EnumUtil.grabEnumSafely(EnumWoodStructure.class, meta);
+
+		if (type == type.SCAFFOLD) return AxisAlignedBB.getBoundingBox(i, j, k, i + 1, j + 1, k + 1);
+		
+		return super.getSelectedBoundingBoxFromPool(world, i, j, k);
 	}
 
 	@Override
@@ -148,5 +165,19 @@ public class BlockWoodStructure extends BlockEnumMulti implements ISBRHUniversal
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		if (entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entity;
+
+			int meta = world.getBlockMetadata(x, y, z);
+			EnumWoodStructure type = EnumUtil.grabEnumSafely(EnumWoodStructure.class,meta);
+			if (type != type.SCAFFOLD) return;
+
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			props.isOnLadder = true;
+		}
 	}
 }

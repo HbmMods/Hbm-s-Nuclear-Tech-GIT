@@ -30,9 +30,10 @@ public class ServerProxy {
 	public static final int ID_HUD = 7;
 	public static final int ID_DETONATOR = 8;
 	public static final int ID_FLUID_ID = 9;
-	public static final int ID_TOOLABILITY = 10;
-	public static final int ID_GUN_MODE = 11;
-	public static final int ID_GAS_HAZARD = 12;
+	public static final int ID_FAN_MODE = 10;
+	public static final int ID_TOOLABILITY = 11;
+	public static final int ID_GUN_MODE = 12;
+	public static final int ID_GAS_HAZARD = 13;
 	
 	public ITranslate getI18n() { return I18N; }
 

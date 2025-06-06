@@ -68,6 +68,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -86,6 +87,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -1095,6 +1097,28 @@ public class ModEventHandlerClient {
 					}
 				}
 			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		EntityPlayer player = event.player;
+
+		int x = MathHelper.floor_double(player.posX);
+		int y = MathHelper.floor_double(player.posY);
+		int z = MathHelper.floor_double(player.posZ);
+		Block b = player.worldObj.getBlock(x, y, z);
+
+		// Support climbing freestanding vines and chains using spacebar
+		if (
+			b.isLadder(player.worldObj, x, y, z, player) &&
+			b.getCollisionBoundingBoxFromPool(player.worldObj, x, y, z) == null &&
+			!player.capabilities.isFlying &&
+			GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindJump) &&
+			player.motionY < 0.15
+		) {
+			player.motionY = 0.15;
 		}
 	}
 

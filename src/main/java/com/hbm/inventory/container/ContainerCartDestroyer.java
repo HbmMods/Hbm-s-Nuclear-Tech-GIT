@@ -66,13 +66,7 @@ public class ContainerCartDestroyer extends Container {
 		if(slot.getHasStack())
 			ret = slot.getStack().copy();
 
-		slot.putStack(held != null ? held.copy() : null);
-		
-		if(slot.getHasStack()) {
-			slot.getStack().stackSize = 1;
-		}
-		
-		slot.onSlotChanged();
+		slot.putStack(held);
 		
 		return ret;
 	}
