@@ -42,6 +42,10 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	public long power;
 	public long maxPower = 1_000_000;
 	public boolean didProcess = false;
+	
+	public boolean frame = false;
+	public int anim;
+	public int prevAnim;
 
 	public ModuleMachineChemplant chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
@@ -98,6 +102,12 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			
 		} else {
 			
+			this.prevAnim = this.anim;
+			if(this.didProcess) this.anim++;
+			
+			if(worldObj.getTotalWorldTime() % 40 == 0) {
+				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
+			}
 		}
 	}
 	
@@ -125,6 +135,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		for(FluidTank tank : outputTanks) tank.serialize(buf);
 		buf.writeLong(power);
 		buf.writeLong(maxPower);
+		buf.writeBoolean(didProcess);
 		this.chemplantModule.serialize(buf);
 	}
 
@@ -135,6 +146,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		for(FluidTank tank : outputTanks) tank.deserialize(buf);
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
+		this.didProcess = buf.readBoolean();
 		this.chemplantModule.deserialize(buf);
 	}
 	

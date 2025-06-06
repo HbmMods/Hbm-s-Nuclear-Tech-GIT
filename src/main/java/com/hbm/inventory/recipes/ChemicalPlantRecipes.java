@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ItemEnums.EnumFuelAdditive;
+import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Blocks;
@@ -130,7 +131,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 		
 		/// SOLIDS ///
-		this.register(new GenericRecipe("chem.desh").setup(200, 100)
+		this.register(new GenericRecipe("chem.desh").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.powder_desh_mix))
 				.inputFluids((GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
 								new FluidStack[] {new FluidStack(Fluids.LIGHTOIL, 200)} :
@@ -160,11 +161,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 250, GeneralConfig.enable528 ? 2 : 0), new FluidStack(Fluids.CHLORINE, 250, GeneralConfig.enable528 ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_pvc, 2)));
 		
-		this.register(new GenericRecipe("chem.kevlar").setup(20, 300)
+		this.register(new GenericRecipe("chem.kevlar").setup(60, 300)
 				.inputFluids(new FluidStack(Fluids.AROMATICS, 200), new FluidStack(Fluids.NITRIC_ACID, 100), new FluidStack(GeneralConfig.enable528 ? Fluids.PHOSGENE : Fluids.CHLORINE, 100))
 				.outputItems(new ItemStack(ModItems.plate_kevlar, 4)));
 		
-		this.register(new GenericRecipe("chem.meth").setup(30, 300)
+		this.register(new GenericRecipe("chem.meth").setup(60, 300)
 				.inputItems(new ComparableStack(Items.wheat), new ComparableStack(Items.dye, 2, 3))
 				.inputFluids(new FluidStack(Fluids.LUBRICANT, 400), new FluidStack(Fluids.PEROXIDE, 500))
 				.outputItems(new ItemStack(ModItems.chocolate, 4)));
@@ -280,6 +281,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.XYLENE, 50), new FluidStack(Fluids.PHOSGENE, 50))
 				.inputItems(new OreDictStack(KEY_ANYGLASS), new OreDictStack(STEEL.bolt(), 4))
 				.outputItems(new ItemStack(ModBlocks.reinforced_laminate)));
+		
+		this.register(new GenericRecipe("chem.polarized").setup(100, 500)
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 1_000))
+				.inputItems(new OreDictStack(KEY_ANYPANE))
+				.outputItems(DictFrame.fromOne(ModItems.part_generic, EnumPartType.GLASS_POLARIZED, 16)));
 		
 		/// NUCLEAR PROCESSING ///
 		this.register(new GenericRecipe("chem.yellowcake").setup(250, 500)

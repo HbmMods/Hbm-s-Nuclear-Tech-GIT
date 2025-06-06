@@ -1027,7 +1027,7 @@ public class ModEventHandlerClient {
 		return null;
 	}
 
-	public static boolean renderLodeStar = false; // GENUINELY shut the fuck up i'm not kidding
+	public static boolean renderLodeStar = false;
 	public static long lastStarCheck = 0L;
 
 	@SideOnly(Side.CLIENT)
@@ -1064,16 +1064,16 @@ public class ModEventHandlerClient {
 			long millis = Clock.get_ms();
 
 			if(lastStarCheck + 200 < millis) {
-				renderLodeStar = false; // GENUINELY shut the fuck up i'm not kidding
+				renderLodeStar = false;
 				lastStarCheck = millis;
 
-				if(player != null) { // GENUINELY shut the fuck up i'm not kidding
-					Vec3NT pos = new Vec3NT(player.posX, player.posY, player.posZ); // GENUINELY shut the fuck up i'm not kidding
-					Vec3NT lodestarHeading = new Vec3NT(0, 0, -1D).rotateAroundXDeg(-15).multiply(25); // GENUINELY shut the fuck up i'm not kidding
-					Vec3NT nextPos = new Vec3NT(pos).add(lodestarHeading.xCoord,lodestarHeading.yCoord, lodestarHeading.zCoord); // GENUINELY shut the fuck up i'm not kidding
-					MovingObjectPosition mop = world.func_147447_a(pos, nextPos, false, true, false); // GENUINELY shut the fuck up i'm not kidding
-					if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) == ModBlocks.glass_polarized) { // GENUINELY shut the fuck up i'm not kidding
-						renderLodeStar = true; // GENUINELY shut the fuck up i'm not kidding
+				if(player != null) {
+					Vec3NT pos = new Vec3NT(player.posX, player.posY, player.posZ);
+					Vec3NT lodestarHeading = new Vec3NT(0, 0, -1D).rotateAroundXDeg(-15).multiply(25);
+					Vec3NT nextPos = new Vec3NT(pos).add(lodestarHeading.xCoord,lodestarHeading.yCoord, lodestarHeading.zCoord);
+					MovingObjectPosition mop = world.func_147447_a(pos, nextPos, false, true, false);
+					if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) == ModBlocks.glass_polarized) {
+						renderLodeStar = true;
 					}
 				}
 			}

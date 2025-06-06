@@ -581,6 +581,7 @@ public class ResourceManager {
 	public static final ResourceLocation chemplant_piston_tex = new ResourceLocation(RefStrings.MODID, "textures/models/chemplant_piston_new.png");
 	public static final ResourceLocation chemplant_fluid_tex = new ResourceLocation(RefStrings.MODID, "textures/models/lavabase_small.png");
 	public static final ResourceLocation chemical_plant_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemical_plant.png");
+	public static final ResourceLocation chemical_plant_fluid_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemical_plant_fluid.png");
 	public static final ResourceLocation chemfac_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemfac.png");
 
 	//Mixer

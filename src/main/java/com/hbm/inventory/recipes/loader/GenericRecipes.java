@@ -88,6 +88,8 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public void writeRecipe(Object recipeObject, JsonWriter writer) throws IOException {
 		T recipe = (T) recipeObject;
 		
+		writer.name("name").value(recipe.name);
+		
 		if(this.inputItemLimit() > 0 && recipe.inputItem != null) {
 			writer.name("inputItem").beginArray();
 			for(AStack stack : recipe.inputItem) this.writeAStack(stack, writer);
