@@ -13,10 +13,12 @@
   * If the center block right above the chemplant is not air, it will render with a frame, making chemplant stacking actually nice to look at
   * Now has a more convenient 3x3 footprint
   * Features 12 access ports, more than enough for full coverage of the entire machine's IO
-  * Has an optional slot for template items separate from the recipe selector (i.e. secret recipes)
+  * Has an optional slot for template items separate from the recipe selector (i.e. secret recipes) (doesn't work yet since we don't have secret recipe :P)
   * Ports are now standardized, no longer are fluids connected to ports that look like copper contacts
+  * Can't use upgrades just yet
 
 ## Changed
+* Added Ukrainian localization
 * The RBMK console's grid can now be rotated using a screwdriver
 * Tool abilities have changed
   * Right-clicking while holding ALT now opens a configuration window
@@ -50,6 +52,19 @@
   * Perfluoromethyl can now also be made in the chemical plant (technically, the process isn't just simple mixing after all)
   * Recipe changes are still subject to balancing
 * Removed niter to nitric acid liquefaction recipe
+* Updated N2 model
+  * Glow in the dark paint not included (yet)
+* Wooden scaffolds now have a slightly smaller hitbox and are climbable
+* Hanging chains and vines can now be climbed by holding space
+* Hopefully fixed the strand caster being weird for good
+* Removed angry metal drop from meteorites (use the assembler recipe)
+* The automatic buzzsaw can now handle crops
+* The automatic buzzsaw will no longer clip through walls when extending
+* The automatic buzzsaw can be turned off using a screwdriver
+* Template folders now support page turning via scrolling
+* Named crates will now show their names in the GUI as well as as a tooltip
+* Vanilla anvils no longer increase experience costs when renaming an item
+* Fans now have diminishing force, old behavior can be restored with the hand drill
 
 ## Fixed
 * Conveyor ejectors should now correctly place items onto the back of splitters instead of on the output belts
@@ -62,3 +77,5 @@
 * Fixed chunkloading entities not releasing their loading tickets properly
 * Potentially fixed a dupe issue related to tool abilities
 * Fixed certain sky features not being as bright as they should be
+* Fixed detailed hitboxes behaving weird
+* Fixed issue where empty crates would retain irrelevant NBT data, rendering them unstackable with freshly crafted crates

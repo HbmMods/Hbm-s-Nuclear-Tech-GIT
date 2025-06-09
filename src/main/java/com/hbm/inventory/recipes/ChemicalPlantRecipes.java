@@ -2,9 +2,14 @@ package com.hbm.inventory.recipes;
 
 import static com.hbm.inventory.OreDictManager.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -13,6 +18,7 @@ import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ItemEnums.EnumFuelAdditive;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -344,5 +350,21 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1_000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1_000, 0)));
 		
+	}
+	
+	public static HashMap getRecipes() {
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(GenericRecipe recipe : INSTANCE.recipeOrderedList) {
+			List input = new ArrayList();
+			if(recipe.inputItem != null) for(AStack stack : recipe.inputItem) input.add(stack);
+			if(recipe.inputFluid != null) for(FluidStack stack : recipe.inputFluid) input.add(ItemFluidIcon.make(stack));
+			List output = new ArrayList();
+			if(recipe.outputItem != null) for(IOutput stack : recipe.outputItem) output.add(stack.getAllPossibilities());
+			if(recipe.outputFluid != null) for(FluidStack stack : recipe.outputFluid) output.add(ItemFluidIcon.make(stack));
+			recipes.put(input.toArray(), output.toArray());
+		}
+		
+		return recipes;
 	}
 }

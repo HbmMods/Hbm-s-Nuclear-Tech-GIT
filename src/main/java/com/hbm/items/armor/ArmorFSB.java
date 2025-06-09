@@ -12,6 +12,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ShadyUtil;
 import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -239,43 +240,54 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public void handleTick(TickEvent.PlayerTickEvent event) {
 
 		EntityPlayer player = event.player;
+		boolean step = true;
+		
+		if(player.getUniqueID().equals(ShadyUtil.the_NCR) || player.getUniqueID().equals(ShadyUtil.Barnaby99_x)) {
+			step = false;
+			
+			if(player.worldObj.isRemote && player.onGround) {
+				steppy(player, "hbm:step.powered");
+			}
+		}
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 
 			ItemStack plate = player.inventory.armorInventory[2];
-
 			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
 
 			if(!chestplate.effects.isEmpty()) {
-
 				for(PotionEffect i : chestplate.effects) {
 					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), true));
 				}
 			}
 
-			if(chestplate.step != null && player.worldObj.isRemote && player.onGround) {
-
-				try {
-					Field nextStepDistance = ReflectionHelper.findField(Entity.class, "nextStepDistance", "field_70150_b");
-					Field distanceWalkedOnStepModified = ReflectionHelper.findField(Entity.class, "distanceWalkedOnStepModified", "field_82151_R");
-
-					if(player.getEntityData().getFloat("hfr_nextStepDistance") == 0) {
-						player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
-					}
-
-					int px = MathHelper.floor_double(player.posX);
-					int py = MathHelper.floor_double(player.posY - 0.2D - (double) player.yOffset);
-					int pz = MathHelper.floor_double(player.posZ);
-					Block block = player.worldObj.getBlock(px, py, pz);
-
-					if(block.getMaterial() != Material.air && player.getEntityData().getFloat("hfr_nextStepDistance") <= distanceWalkedOnStepModified.getFloat(player))
-						player.playSound(chestplate.step, 1.0F, 1.0F);
-
-					player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
-
-				} catch(Exception x) {
-				}
+			if(step == true && chestplate.step != null && player.worldObj.isRemote && player.onGround) {
+				steppy(player, chestplate.step);
 			}
+		}
+	}
+	
+	public static void steppy(EntityPlayer player, String sound) {
+
+		try {
+			Field nextStepDistance = ReflectionHelper.findField(Entity.class, "nextStepDistance", "field_70150_b");
+			Field distanceWalkedOnStepModified = ReflectionHelper.findField(Entity.class, "distanceWalkedOnStepModified", "field_82151_R");
+
+			if(player.getEntityData().getFloat("hfr_nextStepDistance") == 0) {
+				player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
+			}
+
+			int px = MathHelper.floor_double(player.posX);
+			int py = MathHelper.floor_double(player.posY - 0.2D - (double) player.yOffset);
+			int pz = MathHelper.floor_double(player.posZ);
+			Block block = player.worldObj.getBlock(px, py, pz);
+
+			if(block.getMaterial() != Material.air && player.getEntityData().getFloat("hfr_nextStepDistance") <= distanceWalkedOnStepModified.getFloat(player))
+				player.playSound(sound, 1.0F, 1.0F);
+
+			player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
+
+		} catch(Exception x) {
 		}
 	}
 

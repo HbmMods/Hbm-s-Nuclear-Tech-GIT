@@ -362,17 +362,6 @@ public class ItemRenderLibrary {
 		        ResourceManager.bomb_boy.renderAll();
 			}});
 
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_n2), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-		        bindTexture(ResourceManager.n2_tex);
-		        ResourceManager.n2.renderAll();
-			}});
-
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_fstbmb), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glScaled(2.25, 2.25, 2.25);

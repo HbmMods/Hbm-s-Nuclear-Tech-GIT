@@ -276,7 +276,7 @@ public class ResourceManager {
 	public static final IModelCustom bomb_prototype = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/Prototype.obj")).asVBO();
 	public static final IModelCustom bomb_fleija = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/fleija.obj")).asVBO();
 	public static final IModelCustom bomb_solinium = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/ufp.obj")).asVBO();
-	public static final IModelCustom n2 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/bombs/n2.obj"));
+	public static final IModelCustom n2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/n2.obj")).asVBO();
 	public static final IModelCustom bomb_multi = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/BombGeneric.obj"));
 	public static final IModelCustom fstbmb = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/fstbmb.obj")).asVBO();
 	public static final IModelCustom dud_balefire = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_balefire.obj")).asVBO();

@@ -105,7 +105,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			this.prevAnim = this.anim;
 			if(this.didProcess) this.anim++;
 			
-			if(worldObj.getTotalWorldTime() % 40 == 0) {
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
 		}
@@ -223,7 +223,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+		return false; //return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override

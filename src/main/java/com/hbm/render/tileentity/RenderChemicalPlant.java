@@ -122,8 +122,8 @@ public class RenderChemicalPlant extends TileEntitySpecialRenderer implements II
 		return new ItemRenderBase() {
 			
 			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(3.5, 3.5, 3.5);
+				GL11.glTranslated(0, -2.75, 0);
+				GL11.glScaled(4.5, 4.5, 4.5);
 			}
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotated(90, 0, 1, 0);
@@ -133,6 +133,7 @@ public class RenderChemicalPlant extends TileEntitySpecialRenderer implements II
 				ResourceManager.chemical_plant.renderPart("Base");
 				ResourceManager.chemical_plant.renderPart("Slider");
 				ResourceManager.chemical_plant.renderPart("Spinner");
+				ResourceManager.chemical_plant.renderPart("Frame");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
