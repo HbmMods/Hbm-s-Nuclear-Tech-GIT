@@ -98,6 +98,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -107,6 +108,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -1243,6 +1245,26 @@ public class ModEventHandler {
 					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 1));
 				} else {
 					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onAnvilRepair(AnvilRepairEvent event) {
+
+		// Anvil renaming no longer increments the repair cost
+		// Note: Forge has a bug, the names are wrong. Right is output, output is left, left is right
+		if(event.left == null && event.right != null && event.output != null) {
+			int oldRepairCost = event.output.getRepairCost();
+
+			if (oldRepairCost > 0) {
+				event.right.setRepairCost(oldRepairCost);
+			} else if (event.right.hasTagCompound()) {
+				NBTTagCompound nbt = event.right.getTagCompound();
+				nbt.removeTag("RepairCost");
+				if (nbt.hasNoTags()) {
+					event.right.setTagCompound(null);
 				}
 			}
 		}

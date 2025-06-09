@@ -92,6 +92,7 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -154,6 +155,8 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -172,6 +175,10 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	public boolean isReady() {
