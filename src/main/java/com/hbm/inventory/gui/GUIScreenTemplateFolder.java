@@ -215,11 +215,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		if(Mouse.getEventButton() == -1) {
 			int scroll = Mouse.getEventDWheel();
 
-			if(scroll < 0) {
+			if(scroll > 0) {
 				if(currentPage > 0)
 					currentPage--;
 				updateButtons();
-			} else if(scroll > 0) {
+			} else if(scroll < 0) {
 				if(currentPage < getPageCount())
 					currentPage++;
 				updateButtons();
