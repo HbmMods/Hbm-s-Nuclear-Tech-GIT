@@ -335,14 +335,14 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			adder.add(damageAmount);
 		}
 
-		public float getDamage(int bitIndex) {
+		/*public float getDamage(int bitIndex) {
 			DoubleAdder adder = damageMap.get(bitIndex);
 			return adder == null ? 0f : (float) adder.sum();
-		}
+		}*/
 
-		public void clearDamage(int bitIndex) {
+		/*public void clearDamage(int bitIndex) {
 			damageMap.remove(bitIndex);
-		}
+		}*/
 
 		public Set<Map.Entry<Integer, DoubleAdder>> entrySet() {
 			return damageMap.entrySet();

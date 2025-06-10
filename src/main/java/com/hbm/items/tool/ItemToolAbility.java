@@ -13,9 +13,9 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.inventory.gui.GUIScreenToolAbility;
 import com.hbm.items.IItemControlReceiver;
-import com.hbm.handler.HbmKeybinds;
+import com.hbm.items.IKeybindReceiver;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
@@ -54,7 +54,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
-public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider, IItemControlReceiver {
+public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIProvider, IItemControlReceiver, IKeybindReceiver {
 	
 	protected boolean isShears = false;
 	protected EnumToolType toolType;
@@ -249,37 +249,6 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			list.add("");
 			list.add(EnumChatFormatting.RED + "Can break depth rock!");
 		}
-	}
-
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
-		if(!canOperate(stack))
-			return super.onItemRightClick(stack, world, player);
-
-		if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
-			if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
-			return stack;
-		}
-		
-		Configuration config = getConfiguration(stack);
-
-		if(config.presets.size() < 2 || world.isRemote)
-			return super.onItemRightClick(stack, world, player);
-
-
-		if(player.isSneaking()) {
-			config.currentPreset = 0;
-		} else {
-			config.currentPreset = (config.currentPreset + 1) % config.presets.size();
-		}
-
-		setConfiguration(stack, config);
-
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), (EntityPlayerMP) player);
-
-		world.playSoundAtEntity(player, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
-		
-		return stack;
 	}
 
 	public void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
@@ -520,5 +489,39 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenToolAbility(this.availableAbilities);
+	}
+
+	@Override
+	public boolean canHandleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind) {
+		if(player.worldObj.isRemote) return keybind == EnumKeybind.ABILITY_ALT;
+		return keybind == EnumKeybind.ABILITY_CYCLE;
+	}
+
+	@Override
+	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+		
+		if(keybind == EnumKeybind.ABILITY_CYCLE && state) {
+
+			World world = player.worldObj;
+			if(!canOperate(stack)) return;
+			
+			Configuration config = getConfiguration(stack);
+			if(config.presets.size() < 2 || world.isRemote) return;
+
+			if(player.isSneaking()) {
+				config.currentPreset = 0;
+			} else {
+				config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+			}
+
+			setConfiguration(stack, config);
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), (EntityPlayerMP) player);
+			world.playSoundAtEntity(player, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
+		}
+	}
+
+	@Override
+	public void handleKeybindClient(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+		if(state) player.openGui(MainRegistry.instance, 0, player.worldObj, 0, 0, 0);
 	}
 }

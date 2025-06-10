@@ -217,6 +217,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputFluids(new FluidStack(Fluids.SCHRABIDIC, 16000)));
 		
 		this.register(new GenericRecipe("chem.schrabidate").setup(150, 5_000)
+				.inputItems(new OreDictStack(IRON.dust()))
 				.inputFluids(new FluidStack(Fluids.SCHRABIDIC, 250))
 				.outputItems(new ItemStack(ModItems.powder_schrabidate)));
 		

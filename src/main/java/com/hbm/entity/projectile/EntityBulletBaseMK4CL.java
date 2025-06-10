@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.main.MainRegistry;
@@ -61,13 +62,17 @@ public class EntityBulletBaseMK4CL extends EntityBulletBaseMK4 implements IChunk
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			ForgeChunkManager.releaseTicket(loaderTicket);
+			this.loaderTicket = null;
 		}
 	}
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
+
+			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 			
-			clearChunkLoader();
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
 

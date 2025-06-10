@@ -71,8 +71,9 @@ public class JetpackBreak extends JetpackFueledBase {
 
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 				this.useUpFuel(player, stack, 10);
-				ArmorUtil.resetFlightTime(player);
 			}
+			
+			ArmorUtil.resetFlightTime(player);
 		}
 	}
 

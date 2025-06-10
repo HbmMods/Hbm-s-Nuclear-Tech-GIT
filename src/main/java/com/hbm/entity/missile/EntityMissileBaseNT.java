@@ -3,6 +3,7 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
@@ -327,8 +328,10 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			
-			clearChunkLoader();
+
+			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
@@ -349,6 +352,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			ForgeChunkManager.releaseTicket(loaderTicket);
+			this.loaderTicket = null;
 		}
 	}
 	

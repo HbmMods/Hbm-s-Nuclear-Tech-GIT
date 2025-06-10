@@ -3,6 +3,7 @@ package com.hbm.entity.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -188,12 +189,15 @@ public abstract class EntityPlaneBase extends Entity implements IChunkLoader {
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
 			ForgeChunkManager.releaseTicket(loaderTicket);
+			this.loaderTicket = null;
 		}
 	}
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			clearChunkLoader();
+			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
 			for(ChunkCoordIntPair chunk : loadedChunks) ForgeChunkManager.forceChunk(loaderTicket, chunk);

@@ -1690,6 +1690,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.test_nuke_tier2_bullet");
 		ignoreMappings.add("hbm:item.test_nuke_tier1_target");
 		ignoreMappings.add("hbm:item.test_nuke_tier2_target");
+		ignoreMappings.add("hbm:tile.hadron_cooler");
+		ignoreMappings.add("hbm:tile.machine_transformer_20");
+		ignoreMappings.add("hbm:tile.machine_transformer_dnt_20");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

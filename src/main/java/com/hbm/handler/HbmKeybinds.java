@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.inventory.gui.GUICalculator;
+import com.hbm.items.IKeybindReceiver;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import org.lwjgl.input.Keyboard;
@@ -14,8 +15,9 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.MouseInputEvent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class HbmKeybinds {
 
@@ -28,6 +30,8 @@ public class HbmKeybinds {
 	public static KeyBinding dashKey = new KeyBinding(category + ".dash", Keyboard.KEY_LSHIFT, category);
 	public static KeyBinding trainKey = new KeyBinding(category + ".trainInv", Keyboard.KEY_R, category);
 	
+	public static KeyBinding abilityCycle = new KeyBinding(category + ".ability", -99, category);
+	public static KeyBinding abilityAlt = new KeyBinding(category + ".abilityAlt", Keyboard.KEY_LMENU, category);
 	public static KeyBinding copyToolAlt = new KeyBinding(category + ".copyToolAlt", Keyboard.KEY_LMENU, category);
 	public static KeyBinding copyToolCtrl = new KeyBinding(category + ".copyToolCtrl", Keyboard.KEY_LCONTROL, category);
 
@@ -60,6 +64,7 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(craneLeftKey);
 		ClientRegistry.registerKeyBinding(craneRightKey);
 		ClientRegistry.registerKeyBinding(craneLoadKey);
+		ClientRegistry.registerKeyBinding(abilityAlt);
 		ClientRegistry.registerKeyBinding(copyToolAlt);
 		ClientRegistry.registerKeyBinding(copyToolCtrl);
 	}
@@ -81,12 +86,13 @@ public class HbmKeybinds {
 	
 	@SubscribeEvent
 	public void keyEvent(KeyInputEvent event) {
+		EntityPlayer player = MainRegistry.proxy.me();
 		if (calculatorKey.getIsKeyPressed()) { // handle the calculator client-side only
-			Minecraft.getMinecraft().thePlayer.closeScreen();
+			player.closeScreen();
 			FMLCommonHandler.instance().showGuiScreen(new GUICalculator());
 		}
 		
-		HbmPlayerProps props = HbmPlayerProps.getData(MainRegistry.proxy.me());
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
 		for(EnumKeybind key : EnumKeybind.values()) {
 			boolean last = props.getKeyPressed(key);
@@ -95,7 +101,17 @@ public class HbmKeybinds {
 			if(last != current) {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
 				props.setKeyPressed(key, current);
+				onPressedClient(player, key, current);
 			}
+		}
+	}
+	
+	public static void onPressedClient(EntityPlayer player, EnumKeybind key, boolean state) {
+		// ITEM HANDLING
+		ItemStack held = player.getHeldItem();
+		if(held != null && held.getItem() instanceof IKeybindReceiver) {
+			IKeybindReceiver rec = (IKeybindReceiver) held.getItem();
+			if(rec.canHandleKeybind(player, held, key)) rec.handleKeybindClient(player, held, key, state);
 		}
 	}
 
@@ -111,6 +127,8 @@ public class HbmKeybinds {
 		CRANE_LEFT,
 		CRANE_RIGHT,
 		CRANE_LOAD,
+		ABILITY_CYCLE,
+		ABILITY_ALT,
 		TOOL_ALT,
 		TOOL_CTRL,
 		GUN_PRIMARY,

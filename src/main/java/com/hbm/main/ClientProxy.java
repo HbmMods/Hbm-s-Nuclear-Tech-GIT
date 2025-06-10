@@ -2081,8 +2081,10 @@ public class ClientProxy extends ServerProxy {
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
 		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
 		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
-		case TOOL_ALT: 	    	return HbmKeybinds.copyToolAlt.getIsKeyPressed();
-		case TOOL_CTRL:	    	return HbmKeybinds.copyToolCtrl.getIsKeyPressed();
+		case ABILITY_CYCLE:		return HbmKeybinds.abilityCycle.getIsKeyPressed();
+		case ABILITY_ALT:		return HbmKeybinds.abilityAlt.getIsKeyPressed();
+		case TOOL_ALT:			return HbmKeybinds.copyToolAlt.getIsKeyPressed();
+		case TOOL_CTRL:			return HbmKeybinds.copyToolCtrl.getIsKeyPressed();
 		case GUN_PRIMARY:		return HbmKeybinds.gunPrimaryKey.getIsKeyPressed();
 		case GUN_SECONDARY:		return HbmKeybinds.gunSecondaryKey.getIsKeyPressed();
 		case GUN_TERTIARY:		return HbmKeybinds.gunTertiaryKey.getIsKeyPressed();
