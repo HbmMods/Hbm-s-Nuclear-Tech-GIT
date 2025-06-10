@@ -1,13 +1,5 @@
 ## Changed
-* Opening the tool ability configuration menu is now its own keybind instead of using the copy tool's alt keybind + right click
-* Cycling though tool abilities is now a custom keybind (still right click by default)
-* Removed legacy hardron cooler
-* Removed 20hz transformers
-* High-octane diesel is now called high-cetane diesel
+* The DNT suit now has a damage threshold of 1,000
 
 ## Fixed
-* Fixed new chemical plant ports not initializing their proxies properly
-* Fixed chunkloading entities immediately throwing away their loader ticket
-* Fixed builder jetpack not resetting flight time properly
-* Fixed new chemplant's ferric schrabidate recipe
-* Fixed single reload guns reloading multiple rounds at once when having multiple valid ammo stacks
+* Chemical plant ports. For real this time.

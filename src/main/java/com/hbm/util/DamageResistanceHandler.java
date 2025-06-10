@@ -218,7 +218,7 @@ public class DamageResistanceHandler {
 		registerSet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots, new ResistanceStats()
 				.addCategory(CATEGORY_EXPLOSION, 100F, 0.99F)
 				.addCategory(CATEGORY_FIRE, 0F, 1F)
-				.setOther(100F, 1F));
+				.setOther(1000F, 1F));
 		registerSet(ModItems.taurun_helmet, ModItems.taurun_plate, ModItems.taurun_legs, ModItems.taurun_boots, new ResistanceStats()
 				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0F, 0.25F)

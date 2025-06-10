@@ -184,6 +184,16 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		return false;
 	}
 
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i >= 7 && i <= 9;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {4, 5, 6, 7, 8, 9};
+	}
+
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
