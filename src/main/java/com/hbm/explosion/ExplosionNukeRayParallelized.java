@@ -20,8 +20,11 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.DoubleAdder;
 
-import static com.hbm.util.SubChunkSnapshot.getSnapshot;
-
+/**
+ * Threaded DDA raytracer for the nuke explosion.
+ *
+ * @author mlbv
+ */
 public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	private static final int WORLD_HEIGHT = 256;
@@ -114,10 +117,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		while (System.nanoTime() < deadline) {
 			ChunkKey ck = cacheQueue.poll();
 			if (ck == null) break;
-			snapshots.computeIfAbsent(ck, key -> {
-				SubChunkSnapshot snap = getSnapshot(this.world, key.pos, key.subY);
-				return snap == null ? SubChunkSnapshot.EMPTY : snap;
-			});
+			snapshots.computeIfAbsent(ck, k -> SubChunkSnapshot.getSnapshot(world, k, BombConfig.chunkloading));
 		}
 	}
 
@@ -188,7 +188,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			if (bs.isEmpty()) {
 				destructionMap.remove(cp);
 				for (int sy = 0; sy < (WORLD_HEIGHT >> 4); sy++) {
-					snapshots.remove(new ChunkKey(cp.chunkXPos, cp.chunkZPos, sy));
+					snapshots.remove(new ChunkKey(cp, sy));
 				}
 				it.remove();
 			}
@@ -244,7 +244,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	private List<Vec3> generateSphereRays(int count) {
 		List<Vec3> list = new ArrayList<>(count);
-		if (count <= 0) return list;
+		if (count == 0) return list;
 		if (count == 1) {
 			list.add(Vec3.createVectorHelper(1, 0, 0).normalize());
 			return list;
@@ -293,7 +293,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					continue;
 				}
 
-				ChunkKey snapshotKey = new ChunkKey(cp.chunkXPos, cp.chunkZPos, subY);
+				ChunkKey snapshotKey = new ChunkKey(cp, subY);
 				SubChunkSnapshot snap = snapshots.get(snapshotKey);
 				Block originalBlock;
 

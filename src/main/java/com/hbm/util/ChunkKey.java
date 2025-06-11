@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Unique identifier for sub-chunks.
- * @Author mlbv
+ * @author mlbv
  */
 public class ChunkKey {
 	public final ChunkCoordIntPair pos;
@@ -14,6 +14,11 @@ public class ChunkKey {
 
 	public ChunkKey(int cx, int cz, int sy) {
 		this.pos = new ChunkCoordIntPair(cx, cz);
+		this.subY = sy;
+	}
+
+	public ChunkKey(ChunkCoordIntPair pos, int sy) {
+		this.pos = pos;
 		this.subY = sy;
 	}
 
