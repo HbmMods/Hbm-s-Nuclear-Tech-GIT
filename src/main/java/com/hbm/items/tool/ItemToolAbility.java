@@ -16,6 +16,7 @@ import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IBaseAbility;
 import com.hbm.handler.ability.IToolAreaAbility;
@@ -493,14 +494,14 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 	@Override
 	public boolean canHandleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind) {
-		if(player.worldObj.isRemote) return keybind == EnumKeybind.ABILITY_ALT;
+		// if(player.worldObj.isRemote) return keybind == EnumKeybind.ABILITY_ALT;
 		return keybind == EnumKeybind.ABILITY_CYCLE;
 	}
 
 	@Override
 	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
 		
-		if(keybind == EnumKeybind.ABILITY_CYCLE && state) {
+		if(keybind == EnumKeybind.ABILITY_CYCLE && state && !HbmPlayerProps.getData(player).getKeyPressed(EnumKeybind.ABILITY_ALT)) {
 
 			World world = player.worldObj;
 			if(!canOperate(stack)) return;
@@ -522,6 +523,8 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 	@Override
 	public void handleKeybindClient(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
-		if(state) player.openGui(MainRegistry.instance, 0, player.worldObj, 0, 0, 0);
+		if(keybind == EnumKeybind.ABILITY_CYCLE && state && HbmPlayerProps.getData(player).getKeyPressed(EnumKeybind.ABILITY_ALT)) {
+			player.openGui(MainRegistry.instance, 0, player.worldObj, 0, 0, 0);
+		}
 	}
 }

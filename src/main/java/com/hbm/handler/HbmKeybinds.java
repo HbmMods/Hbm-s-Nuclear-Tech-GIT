@@ -71,6 +71,7 @@ public class HbmKeybinds {
 	
 	@SubscribeEvent
 	public void mouseEvent(MouseInputEvent event) {
+		EntityPlayer player = MainRegistry.proxy.me();
 		HbmPlayerProps props = HbmPlayerProps.getData(MainRegistry.proxy.me());
 		
 		for(EnumKeybind key : EnumKeybind.values()) {
@@ -80,6 +81,7 @@ public class HbmKeybinds {
 			if(last != current) {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
 				props.setKeyPressed(key, current);
+				onPressedClient(player, key, current);
 			}
 		}
 	}
@@ -127,8 +129,8 @@ public class HbmKeybinds {
 		CRANE_LEFT,
 		CRANE_RIGHT,
 		CRANE_LOAD,
-		ABILITY_CYCLE,
 		ABILITY_ALT,
+		ABILITY_CYCLE,
 		TOOL_ALT,
 		TOOL_CTRL,
 		GUN_PRIMARY,
