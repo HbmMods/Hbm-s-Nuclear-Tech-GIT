@@ -116,7 +116,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 
 					double coeff = push;
 
-					if(!falloff) {
+					if(falloff) {
 						double dist = e.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
 						coeff *= 1.5 * (1 - dist / range / 2);
 					}
