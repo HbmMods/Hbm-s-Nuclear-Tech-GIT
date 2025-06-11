@@ -2,7 +2,6 @@ package com.hbm.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -14,7 +13,7 @@ import java.util.Map;
 
 /**
  * A snapshot of a 16×16×16 sub-chunk.
- * @Author mlbv
+ * @author mlbv
  */
 public class SubChunkSnapshot {
 	/**
@@ -30,41 +29,24 @@ public class SubChunkSnapshot {
 	}
 
 	/**
-	 * Creates a SubChunkSnapshot from a loaded chunk.
-	 *
-	 * @param world
-	 *        The World instance from which to retrieve the chunk.
-	 * @param cpos
-	 *        The ChunkCoordIntPair identifying the chunk coordinates (x, z).
-	 * @param subY
-	 *        The vertical sub-chunk index (0–15) within the chunk.
-	 * @return
-	 *        A SubChunkSnapshot containing the palette and block data for the sub-chunk,
-	 *        or SubChunkSnapshot.EMPTY if the region is unloaded or contains only air.
-	 */
-	public static SubChunkSnapshot getSnapshot(World world, ChunkCoordIntPair cpos, int subY) {
-		if (!world.getChunkProvider().chunkExists(cpos.chunkXPos, cpos.chunkZPos)) {
-			return SubChunkSnapshot.EMPTY;
-		}
-		return getOrLoadSnapshot(world, cpos, subY);
-	}
-
-	/**
 	 * Creates a SubChunkSnapshot.
 	 *
 	 * @param world
 	 *        The World instance from which to retrieve the chunk.
-	 * @param cpos
-	 *        The ChunkCoordIntPair identifying the chunk coordinates (x, z).
-	 * @param subY
-	 *        The vertical sub-chunk index (0–15) within the chunk.
+	 * @param key
+	 *        The ChunkKey identifying the sub-chunk.
+	 * @param allowGeneration
+	 *        Whether to generate chunks. If false, attempting to retrieve a snapshot of a chunk that does not exist will return {@link SubChunkSnapshot#EMPTY}.
 	 * @return
 	 *        A SubChunkSnapshot containing the palette and block data for the sub-chunk,
-	 *        or SubChunkSnapshot.EMPTY if the region contains only air.
+	 *        or {@link SubChunkSnapshot#EMPTY} if the region contains only air.
 	 */
-	public static SubChunkSnapshot getOrLoadSnapshot(World world, ChunkCoordIntPair cpos, int subY){
-		Chunk chunk = world.getChunkFromChunkCoords(cpos.chunkXPos, cpos.chunkZPos);
-		ExtendedBlockStorage ebs = chunk.getBlockStorageArray()[subY];
+	public static SubChunkSnapshot getSnapshot(World world, ChunkKey key, boolean allowGeneration){
+		if (!world.getChunkProvider().chunkExists(key.pos.chunkXPos, key.pos.chunkZPos) && !allowGeneration) {
+			return SubChunkSnapshot.EMPTY;
+		}
+		Chunk chunk = world.getChunkProvider().provideChunk(key.pos.chunkXPos, key.pos.chunkZPos);
+		ExtendedBlockStorage ebs = chunk.getBlockStorageArray()[key.subY];
 		if (ebs == null || ebs.isEmpty()) return SubChunkSnapshot.EMPTY;
 
 		short[] data = new short[16 * 16 * 16];
