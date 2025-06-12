@@ -5,6 +5,7 @@ import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -26,24 +27,26 @@ public class BlockNTMTrapdoor extends BlockTrapDoor {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-        super.setBlockBoundsBasedOnState(world, x, y, z);
-
-        // Make the hitbox in-line with ladders
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        // Make the hitbox in-line with ladders, if relevant
         if (isLadder(world, x, y, z, null)) {
             int meta = world.getBlockMetadata(x, y, z);
             float thickness = 0.125F;
 
-            if ((meta & 3) == 0) {
-                this.setBlockBounds(0.0F, 0.0F, 1.0F - thickness, 1.0F, 1.0F, 1.0F);
-            } else if ((meta & 3) == 1) {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, thickness);
-            } else if ((meta & 3) == 2) {
-                this.setBlockBounds(1.0F - thickness, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            } else if ((meta & 3) == 3) {
-                this.setBlockBounds(0.0F, 0.0F, 0.0F, thickness, 1.0F, 1.0F);
-            }
+            if ((meta & 3) == 0)
+                return AxisAlignedBB.getBoundingBox(x, y, z + 1F - thickness, x + 1F, y + 1F, z + 1F);
+            
+            if ((meta & 3) == 1)
+                return AxisAlignedBB.getBoundingBox(x, y, z, x + 1F, y + 1F, z + thickness);
+            
+            if ((meta & 3) == 2)
+                return AxisAlignedBB.getBoundingBox(x + 1F - thickness, y, z, x + 1F, y + 1F, z + 1F);
+            
+            if ((meta & 3) == 3)
+                return AxisAlignedBB.getBoundingBox(x, y, z, x + thickness, y + 1F, z + 1F);
         }
+
+        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
     @Override
