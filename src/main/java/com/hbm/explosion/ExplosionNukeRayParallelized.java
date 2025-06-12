@@ -3,7 +3,7 @@ package com.hbm.explosion;
 import com.hbm.config.BombConfig;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ChunkKey;
+import com.hbm.util.SubChunkKey;
 import com.hbm.util.ConcurrentBitSet;
 import com.hbm.util.SubChunkSnapshot;
 import net.minecraft.block.Block;
@@ -41,10 +41,10 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private final ConcurrentMap<ChunkCoordIntPair, ConcurrentBitSet> destructionMap;
 	private final ConcurrentMap<ChunkCoordIntPair, ChunkDamageAccumulator> accumulatedDamageMap;
 
-	private final ConcurrentMap<ChunkKey, SubChunkSnapshot> snapshots;
+	private final ConcurrentMap<SubChunkKey, SubChunkSnapshot> snapshots;
 
 	private final BlockingQueue<RayTask> rayQueue;
-	private final BlockingQueue<ChunkKey> cacheQueue;
+	private final BlockingQueue<SubChunkKey> cacheQueue;
 	private final ExecutorService pool;
 	private final CountDownLatch latch;
 	private final Thread latchWatcherThread;
@@ -115,7 +115,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 		final long deadline = System.nanoTime() + (timeBudgetMs * 1_000_000L);
 		while (System.nanoTime() < deadline) {
-			ChunkKey ck = cacheQueue.poll();
+			SubChunkKey ck = cacheQueue.poll();
 			if (ck == null) break;
 			snapshots.computeIfAbsent(ck, k -> SubChunkSnapshot.getSnapshot(world, k, BombConfig.chunkloading));
 		}
@@ -188,7 +188,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			if (bs.isEmpty()) {
 				destructionMap.remove(cp);
 				for (int sy = 0; sy < (WORLD_HEIGHT >> 4); sy++) {
-					snapshots.remove(new ChunkKey(cp, sy));
+					snapshots.remove(new SubChunkKey(cp, sy));
 				}
 				it.remove();
 			}
@@ -293,7 +293,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					continue;
 				}
 
-				ChunkKey snapshotKey = new ChunkKey(cp, subY);
+				SubChunkKey snapshotKey = new SubChunkKey(cp, subY);
 				SubChunkSnapshot snap = snapshots.get(snapshotKey);
 				Block originalBlock;
 
@@ -440,7 +440,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				if (y < 0 || y >= WORLD_HEIGHT) break;
 				if (currentRayPosition >= radius - PROCESSING_EPSILON) break;
 
-				ChunkKey ck = new ChunkKey(x >> 4, z >> 4, y >> 4);
+				SubChunkKey ck = new SubChunkKey(x >> 4, z >> 4, y >> 4);
 				SubChunkSnapshot snap = snapshots.get(ck);
 
 				if (snap == null) {
@@ -473,14 +473,14 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 							if (damageDealt > 0) {
 								int bitIndex = ((WORLD_HEIGHT - 1 - y) << 8) | ((x & 0xF) << 4) | (z & 0xF);
 								if (BombConfig.explosionAlgorithm == 2) {
-									ChunkCoordIntPair chunkPos = ck.pos;
+									ChunkCoordIntPair chunkPos = ck.getPos();
 									ChunkDamageAccumulator chunkAccumulator =
 										accumulatedDamageMap.computeIfAbsent(chunkPos, k -> new ChunkDamageAccumulator());
 									chunkAccumulator.addDamage(bitIndex, damageDealt);
 								} else {
 									if (energy > 0) {
 										ConcurrentBitSet bs = destructionMap.computeIfAbsent(
-											ck.pos,
+											ck.getPos(),
 											posKey -> new ConcurrentBitSet(BITSET_SIZE)
 										);
 										bs.set(bitIndex);
