@@ -845,6 +845,17 @@ public class ModBlocks {
 	public static Block ladder_steel;
 	public static Block ladder_tungsten;
 
+	public static Block trapdoor_sturdy;
+	public static Block trapdoor_iron;
+	public static Block trapdoor_gold;
+	public static Block trapdoor_aluminium;
+	public static Block trapdoor_copper;
+	public static Block trapdoor_titanium;
+	public static Block trapdoor_lead;
+	public static Block trapdoor_cobalt;
+	public static Block trapdoor_steel;
+	public static Block trapdoor_tungsten;
+
 	public static Block barrel_plastic;
 	public static Block barrel_corroded;
 	public static Block barrel_iron;
@@ -1971,6 +1982,17 @@ public class ModBlocks {
 		ladder_cobalt = new BlockNTMLadder().setBlockName("ladder_cobalt").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_cobalt");
 		ladder_steel = new BlockNTMLadder().setBlockName("ladder_steel").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_steel");
 		ladder_tungsten = new BlockNTMLadder().setBlockName("ladder_tungsten").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_tungsten");
+
+		trapdoor_sturdy = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_sturdy").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_sturdy");
+		trapdoor_iron = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_iron").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_iron");
+		trapdoor_gold = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_gold").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_gold");
+		trapdoor_aluminium = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_aluminium").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_aluminium");
+		trapdoor_copper = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_copper").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_copper");
+		trapdoor_titanium = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_titanium").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_titanium");
+		trapdoor_lead = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_lead").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_lead");
+		trapdoor_cobalt = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_cobalt").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_cobalt");
+		trapdoor_steel = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_steel").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_steel");
+		trapdoor_tungsten = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_tungsten").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_tungsten");
 
 		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
 		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
@@ -3234,6 +3256,16 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ladder_steel, ladder_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_lead, ladder_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_cobalt, ladder_cobalt.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_sturdy, trapdoor_sturdy.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_iron, trapdoor_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_gold, trapdoor_gold.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_titanium, trapdoor_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_copper, trapdoor_copper.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_tungsten, trapdoor_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_aluminium, trapdoor_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_steel, trapdoor_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_lead, trapdoor_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(trapdoor_cobalt, trapdoor_cobalt.getUnlocalizedName());
 
 		register(barrel_plastic);
 		register(barrel_corroded);
