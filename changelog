@@ -3,3 +3,5 @@
 
 ## Fixed
 * Chemical plant ports. For real this time.
+* Fixed cable and pipe gauges returning the incomplete delta second value for OC and ROR readers
+* Fixed new chemical plant not saving power values to disk

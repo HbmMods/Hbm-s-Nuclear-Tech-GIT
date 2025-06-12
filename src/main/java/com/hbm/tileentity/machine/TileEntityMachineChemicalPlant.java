@@ -158,7 +158,9 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			this.inputTanks[i].readFromNBT(nbt, "i" + i);
 			this.outputTanks[i].readFromNBT(nbt, "o" + i);
 		}
-		
+
+		this.power = nbt.getLong("power");
+		this.maxPower = nbt.getLong("maxPower");
 		this.chemplantModule.readFromNBT(nbt);
 	}
 	
@@ -170,7 +172,9 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			this.inputTanks[i].writeToNBT(nbt, "i" + i);
 			this.outputTanks[i].writeToNBT(nbt, "o" + i);
 		}
-		
+
+		nbt.setLong("power", power);
+		nbt.setLong("maxPower", maxPower);
 		this.chemplantModule.writeToNBT(nbt);
 	}
 
