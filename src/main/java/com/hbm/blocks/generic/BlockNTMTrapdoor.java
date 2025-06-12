@@ -4,7 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockNTMTrapdoor extends BlockTrapDoor {
     public BlockNTMTrapdoor(Material material) {
@@ -42,5 +44,14 @@ public class BlockNTMTrapdoor extends BlockTrapDoor {
                 this.setBlockBounds(0.0F, 0.0F, 0.0F, thickness, 1.0F, 1.0F);
             }
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        // The original code prevented manual operation of Material.iron trapdoors. This bypasses that behavior
+        int meta = world.getBlockMetadata(x, y, z);
+        world.setBlockMetadataWithNotify(x, y, z, meta ^ 4, 2);
+        world.playAuxSFXAtEntity(player, 1003, x, y, z, 0);
+        return true;
     }
 }

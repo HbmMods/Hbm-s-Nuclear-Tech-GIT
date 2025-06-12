@@ -1983,7 +1983,7 @@ public class ModBlocks {
 		ladder_steel = new BlockNTMLadder().setBlockName("ladder_steel").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_steel");
 		ladder_tungsten = new BlockNTMLadder().setBlockName("ladder_tungsten").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_tungsten");
 
-		trapdoor_sturdy = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_sturdy").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_sturdy");
+		trapdoor_sturdy = new BlockNTMTrapdoor(Material.wood).setBlockName("trapdoor_sturdy").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_sturdy");
 		trapdoor_iron = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_iron").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_iron");
 		trapdoor_gold = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_gold").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_gold");
 		trapdoor_aluminium = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_aluminium").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_aluminium");
