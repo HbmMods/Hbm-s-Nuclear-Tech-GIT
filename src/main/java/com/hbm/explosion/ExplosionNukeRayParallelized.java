@@ -3,8 +3,8 @@ package com.hbm.explosion;
 import com.hbm.config.BombConfig;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.SubChunkKey;
 import com.hbm.util.ConcurrentBitSet;
+import com.hbm.util.SubChunkKey;
 import com.hbm.util.SubChunkSnapshot;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -29,6 +29,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
 	private static final int WORLD_HEIGHT = 256;
 	private static final int BITSET_SIZE = 16 * WORLD_HEIGHT * 16;
+	private static final int SUBCHUNK_PER_CHUNK = WORLD_HEIGHT >> 4;
 
 	protected final World world;
 	private final double explosionX, explosionY, explosionZ;
@@ -39,7 +40,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private volatile List<Vec3> directions;
 	private final CompletableFuture<List<Vec3>> directionsFuture;
 	private final ConcurrentMap<ChunkCoordIntPair, ConcurrentBitSet> destructionMap;
-	private final ConcurrentMap<ChunkCoordIntPair, ChunkDamageAccumulator> accumulatedDamageMap;
+	private final ConcurrentMap<ChunkCoordIntPair, ConcurrentMap<Integer, DoubleAdder>> damageMap;
 
 	private final ConcurrentMap<SubChunkKey, SubChunkSnapshot> snapshots;
 
@@ -69,19 +70,29 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		int rayCount = Math.max(0, (int) (2.5 * Math.PI * strength * strength));
 
 		this.latch = new CountDownLatch(rayCount);
-		this.destructionMap = new ConcurrentHashMap<>();
-		this.accumulatedDamageMap = new ConcurrentHashMap<>();
-		this.snapshots = new ConcurrentHashMap<>();
+		List<ChunkCoordIntPair> affectedChunks = this.collectChunkInRadius();
+		int initialCapacity = affectedChunks.size();
+
+		this.destructionMap = new ConcurrentHashMap<>(initialCapacity);
+		this.damageMap = new ConcurrentHashMap<>(initialCapacity);
+		if (BombConfig.explosionAlgorithm == 2) {
+			final int innerMapCapacity = 256;
+			for (ChunkCoordIntPair coord : affectedChunks) {
+				this.damageMap.put(coord, new ConcurrentHashMap<>(innerMapCapacity));
+			}
+		}
+		this.snapshots = new ConcurrentHashMap<>(initialCapacity * SUBCHUNK_PER_CHUNK);
 		this.orderedChunks = new ArrayList<>();
 
-		this.rayQueue = new LinkedBlockingQueue<>();
+		List<RayTask> initialRayTasks = new ArrayList<>(rayCount);
+		for (int i = 0; i < rayCount; i++) initialRayTasks.add(new RayTask(i));
+		this.rayQueue = new LinkedBlockingQueue<>(initialRayTasks);
 		this.cacheQueue = new LinkedBlockingQueue<>();
 
 		int workers = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
 		this.pool = Executors.newWorkStealingPool(workers);
 		this.directionsFuture = CompletableFuture.supplyAsync(() -> generateSphereRays(rayCount));
 
-		for (int i = 0; i < rayCount; i++) rayQueue.add(new RayTask(i));
 		for (int i = 0; i < workers; i++) pool.submit(new Worker());
 
 		this.latchWatcherThread = new Thread(() -> {
@@ -187,7 +198,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 			if (bs.isEmpty()) {
 				destructionMap.remove(cp);
-				for (int sy = 0; sy < (WORLD_HEIGHT >> 4); sy++) {
+				for (int sy = 0; sy < (SUBCHUNK_PER_CHUNK); sy++) {
 					snapshots.remove(new SubChunkKey(cp, sy));
 				}
 				it.remove();
@@ -237,9 +248,25 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 		}
 		if (this.destructionMap != null) this.destructionMap.clear();
-		if (this.accumulatedDamageMap != null) this.accumulatedDamageMap.clear();
+		if (this.damageMap != null) this.damageMap.clear();
 		if (this.snapshots != null) this.snapshots.clear();
 		if (this.orderedChunks != null) this.orderedChunks.clear();
+	}
+
+	private List<ChunkCoordIntPair> collectChunkInRadius() {
+		int cr = (radius + 15) >> 4;
+		int minCX = (originX >> 4) - cr;
+		int maxCX = (originX >> 4) + cr;
+		int minCZ = (originZ >> 4) - cr;
+		int maxCZ = (originZ >> 4) + cr;
+
+		List<ChunkCoordIntPair> list = new ArrayList<>((maxCX - minCX + 1) * (maxCZ - minCZ + 1));
+		for (int cx = minCX; cx <= maxCX; ++cx) {
+			for (int cz = minCZ; cz <= maxCZ; ++cz) {
+				list.add(new ChunkCoordIntPair(cx, cz));
+			}
+		}
+		return list;
 	}
 
 	private List<Vec3> generateSphereRays(int count) {
@@ -260,20 +287,20 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	}
 
 	private void runConsolidation() {
-		Iterator<Map.Entry<ChunkCoordIntPair, ChunkDamageAccumulator>> chunkEntryIterator = accumulatedDamageMap.entrySet().iterator();
+		Iterator<Map.Entry<ChunkCoordIntPair, ConcurrentMap<Integer, DoubleAdder>>> chunkEntryIterator = damageMap.entrySet().iterator();
 		while (chunkEntryIterator.hasNext()) {
-			Map.Entry<ChunkCoordIntPair, ChunkDamageAccumulator> entry = chunkEntryIterator.next();
+			Map.Entry<ChunkCoordIntPair, ConcurrentMap<Integer, DoubleAdder>> entry = chunkEntryIterator.next();
 			ChunkCoordIntPair cp = entry.getKey();
-			ChunkDamageAccumulator accumulator = entry.getValue();
+			ConcurrentMap<Integer, DoubleAdder> innerDamageMap = entry.getValue();
 
-			if (accumulator.isEmpty()) {
+			if (innerDamageMap.isEmpty()) {
 				chunkEntryIterator.remove();
 				continue;
 			}
 
 			ConcurrentBitSet chunkDestructionBitSet = destructionMap.computeIfAbsent(cp, k -> new ConcurrentBitSet(BITSET_SIZE));
 
-			Iterator<Map.Entry<Integer, DoubleAdder>> damageEntryIterator = accumulator.entrySet().iterator();
+			Iterator<Map.Entry<Integer, DoubleAdder>> damageEntryIterator = innerDamageMap.entrySet().iterator();
 			while (damageEntryIterator.hasNext()) {
 				Map.Entry<Integer, DoubleAdder> damageEntry = damageEntryIterator.next();
 				int bitIndex = damageEntry.getKey();
@@ -317,41 +344,12 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 				}
 			}
 
-			if (accumulator.isEmpty()) {
+			if (innerDamageMap.isEmpty()) {
 				chunkEntryIterator.remove();
 			}
 		}
-		accumulatedDamageMap.clear();
+		damageMap.clear();
 		consolidationFinished = true;
-	}
-
-	private static class ChunkDamageAccumulator {
-		// key = bitIndex, value = total accumulated damage
-		private final ConcurrentHashMap<Integer, DoubleAdder> damageMap = new ConcurrentHashMap<>();
-
-		public void addDamage(int bitIndex, float damageAmount) {
-			if (damageAmount <= 0) return;
-			DoubleAdder adder = damageMap.computeIfAbsent(bitIndex, k -> new DoubleAdder());
-			adder.add(damageAmount);
-		}
-
-		/*public float getDamage(int bitIndex) {
-			DoubleAdder adder = damageMap.get(bitIndex);
-			return adder == null ? 0f : (float) adder.sum();
-		}*/
-
-		/*public void clearDamage(int bitIndex) {
-			damageMap.remove(bitIndex);
-		}*/
-
-		public Set<Map.Entry<Integer, DoubleAdder>> entrySet() {
-			return damageMap.entrySet();
-		}
-
-
-		public boolean isEmpty() {
-			return damageMap.isEmpty();
-		}
 	}
 
 	private class Worker implements Runnable {
@@ -372,6 +370,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 			}
 		}
 	}
+
 	private class RayTask {
 		final int dirIndex;
 		double px, py, pz;
@@ -474,9 +473,10 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 								int bitIndex = ((WORLD_HEIGHT - 1 - y) << 8) | ((x & 0xF) << 4) | (z & 0xF);
 								if (BombConfig.explosionAlgorithm == 2) {
 									ChunkCoordIntPair chunkPos = ck.getPos();
-									ChunkDamageAccumulator chunkAccumulator =
-										accumulatedDamageMap.computeIfAbsent(chunkPos, k -> new ChunkDamageAccumulator());
-									chunkAccumulator.addDamage(bitIndex, damageDealt);
+									ConcurrentMap<Integer, DoubleAdder> chunkDamageMap = damageMap.get(chunkPos);
+									if (chunkDamageMap != null) {
+										chunkDamageMap.computeIfAbsent(bitIndex, k -> new DoubleAdder()).add(damageDealt);
+									}
 								} else {
 									if (energy > 0) {
 										ConcurrentBitSet bs = destructionMap.computeIfAbsent(
