@@ -13,10 +13,6 @@ public class SubChunkKey {
 	private int subY;
 	private int hash;
 
-	public SubChunkKey() {
-		this(0, 0, 0);
-	}
-
 	public SubChunkKey(int cx, int cz, int sy) {
 		this.update(cx, cz, sy);
 	}
