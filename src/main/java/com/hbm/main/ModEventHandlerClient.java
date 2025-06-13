@@ -15,7 +15,6 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
@@ -36,7 +35,6 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.AuxButtonPacket;
-import com.hbm.packet.toserver.KeybindPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -1081,7 +1079,8 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(event.phase == Phase.START) {
+		// ???
+		/*if(event.phase == Phase.START) {
 
 			Minecraft mc = Minecraft.getMinecraft();
 
@@ -1097,7 +1096,7 @@ public class ModEventHandlerClient {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	@SideOnly(Side.CLIENT)

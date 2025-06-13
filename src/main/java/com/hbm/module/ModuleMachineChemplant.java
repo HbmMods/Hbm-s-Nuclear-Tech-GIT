@@ -29,7 +29,7 @@ public class ModuleMachineChemplant {
 	public FluidTank[] outputTanks = new FluidTank[3];
 	// running vars
 	public String recipe = "null";
-	public float progress;
+	public double progress;
 	// return signals
 	public boolean didProcess = false;
 	public boolean markDirty = false;
@@ -48,9 +48,10 @@ public class ModuleMachineChemplant {
 	}
 	
 	/** Expects the tanks to be set up correctly beforehand */
-	public boolean canProcess(GenericRecipe recipe) {
+	public boolean canProcess(GenericRecipe recipe, double speed, double power) {
 		if(recipe == null) return false;
-		if(battery.getPower() < recipe.power) return false;
+		if(power != 1 && battery.getPower() < recipe.power * power) return false; // only check with floating point numbers if mult is not 1
+		if(power == 1 && battery.getPower() < recipe.power) return false;
 		
 		if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
@@ -87,14 +88,13 @@ public class ModuleMachineChemplant {
 		return true;
 	}
 	
-	public void process(GenericRecipe recipe) {
+	public void process(GenericRecipe recipe, double speed, double power) {
 		
-		this.battery.setPower(this.battery.getPower() - recipe.power);
-		float step = Math.min(1F / recipe.duration, 1F); // can't do more than one recipe per tick, might look into that later
+		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
+		double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
 		this.progress += step;
 		
-		if(this.progress >= 1F) {
-			this.progress -= 1F;
+		if(this.progress >= 1D) {
 			
 			if(recipe.inputItem != null) {
 				for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
@@ -127,18 +127,23 @@ public class ModuleMachineChemplant {
 			}
 			
 			this.markDirty = true;
+			
+			if(this.canProcess(recipe, speed, power)) 
+				this.progress -= 1D;
+			else
+				this.progress = 0D;
 		}
 	}
 	
-	public void update() {
+	public void update(double speed, double power) {
 		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
 		this.setupTanks(recipe);
 
 		this.didProcess = false;
 		this.markDirty = false;
 		
-		if(this.canProcess(recipe)) {
-			this.process(recipe);
+		if(this.canProcess(recipe, speed, power)) {
+			this.process(recipe, speed, power);
 			this.didProcess = true;
 		} else {
 			this.progress = 0F;
@@ -164,22 +169,22 @@ public class ModuleMachineChemplant {
 	public ModuleMachineChemplant fluidOutput(FluidTank a, FluidTank b, FluidTank c) { outputTanks[0] = a; outputTanks[1] = b; outputTanks[2] = c; return this; }
 	
 	public void serialize(ByteBuf buf) {
-		buf.writeFloat(progress);
+		buf.writeDouble(progress);
 		ByteBufUtils.writeUTF8String(buf, recipe);
 	}
 	
 	public void deserialize(ByteBuf buf) {
-		this.progress = buf.readFloat();
+		this.progress = buf.readDouble();
 		this.recipe = ByteBufUtils.readUTF8String(buf);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
-		this.progress = nbt.getFloat("progress");
+		this.progress = nbt.getDouble("progress");
 		this.recipe = nbt.getString("recipe");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setFloat("progress", progress);
+		nbt.setDouble("progress", progress);
 		nbt.setString("recipe", recipe);
 	}
 }

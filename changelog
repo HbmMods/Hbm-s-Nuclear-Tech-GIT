@@ -1,7 +1,13 @@
 ## Changed
 * The DNT suit now has a damage threshold of 1,000
+* Compressed biomass now has a nice cube shape
+* The new chemical plant's indicator lights are now functional
+* The new chemical plant can now use upgrades
 
 ## Fixed
 * Chemical plant ports. For real this time.
 * Fixed cable and pipe gauges returning the incomplete delta second value for OC and ROR readers
 * Fixed new chemical plant not saving power values to disk
+* Fixed laser rifle scope texture being missing
+* Potentially fixed shift clicking issue with the new chemical plant
+* Fixed blowtorch having a minimum gas requirement of 1,000mB despite only using 250mB

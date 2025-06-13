@@ -31,6 +31,12 @@ public class ContainerBase extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return tile.isUseableByPlayer(player);
 	}
+	
+	/** Respects slot restrictions */
+	@Override
+	protected boolean mergeItemStack(ItemStack slotStack, int start, int end, boolean direction) {
+		return super.mergeItemStack(slotStack, start, end, direction); // overriding this with InventoryUtil.mergeItemStack breaks it but invoking it directly doesn't? wtf?
+	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {

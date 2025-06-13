@@ -75,6 +75,8 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	@Override
 	public void updateEntity() {
 		
+		if(maxPower <= 0) this.maxPower = 1_000_000;
+		
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -93,8 +95,18 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
 				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
 			}
+
+			double speed = 1D;
+			double pow = 1D;
+
+			speed += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) / 3D;
+			speed += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+
+			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
+			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
+			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.chemplantModule.update();
+			this.chemplantModule.update(speed, pow);
 			this.didProcess = this.chemplantModule.didProcess;
 			if(this.chemplantModule.markDirty) this.markDirty();
 			
@@ -237,19 +249,18 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return false; //return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemical_plant));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_DELAY, "-" + (level * 25) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (level * 100 / 3) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 50) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_CONSUMPTION, "-" + (level * 30) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_DELAY, "+" + (level * 5) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
@@ -261,7 +272,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
 		upgrades.put(UpgradeType.SPEED, 3);
 		upgrades.put(UpgradeType.POWER, 3);
-		upgrades.put(UpgradeType.OVERDRIVE, 6);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
 	}
 }

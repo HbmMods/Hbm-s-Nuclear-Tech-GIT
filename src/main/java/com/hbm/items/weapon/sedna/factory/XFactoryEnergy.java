@@ -49,7 +49,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryEnergy {
 
-	public static final ResourceLocation scope_luna = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_luna.png");
+	public static final ResourceLocation scope_luna = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_amat.png");
 
 	public static BulletConfig energy_tesla;
 	public static BulletConfig energy_tesla_overcharge;

@@ -5,6 +5,7 @@ import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.util.InventoryUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,7 +62,7 @@ public class ContainerMachineChemicalPlant extends ContainerBase {
 				} else if(slotOriginal.getItem() instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(slotStack, 2, 4, false)) return null;
 				} else {
-					if(!this.mergeItemStack(slotStack, 4, 7, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 4, 7, false)) return null;
 				}
 			}
 
