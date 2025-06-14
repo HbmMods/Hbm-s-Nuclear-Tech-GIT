@@ -34,7 +34,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 	private static final int BITSET_SIZE = 16 * WORLD_HEIGHT * 16;
 	private static final int SUBCHUNK_PER_CHUNK = WORLD_HEIGHT >> 4;
 	private static final float NUKE_RESISTANCE_CUTOFF = 2_000_000F;
-	private static final float INITIAL_ENERGY_FACTOR = 0.3F;
+	private static final float INITIAL_ENERGY_FACTOR = 0.3F; // Scales crater, no impact on performance
+	private static final double RESOLUTION_FACTOR = 1.0; // Scales ray density, no impact on crater radius
 
 	protected final World world;
 	private final double explosionX, explosionY, explosionZ;
@@ -72,7 +73,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 		this.strength = strength;
 		this.radius = radius;
 
-		int rayCount = Math.max(0, (int) (2.5 * Math.PI * strength * strength));
+		int rayCount = Math.max(0, (int) (2.5 * Math.PI * strength * strength * RESOLUTION_FACTOR));
 		this.latch = new CountDownLatch(rayCount);
 		List<SubChunkKey> sortedSubChunks = getAllSubChunks();
 		this.lowPriorityProactiveIterator = sortedSubChunks.iterator();
@@ -336,7 +337,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 					return;
 				}
 				float resistance = getNukeResistance(originalBlock);
-				if (accumulatedDamage >= resistance) chunkDestructionBitSet.set(bitIndex);
+				if (accumulatedDamage >= resistance * RESOLUTION_FACTOR) chunkDestructionBitSet.set(bitIndex);
 				innerDamageMap.remove(bitIndex);
 			});
 			if (innerDamageMap.isEmpty()) damageMap.remove(cp);
