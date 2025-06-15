@@ -5288,6 +5288,7 @@ tile.floodlight.name=Потужний прожектор
 tile.fluid_duct.name=Універсальний рідинний трубопровід (Застаріло)
 tile.fluid_duct_box.name=Універсальний рідинний трубопровід (Boxduct)
 tile.fluid_duct_exhaust.name=Вихлопна труба
+tile.fluid_duct_paintable_block_exhaust.name=Вихлопна труба з покриттям
 tile.fluid_duct_gauge.name=Вимірювальна труба
 tile.fluid_duct_gauge.desc=Труба, що показує, скільки рідини$переміщується в мережі за один тік.$Розділені мережі, з'єднані бочками$або цистернами, вважаються однією спільною мережею.
 tile.fluid_duct_neo.name=Універсальний рідинний трубопровід
