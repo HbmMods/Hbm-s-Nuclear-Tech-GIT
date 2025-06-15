@@ -5551,6 +5551,7 @@ tile.floodlight.name=Электрический прожектор
 tile.fluid_duct.name=Универсальная жидкостная труба (Устаревшее)
 tile.fluid_duct_box.name=Универсальная жидкостная труба (Boxduct)
 tile.fluid_duct_exhaust.name=Выхлопная труба
+tile.fluid_duct_paintable_block_exhaust.name=Окрашиваемая покрытая выхлопная труба
 tile.fluid_duct_gauge.name=Труба с измерителем потока
 tile.fluid_duct_gauge.desc=Труба которая показывает сколько жидкости$перемещается внутри сети за тик.$Разделенные сети, соединенные бочками$или резервуары рассматриваются как одна общая сеть.
 tile.fluid_duct_neo.name=Универсальная жидкостная труба
