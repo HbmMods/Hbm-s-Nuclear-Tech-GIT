@@ -43,8 +43,8 @@ public class ModuleMachineChemplant {
 	/** Chances tank type and pressure based on recipe */
 	public void setupTanks(GenericRecipe recipe) {
 		if(recipe == null) return;
-		if(recipe.inputFluid != null) for(int i = 0; i < Math.min(inputTanks.length, recipe.inputFluid.length); i++) inputTanks[i].conform(recipe.inputFluid[i]);
-		if(recipe.outputFluid != null) for(int i = 0; i < Math.min(outputTanks.length, recipe.outputFluid.length); i++) outputTanks[i].conform(recipe.outputFluid[i]);
+		for(int i = 0; i < 3; i++) if(recipe.inputFluid != null && recipe.inputFluid.length > i) inputTanks[i].conform(recipe.inputFluid[i]); else inputTanks[i].resetTank();
+		for(int i = 0; i < 3; i++) if(recipe.outputFluid != null && recipe.outputFluid.length > i) outputTanks[i].conform(recipe.outputFluid[i]); else outputTanks[i].resetTank();
 	}
 	
 	/** Expects the tanks to be set up correctly beforehand */

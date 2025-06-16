@@ -3,6 +3,9 @@
 * Compressed biomass now has a nice cube shape
 * The new chemical plant's indicator lights are now functional
 * The new chemical plant can now use upgrades
+* Reeds now drop sticks when broken
+* Switching the recipe in the new chemplant now annihilates residual fluid that is not overwritten by the new recipe
+  * I don't know why people wanted this, but here you go
 
 ## Fixed
 * Chemical plant ports. For real this time.
@@ -11,3 +14,5 @@
 * Fixed laser rifle scope texture being missing
 * Potentially fixed shift clicking issue with the new chemical plant
 * Fixed blowtorch having a minimum gas requirement of 1,000mB despite only using 250mB
+* The gas turbine now uses audio with a 20 tick timeout, fixing a rare issue where the loop gets stuck and never ends
+* Potentially fixed a dupe caused by using InventoryBogoSorter in combination with crates

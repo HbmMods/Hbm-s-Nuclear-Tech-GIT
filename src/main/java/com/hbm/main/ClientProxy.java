@@ -91,6 +91,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.hbm.wiaj.cannery.Jars;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -270,6 +271,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemicalPlant.class, new RenderChemicalPlant());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemfac.class, new RenderChemfac());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemicalFactory.class, new RenderChemicalFactory());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000.class, new RenderBAT9000());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOrbus.class, new RenderOrbus());

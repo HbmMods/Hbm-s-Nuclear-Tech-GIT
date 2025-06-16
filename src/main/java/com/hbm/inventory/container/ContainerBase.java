@@ -95,7 +95,10 @@ public class ContainerBase extends Container {
 	 * @param from the slot index to start from
 	 */
 	public void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {
-		int slotSize = 18;
+		addSlots(inv, from, x, y, rows, cols, 18);
+	}
+	
+	public void addSlots(IInventory inv, int from, int x, int y, int rows, int cols, int slotSize) {
 		for(int row = 0; row < rows; row++) {
 			for(int col = 0; col < cols; col++) {
 				this.addSlotToContainer(new SlotNonRetarded(inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
@@ -104,14 +107,20 @@ public class ContainerBase extends Container {
 	}
 	
 	public void addOutputSlots(EntityPlayer player, IInventory inv, int from, int x, int y, int rows, int cols) {
-		int slotSize = 18;
+		addOutputSlots(player, inv, from, x, y, rows, cols, 18);
+	}
+	
+	public void addOutputSlots(EntityPlayer player, IInventory inv, int from, int x, int y, int rows, int cols, int slotSize) {
 		for(int row = 0; row < rows; row++) for(int col = 0; col < cols; col++) {
 			this.addSlotToContainer(new SlotCraftingOutput(player, inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
 		}
 	}
 	
 	public void addTakeOnlySlots(IInventory inv, int from, int x, int y, int rows, int cols) {
-		int slotSize = 18;
+		addTakeOnlySlots(inv, from, x, y, rows, cols, 18);
+	}
+	
+	public void addTakeOnlySlots(IInventory inv, int from, int x, int y, int rows, int cols, int slotSize) {
 		for(int row = 0; row < rows; row++) for(int col = 0; col < cols; col++) {
 			this.addSlotToContainer(new SlotTakeOnly(inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
 		}
