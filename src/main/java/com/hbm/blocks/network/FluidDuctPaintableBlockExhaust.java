@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
@@ -33,13 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements IToolable, IBlockMultiPass, ILookOverlay {
-
+	
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
-
+	
 	public FluidDuctPaintableBlockExhaust() {
-		super(Material.iron);
+        super(Material.iron);
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityPipeExhaustPaintable();
@@ -49,15 +50,6 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE) ||
 				Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE_LEADED) ||
 				Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE_POISON);
-	}
-
-	@Override
-	public void printHook(Pre event, World world, int x, int y, int z) {
-		List<String> text = new ArrayList();
-		text.add(Fluids.SMOKE.getLocalizedName());
-		text.add(Fluids.SMOKE_LEADED.getLocalizedName());
-		text.add(Fluids.SMOKE_POISON.getLocalizedName());
-		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
 	@Override
@@ -87,6 +79,27 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 		return this.blockIcon;
 	}
 
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+
+		if(tool != ToolType.SCREWDRIVER) return false;
+
+		TileEntity tile = world.getTileEntity(x, y, z);
+
+		if(tile instanceof TileEntityPipeExhaustPaintable) {
+			TileEntityPipeExhaustPaintable pipe = (TileEntityPipeExhaustPaintable) tile;
+
+			if(pipe.block != null) {
+				pipe.block = null;
+				world.markBlockForUpdate(x, y, z);
+				pipe.markDirty();
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
 
@@ -118,27 +131,6 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 	}
 
 	@Override
-	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-
-		if(tool != ToolType.SCREWDRIVER) return false;
-
-		TileEntity tile = world.getTileEntity(x, y, z);
-
-		if(tile instanceof TileEntityPipeExhaustPaintable) {
-			TileEntityPipeExhaustPaintable pipe = (TileEntityPipeExhaustPaintable) tile;
-
-			if(pipe.block != null) {
-				pipe.block = null;
-				world.markBlockForUpdate(x, y, z);
-				pipe.markDirty();
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	@Override
 	public int getPasses() {
 		return 2;
 	}
@@ -148,6 +140,15 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 		return IBlockMultiPass.getRenderType();
 	}
 
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		List<String> text = new ArrayList();
+		text.add(Fluids.SMOKE.getLocalizedName());
+		text.add(Fluids.SMOKE_LEADED.getLocalizedName());
+		text.add(Fluids.SMOKE_POISON.getLocalizedName());
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+	
 	public static class TileEntityPipeExhaustPaintable extends TileEntityPipeExhaust implements ICopiable {
 
 		private Block block;
