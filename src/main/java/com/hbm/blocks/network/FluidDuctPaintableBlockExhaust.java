@@ -1,9 +1,9 @@
 package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
+
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
@@ -44,12 +44,6 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityPipeExhaustPaintable();
-	}
-	
-	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir, TileEntity tile) {
-		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE) ||
-				Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE_LEADED) ||
-				Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE_POISON);
 	}
 
 	@Override
@@ -155,11 +149,11 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 		private int meta;
 		private Block lastBlock;
 		private int lastMeta;
-
+		
 		@Override
 		public void updateEntity() {
 			super.updateEntity();
-
+			
 			if(worldObj.isRemote && (lastBlock != block || lastMeta != meta)) {
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				lastBlock = block;
