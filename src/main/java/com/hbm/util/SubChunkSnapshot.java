@@ -34,19 +34,19 @@ public class SubChunkSnapshot {
 	 * @param world
 	 *        The World instance from which to retrieve the chunk.
 	 * @param key
-	 *        The ChunkKey identifying the sub-chunk.
+	 *        The SubChunkKey identifying the sub-chunk.
 	 * @param allowGeneration
 	 *        Whether to generate chunks. If false, attempting to retrieve a snapshot of a chunk that does not exist will return {@link SubChunkSnapshot#EMPTY}.
 	 * @return
 	 *        A SubChunkSnapshot containing the palette and block data for the sub-chunk,
 	 *        or {@link SubChunkSnapshot#EMPTY} if the region contains only air.
 	 */
-	public static SubChunkSnapshot getSnapshot(World world, ChunkKey key, boolean allowGeneration){
-		if (!world.getChunkProvider().chunkExists(key.pos.chunkXPos, key.pos.chunkZPos) && !allowGeneration) {
+	public static SubChunkSnapshot getSnapshot(World world, SubChunkKey key, boolean allowGeneration){
+		if (!world.getChunkProvider().chunkExists(key.getChunkXPos(), key.getChunkZPos()) && !allowGeneration) {
 			return SubChunkSnapshot.EMPTY;
 		}
-		Chunk chunk = world.getChunkProvider().provideChunk(key.pos.chunkXPos, key.pos.chunkZPos);
-		ExtendedBlockStorage ebs = chunk.getBlockStorageArray()[key.subY];
+		Chunk chunk = world.getChunkProvider().provideChunk(key.getChunkXPos(), key.getChunkZPos());
+		ExtendedBlockStorage ebs = chunk.getBlockStorageArray()[key.getSubY()];
 		if (ebs == null || ebs.isEmpty()) return SubChunkSnapshot.EMPTY;
 
 		short[] data = new short[16 * 16 * 16];
