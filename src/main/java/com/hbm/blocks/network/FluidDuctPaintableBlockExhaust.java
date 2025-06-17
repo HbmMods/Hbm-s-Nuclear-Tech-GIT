@@ -23,6 +23,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -96,7 +99,7 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
-
+		
 		ItemStack stack = player.getHeldItem();
 
 		if(stack != null && stack.getItem() instanceof ItemBlock) {
@@ -159,6 +162,18 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 				lastBlock = block;
 				lastMeta = meta;
 			}
+		}
+		
+		@Override
+		public Packet getDescriptionPacket() {
+			NBTTagCompound nbt = new NBTTagCompound();
+			this.writeToNBT(nbt);
+			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
+		}
+
+		@Override
+		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+			this.readFromNBT(pkt.func_148857_g());
 		}
 
 		@Override
