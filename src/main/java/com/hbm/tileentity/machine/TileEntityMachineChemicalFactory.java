@@ -17,6 +17,7 @@ import com.hbm.module.ModuleMachineChemplant;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityProxyDyn.IProxyDelegateProvider;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
@@ -35,15 +36,18 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider {
+public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
+
+	public FluidTank water;
+	public FluidTank lps;
 	
 	public long power;
 	public long maxPower = 10_000_000;
-	public boolean didProcess = false;
+	public boolean[] didProcess = new boolean[4];
 	
 	public boolean frame = false;
 	public int anim;
@@ -51,6 +55,8 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 	public ModuleMachineChemplant[] chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
+	
+	protected DelegateChemicalFactoy delegate = new DelegateChemicalFactoy();
 
 	public TileEntityMachineChemicalFactory() {
 		super(32);
@@ -61,10 +67,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			this.inputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 			this.outputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 		}
+
+		this.water = new FluidTank(Fluids.WATER, 4_000);
+		this.lps = new FluidTank(Fluids.SPENTSTEAM, 4_000);
 		
-		this.allTanks = new FluidTank[this.inputTanks.length + this.outputTanks.length];
+		this.allTanks = new FluidTank[this.inputTanks.length + this.outputTanks.length + 2];
 		for(int i = 0; i < inputTanks.length; i++) this.allTanks[i] = this.inputTanks[i];
 		for(int i = 0; i < outputTanks.length; i++) this.allTanks[i + this.inputTanks.length] = this.outputTanks[i];
+		
+		this.allTanks[this.allTanks.length - 2] = this.water;
+		this.allTanks[this.allTanks.length - 1] = this.lps;
 		
 		this.chemplantModule = new ModuleMachineChemplant[4];
 		for(int i = 0; i < 4; i++) this.chemplantModule[i] = new ModuleMachineChemplant(i, this, slots)
@@ -129,6 +141,12 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
 				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
 			}
+			
+			for(DirPos pos : getCoolPos()) {
+				delegate.trySubscribe(worldObj, pos);
+				delegate.trySubscribe(water.getTankType(), worldObj, pos);
+				this.tryProvide(lps, worldObj, pos);
+			}
 
 			double speed = 1D;
 			double pow = 1D;
@@ -139,14 +157,17 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			pow -= Math.min(upgradeManager.getLevel(UpgradeType.POWER), 3) * 0.25D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
-
-			this.didProcess = false;
 			boolean markDirty = false;
 			
 			for(int i = 0; i < 4; i++) {
-				this.chemplantModule[i].update(speed * 2D, pow);
-				this.didProcess |= this.chemplantModule[i].didProcess;
+				this.chemplantModule[i].update(speed * 2D, pow * 2D, canCool());
+				this.didProcess[i] =  this.chemplantModule[i].didProcess;
 				markDirty |= this.chemplantModule[i].markDirty;
+				
+				if(this.chemplantModule[i].didProcess) {
+					this.water.setFill(this.water.getFill() - 100);
+					this.lps.setFill(this.lps.getFill() + 100);
+				}
 			}
 			
 			if(markDirty) this.markDirty();
@@ -156,12 +177,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		} else {
 			
 			this.prevAnim = this.anim;
-			if(this.didProcess) this.anim++;
+			for(boolean n : didProcess) if(n) { this.anim++; break; }
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
 		}
+	}
+	
+	public boolean canCool() {
+		return water.getFill() >= 100 && lps.getFill() <= lps.getMaxFill() - 100;
 	}
 	
 	public DirPos[] getConPos() {
@@ -206,9 +231,11 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		super.serialize(buf);
 		for(FluidTank tank : inputTanks) tank.serialize(buf);
 		for(FluidTank tank : outputTanks) tank.serialize(buf);
+		water.serialize(buf);
+		lps.serialize(buf);
 		buf.writeLong(power);
 		buf.writeLong(maxPower);
-		buf.writeBoolean(didProcess);
+		for(boolean b : didProcess) buf.writeBoolean(b);
 		for(int i = 0; i < 4; i++) this.chemplantModule[i].serialize(buf);
 	}
 
@@ -217,10 +244,36 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		super.deserialize(buf);
 		for(FluidTank tank : inputTanks) tank.deserialize(buf);
 		for(FluidTank tank : outputTanks) tank.deserialize(buf);
+		water.deserialize(buf);
+		lps.deserialize(buf);
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
-		this.didProcess = buf.readBoolean();
+		for(int i = 0; i < 4; i++) this.didProcess[i] = buf.readBoolean();
 		for(int i = 0; i < 4; i++) this.chemplantModule[i].deserialize(buf);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].readFromNBT(nbt, "i" + i);
+		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].readFromNBT(nbt, "i" + i);
+
+		this.power = nbt.getLong("power");
+		this.maxPower = nbt.getLong("maxPower");
+		for(int i = 0; i < 4; i++) this.chemplantModule[i].readFromNBT(nbt);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].writeToNBT(nbt, "i" + i);
+		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].writeToNBT(nbt, "i" + i);
+
+		nbt.setLong("power", power);
+		nbt.setLong("maxPower", maxPower);
+		for(int i = 0; i < 4; i++) this.chemplantModule[i].writeToNBT(nbt);
 	}
 
 	@Override public long getPower() { return power; }
@@ -289,5 +342,37 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		upgrades.put(UpgradeType.POWER, 3);
 		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
+	}
+
+	public DirPos[] coolantLine; // we could make the same fucking array 50,000 times per tick, or we just make it once
+	
+	@Override // all the delegating shit so the proxies on the coolant lines only access coolant (and power and inventory) but not the recipe fluids
+	public Object getDelegateForPosition(int x, int y, int z) {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		if(coolantLine == null) coolantLine = new DirPos[] {
+				new DirPos(xCoord + rot.offsetX + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 2, dir),
+				new DirPos(xCoord - rot.offsetX + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 2, dir),
+				new DirPos(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+		};
+		
+		for(DirPos pos : coolantLine) if(pos.compare(x, y, z)) return this.delegate; // this actually fucking works
+		
+		return null;
+	}
+	
+	public class DelegateChemicalFactoy implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2 {
+
+		@Override public long getPower() { return TileEntityMachineChemicalFactory.this.getPower(); }
+		@Override public void setPower(long power) { TileEntityMachineChemicalFactory.this.setPower(power); }
+		@Override public long getMaxPower() { return TileEntityMachineChemicalFactory.this.getMaxPower(); }
+		@Override public boolean isLoaded() { return TileEntityMachineChemicalFactory.this.isLoaded(); }
+
+		@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {TileEntityMachineChemicalFactory.this.water}; }
+		@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {TileEntityMachineChemicalFactory.this.lps}; }
+
+		@Override public FluidTank[] getAllTanks() { return TileEntityMachineChemicalFactory.this.getAllTanks(); }
 	}
 }

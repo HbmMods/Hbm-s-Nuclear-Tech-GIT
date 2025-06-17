@@ -34,9 +34,12 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		for(int i = 0; i < 3; i++) for(int j = 0; j < 4; j++) {
-			chemplant.inputTanks[i].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 4, 16);
-			chemplant.outputTanks[i].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 4, 16);
+			chemplant.inputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 4, 16);
+			chemplant.outputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 4, 16);
 		}
+		
+		chemplant.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 224, guiTop + 125, 7, 52);
+		chemplant.lps.renderTankInfo(this, mouseX, mouseY, guiLeft + 233, guiTop + 125, 7, 52);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 224, guiTop + 18, 16, 68, chemplant.power, chemplant.maxPower);
 
@@ -84,16 +87,16 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 			GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplant.chemplantModule[g].recipe);
 			
 			/// LEFT LED
-			if(chemplant.didProcess) {
+			if(chemplant.didProcess[g]) {
 				drawTexturedModalRect(guiLeft + 113, guiTop + 21 + g * 22, 4, 222, 4, 4);
 			} else if(recipe != null) {
 				drawTexturedModalRect(guiLeft + 113, guiTop + 21 + g * 22, 0, 222, 4, 4);
 			}
 			
 			/// RIGHT LED
-			if(chemplant.didProcess) {
+			if(chemplant.didProcess[g]) {
 				drawTexturedModalRect(guiLeft + 121, guiTop + 21 + g * 22, 4, 222, 4, 4);
-			} else if(recipe != null && chemplant.power >= recipe.power) {
+			} else if(recipe != null && chemplant.power >= recipe.power && chemplant.canCool()) {
 				drawTexturedModalRect(guiLeft + 121, guiTop + 21 + g * 22, 0, 222, 4, 4);
 			}
 		}
@@ -128,5 +131,8 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 			chemplant.inputTanks[i + j * 3].renderTank(guiLeft + 60 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
 			chemplant.outputTanks[i + j * 3].renderTank(guiLeft + 189 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
 		}
+		
+		chemplant.water.renderTank(guiLeft + 224, guiTop + 177, this.zLevel, 7, 52);
+		chemplant.lps.renderTank(guiLeft + 233, guiTop + 177, this.zLevel, 7, 52);
 	}
 }

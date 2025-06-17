@@ -9,7 +9,7 @@ public interface IFluidUserMK2 extends IFluidConnectorMK2, ILoadedTile {
 	public static final int HIGHEST_VALID_PRESSURE = 5;
 	public static final int[] DEFAULT_PRESSURE_RANGE = new int[] {0, 0};
 	
-	public static final boolean particleDebug = false;
+	public static final boolean particleDebug = true;
 	
 	public FluidTank[] getAllTanks();
 }

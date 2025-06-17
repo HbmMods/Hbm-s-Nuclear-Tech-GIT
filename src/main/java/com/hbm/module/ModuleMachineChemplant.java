@@ -135,14 +135,14 @@ public class ModuleMachineChemplant {
 		}
 	}
 	
-	public void update(double speed, double power) {
+	public void update(double speed, double power, boolean extraCondition) {
 		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
 		this.setupTanks(recipe);
 
 		this.didProcess = false;
 		this.markDirty = false;
 		
-		if(this.canProcess(recipe, speed, power)) {
+		if(extraCondition && this.canProcess(recipe, speed, power)) {
 			this.process(recipe, speed, power);
 			this.didProcess = true;
 		} else {
@@ -179,12 +179,12 @@ public class ModuleMachineChemplant {
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
-		this.progress = nbt.getDouble("progress");
-		this.recipe = nbt.getString("recipe");
+		this.progress = nbt.getDouble("progress" + index);
+		this.recipe = nbt.getString("recipe" + index);
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setDouble("progress", progress);
-		nbt.setString("recipe", recipe);
+		nbt.setDouble("progress" + index, progress);
+		nbt.setString("recipe" + index, recipe);
 	}
 }

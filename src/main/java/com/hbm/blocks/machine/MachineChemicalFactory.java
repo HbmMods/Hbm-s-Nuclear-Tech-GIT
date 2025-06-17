@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.TileEntityProxyDyn;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalFactory;
 
 import net.minecraft.block.material.Material;
@@ -19,7 +19,7 @@ public class MachineChemicalFactory extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineChemicalFactory();
-		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
+		if(meta >= 6) return new TileEntityProxyDyn().inventory().power().fluid();
 		return null;
 	}
 	
@@ -35,8 +35,8 @@ public class MachineChemicalFactory extends BlockDummyable {
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
-		x -= dir.offsetX;
-		z -= dir.offsetZ;
+		x -= dir.offsetX * 2;
+		z -= dir.offsetZ * 2;
 		
 		for(int i = -2; i <= 2; i++) for(int j = -2; j <= 2; j++) {
 			if(Math.abs(i) == 2 || Math.abs(j) == 2) this.makeExtra(world, x + i, y, z + j);

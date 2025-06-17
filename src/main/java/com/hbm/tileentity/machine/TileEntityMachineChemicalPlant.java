@@ -106,7 +106,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.chemplantModule.update(speed, pow);
+			this.chemplantModule.update(speed, pow, true);
 			this.didProcess = this.chemplantModule.didProcess;
 			if(this.chemplantModule.markDirty) this.markDirty();
 			

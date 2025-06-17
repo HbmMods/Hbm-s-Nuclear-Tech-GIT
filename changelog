@@ -1,3 +1,13 @@
+## Added
+* New chemical factory
+  * New form factor, uses a smaller 5x5 footprint
+  * Only does four recipes instead of eight
+  * Double base speed, but also double power draw
+  * Three upgrade slots, upgrades follow the same rules as on the new chemplant
+  * Upgrades stack with the double base speed
+  * Stackable!
+  * Water consumption rate is fixed at 100mB/t for each active recipe
+
 ## Changed
 * The DNT suit now has a damage threshold of 1,000
 * Compressed biomass now has a nice cube shape
@@ -6,6 +16,8 @@
 * Reeds now drop sticks when broken
 * Switching the recipe in the new chemplant now annihilates residual fluid that is not overwritten by the new recipe
   * I don't know why people wanted this, but here you go
+* The alternate recipe for oxyhydrogen now uses compressed air instead of nothing
+* Improved threaded Mk5, should be a smidge faster now
 
 ## Fixed
 * Chemical plant ports. For real this time.
