@@ -18,6 +18,8 @@
   * I don't know why people wanted this, but here you go
 * The alternate recipe for oxyhydrogen now uses compressed air instead of nothing
 * Improved threaded Mk5, should be a smidge faster now
+* Spires no longer progress phases on peaceful difficulty
+* Spires now have a 20% chance of coming with instructions
 
 ## Fixed
 * Chemical plant ports. For real this time.
@@ -28,3 +30,4 @@
 * Fixed blowtorch having a minimum gas requirement of 1,000mB despite only using 250mB
 * The gas turbine now uses audio with a 20 tick timeout, fixing a rare issue where the loop gets stuck and never ends
 * Potentially fixed a dupe caused by using InventoryBogoSorter in combination with crates
+* Rapidly spinning dyx should no longer have a state leak that would rotate lighting of unrelated TESRs with it
