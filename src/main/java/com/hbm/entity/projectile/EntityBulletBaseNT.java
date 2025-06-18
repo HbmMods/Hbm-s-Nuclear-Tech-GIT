@@ -9,7 +9,6 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -22,9 +21,7 @@ import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.threading.PacketThreading;
-import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
@@ -39,7 +36,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -57,6 +53,7 @@ import net.minecraft.world.World;
  * - also comes with tons of legacy code to ensure compat (sadly)
  * @author hbm
  */
+@Deprecated
 public class EntityBulletBaseNT extends EntityThrowableInterp implements IBulletBase {
 
 	@Override public double prevX() { return prevRenderX; }
@@ -109,24 +106,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 		thrower = entity;
 
-		ItemStack gun = entity.getHeldItem();
 		boolean offsetShot = true;
 		boolean accuracyBoost = false;
-
-		if(gun != null && gun.getItem() instanceof ItemGunBase) {
-			GunConfiguration cfg = ((ItemGunBase) gun.getItem()).mainConfig;
-
-			if(cfg != null) {
-				if(cfg.hasSights && entity.isSneaking()) {
-					offsetShot = false;
-					accuracyBoost = true;
-				}
-
-				if(cfg.isCentered){
-					offsetShot = false;
-				}
-			}
-		}
 
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
@@ -445,11 +426,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
-
-		if(config.chlorine > 0 && !worldObj.isRemote) {
-			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
-			worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
-		}
 
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow);

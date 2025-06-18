@@ -73,6 +73,7 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -138,6 +139,8 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -156,6 +159,10 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	@Override

@@ -98,6 +98,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory,
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -161,6 +162,8 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory,
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -180,6 +183,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory,
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	public static HashMap<ComparableStack, CustomNukeEntry> entries = new HashMap();

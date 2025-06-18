@@ -7,6 +7,7 @@ import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
+import com.hbm.items.tool.ItemConveyorWand;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.ModulePatternMatcher;
@@ -61,7 +62,9 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemConveyorWand) {
+			return false;
+		} else if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import api.hbm.block.ILaserable;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.handler.CompatHandler;
@@ -38,7 +39,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORInteractive {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -335,5 +336,47 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, joules > 0 || prev > 0 ? 20 : 0);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, maxPower * watts / 2000);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setpower" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "toggle",
+				PREFIX_FUNCTION + "switch" + NAME_SEPARATOR + "on/off",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setpower").equals(name) && params.length > 0) {
+			int watts = IRORInteractive.parseInt(params[0], 0, 100);
+			this.watts = watts;
+			this.markChanged();
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "toggle").equals(name)) {
+			this.isOn = !this.isOn;
+			this.markChanged();
+			return null;
+		}
+			
+		
+		if((PREFIX_FUNCTION + "switch").equals(name) && params.length > 0) {
+			if("on".equals(params[0])) {
+				this.isOn = true;
+				this.markChanged();
+				return null;
+			}
+			if("off".equals(params[0])) {
+				this.isOn = false;
+				this.markChanged();
+				return null;
+			}
+		}
+		
+		return null;
 	}
 }

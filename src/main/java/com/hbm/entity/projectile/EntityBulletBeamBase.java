@@ -38,6 +38,15 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 	
 	public EntityLivingBase getThrower() { return this.thrower; }
 	
+	public EntityBulletBeamBase(EntityLivingBase entity, BulletConfig config, float baseDamage) {
+		this(entity.worldObj);
+		
+		this.thrower = entity;
+		this.setBulletConfig(config);
+		
+		this.damage = baseDamage * this.config.damageMult;
+	}
+	
 	public EntityBulletBeamBase(EntityLivingBase entity, BulletConfig config, float baseDamage, float angularInaccuracy, double sideOffset, double heightOffset, double frontOffset) {
 		this(entity.worldObj);
 		
@@ -67,6 +76,22 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.headingY *= range;
 		this.headingZ *= range;
 		
+		performHitscan();
+	}
+	
+	public void setRotationsFromVector(Vec3 delta) {
+		this.rotationPitch = (float) (-Math.asin(delta.yCoord / delta.lengthVector()) * 180D / Math.PI);
+		this.rotationYaw = (float) (-Math.atan2(delta.xCoord, delta.zCoord) * 180D / Math.PI);
+		
+		this.headingX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.headingZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.headingY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI));
+	}
+	
+	public void performHitscanExternal(double range) {
+		this.headingX *= range;
+		this.headingY *= range;
+		this.headingZ *= range;
 		performHitscan();
 	}
 

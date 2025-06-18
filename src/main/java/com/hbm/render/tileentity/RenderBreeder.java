@@ -36,12 +36,10 @@ public class RenderBreeder extends TileEntitySpecialRenderer {
 			for(int i = 0; i < 3; i++) {
 				GL11.glPushMatrix();
 		        GL11.glRotatef((float) (Math.PI * i), 0F, 1F, 0F);
-				RenderSparks.renderSpark((int) ((System.currentTimeMillis() % 10000) / 100 + i), 0, 1.875, 0, 0.15F, 3, 4, 0x00ff00, 0xffffff);
+				RenderSparks.renderSpark((int) ((System.currentTimeMillis() % 10000) / 100 + i), 0, 1.5625, 0, 0.15F, 3, 4, 0x00ff00, 0xffffff);
 				GL11.glPopMatrix();
 			}
 		
-		GL11.glScaled(0.5, 0.5, 0.5);
-
         bindTexture(ResourceManager.breeder_tex);
         
         GL11.glShadeModel(GL11.GL_SMOOTH);

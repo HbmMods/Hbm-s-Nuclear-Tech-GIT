@@ -12,12 +12,15 @@ import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
 public class ParticleFlamethrower extends EntityFXRotating {
+	
+	public int type;
 
 	public ParticleFlamethrower(World world, double x, double y, double z, int type) {
 		super(world, x, y, z);
 		particleIcon = ModEventHandlerClient.particleBase;
 		this.particleMaxAge = 20 + rand.nextInt(10);
 		this.particleScale = 0.5F;
+		this.type = type;
 
 		this.motionX = world.rand.nextGaussian() * 0.02;
 		this.motionZ = world.rand.nextGaussian() * 0.02;
@@ -31,6 +34,9 @@ public class ParticleFlamethrower extends EntityFXRotating {
 		this.particleRed = color.getRed() / 255F;
 		this.particleGreen = color.getGreen() / 255F;
 		this.particleBlue = color.getBlue() / 255F;
+
+		if(type == FlameCreator.META_OXY) this.particleRed = this.particleGreen = this.particleBlue = 1F;
+		if(type == FlameCreator.META_BLACK) this.particleRed = this.particleGreen = this.particleBlue = 1F;
 	}
 
 	@Override
@@ -60,11 +66,21 @@ public class ParticleFlamethrower extends EntityFXRotating {
 	public void renderParticle(Tessellator tess, float interp, float sX, float sY, float sZ, float dX, float dZ) {
 
 		double ageScaled = (double) this.particleAge / (double) this.particleMaxAge;
-
-		this.particleAlpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.5);
-		float add = 0.75F - (float) ageScaled;
-
-		tess.setColorRGBA_F(this.particleRed + add, this.particleGreen + add, this.particleBlue + add, this.particleAlpha * 0.5F);
+		
+		if(type == FlameCreator.META_OXY) {
+			this.particleAlpha = (float) (1 - ageScaled);
+			float add = (float) ageScaled * 1.25F - 0.25F;
+			tess.setColorRGBA_F(this.particleRed - add, this.particleGreen - add * 0.75F, this.particleBlue, this.particleAlpha);
+		} else if(type == FlameCreator.META_BLACK) {
+			this.particleAlpha = (float) (1 - ageScaled);
+			float add = (float) ageScaled * 4F - 1F;
+			tess.setColorRGBA_F(this.particleRed - add * 0.75F, this.particleGreen - add, this.particleBlue - add * 0.5F, this.particleAlpha);
+		} else {
+			this.particleAlpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.5);
+			float add = 0.75F - (float) ageScaled;
+			tess.setColorRGBA_F(this.particleRed + add, this.particleGreen + add, this.particleBlue + add, this.particleAlpha * 0.5F);
+		}
+		
 		tess.setNormal(0.0F, 1.0F, 0.0F);
 		tess.setBrightness(240);
 

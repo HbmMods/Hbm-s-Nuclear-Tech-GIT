@@ -126,7 +126,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		this.quality = quality;
 		this.lastShot = new long[cfg.length];
 		for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
-		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL) this.setCreativeTab(MainRegistry.weaponTab);
+		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL || quality == WeaponQuality.UTILITY) this.setCreativeTab(MainRegistry.weaponTab);
 		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
 	}
@@ -136,6 +136,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		B_SIDE,
 		LEGENDARY,
 		SPECIAL,
+		UTILITY,
 		SECRET,
 		DEBUG
 	}
@@ -196,6 +197,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		case B_SIDE: list.add(EnumChatFormatting.GOLD + "B-Side"); break;
 		case LEGENDARY: list.add(EnumChatFormatting.RED + "Legendary Weapon"); break;
 		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
+		case UTILITY: list.add(EnumChatFormatting.GREEN + "Utility"); break;
 		case SECRET: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.DARK_RED : EnumChatFormatting.RED) + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
 		}

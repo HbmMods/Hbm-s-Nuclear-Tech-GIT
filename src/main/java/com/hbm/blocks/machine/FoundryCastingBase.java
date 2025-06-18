@@ -9,7 +9,8 @@ import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.tileentity.machine.TileEntityFoundryCastingBase;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

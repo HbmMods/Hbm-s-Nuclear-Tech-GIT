@@ -15,7 +15,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.networkproviders.FluidNetProvider;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.fluidmk2.FluidNetMK2;
 import cpw.mods.fml.relauncher.Side;

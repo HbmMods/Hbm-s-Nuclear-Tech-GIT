@@ -159,6 +159,8 @@ public class RenderOverhead {
 					tess.setColorOpaque_F(0.5F, 1F, 0.5F);
 			} else
 				continue;
+			
+			if(ent instanceof EntityLivingBase && ((EntityLivingBase) ent).getHealth() <= 0) tess.setColorOpaque_F(0F, 0F, 0F);
 
 			AxisAlignedBB bb = ent.boundingBox;
 			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);

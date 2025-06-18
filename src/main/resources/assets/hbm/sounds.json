@@ -177,8 +177,6 @@
     "weapon.magReloadBolt": {"category": "player", "sounds": [{"name": "weapon/magReloadBolt", "stream": false}]},
     "weapon.rpgReload": {"category": "player", "sounds": [{"name": "weapon/rpgReload", "stream": false}]},
     "weapon.boat": {"category": "player", "sounds": [{"name": "weapon/boat", "stream": false}]},
-    "weapon.hkShoot": {"category": "player", "sounds": [{"name": "weapon/hkShoot", "stream": false}]},
-    "weapon.hkReload": {"category": "player", "sounds": [{"name": "weapon/hkReload", "stream": false}]},
     "weapon.deagleShoot": {"category": "player", "sounds": [{"name": "weapon/deagleShoot", "stream": false}]},
 	"weapon.tesla": {"category": "block", "sounds": ["weapon/tesla1", "weapon/tesla2", "weapon/tesla3", "weapon/tesla4"]},
     "weapon.teslaShoot": {"category": "player", "sounds": [{"name": "weapon/teslaShoot", "stream": false}]},
@@ -255,6 +253,8 @@
     "weapon.fire.tesla": {"category": "player", "sounds": ["weapon/fire/tesla"]},
     "weapon.fire.aberrator": {"category": "player", "sounds": ["weapon/fire/aberrator"]},
     "weapon.fire.stab": {"category": "player", "sounds": ["weapon/fire/stab1", "weapon/fire/stab2"]},
+    "weapon.fire.grenade": {"category": "player", "sounds": ["weapon/fire/grenade"]},
+    "weapon.fire.amat": {"category": "player", "sounds": ["weapon/fire/amat"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

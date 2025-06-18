@@ -882,7 +882,7 @@ public class BunkerComponents {
 			fillWithMetadataBlocks(world, box, 1, 1, 1, 1, 1, 5, ModBlocks.concrete_smooth_stairs, stairMetaW | 4);
 			fillWithBlocks(world, box, 1, 1, 6, 1, 3, 6, ModBlocks.concrete_pillar);
 			fillWithMetadataBlocks(world, box, 1, 3, 1, 1, 3, 5, ModBlocks.concrete_smooth_stairs, stairMetaW);
-			placeBlockAtCurrentPosition(world, ModBlocks.machine_transformer_20, 0, 1, 2, 1, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.machine_transformer, 0, 1, 2, 1, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.cable_diode, decoMetaN, 1, 2, 2, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.machine_battery, decoMetaE, 1, 2, 3, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_red_copper, 0, 1, 2, 4, box);

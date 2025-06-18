@@ -23,51 +23,51 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float i) {
-		
+
 		TileEntityRBMKBase control = (TileEntityRBMKBase)te;
 		boolean hasRod = false;
 		boolean cherenkov = false;
-		
+
 		if(te instanceof TileEntityRBMKRod) {
-			
+
 			TileEntityRBMKRod rod = (TileEntityRBMKRod) te;
-			
+
 			if(rod.hasRod)
 				hasRod = true;
-			
-			if(rod.lastFluxQuantity > 5)
+
+			if(rod.fluxQuantity > 5)
 				cherenkov = true;
 		}
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
-		
+
 		int offset = 1;
-		
+
 		for(int o = 1; o < 16; o++) {
-			
+
 			if(te.getWorldObj().getBlock(te.xCoord, te.yCoord + o, te.zCoord) == te.getBlockType()) {
 				offset = o;
-				
+
 				int meta = te.getWorldObj().getBlockMetadata(te.xCoord, te.yCoord + o, te.zCoord);
-				
+
 				if(meta > 5 && meta < 12)
 					break;
-				
+
 			} else {
 				break;
 			}
 		}
-		
+
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
 		if(control.hasLid()) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, offset, 0);
-			
+
 			int meta = control.getBlockMetadata() - RBMKBase.offset;
-			
+
 			if(meta == RBMKBase.DIR_GLASS_LID.ordinal()) {
 				bindTexture(texture_glass);
 			} else {
@@ -79,7 +79,7 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
 				cherenkov = false;
 			}
-			
+
 			if((control instanceof TileEntityRBMKBoiler || control instanceof TileEntityRBMKHeater) && meta != RBMKBase.DIR_GLASS_LID.ordinal()) {
 				ResourceManager.rbmk_rods_vbo.renderPart("Lid");
 			} else {
@@ -88,11 +88,11 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
 			GL11.glPopMatrix();
 		}
-		
+
 		if(hasRod) {
 			GL11.glPushMatrix();
 			bindTexture(texture_rods);
-			
+
 			for(int j = 0; j <= offset; j++) {
 				ResourceManager.rbmk_element_vbo.renderPart("Rods");
 				GL11.glTranslated(0, 1, 0);
@@ -100,7 +100,7 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
 			GL11.glPopMatrix();
 		}
-		
+
 		if(cherenkov) {
 			GL11.glTranslated(0, 0.75, 0);
 
@@ -110,11 +110,11 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-			
+
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			tess.setColorRGBA_F(0.4F, 0.9F, 1.0F, 0.1F);
-			
+
 			for(double j = 0; j <= offset; j += 0.25) {
 				tess.addVertex(-0.5, j, -0.5);
 				tess.addVertex(-0.5, j, 0.5);

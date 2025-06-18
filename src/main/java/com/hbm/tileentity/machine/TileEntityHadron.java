@@ -400,8 +400,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 		int charge;
 		int analysis;
 		boolean isCheckExempt = false;
-		int cl0 = 0;
-		int cl1 = 0;
 
 		boolean expired = false;
 		boolean cloned = false;
@@ -436,8 +434,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 			p.charge = charge;
 			p.analysis = analysis;
 			p.isCheckExempt = isCheckExempt;
-			p.cl0 = cl0;
-			p.cl1 = cl1;
 			p.expired = expired;
 			p.plugs = new ArrayList<TileEntityHadronPower>(plugs);
 			p.cloned = true;
@@ -476,27 +472,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 
 			if(charge < 0)
 				expire(this, EnumHadronState.ERROR_NO_CHARGE);
-
-			if(cl0 > 0) cl0--;
-			if(cl1 > 0) cl1--;
 		}
 
 		public void incrementCharge(int coilVal) {
-			//not the best code ever made but it works, dammit
-			if(cl1 > 0) {
-
-				double mult = 2D - (cl1 - 15D) * (cl1 - 15D) / 225D;
-				mult = Math.max(mult, 0.1D);
-				coilVal *= mult;
-
-			} else if(cl0 > 0) {
-				if(cl0 > 10) {
-					coilVal *= 0.75;
-				} else {
-					coilVal *= 1.10;
-				}
-			}
-
 			this.momentum += coilVal;
 		}
 
@@ -618,11 +596,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 						} else {
 							p.charge -= coilVal;
 							totalValue += coilVal;
-
-							if(block == ModBlocks.hadron_cooler) {
-								if(meta == 0) p.cl0 += 10;
-								if(meta == 1) p.cl1 += 5;
-							}
 						}
 
 						continue;
@@ -842,9 +815,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 
 	public boolean isValidCoil(Block b) {
 		if(coilValue(b) > 0) return true;
-
-		if(b == ModBlocks.hadron_cooler) return true;
-
 		return false;
 	}
 
@@ -862,8 +832,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 				b instanceof BlockHadronCoil ||
 				b == ModBlocks.hadron_plating_glass ||
 				b == ModBlocks.hadron_analysis_glass ||
-				b == ModBlocks.hadron_access ||
-				b == ModBlocks.hadron_cooler;
+				b == ModBlocks.hadron_access;
 	}
 
 	public boolean isAnalysis(Block b) {

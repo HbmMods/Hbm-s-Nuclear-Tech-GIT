@@ -8,6 +8,8 @@ import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorBalefire;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
@@ -44,6 +46,7 @@ public class XFactoryCatapult {
 	public static BulletConfig nuke_high;
 	public static BulletConfig nuke_tots;
 	public static BulletConfig nuke_hive;
+	public static BulletConfig nuke_balefire;
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_STANDARD = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
@@ -64,9 +67,9 @@ public class XFactoryCatapult {
 		if(bullet.isDead) return;
 		bullet.setDead();
 
-		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 10);
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 15);
 		vnt.setBlockAllocator(new BlockAllocatorStandard(64));
-		vnt.setBlockProcessor(new BlockProcessorStandard());
+		vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorFire()));
 		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, bullet.damage).withRangeMod(1.5F));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.explode();
@@ -81,6 +84,27 @@ public class XFactoryCatapult {
 		bullet.setDead();
 		bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(bullet.worldObj, 35, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 		spawnMush(bullet, mop);
+	};
+
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_BALEFIRE = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
+		if(bullet.isDead) return;
+		bullet.setDead();
+
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 10);
+		vnt.setBlockAllocator(new BlockAllocatorStandard(64));
+		vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBalefire()));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, bullet.damage).withRangeMod(1.5F));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.explode();
+
+		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1.5F);
+		
+		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "muke");
+		data.setBoolean("balefire", true);
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord), new TargetPoint(bullet.dimension, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 250));
 	};
 
 	public static void incrementRad(World world, double posX, double posY, double posZ, float mult) {
@@ -136,12 +160,13 @@ public class XFactoryCatapult {
 		nuke_high = new BulletConfig().setItem(EnumAmmo.NUKE_HIGH).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_HIGH);
 		nuke_tots = new BulletConfig().setItem(EnumAmmo.NUKE_TOTS).setProjectiles(8).setLife(300).setVel(3F).setGrav(0.025F).setSpread(0.1F).setDamage(0.35F).setOnImpact(LAMBDA_NUKE_TINYTOT);
 		nuke_hive = new BulletConfig().setItem(EnumAmmo.NUKE_HIVE).setProjectiles(12).setLife(300).setVel(1F).setGrav(0.025F).setSpread(0.15F).setDamage(0.25F).setOnImpact(LAMBDA_NUKE_HIVE);
+		nuke_balefire = new BulletConfig().setItem(EnumAmmo.NUKE_BALEFIRE).setDamage(2.5F).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_BALEFIRE);
 
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(300).draw(20).inspect(30).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
+				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
 						.dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive, nuke_balefire))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))
 				.setupStandardConfiguration()

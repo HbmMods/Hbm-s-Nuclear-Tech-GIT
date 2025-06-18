@@ -3,6 +3,9 @@ package com.hbm.tileentity.network;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import com.hbm.interfaces.NotableComments;
 import com.hbm.util.NoteBuilder;
 import com.hbm.util.NoteBuilder.Instrument;
 import com.hbm.util.NoteBuilder.Note;
@@ -22,6 +25,19 @@ public class RTTYSystem {
 	/** Pushes a new signal to be used next tick. Only the last signal pushed will be used. */
 	public static void broadcast(World world, String channelName, Object signal) {
 		Pair identifier = new Pair(world, channelName);
+		
+		if(NumberUtils.isNumber("" + signal) && newMessages.containsKey(identifier)) {
+			Object existing = newMessages.get(identifier);
+			if(NumberUtils.isNumber("" + existing)) {
+				try {
+					int first = Integer.parseInt("" + signal);
+					int second = Integer.parseInt("" + existing);
+					newMessages.put(identifier, "" + (first + second));
+					return;
+				} catch(Exception ex) { }
+			}
+		}
+		
 		newMessages.put(identifier, signal);
 	}
 	
@@ -57,6 +73,7 @@ public class RTTYSystem {
 		newMessages.clear();
 	}
 	
+	@NotableComments
 	public static class RTTYChannel {
 		public long timeStamp = -1; //the totalWorldTime at the time of publishing, happens in the server tick event's PRE-phase. the publishing timestamp is that same number minus one
 		public Object signal; // a signal can be anything, a number, an encoded string, an entire blue whale, Steve from accounting, the concept of death, 7492 hot dogs, etc.

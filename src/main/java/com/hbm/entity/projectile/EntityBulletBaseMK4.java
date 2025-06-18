@@ -1,12 +1,15 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryTool;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
 import com.hbm.util.Vec3NT;
 
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -16,7 +19,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-public class EntityBulletBaseMK4 extends EntityThrowableInterp {
+public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntityAdditionalSpawnData {
 	
 	public BulletConfig config;
 	//used for rendering tracers
@@ -134,7 +137,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		double dY = this.posY - this.prevPosY;
 		double dZ = this.posZ - this.prevPosZ;
 		
-		if(this.lockonTarget != null && !this.lockonTarget.isDead) {
+		if(!this.inGround && this.lockonTarget != null && !this.lockonTarget.isDead) {
 			Vec3NT motion = new Vec3NT(motionX, motionY, motionZ);
 			double vel = motion.lengthVector();
 			Vec3NT delta = new Vec3NT(lockonTarget.posX - posX, lockonTarget.posY + lockonTarget.height / 2D - posY, lockonTarget.posZ - posZ);
@@ -153,7 +156,8 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.prevVelocity = this.velocity;
 		this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 		
-		if(!this.onGround && velocity > 0) {
+		// shitty hack
+		if((this.config != XFactoryTool.ct_hook || !worldObj.isRemote) && !this.inGround && !this.onGround && velocity > 0) {
 			
 			float hyp = MathHelper.sqrt_double(dX * dX + dZ * dZ);
 			this.rotationYaw = (float) (Math.atan2(dX, dZ) * 180.0D / Math.PI);
@@ -184,7 +188,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		if(!worldObj.isRemote) {
 			
 			if(this.config.onImpact != null) this.config.onImpact.accept(this, mop);
-			if(this.isDead) return;
+			if(this.isDead || this.inGround) return;
 			if(this.config.onRicochet != null) this.config.onRicochet.accept(this, mop);
 			if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, mop);
 		}
@@ -202,4 +206,12 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	@Override public int selfDamageDelay() { return this.config.selfDamageDelay; }
 	
 	@Override @SideOnly(Side.CLIENT) public boolean canRenderOnFire() { return false; }
+
+	@Override public void writeSpawnData(ByteBuf buf) {
+		buf.writeInt(this.thrower != null ? thrower.getEntityId() : -1);
+	}
+	@Override public void readSpawnData(ByteBuf buf) {
+		Entity e = worldObj.getEntityByID(buf.readInt());
+		if(e instanceof EntityLivingBase) this.thrower = (EntityLivingBase) e;
+	}
 }

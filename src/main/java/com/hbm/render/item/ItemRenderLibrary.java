@@ -97,11 +97,10 @@ public class ItemRenderLibrary {
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
+				GL11.glTranslated(0, -4.5, 0);
 				GL11.glScaled(4.5, 4.5, 4.5);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				bindTexture(ResourceManager.breeder_tex); ResourceManager.breeder.renderAll();
@@ -361,40 +360,6 @@ public class ItemRenderLibrary {
 				GL11.glTranslated(-1, 0, 0);
 		        bindTexture(ResourceManager.bomb_boy_tex);
 		        ResourceManager.bomb_boy.renderAll();
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_prototype), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glScaled(2.25, 2.25, 2.25);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-		        bindTexture(ResourceManager.bomb_prototype_tex);
-		        ResourceManager.bomb_prototype.renderAll();
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_solinium), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glScaled(4, 4, 4);
-			}
-			public void renderCommon() {
-				GL11.glTranslated(0.5, 0, 0);
-				GL11.glRotated(90, 0, 1, 0);
-	            GL11.glDisable(GL11.GL_CULL_FACE);
-		        bindTexture(ResourceManager.bomb_solinium_tex);
-		        ResourceManager.bomb_solinium.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_n2), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-		        bindTexture(ResourceManager.n2_tex);
-		        ResourceManager.n2.renderAll();
 			}});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_fstbmb), new ItemRenderBase() {

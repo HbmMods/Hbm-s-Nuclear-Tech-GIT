@@ -67,6 +67,7 @@ public class GunFactory {
 		XFactory10ga.init();
 		XFactory35800.init();
 		XFactory45.init();
+		XFactoryTool.init();
 		
 		ModItems.weapon_mod_test = new ItemEnumMulti(EnumModTest.class, true, true).setUnlocalizedName("weapon_mod_test").setMaxStackSize(1);
 		ModItems.weapon_mod_generic = new ItemEnumMulti(EnumModGeneric.class, true, true).setUnlocalizedName("weapon_mod_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
@@ -99,6 +100,8 @@ public class GunFactory {
 		G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
 		R762_HE, BMG50_HE, G10_EXPLOSIVE,
 		P45_SP, P45_FMJ, P45_JHP, P45_AP, P45_DU,
+		CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
+		NUKE_BALEFIRE, BMG50_SM,
 		
 		//ONLY ADD NEW ENTRIES AT THE BOTTOM TO AVOID SHIFTING!
 		;
@@ -113,7 +116,7 @@ public class GunFactory {
 			P45_SP, P45_FMJ, P45_JHP, P45_AP, P45_DU,
 			R556_SP, R556_FMJ, R556_JHP, R556_AP,
 			R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU, R762_HE,
-			BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU, BMG50_HE,
+			BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU, BMG50_SM, BMG50_HE,
 			B75, B75_INC, B75_EXP,
 			G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS,
 			G10, G10_SHRAPNEL, G10_DU, G10_SLUG, G10_EXPLOSIVE,
@@ -124,7 +127,8 @@ public class GunFactory {
 			CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
 			TAU_URANIUM,
 			COIL_TUNGSTEN, COIL_FERROURANIUM,
-			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE, NUKE_BALEFIRE,
+			CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
 		};
 		
 		public Enum[] getOrder() {
@@ -135,7 +139,7 @@ public class GunFactory {
 	public static enum EnumAmmoSecret {
 		FOLLY_SM, FOLLY_NUKE,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN,
-		P35_800
+		P35_800, BMG50_BLACK
 	}
 	
 	public static enum EnumModTest {

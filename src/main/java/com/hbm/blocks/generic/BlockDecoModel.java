@@ -108,6 +108,7 @@ public class BlockDecoModel extends BlockEnumMulti implements INBTTransformable 
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
+		if(coordBaseMode == 0) return meta;
 		//N: 0b00, S: 0b01, W: 0b10, E: 0b11
 		int rot = meta >> 2;
 		int type = meta & 3;
