@@ -1,9 +1,9 @@
 package com.hbm.handler.ae2;
 
-import static com.hbm.inventory.OreDictManager.I;
-
 import com.hbm.tileentity.machine.storage.TileEntityMassStorage;
 import com.hbm.util.ItemStackUtil;
+
+import cpw.mods.fml.common.Optional;
 
 import appeng.api.AEApi;
 import appeng.api.config.Actionable;
@@ -14,6 +14,7 @@ import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import net.minecraft.item.ItemStack;
 
+@Optional.Interface(iface = "appeng.api.storage.IMEInventory", modid = "appliedenergistics2")
 public class MassStorageMEInventory implements IMEInventory<IAEItemStack> {
 
     private TileEntityMassStorage tile;

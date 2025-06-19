@@ -2,6 +2,7 @@ package com.hbm.handler.ae2;
 
 import com.hbm.tileentity.machine.storage.TileEntityMassStorage;
 import com.hbm.util.ItemStackUtil;
+import cpw.mods.fml.common.Optional;
 
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Optional.Interface(iface = "appeng.api.storage.IExternalStorageHandler", modid = "appliedenergistics2")
 public class MSUExternalStorageHandler implements IExternalStorageHandler {
 
     public MSUExternalStorageHandler() {}
