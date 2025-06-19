@@ -34,8 +34,8 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		for(int i = 0; i < 3; i++) for(int j = 0; j < 4; j++) {
-			chemplant.inputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 4, 16);
-			chemplant.outputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 4, 16);
+			chemplant.inputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 3, 16);
+			chemplant.outputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 3, 16);
 		}
 		
 		chemplant.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 224, guiTop + 125, 7, 52);
@@ -128,8 +128,8 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 		}
 
 		for(int i = 0; i < 3; i++) for(int j = 0; j < 4; j++) {
-			chemplant.inputTanks[i + j * 3].renderTank(guiLeft + 60 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
-			chemplant.outputTanks[i + j * 3].renderTank(guiLeft + 189 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
+			chemplant.inputTanks[i + j * 3].renderTank(guiLeft + 60 + i * 5, guiTop + 36 + j * 22, this.zLevel, 3, 16);
+			chemplant.outputTanks[i + j * 3].renderTank(guiLeft + 189 + i * 5, guiTop + 36 + j * 22, this.zLevel, 3, 16);
 		}
 		
 		chemplant.water.renderTank(guiLeft + 224, guiTop + 177, this.zLevel, 7, 52);

@@ -13,7 +13,9 @@ import com.hbm.inventory.gui.GUIMachineChemicalFactory;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.ModuleMachineChemplant;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -52,6 +54,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	public boolean frame = false;
 	public int anim;
 	public int prevAnim;
+	private AudioWrapper audio;
 
 	public ModuleMachineChemplant[] chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
@@ -89,9 +92,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i >= 8 && i <= 10) return true;
-		if(i >= 12 && i <= 14) return true;
-		if(i >= 19 && i <= 21) return true;
-		if(i >= 26 && i <= 28) return true;
+		if(i >= 15 && i <= 17) return true;
+		if(i >= 22 && i <= 24) return true;
+		if(i >= 29 && i <= 31) return true;
 		return false;
 	}
 
@@ -145,7 +148,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			for(DirPos pos : getCoolPos()) {
 				delegate.trySubscribe(worldObj, pos);
 				delegate.trySubscribe(water.getTankType(), worldObj, pos);
-				this.tryProvide(lps, worldObj, pos);
+				delegate.tryProvide(lps, worldObj, pos);
 			}
 
 			double speed = 1D;
@@ -170,6 +173,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				}
 			}
 			
+			for(FluidTank in : inputTanks) if(in.getTankType() != Fluids.NONE) for(FluidTank out : outputTanks) { // up to 144 iterations, but most of them are NOP anyway
+				if(out.getTankType() == Fluids.NONE) continue;
+				if(out.getTankType() != in.getTankType()) continue;
+				int toMove = BobMathUtil.min(in.getMaxFill() - in.getFill(), out.getFill(), 50);
+				if(toMove > 0) {
+					in.setFill(in.getFill() + toMove);
+					out.setFill(out.getFill() - toMove);
+				}
+			}
+			
 			if(markDirty) this.markDirty();
 			
 			this.networkPackNT(100);
@@ -177,12 +190,43 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		} else {
 			
 			this.prevAnim = this.anim;
-			for(boolean n : didProcess) if(n) { this.anim++; break; }
+			boolean didSomething = didProcess[0] || didProcess[1] || didProcess[2] || didProcess[3];
+			if(didSomething) this.anim++;
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
+			
+			if(didSomething && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
+				
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
+	}
+
+	@Override public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemicalPlant", xCoord, yCoord, zCoord, 1F, 15F, 1.0F, 20);
+	}
+
+	@Override public void onChunkUnload() {
+		if(audio != null) { audio.stopSound(); audio = null; }
+	}
+
+	@Override public void invalidate() {
+		super.invalidate();
+		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 	
 	public boolean canCool() {
@@ -205,6 +249,17 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord - 2, yCoord, zCoord - 3, Library.NEG_Z),
 				new DirPos(xCoord + 0, yCoord, zCoord - 3, Library.NEG_Z),
 				new DirPos(xCoord + 2, yCoord, zCoord - 3, Library.NEG_Z),
+
+				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord + dir.offsetX * 0 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 + rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
 
 				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
 				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),

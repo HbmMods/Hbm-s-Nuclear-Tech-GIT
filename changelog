@@ -7,6 +7,11 @@
   * Upgrades stack with the double base speed
   * Stackable!
   * Water consumption rate is fixed at 100mB/t for each active recipe
+  * Has a dedicated coolant line, so that the coolant water doesn't get used up by recipes
+  * Coolant line has a tooltip which should make it clear that the machine uses water and produces LPS
+  * Also has sound, unlike the old chemical factory
+  * Output fluids are now automatically sent to input tanks, at a rate of up to 50mB/t for somewhat fair fluid sharing
+    * This means that a chemical factory can make hydrogen peroxide, sulfuric acid and nitric acid, and the only fluid input needed is water
 
 ## Changed
 * The DNT suit now has a damage threshold of 1,000
@@ -20,6 +25,9 @@
 * Improved threaded Mk5, should be a smidge faster now
 * Spires no longer progress phases on peaceful difficulty
 * Spires now have a 20% chance of coming with instructions
+* New chemical plant now has sound
+* Old chemical plant and factory have been renamed and their recipes removed
+* The new recipe selector no longer changes recipe instantly on click, rather as soon as the selector GUI is closed. This should prevent issues when misclicking, which would destroy buffered fluids
 
 ## Fixed
 * Chemical plant ports. For real this time.
