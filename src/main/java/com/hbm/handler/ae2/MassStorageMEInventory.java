@@ -14,7 +14,7 @@ import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import net.minecraft.item.ItemStack;
 
-@Optional.Interface(iface = "appeng.api.storage.IMEInventory", modid = "appliedenergistics2")
+@Optional.InterfaceList({@Optional.Interface(iface = "appeng.api.storage.IMEInventory", modid = "appliedenergistics2")})
 public class MassStorageMEInventory implements IMEInventory<IAEItemStack> {
 
     private TileEntityMassStorage tile;
