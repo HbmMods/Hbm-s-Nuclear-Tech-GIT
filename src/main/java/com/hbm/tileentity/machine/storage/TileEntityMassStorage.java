@@ -7,6 +7,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 
 import com.hbm.util.BufferUtil;
+import com.hbm.util.ItemStackUtil;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -15,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -131,6 +133,109 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		this.markDirty();
 
 		return result;
+	}
+
+	// Note: the following three methods are used for AE2 integration, and aren't meant to be called in any other context by default
+	
+	public int getTotalStockpile() {
+		ItemStack type = getType();
+		if (type == null)
+			return 0;
+
+		int result = getStockpile();
+
+		ItemStack inStack = slots[0];
+        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+            result += inStack.stackSize;
+        }
+
+		ItemStack outStack = slots[2];
+		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+			result += outStack.stackSize;
+		}
+
+		return result;
+	}
+
+	// Returns the remainder that didn't fit.
+	// If `actually` is false, only predicts the outcome, but doesn't change the state
+	public int increaseTotalStockpile(int amount, boolean actually) {
+		return changeTotalStockpile(amount, actually, +1);
+	}
+
+	// Returns the remainder that couldn't be extracted.
+	// If `actually` is false, only predicts the outcome, but doesn't change the state
+	public int decreaseTotalStockpile(int amount, boolean actually) {
+		return changeTotalStockpile(amount, actually, -1);
+	}
+
+	private int changeTotalStockpile(int amount, boolean actually, int sign) {
+		ItemStack type = getType();
+
+		if (type == null)
+			return amount;
+
+		int stockpileAvail = sign > 0 ? getCapacity() - getStockpile() : getStockpile();
+
+		if (amount > 0 && stockpileAvail > 0) {
+			int depositStockpile = Math.min(amount, stockpileAvail);
+			if (actually) {
+				this.stack += sign * depositStockpile;
+			}
+			amount -= depositStockpile;
+		}
+		
+		int inputAvail = 0;
+		ItemStack inStack = slots[0];
+        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+			inputAvail = sign > 0 ? inStack.getMaxStackSize() - inStack.stackSize : inStack.stackSize;
+		} else if (inStack == null) {
+			inputAvail = sign > 0 ? type.getMaxStackSize() : 0;
+		}
+
+		if (amount > 0 && inputAvail > 0) {
+			int depositInput = Math.min(amount, inputAvail);
+			if (actually) {
+				if (slots[0] == null) {  // Only possible with sign == +1
+					slots[0] = slots[1].copy();
+					slots[0].stackSize = 0;
+				}
+				slots[0].stackSize += sign * depositInput;
+				if (slots[0].stackSize == 0) {
+					slots[0] = null;
+				}
+			}
+			amount -= depositInput;
+		}
+		
+		int outputAvail = 0;
+		ItemStack outStack = slots[2];
+		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+			outputAvail = sign > 0 ? outStack.getMaxStackSize() - outStack.stackSize : outStack.stackSize;
+		} else if (outStack == null) {
+			outputAvail = sign > 0 ? type.getMaxStackSize() : 0;
+		}
+
+		if (amount > 0 && outputAvail > 0) {
+			int depositOutput = Math.min(amount, outputAvail);
+			if (actually) {
+				if (slots[2] == null) {  // Only possible with sign == +1
+					slots[2] = slots[1].copy();
+					slots[2].stackSize = 0;
+				}
+				slots[2].stackSize += sign * depositOutput;
+				if (slots[2].stackSize == 0) {
+					slots[2] = null;
+				}
+			}
+			amount -= depositOutput;
+		}
+
+		if (actually) {
+			this.markDirty();
+		}
+		
+		return amount;
 	}
 
 	@Override
