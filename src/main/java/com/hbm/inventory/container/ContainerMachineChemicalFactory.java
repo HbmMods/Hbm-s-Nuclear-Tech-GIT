@@ -3,7 +3,6 @@ package com.hbm.inventory.container;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.util.InventoryUtil;
 
@@ -14,29 +13,26 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineChemicalPlant extends ContainerBase {
+public class ContainerMachineChemicalFactory extends ContainerBase {
 
-	public ContainerMachineChemicalPlant(InventoryPlayer invPlayer, IInventory chemicalPlant) {
+	public ContainerMachineChemicalFactory(InventoryPlayer invPlayer, IInventory chemicalPlant) {
 		super(invPlayer, chemicalPlant);
 
 		// Battery
-		this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 0, 152, 81));
-		// Schematic
-		this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 1, 35, 126));
+		this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 0, 224, 88));
 		// Upgrades
-		this.addSlots(chemicalPlant, 2, 152, 108, 2, 1);
-		// Solid Input
-		this.addSlots(chemicalPlant, 4, 8, 99, 1, 3);
-		// Solid Output
-		this.addOutputSlots(invPlayer.player, chemicalPlant, 7, 80, 99, 1, 3);
-		// Fluid Input
-		this.addSlots(			chemicalPlant, 10, 8, 54, 1, 3);
-		this.addTakeOnlySlots(	chemicalPlant, 13, 8, 72, 1, 3);
-		// Fluid Output
-		this.addSlots(			chemicalPlant, 16, 80, 54, 1, 3);
-		this.addTakeOnlySlots(	chemicalPlant, 19, 80, 72, 1, 3);
+		this.addSlots(chemicalPlant, 1, 206, 125, 3, 1);
 		
-		this.playerInv(invPlayer, 8, 174);
+		for(int i = 0; i < 4; i++) {
+			// Template
+			this.addSlots(chemicalPlant, 4 + i * 7, 93, 20 + i * 22, 1, 1, 16);
+			// Solid Input
+			this.addSlots(chemicalPlant, 5 + i * 7, 10, 20 + i * 22, 1, 3, 16);
+			// Solid Output
+			this.addOutputSlots(invPlayer.player, chemicalPlant, 8 + i * 7, 139, 20 + i * 22, 1, 3, 16);
+		}
+		
+		this.playerInv(invPlayer, 26, 134);
 	}
 
 	@Override
@@ -57,12 +53,13 @@ public class ContainerMachineChemicalPlant extends ContainerBase {
 				
 				if(slotOriginal.getItem() instanceof IBatteryItem || slotOriginal.getItem() == ModItems.battery_creative) {
 					if(!this.mergeItemStack(slotStack, 0, 1, false)) return null;
-				} else if(slotOriginal.getItem() instanceof ItemChemistryTemplate) {
-					if(!this.mergeItemStack(slotStack, 1, 2, false)) return null;
 				} else if(slotOriginal.getItem() instanceof ItemMachineUpgrade) {
-					if(!this.mergeItemStack(slotStack, 2, 4, false)) return null;
+					if(!this.mergeItemStack(slotStack, 1, 4, false)) return null;
 				} else {
-					if(!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 4, 7, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 5, 8, false) &&
+							!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 12, 15, false) &&
+							!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 19, 22, false) &&
+							!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 26, 29, false)) return null;
 				}
 			}
 

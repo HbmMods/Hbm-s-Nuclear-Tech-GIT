@@ -155,13 +155,13 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getTransfer(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond};
+			return new Object[] {deltaTick, deltaLastSecond};
 		}
 
 		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond, xCoord, yCoord, zCoord};
+			return new Object[] {deltaTick, deltaLastSecond, xCoord, yCoord, zCoord};
 		}
 
 		@Override
@@ -175,7 +175,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 		@Override
 		public String provideRORValue(String name) {
 			if((PREFIX_VALUE + "deltatick").equals(name))	return "" + deltaTick;
-			if((PREFIX_VALUE + "deltasecond").equals(name))	return "" + deltaSecond;
+			if((PREFIX_VALUE + "deltasecond").equals(name))	return "" + deltaLastSecond;
 			return null;
 		}
 	}

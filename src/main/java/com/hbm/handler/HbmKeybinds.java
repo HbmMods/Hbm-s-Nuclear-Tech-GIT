@@ -71,7 +71,8 @@ public class HbmKeybinds {
 	
 	@SubscribeEvent
 	public void mouseEvent(MouseInputEvent event) {
-		HbmPlayerProps props = HbmPlayerProps.getData(MainRegistry.proxy.me());
+		EntityPlayer player = MainRegistry.proxy.me();
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
 		for(EnumKeybind key : EnumKeybind.values()) {
 			boolean last = props.getKeyPressed(key);
@@ -80,6 +81,7 @@ public class HbmKeybinds {
 			if(last != current) {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
 				props.setKeyPressed(key, current);
+				onPressedClient(player, key, current);
 			}
 		}
 	}
@@ -87,7 +89,8 @@ public class HbmKeybinds {
 	@SubscribeEvent
 	public void keyEvent(KeyInputEvent event) {
 		EntityPlayer player = MainRegistry.proxy.me();
-		if (calculatorKey.getIsKeyPressed()) { // handle the calculator client-side only
+		
+		if(calculatorKey.getIsKeyPressed()) { // handle the calculator client-side only
 			player.closeScreen();
 			FMLCommonHandler.instance().showGuiScreen(new GUICalculator());
 		}

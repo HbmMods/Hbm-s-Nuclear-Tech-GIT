@@ -222,6 +222,7 @@ public class TileMappings {
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 		put(TileEntityProxyCombo.class, "tileentity_proxy_combo");
+		put(TileEntityProxyDyn.class, "tileentity_proxy_dyn");
 		put(TileEntityProxyConductor.class, "tileentity_proxy_conductor");
 
 		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
@@ -342,6 +343,7 @@ public class TileMappings {
 		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		put(TileEntityMachineChemicalPlant.class, "tileentity_chemicalplant");
 		put(TileEntityMachineChemfac.class, "tileentity_chemfac");
+		put(TileEntityMachineChemicalFactory.class, "tileentity_chemicalfactory");
 
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");

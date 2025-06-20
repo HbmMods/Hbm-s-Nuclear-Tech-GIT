@@ -24,7 +24,7 @@ public class ContainerCrateBase extends ContainerBase {
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new SlotNonRetarded(invPlayer, i, playerInvX + i * 18, playerHotbarY));
+			this.addSlotToContainer(new SlotPlayerCrate(invPlayer, i, playerInvX + i * 18, playerHotbarY));
 		}
 	}
 
@@ -66,6 +66,12 @@ public class ContainerCrateBase extends ContainerBase {
 				player.openContainer instanceof ContainerCrateBase && !(ContainerCrateBase.this.tile instanceof TileEntity)) // If the player is currently inside a crate container.
 				return false;
 			return super.canTakeStack(player);
+		}
+
+		@Override
+		public boolean isItemValid(ItemStack item) {
+			if(ItemStack.areItemStacksEqual(getStack(), item)) return false;
+			return super.isItemValid(item);
 		}
 	}
 }

@@ -1,13 +1,41 @@
+## Added
+* New chemical factory
+  * New form factor, uses a smaller 5x5 footprint
+  * Only does four recipes instead of eight
+  * Double base speed, but also double power draw
+  * Three upgrade slots, upgrades follow the same rules as on the new chemplant
+  * Upgrades stack with the double base speed
+  * Stackable!
+  * Water consumption rate is fixed at 100mB/t for each active recipe
+  * Has a dedicated coolant line, so that the coolant water doesn't get used up by recipes
+  * Coolant line has a tooltip which should make it clear that the machine uses water and produces LPS
+  * Also has sound, unlike the old chemical factory
+  * Output fluids are now automatically sent to input tanks, at a rate of up to 50mB/t for somewhat fair fluid sharing
+    * This means that a chemical factory can make hydrogen peroxide, sulfuric acid and nitric acid, and the only fluid input needed is water
+
 ## Changed
-* Opening the tool ability configuration menu is now its own keybind instead of using the copy tool's alt keybind + right click
-* Cycling though tool abilities is now a custom keybind (still right click by default)
-* Removed legacy hardron cooler
-* Removed 20hz transformers
-* High-octane diesel is now called high-cetane diesel
+* The DNT suit now has a damage threshold of 1,000
+* Compressed biomass now has a nice cube shape
+* The new chemical plant's indicator lights are now functional
+* The new chemical plant can now use upgrades
+* Reeds now drop sticks when broken
+* Switching the recipe in the new chemplant now annihilates residual fluid that is not overwritten by the new recipe
+  * I don't know why people wanted this, but here you go
+* The alternate recipe for oxyhydrogen now uses compressed air instead of nothing
+* Improved threaded Mk5, should be a smidge faster now
+* Spires no longer progress phases on peaceful difficulty
+* Spires now have a 20% chance of coming with instructions
+* New chemical plant now has sound
+* Old chemical plant and factory have been renamed and their recipes removed
+* The new recipe selector no longer changes recipe instantly on click, rather as soon as the selector GUI is closed. This should prevent issues when misclicking, which would destroy buffered fluids
 
 ## Fixed
-* Fixed new chemical plant ports not initializing their proxies properly
-* Fixed chunkloading entities immediately throwing away their loader ticket
-* Fixed builder jetpack not resetting flight time properly
-* Fixed new chemplant's ferric schrabidate recipe
-* Fixed single reload guns reloading multiple rounds at once when having multiple valid ammo stacks
+* Chemical plant ports. For real this time.
+* Fixed cable and pipe gauges returning the incomplete delta second value for OC and ROR readers
+* Fixed new chemical plant not saving power values to disk
+* Fixed laser rifle scope texture being missing
+* Potentially fixed shift clicking issue with the new chemical plant
+* Fixed blowtorch having a minimum gas requirement of 1,000mB despite only using 250mB
+* The gas turbine now uses audio with a 20 tick timeout, fixing a rare issue where the loop gets stuck and never ends
+* Potentially fixed a dupe caused by using InventoryBogoSorter in combination with crates
+* Rapidly spinning dyx should no longer have a state leak that would rotate lighting of unrelated TESRs with it
