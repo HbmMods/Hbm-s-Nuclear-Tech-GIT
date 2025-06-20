@@ -28,6 +28,9 @@
 * New chemical plant now has sound
 * Old chemical plant and factory have been renamed and their recipes removed
 * The new recipe selector no longer changes recipe instantly on click, rather as soon as the selector GUI is closed. This should prevent issues when misclicking, which would destroy buffered fluids
+* The memespoon is now safe(tm)
+  * Instead of using a bugged instakill implementation, a fall distance of >2 now deals 50 extra melee damage
+  * Instead of blowing up like a nuke with a fall distance of >20, it now explodes similarly to a non-HE artillery grenade. This deals 150 damage in an AoE, has armor piercing properties and is, like the original functionality, still lethal to the user
 
 ## Fixed
 * Chemical plant ports. For real this time.
