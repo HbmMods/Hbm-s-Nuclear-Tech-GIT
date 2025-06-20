@@ -5309,6 +5309,7 @@ tile.floodlight.name=Powered Floodlight
 tile.fluid_duct.name=Universal Fluid Duct (Deprecated)
 tile.fluid_duct_box.name=Universal Fluid Duct (Boxduct)
 tile.fluid_duct_exhaust.name=Exhaust Pipe
+tile.fluid_duct_paintable_block_exhaust.name=Paintable Coated Exhaust Pipe
 tile.fluid_duct_gauge.name=Flow Gauge Pipe
 tile.fluid_duct_gauge.desc=Pipe that displays how much fluid$moves within the network per tick.$Split networks connected by barrels$or tanks are considered as one shared network.
 tile.fluid_duct_neo.name=Universal Fluid Duct
