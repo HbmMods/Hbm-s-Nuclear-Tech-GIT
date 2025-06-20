@@ -556,7 +556,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 				for(int c = z - dZ * 2; c <= z + dZ * 2;c++) {
 
 					Block block = worldObj.getBlock(a, b, c);
-					int meta = worldObj.getBlockMetadata(a, b, c);
 
 					/** ignore the center for now */
 					if(a == x && b == y && c == z) {

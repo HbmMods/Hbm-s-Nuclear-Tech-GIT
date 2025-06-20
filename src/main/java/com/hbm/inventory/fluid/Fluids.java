@@ -28,12 +28,15 @@ import com.hbm.inventory.fluid.trait.FT_Toxin.*;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
+import api.hbm.fluidmk2.IFluidRegisterListener;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class Fluids {
 
 	public static final Gson gson = new Gson();
+	
+	public static List<IFluidRegisterListener> additionalListeners = new ArrayList();
 
 	public static FluidType NONE;
 	public static FluidType AIR;
@@ -197,8 +200,10 @@ public class Fluids {
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
+	/** Inconsequential, only actually used when listing all fluids with niceOrder disabled */
 	protected static final List<FluidType> registerOrder = new ArrayList();
-	protected static final List<FluidType> metaOrder = new ArrayList();
+	/** What's used to list fluids with niceOrder enabled */
+	public static final List<FluidType> metaOrder = new ArrayList();
 
 	public static final FT_Liquid LIQUID = new FT_Liquid();
 	public static final FT_Viscous VISCOUS = new FT_Viscous();
@@ -588,6 +593,8 @@ public class Fluids {
 
 		// LEGACY
 		ACID = PEROXIDE;
+		
+		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 

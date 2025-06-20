@@ -34,10 +34,10 @@ import net.minecraft.item.ItemStack;
 public abstract class SerializableRecipe {
 
 	public static final Gson gson = new Gson();
-	public static List<SerializableRecipe> recipeHandlers = new ArrayList<>();
-	public static List<IRecipeRegisterListener> additionalListeners = new ArrayList<>();
+	public static List<SerializableRecipe> recipeHandlers = new ArrayList();
+	public static List<IRecipeRegisterListener> additionalListeners = new ArrayList();
 
-	public static Map<String, InputStream> recipeSyncHandlers = new HashMap<>();
+	public static Map<String, InputStream> recipeSyncHandlers = new HashMap();
 
 	public boolean modified = false;
 

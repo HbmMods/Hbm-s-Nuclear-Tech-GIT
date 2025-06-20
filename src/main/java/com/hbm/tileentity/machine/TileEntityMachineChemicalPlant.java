@@ -13,7 +13,9 @@ import com.hbm.inventory.gui.GUIMachineChemicalPlant;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.ModuleMachineChemplant;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -46,6 +48,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	public boolean frame = false;
 	public int anim;
 	public int prevAnim;
+	private AudioWrapper audio;
 
 	public ModuleMachineChemplant chemplantModule;
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
@@ -120,7 +123,37 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
+			
+			if(this.didProcess && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
+				
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
+	}
+
+	@Override public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemicalPlant", xCoord, yCoord, zCoord, 1F, 15F, 1.0F, 20);
+	}
+
+	@Override public void onChunkUnload() {
+		if(audio != null) { audio.stopSound(); audio = null; }
+	}
+
+	@Override public void invalidate() {
+		super.invalidate();
+		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 	
 	public DirPos[] getConPos() {
