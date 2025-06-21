@@ -44,7 +44,7 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 		this.type = type;
 		this.isOn = isOn;
 
-		this.setHardness(1F);
+		this.setHardness(0.5F);
 
 		if(isOn) setLightLevel(1.0F);
 	}
@@ -78,6 +78,11 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 
 	@Override
 	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	@Override
+	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) {
 		return false;
 	}
 
