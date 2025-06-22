@@ -76,7 +76,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_m2,							new ItemRenderM2());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun,					new ItemRenderShredder(ResourceManager.shredder_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_shredder,		new ItemRenderShredder(ResourceManager.shredder_orig_tex));
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_sexy,			new ItemRenderShredder(ResourceManager.sexy_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_sexy,			new ItemRenderSexy());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_quadro,						new ItemRenderQuadro());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun,						new ItemRenderMinigun(ResourceManager.minigun_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun_lacunae,				new ItemRenderMinigun(ResourceManager.minigun_lacunae_tex));
