@@ -14,6 +14,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -86,6 +87,11 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) {
 		return true;
 	}
+
+	@Override
+	public MapColor getMapColor(int meta) {
+        return MapColor.airColor;
+    }
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
