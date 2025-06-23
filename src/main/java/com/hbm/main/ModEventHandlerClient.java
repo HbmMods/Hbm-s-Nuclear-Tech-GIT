@@ -13,7 +13,6 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
-import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -65,7 +64,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -86,7 +84,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -1118,73 +1115,6 @@ public class ModEventHandlerClient {
 			player.motionY < 0.15
 		) {
 			player.motionY = 0.15;
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onMouseClicked(InputEvent.MouseInputEvent event) {
-
-		Minecraft mc = Minecraft.getMinecraft();
-		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
-			boolean state = Mouse.getEventButtonState();
-			int keyCode = Mouse.getEventButton() - 100;
-
-			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
-			for(Object o : KeyBinding.keybindArray) {
-				KeyBinding key = (KeyBinding) o;
-
-				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
-
-					key.pressed = state;
-					if(state && key.pressTime == 0) {
-						key.pressTime = 1;
-					}
-				}
-			}
-
-			boolean gunKey = keyCode == HbmKeybinds.gunPrimaryKey.getKeyCode() || keyCode == HbmKeybinds.gunSecondaryKey.getKeyCode() ||
-					keyCode == HbmKeybinds.gunTertiaryKey.getKeyCode() || keyCode == HbmKeybinds.reloadKey.getKeyCode();
-
-			EntityPlayer player = mc.thePlayer;
-
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
-
-				/* Shoot in favor of attacking */
-				if(gunKey && keyCode == mc.gameSettings.keyBindAttack.getKeyCode()) {
-					mc.gameSettings.keyBindAttack.pressed = false;
-					mc.gameSettings.keyBindAttack.pressTime = 0;
-				}
-
-				if(gunKey && keyCode == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
-					mc.gameSettings.keyBindPickBlock.pressed = false;
-					mc.gameSettings.keyBindPickBlock.pressTime = 0;
-				}
-			}
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onKeyTyped(InputEvent.KeyInputEvent event) {
-
-		Minecraft mc = Minecraft.getMinecraft();
-		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
-			boolean state = Keyboard.getEventKeyState();
-			int keyCode = Keyboard.getEventKey();
-
-			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
-			for(Object o : KeyBinding.keybindArray) {
-				KeyBinding key = (KeyBinding) o;
-
-				if(keyCode != 0 && key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
-
-					key.pressed = state;
-					if(state && key.pressTime == 0) {
-						key.pressTime = 1;
-					}
-				}
-			}
 		}
 	}
 

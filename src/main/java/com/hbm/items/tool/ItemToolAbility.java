@@ -156,6 +156,18 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 		World world = player.worldObj;
 		Block block = world.getBlock(x, y, z);
+		
+		/* 
+		 * The original implementation of this always returned FALSE which uses the vanilla block break code.
+		 * This one now returns TRUE when an ability applies and instead relies on breakExtraBlock, which has the minor
+		 * issue of only running on the sever, while the client uses the vanilla implementation. breakExtraBlock was only
+		 * meant to be used for AoE or vein miner and not for the block that's being mined, hence break EXTRA block.
+		 * The consequence was that the server would fail to break keyholes since breakExtraBlock is supposed to exclude
+		 * them, while the client happily removes the block, causing a desync.
+		 * 
+		 * Since keyholes aren't processable and exempt from silk touch anyway, we just default to the vanilla implementation in every case.
+		 */
+		if(block == ModBlocks.stone_keyhole || block == ModBlocks.stone_keyhole_meta) return false;
 
 		if(!world.isRemote && (canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) && canOperate(stack)) {
 			Configuration config = getConfiguration(stack);
@@ -165,7 +177,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 			boolean skipRef = preset.areaAbility.onDig(preset.areaAbilityLevel, world, x, y, z, player, this);
 		
-			if (!skipRef) {
+			if(!skipRef) {
 				breakExtraBlock(world, x, y, z, player, x, y, z);
 			}
 
