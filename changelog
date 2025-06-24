@@ -45,3 +45,4 @@
 * Fixed issue where mining strange stone with silk touch ability would cause a desync. It also now drops cobblestone, as if silk touch wasn't active at all
 * Fixed issue where applying a filter to a mask that doesn't support certain protection types would permanently remove those types from the filter until the game is restarted
 * Fixed InventoryBogoSorter being able to move held crates
+* Fixed tier 2 pickaxes mining depth rock causing a desync with the depth rock not actually being broken
