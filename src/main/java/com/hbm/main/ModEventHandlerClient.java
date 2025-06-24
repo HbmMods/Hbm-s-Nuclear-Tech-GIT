@@ -922,16 +922,18 @@ public class ModEventHandlerClient {
 					ItemFluidDuct.class
 				);
 				
-				String prefix = "Gun ";
-				int scale = 8;
+				String prefix = "Slot ";
+				int gunScale = 8;
+				int slotScale = 1;
 				boolean ignoreNonNTM = true;
+				boolean onlyGuns = true;
 
 				List<ItemStack> stacks = new ArrayList<ItemStack>();
 				for (Object reg : Item.itemRegistry) {
 					Item item = (Item) reg;
 					if(ignoreNonNTM && !Item.itemRegistry.getNameForObject(item).startsWith("hbm:")) continue;
 					if(ignoredItems.contains(item)) continue;
-					if(!(item instanceof ItemGunBaseNT) && prefix.toLowerCase(Locale.US).startsWith("gun")) continue;
+					if(onlyGuns && !(item instanceof ItemGunBaseNT)) continue;
 					if(collapsedClasses.contains(item.getClass())) {
 						stacks.add(new ItemStack(item));
 					} else {
@@ -940,7 +942,7 @@ public class ModEventHandlerClient {
 				}
 
 				Minecraft.getMinecraft().thePlayer.closeScreen();
-				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", scale));
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", slotScale));
 			}
 		} else {
 			isRenderingItems = false;
