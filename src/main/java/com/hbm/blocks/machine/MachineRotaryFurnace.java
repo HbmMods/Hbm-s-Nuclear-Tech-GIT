@@ -1,15 +1,23 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
+import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineRotaryFurnace extends BlockDummyable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MachineRotaryFurnace extends BlockDummyable  implements ILookOverlay {
 
 	public MachineRotaryFurnace(Material mat) {
 		super(mat);
@@ -56,4 +64,54 @@ public class MachineRotaryFurnace extends BlockDummyable {
 		//solid fuel
 		this.makeExtra(world, x + dir.offsetX + rot.offsetX, y, z + dir.offsetZ + rot.offsetZ);
 	}
+
+	@Override
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null) return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+
+		if(!(te instanceof TileEntityMachineRotaryFurnace)) return;
+
+		TileEntityMachineRotaryFurnace furnace = (TileEntityMachineRotaryFurnace) te;
+
+		ForgeDirection dir = ForgeDirection.getOrientation(furnace.getBlockMetadata() - offset);
+
+		List<String> text = new ArrayList<>();
+
+		//steam
+		if(hitCheck(dir, pos[0], pos[1], pos[2], -1, -1, 0, x, y, z) || hitCheck(dir, pos[0], pos[1], pos[2], -1, -2, 0, x, y, z)) {
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + furnace.tanks[1].getTankType().getLocalizedName());
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + furnace.tanks[2].getTankType().getLocalizedName());
+		}
+
+		//fluids
+		if(hitCheck(dir, pos[0], pos[1], pos[2], 1, 2, 0, x, y, z) || hitCheck(dir, pos[0], pos[1], pos[2], -1, 2, 0, x, y, z)) {
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + furnace.tanks[0].getTankType().getLocalizedName());
+		}
+
+		if(hitCheck(dir, pos[0], pos[1], pos[2], 1, 1, 0, x, y, z)) {
+			text.add(EnumChatFormatting.YELLOW + "-> " + EnumChatFormatting.RESET + "Fuel");
+		}
+
+
+		if(!text.isEmpty()) {
+			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+		}
+	}
+
+	protected boolean hitCheck(ForgeDirection dir, int coreX, int coreY, int coreZ, int exDir, int exRot, int exY, int hitX, int hitY, int hitZ) {
+
+		ForgeDirection turn = dir.getRotation(ForgeDirection.DOWN);
+
+		int iX = coreX + dir.offsetX * exDir + turn.offsetX * exRot;
+		int iY = coreY + exY;
+		int iZ = coreZ + dir.offsetZ * exDir + turn.offsetZ * exRot;
+
+		return iX == hitX && iZ == hitZ && iY == hitY;
+	}
+
 }
