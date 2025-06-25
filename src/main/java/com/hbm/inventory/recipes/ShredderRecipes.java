@@ -374,8 +374,9 @@ public class ShredderRecipes extends SerializableRecipe {
 
 		List<ItemStack> matches = OreDictionary.getOres("dust" + name);
 
-		if(matches != null && !matches.isEmpty())
-			return matches.get(0).copy();
+		if(matches != null && !matches.isEmpty()) {
+			return Compat.getPreferredOreOutput(matches);
+		}
 
 		return new ItemStack(ModItems.scrap);
 	}

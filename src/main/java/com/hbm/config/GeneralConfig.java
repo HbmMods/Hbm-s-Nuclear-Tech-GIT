@@ -1,7 +1,7 @@
 package com.hbm.config;
 
 import net.minecraftforge.common.config.Configuration;
-
+import com.hbm.lib.RefStrings;
 public class GeneralConfig {
 
 	public static boolean enableThermosPreventer = true;
@@ -70,6 +70,7 @@ public class GeneralConfig {
 	public static boolean enableLBSMSafeMEDrives = true;
 	public static boolean enableLBSMIGen = true;
 	public static int schrabRate = 20;
+	public static String[] preferredOutputMod = new String[] {RefStrings.MODID};
 
 	public static void loadFromConfig(Configuration config) {
 
@@ -117,7 +118,8 @@ public class GeneralConfig {
 		normalSoundChannels = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.41_normalSoundChannels",
 				"The amount of channels to create while 1.39_enableSoundExtension is enabled.\n" +
 				"Note that a value below 28 or above 200 can cause buggy sounds and issues with other mods running out of sound memory.", 100);
-
+		preferredOutputMod = CommonConfig.createConfigStringList(config,CATEGORY_GENERAL,"1.42_preferredOutputMod",
+				"The mod which is preferred as output when certain machines autogenerate recipes. Currently used for the shredder", new String[] {RefStrings.MODID});
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
