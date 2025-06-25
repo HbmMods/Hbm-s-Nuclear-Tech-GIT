@@ -223,7 +223,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 
 		/// COLTAN ///
 		this.register(new GenericRecipe("chem.coltancleaning").setup(60, 500)
-				.inputItems(new OreDictStack(COLTAN.dust(), 2))
+				.inputItems(new OreDictStack(COLTAN.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500), new FluidStack(Fluids.HYDROGEN, 500))
 				.outputItems(new ItemStack(ModItems.powder_coltan), new ItemStack(ModItems.powder_niobium)));
 
