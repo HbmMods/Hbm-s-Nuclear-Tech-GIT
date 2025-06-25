@@ -9,6 +9,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -28,6 +29,7 @@ import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.util.Tuple.Pair;
 
+import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -64,7 +66,10 @@ public class CombinationRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL)),		new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD)),		new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
 
-		recipes.put(new ComparableStack(Items.reeds), new Pair(new ItemStack(Items.sugar, 2), new FluidStack(Fluids.ETHANOL, 50)));
+		recipes.put(new ComparableStack(Items.reeds), new Pair(new ItemStack(Items.sugar, 3), new FluidStack(Fluids.ETHANOL, 200)));
+		//not a great recipe, is mainly a backup for 528
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3), new Pair(null, new FluidStack(Fluids.ETHANOL, 50)));
+
 		recipes.put(new ComparableStack(Blocks.clay), new Pair(new ItemStack(Blocks.brick_block, 1), null));
 
 		for(BedrockOreType type : BedrockOreType.values()) {

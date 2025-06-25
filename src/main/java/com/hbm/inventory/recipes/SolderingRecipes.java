@@ -25,18 +25,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SolderingRecipes extends SerializableRecipe {
-	
+
 	public static List<SolderingRecipe> recipes = new ArrayList();
 
 	@Override
 	public void registerDefaults() {
-		
+
 		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
-		
+		boolean toggle528 = GeneralConfig.enable528;
 		/*
 		 * CIRCUITS
 		 */
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 100, 100,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.VACUUM_TUBE),
@@ -46,7 +46,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 4)}
 		));
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 200, 250,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP)},
@@ -55,7 +55,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 4)}
 		));
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), 300, 1_000,
 				new FluidStack(Fluids.SULFURIC_ACID, 1_000),
 				new AStack[] {
@@ -67,7 +67,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 8)}
 		));
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()), 200, 300,
 				new FluidStack(Fluids.PEROXIDE, 250),
 				new AStack[] {
@@ -77,7 +77,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 3)}
 		));
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BISMOID.ordinal()), 400, 10_000,
 				new FluidStack(Fluids.SOLVENT, 1_000),
 				new AStack[] {
@@ -90,7 +90,22 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 12)}
 		));
-		
+
+		if(!toggle528){
+			recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 2, EnumCircuitType.BISMOID.ordinal()), 400, 10_000,
+				new FluidStack(Fluids.SOLVENT, 1_000),
+				new AStack[] {
+					new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CHIP_BISMOID),
+					new ComparableStack(ModItems.circuit, lbsm ? 4 : 16, EnumCircuitType.CHIP),
+					new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CAPACITOR_TANTALIUM)},
+				new AStack[] {
+					new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB),
+					new OreDictStack(ANY_HARDPLASTIC.ingot(), 2)},
+				new AStack[] {
+					new OreDictStack(PB.wireFine(), 12)}
+			));
+		}
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.QUANTUM.ordinal()), 400, 100_000,
 				new FluidStack(Fluids.HELIUM4, 1_000),
 				new AStack[] {
@@ -103,7 +118,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 16)}
 		));
-		
+
 		/*
 		 * COMPUTERS
 		 */
@@ -149,7 +164,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		/*
 		 * UPGRADES
 		 */
-		
+
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_speed_1), 200, 1_000,
 				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
 				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(MINGRADE.dust(), 4)},
@@ -185,7 +200,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(LI.dust(), 4)},
 				new AStack[] {}
 		));
-		
+
 		addFirstUpgrade(ModItems.upgrade_speed_1, ModItems.upgrade_speed_2);
 		addSecondUpgrade(ModItems.upgrade_speed_2, ModItems.upgrade_speed_3);
 		addFirstUpgrade(ModItems.upgrade_effect_1, ModItems.upgrade_effect_2);
@@ -197,7 +212,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		addFirstUpgrade(ModItems.upgrade_afterburn_1, ModItems.upgrade_afterburn_2);
 		addSecondUpgrade(ModItems.upgrade_afterburn_2, ModItems.upgrade_afterburn_3);
 	}
-	
+
 	public static void addFirstUpgrade(Item lower, Item higher) {
 		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		recipes.add(new SolderingRecipe(new ItemStack(higher), 300, 10_000,
@@ -206,7 +221,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {}
 		));
 	}
-	
+
 	public static void addSecondUpgrade(Item lower, Item higher) {
 		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		recipes.add(new SolderingRecipe(new ItemStack(higher), 400, 25_000,
@@ -216,7 +231,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {}
 		));
 	}
-	
+
 	public static SolderingRecipe getRecipe(ItemStack[] inputs) {
 
 		for(SolderingRecipe recipe : recipes) {
@@ -224,25 +239,25 @@ public class SolderingRecipes extends SerializableRecipe {
 					matchesIngredients(new ItemStack[] {inputs[3], inputs[4]}, recipe.pcb) &&
 					matchesIngredients(new ItemStack[] {inputs[5]}, recipe.solder)) return recipe;
 		}
-		
+
 		return null;
 	}
-	
+
 	public static HashMap getRecipes() {
 
 		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
-		
+
 		for(SolderingRecipe recipe : SolderingRecipes.recipes) {
-			
+
 			List ingredients = new ArrayList();
 			for(AStack stack : recipe.toppings) ingredients.add(stack);
 			for(AStack stack : recipe.pcb) ingredients.add(stack);
 			for(AStack stack : recipe.solder) ingredients.add(stack);
 			if(recipe.fluid != null) ingredients.add(ItemFluidIcon.make(recipe.fluid));
-			
+
 			recipes.put(ingredients.toArray(), recipe.output);
 		}
-		
+
 		return recipes;
 	}
 
@@ -275,31 +290,31 @@ public class SolderingRecipes extends SerializableRecipe {
 		ItemStack output = this.readItemStack(obj.get("output").getAsJsonArray());
 		int duration = obj.get("duration").getAsInt();
 		long consumption = obj.get("consumption").getAsLong();
-		
+
 		recipes.add(new SolderingRecipe(output, duration, consumption, fluid, toppings, pcb, solder));
 	}
 
 	@Override
 	public void writeRecipe(Object obj, JsonWriter writer) throws IOException {
 		SolderingRecipe recipe = (SolderingRecipe) obj;
-		
+
 		writer.name("toppings").beginArray();
 		for(AStack aStack : recipe.toppings) this.writeAStack(aStack, writer);
 		writer.endArray();
-		
+
 		writer.name("pcb").beginArray();
 		for(AStack aStack : recipe.pcb) this.writeAStack(aStack, writer);
 		writer.endArray();
-		
+
 		writer.name("solder").beginArray();
 		for(AStack aStack : recipe.solder) this.writeAStack(aStack, writer);
 		writer.endArray();
-		
+
 		if(recipe.fluid != null) {
 			writer.name("fluid");
 			this.writeFluidStack(recipe.fluid, writer);
 		}
-		
+
 		writer.name("output");
 		this.writeItemStack(recipe.output, writer);
 
@@ -310,7 +325,7 @@ public class SolderingRecipes extends SerializableRecipe {
 	public static HashSet<AStack> toppings = new HashSet();
 	public static HashSet<AStack> pcb = new HashSet();
 	public static HashSet<AStack> solder = new HashSet();
-	
+
 	public static class SolderingRecipe {
 
 		public AStack[] toppings;
@@ -320,7 +335,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		public ItemStack output;
 		public int duration;
 		public long consumption;
-		
+
 		public SolderingRecipe(ItemStack output, int duration, long consumption, FluidStack fluid, AStack[] toppings, AStack[] pcb, AStack[] solder) {
 			this.toppings = toppings;
 			this.pcb = pcb;
@@ -333,7 +348,7 @@ public class SolderingRecipes extends SerializableRecipe {
 			for(AStack t : pcb) SolderingRecipes.pcb.add(t);
 			for(AStack t : solder) SolderingRecipes.solder.add(t);
 		}
-		
+
 		public SolderingRecipe(ItemStack output, int duration, long consumption, AStack[] toppings, AStack[] pcb, AStack[] solder) {
 			this(output, duration, consumption, null, toppings, pcb, solder);
 		}
