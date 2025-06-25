@@ -109,6 +109,7 @@ public class FluidType {
 
 		this.id = id;
 		Fluids.register(this, id);
+		Fluids.foreignFluids.add(this);
 	}
 	
 	public FluidType setTemp(int temperature) {

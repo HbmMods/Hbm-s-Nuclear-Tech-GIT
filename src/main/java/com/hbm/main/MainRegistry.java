@@ -899,10 +899,14 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
+		
+		// to make sure that foreign registered fluids are accounted for,
+		// even when the reload listener is registered too late due to load order
+		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
-
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if(logger == null)
