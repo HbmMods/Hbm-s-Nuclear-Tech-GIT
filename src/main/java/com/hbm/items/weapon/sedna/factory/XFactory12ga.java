@@ -323,7 +323,7 @@ public class XFactory12ga {
 		ModItems.gun_maresleg_broken = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(0).draw(5).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(32F).spreadAmmo(1.15F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
+						.dmg(48F).spreadAmmo(1.15F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_equestrian_tkr, g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus))
 						.offset(0.75, -0.0625, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_MARESLEG))
@@ -654,12 +654,18 @@ public class XFactory12ga {
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_SEXY_ANIMS = (stack, type) -> {
 		switch(type) {
 		case CYCLE: return new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, -1, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
-				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 18, 50));
+				.addBus("RECOIL", new BusAnimationSequence().hold(50).addPos(0, 0, -0.25, 50, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
+				.addBus("BARREL", new BusAnimationSequence().addPos(0, 0, -1, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150))
+				.addBus("CYCLE", new BusAnimationSequence().addPos(1, 0, 0, 150))
+				.addBus("HOOD", new BusAnimationSequence().hold(50).addPos(3, 0, 0, 50, IType.SIN_DOWN).addPos(0, 0, 0, 50, IType.SIN_UP));
 		case CYCLE_DRY: return new BusAnimation()
 				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 18, 50));
+		case RELOAD: return new BusAnimation()
+				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 1, 150).hold(2750).addPos(0, 0, 0, 150))
+				.addBus("HOOD", new BusAnimationSequence().hold(250).addPos(60, 0, 0, 500, IType.SIN_FULL).hold(1500).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("BELT", new BusAnimationSequence().setPos(1, 0, 0).hold(750).addPos(0, 0, 0, 500, IType.SIN_FULL).hold(500).addPos(1, 0, 0, 500, IType.SIN_FULL));
 		}
 		
-		return LAMBDA_SHREDDER_ANIMS.apply(stack, type);
+		return null;
 	};
 }

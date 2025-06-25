@@ -274,7 +274,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 		ItemStack stack = player.getHeldItem();
 
-		if (stack == null) {
+		if(stack == null) {
 			return;
 		}
 
@@ -288,7 +288,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
 		float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
 
-		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || refBlock.getBlockHardness(world, refX, refY, refZ) < 0)
+		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || refBlock.getPlayerRelativeBlockHardness(player, world, refX, refY, refZ) < 0)
 			return;
 
 		BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world, player.theItemInWorldManager.getGameType(), player, x, y, z);
