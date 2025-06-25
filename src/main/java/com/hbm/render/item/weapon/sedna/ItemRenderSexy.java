@@ -42,13 +42,13 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sexy_tex);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
 		boolean doesCycle = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("CYCLE") != null;
 		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BELT") != null;
 		boolean useShellCount = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("SHELLS") != null;
+		boolean girldinner = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BOTTLE") != null;
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
 		double[] lower = HbmAnimations.getRelevantTransformation("LOWER");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
@@ -60,6 +60,26 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
 		double[] magRot = HbmAnimations.getRelevantTransformation("MAGROT");
 		double[] shellCount = HbmAnimations.getRelevantTransformation("SHELLS");
+		double[] bottle = HbmAnimations.getRelevantTransformation("BOTTLE");
+		double[] sippy = HbmAnimations.getRelevantTransformation("SIP");
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		if(girldinner) {
+			GL11.glPushMatrix();
+			GL11.glTranslated(bottle[0], bottle[1], bottle[2]);
+			GL11.glTranslated(0, 2, 0);
+			GL11.glRotated(sippy[0], 1, 0, 0);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(-15, 1, 0, 0);
+			GL11.glTranslated(0, -2, 0);
+			GL11.glScaled(1.5, 1.5, 1.5);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.whiskey_tex);
+			ResourceManager.whiskey.renderAll();
+			GL11.glPopMatrix();
+		}
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sexy_tex);
 		
 		GL11.glTranslated(0, -1, -8);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -70,8 +90,6 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 0, 6);
 		
 		GL11.glTranslated(0, 0, recoil[2]);
-		
-		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		ResourceManager.sexy.renderPart("Gun");
 		

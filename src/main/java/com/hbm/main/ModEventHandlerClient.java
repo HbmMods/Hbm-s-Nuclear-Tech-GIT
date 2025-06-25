@@ -923,7 +923,7 @@ public class ModEventHandlerClient {
 				);
 				
 				String prefix = "Slot ";
-				int gunScale = 8;
+				//int gunScale = 8;
 				int slotScale = 1;
 				boolean ignoreNonNTM = true;
 				boolean onlyGuns = true;
