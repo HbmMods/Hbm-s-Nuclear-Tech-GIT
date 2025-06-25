@@ -197,6 +197,7 @@ public class Fluids {
 	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
 	public static List<FluidType> customFluids = new ArrayList();
+	public static List<FluidType> foreignFluids = new ArrayList();
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -593,8 +594,6 @@ public class Fluids {
 
 		// LEGACY
 		ACID = PEROXIDE;
-		
-		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 
@@ -877,10 +876,12 @@ public class Fluids {
 			ex.printStackTrace();
 		}
 	}
+	
 	public static void reloadFluids(){
 		File folder = MainRegistry.configHbmDir;
 		File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
 		if(!customTypes.exists()) initDefaultFluids(customTypes);
+		
 		for(FluidType type : customFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -888,6 +889,15 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		customFluids.clear();
+		
+		for(FluidType type : foreignFluids){
+			idMapping.remove(type.getID());
+			registerOrder.remove(type);
+			nameMapping.remove(type.getName());
+			metaOrder.remove(type);
+		}
+		foreignFluids.clear();
+		
 		readCustomFluids(customTypes);
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 		File config = new File(MainRegistry.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
@@ -898,6 +908,8 @@ public class Fluids {
 		} else {
 			readTraits(config);
 		}
+		
+		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 	}
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
 

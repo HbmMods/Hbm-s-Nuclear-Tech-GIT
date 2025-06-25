@@ -933,10 +933,16 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
 
 		if(type == AnimType.CYCLE) {
 			if(timer == 0 && ctx.config.getReceivers(stack)[0].getMagazine(stack).getType(stack, null) == XFactory12ga.g12_equestrian_bj) {
 				ItemGunBaseNT.setTimer(stack, 0, 20);
+			}
+			
+			if(timer == 2) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, -0.125, aiming ? -0.125 : -0.25D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), false, 60, 0.5D, 20);
 			}
 		}
 
@@ -944,12 +950,7 @@ public class Orchestras {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
 		}
 		if(type == AnimType.RELOAD) {
-			if(timer == 2) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
-			if(timer == 32) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
-		}
-		if(type == AnimType.INSPECT) {
-			if(timer == 2) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
-			if(timer == 28) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 55) ctx.config.getReceivers(stack)[0].getMagazine(stack).reloadAction(stack, ctx.inventory);
 		}
 	};
 

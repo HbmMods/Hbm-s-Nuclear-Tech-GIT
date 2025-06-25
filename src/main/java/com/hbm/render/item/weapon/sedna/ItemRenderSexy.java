@@ -48,17 +48,26 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 
 		boolean doesCycle = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("CYCLE") != null;
 		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BELT") != null;
+		boolean useShellCount = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("SHELLS") != null;
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] lower = HbmAnimations.getRelevantTransformation("LOWER");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 		double[] cycle = HbmAnimations.getRelevantTransformation("CYCLE");
 		double[] barrel = HbmAnimations.getRelevantTransformation("BARREL");
 		double[] hood = HbmAnimations.getRelevantTransformation("HOOD");
 		double[] lever = HbmAnimations.getRelevantTransformation("LEVER");
 		double[] belt = HbmAnimations.getRelevantTransformation("BELT");
+		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
+		double[] magRot = HbmAnimations.getRelevantTransformation("MAGROT");
+		double[] shellCount = HbmAnimations.getRelevantTransformation("SHELLS");
 		
 		GL11.glTranslated(0, -1, -8);
 		GL11.glRotated(equip[0], 1, 0, 0);
 		GL11.glTranslated(0, 1, 8);
+		
+		GL11.glTranslated(0, 0, -6);
+		GL11.glRotated(lower[0], 1, 0, 0);
+		GL11.glTranslated(0, 0, 6);
 		
 		GL11.glTranslated(0, 0, recoil[2]);
 		
@@ -72,9 +81,9 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 0.375);
-		//GL11.glScaled(1, 1, 0.75);
 		GL11.glTranslated(0, 0, -0.375);
+		GL11.glScaled(1, 1, 1 + 0.457247371D * barrel[2]);
+		GL11.glTranslated(0, 0, 0.375);
 		ResourceManager.sexy.renderPart("RecoilSpring");
 		GL11.glPopMatrix();
 		
@@ -99,6 +108,11 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		ResourceManager.sexy.renderPart("LockSpring");
 		GL11.glPopMatrix();
 		
+		GL11.glPushMatrix();
+		GL11.glTranslated(mag[0], mag[1], mag[2]);
+		GL11.glTranslated(0, -1, 0);
+		GL11.glRotated(magRot[2], 0, 0, 1);
+		GL11.glTranslated(0, 1, 0);
 		ResourceManager.sexy.renderPart("Magazine");
 		
 		double p = 0.0625D;
@@ -129,15 +143,15 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 			y += vec.yCoord;
 		}
 		
+		int shellAmount = useShellCount ? (int) shellCount[0] : gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null);
+		
 		// draw belt, interp used for cycling (shells will transform towards the position/rotation of the next shell)
 		for(int i = 0; i < shells.length - 1; i++) {
 			double[] prevShell = shells[i];
 			double[] nextShell = shells[i + 1];
-			renderShell(
-					BobMathUtil.interp(prevShell[0], nextShell[0], cycleProgress),
-					BobMathUtil.interp(prevShell[1], nextShell[1], cycleProgress),
-					BobMathUtil.interp(prevShell[2], nextShell[2], cycleProgress), true);
+			renderShell(prevShell[0], nextShell[0], prevShell[1], nextShell[1], prevShell[2], nextShell[2], shells.length - i < shellAmount + 2, cycleProgress);
 		}
+		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
