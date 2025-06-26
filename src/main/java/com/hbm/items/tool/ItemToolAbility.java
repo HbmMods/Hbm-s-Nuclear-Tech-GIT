@@ -195,6 +195,8 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 			preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, world, player);
 
+			player.addExhaustion(0.025F);
+
 			return true;
 		}
 
@@ -379,7 +381,9 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 				} catch (InvocationTargetException e) {
 					// Might be possible? Not in practice, though
 					MainRegistry.logger.error("Failed to capture drops for block " + block, e);
-				} 
+				}
+
+				player.addExhaustion(-0.025F);
 			}
 		}
 
