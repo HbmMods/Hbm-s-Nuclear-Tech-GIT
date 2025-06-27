@@ -82,8 +82,9 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	}
 
 	@Override
+	// Ah yes, I love methods named the literal opposite of what they do
 	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) {
-		return false;
+		return true;
 	}
 
 	@Override
