@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerMachinePress;
 import com.hbm.inventory.gui.GUIMachinePress;
@@ -52,6 +53,17 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			// Triggers the legacy monoblock fix
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < BlockDummyable.offset) {
+				// Does nothing
+				// worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+
+				BlockDummyable block = (BlockDummyable)worldObj.getBlock(xCoord, yCoord, zCoord);
+				if (block != null) {
+					block.onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, null);
+				}
+			}
 
 			boolean preheated = false;
 

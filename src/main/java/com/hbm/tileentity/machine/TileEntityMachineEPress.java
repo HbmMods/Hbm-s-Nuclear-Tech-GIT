@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineEPress;
@@ -63,6 +64,17 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			// Triggers the legacy monoblock fix
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < BlockDummyable.offset) {
+				// Does nothing
+				// worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+
+				BlockDummyable block = (BlockDummyable)worldObj.getBlock(xCoord, yCoord, zCoord);
+				if (block != null) {
+					block.onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, null);
+				}
+			}
 
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
