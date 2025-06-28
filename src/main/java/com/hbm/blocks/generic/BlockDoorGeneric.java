@@ -17,6 +17,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -114,6 +116,22 @@ public class BlockDoorGeneric extends BlockDummyable implements IBomb {
 		AxisAlignedBB aabb = this.getBoundingBox(world, x, y, z);
 		if(aabb.minX == aabb.maxX && aabb.minY == aabb.maxY && aabb.minZ == aabb.maxZ) return null;
 		return aabb;
+	}
+
+	// Enables clicking through the open door
+	@Override
+	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
+		AxisAlignedBB box = getBoundingBox(world, x, y ,z);
+		box = AxisAlignedBB.getBoundingBox(
+			Math.min(box.minX, box.maxX), Math.min(box.minY, box.maxY), Math.min(box.minZ, box.maxZ),
+			Math.max(box.minX, box.maxX), Math.max(box.minY, box.maxY), Math.max(box.minZ, box.maxZ)
+		);
+		
+		MovingObjectPosition intercept = box.calculateIntercept(startVec, endVec);
+		if(intercept != null) {
+			return new MovingObjectPosition(x, y, z, intercept.sideHit, intercept.hitVec);
+		}
+		return null;
 	}
 
 	@Override //should fix AI pathfinding
