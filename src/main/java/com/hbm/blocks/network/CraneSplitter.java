@@ -1,14 +1,18 @@
 package com.hbm.blocks.network;
 
+import api.hbm.block.IToolable;
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.conveyor.IConveyorItem;
 import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneSplitter;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,11 +25,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnterableBlock, ITooltipProvider {
+public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnterableBlock, ITooltipProvider, IToolable, ILookOverlay {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTopLeft;
 	@SideOnly(Side.CLIENT) public IIcon iconTopRight;
@@ -96,26 +102,16 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if(!(tile instanceof TileEntityCraneSplitter)) return;
 		TileEntityCraneSplitter splitter = (TileEntityCraneSplitter) tile;
-		boolean pos = splitter.getPosition();
-		ItemStack stack = entity.getItemStack();
 		ForgeDirection rot = ForgeDirection.getOrientation(splitter.getBlockMetadata() - offset).getRotation(ForgeDirection.DOWN);
 
-		if(stack.stackSize % 2 == 0) {
-			stack.stackSize /= 2;
-			spawnMovingItem(world, x, y, z, stack.copy());
-			spawnMovingItem(world, x + rot.offsetX, y, z + rot.offsetZ, stack.copy());
-		} else {
-			int baseSize = stack.stackSize /= 2;
-			stack.stackSize = baseSize + (pos ? 0 : 1);
-			spawnMovingItem(world, x, y, z, stack.copy());
-			stack.stackSize = baseSize + (pos ? 1 : 0);
-			spawnMovingItem(world, x + rot.offsetX, y, z + rot.offsetZ, stack.copy());
-			splitter.setPosition(!pos);
-		}
+		ItemStack[] splits = splitter.splitStack(entity.getItemStack());
+
+		spawnMovingItem(world, x, y, z, splits[0]);
+		spawnMovingItem(world, x + rot.offsetX, y, z + rot.offsetZ, splits[1]);
 	}
 
 	private void spawnMovingItem(World world, int x, int y, int z, ItemStack stack) {
-		if(stack.stackSize <= 0) return;
+		if(stack == null || stack.stackSize <= 0) return;
 		EntityMovingItem moving = new EntityMovingItem(world);
 		Vec3 pos = Vec3.createVectorHelper(x + 0.5, y + 0.5, z + 0.5);
 		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, pos);
@@ -158,8 +154,51 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		return ForgeDirection.getOrientation(meta).getRotation(ForgeDirection.UP);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		if(world.isRemote) return true;
+		if(tool != ToolType.SCREWDRIVER) return false;
+
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return false;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityCraneSplitter)) return false;
+
+		TileEntityCraneSplitter crane = (TileEntityCraneSplitter) te;
+
+		// The core of the dummy is always the left hand block
+		boolean isLeft = x == pos[0] && y == pos[1] && z == pos[2];
+		int adjust = player.isSneaking() ? -1 : 1;
+
+		if(isLeft) {
+			crane.leftRatio = (byte)MathHelper.clamp_int(crane.leftRatio + adjust, 1, 16);
+		} else {
+			crane.rightRatio = (byte)MathHelper.clamp_int(crane.rightRatio + adjust, 1, 16);
+		}
+
+		return true;
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityCraneSplitter)) return;
+
+		TileEntityCraneSplitter crane = (TileEntityCraneSplitter) te;
+
+		List<String> text = new ArrayList<>();
+		text.add("Splitter ratio: " + crane.leftRatio + ":" + crane.rightRatio);
+
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

@@ -59,6 +59,8 @@ public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
 		double[] raise = HbmAnimations.getRelevantTransformation("RAISE");
 		double[] ammo = HbmAnimations.getRelevantTransformation("AMMO");
 		double[] twist = HbmAnimations.getRelevantTransformation("TWIST");
+		double[] turn = HbmAnimations.getRelevantTransformation("TURN");
+		double[] roll = HbmAnimations.getRelevantTransformation("ROLL");
 
 		GL11.glTranslated(0, 0, -7);
 		GL11.glRotated(equip[0], -1, 0, 0);
@@ -69,6 +71,13 @@ public class ItemRenderChargeThrower extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 7, -4);
 
 		GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
+
+		GL11.glTranslated(0, 0, -2);
+		GL11.glRotated(turn[1], 0, 1, 0);
+		GL11.glTranslated(0, 0, 2);
+		GL11.glTranslated(0, -1, 0);
+		GL11.glRotated(roll[2], 0, 0, 1);
+		GL11.glTranslated(0, 1, 0);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.charge_thrower_tex);

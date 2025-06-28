@@ -22,12 +22,19 @@ import java.util.HashMap;
  */
 public class UpgradeManagerNT {
 
+	public TileEntity owner;
 	public ItemStack[] cachedSlots;
 
 	private UpgradeType mutexType;
 	public HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
 
-	public void checkSlots(TileEntity te, ItemStack[] slots, int start, int end) {
+	public UpgradeManagerNT(TileEntity te) { this.owner = te; }
+	@Deprecated public UpgradeManagerNT() { }
+	
+	public void checkSlots(ItemStack[] slots, int start, int end) { checkSlots(owner, slots, start, end); }
+	@Deprecated public void checkSlots(TileEntity te, ItemStack[] slots, int start, int end) { checkSlotsInternal(te, slots, start, end); }
+
+	private void checkSlotsInternal(TileEntity te, ItemStack[] slots, int start, int end) {
 
 		if(!(te instanceof IUpgradeInfoProvider) || slots == null)
 			return;

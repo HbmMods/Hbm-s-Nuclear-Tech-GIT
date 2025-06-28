@@ -26,7 +26,8 @@ public class BombConfig {
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
 	public static boolean chunkloading = true;
-	
+	public static int explosionAlgorithm = 2;
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_NUKES = CommonConfig.CATEGORY_NUKES;
@@ -92,7 +93,8 @@ public class BombConfig {
 		Property falloutDelayProp = config.get(CATEGORY_NUKE, "6.04_falloutDelay", 4);
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();
-		
-		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
+
+		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.05_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded and to generate new chunks.", true);
+		explosionAlgorithm = CommonConfig.createConfigInt(config, CATEGORY_NUKE, "6.06_explosionAlgorithm", "Configures the algorithm of mk5 explosion. \n0 = Legacy, 1 = Threaded DDA, 2 = Threaded DDA with damage accumulation.", 2);
 	}
 }

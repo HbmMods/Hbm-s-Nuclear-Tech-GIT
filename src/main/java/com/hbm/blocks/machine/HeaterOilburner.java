@@ -11,7 +11,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
@@ -25,7 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
-public class FluidTank {
+public class FluidTank implements Cloneable {
 	
 	public static final FluidTank[] EMPTY_ARRAY = new FluidTank[0];
 
@@ -54,38 +55,33 @@ public class FluidTank {
 		return this;
 	}
 	
-	public void setFill(int i) {
-		fluid = i;
-	}
+	public void setFill(int i) { fluid = i; }
 	
 	public void setTankType(FluidType type) {
-		
-		if(type == null) {
-			type = Fluids.NONE;
-		}
-		
-		if(this.type == type)
-			return;
+		if(type == null) type = Fluids.NONE;
+		if(this.type == type) return;
 		
 		this.type = type;
 		this.setFill(0);
 	}
 	
-	public FluidType getTankType() {
-		return type;
+	public void resetTank() {
+		this.type = Fluids.NONE;
+		this.fluid = 0;
+		this.pressure = 0;
 	}
 	
-	public int getFill() {
-		return fluid;
+	/** Changes type and pressure based on a fluid stack, useful for changing tank types based on recipes */
+	public FluidTank conform(FluidStack stack) {
+		this.setTankType(stack.type);
+		this.withPressure(stack.pressure);
+		return this;
 	}
 	
-	public int getMaxFill() {
-		return maxFluid;
-	}
-	
-	public int getPressure() {
-		return pressure;
-	}
+	public FluidType getTankType() { return type; }
+	public int getFill() { return fluid; }
+	public int getMaxFill() { return maxFluid; }
+	public int getPressure() { return pressure; }
 	
 	public int changeTankSize(int size) {
 		maxFluid = size;
@@ -95,20 +91,15 @@ public class FluidTank {
 			fluid = maxFluid;
 			return dif;
 		}
-			
 		return 0;
 	}
 	
 	//Fills tank from canisters
 	public boolean loadTank(int in, int out, ItemStack[] slots) {
-		
-		if(slots[in] == null)
-			return false;
+		if(slots[in] == null) return false;
 
 		boolean isInfiniteBarrel = slots[in].getItem() == ModItems.fluid_barrel_infinite;
-
-		if(!isInfiniteBarrel && pressure != 0)
-			return false;
+		if(!isInfiniteBarrel && pressure != 0) return false;
 		
 		int prev = this.getFill();
 		
@@ -123,9 +114,7 @@ public class FluidTank {
 	
 	//Fills canisters from tank
 	public boolean unloadTank(int in, int out, ItemStack[] slots) {
-		
-		if(slots[in] == null)
-			return false;
+		if(slots[in] == null) return false;
 		
 		int prev = this.getFill();
 		

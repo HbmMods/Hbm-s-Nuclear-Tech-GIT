@@ -37,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class XFactory556mm {
 
-	public static final ResourceLocation scope_lilmac = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_44.png");
+	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_bolt.png");
 
 	public static BulletConfig r556_sp;
 	public static BulletConfig r556_fmj;
@@ -83,7 +83,7 @@ public class XFactory556mm {
 				.anim(LAMBDA_G3_ANIMS).orchestra(Orchestras.ORCHESTRA_G3)
 				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3");
 		ModItems.gun_g3_zebra = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
-				.dura(6_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE).scopeTexture(XFactory44.scope_lilmac)
+				.dura(6_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE).scopeTexture(scope)
 				.rec(new Receiver(0)
 						.dmg(7.5F).delay(2).auto(true).dry(15).spreadHipfire(0.01F).reload(50).jam(47).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_inc_sp, r556_inc_fmj, r556_inc_jhp, r556_inc_ap))
@@ -94,7 +94,7 @@ public class XFactory556mm {
 				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3_zebra");
 
 		ModItems.gun_stg77 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope_lilmac).smoke(LAMBDA_SMOKE)
+				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(2).dry(15).auto(true).reload(46).jam(0).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap))

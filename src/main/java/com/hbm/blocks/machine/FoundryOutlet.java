@@ -9,7 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.block.IToolable;

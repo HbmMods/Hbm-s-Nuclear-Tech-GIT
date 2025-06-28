@@ -12,6 +12,7 @@ import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class RenderChemplant extends TileEntitySpecialRenderer {
 
 	public RenderChemplant() {
