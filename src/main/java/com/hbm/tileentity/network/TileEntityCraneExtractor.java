@@ -127,7 +127,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 									sendItem(stack, belt, outputSide);
 								} else {
 									stack.stackSize = toSend;
-									ItemStack remaining = InventoryUtil.tryAddItemToInventory(this.slots, stack);
+									ItemStack remaining = InventoryUtil.tryAddItemToInventory(this.slots, 9, 17, stack);
 									inv.decrStackSize(index, toSend - (remaining == null ? 0 : remaining.stackSize));
 								}
 								hasSent = true;
