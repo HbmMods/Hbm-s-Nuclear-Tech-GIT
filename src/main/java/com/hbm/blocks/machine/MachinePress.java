@@ -13,13 +13,14 @@ import net.minecraft.world.World;
 
 public class MachinePress extends BlockDummyable {
 
-	public MachinePress(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public MachinePress(Material mat) {
+		super(mat);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachinePress();
+	public TileEntity createNewTileEntity(World world, int meta) {
+		if(meta >= 12) return new TileEntityMachinePress();
+		return null;
 	}
 
 	@Override

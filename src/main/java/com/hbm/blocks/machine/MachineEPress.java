@@ -8,28 +8,23 @@ import com.hbm.tileentity.machine.TileEntityMachineEPress;
 import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class MachineEPress extends BlockDummyable implements INBTTransformable {
 
-	public MachineEPress(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public MachineEPress(Material mat) {
+		super(mat);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineEPress();
+	public TileEntity createNewTileEntity(World world, int meta) {
+		if(meta >= 12) return new TileEntityMachineEPress();
+		return null;
 	}
 
 	@Override
