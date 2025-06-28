@@ -1,12 +1,9 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
-import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
@@ -16,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineEPress extends BlockDummyable implements INBTTransformable {
+public class MachineEPress extends BlockDummyable {
 
 	public MachineEPress(Material mat) {
 		super(mat);
@@ -72,10 +69,5 @@ public class MachineEPress extends BlockDummyable implements INBTTransformable {
 		} else {
 			return false;
 		}
-	}
-
-	@Override
-	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 }
