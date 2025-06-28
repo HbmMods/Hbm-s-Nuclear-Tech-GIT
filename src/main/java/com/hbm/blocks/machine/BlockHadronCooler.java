@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

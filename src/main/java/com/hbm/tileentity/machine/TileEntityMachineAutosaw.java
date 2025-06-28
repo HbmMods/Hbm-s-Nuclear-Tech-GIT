@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -22,14 +23,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiver, IFluidCopiable {
 
@@ -45,6 +51,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public FluidTank tank;
 
 	public boolean isOn;
+	public boolean isSuspended;
+	private int forceSkip;
 	public float syncYaw;
 	public float rotationYaw;
 	public float prevRotationYaw;
@@ -69,7 +77,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 		if(!worldObj.isRemote) {
 
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
+			if(!isSuspended && worldObj.getTotalWorldTime() % 20 == 0) {
 				if(tank.getFill() > 0) {
 					tank.setFill(tank.getFill() - 1);
 					this.isOn = true;
@@ -80,7 +88,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				this.subscribeToAllAround(tank.getTankType(), this);
 			}
 
-			if(isOn) {
+			if(isOn && !isSuspended) {
 				Vec3 pivot = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.75, zCoord + 0.5);
 				Vec3 upperArm = Vec3.createVectorHelper(0, 0, -4);
 				upperArm.rotateAroundX((float) Math.toRadians(80 - rotationPitch));
@@ -119,28 +127,41 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 						this.rotationYaw -= 360;
 					}
 
-					Vec3 grace = Vec3.createVectorHelper(0, 0, -3.5);
-					grace.rotateAroundY(-(float) Math.toRadians(rotationYaw));
-					grace.xCoord += pivot.xCoord;
-					grace.yCoord += pivot.yCoord;
-					grace.zCoord += pivot.zCoord;
+					if(forceSkip > 0) {
+						forceSkip--;
+					} else {
+						final double CUT_ANGLE = Math.toRadians(5);
+						double rotationYawRads = Math.toRadians((rotationYaw + 270) % 360);
 
-					Vec3 detector = Vec3.createVectorHelper(0, 0, -9);
-					detector.rotateAroundY(-(float) Math.toRadians(rotationYaw));
-					detector.xCoord += pivot.xCoord;
-					detector.yCoord += pivot.yCoord;
-					detector.zCoord += pivot.zCoord;
-					MovingObjectPosition pos = worldObj.func_147447_a(grace, detector, false, false, false);
+						outer:
+						for(int dx = -9; dx <= 9; dx++) {
+							for(int dz = -9; dz <= 9; dz++) {
+								int sqrDst = dx * dx + dz * dz;
 
-					if(pos != null && pos.typeOfHit == pos.typeOfHit.BLOCK) {
+								if(sqrDst <= 4 || sqrDst > 81)
+									continue;
+								
+								double angle = Math.atan2(dz, dx);
+								double relAngle = Math.abs(angle - rotationYawRads);
+								relAngle = Math.abs((relAngle + Math.PI) % (2 * Math.PI) - Math.PI);
 
-						Block b = worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+								if(relAngle > CUT_ANGLE)
+									continue;
 
-						if(b.getMaterial() == Material.wood || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
+								int x = xCoord + dx;
+								int y = yCoord + 1;
+								int z = zCoord + dz;
 
-							int meta = worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ);
-							if(!shouldIgnore(b, meta)) {
+								Block b = worldObj.getBlock(x, y, z);
+								if(!(b.getMaterial() == Material.wood || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants))
+									continue;
+
+								int meta = worldObj.getBlockMetadata(x, y, z);
+								if(shouldIgnore(worldObj, x, y, z, b, meta))
+									continue;
+								
 								state = 1;
+								break outer;
 							}
 						}
 					}
@@ -181,7 +202,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 			this.lastSpin = this.spin;
 
-			if(isOn) {
+			if(isOn && !isSuspended) {
 				this.spin += 15F;
 
 				Vec3 vec = Vec3.createVectorHelper(0.625, 0, 1.625);
@@ -212,9 +233,13 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	}
 
 	/** Anything additionally that the detector nor the blades should pick up on, like non-mature willows */
-	public static boolean shouldIgnore(Block b, int meta) {
+	public static boolean shouldIgnore(World world, int x, int y, int z, Block b, int meta) {
 		if(b == ModBlocks.plant_tall) {
 			return meta == EnumTallFlower.CD2.ordinal() + 8 || meta == EnumTallFlower.CD3.ordinal() + 8;
+		}
+
+		if((b instanceof IGrowable)) {
+			return ((IGrowable) b).func_149851_a(world, x, y, z, world.isRemote);
 		}
 
 		return false;
@@ -225,21 +250,64 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 
-		if(shouldIgnore(b, meta)) {
-			return;
-		}
-
-		if(b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
-			worldObj.func_147480_a(x, y, z, true);
-			return;
-		}
-
-		if(b.getMaterial() == Material.wood) {
-			fellTree(x, y, z);
-			if(state == 1) {
-				state = 2;
+		if(!shouldIgnore(worldObj, x, y, z, b, meta)) {
+			if(b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
+				cutCrop(x, y, z);
+			} else if(b.getMaterial() == Material.wood) {
+				fellTree(x, y, z);
+				if(state == 1) {
+					state = 2;
+				}
 			}
 		}
+
+		// Return when hitting a wall
+		if(state == 1 && worldObj.getBlock(x, y, z).isNormalCube(worldObj, x, y, z)) {
+			state = 2;
+			forceSkip = 5;
+		}
+	}
+
+	protected void cutCrop(int x, int y, int z) {
+
+		Block soil = worldObj.getBlock(x, y - 1, z);
+
+		Block b = worldObj.getBlock(x, y, z);
+		int meta = worldObj.getBlockMetadata(x, y, z);
+
+		worldObj.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(b) + (meta << 12));
+
+		Block replacementBlock = Blocks.air;
+		int replacementMeta = 0;
+
+		if (!worldObj.isRemote && !worldObj.restoringBlockSnapshots) {
+			ArrayList<ItemStack> drops = b.getDrops(worldObj, x, y, z, meta, 0);
+			boolean replanted = false;
+
+			for (ItemStack drop : drops) {
+				if (!replanted && drop.getItem() instanceof IPlantable) {
+					IPlantable seed = (IPlantable) drop.getItem();
+
+					if(soil.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, seed)) {
+						replacementBlock = seed.getPlant(worldObj, x, y, z);
+						replacementMeta = seed.getPlantMetadata(worldObj, x, y, z);
+						replanted = true;
+						drop.stackSize -= 1;
+					}
+				}
+
+				float delta = 0.7F;
+				double dx = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
+				double dy = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
+				double dz = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
+
+				EntityItem entityItem = new EntityItem(worldObj, x + dx, y + dy, z + dz, drop);
+				entityItem.delayBeforeCanPickup = 10;
+				worldObj.spawnEntityInWorld(entityItem);
+			}
+		}
+
+		worldObj.setBlock(x, y, z, replacementBlock, replacementMeta, 3);
 	}
 
 	protected void fellTree(int x, int y, int z) {
@@ -279,6 +347,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.isSuspended);
 		buf.writeFloat(this.rotationYaw);
 		buf.writeFloat(this.rotationPitch);
 		this.tank.serialize(buf);
@@ -287,6 +356,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.isOn = buf.readBoolean();
+		this.isSuspended = buf.readBoolean();
 		this.syncYaw = buf.readFloat();
 		this.syncPitch = buf.readFloat();
 		this.turnProgress = 3; //use 3-ply for extra smoothness
@@ -297,6 +367,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.isOn = nbt.getBoolean("isOn");
+		this.isSuspended = nbt.getBoolean("isSuspended");
+		this.forceSkip = nbt.getInteger("skip");
 		this.rotationYaw = nbt.getFloat("yaw");
 		this.rotationPitch = nbt.getFloat("pitch");
 		this.state = nbt.getInteger("state");
@@ -307,6 +379,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isOn", this.isOn);
+		nbt.setBoolean("isSuspended", this.isSuspended);
+		nbt.setInteger("skip", this.forceSkip);
 		nbt.setFloat("yaw", this.rotationYaw);
 		nbt.setFloat("pitch", this.rotationPitch);
 		nbt.setInteger("state", this.state);

@@ -121,11 +121,13 @@ public class BlockBarrier extends Block implements ISBRHUniversal {
 		Block px = world.getBlock(x + 1, y, z);
 		Block nz = world.getBlock(x, y, z - 1);
 		Block pz = world.getBlock(x, y, z + 1);
+		Block py = world.getBlock(x, y + 1, z);
 
 		boolean negX = nx.isOpaqueCube() || nx.isNormalCube() || meta == Library.POS_X.ordinal();
 		boolean negZ = nz.isOpaqueCube() || nz.isNormalCube() || meta == Library.POS_Z.ordinal();
 		boolean posX = px.isOpaqueCube() || px.isNormalCube() || meta == Library.NEG_X.ordinal();
 		boolean posZ = pz.isOpaqueCube() || pz.isNormalCube() || meta == Library.NEG_Z.ordinal();
+		boolean posY = py.isOpaqueCube() || py.isNormalCube();
 
 		if(negX) {
 			renderer.setRenderBounds(0D, 0D, 0.4375D, 0.125D, 1D, 0.5625D); renderer.renderStandardBlock(block, x, y, z);
@@ -146,6 +148,12 @@ public class BlockBarrier extends Block implements ISBRHUniversal {
 			renderer.setRenderBounds(0.4375D, 0D, 0.875D, 0.5625D, 1D, 1D); renderer.renderStandardBlock(block, x, y, z);
 			renderer.setRenderBounds(negX ? 0.125D : 0D, 0.0625D, 0.9375D, posX ? 0.875D : 1D, 0.4375D, 1D); renderer.renderStandardBlock(block, x, y, z);
 			renderer.setRenderBounds(negX ? 0.125D : 0D, 0.5625D, 0.9375D, posX ? 0.875D : 1D, 0.9375D, 1D); renderer.renderStandardBlock(block, x, y, z);
+		}
+		if(posY) {
+			renderer.setRenderBounds(0D, 0.875D, 0D, 0.125D, 0.9375D, 1D); renderer.renderStandardBlock(block, x, y, z);
+			renderer.setRenderBounds(0.875D, 0.875D, 0D, 1D, 0.9375D, 1D); renderer.renderStandardBlock(block, x, y, z);
+			renderer.setRenderBounds(0D, 0.9375D, 0.0625D, 1D, 1D, 0.4375D); renderer.renderStandardBlock(block, x, y, z);
+			renderer.setRenderBounds(0D, 0.9375D, 0.5625D, 1D, 1D, 0.9375D); renderer.renderStandardBlock(block, x, y, z);
 		}
 		
 		return true;

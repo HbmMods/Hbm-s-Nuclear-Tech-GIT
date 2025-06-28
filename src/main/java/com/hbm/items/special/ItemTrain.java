@@ -13,7 +13,6 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -24,7 +23,7 @@ public class ItemTrain extends ItemEnumMulti {
 
 	public ItemTrain() {
 		super(EnumTrainType.class, true, true);
-		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setCreativeTab(null);//CreativeTabs.tabTransport);
 		this.setMaxStackSize(1);
 	}
 	

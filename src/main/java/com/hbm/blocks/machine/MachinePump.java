@@ -13,7 +13,7 @@ import com.hbm.tileentity.machine.TileEntityMachinePumpBase;
 import com.hbm.tileentity.machine.TileEntityMachinePumpElectric;
 import com.hbm.tileentity.machine.TileEntityMachinePumpSteam;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

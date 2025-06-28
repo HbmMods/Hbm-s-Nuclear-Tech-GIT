@@ -10,7 +10,7 @@ import com.hbm.inventory.container.ContainerMachineRotaryFurnace;
 import com.hbm.inventory.material.Mats;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineRotaryFurnace;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;

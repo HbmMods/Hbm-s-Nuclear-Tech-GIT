@@ -190,7 +190,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		case NUCLEAR:
 		case TX:
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int) strength, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, strength);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, strength);
 			break;
 		case BALEFIRE:
 			EntityBalefire bf = new EntityBalefire(worldObj);
@@ -203,7 +203,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 			break;
 		case N2:
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, strength);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, strength);
 			break;
 		case TAINT:
 			int r = (int) strength;
@@ -219,7 +219,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 			break;
 		case CLOUD:
 			this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 0);
-			ExplosionChaos.spawnChlorine(worldObj, posX - motionX, posY - motionY, posZ - motionZ, 750, 2.5, 2);
+			ExplosionChaos.spawnPoisonCloud(worldObj, posX - motionX, posY - motionY, posZ - motionZ, 750, 2.5, 2);
 			break;
 		case TURBINE:
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 10, true, false, true);

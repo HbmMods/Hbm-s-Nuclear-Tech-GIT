@@ -72,6 +72,18 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0xD8CA00, 0xFFF19D, length, true);
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_SM_BULLET = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		renderBulletStandard(Tessellator.instance, 0x42A8DD, 0xFFFFFF, length, true);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_BLACK_BULLET = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		renderBulletStandard(Tessellator.instance, 0x000000, 0x7F006E, length, true);
+	};
+	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_TRACER_BULLET = (bullet, interp) -> {
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length <= 0) return;

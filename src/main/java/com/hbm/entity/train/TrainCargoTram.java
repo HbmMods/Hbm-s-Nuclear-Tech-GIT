@@ -6,12 +6,12 @@ import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -191,9 +191,9 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 		
 		@Override
 		protected void drawGuiContainerForegroundLayer(int i, int j) {
-			String name = this.train.hasCustomInventoryName() ? this.train.getInventoryName() : I18n.format(this.train.getInventoryName());
+			String name = this.train.hasCustomInventoryName() ? this.train.getInventoryName() : I18nUtil.format(this.train.getInventoryName());
 			this.fontRendererObj.drawString(name, 140 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0xffffff);
-			this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+			this.fontRendererObj.drawString(I18nUtil.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		}
 
 		@Override

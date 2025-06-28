@@ -12,6 +12,7 @@ import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.EntityMinecartCrate;
 import com.hbm.entity.cart.EntityMinecartNTM;
@@ -87,7 +88,10 @@ import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ColorUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nClient;
+import com.hbm.util.i18n.ITranslate;
 import com.hbm.wiaj.cannery.Jars;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -130,8 +134,12 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ClientProxy extends ServerProxy {
+	
+	private static final I18nClient I18N = new I18nClient();
 
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
+	
+	public ITranslate getI18n() { return I18N; }
 
 	/** Runs just before item an block init */
 	@Override
@@ -261,7 +269,9 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssembler.class, new RenderAssembler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssemfac.class, new RenderAssemfac());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemicalPlant.class, new RenderChemicalPlant());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemfac.class, new RenderChemfac());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemicalFactory.class, new RenderChemicalFactory());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000.class, new RenderBAT9000());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOrbus.class, new RenderOrbus());
@@ -347,6 +357,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSolderingStation.class, new RenderSolderingStation());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineArcFurnaceLarge.class, new RenderArcFurnace());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineWoodBurner.class, new RenderWoodBurner());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPump.class, new RenderFluidPump());
 		//Foundry
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryBasin.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryMold.class, new RenderFoundry());
@@ -1783,7 +1794,8 @@ public class ClientProxy extends ServerProxy {
 								.addPos(90, 0, 1, 800)
 								.addPos(0, 0, 1, 50));
 
-				HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
+				String id = ModItems.crucible.getUnlocalizedName();
+				HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
 			}
 
 			/* crucible swing */
@@ -1804,8 +1816,8 @@ public class ClientProxy extends ServerProxy {
 									.addPos(0, 0, 0, 500));
 
 					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
-
-					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
+					String id = ModItems.crucible.getUnlocalizedName();
+					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
 				}
 			}
 
@@ -2071,8 +2083,10 @@ public class ClientProxy extends ServerProxy {
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
 		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
 		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
-		case TOOL_ALT: 	    	return HbmKeybinds.copyToolAlt.getIsKeyPressed();
-		case TOOL_CTRL:	    	return HbmKeybinds.copyToolCtrl.getIsKeyPressed();
+		case ABILITY_CYCLE:		return HbmKeybinds.abilityCycle.getIsKeyPressed();
+		case ABILITY_ALT:		return HbmKeybinds.abilityAlt.getIsKeyPressed();
+		case TOOL_ALT:			return HbmKeybinds.copyToolAlt.getIsKeyPressed();
+		case TOOL_CTRL:			return HbmKeybinds.copyToolCtrl.getIsKeyPressed();
 		case GUN_PRIMARY:		return HbmKeybinds.gunPrimaryKey.getIsKeyPressed();
 		case GUN_SECONDARY:		return HbmKeybinds.gunSecondaryKey.getIsKeyPressed();
 		case GUN_TERTIARY:		return HbmKeybinds.gunTertiaryKey.getIsKeyPressed();

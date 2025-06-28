@@ -29,8 +29,8 @@ import com.hbm.tileentity.*;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;

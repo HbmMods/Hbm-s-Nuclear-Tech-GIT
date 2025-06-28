@@ -58,12 +58,11 @@ public class XFactory44 {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TORPEDO = (bullet, mop) -> {
-		EntityTorpedo pippo = new EntityTorpedo(bullet.worldObj);
-		pippo.posX = mop.hitVec.xCoord;
-		pippo.posY = mop.hitVec.yCoord + 50;
-		pippo.posZ = mop.hitVec.zCoord;;
-		bullet.worldObj.spawnEntityInWorld(pippo);
-		//bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+		EntityTorpedo murky = new EntityTorpedo(bullet.worldObj);
+		murky.posX = mop.hitVec.xCoord;
+		murky.posY = mop.hitVec.yCoord + 50;
+		murky.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(murky);
 		bullet.setDead();
 	};
 

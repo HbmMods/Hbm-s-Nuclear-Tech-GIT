@@ -12,7 +12,7 @@ import com.hbm.tileentity.machine.TileEntityFoundryChannel;
 import com.hbm.tileentity.machine.TileEntityFoundryMold;
 import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 import com.hbm.tileentity.machine.TileEntityFoundryTank;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;

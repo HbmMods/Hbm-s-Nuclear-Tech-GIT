@@ -10,7 +10,7 @@ import com.hbm.render.tileentity.RenderCrucible;
 import com.hbm.render.tileentity.RenderFoundry;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 import com.hbm.tileentity.machine.TileEntityFoundryBasin;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;

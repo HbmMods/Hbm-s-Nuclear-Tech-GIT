@@ -65,7 +65,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		public EntityMissileNuclear(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
 			this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.missileRadius);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, BombConfig.missileRadius);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_nuclear); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_nuclear); }
@@ -76,7 +76,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		public EntityMissileMirv(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius * 2, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.missileRadius * 2);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, BombConfig.missileRadius * 2);
 		}
 		@Override public List<ItemStack> getDebris() {
 			List<ItemStack> list = new ArrayList<ItemStack>();
@@ -107,7 +107,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		public EntityMissileDoomsday(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
 			this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius * 2, posX, posY, posZ).moreFallout(100));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.missileRadius * 2);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, BombConfig.missileRadius * 2);
 		}
 		@Override public List<ItemStack> getDebris() { return null; }
 		@Override public ItemStack getDebrisRareDrop() { return null; }
@@ -120,7 +120,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		public EntityMissileDoomsdayRusted(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
 			this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ).moreFallout(100));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.missileRadius);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, BombConfig.missileRadius);
 		}
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_doomsday_rusted); }
 	}

@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class MachineChemfac extends BlockDummyable {
 
 	public MachineChemfac(Material mat) {

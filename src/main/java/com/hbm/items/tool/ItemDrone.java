@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
