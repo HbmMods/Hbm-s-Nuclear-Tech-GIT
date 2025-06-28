@@ -8,7 +8,7 @@ public class FluidStack {
 	public int fill;
 	public int pressure;
 	
-	public FluidStack(int fill, FluidType type) {
+	@Deprecated public FluidStack(int fill, FluidType type) { // weird ass format
 		this.fill = fill;
 		this.type = type;
 	}

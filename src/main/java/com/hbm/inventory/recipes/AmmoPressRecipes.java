@@ -41,12 +41,13 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack uranium = new OreDictStack(U238.ingot());
 		OreDictStack ferro = new OreDictStack(FERRO.ingot());
 		OreDictStack nb = new OreDictStack(NB.ingot());
-		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
-		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
 		OreDictStack he = new OreDictStack(ANY_HIGHEXPLOSIVE.ingot());
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
 		OreDictStack rp = new OreDictStack(P_RED.dust());
+		OreDictStack pipe = new OreDictStack(STEEL.pipe());
+		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
+		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
 		ComparableStack cSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL);
 		ComparableStack cBig = new ComparableStack(ModItems.casing, 1, EnumCasingType.LARGE);
 		ComparableStack sSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL_STEEL);
@@ -430,6 +431,15 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	he.copy(8),			null,
 				null,	sBig.copy(2),		null,
 				null,	sPlate.copy(4),		null));
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_HOOK, 16),
+				null,	steel,		null,
+				null,	pipe,		null,
+				null,	smokeless,	null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_MORTAR, 4),
+				null,	he.copy(4),	null,
+				null,	pipe,		null,
+				null,	smokeless,	null));
 	}
 	
 	public static HashMap getRecipes() {

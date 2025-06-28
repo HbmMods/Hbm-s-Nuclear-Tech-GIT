@@ -76,9 +76,8 @@ public class BobMathUtil {
 				);
 	}
 
-	public static double interp(double x, double y, float interp) {
-		return x + (y - x) * interp;
-	}
+	public static double interp(double x, double y, float interp) { return x + (y - x) * interp; }
+	public static double interp(double x, double y, double interp) { return x + (y - x) * interp; }
 
 	public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 
@@ -179,6 +178,14 @@ public class BobMathUtil {
 			throw new IllegalArgumentException("Attempted negative number in non-negative field! Attempted value: " + digits);
 
 		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
+	}
+	
+	/**
+	 * @param amount
+	 * @return the number as a string with thousand group commas
+	 */
+	public static String format(int amount) {
+		return String.format(Locale.US, "%,d", amount);
 	}
 
 	public static boolean getBlink() {

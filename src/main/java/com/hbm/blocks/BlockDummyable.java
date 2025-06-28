@@ -26,6 +26,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
@@ -441,8 +443,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		y = pos[1];
 		z = pos[2];
 
-		for(AxisAlignedBB aabb :this.bounding) {
-			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP));
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP);
+
+		for(AxisAlignedBB aabb : this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, rot);
 
 			if(entityBounding.intersectsWith(boxlet)) {
 				list.add(boxlet);
@@ -465,6 +469,32 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		}
 
 		return AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ).offset(x + 0.5, y + 0.5, z + 0.5);
+	}
+
+	// Don't mutate the xyz parameters, or the interaction max distance will bite you
+	@Override
+	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
+		if(!this.useDetailedHitbox()) {
+			return super.collisionRayTrace(world, x, y, z, startVec, endVec);
+		}
+
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return super.collisionRayTrace(world, x, y, z, startVec, endVec);
+
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset).getRotation(ForgeDirection.UP);
+
+		for(AxisAlignedBB aabb : this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, pos[0] + 0.5, pos[1], pos[2] + 0.5, rot);
+
+			MovingObjectPosition intercept = boxlet.calculateIntercept(startVec, endVec);
+			if(intercept != null) {
+				return new MovingObjectPosition(x, y, z, intercept.sideHit, intercept.hitVec);
+			}
+		}
+
+		return null;
 	}
 
 	@Override
@@ -500,10 +530,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		float exp = 0.002F;
 
-		int meta = world.getBlockMetadata(x, y, z);
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP);
 
 		ICustomBlockHighlight.setup();
-		for(AxisAlignedBB aabb : this.bounding) RenderGlobal.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		for(AxisAlignedBB aabb : this.bounding) RenderGlobal.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, rot).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
 	}
 

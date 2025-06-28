@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.EnumChatFormatting;
@@ -25,6 +25,7 @@ public interface IUpgradeInfoProvider {
 	public static final String KEY_CONSUMPTION = "upgrade.consumption";
 	public static final String KEY_COOLANT_CONSUMPTION = "upgrade.coolantConsumption";
 	public static final String KEY_DELAY = "upgrade.delay";
+	public static final String KEY_SPEED = "upgrade.speed";
 	public static final String KEY_EFFICIENCY = "upgrade.efficiency";
 	public static final String KEY_PRODUCTIVITY = "upgrade.productivity";
 	public static final String KEY_FORTUNE = "upgrade.fortune";

@@ -35,6 +35,9 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 		if(timer == 10) {
 			timer = 0;
 			ticker = check();
+
+			// To update the adjacent comparators
+			worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
 		}
 
 		if(timer % 5 == 0) {
@@ -65,6 +68,7 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 	public float check() {
 		return ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord);
 	}
+	
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {

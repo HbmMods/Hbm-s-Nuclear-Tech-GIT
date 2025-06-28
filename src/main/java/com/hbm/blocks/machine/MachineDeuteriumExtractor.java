@@ -4,7 +4,8 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityDeuteriumExtractor;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;

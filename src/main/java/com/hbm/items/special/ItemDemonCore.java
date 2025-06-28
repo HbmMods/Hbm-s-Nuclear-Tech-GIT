@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

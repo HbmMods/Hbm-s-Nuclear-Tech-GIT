@@ -12,7 +12,7 @@ import com.google.common.annotations.Beta;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

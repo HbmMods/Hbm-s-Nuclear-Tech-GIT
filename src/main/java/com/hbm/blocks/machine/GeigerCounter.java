@@ -131,4 +131,22 @@ public class GeigerCounter extends BlockContainer {
 			return false;
 		}
 	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		TileEntityGeiger te = (TileEntityGeiger)world.getTileEntity(x, y, z);
+		if (te == null) return 0;
+
+		float rad = te.check();
+
+		// 0 at exactly 0 rads/sec
+		// +1 per 5 rads/sec
+		// 15 at 75+ rads/sec
+		return Math.min((int)Math.ceil(rad / 5f), 15);
+	}
 }

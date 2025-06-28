@@ -11,7 +11,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 public class GUIMachineElectricFurnace extends GuiInfoContainer {
 	
