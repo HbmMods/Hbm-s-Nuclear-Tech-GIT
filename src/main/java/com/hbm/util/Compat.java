@@ -49,7 +49,29 @@ public class Compat {
 	private static String getReg(String domain, String name) {
 		return domain + ":" + name;
 	}
-
+	
+	public static ItemStack getPreferredOreOutput(List<ItemStack> oreList) {
+		int lowestPref = -1;
+		ItemStack preferredStack = null;
+		
+		for(ItemStack item : oreList) {
+			String modid = ItemStackUtil.getModIdFromItemStack(item);
+			for(int i = 0; i < GeneralConfig.preferredOutputMod.length; i++) {
+				if (modid.equals(GeneralConfig.preferredOutputMod[i])){
+					if (lowestPref<0 || i <lowestPref) {
+						preferredStack = item;
+						lowestPref = i;
+					}
+					break;
+				}
+			}
+		}
+		if (preferredStack != null) {
+			return preferredStack.copy();
+		}
+		return oreList.get(0).copy();
+	}
+	
 	public static boolean isModLoaded(String modid) {
 		return Loader.isModLoaded(modid);
 	}
