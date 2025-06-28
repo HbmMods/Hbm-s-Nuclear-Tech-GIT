@@ -950,7 +950,25 @@ public class Orchestras {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
 		}
 		if(type == AnimType.RELOAD) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			if(timer == 4) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.75F);
+			if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 55) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.impact", 0.5F, 1F);
+			if(timer == 65) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 74) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+			if(timer == 88) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.75F);
+			if(timer == 100) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			
 			if(timer == 55) ctx.config.getReceivers(stack)[0].getMagazine(stack).reloadAction(stack, ctx.inventory);
+		}
+
+		if(type == AnimType.INSPECT) {
+			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
+			if(timer == 25) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
+			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
+			if(timer == 35) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
+			if(timer == 50) entity.worldObj.playSoundAtEntity(entity, "hbm:player.groan", 1F, 1F);
 		}
 	};
 

@@ -172,6 +172,13 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, 8);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
+		this.renderMuzzleFlash(gun.lastShot[0], 150, 7.5);
+		GL11.glPopMatrix();
 	}
 
 	@Override
