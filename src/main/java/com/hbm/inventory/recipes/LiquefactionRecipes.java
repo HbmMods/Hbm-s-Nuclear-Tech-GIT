@@ -33,43 +33,42 @@ public class LiquefactionRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 		
 		//oil processing
-		recipes.put(COAL.gem(),										new FluidStack(100, Fluids.COALOIL));
-		recipes.put(COAL.dust(),									new FluidStack(100, Fluids.COALOIL));
-		recipes.put(LIGNITE.gem(),									new FluidStack(50, Fluids.COALOIL));
-		recipes.put(LIGNITE.dust(),									new FluidStack(50, Fluids.COALOIL));
-		recipes.put(KEY_OIL_TAR,									new FluidStack(75, Fluids.BITUMEN));
-		recipes.put(KEY_CRACK_TAR,									new FluidStack(100, Fluids.BITUMEN));
-		recipes.put(KEY_COAL_TAR,									new FluidStack(50, Fluids.BITUMEN));
-		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
-		recipes.put(KNO.dust(),										new FluidStack(750, Fluids.NITRIC_ACID));
-		recipes.put(NA.dust(),										new FluidStack(100, Fluids.SODIUM));
-		recipes.put(PB.ingot(),										new FluidStack(100, Fluids.LEAD));
-		recipes.put(PB.dust(),										new FluidStack(100, Fluids.LEAD));
+		recipes.put(COAL.gem(),											new FluidStack(100, Fluids.COALOIL));
+		recipes.put(COAL.dust(),										new FluidStack(100, Fluids.COALOIL));
+		recipes.put(LIGNITE.gem(),										new FluidStack(50, Fluids.COALOIL));
+		recipes.put(LIGNITE.dust(),										new FluidStack(50, Fluids.COALOIL));
+		recipes.put(KEY_OIL_TAR,										new FluidStack(75, Fluids.BITUMEN));
+		recipes.put(KEY_CRACK_TAR,										new FluidStack(100, Fluids.BITUMEN));
+		recipes.put(KEY_COAL_TAR,										new FluidStack(50, Fluids.BITUMEN));
+		recipes.put(KEY_LOG,											new FluidStack(100, Fluids.MUG));
+		recipes.put(NA.dust(),											new FluidStack(100, Fluids.SODIUM));
+		recipes.put(PB.ingot(),											new FluidStack(100, Fluids.LEAD));
+		recipes.put(PB.dust(),											new FluidStack(100, Fluids.LEAD));
 		//general utility recipes because why not
-		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.stone),				new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.obsidian),			new FluidStack(500, Fluids.LAVA));
-		recipes.put(new ComparableStack(Items.snowball),			new FluidStack(125, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.snow),				new FluidStack(500, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.ice),				new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.packed_ice),			new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
-		recipes.put(new ComparableStack(ModItems.pellet_charged),	new FluidStack(4000, Fluids.HELIUM4));
-		recipes.put(new ComparableStack(ModBlocks.ore_oil_sand),	new FluidStack(100, Fluids.BITUMEN));
+		recipes.put(new ComparableStack(Blocks.netherrack),				new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.cobblestone),			new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.stone),					new FluidStack(250, Fluids.LAVA));
+		recipes.put(new ComparableStack(Blocks.obsidian),				new FluidStack(500, Fluids.LAVA));
+		recipes.put(new ComparableStack(Items.snowball),				new FluidStack(125, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.snow),					new FluidStack(500, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.ice),					new FluidStack(1000, Fluids.WATER));
+		recipes.put(new ComparableStack(Blocks.packed_ice),				new FluidStack(1000, Fluids.WATER));
+		recipes.put(new ComparableStack(Items.ender_pearl),				new FluidStack(100, Fluids.ENDERJUICE));
+		recipes.put(new ComparableStack(ModItems.pellet_charged),		new FluidStack(4000, Fluids.HELIUM4));
+		recipes.put(new ComparableStack(ModBlocks.ore_oil_sand),		new FluidStack(100, Fluids.BITUMEN));
 
-		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(100, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3), new FluidStack(150, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4), new FluidStack(50, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
-		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),			new FluidStack(2000, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(Items.sugar),					new FluidStack(100, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3),	new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4),	new FluidStack(50, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModItems.biomass),				new FluidStack(125, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),	new FluidStack(2000, Fluids.BIOGAS));
 		recipes.put(new ComparableStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(100, Fluids.FISHOIL));
-		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),	new FluidStack(100, Fluids.SUNFLOWEROIL));
+		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),		new FluidStack(100, Fluids.SUNFLOWEROIL));
 
-		recipes.put(new ComparableStack(Items.wheat_seeds),			new FluidStack(50, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 1),	new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 2),	new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.vine),				new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(new ComparableStack(Items.wheat_seeds),				new FluidStack(50, Fluids.SEEDSLURRY));
+		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 1),		new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 2),		new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(new ComparableStack(Blocks.vine),					new FluidStack(100, Fluids.SEEDSLURRY));
 	}
 	
 	public static FluidStack getOutput(ItemStack stack) {

@@ -26,6 +26,8 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent {
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public FluidTank[] tanks;
 	public long coreHeat;
@@ -627,5 +629,20 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[0]; //TODO
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		return "";
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		return "";
 	}
 }

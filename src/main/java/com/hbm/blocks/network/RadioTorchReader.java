@@ -7,7 +7,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.gui.GUIScreenRadioTorchReader;
 import com.hbm.tileentity.network.TileEntityRadioTorchReader;
 import com.hbm.util.Compat;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;

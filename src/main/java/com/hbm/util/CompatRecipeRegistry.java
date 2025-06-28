@@ -29,6 +29,8 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.OverlayType;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Triplet;
@@ -70,14 +72,25 @@ public class CompatRecipeRegistry {
 		SolderingRecipes.recipes.add(new SolderingRecipe(output, time, power, fluid, copyFirst(toppings, 3), copyFirst(pcb, 2), copyFirst(solder, 1)));
 	}
 
-	/** Chemplant recipes need unique IDs, game will crash when an ID collision is detected! */
-	public static void registerChemplant(int id, String name, int duration, AStack[] inputItems, FluidStack[] inputFluids, ItemStack[] outputItems, FluidStack[] outputFluids) {
+	@Deprecated public static void registerChemplant(int id, String name, int duration, AStack[] inputItems, FluidStack[] inputFluids, ItemStack[] outputItems, FluidStack[] outputFluids) {
 		ChemRecipe recipe = new ChemRecipe(id, name, duration);
 		if(inputItems != null) recipe.inputItems(copyFirst(inputItems, 4));
 		if(inputFluids != null) recipe.inputFluids(copyFirst(inputFluids, 2));
 		if(outputItems != null) recipe.outputItems(copyFirst(outputItems, 4));
 		if(outputFluids != null) recipe.outputFluids(copyFirst(outputFluids, 2));
 		ChemplantRecipes.recipes.add(recipe);
+	}
+	
+	/** Chemical plant recipe needs a unique name for the registry. Zero length arrays should stay null*/
+	public static void registerChemicalPlant(String name, boolean named, ItemStack icon, int duration, long power, AStack[] inputItems, FluidStack[] inputFluids, IOutput[] outputItems, FluidStack[] outputFluids) {
+		GenericRecipe recipe = new GenericRecipe(name).setDuration(duration).setPower(power);
+		if(named) recipe.setNamed();
+		if(icon != null) recipe.setIcon(icon);
+		if(inputItems != null && inputItems.length > 0) recipe.inputItems(inputItems);
+		if(inputFluids != null && inputFluids.length > 0) recipe.inputFluids(inputFluids);
+		if(outputItems != null && outputItems.length > 0) recipe.outputItems(outputItems);
+		if(outputFluids != null && outputFluids.length > 0) recipe.outputFluids(outputFluids);
+		ChemicalPlantRecipes.INSTANCE.register(recipe);
 	}
 
 	/** Either solid or liquid output can be null */
@@ -223,6 +236,7 @@ public class CompatRecipeRegistry {
 		AmmoPressRecipes.recipes.add(new AmmoPressRecipe(output, input));
 	}
 
+	/** Assembler recipes are identified by the output as a ComparableStack, so no two recipes can share output. */
 	public static void registerAssembler(ItemStack output, AStack[] input, int time) {
 		AssemblerRecipes.makeRecipe(new ComparableStack(output), copyFirst(input, 12), time);
 	}

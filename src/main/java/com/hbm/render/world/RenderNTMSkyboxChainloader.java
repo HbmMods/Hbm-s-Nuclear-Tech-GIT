@@ -67,19 +67,15 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 		GL11.glDisable(GL11.GL_FOG);
 		OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 		
-		float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
-		brightness *= brightness;
-		
-		GL11.glColor4f(brightness, brightness, brightness, 1.0F);
-		
-		float var12 = 1F + world.rand.nextFloat() * 0.5F;
+		float var12 = 0.5F + world.rand.nextFloat() * 0.25F;
 		double dist = 100D;
 		
 		if(ModEventHandlerClient.renderLodeStar) {
 			GL11.glPushMatrix();
 			GL11.glRotatef(-75.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(10.0F, 0.0F, 1.0F, 0.0F);
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(lodeStar); // GENUINELY shut the fuck up i'm not kidding
+			GL11.glColor4f(1F, 1F, 1F, 1.0F);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(lodeStar);
 			
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
@@ -90,6 +86,11 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 			
 			GL11.glPopMatrix();
 		}
+		
+		float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
+		brightness *= brightness;
+		
+		GL11.glColor4f(brightness, brightness, brightness, 1.0F);
 		
 		GL11.glPushMatrix();
 		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);

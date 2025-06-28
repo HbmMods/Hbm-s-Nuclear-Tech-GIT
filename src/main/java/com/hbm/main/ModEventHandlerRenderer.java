@@ -14,6 +14,7 @@ import com.hbm.util.Clock;
 import com.hbm.world.biome.BiomeGenCraterBase;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -54,6 +55,9 @@ public class ModEventHandlerRenderer {
 
 	private static ModelMan manlyModel;
 	private static boolean[] partsHidden = new boolean[7];
+	
+	@SubscribeEvent
+	public void onRenderTickPre(TickEvent.RenderTickEvent event) { }
 
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void onRenderPlayerPre(RenderPlayerEvent.Pre event) {

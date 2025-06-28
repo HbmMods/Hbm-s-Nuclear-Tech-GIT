@@ -1,18 +1,48 @@
 ## Added
-* Sandbags
-  * Connect to other sandbags or solid blocks
-  * Pretts
-* Wooden barrier
-  * Pretty
-  * Automatically walls off connected solid blocks in addition to the direction it was placed in
+* New chemical factory
+  * New form factor, uses a smaller 5x5 footprint
+  * Only does four recipes instead of eight
+  * Double base speed, but also double power draw
+  * Three upgrade slots, upgrades follow the same rules as on the new chemplant
+  * Upgrades stack with the double base speed
+  * Stackable!
+  * Water consumption rate is fixed at 100mB/t for each active recipe
+  * Has a dedicated coolant line, so that the coolant water doesn't get used up by recipes
+  * Coolant line has a tooltip which should make it clear that the machine uses water and produces LPS
+  * Also has sound, unlike the old chemical factory
+  * Output fluids are now automatically sent to input tanks, at a rate of up to 50mB/t for somewhat fair fluid sharing
+    * This means that a chemical factory can make hydrogen peroxide, sulfuric acid and nitric acid, and the only fluid input needed is water
 
 ## Changed
-* Increased bayonet damage from 5 to 7.5 hearts
-* Two numeric redstone over radio signals sent over the same channel will now be added together instead of one signal replacing the other
-  * This means that reading the fill state of multiple batteries over the same channel should result the combined fill state of all batteries
-* Halved base spread of the .22 SMG
-* Certain secret guns now have a proper way of being obtained
-* Demolition mini nukes now create fire again
+* The DNT suit now has a damage threshold of 1,000
+* Compressed biomass now has a nice cube shape
+* The new chemical plant's indicator lights are now functional
+* The new chemical plant can now use upgrades
+* Reeds now drop sticks when broken
+* Switching the recipe in the new chemplant now annihilates residual fluid that is not overwritten by the new recipe
+  * I don't know why people wanted this, but here you go
+* The alternate recipe for oxyhydrogen now uses compressed air instead of nothing
+* Improved threaded Mk5, should be a smidge faster now
+* Spires no longer progress phases on peaceful difficulty
+* Spires now have a 20% chance of coming with instructions
+* New chemical plant now has sound
+* Old chemical plant and factory have been renamed and their recipes removed
+* The new recipe selector no longer changes recipe instantly on click, rather as soon as the selector GUI is closed. This should prevent issues when misclicking, which would destroy buffered fluids
+* The memespoon is now safe(tm)
+  * Instead of using a bugged instakill implementation, a fall distance of >2 now deals 50 extra melee damage
+  * Instead of blowing up like a nuke with a fall distance of >20, it now explodes similarly to a non-HE artillery grenade. This deals 150 damage in an AoE, has armor piercing properties and is, like the original functionality, still lethal to the user
 
 ## Fixed
-* Fixed RoR controller having the wrong recipe
+* Chemical plant ports. For real this time.
+* Fixed cable and pipe gauges returning the incomplete delta second value for OC and ROR readers
+* Fixed new chemical plant not saving power values to disk
+* Fixed laser rifle scope texture being missing
+* Potentially fixed shift clicking issue with the new chemical plant
+* Fixed blowtorch having a minimum gas requirement of 1,000mB despite only using 250mB
+* The gas turbine now uses audio with a 20 tick timeout, fixing a rare issue where the loop gets stuck and never ends
+* Potentially fixed a dupe caused by using InventoryBogoSorter in combination with crates
+* Rapidly spinning dyx should no longer have a state leak that would rotate lighting of unrelated TESRs with it
+* Fixed issue where mining strange stone with silk touch ability would cause a desync. It also now drops cobblestone, as if silk touch wasn't active at all
+* Fixed issue where applying a filter to a mask that doesn't support certain protection types would permanently remove those types from the filter until the game is restarted
+* Fixed InventoryBogoSorter being able to move held crates
+* Fixed tier 2 pickaxes mining depth rock causing a desync with the depth rock not actually being broken
