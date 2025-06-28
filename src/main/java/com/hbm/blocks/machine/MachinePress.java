@@ -34,6 +34,12 @@ public class MachinePress extends BlockDummyable {
 	public int getOffset() {
 		return 0;
 	}
+
+	@Override
+	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		return te != null && te instanceof TileEntityMachinePress;
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

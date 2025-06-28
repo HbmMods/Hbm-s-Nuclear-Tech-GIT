@@ -37,6 +37,12 @@ public class MachineEPress extends BlockDummyable {
 	}
 
 	@Override
+	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		return te != null && te instanceof TileEntityMachineEPress;
+	}
+
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 
