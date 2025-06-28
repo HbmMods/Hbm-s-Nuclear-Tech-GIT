@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
@@ -20,6 +21,7 @@ public class MachinePress extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachinePress();
+		if(meta >= 6) return new TileEntityProxyCombo(true, false, false);
 		return null;
 	}
 
@@ -46,7 +48,7 @@ public class MachinePress extends BlockDummyable {
 			if(entity == null) 
 				return false;
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

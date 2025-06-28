@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
 import com.hbm.world.gen.INBTTransformable;
 
@@ -24,6 +25,7 @@ public class MachineEPress extends BlockDummyable implements INBTTransformable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineEPress();
+		if(meta >= 6) return new TileEntityProxyCombo(true, false, false);
 		return null;
 	}
 
@@ -65,7 +67,7 @@ public class MachineEPress extends BlockDummyable implements INBTTransformable {
 			if(entity == null) 
 				return false;
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;
