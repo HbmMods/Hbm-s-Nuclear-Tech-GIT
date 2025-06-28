@@ -3,10 +3,9 @@ package com.hbm.items;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.BucketHandler;
-import com.hbm.handler.ToolAbility;
-import com.hbm.handler.ToolAbility.LuckAbility;
-import com.hbm.handler.WeaponAbility;
-import com.hbm.handler.guncfg.*;
+import com.hbm.handler.ability.IToolAreaAbility;
+import com.hbm.handler.ability.IToolHarvestAbility;
+import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -1153,15 +1152,6 @@ public class ModItems {
 	public static Item ammo_bag_infinite;
 	public static Item casing_bag;
 
-	public static Item test_nuke_igniter;
-	public static Item test_nuke_propellant;
-	public static Item test_nuke_tier1_shielding;
-	public static Item test_nuke_tier2_shielding;
-	public static Item test_nuke_tier1_bullet;
-	public static Item test_nuke_tier2_bullet;
-	public static Item test_nuke_tier1_target;
-	public static Item test_nuke_tier2_target;
-
 	public static Item cordite;
 	public static Item ballistite;
 	public static Item ball_dynamite;
@@ -1468,6 +1458,9 @@ public class ModItems {
 	public static Item gun_g3_zebra;
 	public static Item gun_stinger;
 	public static Item gun_chemthrower;
+	public static Item gun_amat;
+	public static Item gun_amat_subtlety;
+	public static Item gun_amat_penance;
 	public static Item gun_m2;
 	public static Item gun_autoshotgun;
 	public static Item gun_autoshotgun_shredder;
@@ -1597,7 +1590,6 @@ public class ModItems {
 	public static Item med_schizophrenia;
 
 	public static Item canteen_vodka;
-	public static Item canteen_fab;
 
 	public static Item defuser;
 	public static Item reacher;
@@ -2050,7 +2042,6 @@ public class ModItems {
 	public static Item wd40;
 	public static Item scrumpy;
 	public static Item wild_p;
-	public static Item fabsols_vodka;
 	public static Item shackles;
 	public static Item injector_5htp;
 	public static Item injector_knife;
@@ -2257,15 +2248,6 @@ public class ModItems {
 		
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
 		big_sword = new BigSword(ToolMaterial.EMERALD).setUnlocalizedName("big_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":big_sword");
-
-		test_nuke_igniter = new Item().setUnlocalizedName("test_nuke_igniter").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_igniter");
-		test_nuke_propellant = new Item().setUnlocalizedName("test_nuke_propellant").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_propellant");
-		test_nuke_tier1_shielding = new Item().setUnlocalizedName("test_nuke_tier1_shielding").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_shielding");
-		test_nuke_tier2_shielding = new Item().setUnlocalizedName("test_nuke_tier2_shielding").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_shielding");
-		test_nuke_tier1_bullet = new Item().setUnlocalizedName("test_nuke_tier1_bullet").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_bullet");
-		test_nuke_tier2_bullet = new Item().setUnlocalizedName("test_nuke_tier2_bullet").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_bullet");
-		test_nuke_tier1_target = new Item().setUnlocalizedName("test_nuke_tier1_target").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_target");
-		test_nuke_tier2_target = new Item().setUnlocalizedName("test_nuke_tier2_target").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_target");
 
 		ingot_th232 = new Item().setUnlocalizedName("ingot_th232").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_th232");
 		ingot_uranium = new Item().setUnlocalizedName("ingot_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_uranium");
@@ -3085,7 +3067,6 @@ public class ModItems {
 		wd40 = new ItemModWD40().setUnlocalizedName("wd40").setTextureName(RefStrings.MODID + ":wd40");
 		scrumpy = new ItemModRevive(1).setUnlocalizedName("scrumpy").setTextureName(RefStrings.MODID + ":scrumpy");
 		wild_p = new ItemModRevive(3).setUnlocalizedName("wild_p").setTextureName(RefStrings.MODID + ":wild_p");
-		fabsols_vodka = new ItemModRevive(9999).setUnlocalizedName("fabsols_vodka").setTextureName(RefStrings.MODID + ":fabsols_vodka");
 		shackles = new ItemModShackles().setUnlocalizedName("shackles").setTextureName(RefStrings.MODID + ":shackles");
 		injector_5htp = new ItemModAuto().setUnlocalizedName("injector_5htp").setTextureName(RefStrings.MODID + ":injector_5htp");
 		injector_knife = new ItemModKnife().setUnlocalizedName("injector_knife").setTextureName(RefStrings.MODID + ":injector_knife");
@@ -3787,7 +3768,6 @@ public class ModItems {
 
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
-		gun_fireext = new ItemGunBase(GunEnergyFactory.getExtConfig()).setUnlocalizedName("gun_fireext").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fireext");
 
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -3869,7 +3849,6 @@ public class ModItems {
 		static_sandwich = new ItemLemon(6, 1F, false).setUnlocalizedName("static_sandwich").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":static_sandwich");
 		pudding = new ItemLemon(6, 1F, false).setUnlocalizedName("pudding").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pudding");
 		canteen_vodka = new ItemCanteen(3 * 60).setUnlocalizedName("canteen_vodka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_vodka");
-		canteen_fab = new ItemCanteen(2 * 60).setUnlocalizedName("canteen_fab").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_fab");
 		pancake = new ItemPancake(20, 20, false).setUnlocalizedName("pancake").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pancake");
 		nugget = new ItemLemon(200, 1F, false).setUnlocalizedName("nugget").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":nugget");
 		peas = new ItemPeas().setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
@@ -3883,7 +3862,7 @@ public class ModItems {
 
 		defuser = new ItemTooling(ToolType.DEFUSER, 100).setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		reacher = new Item().setUnlocalizedName("reacher").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":reacher");
-		bismuth_tool = new ItemAmatExtractor().setUnlocalizedName("bismuth_tool").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":bismuth_tool");
+		bismuth_tool = new ItemAmatExtractor().setUnlocalizedName("bismuth_tool").setMaxStackSize(1).setFull3D().setCreativeTab(null).setTextureName(RefStrings.MODID + ":bismuth_tool");
 		meltdown_tool = new ItemDyatlov().setUnlocalizedName("meltdown_tool").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":meltdown_tool");
 
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":flame_pony");
@@ -4474,45 +4453,45 @@ public class ModItems {
 
 		chainsaw = new ItemChainsaw(25, -0.05, MainRegistry.tMatChainsaw, EnumToolType.AXE, 5000, 1, 250,
 				Fluids.DIESEL, Fluids.DIESEL_CRACK, Fluids.KEROSENE, Fluids.BIOFUEL, Fluids.GASOLINE, Fluids.GASOLINE_LEADED, Fluids.PETROIL, Fluids.PETROIL_LEADED, Fluids.COALGAS, Fluids.COALGAS_LEADED)
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addHitAbility(new WeaponAbility.ChainsawAbility(10))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setShears().setUnlocalizedName("chainsaw").setTextureName(RefStrings.MODID + ":chainsaw");
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IWeaponAbility.CHAINSAW, 1)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setShears().setUnlocalizedName("chainsaw").setTextureName(RefStrings.MODID + ":chainsaw");
 
 		schrabidium_sword = new ItemSwordAbility(75, 0, MainRegistry.tMatSchrab)
-				.addHitAbility(new WeaponAbility.RadiationAbility(50F))
-				.addHitAbility(new WeaponAbility.VampireAbility(2F))
+				.addAbility(IWeaponAbility.RADIATION, 1)
+				.addAbility(IWeaponAbility.VAMPIRE, 0)
 				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_sword").setTextureName(RefStrings.MODID + ":schrabidium_sword");
 
 		schrabidium_pickaxe = new ItemToolAbility(20, 0, MainRegistry.tMatSchrab, EnumToolType.PICKAXE)
-				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(10))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addAbility(IWeaponAbility.RADIATION, 0)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 6)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
 				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_pickaxe").setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
 
 		schrabidium_axe = new ItemToolAbility(25, 0, MainRegistry.tMatSchrab, EnumToolType.AXE)
-				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(10))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
+				.addAbility(IWeaponAbility.RADIATION, 0)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 6)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
 				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_axe").setTextureName(RefStrings.MODID + ":schrabidium_axe");
 
 		schrabidium_shovel = new ItemToolAbility(15, 0, MainRegistry.tMatSchrab, EnumToolType.SHOVEL)
-				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(10))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addAbility(IWeaponAbility.RADIATION, 0)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 6)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
 				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_shovel").setTextureName(RefStrings.MODID + ":schrabidium_shovel");
 
 		schrabidium_hoe = new HoeSchrabidium(MainRegistry.tMatSchrab).setUnlocalizedName("schrabidium_hoe").setTextureName(RefStrings.MODID + ":schrabidium_hoe");
@@ -4520,294 +4499,282 @@ public class ModItems {
 		titanium_sword = new ItemSwordAbility(6.5F, 0, MainRegistry.tMatTitan).setUnlocalizedName("titanium_sword").setTextureName(RefStrings.MODID + ":titanium_sword");
 		titanium_pickaxe = new ItemToolAbility(4.5F, 0, MainRegistry.tMatTitan, EnumToolType.PICKAXE).setUnlocalizedName("titanium_pickaxe").setTextureName(RefStrings.MODID + ":titanium_pickaxe");
 		titanium_axe = new ItemToolAbility(5.5F, 0, MainRegistry.tMatTitan, EnumToolType.AXE)
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("titanium_axe").setTextureName(RefStrings.MODID + ":titanium_axe");
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("titanium_axe").setTextureName(RefStrings.MODID + ":titanium_axe");
 		titanium_shovel = new ItemToolAbility(3.5F, 0, MainRegistry.tMatTitan, EnumToolType.SHOVEL).setUnlocalizedName("titanium_shovel").setTextureName(RefStrings.MODID + ":titanium_shovel");
 		titanium_hoe = new ModHoe(MainRegistry.tMatTitan).setUnlocalizedName("titanium_hoe").setTextureName(RefStrings.MODID + ":titanium_hoe");
 		steel_sword = new ItemSwordAbility(6F, 0, MainRegistry.tMatSteel).setUnlocalizedName("steel_sword").setTextureName(RefStrings.MODID + ":steel_sword");
 		steel_pickaxe = new ItemToolAbility(4F, 0, MainRegistry.tMatSteel, EnumToolType.PICKAXE).setUnlocalizedName("steel_pickaxe").setTextureName(RefStrings.MODID + ":steel_pickaxe");
 		steel_axe = new ItemToolAbility(5F, 0, MainRegistry.tMatSteel, EnumToolType.AXE)
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("steel_axe").setTextureName(RefStrings.MODID + ":steel_axe");
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("steel_axe").setTextureName(RefStrings.MODID + ":steel_axe");
 		steel_shovel = new ItemToolAbility(3F, 0, MainRegistry.tMatSteel, EnumToolType.SHOVEL).setUnlocalizedName("steel_shovel").setTextureName(RefStrings.MODID + ":steel_shovel");
 		steel_hoe = new ModHoe(MainRegistry.tMatSteel).setUnlocalizedName("steel_hoe").setTextureName(RefStrings.MODID + ":steel_hoe");
 
 		alloy_sword = new ItemSwordAbility(8F, 0, MainRegistry.tMatAlloy)
-				.addHitAbility(new WeaponAbility.StunAbility(2)).setUnlocalizedName("alloy_sword").setTextureName(RefStrings.MODID + ":alloy_sword");
+				.addAbility(IWeaponAbility.STUN, 0).setUnlocalizedName("alloy_sword").setTextureName(RefStrings.MODID + ":alloy_sword");
 
 		alloy_pickaxe = new ItemToolAbility(5F, 0, MainRegistry.tMatAlloy, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(3)).setUnlocalizedName("alloy_pickaxe").setTextureName(RefStrings.MODID + ":alloy_pickaxe");
+				.addAbility(IToolAreaAbility.RECURSION, 0).setUnlocalizedName("alloy_pickaxe").setTextureName(RefStrings.MODID + ":alloy_pickaxe");
 
 		alloy_axe = new ItemToolAbility(7F, 0, MainRegistry.tMatAlloy, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(3))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("alloy_axe").setTextureName(RefStrings.MODID + ":alloy_axe");
+				.addAbility(IToolAreaAbility.RECURSION, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("alloy_axe").setTextureName(RefStrings.MODID + ":alloy_axe");
 
 		alloy_shovel = new ItemToolAbility(4F, 0, MainRegistry.tMatAlloy, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.RecursionAbility(3)).setUnlocalizedName("alloy_shovel").setTextureName(RefStrings.MODID + ":alloy_shovel");
+				.addAbility(IToolAreaAbility.RECURSION, 0).setUnlocalizedName("alloy_shovel").setTextureName(RefStrings.MODID + ":alloy_shovel");
 
 		alloy_hoe = new ModHoe(MainRegistry.tMatAlloy).setUnlocalizedName("alloy_hoe").setTextureName(RefStrings.MODID + ":alloy_hoe");
 
 		cmb_sword = new ItemSwordAbility(35F, 0, MainRegistry.tMatCMB)
-				.addHitAbility(new WeaponAbility.StunAbility(2))
-				.addHitAbility(new WeaponAbility.VampireAbility(2F)).setUnlocalizedName("cmb_sword").setTextureName(RefStrings.MODID + ":cmb_sword");
+				.addAbility(IWeaponAbility.STUN, 0)
+				.addAbility(IWeaponAbility.VAMPIRE, 0).setUnlocalizedName("cmb_sword").setTextureName(RefStrings.MODID + ":cmb_sword");
 
 		cmb_pickaxe = new ItemToolAbility(10F, 0, MainRegistry.tMatCMB, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3)).setUnlocalizedName("cmb_pickaxe").setTextureName(RefStrings.MODID + ":cmb_pickaxe");
-
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2).setUnlocalizedName("cmb_pickaxe").setTextureName(RefStrings.MODID + ":cmb_pickaxe");
+		
 		cmb_axe = new ItemToolAbility(30F, 0, MainRegistry.tMatCMB, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("cmb_axe").setTextureName(RefStrings.MODID + ":cmb_axe");
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("cmb_axe").setTextureName(RefStrings.MODID + ":cmb_axe");
 
 		cmb_shovel = new ItemToolAbility(8F, 0, MainRegistry.tMatCMB, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3)).setUnlocalizedName("cmb_shovel").setTextureName(RefStrings.MODID + ":cmb_shovel");
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2).setUnlocalizedName("cmb_shovel").setTextureName(RefStrings.MODID + ":cmb_shovel");
 
 		cmb_hoe = new ModHoe(MainRegistry.tMatCMB).setUnlocalizedName("cmb_hoe").setTextureName(RefStrings.MODID + ":cmb_hoe");
 
 		elec_sword = new ItemSwordAbilityPower(12.5F, 0, MainRegistry.tMatElec, 500000, 1000, 100)
-				.addHitAbility(new WeaponAbility.StunAbility(5)).setUnlocalizedName("elec_sword").setTextureName(RefStrings.MODID + ":elec_sword_anim");
+				.addAbility(IWeaponAbility.STUN, 2).setUnlocalizedName("elec_sword").setTextureName(RefStrings.MODID + ":elec_sword_anim");
 
 		elec_pickaxe = new ItemToolAbilityPower(6F, 0, MainRegistry.tMatElec, EnumToolType.PICKAXE, 500000, 1000, 100)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("elec_pickaxe").setTextureName(RefStrings.MODID + ":elec_drill_anim");
-
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("elec_pickaxe").setTextureName(RefStrings.MODID + ":elec_drill_anim");
+		
 		elec_axe = new ItemToolAbilityPower(10F, 0, MainRegistry.tMatElec, EnumToolType.AXE, 500000, 1000, 100)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2))
-				.addHitAbility(new WeaponAbility.ChainsawAbility(15))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setShears().setUnlocalizedName("elec_axe").setTextureName(RefStrings.MODID + ":elec_chainsaw_anim");
-
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1)
+				.addAbility(IWeaponAbility.CHAINSAW, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setShears().setUnlocalizedName("elec_axe").setTextureName(RefStrings.MODID + ":elec_chainsaw_anim");
+		
 		elec_shovel = new ItemToolAbilityPower(5F, 0, MainRegistry.tMatElec, EnumToolType.SHOVEL, 500000, 1000, 100)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("elec_shovel").setTextureName(RefStrings.MODID + ":elec_shovel_anim");
-
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("elec_shovel").setTextureName(RefStrings.MODID + ":elec_shovel_anim");
+		
 		desh_sword = new ItemSwordAbility(12.5F, 0, MainRegistry.tMatDesh)
-				.addHitAbility(new WeaponAbility.StunAbility(2)).setUnlocalizedName("desh_sword").setTextureName(RefStrings.MODID + ":desh_sword");
+				.addAbility(IWeaponAbility.STUN, 0).setUnlocalizedName("desh_sword").setTextureName(RefStrings.MODID + ":desh_sword");
 
 		desh_pickaxe = new ItemToolAbility(5F, -0.05, MainRegistry.tMatDesh, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.RecursionAbility(3))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("desh_pickaxe").setTextureName(RefStrings.MODID + ":desh_pickaxe");
-
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.RECURSION, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("desh_pickaxe").setTextureName(RefStrings.MODID + ":desh_pickaxe");
+		
 		desh_axe = new ItemToolAbility(7.5F, -0.05, MainRegistry.tMatDesh, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.RecursionAbility(3))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("desh_axe").setTextureName(RefStrings.MODID + ":desh_axe");
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.RECURSION, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("desh_axe").setTextureName(RefStrings.MODID + ":desh_axe");
 
 		desh_shovel = new ItemToolAbility(4F, -0.05, MainRegistry.tMatDesh, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.RecursionAbility(3))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("desh_shovel").setTextureName(RefStrings.MODID + ":desh_shovel");
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolAreaAbility.RECURSION, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1).setUnlocalizedName("desh_shovel").setTextureName(RefStrings.MODID + ":desh_shovel");
 
 		desh_hoe = new ModHoe(MainRegistry.tMatDesh).setUnlocalizedName("desh_hoe").setTextureName(RefStrings.MODID + ":desh_hoe");
 
 		cobalt_sword = new ItemSwordAbility(12F, 0, MainRegistry.tMatCobalt).setUnlocalizedName("cobalt_sword").setTextureName(RefStrings.MODID + ":cobalt_sword");
 		cobalt_pickaxe = new ItemToolAbility(4F, 0, MainRegistry.tMatCobalt, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(1)).setUnlocalizedName("cobalt_pickaxe").setTextureName(RefStrings.MODID + ":cobalt_pickaxe");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 0).setUnlocalizedName("cobalt_pickaxe").setTextureName(RefStrings.MODID + ":cobalt_pickaxe");
 		cobalt_axe = new ItemToolAbility(6F, 0, MainRegistry.tMatCobalt, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(1))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("cobalt_axe").setTextureName(RefStrings.MODID + ":cobalt_axe");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("cobalt_axe").setTextureName(RefStrings.MODID + ":cobalt_axe");
 		cobalt_shovel = new ItemToolAbility(3.5F, 0, MainRegistry.tMatCobalt, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(1)).setUnlocalizedName("cobalt_shovel").setTextureName(RefStrings.MODID + ":cobalt_shovel");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 0).setUnlocalizedName("cobalt_shovel").setTextureName(RefStrings.MODID + ":cobalt_shovel");
 		cobalt_hoe = new ModHoe(MainRegistry.tMatCobalt).setUnlocalizedName("cobalt_hoe").setTextureName(RefStrings.MODID + ":cobalt_hoe");
 
 		ToolMaterial matDecCobalt = EnumHelper.addToolMaterial("HBM_COBALT2", 3, 2500, 15.0F, 2.5F, 75).setRepairItem(new ItemStack(ModItems.ingot_cobalt));
 		cobalt_decorated_sword = new ItemSwordAbility(15F, 0, matDecCobalt)
-				.addHitAbility(new WeaponAbility.BobbleAbility()).setUnlocalizedName("cobalt_decorated_sword").setTextureName(RefStrings.MODID + ":cobalt_decorated_sword");
+				.addAbility(IWeaponAbility.BOBBLE, 0).setUnlocalizedName("cobalt_decorated_sword").setTextureName(RefStrings.MODID + ":cobalt_decorated_sword");
 		cobalt_decorated_pickaxe = new ItemToolAbility(6F, 0, matDecCobalt, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3)).setUnlocalizedName("cobalt_decorated_pickaxe").setTextureName(RefStrings.MODID + ":cobalt_decorated_pickaxe");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2).setUnlocalizedName("cobalt_decorated_pickaxe").setTextureName(RefStrings.MODID + ":cobalt_decorated_pickaxe");
 		cobalt_decorated_axe = new ItemToolAbility(8F, 0, matDecCobalt, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("cobalt_decorated_axe").setTextureName(RefStrings.MODID + ":cobalt_decorated_axe");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("cobalt_decorated_axe").setTextureName(RefStrings.MODID + ":cobalt_decorated_axe");
 		cobalt_decorated_shovel = new ItemToolAbility(5F, 0, matDecCobalt, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(3)).setUnlocalizedName("cobalt_decorated_shovel").setTextureName(RefStrings.MODID + ":cobalt_decorated_shovel");
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2).setUnlocalizedName("cobalt_decorated_shovel").setTextureName(RefStrings.MODID + ":cobalt_decorated_shovel");
 		cobalt_decorated_hoe = new ModHoe(matDecCobalt).setUnlocalizedName("cobalt_decorated_hoe").setTextureName(RefStrings.MODID + ":cobalt_decorated_hoe");
 
 		ToolMaterial matStarmetal = EnumHelper.addToolMaterial("HBM_STARMETAL", 3, 3000, 20.0F, 2.5F, 100).setRepairItem(new ItemStack(ModItems.ingot_starmetal));
 		starmetal_sword = new ItemSwordAbility(25F, 0, matStarmetal)
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(3))
-				.addHitAbility(new WeaponAbility.BobbleAbility()).setUnlocalizedName("starmetal_sword").setTextureName(RefStrings.MODID + ":starmetal_sword");
+				.addAbility(IWeaponAbility.BEHEADER, 0)
+				.addAbility(IWeaponAbility.STUN, 1)
+				.addAbility(IWeaponAbility.BOBBLE, 0).setUnlocalizedName("starmetal_sword").setTextureName(RefStrings.MODID + ":starmetal_sword");
 		starmetal_pickaxe = new ItemToolAbility(8F, 0, matStarmetal, EnumToolType.PICKAXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(6))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addHitAbility(new WeaponAbility.StunAbility(3)).setUnlocalizedName("starmetal_pickaxe").setTextureName(RefStrings.MODID + ":starmetal_pickaxe");
+				.addAbility(IToolAreaAbility.RECURSION, 3)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IWeaponAbility.STUN, 1).setUnlocalizedName("starmetal_pickaxe").setTextureName(RefStrings.MODID + ":starmetal_pickaxe");
 		starmetal_axe = new ItemToolAbility(12F, 0, matStarmetal, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.RecursionAbility(6))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(3)).setUnlocalizedName("starmetal_axe").setTextureName(RefStrings.MODID + ":starmetal_axe");
+				.addAbility(IToolAreaAbility.RECURSION, 3)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
+				.addAbility(IWeaponAbility.STUN, 1).setUnlocalizedName("starmetal_axe").setTextureName(RefStrings.MODID + ":starmetal_axe");
 		starmetal_shovel = new ItemToolAbility(7F, 0, matStarmetal, EnumToolType.SHOVEL)
-				.addBreakAbility(new ToolAbility.RecursionAbility(6))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new LuckAbility(5))
-				.addHitAbility(new WeaponAbility.StunAbility(3)).setUnlocalizedName("starmetal_shovel").setTextureName(RefStrings.MODID + ":starmetal_shovel");
+				.addAbility(IToolAreaAbility.RECURSION, 3)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 4)
+				.addAbility(IWeaponAbility.STUN, 1).setUnlocalizedName("starmetal_shovel").setTextureName(RefStrings.MODID + ":starmetal_shovel");
 		starmetal_hoe = new ModHoe(matStarmetal).setUnlocalizedName("starmetal_hoe").setTextureName(RefStrings.MODID + ":starmetal_hoe");
 
 		centri_stick = new ItemToolAbility(3F, 0, MainRegistry.tMatElec, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.CentrifugeAbility()).setMaxDamage(50).setUnlocalizedName("centri_stick").setTextureName(RefStrings.MODID + ":centri_stick");
+				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0).setMaxDamage(50).setUnlocalizedName("centri_stick").setTextureName(RefStrings.MODID + ":centri_stick");
 		smashing_hammer = new ItemToolAbility(12F, -0.1, MainRegistry.tMatSteel, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.ShredderAbility()).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
+				.addAbility(IToolHarvestAbility.SHREDDER, 0).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
 		drax = new ItemToolAbilityPower(10F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 500000000, 100000, 5000)
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(2))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5)).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1)
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 2).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
 		drax_mk2 = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addBreakAbility(new ToolAbility.CentrifugeAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(3))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.HammerAbility(3))
-				.addBreakAbility(new ToolAbility.RecursionAbility(7)).setUnlocalizedName("drax_mk2").setTextureName(RefStrings.MODID + ":drax_mk2");
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2)
+				.addAbility(IToolAreaAbility.HAMMER, 2)
+				.addAbility(IToolAreaAbility.RECURSION, 4).setUnlocalizedName("drax_mk2").setTextureName(RefStrings.MODID + ":drax_mk2");
 		drax_mk3 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 2500000000L, 500000, 10000)
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addBreakAbility(new ToolAbility.CentrifugeAbility())
-				.addBreakAbility(new ToolAbility.CrystallizerAbility())
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(4))
-				.addBreakAbility(new ToolAbility.HammerAbility(1))
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.HammerAbility(3))
-				.addBreakAbility(new ToolAbility.HammerAbility(4))
-				.addBreakAbility(new ToolAbility.RecursionAbility(9)).setUnlocalizedName("drax_mk3").setTextureName(RefStrings.MODID + ":drax_mk3");
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0)
+				.addAbility(IToolHarvestAbility.CRYSTALLIZER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 3)
+				.addAbility(IToolAreaAbility.HAMMER, 3)
+				.addAbility(IToolAreaAbility.RECURSION, 5).setUnlocalizedName("drax_mk3").setTextureName(RefStrings.MODID + ":drax_mk3");
 
 		ToolMaterial matBismuth = EnumHelper.addToolMaterial("HBM_BISMUTH", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.ingot_bismuth));
 		bismuth_pickaxe = new ItemToolAbility(15F, 0, matBismuth, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(2))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(5))
-				.addHitAbility(new WeaponAbility.VampireAbility(2F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IWeaponAbility.STUN, 2)
+				.addAbility(IWeaponAbility.VAMPIRE, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
 				.setDepthRockBreaker().setUnlocalizedName("bismuth_pickaxe").setTextureName(RefStrings.MODID + ":bismuth_pickaxe");
 		bismuth_axe = new ItemToolAbility(25F, 0, matBismuth, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.ShredderAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(2))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(10))
-				.addHitAbility(new WeaponAbility.VampireAbility(3F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("bismuth_axe").setTextureName(RefStrings.MODID + ":bismuth_axe");
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SHREDDER, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 1)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IWeaponAbility.STUN, 3)
+				.addAbility(IWeaponAbility.VAMPIRE, 1)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("bismuth_axe").setTextureName(RefStrings.MODID + ":bismuth_axe");
 
 
 		ToolMaterial matVolcano = EnumHelper.addToolMaterial("HBM_VOLCANIC", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.ingot_bismuth));
 		volcanic_pickaxe = new ItemToolAbility(15F, 0, matVolcano, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(3))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addHitAbility(new WeaponAbility.FireAbility(5))
-				.addHitAbility(new WeaponAbility.VampireAbility(2F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IWeaponAbility.FIRE, 0)
+				.addAbility(IWeaponAbility.VAMPIRE, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
 				.setDepthRockBreaker().setUnlocalizedName("volcanic_pickaxe").setTextureName(RefStrings.MODID + ":volcanic_pickaxe");
 		volcanic_axe = new ItemToolAbility(25F, 0, matVolcano, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(3))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addHitAbility(new WeaponAbility.FireAbility(10))
-				.addHitAbility(new WeaponAbility.VampireAbility(3F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("volcanic_axe").setTextureName(RefStrings.MODID + ":volcanic_axe");
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.SMELTER, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IWeaponAbility.FIRE, 1)
+				.addAbility(IWeaponAbility.VAMPIRE, 1)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("volcanic_axe").setTextureName(RefStrings.MODID + ":volcanic_axe");
 
 		ToolMaterial matChlorophyte = EnumHelper.addToolMaterial("HBM_CHLOROPHYTE", 4, 0, 75F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.powder_chlorophyte));
 		chlorophyte_pickaxe = new ItemToolAbility(20F, 0, matChlorophyte, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.LuckAbility(4))
-				.addBreakAbility(new ToolAbility.CentrifugeAbility())
-				.addBreakAbility(new ToolAbility.MercuryAbility())
-				.addHitAbility(new WeaponAbility.StunAbility(10))
-				.addHitAbility(new WeaponAbility.VampireAbility(5F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.LUCK, 3)
+				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0)
+				.addAbility(IToolHarvestAbility.MERCURY, 0)
+				.addAbility(IWeaponAbility.STUN, 3)
+				.addAbility(IWeaponAbility.VAMPIRE, 2)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
 				.setDepthRockBreaker().setUnlocalizedName("chlorophyte_pickaxe").setTextureName(RefStrings.MODID + ":chlorophyte_pickaxe");
 		chlorophyte_axe = new ItemToolAbility(50F, 0, matChlorophyte, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(2))
-				.addBreakAbility(new ToolAbility.RecursionAbility(4))
-				.addBreakAbility(new ToolAbility.LuckAbility(4))
-				.addHitAbility(new WeaponAbility.StunAbility(15))
-				.addHitAbility(new WeaponAbility.VampireAbility(10F))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("chlorophyte_axe").setTextureName(RefStrings.MODID + ":chlorophyte_axe");
+				.addAbility(IToolAreaAbility.HAMMER, 1)
+				.addAbility(IToolAreaAbility.RECURSION, 1)
+				.addAbility(IToolHarvestAbility.LUCK, 3)
+				.addAbility(IWeaponAbility.STUN, 4)
+				.addAbility(IWeaponAbility.VAMPIRE, 3)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("chlorophyte_axe").setTextureName(RefStrings.MODID + ":chlorophyte_axe");
 
 		ToolMaterial matMese = EnumHelper.addToolMaterial("HBM_MESE", 4, 0, 100F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		mese_pickaxe = new ItemToolAbility(35F, 0, matMese, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.HammerAbility(3))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.CrystallizerAbility())
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(9))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(2.5F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(5F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(10F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(15F))
-				.addHitAbility(new WeaponAbility.StunAbility(10))
-				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
-				.addHitAbility(new WeaponAbility.BeheaderAbility())
+				.addAbility(IToolAreaAbility.HAMMER, 2)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.CRYSTALLIZER, 0)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 5)
+				.addAbility(IToolAreaAbility.EXPLOSION, 3)
+				.addAbility(IWeaponAbility.STUN, 3)
+				.addAbility(IWeaponAbility.PHOSPHORUS, 0)
+				.addAbility(IWeaponAbility.BEHEADER, 0)
 				.setDepthRockBreaker().setUnlocalizedName("mese_pickaxe").setTextureName(RefStrings.MODID + ":mese_pickaxe");
 		mese_axe = new ItemToolAbility(75F, 0, matMese, EnumToolType.AXE)
-				.addBreakAbility(new ToolAbility.HammerAbility(3))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5))
-				.addBreakAbility(new ToolAbility.SilkAbility())
-				.addBreakAbility(new ToolAbility.LuckAbility(9))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(2.5F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(5F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(10F))
-				.addBreakAbility(new ToolAbility.ExplosionAbility(15F))
-				.addHitAbility(new WeaponAbility.StunAbility(15))
-				.addHitAbility(new WeaponAbility.PhosphorusAbility(90))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("mese_axe").setTextureName(RefStrings.MODID + ":mese_axe");
+				.addAbility(IToolAreaAbility.HAMMER, 2)
+				.addAbility(IToolAreaAbility.RECURSION, 2)
+				.addAbility(IToolHarvestAbility.SILK, 0)
+				.addAbility(IToolHarvestAbility.LUCK, 5)
+				.addAbility(IToolAreaAbility.EXPLOSION, 3)
+				.addAbility(IWeaponAbility.STUN, 4)
+				.addAbility(IWeaponAbility.PHOSPHORUS, 1)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("mese_axe").setTextureName(RefStrings.MODID + ":mese_axe");
 
 		dnt_sword = new ItemSwordAbility(12F, 0, matMese).setUnlocalizedName("dnt_sword").setTextureName(RefStrings.MODID + ":dnt_sword");
 
 		ToolMaterial matDwarf = EnumHelper.addToolMaterial("HBM_DWARVEN", 2, 0, 4F, 0.0F, 10).setRepairItem(new ItemStack(ModItems.ingot_copper));
 		dwarven_pickaxe = new ItemToolAbility(5F, -0.1, matDwarf, EnumToolType.MINER)
-				.addBreakAbility(new ToolAbility.HammerAbility(1)).setUnlocalizedName("dwarven_pickaxe").setMaxDamage(250).setTextureName(RefStrings.MODID + ":dwarven_pickaxe");
+				.addAbility(IToolAreaAbility.HAMMER, 0).setUnlocalizedName("dwarven_pickaxe").setMaxDamage(250).setTextureName(RefStrings.MODID + ":dwarven_pickaxe");
 
 		ToolMaterial matMeteorite = EnumHelper.addToolMaterial("HBM_METEORITE", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		meteorite_sword = new ItemSwordMeteorite(9F, 0, matMeteorite).setUnlocalizedName("meteorite_sword").setTextureName(RefStrings.MODID + ":meteorite_sword");
@@ -4882,11 +4849,11 @@ public class ModItems {
 		diamond_gavel = new WeaponSpecial(ToolMaterial.EMERALD).setUnlocalizedName("diamond_gavel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":diamond_gavel");
 		ToolMaterial matMeseGavel = EnumHelper.addToolMaterial("HBM_MESEGAVEL", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		mese_gavel = new ItemSwordAbility(250, 1.5, matMeseGavel)
-				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
-				.addHitAbility(new WeaponAbility.RadiationAbility(500))
-				.addHitAbility(new WeaponAbility.StunAbility(10))
-				.addHitAbility(new WeaponAbility.VampireAbility(50))
-				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("mese_gavel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mese_gavel");
+				.addAbility(IWeaponAbility.PHOSPHORUS, 0)
+				.addAbility(IWeaponAbility.RADIATION, 2)
+				.addAbility(IWeaponAbility.STUN, 3)
+				.addAbility(IWeaponAbility.VAMPIRE, 4)
+				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("mese_gavel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mese_gavel");
 
 		multitool_hit = new ItemMultitoolPassive().setUnlocalizedName("multitool_hit").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
 		multitool_dig = new ItemMultitoolTool(4.0F, MainRegistry.enumToolMaterialMultitool, ItemMultitoolTool.getAllBlocks()).setFull3D().setUnlocalizedName("multitool_dig").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":multitool_claw");
@@ -5012,16 +4979,6 @@ public class ModItems {
 		//Weapons
 		GameRegistry.registerItem(redstone_sword, redstone_sword.getUnlocalizedName());
 		GameRegistry.registerItem(big_sword, big_sword.getUnlocalizedName());
-
-		//Test Nuke
-		GameRegistry.registerItem(test_nuke_igniter, test_nuke_igniter.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_propellant, test_nuke_propellant.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier1_shielding, test_nuke_tier1_shielding.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier2_shielding, test_nuke_tier2_shielding.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier1_bullet, test_nuke_tier1_bullet.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier2_bullet, test_nuke_tier2_bullet.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier1_target, test_nuke_tier1_target.getUnlocalizedName());
-		GameRegistry.registerItem(test_nuke_tier2_target, test_nuke_tier2_target.getUnlocalizedName());
 
 		//Ingots
 		GameRegistry.registerItem(ingot_uranium, ingot_uranium.getUnlocalizedName());
@@ -6383,7 +6340,6 @@ public class ModItems {
 
 		//Guns
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
-		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(crucible, crucible.getUnlocalizedName());
 
 		GameRegistry.registerItem(gun_debug, gun_debug.getUnlocalizedName());
@@ -6418,6 +6374,9 @@ public class ModItems {
 		GameRegistry.registerItem(gun_g3_zebra, gun_g3_zebra.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
+		GameRegistry.registerItem(gun_amat, gun_amat.getUnlocalizedName());
+		GameRegistry.registerItem(gun_amat_subtlety, gun_amat_subtlety.getUnlocalizedName());
+		GameRegistry.registerItem(gun_amat_penance, gun_amat_penance.getUnlocalizedName());
 		GameRegistry.registerItem(gun_m2, gun_m2.getUnlocalizedName());
 		GameRegistry.registerItem(gun_autoshotgun, gun_autoshotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_autoshotgun_shredder, gun_autoshotgun_shredder.getUnlocalizedName());
@@ -6445,7 +6404,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_aberrator_eott, gun_aberrator_eott.getUnlocalizedName());
 		GameRegistry.registerItem(gun_double_barrel, gun_double_barrel.getUnlocalizedName());
 		GameRegistry.registerItem(gun_double_barrel_sacred_dragon, gun_double_barrel_sacred_dragon.getUnlocalizedName());
-		
+
+		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_charge_thrower, gun_charge_thrower.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
@@ -6717,7 +6677,6 @@ public class ModItems {
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		GameRegistry.registerItem(canteen_vodka, canteen_vodka.getUnlocalizedName());
-		GameRegistry.registerItem(canteen_fab, canteen_fab.getUnlocalizedName());
 		GameRegistry.registerItem(mucho_mango, mucho_mango.getUnlocalizedName());
 		GameRegistry.registerItem(chocolate, chocolate.getUnlocalizedName());
 
@@ -6841,7 +6800,6 @@ public class ModItems {
 		GameRegistry.registerItem(wd40, wd40.getUnlocalizedName());
 		GameRegistry.registerItem(scrumpy, scrumpy.getUnlocalizedName());
 		GameRegistry.registerItem(wild_p, wild_p.getUnlocalizedName());
-		GameRegistry.registerItem(fabsols_vodka, fabsols_vodka.getUnlocalizedName());
 		GameRegistry.registerItem(shackles, shackles.getUnlocalizedName());
 		GameRegistry.registerItem(injector_5htp, injector_5htp.getUnlocalizedName());
 		GameRegistry.registerItem(injector_knife, injector_knife.getUnlocalizedName());

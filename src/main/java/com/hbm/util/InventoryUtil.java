@@ -424,6 +424,11 @@ public class InventoryUtil {
 					stacks[i] = new ItemStack[1];
 					stacks[i][0] = ((ItemStack) ingredient).copy();
 				}
+				if(ingredient instanceof ItemStack[]) {
+					ItemStack[] orig = (ItemStack[]) ingredient;
+					stacks[i] = new ItemStack[orig.length];
+					for(int j = 0; j < orig.length; j++) stacks[i][j] = orig[j].copy();
+				}
 			}
 
 			return stacks;

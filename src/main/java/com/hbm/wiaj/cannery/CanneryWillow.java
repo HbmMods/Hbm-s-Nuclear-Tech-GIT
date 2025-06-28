@@ -6,7 +6,7 @@ import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumPlantType;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.JarScript;
 import com.hbm.wiaj.WorldInAJar;

@@ -9,7 +9,7 @@ import com.hbm.inventory.gui.GUIMachineRotaryFurnace;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes;
 import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
 import com.hbm.items.machine.ItemScraps;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

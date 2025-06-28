@@ -7,8 +7,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
+import com.hbm.util.i18n.I18nUtil;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -19,10 +19,9 @@ import net.minecraft.world.World;
 public class ItemOilDetector extends Item {
 
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
-		list.add(I18n.format(this.getUnlocalizedName() + ".desc1"));
-		list.add(I18n.format(this.getUnlocalizedName() + ".desc2"));
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		list.add(I18nUtil.format(this.getUnlocalizedName() + ".desc1"));
+		list.add(I18nUtil.format(this.getUnlocalizedName() + ".desc2"));
 	}
 
 	@Override

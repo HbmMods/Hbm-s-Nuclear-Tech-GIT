@@ -1,11 +1,11 @@
 package com.hbm.items.tool;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.hbm.handler.WeaponAbility;
+import com.hbm.handler.ability.AvailableAbilities;
+import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -17,15 +17,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.EnumChatFormatting;
 
-public class ItemSwordAbility extends ItemSword implements IItemAbility {
+public class ItemSwordAbility extends ItemSword {
 
 	private EnumRarity rarity = EnumRarity.common;
 	// was there a reason for this to be private?
 	protected float damage;
 	protected double movement;
-	private List<WeaponAbility> hitAbility = new ArrayList();
+	private AvailableAbilities abilities = new AvailableAbilities();
 
 	public ItemSwordAbility(float damage, double movement, ToolMaterial material) {
 		super(material);
@@ -33,8 +32,8 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 		this.movement = movement;
 	}
 
-	public ItemSwordAbility addHitAbility(WeaponAbility weaponAbility) {
-		this.hitAbility.add(weaponAbility);
+	public ItemSwordAbility addAbility(IWeaponAbility weaponAbility, int level) {
+		this.abilities.addAbility(weaponAbility, level);
 		return this;
 	}
 
@@ -50,15 +49,15 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 
 	public boolean hitEntity(ItemStack stack, EntityLivingBase victim, EntityLivingBase attacker) {
 
-		if(!attacker.worldObj.isRemote && !this.hitAbility.isEmpty() && attacker instanceof EntityPlayer && canOperate(stack)) {
+		if(!attacker.worldObj.isRemote && attacker instanceof EntityPlayer && canOperate(stack)) {
 
 			// hacky hacky hack
 			if(this == ModItems.mese_gavel)
 				attacker.worldObj.playSoundAtEntity(victim, "hbm:weapon.whack", 3.0F, 1.F);
 
-			for(WeaponAbility ability : this.hitAbility) {
-				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);
-			}
+			this.abilities.getWeaponAbilities().forEach((ability, level) -> {
+				ability.onHit(level, attacker.worldObj, (EntityPlayer) attacker, victim, this);
+			});
 		}
 
 		stack.damageItem(1, attacker);
@@ -77,23 +76,10 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-
-		if(!this.hitAbility.isEmpty()) {
-
-			list.add("Weapon modifiers: ");
-
-			for(WeaponAbility ability : this.hitAbility) {
-				list.add("  " + EnumChatFormatting.RED + ability.getFullName());
-			}
-		}
+		abilities.addInformation(list);
 	}
 
 	protected boolean canOperate(ItemStack stack) {
 		return true;
-	}
-
-	@Override
-	public boolean isShears(ItemStack stack) {
-		return false;
 	}
 }

@@ -28,12 +28,15 @@ import com.hbm.inventory.fluid.trait.FT_Toxin.*;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
+import api.hbm.fluidmk2.IFluidRegisterListener;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class Fluids {
 
 	public static final Gson gson = new Gson();
+	
+	public static List<IFluidRegisterListener> additionalListeners = new ArrayList();
 
 	public static FluidType NONE;
 	public static FluidType AIR;
@@ -194,11 +197,14 @@ public class Fluids {
 	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
 	public static List<FluidType> customFluids = new ArrayList();
+	public static List<FluidType> foreignFluids = new ArrayList();
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
+	/** Inconsequential, only actually used when listing all fluids with niceOrder disabled */
 	protected static final List<FluidType> registerOrder = new ArrayList();
-	protected static final List<FluidType> metaOrder = new ArrayList();
+	/** What's used to list fluids with niceOrder enabled */
+	public static final List<FluidType> metaOrder = new ArrayList();
 
 	public static final FT_Liquid LIQUID = new FT_Liquid();
 	public static final FT_Viscous VISCOUS = new FT_Viscous();
@@ -305,7 +311,7 @@ public class Fluids {
 		PLASMA_BF =				new FluidType("PLASMA_BF",			0xA7F1A3, 4, 5, 4, EnumSymbol.ANTIMATTER).setTemp(8500).addTraits(NOCON, NOID, PLASMA);
 		CARBONDIOXIDE =			new FluidType("CARBONDIOXIDE",		0x404040, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS, new FT_Polluting().release(PollutionType.POISON, POISON_MINOR));
 		PLASMA_DH3 =			new FluidType("PLASMA_DH3",			0xFF83AA, 0, 4, 0, EnumSymbol.RADIATION).setTemp(3480).addTraits(NOCON, NOID, PLASMA);
-		HELIUM3 =				new FluidType("HELIUM3",			0xFCF0C4, 0, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS);
+		HELIUM3 =				new FluidType("HELIUM3",			0xFCF0C4, 0, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS).addContainers(new CD_Gastank(0xFD631F, 0xffffff));
 		DEATH =					new FluidType("DEATH",				0x717A88, 2, 0, 1, EnumSymbol.ACID).setTemp(300).addTraits(new FT_Corrosive(80), new FT_Poison(true, 4), LEADCON, LIQUID, VISCOUS);
 		ETHANOL =				new FluidType("ETHANOL",			0xe0ffff, 2, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xEAFFF3)).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.HIGH, 200_000), LIQUID, P_FUEL);
 		HEAVYWATER =			new FluidType("HEAVYWATER",			0x00a0b0, 1, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
@@ -336,7 +342,7 @@ public class Fluids {
 		BLOOD_HOT =				new FluidType("BLOOD_HOT",			0xF22419, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS).setTemp(666); //it's funny because it's the satan number
 		SYNGAS =				new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFFFFFF, 0x131313)).addTraits(GASEOUS);
 		OXYHYDROGEN =			new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
-		RADIOSOLVENT =			new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
+		RADIOSOLVENT =			new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(50));
 		CHLORINE =				new FluidType("CHLORINE",			0xBAB572, 3, 0, 0, EnumSymbol.OXIDIZER).addContainers(new CD_Gastank(0xBAB572, 0x887B34)).addTraits(GASEOUS, new FT_Corrosive(25));
 		HEAVYOIL_VACUUM =		new FluidType("HEAVYOIL_VACUUM",	0x131214, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, P_OIL).addContainers(new CD_Canister(0x513F39));
 		REFORMATE =				new FluidType("REFORMATE",			0x835472, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, P_FUEL).addContainers(new CD_Canister(0xD180D6));
@@ -870,10 +876,12 @@ public class Fluids {
 			ex.printStackTrace();
 		}
 	}
+	
 	public static void reloadFluids(){
 		File folder = MainRegistry.configHbmDir;
 		File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
 		if(!customTypes.exists()) initDefaultFluids(customTypes);
+		
 		for(FluidType type : customFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -881,6 +889,15 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		customFluids.clear();
+		
+		for(FluidType type : foreignFluids){
+			idMapping.remove(type.getID());
+			registerOrder.remove(type);
+			nameMapping.remove(type.getName());
+			metaOrder.remove(type);
+		}
+		foreignFluids.clear();
+		
 		readCustomFluids(customTypes);
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 		File config = new File(MainRegistry.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
@@ -891,6 +908,8 @@ public class Fluids {
 		} else {
 			readTraits(config);
 		}
+		
+		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 	}
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
 
@@ -1008,6 +1027,6 @@ public class Fluids {
 
 	public static class CD_Gastank {
 		public int bottleColor, labelColor;
-		public CD_Gastank(int color1, int color2) { this.bottleColor = color1; this.labelColor = color2; }
+		public CD_Gastank(int bottle, int label) { this.bottleColor = bottle; this.labelColor = label; }
 	}
 }

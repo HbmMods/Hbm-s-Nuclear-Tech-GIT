@@ -6,7 +6,7 @@ import java.util.Random;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;

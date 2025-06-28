@@ -11,7 +11,7 @@ import com.hbm.inventory.container.ContainerNukeTsar;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 public class GUINukeTsar extends GuiInfoContainer {
 	

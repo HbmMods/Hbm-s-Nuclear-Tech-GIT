@@ -12,6 +12,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.util.ResourceLocation;
 
+@Deprecated
 public class GunConfiguration implements Cloneable {
 	
 	/**
@@ -46,10 +47,6 @@ public class GunConfiguration implements Cloneable {
 	public boolean isCentered;
 	//texture overlay when sneaking
 	public ResourceLocation scopeTexture;
-	//whether the FOV multiplier should be absolute or multiplicative to other modifiers, multiplicative mode is experimental!
-	public boolean absoluteFOV = true;
-	//the target FOV/multiplied FOV modifier when sneaking
-	public float zoomFOV = 0.0F;
 	
 	//duration of every animation cycle, used also for how quickly a burst fire rifle can fire
 	public int firingDuration;
@@ -122,10 +119,5 @@ public class GunConfiguration implements Cloneable {
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
 	public static final String RSOUND_GRENADE_NEW = "hbm:weapon.glReload";
 	public static final String RSOUND_FATMAN = "hbm:weapon.fatmanReload";
-	
-	public GunConfiguration silenced() {
-		this.firingSound = "hbm:weapon.silencerShoot";
-		return this;
-	}
 
 }

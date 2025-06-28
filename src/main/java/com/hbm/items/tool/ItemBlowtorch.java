@@ -134,7 +134,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 		if(b instanceof IToolable) {
 
 			if(this == ModItems.blowtorch) {
-				if(this.getFill(stack, Fluids.GAS) < 1000) return false;
+				if(this.getFill(stack, Fluids.GAS) < 250) return false;
 			}
 
 			if(this == ModItems.acetylene_torch) {
