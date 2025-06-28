@@ -13,8 +13,8 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;

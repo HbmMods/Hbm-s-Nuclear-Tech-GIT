@@ -10,8 +10,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;

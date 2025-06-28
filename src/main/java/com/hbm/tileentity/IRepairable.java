@@ -7,8 +7,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.tool.ItemBlowtorch;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

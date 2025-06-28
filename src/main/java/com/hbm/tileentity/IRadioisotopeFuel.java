@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

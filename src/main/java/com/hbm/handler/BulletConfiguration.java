@@ -17,6 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumChatFormatting;
 
+@Deprecated
 public class BulletConfiguration implements Cloneable {
 	
 	//what item this specific configuration consumes
@@ -130,15 +131,12 @@ public class BulletConfiguration implements Cloneable {
 	public static final int STYLE_FOLLY = 5;
 	public static final int STYLE_ROCKET = 6;
 	public static final int STYLE_STINGER = 7;
-	public static final int STYLE_NUKE = 8;
-	public static final int STYLE_MIRV = 9;
 	public static final int STYLE_GRENADE = 10;
 	public static final int STYLE_BF = 11;
 	public static final int STYLE_ORB = 12;
 	public static final int STYLE_METEOR = 13;
 	public static final int STYLE_APDS = 14;
 	public static final int STYLE_BLADE = 15;
-	public static final int STYLE_BARREL = 16;
 	public static final int STYLE_TAU = 17;
 	public static final int STYLE_LEADBURSTER = 18;
 
@@ -171,13 +169,6 @@ public class BulletConfiguration implements Cloneable {
 	
 	public BulletConfiguration setHeadshot(float mult) {
 		this.headshotMult = mult;
-		return this;
-	}
-	
-	public BulletConfiguration setToGuided() {
-		
-		this.bntUpdate = BulletConfigFactory.getLaserSteering();
-		this.doesRicochet = false;
 		return this;
 	}
 	

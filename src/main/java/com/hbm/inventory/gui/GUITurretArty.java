@@ -5,7 +5,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.turret.TileEntityTurretArty;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.InventoryPlayer;

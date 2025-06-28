@@ -6,7 +6,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.machine.TileEntitySolarMirror;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;

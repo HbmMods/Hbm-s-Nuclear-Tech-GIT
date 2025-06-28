@@ -13,7 +13,7 @@ import com.hbm.blocks.network.BlockConveyorBendable;
 import com.hbm.blocks.network.BlockCraneBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderOverhead;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.WorldInAJar;
 
 import cpw.mods.fml.relauncher.Side;

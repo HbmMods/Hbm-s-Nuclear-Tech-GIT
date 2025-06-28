@@ -10,6 +10,8 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -244,5 +246,34 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, demand);
 		else
 			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, 0);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "durability",
+				PREFIX_VALUE + "durabilitypercent",
+				PREFIX_FUNCTION + "setpower" + NAME_SEPARATOR + "percent",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "durability").equals(name))			return (slots[0] != null && slots[0].getItem() == ModItems.ams_lens) ? "" + (((ItemLens) slots[0].getItem()).maxDamage - ItemLens.getLensDamage(slots[0])) : "0";
+		if((PREFIX_VALUE + "durabilitypercent").equals(name))	return (slots[0] != null && slots[0].getItem() == ModItems.ams_lens) ? "" + ((((ItemLens) slots[0].getItem()).maxDamage - ItemLens.getLensDamage(slots[0])) * 100 / ((ItemLens) slots[0].getItem()).maxDamage) : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setpower").equals(name) && params.length > 0) {
+			int watts = IRORInteractive.parseInt(params[0], 0, 100);
+			this.watts = watts;
+			this.markChanged();
+			return null;
+		}
+		
+		return null;
 	}
 }

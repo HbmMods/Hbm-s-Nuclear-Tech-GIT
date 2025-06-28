@@ -11,8 +11,8 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelM65;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.item.IGasMask;
 import cpw.mods.fml.relauncher.Side;

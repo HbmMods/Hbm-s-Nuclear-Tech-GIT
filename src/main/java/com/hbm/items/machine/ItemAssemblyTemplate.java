@@ -9,7 +9,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.items.ModItems;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -54,8 +54,8 @@ public class ItemAssemblyTemplate extends Item {
 		//LEGACY
 		if(out == null) out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
 
-		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(stack);
-		
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(out);
+
 		if(recipe != null && !recipe.folders.contains(ModItems.template_folder))
 			return this.hiddenIcon;
 

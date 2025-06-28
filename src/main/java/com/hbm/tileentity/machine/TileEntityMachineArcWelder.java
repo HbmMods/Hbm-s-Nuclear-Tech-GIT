@@ -18,9 +18,10 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -92,14 +93,16 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			upgradeManager.checkSlots(this, slots, 6, 7);
 			int redLevel = upgradeManager.getLevel(UpgradeType.SPEED);
 			int blueLevel = upgradeManager.getLevel(UpgradeType.POWER);
+			int blackLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 
 			if(recipe != null) {
 				this.processTime = recipe.duration - (recipe.duration * redLevel / 6) + (recipe.duration * blueLevel / 3);
 				this.consumption = recipe.consumption + (recipe.consumption * redLevel) - (recipe.consumption * blueLevel / 6);
-				intendedMaxPower = recipe.consumption * 20;
+				this.consumption *= Math.pow(2, blackLevel);
+				intendedMaxPower = consumption * 20;
 
 				if(canProcess(recipe)) {
-					this.progress++;
+					this.progress += (1 + blackLevel);
 					this.power -= this.consumption;
 
 					if(progress >= processTime) {
@@ -369,7 +372,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -383,6 +386,9 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 100 / 6) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 100 / 3) + "%"));
 		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
 	}
 
 	@Override
@@ -390,6 +396,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
 		upgrades.put(UpgradeType.SPEED, 3);
 		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
 	}
 

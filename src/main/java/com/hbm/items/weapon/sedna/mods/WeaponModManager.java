@@ -92,6 +92,7 @@ public class WeaponModManager {
 				ModItems.gun_stinger,
 				ModItems.gun_chemthrower };
 		Item[] ferroGuns = new Item[] {
+				ModItems.gun_amat,
 				ModItems.gun_m2,
 				ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder,
 				ModItems.gun_quadro };
@@ -126,7 +127,7 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModGeneric.BRONZE_DURA).addMod(bronzeGuns, new WeaponModGenericDurability(117));
 
 		new WeaponModDefinition(EnumModSpecial.SPEEDLOADER).addMod(ModItems.gun_liberator, new WeaponModLiberatorSpeedloader(200));
-		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_g3}, new WeaponModSilencer(ID_SILENCER));
+		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_g3, ModItems.gun_amat}, new WeaponModSilencer(ID_SILENCER));
 		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_g3, ModItems.gun_mas36, ModItems.gun_charge_thrower}, new WeaponModScope(ID_SCOPE));
 		new WeaponModDefinition(EnumModSpecial.SAW)
 			.addMod(new Item[] {ModItems.gun_maresleg, ModItems.gun_double_barrel}, new WeaponModSawedOff(ID_SAWED_OFF))

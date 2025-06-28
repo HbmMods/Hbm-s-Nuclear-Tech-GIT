@@ -13,9 +13,9 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;

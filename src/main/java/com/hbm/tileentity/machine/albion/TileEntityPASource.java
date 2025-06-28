@@ -236,23 +236,26 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		NBTTagCompound particleTag = new NBTTagCompound();
-		particleTag.setInteger("x", particle.x);
-		particleTag.setInteger("y", particle.y);
-		particleTag.setInteger("z", particle.z);
-		particleTag.setByte("dir", (byte) particle.dir.ordinal());
-		particleTag.setInteger("momentum", particle.momentum);
-		particleTag.setInteger("defocus", particle.defocus);
-		particleTag.setInteger("dist", particle.distanceTraveled);
-
-		NBTTagCompound inputTag1 = new NBTTagCompound();
-		NBTTagCompound inputTag2 = new NBTTagCompound();
-		particle.input1.writeToNBT(inputTag1);
-		particle.input2.writeToNBT(inputTag2);
-
-		particleTag.setTag("input1", inputTag1);
-		particleTag.setTag("input2", inputTag2);
-		nbt.setTag("particle", particleTag);
+		
+		if(particle != null) {
+			NBTTagCompound particleTag = new NBTTagCompound();
+			particleTag.setInteger("x", particle.x);
+			particleTag.setInteger("y", particle.y);
+			particleTag.setInteger("z", particle.z);
+			particleTag.setByte("dir", (byte) particle.dir.ordinal());
+			particleTag.setInteger("momentum", particle.momentum);
+			particleTag.setInteger("defocus", particle.defocus);
+			particleTag.setInteger("dist", particle.distanceTraveled);
+	
+			NBTTagCompound inputTag1 = new NBTTagCompound();
+			NBTTagCompound inputTag2 = new NBTTagCompound();
+			particle.input1.writeToNBT(inputTag1);
+			particle.input2.writeToNBT(inputTag2);
+	
+			particleTag.setTag("input1", inputTag1);
+			particleTag.setTag("input2", inputTag2);
+			nbt.setTag("particle", particleTag);
+		}
 	}
 
 	@Override

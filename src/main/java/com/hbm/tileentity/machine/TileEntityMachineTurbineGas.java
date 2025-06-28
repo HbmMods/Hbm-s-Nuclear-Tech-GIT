@@ -74,7 +74,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		fuelMaxCons.put(Fluids.GAS, 50D);			// natgas doesn't burn well so it burns faster to compensate
 		fuelMaxCons.put(Fluids.SYNGAS, 10D);		// syngas just fucks
 		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);	// oxyhydrogen is terrible so it needs to burn a ton for the bare minimum
-		fuelMaxCons.put(Fluids.REFORMGAS, 5D);	// fuck it we ball
+		fuelMaxCons.put(Fluids.REFORMGAS, 5D);		// fuck it we ball
 		// default to 5 if not in list
 	}
 
@@ -166,17 +166,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 				if(audio == null) { //if there is no sound playing, start it
 
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, getVolume(1.0F), 20F, 2.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, getVolume(1.0F), 20F, 2.0F, 20);
 					audio.startSound();
 
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, getVolume(1.0F), 20F, 2.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, getVolume(1.0F), 20F, 2.0F, 20);
 					audio.startSound();
 				}
 
 				audio.updatePitch((float) (0.55 + 0.1 * rpm / 10)); //dynamic pitch update based on rpm
 				audio.updateVolume(getVolume(2F)); //yeah i need this
+				audio.keepAlive();
 
 			} else {
 
