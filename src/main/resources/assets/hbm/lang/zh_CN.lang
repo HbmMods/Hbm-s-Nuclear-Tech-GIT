@@ -5021,6 +5021,7 @@ tile.floodlight.name=电力泛光灯
 tile.fluid_duct.name=通用流体管道
 tile.fluid_duct_box.name=通用流体管道（方形）
 tile.fluid_duct_exhaust.name=排气管
+tile.fluid_duct_paintable_block_exhaust.name=具有涂装性的排气管
 tile.fluid_duct_gauge.name=流量计管
 tile.fluid_duct_gauge.desc=显示每个游戏刻在管网有多少流体移动的管道$由桶或罐连接的分离网络被视为一个共享网络。
 tile.fluid_duct_neo.name=通用流体管道

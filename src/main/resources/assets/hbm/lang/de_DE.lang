@@ -4184,6 +4184,7 @@ tile.floodlight.name=Elektrischer Scheinwerfer
 tile.fluid_duct.name=Universelles Flüssigkeitsrohr (Veraltet)
 tile.fluid_duct_box.name=Universelles Flüssigkeitsrohr (Boxrohr)
 tile.fluid_duct_exhaust.name=Abgasrohr
+tile.fluid_duct_paintable_block_exhaust.name=Geschirmtes Abgasrohr (Färbbar)
 tile.fluid_duct_gauge.name=Flussmessrohr
 tile.fluid_duct_gauge.desc=Rohr welches anzeight, wie viel Flüssigkeit$sich pro Tick im Netzwerk bewegt.$Geteilte Netzwerke die über Fässer oder Tanks$verbunden sind, werden als ein einzelnes gezählt.
 tile.fluid_duct_neo.name=Universelles Flüssigkeitsrohr
