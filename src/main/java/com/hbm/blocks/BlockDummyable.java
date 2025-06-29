@@ -103,7 +103,12 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
 		Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
-		if(b != this) {
+		// An extra precaution against multiblocks on chunk borders being erroneously deleted.
+		// Technically, this might be used to persist ghost dummy blocks by manipulating
+		// loaded chunks and block destruction, but this gives no benefit to the player,
+		// cannot be done accidentally, and is definitely preferable to multiblocks
+		// just vanishing when their chunks are unloaded in an unlucky way.
+		if(b != this && world.checkChunksExist(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1)) {
 			if (isLegacyMonoblock(world, x, y, z)) {
 				fixLegacyMonoblock(world, x, y, z);
 			} else {
