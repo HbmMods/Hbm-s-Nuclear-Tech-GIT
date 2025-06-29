@@ -387,74 +387,18 @@ public class ModEventHandler {
 
 		if(entity instanceof EntityZombie) {
 			if(world.rand.nextFloat() < 0.005F && soot > 2) { // full hazmat zombine
-				equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
+				MobUtil.equipFullSet(entity, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots);
 				return;
 			}
-
-			if(world.rand.nextFloat() < 0.005F && soot > 20) { // full security zombine
-				equipFullSet(entity, ModItems.security_helmet, ModItems.security_plate, ModItems.security_legs, ModItems.security_boots);
-				return;
-			}
-
-			slotPools.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
-				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
-				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
-				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
-			}));
-			slotPools.put(3, createSlotPool(7000, new Object[][]{
-				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
-				{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
-				{ModItems.steel_plate, 2}
-			}));
-			slotPools.put(2, createSlotPool(7000, new Object[][]{
-				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
-			}));
-			slotPools.put(1, createSlotPool(7000, new Object[][]{
-				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
-			}));
-			slotPools.put(0, createSlotPool(10000, new Object[][]{
-				{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
-				{ModItems.reer_graar, 16}, {ModItems.steel_pickaxe, 12}, {ModItems.stopsign, 10},
-				{ModItems.sopsign, 8}, {ModItems.chernobylsign, 6}, {ModItems.steel_sword, 15},
-				{ModItems.alloy_axe, 5}, {ModItems.titanium_sword, 8}, {ModItems.lead_gavel, 4},
-				{ModItems.wrench, 20}, {ModItems.cobalt_decorated_sword, 2}, {ModItems.detonator_de, 1}
-			}));
+			slotPools = MobUtil.slotPoolCommon;
 
 		} else if(entity instanceof EntitySkeleton) {
-
-			slotPools.put(4, createSlotPool(12000, new Object[][]{
-				{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
-				{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
-				{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
-				{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
-			}));
-			slotPools.put(3, createSlotPool(10000, new Object[][]{
-				{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
-				{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
-			}));
-			slotPools.put(2, createSlotPool(10000, new Object[][]{
-				{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
-				{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
-			}));
-			slotPools.put(1, createSlotPool(10000, new Object[][]{
-				{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
-				{ModItems.titanium_boots, 6}
-			}));
-
+			slotPools = MobUtil.slotPoolRanged;
 			ItemStack bowReplacement = getSkelegun(soot, world.rand);
 			slotPools.put(0, createSlotPool(50, bowReplacement != null ? new Object[][]{{bowReplacement, 1}} : new Object[][]{}));
 		}
 
-		assignItemsToEntity(entity, slotPools);
-	}
-
-	private void equipFullSet(EntityLivingBase entity, Item helmet, Item chest, Item legs, Item boots) { //for brainlets (me) to add more armorsets later when i forget about how this works
-		entity.setCurrentItemOrArmor(4, new ItemStack(helmet)); //p_70062_1_ is the slot number
-		entity.setCurrentItemOrArmor(3, new ItemStack(chest));
-		entity.setCurrentItemOrArmor(2, new ItemStack(legs));
-		entity.setCurrentItemOrArmor(1, new ItemStack(boots));
+		MobUtil.assignItemsToEntity(entity, slotPools, rand);
 	}
 
 	private List<WeightedRandomObject> createSlotPool(int nullWeight, Object[][] items) {
@@ -473,72 +417,28 @@ public class ModEventHandler {
 		return pool;
 	}
 
-
-	public void assignItemsToEntity(EntityLivingBase entity, Map<Integer, List<WeightedRandomObject>> slotPools) {
-		for (Map.Entry<Integer, List<WeightedRandomObject>> entry : slotPools.entrySet()) {
-			int slot = entry.getKey();
-			List<WeightedRandomObject> pool = entry.getValue();
-
-			WeightedRandomObject choice = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool); //NullPointerException sludge fix
-			if (choice == null) {
-				continue;
-			}
-
-			ItemStack stack = choice.asStack();
-			if (stack == null || stack.getItem() == null) {
-				continue;
-			}
-
-			if (stack.getItem() == ModItems.gas_mask_m65 //eyesore
-				|| stack.getItem() == ModItems.gas_mask_olde
-				|| stack.getItem() == ModItems.gas_mask_mono) {
-				ArmorUtil.installGasMaskFilter(stack, new ItemStack(ModItems.gas_mask_filter));
-			}
-
-			entity.setCurrentItemOrArmor(slot, stack);
-
-			//Give skeleton AI if it has a gun
-			if (slot == 0 && entity instanceof EntitySkeleton && pool == slotPools.get(0)) {
-				addFireTask((EntityLiving) entity);
-			}
-		}
-	}
-
 	private static ItemStack getSkelegun(float soot, Random rand) {
-		if(!MobConfig.enableMobWeapons) return null;
-		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
+		if (!MobConfig.enableMobWeapons) return null;
+		if (rand.nextDouble() > Math.log(soot) * 0.25) return null;
 
-		ArrayList<WeightedRandomObject> pool = new ArrayList<WeightedRandomObject>();
-		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_light_revolver), 12));
-		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_heavy_revolver), 8));
+		ArrayList<WeightedRandomObject> pool = new ArrayList<>();
 
-		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_pepperbox), 10));
-		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_henry), 8));
-		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_greasegun), 6));
-
-		if(soot > 4) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_maresleg), 4));
-		if(soot > 4) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_uzi), 6));
-
-		if(soot > 8) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_spas12), 3));
-		if(soot > 8) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_am180), 4));
-
-		if(soot > 12) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_congolake), 1));
+		if(soot < 0.3){
+			pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_pepperbox), 5));
+			pool.add(new WeightedRandomObject(null, 20));
+		} else if(soot > 0.3 && soot < 1) {
+			pool.addAll(MobUtil.slotPoolGuns.get(0.3));
+		} else if (soot < 3) {
+			pool.addAll(MobUtil.slotPoolGuns.get(1D));
+		} else if (soot < 5) {
+			pool.addAll(MobUtil.slotPoolGuns.get(3D));
+		} else {
+			pool.addAll(MobUtil.slotPoolGuns.get(5D));
+		}
 
 		WeightedRandomObject selected = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool);
 
 		return selected.asStack();
-	}
-
-	// these fucking tasks keep stacking on top of themselves
-	private static void addFireTask(EntityLiving entity) {
-		entity.setEquipmentDropChance(0, 0); // Prevent dropping guns
-
-		for(Object entry : entity.tasks.taskEntries) {
-			EntityAITasks.EntityAITaskEntry task = (EntityAITasks.EntityAITaskEntry) entry;
-			if(task.action instanceof EntityAIFireGun) return;
-		}
-
-		entity.tasks.addTask(3, new EntityAIFireGun(entity));
 	}
 
 	@SubscribeEvent
@@ -549,7 +449,7 @@ public class ModEventHandler {
 		ItemStack held = living.getHeldItem();
 
 		if(held != null && held.getItem() instanceof ItemGunBaseNT) {
-			addFireTask(living);
+			MobUtil.addFireTask(living);
 		}
 	}
 

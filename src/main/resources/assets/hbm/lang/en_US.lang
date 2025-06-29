@@ -6057,6 +6057,7 @@ tile.volcano_rad_core.name=Rad Volcano Core
 tile.wand_air.name=Structure Wand Block (Air)
 tile.wand_loot.name=Structure Wand Block (Lootable)
 tile.wand_jigsaw.name=Structure Wand Block (Jigsaw)
+tile.wand_spawner.name=Structure Wand Block (Actions)
 tile.waste_earth.name=Dead Grass
 tile.waste_leaves.name=Dead Leaves
 tile.waste_log.name=Charred Log
