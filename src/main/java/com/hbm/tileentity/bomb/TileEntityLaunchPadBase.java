@@ -57,10 +57,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
-	
+
 	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
 	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
-	
+
 	public static void registerLaunchables() {
 
 		//Tier 0
@@ -93,24 +93,25 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
 		missiles.put(new ComparableStack(ModItems.missile_volcano), EntityMissileVolcano.class);
 		missiles.put(new ComparableStack(ModItems.missile_doomsday), EntityMissileDoomsday.class);
-		
+		missiles.put(new ComparableStack(ModItems.missile_balefire), EntityMissileBalefire.class);
+
 		missiles.put(new ComparableStack(ModItems.missile_stealth), EntityMissileStealth.class);
 	}
 
 	public ItemStack toRender;
-	
+
 	public long power;
 	public final long maxPower = 100_000;
 
 	public int prevRedstonePower;
 	public int redstonePower;
 	public Set<BlockPos> activatedBlocks = new HashSet<>(4);
-	
+
 	public int state = 0;
 	public static final int STATE_MISSING = 0;
 	public static final int STATE_LOADING = 1;
 	public static final int STATE_READY = 2;
-	
+
 	public FluidTank[] tanks;
 
 	public TileEntityLaunchPadBase() {
@@ -139,14 +140,14 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return slot == 0 && this.isMissileValid(stack);
 	}
-	
+
 	public abstract DirPos[] getConPos();
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				for(DirPos pos : getConPos()) {
 					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -154,17 +155,17 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 					if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
-			
+
 			if(this.redstonePower > 0 && this.prevRedstonePower <= 0) {
 				this.launchFromDesignator();
 			}
-			
+
 			this.prevRedstonePower = this.redstonePower;
-			
+
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			tanks[0].loadTank(3, 4, slots);
 			tanks[1].loadTank(5, 6, slots);
-			
+
 			if(this.isMissileValid()) {
 				if(slots[0].getItem() instanceof ItemMissile) {
 					ItemMissile missile = (ItemMissile) slots[0].getItem();
@@ -179,12 +180,12 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		
+
 		buf.writeLong(this.power);
 		buf.writeInt(this.state);
 		tanks[0].serialize(buf);
 		tanks[1].serialize(buf);
-		
+
 		if(slots[0] != null) {
 			buf.writeBoolean(true);
 			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
@@ -193,23 +194,23 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			buf.writeBoolean(false);
 		}
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		
+
 		this.power = buf.readLong();
 		this.state = buf.readInt();
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
-		
+
 		if(buf.readBoolean()) {
 			this.toRender = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readShort());
 		} else {
 			this.toRender = null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -225,7 +226,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x" + i), activatedBlocks.getInteger("y" + i), activatedBlocks.getInteger("z" + i)));
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -270,7 +271,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	@Override public long getMaxPower() { return maxPower; }
 	@Override public FluidTank[] getAllTanks() { return this.tanks; }
 	@Override public FluidTank[] getReceivingTanks() { return this.tanks; }
-	
+
 	@Override public boolean canConnect(ForgeDirection dir) {
 		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
 	}
@@ -285,7 +286,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUILaunchPadLarge(player.inventory, this);
 	}
-	
+
 	@SuppressWarnings("incomplete-switch") //shut up
 	public void setFuel(ItemMissile missile) {
 		switch(missile.fuel) {
@@ -307,36 +308,36 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			break;
 		}
 	}
-	
+
 	/** Requires the missile slot to be non-null and he item to be compatible */
 	public boolean isMissileValid() {
 		return slots[0] != null && isMissileValid(slots[0]);
 	}
-	
+
 	public boolean isMissileValid(ItemStack stack) {
 		return stack.getItem() instanceof ItemMissile && ((ItemMissile) stack.getItem()).launchable;
 	}
-	
+
 	public boolean hasFuel() {
 		if(this.power < 75_000) return false;
-		
+
 		if(slots[0] != null && slots[0].getItem() instanceof ItemMissile) {
 			ItemMissile missile = (ItemMissile) slots[0].getItem();
 			if(this.tanks[0].getFill() < missile.fuelCap) return false;
 			if(this.tanks[1].getFill() < missile.fuelCap) return false;
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public Entity instantiateMissile(int targetX, int targetZ) {
-		
+
 		if(slots[0] == null) return null;
-		
+
 		Class<? extends EntityMissileBaseNT> clazz = TileEntityLaunchPadBase.missiles.get(new ComparableStack(slots[0]).makeSingular());
-		
+
 		if(clazz != null) {
 			try {
 				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + (float) getLaunchOffset() /* Position arguments need to be floats, jackass */, zCoord + 0.5F, targetX, targetZ);
@@ -353,72 +354,72 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			missile.posZ = zCoord + 0.5D;
 			return missile;
 		}
-		
+
 		return null;
 	}
-	
+
 	public void finalizeLaunch(Entity missile) {
 		worldObj.spawnEntityInWorld(missile);
 		TrackerUtil.setTrackingRange(worldObj, missile, 500);
 		worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
 
 		this.power -= 75_000;
-		
+
 		if(slots[0] != null && slots[0].getItem() instanceof ItemMissile) {
 			ItemMissile item = (ItemMissile) slots[0].getItem();
 			tanks[0].setFill(tanks[0].getFill() - item.fuelCap);
 			tanks[1].setFill(tanks[1].getFill() - item.fuelCap);
 		}
-		
+
 		this.decrStackSize(0, 1);
 	}
-	
+
 	public BombReturnCode launchFromDesignator() {
 		if(!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
-		
+
 		boolean needsDesignator = needsDesignator(slots[0].getItem());
 
 		int targetX = xCoord;
 		int targetZ = zCoord;
-		
+
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
 			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
-			
+
 			if(needsDesignator) {
 				if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) return BombReturnCode.ERROR_MISSING_COMPONENT;
-				
+
 				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
 				targetX = (int) Math.floor(coords.xCoord);
 				targetZ = (int) Math.floor(coords.zCoord);
 			}
-			
+
 		} else {
 			if(needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
 		}
-		
+
 		return this.launchToCoordinate(targetX, targetZ);
 	}
-	
+
 	public BombReturnCode launchToEntity(Entity entity) {
 		if(!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
-		
+
 		Entity e = instantiateMissile((int) Math.floor(entity.posX), (int) Math.floor(entity.posZ));
 		if(e != null) {
-			
+
 			if(e instanceof EntityMissileAntiBallistic) {
 				EntityMissileAntiBallistic abm = (EntityMissileAntiBallistic) e;
 				abm.tracking = entity;
 			}
-			
+
 			finalizeLaunch(e);
 			return BombReturnCode.LAUNCHED;
 		}
 		return BombReturnCode.ERROR_MISSING_COMPONENT;
 	}
-	
+
 	public BombReturnCode launchToCoordinate(int targetX, int targetZ) {
 		if(!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
-		
+
 		Entity e = instantiateMissile(targetX, targetZ);
 		if(e != null) {
 			finalizeLaunch(e);
@@ -436,38 +437,38 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public boolean sendCommandEntity(Entity target) {
 		return this.launchToEntity(target) == BombReturnCode.LAUNCHED;
 	}
-	
+
 	public boolean needsDesignator(Item item) {
 		return item != ModItems.missile_anti_ballistic;
 	}
-	
+
 	/** Full launch condition, checks if the item is launchable, fuel and power are present and any additional checks based on launch pad type */
 	public boolean canLaunch() {
 		return this.isMissileValid() && this.hasFuel() && this.isReadyForLaunch();
 	}
-	
+
 	public int getFuelState() {
 		return getGaugeState(0);
 	}
-	
+
 	public int getOxidizerState() {
 		return getGaugeState(1);
 	}
-	
+
 	public int getGaugeState(int tank) {
 		if(slots[0] == null) return 0;
-		
+
 		if(slots[0].getItem() instanceof ItemMissile) {
 			ItemMissile missile = (ItemMissile) slots[0].getItem();
 			MissileFuel fuel = missile.fuel;
-			
+
 			if(fuel == MissileFuel.SOLID) return 0;
 			return tanks[tank].getFill() >= missile.fuelCap ? 1 : -1;
 		}
-		
+
 		return 0;
 	}
-	
+
 	/** Any extra conditions for launching in addition to the missile being valid and fueled */
 	public abstract boolean isReadyForLaunch();
 	public abstract double getLaunchOffset();
