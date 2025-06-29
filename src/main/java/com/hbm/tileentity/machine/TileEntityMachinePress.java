@@ -53,6 +53,11 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 
 		if(!worldObj.isRemote) {
 
+			// Triggers the legacy monoblock fix
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 12) {
+				worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord), 1);
+			}
+
 			boolean preheated = false;
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

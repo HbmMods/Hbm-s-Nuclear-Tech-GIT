@@ -64,6 +64,11 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 
 		if(!worldObj.isRemote) {
 
+			// Triggers the legacy monoblock fix
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 12) {
+				worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord), 1);
+			}
+
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
