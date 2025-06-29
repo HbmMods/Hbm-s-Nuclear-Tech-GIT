@@ -942,7 +942,7 @@ public class Orchestras {
 			
 			if(timer == 2) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, -0.125, aiming ? -0.125 : -0.25D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), false, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? -0.0625 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), false, 60, 0.5D, 20);
 			}
 		}
 
