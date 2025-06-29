@@ -6164,6 +6164,7 @@ tool.ability.centrifuge=Auto-Centrifuge
 tool.ability.crystallizer=Auto-Crystallizer
 tool.ability.explosion=Explosion
 tool.ability.hammer=AoE
+tool.ability.hammer_flat=AoE piatta
 tool.ability.luck=Fortune
 tool.ability.mercury=Mercury Touch
 tool.ability.midas=Midas Touch

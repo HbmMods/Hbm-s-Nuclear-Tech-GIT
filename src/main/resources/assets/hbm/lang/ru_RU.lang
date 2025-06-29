@@ -6378,6 +6378,7 @@ tool.ability.centrifuge=Авто-центрифуга
 tool.ability.crystallizer=Авто-кристаллизатор
 tool.ability.explosion=Взрыв
 tool.ability.hammer=Зона действия
+tool.ability.hammer_flat=Плоская зона действия
 tool.ability.luck=Удача
 tool.ability.mercury=Ртутное касание
 tool.ability.midas=Прикосновение Мидаса

@@ -4981,6 +4981,7 @@ tool.ability.cnetrifuge=Auto-Zentrifuge
 tool.ability.crystallizer=Auto-Kristallisierer
 tool.ability.explosion=Explosion
 tool.ability.hammer=AoE
+tool.ability.hammer_flat=Flacher AoE
 tool.ability.luck=Glück
 tool.ability.mercury=Quecksilber-Berührung
 tool.ability.midas=Midas' Hand

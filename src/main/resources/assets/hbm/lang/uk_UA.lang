@@ -6147,6 +6147,7 @@ tool.ability.centrifuge=Автоцентрифуга
 tool.ability.crystallizer=Автокристалізатор
 tool.ability.explosion=Вибух
 tool.ability.hammer=Зона дії
+tool.ability.hammer_flat=Плоска зона дії
 tool.ability.luck=Вдача
 tool.ability.mercury=Ртутний дотик
 tool.ability.midas=Дотик Мідаса

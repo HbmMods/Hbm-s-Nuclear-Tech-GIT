@@ -5811,6 +5811,7 @@ tool.ability.centrifuge=自动离心
 tool.ability.crystallizer=自动结晶
 tool.ability.explosion=爆破
 tool.ability.hammer=范围挖掘
+tool.ability.flat_hammer=平坦區域採礦
 tool.ability.luck=时运
 tool.ability.mercury=水银提取
 tool.ability.midas=点石成金
