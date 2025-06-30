@@ -33,6 +33,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,9 +79,16 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		if (i == 2) world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 		if (i == 3) world.setBlockMetadataWithNotify(x, y, z, 1, 2);
 
+		ForgeDirection dir = ForgeDirection.UNKNOWN;
+		switch(i){
+			case 0: dir = ForgeDirection.SOUTH;break;
+			case 1: dir = ForgeDirection.WEST; break;
+			case 2: dir = ForgeDirection.NORTH;break;
+			case 3: dir = ForgeDirection.EAST; break;
+		}
 		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileEntityWandSpawner)
-			((TileEntityWandSpawner)te).placedRotation = i;
+			((TileEntityWandSpawner)te).placedRotation = dir.ordinal();
 	}
 
 	@Override
@@ -193,6 +201,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 				DungeonSpawner.TileEntityDungeonSpawner spawner = (DungeonSpawner.TileEntityDungeonSpawner)	te;
 				spawner.actionID = actionID;
 				spawner.conditionID = conditionID;
+				spawner.direction = ForgeDirection.getOrientation(placedRotation);
 			}
 
 		}
