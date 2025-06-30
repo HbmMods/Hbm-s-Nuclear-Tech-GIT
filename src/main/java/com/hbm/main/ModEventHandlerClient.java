@@ -22,6 +22,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.inventory.gui.GUIScreenWikiRender;
+import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
@@ -1032,10 +1033,15 @@ public class ModEventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		if(!(mc.loadingScreen instanceof LoadingScreenRendererNT)) {
+			mc.loadingScreen = new LoadingScreenRendererNT(mc);
+		}
 
 		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 
-			World world = Minecraft.getMinecraft().theWorld;
+			World world = mc.theWorld;
 			if(world == null) return;
 
 			IRenderHandler sky = world.provider.getSkyRenderer();
@@ -1059,7 +1065,7 @@ public class ModEventHandlerClient {
 				}
 			}
 
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer player = mc.thePlayer;
 			long millis = Clock.get_ms();
 
 			if(lastStarCheck + 200 < millis) {

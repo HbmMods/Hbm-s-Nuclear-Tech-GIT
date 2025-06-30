@@ -14,6 +14,9 @@
     * This means that a chemical factory can make hydrogen peroxide, sulfuric acid and nitric acid, and the only fluid input needed is water
 * Paintable exhaust pipe
   * Full block exhaust pipe that behaves like paintable cables and ducts
+* Rangefinder
+  * A simple tool for checking the distance to a block
+  * Is now used as the base ingredient for long range target designatory, artillery remotes and airstrike designators
 
 ## Changed
 * Updated chinese and ukrainian localizations
@@ -44,6 +47,8 @@
 * Open doors can now be interacted through
 * Area abilities on tools now drop all mined blocks in the center
 * Tools with AoE now come with the new "flat AoE" ability, which is the same but the area is only 1 block tall
+* Atomic airstrike now requires a control unit
+* Parallelized explosions have been temporarily disabled, regardless of config option, explosions will use the previous system
 
 ## Fixed
 * Chemical plant ports. For real this time.
@@ -62,3 +67,4 @@
 * Replaced paintabble cables in the lighthouse with regular ones, fixing an issue where the paint would ID shift
 * Fixed light blocks being considered solid for NPC pathfinding
 * Fixed issue regarding locked slots when using crates
+* Fixed MK3 explosions crashing when spawned with invalid size or when not being deserialized correctly

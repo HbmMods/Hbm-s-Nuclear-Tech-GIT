@@ -10,7 +10,6 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
-import com.hbm.explosion.ExplosionNukeRayParallelized;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -70,13 +69,11 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 
 		if(explosion == null) {
 			explosionStart = System.currentTimeMillis();
-			if (BombConfig.explosionAlgorithm == 1 || BombConfig.explosionAlgorithm == 2) {
-				explosion = new ExplosionNukeRayParallelized(worldObj, posX, posY, posZ,
-					strength, speed, length);
-			} else {
-				explosion = new ExplosionNukeRayBatched(worldObj, (int) posX, (int) posY, (int) posZ,
-					strength, speed, length);
-			}
+			//if(BombConfig.explosionAlgorithm == 1 || BombConfig.explosionAlgorithm == 2) {
+			//	explosion = new ExplosionNukeRayParallelized(worldObj, posX, posY, posZ, strength, speed, length);
+			//} else {
+				explosion = new ExplosionNukeRayBatched(worldObj, (int) posX, (int) posY, (int) posZ, strength, speed, length);
+			//}
 		}
 
 		if(!explosion.isComplete()) {
