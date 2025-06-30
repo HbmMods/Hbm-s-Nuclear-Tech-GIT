@@ -62,9 +62,9 @@ public class PedestalRecipes extends SerializableRecipe {
 				.extra(PedestalExtraCondition.SUN));
 
 		register(new PedestalRecipe(new ItemStack(ModItems.gun_autoshotgun_sexy),
-				new ComparableStack(ModItems.bolt_spike, 16),	new OreDictStack(STAR.ingot(), 4),				new ComparableStack(ModItems.bolt_spike, 16),
+				new ComparableStack(ModItems.bolt_spike, 16),	new ComparableStack(ModItems.wild_p),			new ComparableStack(ModItems.bolt_spike, 16),
 				new ComparableStack(ModItems.card_qos),			new ComparableStack(ModItems.gun_autoshotgun),	new ComparableStack(ModItems.card_aos),
-				new ComparableStack(ModItems.bolt_spike, 16),	new OreDictStack(STAR.ingot(), 4),				new ComparableStack(ModItems.bolt_spike, 16)));
+				new ComparableStack(ModItems.bolt_spike, 16),	new OreDictStack(STAR.ingot(), 16),				new ComparableStack(ModItems.bolt_spike, 16)));
 
 		register(new PedestalRecipe(new ItemStack(ModItems.gun_minigun_lacunae),
 				null,																			new ComparableStack(ModItems.powder_magic, 4),	null,

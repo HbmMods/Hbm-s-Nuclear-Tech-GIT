@@ -87,6 +87,6 @@ public class ItemEnums {
 	}
 
 	public static enum EnumIngotMetal {
-		INGOT, COUNTER, KEY, BEACON, CASING, CLOCKWORK, BAR, DETECTOR
+		SCRAP, INGOT, COUNTER, KEY, BEACON, CASING, CLOCKWORK, BAR, DETECTOR
 	}
 }

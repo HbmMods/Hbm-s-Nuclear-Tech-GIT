@@ -3992,6 +3992,7 @@ item.radx.desc=Increases radiation resistance by 0.2 (37%%) for 3 minutes
 item.rag.name=Cloth
 item.rag_damp.name=Damp Cloth
 item.rag_piss.name=Piss-Soaked Rag
+item.rangefinder.name=Rangefinder
 item.rbmk_fuel_balefire.name=Balefire RBMK Fuel Rod
 item.rbmk_fuel_balefire_gold.name=Flashgold RBMK Fuel Rod
 item.rbmk_fuel_drx.name=§cDigamma RBMK Fuel Rod§r
