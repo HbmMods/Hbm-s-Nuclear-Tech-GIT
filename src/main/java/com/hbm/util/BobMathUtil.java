@@ -76,9 +76,8 @@ public class BobMathUtil {
 				);
 	}
 
-	public static double interp(double x, double y, float interp) {
-		return x + (y - x) * interp;
-	}
+	public static double interp(double x, double y, float interp) { return x + (y - x) * interp; }
+	public static double interp(double x, double y, double interp) { return x + (y - x) * interp; }
 
 	public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 

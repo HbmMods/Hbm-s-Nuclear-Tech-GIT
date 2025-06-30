@@ -61,11 +61,13 @@ public class ServerProxy {
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}
+	
 	public void displayTooltip(String msg, int time, int id) { }
 
 	public boolean getIsKeyPressed(EnumKeybind key) {
 		return false;
 	}
+	
 	public EntityPlayer me() {
 		return null;
 	}

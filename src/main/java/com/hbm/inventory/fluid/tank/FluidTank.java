@@ -65,6 +65,12 @@ public class FluidTank implements Cloneable {
 		this.setFill(0);
 	}
 	
+	public void resetTank() {
+		this.type = Fluids.NONE;
+		this.fluid = 0;
+		this.pressure = 0;
+	}
+	
 	/** Changes type and pressure based on a fluid stack, useful for changing tank types based on recipes */
 	public FluidTank conform(FluidStack stack) {
 		this.setTankType(stack.type);

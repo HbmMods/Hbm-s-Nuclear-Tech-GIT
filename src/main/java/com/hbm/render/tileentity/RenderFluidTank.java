@@ -83,7 +83,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 	
 	public String getTextureFromType(FluidType type) {
 		
-		if(type.customFluid) {
+		if(type.renderWithTint) {
 			int color = type.getTint();
 			double r = ((color & 0xff0000) >> 16) / 255D;
 			double g = ((color & 0x00ff00) >> 8) / 255D;
