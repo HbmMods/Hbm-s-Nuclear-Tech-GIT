@@ -883,16 +883,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.ladder_steel, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.ladder_tungsten, 8), new Object[] { "LLL", "L#L", "LLL", 'L', Blocks.ladder, '#', W.ingot() });
 
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_sturdy, 1), new Object[] { Blocks.trapdoor, KEY_PLANKS });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_iron, 1), new Object[] { Blocks.trapdoor, IRON.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_gold, 1), new Object[] { Blocks.trapdoor, GOLD.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_aluminium, 1), new Object[] { Blocks.trapdoor, AL.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_copper, 1), new Object[] { Blocks.trapdoor, CU.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_titanium, 1), new Object[] { Blocks.trapdoor, TI.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_lead, 1), new Object[] { Blocks.trapdoor, PB.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_cobalt, 1), new Object[] { Blocks.trapdoor, CO.ingot() });
 		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_steel, 1), new Object[] { Blocks.trapdoor, STEEL.ingot() });
-		addShapelessAuto(new ItemStack(ModBlocks.trapdoor_tungsten, 1), new Object[] { Blocks.trapdoor, W.ingot() });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_storage_drum), new Object[] { "LLL", "L#L", "LLL", 'L', PB.plate(), '#', ModItems.tank_steel });
 
