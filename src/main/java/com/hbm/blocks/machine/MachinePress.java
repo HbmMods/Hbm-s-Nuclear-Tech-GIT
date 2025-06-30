@@ -1,18 +1,16 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+
+import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachinePress extends BlockDummyable {
+public class MachinePress extends BlockDummyable implements IToolable {
 
 	public MachinePress(Material mat) {
 		super(mat);
@@ -45,4 +43,20 @@ public class MachinePress extends BlockDummyable {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
+
+	// Un-multiblickable with a hand drill for schenanigans
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if (tool != ToolType.HAND_DRILL) 
+			return false;
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		if (meta >= 12)
+			return false;
+		
+		world.setBlockToAir(x, y, z);
+		return true;
+	}
+	
 }
