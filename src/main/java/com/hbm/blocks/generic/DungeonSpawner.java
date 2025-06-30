@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class DungeonSpawner extends BlockContainer {
 
@@ -44,6 +45,7 @@ public class DungeonSpawner extends BlockContainer {
 		public Function<TileEntityDungeonSpawner, Boolean> condition;
 		public Consumer<TileEntityDungeonSpawner> action;
 
+		public ForgeDirection direction = ForgeDirection.UNKNOWN;
 		@Override
 		public void updateEntity() {
 
@@ -74,6 +76,7 @@ public class DungeonSpawner extends BlockContainer {
 			nbt.setInteger("phase", phase);
 			nbt.setString("conditionID", conditionID);
 			nbt.setString("actionID", actionID);
+			nbt.setInteger("direction", direction.ordinal());
 		}
 
 		@Override
@@ -81,6 +84,7 @@ public class DungeonSpawner extends BlockContainer {
 			super.readFromNBT(nbt);
 			this.phase = nbt.getInteger("phase");
 			this.conditionID = nbt.getString("conditionID");
+			this.direction = ForgeDirection.getOrientation(nbt.getInteger("direction"));
 		}
 	}
 
