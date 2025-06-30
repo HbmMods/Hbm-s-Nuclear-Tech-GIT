@@ -55,7 +55,9 @@ public class MachinePress extends BlockDummyable implements IToolable {
 		if (meta >= 12)
 			return false;
 		
+		safeRem = true;
 		world.setBlockToAir(x, y, z);
+		safeRem = false;
 		return true;
 	}
 	
