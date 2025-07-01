@@ -4321,6 +4321,7 @@ tile.ladder_steel.name=Stahlleiter
 tile.ladder_sturdy.name=Feste Holzleiter
 tile.ladder_titanium.name=Titanleiter
 tile.ladder_tungsten.name=Wolframleiter
+tile.trapdoor_steel.name=Stahl-Falltür
 tile.lamp_demon.name=Dämonenkernlampe
 tile.lamp_tritium_blue_off.name=Blaue Tritiumlampe
 tile.lamp_tritium_blue_on.name=Blaue Tritiumlampe

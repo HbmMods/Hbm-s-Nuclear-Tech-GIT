@@ -5446,6 +5446,7 @@ tile.ladder_steel.name=Steel Ladder
 tile.ladder_sturdy.name=Sturdy Wooden Ladder
 tile.ladder_titanium.name=Titanium Ladder
 tile.ladder_tungsten.name=Tungsten Ladder
+tile.trapdoor_steel.name=Steel Trapdoor
 tile.lamp_demon.name=Demon Core Lamp
 tile.lamp_tritium_blue_off.name=Blue Tritium Lamp
 tile.lamp_tritium_blue_on.name=Blue Tritium Lamp

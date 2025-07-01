@@ -5689,6 +5689,7 @@ tile.ladder_steel.name=Стальная лестница
 tile.ladder_sturdy.name=Прочная деревянная лестница
 tile.ladder_titanium.name=Титановая лестница
 tile.ladder_tungsten.name=Вольфрамовая лестница
+tile.trapdoor_steel.name=Стальной люк
 tile.lamp_demon.name=Лампа из заряда-демона
 tile.lamp_tritium_blue_off.name=Синяя тритиевая лампа
 tile.lamp_tritium_blue_on.name=Синяя тритиевая лампа
