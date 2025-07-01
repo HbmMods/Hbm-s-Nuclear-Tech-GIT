@@ -923,9 +923,10 @@ public class ModEventHandlerClient {
 					ItemFluidDuct.class
 				);
 				
-				String prefix = "Slot ";
-				//int gunScale = 8;
-				int slotScale = 1;
+				String prefix = "Gun ";
+				int gunScale = 16;
+				int defaultScale = 1;
+				int slotScale = gunScale;
 				boolean ignoreNonNTM = true;
 				boolean onlyGuns = true;
 

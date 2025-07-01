@@ -224,6 +224,7 @@ public class GunFactoryClient {
 		folly_nuke.setRenderer(LegoClient.RENDER_BIG_NUKE);
 
 		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
+		p35800_bl.setRendererBeam(LegoClient.RENDER_BLACK_LIGHTNING);
 
 		ct_hook.setRenderer(LegoClient.RENDER_CT_HOOK);
 		ct_mortar.setRenderer(LegoClient.RENDER_CT_MORTAR);

@@ -159,6 +159,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 		mk5.speed = (int)Math.ceil(100000 / mk5.strength);
 		mk5.setPosition(x, y, z);
 		mk5.length = mk5.strength / 2;
+		mk5.loadChunk((int) Math.floor(x / 16D), (int) Math.floor(z / 16D));
 		return mk5;
 	}
 

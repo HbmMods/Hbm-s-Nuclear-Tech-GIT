@@ -3,6 +3,9 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.effect.EntityFireLingering;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -20,22 +23,44 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory35800 {
 
 	public static BulletConfig p35800;
+	public static BulletConfig p35800_bl;
+	
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_BLACK_IMPACT = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			Entity hit = mop.entityHit;
+			if(hit instanceof EntityLivingBase) {
+				HbmLivingProps.getData((EntityLivingBase) hit).blackFire += 200;
+			}
+		}
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			EntityFireLingering fire = new EntityFireLingering(bullet.worldObj).setArea(7.5F, 2F).setDuration(200).setType(EntityFireLingering.TYPE_BLACK);
+			fire.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+			bullet.worldObj.spawnEntityInWorld(fire);
+		}
+		
+		BulletConfig.LAMBDA_STANDARD_BEAM_HIT.accept(bullet, mop);
+	};
 	
 	public static void init() {
-		
+
 		p35800 = new BulletConfig().setItem(EnumAmmoSecret.P35_800).setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
 				.setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xCEB78E).register("35-800")).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		p35800_bl = new BulletConfig().setItem(EnumAmmoSecret.P35_800_BL).setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
+				.setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xCEB78E).register("35-800")).setOnBeamImpact(LAMBDA_BLACK_IMPACT);
 
 		ModItems.gun_aberrator = new ItemGunBaseNT(WeaponQuality.SECRET, new GunConfig()
 				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(100F).delay(13).dry(21).reload(51).sound("hbm:weapon.fire.aberrator", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 5).addConfigs(p35800))
+						.mag(new MagazineFullReload(0, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))
 				.setupStandardConfiguration()
@@ -46,7 +71,7 @@ public class XFactory35800 {
 				new GunConfig().dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(100F).spreadHipfire(0F).delay(13).dry(21).reload(51).sound("hbm:weapon.fire.aberrator", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 5).addConfigs(p35800))
+						.mag(new MagazineFullReload(0, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, 0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -55,7 +80,7 @@ public class XFactory35800 {
 				new GunConfig().dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(100F).spreadHipfire(0F).delay(13).dry(21).reload(51).sound("hbm:weapon.fire.aberrator", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(1, 5).addConfigs(p35800))
+						.mag(new MagazineFullReload(1, 5).addConfigs(p35800, p35800_bl))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_ABERRATOR))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)

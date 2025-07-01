@@ -431,6 +431,10 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	he.copy(8),			null,
 				null,	sBig.copy(2),		null,
 				null,	sPlate.copy(4),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_BALEFIRE, 1),
+				null,	new ComparableStack(ModItems.egg_balefire_shard),	null,
+				null,	shell,												null,
+				null,	null	,											null));
 
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.CT_HOOK, 16),
 				null,	steel,		null,

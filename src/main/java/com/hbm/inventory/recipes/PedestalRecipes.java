@@ -15,6 +15,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.ModItems;
@@ -94,9 +95,9 @@ public class PedestalRecipes extends SerializableRecipe {
 				.extra(PedestalExtraCondition.GOOD_KARMA).set(1));
 
 		register(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.FOLLY_SM.ordinal()),
-				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),	new OreDictStack(STAR.ingot(), 1),
-				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModBlocks.moon_turf),	new ComparableStack(ModItems.powder_magic),
-				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),	new OreDictStack(STAR.ingot(), 1))
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),								new OreDictStack(STAR.ingot(), 1),
+				new ComparableStack(ModItems.powder_magic),	new ComparableStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE),	new ComparableStack(ModItems.powder_magic),
+				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),								new OreDictStack(STAR.ingot(), 1))
 				.extra(PedestalExtraCondition.FULL_MOON).set(1));
 		register(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 1, EnumAmmoSecret.FOLLY_NUKE.ordinal()),
 				new OreDictStack(STAR.ingot(), 1),			new ComparableStack(ModItems.powder_magic),							new OreDictStack(STAR.ingot(), 1),
@@ -106,6 +107,10 @@ public class PedestalRecipes extends SerializableRecipe {
 		register(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 5, EnumAmmoSecret.P35_800.ordinal()),
 				null,	null,																	null,
 				null,	new ComparableStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR),	null,
+				null,	null,																	null).set(1));
+		register(new PedestalRecipe(new ItemStack(ModItems.ammo_secret, 10, EnumAmmoSecret.P35_800_BL.ordinal()),
+				null,	null,																	null,
+				null,	new ComparableStack(ModItems.item_secret, 3, EnumSecretType.ABERRATOR),	null,
 				null,	null,																	null).set(1));
 	}
 	

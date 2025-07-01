@@ -24,6 +24,7 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
@@ -240,6 +241,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		if(dustCinnabar != null && !dustCinnabar.isEmpty()) {
 			registerRecipe(CINNABAR.dust(), new CrystallizerRecipe(new ItemStack(ModItems.cinnebar), utilityTime), new FluidStack(Fluids.PEROXIDE, 50));
 		}
+		
+		registerRecipe(new ComparableStack(ModBlocks.moon_turf, 16), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200));
 
 		if(!IMCCrystallizer.buffer.isEmpty()) {
 			recipes.putAll(IMCCrystallizer.buffer);
