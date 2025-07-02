@@ -10,6 +10,7 @@ import com.hbm.inventory.container.ContainerMachineChemicalPlant;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalPlant;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -112,6 +113,11 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			this.chemplantModule.update(speed, pow, true);
 			this.didProcess = this.chemplantModule.didProcess;
 			if(this.chemplantModule.markDirty) this.markDirty();
+			
+			if(didProcess) {
+				if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_machined)
+					slots[0] = new ItemStack(ModItems.meteorite_sword_treated);
+			}
 			
 			this.networkPackNT(100);
 			

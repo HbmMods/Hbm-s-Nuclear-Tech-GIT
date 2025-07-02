@@ -20,7 +20,7 @@ public class AchievementHandler {
 		craftingAchievements.put(new ComparableStack(ModItems.battery_potatos), MainRegistry.achPotato);
 		craftingAchievements.put(new ComparableStack(ModBlocks.machine_press), MainRegistry.achBurnerPress);
 		craftingAchievements.put(new ComparableStack(ModItems.rbmk_fuel_empty), MainRegistry.achRBMK);
-		craftingAchievements.put(new ComparableStack(ModBlocks.machine_chemplant), MainRegistry.achChemplant);
+		craftingAchievements.put(new ComparableStack(ModBlocks.machine_chemical_plant), MainRegistry.achChemplant);
 		craftingAchievements.put(new ComparableStack(ModBlocks.concrete_smooth), MainRegistry.achConcrete);
 		craftingAchievements.put(new ComparableStack(ModBlocks.concrete_asbestos), MainRegistry.achConcrete);
 		craftingAchievements.put(new ComparableStack(ModItems.ingot_polymer), MainRegistry.achPolymer);

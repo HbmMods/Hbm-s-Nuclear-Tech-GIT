@@ -88,7 +88,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			// Even if can be forced somehow, the player doesn't gain any
 			// benefit from it.
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
+			if(stack != null) EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
 		}
 	};
 
@@ -133,7 +133,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			// Even if can be forced somehow, the player doesn't gain any
 			// benefit from it.
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
+			if(stack != null) EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
 		}
 	};
 

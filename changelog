@@ -1,14 +1,7 @@
-## Added
-* Steel trapdoor
-  * When open with a ladder below it, it too will act like a ladder
-
 ## Changed
-* Updated chinese localization
-* Improved performance for many nodespace operations
-* .35 can now use a new ammo type
-* Balefire mini nukes are now craftable
+* The chemistry achievement now requires the new chemical plant
+* The new chemical plant can now be used to upgrade the meteorite sword
 
 ## Fixed
-* Fixed chemical plant recipe config defaulting to an output chance of 0%
-* Potentially fixed an issue where chunks aren't properly force loaded when a nuclear explosion spawns, causing missiles to not work most of the time
-* Fixed taint-tipped missile not correctly spawning taint most of the time
+* Fixed crash caused by breaking a tool while the fortune or silk touch ability is enabled
+* Fixed NTM adding mob spawns to the mushroom island
