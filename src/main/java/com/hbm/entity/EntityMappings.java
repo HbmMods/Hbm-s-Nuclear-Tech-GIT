@@ -95,6 +95,7 @@ public class EntityMappings {
 		addEntity(EntitySparkBeam.class, "entity_spark_beam", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);
 		addEntity(EntityMissileDoomsdayRusted.class, "entity_missile_doomsday_rusted", 1000);
+		addEntity(EntityMissileBalefire.class, "entity_missile_balefire", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
 		addEntity(EntityMeteor.class, "entity_meteor", 250);
@@ -251,35 +252,35 @@ public class EntityMappings {
 		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityPlasticBag.class, 1, 1, 3, EnumCreatureType.waterCreature, BiomeDictionary.getBiomesForType(Type.OCEAN));
 		addSpawn(EntityPigeon.class, 1, 5, 10, EnumCreatureType.creature, BiomeDictionary.getBiomesForType(Type.PLAINS));
-		
+
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {
 			EntityRegistry.registerModEntity(entry.getW(), entry.getX(), id++, MainRegistry.instance, entry.getY(), 1, entry.getZ());
 		}
-		
+
 		for(Quartet<Class<? extends Entity>, String, Integer, Integer> entry : mobMappings) {
 			EntityRegistry.registerGlobalEntityID(entry.getW(), entry.getX(), EntityRegistry.findGlobalUniqueEntityId(), entry.getY(), entry.getZ());
 		}
 	}
-	
+
 	private static void addEntity(Class<? extends Entity> clazz, String name, int trackingRange) {
 		addEntity(clazz, name, trackingRange, true);
 	}
-	
+
 	private static void addEntity(Class<? extends Entity> clazz, String name, int trackingRange, boolean velocityUpdates) {
 		entityMappings.add(new Quartet(clazz, name, trackingRange, velocityUpdates));
 	}
-	
+
 	private static void addMob(Class<? extends Entity> clazz, String name, int color1, int color2) {
 		mobMappings.add(new Quartet(clazz, name, color1, color2));
 	}
 
 	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
-		
+
 		for(BiomeGenBase biome : biomes) {
-			
+
 			if(biome == null) continue;
-			
+
 			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
 
 			for(SpawnListEntry entry : spawns) {
