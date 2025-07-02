@@ -164,7 +164,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_volcano), generateStandard(ResourceManager.missileVolcano_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateStandard(ResourceManager.missileDoomsday_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_doomsday_rusted), generateStandard(ResourceManager.missileDoomsdayRusted_tex, ResourceManager.missileNuclear));
-		renderers.put(new ComparableStack(ModItems.missile_balefire), generateStandard(ResourceManager.missileDoomsdayRusted_tex, ResourceManager.missileNuclear));
+		renderers.put(new ComparableStack(ModItems.missile_balefire), generateStandard(ResourceManager.missileBalefire_tex, ResourceManager.missileNuclear));
 
 		renderers.put(new ComparableStack(ModItems.missile_shuttle), generateStandard(ResourceManager.missileShuttle_tex, ResourceManager.missileShuttle));
 	}
