@@ -16,11 +16,13 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.world.WorldUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
@@ -49,7 +51,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		@Override public ItemStack getDebrisRareDrop() { return null; }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_test); }
 		
-		@Override public void onImpact() {
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			int x = (int) Math.floor(posX);
 			int y = (int) Math.floor(posY);
 			int z = (int) Math.floor(posZ);
@@ -80,7 +82,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public static class EntityMissileMicro extends EntityMissileTier0 {
 		public EntityMissileMicro(World world) { super(world); }
 		public EntityMissileMicro(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() { ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_HIGH); }
+		@Override public void onMissileImpact(MovingObjectPosition mop) { ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_HIGH); }
 		@Override public ItemStack getDebrisRareDrop() { return DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_micro); }
 	}
@@ -88,10 +90,10 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public static class EntityMissileSchrabidium extends EntityMissileTier0 {
 		public EntityMissileSchrabidium(World world) { super(world); }
 		public EntityMissileSchrabidium(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, BombConfig.aSchrabRadius);
 			if(!ex.isDead) {
-				worldObj.spawnEntityInWorld(ex);
+				WorldUtil.loadAndSpawnEntityInWorld(ex);
 				EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
 				cloud.posX = this.posX;
 				cloud.posY = this.posY;
@@ -106,7 +108,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public static class EntityMissileBHole extends EntityMissileTier0 {
 		public EntityMissileBHole(World world) { super(world); }
 		public EntityMissileBHole(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.5F, true);
 			EntityBlackHole bl = new EntityBlackHole(this.worldObj, 1.5F);
 			bl.posX = this.posX;
@@ -121,15 +123,15 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public static class EntityMissileTaint extends EntityMissileTier0 {
 		public EntityMissileTaint(World world) { super(world); }
 		public EntityMissileTaint(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
-			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10.0F, true);
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			this.worldObj.createExplosion(this, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5.0F, true);
 			for(int i = 0; i < 100; i++) {
-				int a = rand.nextInt(11) + (int) this.posX - 5;
-				int b = rand.nextInt(11) + (int) this.posY - 5;
-				int c = rand.nextInt(11) + (int) this.posZ - 5;
+				int a = rand.nextInt(11) + (int) mop.blockX - 5;
+				int b = rand.nextInt(11) + (int) mop.blockY - 5;
+				int c = rand.nextInt(11) + (int) mop.blockZ - 5;
 				Block block = worldObj.getBlock(a, b, c);
 				if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
-					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+					worldObj.setBlock(a, b, c, ModBlocks.taint, 0, 2);
 				}
 			}
 		}
@@ -140,7 +142,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public static class EntityMissileEMP extends EntityMissileTier0 {
 		public EntityMissileEMP(World world) { super(world); }
 		public EntityMissileEMP(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			ExplosionNukeGeneric.empBlast(worldObj, (int)posX, (int)posY, (int)posZ, 50);
 			EntityEMPBlast wave = new EntityEMPBlast(worldObj, 50);
 			wave.posX = posX;

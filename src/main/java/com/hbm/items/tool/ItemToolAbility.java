@@ -29,7 +29,6 @@ import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.item.IDepthRockTool;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

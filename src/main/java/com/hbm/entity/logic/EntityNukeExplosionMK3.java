@@ -259,6 +259,10 @@ public class EntityNukeExplosionMK3 extends EntityExplosionChunkloading {
 				break;
 			}
 		}
+		
+		if(!entity.isDead) {
+			entity.loadChunk((int) Math.floor(x / 16D), (int) Math.floor(z / 16D));
+		}
 
 		return entity;
 	}

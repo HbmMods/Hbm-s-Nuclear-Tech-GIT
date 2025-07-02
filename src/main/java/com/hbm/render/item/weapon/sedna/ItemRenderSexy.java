@@ -21,7 +21,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 	@Override
 	public float getViewFOV(ItemStack stack, float fov) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
-		return  fov * (1 - aimingProgress * 0.66F);
+		return  fov * (1 - aimingProgress * 0.33F);
 	}
 
 	@Override
@@ -29,10 +29,6 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 0, 0.875);
 		
 		float offset = 0.8F;
-
-		/*standardAimingTransform(stack,
-				-1.25F * offset, -0.75F * offset, 3.25F * offset,
-			0, -5.25 / 8D, 1);*/
 		
 		standardAimingTransform(stack,
 				-1F * offset, -0.75F * offset, 3F * offset,
@@ -45,6 +41,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
+		// i'm not going overboard with the animation
 		boolean doesCycle = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("CYCLE") != null;
 		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BELT") != null;
 		boolean useShellCount = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("SHELLS") != null;

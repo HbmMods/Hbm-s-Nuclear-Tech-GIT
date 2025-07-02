@@ -5445,6 +5445,7 @@ tile.ladder_steel.name=Сталева драбина
 tile.ladder_sturdy.name=Міцна дерев'яна драбина
 tile.ladder_titanium.name=Титанова драбина
 tile.ladder_tungsten.name=Вольфрамова драбина
+tile.trapdoor_steel.name=Сталевий люк
 tile.lamp_demon.name=Ядро-демон лампа
 tile.lamp_tritium_blue_off.name=Синя тритієва лампа
 tile.lamp_tritium_blue_on.name=Синя тритієва лампа

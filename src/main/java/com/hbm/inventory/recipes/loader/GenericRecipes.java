@@ -175,7 +175,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		// a weight of 0 means this output is not part of a weighted output
 		
 		public ItemStack stack;
-		public float chance;
+		public float chance = 1F;
 
 		public ChanceOutput() { super(0); } // for deserialization
 		public ChanceOutput(ItemStack stack) { this(stack, 1F, 0); }
