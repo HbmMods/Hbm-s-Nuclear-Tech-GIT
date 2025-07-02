@@ -16,14 +16,18 @@ import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.gen.INBTTileEntityTransformable;
 import com.hbm.world.gen.util.DungeonSpawnerActions;
 import com.hbm.world.gen.util.DungeonSpawnerConditions;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -92,6 +96,30 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 	}
 
 	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
+
+		ItemStack stack = player.getHeldItem();
+
+		if (stack != null && stack.getItem() instanceof ItemBlock && !player.isSneaking()) {
+			ItemBlock ib = (ItemBlock) stack.getItem();
+			Block block = ib.field_150939_a;
+
+			if (block.renderAsNormalBlock() && block != this) {
+
+				TileEntity tile = world.getTileEntity(x, y, z);
+
+				if(tile instanceof TileEntityWandSpawner){
+					TileEntityWandSpawner spawner = (TileEntityWandSpawner) tile;
+					spawner.disguise = block;
+					spawner.disguiseMeta = stack.getItemDamage() & 15;
+					return true;
+				}
+			}
+		}
+		return super.onBlockActivated(world, x, y, z, player, side, fX, fY, fZ);
+	}
+
+	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		TileEntity te = world.getTileEntity(x, y, z);
 
@@ -132,10 +160,17 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 
 		TileEntityWandSpawner spawner = (TileEntityWandSpawner) te;
 
-		List<String> text = new ArrayList<String>();
+		List<String> text = new ArrayList<>();
 		text.add("Action: " + spawner.actionID);
 		text.add("Condition: " + spawner.conditionID);
+		String block;
 
+		if(spawner.disguise != null && spawner.disguise != Blocks.air)
+			block = I18nUtil.resolveKey(spawner.disguise.getUnlocalizedName() + ".name");
+		else
+			block = "None";
+
+		text.add("Disguise Block: " + block);
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
@@ -167,8 +202,13 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 
 		public int placedRotation;
 
+		Block disguise;
+		int disguiseMeta = -1;
+
 		public String actionID = "PHASE_ABERRATOR";
 		public String conditionID = "ABERRATOR";
+
+		public boolean noDisguise;
 
 		@Override
 		public void updateEntity() {
@@ -202,6 +242,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 				spawner.actionID = actionID;
 				spawner.conditionID = conditionID;
 				spawner.direction = ForgeDirection.getOrientation(placedRotation);
+				spawner.disguise = disguise;
+				spawner.disguiseMeta = disguiseMeta;
 			}
 
 		}
@@ -217,6 +259,10 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			nbt.setString("actionID", actionID);
 			nbt.setString("conditionID", conditionID);
 			nbt.setInteger("rotation", placedRotation);
+			if(disguise != null){
+				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
+				nbt.setInteger("disguiseMeta", disguiseMeta);
+			}
 		}
 
 		@Override
@@ -225,6 +271,10 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
 			placedRotation = nbt.getInteger("rotation");
+			if(nbt.hasKey("disguise")){
+				disguise = Block.getBlockFromName(nbt.getString("disguise"));
+				disguiseMeta = nbt.getInteger("disguiseMeta");
+			}
 		}
 
 		@Override
@@ -232,6 +282,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			buf.writeInt(placedRotation);
 			BufferUtil.writeString(buf, actionID);
 			BufferUtil.writeString(buf, conditionID);
+			buf.writeInt(Block.getIdFromBlock(disguise));
+			buf.writeInt(disguiseMeta);
 		}
 
 		@Override
@@ -239,6 +291,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			placedRotation = buf.readInt();
 			actionID = BufferUtil.readString(buf);
 			conditionID = BufferUtil.readString(buf);
+			disguise = Block.getBlockById(buf.readInt());
+			disguiseMeta = buf.readInt();
 		}
 
 		@Override
@@ -246,6 +300,11 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("actionID", actionID);
 			nbt.setString("conditionID", conditionID);
+			if(disguise != null){
+				nbt.setString("disguise", disguise.getUnlocalizedName());
+				nbt.setInteger("disguiseMeta", disguiseMeta);
+			}
+
 			return nbt;
 		}
 
@@ -253,6 +312,10 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
+			if(nbt.hasKey("disguise")){
+				disguise = Block.getBlockFromName(nbt.getString("disguise"));
+				disguiseMeta = nbt.getInteger("disguiseMeta");
+			}
 		}
 	}
 }
