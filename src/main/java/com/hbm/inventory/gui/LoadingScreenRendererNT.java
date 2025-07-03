@@ -166,7 +166,7 @@ public class LoadingScreenRendererNT extends LoadingScreenRenderer {
 					this.mc.fontRenderer.drawStringWithShadow(this.currentlyDisplayedText, (width - this.mc.fontRenderer.getStringWidth(this.currentlyDisplayedText)) / 2, height / 2 - 4 - 16, 16777215);
 					this.mc.fontRenderer.drawStringWithShadow(this.message, (width - this.mc.fontRenderer.getStringWidth(this.message)) / 2, height / 2 - 4 + 8, 16777215);
 					
-					String[] frags = this.tipOfTheDay.split("$");
+					String[] frags = this.tipOfTheDay.split("\\$");
 					for(int i = 0; i < frags.length; i++) {
 						String frag = frags[i];
 						this.mc.fontRenderer.drawStringWithShadow(EnumChatFormatting.YELLOW + frag, (width - this.mc.fontRenderer.getStringWidth(frag)) / 2, height / 2 - 4 - 60 + i * 10, 16777215);
