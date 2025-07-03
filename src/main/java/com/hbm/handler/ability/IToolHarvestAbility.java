@@ -37,7 +37,8 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		if(skipDefaultDrops) {
 			// Emulate the block breaking without drops
 			world.setBlockToAir(x, y, z);
-			player.getHeldItem().damageItem(1, player);
+			ItemStack stack = player.getHeldItem();
+			if(stack != null) stack.damageItem(1, player);
 		} else if(player instanceof EntityPlayerMP) {
 			// Break the block conventionally
 			ItemToolAbility.standardDigPost(world, x, y, z, (EntityPlayerMP) player);
@@ -78,7 +79,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		@Override
 		public void preHarvestAll(int level, World world, EntityPlayer player) {
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
+			if(stack != null) EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
 		}
 
 		@Override
@@ -123,7 +124,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		@Override
 		public void preHarvestAll(int level, World world, EntityPlayer player) {
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, powerAtLevel[level]);
+			if(stack != null) EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, powerAtLevel[level]);
 		}
 
 		@Override
