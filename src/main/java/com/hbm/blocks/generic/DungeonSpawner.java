@@ -12,6 +12,7 @@ import com.hbm.world.gen.util.DungeonSpawnerActions;
 import com.hbm.world.gen.util.DungeonSpawnerConditions;
 import com.hbm.util.Vec3NT;
 
+import com.hbm.world.gen.util.DungeonSpawnerInteractions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -59,22 +60,38 @@ public class DungeonSpawner extends BlockContainer {
 		return super.getIcon(world, x, y, z, side);
 	}
 
+	@Override
+	public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+		TileEntity te = worldIn.getTileEntity(x, y, z);
+		if(te instanceof TileEntityDungeonSpawner && ((TileEntityDungeonSpawner) te).interaction != null) {
+			((TileEntityDungeonSpawner) te).interaction.accept(new Object[]{worldIn, te, x, y, z, player, side, subX, subY, subZ});
+			return true;
+		}
 
+		return super.onBlockActivated(worldIn, x, y, z, player, side, subX, subY, subZ);
+	}
 
 	public static class TileEntityDungeonSpawner extends TileEntity {
 
+		//phase is incremented per condition check, timer counts since last condition check by default
 		public int phase = 0;
 		public int timer = 0;
 
 		public Block disguise;
 		public int disguiseMeta;
 
+		/**Actions always get called before conditions, use the phase and timer variables in order to control behavior via conditions*/
 		public String conditionID = "ABERRATOR";
-		//actions always get called before conditions, use the phase timer in order to control behavior via condition
 		public String actionID = "ABERRATOR";
+		/**Interactions are called on right click, and passes on the parameters of the right click to consumer*/
+		public String interactionID;
 
 		public Function<TileEntityDungeonSpawner, Boolean> condition;
 		public Consumer<TileEntityDungeonSpawner> action;
+		/**Consists of world instance, TileEntity instance, three ints for coordinates, one int for block side, and player instance, in that order **/
+		public Consumer<Object[]> interaction;
+
+		public EntityPlayer player;
 
 		public ForgeDirection direction = ForgeDirection.UNKNOWN;
 		@Override
@@ -87,6 +104,10 @@ public class DungeonSpawner extends BlockContainer {
 				if(condition == null){
 					condition = DungeonSpawnerConditions.conditions.get(conditionID);
 				}
+				if(interaction == null && interactionID != null){
+					interaction = DungeonSpawnerInteractions.interactions.get(interactionID);
+				}
+
 				if(action == null || condition == null){
 					worldObj.setBlock(xCoord,yCoord,zCoord, Blocks.air);
 					return;
@@ -105,8 +126,12 @@ public class DungeonSpawner extends BlockContainer {
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
 			nbt.setInteger("phase", phase);
-			nbt.setString("conditionID", conditionID);
+
 			nbt.setString("actionID", actionID);
+			nbt.setString("conditionID", conditionID);
+			if(interactionID != null)
+				nbt.setString("interactionID", interactionID);
+
 			nbt.setInteger("direction", direction.ordinal());
 			if(disguise != null){
 				nbt.setInteger("disguiseMeta", disguiseMeta);
@@ -118,8 +143,13 @@ public class DungeonSpawner extends BlockContainer {
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			this.phase = nbt.getInteger("phase");
+
+			this.actionID = nbt.getString("actionID");
 			this.conditionID = nbt.getString("conditionID");
+			if(nbt.hasKey("interactionID")) this.interactionID = nbt.getString("interactionID");
+
 			this.direction = ForgeDirection.getOrientation(nbt.getInteger("direction"));
+
 			if(nbt.hasKey("disguise")){
 				disguiseMeta = nbt.getInteger("disguiseMeta");
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));

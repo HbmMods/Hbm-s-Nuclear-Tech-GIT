@@ -1,7 +1,7 @@
 package com.hbm.world.gen.util;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockPedestal;
 import com.hbm.blocks.generic.BlockSkeletonHolder;
 import com.hbm.blocks.generic.DungeonSpawner;
 import com.hbm.entity.item.EntityFallingBlockNT;
@@ -9,34 +9,30 @@ import com.hbm.entity.missile.EntityMissileTier2;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
-import com.hbm.main.ModEventHandler;
+import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.hbm.util.ContaminationUtil;
 import com.hbm.util.MobUtil;
 import com.hbm.util.Vec3NT;
 import com.hbm.world.WorldUtil;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class DungeonSpawnerActions {
 
-	public static HashMap<String, Consumer<DungeonSpawner.TileEntityDungeonSpawner>> actions = new HashMap<>();
+	public static LinkedHashMap<String, Consumer<DungeonSpawner.TileEntityDungeonSpawner>> actions = new LinkedHashMap<>();
 
 	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> PHASE_ABERRATOR = (tile) -> {
 		World world = tile.getWorldObj();
@@ -122,14 +118,10 @@ public class DungeonSpawnerActions {
 			Vec3NT vec = new Vec3NT(5, 0, 0);
 			for (int i = 0; i < 10; i++) {
 				EntityZombie mob = new EntityZombie(world);
-				for (int j = 0; j < 7; j++) {
-					mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x,z), z + 0.5 + vec.zCoord, i * 36F, 0);
-					MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
-					if (mob.getCanSpawnHere()) {
-						world.spawnEntityInWorld(mob);
-						break;
-					}
-				}
+				mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue(x,z), z + 0.5 + vec.zCoord, i * 36F, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
+				world.spawnEntityInWorld(mob);
+
 				vec.rotateAroundYDeg(36D);
 			}
 			world.setBlock(x, y, z, ModBlocks.block_steel);
@@ -178,6 +170,78 @@ public class DungeonSpawnerActions {
 		world.setBlock(x,y,z, ModBlocks.block_electrical_scrap);
 	};
 
+	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> RAD_CONTAINMENT_SYSTEM = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		ForgeDirection direction = tile.direction.getOpposite();
+		ForgeDirection rot = direction.getRotation(ForgeDirection.UP);
+
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - rot.offsetX, y - 1, z - rot.offsetZ, x + rot.offsetX + direction.offsetX * 15, y + 1, z + rot.offsetZ + direction.offsetZ * 15).expand(2,2,2);
+
+		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
+
+		for(EntityLivingBase e : entities) {
+
+			Vec3 vec = Vec3.createVectorHelper(e.posX - (x + 0.5), (e.posY + e.getEyeHeight()) - (y + 0.5), e.posZ - (z + 0.5));
+			double len = vec.lengthVector();
+			vec = vec.normalize();
+
+			len = Math.max(len,1D);
+
+			float res = 0;
+
+			for(int i = 1; i < len; i++) {
+
+				int ix = (int)Math.floor(x + 0.5 + vec.xCoord * i);
+				int iy = (int)Math.floor(y + 0.5 + vec.yCoord * i);
+				int iz = (int)Math.floor(z + 0.5 + vec.zCoord * i);
+
+				res += world.getBlock(ix, iy, iz).getExplosionResistance(null);
+			}
+
+			if(res < 1)
+				res = 1;
+
+			float eRads = 100F;
+			eRads /= (float)res;
+			eRads /= (float)(len * len);
+
+			ContaminationUtil.contaminate(e, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.HAZMAT2, eRads);
+		}
+
+		if (tile.phase == 2 && tile.timer > 40){
+			world.getClosestPlayer(x,y,z, 25).addChatMessage(new ChatComponentText(
+				EnumChatFormatting.LIGHT_PURPLE + "[RAD CONTAINMENT SYSTEM]" +
+					EnumChatFormatting.RESET + " Diagnostics found containment failure, commencing lockdown"));
+
+			for(int i = 1; i < 20; i++) {
+				int checkX, checkY, checkZ;
+				checkX = x + direction.offsetX * i;
+				checkY = y + 1;
+				checkZ = z + direction.offsetZ * i;
+				Block block = world.getBlock(checkX, checkY,checkZ);
+				TileEntity te = null;
+				if(block instanceof  BlockDummyable){
+					int[] coreCoords = ((BlockDummyable) block).findCore(world,checkX,checkY,checkZ);
+					te = world.getTileEntity(coreCoords[0], coreCoords[1], coreCoords[2]);
+				}
+
+				if (te instanceof TileEntityDoorGeneric) {
+					TileEntityDoorGeneric door = (TileEntityDoorGeneric) te;
+					door.setPins(456);
+					door.close();
+					door.lock();
+					break;
+				}
+			}
+
+			tile.phase = 3;
+		}
+	};
+
 	public static List<String> getActionNames(){
 		return new ArrayList<>(actions.keySet());
 	}
@@ -189,6 +253,7 @@ public class DungeonSpawnerActions {
 		actions.put("FODDER_WAVE", FODDER_WAVE);
 		actions.put("PUZZLE_TEST", PUZZLE_TEST);
 		actions.put("MISSILE_STRIKE", MISSILE_STRIKE);
+		actions.put("IRRADIATE_ENTITIES_AOE", RAD_CONTAINMENT_SYSTEM);
 	}
 
 
