@@ -15,12 +15,16 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Function;
 
 public class DungeonSpawnerConditions {
 
-	public static HashMap<String, Function<DungeonSpawner.TileEntityDungeonSpawner, Boolean>> conditions = new HashMap<>();
+	public static LinkedHashMap<String, Function<DungeonSpawner.TileEntityDungeonSpawner, Boolean>> conditions = new LinkedHashMap<>();
+
+	/**For use with interactions, for having them handle all conditional tasks*/
+	public static Function<DungeonSpawner.TileEntityDungeonSpawner, Boolean> EMPTY = (tile) -> false;
 
 	public static Function<DungeonSpawner.TileEntityDungeonSpawner, Boolean> ABERRATOR = (tile) -> {
 		World world = tile.getWorldObj();
@@ -82,6 +86,7 @@ public class DungeonSpawnerConditions {
 
 	//register new conditions here
 	static {
+		conditions.put("EMPTY", EMPTY);
 		conditions.put("ABERRATOR", ABERRATOR);
 		conditions.put("PLAYER_CUBE_5", PLAYER_CUBE_5);
 		conditions.put("REDSTONE", REDSTONE);

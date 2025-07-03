@@ -16,6 +16,7 @@ import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.gen.INBTTileEntityTransformable;
 import com.hbm.world.gen.util.DungeonSpawnerActions;
 import com.hbm.world.gen.util.DungeonSpawnerConditions;
+import com.hbm.world.gen.util.DungeonSpawnerInteractions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -147,6 +148,16 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 				spawner.conditionID = conditionNames.get(indexC);
 
 				return true;
+			case HAND_DRILL:
+				List<String> interactionNames = DungeonSpawnerInteractions.getInteractionNames();
+				int indexI = interactionNames.indexOf(spawner.interactionID);
+
+				indexI += player.isSneaking() ? -1 : 1;
+				indexI = MathHelper.clamp_int(indexI, 0, interactionNames.size() - 1);
+
+				spawner.interactionID = interactionNames.get(indexI);
+
+				return true;
 
 			default: return false;
 		}
@@ -163,6 +174,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		List<String> text = new ArrayList<>();
 		text.add("Action: " + spawner.actionID);
 		text.add("Condition: " + spawner.conditionID);
+		text.add("Interaction: " + (spawner.interactionID != null ? spawner.interactionID : "None"));
+
 		String block;
 
 		if(spawner.disguise != null && spawner.disguise != Blocks.air)
@@ -171,6 +184,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			block = "None";
 
 		text.add("Disguise Block: " + block);
+
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
@@ -178,7 +192,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		list.add(EnumChatFormatting.GOLD + "Use screwdriver to cycle forwards through the action list, shift click to go back");
 		list.add(EnumChatFormatting.GOLD + "Use defuser to cycle forwards through the condition list, shift click to go back");
-		list.add(EnumChatFormatting.BLUE + "Use a detonator to transform");
+		list.add(EnumChatFormatting.GOLD + "Use hand drill to cycle forwards through the interaction list, shift click to go back");
+		list.add(EnumChatFormatting.YELLOW + "Use a detonator to transform");
 	}
 
 	@Override
@@ -206,9 +221,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		int disguiseMeta = -1;
 
 		public String actionID = "PHASE_ABERRATOR";
-		public String conditionID = "ABERRATOR";
-
-		public boolean noDisguise;
+		public String conditionID = "EMPTY";
+		public String interactionID;
 
 		@Override
 		public void updateEntity() {
@@ -241,6 +255,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 				DungeonSpawner.TileEntityDungeonSpawner spawner = (DungeonSpawner.TileEntityDungeonSpawner)	te;
 				spawner.actionID = actionID;
 				spawner.conditionID = conditionID;
+				spawner.interactionID = interactionID;
 				spawner.direction = ForgeDirection.getOrientation(placedRotation);
 				spawner.disguise = disguise;
 				spawner.disguiseMeta = disguiseMeta;
@@ -258,6 +273,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			super.writeToNBT(nbt);
 			nbt.setString("actionID", actionID);
 			nbt.setString("conditionID", conditionID);
+			nbt.setString("interactionID", interactionID);
 			nbt.setInteger("rotation", placedRotation);
 			if(disguise != null){
 				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
@@ -270,6 +286,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			super.readFromNBT(nbt);
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
+			interactionID = nbt.getString("interactionID");
 			placedRotation = nbt.getInteger("rotation");
 			if(nbt.hasKey("disguise")){
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));
@@ -282,6 +299,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			buf.writeInt(placedRotation);
 			BufferUtil.writeString(buf, actionID);
 			BufferUtil.writeString(buf, conditionID);
+			BufferUtil.writeString(buf, interactionID);
 			buf.writeInt(Block.getIdFromBlock(disguise));
 			buf.writeInt(disguiseMeta);
 		}
@@ -291,6 +309,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			placedRotation = buf.readInt();
 			actionID = BufferUtil.readString(buf);
 			conditionID = BufferUtil.readString(buf);
+			interactionID = BufferUtil.readString(buf);
 			disguise = Block.getBlockById(buf.readInt());
 			disguiseMeta = buf.readInt();
 		}
@@ -300,8 +319,10 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("actionID", actionID);
 			nbt.setString("conditionID", conditionID);
+			if(interactionID != null)
+				nbt.setString("interactionID", interactionID);
 			if(disguise != null){
-				nbt.setString("disguise", disguise.getUnlocalizedName());
+				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
 				nbt.setInteger("disguiseMeta", disguiseMeta);
 			}
 
@@ -312,6 +333,7 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
+			interactionID = nbt.getString("interactionID");
 			if(nbt.hasKey("disguise")){
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));
 				disguiseMeta = nbt.getInteger("disguiseMeta");
