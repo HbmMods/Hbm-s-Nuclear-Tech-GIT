@@ -1,7 +1,6 @@
-package com.hbm.module;
+package com.hbm.module.machine;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 
@@ -11,22 +10,16 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Option 1: Make a base class with weird arbitrary overrides to define shit like slots for multi machines like the chemfac
- * Option 2: Make an easy to define module which can be used by whatever needs it, hypothetically allowing a mixed recipe machine.
- * In the hudson bay, you know how we do it.
- * @author hbm
- */
-public class ModuleMachineChemplant {
+public abstract class ModuleMachineBase {
 	
 	// setup
 	public int index;
 	public IEnergyHandlerMK2 battery;
 	public ItemStack[] slots;
-	public int[] inputSlots = new int[3];
-	public int[] outputSlots = new int[3];
-	public FluidTank[] inputTanks = new FluidTank[3];
-	public FluidTank[] outputTanks = new FluidTank[3];
+	public int[] inputSlots;
+	public int[] outputSlots;
+	public FluidTank[] inputTanks;
+	public FluidTank[] outputTanks;
 	// running vars
 	public String recipe = "null";
 	public double progress;
@@ -34,7 +27,7 @@ public class ModuleMachineChemplant {
 	public boolean didProcess = false;
 	public boolean markDirty = false;
 
-	public ModuleMachineChemplant(int index, IEnergyHandlerMK2 battery, ItemStack[] slots) {
+	public ModuleMachineBase(int index, IEnergyHandlerMK2 battery, ItemStack[] slots) {
 		this.index = index;
 		this.battery = battery;
 		this.slots = slots;
@@ -43,8 +36,8 @@ public class ModuleMachineChemplant {
 	/** Chances tank type and pressure based on recipe */
 	public void setupTanks(GenericRecipe recipe) {
 		if(recipe == null) return;
-		for(int i = 0; i < 3; i++) if(recipe.inputFluid != null && recipe.inputFluid.length > i) inputTanks[i].conform(recipe.inputFluid[i]); else inputTanks[i].resetTank();
-		for(int i = 0; i < 3; i++) if(recipe.outputFluid != null && recipe.outputFluid.length > i) outputTanks[i].conform(recipe.outputFluid[i]); else outputTanks[i].resetTank();
+		for(int i = 0; i < inputTanks.length; i++) if(recipe.inputFluid != null && recipe.inputFluid.length > i) inputTanks[i].conform(recipe.inputFluid[i]); else inputTanks[i].resetTank();
+		for(int i = 0; i < outputTanks.length; i++) if(recipe.outputFluid != null && recipe.outputFluid.length > i) outputTanks[i].conform(recipe.outputFluid[i]); else outputTanks[i].resetTank();
 	}
 	
 	/** Expects the tanks to be set up correctly beforehand */
@@ -135,8 +128,10 @@ public class ModuleMachineChemplant {
 		}
 	}
 	
+	public abstract GenericRecipe getRecipe();
+	
 	public void update(double speed, double power, boolean extraCondition) {
-		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+		GenericRecipe recipe = getRecipe();
 		this.setupTanks(recipe);
 
 		this.didProcess = false;
@@ -152,7 +147,7 @@ public class ModuleMachineChemplant {
 	
 	/** For item IO, instead of the TE doing all the work it only has to handle non-recipe stuff, the module does the rest */
 	public boolean isItemValid(int slot, ItemStack stack) {
-		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+		GenericRecipe recipe = getRecipe();
 		if(recipe == null) return false;
 		if(recipe.inputItem == null) return false;
 		
@@ -162,11 +157,6 @@ public class ModuleMachineChemplant {
 		
 		return false;
 	}
-
-	public ModuleMachineChemplant itemInput(int a, int b, int c) { inputSlots[0] = a; inputSlots[1] = b; inputSlots[2] = c; return this; }
-	public ModuleMachineChemplant itemOutput(int a, int b, int c) { outputSlots[0] = a; outputSlots[1] = b; outputSlots[2] = c; return this; }
-	public ModuleMachineChemplant fluidInput(FluidTank a, FluidTank b, FluidTank c) { inputTanks[0] = a; inputTanks[1] = b; inputTanks[2] = c; return this; }
-	public ModuleMachineChemplant fluidOutput(FluidTank a, FluidTank b, FluidTank c) { outputTanks[0] = a; outputTanks[1] = b; outputTanks[2] = c; return this; }
 	
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(progress);
