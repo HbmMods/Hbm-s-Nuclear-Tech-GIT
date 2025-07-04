@@ -292,14 +292,23 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(!(canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) || block == Blocks.bedrock || block == ModBlocks.stone_keyhole)
+		if(!(
+			canHarvestBlock(block, stack) ||
+			canShearBlock(block, stack, world, x, y, z)) ||
+			block.getPlayerRelativeBlockHardness(player, world, x, y, z) < 0 ||
+			block == ModBlocks.stone_keyhole
+		)
 			return;
 
 		Block refBlock = world.getBlock(refX, refY, refZ);
 		float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
 		float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
 
-		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || refBlock.getPlayerRelativeBlockHardness(player, world, refX, refY, refZ) < 0)
+		if(
+			!ForgeHooks.canHarvestBlock(block, player, meta) || 
+			refStrength / strength > 10f || 
+			refBlock.getPlayerRelativeBlockHardness(player, world, refX, refY, refZ) < 0
+		)
 			return;
 
 		BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world, player.theItemInWorldManager.getGameType(), player, x, y, z);
