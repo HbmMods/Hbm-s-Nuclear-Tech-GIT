@@ -32,13 +32,15 @@ public class DungeonSpawnerConditions {
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
+
+		boolean aoeCheck = !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(10, 10, 10)).isEmpty();
 		if(tile.phase == 0) {
 			if(world.getTotalWorldTime() % 20 != 0) return false;
-			return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(20, 10, 20)).isEmpty();
+			return aoeCheck;
 		}
 		if(tile.phase < 3) {
 			if(world.getTotalWorldTime() % 20 != 0 || tile.timer < 60) return false;
-			return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x - 2, y + 1, z + 1).expand(50, 20, 50)).isEmpty();
+			return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x - 2, y + 1, z + 1).expand(50, 20, 50)).isEmpty() && aoeCheck;
 		}
 		return false;
 	};

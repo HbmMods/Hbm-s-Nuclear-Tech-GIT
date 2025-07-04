@@ -40,19 +40,25 @@ public class DungeonSpawnerActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1 || tile.phase == 2) {
+			tile.player = world.getClosestPlayer(x,y,z, 25);
 			if (tile.timer == 0) {
-				Vec3NT vec = new Vec3NT(10, 0, 0);
+				Vec3NT vec = new Vec3NT(20, 0, 0);
 				for (int i = 0; i < 10; i++) {
+
+					if(vec.xCoord > 8) vec.xCoord += world.rand.nextInt(10) - 5;
+
 					EntityUndeadSoldier mob = new EntityUndeadSoldier(world);
 					for (int j = 0; j < 7; j++) {
-						mob.setPositionAndRotation(x + 0.5 + vec.xCoord, y - 5, z + 0.5 + vec.zCoord, i * 36F, 0);
+						mob.setPositionAndRotation(x + 0.5 + vec.xCoord, world.getHeightValue((int) (x + 0.5 + vec.xCoord),(int) (z + 0.5 + vec.zCoord)), z + 0.5 + vec.zCoord, i * 36F, 0);
 						if (mob.getCanSpawnHere()) {
 							mob.onSpawnWithEgg(null);
+							if(tile.player != null){
+								mob.setTarget(tile.player);
+							}
 							world.spawnEntityInWorld(mob);
 							break;
 						}
 					}
-
 					vec.rotateAroundYDeg(36D);
 				}
 			}
