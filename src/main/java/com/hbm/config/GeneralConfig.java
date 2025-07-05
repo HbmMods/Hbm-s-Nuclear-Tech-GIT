@@ -39,6 +39,7 @@ public class GeneralConfig {
 	public static boolean enableSoundExtension = true;
 	public static boolean enableMekanismChanges = true;
 	public static boolean enableServerRecipeSync = false;
+	public static boolean enableLoadScreenReplacement = true;
 	public static int normalSoundChannels = 200;
 
 	public static boolean enableExpensiveMode = false;
@@ -120,6 +121,7 @@ public class GeneralConfig {
 				"Note that a value below 28 or above 200 can cause buggy sounds and issues with other mods running out of sound memory.", 100);
 		preferredOutputMod = CommonConfig.createConfigStringList(config,CATEGORY_GENERAL,"1.42_preferredOutputMod",
 				"The mod which is preferred as output when certain machines autogenerate recipes. Currently used for the shredder", new String[] {RefStrings.MODID});
+		enableLoadScreenReplacement = config.get(CATEGORY_GENERAL, "1.43_enableLoadScreenReplacement", true, "Tries to replace the vanilla load screen with the 'tip of the day' one, may clash with other mods trying to do the same.").getBoolean(true);
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;

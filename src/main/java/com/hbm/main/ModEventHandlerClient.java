@@ -1030,14 +1030,19 @@ public class ModEventHandlerClient {
 
 	public static boolean renderLodeStar = false;
 	public static long lastStarCheck = 0L;
+	public static long lastLoadScreenReplacement = 0L;
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
 		
 		Minecraft mc = Minecraft.getMinecraft();
-		if(!(mc.loadingScreen instanceof LoadingScreenRendererNT)) {
+		long millis = Clock.get_ms();
+		if(millis == 0) millis = System.currentTimeMillis();
+		
+		if(GeneralConfig.enableLoadScreenReplacement && !(mc.loadingScreen instanceof LoadingScreenRendererNT) && millis > lastLoadScreenReplacement + 10_000) {
 			mc.loadingScreen = new LoadingScreenRendererNT(mc);
+			lastLoadScreenReplacement = millis;
 		}
 
 		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
@@ -1067,7 +1072,6 @@ public class ModEventHandlerClient {
 			}
 
 			EntityPlayer player = mc.thePlayer;
-			long millis = Clock.get_ms();
 
 			if(lastStarCheck + 200 < millis) {
 				renderLodeStar = false;

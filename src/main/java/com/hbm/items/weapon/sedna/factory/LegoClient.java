@@ -383,7 +383,6 @@ public class LegoClient {
 
 		RenderArcFurnace.fullbright(true);
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
-		double col = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		
 		GL11.glPushMatrix();
 		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);

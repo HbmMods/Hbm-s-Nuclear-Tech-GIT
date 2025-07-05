@@ -3,8 +3,12 @@
 * The new chemical plant can now be used to upgrade the meteorite sword
 * Fluid containers are now re-registered when using `/ntmreload` which should correctly generate fluid container items for freshly added custom fluids
 * Recipe configs will no longer try to parse null value recipes, meaing that trailing commas in a recipe config will no longer create an error
+* Refinery solid byproducts now build up substantially faster
+  * This means fracking solution from standard oil is now a lot more viable
+  * This also makes the volume of oil spent consistent with the NEI handler
 
 ## Fixed
 * Fixed crash caused by breaking a tool while the fortune or silk touch ability is enabled
 * Fixed NTM adding mob spawns to the mushroom island
-# Fixed line break not working on the tip of the day
+* Fixed line break not working on the tip of the day
+* Fixed an issue where AoE abilities can break bedrock
