@@ -314,6 +314,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].readFromNBT(nbt, "i" + i);
 		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].readFromNBT(nbt, "i" + i);
 
+		this.water.readFromNBT(nbt, "w");
+		this.lps.readFromNBT(nbt, "s");
+
 		this.power = nbt.getLong("power");
 		this.maxPower = nbt.getLong("maxPower");
 		for(int i = 0; i < 4; i++) this.chemplantModule[i].readFromNBT(nbt);
@@ -325,6 +328,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 		for(int i = 0; i < inputTanks.length; i++) this.inputTanks[i].writeToNBT(nbt, "i" + i);
 		for(int i = 0; i < outputTanks.length; i++) this.outputTanks[i].writeToNBT(nbt, "i" + i);
+
+		this.water.writeToNBT(nbt, "w");
+		this.lps.writeToNBT(nbt, "s");
 
 		nbt.setLong("power", power);
 		nbt.setLong("maxPower", maxPower);

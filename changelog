@@ -12,3 +12,8 @@
 * Fixed NTM adding mob spawns to the mushroom island
 * Fixed line break not working on the tip of the day
 * Fixed an issue where AoE abilities can break bedrock
+* Fixed chemical factory not saving its water and steam tanks
+* Fixed siphon not working with some newer machines due to using legacy API
+* Potentially fixed an incompatibility with Aether due to the loading screen replacement
+  * The loading screen replacement will only run up to 25 times per session, with a fixed delay of 5 seconds minimum
+  * The loading screen replacement can be disabled completely in the config
