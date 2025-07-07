@@ -1002,7 +1002,8 @@ public class ModBlocks {
 	public static Block machine_mining_laser;
 	public static Block barricade; // a sand bag that drops nothing, for automated walling purposes
 
-	public static Block machine_assembler;
+	@Deprecated public static Block machine_assembler;
+	public static Block machine_assembly_machine;
 	public static Block machine_assemfac;
 	public static Block machine_arc_welder;
 	public static Block machine_soldering_station;
@@ -2228,6 +2229,7 @@ public class ModBlocks {
 		machine_mining_laser = new MachineMiningLaser(Material.iron).setBlockName("machine_mining_laser").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_mining_laser");
 		barricade = new BlockNoDrop(Material.sand).setBlockName("barricade").setHardness(1.0F).setResistance(2.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barricade");
 		machine_assembler = new MachineAssembler(Material.iron).setBlockName("machine_assembler").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_assembler");
+		machine_assembly_machine = new MachineAssemblyMachine(Material.iron).setBlockName("machine_assembly_machine").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_assemfac = new MachineAssemfac(Material.iron).setBlockName("machine_assemfac").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_arc_welder = new MachineArcWelder(Material.iron).setBlockName("machine_arc_welder").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_soldering_station = new MachineSolderingStation(Material.iron).setBlockName("machine_soldering_station").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3273,6 +3275,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_arc_furnace_on, machine_arc_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_microwave, machine_microwave.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_assembler, machine_assembler.getUnlocalizedName());
+		register(machine_assembly_machine);
 		GameRegistry.registerBlock(machine_assemfac, machine_assemfac.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chemplant, machine_chemplant.getUnlocalizedName());
 		register(machine_chemical_plant);

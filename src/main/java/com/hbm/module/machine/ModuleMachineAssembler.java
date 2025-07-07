@@ -21,7 +21,7 @@ public class ModuleMachineAssembler extends ModuleMachineBase {
 		return null;
 	}
 
-	public ModuleMachineAssembler itemInput(int... a) { for(int i = 0; i < inputSlots.length; i++) inputSlots[i] = a[i]; return this; }
+	public ModuleMachineAssembler itemInput(int from) { for(int i = 0; i < inputSlots.length; i++) inputSlots[i] = from + i; return this; }
 	public ModuleMachineAssembler itemOutput(int a) { outputSlots[0] = a; return this; }
 	public ModuleMachineAssembler fluidInput(FluidTank a) { inputTanks[0] = a; return this; }
 	public ModuleMachineAssembler fluidOutput(FluidTank a) { outputTanks[0] = a; return this; }

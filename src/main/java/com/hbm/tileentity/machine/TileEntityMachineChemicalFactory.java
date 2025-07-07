@@ -383,7 +383,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemical_plant));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemical_factory));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (level * 100 / 3) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 50) + "%"));
