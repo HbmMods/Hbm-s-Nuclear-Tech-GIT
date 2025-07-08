@@ -277,14 +277,14 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 
 		int girderY = centerY + 6;
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		this.spanF = this.findRoomExtent(x, girderY, z, dir, 0);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		this.spanF = this.findRoomExtent(x, girderY, z, dir, 16);
 		dir = dir.getRotation(ForgeDirection.UP);
-		this.spanR = this.findRoomExtent(x, girderY, z, dir, 0);
+		this.spanR = this.findRoomExtent(x, girderY, z, dir, 16);
 		dir = dir.getRotation(ForgeDirection.UP);
-		this.spanB = this.findRoomExtent(x, girderY, z, dir, 0);
+		this.spanB = this.findRoomExtent(x, girderY, z, dir, 16);
 		dir = dir.getRotation(ForgeDirection.UP);
-		this.spanL = this.findRoomExtent(x, girderY, z, dir, 0);
+		this.spanL = this.findRoomExtent(x, girderY, z, dir, 16);
 
 		this.height = 7;
 
@@ -293,14 +293,14 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 		this.markDirty();
 	}
 
-	private int findRoomExtent(int x, int y, int z, ForgeDirection dir, int def) {
-		for (int i = 1; i < 32; i++) {
+	private int findRoomExtent(int x, int y, int z, ForgeDirection dir, int max) {
+		for (int i = 1; i < max; i++) {
 			if (!worldObj.isAirBlock(x + dir.offsetX * i, y, z + dir.offsetZ * i)) {
 				return i - 1;
 			}
 		}
 
-		return def;
+		return max;
 	}
 
 	public void cycleCraneRotation() {
