@@ -275,7 +275,7 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 		this.centerY = y + RBMKDials.getColumnHeight(worldObj) + 1;
 		this.centerZ = z;
 
-		this.spanF = 7;
+		this.spanF = 16;
 		this.spanB = 7;
 		this.spanL = 7;
 		this.spanR = 7;
