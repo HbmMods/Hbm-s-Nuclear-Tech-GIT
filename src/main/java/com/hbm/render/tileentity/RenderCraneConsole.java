@@ -116,26 +116,26 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 			switch((craneRotationOffset + teFacing) % 360) {
 			case 0:
 				girderSpan = console.spanF + console.spanB + 1;
-				GL11.glTranslated(posX + console.spanB, 0, 0);
+				GL11.glTranslated(posX - console.spanB, 0, 0);
 				break;
 			case 90:
 				girderSpan = console.spanL + console.spanR + 1;
-				GL11.glTranslated(0, 0, -posZ - console.spanR);
+				GL11.glTranslated(0, 0, -posZ + console.spanR);
 				break;
 			case 180:
 				girderSpan = console.spanF + console.spanB + 1;
-				GL11.glTranslated(posX - console.spanF, 0, 0);
+				GL11.glTranslated(posX + console.spanF, 0, 0);
 				break;
 			case 270:
 				girderSpan = console.spanL + console.spanR + 1;
-				GL11.glTranslated(0, 0, -posZ + console.spanL);
+				GL11.glTranslated(0, 0, -posZ - console.spanL);
 				break;
 			}
 			GL11.glRotatef(craneRotationOffset, 0F, 1F, 0F);
 			
 			for(int i = 0; i < girderSpan; i++) {
 				ResourceManager.rbmk_crane.renderPart("Girder");
-				GL11.glTranslated(1, 0, 0);
+				GL11.glTranslated(-1, 0, 0);
 			}
 			GL11.glPopMatrix();
 			
