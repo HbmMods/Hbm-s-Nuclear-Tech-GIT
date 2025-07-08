@@ -2,14 +2,15 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
-import com.hbm.inventory.container.ContainerMachineChemicalPlant;
+import com.hbm.inventory.container.ContainerMachineAssemblyMachine;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIMachineChemicalPlant;
+import com.hbm.inventory.gui.GUIMachineAssemblyMachine;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -33,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -51,6 +51,13 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	private AudioWrapper audio;
 
 	public ModuleMachineAssembler assemblerModule;
+	
+	public AssemblerArm[] arms = new AssemblerArm[2];
+	public double prevRing;
+	public double ring;
+	public double ringSpeed;
+	public double ringTarget;
+	public int ringDelay;
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 	
@@ -58,6 +65,8 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		super(17);
 		this.inputTank = new FluidTank(Fluids.NONE, 32_000);
 		this.outputTank = new FluidTank(Fluids.NONE, 32_000);
+		
+		for(int i = 0; i < this.arms.length; i++) this.arms[i] = new AssemblerArm();
 		
 		this.assemblerModule = new ModuleMachineAssembler(0, this, slots)
 				.itemInput(4).itemOutput(16)
@@ -128,11 +137,50 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 					audio = null;
 				}
 			}
+
+			for(AssemblerArm arm : arms) {
+				arm.updateInterp();
+				if(didProcess) {
+					arm.updateArm();
+				} else{
+					arm.returnToNullPos();
+				}
+			}
+			
+			this.prevRing = this.ring;
+			
+			if(didProcess) {
+				if(this.ring != this.ringTarget) {
+					double ringDelta = Math.abs(this.ringTarget - this.ring);
+					if(ringDelta <= this.ringSpeed) this.ring = this.ringTarget;
+					if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
+					if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
+					if(this.ringTarget == this.ring) {
+						if(ringTarget >= 360) {
+							this.ringTarget -= 360D;
+							this.ring -= 360D;
+							this.prevRing -= 360D;
+						}
+						if(ringTarget <= -360) {
+							this.ringTarget += 360D;
+							this.ring += 360D;
+							this.prevRing += 360D;
+						}
+						this.ringDelay = 20 + worldObj.rand.nextInt(21);
+					}
+				} else {
+					if(this.ringDelay > 0) this.ringDelay--;
+					if(this.ringDelay <= 0) {
+						this.ringTarget += (worldObj.rand.nextDouble() * 2 - 1) * 135;
+						this.ringSpeed = 10D + worldObj.rand.nextDouble() * 5D;
+					}
+				}
+			}
 		}
 	}
 
 	@Override public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.assembler", xCoord, yCoord, zCoord, 1F, 15F, 1.0F, 20);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemicalPlant", xCoord, yCoord, zCoord, 1F, 15F, 1.0F, 20);
 	}
 
 	@Override public void onChunkUnload() {
@@ -216,6 +264,11 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		return i == 16;
 	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+	}
+
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
@@ -282,5 +335,136 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		upgrades.put(UpgradeType.POWER, 3);
 		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
+	}
+
+	public static class AssemblerArm {
+		
+		public double[] angles = new double[4];
+		public double[] prevAngles = new double[4];
+		public double[] targetAngles = new double[4];
+		public double[] speed = new double[4];
+
+		Random rand = new Random();
+		ArmActionState state = ArmActionState.ASSUME_POSITION;
+		int actionDelay = 0;
+
+		public static enum ArmActionState {
+			ASSUME_POSITION,
+			EXTEND_STRIKER,
+			RETRACT_STRIKER
+		}
+		
+		public AssemblerArm() {
+			this.resetSpeed();
+		}
+
+		private void updateInterp() {
+			for(int i = 0; i < angles.length; i++) {
+				prevAngles[i] = angles[i];
+			}
+		}
+		
+		private void returnToNullPos() {
+			for(int i = 0; i < 4; i++) this.targetAngles[i] = 0;
+			for(int i = 0; i < 3; i++) this.speed[i] = 3;
+			this.speed[3] = 0.25;
+			this.state = ArmActionState.RETRACT_STRIKER;
+			
+			this.move();
+		}
+		
+		private void resetSpeed() {
+			speed[0] = 15;	//Pivot
+			speed[1] = 15;	//Arm
+			speed[2] = 15;	//Piston
+			speed[3] = 0.5;	//Striker
+		}
+
+		public void updateArm() {
+			resetSpeed();
+
+			if(actionDelay > 0) {
+				actionDelay--;
+				return;
+			}
+
+			switch(state) {
+			// Move. If done moving, set a delay and progress to EXTEND
+			case ASSUME_POSITION:
+				if(move()) {
+					actionDelay = 2;
+					state = ArmActionState.EXTEND_STRIKER;
+					targetAngles[3] = -0.75D;
+				}
+				break;
+			case EXTEND_STRIKER:
+				if(move()) {
+					state = ArmActionState.RETRACT_STRIKER;
+					targetAngles[3] = 0D;
+				}
+				break;
+			case RETRACT_STRIKER:
+				if(move()) {
+					actionDelay = 2 + rand.nextInt(5);
+					chooseNewArmPoistion();
+					state = ArmActionState.ASSUME_POSITION;
+				}
+				break;
+
+			}
+		}
+
+		private double[][] pos = new double[][] { // possible positions for the arms
+			{45, -15, -5},
+			{15, 15, -15},
+			{25, 10, -15},
+			{30, 0, -10},
+			{70, -10, -25},
+		}; // sure it's not truly random like with the old assemfac, but at least now the striker always hits the center and doesn't clip through the board
+
+		public void chooseNewArmPoistion() {
+			int chosen = rand.nextInt(pos.length);
+			this.targetAngles[0] = pos[chosen][0];
+			this.targetAngles[1] = pos[chosen][1];
+			this.targetAngles[2] = pos[chosen][2];
+		}
+		
+		private boolean move() {
+			boolean didMove = false;
+
+			for(int i = 0; i < angles.length; i++) {
+				if(angles[i] == targetAngles[i])
+					continue;
+
+				didMove = true;
+
+				double angle = angles[i];
+				double target = targetAngles[i];
+				double turn = speed[i];
+				double delta = Math.abs(angle - target);
+
+				if(delta <= turn) {
+					angles[i] = targetAngles[i];
+					continue;
+				}
+
+				if(angle < target) {
+					angles[i] += turn;
+				} else {
+					angles[i] -= turn;
+				}
+			}
+
+			return !didMove;
+		}
+		
+		public double[] getPositions(float interp) {
+			return new double[] {
+					BobMathUtil.interp(this.prevAngles[0], this.angles[0], interp),
+					BobMathUtil.interp(this.prevAngles[1], this.angles[1], interp),
+					BobMathUtil.interp(this.prevAngles[2], this.angles[2], interp),
+					BobMathUtil.interp(this.prevAngles[3], this.angles[3], interp)
+			};
+		}
 	}
 }

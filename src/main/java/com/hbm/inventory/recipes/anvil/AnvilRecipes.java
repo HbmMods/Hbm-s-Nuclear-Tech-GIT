@@ -229,12 +229,11 @@ public class AnvilRecipes extends SerializableRecipe {
 		int ukModifier = 1;
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack(KEY_CLEARGLASS, 4 * ukModifier),
 						new OreDictStack(STEEL.ingot(), 8 * ukModifier),
-						new OreDictStack(CU.ingot(), 8 * ukModifier),
+						new OreDictStack(CU.plate(), 4 * ukModifier),
 						new ComparableStack(ModItems.motor, 2 * ukModifier),
 						new ComparableStack(ModItems.circuit, 4 * ukModifier, EnumCircuitType.VACUUM_TUBE.ordinal())
-				}, new AnvilOutput(new ItemStack(ModBlocks.machine_assembler))).setTier(2));
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_assembly_machine))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

@@ -1,6 +1,7 @@
 package com.hbm.module.machine;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
@@ -18,7 +19,7 @@ public class ModuleMachineAssembler extends ModuleMachineBase {
 
 	@Override
 	public GenericRecipe getRecipe() {
-		return null;
+		return AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.recipe);
 	}
 
 	public ModuleMachineAssembler itemInput(int from) { for(int i = 0; i < inputSlots.length; i++) inputSlots[i] = from + i; return this; }
