@@ -586,7 +586,7 @@ public abstract class DoorDecl {
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void doOffsetTransform() {
-			GL11.glTranslated(0.4375, 0, 0.5);
+			GL11.glTranslated(0.40625, 0, 0.5);
 		};
 
 		@Override
@@ -598,12 +598,12 @@ public abstract class DoorDecl {
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
 			if(open) {
 				if(z == 0) {
-					return AxisAlignedBB.getBoundingBox(1 - 0.125, 0, 1 - 0.125, 1, 1, 1);
+					return AxisAlignedBB.getBoundingBox(1 - 0.125, 0, 1 - 0.1875, 1, 1, 1);
 				} else {
-					return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.125, 0.125, 1, 1);
+					return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.1875, 0.125, 1, 1);
 				}
 			} else {
-				return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.125, 1, 1, 1);
+				return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.1875, 1, 1, 1);
 			}
 		};
 
