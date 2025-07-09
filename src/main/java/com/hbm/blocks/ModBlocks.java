@@ -1243,7 +1243,6 @@ public class ModBlocks {
 	public static Block wand_air;
 	public static Block wand_loot;
 	public static Block wand_jigsaw;
-	public static Block wand_spawner;
 
 	public static Material materialGas = new MaterialGas();
 
@@ -2397,8 +2396,6 @@ public class ModBlocks {
 		wand_air = new BlockWand(Blocks.air).setBlockName("wand_air").setBlockTextureName(RefStrings.MODID + ":wand_air");
 		wand_loot = new BlockWandLoot().setBlockName("wand_loot").setBlockTextureName(RefStrings.MODID + ":wand_loot");
 		wand_jigsaw = new BlockWandJigsaw().setBlockName("wand_jigsaw").setBlockTextureName(RefStrings.MODID + ":wand_jigsaw");
-		wand_spawner = new BlockWandSpawner().setBlockName("wand_spawner").setBlockTextureName(RefStrings.MODID + ":wand_spawner");
-
 	}
 
 	private static void registerBlock() {
@@ -3545,7 +3542,6 @@ public class ModBlocks {
 		register(wand_air);
 		register(wand_loot);
 		register(wand_jigsaw);
-		register(wand_spawner);
 	}
 
 	private static void register(Block b) {

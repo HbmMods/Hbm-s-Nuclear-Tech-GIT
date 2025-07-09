@@ -877,8 +877,6 @@ public class MainRegistry {
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
-		MobUtil.intializeMobPools();
-
 		proxy.registerMissileItems();
 
 		// Load compatibility for OC.

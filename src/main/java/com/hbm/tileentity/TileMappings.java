@@ -19,7 +19,6 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.BlockWandJigsaw.TileEntityWandJigsaw;
 import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
-import com.hbm.blocks.generic.BlockWandSpawner.TileEntityWandSpawner;
 import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
@@ -237,7 +236,6 @@ public class TileMappings {
 
 		put(TileEntityWandLoot.class, "tileentity_wand_loot");
 		put(TileEntityWandJigsaw.class, "tileentity_wand_jigsaw");
-		put(TileEntityWandSpawner.class, "tileentity_wand_spawner");
 
 		putNetwork();
 		putBombs();
@@ -430,7 +428,7 @@ public class TileMappings {
 		put(TileEntityCranePartitioner.class, "tileentity_partitioner");
 		put(TileEntityFan.class, "tileentity_fan");
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
-
+		
 		put(TileEntityPneumoTube.class, "tileentity_pneumatic_tube");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
