@@ -21,7 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDoorGeneric extends TileEntityLockableBase {
+public class TileEntityDoorGeneric extends TileEntityLockableBase   {
 
 	//0: closed, 1: open, 2: closing, 3: opening
 	public byte state = 0;
@@ -316,6 +316,15 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 		}
 		this.skinIndex = skinIndex;
 		return true;
+	}
+
+	/**Useful for logic block interactions, as a way to close/open doors**/
+	public void open(){
+		if(state == 0) state = 3;
+	}
+
+	public void close() {
+		if(state == 1) state = 2;
 	}
 
 	@Override

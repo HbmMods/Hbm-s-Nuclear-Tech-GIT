@@ -13,10 +13,10 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.i18n.I18nUtil;
+import com.hbm.world.gen.util.LogicBlockActions;
 import com.hbm.world.gen.INBTTileEntityTransformable;
-import com.hbm.world.gen.util.DungeonSpawnerActions;
-import com.hbm.world.gen.util.DungeonSpawnerConditions;
-import com.hbm.world.gen.util.DungeonSpawnerInteractions;
+import com.hbm.world.gen.util.LogicBlockConditions;
+import com.hbm.world.gen.util.LogicBlockInteractions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,19 +43,19 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation, IBomb {
+public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation, IBomb {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
-	public BlockWandSpawner() {
+	public BlockWandLogic() {
 		super(Material.iron);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":wand_spawner");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":wand_spawner_top");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":wand_logic");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":wand_logic_top");
 	}
 
 	@Override
@@ -92,8 +92,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 			case 3: dir = ForgeDirection.EAST; break;
 		}
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityWandSpawner)
-			((TileEntityWandSpawner)te).placedRotation = dir.ordinal();
+		if(te instanceof TileEntityWandLogic)
+			((TileEntityWandLogic)te).placedRotation = dir.ordinal();
 	}
 
 	@Override
@@ -109,10 +109,10 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 
 				TileEntity tile = world.getTileEntity(x, y, z);
 
-				if(tile instanceof TileEntityWandSpawner){
-					TileEntityWandSpawner spawner = (TileEntityWandSpawner) tile;
-					spawner.disguise = block;
-					spawner.disguiseMeta = stack.getItemDamage() & 15;
+				if(tile instanceof TileEntityWandLogic){
+					TileEntityWandLogic logic = (TileEntityWandLogic) tile;
+					logic.disguise = block;
+					logic.disguiseMeta = stack.getItemDamage() & 15;
 					return true;
 				}
 			}
@@ -124,38 +124,38 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityWandSpawner)) return false;
+		if(!(te instanceof TileEntityWandLogic)) return false;
 
-		TileEntityWandSpawner spawner = (TileEntityWandSpawner) te;
+		TileEntityWandLogic logic = (TileEntityWandLogic) te;
 
 		switch(tool) {
 			case SCREWDRIVER:
-				List<String> actionNames = DungeonSpawnerActions.getActionNames();
-				int indexA = actionNames.indexOf(spawner.actionID);
+				List<String> actionNames = LogicBlockActions.getActionNames();
+				int indexA = actionNames.indexOf(logic.actionID);
 
 				indexA += player.isSneaking() ? -1 : 1;
 				indexA = MathHelper.clamp_int(indexA, 0, actionNames.size() - 1);
 
-				spawner.actionID = actionNames.get(indexA);
+				logic.actionID = actionNames.get(indexA);
 				return true;
 			case DEFUSER:
-				List<String> conditionNames = DungeonSpawnerConditions.getConditionNames();
-				int indexC = conditionNames.indexOf(spawner.conditionID);
+				List<String> conditionNames = LogicBlockConditions.getConditionNames();
+				int indexC = conditionNames.indexOf(logic.conditionID);
 
 				indexC += player.isSneaking() ? -1 : 1;
 				indexC = MathHelper.clamp_int(indexC, 0, conditionNames.size() - 1);
 
-				spawner.conditionID = conditionNames.get(indexC);
+				logic.conditionID = conditionNames.get(indexC);
 
 				return true;
 			case HAND_DRILL:
-				List<String> interactionNames = DungeonSpawnerInteractions.getInteractionNames();
-				int indexI = interactionNames.indexOf(spawner.interactionID);
+				List<String> interactionNames = LogicBlockInteractions.getInteractionNames();
+				int indexI = interactionNames.indexOf(logic.interactionID);
 
 				indexI += player.isSneaking() ? -1 : 1;
 				indexI = MathHelper.clamp_int(indexI, 0, interactionNames.size() - 1);
 
-				spawner.interactionID = interactionNames.get(indexI);
+				logic.interactionID = interactionNames.get(indexI);
 
 				return true;
 
@@ -167,19 +167,19 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityWandSpawner)) return;
+		if(!(te instanceof TileEntityWandLogic)) return;
 
-		TileEntityWandSpawner spawner = (TileEntityWandSpawner) te;
+		TileEntityWandLogic logic = (TileEntityWandLogic) te;
 
 		List<String> text = new ArrayList<>();
-		text.add("Action: " + spawner.actionID);
-		text.add("Condition: " + spawner.conditionID);
-		text.add("Interaction: " + (spawner.interactionID != null ? spawner.interactionID : "None"));
+		text.add("Action: " + logic.actionID);
+		text.add("Condition: " + logic.conditionID);
+		text.add("Interaction: " + (logic.interactionID != null ? logic.interactionID : "None"));
 
 		String block;
 
-		if(spawner.disguise != null && spawner.disguise != Blocks.air)
-			block = I18nUtil.resolveKey(spawner.disguise.getUnlocalizedName() + ".name");
+		if(logic.disguise != null && logic.disguise != Blocks.air)
+			block = I18nUtil.resolveKey(logic.disguise.getUnlocalizedName() + ".name");
 		else
 			block = "None";
 
@@ -198,21 +198,21 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityWandSpawner();
+		return new TileEntityWandLogic();
 	}
 
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityWandSpawner)) return null;
+		if(!(te instanceof TileEntityWandLogic)) return null;
 
-		((TileEntityWandSpawner) te).triggerReplace = true;
+		((TileEntityWandLogic) te).triggerReplace = true;
 
 		return BombReturnCode.TRIGGERED;
 	}
 
-	public static class TileEntityWandSpawner extends TileEntityLoadedBase implements INBTTileEntityTransformable, ICopiable {
+	public static class TileEntityWandLogic extends TileEntityLoadedBase implements INBTTileEntityTransformable, ICopiable {
 		private boolean triggerReplace;
 
 		public int placedRotation;
@@ -220,8 +220,8 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		Block disguise;
 		int disguiseMeta = -1;
 
-		public String actionID = "PHASE_ABERRATOR";
-		public String conditionID = "EMPTY";
+		public String actionID = "FODDER_WAVE";
+		public String conditionID = "PLAYER_CUBE_5";
 		public String interactionID;
 
 		@Override
@@ -237,28 +237,28 @@ public class BlockWandSpawner extends BlockContainer implements ILookOverlay, IT
 		}
 
 		private void replace() {
-			if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandSpawner)) {
-				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a dungeon spawner block but we're doing a TE update as if it is, cancelling!");
+			if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLogic)) {
+				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
 				return;
 			}
-			worldObj.setBlock(xCoord,yCoord,zCoord, ModBlocks.dungeon_spawner);
+			worldObj.setBlock(xCoord,yCoord,zCoord, ModBlocks.logic_block);
 
 			TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
 
 			if(te == null || te instanceof BlockWandLoot.TileEntityWandLoot) {
-				MainRegistry.logger.warn("TE for dungeon spawner set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
-				te = ModBlocks.wand_spawner.createTileEntity(worldObj, 0);
+				MainRegistry.logger.warn("TE for logic block set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
+				te = ModBlocks.wand_logic.createTileEntity(worldObj, 0);
 				worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
 			}
 
-			if(te instanceof DungeonSpawner.TileEntityDungeonSpawner){
-				DungeonSpawner.TileEntityDungeonSpawner spawner = (DungeonSpawner.TileEntityDungeonSpawner)	te;
-				spawner.actionID = actionID;
-				spawner.conditionID = conditionID;
-				spawner.interactionID = interactionID;
-				spawner.direction = ForgeDirection.getOrientation(placedRotation);
-				spawner.disguise = disguise;
-				spawner.disguiseMeta = disguiseMeta;
+			if(te instanceof LogicBlock.TileEntityLogicBlock){
+				LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock)	te;
+				logic.actionID = actionID;
+				logic.conditionID = conditionID;
+				logic.interactionID = interactionID;
+				logic.direction = ForgeDirection.getOrientation(placedRotation);
+				logic.disguise = disguise;
+				logic.disguiseMeta = disguiseMeta;
 			}
 
 		}

@@ -1,30 +1,22 @@
 package com.hbm.world.gen.util;
 
-import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
-import com.hbm.entity.missile.EntityMissileTier2;
+import com.hbm.blocks.generic.LogicBlock;
+import com.hbm.blocks.generic.LogicBlock.TileEntityLogicBlock;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
-import com.hbm.tileentity.TileEntityDoorGeneric;
-import com.hbm.util.Vec3NT;
-import com.hbm.world.WorldUtil;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**Interactions are called when the player right-clicks the block**/
-public class DungeonSpawnerInteractions {
+public class LogicBlockInteractions {
 
 	/**Consumer consists of world instance, tile entity instance, three ints for coordinates, one int for block side, and player instance,
 	 * in that order **/
@@ -32,23 +24,23 @@ public class DungeonSpawnerInteractions {
 
 	public static Consumer<Object[]> TEST = (array) -> {
 		World world = (World) array[0];
-		TileEntityDungeonSpawner spawner = (TileEntityDungeonSpawner) array[1];
+		LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock) array[1];
 		int x = (int) array[2];
 		int y = (int) array[3];
 		int z = (int) array[4];
 		EntityPlayer player = (EntityPlayer) array[5];
 		int side = (int) array[6];
 
-		if(spawner.phase > 1) return;
+		if(logic.phase > 1) return;
 
 		if(player.getHeldItem() != null)
 			player.getHeldItem().stackSize--;
 
-		spawner.phase++;
+		logic.phase++;
 	};
 
 	public static Consumer<Object[]> RAD_CONTAINMENT_SYSTEM = (array) -> {
-		TileEntityDungeonSpawner spawner = (TileEntityDungeonSpawner) array[1];
+		LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock) array[1];
 		EntityPlayer player = (EntityPlayer) array[5];
 
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.key){
@@ -58,8 +50,8 @@ public class DungeonSpawnerInteractions {
 						EnumChatFormatting.RESET + " Radiation treatment administered"));
 			player.addPotionEffect(new PotionEffect(HbmPotion.radaway.getId(), 3 * 60 * 20, 4));
 			player.addPotionEffect(new PotionEffect(HbmPotion.radx.getId(), 3 * 60 * 20, 4));
-			spawner.phase = 2;
-			spawner.timer = 0;
+			logic.phase = 2;
+			logic.timer = 0;
 		}
 	};
 

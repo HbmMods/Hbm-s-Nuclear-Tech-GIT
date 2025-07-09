@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockSkeletonHolder;
 import com.hbm.blocks.generic.DungeonSpawner;
+import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.missile.EntityMissileTier2;
 import com.hbm.entity.mob.EntityUndeadSoldier;
@@ -30,11 +31,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class DungeonSpawnerActions {
+public class LogicBlockActions {
 
-	public static LinkedHashMap<String, Consumer<DungeonSpawner.TileEntityDungeonSpawner>> actions = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Consumer<LogicBlock.TileEntityLogicBlock>> actions = new LinkedHashMap<>();
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> PHASE_ABERRATOR = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> PHASE_ABERRATOR = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -79,7 +80,7 @@ public class DungeonSpawnerActions {
 		}
 	};
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> COLLAPSE_ROOF_RAD_5 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> COLLAPSE_ROOF_RAD_5 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -115,7 +116,7 @@ public class DungeonSpawnerActions {
 
 	};
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> FODDER_WAVE = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> FODDER_WAVE = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -134,7 +135,7 @@ public class DungeonSpawnerActions {
 		}
 	};
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> PUZZLE_TEST = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> PUZZLE_TEST = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -151,7 +152,7 @@ public class DungeonSpawnerActions {
 		}
 	};
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> MISSILE_STRIKE = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> MISSILE_STRIKE = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -176,7 +177,7 @@ public class DungeonSpawnerActions {
 		world.setBlock(x,y,z, ModBlocks.block_electrical_scrap);
 	};
 
-	public static Consumer<DungeonSpawner.TileEntityDungeonSpawner> RAD_CONTAINMENT_SYSTEM = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> RAD_CONTAINMENT_SYSTEM = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -254,9 +255,10 @@ public class DungeonSpawnerActions {
 
 	//register new actions here
 	static{
-		actions.put("PHASE_ABERRATOR", PHASE_ABERRATOR);
-		actions.put("COLLAPSE_ROOF_RAD_5", COLLAPSE_ROOF_RAD_5);
+		//example actions
 		actions.put("FODDER_WAVE", FODDER_WAVE);
+		actions.put("ABERRATOR", PHASE_ABERRATOR);
+		actions.put("COLLAPSE_ROOF_RAD_5", COLLAPSE_ROOF_RAD_5);
 		actions.put("PUZZLE_TEST", PUZZLE_TEST);
 		actions.put("MISSILE_STRIKE", MISSILE_STRIKE);
 		actions.put("IRRADIATE_ENTITIES_AOE", RAD_CONTAINMENT_SYSTEM);
