@@ -18,6 +18,7 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
+import com.hbm.handler.microblocks.MicroBlocksCompatHandler;
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -661,6 +662,8 @@ public class MainRegistry {
 				}
 			}
 		});
+
+		MicroBlocksCompatHandler.preInit();
 	}
 
 	@EventHandler
@@ -905,14 +908,14 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-		
+
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if(logger == null)
