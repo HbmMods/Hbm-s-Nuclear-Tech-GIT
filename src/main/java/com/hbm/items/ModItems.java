@@ -642,13 +642,7 @@ public class ModItems {
 	public static Item seg_10;
 	public static Item seg_15;
 	public static Item seg_20;
-
-	public static Item chopper_head;
-	public static Item chopper_gun;
-	public static Item chopper_torso;
-	public static Item chopper_tail;
-	public static Item chopper_wing;
-	public static Item chopper_blades;
+	
 	public static Item combine_scrap;
 
 	public static Item shimmer_head;
@@ -746,14 +740,11 @@ public class ModItems {
 	public static Item pellet_rtg_gold;
 	public static Item pellet_rtg_lead;
 
-	public static Item tritium_deuterium_cake;
+	@Deprecated public static Item tritium_deuterium_cake;
 
 	public static Item piston_selenium;
 	public static Item piston_set;
 	public static Item drillbit;
-
-	//public static Item crystal_energy;
-	//public static Item pellet_coolant;
 
 	public static Item rune_blank;
 	public static Item rune_isa;
@@ -2191,7 +2182,6 @@ public class ModItems {
 
 	public static Item polaroid;
 	public static Item glitch;
-	public static Item letter;
 	public static Item book_secret;
 	public static Item book_of_;
 	public static Item page_of_;
@@ -2791,12 +2781,6 @@ public class ModItems {
 		seg_15 = new Item().setUnlocalizedName("seg_15").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":seg_15");
 		seg_20 = new Item().setUnlocalizedName("seg_20").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":seg_20");
 
-		chopper_head = new Item().setUnlocalizedName("chopper_head").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_head");
-		chopper_gun = new Item().setUnlocalizedName("chopper_gun").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_gun");
-		chopper_torso = new Item().setUnlocalizedName("chopper_torso").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_torso");
-		chopper_tail = new Item().setUnlocalizedName("chopper_tail").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_tail");
-		chopper_wing = new Item().setUnlocalizedName("chopper_wing").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_wing");
-		chopper_blades = new Item().setUnlocalizedName("chopper_blades").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chopper_blades");
 		combine_scrap = new Item().setUnlocalizedName("combine_scrap").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":combine_scrap");
 
 		shimmer_head = new Item().setUnlocalizedName("shimmer_head").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":shimmer_head_original");
@@ -4933,7 +4917,6 @@ public class ModItems {
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
-		letter = new ItemStarterKit().setUnlocalizedName("letter").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":letter");
 		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.polaroidID == 11 ? MainRegistry.consumableTab : null).setTextureName(RefStrings.MODID + ":book_secret");
 		book_of_ = new ItemBook().setUnlocalizedName("book_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_of_");
 		page_of_ = new ItemEnumMulti(ItemEnums.EnumPages.class, true, false).setUnlocalizedName("page_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":page_of_");
@@ -5593,12 +5576,6 @@ public class ModItems {
 		GameRegistry.registerItem(seg_20, seg_20.getUnlocalizedName());
 
 		//Chopper parts
-		GameRegistry.registerItem(chopper_head, chopper_head.getUnlocalizedName());
-		GameRegistry.registerItem(chopper_gun, chopper_gun.getUnlocalizedName());
-		GameRegistry.registerItem(chopper_torso, chopper_torso.getUnlocalizedName());
-		GameRegistry.registerItem(chopper_tail, chopper_tail.getUnlocalizedName());
-		GameRegistry.registerItem(chopper_wing, chopper_wing.getUnlocalizedName());
-		GameRegistry.registerItem(chopper_blades, chopper_blades.getUnlocalizedName());
 		GameRegistry.registerItem(combine_scrap, combine_scrap.getUnlocalizedName());
 
 		//Hammer Parts
@@ -7116,7 +7093,6 @@ public class ModItems {
 		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
 		GameRegistry.registerItem(legacy_toolbox, legacy_toolbox.getUnlocalizedName());
 		GameRegistry.registerItem(toolbox, toolbox.getUnlocalizedName());
-		GameRegistry.registerItem(letter, letter.getUnlocalizedName());
 
 		//Misile Loot Boxes
 		GameRegistry.registerItem(loot_10, loot_10.getUnlocalizedName());

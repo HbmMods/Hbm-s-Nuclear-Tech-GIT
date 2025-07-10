@@ -33,8 +33,8 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		assembler.inputTank.renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 115, 34, 16);
-		assembler.outputTank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 115, 34, 16);
+		assembler.inputTank.renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 99, 52, 16);
+		assembler.outputTank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 99, 52, 16);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, assembler.power, assembler.maxPower);
 
@@ -115,7 +115,7 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 		
-		assembler.inputTank.renderTank(guiLeft + 8, guiTop + 115, this.zLevel, 34, 16, 1);
-		assembler.outputTank.renderTank(guiLeft + 80, guiTop + 115, this.zLevel, 34, 16, 1);
+		assembler.inputTank.renderTank(guiLeft + 8, guiTop + 115, this.zLevel, 52, 16, 1);
+		assembler.outputTank.renderTank(guiLeft + 80, guiTop + 115, this.zLevel, 52, 16, 1);
 	}
 }

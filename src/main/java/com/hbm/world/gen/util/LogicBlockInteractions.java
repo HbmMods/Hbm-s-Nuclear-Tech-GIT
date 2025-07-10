@@ -1,7 +1,6 @@
 package com.hbm.world.gen.util;
 
 import com.hbm.blocks.generic.LogicBlock;
-import com.hbm.blocks.generic.LogicBlock.TileEntityLogicBlock;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 import net.minecraft.entity.player.EntityPlayer;

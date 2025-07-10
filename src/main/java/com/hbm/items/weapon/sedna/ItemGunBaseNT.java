@@ -184,8 +184,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 			}
 			
 			float maxDura = config.getDurability(stack);
-			int dura = MathHelper.clamp_int((int)((maxDura - this.getWear(stack, i)) * 100 / maxDura), 0, 100);
-			list.add("Condition: " + dura + "%");
+			if(maxDura > 0) {
+				int dura = MathHelper.clamp_int((int)((maxDura - this.getWear(stack, i)) * 100 / maxDura), 0, 100);
+				list.add("Condition: " + dura + "%");
+			}
 			
 			for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack, i)) {
 				list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());

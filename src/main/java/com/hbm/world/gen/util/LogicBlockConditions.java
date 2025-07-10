@@ -2,7 +2,6 @@ package com.hbm.world.gen.util;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockPedestal;
-import com.hbm.blocks.generic.DungeonSpawner;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ModItems;

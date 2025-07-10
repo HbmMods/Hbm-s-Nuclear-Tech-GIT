@@ -3,5 +3,10 @@
 
 ## Changed
 * Removed levitation unit
+* Many of NTM's regular building blocks now have forge microblock support
+* RBMK crane models now conform to the dimensions of the room they're in
 
 ## Fixed
+* Fixed gas centrifuge sound persisting when broken or when unloaded
+* Fixed all centrifuge sounds trying to play even when the player is far away, using up audio slots
+* Fixed guns that don't have durability always displaying a condition of 0%
