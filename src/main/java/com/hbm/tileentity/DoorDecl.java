@@ -67,8 +67,8 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
-			return super.getBlockBound(x, y, z, open);
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
+			return super.getBlockBound(x, y, z, open, forCollision);
 		}
 
 		@Override
@@ -156,7 +156,7 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
 				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 			if(z == 1) {
@@ -168,7 +168,7 @@ public abstract class DoorDecl {
 			} else if(y == 0) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.1, 1);
 			} else {
-				return super.getBlockBound(x, y, z, open);
+				return super.getBlockBound(x, y, z, open, forCollision);
 			}
 		}
 
@@ -240,7 +240,7 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(open) {
 				if(y == 3) {
 					return AxisAlignedBB.getBoundingBox(0, 0.5, 0, 1, 1, 1);
@@ -248,7 +248,7 @@ public abstract class DoorDecl {
 					return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.08, 1);
 				}
 			}
-			return super.getBlockBound(x, y, z, open);
+			return super.getBlockBound(x, y, z, open, forCollision);
 		}
 
 		@Override
@@ -327,7 +327,7 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(open) {
 				if(y == 0) return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.25, 1, 0, 1);
 				return AxisAlignedBB.getBoundingBox(0, 0.9375, 1 - 0.25, 1, 1, 1);
@@ -429,7 +429,7 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open) {
 				if(y > 0) {
 					return AxisAlignedBB.getBoundingBox(0, 0, 0.375, 1, 1, 0.625);
@@ -441,7 +441,7 @@ public abstract class DoorDecl {
 			} else if(y == 4) {
 				return AxisAlignedBB.getBoundingBox(0, 0.5, 0.15, 1, 1, 0.85);
 			} else {
-				return super.getBlockBound(x, y, z, open);
+				return super.getBlockBound(x, y, z, open, forCollision);
 			}
 		}
 
@@ -504,9 +504,9 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
-				return super.getBlockBound(x, y, z, open);
+				return super.getBlockBound(x, y, z, open, forCollision);
 			if(z == 1) {
 				return AxisAlignedBB.getBoundingBox(0.4, 0, 0, 1, 1, 1);
 			} else if(z == -2) {
@@ -516,7 +516,7 @@ public abstract class DoorDecl {
 			} else if(y == 0) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.0625, 1);
 			}
-			return super.getBlockBound(x, y, z, open);
+			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
 		@Override
@@ -595,7 +595,7 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(open) {
 				if(z == 0) {
 					return AxisAlignedBB.getBoundingBox(1 - 0.125, 0, 1 - 0.1875, 1, 1, 1);
@@ -691,14 +691,14 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, 1, 1);
 			if(y > 1)
 				return AxisAlignedBB.getBoundingBox(0, 0.5, 0.5, 1, 1, 1);
 			else if(y == 0)
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, 0.1, 1);
-			return super.getBlockBound(x, y, z, open);
+			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
 		@Override
@@ -814,7 +814,7 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.75, 1, 1, 1);
 			} else if(y > 1) {
@@ -822,7 +822,7 @@ public abstract class DoorDecl {
 			} else if(y == 0) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.75, 1, 0.15, 1);
 			}
-			return super.getBlockBound(x, y, z, open);
+			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
 		@Override
@@ -1018,15 +1018,15 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
-				return super.getBlockBound(x, y, z, open);
+				return super.getBlockBound(x, y, z, open, forCollision);
 			if(z == 3) {
 				return AxisAlignedBB.getBoundingBox(0.4, 0, 0, 1, 1, 1);
 			} else if(z == -3) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0, 0.6, 1, 1);
 			}
-			return super.getBlockBound(x, y, z, open);
+			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
 		@Override
@@ -1159,7 +1159,7 @@ public abstract class DoorDecl {
 	public void doOffsetTransform() {
 	}
 
-	public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+	public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 		return open ? AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0) : AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
