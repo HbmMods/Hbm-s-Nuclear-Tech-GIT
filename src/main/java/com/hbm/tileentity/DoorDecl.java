@@ -439,7 +439,9 @@ public abstract class DoorDecl {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, forCollision ? 0 : 0.0625, 1);
 			} else if(y == 4) {
 				return AxisAlignedBB.getBoundingBox(0, 0.5, 0.15, 1, 1, 0.85);
-			} else {
+			} else if(y == 0) {
+				return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			}else {
 				return super.getBlockBound(x, y, z, open, forCollision);
 			}
 		}
