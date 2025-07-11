@@ -1,10 +1,17 @@
 ## Added
 * New assembler
+  * Features a brand new animated model, GUI and the new recipe selection system
+  * Many recipes have been reworked, with the microcrafting complexity reduced
+  * The redcoil didn't get a recipe. It's gonna die soon.
 
 ## Changed
 * Removed levitation unit
 * Many of NTM's regular building blocks now have forge microblock support
 * RBMK crane models now conform to the dimensions of the room they're in
+* Projectile resistance for armor has been renamed to "physical" and now also extends to all direct forms of attack by other entities that don't fall into any other categories (mostly melee attacks)
+  * This should fix the issue where most armors are quite weak against swords
+* Electric attacks (i.e. tesla cannon) are now in the "energy damage" category
+  * This means that armors that have energy resistance actually properly work against the tesla cannon
 
 ## Fixed
 * Fixed gas centrifuge sound persisting when broken or when unloaded
