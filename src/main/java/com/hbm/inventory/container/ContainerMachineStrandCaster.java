@@ -2,6 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityMachineStrandCaster;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,8 +56,9 @@ public class ContainerMachineStrandCaster extends Container {
 
                 slot.onSlotChange(originalStack, stack);
 
-            } else if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 1, 2, false)) {
-                return null;
+            } else {
+                if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 1, false)) return null;
+                
             }
 
             if (originalStack.stackSize == 0) {
