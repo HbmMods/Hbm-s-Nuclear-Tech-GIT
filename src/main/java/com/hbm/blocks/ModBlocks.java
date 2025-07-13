@@ -34,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import cpw.mods.fml.common.Loader;
 
 import java.util.ArrayList;
 
@@ -803,6 +804,7 @@ public class ModBlocks {
 	public static Block radio_torch_reader;
 	public static Block radio_torch_controller;
 	public static Block radio_telex;
+	public static Block oc_cable_paintable;
 
 	public static Block conveyor;
 	public static Block conveyor_express;
@@ -2340,6 +2342,10 @@ public class ModBlocks {
 		absorber_pink = new BlockAbsorber(Material.iron, 10000F).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
 		decon = new BlockDecon(Material.iron).setBlockName("decon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":decon_side");
 
+		if (Loader.isModLoaded("OpenComputers")) {
+			oc_cable_paintable = new BlockOpenComputersCablePaintable().setBlockName("oc_cable_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		}
+
 		volcano_core = new BlockVolcano().setBlockName("volcano_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_core");
 		volcano_rad_core = new BlockVolcano().setBlockName("volcano_rad_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_rad_core");
 
@@ -3531,6 +3537,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_flammable, gas_flammable.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_explosive, gas_explosive.getUnlocalizedName());
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
+
+		// OC Compat Items
+		if (Loader.isModLoaded("OpenComputers")) {
+			register(oc_cable_paintable);
+		}
 
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());
