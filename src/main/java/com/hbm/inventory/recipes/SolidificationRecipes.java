@@ -55,12 +55,12 @@ public class SolidificationRecipes extends SerializableRecipe {
 	//in the event that these compounds are STILL too useless, add unsat + gas -> kerosene recipe for all those missile junkies
 	//aromatics can be idfk wax or soap or sth, perhaps artificial lubricant?
 	//on that note, add more leaded variants
-	
-	private static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
+
+	public static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {
-		
+
 		registerRecipe(WATER,		1000,			Blocks.ice);
 		registerRecipe(LAVA,		1000,			Blocks.obsidian);
 		registerRecipe(MERCURY,		125,			ModItems.ingot_mercury);
@@ -68,8 +68,9 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(SALIENT,		1280,			new ItemStack(ModItems.bio_wafer, 8)); //4 (food val) * 2 (sat mod) * 2 (constant) * 10 (quanta) * 8 (batch size)
 		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
-		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
+		registerRecipe(REDMUD,		450,			Items.iron_ingot);
 		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(LEAD,		100,			ModItems.ingot_lead);
 		registerRecipe(SLOP,		250,			ModBlocks.ore_oil_sand);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
@@ -83,7 +84,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(LUBRICANT,		SF_LUBE,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
 
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
-		
+
 		registerSFAuto(SMEAR);
 		registerSFAuto(HEATINGOIL);
 		registerSFAuto(HEATINGOIL_VACUUM);
@@ -99,6 +100,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(LIGHTOIL_CRACK);
 		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
+		registerSFAuto(KEROSENE_REFORM);
 		//registerSFAuto(GAS);
 		registerSFAuto(SOURGAS);
 		registerSFAuto(REFORMGAS);
@@ -111,8 +113,8 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(UNSATURATEDS);
 		registerSFAuto(REFORMATE);
 		registerSFAuto(XYLENE);
-		registerSFAuto(BALEFIRE, 24000000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
-		
+		registerSFAuto(BALEFIRE, 24_000_000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
+
 	}
 
 	private static void registerSFAuto(FluidType fluid) {
@@ -121,12 +123,14 @@ public class SolidificationRecipes extends SerializableRecipe {
 	private static void registerSFAuto(FluidType fluid, long tuPerSF, Item fuel) {
 		long tuPerBucket = fluid.getTrait(FT_Flammable.class).getHeatEnergy();
 		double penalty = 1.25D;
-		
+
 		int mB = (int) (tuPerSF * 1000L * penalty / tuPerBucket);
 
 		if(mB > 10_000) mB -= (mB % 1000);
 		else if(mB > 1_000) mB -= (mB % 100);
 		else if(mB > 100) mB -= (mB % 10);
+
+		mB = Math.max(mB, 1);
 
 		registerRecipe(fluid, mB, fuel);
 	}
@@ -136,24 +140,24 @@ public class SolidificationRecipes extends SerializableRecipe {
 	private static void registerRecipe(FluidType type, int quantity, ItemStack output) {
 		recipes.put(type, new Pair<Integer, ItemStack>(quantity, output));
 	}
-	
+
 	public static Pair<Integer, ItemStack> getOutput(FluidType type) {
 		return recipes.get(type);
 	}
 
 	public static HashMap<ItemStack, ItemStack> getRecipes() {
-		
+
 		HashMap<ItemStack, ItemStack> recipes = new HashMap<ItemStack, ItemStack>();
-		
+
 		for(Entry<FluidType, Pair<Integer, ItemStack>> entry : SolidificationRecipes.recipes.entrySet()) {
-			
+
 			FluidType type = entry.getKey();
 			int amount = entry.getValue().getKey();
 			ItemStack out = entry.getValue().getValue().copy();
-			
+
 			recipes.put(ItemFluidIcon.make(type, amount), out);
 		}
-		
+
 		return recipes;
 	}
 

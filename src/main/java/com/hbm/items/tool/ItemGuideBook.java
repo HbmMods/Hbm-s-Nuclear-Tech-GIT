@@ -7,11 +7,10 @@ import com.hbm.inventory.gui.GUIScreenGuide;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -40,7 +39,7 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
 		for(int i = 1; i < BookType.values().length; i++)
-			list.add(new ItemStack(item, 1, i));
+			if(i != 2) list.add(new ItemStack(item, 1, i));
 	}
 	
 	@Override
@@ -324,7 +323,7 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenGuide(player);
 	}
 }

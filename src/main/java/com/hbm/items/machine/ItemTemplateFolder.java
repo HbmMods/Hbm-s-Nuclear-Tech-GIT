@@ -6,15 +6,16 @@ import com.hbm.inventory.gui.GUIScreenTemplateFolder;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemTemplateFolder extends Item implements IGUIProvider {
@@ -32,8 +33,9 @@ public class ItemTemplateFolder extends Item implements IGUIProvider {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
 		String[] lang = I18nUtil.resolveKeyArray(ModItems.template_folder.getUnlocalizedName() + ".desc");
+		EnumChatFormatting color = BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.YELLOW;
 		for(String line : lang) {
-			list.add(line);
+			list.add(color + line);
 		}
 	}
 
@@ -44,7 +46,7 @@ public class ItemTemplateFolder extends Item implements IGUIProvider {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIScreenTemplateFolder(player);
 	}
 }

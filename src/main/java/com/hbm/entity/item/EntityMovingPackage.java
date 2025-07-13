@@ -5,6 +5,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.conveyor.IConveyorPackage;
 import api.hbm.conveyor.IEnterableBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -38,7 +39,7 @@ public class EntityMovingPackage extends EntityMovingConveyorObject implements I
 	@Override
 	public boolean interactFirst(EntityPlayer player) {
 
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && !this.isDead) {
 			
 			for(ItemStack stack : contents) {
 				if(!player.inventory.addItemStackToInventory(stack.copy())) {
@@ -53,15 +54,21 @@ public class EntityMovingPackage extends EntityMovingConveyorObject implements I
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
+	public boolean hitByEntity(Entity attacker) {
 
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && !this.isDead) {
 			this.setDead();
 			
 			for(ItemStack stack : contents) {
 				worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY + 0.125, posZ, stack));
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		this.hitByEntity(source.getEntity());
 		return true;
 	}
 

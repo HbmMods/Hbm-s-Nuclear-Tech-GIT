@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +28,7 @@ public class RenderMovingItem extends Render {
 		GL11.glTranslated(0, rand.nextDouble() * 0.0625, 0);
 
 		EntityMovingItem item = (EntityMovingItem) entity;
-		ItemStack stack = item.getItemStack().copy();
+		ItemStack stack = item.getItemStack();
 
 		if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
@@ -40,12 +39,13 @@ public class RenderMovingItem extends Render {
 			}
 		}
 
-		EntityItem dummy = new EntityItem(entity.worldObj, 0, 0, 0, stack);
-		dummy.hoverStart = 0.0F;
+		if(item.cacheForRender != null) {
+			item.cacheForRender.hoverStart = 0.0F;
 
-		RenderItem.renderInFrame = true;
-		RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-		RenderItem.renderInFrame = false;
+			RenderItem.renderInFrame = true;
+			RenderManager.instance.renderEntityWithPosYaw(item.cacheForRender, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+			RenderItem.renderInFrame = false;
+		}
 
 		GL11.glPopMatrix();
 	}

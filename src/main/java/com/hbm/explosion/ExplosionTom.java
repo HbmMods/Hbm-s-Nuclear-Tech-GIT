@@ -106,14 +106,14 @@ public class ExplosionTom {
 
 			while(y > threshold) {
 
-				if(y == 0)
-					break;
+				if(y == 0) break;
+				
 				if(y <= craterFloor) {
 
 					if(worldObj.rand.nextInt(499) < 1) {
-						worldObj.setBlock(pX, y, pZ, ModBlocks.ore_tektite_osmiridium);
+						worldObj.setBlock(pX, y, pZ, ModBlocks.ore_tektite_osmiridium, 0, 2);
 					} else {
-						worldObj.setBlock(pX, y, pZ, ModBlocks.tektite);
+						worldObj.setBlock(pX, y, pZ, ModBlocks.tektite, 0, 2);
 					}
 
 				} else {
@@ -130,7 +130,7 @@ public class ExplosionTom {
 									}
 								}
 							}
-							worldObj.setBlockToAir(pX, y, pZ);
+							worldObj.setBlock(pX, y, pZ, Blocks.air, 0, 2);
 						}
 					} else {
 						for(int i = -2; i < 3; i++) {

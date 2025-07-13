@@ -7,7 +7,6 @@ import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -93,6 +92,7 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory, IGU
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -155,6 +155,8 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory, IGU
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -173,6 +175,10 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory, IGU
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	public boolean isReady() {
@@ -223,7 +229,7 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory, IGU
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUINukeN2(player.inventory, this);
 	}
 }

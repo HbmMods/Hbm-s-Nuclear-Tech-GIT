@@ -14,11 +14,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 public class GUIMachineBattery extends GuiInfoContainer {
 

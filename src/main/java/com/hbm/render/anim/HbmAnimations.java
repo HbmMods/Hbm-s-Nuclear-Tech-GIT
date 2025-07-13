@@ -1,5 +1,6 @@
 package com.hbm.render.anim;
 
+import com.hbm.util.Clock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,19 +16,22 @@ public class HbmAnimations {
 	//my approach adds 9 timers, one for every inventory slot. you can still
 	//"trick" the system by putting a weapon into a different slot while an
 	//animation is playing, though this will cancel the animation entirely.
-	public static final Animation[] hotbar = new Animation[9];
+	public static final Animation[][] hotbar = new Animation[9][8]; //now with 8 parallel rails per slot! time to get railed!
 	
 	public static enum AnimType {
-		RELOAD,			//animation for reloading the weapon
-		RELOAD_EMPTY,	//animation for reloading from empty
+		RELOAD,			//either a full reload or start of a reload
+		@Deprecated RELOAD_EMPTY,	//same as reload, but the mag is completely empty
 		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
 		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
 		CYCLE,			//animation for every firing cycle
 		CYCLE_EMPTY,	//animation for the final shot in the magazine
+		CYCLE_DRY,		//animation for trying to fire, but no round is available
 		ALT_CYCLE,		//animation for alt fire cycles
 		SPINUP,			//animation for actionstart
 		SPINDOWN,		//animation for actionend
-		EQUIP			//animation for drawing the weapon
+		EQUIP,			//animation for drawing the weapon
+		INSPECT,		//animation for inspecting the weapon
+		JAMMED			//animation for jammed weapons
 	}
 
 	// A NOTE ON SHOTGUN STYLE RELOADS
@@ -44,22 +48,27 @@ public class HbmAnimations {
 		public BusAnimation animation;
 		// If set, don't cancel this animation when the timer ends, instead wait for the next to start
 		public boolean holdLastFrame = false;
+		// so we know what type of animation we're playing, only used rarely
+		public AnimType type;
 		
-		public Animation(String key, long startMillis, BusAnimation animation) {
+		public Animation(String key, long startMillis, BusAnimation animation, AnimType type) {
 			this.key = key;
 			this.startMillis = startMillis;
 			this.animation = animation;
+			this.type = type;
 		}
 		
-		public Animation(String key, long startMillis, BusAnimation animation, boolean holdLastFrame) {
+		public Animation(String key, long startMillis, BusAnimation animation, AnimType type, boolean holdLastFrame) {
 			this.key = key;
 			this.startMillis = startMillis;
 			this.animation = animation;
 			this.holdLastFrame = holdLastFrame;
+			this.type = type;
 		}
 	}
-	
-	public static Animation getRelevantAnim() {
+
+	public static Animation getRelevantAnim() { return getRelevantAnim(0); }
+	public static Animation getRelevantAnim(int index) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		int slot = player.inventory.currentItem;
@@ -72,24 +81,25 @@ public class HbmAnimations {
 			slot = Math.abs(slot) % 9;
 		}
 		
-		if(hotbar[slot] == null)
+		if(hotbar[slot][index] == null)
 			return null;
 		
-		if(hotbar[slot].key.equals(stack.getItem().getUnlocalizedName())) {
-			return hotbar[slot];
+		if(hotbar[slot][index].key.equals(stack.getItem().getUnlocalizedName())) {
+			return hotbar[slot][index];
 		}
 		
 		return null;
 	}
-	
-	public static double[] getRelevantTransformation(String bus) {
+
+	public static double[] getRelevantTransformation(String bus) { return getRelevantTransformation(bus, 0); }
+	public static double[] getRelevantTransformation(String bus, int index) {
 		
-		Animation anim = HbmAnimations.getRelevantAnim();
+		Animation anim = HbmAnimations.getRelevantAnim(index);
 		
 		if(anim != null) {
 			
 			BusAnimation buses = anim.animation;
-			int millis = (int)(System.currentTimeMillis() - anim.startMillis);
+			int millis = (int)(Clock.get_ms() - anim.startMillis);
 
 			BusAnimationSequence seq = buses.getBus(bus);
 			
@@ -105,17 +115,20 @@ public class HbmAnimations {
 			0, 0, 0, // position
 			0, 0, 0, // rotation
 			1, 1, 1, // scale
-			0, 0, 0  // offset
+			0, 0, 0, // offset
+			0, 1, 2, // XYZ order
 		};
 	}
 
-	public static void applyRelevantTransformation(String bus) {
-		double[] transform = getRelevantTransformation(bus);
+	public static void applyRelevantTransformation(String bus) { applyRelevantTransformation(bus, 0); }
+	public static void applyRelevantTransformation(String bus, int index) {
+		double[] transform = getRelevantTransformation(bus, index);
+		int[] rot = new int[] { (int)transform[12], (int)transform[13], (int)transform[14] };
 		
 		GL11.glTranslated(transform[0], transform[1], transform[2]);
-		GL11.glRotated(transform[3], 1, 0, 0);
-		GL11.glRotated(transform[4], 0, 1, 0);
-		GL11.glRotated(transform[5], 0, 0, 1);
+		GL11.glRotated(transform[3 + rot[0]], rot[0] == 0 ? 1 : 0, rot[0] == 1 ? 1 : 0, rot[0] == 2 ? 1 : 0);
+		GL11.glRotated(transform[3 + rot[1]], rot[1] == 0 ? 1 : 0, rot[1] == 1 ? 1 : 0, rot[1] == 2 ? 1 : 0);
+		GL11.glRotated(transform[3 + rot[2]], rot[2] == 0 ? 1 : 0, rot[2] == 1 ? 1 : 0, rot[2] == 2 ? 1 : 0);
 		GL11.glTranslated(-transform[9], -transform[10], -transform[11]);
 		GL11.glScaled(transform[6], transform[7], transform[8]);
 	}

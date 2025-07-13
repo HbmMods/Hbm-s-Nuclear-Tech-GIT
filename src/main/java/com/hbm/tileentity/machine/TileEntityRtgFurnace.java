@@ -8,7 +8,6 @@ import com.hbm.util.RTGUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -80,6 +79,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -151,6 +151,8 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -170,6 +172,10 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	@Override
@@ -303,7 +309,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRtgFurnace(player.inventory, this);
 	}
 }

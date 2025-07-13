@@ -3,21 +3,26 @@ package com.hbm.entity.mob.glyphid;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.mob.EntityParasiteMaggot;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import api.hbm.entity.IResistanceProvider;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -40,7 +45,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class EntityGlyphid extends EntityMob {
+public class EntityGlyphid extends EntityMob implements IResistanceProvider {
 
 	//I might have overdone it a little bit
 
@@ -78,7 +83,7 @@ public class EntityGlyphid extends EntityMob {
 	public static final int TASK_TERRAFORM = 5;
 	/** If any task other than IDLE is interrupted by an obstacle, initiates digging behavior which is also communicated to nearby glyohids */
 	public static final int TASK_DIG = 6;
-	
+
 	protected boolean hasWaypoint = false;
 	/** Yeah, fuck, whatever, anything goes now */
 	protected EntityWaypoint taskWaypoint = null;
@@ -86,12 +91,13 @@ public class EntityGlyphid extends EntityMob {
 	//subtypes
 	public static final int TYPE_NORMAL = 0;
 	public static final int TYPE_INFECTED = 1;
+	public static final int TYPE_RADIOACTIVE = 2;
 
 	//data watcher keys
 	public static final int DW_WALL = 16;
 	public static final int DW_ARMOR = 17;
 	public static final int DW_SUBTYPE = 18;
-	
+
 	public EntityGlyphid(World world) {
 		super(world);
 		this.setSize(1.75F, 1F);
@@ -116,17 +122,36 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		int variant = this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getGrunt().health);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getGrunt().speed);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getGrunt().damage);
-	}
-	
-	public float getDivisorPerArmorPoint() {
-		return GlyphidStats.getStats().getGrunt().divisor;
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getGrunt().speed * (variant == TYPE_RADIOACTIVE ? 2D : 1D));
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getGrunt().damage * (variant == TYPE_RADIOACTIVE ? 5D : 1D));
 	}
 
-	public float getDamageThreshold() {
-		return GlyphidStats.getStats().getGrunt().damageThreshold;
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsGrunt;
+	}
+
+	@Override
+	public float[] getCurrentDTDR(DamageSource damage, float amount, float pierceDT, float pierce) {
+		if(damage.isDamageAbsolute() || damage.isUnblockable()) return new float[] {0F, 0F};
+		StatBundle stats = this.getStats();
+		float threshold = stats.thresholdMultForArmor * getGlyphidArmor() / 5F;
+
+		if(damage == ModDamageSource.nuclearBlast) return new float[] {threshold * 0.25F, 0F}; // nukes shred shrough glyphids
+		if(damage.damageType.equals(DamageClass.LASER.name().toLowerCase(Locale.US))) return new float[] {threshold * 0.5F, stats.resistanceMult * 0.5F}; //lasers are quite powerful too
+		if(damage.damageType.equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) return new float[] {threshold * 0.25F, stats.resistanceMult * 0.25F}; //electricity even more so
+		if(damage.damageType.equals(DamageClass.SUBATOMIC.name().toLowerCase(Locale.US))) return new float[] {0F, stats.resistanceMult * 0.1F}; //and particles are almsot commpletely unaffected
+
+		if(damage.isFireDamage()) return new float[] {0F, stats.resistanceMult * 0.2F}; //fire ignores DT and most DR
+		if(damage.isExplosion()) return new float[] {threshold * 0.5F, stats.resistanceMult * 0.35F}; //explosions  are still subject to DT and reduce DR by a fair amount
+
+		return new float[] {threshold, stats.resistanceMult};
+	}
+
+	@Override
+	public void onDamageDealt(DamageSource damage, float amount) {
+		if(this.isArmorBroken(amount)) this.breakOffArmor();
 	}
 
 	@Override
@@ -224,7 +249,7 @@ public class EntityGlyphid extends EntityMob {
 						}
 
 						if(hasWaypoint) {
-							
+
 							if(canDig()) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
@@ -243,7 +268,7 @@ public class EntityGlyphid extends EntityMob {
 							}
 						}
 					}
-					
+
 					this.worldObj.theProfiler.endSection();
 				}
 			}
@@ -295,79 +320,60 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
-		
-		if(source.getEntity() instanceof EntityGlyphid) {
-			return false;
-		}
-		
-		boolean alive = this.getHealth() > 0;
-		boolean wasAttacked = GlyphidStats.getStats().handleAttack(this, source, amount);
-		
-		if(alive && this.getHealth() <= 0) {
-			if(doesInfectedSpawnMaggots() && this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
+	public void onDeath(DamageSource source) {
+		super.onDeath(source);
 
-				int j = 2 + this.rand.nextInt(3);
+		if(!worldObj.isRemote && doesInfectedSpawnMaggots() && this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
 
-				for(int k = 0; k < j; ++k) {
-					float f = ((float) (k % 2) - 0.5F) * 0.5F;
-					float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
-					EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
-					maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
-					maggot.motionX = f;
-					maggot.motionZ = f1;
-					maggot.velocityChanged = true;
-					this.worldObj.spawnEntityInWorld(maggot);
-				}
+			int j = 2 + this.rand.nextInt(3);
 
-				worldObj.playSoundEffect(posX, posY, posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
-				
-				NBTTagCompound vdat = new NBTTagCompound();
-				vdat.setString("type", "giblets");
-				vdat.setInteger("ent", this.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, posX, posY + height * 0.5, posZ), new TargetPoint(dimension, posX, posY + height * 0.5, posZ, 150));
-				
+			for(int k = 0; k < j; ++k) {
+				float f = ((float) (k % 2) - 0.5F) * 0.5F;
+				float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
+				EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
+				maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
+				maggot.motionX = f;
+				maggot.motionZ = f1;
+				maggot.velocityChanged = true;
+				this.worldObj.spawnEntityInWorld(maggot);
 			}
-		}
 
+			worldObj.playSoundEffect(posX, posY, posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+
+			NBTTagCompound vdat = new NBTTagCompound();
+			vdat.setString("type", "giblets");
+			vdat.setInteger("ent", this.getEntityId());
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, posX, posY + height * 0.5, posZ), new TargetPoint(dimension, posX, posY + height * 0.5, posZ, 150));
+
+		}
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(source.getEntity() instanceof EntityGlyphid) return false;
+		boolean wasAttacked = GlyphidStats.getStats().handleAttack(this, source, amount);
 		return wasAttacked;
 	}
 
-	/** Provides a direct entrypoint from outside to access the superclass' implementation because otherwise we end up wwith infinite recursion */
+	/** Provides a direct entrypoint from outside to access the superclass' implementation because otherwise we end up with infinite recursion */
 	public boolean attackSuperclass(DamageSource source, float amount) {
-		
+
 		/*NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "debug");
 		data.setInteger("color", 0x0000ff);
 		data.setFloat("scale", 2.5F);
 		data.setString("text", "" + (int) amount);
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 2, posZ), new TargetPoint(dimension, posX, posY + 2, posZ, 50));*/
-		
+
 		return super.attackEntityFrom(source, amount);
 	}
-	
+
 	public boolean doesInfectedSpawnMaggots() {
 		return true;
 	}
 
 	public boolean isArmorBroken(float amount) {
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.6, 2), 100);
-	}
-
-	public float calculateDamage(float amount) {
-
-		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
-		float divisor = 1;
-
-		for(int i = 0; i < 5; i++) {
-			if((armor & (1 << i)) > 0) {
-				divisor += getDivisorPerArmorPoint();
-			}
-		}
-
-		amount /= divisor;
-
-		return amount;
 	}
 
 	public void breakOffArmor() {
@@ -385,6 +391,16 @@ public class EntityGlyphid extends EntityMob {
 				break;
 			}
 		}
+	}
+
+	public int getGlyphidArmor() {
+		int total = 0;
+		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
+		List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
+		for(Integer i : indices) {
+			total += (armor & (1 << i)) != 0 ? 1 : 0;
+		}
+		return total;
 	}
 
 	@Override
@@ -437,12 +453,12 @@ public class EntityGlyphid extends EntityMob {
 	public boolean attackEntityAsMob(Entity victim) {
 		if(this.isSwingInProgress) return false;
 		this.swingItem();
-		
+
 		if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED && victim instanceof EntityLivingBase) {
 			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
 			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
 		}
-		
+
 		return super.attackEntityAsMob(victim);
 	}
 
@@ -524,14 +540,14 @@ public class EntityGlyphid extends EntityMob {
 			}
 
 			break;
-			
+
 		case TASK_DIG:
 			shouldDig = true;
 			break;
 
 		default:
 			break;
-			
+
 		}
 
 	}
@@ -601,7 +617,7 @@ public class EntityGlyphid extends EntityMob {
 
 	}
 	///DIGGING END
-	
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);

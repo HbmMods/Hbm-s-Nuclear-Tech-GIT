@@ -10,6 +10,7 @@ import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -20,7 +21,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -81,12 +82,9 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", this.isOn);
-			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
+
 		} else {
 			
 			if(this.isOn) audioTime = 20;
@@ -139,14 +137,21 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 			audio = null;
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.isOn);
+		for(int i = 0; i < 5; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.isOn = buf.readBoolean();
+		for(int i = 0; i < 5; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void refine() {
@@ -300,7 +305,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineVacuumDistill(player.inventory, this);
 	}
 }

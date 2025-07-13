@@ -2,12 +2,16 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderNukeFleija extends TileEntitySpecialRenderer {
+public class RenderNukeFleija extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -27,10 +31,32 @@ public class RenderNukeFleija extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
+		GL11.glShadeModel(GL11.GL_SMOOTH);
         bindTexture(ResourceManager.bomb_fleija_tex);
         ResourceManager.bomb_fleija.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glPopMatrix();
     }
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.nuke_fleija);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glScaled(6.8, 6.8, 6.8);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(0.125, 0, 0);
+				GL11.glRotatef(90, 0F, 1F, 0F);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.bomb_fleija_tex);
+				ResourceManager.bomb_fleija.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}};
+	}
 
 }

@@ -21,6 +21,7 @@ public class BiomeGenCraterBase extends BiomeGenBase {
 		BiomeDictionary.registerBiomeType(craterOuterBiome,	DRY,	DEAD,	WASTELAND);
 	}
 
+	@Override
 	public int getWaterColorMultiplier() {
 		return 0x505020; //0x50d030
 	}
@@ -65,7 +66,6 @@ public class BiomeGenCraterBase extends BiomeGenBase {
 
 		@Override @SideOnly(Side.CLIENT)
 		public int getSkyColorByTemp(float temp) { return 0x6B9189; }
-		
 	}
 	
 	public static class BiomeGenCraterInner extends BiomeGenCraterBase {
@@ -83,6 +83,5 @@ public class BiomeGenCraterBase extends BiomeGenBase {
 
 		@Override @SideOnly(Side.CLIENT)
 		public int getSkyColorByTemp(float temp) { return 0x424A42; }
-		
 	}
 }

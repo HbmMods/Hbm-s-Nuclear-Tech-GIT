@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,8 +27,8 @@ public class BlockChargeSemtex extends BlockChargeBase {
 			xnt.setBlockProcessor(new BlockProcessorStandard()
 					.setAllDrop()
 					.setFortune(3));
-			xnt.setSFX(new ExplosionEffectStandard());
 			xnt.explode();
+			ExplosionCreator.composeEffectSmall(world, x + 0.5, y + 1, z + 0.5);
 			
 			return BombReturnCode.DETONATED;
 		}

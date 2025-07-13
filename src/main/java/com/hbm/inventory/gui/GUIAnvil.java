@@ -17,8 +17,8 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AnvilCraftPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AnvilCraftPacket;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
@@ -118,24 +118,6 @@ public class GUIAnvil extends GuiContainer {
 		this.selection = -1;
 		this.size = Math.max(0, (int)Math.ceil((this.recipes.size() - 10) / 2D));
 	}
-	
-	/*@Override
-	protected void mouseMovedOrUp(int x, int y, int mode) {
-		super.mouseMovedOrUp(x, y, mode);
-
-		if(mode == -1) return; // we don't care about mouseMove
-		for(Object obj : this.inventorySlots.inventorySlots) {
-			Slot slot = (Slot) obj;
-			
-			// if the mouse is over a slot, cancel
-			if(this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y)) {
-				return;
-			}
-		}
-
-		if(mode == 0 && this.index > 0) this.index--;
-		if(mode == 1 && this.index < this.size) this.index++;
-	}*/
 	
 	@Override
 	public void drawScreen(int x, int y, float interp) {

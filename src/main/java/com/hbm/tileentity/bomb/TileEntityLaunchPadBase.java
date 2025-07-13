@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hbm.handler.CompatHandler;
+import com.hbm.tileentity.IFluidCopiable;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -43,7 +44,6 @@ import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -56,7 +56,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent {
+public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 	
 	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
 	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
@@ -282,7 +282,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUILaunchPadLarge(player.inventory, this);
 	}
 	
@@ -378,17 +378,19 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		
 		boolean needsDesignator = needsDesignator(slots[0].getItem());
 
-		int targetX = 0;
-		int targetZ = 0;
+		int targetX = xCoord;
+		int targetZ = zCoord;
 		
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
 			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
 			
-			if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord) && needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
-			
-			Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
-			targetX = (int) Math.floor(coords.xCoord);
-			targetZ = (int) Math.floor(coords.zCoord);
+			if(needsDesignator) {
+				if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) return BombReturnCode.ERROR_MISSING_COMPONENT;
+				
+				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+				targetX = (int) Math.floor(coords.xCoord);
+				targetZ = (int) Math.floor(coords.zCoord);
+			}
 			
 		} else {
 			if(needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
@@ -526,6 +528,12 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		return new Object[] {false};
 	}
 
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPos(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
+	}
+
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
@@ -534,7 +542,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				"getFluid",
 				"canLaunch",
 				"getTier",
-				"launch"
+				"launch",
+				"getPos"
 		};
 	}
 
@@ -552,7 +561,19 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
+			case ("getPos"):
+				return getPos(context, args);
 		}
 	throw new NoSuchMethodException();
+	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[]{tanks[0].getTankType().getID(), tanks[1].getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

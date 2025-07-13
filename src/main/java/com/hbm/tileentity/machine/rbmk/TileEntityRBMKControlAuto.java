@@ -8,7 +8,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -106,6 +106,24 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.levelLower);
+		buf.writeDouble(this.levelUpper);
+		buf.writeDouble(this.heatLower);
+		buf.writeDouble(this.heatUpper);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.levelLower = buf.readDouble();
+		this.levelUpper = buf.readDouble();
+		this.heatLower = buf.readDouble();
+		this.heatUpper = buf.readDouble();
+	}
+
+	@Override
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("function")) {
@@ -141,7 +159,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKControlAuto(player.inventory, this);
 	}
 }

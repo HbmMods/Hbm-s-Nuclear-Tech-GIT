@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.gui.GUIIGenerator;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -16,7 +15,6 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -222,15 +220,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		return new int[] { 3, 4, 5, 6 };
 	}
 
+	// o7
+	/*
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.spin = nbt.getInteger("spin");
 		this.burn = nbt.getIntArray("burn");
 		this.hasRTG = nbt.getBoolean("hasRTG");
 	}
+	*/
 	
 	public int getPowerFromFuel(boolean con) {
 		FluidType type = tanks[1].getTankType();
@@ -287,8 +288,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIIGenerator(player.inventory, this);
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
 	}
 
 	@Override

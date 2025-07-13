@@ -8,11 +8,11 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.entity.player.EntityPlayer;

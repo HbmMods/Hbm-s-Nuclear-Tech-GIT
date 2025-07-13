@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.ClientConfig;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -53,7 +53,7 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 		
 		if(worldObj.isRemote) {
 			
-			if(GeneralConfig.enableSteamParticles && (this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 4 == 0)) {
+			if(ClientConfig.COOLING_TOWER_PARTICLES.get() && (this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 4 == 0)) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 0.5F);

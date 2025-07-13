@@ -66,7 +66,6 @@ public class EntityMist extends Entity {
 	public FluidType getType() {
 		return Fluids.fromID(this.dataWatcher.getWatchableObjectInt(10));
 	}
-	
 
 	@Override
 	public void onEntityUpdate() {

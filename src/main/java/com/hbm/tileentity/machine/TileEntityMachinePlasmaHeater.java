@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIPlasmaHeater;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -19,7 +20,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -122,13 +123,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			/// END Loading plasma into the ITER ///
 
 			/// START Notif packets ///
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			plasma.writeToNBT(data, "t2");
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 			/// END Notif packets ///
 		}
 	}
@@ -148,14 +143,23 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			}
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		tanks[0].readFromNBT(nbt, "t0");
-		tanks[1].readFromNBT(nbt, "t1");
-		plasma.readFromNBT(nbt, "t2");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		plasma.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+		plasma.deserialize(buf);
 	}
 	
 	private void updateType() {
@@ -257,7 +261,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIPlasmaHeater(player.inventory, this);
 	}
 }

@@ -3,8 +3,10 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorTrenchmaster;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +46,7 @@ public class ArmorTrenchmaster extends ArmorFSB {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		super.addInformation(stack, player, list, ext);
 
-		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fasterReload"));
+		//list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fasterReload"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.moreAmmo"));
 	}
 
@@ -84,5 +86,20 @@ public class ArmorTrenchmaster extends ArmorFSB {
 				}
 			}
 		}
+	}
+
+	public static boolean isTrenchMaster(EntityPlayer player) {
+		if(player == null) return false;
+		return player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() == ModItems.trenchmaster_plate && ArmorFSB.hasFSBArmor(player);
+	}
+
+	public static boolean hasAoS(EntityPlayer player) {
+		if(player == null) return false;
+		if(player.inventory.armorInventory[3] != null) {
+			ItemStack[] mods =  ArmorModHandler.pryMods(player.inventory.armorInventory[3]);
+			ItemStack helmet = mods[ArmorModHandler.helmet_only];
+			return helmet != null && helmet.getItem() == ModItems.card_aos;
+		}
+		return false;
 	}
 }

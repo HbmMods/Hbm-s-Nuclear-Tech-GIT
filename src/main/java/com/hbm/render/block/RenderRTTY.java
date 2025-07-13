@@ -1,6 +1,7 @@
 package com.hbm.render.block;
 
 import com.hbm.blocks.network.RadioTorchBase;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
@@ -15,6 +16,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 
+@NotableComments
 public class RenderRTTY implements ISimpleBlockRenderingHandler {
 
 	@Override

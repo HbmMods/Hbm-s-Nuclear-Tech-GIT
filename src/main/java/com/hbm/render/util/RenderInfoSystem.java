@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.ClientConfig;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -49,6 +49,9 @@ public class RenderInfoSystem {
 		
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
+
+		//this.messages.put(-666, new InfoEntry(Minecraft.getMinecraft().theWorld.getCelestialAngle(0) + "", 666_666));
+		//this.messages.put(-665, new InfoEntry(Minecraft.getMinecraft().theWorld.getMoonPhase() + "", 666_666));
 		
 		if(this.messages.isEmpty()) 
 			return;
@@ -72,10 +75,13 @@ public class RenderInfoSystem {
 				longest = length;
 		}
 		
-		int mode = GeneralConfig.hintPos;
+		int mode = ClientConfig.INFO_POSITION.get();
 		
 		int pX = mode == 0 ? 15 : mode == 1 ? (resolution.getScaledWidth() - longest - 15) : mode == 2 ? (resolution.getScaledWidth() / 2 + 7) : (resolution.getScaledWidth() / 2 - longest - 6);
 		int pZ = mode == 0 ? 15 : mode == 1 ? 15 : resolution.getScaledHeight() / 2 + 7;
+
+		pX += ClientConfig.INFO_OFFSET_HORIZONTAL.get();
+		pZ += ClientConfig.INFO_OFFSET_VERTICAL.get();
 		
 		int side = pX + 5 + longest;
 		int height = messages.size() * 10 + pZ + 2;
@@ -164,13 +170,8 @@ public class RenderInfoSystem {
 
 		@Override
 		public int compareTo(Object o) {
-			
-			if(!(o instanceof InfoEntry)) {
-				return 0;
-			}
-			
+			if(!(o instanceof InfoEntry)) { return 0; }
 			InfoEntry other = (InfoEntry) o;
-			
 			return this.millis < other.millis ? -1 : this.millis > other.millis ? 1 : 0;
 		}
 	}

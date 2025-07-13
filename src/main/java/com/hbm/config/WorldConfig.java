@@ -7,7 +7,7 @@ public class WorldConfig {
 	public static boolean overworldOre = true;
 	public static boolean netherOre = true;
 	public static boolean endOre = true;
-	
+
 	public static int uraniumSpawn = 6;
 	public static int thoriumSpawn = 7;
 	public static int titaniumSpawn = 8;
@@ -24,7 +24,6 @@ public class WorldConfig {
 	public static int rareSpawn = 6;
 	public static int lithiumSpawn = 6;
 	public static int cinnebarSpawn = 1;
-	public static int oilcoalSpawn = 128;
 	public static int gassshaleSpawn = 5;
 	public static int gasbubbleSpawn = 12;
 	public static int explosivebubbleSpawn = 0;
@@ -63,7 +62,6 @@ public class WorldConfig {
 	public static int copperClusterSpawn = 4;
 	public static int alexandriteSpawn = 100;
 
-	public static int malachiteSpawn = 1;
 	public static int limestoneSpawn = 1;
 
 	public static int netherUraniumuSpawn = 8;
@@ -76,13 +74,16 @@ public class WorldConfig {
 
 	public static int endTikiteSpawn = 8;
 
-	public static boolean enableRandom = false;
-	public static int randomSpawn = 0;
+	public static boolean enableHematite = true;
+	public static boolean enableMalachite = true;
+	public static boolean enableBauxite = true;
+
+	public static boolean enableSulfurCave = true;
+	public static boolean enableAsbestosCave = true;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
-	public static int vertibirdStructure = 500;
 	public static int dungeonStructure = 64;
 	public static int relayStructure = 500;
 	public static int satelliteStructure = 500;
@@ -93,7 +94,6 @@ public class WorldConfig {
 	public static int geyserWater = 3000;
 	public static int geyserChlorine = 3000;
 	public static int geyserVapor = 500;
-	public static int meteorStructure = 15000;
 	public static int capsuleStructure = 100;
 	public static int arcticStructure = 500;
 	public static int jungleStructure = 2000;
@@ -120,15 +120,15 @@ public class WorldConfig {
 	public static float craterBiomeInnerRad = 25F;
 	public static float craterBiomeOuterRad = 0.5F;
 	public static float craterBiomeWaterMult = 5F;
-	
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_OREGEN = CommonConfig.CATEGORY_ORES;
-		
+
 		overworldOre = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.D00_overworldOres", "General switch for whether overworld ores should be generated. Does not include special structures like oil.", true);
 		netherOre = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.D01_netherOres", "General switch for whether nether ores should be generated.", true);
 		endOre = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.D02_endOres", "General switch for whether end ores should be generated. Does not include special structures like trixite crystals.", true);
-		
+
 		uraniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.00_uraniumSpawnrate", "Amount of uranium ore veins per chunk", 7);
 		titaniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.01_titaniumSpawnrate", "Amount of titanium ore veins per chunk", 8);
 		sulfurSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.02_sulfurSpawnrate", "Amount of sulfur ore veins per chunk", 5);
@@ -144,7 +144,6 @@ public class WorldConfig {
 		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Amount of asbestos ore veins per chunk", 2);
 		lithiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.13_lithiumSpawnRate", "Amount of schist lithium ore veins per chunk", 6);
 		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Amount of rare earth ore veins per chunk", 6);
-		oilcoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.15_oilCoalSpawnRate", "Spawns an oily coal vein every nTH chunk", 128);
 		gassshaleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.16_gasShaleSpawnRate", "Amount of oil shale veins per chunk", 5);
 		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 12);
 		cinnebarSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cinnebarSpawnRate", "Amount of cinnebar ore veins per chunk", 1);
@@ -185,7 +184,6 @@ public class WorldConfig {
 		aluminiumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C02_aluminiumClusterSpawn", "Amount of aluminium cluster veins per chunk", 3);
 		copperClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C03_copperClusterSpawn", "Amount of copper cluster veins per chunk", 4);
 
-		malachiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L01_malachiteSpawn", "Amount of malachite block veins per chunk", 1);
 		limestoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L02_limestoneSpawn", "Amount of limestone block veins per chunk", 1);
 
 		netherUraniumuSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N00_uraniumSpawnrate", "Amount of nether uranium per chunk", 8);
@@ -198,14 +196,17 @@ public class WorldConfig {
 
 		endTikiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.E00_tikiteSpawnrate", "Amount of end trixite per chunk", 8);
 
-		enableRandom = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.R00_enableRandomOre", "Amount of random ore per chunk", false);
-		randomSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.R01_randomOreSpawnrate", "Amount of random ore per chunk", 0);
+		enableHematite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L00_enableHematite", "Toggles hematite deposits", true);
+		enableMalachite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L01_enableMalachite", "Toggles malachite deposits", true);
+		enableBauxite = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.L02_enableBauxite", "Toggles bauxite deposits", true);
+
+		enableSulfurCave = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.C00_enableSulfurCave", "Toggles sulfur caves", true);
+		enableAsbestosCave = CommonConfig.createConfigBool(config, CATEGORY_OREGEN, "2.C01_enableAsbestosCave", "Toggles asbestos caves", true);
 
 		final String CATEGORY_DUNGEON = CommonConfig.CATEGORY_DUNGEONS;
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);
 		antennaStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.01_antennaSpawn", "Spawn antenna on every nTH chunk", 250);
 		atomStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.02_atomSpawn", "Spawn power plant on every nTH chunk", 500);
-		vertibirdStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.03_vertibirdSpawn", "Spawn vertibird on every nTH chunk", 500);
 		dungeonStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.04_dungeonSpawn", "Spawn library dungeon on every nTH chunk", 64);
 		relayStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.05_relaySpawn", "Spawn relay on every nTH chunk", 500);
 		satelliteStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.06_satelliteSpawn", "Spawn satellite dish on every nTH chunk", 500);
@@ -220,7 +221,6 @@ public class WorldConfig {
 		geyserWater = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.17_geyserWaterSpawn", "Spawn water geyser on every nTH chunk", 3000);
 		geyserChlorine = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.18_geyserChlorineSpawn", "Spawn poison geyser on every nTH chunk", 3000);
 		geyserVapor = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", "Spawn vapor geyser on every nTH chunk", 500);
-		meteorStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
 		arcticStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.22_arcticVaultSpawn", "Spawn arctic code vault on every nTH chunk", 500);
 		jungleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.23_jungleDungeonSpawn", "Spawn jungle dungeon on every nTH chunk", 2000);
@@ -248,7 +248,6 @@ public class WorldConfig {
 		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
 		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
 		atomStructure = CommonConfig.setDefZero(atomStructure, 1000);
-		vertibirdStructure = CommonConfig.setDefZero(vertibirdStructure, 1000);
 		dungeonStructure = CommonConfig.setDefZero(dungeonStructure, 1000);
 		relayStructure = CommonConfig.setDefZero(relayStructure, 1000);
 		satelliteStructure = CommonConfig.setDefZero(satelliteStructure, 1000);
@@ -263,11 +262,10 @@ public class WorldConfig {
 		minefreq = CommonConfig.setDefZero(minefreq, 1000);
 		radfreq = CommonConfig.setDefZero(radfreq, 1000);
 		vaultfreq = CommonConfig.setDefZero(vaultfreq, 1000);
-		meteorStructure = CommonConfig.setDefZero(meteorStructure, 15000);
 		jungleStructure = CommonConfig.setDefZero(jungleStructure, 1000);
 		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
 		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
-		
+
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);
 	}

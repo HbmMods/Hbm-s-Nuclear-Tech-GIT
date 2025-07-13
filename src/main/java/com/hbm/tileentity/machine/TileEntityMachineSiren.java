@@ -8,13 +8,12 @@ import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemCassette.SoundType;
 import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TESirenPacket;
+import com.hbm.packet.toclient.TESirenPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -83,6 +82,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -150,6 +150,8 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -169,6 +171,10 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	@Override
@@ -233,7 +239,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineSiren(player.inventory, this);
 	}
 }

@@ -1,8 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
-import api.hbm.fluid.IFluidUser;
-import api.hbm.fluid.IPipeNet;
+import api.hbm.fluidmk2.FluidNode;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.ModBlocks;
@@ -16,16 +15,17 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.uninos.UniNodespace;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -164,6 +164,20 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		steam.serialize(buf);
+		feed.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.steam.deserialize(buf);
+		this.feed.deserialize(buf);
+	}
+
+	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
@@ -198,9 +212,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		
 		if(RBMKDials.getOverpressure(worldObj)) {
 			for(DirPos pos : getOutputPos()) {
-				IPipeNet net = IFluidUser.getPipeNet(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType());
-				if(net != null) {
-					this.pipes.add(net);
+				FluidNode node = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType().getNetworkProvider());
+				if(node.net != null) {
+					this.pipes.add(node.net);
 				}
 			}
 		}
@@ -308,7 +322,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKBoiler(player.inventory, this);
 	}
 

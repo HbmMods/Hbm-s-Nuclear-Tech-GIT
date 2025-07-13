@@ -3,7 +3,6 @@ package com.hbm.blocks.network;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityRadioTelex;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +30,7 @@ public class RadioTelex extends BlockDummyable {
 	public int getOffset() {
 		return 0;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote && !player.isSneaking()) {

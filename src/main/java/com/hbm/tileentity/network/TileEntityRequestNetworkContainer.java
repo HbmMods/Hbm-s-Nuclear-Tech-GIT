@@ -1,9 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.packet.NBTPacket;
-import com.hbm.packet.PacketDispatcher;
-
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -74,7 +70,7 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.customName : getName(); }
 	public abstract String getName();
 	@Override public boolean hasCustomInventoryName() { return this.customName != null && this.customName.length() > 0; }
-	public void setCustomName(String name) { this.customName = name; }
+	public void setCustomName(String name) { this.customName = name; markDirty(); }
 	@Override public int getInventoryStackLimit() { return 64; }
 
 	@Override
@@ -106,11 +102,7 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 			return null;
 		}
 	}
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -125,6 +117,8 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -143,5 +137,9 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 }

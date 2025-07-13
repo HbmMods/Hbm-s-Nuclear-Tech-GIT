@@ -13,6 +13,7 @@ import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIMachineTurbine;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
@@ -31,7 +32,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -42,21 +42,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IEnergyProviderMK2, IFluidStandardTransceiver, IBufPacketReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine{
+public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IEnergyProviderMK2, IFluidStandardTransceiver, IBufPacketReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine, IFluidCopiable{
 
 	private ItemStack slots[];
 
 	public long power;
 	public int age = 0;
 	public FluidTank[] tanks;
-	
+
 	private static final int[] slots_top = new int[] {4};
 	private static final int[] slots_bottom = new int[] {6};
 	private static final int[] slots_side = new int[] {4};
-	
+
 	private String customName;
 	protected double[] info = new double[3];
-	
+
 	//Configurable values
 	public static long maxPower = 1_000_000;
 	public static int inputTankSize = 64_000;
@@ -133,9 +133,10 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -152,7 +153,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
-	
+
 	//You scrubs aren't needed for anything (right now)
 	@Override
 	public void openInventory() {}
@@ -161,14 +162,14 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		
+
 		if(i == 4)
 			if(stack != null && stack.getItem() instanceof IBatteryItem)
 				return true;
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
@@ -184,13 +185,13 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			{
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -199,9 +200,9 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
 		power = nbt.getLong("power");
-		
+
 		slots = new ItemStack[getSizeInventory()];
-		
+
 		for(int i = 0; i < list.tagCount(); i++)
 		{
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -211,17 +212,19 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
-		
+
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < slots.length; i++)
 		{
 			if(slots[i] != null)
@@ -233,8 +236,12 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
     {
@@ -250,32 +257,32 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
 	}
-	
+
 	public long getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.info = new double[3];
-			
+
 			age++;
 			if(age >= 2) {
 				age = 0;
 			}
-			
+
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			
+
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
-			
+
 			FluidType in = tanks[0].getTankType();
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
@@ -298,12 +305,12 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
-			
+
 			this.sendFluidToAll(tanks[1], this);
-			
+
 			tanks[1].unloadTank(5, 6, slots);
-			
-			this.sendStandard(25);
+
+			this.networkPackNT(25);
 		}
 	}
 
@@ -318,7 +325,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
-	
+
 	@Override
 	public long getPower() {
 		return power;
@@ -355,29 +362,35 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		return "ntm_turbine";
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():table -- Gets current tanks state. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluid(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the current input tank fluid type. 0 stands for steam, 1 for dense steam, 2 for super dense steam and 3 for ultra dense steam.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getType(Context context, Arguments args) {
-		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 4, doc = "function(type:number) -- Sets the input tank fluid type. Refer getType() for the accepted values information.")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setType(Context context, Arguments args) {
 		tanks[0].setTankType(CompatHandler.intToSteamType(args.checkInteger(0)));
 		return new Object[] {true};
 	}
 
-	@Callback(direct = true)
+	@Callback(direct = true, doc = "function():number -- Gets the power buffer of the turbine.")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true, doc = "function():table -- Gets information about this turbine. The format is the following: <input tank amount>, <input tank capacity>, <output tank amount>, <output tank capacity>, <input tank fluid type>, <power>")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())};
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())[0], power};
 	}
 
 	@Override
@@ -387,7 +400,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineTurbine(player.inventory, this);
 	}
 

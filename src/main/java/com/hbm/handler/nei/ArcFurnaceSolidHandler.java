@@ -6,7 +6,7 @@ import com.hbm.inventory.recipes.ArcFurnaceRecipes;
 public class ArcFurnaceSolidHandler extends NEIUniversalHandler {
 
 	public ArcFurnaceSolidHandler() {
-		super("Arc Furnace (Solid)", ModBlocks.machine_arc_furnace, ArcFurnaceRecipes.getSolidRecipes());
+		super(ModBlocks.machine_arc_furnace.getLocalizedName(), ModBlocks.machine_arc_furnace, ArcFurnaceRecipes.getSolidRecipes());
 	}
 
 	@Override

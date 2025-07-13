@@ -12,6 +12,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
 public class OreLayer3D {
+	
+	public static int counter = 0;
+	public int id;
 
 	NoiseGeneratorPerlin noiseX;
 	NoiseGeneratorPerlin noiseY;
@@ -29,6 +32,8 @@ public class OreLayer3D {
 		this.block = block;
 		this.meta = meta;
 		MinecraftForge.EVENT_BUS.register(this);
+		this.id = counter;
+		counter++;
 	}
 	
 	public OreLayer3D setDimension(int dim) {
@@ -58,9 +63,9 @@ public class OreLayer3D {
 		
 		if(world.provider == null || world.provider.dimensionId != this.dim) return;
 
-		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101), 4);
-		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);
-		if(this.noiseZ == null) this.noiseZ = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 103), 4);
+		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101 + id), 4);
+		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102 + id), 4);
+		if(this.noiseZ == null) this.noiseZ = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 103 + id), 4);
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;

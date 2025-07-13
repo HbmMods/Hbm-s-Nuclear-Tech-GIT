@@ -1,29 +1,33 @@
 package com.hbm.main;
 
-import java.util.List;
-
-import codechicken.nei.recipe.*;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
-import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
-import com.hbm.config.CustomMachineConfigJSON;
-import com.hbm.handler.nei.CustomMachineHandler;
-import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
-import com.hbm.lib.RefStrings;
-
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo.Layout;
+import codechicken.nei.recipe.*;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
+import com.hbm.config.ClientConfig;
+import com.hbm.config.CustomMachineConfigJSON;
+import com.hbm.handler.nei.CustomMachineHandler;
+import com.hbm.items.ItemEnums.EnumIngotMetal;
+import com.hbm.items.ItemEnums.EnumSecretType;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
+import com.hbm.lib.RefStrings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class NEIConfig implements IConfigureNEI {
-	
+
 	@Override
 	public void loadConfig() {
 		for (TemplateRecipeHandler handler: NEIRegistry.listAllHandlers()) {
@@ -33,24 +37,26 @@ public class NEIConfig implements IConfigureNEI {
 		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) {
 			registerHandlerBypass(new CustomMachineHandler(conf));
 		}
+
+		if(ClientConfig.NEI_HIDE_SECRETS.get()) {
+			for(Item item : ItemGunBaseNT.secrets) API.hideItem(new ItemStack(item));
+			for(int i = 0; i < EnumAmmoSecret.values().length; i++) API.hideItem(new ItemStack(ModItems.ammo_secret, 1, i));
+			for(int i = 0; i < EnumSecretType.values().length; i++) API.hideItem(new ItemStack(ModItems.item_secret, 1, i));
+		}
 		
+		for(int i = 0; i < EnumIngotMetal.values().length; i++) API.hideItem(new ItemStack(ModItems.ingot_metal, 1, i));
+
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
 		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));
 
-		API.hideItem(new ItemStack(ModItems.item_secret));
 		API.hideItem(new ItemStack(ModBlocks.machine_electric_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_on));
-		API.hideItem(new ItemStack(ModBlocks.machine_nuke_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.reinforced_lamp_on));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb_g));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb_w));
 		API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus_seed));
-		API.hideItem(new ItemStack(ModBlocks.transission_hatch));
 		API.hideItem(new ItemStack(ModItems.euphemium_kit));
 		API.hideItem(new ItemStack(ModItems.bobmazon_hidden));
 		API.hideItem(new ItemStack(ModItems.book_lore)); //the broken nbt-less one shouldn't show up in normal play anyway
@@ -62,8 +68,6 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_uf6));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
@@ -80,32 +84,14 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.spotlight_fluoro_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_halogen_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_beam));
-		
-		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
 
-			@Override
-			public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
-				int x = mop.blockX;
-				int y = mop.blockY;
-				int z = mop.blockZ;
-				
-				TileEntity te = world.getTileEntity(x, y, z);
-				
-				if(te instanceof TileEntityRandomOre) {
-					TileEntityRandomOre ore = (TileEntityRandomOre) te;
-					return new ItemStack(ModBlocks.ore_random, 1, ore.getStackId());
-				}
-				
-				return null;
-			}
+		API.hideItem(new ItemStack(ModBlocks.conveyor));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_chute));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_lift));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_express));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_double));
+		API.hideItem(new ItemStack(ModBlocks.conveyor_triple));
 
-			@Override
-			public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
-				return currenttip;
-			}
-			
-		});
-		
 		API.registerHighlightIdentifier(ModBlocks.plushie, new IHighlightHandler() {
 			@Override public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
 				int x = mop.blockX;
@@ -121,12 +107,12 @@ public class NEIConfig implements IConfigureNEI {
 			@Override public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) { return currenttip; }
 		});
 	}
-	
+
 	public static void registerHandler(Object o) {
 		API.registerRecipeHandler((ICraftingHandler) o);
 		API.registerUsageHandler((IUsageHandler) o);
 	}
-	
+
 	/** Bypasses the utterly useless restriction of one registered handler per class */
 	public static void registerHandlerBypass(Object o) {
 		GuiCraftingRecipe.craftinghandlers.add((ICraftingHandler) o);

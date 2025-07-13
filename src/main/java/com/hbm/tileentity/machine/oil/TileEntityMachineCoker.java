@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.oil;
 
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCoker;
 import com.hbm.inventory.fluid.Fluids;
@@ -10,6 +11,7 @@ import com.hbm.inventory.gui.GUIMachineCoker;
 import com.hbm.inventory.recipes.CokerRecipes;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
@@ -17,9 +19,14 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -28,16 +35,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityMachineCoker extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
+public class TileEntityMachineCoker extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;
 	public static int processTime = 20_000;
-	
+
 	public int heat;
 	public static int maxHeat = 100_000;
 	public static double diffusion = 0.25D;
-	
+
 	public FluidTank[] tanks;
 
 	public TileEntityMachineCoker() {
@@ -54,7 +62,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 
 			this.tryPullHeat();
@@ -65,26 +73,26 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
-			
+
 			this.wasOn = false;
-			
+
 			if(canProcess()) {
 				int burn = heat / 100;
-						
+
 				if(burn > 0) {
 					this.wasOn = true;
 					this.progress += burn;
 					this.heat -= burn;
-					
+
 					if(progress >= processTime) {
 						this.markChanged();
 						progress -= this.processTime;
-						
+
 						Triplet<Integer, ItemStack, FluidStack> recipe = CokerRecipes.getOutput(tanks[0].getTankType());
 						int fillReq = recipe.getX();
 						ItemStack output = recipe.getY();
 						FluidStack byproduct = recipe.getZ();
-						
+
 						if(output != null) {
 							if(slots[1] == null) {
 								slots[1] = output.copy();
@@ -92,31 +100,25 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 								slots[1].stackSize += output.stackSize;
 							}
 						}
-						
+
 						if(byproduct != null) {
 							tanks[1].setFill(tanks[1].getFill() + byproduct.fill);
 						}
-						
+
 						tanks[0].setFill(tanks[0].getFill() - fillReq);
 					}
 				}
 
-				if(wasOn && worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 20);
+				if(wasOn && worldObj.getTotalWorldTime() % 5 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
 			}
-			
+
 			for(DirPos pos : getConPos()) {
 				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("wasOn", this.wasOn);
-			data.setInteger("heat", this.heat);
-			data.setInteger("progress", this.progress);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			this.networkPack(data, 25);
+
+			this.networkPackNT(25);
 		} else {
-			
+
 			if(this.wasOn) {
 
 				if(worldObj.getTotalWorldTime() % 2 == 0) {
@@ -135,9 +137,11 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 			}
 		}
 	}
-	
+
+
+
 	public DirPos[] getConPos() {
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
 				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
@@ -149,55 +153,64 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
 	public boolean canProcess() {
 		Triplet<Integer, ItemStack, FluidStack> recipe = CokerRecipes.getOutput(tanks[0].getTankType());
-		
+
 		if(recipe == null) return false;
-		
+
 		int fillReq = recipe.getX();
 		ItemStack output = recipe.getY();
 		FluidStack byproduct = recipe.getZ();
-		
+
 		if(byproduct != null) tanks[1].setTankType(byproduct.type);
-		
+
 		if(tanks[0].getFill() < fillReq) return false;
 		if(byproduct != null && byproduct.fill + tanks[1].getFill() > tanks[1].getMaxFill()) return false;
-		
+
 		if(output != null && slots[1] != null) {
 			if(output.getItem() != slots[1].getItem()) return false;
 			if(output.getItemDamage() != slots[1].getItemDamage()) return false;
 			if(output.stackSize + slots[1].stackSize > output.getMaxStackSize()) return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.wasOn = nbt.getBoolean("wasOn");
-		this.heat = nbt.getInteger("heat");
-		this.progress = nbt.getInteger("progress");
-		tanks[0].readFromNBT(nbt, "t0");
-		tanks[1].readFromNBT(nbt, "t1");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.wasOn);
+		buf.writeInt(this.heat);
+		buf.writeInt(this.progress);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.wasOn = buf.readBoolean();
+		this.heat = buf.readInt();
+		this.progress = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+	}
+
 	protected void tryPullHeat() {
-		
+
 		if(this.heat >= this.maxHeat) return;
-		
+
 		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		
+
 		if(con instanceof IHeatSource) {
 			IHeatSource source = (IHeatSource) con;
 			int diff = source.getHeatStored() - this.heat;
-			
+
 			if(diff == 0) {
 				return;
 			}
-			
+
 			if(diff > 0) {
 				diff = (int) Math.ceil(diff * diffusion);
 				source.useUpHeat(diff);
@@ -207,7 +220,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 				return;
 			}
 		}
-		
+
 		this.heat = Math.max(this.heat - Math.max(this.heat / 1000, 1), 0);
 	}
 
@@ -220,7 +233,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 1 };
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -229,7 +242,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 		this.progress = nbt.getInteger("prog");
 		this.heat = nbt.getInteger("heat");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -253,12 +266,12 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 2,
@@ -269,10 +282,10 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 					zCoord + 3
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -286,7 +299,63 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCoker(player.inventory, this);
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_coker";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTypeStored(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName(), tanks[1].getTankType().getName()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluidStored(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {this.heat};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName(), tanks[1].getTankType().getName(), tanks[0].getFill(), tanks[1].getFill(), this.heat};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getFluidStored",
+			"getTypeStored",
+			"getHeat",
+			"getInfo"};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getHeat":
+				return getHeat(context, args);
+			case "getInfo":
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

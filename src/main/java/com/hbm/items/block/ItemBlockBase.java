@@ -20,7 +20,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 public class ItemBlockBase extends ItemBlock {
-
+	
 	public ItemBlockBase(Block block) {
 		super(block);
 		
@@ -87,5 +87,11 @@ public class ItemBlockBase extends ItemBlock {
 		}
 		
 		return EnumRarity.common;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack stack, int pass) {
+		return this.field_150939_a.getRenderColor(stack.getItemDamage());
 	}
 }

@@ -4,14 +4,16 @@ import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluidStandardSender {
+public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluidStandardSender, IBufPacketReceiver {
 	
 	public FluidTank steam;
 	
@@ -24,7 +26,7 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 		
 		if(!worldObj.isRemote) {
 			
-			for(int i = 2; i < 6; i++) {
+			if(RBMKDials.getReasimBoilers(worldObj)) for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				
@@ -37,8 +39,8 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 						if(te instanceof TileEntityRBMKBase) {
 							TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
 							
-							int prov = Math.min(steam.getMaxFill() - steam.getFill(), rbmk.steam);
-							rbmk.steam -= prov;
+							int prov = Math.min(steam.getMaxFill() - steam.getFill(), rbmk.reasimSteam);
+							rbmk.reasimSteam -= prov;
 							steam.setFill(steam.getFill() + prov);
 						}
 					}
@@ -59,6 +61,16 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		this.steam.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		this.steam.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.steam.deserialize(buf);
 	}
 
 	public void fillFluidInit() {

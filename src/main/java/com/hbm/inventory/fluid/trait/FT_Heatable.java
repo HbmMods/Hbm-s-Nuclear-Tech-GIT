@@ -42,7 +42,7 @@ public class FT_Heatable extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.RED + "Thermal capacity: " + this.getFirstStep().heatReq + " TU");
+		info.add(EnumChatFormatting.RED + "Thermal capacity: " + this.getFirstStep().heatReq + " TU per " + this.getFirstStep().amountReq + "mB");
 		for(HeatingType type : HeatingType.values()) {
 			
 			double eff = getEfficiency(type);
@@ -71,7 +71,8 @@ public class FT_Heatable extends FluidTrait {
 		BOILER("Boilable"),
 		HEATEXCHANGER("Heatable"),
 		PWR("PWR Coolant"),
-		ICF("ICF Coolant");
+		ICF("ICF Coolant"),
+		PA("Particle Accelerator Coolant");
 		
 		public String name;
 		

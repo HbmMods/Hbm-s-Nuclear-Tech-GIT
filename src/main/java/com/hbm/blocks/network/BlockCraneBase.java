@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.items.tool.ItemConveyorWand;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -71,10 +72,12 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 		this.iconOut = iconRegister.registerIcon(RefStrings.MODID + ":crane_out");
 		this.iconSideOut = iconRegister.registerIcon(RefStrings.MODID + ":crane_side_out");
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTooling) {
+			return false;
+		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemConveyorWand) {
 			return false;
 		} else if(world.isRemote) {
 			return true;
@@ -85,7 +88,7 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
@@ -170,7 +173,7 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 
 			return this.blockIcon;
 		}
-		
+
 		if(side == outputSide.ordinal()) {
 			return this.iconSideOut;
 		}
@@ -256,7 +259,7 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 
 		return 0;
 	}
-	
+
 	public static int renderIDClassic = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
@@ -269,7 +272,7 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 		ISidedInventory tileentityfurnace = (ISidedInventory) world.getTileEntity(x, y, z);
 
 		if(tileentityfurnace != null) {
-			
+
 			for(int i1 = start; i1 < end; ++i1) {
 				ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 

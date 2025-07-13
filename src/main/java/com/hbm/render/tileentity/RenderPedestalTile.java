@@ -37,10 +37,6 @@ public class RenderPedestalTile extends TileEntitySpecialRenderer {
 			if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
 				GL11.glTranslated(0, 0.125, 0);
 				GL11.glRotatef(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * interp + 180, 0.0F, -1.0F, 0.0F);
-
-				if(!RenderManager.instance.options.fancyGraphics) {
-					GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-				}
 				
 				GL11.glTranslated(0, Math.sin((player.ticksExisted + interp) * 0.1) * 0.0625, 0);
 			} else {

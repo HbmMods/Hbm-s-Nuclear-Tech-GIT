@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
@@ -23,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
+ @Spaghetti("destroy this class")
 public class GunB92 extends Item {
 
 	Random rand = new Random();
@@ -262,19 +264,6 @@ public class GunB92 extends Item {
 		if (i > 14)
 			return rad * (5 - (i - 15));
 		return rad * 5;
-	}
-
-	public static float getOffsetFromAnim(ItemStack stack) {
-		float i = getAnim(stack);
-
-		if (i < 10)
-			return 0;
-		i -= 10;
-
-		if (i < 10)
-			return i / 10;
-		else
-			return 2 - (i / 10);
 	}
 
 	public static float getTransFromAnim(ItemStack stack) {

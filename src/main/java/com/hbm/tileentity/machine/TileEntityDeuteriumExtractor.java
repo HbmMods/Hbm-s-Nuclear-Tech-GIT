@@ -2,14 +2,16 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver {
+public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IFluidCopiable {
 	
 	public long power = 0;
 	public FluidTank[] tanks;
@@ -44,13 +46,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1], this);
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			tanks[0].writeToNBT(data, "water");
-			tanks[1].writeToNBT(data, "heavyWater");
 			
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
 	
@@ -60,12 +57,20 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		tanks[0].readFromNBT(data, "water");
-		tanks[1].readFromNBT(data, "heavyWater");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 
 	public boolean hasPower() {
@@ -120,5 +125,10 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

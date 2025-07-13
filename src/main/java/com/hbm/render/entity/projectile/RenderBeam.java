@@ -1,80 +1,41 @@
 package com.hbm.render.entity.projectile;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
-import net.minecraft.client.renderer.Tessellator;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.main.ResourceManager;
+
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderBeam extends Render {
-	
-	Random rand = new Random();
 
 	@Override
-	public void doRender(Entity rocket, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
-		float radius = 0.12F;
-		//float radius = 0.06F;
-		int distance = 4;
-		Tessellator tessellator = Tessellator.instance;
-
+	public void doRender(Entity entity, double x, double y, double z, float f0, float interp) {
+		EntityBulletBeamBase bullet = (EntityBulletBeamBase) entity;
+		if(bullet.config == null) bullet.config = bullet.getBulletConfig();
+		if(bullet.config == null) return;
+		
 		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		GL11.glTranslatef((float) x, (float) y, (float) z);
-
-		GL11.glRotatef(rocket.rotationYaw, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-rocket.rotationPitch, 1.0F, 0.0F, 0.0F);
-
-		boolean red = false;
-		boolean green = true;
-		boolean blue = false;
-
-		for (float o = 0; o <= radius; o += radius / 8) {
-			float color = 1f - (o * 8.333f);
-			if (color < 0)
-				color = 0;
-			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red ? 1 : color, green ? 1 : color, blue ? 1 : color, 1f);
-			tessellator.addVertex(0 + o, 0 - o, 0);
-			tessellator.addVertex(0 + o, 0 + o, 0);
-			tessellator.addVertex(0 + o, 0 + o, 0 + distance);
-			tessellator.addVertex(0 + o, 0 - o, 0 + distance);
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red ? 1 : color, green ? 1 : color, blue ? 1 : color, 1f);
-			tessellator.addVertex(0 - o, 0 - o, 0);
-			tessellator.addVertex(0 + o, 0 - o, 0);
-			tessellator.addVertex(0 + o, 0 - o, 0 + distance);
-			tessellator.addVertex(0 - o, 0 - o, 0 + distance);
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red ? 1 : color, green ? 1 : color, blue ? 1 : color, 1f);
-			tessellator.addVertex(0 - o, 0 + o, 0);
-			tessellator.addVertex(0 - o, 0 - o, 0);
-			tessellator.addVertex(0 - o, 0 - o, 0 + distance);
-			tessellator.addVertex(0 - o, 0 + o, 0 + distance);
-			tessellator.draw();
-			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red ? 1 : color, green ? 1 : color, blue ? 1 : color, 1f);
-			tessellator.addVertex(0 + o, 0 + o, 0);
-			tessellator.addVertex(0 - o, 0 + o, 0);
-			tessellator.addVertex(0 - o, 0 + o, 0 + distance);
-			tessellator.addVertex(0 + o, 0 + o, 0 + distance);
-			tessellator.draw();
+		
+		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
+		GL11.glDisable(GL11.GL_FOG);
+		
+		if(bullet.config.renderRotations) {
+			GL11.glRotatef(bullet.prevRotationYaw + (bullet.rotationYaw - bullet.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(bullet.prevRotationPitch + (bullet.rotationPitch - bullet.prevRotationPitch) * interp + 180, 0.0F, 0.0F, 1.0F);
 		}
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		if(bullet.config.rendererBeam != null) {
+			bullet.config.rendererBeam.accept(bullet, interp);
+		}
+		
+		if(fog) GL11.glEnable(GL11.GL_FOG);
+		
 		GL11.glPopMatrix();
 	}
 
-	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID + ":textures/models/PlasmaBeam.png");
-	}
+	@Override protected ResourceLocation getEntityTexture(Entity entity) { return ResourceManager.universal; }
 }

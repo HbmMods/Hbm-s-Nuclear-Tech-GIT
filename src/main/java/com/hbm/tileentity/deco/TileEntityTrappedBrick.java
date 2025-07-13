@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.TrappedBrick.Trap;
-import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -77,11 +75,7 @@ public class TileEntityTrappedBrick extends TileEntity {
 				worldObj.setBlock(xCoord, yCoord - 1 - i, zCoord, ModBlocks.concrete_pillar);
 			break;
 		case POISON_DART:
-			EntityBulletBaseNT dart = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.G20_CAUSTIC);
-			dart.setPosition(xCoord + 0.5 + dir.offsetX, yCoord + 0.5, zCoord + 0.5 + dir.offsetZ);
-			dart.motionX = dir.offsetX;
-			dart.motionZ = dir.offsetZ;
-			worldObj.spawnEntityInWorld(dart);
+			//TBI
 			break;
 		case ZOMBIE:
 			EntityZombie zombie = new EntityZombie(worldObj);

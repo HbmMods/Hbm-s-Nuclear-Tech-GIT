@@ -13,17 +13,16 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -110,19 +109,18 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 			}
 		}
 	}
-	
-	@Override
-	public void networkPack(NBTTagCompound nbt, int range) {
-		nbt.setFloat("speed", this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
 
-		super.networkPack(nbt, range);
-	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.speed = nbt.getFloat("speed");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeFloat(this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.speed = buf.readFloat();
 	}
 
 	@Override
@@ -205,7 +203,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineOilWell(player.inventory, this);
 	}
 

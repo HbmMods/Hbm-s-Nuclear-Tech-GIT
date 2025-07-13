@@ -33,7 +33,7 @@ public class EntityCreeperGold extends EntityCreeper {
 	
 	@Override
 	public boolean getCanSpawnHere() {
-		return super.getCanSpawnHere() && this.posY <= 40;
+		return super.getCanSpawnHere() && this.posY <= 40 && this.dimension == 0;
 	}
 	
 	@Override

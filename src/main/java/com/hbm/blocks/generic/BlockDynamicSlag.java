@@ -135,7 +135,7 @@ public class BlockDynamicSlag extends BlockContainer {
 		TileEntitySlag self = (TileEntitySlag) s;
 		
 		/* Flow down */
-		if(world.getBlock(x, y - 1, z).isReplaceable(world, x, y - 1, z)) {
+		if(world.getBlock(x, y - 1, z).isReplaceable(world, x, y - 1, z) && y > 0) {
 			world.setBlock(x, y - 1, z, ModBlocks.slag);
 			TileEntitySlag tile = (TileEntitySlag) Compat.getTileStandard(world, x, y - 1, z);
 			tile.mat = self.mat;

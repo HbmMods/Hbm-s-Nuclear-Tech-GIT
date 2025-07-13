@@ -21,7 +21,6 @@ import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -36,9 +35,9 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 	public int prevRedstonePower;
 	public int redstonePower;
 	public Set<BlockPos> activatedBlocks = new HashSet<>(4);
-	
+
 	public boolean missileLoaded;
-	
+
 	public TileEntityLaunchPadRusted() {
 		super(4);
 	}
@@ -50,19 +49,19 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(this.redstonePower > 0 && this.prevRedstonePower <= 0) {
 				this.launch();
 			}
-			
+
 			this.prevRedstonePower = this.redstonePower;
 			this.networkPackNT(250);
 		} else {
-			
+
 			List<EntityMissileBaseNT> entities = worldObj.getEntitiesWithinAABB(EntityMissileBaseNT.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
-			
+
 			if(!entities.isEmpty()) {
 				for(int i = 0; i < 15; i++) {
 
@@ -71,8 +70,17 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 					if(worldObj.rand.nextBoolean()) dir = dir.getRotation(ForgeDirection.UP);
 					float moX = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetX;
 					float moZ = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetZ;
-					
-					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+
+					NBTTagCompound data = new NBTTagCompound();
+					data.setDouble("posX", xCoord + 0.5);
+					data.setDouble("posY", yCoord + 0.25);
+					data.setDouble("posZ", zCoord + 0.5);
+					data.setString("type", "launchSmoke");
+					data.setDouble("moX", moX);
+					data.setDouble("moY", 0);
+					data.setDouble("moZ", moZ);
+					MainRegistry.proxy.effectNT(data);
+
 				}
 			}
 		}
@@ -83,7 +91,7 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 		super.serialize(buf);
 		buf.writeBoolean(this.missileLoaded);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -91,18 +99,18 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 	}
 
 	public BombReturnCode launch() {
-		
+
 		if(slots[1] != null && slots[2] != null && slots[3] != null && this.missileLoaded) {
 			if(slots[1].getItem() == ModItems.launch_code && slots[2].getItem() == ModItems.launch_key) {
 				if(slots[3] != null && slots[3].getItem() instanceof IDesignatorItem) {
 					IDesignatorItem designator = (IDesignatorItem) slots[3].getItem();
-					
+
 					if(!designator.isReady(worldObj, slots[3], xCoord, yCoord, zCoord)) return BombReturnCode.ERROR_MISSING_COMPONENT;
-					
+
 					Vec3 coords = designator.getCoords(worldObj, slots[3], xCoord, yCoord, zCoord);
 					int targetX = (int) Math.floor(coords.xCoord);
 					int targetZ = (int) Math.floor(coords.zCoord);
-					
+
 					EntityMissileDoomsdayRusted missile = new EntityMissileDoomsdayRusted(worldObj, xCoord + 0.5F, yCoord + 1F, zCoord + 0.5F, targetX, targetZ);
 					worldObj.spawnEntityInWorld(missile);
 					TrackerUtil.setTrackingRange(worldObj, missile, 500);
@@ -110,19 +118,19 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 					this.missileLoaded = false;
 					this.decrStackSize(1, 1);
 					this.markDirty();
-					
+
 					return BombReturnCode.LAUNCHED;
 				}
 			}
 		}
-		
+
 		return BombReturnCode.ERROR_MISSING_COMPONENT;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.missileLoaded = nbt.getBoolean("missileLoaded");
 
 		this.redstonePower = nbt.getInteger("redstonePower");
@@ -133,11 +141,11 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x" + i), activatedBlocks.getInteger("y" + i), activatedBlocks.getInteger("z" + i)));
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setBoolean("missileLoaded", missileLoaded);
 
 		nbt.setInteger("redstonePower", redstonePower);
@@ -173,10 +181,10 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 	}
 
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 2,
@@ -187,10 +195,10 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 					zCoord + 3
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -204,7 +212,7 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUILaunchPadRusted(player.inventory, this);
 	}
 

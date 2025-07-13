@@ -12,6 +12,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.items.machine.ItemICFPellet.EnumICFFuel;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -19,14 +20,13 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityICFPress extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider {
+public class TileEntityICFPress extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	public int muon;
@@ -156,7 +156,7 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return slot == 1;
+		return slot == 1 || slot == 3;
 	}
 	
 	@Override
@@ -182,7 +182,7 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIICFPress(player.inventory, this);
 	}
 

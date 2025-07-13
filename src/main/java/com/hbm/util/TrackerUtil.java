@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import com.hbm.interfaces.NotableComments;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityTracker;
@@ -12,9 +13,10 @@ import net.minecraft.world.WorldServer;
 
 /**
  * This absolute fucking mess of a class is the direct consequence of mojank's terrible entity tracker that allows for 0 flexibility with how entities are synced.
- * 
+ *
  * @author hbm
  */
+@NotableComments
 public class TrackerUtil {
 
 	/** Grabs the tracker entry from the given entity */
@@ -24,10 +26,10 @@ public class TrackerUtil {
 		EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(entityId);
 		return entry;
 	}
-	
+
 	/** Force-teleports the given entity using the tracker, resetting the tick count to 0 to prevent movement during this tick */
 	public static void sendTeleport(World world, Entity e) {
-		
+
 		if(world instanceof WorldServer) {
 			WorldServer server = (WorldServer) world;
 			EntityTrackerEntry entry = getTrackerEntry(server, e.getEntityId());
@@ -41,9 +43,9 @@ public class TrackerUtil {
 			entry.ticks = 0;
 		}
 	}
-	
+
 	public static void setTrackingRange(World world, Entity e, int range) {
-		
+
 		if(world instanceof WorldServer) {
 			WorldServer server = (WorldServer) world;
 			EntityTrackerEntry entry = getTrackerEntry(server, e.getEntityId());

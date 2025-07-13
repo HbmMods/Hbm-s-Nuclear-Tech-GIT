@@ -75,14 +75,15 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 			DiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol);
 			GL11.glPopMatrix();
 		}
-		
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 		RenderHelper.enableStandardItemLighting();
 	}
 	
 	public String getTextureFromType(FluidType type) {
 		
-		if(type.customFluid) {
+		if(type.renderWithTint) {
 			int color = type.getTint();
 			double r = ((color & 0xff0000) >> 16) / 255D;
 			double g = ((color & 0x00ff00) >> 8) / 255D;

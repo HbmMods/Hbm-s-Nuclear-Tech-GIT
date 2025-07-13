@@ -106,8 +106,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		@Override
 		public List<PositionedStack> getOtherStacks() {
 			List<PositionedStack> other = new ArrayList();
-			for(PositionedStack pos : output) {
-				other.add(pos);
+			for(int i = 1; i < output.length; i++) {
+				other.add(output[i]);
 			}
 			other.add(machinePositioned);
 			return getCycledIngredients(cycleticks / 20, other);
@@ -139,7 +139,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 			drawTexturedModalRect(pos[0] - 1, pos[1] - 1, 5, 87, 18, 18);
 		}
 		
-		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
+		drawTexturedModalRect(74, 14, 59, 87, 18, 36);
 	}
 	
 	public static int[][] getInputCoords(int count) {
@@ -242,19 +242,19 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		case 6: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
+			{102, 42}, {120, 42},
 		};
 		case 7: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
+			{102, 42}, {120, 42},
 			{138, 24},
 		};
 		case 8: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
-			{138, 24}, {138, 32},
+			{102, 42}, {120, 42},
+			{138, 24}, {138, 42},
 		};
 		}
 		

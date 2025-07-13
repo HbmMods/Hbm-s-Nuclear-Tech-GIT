@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 public class SolderingStationHandler extends NEIUniversalHandler {
 
 	public SolderingStationHandler() {
-		super("Soldering Station", ModBlocks.machine_soldering_station, SolderingRecipes.getRecipes());
+		super(ModBlocks.machine_soldering_station.getLocalizedName(), ModBlocks.machine_soldering_station, SolderingRecipes.getRecipes());
 	}
 
 	@Override

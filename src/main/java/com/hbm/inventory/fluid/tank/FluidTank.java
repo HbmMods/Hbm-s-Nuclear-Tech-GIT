@@ -7,12 +7,16 @@ import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,7 +26,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
-public class FluidTank {
+public class FluidTank implements Cloneable {
+	
+	public static final FluidTank[] EMPTY_ARRAY = new FluidTank[0];
 
 	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList<FluidLoadingHandler>();
 	public static final Set<Item> noDualUnload = new HashSet<Item>();
@@ -44,45 +50,38 @@ public class FluidTank {
 	}
 	
 	public FluidTank withPressure(int pressure) {
-		
 		if(this.pressure != pressure) this.setFill(0);
-		
 		this.pressure = pressure;
 		return this;
 	}
 	
-	public void setFill(int i) {
-		fluid = i;
-	}
+	public void setFill(int i) { fluid = i; }
 	
 	public void setTankType(FluidType type) {
-		
-		if(type == null) {
-			type = Fluids.NONE;
-		}
-		
-		if(this.type == type)
-			return;
+		if(type == null) type = Fluids.NONE;
+		if(this.type == type) return;
 		
 		this.type = type;
 		this.setFill(0);
 	}
 	
-	public FluidType getTankType() {
-		return type;
+	public void resetTank() {
+		this.type = Fluids.NONE;
+		this.fluid = 0;
+		this.pressure = 0;
 	}
 	
-	public int getFill() {
-		return fluid;
+	/** Changes type and pressure based on a fluid stack, useful for changing tank types based on recipes */
+	public FluidTank conform(FluidStack stack) {
+		this.setTankType(stack.type);
+		this.withPressure(stack.pressure);
+		return this;
 	}
 	
-	public int getMaxFill() {
-		return maxFluid;
-	}
-	
-	public int getPressure() {
-		return pressure;
-	}
+	public FluidType getTankType() { return type; }
+	public int getFill() { return fluid; }
+	public int getMaxFill() { return maxFluid; }
+	public int getPressure() { return pressure; }
 	
 	public int changeTankSize(int size) {
 		maxFluid = size;
@@ -92,20 +91,15 @@ public class FluidTank {
 			fluid = maxFluid;
 			return dif;
 		}
-			
 		return 0;
 	}
 	
 	//Fills tank from canisters
 	public boolean loadTank(int in, int out, ItemStack[] slots) {
-		
-		if(slots[in] == null)
-			return false;
+		if(slots[in] == null) return false;
 
 		boolean isInfiniteBarrel = slots[in].getItem() == ModItems.fluid_barrel_infinite;
-
-		if(!isInfiniteBarrel && pressure != 0)
-			return false;
+		if(!isInfiniteBarrel && pressure != 0) return false;
 		
 		int prev = this.getFill();
 		
@@ -120,9 +114,7 @@ public class FluidTank {
 	
 	//Fills canisters from tank
 	public boolean unloadTank(int in, int out, ItemStack[] slots) {
-		
-		if(slots[in] == null)
-			return false;
+		if(slots[in] == null) return false;
 		
 		int prev = this.getFill();
 		
@@ -183,11 +175,11 @@ public class FluidTank {
 	 * @param width
 	 * @param height
 	 */
-	public void renderTank(int x, int y, double z, int width, int height) {
+	@SideOnly(Side.CLIENT) public void renderTank(int x, int y, double z, int width, int height) {
 		renderTank(x, y, z, width, height, 0);
 	}
 	
-	public void renderTank(int x, int y, double z, int width, int height, int orientation) {
+	@SideOnly(Side.CLIENT) public void renderTank(int x, int y, double z, int width, int height, int orientation) {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		
@@ -242,7 +234,7 @@ public class FluidTank {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
-	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
+	@SideOnly(Side.CLIENT) public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
 			List<String> list = new ArrayList();
@@ -251,6 +243,7 @@ public class FluidTank {
 			
 			if(this.pressure != 0) {
 				list.add(EnumChatFormatting.RED + "Pressure: " + this.pressure + " PU");
+				list.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_RED) + "Pressurized, use compressor!");
 			}
 			
 			type.addInfo(list);

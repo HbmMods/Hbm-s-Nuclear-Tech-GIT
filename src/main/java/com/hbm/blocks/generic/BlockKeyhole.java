@@ -108,6 +108,14 @@ public class BlockKeyhole extends BlockStone {
 			}
 		}
 		
+		if(world.rand.nextInt(1) == 0) {
+			int r = world.rand.nextInt(4);
+			if(r == 0) world.setBlock(x + width, y + 2, z, ModBlocks.stone_keyhole_meta, 4, 3);
+			if(r == 1) world.setBlock(x - width, y + 2, z, ModBlocks.stone_keyhole_meta, 5, 3);
+			if(r == 2) world.setBlock(x, y + 2, z + width, ModBlocks.stone_keyhole_meta, 2, 3);
+			if(r == 3) world.setBlock(x, y + 2, z - width, ModBlocks.stone_keyhole_meta, 3, 3);
+		}
+		
 		for(int i = -width + 1; i <= width - 1; i++) {
 			for(int j = -width + 1; j <= width - 1; j++) {
 				//Floor and ceiling

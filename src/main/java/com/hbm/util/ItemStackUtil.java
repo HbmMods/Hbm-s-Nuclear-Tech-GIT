@@ -1,9 +1,5 @@
 package com.hbm.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -15,22 +11,29 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
+
 public class ItemStackUtil {
-	
+
 	public static ItemStack carefulCopy(ItemStack stack) {
 		if(stack == null) return null;
 		return stack.copy();
 	}
-	
+
 	public static ItemStack carefulCopyWithSize(ItemStack stack, int size) {
 		if(stack == null)
 			return null;
-		
+
 		ItemStack copy = stack.copy();
 		copy.stackSize = size;
 		return copy;
 	}
-	
+
 	/**
 	 * Runs carefulCopy over the entire ItemStack array.
 	 * @param array
@@ -39,7 +42,7 @@ public class ItemStackUtil {
 	public static ItemStack[] carefulCopyArray(ItemStack[] array) {
 		return carefulCopyArray(array, 0, array.length - 1);
 	}
-	
+
 	/**
 	 * Recreates the ItemStack array and only runs carefulCopy over the supplied range. All other fields remain null.
 	 * @param array
@@ -50,16 +53,16 @@ public class ItemStackUtil {
 	public static ItemStack[] carefulCopyArray(ItemStack[] array, int start, int end) {
 		if(array == null)
 			return null;
-		
+
 		ItemStack[] copy = new ItemStack[array.length];
-		
+
 		for(int i = start; i <= end; i++) {
 			copy[i] = carefulCopy(array[i]);
 		}
-		
+
 		return copy;
 	}
-	
+
 	/**
 	 * Creates a new array that only contains the copied range.
 	 * @param array
@@ -70,14 +73,14 @@ public class ItemStackUtil {
 	public static ItemStack[] carefulCopyArrayTruncate(ItemStack[] array, int start, int end) {
 		if(array == null)
 			return null;
-		
+
 		int length = end - start + 1;
 		ItemStack[] copy = new ItemStack[length];
-		
+
 		for(int i = 0; i < length; i++) {
 			copy[i] = carefulCopy(array[start + i]);
 		}
-		
+
 		return copy;
 	}
 
@@ -88,28 +91,28 @@ public class ItemStackUtil {
 	 * @param lines
 	 */
 	public static ItemStack addTooltipToStack(ItemStack stack, String... lines) {
-		
+
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
-		
+
 		NBTTagCompound display = new NBTTagCompound();
 		NBTTagList lore = new NBTTagList();
-		
+
 		for(String line : lines) {
 			lore.appendTag(new NBTTagString(EnumChatFormatting.RESET + "" + EnumChatFormatting.GRAY + line));
 		}
-		
+
 		display.setTag("Lore", lore);
 		stack.stackTagCompound.setTag("display", display);
-		
+
 		return stack;
 	}
-	
+
 	public static void addStacksToNBT(ItemStack stack, ItemStack... stacks) {
-		
+
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
-		
+
 		NBTTagList tags = new NBTTagList();
 
 		for(int i = 0; i < stacks.length; i++) {
@@ -122,7 +125,7 @@ public class ItemStackUtil {
 		}
 		stack.stackTagCompound.setTag("items", tags);
 	}
-	
+
 	public static ItemStack[] readStacksFromNBT(ItemStack stack, int count) {
 
 		if(!stack.hasTagCompound())
@@ -143,14 +146,14 @@ public class ItemStackUtil {
 				stacks[slot] = loadedStack;
 			}
 		}
-		
+
 		return stacks;
 	}
-	
+
 	public static ItemStack[] readStacksFromNBT(ItemStack stack) {
 		return readStacksFromNBT(stack, 0);
 	}
-	
+
 	/**
 	 * Returns a List<String> of all ore dict names for this stack. Stack cannot be null, list is empty when there are no ore dict entries.
 	 * @param stack
@@ -158,15 +161,28 @@ public class ItemStackUtil {
 	 */
 	public static List<String> getOreDictNames(ItemStack stack) {
 		List<String> list = new ArrayList();
-		
+
 		int ids[] = OreDictionary.getOreIDs(stack);
 		for(int i : ids) {
 			list.add(OreDictionary.getOreName(i));
 		}
-		
+
 		return list;
 	}
 	
+	/**
+	 * Returns a String of the mod id of an itemstack. If a unique identifier can't be found in the registry, returns null.
+	 * @param stack
+	 * @return
+	 */
+	public static String getModIdFromItemStack(ItemStack stack) {
+		UniqueIdentifier id = GameRegistry.findUniqueIdentifierFor(stack.getItem());
+		if(id!=null) {
+			return id.modId;
+		}
+		return null;
+	}
+
 	public static void spillItems(World world, int x, int y, int z, Block block, Random rand) {
 		IInventory tileentityfurnace = (IInventory) world.getTileEntity(x, y, z);
 
@@ -183,7 +199,7 @@ public class ItemStackUtil {
 						int j1 = rand.nextInt(21) + 10;
 						if(j1 > itemstack.stackSize) j1 = itemstack.stackSize;
 						itemstack.stackSize -= j1;
-						
+
 						EntityItem entityitem = new EntityItem(world, x + oX, y + oY, z + oZ, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						if(itemstack.hasTagCompound()) entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 
@@ -197,5 +213,9 @@ public class ItemStackUtil {
 			}
 			world.func_147453_f(x, y, z, block);
 		}
+	}
+	
+	public static boolean areStacksCompatible(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage() && ItemStack.areItemStackTagsEqual(sta1, sta2);
 	}
 }

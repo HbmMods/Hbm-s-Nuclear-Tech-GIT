@@ -18,6 +18,6 @@ public class BlockGenericStairs extends BlockStairs {
 		
 		recipeGen.add(new Object[] {block, meta, this});
 		
-		this.setBlockTextureName(RefStrings.MODID + ":concrete_smooth");
+		this.setBlockTextureName(RefStrings.MODID + ":concrete");
 	}
 }

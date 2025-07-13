@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import api.hbm.block.ILaserable;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.handler.CompatHandler;
@@ -18,12 +19,12 @@ import com.hbm.util.CompatEnergyControl;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -38,7 +39,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORInteractive {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -97,7 +98,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 				
 				if(joules > 0) {
 					
-					long out = joules * 98 / 100;
+					long out = joules * 95 / 100;
 					
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
@@ -111,20 +112,9 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						Block block = worldObj.getBlock(x, y, z);
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
-						if(block instanceof ILaserable) {
-							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof ILaserable) {
-							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof TileEntityCore) {
-							out = ((TileEntityCore)te).burn(out);
-							continue;
-						}
+						if(block instanceof ILaserable) { ((ILaserable)block).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof ILaserable) { ((ILaserable)te).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof TileEntityCore) { out = ((TileEntityCore)te).burn(out); continue; }
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
@@ -169,26 +159,32 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			
 			this.markDirty();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("watts", watts);
-			data.setLong("prev", prev);
-			data.setInteger("beam", beam);
-			data.setBoolean("isOn", isOn);
-			tank.writeToNBT(data, "tank");
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getLong("power");
-		watts = data.getInteger("watts");
-		prev = data.getLong("prev");
-		beam = data.getInteger("beam");
-		isOn = data.getBoolean("isOn");
-		tank.readFromNBT(data, "tank");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(watts);
+		buf.writeLong(prev);
+		buf.writeInt(beam);
+		buf.writeBoolean(isOn);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.watts = buf.readInt();
+		this.prev = buf.readLong();
+		this.beam = buf.readInt();
+		this.isOn = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	public long getPowerScaled(long i) {
@@ -332,7 +328,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreEmitter(player.inventory, this);
 	}
 
@@ -340,5 +336,47 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, joules > 0 || prev > 0 ? 20 : 0);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, maxPower * watts / 2000);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setpower" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "toggle",
+				PREFIX_FUNCTION + "switch" + NAME_SEPARATOR + "on/off",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setpower").equals(name) && params.length > 0) {
+			int watts = IRORInteractive.parseInt(params[0], 0, 100);
+			this.watts = watts;
+			this.markChanged();
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "toggle").equals(name)) {
+			this.isOn = !this.isOn;
+			this.markChanged();
+			return null;
+		}
+			
+		
+		if((PREFIX_FUNCTION + "switch").equals(name) && params.length > 0) {
+			if("on".equals(params[0])) {
+				this.isOn = true;
+				this.markChanged();
+				return null;
+			}
+			if("off".equals(params[0])) {
+				this.isOn = false;
+				this.markChanged();
+				return null;
+			}
+		}
+		
+		return null;
 	}
 }

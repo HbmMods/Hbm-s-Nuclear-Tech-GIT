@@ -13,7 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
@@ -67,7 +69,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 					double density = world.getBlockDensity(vec3, entity.boundingBox);
 					double knockback = (1.0D - distanceScaled) * density;
 					
-					entity.attackEntityFrom(DamageSource.setExplosionSource(explosion.compat), (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D)));
+					entity.attackEntityFrom(setExplosionSource(explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
 					entity.motionX += deltaX * enchKnockback;
@@ -86,6 +88,16 @@ public class EntityProcessorStandard implements IEntityProcessor {
 		}
 
 		return affectedPlayers;
+	}
+	
+	public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
+		return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
+	}
+
+	public static DamageSource setExplosionSource(Explosion explosion) {
+		return explosion != null && explosion.getExplosivePlacedBy() != null ?
+				(new EntityDamageSource("explosion.player", explosion.getExplosivePlacedBy())).setExplosion() :
+					(new DamageSource("explosion")).setExplosion();
 	}
 	
 	public EntityProcessorStandard withRangeMod(float mod) {
