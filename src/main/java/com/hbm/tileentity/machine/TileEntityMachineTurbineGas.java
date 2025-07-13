@@ -107,17 +107,10 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			}
 <<<<<<< HEAD
 			
-			if(autoMode) { //power production depending on power requirement and fuel level
+			if(autoMode) { //power production depending on power requirement
 				
-				int powerSliderTarget;
-				
-				//when low on fuel, decrease consumption linearly
-				if(tanks[0].getFill() * 10 > tanks[0].getMaxFill()) {
-					powerSliderTarget = 60 - (int) (60 * power / maxPower); //scales the slider proportionally to the power gauge
-				}
-				else {
-					powerSliderTarget = (int) ( tanks[0].getFill() * 0.0001 * (60 - (int) (60 * power / maxPower)) );
-				}
+				//scales the slider proportionally to the power gauge
+				int powerSliderTarget = 60 - (int) (60 * power / maxPower);
 				
 =======
 
