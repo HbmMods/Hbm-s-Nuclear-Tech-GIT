@@ -68,6 +68,9 @@
     "block.motor": {"category": "block", "sounds": [{"name": "block/motor", "stream": false}]},
     "block.engine": {"category": "block", "sounds": [{"name": "block/engine", "stream": false}]},
     "block.chemicalPlant": {"category": "block", "sounds": [{"name": "block/chemicalPlant", "stream": false}]},
+    "block.assemblerStrike": {"category": "block", "sounds": ["block/assemblerStrike1", "block/assemblerStrike2"]},
+    "block.assemblerStart": {"category": "block", "sounds": [{"name": "block/assemblerStart", "stream": false}]},
+    "block.assemblerStop": {"category": "block", "sounds": [{"name": "block/assemblerStop", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
