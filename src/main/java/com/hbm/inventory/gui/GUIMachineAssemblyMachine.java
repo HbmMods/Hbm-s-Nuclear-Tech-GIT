@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineAssemblyMachine;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAssemblyMachine;
 
@@ -52,7 +53,7 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 		
-		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule.recipe, 0, this);
+		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule.recipe, 0, ItemBlueprints.grabPool(assembler.slots[1]), this);
 	}
 
 	@Override

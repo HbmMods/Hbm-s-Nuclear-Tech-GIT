@@ -110,7 +110,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.chemplantModule.update(speed, pow, true);
+			this.chemplantModule.update(speed, pow, true, slots[1]);
 			this.didProcess = this.chemplantModule.didProcess;
 			if(this.chemplantModule.markDirty) this.markDirty();
 			
@@ -232,6 +232,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot == 0) return true; // battery
+		if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
 		if(slot >= 2 && slot <= 3 && stack.getItem() instanceof ItemMachineUpgrade) return true; // upgrades
 		if(slot >= 10 && slot <= 12) return true; // input fluid
 		if(slot >= 16 && slot <= 18) return true; // output fluid

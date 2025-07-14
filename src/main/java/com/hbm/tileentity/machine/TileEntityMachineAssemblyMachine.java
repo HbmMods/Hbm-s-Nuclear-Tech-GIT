@@ -104,7 +104,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.assemblerModule.update(speed, pow, true);
+			this.assemblerModule.update(speed, pow, true, slots[1]);
 			this.didProcess = this.assemblerModule.didProcess;
 			if(this.assemblerModule.markDirty) this.markDirty();
 			
@@ -266,6 +266,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot == 0) return true; // battery
+		if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
 		if(slot >= 2 && slot <= 3 && stack.getItem() instanceof ItemMachineUpgrade) return true; // upgrades
 		if(this.assemblerModule.isItemValid(slot, stack)) return true; // recipe input crap
 		return false;

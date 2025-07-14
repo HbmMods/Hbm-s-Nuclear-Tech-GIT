@@ -32,8 +32,20 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	
 	public static final Random RNG = new Random();
 
+	/** Alternate recipes, i.e. obtainable otherwise */
+	public static final String POOL_PREFIX_ALT = "alt.";
+	/** Discoverable recipes, i.e. not obtainable otherwise */
+	public static final String POOL_PREFIX_DISCOVER = "discover.";
+	/** Secret recipes, self-explantory. Why even have this comment? */
+	public static final String POOL_PREFIX_SECRET = "secret.";
+
 	public List<T> recipeOrderedList = new ArrayList();
 	public HashMap<String, T> recipeNameMap = new HashMap();
+	
+	/** Blueprint pool name to list of recipe names that are part of this pool */
+	public static HashMap<String, List<String>> blueprintPools = new HashMap();
+	/** Name to recipe map for all recipes that are part of pools for lookup */
+	public static HashMap<String, GenericRecipe> pooledBlueprints = new HashMap();
 
 	public abstract int inputItemLimit();
 	public abstract int inputFluidLimit();
@@ -41,6 +53,21 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public abstract int outputFluidLimit();
 	public boolean hasDuration() { return true; }
 	public boolean hasPower() { return true; }
+	
+	public static void addToPool(String pool, GenericRecipe recipe) {
+		List<String> list = blueprintPools.get(pool);
+		if(list == null) {
+			list = new ArrayList();
+			blueprintPools.put(pool, list);
+		}
+		list.add(recipe.name);
+		pooledBlueprints.put(recipe.name, recipe);
+	}
+	
+	public static void clearPools() {
+		blueprintPools.clear();
+		pooledBlueprints.clear();
+	}
 
 	@Override
 	public Object getRecipeObject() {
@@ -75,6 +102,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		
 		if(obj.has("icon")) recipe.setIcon(this.readItemStack(obj.get("icon").getAsJsonArray()));
 		if(obj.has("named") && obj.get("named").getAsBoolean()) recipe.setNamed();
+		if(obj.has("blueprintpool")) recipe.setPools(obj.get("blueprintpool").getAsString().split(":"));
 		
 		readExtraData(element, recipe);
 		
@@ -123,6 +151,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		}
 		
 		if(recipe.customLocalization) writer.name("named").value(true);
+		if(recipe.blueprintPools != null && recipe.blueprintPools.length > 0) writer.name("blueprintpool").value(String.join(":", recipe.blueprintPools));
 		
 		writeExtraData(recipe, writer);
 	}

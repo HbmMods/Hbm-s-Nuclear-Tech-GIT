@@ -3,6 +3,12 @@
   * Features a brand new animated model, GUI and the new recipe selection system
   * Many recipes have been reworked, with the microcrafting complexity reduced
   * The redcoil didn't get a recipe. It's gonna die soon.
+  * Neither did the schrabidium transmutator
+  * Balls-o-tron's spawner can now be made without a worm coin, using a silver key instead. This means that, while expensive, it's possible to summon him without finding a jungle dungeon
+* Blueprins
+  * Replace the journals
+  * Instead of opening them and making a template, they act as a multi template
+  * Blueprints need to remain in the slot, removing them will disable the recipes again
 
 ## Changed
 * Removed levitation unit
