@@ -914,8 +914,6 @@ public class ModItems {
 	public static Item bottle2_empty;
 	public static Item bottle2_korl;
 	public static Item bottle2_fritz;
-	public static Item bottle2_korl_special;
-	public static Item bottle2_fritz_special;
 	public static Item flask_empty;
 	public static Item flask_infusion;
 	public static Item chocolate_milk;
@@ -2925,7 +2923,7 @@ public class ModItems {
 		ingot_raw = new ItemAutogen(MaterialShapes.INGOT).setUnlocalizedName("ingot_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_raw");
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
-		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":heavy_component");
+		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(null).setTextureName(RefStrings.MODID + ":heavy_component");
 		wire_fine = new ItemAutogen(MaterialShapes.WIRE)
 				.aot(Mats.MAT_ALUMINIUM, "wire_aluminium").aot(Mats.MAT_COPPER, "wire_copper")
 				.aot(Mats.MAT_MINGRADE, "wire_red_copper").aot(Mats.MAT_GOLD, "wire_gold")
@@ -3093,8 +3091,6 @@ public class ModItems {
 		bottle2_empty = new Item().setUnlocalizedName("bottle2_empty").setTextureName(RefStrings.MODID + ":bottle2_empty");
 		bottle2_korl = new ItemEnergy().makeBottle(bottle2_empty, cap_korl).setUnlocalizedName("bottle2_korl").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_korl");
 		bottle2_fritz = new ItemEnergy().makeBottle(bottle2_empty, cap_fritz).setUnlocalizedName("bottle2_fritz").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_fritz");
-		bottle2_korl_special = new ItemEnergy().makeBottle(bottle2_empty, cap_korl).setUnlocalizedName("bottle2_korl_special").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_korl");
-		bottle2_fritz_special = new ItemEnergy().makeBottle(bottle2_empty, cap_fritz).setUnlocalizedName("bottle2_fritz_special").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_fritz");
 		flask_infusion = new ItemFlask().setUnlocalizedName("flask_infusion").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":flask");
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setTextureName(RefStrings.MODID + ":chocolate_milk");
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setTextureName(RefStrings.MODID + ":coffee");
@@ -6705,8 +6701,6 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_empty, bottle2_empty.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_korl, bottle2_korl.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_fritz, bottle2_fritz.getUnlocalizedName());
-		GameRegistry.registerItem(bottle2_korl_special, bottle2_korl_special.getUnlocalizedName());
-		GameRegistry.registerItem(bottle2_fritz_special, bottle2_fritz_special.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
 
 		//Flasks
