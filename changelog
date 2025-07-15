@@ -18,8 +18,10 @@
   * This should fix the issue where most armors are quite weak against swords
 * Electric attacks (i.e. tesla cannon) are now in the "energy damage" category
   * This means that armors that have energy resistance actually properly work against the tesla cannon
+* Heavy components are being deprecated
 
 ## Fixed
 * Fixed gas centrifuge sound persisting when broken or when unloaded
 * Fixed all centrifuge sounds trying to play even when the player is far away, using up audio slots
 * Fixed guns that don't have durability always displaying a condition of 0%
+* Fixed GL state leak caused by skeletons

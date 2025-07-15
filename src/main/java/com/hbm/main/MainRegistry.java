@@ -1716,6 +1716,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.chopper_blades");
 		ignoreMappings.add("hbm:item.component_emitter");
 		ignoreMappings.add("hbm:item.component_limiter");
+		ignoreMappings.add("hbm:item.bottle2_korl_special");
+		ignoreMappings.add("hbm:item.bottle2_fritz_special");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

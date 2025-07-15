@@ -23,9 +23,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.*;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
-import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
@@ -842,19 +840,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BASIC)
 			}, 400);
 
-		makeRecipe(new ComparableStack(ModBlocks.machine_chemfac, 1), new AStack[] {
-				!exp ? new OreDictStack(STEEL.ingot(), 48) : new OreDictStack(STEEL.heavyComp(), 2),
-				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
-				new OreDictStack(NB.ingot(), 4),
-				new OreDictStack(RUBBER.ingot(), 16),
-				new OreDictStack(STEEL.shell(), 12),
-				new ComparableStack(ModItems.tank_steel, 8),
-				new ComparableStack(ModItems.motor_desh, 4),
-				new ComparableStack(ModItems.coil_tungsten, 24),
-				new OreDictStack(STEEL.pipe(), 8),
-				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BASIC)
-			}, 400);
-
 		makeRecipe(new ComparableStack(ModBlocks.machine_chemical_factory, 1), new AStack[] {
 				new OreDictStack(DURA.ingot(), 16),
 				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
@@ -1307,12 +1292,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.wire_dense, 32, Mats.MAT_GOLD.id),
 						new ComparableStack(ModItems.motor_bismuth, 3)
 					}, 1200);
-			}
-		}
-
-		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.autogen.contains(MaterialShapes.CASTPLATE) && mat.autogen.contains(MaterialShapes.HEAVY_COMPONENT)) {
-				makeRecipe(new ComparableStack(ModItems.heavy_component, 1, mat.id), new AStack[] { new OreDictStack(MaterialShapes.CASTPLATE.name() + mat.names[0], 256) }, 12_000);
 			}
 		}
 
