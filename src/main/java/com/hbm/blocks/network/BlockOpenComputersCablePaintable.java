@@ -2,6 +2,7 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -176,7 +177,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		@Optional.Interface(iface = "li.cil.oc.api.network.SidedEnvironment", modid = "OpenComputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.Colored", modid = "OpenComputers")
 	})
-	public static class TileEntityOpenComputersCablePaintable extends TileEntityLoadedBase implements Environment, SidedEnvironment, Colored {
+	public static class TileEntityOpenComputersCablePaintable extends TileEntityLoadedBase implements Environment, SidedEnvironment, Colored, ICopiable {
 
 		protected Node node;
 		protected boolean addedToNetwork = false;
