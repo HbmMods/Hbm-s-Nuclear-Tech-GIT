@@ -48,7 +48,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 	@Override public int outputItemLimit() { return 1; }
 	@Override public int outputFluidLimit() { return 1; }
 
-	@Override public String getFileName() { return "hbmAsemblyMachine.json"; }
+	@Override public String getFileName() { return "hbmAssemblyMachine.json"; }
 	@Override public GenericRecipe instantiateRecipe(String name) { return new GenericRecipe(name); }
 
 	@Override
