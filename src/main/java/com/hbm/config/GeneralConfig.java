@@ -121,6 +121,16 @@ public class GeneralConfig {
 				"The amount of channels to create while 1.39_enableSoundExtension is enabled.\n" +
 				"Note that a value below 28 or above 200 can cause buggy sounds and issues with other mods running out of sound memory.", 100);
 
+				// Note: This setting is no longer used as the system now respects the tank capacities and transfer rates
+		// It's kept for backward compatibility
+		forgeFluidFlowRate = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.42_forgeFluidFlowRate",
+				"This setting is no longer used as the system now respects the tank capacities and transfer rates.\n" +
+				"It's kept for backward compatibility. The fluid system now uses a 1:1 conversion ratio between HBM and Forge fluids.", 1000000);
+
+		preferredOutputMod = CommonConfig.createConfigStringList(config,CATEGORY_GENERAL,"1.42_preferredOutputMod",
+				"The mod which is preferred as output when certain machines autogenerate recipes. Currently used for the shredder", new String[] {RefStrings.MODID});
+		enableLoadScreenReplacement = config.get(CATEGORY_GENERAL, "1.43_enableLoadScreenReplacement", true, "Tries to replace the vanilla load screen with the 'tip of the day' one, may clash with other mods trying to do the same.").getBoolean(true);
+		
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
