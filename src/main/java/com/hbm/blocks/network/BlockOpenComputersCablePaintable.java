@@ -2,6 +2,8 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.handler.CompatHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -13,7 +15,9 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -29,10 +33,16 @@ import li.cil.oc.api.Network;
 import li.cil.oc.api.network.Visibility;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Loader;
+import li.cil.oc.api.network.SidedEnvironment;
+import net.minecraftforge.common.util.ForgeDirection;
+import li.cil.oc.api.internal.Colored;
+import com.hbm.handler.CompatHandler.OCColors;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockOpenComputersCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass {
 
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
+	@SideOnly(Side.CLIENT) protected IIcon overlayColor;
 
 	public BlockOpenComputersCablePaintable() {
 		super(Material.iron);
@@ -48,6 +58,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(RefStrings.MODID + ":oc_cable_base");
 		this.overlay = reg.registerIcon(RefStrings.MODID + ":oc_cable_overlay");
+		this.overlayColor = reg.registerIcon(RefStrings.MODID + ":oc_cable_color");
 	}
 
 	@Override
@@ -61,13 +72,29 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 			if(pipe.block != null) {
 				if(RenderBlockMultipass.currentPass == 1) {
 					return this.overlay;
+				} else if(RenderBlockMultipass.currentPass == 2) {
+					return this.overlayColor;
 				} else {
 					return pipe.block.getIcon(side, pipe.meta);
 				}
 			}
 		}
 
-		return RenderBlockMultipass.currentPass == 1 ? this.overlay : this.blockIcon;
+		return RenderBlockMultipass.currentPass == 1 ? this.overlay : RenderBlockMultipass.currentPass == 2 ? this.overlayColor : this.blockIcon;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if (RenderBlockMultipass.currentPass == 2) {
+			TileEntityOpenComputersCablePaintable tile = (TileEntityOpenComputersCablePaintable) world.getTileEntity(x, y, z);
+			if (tile == null)
+				return 0xffffff;
+
+			return tile.getColor();
+		}
+
+		return 0xffffff;
 	}
 
 	@Override
@@ -75,7 +102,10 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 
 		ItemStack stack = player.getHeldItem();
 
-		if(stack != null && stack.getItem() instanceof ItemBlock) {
+		if (stack == null)
+			return super.onBlockActivated(world, x, y, z, player, side, fX, fY, fZ);
+
+		if (stack.getItem() instanceof ItemBlock) {
 			ItemBlock ib = (ItemBlock) stack.getItem();
 			Block block = ib.field_150939_a;
 
@@ -94,6 +124,21 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 						return true;
 					}
 				}
+			}
+		} else {
+			boolean isDye = false;
+			int[] dicts = OreDictionary.getOreIDs(stack);
+			for (int dict : dicts) {
+				String dictName = OreDictionary.getOreName(dict);
+				if (dictName.equals("dye"))
+					isDye = true;
+			}
+
+			if (isDye) {
+				TileEntityOpenComputersCablePaintable tile = (TileEntityOpenComputersCablePaintable) world.getTileEntity(x, y, z);
+				tile.setColor(OCColors.fromDye(stack).getColor());
+				world.markBlockForUpdate(x, y, z);
+				tile.markDirty();
 			}
 		}
 
@@ -123,7 +168,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 
 	@Override
 	public int getPasses() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -131,9 +176,12 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		return IBlockMultiPass.getRenderType();
 	}
 
-	// WHY the fuck is this not compiling
-	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.Environment", modid = "OpenComputers")})
-	public static class TileEntityOpenComputersCablePaintable extends TileEntityLoadedBase implements Environment {
+	@Optional.InterfaceList({
+		@Optional.Interface(iface = "li.cil.oc.api.network.Environment", modid = "OpenComputers"),
+		@Optional.Interface(iface = "li.cil.oc.api.network.SidedEnvironment", modid = "OpenComputers"),
+		@Optional.Interface(iface = "li.cil.oc.api.network.Colored", modid = "OpenComputers")
+	})
+	public static class TileEntityOpenComputersCablePaintable extends TileEntityLoadedBase implements Environment, SidedEnvironment, Colored {
 
 		protected Node node;
 		protected boolean addedToNetwork = false;
@@ -142,6 +190,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		private int meta;
 		private Block lastBlock;
 		private int lastMeta;
+		private OCColors color = OCColors.LIGHTGRAY;
 
 		public TileEntityOpenComputersCablePaintable() {
 			node = Network.newNode(this, Visibility.None).create();
@@ -181,6 +230,8 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 			this.block = id == 0 ? null : Block.getBlockById(id);
 			this.meta = nbt.getInteger("meta");
 
+			this.color = OCColors.fromInt(nbt.getInteger("dyeColor"));
+
 			if (node != null && node.host() == this) {
 				node.load(nbt.getCompoundTag("oc:node"));
 			}
@@ -191,6 +242,8 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 			super.writeToNBT(nbt);
 			if(block != null) nbt.setInteger("block", Block.getIdFromBlock(block));
 			nbt.setInteger("meta", meta);
+
+			nbt.setInteger("dyeColor", color.getColor());
 
 			if (node != null && node.host() == this) {
 				final NBTTagCompound nodeNbt = new NBTTagCompound();
@@ -212,6 +265,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 			if(nbt.hasKey("paintblock")) {
 				this.block = Block.getBlockById(nbt.getInteger("paintblock"));
 				this.meta = nbt.getInteger("paintmeta");
+				this.color = OCColors.fromInt(nbt.getInteger("dyeColor"));
 			}
 		}
 
@@ -219,6 +273,30 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		@Override
 		public Node node() {
 			return node;
+		}
+
+		public Node sidedNode(ForgeDirection side) {
+			if (side == ForgeDirection.UNKNOWN)
+				return null;
+
+			int neighborX = super.xCoord + side.offsetX;
+			int neighborY = super.yCoord + side.offsetY;
+			int neighborZ = super.zCoord + side.offsetZ;
+			TileEntity neighbor = worldObj.getTileEntity(neighborX, neighborY, neighborZ);
+
+			// If a cable does not support colors but is a valid cable block, allow it to connect regardless of color.
+			if (!(neighbor instanceof Colored)) {
+				if (neighbor instanceof Environment)
+					return node;
+				else
+					return null;
+			}
+
+			Colored cable = (Colored) neighbor;
+			if (cable.getColor() == color.getColor())
+				return node;
+			else
+				return null;
 		}
 
 		@Override
@@ -239,6 +317,32 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		public void invalidate() {
 			super.invalidate();
 			if (node != null) node.remove();
+		}
+
+		public boolean canConnect(net.minecraftforge.common.util.ForgeDirection side) {
+			if (side == ForgeDirection.UNKNOWN)
+				return false;
+
+			int neighborX = super.xCoord + side.offsetX;
+			int neighborY = super.yCoord + side.offsetY;
+			int neighborZ = super.zCoord + side.offsetZ;
+			TileEntity neighbor = worldObj.getTileEntity(neighborX, neighborY, neighborZ);
+
+			// If a cable does not support colors but is a valid cable block, allow it to connect regardless of color.
+			if (!(neighbor instanceof Colored)) {
+				return neighbor instanceof Environment;
+			}
+
+			Colored cable = (Colored) neighbor;
+			return cable.getColor() == color.getColor();
+		}
+
+		public void setColor(int newColor) {
+			color = OCColors.fromInt(newColor);
+		}
+
+		public int getColor() {
+			return color.getColor();
 		}
 	}
 }
