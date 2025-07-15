@@ -30,8 +30,7 @@ public class ServerProxy {
 	public static final int ID_FLUID_ID = 9;
 	public static final int ID_FAN_MODE = 10;
 	public static final int ID_TOOLABILITY = 11;
-	public static final int ID_GUN_MODE = 12;
-	public static final int ID_GAS_HAZARD = 13;
+	public static final int ID_GAS_HAZARD = 12;
 	
 	public ITranslate getI18n() { return I18N; }
 
@@ -59,11 +58,13 @@ public class ServerProxy {
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}
+	
 	public void displayTooltip(String msg, int time, int id) { }
 
 	public boolean getIsKeyPressed(EnumKeybind key) {
 		return false;
 	}
+	
 	public EntityPlayer me() {
 		return null;
 	}

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineChemicalFactory;
 import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalFactory;
 
@@ -34,8 +35,8 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		for(int i = 0; i < 3; i++) for(int j = 0; j < 4; j++) {
-			chemplant.inputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 4, 16);
-			chemplant.outputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 4, 16);
+			chemplant.inputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 60 + i * 5, guiTop + 20 + j * 22, 3, 16);
+			chemplant.outputTanks[i + j * 3].renderTankInfo(this, mouseX, mouseY, guiLeft + 189 + i * 5, guiTop + 20 + j * 22, 3, 16);
 		}
 		
 		chemplant.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 224, guiTop + 125, 7, 52);
@@ -57,7 +58,7 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 		
-		for(int i = 0; i < 4; i++) if(this.checkClick(x, y, 74, 19 + i * 22, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, chemplant.chemplantModule[i].recipe, i, this);
+		for(int i = 0; i < 4; i++) if(this.checkClick(x, y, 74, 19 + i * 22, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, chemplant.chemplantModule[i].recipe, i, ItemBlueprints.grabPool(chemplant.slots[4 + i * 7]), this);
 	}
 
 	@Override
@@ -128,8 +129,8 @@ public class GUIMachineChemicalFactory extends GuiInfoContainer {
 		}
 
 		for(int i = 0; i < 3; i++) for(int j = 0; j < 4; j++) {
-			chemplant.inputTanks[i + j * 3].renderTank(guiLeft + 60 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
-			chemplant.outputTanks[i + j * 3].renderTank(guiLeft + 189 + i * 5, guiTop + 36 + j * 22, this.zLevel, 4, 16);
+			chemplant.inputTanks[i + j * 3].renderTank(guiLeft + 60 + i * 5, guiTop + 36 + j * 22, this.zLevel, 3, 16);
+			chemplant.outputTanks[i + j * 3].renderTank(guiLeft + 189 + i * 5, guiTop + 36 + j * 22, this.zLevel, 3, 16);
 		}
 		
 		chemplant.water.renderTank(guiLeft + 224, guiTop + 177, this.zLevel, 7, 52);

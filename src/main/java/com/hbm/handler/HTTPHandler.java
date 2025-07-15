@@ -13,6 +13,7 @@ import com.hbm.main.MainRegistry;
 public class HTTPHandler {
 
 	public static List<String> capsule = new ArrayList();
+	public static List<String> tipOfTheDay = new ArrayList();
 	public static boolean newVersion = false;
 	public static String versionNumber = "";
 
@@ -25,6 +26,7 @@ public class HTTPHandler {
 				try {
 					loadVersion();
 					loadSoyuz();
+					loadTips();
 				} catch(IOException e) {
 					MainRegistry.logger.warn("Version checker failed!");
 				}
@@ -69,12 +71,17 @@ public class HTTPHandler {
 		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 
 		String line;
-
-		while((line = in.readLine()) != null) {
-			capsule.add(line);
-		}
-
+		while((line = in.readLine()) != null) capsule.add(line);
 		in.close();
 	}
 
+	private static void loadTips() throws IOException {
+
+		URL github = new URL("https://gist.githubusercontent.com/HbmMods/a03c66ba160184e12f43de826b30c096/raw/tip_of_the_day");
+		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
+
+		String line;
+		while((line = in.readLine()) != null) tipOfTheDay.add(line);
+		in.close();
+	}
 }

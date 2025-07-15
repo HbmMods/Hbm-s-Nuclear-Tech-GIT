@@ -50,16 +50,18 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	protected int index;
 	protected IControlReceiver tile;
 	protected GuiScreen previousScreen;
+	protected String installedPool;
 	
-	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
-		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, previousScreen));
+	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
+		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, installedPool, previousScreen));
 	}
 	
-	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
+	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
 		this.recipeSet = recipeSet;
 		this.tile = tile;
 		this.selection = selection;
 		this.index = index;
+		this.installedPool = installedPool;
 		this.previousScreen = previousScreen;
 		if(this.selection == null) this.selection = NULL_SELECTION;
 		
@@ -83,7 +85,11 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	private void regenerateRecipes() {
 		
 		this.recipes.clear();
-		this.recipes.addAll(recipeSet.recipeOrderedList);
+		
+		for(Object o : recipeSet.recipeOrderedList) {
+			GenericRecipe recipe = (GenericRecipe) o;
+			if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
+		}
 		
 		resetPaging();
 	}
@@ -92,15 +98,17 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		this.recipes.clear();
 		
 		if(search.isEmpty()) {
-			this.recipes.addAll(recipeSet.recipeOrderedList);
+			regenerateRecipes();
 		} else {
 			for(Object o : recipeSet.recipeOrderedList) {
 				GenericRecipe recipe = (GenericRecipe) o;
-				if(recipe.matchesSearch(search)) this.recipes.add(recipe);
+				if(recipe.matchesSearch(search)) {
+					if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
+				}
 			}
+			
+			resetPaging();
 		}
-		
-		resetPaging();
 	}
 	
 	private void resetPaging() {
@@ -276,11 +284,6 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 				else
 					this.selection = NULL_SELECTION;
 				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setInteger("index", this.index);
-				data.setString("selection", this.selection);
-				TileEntity te = (TileEntity) tile;
-				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, te.xCoord, te.yCoord, te.zCoord));
 				click();
 				return;
 			}
@@ -289,11 +292,6 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		if(guiLeft + 151 <= x && guiLeft + 151 + 18 > x && guiTop + 71 < y && guiTop + 71 + 18 >= y) {
 			if(!NULL_SELECTION.equals(this.selection)) {
 				this.selection = this.NULL_SELECTION;
-				NBTTagCompound data = new NBTTagCompound();
-				data.setInteger("index", this.index);
-				data.setString("selection", this.selection);
-				TileEntity te = (TileEntity) tile;
-				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, te.xCoord, te.yCoord, te.zCoord));
 				click();
 				return;
 			}
@@ -302,6 +300,17 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		if(guiLeft + 152 <= x && guiLeft + 152 + 16 > x && guiTop + 90 < y && guiTop + 90 + 16 >= y) {
 			FMLCommonHandler.instance().showGuiScreen(previousScreen);
 		}
+	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("index", this.index);
+		data.setString("selection", this.selection);
+		TileEntity te = (TileEntity) tile;
+		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, te.xCoord, te.yCoord, te.zCoord));
 	}
 
 	@Override
@@ -321,8 +330,6 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 			FMLCommonHandler.instance().showGuiScreen(previousScreen);
 		}
 	}
-
-	@Override public void onGuiClosed() { Keyboard.enableRepeatEvents(false); }
 	@Override public boolean doesGuiPauseGame() { return false; }
 	
 	public void click() { mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F)); }

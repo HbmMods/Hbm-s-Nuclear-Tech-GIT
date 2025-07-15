@@ -36,8 +36,20 @@ public class RenderChemicalFactory extends TileEntitySpecialRenderer implements 
 		bindTexture(ResourceManager.chemical_factory_tex);
 		ResourceManager.chemical_factory.renderPart("Base");
 		if(chemplant.frame) ResourceManager.chemical_factory.renderPart("Frame");
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(1, 0, 0);
+		GL11.glRotated(-anim * 45 % 360D, 0, 1, 0);
+		GL11.glTranslated(-1, 0, 0);
 		ResourceManager.chemical_factory.renderPart("Fan1");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-1, 0, 0);
+		GL11.glRotated(-anim * 45 % 360D, 0, 1, 0);
+		GL11.glTranslated(1, 0, 0);
 		ResourceManager.chemical_factory.renderPart("Fan2");
+		GL11.glPopMatrix();
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();

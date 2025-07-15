@@ -115,15 +115,18 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 108, 142, 16, turbinegas.power, turbinegas.getMaxPower());
 		
-		if(turbinegas.powerSliderPos == 0)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 36, 16, 66, mouseX, mouseY, new String[] {"Turbine idle"});
-		else
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 36, 16, 66, mouseX, mouseY, new String[] {(turbinegas.powerSliderPos) * 100 / 60 + "% power"});	
+		if(turbinegas.state == 1) {
+			double consumption = turbinegas.fuelMaxCons.containsKey(turbinegas.tanks[0].getTankType()) ? turbinegas.fuelMaxCons.get(turbinegas.tanks[0].getTankType()) : 5D;
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 36, 16, 66, mouseX, mouseY, new String[] {"Fuel consumption: " + 20 * (consumption * 0.05D + consumption * turbinegas.throttle / 100) + " mb/s"});
+		}
+		else {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 36, 16, 66, mouseX, mouseY, new String[] {"Generator offline"});
+		}
 		
 		if(turbinegas.temp >= 20)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + "Â°C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + "°C"});
 		else
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20Â°C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20°C"});
 		
 		turbinegas.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 16, 16, 48);
 		turbinegas.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70, 16, 32);
@@ -146,6 +149,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		if(turbinegas.tanks[0].getFill() < 5000 || turbinegas.tanks[1].getFill() < 1000)
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 32, 16, 16, guiLeft - 8, guiTop + 44 + 16, warning);
 	}
+
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float iinterpolation, int x, int y) {
