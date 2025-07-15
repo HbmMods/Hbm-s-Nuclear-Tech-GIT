@@ -282,8 +282,6 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 			if(this.slot != null) {
 				BufferUtil.writeNBT(buf, slot.stackTagCompound);
 			}
-
-			this.turnProgress = 2;
 		}
 
 		@Override
