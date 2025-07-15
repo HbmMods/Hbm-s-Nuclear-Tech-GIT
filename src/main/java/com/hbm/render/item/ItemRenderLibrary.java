@@ -1011,6 +1011,8 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 
+
+
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_orbus), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);

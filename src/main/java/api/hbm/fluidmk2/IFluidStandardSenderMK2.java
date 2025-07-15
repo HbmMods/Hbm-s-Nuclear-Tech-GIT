@@ -2,6 +2,7 @@ package api.hbm.fluidmk2;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.uninos.GenNode;
@@ -9,11 +10,15 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.ntm1of90.compat.fluid.HBMForgeFluidCompat;
+import api.ntm1of90.compat.fluid.bridge.NTMFluidNetworkBridge;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.IFluidHandler;
 
 /**
  * IFluidProviderMK2 with standard implementation for fluid provision and fluid removal.
@@ -54,6 +59,32 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 				long toTransfer = Math.min(provides, receives);
 				toTransfer -= rec.transferFluid(type, pressure, toTransfer);
 				this.useUpFluid(type, pressure, toTransfer);
+			}
+		}
+
+		// Check if the tile entity is a Forge fluid handler
+		if(te != this && HBMForgeFluidCompat.isForgeFluidHandler(te)) {
+			IFluidHandler forgeHandler = HBMForgeFluidCompat.getForgeFluidHandler(te);
+
+			// Check if the Forge handler can accept this fluid
+			if(NTMFluidNetworkBridge.canForgeHandlerAcceptFluid(forgeHandler, type, dir.getOpposite())) {
+				// Get the available fluid from this provider
+				long provides = Math.min(this.getFluidAvailable(type, pressure), this.getProviderSpeed(type, pressure));
+				if(provides <= 0) return;
+
+				// Find a tank that contains this fluid
+				for(FluidTank tank : getSendingTanks()) {
+					if(tank.getTankType() == type && tank.getPressure() == pressure && tank.getFill() > 0) {
+						// Transfer the fluid to the Forge handler
+						int transferred = NTMFluidNetworkBridge.transferToForge(tank, forgeHandler, dir.getOpposite(), tank.getFill());
+						if(transferred > 0) {
+							// Update the tank
+							tank.setFill(tank.getFill() - transferred);
+							// We don't reset the tank type when it's empty anymore
+							// This allows the tank to remember what fluid it contained
+						}
+					}
+				}
 			}
 		}
 

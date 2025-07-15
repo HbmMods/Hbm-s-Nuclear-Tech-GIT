@@ -14,9 +14,9 @@ public class ParticleCoolingTower extends EntityFX {
 
 	private float baseScale = 1.0F;
 	private float maxScale = 1.0F;
-	private float lift = 0.3F;
-	private float strafe = 0.075F;
-	private boolean windDir = true;
+	private float lift = 1.0F;
+	private float strafe = 0.0F;
+	private boolean windDir = false;
 	private float alphaMod = 0.25F;
 
 	public ParticleCoolingTower(TextureManager texman, World world, double x, double y, double z) {

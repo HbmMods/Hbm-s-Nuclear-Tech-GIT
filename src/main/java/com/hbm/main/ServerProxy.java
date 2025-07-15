@@ -3,8 +3,6 @@ package com.hbm.main;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.util.i18n.I18nServer;
-import com.hbm.util.i18n.ITranslate;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,4 +99,11 @@ public class ServerProxy {
 	public String getLanguageCode() { return "en_US"; }
 
 	public int getStackColor(ItemStack stack, boolean amplify) { return 0x000000; }
+
+	/**
+	 * Register server commands
+	 */
+	public void registerCommands(FMLServerStartingEvent event) {
+		// No commands to register
+	}
 }
