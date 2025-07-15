@@ -37,6 +37,7 @@ import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhaustPaintable;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
+import com.hbm.blocks.network.PneumoTubePaintableBlock.TileEntityPneumoTubePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
@@ -428,8 +429,9 @@ public class TileMappings {
 		put(TileEntityCranePartitioner.class, "tileentity_partitioner");
 		put(TileEntityFan.class, "tileentity_fan");
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
-		
+
 		put(TileEntityPneumoTube.class, "tileentity_pneumatic_tube");
+		put(TileEntityPneumoTubePaintable.class, "tileentity_pneumatic_tube_paintable");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");

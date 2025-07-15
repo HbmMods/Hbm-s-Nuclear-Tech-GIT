@@ -5802,6 +5802,7 @@ tile.plasma_heater.name=Plasma Heater
 tile.plushie.name=%s Plushie
 tile.pneumatic_tube.name=Pneumatic Tube
 tile.pneumatic_tube.desc=Sends items using compressed air.$Right-click with screwdriver to toggle an input.$Shift right-click with screwdriver to toggle an output.$Inputs can be configured, and connected to compressed air.$Sends up to one stack, four times per second.
+tile.pneumatic_tube_paintable.name=Paintable Pneumatic Tube
 tile.pole_satellite_receiver.name=Satellite Dish
 tile.pole_top.name=Antenna Top
 tile.press_preheater.name=Burner Press Preheater
