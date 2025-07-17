@@ -152,3 +152,4 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + tank.getTankType().getLocalizedName());
 	}
 }
+
