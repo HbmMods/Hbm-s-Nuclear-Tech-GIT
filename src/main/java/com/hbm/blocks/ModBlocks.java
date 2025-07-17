@@ -34,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import cpw.mods.fml.common.Loader;
 
 import java.util.ArrayList;
 
@@ -803,6 +804,7 @@ public class ModBlocks {
 	public static Block radio_torch_reader;
 	public static Block radio_torch_controller;
 	public static Block radio_telex;
+	public static Block oc_cable_paintable;
 
 	public static Block conveyor;
 	public static Block conveyor_express;
@@ -828,6 +830,7 @@ public class ModBlocks {
 	public static Block drone_crate_requester;
 
 	public static Block pneumatic_tube;
+	public static Block pneumatic_tube_paintable;
 
 	public static Block fan;
 
@@ -1969,6 +1972,7 @@ public class ModBlocks {
 		drone_crate_requester = new DroneDock().setBlockName("drone_crate_requester").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_crate_requester");
 
 		pneumatic_tube = new PneumoTube().setBlockName("pneumatic_tube").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_tube");
+		pneumatic_tube_paintable = new PneumoTubePaintableBlock().setBlockName("pneumatic_tube_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -2341,6 +2345,10 @@ public class ModBlocks {
 		absorber_green = new BlockAbsorber(Material.iron, 100F).setBlockName("absorber_green").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_green");
 		absorber_pink = new BlockAbsorber(Material.iron, 10000F).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
 		decon = new BlockDecon(Material.iron).setBlockName("decon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":decon_side");
+
+		if (Loader.isModLoaded("OpenComputers")) {
+			oc_cable_paintable = new BlockOpenComputersCablePaintable().setBlockName("oc_cable_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		}
 
 		volcano_core = new BlockVolcano().setBlockName("volcano_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_core");
 		volcano_rad_core = new BlockVolcano().setBlockName("volcano_rad_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_rad_core");
@@ -3240,6 +3248,7 @@ public class ModBlocks {
 		register(drone_crate_provider);
 		register(drone_crate_requester);
 		register(pneumatic_tube);
+		register(pneumatic_tube_paintable);
 		register(fan);
 		register(piston_inserter);
 
@@ -3533,6 +3542,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_flammable, gas_flammable.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_explosive, gas_explosive.getUnlocalizedName());
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
+
+		// OC Compat Items
+		if (Loader.isModLoaded("OpenComputers")) {
+			register(oc_cable_paintable);
+		}
 
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());

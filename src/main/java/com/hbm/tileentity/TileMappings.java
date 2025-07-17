@@ -39,7 +39,9 @@ import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhaustPaintable;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
+import com.hbm.blocks.network.PneumoTubePaintableBlock.TileEntityPneumoTubePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
+import com.hbm.blocks.network.BlockOpenComputersCablePaintable.TileEntityOpenComputersCablePaintable;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
@@ -51,6 +53,7 @@ import com.hbm.tileentity.machine.storage.*;
 
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import cpw.mods.fml.common.Loader;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -435,6 +438,7 @@ public class TileMappings {
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
 
 		put(TileEntityPneumoTube.class, "tileentity_pneumatic_tube");
+		put(TileEntityPneumoTubePaintable.class, "tileentity_pneumatic_tube_paintable");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
@@ -452,6 +456,13 @@ public class TileMappings {
 		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
 
 		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
+
+		// OC Compat items
+		boolean ocPresent = Loader.isModLoaded("OpenComputers");
+
+		if (ocPresent) {
+			put(TileEntityOpenComputersCablePaintable.class, "tileentity_oc_cable_paintable");
+		}
 	}
 
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
