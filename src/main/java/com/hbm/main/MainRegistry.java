@@ -18,7 +18,6 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
-import com.hbm.handler.microblocks.MicroBlocksCompatHandler;
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -47,7 +46,6 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
 import com.hbm.world.biome.BiomeGenCraterBase;
-import com.hbm.world.biome.BiomeRegistry;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -280,19 +278,6 @@ public class MainRegistry {
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
-		// Initialize the fluid mapping registry and texture/color systems
-		api.ntm1of90.compat.fluid.registry.FluidMappingRegistry.initialize();
-		api.ntm1of90.compat.fluid.render.NTMFluidTextureMapper.initialize();
-		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.initialize();
-		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
-		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.setBrightnessFactor(1.2f);
-		api.ntm1of90.compat.fluid.render.NTMForgeFluidRenderer.initialize();
-		// Initialize the Forge fluid compatibility system
-		api.ntm1of90.compat.fluid.ForgeFluidCompatManager.initialize();
-		// Initialize the adapter registry and capability hook
-		api.ntm1of90.compat.fluid.registry.ForgeFluidAdapterRegistry.initialize();
-		api.ntm1of90.compat.fluid.ForgeFluidCapabilityHook.initialize();
-		// Note: Flow rate setting is no longer used as the system now respects the tank capacities and transfer rates
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -315,7 +300,7 @@ public class MainRegistry {
 		OreDictManager.registerOres();
 
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
-		BiomeRegistry.registerBiomes();
+		//BiomeGenNoMansLand.initDictionary();
 
 		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
 		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -676,8 +661,6 @@ public class MainRegistry {
 				}
 			}
 		});
-
-		MicroBlocksCompatHandler.preInit();
 	}
 
 	@EventHandler
@@ -894,8 +877,6 @@ public class MainRegistry {
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
-		MobUtil.intializeMobPools();
-
 		proxy.registerMissileItems();
 
 		// Load compatibility for OC.
@@ -922,14 +903,14 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-
+		
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
-
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if(logger == null)
@@ -981,9 +962,6 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandRadiation());
 		event.registerServerCommand(new CommandPacketInfo());
 		event.registerServerCommand(new CommandReloadServer());
-
-		// Register commands from the proxy
-		proxy.registerCommands(event);
 	}
 
 	@EventHandler
@@ -1723,18 +1701,6 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.hadron_cooler");
 		ignoreMappings.add("hbm:tile.machine_transformer_20");
 		ignoreMappings.add("hbm:tile.machine_transformer_dnt_20");
-		ignoreMappings.add("hbm:item.levitation_unit");
-		ignoreMappings.add("hbm:item.letter");
-		ignoreMappings.add("hbm:item.chopper_head");
-		ignoreMappings.add("hbm:item.chopper_gun");
-		ignoreMappings.add("hbm:item.chopper_torso");
-		ignoreMappings.add("hbm:item.chopper_tail");
-		ignoreMappings.add("hbm:item.chopper_wing");
-		ignoreMappings.add("hbm:item.chopper_blades");
-		ignoreMappings.add("hbm:item.component_emitter");
-		ignoreMappings.add("hbm:item.component_limiter");
-		ignoreMappings.add("hbm:item.bottle2_korl_special");
-		ignoreMappings.add("hbm:item.bottle2_fritz_special");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -22,14 +22,12 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
-		int teFacing = 0;
 		switch(te.getBlockMetadata() - BlockDummyable.offset) {
-		case 2: teFacing = 90; break;
-		case 4: teFacing = 180; break;
-		case 3: teFacing = 270; break;
-		case 5: teFacing = 0; break;
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
-		GL11.glRotatef(teFacing, 0F, 1F, 0F);
 		
 		TileEntityCraneConsole console = (TileEntityCraneConsole) te;
 		
@@ -101,7 +99,12 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 			double cranePosZ = (-te.zCoord + console.centerZ);
 			
 			GL11.glTranslated(cranePosX, cranePosY, cranePosZ);
-			GL11.glRotatef(teFacing, 0F, 1F, 0F);
+			switch(te.getBlockMetadata() - BlockDummyable.offset) {
+			case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+			case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+			case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+			case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+			}
 
 			double posX = (console.lastPosFront + (console.posFront - console.lastPosFront) * interp);
 			double posZ = (console.lastPosLeft + (console.posLeft - console.lastPosLeft) * interp);
@@ -115,27 +118,27 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 			GL11.glRotatef(-craneRotationOffset, 0F, 1F, 0F);
 			switch(craneRotationOffset) {
 			case 0:
-				girderSpan = console.spanF + console.spanB + 1;
-				GL11.glTranslated(posX + console.spanB, 0, 0);
+				girderSpan = console.spanL + console.spanR + 1;
+				GL11.glTranslated(posX - console.spanL, 0, 0);
 				break;
 			case 90:
-				girderSpan = console.spanL + console.spanR + 1;
-				GL11.glTranslated(0, 0, -posZ - console.spanR);
+				girderSpan = console.spanF + console.spanB + 1;
+				GL11.glTranslated(0, 0, -posZ + console.spanB);
 				break;
 			case 180:
-				girderSpan = console.spanF + console.spanB + 1;
-				GL11.glTranslated(posX - console.spanF, 0, 0);
+				girderSpan = console.spanL + console.spanR + 1;
+				GL11.glTranslated(posX + console.spanR, 0, 0);
 				break;
 			case 270:
-				girderSpan = console.spanL + console.spanR + 1;
-				GL11.glTranslated(0, 0, -posZ + console.spanL);
+				girderSpan = console.spanF + console.spanB + 1;
+				GL11.glTranslated(0, 0, -posZ - console.spanF);
 				break;
 			}
 			GL11.glRotatef(craneRotationOffset, 0F, 1F, 0F);
 			
 			for(int i = 0; i < girderSpan; i++) {
 				ResourceManager.rbmk_crane.renderPart("Girder");
-				GL11.glTranslated(-1, 0, 0);
+				GL11.glTranslated(1, 0, 0);
 			}
 			GL11.glPopMatrix();
 			

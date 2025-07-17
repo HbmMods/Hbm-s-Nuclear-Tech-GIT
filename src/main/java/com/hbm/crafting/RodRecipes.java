@@ -87,39 +87,6 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 24), new Object[] { new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal()) });
 		addBreedingRod(U, ModItems.billet_uranium, BreedingRodType.URANIUM);
 
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', ZR.ingot(), 'R', ModItems.rod_quad_empty });
-		addRBMKRod(U, ModItems.rbmk_fuel_ueu);
-		addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
-		addRBMKRod(U233, ModItems.rbmk_fuel_heu233);
-		addRBMKRod(U235, ModItems.rbmk_fuel_heu235);
-		addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
-		addRBMKRod(ModItems.billet_mox_fuel, ModItems.rbmk_fuel_mox);
-		addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
-		addRBMKRod(PURG, ModItems.rbmk_fuel_mep);
-		addRBMKRod(PU239, ModItems.rbmk_fuel_hep239);
-		addRBMKRod(PU241, ModItems.rbmk_fuel_hep241);
-		addRBMKRod(ModItems.billet_americium_fuel, ModItems.rbmk_fuel_lea);
-		addRBMKRod(AMRG, ModItems.rbmk_fuel_mea);
-		addRBMKRod(AM241, ModItems.rbmk_fuel_hea241);
-		addRBMKRod(AM242, ModItems.rbmk_fuel_hea242);
-		addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
-		addRBMKRod(NP237, ModItems.rbmk_fuel_hen);
-		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
-		addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
-		addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
-		addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
-		addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
-		addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
-		addRBMKRod(ModItems.billet_les, ModItems.rbmk_fuel_les);
-		addRBMKRod(ModItems.billet_schrabidium_fuel, ModItems.rbmk_fuel_mes);
-		addRBMKRod(ModItems.billet_hes, ModItems.rbmk_fuel_hes);
-		addRBMKRod(ModItems.billet_balefire_gold, ModItems.rbmk_fuel_balefire_gold);
-		addRBMKRod(ModItems.billet_flashlead, ModItems.rbmk_fuel_flashlead);
-		addRBMKRod(ModItems.billet_zfb_bismuth, ModItems.rbmk_fuel_zfb_bismuth);
-		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
-		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
-
 
 		//Pile fuel
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_uranium, 1), new Object[] { " U ", "PUP", " U ", 'P', IRON.plate(), 'U', U.billet() });
@@ -127,8 +94,8 @@ public class RodRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_boron, 1), new Object[] { " B ", " W ", " B ", 'B', B.ingot(), 'W', KEY_PLANKS });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pile_rod_lithium, 1), new Object[] { ModItems.cell_empty, LI.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_detector, 1), new Object[] { " B ", "CM ", " B ", 'B', B.ingot(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE), 'M', ModItems.motor });
-		
-		// Watz Pellet Recipes
+
+ Watz Pellet Recipes
 		// Standard Watz Pellets
 		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
 		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
@@ -299,6 +266,51 @@ public class RodRecipes {
 			ModItems.powder_lithium,
 			ModItems.powder_boron
 		});
+
+		
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', ZR.ingot(), 'R', ModItems.rod_quad_empty });
+		addRBMKRod(U, ModItems.rbmk_fuel_ueu);
+		addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
+		addRBMKRod(U233, ModItems.rbmk_fuel_heu233);
+		addRBMKRod(U235, ModItems.rbmk_fuel_heu235);
+		addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
+		addRBMKRod(ModItems.billet_mox_fuel, ModItems.rbmk_fuel_mox);
+		addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
+		addRBMKRod(PURG, ModItems.rbmk_fuel_mep);
+		addRBMKRod(PU239, ModItems.rbmk_fuel_hep239);
+		addRBMKRod(PU241, ModItems.rbmk_fuel_hep241);
+		addRBMKRod(ModItems.billet_americium_fuel, ModItems.rbmk_fuel_lea);
+		addRBMKRod(AMRG, ModItems.rbmk_fuel_mea);
+		addRBMKRod(AM241, ModItems.rbmk_fuel_hea241);
+		addRBMKRod(AM242, ModItems.rbmk_fuel_hea242);
+		addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
+		addRBMKRod(NP237, ModItems.rbmk_fuel_hen);
+		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
+		addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
+		addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
+		addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
+		addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
+		addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
+		addRBMKRod(ModItems.billet_les, ModItems.rbmk_fuel_les);
+		addRBMKRod(ModItems.billet_schrabidium_fuel, ModItems.rbmk_fuel_mes);
+		addRBMKRod(ModItems.billet_hes, ModItems.rbmk_fuel_hes);
+		addRBMKRod(ModItems.billet_balefire_gold, ModItems.rbmk_fuel_balefire_gold);
+		addRBMKRod(ModItems.billet_flashlead, ModItems.rbmk_fuel_flashlead);
+		addRBMKRod(ModItems.billet_zfb_bismuth, ModItems.rbmk_fuel_zfb_bismuth);
+		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
+		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
+
+		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
+		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
+		addPellet(ModItems.ingot_schrabidium_fuel,	EnumWatzType.MES);
+		addPellet(ModItems.ingot_les,				EnumWatzType.LES);
+		addPellet(NP237,							EnumWatzType.HEN);
+		addPellet(ModItems.ingot_uranium_fuel,		EnumWatzType.MEU);
+		addPellet(ModItems.ingot_pu_mix,			EnumWatzType.MEP);
+		addPellet(PB,								EnumWatzType.LEAD);
+		addPellet(B,								EnumWatzType.BORON);
+		addPellet(U238,								EnumWatzType.DU);
 		
 		//PWR fuel
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEU), new Object[] { "F", "I", "F", 'F', ModItems.billet_uranium_fuel, 'I', ModItems.plate_polymer });
@@ -433,4 +445,3 @@ public class RodRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, num.ordinal()), new Object[] { " I ", "IGI", " I ", 'I', item, 'G', GRAPHITE.ingot() });
 	}
 }
-

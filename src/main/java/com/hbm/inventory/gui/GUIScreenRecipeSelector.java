@@ -50,18 +50,16 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	protected int index;
 	protected IControlReceiver tile;
 	protected GuiScreen previousScreen;
-	protected String installedPool;
 	
-	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
-		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, installedPool, previousScreen));
+	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
+		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, previousScreen));
 	}
 	
-	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
+	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
 		this.recipeSet = recipeSet;
 		this.tile = tile;
 		this.selection = selection;
 		this.index = index;
-		this.installedPool = installedPool;
 		this.previousScreen = previousScreen;
 		if(this.selection == null) this.selection = NULL_SELECTION;
 		
@@ -85,11 +83,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	private void regenerateRecipes() {
 		
 		this.recipes.clear();
-		
-		for(Object o : recipeSet.recipeOrderedList) {
-			GenericRecipe recipe = (GenericRecipe) o;
-			if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
-		}
+		this.recipes.addAll(recipeSet.recipeOrderedList);
 		
 		resetPaging();
 	}
@@ -98,17 +92,15 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		this.recipes.clear();
 		
 		if(search.isEmpty()) {
-			regenerateRecipes();
+			this.recipes.addAll(recipeSet.recipeOrderedList);
 		} else {
 			for(Object o : recipeSet.recipeOrderedList) {
 				GenericRecipe recipe = (GenericRecipe) o;
-				if(recipe.matchesSearch(search)) {
-					if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
-				}
+				if(recipe.matchesSearch(search)) this.recipes.add(recipe);
 			}
-			
-			resetPaging();
 		}
+		
+		resetPaging();
 	}
 	
 	private void resetPaging() {
