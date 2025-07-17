@@ -4659,6 +4659,7 @@ tile.plasma_heater.name=Plasmaerhitzer
 tile.plushie.name=%s Plüschfigur
 tile.pneumatic_tube.name=Rohrpost
 tile.pneumatic_tube.desc=Sendted Items mit Druckluft.$Rechtsklick mit Schraubenzieher aktiviert den Eingang.$Shift-Rechtskick mit Schrabuenzieher aktiviert den Ausgang.$Eingänge können konfiguriert und mit Druckluft verbunden werden.$Sendet bis zu einem Stack, vier Mal pro Sekunde.
+tile.pneumatic_tube_paintable.name=Geschirmte Rohrpost (Färbbar)
 tile.pole_satellite_receiver.name=Satellitenschüssel
 tile.pole_top.name=Antennenspitze
 tile.press_preheater.name=Presse-Vorheizer
