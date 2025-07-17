@@ -1,3 +1,6 @@
+## NTM-1-of-90-Editon-r.8
+Up to date: X5383
+
 ## Changed
 * The chemistry achievement now requires the new chemical plant
 * The new chemical plant can now be used to upgrade the meteorite sword
@@ -17,3 +20,4 @@
 * Potentially fixed an incompatibility with Aether due to the loading screen replacement
   * The loading screen replacement will only run up to 25 times per session, with a fixed delay of 5 seconds minimum
   * The loading screen replacement can be disabled completely in the config
+
