@@ -16,10 +16,11 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityUndeadSoldier extends EntityMob {
-	
+
 	public static final int DW_TYPE = 12;
 	public static final byte TYPE_ZOMBIE = 0;
 	public static final byte TYPE_SKELETON = 1;
@@ -66,7 +67,7 @@ public class EntityUndeadSoldier extends EntityMob {
 		this.setCurrentItemOrArmor(3, new ItemStack(ModItems.taurun_plate));
 		this.setCurrentItemOrArmor(2, new ItemStack(ModItems.taurun_legs));
 		this.setCurrentItemOrArmor(1, new ItemStack(ModItems.taurun_boots));
-		
+
 		int gun = rand.nextInt(5);
 		if(gun == 0) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_heavy_revolver));
 		if(gun == 1) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_light_revolver));
@@ -74,7 +75,7 @@ public class EntityUndeadSoldier extends EntityMob {
 		if(gun == 3) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_maresleg));
 		if(gun == 4) this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_greasegun));
 	}
-	
+
 	@Override
 	protected String getLivingSound() {
 		byte type = this.dataWatcher.getWatchableObjectByte(DW_TYPE);
@@ -110,7 +111,12 @@ public class EntityUndeadSoldier extends EntityMob {
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
-	
+
+	@Override
+	public boolean getCanSpawnHere() {
+		return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
+	}
+
 	@Override protected void dropFewItems(boolean player, int loot) { }
 	@Override protected void dropEquipment(boolean player, int loot) { }
 }

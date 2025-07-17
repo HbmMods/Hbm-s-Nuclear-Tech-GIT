@@ -18,6 +18,7 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
+import com.hbm.handler.microblocks.MicroBlocksCompatHandler;
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -661,6 +662,8 @@ public class MainRegistry {
 				}
 			}
 		});
+
+		MicroBlocksCompatHandler.preInit();
 	}
 
 	@EventHandler
@@ -877,6 +880,8 @@ public class MainRegistry {
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
+		MobUtil.intializeMobPools();
+
 		proxy.registerMissileItems();
 
 		// Load compatibility for OC.
@@ -903,14 +908,14 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-		
+
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if(logger == null)
@@ -1701,6 +1706,18 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.hadron_cooler");
 		ignoreMappings.add("hbm:tile.machine_transformer_20");
 		ignoreMappings.add("hbm:tile.machine_transformer_dnt_20");
+		ignoreMappings.add("hbm:item.levitation_unit");
+		ignoreMappings.add("hbm:item.letter");
+		ignoreMappings.add("hbm:item.chopper_head");
+		ignoreMappings.add("hbm:item.chopper_gun");
+		ignoreMappings.add("hbm:item.chopper_torso");
+		ignoreMappings.add("hbm:item.chopper_tail");
+		ignoreMappings.add("hbm:item.chopper_wing");
+		ignoreMappings.add("hbm:item.chopper_blades");
+		ignoreMappings.add("hbm:item.component_emitter");
+		ignoreMappings.add("hbm:item.component_limiter");
+		ignoreMappings.add("hbm:item.bottle2_korl_special");
+		ignoreMappings.add("hbm:item.bottle2_fritz_special");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

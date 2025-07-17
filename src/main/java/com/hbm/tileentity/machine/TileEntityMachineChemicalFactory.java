@@ -10,6 +10,7 @@ import com.hbm.inventory.container.ContainerMachineChemicalFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalFactory;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -101,6 +102,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot == 0) return true; // battery
+		for(int i = 0; i < 4; i++) if(slot == 4 + i * 7 && stack.getItem() == ModItems.blueprints) return true;
 		if(slot >= 1 && slot <= 3 && stack.getItem() instanceof ItemMachineUpgrade) return true; // upgrades
 		for(int i = 0; i < 4; i++) if(this.chemplantModule[i].isItemValid(slot, stack)) return true; // recipe input crap
 		return false;
@@ -163,7 +165,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			boolean markDirty = false;
 			
 			for(int i = 0; i < 4; i++) {
-				this.chemplantModule[i].update(speed * 2D, pow * 2D, canCool());
+				this.chemplantModule[i].update(speed * 2D, pow * 2D, canCool(), slots[4 + i * 7]);
 				this.didProcess[i] =  this.chemplantModule[i].didProcess;
 				markDirty |= this.chemplantModule[i].markDirty;
 				

@@ -237,6 +237,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 1), new Object[] { "BBB", "WFW", "RRR", 'B', BE.ingot(), 'R', ModItems.coil_tungsten, 'W', CU.plateCast(), 'F', Item.getItemFromBlock(Blocks.furnace) });
 		addRecipeAuto(new ItemStack(ModBlocks.red_wire_coated, 16), new Object[] { "WRW", "RIR", "WRW", 'W', ModItems.plate_polymer, 'I', MINGRADE.ingot(), 'R', MINGRADE.wireFine() });
 		addRecipeAuto(new ItemStack(ModBlocks.red_cable_paintable, 16), new Object[] { "WRW", "RIR", "WRW", 'W', STEEL.plate(), 'I', MINGRADE.ingot(), 'R', MINGRADE.wireFine() });
+		if (ModBlocks.oc_cable_paintable != null)
+			addRecipeAuto(new ItemStack(ModBlocks.oc_cable_paintable, 16), new Object[] { "WRW", "RIR", "WRW", 'W', STEEL.plate(), 'I', REDSTONE.dust(), 'R', MINGRADE.wireFine() });
 		addRecipeAuto(new ItemStack(ModBlocks.cable_switch, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.red_wire_coated });
 		addRecipeAuto(new ItemStack(ModBlocks.cable_detector, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.red_wire_coated });
 		addRecipeAuto(new ItemStack(ModBlocks.cable_diode, 1), new Object[] { " Q ", "CAC", " Q ", 'Q', SI.nugget(), 'C', ModBlocks.red_cable, 'A', AL.ingot() });
@@ -258,7 +260,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.capacitor_niobium, 1), new Object[] { "PPP", "ICI", "WWW", 'P', STEEL.plate(), 'I', RUBBER.ingot(), 'C', NB.block(), 'W', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.capacitor_tantalium, 1), new Object[] { "PPP", "ICI", "WWW", 'P', STEEL.plate(), 'I', ANY_RESISTANTALLOY.ingot(), 'C', TA.block(), 'W', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.capacitor_schrabidate, 1), new Object[] { "PPP", "ICI", "WWW", 'P', STEEL.plate(), 'I', ANY_RESISTANTALLOY.ingot(), 'C', SBD.block(), 'W', STEEL.ingot() });
-		//addRecipeAuto(new ItemStack(ModBlocks.machine_coal_off, 1), new Object[] { "STS", "SCS", "SFS", 'S', STEEL.ingot(), 'T', ModItems.tank_steel, 'C', MINGRADE.ingot(), 'F', Blocks.furnace });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_wood_burner, 1), new Object[] { "PPP", "CFC", "I I" , 'P', STEEL.plate528(), 'C', ModItems.coil_copper, 'I', IRON.ingot(), 'F', Blocks.furnace});
 		addRecipeAuto(new ItemStack(ModBlocks.machine_turbine, 1), new Object[] { "SMS", "PTP", "SMS", 'S', STEEL.ingot(), 'T', ModItems.turbine_titanium, 'M', ModItems.coil_copper, 'P', ANY_PLASTIC.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_converter_he_rf, 1), new Object[] { "RRR", "WWW", "III", 'R', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR), 'W', REDSTONE.dust(), 'I', STEEL.ingot() });
@@ -410,7 +411,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.basalt_polished, 4), new Object[] { "CC", "CC", 'C', ModBlocks.basalt_smooth });
 		addRecipeAuto(new ItemStack(ModBlocks.basalt_brick, 4), new Object[] { "CC", "CC", 'C', ModBlocks.basalt_polished });
 		addRecipeAuto(new ItemStack(ModBlocks.basalt_tiles, 4), new Object[] { "CC", "CC", 'C', ModBlocks.basalt_brick });
-		
+
 		addShapelessAuto(new ItemStack(ModBlocks.lightstone, 4), new Object[] { Blocks.stone, Blocks.stone, Blocks.stone, ModItems.powder_limestone });
 		addRecipeAuto(new ItemStack(ModBlocks.lightstone, 4, LightstoneType.TILE.ordinal()), new Object[] { "CC", "CC", 'C', new ItemStack(ModBlocks.lightstone, 1, 0) });
 		addRecipeAuto(new ItemStack(ModBlocks.lightstone, 4, LightstoneType.BRICKS.ordinal()), new Object[] { "CC", "CC", 'C', new ItemStack(ModBlocks.lightstone, 1, LightstoneType.TILE.ordinal()) });
@@ -442,7 +443,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.barbed_wire_ultradeath, 4), new Object[] { "BCB", "CIC", "BCB", 'B', ModBlocks.barbed_wire, 'C', ModItems.powder_yellowcake, 'I', ModItems.nuclear_waste });
 
 		addShapelessAuto(new ItemStack(ModBlocks.sandbags, 4), new Object[] { ModItems.plate_polymer, KEY_SAND, KEY_SAND, KEY_SAND });
-		
+
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.tape_recorder), 4), new Object[] { "TST", "SSS", 'T', W.ingot(), 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_poles), 16), new Object[] { "S S", "SSS", "S S", 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.pole_top), 1), new Object[] { "T T", "TRT", "BBB", 'T', W.ingot(), 'B', BE.ingot(), 'R', MINGRADE.ingot() });

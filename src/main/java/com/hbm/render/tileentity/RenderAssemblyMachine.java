@@ -111,8 +111,16 @@ public class RenderAssemblyMachine extends TileEntitySpecialRenderer implements 
 			
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ItemStack stack = recipe.getIcon();
+			stack.stackSize = 1;
 
-			if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
+			if(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock) {
+				if(RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType())) {
+					GL11.glTranslated(0, -0.0625, 0);
+				} else {
+					GL11.glTranslated(0, -0.125, 0);
+					GL11.glScaled(0.5, 0.5, 0.5);
+				}
+			} else {
 				GL11.glRotated(-90, 1, 0, 0);
 				GL11.glTranslated(0, -0.25, 0);
 			}

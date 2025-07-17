@@ -19,7 +19,9 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.BlockWandJigsaw.TileEntityWandJigsaw;
 import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
+import com.hbm.blocks.generic.BlockWandLogic.TileEntityWandLogic;
 import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
+import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
@@ -39,6 +41,7 @@ import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhau
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.blocks.network.PneumoTubePaintableBlock.TileEntityPneumoTubePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
+import com.hbm.blocks.network.BlockOpenComputersCablePaintable.TileEntityOpenComputersCablePaintable;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
@@ -49,6 +52,7 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import cpw.mods.fml.common.Loader;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -209,6 +213,7 @@ public class TileMappings {
 		put(TileEntityPedestal.class, "tileentity_ntm_pedestal");
 		put(TileEntitySkeletonHolder.class, "tileentity_ntm_skeleton");
 		put(TileEntityDungeonSpawner.class, "tileentity_ntm_dungeon_spawner");
+		put(LogicBlock.TileEntityLogicBlock.class, "tileentity_ntm_logic_block");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityPlushie.class, "tileentity_ntm_plushie");
@@ -237,6 +242,7 @@ public class TileMappings {
 
 		put(TileEntityWandLoot.class, "tileentity_wand_loot");
 		put(TileEntityWandJigsaw.class, "tileentity_wand_jigsaw");
+		put(TileEntityWandLogic.class, "tileentity_wand_spawner");
 
 		putNetwork();
 		putBombs();
@@ -449,6 +455,13 @@ public class TileMappings {
 		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
 
 		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
+
+		// OC Compat items
+		boolean ocPresent = Loader.isModLoaded("OpenComputers");
+
+		if (ocPresent) {
+			put(TileEntityOpenComputersCablePaintable.class, "tileentity_oc_cable_paintable");
+		}
 	}
 
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

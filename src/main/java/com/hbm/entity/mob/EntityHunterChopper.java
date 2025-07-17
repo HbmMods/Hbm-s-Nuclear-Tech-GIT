@@ -3,6 +3,7 @@ package com.hbm.entity.mob;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -26,6 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
+@Spaghetti("this sucks complete donkey shit")
 public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisplayData, IRadiationImmune {
 
 	public int courseChangeCooldown;
@@ -335,20 +337,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 * kill this mob.
 	 */
 	protected void dropItems() {
-
-		if(rand.nextInt(2) == 0)
-			this.dropItem(ModItems.chopper_head, 1);
-		if(rand.nextInt(2) == 0)
-			this.dropItem(ModItems.chopper_torso, 1);
-		if(rand.nextInt(2) == 0)
-			this.dropItem(ModItems.chopper_wing, 1);
-		if(rand.nextInt(3) == 0)
-			this.dropItem(ModItems.chopper_tail, 1);
-		if(rand.nextInt(3) == 0)
-			this.dropItem(ModItems.chopper_gun, 1);
-		if(rand.nextInt(3) == 0)
-			this.dropItem(ModItems.chopper_blades, 1);
-
 		this.dropItem(ModItems.combine_scrap, rand.nextInt(8) + 1);
 		this.dropItem(ModItems.plate_combine_steel, rand.nextInt(5) + 1);
 	}

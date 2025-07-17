@@ -3,6 +3,7 @@ package com.hbm.module.machine;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
+import com.hbm.items.machine.ItemBlueprints;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -130,8 +131,16 @@ public abstract class ModuleMachineBase {
 	
 	public abstract GenericRecipe getRecipe();
 	
-	public void update(double speed, double power, boolean extraCondition) {
+	public void update(double speed, double power, boolean extraCondition, ItemStack blueprint) {
 		GenericRecipe recipe = getRecipe();
+		
+		if(recipe != null && recipe.isPooled() && !recipe.isPartOfPool(ItemBlueprints.grabPool(blueprint))) {
+			this.didProcess = false;
+			this.progress = 0F;
+			this.recipe = "null";
+			return;
+		}
+		
 		this.setupTanks(recipe);
 
 		this.didProcess = false;

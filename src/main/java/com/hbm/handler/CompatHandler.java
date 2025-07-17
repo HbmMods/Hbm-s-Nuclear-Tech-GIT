@@ -1,11 +1,13 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.network.BlockOpenComputersCablePaintable;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.Items;
@@ -15,6 +17,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,27 +111,66 @@ public class CompatHandler {
         }
     }
 
-    /**
-     * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
-     */
-    public enum OCColors {
-        BLACK, //0x444444
-        RED, //0xB3312C
-        GREEN, //0x339911
-        BROWN, //0x51301A
-        BLUE, //0x6666FF
-        PURPLE, //0x7B2FBE
-        CYAN, //0x66FFFF
-        LIGHTGRAY, //0xABABAB
-        GRAY, //0x666666
-        PINK, //0xD88198
-        LIME, //0x66FF66
-        YELLOW, //0xFFFF66
-        LIGHTBLUE, //0xAAAAFF
-        MAGENTA, //0xC354CD
-        ORANGE, //0xEB8844
-        WHITE //0xF0F0F0
-    }
+	/**
+	 * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
+	 */
+	public enum OCColors {
+		BLACK(0x444444, "dyeBlack"),
+		RED(0xB3312C, "dyeRed"),
+		GREEN(0x339911, "dyeGreen"),
+		BROWN(0x51301A, "dyeBrown"),
+		BLUE(0x6666FF, "dyeBlue"),
+		PURPLE(0x7B2FBE, "dyePurple"),
+		CYAN(0x66FFFF, "dyeCyan"),
+		LIGHTGRAY(0xABABAB, "dyeLightGray"),
+		GRAY(0x666666, "dyeGray"),
+		PINK(0xD88198, "dyePink"),
+		LIME(0x66FF66, "dyeLime"),
+		YELLOW(0xFFFF66, "dyeYellow"),
+		LIGHTBLUE(0xAAAAFF, "dyeLightBlue"),
+		MAGENTA(0xC354CD, "dyeMagenta"),
+		ORANGE(0xEB8844, "dyeOrange"),
+		WHITE(0xF0F0F0, "dyeWhite"),
+		NONE(0x0, "");
+
+		private final int color;
+		private final String dictName;
+
+		OCColors(int color, String dictName) {
+			this.color = color;
+			this.dictName = dictName;
+		}
+
+		public int getColor() {
+			return color;
+		}
+
+		public static OCColors fromInt(int intColor) {
+			for (OCColors iColor : OCColors.values()) {
+				if (intColor == iColor.getColor())
+					return iColor;
+			}
+			return OCColors.NONE;
+		}
+
+		public static OCColors fromDye(ItemStack stack) {
+			List<String> oreNames = ItemStackUtil.getOreDictNames(stack);
+
+			for(String dict : oreNames) {
+				if(!(dict.length() > 3) || !dict.startsWith("dye"))
+					continue;
+
+				for (OCColors color : OCColors.values()) {
+					if(!color.dictName.equals(dict))
+						continue;
+
+					return color;
+				}
+			}
+
+			return OCColors.NONE;
+		}
+	}
 
     // Where all disks are stored with their name and `FloppyDisk` class.
     public static HashMap<String, FloppyDisk> disks = new HashMap<>();

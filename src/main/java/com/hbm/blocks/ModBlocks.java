@@ -34,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import cpw.mods.fml.common.Loader;
 
 import java.util.ArrayList;
 
@@ -803,6 +804,7 @@ public class ModBlocks {
 	public static Block radio_torch_reader;
 	public static Block radio_torch_controller;
 	public static Block radio_telex;
+	public static Block oc_cable_paintable;
 
 	public static Block conveyor;
 	public static Block conveyor_express;
@@ -1244,6 +1246,9 @@ public class ModBlocks {
 	public static Block wand_air;
 	public static Block wand_loot;
 	public static Block wand_jigsaw;
+	public static Block wand_logic;
+
+	public static Block logic_block;
 
 	public static Material materialGas = new MaterialGas();
 
@@ -1979,7 +1984,7 @@ public class ModBlocks {
 		ladder_cobalt = new BlockNTMLadder().setBlockName("ladder_cobalt").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_cobalt");
 		ladder_steel = new BlockNTMLadder().setBlockName("ladder_steel").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_steel");
 		ladder_tungsten = new BlockNTMLadder().setBlockName("ladder_tungsten").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_tungsten");
-		
+
 		trapdoor_steel = new BlockNTMTrapdoor(Material.iron).setBlockName("trapdoor_steel").setHardness(3F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":trapdoor_steel");
 
 		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
@@ -2339,6 +2344,10 @@ public class ModBlocks {
 		absorber_pink = new BlockAbsorber(Material.iron, 10000F).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
 		decon = new BlockDecon(Material.iron).setBlockName("decon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":decon_side");
 
+		if (Loader.isModLoaded("OpenComputers")) {
+			oc_cable_paintable = new BlockOpenComputersCablePaintable().setBlockName("oc_cable_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		}
+
 		volcano_core = new BlockVolcano().setBlockName("volcano_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_core");
 		volcano_rad_core = new BlockVolcano().setBlockName("volcano_rad_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_rad_core");
 
@@ -2398,6 +2407,10 @@ public class ModBlocks {
 		wand_air = new BlockWand(Blocks.air).setBlockName("wand_air").setBlockTextureName(RefStrings.MODID + ":wand_air");
 		wand_loot = new BlockWandLoot().setBlockName("wand_loot").setBlockTextureName(RefStrings.MODID + ":wand_loot");
 		wand_jigsaw = new BlockWandJigsaw().setBlockName("wand_jigsaw").setBlockTextureName(RefStrings.MODID + ":wand_jigsaw");
+		wand_logic = new BlockWandLogic().setBlockName("wand_logic").setBlockTextureName(RefStrings.MODID + ":wand_logic");
+
+		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
+
 	}
 
 	private static void registerBlock() {
@@ -3528,6 +3541,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_explosive, gas_explosive.getUnlocalizedName());
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
 
+		// OC Compat Items
+		if (Loader.isModLoaded("OpenComputers")) {
+			register(oc_cable_paintable);
+		}
+
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_hardened, crystal_hardened.getUnlocalizedName());
@@ -3545,6 +3563,9 @@ public class ModBlocks {
 		register(wand_air);
 		register(wand_loot);
 		register(wand_jigsaw);
+		register(wand_logic);
+
+		register(logic_block);
 	}
 
 	private static void register(Block b) {

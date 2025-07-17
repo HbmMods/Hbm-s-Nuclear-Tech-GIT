@@ -1,19 +1,27 @@
+## Added
+* New assembler
+  * Features a brand new animated model, GUI and the new recipe selection system
+  * Many recipes have been reworked, with the microcrafting complexity reduced
+  * The redcoil didn't get a recipe. It's gonna die soon.
+  * Neither did the schrabidium transmutator
+  * Balls-o-tron's spawner can now be made without a worm coin, using a silver key instead. This means that, while expensive, it's possible to summon him without finding a jungle dungeon
+* Blueprins
+  * Replace the journals
+  * Instead of opening them and making a template, they act as a multi template
+  * Blueprints need to remain in the slot, removing them will disable the recipes again
+
 ## Changed
-* The chemistry achievement now requires the new chemical plant
-* The new chemical plant can now be used to upgrade the meteorite sword
-* Fluid containers are now re-registered when using `/ntmreload` which should correctly generate fluid container items for freshly added custom fluids
-* Recipe configs will no longer try to parse null value recipes, meaing that trailing commas in a recipe config will no longer create an error
-* Refinery solid byproducts now build up substantially faster
-  * This means fracking solution from standard oil is now a lot more viable
-  * This also makes the volume of oil spent consistent with the NEI handler
+* Removed levitation unit
+* Many of NTM's regular building blocks now have forge microblock support
+* RBMK crane models now conform to the dimensions of the room they're in
+* Projectile resistance for armor has been renamed to "physical" and now also extends to all direct forms of attack by other entities that don't fall into any other categories (mostly melee attacks)
+  * This should fix the issue where most armors are quite weak against swords
+* Electric attacks (i.e. tesla cannon) are now in the "energy damage" category
+  * This means that armors that have energy resistance actually properly work against the tesla cannon
+* Heavy components are being deprecated
 
 ## Fixed
-* Fixed crash caused by breaking a tool while the fortune or silk touch ability is enabled
-* Fixed NTM adding mob spawns to the mushroom island
-* Fixed line break not working on the tip of the day
-* Fixed an issue where AoE abilities can break bedrock
-* Fixed chemical factory not saving its water and steam tanks
-* Fixed siphon not working with some newer machines due to using legacy API
-* Potentially fixed an incompatibility with Aether due to the loading screen replacement
-  * The loading screen replacement will only run up to 25 times per session, with a fixed delay of 5 seconds minimum
-  * The loading screen replacement can be disabled completely in the config
+* Fixed gas centrifuge sound persisting when broken or when unloaded
+* Fixed all centrifuge sounds trying to play even when the player is far away, using up audio slots
+* Fixed guns that don't have durability always displaying a condition of 0%
+* Fixed GL state leak caused by skeletons
