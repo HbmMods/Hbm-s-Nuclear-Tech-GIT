@@ -575,13 +575,32 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		int x = args.checkInteger(0) - 7;
 		int y = -args.checkInteger(1) + 7;
 
-		int i = (y + 7) * 15 + (x + 7);
+		int i = x;
+		int j = y;
+		switch (rotation) {
+			case 0:
+				break;
+			case 1:
+				i = y;
+				j = -x;
+				break;
+			case 2:
+				i = -x;
+				j = -y;
+				break;
+			case 3:
+				i = -y;
+				j = x;
+				break;
+		}
+
+		int index = (j + 7) * 15 + (i + 7);
 
 		TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + y);
 		if (te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase column = (TileEntityRBMKBase) te;
 
-			NBTTagCompound column_data = columns[i].data;
+			NBTTagCompound column_data = columns[index].data;
 			LinkedHashMap<String, Object> data_table = new LinkedHashMap<>();
 			data_table.put("type", column.getConsoleType().name());
 			data_table.put("hullTemp", column_data.getDouble("heat"));
