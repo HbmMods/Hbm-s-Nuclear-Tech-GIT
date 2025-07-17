@@ -3,6 +3,12 @@ package com.hbm.blocks.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.ILookOverlay;
@@ -93,7 +99,7 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 					return true;
 				}
 			}
-			
+
 			if(world.isRemote) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		}
@@ -123,40 +129,41 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 	public int transformMeta(int meta, int coordBaseMode) {
 		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
-	
-	public static class TileEntityFluidPump extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IControlReceiver {
-		
+
+	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+	public static class TileEntityFluidPump extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
+
 		public int bufferSize = 100;
 		public FluidTank[] tank;
 		public ConnectionPriority priority = ConnectionPriority.NORMAL;
 		public boolean redstone = false;
-		
+
 		public TileEntityFluidPump() {
 			this.tank = new FluidTank[1];
 			this.tank[0] = new FluidTank(Fluids.NONE, bufferSize);
 		}
-		
+
 		@Override
 		public void updateEntity() {
-			
+
 			if(!worldObj.isRemote) {
-				
+
 				// if the capacity were changed directly, any excess buffered fluid would be destroyed
 				// when running a closed loop or handling hard to get fluids, that's quite bad
 				if(this.bufferSize != this.tank[0].getMaxFill()) {
 					int nextBuffer = Math.max(this.tank[0].getFill(), this.bufferSize);
 					this.tank[0].changeTankSize(nextBuffer);
 				}
-				
+
 				this.redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
-				
+
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection in = dir.getRotation(ForgeDirection.UP);
 				ForgeDirection out = in.getOpposite();
-				
+
 				this.trySubscribe(tank[0].getTankType(), worldObj, xCoord + in.offsetX, yCoord, zCoord + in.offsetZ, in);
 				if(!redstone) this.tryProvide(tank[0], worldObj, xCoord + out.offsetX, yCoord, zCoord + out.offsetZ, out);
-				
+
 				this.networkPackNT(15);
 			}
 		}
@@ -192,7 +199,7 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 			priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, buf.readByte());
 			bufferSize = buf.readInt();
 		}
-		
+
 		@Override public ConnectionPriority getFluidPriority() { return priority; }
 		@Override public FluidTank[] getSendingTanks() { return redstone ? new FluidTank[0] : tank; }
 		@Override public FluidTank[] getReceivingTanks() { return this.bufferSize < this.tank[0].getFill() ? new FluidTank[0] : tank; }
@@ -214,8 +221,128 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 			if(data.hasKey("priority")) {
 				priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, data.getByte("priority"));
 			}
-			
+
 			this.markDirty();
+		}
+
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public String getComponentName() {
+			return "ntm_fluid_pump";
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getFluid(Context context, Arguments args) {
+			return new Object[] {
+				tank[0].getTankType().getUnlocalizedName()
+			};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getPressure(Context context, Arguments args) {
+			return new Object[] {
+				tank[0].getPressure()
+			};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getFlow(Context context, Arguments args) {
+			return new Object[] {
+				bufferSize
+			};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getPriority(Context context, Arguments args) {
+			return new Object[] {
+				getFluidPriority()
+			};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getInfo(Context context, Arguments args) {
+			return new Object[] {
+				tank[0].getTankType().getUnlocalizedName(),
+				tank[0].getPressure(),
+				bufferSize,
+				getFluidPriority()
+			};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] setPriority(Context context, Arguments args) {
+			int num = args.checkInteger(0);
+			switch (num) {
+				case 0:
+					priority = ConnectionPriority.LOWEST;
+					break;
+				case 1:
+					priority = ConnectionPriority.LOW;
+					break;
+				case 2:
+					priority = ConnectionPriority.NORMAL;
+					break;
+				case 3:
+					priority = ConnectionPriority.HIGH;
+					break;
+				case 4:
+					priority = ConnectionPriority.HIGHEST;
+					break;
+				default:
+					return new Object[] {null, "Not a valid Priority."};
+			}
+			return new Object[] {true};
+		}
+
+		@Callback(direct = true, limit = 4)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] setFlow(Context context, Arguments args) {
+			int input = args.checkInteger(0);
+			if (input > 10000 || input < 0)
+				return new Object[] {null, "Number outside of bounds."};
+			return new Object[] {true};
+		}
+
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public String[] methods() {
+			return new String[] {
+				"getPriority",
+				"getPressure",
+				"getFluid",
+				"getFlow",
+				"getInfo",
+				"setPriority",
+				"setFlow"
+			};
+		}
+
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+			switch (method) {
+				case ("getPriority"):
+					return getPriority(context, args);
+				case ("getPressure"):
+					return getPressure(context, args);
+				case ("getFluid"):
+					return getFluid(context, args);
+				case ("getFlow"):
+					return getFlow(context, args);
+				case ("getInfo"):
+					return getInfo(context, args);
+				case ("setPriority"):
+					return setPriority(context, args);
+				case ("setFlow"):
+					return setFlow(context, args);
+			}
+			throw new NoSuchMethodException();
 		}
 	}
 
@@ -261,7 +388,7 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 
 			drawString(fontRendererObj, "Priority:", this.width / 2 + 50, 80, 0xA0A0A0);
 			buttonPriority.drawButton(mc, mouseX, mouseY);
-			
+
 			super.drawScreen(mouseX, mouseY, partialTicks);
 		}
 
