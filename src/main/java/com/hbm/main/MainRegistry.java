@@ -278,6 +278,11 @@ public class MainRegistry {
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
+		api.ntm1of90.compat.NTMFluidTextureMapper.initialize();
+		api.ntm1of90.compat.NTMFluidColorApplier.initialize();
+
+		api.ntm1of90.compat.NTMFluidColorApplier.setBrightnessFactor(1.2f);
+		api.ntm1of90.compat.NTMForgeFluidRenderer.initialize();
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();

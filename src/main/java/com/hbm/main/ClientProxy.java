@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import api.ntm1of90.compat.ProxyForgeAdapter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
@@ -275,6 +276,8 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemicalFactory.class, new RenderChemicalFactory());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000.class, new RenderBAT9000());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineBAT9000Forge.class, new RenderBAT9000());
+		ClientRegistry.bindTileEntitySpecialRenderer(ProxyForgeAdapter.class, new RenderMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOrbus.class, new RenderOrbus());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRefinery.class, new RenderRefinery());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFractionTower.class, new RenderFractionTower());

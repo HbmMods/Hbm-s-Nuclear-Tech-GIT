@@ -44,6 +44,8 @@ import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.albion.*;
 import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.pile.*;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000Forge;
+import api.ntm1of90.compat.ProxyForgeAdapter;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
@@ -208,6 +210,8 @@ public class TileMappings {
 		put(TileEntityPedestal.class, "tileentity_ntm_pedestal");
 		put(TileEntitySkeletonHolder.class, "tileentity_ntm_skeleton");
 		put(TileEntityDungeonSpawner.class, "tileentity_ntm_dungeon_spawner");
+		put(TileEntityMachineBAT9000Forge.class, "tileentity_bat9000_forge");
+		put(ProxyForgeAdapter.class, "tileentity_proxy_forge");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityPlushie.class, "tileentity_ntm_plushie");
