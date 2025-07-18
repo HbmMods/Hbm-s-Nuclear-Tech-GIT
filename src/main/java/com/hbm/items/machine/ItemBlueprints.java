@@ -56,13 +56,19 @@ public class ItemBlueprints extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		for(Entry<String, List<String>> pool : GenericRecipes.blueprintPools.entrySet()) {
-			list.add(make(pool.getKey()));
+			String poolName = pool.getKey();
+			if(!poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) list.add(make(poolName));
 		}
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		if(world.isRemote) return stack;
+		if(!stack.hasTagCompound()) return stack;
+		
+		String poolName = stack.stackTagCompound.getString("pool");
+		
+		if(poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) return stack;
 		if(!player.inventory.hasItem(Items.paper)) return stack;
 		
 		player.inventory.consumeInventoryItem(Items.paper);
@@ -94,7 +100,6 @@ public class ItemBlueprints extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add(EnumChatFormatting.RED + "Right-click to copy (requires paper)");
 		
 		if(!stack.hasTagCompound()) {
 			return;
@@ -105,6 +110,11 @@ public class ItemBlueprints extends Item {
 		
 		if(pool == null || pool.isEmpty()) {
 			return;
+		}
+		if(poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) {
+			list.add(EnumChatFormatting.RED + "Cannot be copied!");
+		} else {
+			list.add(EnumChatFormatting.YELLOW + "Right-click to copy (requires paper)");
 		}
 		
 		for(String name : pool) {

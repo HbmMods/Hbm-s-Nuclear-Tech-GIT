@@ -16,6 +16,7 @@ import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
@@ -233,7 +234,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.epress").setup(100, 100).outputItems(new ItemStack(ModBlocks.machine_epress, 1))
 				.inputItems(new OreDictStack(STEEL.plate(), 8), new OreDictStack(ANY_RUBBER.ingot(), 4), new ComparableStack(ModItems.part_generic, 2, EnumPartType.PISTON_HYDRAULIC.ordinal()), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC)));
 		this.register(new GenericRecipe("ass.fel").setup(400, 100).outputItems(new ItemStack(ModBlocks.machine_fel, 1))
-				.inputItems(new ComparableStack(ModBlocks.machine_lithium_battery, 1), new OreDictStack(ALLOY.wireDense(), 64), new OreDictStack(STEEL.plateCast(), 12), new OreDictStack(ANY_PLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)));
+				.inputItems(new ComparableStack(ModBlocks.machine_lithium_battery, 1), new OreDictStack(ALLOY.wireDense(), 64), new OreDictStack(STEEL.plateCast(), 12), new OreDictStack(ANY_PLASTIC.ingot(), 16), new ComparableStack(ModItems.part_generic, 4, EnumPartType.GLASS_POLARIZED), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)));
 		this.register(new GenericRecipe("ass.silex").setup(400, 100).outputItems(new ItemStack(ModBlocks.machine_silex, 1))
 				.inputItems(new ComparableStack(ModBlocks.glass_quartz, 16), new OreDictStack(STEEL.plateCast(), 8), new OreDictStack(DESH.ingot(), 4), new OreDictStack(RUBBER.ingot(), 8), new OreDictStack(STEEL.pipe(), 8)));
 		this.register(new GenericRecipe("ass.excavator").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_excavator, 1))
@@ -669,6 +670,15 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.50bmgbypass").setup(100, 100).outputItems(new ItemStack(ModItems.ammo_secret, 12, EnumAmmoSecret.BMG50_BLACK.ordinal()))
 				.inputItems(new ComparableStack(ModItems.casing, 2, EnumCasingType.LARGE_STEEL), new OreDictStack(ANY_SMOKELESS.dust(), 24), new ComparableStack(ModItems.item_secret, 1, EnumSecretType.SELENIUM_STEEL), new ComparableStack(ModItems.black_diamond))
 				.setPools(GenericRecipes.POOL_PREFIX_SECRET + "psalm"));
+		this.register(new GenericRecipe("chem.shellchlorine").setup(100, 1_000).outputItems(new ItemStack(ModItems.ammo_arty, 1, 9))
+				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 4_000)));
+		this.register(new GenericRecipe("ass.shellphosgene").setup(100, 1_000).outputItems(new ItemStack(ModItems.ammo_arty, 1, 10))
+				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4_000)));
+		this.register(new GenericRecipe("ass.shellmustard").setup(100, 1_000).outputItems(new ItemStack(ModItems.ammo_arty, 1, 11))
+				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4_000)));
 		
 		// tools
 		this.register(new GenericRecipe("ass.multitool").setup(100, 100).outputItems(new ItemStack(ModItems.multitool_hit, 1))
@@ -773,6 +783,19 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.circuit, 64, EnumCircuitType.CONTROLLER_QUANTUM),
 						new ComparableStack(ModItems.coin_ufo, 1)).setPools(GenericRecipes.POOL_PREFIX_DISCOVER + "gerald"));
+
+		this.register(new GenericRecipe("ass.emptypackage").setup(40, 100).outputItems(new ItemStack(ModItems.fluid_pack_empty, 1))
+				.inputItems(new OreDictStack(TI.plate(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 2)));
+
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			FluidType type = order[i];
+			if(type.hasNoContainer()) continue;
+			this.register(new GenericRecipe("ass.package" + type.getUnlocalizedName()).setup(100, 100).outputItems(new ItemStack(ModItems.fluid_pack_full, 1, type.getID()))
+					.inputItems(new ComparableStack(ModItems.fluid_pack_empty)).inputFluids(new FluidStack(type, 32_000)));
+			this.register(new GenericRecipe("ass.unpackage" + type.getUnlocalizedName()).setup(100, 100).setIcon(ItemFluidIcon.make(type, 32_000)).outputItems(new ItemStack(ModItems.fluid_pack_empty))
+					.inputItems(new ComparableStack(ModItems.fluid_pack_full, 1, type.getID())).outputFluids(new FluidStack(type, 32_000)));
+		}
 		
 		if(GeneralConfig.enableMekanismChanges && Loader.isModLoaded("Mekanism")) {
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");

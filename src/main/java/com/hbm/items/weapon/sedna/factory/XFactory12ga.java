@@ -375,7 +375,7 @@ public class XFactory12ga {
 				).setUnlocalizedName("gun_autoshotgun_shredder");
 		
 		ModItems.gun_autoshotgun_sexy = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
-				.dura(5_000).draw(20).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).hideCrosshair(false).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.dura(5_000).draw(20).inspect(65).reloadSequential(true).inspectCancel(false).crosshair(Crosshair.L_CIRCLE).hideCrosshair(false).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(64F).delay(4).auto(true).dryfireAfterAuto(true).reload(110).jam(19).sound("hbm:weapon.fire.shotgunAuto", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 100).addConfigs(g12_equestrian_bj, g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus))

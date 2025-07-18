@@ -268,21 +268,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
 		
-		this.register(new GenericRecipe("chem.shellchlorine").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.CHLORINE, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
-		
-		this.register(new GenericRecipe("chem.shellphosgene").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
-		
-		this.register(new GenericRecipe("chem.shellmustard").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
-		
 		/// GLASS ///
 		this.register(new GenericRecipe("chem.laminate").setup(20, 100)
 				.inputFluids(new FluidStack(Fluids.XYLENE, 50), new FluidStack(Fluids.PHOSGENE, 50))

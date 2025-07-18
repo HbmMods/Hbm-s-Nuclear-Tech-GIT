@@ -844,6 +844,8 @@ public class ModItems {
 	public static Item fluid_barrel_full;
 	public static Item fluid_barrel_empty;
 	public static Item fluid_barrel_infinite;
+	public static Item fluid_pack_full;
+	public static Item fluid_pack_empty;
 	public static Item pipette;
 	public static Item pipette_boron;
 	public static Item pipette_laboratory;
@@ -1181,12 +1183,12 @@ public class ModItems {
 
 	public static Item blueprints;
 	public static Item template_folder;
-	public static Item journal_pip;
-	public static Item journal_bj;
-	public static Item journal_silver;
-	public static Item assembly_template;
-	public static Item chemistry_template;
-	public static Item chemistry_icon;
+	@Deprecated public static Item journal_pip;
+	@Deprecated public static Item journal_bj;
+	@Deprecated public static Item journal_silver;
+	@Deprecated public static Item assembly_template;
+	@Deprecated public static Item chemistry_template;
+	@Deprecated public static Item chemistry_icon;
 	public static Item crucible_template;
 	public static Item fluid_identifier;
 	public static Item fluid_identifier_multi;
@@ -4115,6 +4117,8 @@ public class ModItems {
 		fluid_barrel_empty = new Item().setUnlocalizedName("fluid_barrel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setContainerItem(ModItems.fluid_barrel_empty).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_infinite = new ItemInfiniteFluid(null, 1_000_000_000).setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
+		fluid_pack_empty = new Item().setUnlocalizedName("fluid_pack_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_pack");
+		fluid_pack_full = new ItemFluidTank().setUnlocalizedName("fluid_pack_full").setContainerItem(ModItems.fluid_pack_empty).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_pack");
 		pipette = new ItemPipette().setUnlocalizedName("pipette").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette");
 		pipette_boron = new ItemPipette().setUnlocalizedName("pipette_boron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_boron");
 		pipette_laboratory = new ItemPipette().setUnlocalizedName("pipette_laboratory").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_laboratory");
@@ -5686,6 +5690,10 @@ public class ModItems {
 		GameRegistry.registerItem(fluid_barrel_empty, fluid_barrel_empty.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_full, fluid_barrel_full.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_infinite, fluid_barrel_infinite.getUnlocalizedName());
+		
+		//Packaged fluids
+		GameRegistry.registerItem(fluid_pack_empty, fluid_pack_empty.getUnlocalizedName());
+		GameRegistry.registerItem(fluid_pack_full, fluid_pack_full.getUnlocalizedName());
 
 		//Pipette
 		GameRegistry.registerItem(pipette, pipette.getUnlocalizedName());

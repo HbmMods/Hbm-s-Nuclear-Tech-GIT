@@ -11,6 +11,8 @@ import com.hbm.inventory.container.ContainerMachineAssemblyMachine;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineAssemblyMachine;
+import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -44,7 +46,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	public FluidTank outputTank;
 	
 	public long power;
-	public long maxPower = 1_000_000;
+	public long maxPower = 100_000;
 	public boolean didProcess = false;
 	
 	public boolean frame = false;
@@ -63,8 +65,8 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	
 	public TileEntityMachineAssemblyMachine() {
 		super(17);
-		this.inputTank = new FluidTank(Fluids.NONE, 32_000);
-		this.outputTank = new FluidTank(Fluids.NONE, 32_000);
+		this.inputTank = new FluidTank(Fluids.NONE, 4_000);
+		this.outputTank = new FluidTank(Fluids.NONE, 4_000);
 		
 		for(int i = 0; i < this.arms.length; i++) this.arms[i] = new AssemblerArm();
 		
@@ -84,6 +86,12 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		if(maxPower <= 0) this.maxPower = 1_000_000;
 		
 		if(!worldObj.isRemote) {
+			
+			GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assemblerModule.recipe);
+			if(recipe != null) {
+				this.maxPower = recipe.power * 100;
+			}
+			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 2, 3);

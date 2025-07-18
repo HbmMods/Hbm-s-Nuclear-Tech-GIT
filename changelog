@@ -9,8 +9,18 @@
   * Replace the journals
   * Instead of opening them and making a template, they act as a multi template
   * Blueprints need to remain in the slot, removing them will disable the recipes again
+* More paintables
+  * Paintable pneumatic tube
+    * Behaves the exact same as a regular pneumatic tube
+    * Can also be used as in and outputs
+    * Full block
+  * Paintable OpenComputers cable
+    * Only enabled if OpenComputers is installed
+    * Full block
+    * Also supports OC wire colors
 
 ## Changed
+* Updated chinese and ukrainian localization
 * Removed levitation unit
 * Many of NTM's regular building blocks now have forge microblock support
 * RBMK crane models now conform to the dimensions of the room they're in
@@ -19,9 +29,22 @@
 * Electric attacks (i.e. tesla cannon) are now in the "energy damage" category
   * This means that armors that have energy resistance actually properly work against the tesla cannon
 * Heavy components are being deprecated
+* Flow control pumps can now be interfaced with OpenComputers
+* The electrolyzer now remembers the last visited GUI screen
+* Retextured many fluid containers such as universal tanks, canisters and gas tanks
+* Removed the legacy assembler and chemical plant recipes from the template folder
+* Removed journals from various loot pools
+* Drinking whiskey now gives strength III, resistance III and nausea
+* Chemical artillery shell recipes have now been moved to the assembler
+* The chemical plant and factory now scale their max power based on the recipe, similar to how the arc welder works
+* The chemical plant's default max power is now 100kHE again instead of 1MHE
 
 ## Fixed
 * Fixed gas centrifuge sound persisting when broken or when unloaded
 * Fixed all centrifuge sounds trying to play even when the player is far away, using up audio slots
 * Fixed guns that don't have durability always displaying a condition of 0%
 * Fixed GL state leak caused by skeletons
+* Fixed OpenComputers integration for the CCGT
+* Fixed rotated RBMK consoles not behaving correctly when trying to change rod insertion levels
+* Fixed crash caused by piston inserters on servers
+* Fixed flare gun not having a firing sound

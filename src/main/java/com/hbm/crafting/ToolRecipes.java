@@ -113,7 +113,7 @@ public class ToolRecipes {
 
 		//Utility
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rangefinder, 1), new Object[] { "GRC", "  S", 'G', KEY_ANYPANE, 'R', REDSTONE.dust(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'S' ,STEEL.plate() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.designator, 1), new Object[] { "  A", "#B#", "#B#", '#', IRON.plate(), 'A', STEEL.plate(), 'B', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC) });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.designator, 1), new Object[] { "  A", "#B#", "#B#", '#', ANY_PLASTIC.ingot(), 'A', STEEL.plate(), 'B', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.designator_range, 1), new Object[] { ModItems.rangefinder, ModItems.designator, ANY_PLASTIC.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.designator_manual, 1), new Object[] { "  A", "#C#", "#B#", '#', ANY_PLASTIC.ingot(), 'A', PB.plate(), 'B', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'C', ModItems.designator });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.designator_arty_range, 1), new Object[] { ModItems.rangefinder, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), ANY_PLASTIC.ingot() });
