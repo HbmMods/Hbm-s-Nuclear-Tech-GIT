@@ -27,8 +27,8 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -162,21 +162,32 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 			long burnValue = 0;
 			int amount = 1 + this.afterburner;
-
-			if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
-				burnValue = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
-			}
-
 			int amountToBurn = Math.min(amount, this.tank.getFill());
-
-			if(amountToBurn > 0) {
-				this.wasOn = true;
-				this.tank.setFill(this.tank.getFill() - amountToBurn);
-				this.output = (int) (burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4)));
-				this.power += this.output;
-				this.consumption = amountToBurn;
-
-				if(worldObj.getTotalWorldTime() % 20 == 0) super.pollute(tank.getTankType(), FluidTrait.FluidReleaseType.BURN, amountToBurn * 5);;
+			
+			boolean redstone = false;
+			
+			for(DirPos pos : getConPos()) {
+				if(this.worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) {
+					redstone = true;
+					break;
+				}
+			}
+			
+			if(!redstone) {
+	
+				if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
+					burnValue = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
+				}
+	
+				if(amountToBurn > 0) {
+					this.wasOn = true;
+					this.tank.setFill(this.tank.getFill() - amountToBurn);
+					this.output = (int) (burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4)));
+					this.power += this.output;
+					this.consumption = amountToBurn;
+	
+					if(worldObj.getTotalWorldTime() % 20 == 0) super.pollute(tank.getTankType(), FluidTrait.FluidReleaseType.BURN, amountToBurn * 5);;
+				}
 			}
 
 			power = Library.chargeItemsFromTE(slots, 3, power, power);

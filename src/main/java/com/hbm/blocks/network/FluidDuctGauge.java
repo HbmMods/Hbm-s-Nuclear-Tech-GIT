@@ -1,6 +1,7 @@
 package com.hbm.blocks.network;
 
 import api.hbm.fluidmk2.FluidNetMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
@@ -10,7 +11,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -107,7 +109,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements SimpleComponent, CompatHandler.OCComponent {
+	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements SimpleComponent, CompatHandler.OCComponent, IRORValueProvider {
 
 		private long deltaTick = 0;
 		private long deltaSecond = 0;
@@ -153,7 +155,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getTransfer(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond};
+			return new Object[] {deltaTick, deltaLastSecond};
 		}
 
 		@Callback(direct = true)
@@ -165,7 +167,22 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond, getType().getName(), xCoord, yCoord, zCoord};
+			return new Object[] {deltaTick, deltaLastSecond, getType().getName(), xCoord, yCoord, zCoord};
+		}
+
+		@Override
+		public String[] getFunctionInfo() {
+			return new String[] {
+					PREFIX_VALUE + "deltatick",
+					PREFIX_VALUE + "deltasecond",
+			};
+		}
+
+		@Override
+		public String provideRORValue(String name) {
+			if((PREFIX_VALUE + "deltatick").equals(name))	return "" + deltaTick;
+			if((PREFIX_VALUE + "deltasecond").equals(name))	return "" + deltaLastSecond;
+			return null;
 		}
 	}
 }

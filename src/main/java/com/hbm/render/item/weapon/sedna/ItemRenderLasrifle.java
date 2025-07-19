@@ -42,6 +42,7 @@ public class ItemRenderLasrifle extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 
 		if(hasScope(stack) && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lasrifle_tex);
 		double scale = 0.3125D;
 		GL11.glScaled(scale, scale, scale);
@@ -79,6 +80,14 @@ public class ItemRenderLasrifle extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lasrifle_mods_tex);
 		if(hasShotgun(stack)) ResourceManager.lasrifle_mods.renderPart("BarrelShotgun");
 		if(hasCapacitor(stack)) ResourceManager.lasrifle_mods.renderPart("UnderBarrel");
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 1.5, 12);
+		GL11.glRotated(90, 0, 1, 0);
+		renderLaserFlash(gun.lastShot[0], 150, 1.5D, 0xff0000);
+		GL11.glTranslated(0, 0, -0.25);
+		renderLaserFlash(gun.lastShot[0], 150, 0.75D, 0xff8000);
+		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}

@@ -28,7 +28,7 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 			
 			this.subscribeToAllAround(water.getTankType(), this);
 			
-			for(int i = 2; i < 6; i++) {
+			if(RBMKDials.getReasimBoilers(worldObj)) for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				

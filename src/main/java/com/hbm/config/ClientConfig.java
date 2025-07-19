@@ -31,6 +31,7 @@ public class ClientConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> NUKE_HUD_SHAKE =					new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> RENDER_REEDS =						new ConfigWrapper(!Compat.isModLoaded(Compat.MOD_ANG));
 	public static ConfigWrapper<Boolean> NEI_HIDE_SECRETS =					new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> COOLING_TOWER_PARTICLES =			new ConfigWrapper(true);
 
 	private static void initDefaults() {
 		configMap.put("GEIGER_OFFSET_HORIZONTAL", GEIGER_OFFSET_HORIZONTAL);
@@ -51,6 +52,7 @@ public class ClientConfig extends RunningConfig {
 		configMap.put("NUKE_HUD_SHAKE", NUKE_HUD_SHAKE);
 		configMap.put("RENDER_REEDS", RENDER_REEDS);
 		configMap.put("NEI_HIDE_SECRETS", NEI_HIDE_SECRETS);
+		configMap.put("COOLING_TOWER_PARTICLES", COOLING_TOWER_PARTICLES);
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */

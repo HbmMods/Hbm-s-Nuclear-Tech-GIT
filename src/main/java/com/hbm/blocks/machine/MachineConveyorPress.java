@@ -8,7 +8,8 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.tileentity.machine.TileEntityConveyorPress;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

@@ -58,12 +58,11 @@ public class XFactory44 {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TORPEDO = (bullet, mop) -> {
-		EntityTorpedo pippo = new EntityTorpedo(bullet.worldObj);
-		pippo.posX = mop.hitVec.xCoord;
-		pippo.posY = mop.hitVec.yCoord + 50;
-		pippo.posZ = mop.hitVec.zCoord;;
-		bullet.worldObj.spawnEntityInWorld(pippo);
-		//bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+		EntityTorpedo murky = new EntityTorpedo(bullet.worldObj);
+		murky.posX = mop.hitVec.xCoord;
+		murky.posY = mop.hitVec.yCoord + 50;
+		murky.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(murky);
 		bullet.setDead();
 	};
 
@@ -77,7 +76,7 @@ public class XFactory44 {
 				.setCasing(casing44.clone().register("m44fmj"));
 		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setCasing(EnumCasingType.SMALL, 6).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing44.clone().register("m44jhp"));
-		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
+		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));
 		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setCasing(EnumCasingType.SMALL, 6).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
 				.setCasing(casing44.clone().register("m44express"));

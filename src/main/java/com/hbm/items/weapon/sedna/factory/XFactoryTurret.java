@@ -42,7 +42,7 @@ public class XFactoryTurret {
 			bullet.setDead();
 		});
 		shell_ap = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T)).setDamage(2F).setDoesPenetrate(true).setCasing(CASINNG240MM.clone().register("240w"));
-		shell_du = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU)).setDamage(2.5F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(CASINNG240MM.clone().register("240u"));
+		shell_du = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU)).setDamage(2.5F).setDoesPenetrate(true).setDamageFalloffByPen(false).setCasing(CASINNG240MM.clone().register("240u"));
 		shell_w9 = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9)).setDamage(2.5F).setCasing(CASINNG240MM.clone().register("240n")).setOnImpact(XFactoryCatapult.LAMBDA_NUKE_STANDARD);
 	}
 }

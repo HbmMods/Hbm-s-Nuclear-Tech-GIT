@@ -7,9 +7,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityFallingBlockNT;
-import com.hbm.entity.missile.EntityMissileAntiBallistic;
-import com.hbm.entity.missile.EntityMissileBase;
-import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.entity.particle.EntityOrangeFX;
@@ -30,7 +27,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -42,33 +38,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 @Spaghetti("my eyes are bleeding")
-public class ExplosionChaos {
+public class ExplosionChaos { //TODO: destroy this entire class
 
 	private final static Random random = new Random();
 	private static Random rand = new Random();
-
-	public static void explode(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						destruction(world, X, Y, Z);
-					}
-				}
-			}
-		}
-	}
 
 	public static void hardenVirus(World world, int x, int y, int z, int bombStartStrength) {
 
@@ -132,8 +107,10 @@ public class ExplosionChaos {
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
 						
-						if(world.getBlock(X, Y, Z).getExplosionResistance(null) <= 70)
-							pDestruction(world, X, Y, Z);
+						if(world.getBlock(X, Y, Z).getExplosionResistance(null) <= 70) {
+							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, X + 0.5, Y + 0.5, Z + 0.5, world.getBlock(X, Y, Z), world.getBlockMetadata(X, Y, Z));
+							world.spawnEntityInWorld(entityfallingblock);
+						}
 					}
 				}
 			}
@@ -182,79 +159,6 @@ public class ExplosionChaos {
 					}
 				}
 			}
-		}
-	}
-
-	public static void spawnExplosion(World world, int x, int y, int z, int bound) {
-
-		int randX;
-		int randY;
-		int randZ;
-
-		for (int i = 0; i < 25; i++) {
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x + randX, y + randY, z + randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x + randX, y + randY, z + randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x + randX, y - randY, z + randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x - randX, y + randY, z + randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x + randX, y + randY, z - randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x + randX, y - randY, z + randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x - randX, y + randY, z + randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x + randX, y + randY, z - randZ,
-			// 5);
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x - randX, y - randY, z + randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x - randX, y - randY, z + randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x - randX, y + randY, z - randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x - randX, y + randY, z - randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x + randX, y - randY, z - randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x + randX, y - randY, z - randZ,
-			// 5);
-
-			randX = random.nextInt(bound);
-			randY = random.nextInt(bound);
-			randZ = random.nextInt(bound);
-
-			world.createExplosion(null, x - randX, y - randY, z - randZ, 10.0F, true);
-			// ExplosionChaos.explode(world, x - randX, y - randY, z - randZ,
-			// 5);
 		}
 	}
 
@@ -329,15 +233,13 @@ public class ExplosionChaos {
 
 	}
 
-	public static void spawnChlorine(World world, double x, double y, double z, int count, double speed, int type) {
+	@Deprecated public static void spawnPoisonCloud(World world, double x, double y, double z, int count, double speed, int type) {
 		
 		for(int i = 0; i < count; i++) {
 			
 			EntityModFX fx = null;
 			
-			if(type == 0) {
-				fx = new EntityChlorineFX(world, x, y, z, 0.0, 0.0, 0.0);
-			} else if(type == 1) {
+			if(type == 1) {
 				fx = new EntityCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
 			} else if(type == 2) {
 				fx = new EntityPinkCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
@@ -365,25 +267,6 @@ public class ExplosionChaos {
 			
 			world.spawnEntityInWorld(fx);
 		}
-	}
-
-	public static void destruction(World world, int x, int y, int z) {
-
-		if (world.getBlock(x, y, z) == Blocks.bedrock || world.getBlock(x, y, z) == ModBlocks.reinforced_brick
-				|| world.getBlock(x, y, z) == ModBlocks.reinforced_sand
-				|| world.getBlock(x, y, z) == ModBlocks.reinforced_glass
-				|| world.getBlock(x, y, z) == ModBlocks.reinforced_lamp_on
-				|| world.getBlock(x, y, z) == ModBlocks.reinforced_lamp_off) {
-
-		} else {
-			world.setBlock(x, y, z, Blocks.air);
-		}
-
-	}
-
-	public static void pDestruction(World world, int x, int y, int z) {
-		EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
-		world.spawnEntityInWorld(entityfallingblock);
 	}
 
 	public static void cluster(World world, int x, int y, int z, int count, int gravity) {
@@ -433,35 +316,6 @@ public class ExplosionChaos {
 			}
 
 			fragment = new EntitySchrab(world, x, y, z, d1, d2, d3, 0.0125D);
-
-			world.spawnEntityInWorld(fragment);
-		}
-	}
-
-	public static void nuke(World world, int x, int y, int z, int count) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntityTNTPrimed fragment;
-
-		for (int i = 0; i < 5; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			fragment = new EntityTNTPrimed(world);
-			fragment.motionX = d1;
-			fragment.motionY = d2;
-			fragment.motionZ = d3;
 
 			world.spawnEntityInWorld(fragment);
 		}
@@ -645,91 +499,6 @@ public class ExplosionChaos {
 				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 				if (d9 < wat) {
 					entity.setPosition(entity.posX += a, entity.posY += b, entity.posZ += c);
-				}
-			}
-		}
-
-		radius = (int) f;
-	}
-
-	public static Entity getHomingTarget(World world, int x, int y, int z, int radius, Entity e) {
-		float f = radius;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius * 2;
-
-		radius *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (true) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					if (entity instanceof EntityMissileBase && !(entity instanceof EntityMissileAntiBallistic)) {
-						return entity;
-					}
-				}
-			}
-		}
-
-		radius = (int) f;
-		return null;
-	}
-
-	public static void delMissiles(World world, int x, int y, int z, int radius, Entity e) {
-		float f = radius;
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius * 2;
-
-		radius *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (true) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					if (entity instanceof EntityMissileBase) {
-						entity = null;
-					}
 				}
 			}
 		}

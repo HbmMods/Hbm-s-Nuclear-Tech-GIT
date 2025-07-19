@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import java.util.ArrayList;
 import java.util.List;

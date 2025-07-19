@@ -67,6 +67,7 @@ public class Lego {
 				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
+				if(ctx.config.getReloadChangesType(stack)) mag.initNewType(stack, ctx.inventory);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
 				if(!ctx.config.getInspectCancel(stack)) {

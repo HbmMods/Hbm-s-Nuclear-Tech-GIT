@@ -1,6 +1,7 @@
 package com.hbm.items.block;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.items.ItemInventory;
@@ -8,6 +9,7 @@ import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.storage.*;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -26,21 +28,27 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		super(block);
 	}
 
+	// IF WE PUT ROCKS IN THE SHAPE OF A RUNWAY GOD WILL GIVE US HIGH-FRUCTOSE CORN SYRUP
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return 1;
+	}
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if(!ServerConfig.CRATE_OPEN_HELD.get()) return stack;
+
 		Block block = Block.getBlockFromItem(player.getHeldItem().getItem());
 		if(block == ModBlocks.mass_storage) return stack; // Genuinely can't figure out how to make this part work, so I'm just not gonna mess with it.
 
 		if(!world.isRemote && stack.stackSize == 1) {
-			if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("lock")) {
-				for (ItemStack item : player.inventory.mainInventory) {
-					if(item == null) // Skip if no item.
-						continue;
-					if(!(item.getItem() instanceof ItemKey)) // Skip if item isn't a key.
-						continue;
-					if(item.stackTagCompound == null) // Skip if there is no NBT (wouldn't open it anyway).
-						continue;
-					if (item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
+			if(stack.stackTagCompound != null && stack.stackTagCompound.hasKey("lock")) {
+				for(ItemStack item : player.inventory.mainInventory) {
+
+					if(item == null) continue; // Skip if no item.
+					if(!(item.getItem() instanceof ItemKey)) continue; // Skip if item isn't a key.
+					if(item.stackTagCompound == null) continue; // Skip if there is no NBT (wouldn't open it anyway).
+					if(item.stackTagCompound.getInteger("pins") == stack.stackTagCompound.getInteger("lock")) { // Check if pins are equal (if it can open it)
 						TileEntityCrateBase.spawnSpiders(player, world, stack);
 						player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 						break;
@@ -83,20 +91,16 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	public static class InventoryCrate extends ItemInventory {
 
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
-
 			this.player = player;
 			this.target = crate;
 
-			slots = new ItemStack[this.getSizeInventory()];
-			if(crate.stackTagCompound == null)
-				crate.stackTagCompound = new NBTTagCompound();
-			else if(!player.worldObj.isRemote) {
-				for (int i = 0; i < this.getSizeInventory(); i++)
-					this.setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(crate.stackTagCompound.getCompoundTag("slot" + i)));
+			this.slots = new ItemStack[this.getSizeInventory()];
+			if(target.stackTagCompound == null) {
+				target.stackTagCompound = new NBTTagCompound();
 			}
-			toMarkDirty = true;
-			this.markDirty();
-			toMarkDirty = false;
+
+			for(int i = 0; i < slots.length; i++)
+				this.slots[i] = ItemStack.loadItemStackFromNBT(target.stackTagCompound.getCompoundTag("slot" + i));
 		}
 
 		@Nonnull
@@ -118,7 +122,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 
 		@Override
 		public String getInventoryName() {
-			return findCrateType(target.getItem()).getInventoryName();
+			TileEntityCrateBase tile = findCrateType(target.getItem());
+			if (hasCustomInventoryName()) {
+				tile.setCustomName(target.getDisplayName());
+			}
+			return tile.getInventoryName();
 		}
 
 		@Override
@@ -127,39 +135,39 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		}
 
 		@Override
-		public void markDirty() { // I HATE THIS SO MUCH
+		public void markDirty() { // You have been blessed by the unfuck
 
-			if(player.getEntityWorld().isRemote || !toMarkDirty) { // go the fuck away
-				return;
-			}
-
-			NBTTagCompound nbt = new NBTTagCompound();
-
+			// Preserve existing NBT so we keep lock data and piders
+			NBTTagCompound nbt = target.stackTagCompound != null ? target.stackTagCompound : new NBTTagCompound();
 			int invSize = this.getSizeInventory();
 
 			for(int i = 0; i < invSize; i++) {
 
 				ItemStack stack = this.getStackInSlot(i);
-				if(stack == null)
+				if(stack == null) {
+					nbt.removeTag("slot" + i);
 					continue;
+				}
 
 				NBTTagCompound slot = new NBTTagCompound();
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
 			}
 
-			if(target.stackTagCompound != null) { // yes it's a bit jank, but it wants to clear otherwise so...
-				if(target.stackTagCompound.hasKey("lock"))
-					nbt.setInteger("lock", target.stackTagCompound.getInteger("lock"));
-				if(target.stackTagCompound.hasKey("lockMod"))
-					nbt.setDouble("lockMod", target.stackTagCompound.getDouble("lockMod"));
-				if(target.stackTagCompound.hasKey("spiders"))
-					nbt.setBoolean("spiders", target.stackTagCompound.getBoolean("spiders")); // fuck you!!
+			if (nbt.hasNoTags()) {
+				nbt = null;
 			}
 
-			target.setTagCompound(checkNBT(nbt));
+			target.setTagCompound(nbt);
+		}
 
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, target);
+		@Override
+		public void closeInventory() {
+			super.closeInventory();
+
+			// Check for 6kb item vomit
+			target.setTagCompound(checkNBT(target.getTagCompound()));
+			player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 }

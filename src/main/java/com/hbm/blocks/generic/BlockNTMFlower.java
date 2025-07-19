@@ -9,6 +9,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
 import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
@@ -16,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -98,7 +101,7 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-
+	
 	@Override
 	public int getRenderType() {
 		return 1;
@@ -198,6 +201,43 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 		
 		this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 	}
+	
+	
+	
+    @SideOnly(Side.CLIENT)
+    public int getRenderColor(int meta)
+    {
+    	if (meta == 1 || meta == 3) {
+    		return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+        } else return 0xFFFFFF;
+    }
+    // if you need to make another tinted plant just throw the metadata value
+    // into the if statements above and below i really do not want to make this more 
+    // complicated than it needs to be
+
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z)
+    {
+    	int l = 0;
+        int i1 = 0;
+        int j1 = 0;
+
+        for (int k1 = -1; k1 <= 1; ++k1)
+        {
+            for (int l1 = -1; l1 <= 1; ++l1)
+            {
+                int i2 = world.getBiomeGenForCoords(x + l1, z + k1).getBiomeFoliageColor(x + l1, y, z + k1);
+                l += (i2 & 16711680) >> 16;
+                i1 += (i2 & 65280) >> 8;
+                j1 += i2 & 255;
+            }
+        }
+        int meta = world.getBlockMetadata(x, y, z);
+        if (meta == 1 || meta == 3) {
+        	return ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+        } else return 0xFFFFFF;
+    }
+    
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }

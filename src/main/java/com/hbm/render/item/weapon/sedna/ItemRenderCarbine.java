@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -45,6 +46,7 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		double[] lift = HbmAnimations.getRelevantTransformation("LIFT");
 		double[] bullet = HbmAnimations.getRelevantTransformation("BULLET");
 		double[] rel = HbmAnimations.getRelevantTransformation("REL");
+		double[] stab = HbmAnimations.getRelevantTransformation("STAB");
 		
 		GL11.glTranslated(0, -1, -2);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -53,6 +55,8 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 0, -2);
 		GL11.glRotated(lift[0], 1, 0, 0);
 		GL11.glTranslated(0, 0, 2);
+
+		GL11.glTranslated(stab[0], stab[1], stab[2]);
 		
 		GL11.glTranslated(0, 0, recoil[2]);
 		
@@ -71,6 +75,11 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glTranslated(rel[0], rel[1], rel[2]);
 		if(bullet[0] != 1) ResourceManager.carbine.renderPart("Bullet");
 		GL11.glPopMatrix();
+		
+		if(hasBayonet(stack)) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_bayonet_tex);
+			ResourceManager.carbine.renderPart("Bayonet");
+		}
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1, 8);
@@ -101,18 +110,27 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 	@Override
 	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
-		double scale = 1.375D;
-		GL11.glScaled(scale, scale, scale);
-		GL11.glRotated(25, 1, 0, 0);
-		GL11.glRotated(45, 0, 1, 0);
-		GL11.glTranslated(-0.5, 0, 0);
+		if(hasBayonet(stack)) {
+			double scale = 1.1875D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(1.5, 0, 0);
+		} else {
+			double scale = 1.375D;
+			GL11.glScaled(scale, scale, scale);
+			GL11.glRotated(25, 1, 0, 0);
+			GL11.glRotated(45, 0, 1, 0);
+			GL11.glTranslated(-0.5, 0, 0);
+		}
 	}
 
 	@Override
 	public void setupModTable(ItemStack stack) {
-		double scale = -7.5D;
+		double scale = -7.75D;
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, 0, -1.75);
 	}
 
 	@Override
@@ -121,7 +139,17 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_tex);
-		ResourceManager.carbine.renderAll();
+		ResourceManager.carbine.renderPart("Gun");
+		ResourceManager.carbine.renderPart("Slide");
+		ResourceManager.carbine.renderPart("Magazine");
+		if(hasBayonet(stack)) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_bayonet_tex);
+			ResourceManager.carbine.renderPart("Bayonet");
+		}
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasBayonet(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_CARBINE_BAYONET);
 	}
 }

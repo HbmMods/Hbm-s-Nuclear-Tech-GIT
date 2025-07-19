@@ -3,12 +3,22 @@ package com.hbm.items.armor;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.model.ModelCloak;
+import com.hbm.render.model.ModelGoggles;
+import com.hbm.render.model.ModelHat;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,45 +26,17 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-// Client-only imports - these will only be loaded on the client side
-import org.lwjgl.opengl.GL11;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import com.hbm.render.model.ModelCloak;
-import com.hbm.render.model.ModelGoggles;
-import com.hbm.render.model.ModelHat;
-
 @Spaghetti("more ctor stuff, less if/else bullshittery")
 // turns out you can't actually pass a model in the ctor because ModelBiped is
 // clientonly...
 public class ArmorModel extends ItemArmor {
 
-	// Static model instances for client-side rendering
-	@SideOnly(Side.CLIENT)
-	private static ModelGoggles modelGoggles;
-	@SideOnly(Side.CLIENT)
-	private static ModelHat modelHat;
-	@SideOnly(Side.CLIENT)
-	private static ModelCloak modelCloak;
-	@SideOnly(Side.CLIENT)
-	private static ResourceLocation[] gogglesBlurs;
+	@SideOnly(Side.CLIENT) private ModelGoggles modelGoggles;
+	@SideOnly(Side.CLIENT) private ModelHat modelHat;
+	@SideOnly(Side.CLIENT) private ModelCloak modelCloak;
 
-	/**
-	 * Initializes client-side resources for armor models
-	 */
 	@SideOnly(Side.CLIENT)
-	public static void initializeClientResources() {
-		modelGoggles = new ModelGoggles();
-		modelHat = new ModelHat(0);
-		modelCloak = new ModelCloak();
-		gogglesBlurs = IntStream.range(0, 6)
-				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
-				.toArray(ResourceLocation[]::new);
-	}
-
+	private ResourceLocation[] gogglesBlurs;
 
 	public ArmorModel(ArmorMaterial armorMaterial, int armorType) {
 		super(armorMaterial, 0, armorType);
@@ -63,11 +45,6 @@ public class ArmorModel extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		// Ensure client resources are initialized
-		if (modelGoggles == null) {
-			initializeClientResources();
-		}
-
 		if(this == ModItems.goggles) {
 			if(armorSlot == 0) {
 				if(modelGoggles == null) modelGoggles = new ModelGoggles();
@@ -112,14 +89,10 @@ public class ArmorModel extends ItemArmor {
 
 	@SideOnly(Side.CLIENT)
 	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY) {
-		// Ensure client resources are initialized
-		if (gogglesBlurs == null) {
-			initializeClientResources();
-		}
 
 		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
 			return;
-
+		
 		if(gogglesBlurs == null) gogglesBlurs = IntStream.range(0, 6)
 				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
 				.toArray(ResourceLocation[]::new);

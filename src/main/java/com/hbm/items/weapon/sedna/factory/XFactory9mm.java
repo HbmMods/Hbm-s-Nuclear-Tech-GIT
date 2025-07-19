@@ -47,7 +47,7 @@ public class XFactory9mm {
 				.setCasing(casing9.clone().register("p9fmj"));
 		p9_jhp = new BulletConfig().setItem(EnumAmmo.P9_JHP).setCasing(EnumCasingType.SMALL, 12).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing9.clone().register("p9jhp"));
-		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setCasing(EnumCasingType.SMALL_STEEL, 12).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F)
+		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setCasing(EnumCasingType.SMALL_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(5F).setArmorPiercing(0.15F)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9ap"));
 
 		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()

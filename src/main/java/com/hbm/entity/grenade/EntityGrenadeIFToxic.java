@@ -37,7 +37,6 @@ public class EntityGrenadeIFToxic extends EntityGrenadeBouncyBase {
     		ExplosionLarge.explode(worldObj, posX, posY, posZ, 2, true, true, true);
     		ExplosionChaos.poison(worldObj, (int)posX, (int)posY, (int)posZ, 12);
     		ExplosionNukeGeneric.waste(worldObj, (int)posX, (int)posY, (int)posZ, 12);
-    		ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, 50, 1.5, 0);
         }
     }
 

@@ -45,7 +45,7 @@ public class RenderPyroOven extends TileEntitySpecialRenderer implements IItemRe
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(1.5, 0, 1.5);
-		GL11.glRotated(anim * -15D % 360D, 0, 1, 0);
+		GL11.glRotated(anim * 45D % 360D, 0, 1, 0);
 		GL11.glTranslated(-1.5, 0, -1.5);
 		ResourceManager.pyrooven.renderPart("Fan");
 		GL11.glPopMatrix();

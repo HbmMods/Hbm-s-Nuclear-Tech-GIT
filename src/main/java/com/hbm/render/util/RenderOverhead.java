@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.WorldInAJar;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -158,6 +159,8 @@ public class RenderOverhead {
 					tess.setColorOpaque_F(0.5F, 1F, 0.5F);
 			} else
 				continue;
+			
+			if(ent instanceof EntityLivingBase && ((EntityLivingBase) ent).getHealth() <= 0) tess.setColorOpaque_F(0F, 0F, 0F);
 
 			AxisAlignedBB bb = ent.boundingBox;
 			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
@@ -272,7 +275,7 @@ public class RenderOverhead {
 
 			tagList.add(entry);
 
-			if(marker.expire > 0 && System.currentTimeMillis() > marker.expire) {
+			if(marker.expire > 0 && Clock.get_ms() > marker.expire) {
 				it.remove();
 			} else if(marker.maxDist > 0) {
 				double aX = pX + (maxX - minX) / 2D;

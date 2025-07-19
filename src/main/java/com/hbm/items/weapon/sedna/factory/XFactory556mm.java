@@ -5,6 +5,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.hbm.config.ClientConfig;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -28,17 +30,31 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 
 public class XFactory556mm {
 
-	public static final ResourceLocation scope_lilmac = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_44.png");
+	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_bolt.png");
 
 	public static BulletConfig r556_sp;
 	public static BulletConfig r556_fmj;
 	public static BulletConfig r556_jhp;
 	public static BulletConfig r556_ap;
+	
+	public static BulletConfig r556_inc_sp;
+	public static BulletConfig r556_inc_fmj;
+	public static BulletConfig r556_inc_jhp;
+	public static BulletConfig r556_inc_ap;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> INCENDIARY = (bullet, mop) -> {
+		if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) {
+			HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit);
+			if(data.phosphorus < 300) data.phosphorus = 300;
+		}
+	};
 
 	public static void init() {
 		SpentCasing casing556 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.8F);
@@ -48,24 +64,39 @@ public class XFactory556mm {
 				.setCasing(casing556.clone().register("r556fmj"));
 		r556_jhp = new BulletConfig().setItem(EnumAmmo.R556_JHP).setCasing(EnumCasingType.SMALL, 8).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing556.clone().register("r556jhp"));
-		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(10F).setArmorPiercing(0.15F)
+		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setCasing(EnumCasingType.SMALL_STEEL, 8).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(10F).setArmorPiercing(0.15F)
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556ap"));
 
+		r556_inc_sp = r556_sp.clone().setOnImpact(INCENDIARY);
+		r556_inc_fmj = r556_fmj.clone().setOnImpact(INCENDIARY);
+		r556_inc_jhp = r556_jhp.clone().setOnImpact(INCENDIARY);
+		r556_inc_ap = r556_ap.clone().setOnImpact(INCENDIARY);
+		
 		ModItems.gun_g3 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(2).auto(true).dry(15).spread(0.0F).reload(50).jam(47).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
+						.dmg(5F).delay(2).auto(true).dry(15).reload(50).jam(47).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_G3))
 				.setupStandardConfiguration().ps(Lego.LAMBDA_STANDARD_CLICK_SECONDARY)
 				.anim(LAMBDA_G3_ANIMS).orchestra(Orchestras.ORCHESTRA_G3)
 				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3");
+		ModItems.gun_g3_zebra = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
+				.dura(6_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE).scopeTexture(scope)
+				.rec(new Receiver(0)
+						.dmg(7.5F).delay(2).auto(true).dry(15).spreadHipfire(0.01F).reload(50).jam(47).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 30).addConfigs(r556_inc_sp, r556_inc_fmj, r556_inc_jhp, r556_inc_ap))
+						.offset(1, -0.0625 * 2.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ZEBRA))
+				.setupStandardConfiguration().ps(Lego.LAMBDA_STANDARD_CLICK_SECONDARY)
+				.anim(LAMBDA_G3_ANIMS).orchestra(Orchestras.ORCHESTRA_G3)
+				).setNameMutator(LAMBDA_NAME_G3).setUnlocalizedName("gun_g3_zebra");
 
 		ModItems.gun_stg77 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope_lilmac).smoke(LAMBDA_SMOKE)
+				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(2).dry(15).auto(true).spread(0.0F).reload(46).jam(0).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
+						.dmg(10F).delay(2).dry(15).auto(true).reload(46).jam(0).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STG))
@@ -100,6 +131,10 @@ public class XFactory556mm {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_G3 = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ZEBRA = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125));
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_STG = (stack, ctx) -> { };

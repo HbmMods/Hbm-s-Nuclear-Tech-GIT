@@ -2,9 +2,9 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.factory.XFactoryTool;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -41,15 +41,11 @@ public class ItemRenderFireExt implements IItemRenderer {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		int magType = ItemGunBase.getMagType(item);
-		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
-		int ammo = BulletConfigSyncingUtil.pullConfig(config).ammo.meta;
-		ResourceLocation tex;
-		switch (ammo) {
-			case 0: tex = ResourceManager.fireext_foam_tex; break;
-			case 1: tex = ResourceManager.fireext_sand_tex; break;
-			default: tex = ResourceManager.fireext_tex; break;
-		}
+		ItemGunBaseNT gun = (ItemGunBaseNT) item.getItem();
+		IMagazine mag = gun.getConfig(item, 0).getReceivers(item)[0].getMagazine(item);
+		ResourceLocation tex = ResourceManager.fireext_tex;
+		if(mag.getType(item, null) == XFactoryTool.fext_foam) tex = ResourceManager.fireext_foam_tex;
+		if(mag.getType(item, null) == XFactoryTool.fext_sand) tex = ResourceManager.fireext_sand_tex;
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		
 		switch(type) {

@@ -100,3 +100,4 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 		return ConnectionPriority.NORMAL;
 	}
 }
+

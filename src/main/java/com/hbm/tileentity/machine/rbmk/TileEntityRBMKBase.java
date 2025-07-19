@@ -18,8 +18,9 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -155,9 +156,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	 * Moves heat to neighboring parts, if possible, in a relatively fair manner
 	 */
 	private void moveHeat() {
-
-		if(heat == 20 && RBMKDials.getReasimBoilers(worldObj))
-			return;
+		
+		boolean reasim = RBMKDials.getReasimBoilers(worldObj);
 
 		List<TileEntityRBMKBase> rec = new ArrayList<>();
 		rec.add(this);
@@ -188,8 +188,10 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 			if(base != null) {
 				rec.add(base);
 				heatTot += base.heat;
-				waterTot += base.reasimWater;
-				steamTot += base.reasimSteam;
+				if(reasim) {
+					waterTot += base.reasimWater;
+					steamTot += base.reasimSteam;
+				}
 			}
 		}
 
@@ -210,13 +212,17 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 				rbmk.heat += delta * stepSize;
 
 				//set to the averages, rounded down
-				rbmk.reasimWater = tWater;
-				rbmk.reasimSteam = tSteam;
+				if(reasim) {
+					rbmk.reasimWater = tWater;
+					rbmk.reasimSteam = tSteam;
+				}
 			}
 
 			//add the modulo to make up for the losses coming from rounding
-			this.reasimWater += rWater;
-			this.reasimSteam += rSteam;
+			if(reasim) {
+				this.reasimWater += rWater;
+				this.reasimSteam += rSteam;
+			}
 
 			this.markDirty();
 		}

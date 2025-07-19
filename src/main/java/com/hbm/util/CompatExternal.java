@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidRegisterListener;
 import api.hbm.fluidmk2.IFluidUserMK2;
 import api.hbm.recipe.IRecipeRegisterListener;
 
@@ -16,6 +17,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
@@ -197,6 +199,15 @@ public class CompatExternal {
 	 */
 	public static void registerRecipeRegisterListener(IRecipeRegisterListener listener) {
 		SerializableRecipe.additionalListeners.add(listener);
+	}
+	
+	/**
+	 * Registers an IFluidRegisterListener which is called every time the fluid list is loaded, either during startup or when the refresh command is used.
+	 * Ensures that fluids are registered when they should, instead of being purged permanently when the system reloads.
+	 * @param listener
+	 */
+	public static void registerFluidRegisterListener(IFluidRegisterListener listener) {
+		Fluids.additionalListeners.add(listener);
 	}
 
 	public static void compatExamples() {

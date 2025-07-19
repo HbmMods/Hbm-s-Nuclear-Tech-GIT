@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -153,6 +154,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		return (int) Math.ceil((stacks.size() - 1) / (5 * 7));
 	}
 
+	@Override
 	public void updateScreen() {
 		if(currentPage < 0)
 			currentPage = 0;
@@ -160,6 +162,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			currentPage = getPageCount();
 	}
 
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
@@ -168,6 +171,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
+	@Override
 	public void initGui() {
 		super.initGui();
 		this.guiLeft = (this.width - this.xSize) / 2;
@@ -204,6 +208,26 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			buttons.add(new FolderButton(guiLeft + 25 + (27 * 4) + 18, guiTop + 26 + (27 * 3), 2, "Next"));
 	}
 
+	@Override
+	public void handleMouseInput() {
+		super.handleMouseInput();
+
+		if(Mouse.getEventButton() == -1) {
+			int scroll = Mouse.getEventDWheel();
+
+			if(scroll > 0) {
+				if(currentPage > 0)
+					currentPage--;
+				updateButtons();
+			} else if(scroll < 0) {
+				if(currentPage < getPageCount())
+					currentPage++;
+				updateButtons();
+			}
+		}
+	}
+
+	@Override
 	protected void mouseClicked(int i, int j, int k) {
 		
 		if(i >= guiLeft + 45 && i < guiLeft + 117 && j >= guiTop + 211 && j < guiTop + 223) {
@@ -251,6 +275,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		search.drawTextBox();
 	}
 
+	@Override
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
 		
 		if (this.search.textboxKeyTyped(p_73869_1_, p_73869_2_)) {

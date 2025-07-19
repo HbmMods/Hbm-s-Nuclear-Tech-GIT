@@ -22,7 +22,7 @@ public class ItemRenderChemthrower extends ItemRenderWeaponBase {
 		
 		float offset = 0.8F;
 		standardAimingTransform(stack,
-				-2F * offset, -2F * offset, 2.5F * offset,
+				-2.5F * offset, -2.5F * offset, 2.5F * offset,
 				0, -4.375 / 8D, 1);
 	}
 
