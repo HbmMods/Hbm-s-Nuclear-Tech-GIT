@@ -3,6 +3,7 @@ package api.ntm1of90.compat.fluid;
 import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
 import api.ntm1of90.compat.fluid.registry.FluidRegistry;
 import api.ntm1of90.compat.fluid.registry.ForgeFluidAdapterRegistry;
+import api.ntm1of90.compat.fluid.render.HBMStyleFluidRenderer;
 import api.ntm1of90.compat.fluid.render.NTMFluidCompatRenderer;
 import api.ntm1of90.compat.fluid.render.NTMFluidTextureMapper;
 import api.ntm1of90.compat.fluid.render.NTMForgeFluidRenderer;
@@ -48,6 +49,9 @@ public class ForgeFluidCompatManager {
 
         // Only initialize client-side components when on the client
         if (cpw.mods.fml.common.FMLCommonHandler.instance().getSide() == cpw.mods.fml.relauncher.Side.CLIENT) {
+            // Initialize the HBM-style fluid renderer
+            HBMStyleFluidRenderer.initialize();
+
             // Initialize the fluid texture mapper
             NTMFluidTextureMapper.initialize();
 

@@ -282,6 +282,8 @@ public class MainRegistry {
 		api.ntm1of90.compat.fluid.registry.FluidMappingRegistry.initialize();
 		api.ntm1of90.compat.fluid.render.NTMFluidTextureMapper.initialize();
 		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.initialize();
+		// Initialize the HBM-style fluid renderer
+		api.ntm1of90.compat.fluid.render.HBMStyleFluidRenderer.initialize();
 		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
 		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.setBrightnessFactor(1.2f);
 		api.ntm1of90.compat.fluid.render.NTMForgeFluidRenderer.initialize();
