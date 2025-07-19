@@ -13,6 +13,8 @@ import api.hbm.redstoneoverradio.IRORInfo;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
 import com.hbm.inventory.material.Mats;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
@@ -26,13 +28,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.IFluidHandler;
 
 @Optional.InterfaceList({
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
-	
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive, IFluidHandler {
+
 	TileEntity tile;
 	boolean inventory;
 	boolean power;
@@ -45,18 +48,18 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	String componentName = CompatHandler.nullComponent;
 
 	public TileEntityProxyCombo() { }
-	
+
 	public TileEntityProxyCombo(boolean inventory, boolean power, boolean fluid) {
 		this.inventory = inventory;
 		this.power = power;
 		this.fluid = fluid;
 	}
-	
+
 	public TileEntityProxyCombo inventory() {
 		this.inventory = true;
 		return this;
 	}
-	
+
 	public TileEntityProxyCombo power() {
 		this.power = true;
 		return this;
@@ -69,12 +72,12 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.fluid = true;
 		return this;
 	}
-	
+
 	public TileEntityProxyCombo heatSource() {
 		this.heat = true;
 		return this;
 	}
-	
+
 	/** Returns the actual tile entity that represents the core. Only for internal use. */
 	protected TileEntity getTile() {
 		if(tile == null || tile.isInvalid()) {
@@ -82,7 +85,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		}
 		return tile;
 	}
-	
+
 	/** Returns the core tile entity, or a delegate object. */
 	protected Object getCoreObject() {
 		return getTile();
@@ -90,10 +93,10 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public void setPower(long i) {
-		
+
 		if(!power)
 			return;
-		
+
 		if(getCoreObject() instanceof IEnergyReceiverMK2) {
 			((IEnergyReceiverMK2)getCoreObject()).setPower(i);
 		}
@@ -101,97 +104,97 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public long getPower() {
-		
+
 		if(!power)
 			return 0;
-		
+
 		if(getCoreObject() instanceof IEnergyReceiverMK2) {
 			return ((IEnergyReceiverMK2)getCoreObject()).getPower();
 		}
-		
+
 		return 0;
 	}
 
 	@Override
 	public long getMaxPower() {
-		
+
 		if(!power)
 			return 0;
-		
+
 		if(getCoreObject() instanceof IEnergyReceiverMK2) {
 			return ((IEnergyReceiverMK2)getCoreObject()).getMaxPower();
 		}
-		
+
 		return 0;
 	}
 
 	@Override
 	public long transferPower(long power) {
-		
+
 		if(!this.power)
 			return power;
-		
+
 		if(getCoreObject() instanceof IEnergyReceiverMK2) {
 			return ((IEnergyReceiverMK2)getCoreObject()).transferPower(power);
 		}
-		
+
 		return power;
 	}
 
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
-		
+
 		if(!power)
 			return false;
-		
+
 		if(getCoreObject() instanceof IEnergyReceiverMK2) {
 			return ((IEnergyReceiverMK2)getCoreObject()).canConnect(dir);
 		}
-		
+
 		return true;
 	}
 
 	public static final FluidTank[] EMPTY_TANKS = new FluidTank[0];
-	
+
 	@Override
 	public FluidTank[] getAllTanks() {
 		if(!fluid) return EMPTY_TANKS;
-		
+
 		if(getCoreObject() instanceof IFluidReceiverMK2) {
 			return ((IFluidReceiverMK2)getCoreObject()).getAllTanks();
 		}
-		
+
 		return EMPTY_TANKS;
 	}
 
 	@Override
 	public long transferFluid(FluidType type, int pressure, long amount) {
 		if(!fluid) return amount;
-		
+
 		if(getCoreObject() instanceof IFluidReceiverMK2) {
 			return ((IFluidReceiverMK2)getCoreObject()).transferFluid(type, pressure, amount);
 		}
-		
+
 		return amount;
 	}
 
 	@Override
 	public long getDemand(FluidType type, int pressure) {
 		if(!fluid) return 0;
-		
+
 		if(getCoreObject() instanceof IFluidReceiverMK2) {
 			return ((IFluidReceiverMK2)getCoreObject()).getDemand(type, pressure);
 		}
-		
+
 		return 0;
 	}
-	
+
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		
+
 		if(!this.fluid)
 			return false;
-		
+
 		if(getCoreObject() instanceof IFluidConnectorMK2) {
 			return ((IFluidConnectorMK2) getCoreObject()).canConnect(type, dir);
 		}
@@ -200,59 +203,59 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public int getSizeInventory() {
-		
+
 		if(!inventory)
 			return 0;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).getSizeInventory();
 		}
-		
+
 		return 0;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		
+
 		if(!inventory)
 			return null;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).getStackInSlot(slot);
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).decrStackSize(i, j);
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		
+
 		if(!inventory)
 			return null;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).getStackInSlotOnClosing(slot);
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		
+
 		if(!inventory)
 			return;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			((ISidedInventory)getCoreObject()).setInventorySlotContents(slot, stack);
 		}
@@ -260,62 +263,62 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public String getInventoryName() {
-		
+
 		if(!inventory)
 			return null;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).getInventoryName();
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		
+
 		if(!inventory)
 			return false;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).hasCustomInventoryName();
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		
+
 		if(!inventory)
 			return 0;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).getInventoryStackLimit();
 		}
-		
+
 		return 0;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		
+
 		if(!inventory)
 			return false;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			return ((ISidedInventory)getCoreObject()).isUseableByPlayer(player);
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void openInventory() {
-		
+
 		if(!inventory)
 			return;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			((ISidedInventory)getCoreObject()).openInventory();
 		}
@@ -323,10 +326,10 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public void closeInventory() {
-		
+
 		if(!inventory)
 			return;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
 			((ISidedInventory)getCoreObject()).closeInventory();
 		}
@@ -334,68 +337,68 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		
+
 		if(!inventory)
 			return false;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
-			
+
 			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).isItemValidForSlot(xCoord, yCoord, zCoord, slot, stack);
-			
+
 			return ((ISidedInventory)getCoreObject()).isItemValidForSlot(slot, stack);
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		
+
 		if(!inventory)
 			return new int[0];
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
-			
+
 			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).getAccessibleSlotsFromSide(xCoord, yCoord, zCoord, side);
-			
+
 			return ((ISidedInventory)getCoreObject()).getAccessibleSlotsFromSide(side);
 		}
-		
+
 		return new int[0];
 	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack stack, int j) {
-		
+
 		if(!inventory)
 			return false;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
-			
+
 			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canInsertItem(xCoord, yCoord, zCoord, i, stack, j);
-			
+
 			return ((ISidedInventory)getCoreObject()).canInsertItem(i, stack, j);
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		
+
 		if(!inventory)
 			return false;
-		
+
 		if(getCoreObject() instanceof ISidedInventory) {
-			
+
 			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canExtractItem(xCoord, yCoord, zCoord, i, stack, j);
-			
+
 			return ((ISidedInventory)getCoreObject()).canExtractItem(i, stack, j);
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -409,7 +412,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			this.componentName = nbt.getString("ocname");
 
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -425,23 +428,23 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	@Override
 	public int getHeatStored() {
-		
+
 		if(!this.heat)
 			return 0;
-		
+
 		if(getCoreObject() instanceof IHeatSource) {
 			return ((IHeatSource)getCoreObject()).getHeatStored();
 		}
-		
+
 		return 0;
 	}
 
 	@Override
 	public void useUpHeat(int heat) {
-		
+
 		if(!this.heat)
 			return;
-		
+
 		if(getCoreObject() instanceof IHeatSource) {
 			((IHeatSource)getCoreObject()).useUpHeat(heat);
 		}
@@ -535,5 +538,103 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	public String runRORFunction(String name, String[] params) {
 		if(getCoreObject() instanceof IRORInteractive) return ((IRORInteractive) getCoreObject()).runRORFunction(name, params);
 		return null;
+	}
+
+	// Forge IFluidHandler implementation using ntm1of90 API
+
+	private ForgeFluidHandlerAdapter forgeAdapter = new ForgeFluidHandlerAdapter() {
+		@Override
+		protected FluidTank[] getHbmTanks() {
+			if (!fluid) {
+				return new FluidTank[0];
+			}
+
+			Object coreObj = getCoreObject();
+			if (coreObj instanceof IFluidReceiverMK2) {
+				return ((IFluidReceiverMK2) coreObj).getAllTanks();
+			}
+
+			return new FluidTank[0];
+		}
+
+		@Override
+		protected TileEntity getTileEntity() {
+			Object coreObj = getCoreObject();
+			if (coreObj instanceof TileEntity) {
+				return (TileEntity) coreObj;
+			}
+			return TileEntityProxyCombo.this;
+		}
+
+		@Override
+		protected boolean isValidDirection(ForgeDirection from) {
+			// Only allow fluid transfer if this proxy is configured for fluid handling
+			if (!fluid) {
+				return false;
+			}
+
+			// Check if the core tile entity can connect in this direction
+			Object coreObj = getCoreObject();
+			if (coreObj instanceof IFluidConnectorMK2) {
+				// We need to determine the fluid type, but since we don't have it here,
+				// we'll use a more permissive approach and let the core decide
+				return true;
+			}
+
+			return true; // Default to allowing connections if core supports fluids
+		}
+	};
+
+	static {
+		// Initialize the fluid mapping registry
+		FluidMappingRegistry.initialize();
+	}
+
+	@Override
+	public int fill(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doFill) {
+		if (!fluid) {
+			return 0;
+		}
+		return forgeAdapter.fill(from, resource, doFill);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doDrain) {
+		if (!fluid) {
+			return null;
+		}
+		return forgeAdapter.drain(from, resource, doDrain);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		if (!fluid) {
+			return null;
+		}
+		return forgeAdapter.drain(from, maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		if (!this.fluid) {
+			return false;
+		}
+		return forgeAdapter.canFill(from, fluid);
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		if (!this.fluid) {
+			return false;
+		}
+		return forgeAdapter.canDrain(from, fluid);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		if (!fluid) {
+			return new net.minecraftforge.fluids.FluidTankInfo[0];
+		}
+		return forgeAdapter.getTankInfo(from);
 	}
 }
