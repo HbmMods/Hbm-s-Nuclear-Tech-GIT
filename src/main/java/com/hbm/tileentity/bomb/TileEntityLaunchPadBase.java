@@ -378,19 +378,17 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		
 		boolean needsDesignator = needsDesignator(slots[0].getItem());
 
-		int targetX = xCoord;
-		int targetZ = zCoord;
+		int targetX = 0;
+		int targetZ = 0;
 		
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
 			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
 			
-			if(needsDesignator) {
-				if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) return BombReturnCode.ERROR_MISSING_COMPONENT;
-				
-				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
-				targetX = (int) Math.floor(coords.xCoord);
-				targetZ = (int) Math.floor(coords.zCoord);
-			}
+			if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord) && needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
+			
+			Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+			targetX = (int) Math.floor(coords.xCoord);
+			targetZ = (int) Math.floor(coords.zCoord);
 			
 		} else {
 			if(needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
@@ -528,12 +526,6 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		return new Object[] {false};
 	}
 
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getPos(Context context, Arguments args) {
-		return new Object[] {xCoord, yCoord, zCoord};
-	}
-
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
@@ -542,8 +534,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				"getFluid",
 				"canLaunch",
 				"getTier",
-				"launch",
-				"getPos"
+				"launch"
 		};
 	}
 
@@ -561,8 +552,6 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
-			case ("getPos"):
-				return getPos(context, args);
 		}
 	throw new NoSuchMethodException();
 	}

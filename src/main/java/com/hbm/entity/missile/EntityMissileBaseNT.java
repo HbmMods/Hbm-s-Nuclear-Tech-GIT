@@ -3,7 +3,6 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
@@ -281,12 +280,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-			this.onMissileImpact(mop);
+			this.onImpact();
 			this.setDead();
 		}
 	}
 
-	public abstract void onMissileImpact(MovingObjectPosition mop);
+	public abstract void onImpact();
 	public abstract List<ItemStack> getDebris();
 	public abstract ItemStack getDebrisRareDrop();
 	public void cluster() { }
@@ -328,10 +327,8 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
-
-			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			
+			clearChunkLoader();
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
@@ -351,8 +348,9 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			ForgeChunkManager.releaseTicket(loaderTicket);
-			this.loaderTicket = null;
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 	

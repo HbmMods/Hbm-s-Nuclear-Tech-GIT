@@ -3,7 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
@@ -194,10 +193,8 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
-
-			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			
+			clearChunkLoader();
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
@@ -216,8 +213,9 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			ForgeChunkManager.releaseTicket(loaderTicket);
-			this.loaderTicket = null;
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 

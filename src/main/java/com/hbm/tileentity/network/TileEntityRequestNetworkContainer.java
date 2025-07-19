@@ -70,7 +70,7 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.customName : getName(); }
 	public abstract String getName();
 	@Override public boolean hasCustomInventoryName() { return this.customName != null && this.customName.length() > 0; }
-	public void setCustomName(String name) { this.customName = name; markDirty(); }
+	public void setCustomName(String name) { this.customName = name; }
 	@Override public int getInventoryStackLimit() { return 64; }
 
 	@Override
@@ -117,8 +117,6 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-
-		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -137,9 +135,5 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 			}
 		}
 		nbt.setTag("items", list);
-		
-		if (customName != null) {
-			nbt.setString("name", customName);
-		}
 	}
 }

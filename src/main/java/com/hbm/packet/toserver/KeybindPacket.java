@@ -40,6 +40,7 @@ public class KeybindPacket implements IMessage {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
 			HbmKeybindsServer.onPressedServer(p, EnumKeybind.values()[m.key], m.pressed);
+			
 			return null;
 		}
 	}

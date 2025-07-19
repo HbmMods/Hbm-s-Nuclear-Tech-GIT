@@ -2,7 +2,6 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
@@ -13,12 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderG3 extends ItemRenderWeaponBase {
-	
-	public ResourceLocation texture;
-	
-	public ItemRenderG3(ResourceLocation texture) {
-		this.texture = texture;
-	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
@@ -216,16 +209,16 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	}
 	
 	public boolean hasSilencer(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
 	}
 	
 	public boolean isScoped(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
 	}
 	
 	public ResourceLocation getTexture(ItemStack stack) {
 		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_GREEN)) return ResourceManager.g3_green_tex;
 		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK)) return ResourceManager.g3_black_tex;
-		return texture;
+		return ResourceManager.g3_tex;
 	}
 }

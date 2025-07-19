@@ -151,7 +151,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
-			nbt.setInteger("timer", this.volcanoTimer);
+			nbt.setInteger("tier", this.volcanoTimer);
 		}
 
 		private boolean shouldGrow() {

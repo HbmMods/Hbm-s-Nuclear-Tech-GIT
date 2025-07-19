@@ -7,7 +7,6 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
-@Deprecated
 public class HbmFace {
     public Vertex[] vertices;
     public Vertex[] vertexNormals;
@@ -15,13 +14,13 @@ public class HbmFace {
     public TextureCoordinate[] textureCoordinates;
 
     @SideOnly(Side.CLIENT)
-    public void addFaceForRender(float currentTime, Tessellator tessellator)
+    public void addFaceForRender(Tessellator tessellator)
     {
-        addFaceForRender(currentTime, tessellator, 0.0005F);
+        addFaceForRender(tessellator, 0.0005F);
     }
 
     @SideOnly(Side.CLIENT)
-    public void addFaceForRender(float currentTime, Tessellator tessellator, float textureOffset)
+    public void addFaceForRender(Tessellator tessellator, float textureOffset)
     {
         if (faceNormal == null)
         {
@@ -32,7 +31,6 @@ public class HbmFace {
 
         float averageU = 0F;
         float averageV = 0F;
-	float animOffset = 0F;
 
         if ((textureCoordinates != null) && (textureCoordinates.length > 0))
         {
@@ -44,7 +42,6 @@ public class HbmFace {
 
             averageU = averageU / textureCoordinates.length;
             averageV = averageV / textureCoordinates.length;
-	    animOffset = (float)(((double)currentTime % HmfController.modoloMod) / HmfController.quotientMod);
         }
 
         float offsetU, offsetV;
@@ -66,7 +63,7 @@ public class HbmFace {
                     offsetV = -offsetV;
                 }
 
-                tessellator.addVertexWithUV(vertices[i].x, vertices[i].y, vertices[i].z, textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV + animOffset);
+                tessellator.addVertexWithUV(vertices[i].x, vertices[i].y, vertices[i].z, textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV + (((double)System.currentTimeMillis() % HmfController.modoloMod) / HmfController.quotientMod));
             }
             else
             {

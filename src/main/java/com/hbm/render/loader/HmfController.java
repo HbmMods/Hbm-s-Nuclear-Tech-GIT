@@ -1,6 +1,5 @@
 package com.hbm.render.loader;
 
-@Deprecated
 public class HmfController {
 	
 	public static double modoloMod = 100000D;

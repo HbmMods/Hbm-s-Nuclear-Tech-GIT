@@ -66,7 +66,6 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 
 	public void setCustomName(String name) {
 		this.customName = name;
-		markDirty();
 	}
 
 	@Override
@@ -135,8 +134,6 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 					slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 				}
 			}
-
-			customName = nbt.getString("name");
 		}
 	}
 
@@ -156,10 +153,6 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 				}
 			}
 			nbt.setTag("items", list);
-		
-			if (customName != null) {
-				nbt.setString("name", customName);
-			}
 		}
 	}
 }

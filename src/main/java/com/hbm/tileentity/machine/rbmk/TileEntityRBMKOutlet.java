@@ -26,7 +26,7 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 		
 		if(!worldObj.isRemote) {
 			
-			if(RBMKDials.getReasimBoilers(worldObj)) for(int i = 2; i < 6; i++) {
+			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				

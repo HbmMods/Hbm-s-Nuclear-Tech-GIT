@@ -2,8 +2,7 @@ package com.hbm.items.armor;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.util.i18n.I18nUtil;
-
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,14 +22,14 @@ public class ItemModNightVision extends ItemArmorMod {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.AQUA + I18nUtil.format("item.night_vision.description.item"));
+		list.add(EnumChatFormatting.AQUA + I18n.format("item.night_vision.description.item"));
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.format("item.night_vision.description.in_armor", stack.getDisplayName()));
+		list.add(EnumChatFormatting.YELLOW + I18n.format("item.night_vision.description.in_armor", stack.getDisplayName()));
 	}
 
 	@Override

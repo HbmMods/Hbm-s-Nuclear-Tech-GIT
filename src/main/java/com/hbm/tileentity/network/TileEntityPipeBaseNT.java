@@ -62,7 +62,6 @@ public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluid
 	}
 
 	public void setType(FluidType type) {
-		FluidType prev = this.type;
 		this.type = type;
 		this.markDirty();
 
@@ -70,10 +69,9 @@ public class TileEntityPipeBaseNT extends TileEntityLoadedBase implements IFluid
 			WorldServer world = (WorldServer) worldObj;
 			world.getPlayerManager().markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
-		
-		UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, prev.getNetworkProvider());
 
 		if(this.node != null) {
+			UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, type.getNetworkProvider());
 			this.node = null;
 		}
 	}

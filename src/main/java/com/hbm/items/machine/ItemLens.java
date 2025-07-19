@@ -43,14 +43,15 @@ public class ItemLens extends Item {
 		
 		stack.stackTagCompound.setLong("damage", damage);
 	}
+	
+    public double getDurabilityForDisplay(ItemStack stack)
+    {
+        return (double)getLensDamage(stack) / (double)maxDamage;
+    }
+    
+    public boolean showDurabilityBar(ItemStack stack)
+    {
+        return getDurabilityForDisplay(stack) != 0;
+    }
 
-	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		return (double) getLensDamage(stack) / (double) maxDamage;
-	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
-		return getDurabilityForDisplay(stack) != 0;
-	}
 }

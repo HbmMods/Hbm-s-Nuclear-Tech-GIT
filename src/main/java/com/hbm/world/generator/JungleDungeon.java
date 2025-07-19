@@ -11,7 +11,6 @@ import com.hbm.world.generator.TimedGenerator.ITimedJob;
 
 import net.minecraft.world.World;
 
-@Deprecated
 @NotableComments
 public class JungleDungeon extends CellularDungeon {
 	

@@ -27,40 +27,32 @@ public class ContainerMassStorage extends ContainerBase {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack result = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
+	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
 
-		// Refill instantly if needed, then do regular slot behavior
-		if(index == 2 && slot != null && !slot.getHasStack()) {
-			slot.putStack(storage.quickExtract());
-		}
+		if(var4 != null && var4.getHasStack()) {
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
 
-		if(slot != null && slot.getHasStack()) {
-			ItemStack initial = slot.getStack();
-			result = initial.copy();
-
-			if(index == 0 || index == 2) {
-				if(!this.mergeItemStack(initial, storage.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 == 0 || par2 == 2) {
+				if(!this.mergeItemStack(var5, storage.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else {
-				// Try to insert instantly, then fall back to regular slot behavior
-				if(!storage.quickInsert(initial) && !this.mergeItemStack(initial, 0, 1, false)) {
-					return null;
-				}
+			} else if(!this.mergeItemStack(var5, 0, 1, false)) {
+				return null;
 			}
 
-			if(initial.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+			if(var5.stackSize == 0) {
+				var4.putStack((ItemStack) null);
 			} else {
-				slot.onSlotChanged();
+				var4.onSlotChanged();
 			}
 
-			slot.onPickupFromSlot(player, initial);
+			var4.onPickupFromSlot(player, var5);
 		}
 
-		return result;
+		return var3;
 	}
 
 	@Override
@@ -87,7 +79,13 @@ public class ContainerMassStorage extends ContainerBase {
 		if(storage.getStockpile() > 0)
 			return ret;
 
-		slot.putStack(held);
+		slot.putStack(held != null ? held.copy() : null);
+		
+		if(slot.getHasStack()) {
+			slot.getStack().stackSize = 1;
+		}
+		
+		slot.onSlotChanged();
 		
 		return ret;
 	}

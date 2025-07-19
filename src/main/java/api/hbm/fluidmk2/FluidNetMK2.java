@@ -150,4 +150,3 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 		}
 	}
 }
-

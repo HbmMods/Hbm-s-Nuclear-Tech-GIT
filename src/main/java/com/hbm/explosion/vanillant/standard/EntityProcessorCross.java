@@ -79,12 +79,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 		for(int index = 0; index < list.size(); ++index) {
 			
 			Entity entity = (Entity) list.get(index);
-			
-			double xDist = (entity.boundingBox.minX <= x && entity.boundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entity.boundingBox.minX - x), Math.abs(entity.boundingBox.maxX - x));
-			double yDist = (entity.boundingBox.minY <= y && entity.boundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entity.boundingBox.minY - y), Math.abs(entity.boundingBox.maxY - y));
-			double zDist = (entity.boundingBox.minZ <= z && entity.boundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entity.boundingBox.minZ - z), Math.abs(entity.boundingBox.maxZ - z));
-			double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
-			double distanceScaled = dist / size;
+			double distanceScaled = entity.getDistance(x, y, z) / size;
 
 			if(distanceScaled <= 1.0D) {
 				
@@ -133,11 +128,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 			attackEntity(entity, explosion, entry.getValue());
 			
 			if(damage != null) {
-				double xDist = (entity.boundingBox.minX <= x && entity.boundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entity.boundingBox.minX - x), Math.abs(entity.boundingBox.maxX - x));
-				double yDist = (entity.boundingBox.minY <= y && entity.boundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entity.boundingBox.minY - y), Math.abs(entity.boundingBox.maxY - y));
-				double zDist = (entity.boundingBox.minZ <= z && entity.boundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entity.boundingBox.minZ - z), Math.abs(entity.boundingBox.maxZ - z));
-				double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
-				double distanceScaled = dist / size;
+				double distanceScaled = entity.getDistance(x, y, z) / size;
 				damage.handleAttack(explosion, entity, distanceScaled);
 			}
 		}

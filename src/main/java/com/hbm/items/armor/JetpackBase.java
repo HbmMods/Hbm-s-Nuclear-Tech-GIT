@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.render.model.ModelJetPack;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,6 +57,8 @@ public abstract class JetpackBase extends ItemArmorMod {
 			return;
 				
 		onArmorTick(entity.worldObj, (EntityPlayer)entity, jetpack);
+		ArmorUtil.resetFlightTime((EntityPlayer)entity);
+		
 		ArmorModHandler.applyMod(armor, jetpack);
 	}
 

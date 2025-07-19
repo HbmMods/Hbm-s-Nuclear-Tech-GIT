@@ -7,7 +7,6 @@ import com.hbm.interfaces.Spaghetti;
 
 import net.minecraft.world.World;
 
-@Deprecated
 @Spaghetti("this class should be destroyed")
 public class TimedGenerator {
 	

@@ -53,8 +53,7 @@ public class ItemEnums {
 	public static enum EnumChunkType {
 		RARE,
 		MALACHITE,
-		CRYOLITE,
-		MOONSTONE
+		CRYOLITE
 	}
 
 	public static enum EnumAchievementType {
@@ -88,6 +87,6 @@ public class ItemEnums {
 	}
 
 	public static enum EnumIngotMetal {
-		SCRAP, INGOT, COUNTER, KEY, BEACON, CASING, CLOCKWORK, BAR, DETECTOR
+		INGOT, COUNTER, KEY, BEACON, CASING, CLOCKWORK, BAR, DETECTOR
 	}
 }

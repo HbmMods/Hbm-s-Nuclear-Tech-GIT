@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
-import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ServerConfig;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
@@ -40,9 +38,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -108,21 +105,6 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-		
-		if(!world.isRemote && !ServerConfig.CRATE_KEEP_CONTENTS.get()) {
-			dropInv = true;
-			if(!player.capabilities.isCreativeMode) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this)));
-			}
-			TileEntity inv = world.getTileEntity(x, y, z);
-			if(inv instanceof TileEntityLockableBase) {
-				TileEntityLockableBase lockable = (TileEntityLockableBase) inv;
-				if(lockable.isLocked()) dropInv = false;
-			}
-			boolean flag = world.setBlockToAir(x, y, z);
-			dropInv = true;
-			return flag;
-		}
 
 		if(!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
 
@@ -154,28 +136,14 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 				}
 			}
 
-			if(inv instanceof TileEntityCrateBase) {
-				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
-				// Saves memory and ensures consistency between crafted crates and mined ones
-				if (crate.hasSpiders) {
-					nbt.setBoolean("spiders", true);
-				}
-			}
+			if(inv instanceof TileEntityCrateBase)
+				nbt.setBoolean("spiders", ((TileEntityCrateBase) inv).hasSpiders);
 
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
-			}
 
-			if(inv instanceof TileEntityCrateBase) {
-				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
-				if (crate.hasCustomInventoryName()) {
-					drop.setStackDisplayName(crate.getInventoryName());
-				}
-			}
-
-			if (drop.hasTagCompound()) {
 				try {
-					byte[] abyte = CompressedStreamTools.compress(drop.stackTagCompound);
+					byte[] abyte = CompressedStreamTools.compress(nbt);
 
 					if(abyte.length > 6000) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
@@ -236,14 +204,8 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 					lockable.lock();
 				}
 			}
-
 			if(inv instanceof TileEntityCrateBase) {
-				TileEntityCrateBase crate = (TileEntityCrateBase) inv;
-				crate.hasSpiders = stack.stackTagCompound.getBoolean("spiders");
-
-				if (stack.hasDisplayName()) {
-					crate.setCustomName(stack.getDisplayName());
-				}
+				((TileEntityCrateBase) inv).hasSpiders = stack.stackTagCompound.getBoolean("spiders");
 			}
 		}
 
@@ -252,10 +214,18 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		if(i == 0) {
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		}
+		if(i == 1) {
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		}
+		if(i == 2) {
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		}
+		if(i == 3) {
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
 	}
 
 	@Override
@@ -375,21 +345,5 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti, IL
 				}
 			}
 		}
-	}
-
-	@Override
-	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
-		
-		TileEntity te = world.getTileEntity(x, y, z);
-
-		if (!(te instanceof IInventory))
-			return;
-
-		IInventory inv = (IInventory) te;
-
-		if (!inv.hasCustomInventoryName())
-			return;
-		
-		ILookOverlay.printGeneric(event, inv.getInventoryName(), 0xffff00, 0x404000, new ArrayList<String>(0));
 	}
 }

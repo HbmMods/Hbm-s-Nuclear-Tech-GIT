@@ -52,7 +52,13 @@ public class ContainerCraneRouter extends ContainerBase {
 			
 		} else {
 	
-			slot.putStack(held);
+			slot.putStack(held != null ? held.copy() : null);
+			
+			if(slot.getHasStack()) {
+				slot.getStack().stackSize = 1;
+			}
+			
+			slot.onSlotChanged();
 			router.initPattern(slot.getStack(), index);
 			
 			return ret;

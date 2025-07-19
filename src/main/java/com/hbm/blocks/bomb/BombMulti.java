@@ -18,12 +18,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityMist;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IBomb;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
 
@@ -171,11 +169,7 @@ public class BombMulti extends BlockContainer implements IBomb {
 				}
 
 				if(gasCloud > 0) {
-					EntityMist mist = new EntityMist(world);
-					mist.setType(Fluids.CHLORINE);
-					mist.setPosition(x + 0.5, y + 0.5, z + 0.5);
-					mist.setArea(gasCloud * 15F / 50F, gasCloud * 7.5F / 50F);
-					world.spawnEntityInWorld(mist);
+					ExplosionChaos.spawnChlorine(world, x, y, z, gasCloud, gasCloud / 50, 0);
 				}
 				
 				return BombReturnCode.DETONATED;

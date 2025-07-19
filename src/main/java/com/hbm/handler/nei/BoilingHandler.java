@@ -23,9 +23,14 @@ public class BoilingHandler extends NEIUniversalHandler {
 		return "ntmBoiling";
 	}
 
+	public static HashMap<Object, Object> cache;
+	public static boolean isReload=false;
+
 	public static HashMap<Object, Object> generateRecipes() {
 
-		HashMap<Object, Object> recipes = new HashMap();
+		if(cache != null && !isReload) return cache;
+
+		cache = new HashMap();
 
 		for(FluidType type : Fluids.getInNiceOrder()) {
 
@@ -34,11 +39,11 @@ public class BoilingHandler extends NEIUniversalHandler {
 
 				if(trait.getEfficiency(HeatingType.BOILER) > 0) {
 					HeatingStep step = trait.getFirstStep();
-					recipes.put(ItemFluidIcon.make(type, step.amountReq), ItemFluidIcon.make(step.typeProduced, step.amountProduced));
+					cache.put(ItemFluidIcon.make(type, step.amountReq), ItemFluidIcon.make(step.typeProduced, step.amountProduced));
 				}
 			}
 		}
-		
-		return recipes;
+		isReload=false;
+		return cache;
 	}
 }

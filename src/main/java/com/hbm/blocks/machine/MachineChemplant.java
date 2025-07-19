@@ -11,7 +11,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Deprecated
 public class MachineChemplant extends BlockDummyable {
 
 	public MachineChemplant(Material p_i45386_1_) {

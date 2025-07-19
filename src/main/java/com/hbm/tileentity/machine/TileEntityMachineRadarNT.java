@@ -694,12 +694,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return new Object[]{false, e.posX, e.posY, e.posZ, type};
 	}
 
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getPos(Context context, Arguments args) {
-		return new Object[] {xCoord, yCoord, zCoord};
-	}
-
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
@@ -712,8 +706,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				"getAmount",
 				"isIndexPlayer",
 				"getIndexType",
-				"getEntityAtIndex",
-				"getPos"
+				"getEntityAtIndex"
 		};
 	}
 
@@ -739,8 +732,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				return getIndexType(context, args);
 			case ("getEntityAtIndex"):
 				return getEntityAtIndex(context, args);
-			case("getPos"):
-				return getPos(context, args);
 		}
 		throw new NoSuchMethodException();
 	}

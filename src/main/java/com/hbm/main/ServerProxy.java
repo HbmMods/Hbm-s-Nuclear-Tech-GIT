@@ -3,9 +3,7 @@ package com.hbm.main;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.util.i18n.I18nServer;
-import com.hbm.util.i18n.ITranslate;
-
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerProxy {
-	
-	private static final I18nServer I18N = new I18nServer();
 
 	//sort by estimated time of display. longer lasting ones should be sorted at the top.
 	public static final int ID_DUCK = 0;
@@ -30,11 +26,9 @@ public class ServerProxy {
 	public static final int ID_HUD = 7;
 	public static final int ID_DETONATOR = 8;
 	public static final int ID_FLUID_ID = 9;
-	public static final int ID_FAN_MODE = 10;
-	public static final int ID_TOOLABILITY = 11;
+	public static final int ID_TOOLABILITY = 10;
+	public static final int ID_GUN_MODE = 11;
 	public static final int ID_GAS_HAZARD = 12;
-	
-	public ITranslate getI18n() { return I18N; }
 
 	public void registerPreRenderInfo() { }
 	public void registerRenderInfo() { }
@@ -60,13 +54,11 @@ public class ServerProxy {
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}
-	
 	public void displayTooltip(String msg, int time, int id) { }
 
 	public boolean getIsKeyPressed(EnumKeybind key) {
 		return false;
 	}
-	
 	public EntityPlayer me() {
 		return null;
 	}
@@ -101,4 +93,11 @@ public class ServerProxy {
 	public String getLanguageCode() { return "en_US"; }
 
 	public int getStackColor(ItemStack stack, boolean amplify) { return 0x000000; }
+
+	/**
+	 * Register server commands
+	 */
+	public void registerCommands(FMLServerStartingEvent event) {
+		// No commands to register
+	}
 }

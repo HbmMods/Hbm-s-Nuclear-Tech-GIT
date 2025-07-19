@@ -149,7 +149,6 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	@Override
 	public void setCustomName(String name) {
 		this.name = name;
-		markDirty();
 	}
 
 	public boolean hasPower() {

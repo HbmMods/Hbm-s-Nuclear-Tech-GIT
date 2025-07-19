@@ -3,7 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.rocketbehavior.IRocketSteeringBehavior;
 import com.hbm.entity.projectile.rocketbehavior.IRocketTargetingBehavior;
@@ -160,9 +159,7 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!worldObj.isRemote && loaderTicket != null) {
 
-			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			clearChunkLoader();
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
@@ -181,8 +178,9 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			ForgeChunkManager.releaseTicket(loaderTicket);
-			this.loaderTicket = null;
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 

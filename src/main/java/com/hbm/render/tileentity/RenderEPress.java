@@ -2,7 +2,6 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderDecoItem;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
@@ -29,7 +28,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
-			switch(tileentity.getBlockMetadata() - BlockDummyable.offset) {
+			switch(tileentity.getBlockMetadata()) {
 			case 2: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
 			case 3: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -51,7 +50,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
-			switch(tileentity.getBlockMetadata() - BlockDummyable.offset) {
+			switch(tileentity.getBlockMetadata()) {
 			case 2: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
 			case 3: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -79,7 +78,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
-			switch(tileentity.getBlockMetadata() - BlockDummyable.offset) {
+			switch(tileentity.getBlockMetadata()) {
 			case 2:
 				GL11.glRotatef(270, 0F, 1F, 0F); break;
 			case 4:

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -15,9 +16,11 @@ import com.hbm.inventory.gui.GUITurretFritz;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryFlamer;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.tileentity.IFluidCopiable;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -68,7 +71,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 
 	@Override
 	public double getDecetorRange() {
-		return 48D;
+		return 32D;
 	}
 
 	@Override
@@ -109,12 +112,18 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			vec.rotateAroundZ((float) -this.rotationPitch);
 			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-			float damage = Math.min((float) (trait.getHeatEnergy() / 500_000F), 20F);
-			EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, tank.getTankType() == Fluids.BALEFIRE ? XFactoryFlamer.flame_nograv_bf : XFactoryFlamer.flame_nograv, damage, 0.05F, (float) rotationYaw, (float) rotationPitch);
+			EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, XFactoryFlamer.flame_nograv, (float) (trait.getHeatEnergy() / 500_000F), 0.05F, (float) rotationYaw, (float) rotationPitch);
 			proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 			worldObj.spawnEntityInWorld(proj);
 
 			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.flamethrowerShoot", 2F, 1F + worldObj.rand.nextFloat() * 0.5F);
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 2);
+			data.setDouble("motion", 0.025D);
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 

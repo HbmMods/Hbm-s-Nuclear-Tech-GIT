@@ -74,7 +74,7 @@ public class ArmorRegistry {
 
 			if(filter != null) {
 				//add the HazardClasses from the filter, then remove the ones blacklisted by the mask
-				List<HazardClass> filProt = (List<HazardClass>) hazardClasses.get(filter.getItem()).clone();
+				List<HazardClass> filProt = hazardClasses.get(filter.getItem());
 
 				for(HazardClass c : mask.getBlacklist(stack, entity))
 					filProt.remove(c);

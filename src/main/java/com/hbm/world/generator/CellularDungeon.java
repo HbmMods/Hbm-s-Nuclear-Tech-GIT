@@ -9,7 +9,6 @@ import com.hbm.inventory.RecipesCommon.MetaBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Deprecated
 public class CellularDungeon {
 	
 	//a buffer "map" of the rooms being generated before being spawned in

@@ -40,6 +40,25 @@ public class GUIWatz extends GuiInfoContainer {
 		this.drawCustomInfoStat(x, y, guiLeft + 13, guiTop + 100, 18, 18, x, y, new String[] { String.format(Locale.US, "%,d", watz.heat) + " TU" });
 		this.drawCustomInfoStat(x, y, guiLeft + 143, guiTop + 71, 16, 16, x, y, new String[] { watz.isLocked ? "Unlock pellet IO configuration" : "Lock pellet IO configuration" });
 
+		// Tower status tooltip
+		if(watz.isInTower) {
+			String position;
+			if(watz.isTopSegment) {
+				position = "Top";
+			} else if(watz.isBottomSegment) {
+				position = "Bottom";
+			} else {
+				position = "Middle (Level " + watz.segmentNumber + ")";
+			}
+			
+			String[] towerInfo = new String[] {
+				"§2Watz Reactor Tower",
+				"§7Height: " + watz.towerHeight + " segments",
+				"§7Position: " + position
+			};
+			this.drawCustomInfoStat(x, y, guiLeft + 147, guiTop + 8, 8, 24, x, y, towerInfo);
+		}
+
 		watz.tanks[0].renderTankInfo(this, x, y, guiLeft + 142, guiTop + 23, 6, 45);
 		watz.tanks[1].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 23, 6, 45);
 		watz.tanks[2].renderTankInfo(this, x, y, guiLeft + 154, guiTop + 23, 6, 45);
@@ -86,6 +105,21 @@ public class GUIWatz extends GuiInfoContainer {
 		if(watz.isOn) drawTexturedModalRect(guiLeft + 147, guiTop + 8, 176, 0, 8, 8);
 		if(watz.isLocked) drawTexturedModalRect(guiLeft + 142, guiTop + 70, 210, 0, 18, 18);
 		
+		// Draw tower status indicator
+		if(watz.isInTower) {
+			// Draw tower segments
+			for(int i = 0; i < watz.towerHeight; i++) {
+				int y_offset = 8 + (i * 8);
+				boolean isCurrentSegment = (watz.isTopSegment && i == watz.towerHeight - 1) || 
+										(watz.isBottomSegment && i == 0) || 
+										(!watz.isTopSegment && !watz.isBottomSegment && i == watz.segmentNumber);
+				
+				// Draw segment indicator
+				drawTexturedModalRect(guiLeft + 147, guiTop + y_offset, 176, isCurrentSegment ? 8 : 16, 8, 8);
+			}
+		}
+		
+		// Draw the TU gauge in its original style
 		GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 13, guiTop + 100, this.zLevel, 1 - col);
 
 		watz.tanks[0].renderTank(guiLeft + 143, guiTop + 69, this.zLevel, 4, 43);
@@ -93,3 +127,4 @@ public class GUIWatz extends GuiInfoContainer {
 		watz.tanks[2].renderTank(guiLeft + 155, guiTop + 69, this.zLevel, 4, 43);
 	}
 }
+

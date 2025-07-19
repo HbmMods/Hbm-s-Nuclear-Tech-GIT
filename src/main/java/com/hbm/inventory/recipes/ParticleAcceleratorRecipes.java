@@ -168,10 +168,10 @@ public class ParticleAcceleratorRecipes extends SerializableRecipe {
 
 		this.recipes.add(new ParticleAcceleratorRecipe(
 				in[0],
-				in.length > 1 ? in[1] : null,
+				in[1],
 				momentum,
 				out[0],
-				out.length > 1 ? out[1] : null
+				out[1]
 				));
 	}
 

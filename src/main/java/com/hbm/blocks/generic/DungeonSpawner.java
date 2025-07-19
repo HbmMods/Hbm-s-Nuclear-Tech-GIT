@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockSkeletonHolder.TileEntitySkeletonHolder;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ItemEnums.EnumSecretType;
@@ -35,7 +36,7 @@ public class DungeonSpawner extends BlockContainer {
 		
 		public int phase = 0;
 		public int timer = 0;
-		public EnumSpawnerType type = EnumSpawnerType.ABERRATOR;
+		public EnumSpawnerType type = EnumSpawnerType.NONE;
 		
 		@Override
 		public void updateEntity() {
@@ -68,7 +69,7 @@ public class DungeonSpawner extends BlockContainer {
 	
 	public static enum EnumSpawnerType {
 		
-		ABERRATOR(CON_ABERRATOR, PHASE_ABERRATOR);
+		NONE(CON_TEST, PHASE_TEST);
 
 		public Function<TileEntityDungeonSpawner, Boolean> phaseCondition;
 		public Consumer<TileEntityDungeonSpawner> phase;
@@ -79,24 +80,23 @@ public class DungeonSpawner extends BlockContainer {
 		}
 	}
 	
-	public static Function<TileEntityDungeonSpawner, Boolean> CON_ABERRATOR = (tile) -> {
+	public static Function<TileEntityDungeonSpawner, Boolean> CON_TEST = (tile) -> {
 		World world = tile.getWorldObj();
-		if(world.difficultySetting.ordinal() == 0) return false;
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if(tile.phase == 0) {
 			if(world.getTotalWorldTime() % 20 != 0) return false;
-			return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(20, 10, 20)).isEmpty();
+			//return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(20, 10, 20)).isEmpty();
 		}
 		if(tile.phase < 3) {
 			if(world.getTotalWorldTime() % 20 != 0 || tile.timer < 60) return false;
-			return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x - 2, y + 1, z + 1).expand(50, 20, 50)).isEmpty();
+			//return world.getEntitiesWithinAABB(EntityUndeadSoldier.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(50, 20, 50)).isEmpty();
 		}
 		return false;
 	};
 	
-	public static Consumer<TileEntityDungeonSpawner> PHASE_ABERRATOR = (tile) -> {
+	public static Consumer<TileEntityDungeonSpawner> PHASE_TEST = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
@@ -106,30 +106,21 @@ public class DungeonSpawner extends BlockContainer {
 				Vec3NT vec = new Vec3NT(10, 0, 0);
 				for(int i = 0; i < 10; i++) {
 					EntityUndeadSoldier mob = new EntityUndeadSoldier(world);
-					for(int j = 0; j < 7; j++) {
-						mob.setPositionAndRotation(x + 0.5 + vec.xCoord, y - 5, z + 0.5 + vec.zCoord, i * 36F, 0);
-						if(mob.getCanSpawnHere()) {
-							mob.onSpawnWithEgg(null);
-							world.spawnEntityInWorld(mob);
-							break;
-						}
-					}
-					
+					mob.setPositionAndRotation(x + 0.5 + vec.xCoord, y, z + 0.5 + vec.zCoord, i * 36F, 0);
 					vec.rotateAroundYDeg(36D);
+					mob.onSpawnWithEgg(null);
+					world.spawnEntityInWorld(mob);
 				}
 			}
 		}
 		if(tile.phase > 2) {
-			TileEntity te = world.getTileEntity(x, y + 18, z);
+			world.setBlock(x, y + 1, z, ModBlocks.skeleton_holder, 2 + world.rand.nextInt(4), 3);
+			TileEntity te = world.getTileEntity(x, y + 1, z);
 			if(te instanceof TileEntitySkeletonHolder) {
 				TileEntitySkeletonHolder skeleton = (TileEntitySkeletonHolder) te;
-				if(world.rand.nextInt(5) == 0) {
-					skeleton.item = new ItemStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR.ordinal());
-				} else {
-					skeleton.item = new ItemStack(ModItems.clay_tablet, 1, 1);
-				}
+				skeleton.item = new ItemStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR.ordinal());
 				skeleton.markDirty();
-				world.markBlockForUpdate(x, y + 18, z);
+				world.markBlockForUpdate(x, y, z);
 			}
 			world.setBlock(x, y, z, Blocks.obsidian);
 		}

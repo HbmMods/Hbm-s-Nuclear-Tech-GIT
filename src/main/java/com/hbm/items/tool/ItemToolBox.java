@@ -36,11 +36,6 @@ public class ItemToolBox extends Item implements IGUIProvider {
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return 1;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
 		super.registerIcons(iconRegister);
@@ -271,6 +266,9 @@ public class ItemToolBox extends Item implements IGUIProvider {
 			if(fromNBT != null) {
 				System.arraycopy(fromNBT, 0, slots, 0, slots.length);
 			}
+			toMarkDirty = true;
+			this.markDirty();
+			toMarkDirty = false;
 		}
 
 		@Override
@@ -290,11 +288,9 @@ public class ItemToolBox extends Item implements IGUIProvider {
 
 		@Override
 		public void closeInventory() {
-			super.closeInventory();
-
 			this.target.getTagCompound().removeTag("isOpen");
-			this.target.getTagCompound().setInteger("rand", player.worldObj.rand.nextInt()); // a boolean changing isn't sufficient to detect the change
-			player.inventoryContainer.detectAndSendChanges();
+			this.player.inventory.setInventorySlotContents(this.player.inventory.currentItem, this.target);
+			super.closeInventory();
 		}
 
 		@Override

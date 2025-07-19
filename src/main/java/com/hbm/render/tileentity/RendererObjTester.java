@@ -35,7 +35,10 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y + 1, z + 0.5);
+		GL11.glRotated(15, 0, 0, 1);
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
 		
 		if(world == null) {
 			world = new WorldInAJar(5, 3, 5);
@@ -52,8 +55,6 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		RenderHelper.disableStandardItemLighting();
 		
 		GL11.glPushMatrix();
-		GL11.glRotated(15, 0, 0, 1);
-		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
 		GL11.glTranslated(-2.5, 0, -2.5);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -72,10 +73,6 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 
 		RenderHelper.enableStandardItemLighting();
-
-		GL11.glRotated(15, 0, 0, 1);
-		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
-		
 		GL11.glTranslated(0, 2.1, 0.5);
 		
 		this.bindTexture(extra);

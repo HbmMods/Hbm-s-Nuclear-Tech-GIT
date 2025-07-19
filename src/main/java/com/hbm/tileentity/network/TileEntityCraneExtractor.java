@@ -1,8 +1,6 @@
 package com.hbm.tileentity.network;
 
 import api.hbm.conveyor.IConveyorBelt;
-import api.hbm.conveyor.IEnterableBlock;
-
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
@@ -10,8 +8,6 @@ import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.InventoryUtil;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -96,86 +92,70 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 				}
 				
 				boolean hasSent = false;
-
-				IConveyorBelt belt = null;
 				
 				if(b instanceof IConveyorBelt) {
-					belt = (IConveyorBelt) b;
-				}
 					
-				/* try to send items from a connected inv, if present */
-				if(te instanceof IInventory) {
+					IConveyorBelt belt = (IConveyorBelt) b;
 					
-					IInventory inv = (IInventory) te;
-					int size = access == null ? inv.getSizeInventory() : access.length;
-					
-					for(int i = 0; i < size; i++) {
-						int index = access == null ? i : access[i];
-						ItemStack stack = inv.getStackInSlot(index);
+					/* try to send items from a connected inv, if present */
+					if(te instanceof IInventory) {
 						
-						if(stack != null && (sided == null || sided.canExtractItem(index, stack, inputSide.getOpposite().ordinal()))){
+						IInventory inv = (IInventory) te;
+						int size = access == null ? inv.getSizeInventory() : access.length;
+						
+						for(int i = 0; i < size; i++) {
+							int index = access == null ? i : access[i];
+							ItemStack stack = inv.getStackInSlot(index);
 							
-							boolean match = this.matchesFilter(stack);
-							
-							if((isWhitelist && match) || (!isWhitelist && !match)) {
-								stack = stack.copy();
-								int toSend = Math.min(amount, stack.stackSize);
+							if(stack != null && (sided == null || sided.canExtractItem(index, stack, inputSide.getOpposite().ordinal()))){
 								
-								if (belt != null) {
+								boolean match = this.matchesFilter(stack);
+								
+								if((isWhitelist && match) || (!isWhitelist && !match)) {
+									stack = stack.copy();
+									int toSend = Math.min(amount, stack.stackSize);
 									inv.decrStackSize(index, toSend);
 									stack.stackSize = toSend;
-									sendItem(stack, belt, outputSide);
-								} else {
-									stack.stackSize = toSend;
-									ItemStack remaining = InventoryUtil.tryAddItemToInventory(this.slots, 9, 17, stack);
-									inv.decrStackSize(index, toSend - (remaining == null ? 0 : remaining.stackSize));
+									
+									EntityMovingItem moving = new EntityMovingItem(worldObj);
+									Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+									Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
+									moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+									moving.setItemStack(stack);
+									worldObj.spawnEntityInWorld(moving);
+									hasSent = true;
+									break;
 								}
-								hasSent = true;
-								break;
 							}
 						}
 					}
-				}
-				
-				/* if no item has been sent, send buffered items while ignoring the filter */
-				if(!hasSent && belt != null) {
 					
-					for(int i = 9; i < 18; i++) {
-						ItemStack stack = slots[i];
+					/* if no item has been sent, send buffered items while ignoring the filter */
+					if(!hasSent) {
 						
-						if(stack != null){
-							stack = stack.copy();
-							int toSend = Math.min(amount, stack.stackSize);
-
-							decrStackSize(i, toSend);
-							stack.stackSize = toSend;
-							sendItem(stack, belt, outputSide);
-
-							break;
+						for(int i = 9; i < 18; i++) {
+							ItemStack stack = slots[i];
+							
+							if(stack != null){
+								stack = stack.copy();
+								int toSend = Math.min(amount, stack.stackSize);
+								decrStackSize(i, toSend);
+								stack.stackSize = toSend;
+								
+								EntityMovingItem moving = new EntityMovingItem(worldObj);
+								Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+								Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
+								moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
+								moving.setItemStack(stack);
+								worldObj.spawnEntityInWorld(moving);
+								break;
+							}
 						}
 					}
 				}
 			}
 
 			this.networkPackNT(15);
-		}
-	}
-
-	private void sendItem(ItemStack stack, IConveyorBelt belt, ForgeDirection outputSide) {
-		EntityMovingItem moving = new EntityMovingItem(worldObj);
-		Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
-		Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
-		moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
-		moving.setItemStack(stack);
-		worldObj.spawnEntityInWorld(moving);
-
-		if (belt instanceof IEnterableBlock) {
-			IEnterableBlock enterable = (IEnterableBlock) belt;
-
-			if(enterable.canItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving)) {
-				enterable.onItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving);
-				moving.setDead();
-			}
 		}
 	}
 

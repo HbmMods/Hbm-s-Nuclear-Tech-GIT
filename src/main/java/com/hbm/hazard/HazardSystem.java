@@ -80,18 +80,15 @@ public class HazardSystem {
 	
 	public static boolean isItemBlacklisted(ItemStack stack) {
 		
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
-		if(stackBlacklist.contains(comp))
+		if(stackBlacklist.contains(new ComparableStack(stack).makeSingular()))
 			return true;
 
 		int[] ids = OreDictionary.getOreIDs(stack);
 		for(int id : ids) {
 			String name = OreDictionary.getOreName(id);
 			
-			if(dictBlacklist.contains(name)) {
-				stackBlacklist.add(comp); // caching!
+			if(dictBlacklist.contains(name))
 				return true;
-			}
 		}
 		
 		return false;

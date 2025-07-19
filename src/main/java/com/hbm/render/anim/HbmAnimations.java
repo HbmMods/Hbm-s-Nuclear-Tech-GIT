@@ -1,6 +1,5 @@
 package com.hbm.render.anim;
 
-import com.hbm.util.Clock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -99,7 +98,7 @@ public class HbmAnimations {
 		if(anim != null) {
 			
 			BusAnimation buses = anim.animation;
-			int millis = (int)(Clock.get_ms() - anim.startMillis);
+			int millis = (int)(System.currentTimeMillis() - anim.startMillis);
 
 			BusAnimationSequence seq = buses.getBus(bus);
 			

@@ -995,12 +995,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return new Object[] {this.aligned};
 	}
 
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getPos(Context context, Arguments args) {
-		return new Object[] {xCoord, yCoord, zCoord};
-	}
-
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public boolean canConnectNode(ForgeDirection side) {
@@ -1021,8 +1015,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				"getTargeting",
 				"hasTarget",
 				"getAngle",
-				"isAligned",
-				"getPos"
+				"isAligned"
 		};
 	}
 
@@ -1052,8 +1045,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return getAngle(context, args);
 			case "isAligned":
 				return isAligned(context, args);
-			case "getPos":
-				return getPos(context, args);
 		}
 		throw new NoSuchMethodException();
 	}

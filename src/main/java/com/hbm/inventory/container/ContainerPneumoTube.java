@@ -39,7 +39,9 @@ public class ContainerPneumoTube extends ContainerBase {
 			tube.nextMode(index);
 			return ret;
 		} else {
-			slot.putStack(held);
+			slot.putStack(held != null ? held.copy() : null);
+			if(slot.getHasStack()) slot.getStack().stackSize = 1;
+			slot.onSlotChanged();
 			tube.initPattern(slot.getStack(), index);
 			return ret;
 		}

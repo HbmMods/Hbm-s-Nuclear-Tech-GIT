@@ -12,8 +12,6 @@ import com.hbm.render.block.ct.IBlockCT;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 
 import api.hbm.fluidmk2.IFluidReceiverMK2;
-import api.hbm.redstoneoverradio.IRORInteractive;
-import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -100,7 +98,7 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
-	public static class TileEntityBlockPWR extends TileEntity implements IFluidReceiverMK2, ISidedInventory, IRORValueProvider, IRORInteractive {
+	public static class TileEntityBlockPWR extends TileEntity implements IFluidReceiverMK2, ISidedInventory {
 		
 		public Block block;
 		public int coreX;
@@ -338,30 +336,6 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		public void onChunkUnload() {
 			super.onChunkUnload();
 			this.isLoaded = false;
-		}
-
-		@Override
-		public String[] getFunctionInfo() {
-			if(this.getBlockMetadata() != 1) return new String[0];
-			TileEntityPWRController controller = this.getCore();
-			if(controller != null) return controller.getFunctionInfo();
-			return new String[0];
-		}
-
-		@Override
-		public String provideRORValue(String name) {
-			if(this.getBlockMetadata() != 1) return "";
-			TileEntityPWRController controller = this.getCore();
-			if(controller != null) return controller.provideRORValue(name);
-			return "";
-		}
-
-		@Override
-		public String runRORFunction(String name, String[] params) {
-			if(this.getBlockMetadata() != 1) return "";
-			TileEntityPWRController controller = this.getCore();
-			if(controller != null) return controller.runRORFunction(name, params);
-			return "";
 		}
 	}
 }
