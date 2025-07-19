@@ -278,6 +278,19 @@ public class MainRegistry {
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
+		// Initialize the fluid mapping registry and texture/color systems
+		api.ntm1of90.compat.fluid.registry.FluidMappingRegistry.initialize();
+		api.ntm1of90.compat.fluid.render.NTMFluidTextureMapper.initialize();
+		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.initialize();
+		// Set the brightness factor for fluid colors (>1 = brighter, <1 = darker)
+		api.ntm1of90.compat.fluid.render.NTMFluidColorApplier.setBrightnessFactor(1.2f);
+		api.ntm1of90.compat.fluid.render.NTMForgeFluidRenderer.initialize();
+		// Initialize the Forge fluid compatibility system
+		api.ntm1of90.compat.fluid.ForgeFluidCompatManager.initialize();
+		// Initialize the adapter registry and capability hook
+		api.ntm1of90.compat.fluid.registry.ForgeFluidAdapterRegistry.initialize();
+		api.ntm1of90.compat.fluid.ForgeFluidCapabilityHook.initialize();
+		// Note: Flow rate setting is no longer used as the system now respects the tank capacities and transfer rates
 		proxy.registerPreRenderInfo();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -903,14 +916,14 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-		
+
 		// to make sure that foreign registered fluids are accounted for,
 		// even when the reload listener is registered too late due to load order
 		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if(logger == null)
