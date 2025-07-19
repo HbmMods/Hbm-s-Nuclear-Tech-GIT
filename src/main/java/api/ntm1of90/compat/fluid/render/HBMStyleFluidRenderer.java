@@ -4,7 +4,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Viscous;
-import com.hbm.main.RefStrings;
+import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -336,7 +336,7 @@ public class HBMStyleFluidRenderer {
      */
     public static void printRenderingStatistics() {
         System.out.println("[NTM] === HBM-Style Fluid Rendering Statistics ===");
-        System.out.println("[NTM] Total fluids: " + Fluids.getAll().size());
+        System.out.println("[NTM] Total fluids: " + Fluids.getAll().length);
         System.out.println("[NTM] Tinted rendering: " + getTintedFluidCount());
         System.out.println("[NTM] PNG rendering: " + getPngFluidCount());
         System.out.println("[NTM] Base textures loaded: " + areBaseTexturesLoaded());
