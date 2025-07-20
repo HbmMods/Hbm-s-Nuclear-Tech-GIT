@@ -1,5 +1,7 @@
 package com.hbm.items;
 
+import java.util.HashSet;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.BucketHandler;
@@ -62,6 +64,8 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ModItems {
+	
+	public static HashSet<Item> excludeNEI = new HashSet();
 
 	public static void mainRegistry() {
 		initializeItem();
@@ -4984,6 +4988,9 @@ public class ModItems {
 	}
 
 	private static void registerItem() {
+		
+		excludeNEI.add(item_secret);
+		
 		//Weapons
 		GameRegistry.registerItem(redstone_sword, redstone_sword.getUnlocalizedName());
 		GameRegistry.registerItem(big_sword, big_sword.getUnlocalizedName());

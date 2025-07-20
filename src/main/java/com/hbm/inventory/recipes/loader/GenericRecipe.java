@@ -37,9 +37,8 @@ public class GenericRecipe {
 		this.name = name;
 	}
 	
-	public boolean isPooled() {
-		return blueprintPools != null;
-	}
+	public boolean isPooled() { return blueprintPools != null; }
+	public String[] getPools() { return this.blueprintPools; }
 	
 	public boolean isPartOfPool(String lookingFor) {
 		if(!isPooled()) return false;

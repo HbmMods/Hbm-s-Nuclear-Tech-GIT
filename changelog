@@ -9,6 +9,7 @@
   * Replace the journals
   * Instead of opening them and making a template, they act as a multi template
   * Blueprints need to remain in the slot, removing them will disable the recipes again
+  * Not actually part of worldgen yet - yeah i ran out of time, cry about it
 * More paintables
   * Paintable pneumatic tube
     * Behaves the exact same as a regular pneumatic tube
@@ -38,6 +39,7 @@
 * Chemical artillery shell recipes have now been moved to the assembler
 * The chemical plant and factory now scale their max power based on the recipe, similar to how the arc welder works
 * The chemical plant's default max power is now 100kHE again instead of 1MHE
+* The NEI handlers for the old chemplant and assembler have been deactivated, however they will continue to function for the time being
 
 ## Fixed
 * Fixed gas centrifuge sound persisting when broken or when unloaded

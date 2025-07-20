@@ -166,17 +166,17 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		
 		// decoration
 		this.register(new GenericRecipe("ass.capnuka").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.NUKA))
-				.inputItems(new ComparableStack(ModItems.cap_nuka, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_nuka, 64), new ComparableStack(ModItems.cap_nuka, 64)));
 		this.register(new GenericRecipe("ass.capquantum").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.QUANTUM))
-				.inputItems(new ComparableStack(ModItems.cap_quantum, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_quantum, 64), new ComparableStack(ModItems.cap_quantum, 64)));
 		this.register(new GenericRecipe("ass.capsparkle").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.SPARKLE))
-				.inputItems(new ComparableStack(ModItems.cap_sparkle, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_sparkle, 64), new ComparableStack(ModItems.cap_sparkle, 64)));
 		this.register(new GenericRecipe("ass.caprad").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.RAD))
-				.inputItems(new ComparableStack(ModItems.cap_rad, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_rad, 64), new ComparableStack(ModItems.cap_rad, 64)));
 		this.register(new GenericRecipe("ass.capfritz").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.FRITZ))
-				.inputItems(new ComparableStack(ModItems.cap_fritz, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_fritz, 64), new ComparableStack(ModItems.cap_fritz, 64)));
 		this.register(new GenericRecipe("ass.capkorl").setup(10, 100).outputItems(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.KORL))
-				.inputItems(new ComparableStack(ModItems.cap_korl, 128)));
+				.inputItems(new ComparableStack(ModItems.cap_korl, 64), new ComparableStack(ModItems.cap_korl, 64)));
 		/*
 		this.register(new GenericRecipe("ass.").setup(, 100).outputItems(new ItemStack(ModBlocks., 1))
 				.inputItems());
@@ -330,7 +330,8 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.powder_magic, 64),
 						new ComparableStack(ModItems.plate_dineutronium, 24),
 						new ComparableStack(ModItems.ingot_u238m2),
-						new ComparableStack(ModItems.ingot_cft, 128)));
+						new ComparableStack(ModItems.ingot_cft, 64),
+						new ComparableStack(ModItems.ingot_cft, 64)));
 		
 		// fluid tanks
 		this.register(new GenericRecipe("ass.tank").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_fluidtank, 1))
@@ -791,9 +792,9 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		for(int i = 1; i < order.length; ++i) {
 			FluidType type = order[i];
 			if(type.hasNoContainer()) continue;
-			this.register(new GenericRecipe("ass.package" + type.getUnlocalizedName()).setup(100, 100).outputItems(new ItemStack(ModItems.fluid_pack_full, 1, type.getID()))
+			this.register(new GenericRecipe("ass.package" + type.getUnlocalizedName()).setup(40, 100).outputItems(new ItemStack(ModItems.fluid_pack_full, 1, type.getID()))
 					.inputItems(new ComparableStack(ModItems.fluid_pack_empty)).inputFluids(new FluidStack(type, 32_000)));
-			this.register(new GenericRecipe("ass.unpackage" + type.getUnlocalizedName()).setup(100, 100).setIcon(ItemFluidIcon.make(type, 32_000)).outputItems(new ItemStack(ModItems.fluid_pack_empty))
+			this.register(new GenericRecipe("ass.unpackage" + type.getUnlocalizedName()).setup(40, 100).setIcon(ItemFluidIcon.make(type, 32_000)).outputItems(new ItemStack(ModItems.fluid_pack_empty))
 					.inputItems(new ComparableStack(ModItems.fluid_pack_full, 1, type.getID())).outputFluids(new FluidStack(type, 32_000)));
 		}
 		

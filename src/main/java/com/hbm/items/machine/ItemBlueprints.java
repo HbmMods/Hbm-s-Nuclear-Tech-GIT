@@ -133,7 +133,7 @@ public class ItemBlueprints extends Item {
 		return stack.stackTagCompound.getString("pool");
 	}
 	
-	public ItemStack make(String pool) {
+	public static ItemStack make(String pool) {
 		ItemStack stack = new ItemStack(ModItems.blueprints);
 		stack.stackTagCompound = new NBTTagCompound();
 		stack.stackTagCompound.setString("pool", pool);
