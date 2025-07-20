@@ -19,7 +19,6 @@ public class ColoredForgeFluid extends Fluid {
     private int color;
     private FluidType hbmFluidType;
     private boolean hasCustomTexture = false;
-    private boolean useHBMStyleRendering = false;
 
     /**
      * Create a new ColoredForgeFluid from an HBM FluidType
@@ -30,7 +29,6 @@ public class ColoredForgeFluid extends Fluid {
         super(fluidName);
         this.hbmFluidType = hbmFluid;
         this.color = hbmFluid.getColor();
-        this.useHBMStyleRendering = HBMStyleFluidRenderer.shouldUseTintedRendering(hbmFluid);
 
         // Set basic properties based on the HBM fluid
         this.setDensity(hbmFluid.hasTrait(FT_Gaseous.class) ? -1000 : 1000);
@@ -38,7 +36,7 @@ public class ColoredForgeFluid extends Fluid {
         this.setTemperature(hbmFluid.temperature);
         this.setLuminosity(0); // No glowing trait found in the codebase
 
-        // Textures will be set during texture stitching
+        // Textures will be set by NTMFluidTextureMapper during texture stitching
     }
 
     /**
@@ -86,32 +84,11 @@ public class ColoredForgeFluid extends Fluid {
     }
 
     /**
-     * Check if this fluid uses HBM-style rendering
-     */
-    public boolean usesHBMStyleRendering() {
-        return useHBMStyleRendering;
-    }
-
-    /**
-     * Set whether this fluid uses HBM-style rendering
-     */
-    public void setUseHBMStyleRendering(boolean useHBMStyleRendering) {
-        this.useHBMStyleRendering = useHBMStyleRendering;
-    }
-
-    /**
      * Override to use our texture system
      */
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getStillIcon() {
-        if (useHBMStyleRendering && hbmFluidType != null) {
-            // Use HBM-style base texture with tinting
-            IIcon icon = HBMStyleFluidRenderer.getStillIconForFluid(hbmFluidType);
-            if (icon != null) return icon;
-        }
-
-        // Fall back to traditional texture mapping
         IIcon icon = NTMFluidTextureMapper.getStillIcon(getName());
         return icon != null ? icon : super.getStillIcon();
     }
@@ -122,13 +99,6 @@ public class ColoredForgeFluid extends Fluid {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getFlowingIcon() {
-        if (useHBMStyleRendering && hbmFluidType != null) {
-            // Use HBM-style base texture with tinting
-            IIcon icon = HBMStyleFluidRenderer.getFlowingIconForFluid(hbmFluidType);
-            if (icon != null) return icon;
-        }
-
-        // Fall back to traditional texture mapping
         IIcon icon = NTMFluidTextureMapper.getFlowingIcon(getName());
         return icon != null ? icon : super.getFlowingIcon();
     }

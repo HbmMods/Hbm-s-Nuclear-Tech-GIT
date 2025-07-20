@@ -9,7 +9,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 
 import api.ntm1of90.compat.fluid.render.ColoredForgeFluid;
-import api.ntm1of90.compat.fluid.render.HBMStyleFluidRenderer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -127,14 +126,6 @@ public class FluidRegistry {
     public void onTextureStitch(TextureStitchEvent.Pre event) {
         TextureMap map = event.map;
 
-        if (map.getTextureType() == 0) {
-            // Register base textures for HBM-style rendering first
-            HBMStyleFluidRenderer.registerBaseTextures(map);
-        } else if (map.getTextureType() == 1) {
-            // Register inventory base textures
-            HBMStyleFluidRenderer.registerInventoryBaseTextures(map);
-        }
-
         // Register textures for all HBM fluids
         for (FluidType hbmFluid : Fluids.getAll()) {
             if (hbmFluid == Fluids.NONE) continue;
@@ -145,10 +136,10 @@ public class FluidRegistry {
             if (forgeFluid != null) {
                 if (map.getTextureType() == 0) {
                     // For block textures, register the fluid textures
-                    registerFluidTextures(map, forgeFluid, fluidName, hbmFluid);
+                    registerFluidTextures(map, forgeFluid, fluidName);
                 } else if (map.getTextureType() == 1) {
                     // For item textures, register the inventory icons
-                    registerInventoryIcon(map, forgeFluid, fluidName, hbmFluid);
+                    registerInventoryIcon(map, forgeFluid, fluidName);
                 }
             }
         }
@@ -158,43 +149,30 @@ public class FluidRegistry {
      * Register textures for a specific fluid
      */
     @SideOnly(Side.CLIENT)
-    private void registerFluidTextures(TextureMap map, Fluid forgeFluid, String fluidName, FluidType hbmFluid) {
+    private void registerFluidTextures(TextureMap map, Fluid forgeFluid, String fluidName) {
         try {
-            IIcon stillIcon = null;
-            IIcon flowingIcon = null;
+            // Get the fluid properties
+            FluidProperties properties = getFluidProperties(fluidName);
 
-            // Check if this fluid should use HBM-style rendering
-            if (forgeFluid instanceof ColoredForgeFluid && HBMStyleFluidRenderer.shouldUseTintedRendering(hbmFluid)) {
-                // Use HBM-style base textures
-                stillIcon = HBMStyleFluidRenderer.getStillIconForFluid(hbmFluid);
-                flowingIcon = HBMStyleFluidRenderer.getFlowingIconForFluid(hbmFluid);
-
-                ((ColoredForgeFluid) forgeFluid).setUseHBMStyleRendering(true);
-                System.out.println("[NTM] Using HBM-style tinted rendering for fluid: " + fluidName);
-            } else {
-                // Use traditional PNG-based textures
-                FluidProperties properties = getFluidProperties(fluidName);
-                stillIcon = map.registerIcon(RefStrings.MODID + ":" + properties.stillTexture);
-                flowingIcon = map.registerIcon(RefStrings.MODID + ":" + properties.flowingTexture);
-
-                if (forgeFluid instanceof ColoredForgeFluid) {
-                    ((ColoredForgeFluid) forgeFluid).setColor(properties.color);
-                    ((ColoredForgeFluid) forgeFluid).setHasCustomTexture(true);
-                }
-
-                System.out.println("[NTM] Using PNG textures for fluid: " + fluidName +
-                    " (still: " + properties.stillTexture + ", flowing: " + properties.flowingTexture + ")");
-            }
+            // Register the textures
+            IIcon stillIcon = map.registerIcon(RefStrings.MODID + ":" + properties.stillTexture);
+            IIcon flowingIcon = map.registerIcon(RefStrings.MODID + ":" + properties.flowingTexture);
 
             // Store the icons for later use
             stillIcons.put(fluidName, stillIcon);
             flowingIcons.put(fluidName, flowingIcon);
 
             // Set the icons on the Forge fluid
-            if (stillIcon != null && flowingIcon != null) {
-                forgeFluid.setIcons(stillIcon, flowingIcon);
+            forgeFluid.setIcons(stillIcon, flowingIcon);
+
+            // If this is a ColoredForgeFluid, set the color
+            if (forgeFluid instanceof ColoredForgeFluid) {
+                ((ColoredForgeFluid) forgeFluid).setColor(properties.color);
+                ((ColoredForgeFluid) forgeFluid).setHasCustomTexture(true);
             }
 
+            System.out.println("[NTM] Registered textures for Forge fluid: " + fluidName +
+                " (still: " + properties.stillTexture + ", flowing: " + properties.flowingTexture + ")");
         } catch (Exception e) {
             System.err.println("[NTM] Error registering textures for fluid " + fluidName + ": " + e.getMessage());
             e.printStackTrace();
@@ -205,31 +183,24 @@ public class FluidRegistry {
      * Register an inventory icon for a fluid
      */
     @SideOnly(Side.CLIENT)
-    private void registerInventoryIcon(TextureMap map, Fluid forgeFluid, String fluidName, FluidType hbmFluid) {
+    private void registerInventoryIcon(TextureMap map, Fluid forgeFluid, String fluidName) {
         try {
-            IIcon icon = null;
+            // Get the fluid properties
+            FluidProperties properties = getFluidProperties(fluidName);
 
-            // Check if this fluid should use HBM-style rendering
-            if (forgeFluid instanceof ColoredForgeFluid && HBMStyleFluidRenderer.shouldUseTintedRendering(hbmFluid)) {
-                // Use HBM-style base inventory texture
-                icon = HBMStyleFluidRenderer.getInventoryIconForFluid(hbmFluid);
-                System.out.println("[NTM] Using HBM-style tinted inventory icon for fluid: " + fluidName);
-            } else {
-                // Use traditional PNG-based inventory texture
-                FluidProperties properties = getFluidProperties(fluidName);
-                icon = map.registerIcon(RefStrings.MODID + ":" + properties.inventoryTexture);
-                System.out.println("[NTM] Using PNG inventory icon for fluid: " + fluidName +
-                    " (texture: " + properties.inventoryTexture + ")");
-            }
+            // Register the inventory icon
+            IIcon icon = map.registerIcon(RefStrings.MODID + ":" + properties.inventoryTexture);
 
             // Store the icon for later use
             inventoryIcons.put(fluidName, icon);
 
             // If this is a ColoredForgeFluid, set the inventory icon
-            if (forgeFluid instanceof ColoredForgeFluid && icon != null) {
+            if (forgeFluid instanceof ColoredForgeFluid) {
                 ((ColoredForgeFluid) forgeFluid).setInventoryIcon(icon);
             }
 
+            System.out.println("[NTM] Registered inventory icon for fluid: " + fluidName +
+                " (texture: " + properties.inventoryTexture + ")");
         } catch (Exception e) {
             System.err.println("[NTM] Error registering inventory icon for fluid " + fluidName + ": " + e.getMessage());
             e.printStackTrace();

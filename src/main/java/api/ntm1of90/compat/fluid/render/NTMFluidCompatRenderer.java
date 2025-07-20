@@ -47,25 +47,13 @@ public class NTMFluidCompatRenderer {
     public static void renderFluid(Fluid fluid, int x, int y, int width, int height) {
         if (fluid == null) return;
 
-        // Get the NTM fluid type
-        FluidType ntmFluid = getNTMFluidType(fluid);
-
-        // Check if we should use HBM-style rendering
-        if (ntmFluid != null && HBMStyleFluidRenderer.shouldUseTintedRendering(ntmFluid)) {
-            // Use HBM-style tinted rendering
-            IIcon icon = HBMStyleFluidRenderer.getInventoryIconForFluid(ntmFluid);
-            if (icon != null) {
-                // Apply HBM-style color tinting
-                HBMStyleFluidRenderer.applyFluidTint(ntmFluid);
-                renderFluidWithIcon(icon, x, y, width, height);
-                HBMStyleFluidRenderer.resetTint();
-                return;
-            }
-        }
-
-        // Fall back to traditional rendering
+        // Get the fluid's icon
         IIcon icon = getFluidIcon(fluid);
+
+        // Get the fluid's color
         int color = getFluidColor(fluid);
+
+        // Render the fluid
         renderFluidWithIconAndColor(icon, color, x, y, width, height);
     }
 
@@ -125,33 +113,6 @@ public class NTMFluidCompatRenderer {
         // Try to get the color from the fluid
         FluidStack fluidStack = new FluidStack(fluid, 1000);
         return fluid.getColor(fluidStack);
-    }
-
-    /**
-     * Render a fluid with the given icon (color already applied via OpenGL)
-     * @param icon The icon to use
-     * @param x The x position to render at
-     * @param y The y position to render at
-     * @param width The width to render
-     * @param height The height to render
-     */
-    public static void renderFluidWithIcon(IIcon icon, int x, int y, int width, int height) {
-        if (icon == null) return;
-
-        // Bind the texture map
-        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-
-        // Render the fluid
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(x, y + height, 0, icon.getMinU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + width, y + height, 0, icon.getMaxU(), icon.getMaxV());
-        tessellator.addVertexWithUV(x + width, y, 0, icon.getMaxU(), icon.getMinV());
-        tessellator.addVertexWithUV(x, y, 0, icon.getMinU(), icon.getMinV());
-        tessellator.draw();
-
-        // Reset color
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     /**
