@@ -212,6 +212,8 @@ public class TileMappings {
 		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityPlushie.class, "tileentity_ntm_plushie");
 		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
+		put(TileEntityNTMSteelBeam.class, "tileentity_ntm_steel_beam");
+		put(TileEntityNTMSteelBeamVertical.class, "tileentity_ntm_steel_beam_vertical");
 
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");
 
@@ -428,7 +430,7 @@ public class TileMappings {
 		put(TileEntityCranePartitioner.class, "tileentity_partitioner");
 		put(TileEntityFan.class, "tileentity_fan");
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
-		
+
 		put(TileEntityPneumoTube.class, "tileentity_pneumatic_tube");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
