@@ -1,15 +1,3 @@
-## NTM-1-of-90-Editon-r.8
-Up to date: X5383
-
-## Changed
-* Upgrade to Gradle 4.5
-
-## Fixed
-* Fixed ntm1of90API
-* Fixed ntm1of90 ForgeFluid Implementation
-
-## HBM
-
 ## Changed
 * The chemistry achievement now requires the new chemical plant
 * The new chemical plant can now be used to upgrade the meteorite sword

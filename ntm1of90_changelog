@@ -1,0 +1,14 @@
+## NTM-1-of-90-Editon-r.9
+
+Up to date with HBM-NTM: X5383 (see changelog of HBM X5383 for additional information)
+
+## Changed
+* Registering forgefluid properties through a seperate forge_registry.json in resources is deprecated from now on
+* ForgeFluidCompatManager.initialize() now automatically registers all forgefluid properties through Fluids.getAll() from Fluids.java in com/hbm
+* ntm1of90api uses existing fluid textures
+* Updated README.md of ntm1of90 implementing including all changes above
+* NTM-1-of-90-Edition has an own changelog now
+* Changing the filename of the jar (build)
+
+
+

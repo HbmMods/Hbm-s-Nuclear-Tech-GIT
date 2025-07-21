@@ -1,9 +1,5 @@
 package api.ntm1of90.compat.fluid.registry;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
@@ -17,16 +13,13 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.Fluid;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 /**
  * Registry for fluid textures and properties.
- * This class loads fluid definitions from a JSON file and registers them with Minecraft.
+ * This class loads fluid definitions from the Fluids.java class and registers them with Minecraft.
  */
 public class FluidRegistry {
 
@@ -38,7 +31,7 @@ public class FluidRegistry {
     // Maps fluid names to their properties
     private static final Map<String, FluidProperties> fluidProperties = new HashMap<>();
 
-    // Default properties for fluids not defined in the JSON
+    // Default properties for fluids not defined in Fluids.java
     private static FluidProperties defaultProperties;
 
     /**
@@ -52,57 +45,40 @@ public class FluidRegistry {
             System.out.println("[NTM] Registered fluid registry for texture stitch events");
         }
 
-        // Load fluid properties from JSON
+        // Load fluid properties from Fluids.java
         loadFluidProperties();
 
         System.out.println("[NTM] Fluid registry initialized with " + fluidProperties.size() + " fluids");
     }
 
     /**
-     * Load fluid properties from the JSON file
+     * Load fluid properties from Fluids.java
      */
     private static void loadFluidProperties() {
         try {
-            // Load the JSON file
-            InputStream inputStream = FluidRegistry.class.getClassLoader().getResourceAsStream("assets/hbm/forgefluids/fluid_registry.json");
-            if (inputStream == null) {
-                System.err.println("[NTM] Failed to load fluid registry JSON: File not found");
-                // Create default properties
-                defaultProperties = new FluidProperties(
-                    "default",
-                    0xFFFFFF,
-                    "fluid_still",
-                    "fluid_flowing",
-                    "forgefluid/default"
-                );
-                return;
-            }
-
-            // Parse the JSON
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(reader).getAsJsonObject();
-
-            // Load default properties
-            JsonObject defaultJson = json.getAsJsonObject("defaultSettings");
+            // Create default properties
             defaultProperties = new FluidProperties(
                 "default",
                 0xFFFFFF,
-                defaultJson.get("stillTexture").getAsString(),
-                defaultJson.get("flowingTexture").getAsString(),
-                defaultJson.get("inventoryTexture").getAsString()
+                "fluid_still",
+                "fluid_flowing",
+                "forgefluid/default"
             );
 
-            // Load fluid properties
-            JsonArray fluidsJson = json.getAsJsonArray("fluids");
-            for (JsonElement fluidElement : fluidsJson) {
-                JsonObject fluidJson = fluidElement.getAsJsonObject();
+            // Load fluid properties from all HBM fluids
+            FluidType[] allFluids = Fluids.getAll();
+            for (FluidType hbmFluid : allFluids) {
+                if (hbmFluid == Fluids.NONE) continue;
 
-                String name = fluidJson.get("name").getAsString().toLowerCase(Locale.US);
-                int color = Integer.decode(fluidJson.get("color").getAsString());
-                String stillTexture = fluidJson.get("stillTexture").getAsString();
-                String flowingTexture = fluidJson.get("flowingTexture").getAsString();
-                String inventoryTexture = fluidJson.get("inventoryTexture").getAsString();
+                // Convert fluid name to lowercase as requested
+                String name = hbmFluid.getName().toLowerCase(Locale.US);
+                int color = hbmFluid.getColor();
+
+                // Generate texture names based on fluid name
+                // Using the same pattern as the original HBM texture system
+                String stillTexture = "forgefluid/" + name;
+                String flowingTexture = "forgefluid/" + name;
+                String inventoryTexture = "forgefluid/" + name;
 
                 FluidProperties properties = new FluidProperties(name, color, stillTexture, flowingTexture, inventoryTexture);
                 fluidProperties.put(name, properties);
@@ -110,10 +86,8 @@ public class FluidRegistry {
                 System.out.println("[NTM] Loaded fluid properties for " + name + ": " + properties);
             }
 
-            reader.close();
-
         } catch (Exception e) {
-            System.err.println("[NTM] Error loading fluid registry JSON: " + e.getMessage());
+            System.err.println("[NTM] Error loading fluid properties from Fluids.java: " + e.getMessage());
             e.printStackTrace();
         }
     }
