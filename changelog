@@ -1,52 +1,16 @@
 ## Added
-* New assembler
-  * Features a brand new animated model, GUI and the new recipe selection system
-  * Many recipes have been reworked, with the microcrafting complexity reduced
-  * The redcoil didn't get a recipe. It's gonna die soon.
-  * Neither did the schrabidium transmutator
-  * Balls-o-tron's spawner can now be made without a worm coin, using a silver key instead. This means that, while expensive, it's possible to summon him without finding a jungle dungeon
-* Blueprins
-  * Replace the journals
-  * Instead of opening them and making a template, they act as a multi template
-  * Blueprints need to remain in the slot, removing them will disable the recipes again
-  * Not actually part of worldgen yet - yeah i ran out of time, cry about it
-* More paintables
-  * Paintable pneumatic tube
-    * Behaves the exact same as a regular pneumatic tube
-    * Can also be used as in and outputs
-    * Full block
-  * Paintable OpenComputers cable
-    * Only enabled if OpenComputers is installed
-    * Full block
-    * Also supports OC wire colors
+* Blueprint booklets
+  * Can be found in worldgen
+  * Using it will create one random blueprint of the same type as the booklet
+* Liquid concrete
+  * It's conk but liquid
+* Rebar
+  * When hooked up to liquid concrete using pipes, will fill to create reinforced concrete
+  * Fills bottom to top, so connect the pipes to the top
 
 ## Changed
-* Updated chinese and ukrainian localization
-* Removed levitation unit
-* Many of NTM's regular building blocks now have forge microblock support
-* RBMK crane models now conform to the dimensions of the room they're in
-* Projectile resistance for armor has been renamed to "physical" and now also extends to all direct forms of attack by other entities that don't fall into any other categories (mostly melee attacks)
-  * This should fix the issue where most armors are quite weak against swords
-* Electric attacks (i.e. tesla cannon) are now in the "energy damage" category
-  * This means that armors that have energy resistance actually properly work against the tesla cannon
-* Heavy components are being deprecated
-* Flow control pumps can now be interfaced with OpenComputers
-* The electrolyzer now remembers the last visited GUI screen
-* Retextured many fluid containers such as universal tanks, canisters and gas tanks
-* Removed the legacy assembler and chemical plant recipes from the template folder
-* Removed journals from various loot pools
-* Drinking whiskey now gives strength III, resistance III and nausea
-* Chemical artillery shell recipes have now been moved to the assembler
-* The chemical plant and factory now scale their max power based on the recipe, similar to how the arc welder works
-* The chemical plant's default max power is now 100kHE again instead of 1MHE
-* The NEI handlers for the old chemplant and assembler have been deactivated, however they will continue to function for the time being
+* The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints
 
 ## Fixed
-* Fixed gas centrifuge sound persisting when broken or when unloaded
-* Fixed all centrifuge sounds trying to play even when the player is far away, using up audio slots
-* Fixed guns that don't have durability always displaying a condition of 0%
-* Fixed GL state leak caused by skeletons
-* Fixed OpenComputers integration for the CCGT
-* Fixed rotated RBMK consoles not behaving correctly when trying to change rod insertion levels
-* Fixed crash caused by piston inserters on servers
-* Fixed flare gun not having a firing sound
+* Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit
+  * As an extra safeguard, the recipe loader now throws an exception if that happens

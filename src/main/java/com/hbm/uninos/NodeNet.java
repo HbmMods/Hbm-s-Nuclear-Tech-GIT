@@ -2,7 +2,7 @@ package com.hbm.uninos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -16,7 +16,7 @@ public abstract class NodeNet<R, P, L extends GenNode> {
 	public static Random rand = new Random();
 	
 	public boolean valid = true;
-	public Set<L> links = new HashSet();
+	public Set<L> links = new LinkedHashSet();
 
 	public HashMap<R, Long> receiverEntries = new HashMap();
 	public HashMap<P, Long> providerEntries = new HashMap();

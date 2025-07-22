@@ -160,6 +160,10 @@ public class ToolRecipes {
 		//Bobmazon
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.bobmazon), new Object[] { Items.book, Items.gold_nugget, Items.string, KEY_BLUE });
 		
+		//Blueprints
+		//CraftingManager.addShapelessAuto(new ItemStack(ModItems.blueprint_folder, 1, 0), new Object[] { ModItems.blueprints, ModItems.blueprints, ModItems.blueprints });
+		//CraftingManager.addShapelessAuto(new ItemStack(ModItems.blueprint_folder, 1, 1), new Object[] { ModItems.blueprints, ModItems.blueprints, ModItems.blueprints, ModItems.blueprints, ModItems.blueprints, ModItems.fragment_meteorite });
+		
 		//Carts
 		CraftingManager.addRecipeAuto(ItemModMinecart.createCartItem(EnumCartBase.WOOD, EnumMinecart.EMPTY), new Object[] { "P P", "WPW", 'P',KEY_SLAB, 'W', KEY_PLANKS });
 		CraftingManager.addRecipeAuto(ItemModMinecart.createCartItem(EnumCartBase.STEEL, EnumMinecart.EMPTY), new Object[] { "P P", "IPI", 'P', STEEL.plate(), 'I', STEEL.ingot() });
