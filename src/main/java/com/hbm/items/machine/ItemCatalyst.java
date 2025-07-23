@@ -37,12 +37,6 @@ public class ItemCatalyst extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		/*list.add("Absolute Energy Bonus: " + powerAbs + "HE");
-		list.add("Energy Modifier:           " + (powerMod >= 1 ? "+" : "") + (Math.round(powerMod * 1000) * .10 - 100) + "%");
-		list.add("Heat Modifier:               " + (heatMod >= 1 ? "+" : "") + (Math.round(heatMod * 1000) * .10 - 100) + "%");
-		list.add("Fuel Modifier:               " + (fuelMod >= 1 ? "+" : "") + (Math.round(fuelMod * 1000) * .10 - 100) + "%");*/
-		//TODO: do something useful with this
-
 		list.add("Adds spice to the core.");
 		list.add("Look at all those colors!");
 	}

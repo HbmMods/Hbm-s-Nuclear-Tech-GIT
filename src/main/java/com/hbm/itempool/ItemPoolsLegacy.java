@@ -64,7 +64,8 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.canister_full, Fluids.DIESEL.getID(), 1, 2, 2),
 					weighted(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 					weighted(ModItems.gas_mask_m65, 60, 1, 1, 2),
-					weighted(ModItems.gas_mask_filter, 0, 1, 1, 3)
+					weighted(ModItems.gas_mask_filter, 0, 1, 1, 3),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1)
 			};
 		}};
 
@@ -132,6 +133,7 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.gas_mask_filter, 0, 1, 1, 4),
 					weighted(ModItems.launch_code_piece, 0, 1, 1, 1),
 					weighted(ModItems.gun_double_barrel, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 1, 1, 1, 1)
 			};
 		}};
 		
