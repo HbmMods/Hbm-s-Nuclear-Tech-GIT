@@ -116,6 +116,12 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputItems(DictFrame.fromOne(ModItems.fuel_additive, EnumFuelAdditive.DEICER)));
 
 		/// THE CONC AND ASPHALE ///
+		this.register(new GenericRecipe("chem.cobble").setup(20, 100)
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000), new FluidStack(Fluids.LAVA, 25))
+				.outputItems(new ItemStack(Blocks.cobblestone)));
+		this.register(new GenericRecipe("chem.stone").setup(60, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER)
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000), new FluidStack(Fluids.LAVA, 25), new FluidStack(Fluids.AIR, 4_000))
+				.outputItems(new ItemStack(Blocks.stone)));
 		this.register(new GenericRecipe("chem.concrete").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.powder_cement, 1), new ComparableStack(Blocks.gravel, 8), new OreDictStack(KEY_SAND, 8))
 				.inputFluids(new FluidStack(Fluids.WATER, 2_000))

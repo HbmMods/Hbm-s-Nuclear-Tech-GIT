@@ -7,9 +7,13 @@
 * Rebar
   * When hooked up to liquid concrete using pipes, will fill to create reinforced concrete
   * Fills bottom to top, so connect the pipes to the top
+* Rebar placer
+  * Can be configured with different types of concrete, reinforced or not, or even colored
+  * Rebar created with the rebar placer will remember its type and assume it when being filled with liquid concrete
 
 ## Changed
 * The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints
+* The chemical plant now has a recipe for making cobblestone from 25mB of lava (which can be liquefacted into even more lava, useful for cobblestone generation)
 
 ## Fixed
 * Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit

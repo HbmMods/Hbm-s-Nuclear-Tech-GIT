@@ -3,7 +3,7 @@ package com.hbm.inventory.container;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.util.InventoryUtil;
 
@@ -57,7 +57,7 @@ public class ContainerMachineChemicalPlant extends ContainerBase {
 				
 				if(slotOriginal.getItem() instanceof IBatteryItem || slotOriginal.getItem() == ModItems.battery_creative) {
 					if(!this.mergeItemStack(slotStack, 0, 1, false)) return null;
-				} else if(slotOriginal.getItem() instanceof ItemChemistryTemplate) {
+				} else if(slotOriginal.getItem() instanceof ItemBlueprints) {
 					if(!this.mergeItemStack(slotStack, 1, 2, false)) return null;
 				} else if(slotOriginal.getItem() instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(slotStack, 2, 4, false)) return null;

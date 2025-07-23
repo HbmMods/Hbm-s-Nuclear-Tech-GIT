@@ -7,11 +7,16 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ClientConfig;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemRebarPlacer;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.ServerProxy;
 import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.tileentity.IBufPacketReceiver;
@@ -24,6 +29,7 @@ import com.hbm.uninos.networkproviders.RebarNetwork;
 import com.hbm.uninos.networkproviders.RebarNetworkProvider;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
+import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -41,9 +47,13 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -97,10 +107,18 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 	
 	public static class TileEntityRebar extends TileEntityLoadedBase implements IFluidReceiverMK2, IBufPacketReceiver {
 
+		public Block concrete;
+		public int concreteMeta;
 		public int progress;
 		public int prevProgress;
 		protected RebarNode node;
 		public boolean hasConnection = false;
+		
+		public TileEntityRebar setup(Block b, int m) {
+			this.concrete = b;
+			this.concreteMeta = m;
+			return this;
+		}
 
 		@Override
 		public void updateEntity() {
@@ -115,7 +133,11 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 				}
 				
 				if(this.progress >= 1_000) {
-					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.concrete_rebar);
+					if(concrete != null && ItemRebarPlacer.isValidConk(Item.getItemFromBlock(concrete), concreteMeta)) {
+						worldObj.setBlock(xCoord, yCoord, zCoord, concrete, concreteMeta, 3);
+					} else {
+						worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.concrete_rebar);
+					}
 					return;
 				}
 				
@@ -158,6 +180,11 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			super.readFromNBT(nbt);
 			this.progress = nbt.getInteger("progress");
 			this.hasConnection = nbt.getBoolean("hasConnection");
+			
+			if(nbt.hasKey("block")) {
+				this.concrete = Block.getBlockById(nbt.getInteger("block"));
+				this.concreteMeta = nbt.getInteger("meta");
+			}
 		}
 
 		@Override
@@ -165,6 +192,11 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			super.writeToNBT(nbt);
 			nbt.setInteger("progress", this.progress);
 			nbt.setBoolean("hasConnection", this.hasConnection);
+			
+			if(this.concrete != null) {
+				nbt.setInteger("block", Block.getIdFromBlock(this.concrete));
+				nbt.setInteger("meta", this.concreteMeta);
+			}
 		}
 		
 		public RebarNode createNode() {
@@ -341,6 +373,14 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			TileEntityRebar rebar = (TileEntityRebar) o;
 			if(rebar.progress > 0) rebars.add(rebar);
 		}
+
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayer player = mc.thePlayer;
+		World world = mc.theWorld;
+
+		double dx = player.prevPosX + (player.posX - player.prevPosX) * interp;
+		double dy = player.prevPosY + (player.posY - player.prevPosY) * interp;
+		double dz = player.prevPosZ + (player.posZ - player.prevPosZ) * interp;
 		
 		if(!rebars.isEmpty()) {
 			
@@ -348,19 +388,12 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			//RenderHelper.enableStandardItemLighting();
 
-			EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+			EntityRenderer entityRenderer = mc.entityRenderer;
 			entityRenderer.enableLightmap(interp);
-
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			World world = Minecraft.getMinecraft().theWorld;
-
-			double dx = player.prevPosX + (player.posX - player.prevPosX) * interp;
-			double dy = player.prevPosY + (player.posY - player.prevPosY) * interp;
-			double dz = player.prevPosZ + (player.posZ - player.prevPosZ) * interp;
 
 			RenderBlocksNT renderer = RenderBlocksNT.INSTANCE.setWorld(world);
 			renderer.setOverrideBlockTexture(((BlockRebar) ModBlocks.rebar).concrete);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+			mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
@@ -370,26 +403,6 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 				tess.setColorRGBA_F(1F, 1F, 1F, 1F);
 				renderer.setRenderBounds(0, 0, 0, 1, rebar.progress / 1000D, 1);
 				renderer.renderStandardBlock(ModBlocks.rebar, rebar.xCoord, rebar.yCoord, rebar.zCoord);
-
-				/*IIcon icon = ((BlockRebar) ModBlocks.rebar).concrete;
-				double minU = icon.getInterpolatedU(renderer.renderMinX * 16.0D);
-				double maxU = icon.getInterpolatedU(renderer.renderMaxX * 16.0D);
-				double minV = icon.getInterpolatedV(renderer.renderMinZ * 16.0D);
-				double maxV = icon.getInterpolatedV(renderer.renderMaxZ * 16.0D);
-
-				double minX = rebar.xCoord + renderer.renderMinX;
-				double maxX = rebar.xCoord + renderer.renderMaxX;
-				double minY = rebar.yCoord + renderer.renderMinY;
-				double maxY = rebar.yCoord + renderer.renderMaxY;
-				double minZ = rebar.zCoord + renderer.renderMinZ;
-				double maxZ = rebar.zCoord + renderer.renderMaxZ;
-
-				//tess.setColorOpaque_F(0.5F, 1F, 1F);
-				tess.setNormal(0, 1, 0);
-				tess.addVertexWithUV(maxX, maxY, maxZ, maxU, maxV);
-				tess.addVertexWithUV(maxX, maxY, minZ, maxU, minV);
-				tess.addVertexWithUV(minX, maxY, minZ, minU, minV);
-				tess.addVertexWithUV(minX, maxY, maxZ, minU, maxV);*/
 			}
 			
 			tess.draw();
@@ -399,6 +412,85 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 
 			GL11.glShadeModel(GL11.GL_FLAT);
 			GL11.glPopMatrix();
+		}
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.rebar_placer && player.getHeldItem().hasTagCompound() &&
+				player.getHeldItem().stackTagCompound.hasKey("pos") && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectType.BLOCK) {
+
+			int[] pos = player.getHeldItem().stackTagCompound.getIntArray("pos");
+			MovingObjectPosition mop = mc.objectMouseOver;
+			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+			int iX = mop.blockX + dir.offsetX;
+			int iY = mop.blockY + dir.offsetY;
+			int iZ = mop.blockZ + dir.offsetZ;
+
+			double minX = Math.min(pos[0], iX) + 0.125;
+			double maxX = Math.max(pos[0], iX) + 0.875;
+			double minY = Math.min(pos[1], iY) + 0.125;
+			double maxY = Math.max(pos[1], iY) + 0.875;
+			double minZ = Math.min(pos[2], iZ) + 0.125;
+			double maxZ = Math.max(pos[2], iZ) + 0.875;
+			
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(1F, 1F, 1F);
+			
+			Tessellator tess = Tessellator.instance;
+			tess.setTranslation(-dx, -dy, -dz);
+			tess.startDrawing(GL11.GL_LINES);
+			tess.setBrightness(240);
+			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+			
+			// top
+			tess.addVertex(minX, maxY, minZ);
+			tess.addVertex(minX, maxY, maxZ);
+			
+			tess.addVertex(minX, maxY, maxZ);
+			tess.addVertex(maxX, maxY, maxZ);
+			
+			tess.addVertex(maxX, maxY, maxZ);
+			tess.addVertex(maxX, maxY, minZ);
+
+			tess.addVertex(maxX, maxY, minZ);
+			tess.addVertex(minX, maxY, minZ);
+			
+			// bottom
+			tess.addVertex(minX, minY, minZ);
+			tess.addVertex(minX, minY, maxZ);
+			
+			tess.addVertex(minX, minY, maxZ);
+			tess.addVertex(maxX, minY, maxZ);
+			
+			tess.addVertex(maxX, minY, maxZ);
+			tess.addVertex(maxX, minY, minZ);
+
+			tess.addVertex(maxX, minY, minZ);
+			tess.addVertex(minX, minY, minZ);
+
+			// sides
+			tess.addVertex(minX, minY, minZ);
+			tess.addVertex(minX, maxY, minZ);
+
+			tess.addVertex(maxX, minY, minZ);
+			tess.addVertex(maxX, maxY, minZ);
+
+			tess.addVertex(maxX, minY, maxZ);
+			tess.addVertex(maxX, maxY, maxZ);
+
+			tess.addVertex(minX, minY, maxZ);
+			tess.addVertex(minX, maxY, maxZ);
+			
+			tess.draw();
+			tess.setTranslation(0, 0, 0);
+			
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glPopMatrix();
+			
+			int rebarLeft = InventoryUtil.countAStackMatches(player, new ComparableStack(ModBlocks.rebar), true);
+			int rebarRequired = (Math.max(pos[0], iX) - Math.min(pos[0], iX) + 1) * (Math.max(pos[1], iY) - Math.min(pos[1], iY) + 1) * (Math.max(pos[2], iZ) - Math.min(pos[2], iZ) + 1);
+			MainRegistry.proxy.displayTooltip((rebarRequired > rebarLeft ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + (rebarLeft + " / " + rebarRequired), 1_000, ServerProxy.ID_CABLE);
 		}
 	}
 }

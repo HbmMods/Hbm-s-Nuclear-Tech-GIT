@@ -156,6 +156,7 @@ public class ToolRecipes {
 		CraftingManager.addRecipeAuto(ItemBlowtorch.getEmptyTool(ModItems.blowtorch), new Object[] { "CC ", " I ", "CCC", 'C', CU.plate528(), 'I', IRON.ingot() });
 		CraftingManager.addRecipeAuto(ItemBlowtorch.getEmptyTool(ModItems.acetylene_torch), new Object[] { "SS ", " PS", " T ", 'S', STEEL.plate528(), 'P', ANY_PLASTIC.ingot(), 'T', ModItems.tank_steel });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.boltgun), new Object[] { "DPS", " RD", " D ", 'D', DURA.ingot(), 'P', DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_PNEUMATIC), 'R', RUBBER.ingot(), 'S', STEEL.shell() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rebar_placer), new Object[] { "RDR", "DWD", "RDR", 'R', ModBlocks.rebar, 'D', ModItems.ducttape, 'W', ModItems.wrench });
 
 		//Bobmazon
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.bobmazon), new Object[] { Items.book, Items.gold_nugget, Items.string, KEY_BLUE });
