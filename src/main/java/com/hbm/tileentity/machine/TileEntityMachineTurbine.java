@@ -236,7 +236,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 		}
 		nbt.setTag("items", list);
-		
+
 		if (customName != null) {
 			nbt.setString("name", customName);
 		}
@@ -280,7 +280,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			tanks[0].setType(0, 1, slots);
-			tanks[0].loadTank(2, 3, slots);
+			tanks[0].loadTank(2,  3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
 
 			FluidType in = tanks[0].getTankType();
