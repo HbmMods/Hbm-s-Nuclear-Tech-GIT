@@ -123,7 +123,7 @@ public class HorsePronter {
 		GL11.glTranslated(offset.xCoord, offset.yCoord, offset.zCoord);
 		GL11.glRotated(rotation.xCoord, 0, 1, 0);
 		GL11.glRotated(rotation.yCoord, 1, 0, 0);
-		GL11.glRotated(rotation.zCoord, 0, 0, 1); //TODO: check pitch and roll axis
+		GL11.glRotated(rotation.zCoord, 0, 0, 1);
 		GL11.glTranslated(-offset.xCoord, -offset.yCoord, -offset.zCoord);
 	}
 	

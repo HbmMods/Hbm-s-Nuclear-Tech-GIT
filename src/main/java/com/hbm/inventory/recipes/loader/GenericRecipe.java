@@ -37,9 +37,8 @@ public class GenericRecipe {
 		this.name = name;
 	}
 	
-	public boolean isPooled() {
-		return blueprintPools != null;
-	}
+	public boolean isPooled() { return blueprintPools != null; }
+	public String[] getPools() { return this.blueprintPools; }
 	
 	public boolean isPartOfPool(String lookingFor) {
 		if(!isPooled()) return false;
@@ -58,7 +57,7 @@ public class GenericRecipe {
 	public GenericRecipe setNamed() { this.customLocalization = true; return this; }
 	public GenericRecipe setPools(String... pools) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); return this; }
 
-	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; return this; }
+	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) if(stack.stacksize > 64) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
 	public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
 	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }

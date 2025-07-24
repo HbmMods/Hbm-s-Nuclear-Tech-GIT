@@ -50,7 +50,8 @@ public class ItemPoolsComponent {
 					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 2, 4),
 					weighted(ModItems.circuit, EnumCircuitType.PCB.ordinal(), 1, 3, 5),
 					weighted(ModItems.circuit, EnumCircuitType.CAPACITOR.ordinal(), 1, 1, 3),
-					weighted(ModItems.blade_titanium, 0, 1, 8, 1)
+					weighted(ModItems.blade_titanium, 0, 1, 8, 1),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1)
 			};
 		}};
 
@@ -123,7 +124,8 @@ public class ItemPoolsComponent {
 					weighted(ModItems.toothpicks, 0, 1, 16, 10),
 					weighted(ModItems.dust, 0, 1, 1, 40),
 					weighted(ModItems.dust_tiny, 0, 1, 3, 75),
-					weighted(ModItems.ink, 0, 1, 1, 1)
+					weighted(ModItems.ink, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 5)
 			};
 		}};
 

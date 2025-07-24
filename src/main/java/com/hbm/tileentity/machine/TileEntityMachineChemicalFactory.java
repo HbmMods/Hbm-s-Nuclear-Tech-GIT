@@ -10,6 +10,8 @@ import com.hbm.inventory.container.ContainerMachineChemicalFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalFactory;
+import com.hbm.inventory.recipes.ChemicalPlantRecipes;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -49,7 +51,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	public FluidTank lps;
 	
 	public long power;
-	public long maxPower = 10_000_000;
+	public long maxPower = 1_000_000;
 	public boolean[] didProcess = new boolean[4];
 	
 	public boolean frame = false;
@@ -129,6 +131,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		if(maxPower <= 0) this.maxPower = 10_000_000;
 		
 		if(!worldObj.isRemote) {
+			
+			long nextMaxPower = 0;
+			for(int i = 0; i < 4; i++) {
+				GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplantModule[i].recipe);
+				if(recipe != null) {
+					nextMaxPower += recipe.power * 100;
+				}
+			}
+			this.maxPower = nextMaxPower;
+			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 1_000_000);
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 1, 3);

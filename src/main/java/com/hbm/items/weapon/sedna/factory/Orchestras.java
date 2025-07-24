@@ -27,6 +27,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 
@@ -942,7 +944,7 @@ public class Orchestras {
 			
 			if(timer == 2) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
-				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? -0.0625 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), false, 60, 0.5D, 20);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? -0.0625 : -0.125, aiming ? -0.125 : -0.25D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), false, 60, 0.5D, 20);
 			}
 		}
 
@@ -969,6 +971,11 @@ public class Orchestras {
 			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
 			if(timer == 35) entity.worldObj.playSoundAtEntity(entity, "hbm:player.gulp", 1F, 1F);
 			if(timer == 50) entity.worldObj.playSoundAtEntity(entity, "hbm:player.groan", 1F, 1F);
+			if(timer == 60) {
+				entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
+				entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+				entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 0));
+			}
 		}
 	};
 
