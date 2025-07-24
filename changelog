@@ -14,7 +14,10 @@
 ## Changed
 * The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints
 * The chemical plant now has a recipe for making cobblestone from 25mB of lava (which can be liquefacted into even more lava, useful for cobblestone generation)
+* Removed the old arc furnace
 
 ## Fixed
 * Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit
   * As an extra safeguard, the recipe loader now throws an exception if that happens
+* Fixed dupe caused by the breeding reactor
+* Fixed a potential crash caused by a change done to tile entity proxies in relation to EnergyControl

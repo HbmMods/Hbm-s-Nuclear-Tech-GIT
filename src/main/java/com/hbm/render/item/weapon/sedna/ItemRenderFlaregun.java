@@ -113,6 +113,13 @@ public class ItemRenderFlaregun extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupEntity(ItemStack stack) {
+		super.setupEntity(stack);
+		double scale = 0.5D;
+		GL11.glScaled(scale, scale, scale);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		

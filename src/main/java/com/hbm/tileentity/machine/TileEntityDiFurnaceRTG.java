@@ -105,7 +105,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 
 			for(int i = 0; i < 2; i++) {
 				if(slots[i].stackSize <= 0)
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
+					slots[i] = new ItemStack(slots[i].getItem());
 				else
 					slots[i].stackSize--;
 				if(slots[i].stackSize <= 0)

@@ -101,7 +101,10 @@ public class ItemRebarPlacer extends Item implements IGUIProvider {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
 		if(world.isRemote) return true;
-		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
+		if(!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+			ItemStackUtil.addStacksToNBT(stack, new ItemStack[] {new ItemStack(ModBlocks.concrete_rebar)});
+		}
 		ItemStack theConk = ItemStackUtil.readStacksFromNBT(stack, 1)[0];
 		
 		boolean hasConk = theConk != null && isValidConk(theConk.getItem(), theConk.getItemDamage());

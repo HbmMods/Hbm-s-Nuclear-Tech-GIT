@@ -240,7 +240,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 			{
 				if(slots[i].stackSize <= 0)
 				{
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
+					slots[i] = new ItemStack(slots[i].getItem());
 				}else{
 					slots[i].stackSize--;
 				}
