@@ -23,6 +23,7 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCasingType;
+import com.hbm.items.ItemEnums.EnumExpensiveType;
 import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -83,6 +84,21 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.platednt").setup(600, 100).outputItems(new ItemStack(ModItems.plate_dineutronium, 4))
 				.inputItems(new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack(DESH.ingot(), 1)));
 
+		this.register(new GenericRecipe("ass.exsteelplating").setup(200, 400).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.STEEL_PLATING.ordinal()))
+				.inputItems(new OreDictStack(STEEL.plateCast(), 4), new OreDictStack(TI.plate(), 4), new OreDictStack(STEEL.bolt(), 16)));
+		this.register(new GenericRecipe("ass.exheavyframe").setup(600, 800).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.HEAVY_FRAME.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.STEEL_PLATING), new OreDictStack(ANY_PLASTIC.ingot(), 8), new OreDictStack(CU.plateWelded(), 4), new OreDictStack(DESH.ingot(), 1), new OreDictStack(DURA.bolt(), 32)));
+		this.register(new GenericRecipe("ass.exleadplating").setup(400, 4_000).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.LEAD_PLATING.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 2, EnumExpensiveType.STEEL_PLATING), new OreDictStack(PB.plateCast(), 8), new OreDictStack(B.ingot(), 2), new OreDictStack(W.bolt(), 32))
+				.inputFluids(new FluidStack(Fluids.LUBRICANT, 1_000)));
+		this.register(new GenericRecipe("ass.exferroplating").setup(1_200, 10_000).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.FERRO_PLATING.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.LEAD_PLATING), new OreDictStack(FERRO.plateCast(), 4), new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 1_000)));
+		this.register(new GenericRecipe("ass.bronzetubes").setup(3_000, 250_000).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.BRONZE_TUBES.ordinal()))
+				.inputItems(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.HEAVY_FRAME), new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.FERRO_PLATING), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(ZR.plateWelded(), 1))
+				.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL_COLD, 4_000))
+				.outputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 4_000)));
+		
 		// cloth
 		this.register(new GenericRecipe("ass.hazcloth").setup(50, 100).outputItems(new ItemStack(ModItems.hazmat_cloth, 4))
 				.inputItems(new OreDictStack(PB.dust(), 4), new ComparableStack(Items.string, 8)));

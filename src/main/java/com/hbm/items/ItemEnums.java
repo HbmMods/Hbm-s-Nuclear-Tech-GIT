@@ -90,4 +90,8 @@ public class ItemEnums {
 	public static enum EnumIngotMetal {
 		SCRAP, INGOT, COUNTER, KEY, BEACON, CASING, CLOCKWORK, BAR, DETECTOR
 	}
+
+	public static enum EnumExpensiveType {
+		STEEL_PLATING, HEAVY_FRAME, LEAD_PLATING, FERRO_PLATING, BRONZE_TUBES
+	}
 }

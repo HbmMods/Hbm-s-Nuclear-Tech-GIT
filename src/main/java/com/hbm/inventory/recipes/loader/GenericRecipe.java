@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutput;
@@ -58,7 +59,9 @@ public class GenericRecipe {
 	public GenericRecipe setPools(String... pools) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); return this; }
 
 	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) if(stack.stacksize > 64) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
+	public GenericRecipe inputItemsEx(AStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputItem = input; for(AStack stack : this.inputItem) if(stack.stacksize > 64) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
 	public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
+	public GenericRecipe inputFluidsEx(FluidStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputFluid = input; return this; }
 	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
 	
