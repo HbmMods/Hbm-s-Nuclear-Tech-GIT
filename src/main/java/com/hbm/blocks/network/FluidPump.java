@@ -306,6 +306,7 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 			int input = args.checkInteger(0);
 			if (input > 10000 || input < 0)
 				return new Object[] {null, "Number outside of bounds."};
+			bufferSize = input;
 			return new Object[] {true};
 		}
 
