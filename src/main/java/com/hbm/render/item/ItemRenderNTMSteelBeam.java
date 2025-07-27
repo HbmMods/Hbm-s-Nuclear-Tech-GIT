@@ -61,7 +61,7 @@ public class ItemRenderNTMSteelBeam implements IItemRenderer {
 		default:
 			break;
 		}
-
+		//
 		// Bind texture
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
