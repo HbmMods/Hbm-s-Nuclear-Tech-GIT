@@ -15,6 +15,9 @@
 * The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints
 * The chemical plant now has a recipe for making cobblestone from 25mB of lava (which can be liquefacted into even more lava, useful for cobblestone generation)
 * Removed the old arc furnace
+* Mining lasers now build up barricades in all directions and not just horizontal ones, preventing potential deadlocks due to liquid flowing in from above
+* One of the new secret parts for making a certain weapon is now obtainable again via red rooms
+* Biogas can now be cracked into aromatics and petroleum gas
 
 ## Fixed
 * Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit

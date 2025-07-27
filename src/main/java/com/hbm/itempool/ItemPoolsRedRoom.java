@@ -43,6 +43,7 @@ public class ItemPoolsRedRoom {
 					
 					weighted(ModItems.gun_hangman, 0, 1, 1, 1),
 					weighted(ModItems.gun_mas36, 0, 1, 1, 1),
+					weighted(ModItems.item_secret, EnumSecretType.FOLLY.ordinal(), 1, 1, 1),
 			};
 		}};
 		

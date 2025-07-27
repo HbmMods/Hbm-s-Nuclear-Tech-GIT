@@ -83,7 +83,8 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 3), new OreDictStack(BI.dust(), 1), new OreDictStack(VOLCANIC.gem(), 1), new ComparableStack(ModItems.ingot_osmiridium)));
 		this.register(new GenericRecipe("ass.platednt").setup(600, 100).outputItems(new ItemStack(ModItems.plate_dineutronium, 4))
 				.inputItems(new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack(DESH.ingot(), 1)));
-
+		
+		// expensive parts
 		this.register(new GenericRecipe("ass.exsteelplating").setup(200, 400).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.STEEL_PLATING.ordinal()))
 				.inputItems(new OreDictStack(STEEL.plateCast(), 4), new OreDictStack(TI.plate(), 4), new OreDictStack(STEEL.bolt(), 16)));
 		this.register(new GenericRecipe("ass.exheavyframe").setup(600, 800).outputItems(new ItemStack(ModItems.item_expensive, 1, EnumExpensiveType.HEAVY_FRAME.ordinal()))
