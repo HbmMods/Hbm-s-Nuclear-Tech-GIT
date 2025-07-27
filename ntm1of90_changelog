@@ -6,5 +6,8 @@ Up to date with HBM-NTM: X5383 (see changelog of HBM X5383 for additional inform
 * NTM I-Steel Beam and I-Steel Beam Vertical
 
 
+## Fixes
+The hbm forgefluid compat (ntm1of90api) now uses the correct hbm fluid textures
+
 
 
