@@ -842,6 +842,7 @@ container.radar=Радар
 container.radiobox=FM передатчик
 container.radiolysis=РИТЭГ и Камера Радиолиза
 container.radiorec=FM радио
+container.rbmkAutoloader=Автозагрузчик стержней РБМК
 container.rbmkBoiler=Паровой канал РБМК
 container.rbmkControl=Регулирующие стержни РБМК
 container.rbmkControlAuto=Автоматические регулирующие стержни РБМК
