@@ -698,7 +698,6 @@ commands.satellite.satellite_orbited=Спутник запущен.
 commands.satellite.should_be_run_as_player=Команда должна быть выполнена игроком!
 
 
-container.ammoBag=Ammo Bag
 container.ammoBag=Сумка для боеприпасов
 container.amsBase=Основание АМС [Декор]
 container.amsEmitter=Излучатель АМС [Декор]
