@@ -1416,8 +1416,8 @@ hazard.particleCoarse=Частиц, находящихся в воздухе
 hazard.particleFine=Твердых частиц
 hazard.sand=Раздражителей глаз
 
-hbm.key.ability=Переключение абилки инструмента
-hbm.key.abilityAlt=Изменить абилки инструмента
+hbm.key.ability=Переключение способностей инструмента
+hbm.key.abilityAlt=Изменить способности инструмента
 hbm.key=NTM Хоткеи
 hbm.key.calculator=Калькулятор
 hbm.key.copyToolAlt=Устройство настройки: Переключить вставку
