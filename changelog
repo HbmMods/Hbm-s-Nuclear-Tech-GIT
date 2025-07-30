@@ -18,9 +18,12 @@
 * Mining lasers now build up barricades in all directions and not just horizontal ones, preventing potential deadlocks due to liquid flowing in from above
 * One of the new secret parts for making a certain weapon is now obtainable again via red rooms
 * Biogas can now be cracked into aromatics and petroleum gas
+* Custom missile part recipes have been added to the new assembler
+* Mini nukes are now made from weapon steel instead of regular steel
 
 ## Fixed
 * Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit
   * As an extra safeguard, the recipe loader now throws an exception if that happens
 * Fixed dupe caused by the breeding reactor
 * Fixed a potential crash caused by a change done to tile entity proxies in relation to EnergyControl
+* Fixed the assembler achievement still using the old one
