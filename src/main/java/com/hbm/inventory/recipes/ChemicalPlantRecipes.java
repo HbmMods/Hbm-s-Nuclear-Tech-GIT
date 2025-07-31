@@ -317,29 +317,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 6_000))
 				.outputItems(new ItemStack(ModItems.powder_balefire))
 				.outputFluids(new FluidStack(Fluids.BALEFIRE, 8_000)));
-
-		this.register(new GenericRecipe("chem.thoriumsalt").setup(100, 10_000).setIcon(ModItems.fluid_icon, Fluids.THORIUM_SALT.getID())
-				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
-				.inputItems(new OreDictStack(TH232.nugget(), 2))
-				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
-				.outputItems(
-						new ChanceOutput(new ItemStack(ModItems.nugget_u233, 1), 0.5F),
-						new ChanceOutput(new ItemStack(ModItems.nuclear_waste_tiny, 1), 0.25F)));
-		
-		/// VITRIFICATION ///
-		this.register(new GenericRecipe("chem.vitliquid").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1_000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		
-		this.register(new GenericRecipe("chem.vitgaseous").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1_000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		
-		this.register(new GenericRecipe("chem.vitsolid").setup(300, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead), new ComparableStack(ModItems.nuclear_waste, 4))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified, 4)));
 		
 		/// OSMIRIDIUM ///
 		this.register(new GenericRecipe("chem.osmiridiumdeath").setup(240, 1_000)

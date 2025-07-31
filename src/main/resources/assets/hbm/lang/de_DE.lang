@@ -3709,6 +3709,8 @@ potion.hbm_stability=Stabilität
 potion.hbm_taint=Verdorben
 potion.hbm_telekinesis=! ! !
 
+purex.recycle=Wiederanreicherung von %s
+
 radar.clearMap=Karte zurücksetzen
 radar.detectMissiles=Raketen erkennen
 radar.detectPlayers=Spieler erkennen

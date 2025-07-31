@@ -4767,6 +4767,8 @@ potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 
+purex.recycle=Re-enrichment of %s
+
 radar.clearMap=Clear Map
 radar.detectMissiles=Detect Missiles
 radar.detectPlayers=Detect Players

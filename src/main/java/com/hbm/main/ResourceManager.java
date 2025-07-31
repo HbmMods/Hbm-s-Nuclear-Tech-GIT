@@ -140,18 +140,19 @@ public class ResourceManager {
 	public static final IModelCustom assembler_cog = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_cog.obj"));
 	public static final IModelCustom assembler_slider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_slider.obj"));
 	public static final IModelCustom assembler_arm = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_arm.obj"));
-	public static final IModelCustom assembly_machine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assembly_machine.obj"));
-	public static final IModelCustom assemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assemfac.obj"));
+	public static final IModelCustom assembly_machine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assembly_machine.obj")).asVBO();
+	public static final IModelCustom assemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assemfac.obj")).asVBO();
 
 	//Chemplant
-	public static final IModelCustom chemplant_body = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_body.obj"));
+	public static final IModelCustom chemplant_body = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_body.obj")).asVBO();
 	public static final IModelCustom chemplant_spinner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_spinner.obj"));
 	public static final IModelCustom chemplant_piston = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_piston.obj"));
 	public static final IModelCustom chemplant_fluid = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_fluid.hmf"));
 	public static final IModelCustom chemplant_fluidcap = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_fluidcap.hmf"));
-	public static final IModelCustom chemical_plant = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_plant.obj"));
-	public static final IModelCustom chemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemfac.obj"));
-	public static final IModelCustom chemical_factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_factory.obj"));
+	public static final IModelCustom chemical_plant = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_plant.obj")).asVBO();
+	public static final IModelCustom chemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemfac.obj")).asVBO();
+	public static final IModelCustom chemical_factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_factory.obj")).asVBO();
+	public static final IModelCustom purex = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/purex.obj")).asVBO();
 
 	//Mixer
 	public static final IModelCustom mixer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mixer.obj"));
@@ -587,6 +588,7 @@ public class ResourceManager {
 	public static final ResourceLocation chemical_plant_fluid_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemical_plant_fluid.png");
 	public static final ResourceLocation chemfac_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemfac.png");
 	public static final ResourceLocation chemical_factory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemical_factory.png");
+	public static final ResourceLocation purex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/purex.png");
 
 	//Mixer
 	public static final ResourceLocation mixer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mixer.png");

@@ -10,6 +10,11 @@
 * Rebar placer
   * Can be configured with different types of concrete, reinforced or not, or even colored
   * Rebar created with the rebar placer will remember its type and assume it when being filled with liquid concrete
+* PUREX
+  * Chemplant-like nuclear fuel reprocessing machine
+  * Handles all the nuclear fuel reprocessing that was previously done by the standard centrifuge
+  * All reprocessing recipes now require both kerosene and nitric acid
+  * Also handles the vitrification recipes and the thorium salt reprocessing from the chemical plant
 
 ## Changed
 * The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints

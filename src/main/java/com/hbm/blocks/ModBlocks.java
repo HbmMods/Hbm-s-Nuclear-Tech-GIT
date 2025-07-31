@@ -1015,6 +1015,7 @@ public class ModBlocks {
 	public static Block machine_chemical_plant;
 	public static Block machine_chemfac;
 	public static Block machine_chemical_factory;
+	public static Block machine_purex;
 	public static Block machine_mixer;
 
 	public static Block machine_fluidtank;
@@ -2245,6 +2246,7 @@ public class ModBlocks {
 		machine_chemical_plant = new MachineChemicalPlant(Material.iron).setBlockName("machine_chemical_plant").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_chemfac = new MachineChemfac(Material.iron).setBlockName("machine_chemfac").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_chemical_factory = new MachineChemicalFactory(Material.iron).setBlockName("machine_chemical_factory").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_purex = new MachinePUREX(Material.iron).setBlockName("machine_purex").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mixer = new MachineMixer(Material.iron).setBlockName("machine_mixer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fluidtank = new MachineFluidTank(Material.iron).setBlockName("machine_fluidtank").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_fluidtank");
 		machine_bat9000 = new MachineBigAssTank9000(Material.iron).setBlockName("machine_bat9000").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3299,6 +3301,7 @@ public class ModBlocks {
 		register(machine_chemical_plant);
 		register(machine_chemfac);
 		register(machine_chemical_factory);
+		register(machine_purex);
 		register(machine_arc_welder);
 		register(machine_soldering_station);
 		register(machine_arc_furnace);
