@@ -103,6 +103,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		if(obj.has("icon")) recipe.setIcon(this.readItemStack(obj.get("icon").getAsJsonArray()));
 		if(obj.has("named") && obj.get("named").getAsBoolean()) recipe.setNamed();
 		if(obj.has("blueprintpool")) recipe.setPools(obj.get("blueprintpool").getAsString().split(":"));
+		if(obj.has("nameWrapper")) recipe.setNameWrapper(obj.get("nameWrapper").getAsString());
 		
 		readExtraData(element, recipe);
 		
@@ -149,8 +150,9 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 			writer.name("icon");
 			this.writeItemStack(recipe.icon, writer);
 		}
-		
+
 		if(recipe.customLocalization) writer.name("named").value(true);
+		if(recipe.nameWrapper != null) writer.name("nameWrapper").value(recipe.nameWrapper);
 		if(recipe.blueprintPools != null && recipe.blueprintPools.length > 0) writer.name("blueprintpool").value(String.join(":", recipe.blueprintPools));
 		
 		writeExtraData(recipe, writer);
