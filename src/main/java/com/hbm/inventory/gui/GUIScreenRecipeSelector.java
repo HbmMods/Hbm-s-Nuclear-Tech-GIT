@@ -135,7 +135,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 				
 				if(guiLeft + ix <= mouseX && guiLeft + ix + 18 > mouseX && guiTop + iy < mouseY && guiTop + iy + 18 >= mouseY) {
 					GenericRecipe recipe = recipes.get(i);
-					this.func_146283_a(recipe.print(), mouseX, mouseY);
+					this.func_146283_a(recipe.print(), 0, 900);
 				}
 			}
 		}
@@ -143,7 +143,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		if(guiLeft + 151 <= mouseX && guiLeft + 151 + 18 > mouseX && guiTop + 71 < mouseY && guiTop + 71 + 18 >= mouseY) {
 			if(this.selection != null && this.recipeSet.recipeNameMap.containsKey(selection)) {
 				GenericRecipe recipe = (GenericRecipe) this.recipeSet.recipeNameMap.get(selection);
-				this.func_146283_a(recipe.print(), mouseX, mouseY);
+				this.func_146283_a(recipe.print(), 0, 900);
 			}
 		}
 

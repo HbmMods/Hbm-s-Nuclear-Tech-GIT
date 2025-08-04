@@ -7,6 +7,7 @@
 * Rebar
   * When hooked up to liquid concrete using pipes, will fill to create reinforced concrete
   * Fills bottom to top, so connect the pipes to the top
+  * The rendering on this is still experimental, so don't overdo it with how large of an area you're casting
 * Rebar placer
   * Can be configured with different types of concrete, reinforced or not, or even colored
   * Rebar created with the rebar placer will remember its type and assume it when being filled with liquid concrete
@@ -15,6 +16,7 @@
   * Handles all the nuclear fuel reprocessing that was previously done by the standard centrifuge
   * All reprocessing recipes now require both kerosene and nitric acid
   * Also handles the vitrification recipes and the thorium salt reprocessing from the chemical plant
+  * Comes with new schrabidium extraction recipes from MEP/MEN fuels using schrabidic acid (yield is twice the schrabidium cost for acid used)
 
 ## Changed
 * The alternate recipes for nitric acid and xenon gas in the chemical plant now require blueprints
@@ -25,6 +27,21 @@
 * Biogas can now be cracked into aromatics and petroleum gas
 * Custom missile part recipes have been added to the new assembler
 * Mini nukes are now made from weapon steel instead of regular steel
+* Meteorite ingots are now made from meteorite powder, not blocks
+* Starmetal now requires meteorite ingots instead of blocks
+* Added auto switch groups
+  * The new standardized processing machines (assembler, chemplant, purex) can now have recipes that are grouped
+  * Recipes in groups will accept non-recipe items, if the item is used in another recipe from that same group
+  * When this happens, the recipe switches automatically, if possible
+  * This means that many PUREX recycling recipes and the ingot to plate recipes don't need dedicated machines for every single recipe, rather only one for that auto switch group
+* The tooltip of the chosen recipe on the recipe selector now renders in the bottom left corner instead of following the mouse, preventing an issue where the tooltip is cut off on larger GUI scales
+* Expensive mode has been changed
+  * Instead of using heavy components for most things, there's now "expensive" items that are used by many assembler recipes
+  * "Expensive" items replace some of the microcrafting that's part of the recipe, meaning that expensive mode recipes are generally simpler (but require way more materials)
+  * All heavy components have been annihilated and any recipes that may still use them (e.g. from old configs) default to using cast plates instead
+* Removed the assembly factory's recipe, as it still uses the deprecated recipe set
+  * A new assembly factory will be added soon
+* All recently deprecated machines have been removed from the creative tabs
 
 ## Fixed
 * Fixed a few assembler recipes using the old crafting numbers which sometimes exceed the stack limit
@@ -32,3 +49,5 @@
 * Fixed dupe caused by the breeding reactor
 * Fixed a potential crash caused by a change done to tile entity proxies in relation to EnergyControl
 * Fixed the assembler achievement still using the old one
+* Fixed the RBMK auto control rod's function not syncing to the client properly
+* Fixed crash caused by new standardized machine recipes with chance-based output when they output nothing

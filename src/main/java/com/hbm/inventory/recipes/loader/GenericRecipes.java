@@ -46,6 +46,9 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public static HashMap<String, List<String>> blueprintPools = new HashMap();
 	/** Name to recipe map for all recipes that are part of pools for lookup */
 	public static HashMap<String, GenericRecipe> pooledBlueprints = new HashMap();
+	
+	/** Groups for auto switch functionality (changes recipe automatically based on first solid input) */
+	public HashMap<String, List<GenericRecipe>> autoSwitchGroups = new HashMap();
 
 	public abstract int inputItemLimit();
 	public abstract int inputFluidLimit();
@@ -54,6 +57,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public boolean hasDuration() { return true; }
 	public boolean hasPower() { return true; }
 	
+	/** Adds a recipe to a blueprint pool (i.e. a blueprint item's recipe list) */
 	public static void addToPool(String pool, GenericRecipe recipe) {
 		List<String> list = blueprintPools.get(pool);
 		if(list == null) {
@@ -62,6 +66,14 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		}
 		list.add(recipe.name);
 		pooledBlueprints.put(recipe.name, recipe);
+	}
+	
+	/** Adds a recipe to an auto switch group (recipe can switch based on first solid input) */
+	public void addToGroup(String group, GenericRecipe recipe) {
+		List<GenericRecipe> list = autoSwitchGroups.get(group);
+		if(list == null) list = new ArrayList();
+		list.add(recipe);
+		autoSwitchGroups.put(group, list);
 	}
 	
 	public static void clearPools() {
@@ -78,6 +90,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public void deleteRecipes() {
 		this.recipeOrderedList.clear();
 		this.recipeNameMap.clear();
+		this.autoSwitchGroups.clear();
 	}
 	
 	public void register(T recipe) {
@@ -104,6 +117,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		if(obj.has("named") && obj.get("named").getAsBoolean()) recipe.setNamed();
 		if(obj.has("blueprintpool")) recipe.setPools(obj.get("blueprintpool").getAsString().split(":"));
 		if(obj.has("nameWrapper")) recipe.setNameWrapper(obj.get("nameWrapper").getAsString());
+		if(obj.has("autoSwitchGroup")) recipe.setGroup(obj.get("autoSwitchGroup").getAsString(), this);
 		
 		readExtraData(element, recipe);
 		
@@ -154,6 +168,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		if(recipe.customLocalization) writer.name("named").value(true);
 		if(recipe.nameWrapper != null) writer.name("nameWrapper").value(recipe.nameWrapper);
 		if(recipe.blueprintPools != null && recipe.blueprintPools.length > 0) writer.name("blueprintpool").value(String.join(":", recipe.blueprintPools));
+		if(recipe.autoSwitchGroup != null) writer.name("autoSwitchGroup").value(recipe.autoSwitchGroup);
 		
 		writeExtraData(recipe, writer);
 	}

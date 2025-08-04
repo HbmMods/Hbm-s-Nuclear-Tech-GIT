@@ -1723,6 +1723,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.journal_silver");
 		ignoreMappings.add("hbm:tile.machine_arc_furnace_off");
 		ignoreMappings.add("hbm:tile.machine_arc_furnace_on");
+		ignoreMappings.add("hbm:item.heavy_component");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
