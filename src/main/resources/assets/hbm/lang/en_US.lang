@@ -185,12 +185,12 @@ armorMod.type.servo=Servos
 armorMod.type.special=Special
 
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
-autoswitch.plate=Re-Enrichment Plate Fuel
+autoswitch.plate=Reprocessing Plate Fuel
 autoswitch.plates=Metal Plates
-autoswitch.pwr=Re-Enrichment PWR Fuel
+autoswitch.pwr=Reprocessing PWR Fuel
 autoswitch.schrab=Schrabidium Extraction
-autoswitch.watz=Re-Enrichment Watz Pellet
-autoswitch.zirnox=Re-Enrichment ZIRNOX Fuel
+autoswitch.watz=Reprocessing Watz Pellet
+autoswitch.zirnox=Reprocessing ZIRNOX Fuel
 
 battery.mode.buffer=Input/Output Mode
 battery.mode.input=Input Mode
@@ -4777,7 +4777,7 @@ potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 
-purex.recycle=Re-enrichment of %s
+purex.recycle=Reprocessing of %s
 purex.schrab=Schrabidium extraction from %s
 
 radar.clearMap=Clear Map
@@ -5609,6 +5609,7 @@ tile.machine_press.name=Burner Press
 tile.machine_puf6_tank.name=Plutonium Hexafluoride Tank
 tile.machine_pumpjack.name=Pumpjack
 tile.machine_purex.name=PUREX
+tile.machine_purex.desc=Reprocessing machine for many nuclear fuels.$Most recipes require kerosene and nitric acid.
 tile.machine_pyrooven.name=Pyrolysis Oven
 tile.machine_radar.name=Radar
 tile.machine_radar_large.name=Large Radar

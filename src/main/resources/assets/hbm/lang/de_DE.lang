@@ -4472,6 +4472,7 @@ tile.machine_press.name=Befeuerte Presse
 tile.machine_puf6_tank.name=Plutoniumhexafluorid-Tank
 tile.machine_pumpjack.name=Pferdekopfpumpe
 tile.machine_purex.name=PUREX
+tile.machine_purex.desc=Wiederaufbereitungsmaschine für Kernbrennstoff.$Die meisten Rezepte benötigen Kerosin und Salpetersäure.
 tile.machine_pyrooven.name=Pyrolyseofen
 tile.machine_radar.name=Radar
 tile.machine_radar_large.name=Großes Radar

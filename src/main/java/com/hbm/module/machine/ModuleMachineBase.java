@@ -53,6 +53,7 @@ public abstract class ModuleMachineBase {
 			ItemStack itemToSwitchBy = slots[inputSlots[0]];
 			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup);
 			if(recipes != null) for(GenericRecipe nextRec : recipes) {
+				if(nextRec.getInternalName().equals(this.recipe)) continue;
 				if(nextRec.inputItem == null) continue;
 				if(nextRec.inputItem[0].matchesRecipe(itemToSwitchBy, true)) { // perform the switch
 					this.recipe = nextRec.getInternalName();
