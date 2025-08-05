@@ -2,7 +2,7 @@ package com.hbm.module.machine;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.PUREXRecipes;
-import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import net.minecraft.item.ItemStack;
@@ -18,8 +18,8 @@ public class ModuleMachinePUREX extends ModuleMachineBase {
 	}
 
 	@Override
-	public GenericRecipe getRecipe() {
-		return PUREXRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+	public GenericRecipes getRecipeSet() {
+		return PUREXRecipes.INSTANCE;
 	}
 
 	public ModuleMachinePUREX itemInput(int start) { for(int i = 0; i < inputSlots.length; i++) inputSlots[i] = start + i; return this; }

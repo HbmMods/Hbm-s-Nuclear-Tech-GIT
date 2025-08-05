@@ -138,7 +138,7 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.SPEEDUP)
 			.addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModMinigunSpeedup(ID_MINIGUN_SPEED))
 			.addMod(new Item[] {ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder}, new WeaponModShredderSpeedup(209));
-		new WeaponModDefinition(EnumModSpecial.CHOKE).addMod(new Item[] {ModItems.gun_pepperbox, ModItems.gun_maresleg, ModItems.gun_double_barrel, ModItems.gun_liberator, ModItems.gun_spas12, ModItems.gun_autoshotgun_sexy}, new WeaponModChoke(210));
+		new WeaponModDefinition(EnumModSpecial.CHOKE).addMod(new Item[] {ModItems.gun_pepperbox, ModItems.gun_maresleg, ModItems.gun_double_barrel, ModItems.gun_liberator, ModItems.gun_spas12, ModItems.gun_autoshotgun_sexy, ModItems.gun_autoshotgun_heretic}, new WeaponModChoke(210));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_GREEN).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_GREEN));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_BLACK).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_BLACK));
 		new WeaponModDefinition(EnumModSpecial.BAYONET)

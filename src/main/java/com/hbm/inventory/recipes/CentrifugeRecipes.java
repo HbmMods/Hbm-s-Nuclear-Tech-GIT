@@ -1,7 +1,6 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -26,7 +25,6 @@ import com.hbm.items.ItemEnums;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
@@ -49,34 +47,11 @@ public class CentrifugeRecipes extends SerializableRecipe {
 
 		boolean lbs = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCentrifuge;
 
-		recipes.put(new ComparableStack(ModItems.icf_pellet_depleted), new ItemStack[] {
-				new ItemStack(ModItems.icf_pellet_empty, 1),
-				new ItemStack(ModItems.pellet_charged, 1),
-				new ItemStack(ModItems.pellet_charged, 1),
-				new ItemStack(ModItems.powder_iron, 1) });
-
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 2),
 				new ItemStack(ModItems.powder_niobium_tiny, 2),
 				new ItemStack(ModItems.nugget_zirconium, 3) });
-
-		ArrayList<ItemStack> naquadriaNuggets = OreDictionary.getOres("nuggetNaquadria");
-		if(naquadriaNuggets.size() != 0) {
-			ItemStack nuggetNQR = naquadriaNuggets.get(0);
-			ItemStack copy = nuggetNQR.copy();
-			copy.stackSize = 12;
-			recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.NQD)), new ItemStack[] {
-					new ItemStack(ModItems.ingot_mud, 1),
-					copy,
-					new ItemStack(ModItems.nugget_euphemium, 6),
-					new ItemStack(ModItems.nuclear_waste, 2) });
-			recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.NQR)), new ItemStack[] {
-					new ItemStack(ModItems.ingot_mud, 1),
-					new ItemStack(ModItems.nugget_co60, 12),
-					new ItemStack(ModItems.nugget_euphemium, 6),
-					new ItemStack(ModItems.nuclear_waste, 2) });
-		}
 
 		recipes.put(new OreDictStack(COAL.ore()), new ItemStack[] {
 				new ItemStack(ModItems.powder_coal, 2),
@@ -328,8 +303,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		}
 
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });
-
-		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium, 2), new ItemStack(ModItems.nugget_schrabidium, 1), new ItemStack(ModItems.nugget_uranium, 3), new ItemStack(ModItems.nugget_neptunium, 2) });
 
 		recipes.put(new ComparableStack(ModItems.crystal_coal), new ItemStack[] { new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_iron), new ItemStack[] { new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_titanium, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });

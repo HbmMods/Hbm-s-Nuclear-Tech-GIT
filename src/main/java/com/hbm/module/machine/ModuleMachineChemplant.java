@@ -2,7 +2,7 @@ package com.hbm.module.machine;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.ChemicalPlantRecipes;
-import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import net.minecraft.item.ItemStack;
@@ -24,8 +24,8 @@ public class ModuleMachineChemplant extends ModuleMachineBase {
 	}
 
 	@Override
-	public GenericRecipe getRecipe() {
-		return ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+	public GenericRecipes getRecipeSet() {
+		return ChemicalPlantRecipes.INSTANCE;
 	}
 
 	public ModuleMachineChemplant itemInput(int a, int b, int c) { inputSlots[0] = a; inputSlots[1] = b; inputSlots[2] = c; return this; }

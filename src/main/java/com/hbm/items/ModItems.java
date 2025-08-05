@@ -702,7 +702,6 @@ public class ModItems {
 	public static Item ingot_raw;
 	public static Item plate_cast;
 	public static Item plate_welded;
-	public static Item heavy_component;
 	public static Item wire_fine;
 	public static Item wire_dense;
 	public static Item part_barrel_light;
@@ -1458,6 +1457,7 @@ public class ModItems {
 	public static Item gun_autoshotgun;
 	public static Item gun_autoshotgun_shredder;
 	public static Item gun_autoshotgun_sexy;
+	public static Item gun_autoshotgun_heretic;
 	public static Item gun_quadro;
 	public static Item gun_lag;
 	public static Item gun_minigun;
@@ -2346,7 +2346,7 @@ public class ModItems {
 		thruster_nuclear = new Item().setUnlocalizedName("thruster_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear");
 		safety_fuse = new Item().setUnlocalizedName("safety_fuse").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":safety_fuse");
 		part_generic = new ItemGenericPart().setUnlocalizedName("part_generic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":part_generic");
-		item_expensive = new ItemEnumMulti(EnumExpensiveType.class, true, true).setUnlocalizedName("item_expensive").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":item_expensive");
+		item_expensive = new ItemExpensive().setUnlocalizedName("item_expensive").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":item_expensive");
 		item_secret = new ItemEnumMulti(EnumSecretType.class, true, true).setUnlocalizedName("item_secret").setCreativeTab(null).setTextureName(RefStrings.MODID + ":item_secret");
 		ingot_metal = new ItemEnumMulti(EnumIngotMetal.class, true, true).setUnlocalizedName("ingot_metal").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ingot_metal");
 		chemical_dye = new ItemChemicalDye().setUnlocalizedName("chemical_dye").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chemical_dye");
@@ -2931,7 +2931,6 @@ public class ModItems {
 		ingot_raw = new ItemAutogen(MaterialShapes.INGOT).setUnlocalizedName("ingot_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_raw");
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
-		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(null).setTextureName(RefStrings.MODID + ":heavy_component");
 		wire_fine = new ItemAutogen(MaterialShapes.WIRE)
 				.aot(Mats.MAT_ALUMINIUM, "wire_aluminium").aot(Mats.MAT_COPPER, "wire_copper")
 				.aot(Mats.MAT_MINGRADE, "wire_red_copper").aot(Mats.MAT_GOLD, "wire_gold")
@@ -5461,7 +5460,6 @@ public class ModItems {
 		GameRegistry.registerItem(plate_welded, plate_welded.getUnlocalizedName());
 		GameRegistry.registerItem(shell, shell.getUnlocalizedName());
 		GameRegistry.registerItem(pipe, pipe.getUnlocalizedName());
-		GameRegistry.registerItem(heavy_component, heavy_component.getUnlocalizedName());
 
 		//Bolts
 		GameRegistry.registerItem(bolt, bolt.getUnlocalizedName());
@@ -6391,6 +6389,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_autoshotgun, gun_autoshotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_autoshotgun_shredder, gun_autoshotgun_shredder.getUnlocalizedName());
 		GameRegistry.registerItem(gun_autoshotgun_sexy, gun_autoshotgun_sexy.getUnlocalizedName());
+		GameRegistry.registerItem(gun_autoshotgun_heretic, gun_autoshotgun_heretic.getUnlocalizedName());
 		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());

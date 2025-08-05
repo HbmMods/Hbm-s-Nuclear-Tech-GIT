@@ -129,6 +129,14 @@ armorMod.type.leggings=Beinschienen
 armorMod.type.servo=Servos
 armorMod.type.special=Spezial
 
+autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
+autoswitch.plate=Wiederanreicherung Plattenbrennstoff
+autoswitch.plates=Metallplatten
+autoswitch.pwr=Wiederanreicherung PWR-Brennstoff
+autoswitch.schrab=Schrabidium-Extraktion
+autoswitch.watz=Wiederanreicherung Watzpellet
+autoswitch.zirnox=Wiederanreicherung ZIRNOX-Brennstoff
+
 bomb.detonated=Erfolgreich gezündet!
 bomb.incompatible=Gerät kann nicht ausgelöst werden!
 bomb.launched=Erfolgreich gestartet!
@@ -392,6 +400,7 @@ container.machineLargeTurbine=Industrielle Dampfturbine
 container.machineLiquefactor=Verflüssiger
 container.machineMixer=Industrieller Mixer
 container.machineOreSlopper=B.E.M.
+container.machinePUREX=PUREX
 container.machinePyroOven=Pyrolyseofen
 container.machineRefinery=Ölraffinerie
 container.machineRotaryFurnace=Rotationshochofen
@@ -2102,6 +2111,7 @@ item.gun_amat.name=Panzerbüchse
 item.gun_amat_penance.name=Penance
 item.gun_amat_subtlety.name=Subtlety
 item.gun_autoshotgun.name=Auto-Flinte
+item.gun_autoshotgun_heretic.name=The Heretic
 item.gun_autoshotgun_sexy.name=Sexy
 item.gun_autoshotgun_shredder.name=Shredder
 item.gun_b92.name=§9B92 Energiepistole§r
@@ -3710,6 +3720,7 @@ potion.hbm_taint=Verdorben
 potion.hbm_telekinesis=! ! !
 
 purex.recycle=Wiederanreicherung von %s
+purex.schrab=Schrabidium extrahieren aus %s
 
 radar.clearMap=Karte zurücksetzen
 radar.detectMissiles=Raketen erkennen
@@ -4460,6 +4471,8 @@ tile.machine_powerrtg.name=PT-Isotopenzelle
 tile.machine_press.name=Befeuerte Presse
 tile.machine_puf6_tank.name=Plutoniumhexafluorid-Tank
 tile.machine_pumpjack.name=Pferdekopfpumpe
+tile.machine_purex.name=PUREX
+tile.machine_purex.desc=Wiederaufbereitungsmaschine für Kernbrennstoff.$Die meisten Rezepte benötigen Kerosin und Salpetersäure.
 tile.machine_pyrooven.name=Pyrolyseofen
 tile.machine_radar.name=Radar
 tile.machine_radar_large.name=Großes Radar
