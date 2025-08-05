@@ -6388,7 +6388,7 @@ tile.wood_barrier.name=Деревянный барьер
 tile.wood_structure.ceiling.name=Деревянный настил
 tile.wood_structure.roof.name=Деревянное перекрытие
 tile.wood_structure.scaffold.name=Деревянные подмостки
-tile.yellow_barrel.name=Радиоктивная бочка
+tile.yellow_barrel.name=Радиоактивная бочка
 tile.zirnox_destroyed.name=Разрушенный Цирнокс
 
 tile.large_vehicle_door.name=Дверь для крупногабаритных автомобилей
