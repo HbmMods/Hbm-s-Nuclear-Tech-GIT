@@ -43,7 +43,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class AssemblerRecipes extends SerializableRecipe {
+@Deprecated public class AssemblerRecipes extends SerializableRecipe {
 
 	public static HashMap<ComparableStack, AssemblerRecipe> recipes = new HashMap();
 	public static List<ComparableStack> recipeList = new ArrayList();
@@ -54,7 +54,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		boolean exp = GeneralConfig.enableExpensiveMode;
+		boolean exp = false;//GeneralConfig.enableExpensiveMode;
 
 		makeRecipe(new ComparableStack(ModItems.plate_iron, 2), new AStack[] {new OreDictStack(IRON.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_gold, 2), new AStack[] {new OreDictStack(GOLD.ingot(), 3), },30);

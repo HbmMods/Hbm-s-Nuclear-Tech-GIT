@@ -1,7 +1,10 @@
 package com.hbm.module.machine;
 
+import java.util.List;
+
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 import com.hbm.items.machine.ItemBlueprints;
 
@@ -44,6 +47,21 @@ public abstract class ModuleMachineBase {
 	/** Expects the tanks to be set up correctly beforehand */
 	public boolean canProcess(GenericRecipe recipe, double speed, double power) {
 		if(recipe == null) return false;
+		
+		// auto switch functionality
+		if(recipe.autoSwitchGroup != null && slots[inputSlots[0]] != null) {
+			ItemStack itemToSwitchBy = slots[inputSlots[0]];
+			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup);
+			if(recipes != null) for(GenericRecipe nextRec : recipes) {
+				if(nextRec.getInternalName().equals(this.recipe)) continue;
+				if(nextRec.inputItem == null) continue;
+				if(nextRec.inputItem[0].matchesRecipe(itemToSwitchBy, true)) { // perform the switch
+					this.recipe = nextRec.getInternalName();
+					return false; // cancel the recipe this tick since we need to do the previous checking all over again
+				}
+			}
+		}
+		
 		if(power != 1 && battery.getPower() < recipe.power * power) return false; // only check with floating point numbers if mult is not 1
 		if(power == 1 && battery.getPower() < recipe.power) return false;
 		
@@ -109,7 +127,7 @@ public abstract class ModuleMachineBase {
 					if(slots[outputSlots[i]] == null) {
 						slots[outputSlots[i]] = collapse;
 					} else {
-						slots[outputSlots[i]].stackSize += collapse.stackSize; // we can do this because we've already established that the result slot is not null if it's a single output
+						if(collapse != null) slots[outputSlots[i]].stackSize += collapse.stackSize; // we can do this because we've already established that the result slot is not null if it's a single output
 					}
 				}
 			}
@@ -128,8 +146,12 @@ public abstract class ModuleMachineBase {
 				this.progress = 0D;
 		}
 	}
+
+	public GenericRecipe getRecipe() {
+		return (GenericRecipe) getRecipeSet().recipeNameMap.get(this.recipe);
+	}
 	
-	public abstract GenericRecipe getRecipe();
+	public abstract GenericRecipes getRecipeSet();
 	
 	public void update(double speed, double power, boolean extraCondition, ItemStack blueprint) {
 		GenericRecipe recipe = getRecipe();
@@ -162,6 +184,16 @@ public abstract class ModuleMachineBase {
 		
 		for(int i = 0; i < Math.min(inputSlots.length, recipe.inputItem.length); i++) {
 			if(inputSlots[i] == slot && recipe.inputItem[i].matchesRecipe(stack, true)) return true;
+		}
+		
+		if(recipe.autoSwitchGroup != null) {
+			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup); // why the FUCK does this need a cast
+			if(recipes != null) for(GenericRecipe newRec : recipes) {
+				if(newRec.inputItem == null) continue;
+				if(inputSlots[0] == slot && newRec.inputItem[0].matchesRecipe(stack, true)) {
+					return true;
+				}
+			}
 		}
 		
 		return false;

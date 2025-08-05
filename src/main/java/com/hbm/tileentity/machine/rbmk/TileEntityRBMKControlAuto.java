@@ -112,6 +112,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		buf.writeDouble(this.levelUpper);
 		buf.writeDouble(this.heatLower);
 		buf.writeDouble(this.heatUpper);
+		if(function != null) buf.writeInt(function.ordinal());
 	}
 
 	@Override
@@ -121,6 +122,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		this.levelUpper = buf.readDouble();
 		this.heatLower = buf.readDouble();
 		this.heatUpper = buf.readDouble();
+		this.function = RBMKFunction.values()[buf.readInt()];
 	}
 
 	@Override

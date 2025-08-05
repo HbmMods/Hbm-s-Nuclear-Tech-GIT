@@ -40,6 +40,7 @@ import com.hbm.items.weapon.sedna.factory.XFactory12ga;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.HeldItemNBTPacket;
 import com.hbm.packet.toclient.PermaSyncPacket;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.packet.toclient.SerializableRecipePacket;
@@ -987,6 +988,11 @@ public class ModEventHandler {
 				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
+		}
+
+		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.END && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT && player instanceof EntityPlayerMP) {
+			HeldItemNBTPacket packet = new HeldItemNBTPacket(player.getHeldItem());
+			PacketDispatcher.wrapper.sendTo(packet, (EntityPlayerMP) player);
 		}
 	}
 

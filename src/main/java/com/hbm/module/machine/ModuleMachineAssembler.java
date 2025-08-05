@@ -3,6 +3,7 @@ package com.hbm.module.machine;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.util.BobMathUtil;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
@@ -19,8 +20,8 @@ public class ModuleMachineAssembler extends ModuleMachineBase {
 	}
 
 	@Override
-	public GenericRecipe getRecipe() {
-		return AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.recipe);
+	public GenericRecipes getRecipeSet() {
+		return AssemblyMachineRecipes.INSTANCE;
 	}
 	
 	@Override

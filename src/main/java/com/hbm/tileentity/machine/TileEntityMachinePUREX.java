@@ -10,7 +10,7 @@ import com.hbm.inventory.container.ContainerMachinePUREX;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePUREX;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
+import com.hbm.inventory.recipes.PUREXRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -59,9 +59,9 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		this.inputTanks = new FluidTank[3];
 		this.outputTanks = new FluidTank[1];
 		for(int i = 0; i < 3; i++) {
-			this.inputTanks[i] = new FluidTank(Fluids.NONE, 16_000);
+			this.inputTanks[i] = new FluidTank(Fluids.NONE, 24_000);
 		}
-		this.outputTanks[0] = new FluidTank(Fluids.NONE, 16_000);
+		this.outputTanks[0] = new FluidTank(Fluids.NONE, 24_000);
 		
 		this.purexModule = new ModuleMachinePUREX(0, this, slots)
 				.itemInput(4).itemOutput(7)
@@ -80,7 +80,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		
 		if(!worldObj.isRemote) {
 			
-			GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(purexModule.recipe);
+			GenericRecipe recipe = PUREXRecipes.INSTANCE.recipeNameMap.get(purexModule.recipe);
 			if(recipe != null) {
 				this.maxPower = recipe.power * 100;
 			}
@@ -124,18 +124,26 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 	
 	public DirPos[] getConPos() {
 		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 3, yCoord, zCoord - 2, Library.POS_X),
+				new DirPos(xCoord + 3, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord + 3, yCoord, zCoord + 0, Library.POS_X),
+				new DirPos(xCoord + 3, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 3, yCoord, zCoord + 2, Library.POS_X),
+				new DirPos(xCoord - 3, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord - 3, yCoord, zCoord - 2, Library.NEG_X),
+				new DirPos(xCoord - 3, yCoord, zCoord + 0, Library.NEG_X),
+				new DirPos(xCoord - 3, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 3, yCoord, zCoord + 2, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord + 0, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord + 2, yCoord, zCoord + 3, Library.POS_Z),
+				new DirPos(xCoord - 2, yCoord, zCoord - 3, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z),
+				new DirPos(xCoord + 0, yCoord, zCoord - 3, Library.NEG_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z),
+				new DirPos(xCoord + 2, yCoord, zCoord - 3, Library.NEG_Z),
 		};
 	}
 
