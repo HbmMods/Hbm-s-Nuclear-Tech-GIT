@@ -431,7 +431,7 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 			ItemStack copy = nuggetNQR.copy();
 			copy.stackSize = 12;
 
-			this.register(new GenericRecipe("purex.watzdu").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+			this.register(new GenericRecipe("purex.watznaqadah").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
 					.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.NQD))
 					.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
 					.outputItems(copy,
@@ -440,7 +440,7 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 					.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
 					.setIconToFirstIngredient());
 
-			this.register(new GenericRecipe("purex.watzdu").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+			this.register(new GenericRecipe("purex.watznaqadria").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
 					.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.NQR))
 					.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
 					.outputItems(new ItemStack(ModItems.nugget_co60, 12),

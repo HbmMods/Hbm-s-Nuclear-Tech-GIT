@@ -1,6 +1,10 @@
 {
 	"name": "DEMO",
 	"icon": ["hbm:item.gun_light_revolver", 1, 0],
+    "trigger": [["hbm:item.plate_iron"], ["hbm:item.plate_gold"], ["hbm:item.plate_sludge"]],
+    "title": {
+        "en_US": "TEST PAGE"
+    }
 	"content": {
 		"en_US": "This is a test page that links to [[Demo|DEMO]].\n\nFormat line break"
 	}
