@@ -1,15 +1,7 @@
-## Added (last time, i forgor)
-* RBMK autoloader
-  * Can be placed on top of RBMK fuel rods
-  * Can be configured to switch fuel rods in 5% depletion increments
-  * Usable with all forms of item transport like conveyors and pneumatic tubes
-
 ## Changed
-* Replaced "re-enrichment" in the PUREX recipes with "reprocessing"
+* All the never completed missile parts (20/20 fuselage, 20 warhead, 10 and 15 tec kerosene thrusters) have been removed
+* The electric arc furnace now scrapes the vanilla furnace recipe list on server start in addition to postinit, making sure recipes added during postinit after NTM loads (like Thermal's ingots) are covered too
 
 ## Fixed
-* Fixed many of the PUREX' recipe categories simply not processing
-  * It worked last time I swear
-* Fixed life-ending issue where the assembler achievement's icon was incorrect
-* Fixed RBMK autoloader not having a recipe
-  * Ow
+* Fixed GT6 compatibility watz pellets crashing due to misconfigured recipes
+* Removed failed attempt at fixing the gun desync dupe which made things worse

@@ -7,13 +7,19 @@ import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hbm.interfaces.NotableComments;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.client.Minecraft;
@@ -23,6 +29,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.ResourcePackRepository;
+import net.minecraft.item.ItemStack;
 
 @NotableComments
 public class QMAWLoader implements IResourceManagerReloadListener {
@@ -31,6 +38,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	public static final Gson gson = new Gson();
 	public static final JsonParser parser = new JsonParser();
 	public static HashMap<String, QuickManualAndWiki> qmaw = new HashMap();
+	public static HashMap<ComparableStack, QuickManualAndWiki> triggers = new HashMap();
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resMan) {
@@ -50,13 +58,22 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 
 		//the mod's file, assuming the mod is a file (not the case in a dev env, fuck!)
 		//no fucking null check, if this fails then the entire game will sink along with the ship
-		registerModFileURL(new File(QMAWLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath())); // i am going to shit myself
+		String path = QMAWLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		// exclude .class in the case of a dev env
+		if(!path.endsWith(".class")) registerModFileURL(new File(path)); // i am going to shit myself
 		
 		qmaw.clear();
+		triggers.clear();
 		agonyEngine();
 	}
 	
-	/** "digital equivalent to holywater" yielded few results on google, if only i had the answer i would drown this entire class in it */
+	/** "digital equivalent to holywater" yielded few results on google, if only i had the answer i would drown this entire class in it <br><br>
+	 * This affront to god can load QMAW definition files from four different sources:<br>
+	 * * Any mod's jar that has registered itself to include QMAW files<br>
+	 * * The dev environment, because "the mod file" would in this case be this very class file, and that's incorrect<br>
+	 * * ZIP-based resource packs<br>
+	 * * Folder-based resource packs
+	 * */
 	public static void agonyEngine() {
 		
 		for(File modFile : registeredModFiles) dissectZip(modFile);
@@ -154,7 +171,38 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 		}
 	}
 	
+	/** Extracts all the info from a json file's main object to add a QMAW to the system. Very barebones, only handles name, icon and the localized text. */
 	public static void registerJson(String name, JsonObject json) {
-		//TBI
+		QuickManualAndWiki qmaw = new QuickManualAndWiki(name);
+		
+		if(json.has("icon")) {
+			qmaw.setIcon(SerializableRecipe.readItemStack(json.get("icon").getAsJsonArray()));
+		}
+		
+		JsonObject title = json.get("title").getAsJsonObject();
+		for(Entry<String, JsonElement> part : title.entrySet()) {
+			qmaw.addTitle(part.getKey(), part.getValue().getAsString());
+		}
+		
+		JsonObject content = json.get("content").getAsJsonObject();
+		for(Entry<String, JsonElement> part : content.entrySet()) {
+			qmaw.addLang(part.getKey(), part.getValue().getAsString());
+		}
+		
+		JsonArray triggers = json.get("trigger").getAsJsonArray();
+		
+		for(JsonElement element : triggers) {
+			ItemStack trigger = SerializableRecipe.readItemStack(element.getAsJsonArray());
+			// items get renamed and removed all the time, so we add some more debug goodness for those cases
+			if(trigger == null || trigger.getItem() == ModItems.nothing) {
+				MainRegistry.logger.info("[QMAW] Manual " + name + " references nonexistant trigger " + element.toString());
+			} else {
+				QMAWLoader.triggers.put(new ComparableStack(trigger).makeSingular(), qmaw);
+			}
+		}
+		
+		if(!qmaw.contents.isEmpty()) {
+			QMAWLoader.qmaw.put(name, qmaw);
+		}
 	}
 }
