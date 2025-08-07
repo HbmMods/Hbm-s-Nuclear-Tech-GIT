@@ -3722,6 +3722,8 @@ potion.hbm_telekinesis=! ! !
 purex.recycle=Wiederanreicherung von %s
 purex.schrab=Schrabidium extrahieren aus %s
 
+qmaw.tab=[ Drücke %s für Hilfe ]
+
 radar.clearMap=Karte zurücksetzen
 radar.detectMissiles=Raketen erkennen
 radar.detectPlayers=Spieler erkennen

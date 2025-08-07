@@ -1,0 +1,11 @@
+{
+	"name": "Uranium",
+	"icon": ["hbm:item.ingot_uranium", 1, 0],
+    "trigger": [["hbm:item.ingot_uranium"], ["hbm:item.billet_uranium"], ["hbm:item.nugget_uranium"], ["hbm:item.powder_uranium"], ["hbm:tile.ore_uranium"]],
+    "title": {
+        "en_US": "Uranium"
+    },
+	"content": {
+		"en_US": "Natural uranium, slightly radioactive. Not very fissile on its own, can be enriched by turning it into [[uranium hexafluoride|Uranium Hexafluoride]] and processing it in [[gas centrifuges|Gas Centrifuge]]. [[ZIRNOX]], [[RBMK]] and [[Chigago Pile]] may use natural uranium as fuel without enrichment.<br><br>See also:<br>[[Uranium-233]]<br>[[Uranium-235]]<br>[[Uranium-238]]"
+	}
+}

@@ -14,6 +14,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -753,7 +754,7 @@ public class ModEventHandlerClient {
 		try {
 			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
 			if(qmaw != null) {
-				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("qmaw.tab"));
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
 				lastQMAW = qmaw;
 				qmawTimestamp = Clock.get_ms();
 			}
@@ -907,7 +908,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_TAB) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
 
 			QuickManualAndWiki qmaw = qmawTimestamp > Clock.get_ms() - 100 ? lastQMAW : null;
 

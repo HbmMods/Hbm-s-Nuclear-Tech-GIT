@@ -3,14 +3,12 @@ package com.hbm.qmaw;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.qmaw.components.*;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -88,10 +86,12 @@ public class GuiQMAW extends GuiScreen {
 					int pipe = link.indexOf("|");
 					QComponentLink linkComponent;
 					
+					String suffix = toParse.startsWith(" ") ? " " : "";
+					
 					if(pipe == -1) {
-						linkComponent = new QComponentLink(link, link);
+						linkComponent = new QComponentLink(link, link + suffix);
 					} else {
-						linkComponent = new QComponentLink(link.substring(pipe + 1, link.length()), link.substring(0, pipe));
+						linkComponent = new QComponentLink(link.substring(pipe + 1, link.length()), link.substring(0, pipe) + suffix);
 					}
 					
 					// append to current line
@@ -213,7 +213,7 @@ public class GuiQMAW extends GuiScreen {
 
 	private void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
-		int x = 4;
+		int x = 7;
 		int y = 4;
 		
 		if(this.icon != null) {
@@ -229,7 +229,7 @@ public class GuiQMAW extends GuiScreen {
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 			
-			x += 20;
+			x += 18;
 			y += (16 - this.fontRendererObj.FONT_HEIGHT) / 2;
 		}
 		

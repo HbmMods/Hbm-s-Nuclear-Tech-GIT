@@ -4780,6 +4780,8 @@ potion.hbm_telekinesis=! ! !
 purex.recycle=Reprocessing of %s
 purex.schrab=Schrabidium extraction from %s
 
+qmaw.tab=[ Press %s for help ]
+
 radar.clearMap=Clear Map
 radar.detectMissiles=Detect Missiles
 radar.detectPlayers=Detect Players

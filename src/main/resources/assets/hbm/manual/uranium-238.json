@@ -1,0 +1,11 @@
+{
+	"name": "Uranium-238",
+	"icon": ["hbm:item.billet_u238", 1, 0],
+    "trigger": [["hbm:item.ingot_u238"], ["hbm:item.billet_u238"], ["hbm:item.nugget_u238"]],
+    "title": {
+        "en_US": "Uranium-238"
+    },
+	"content": {
+		"en_US": "Depleted uranium, not fissile (i.e. not directly reactor-usable). Primarily a byproduct from enriching [[uranium|Uranium]]. Used in [[ferrouranium|Ferrouranium]], for [[depleted uranium ammo|Depleted Uranium Ammo]] and for certain low-enriched fuels. Fuels that contain uranium-238 typically yield useful [[plutonium-239|Plutonium-239]] when reprocessing.<br><br>Slightly radioactive."
+	}
+}

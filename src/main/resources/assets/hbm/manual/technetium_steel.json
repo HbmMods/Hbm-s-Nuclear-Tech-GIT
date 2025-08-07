@@ -1,0 +1,11 @@
+{
+	"name": "Technetium Steel",
+	"icon": ["hbm:item.ingot_tcalloy", 1, 0],
+    "trigger": [["hbm:item.ingot_tcalloy"], ["hbm:item.powder_tcalloy"]],
+    "title": {
+        "en_US": "Technetium Steel"
+    },
+	"content": {
+		"en_US": "Alloy made from [[steel|Steel]] and [[technetium|Technetium]]. Corrosion resistant, used in stronger fluid tanks and many advanced machines. Obtainable after either a [[ZIRNOX]] or [[PWR]] due to technetium being synthetic.<br><br>Fully interchangable with [[cadmium steel|Cadmium Steel]]."
+	}
+}
