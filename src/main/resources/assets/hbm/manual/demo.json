@@ -3,9 +3,9 @@
 	"icon": ["hbm:item.gun_light_revolver", 1, 0],
     "trigger": [["hbm:item.plate_iron"], ["hbm:item.plate_gold"], ["hbm:item.plate_sludge"]],
     "title": {
-        "en_US": "TEST PAGE"
-    }
+        "en_US": "Demo"
+    },
 	"content": {
-		"en_US": "This is a test page that links to [[Demo|DEMO]].\n\nFormat line break"
+		"en_US": "Referred to as a collective as \"flux\" in NTM, neutrons are the sole driver of fission and therefore the driver of heat production in an RBMK. Fuel assemblies in fuel rod columns will create neutrons according to a mathematically defined flux function which is described in more detail in Category:RBMK Fuel. Some will spontaneously output neutrons whereas others will only emit them when they receive input neutrons with most fuels requiring some form of input to get started. Neutrons are emitted in every horizontal direction away from the fuel rod and will interact with various types of columns during their travel before eventually being absorbed by something. Neutrons are either emitted as fast moving or slow moving and react best with fuels in either state depending on the properties of the fuel. To convert fast neutrons to slow neutrons, they must pass through a moderator such as graphite which can come in the form of moderated rods or moderator columns. There is no way to make slow neutrons become fast after being moderated. If not properly sealed, neutrons can leak out of the RBMK and cause immense environmental radiation. To prevent this, cover every column in the RBMK that neutrons pass through with an RBMK cover panel and seal off all paths that neutrons take with either solid blocks or a column that absorbs the neutrons fully."
 	}
 }

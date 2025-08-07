@@ -172,7 +172,9 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	}
 	
 	/** Extracts all the info from a json file's main object to add a QMAW to the system. Very barebones, only handles name, icon and the localized text. */
-	public static void registerJson(String name, JsonObject json) {
+	public static void registerJson(String file, JsonObject json) {
+		
+		String name = json.get("name").getAsString();
 		QuickManualAndWiki qmaw = new QuickManualAndWiki(name);
 		
 		if(json.has("icon")) {
@@ -195,7 +197,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 			ItemStack trigger = SerializableRecipe.readItemStack(element.getAsJsonArray());
 			// items get renamed and removed all the time, so we add some more debug goodness for those cases
 			if(trigger == null || trigger.getItem() == ModItems.nothing) {
-				MainRegistry.logger.info("[QMAW] Manual " + name + " references nonexistant trigger " + element.toString());
+				MainRegistry.logger.info("[QMAW] Manual " + file + " references nonexistant trigger " + element.toString());
 			} else {
 				QMAWLoader.triggers.put(new ComparableStack(trigger).makeSingular(), qmaw);
 			}
