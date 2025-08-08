@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 
 public class CommandLocate extends CommandBase {
 
-		private static final int MAX_DISTANCE = 256;
+	private static final int MAX_DISTANCE = 256;
 
 	@Override
 	public String getCommandName() {

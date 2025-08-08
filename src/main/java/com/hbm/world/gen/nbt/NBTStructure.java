@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockWand;
+import com.hbm.blocks.generic.BlockWandTandem.TileEntityWandTandem;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.ThreeInts;
@@ -421,7 +422,7 @@ public class NBTStructure {
 		return worldItemPalette;
 	}
 
-	private TileEntity buildTileEntity(World world, Block block, HashMap<Short, Short> worldItemPalette, NBTTagCompound nbt, int coordBaseMode) {
+	private TileEntity buildTileEntity(World world, Block block, HashMap<Short, Short> worldItemPalette, NBTTagCompound nbt, int coordBaseMode, String structureName) {
 		nbt = (NBTTagCompound)nbt.copy();
 
 		if(worldItemPalette != null) relinkItems(worldItemPalette, nbt);
@@ -430,6 +431,10 @@ public class NBTStructure {
 
 		if(te instanceof INBTTileEntityTransformable) {
 			((INBTTileEntityTransformable) te).transformTE(world, coordBaseMode);
+		}
+
+		if(te instanceof TileEntityWandTandem) {
+			((TileEntityWandTandem) te).arm(getStructure(structureName));
 		}
 
 		return te;
@@ -471,7 +476,7 @@ public class NBTStructure {
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
 					if(state.nbt != null) {
-						TileEntity te = buildTileEntity(world, block, worldItemPalette, state.nbt, coordBaseMode);
+						TileEntity te = buildTileEntity(world, block, worldItemPalette, state.nbt, coordBaseMode, null);
 						world.setTileEntity(rx, ry, rz, te);
 					}
 				}
@@ -479,7 +484,23 @@ public class NBTStructure {
 		}
 	}
 
-	protected boolean build(World world, JigsawPiece piece, StructureBoundingBox totalBounds, StructureBoundingBox generatingBounds, int coordBaseMode) {
+	// Used to construct tandems
+	public void build(World world, JigsawPiece piece, int x, int y, int z, int coordBaseMode, String structureName) {
+		StructureBoundingBox bb;
+		switch(coordBaseMode) {
+		case 1:
+		case 3:
+			bb = new StructureBoundingBox(x, y, z, x + piece.structure.size.z - 1, y + piece.structure.size.y - 1, z + piece.structure.size.x - 1);
+			break;
+		default:
+			bb = new StructureBoundingBox(x, y, z, x + piece.structure.size.x - 1, y + piece.structure.size.y - 1, z + piece.structure.size.z - 1);
+			break;
+		}
+
+		build(world, piece, bb, bb, coordBaseMode, structureName);
+	}
+
+	protected boolean build(World world, JigsawPiece piece, StructureBoundingBox totalBounds, StructureBoundingBox generatingBounds, int coordBaseMode, String structureName) {
 		if(!isLoaded) {
 			MainRegistry.logger.info("NBTStructure is invalid");
 			return false;
@@ -528,7 +549,7 @@ public class NBTStructure {
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
 					if(state.nbt != null) {
-						TileEntity te = buildTileEntity(world, block, worldItemPalette, state.nbt, coordBaseMode);
+						TileEntity te = buildTileEntity(world, block, worldItemPalette, state.nbt, coordBaseMode, structureName);
 						world.setTileEntity(rx, ry, rz, te);
 					}
 				}
@@ -536,6 +557,16 @@ public class NBTStructure {
 		}
 
 		return true;
+	}
+
+	public List<JigsawConnection> getConnectionPool(ForgeDirection dir, String target) {
+		if(dir == ForgeDirection.DOWN) {
+			return toTopConnections.get(target);
+		} else if(dir == ForgeDirection.UP) {
+			return toBottomConnections.get(target);
+		}
+
+		return toHorizontalConnections.get(target);
 	}
 
 	// What a fucken mess, why even implement the IntArray NBT if ye aint gonna use it Moe Yang?
@@ -605,7 +636,7 @@ public class NBTStructure {
 		return definition.meta;
 	}
 
-	private int rotateX(int x, int z, int coordBaseMode) {
+	public int rotateX(int x, int z, int coordBaseMode) {
 		switch(coordBaseMode) {
 		case 1: return size.z - 1 - z;
 		case 2: return size.x - 1 - x;
@@ -614,7 +645,7 @@ public class NBTStructure {
 		}
 	}
 
-	private int rotateZ(int x, int z, int coordBaseMode) {
+	public int rotateZ(int x, int z, int coordBaseMode) {
 		switch(coordBaseMode) {
 		case 1: return x;
 		case 2: return size.z - 1 - z;
@@ -673,10 +704,10 @@ public class NBTStructure {
 	}
 
 	// Each jigsaw block in a structure will instance one of these
-	private static class JigsawConnection {
+	public static class JigsawConnection {
 
-		private final ThreeInts pos;
-		private final ForgeDirection dir;
+		public final ThreeInts pos;
+		public final ForgeDirection dir;
 
 		// what pool should we look through to find a connection
 		private final String poolName;
@@ -772,14 +803,14 @@ public class NBTStructure {
 			if(!piece.conformToTerrain && !heightUpdated) {
 				int y = MathHelper.clamp_int(getAverageHeight(world, box) + piece.heightOffset, minHeight, maxHeight);
 
-				if(!piece.alignToTerrain && parent != null) {
+				if(!piece.alignToTerrain) {
 					parent.offsetYHeight(y);
 				} else {
 					offsetYHeight(y);
 				}
 			}
 
-			return piece.structure.build(world, piece, boundingBox, box, coordBaseMode);
+			return piece.structure.build(world, piece, boundingBox, box, coordBaseMode, parent.name);
 		}
 
 		public void offsetYHeight(int y) {
@@ -876,11 +907,15 @@ public class NBTStructure {
 
 	public static class Start extends StructureStart {
 
+		public String name;
+
 		public Start() {}
 
 		@SuppressWarnings("unchecked")
 		public Start(World world, Random rand, SpawnCondition spawn, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
+
+			name = spawn.name;
 
 			int x = chunkX << 4;
 			int z = chunkZ << 4;
@@ -966,7 +1001,7 @@ public class NBTStructure {
 			}
 
 			if(GeneralConfig.enableDebugMode) {
-				MainRegistry.logger.info("[Debug] Spawning NBT structure with " + components.size() + " piece(s) at: " + chunkX * 16 + ", " + chunkZ * 16);
+				MainRegistry.logger.info("[Debug] Spawning NBT structure " + name + " with " + components.size() + " piece(s) at: " + chunkX * 16 + ", " + chunkZ * 16);
 				String componentList = "[Debug] Components: ";
 				for(Object component : this.components) {
 					componentList += ((Component) component).piece.structure.name + " ";
@@ -1005,7 +1040,7 @@ public class NBTStructure {
 				return null;
 			}
 
-			List<JigsawConnection> connectionPool = getConnectionPool(nextPiece, fromConnection);
+			List<JigsawConnection> connectionPool = nextPiece.structure.getConnectionPool(fromConnection.dir, fromConnection.targetName);
 			if(connectionPool == null || connectionPool.isEmpty()) {
 				MainRegistry.logger.warn("[Jigsaw] No valid connections for: " + fromConnection.targetName + " - in piece: " + nextPiece.name);
 				return null;
@@ -1026,16 +1061,6 @@ public class NBTStructure {
 			return new Component(spawn, nextPiece, rand, pos.getX() - ox, pos.getY() - oy, pos.getZ() - oz, nextCoordBase).connectedFrom(toConnection);
 		}
 
-		private List<JigsawConnection> getConnectionPool(JigsawPiece nextPiece, JigsawConnection fromConnection) {
-			if(fromConnection.dir == ForgeDirection.DOWN) {
-				return nextPiece.structure.toTopConnections.get(fromConnection.targetName);
-			} else if(fromConnection.dir == ForgeDirection.UP) {
-				return nextPiece.structure.toBottomConnections.get(fromConnection.targetName);
-			}
-
-			return nextPiece.structure.toHorizontalConnections.get(fromConnection.targetName);
-		}
-
 		private int getDistanceTo(StructureBoundingBox box) {
 			int x = box.getCenterX();
 			int z = box.getCenterZ();
@@ -1045,10 +1070,17 @@ public class NBTStructure {
 
 		// post loading, update parent reference for loaded components
 		@Override
-		public void func_143017_b(NBTTagCompound nbt) {
+		public void func_143017_b(NBTTagCompound nbt) { // readFromNBT
+			name = nbt.getString("name");
+
 			for(Object o : components) {
 				((Component) o).parent = this;
 			}
+		}
+
+		@Override
+		public void func_143022_a(NBTTagCompound nbt) { // writeToNBT
+			nbt.setString("name", name);
 		}
 
 		public void offsetYHeight(int y) {

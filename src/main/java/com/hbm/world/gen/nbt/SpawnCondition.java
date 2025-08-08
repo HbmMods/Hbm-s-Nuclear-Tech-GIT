@@ -64,7 +64,7 @@ public class SpawnCondition {
 		return canSpawn.test(biome);
 	}
 
-	protected JigsawPool getPool(String name) {
+	public JigsawPool getPool(String name) {
 		JigsawPool pool = pools.get(name);
 		return pool != null ? pool.clone() : null;
 	}
