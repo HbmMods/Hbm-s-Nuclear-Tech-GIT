@@ -2,6 +2,7 @@ package com.hbm.util;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityFurnaceBrick;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -423,11 +424,17 @@ public class InventoryUtil {
 					stacks[i] = new ItemStack[1];
 					stacks[i][0] = ((ItemStack) ingredient).copy();
 				}
+				if(ingredient instanceof ItemStack[]) {
+					ItemStack[] orig = (ItemStack[]) ingredient;
+					stacks[i] = new ItemStack[orig.length];
+					for(int j = 0; j < orig.length; j++) stacks[i][j] = orig[j].copy();
+				}
 			}
 
 			return stacks;
 		}
 
+		MainRegistry.logger.warn("InventoryUtil: extractObject failed for type " + o);
 		return new ItemStack[0][0];
 	}
 

@@ -25,10 +25,9 @@ public class BombConfig {
 	public static int falloutRange = 100;
 	public static int fDelay = 4;
 	public static int limitExplosionLifespan = 0;
-	public static int rain = 0;
-	public static int cont = 0;
 	public static boolean chunkloading = true;
-	
+	public static int explosionAlgorithm = 2;
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_NUKES = CommonConfig.CATEGORY_NUKES;
@@ -95,13 +94,7 @@ public class BombConfig {
 		falloutDelayProp.comment = "How many ticks to wait for the next fallout chunk computation";
 		fDelay = falloutDelayProp.getInt();
 
-		Property radRain = config.get(CATEGORY_NUKE, "6.05_falloutRainDuration", 0);
-		radRain.comment = "Duration of the thunderstorm after fallout in ticks (only large explosions)";
-		rain = radRain.getInt();
-		Property rainCont = config.get(CATEGORY_NUKE, "6.06_falloutRainRadiation", 0);
-		rainCont.comment = "Radiation in 100th RADs created by fallout rain";
-		cont = rainCont.getInt();
-		
-		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.XX_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded.", true);
+		chunkloading = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "6.05_enableChunkLoading", "Allows all types of procedural explosions to keep the central chunk loaded and to generate new chunks.", true);
+		explosionAlgorithm = CommonConfig.createConfigInt(config, CATEGORY_NUKE, "6.06_explosionAlgorithm", "Configures the algorithm of mk5 explosion. \n0 = Legacy, 1 = Threaded DDA, 2 = Threaded DDA with damage accumulation.", 2);
 	}
 }

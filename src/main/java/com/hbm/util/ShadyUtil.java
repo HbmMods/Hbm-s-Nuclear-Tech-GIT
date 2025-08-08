@@ -2,7 +2,7 @@ package com.hbm.util;
 
 import com.google.common.collect.Sets;
 import com.hbm.config.GeneralConfig;
-import com.hbm.main.ModEventHandler;
+import com.hbm.main.MainRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
@@ -67,6 +67,10 @@ public class ShadyUtil {
 	public static String checksum =		"dpXt\\Xnr\\Yzm";
 	public static String testCase =		"dYPq\\YzrNm3FUH;P[ZTq";
 	public static String testValue =	"WGm?";
+	public static String smTest1 =		"hgwS";
+	public static String smTest2 =		"8Sfw";
+	public static String smTest3 =		"j11D";
+	public static String smTest4 =		"s783";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -131,15 +135,18 @@ public class ShadyUtil {
 
 	public static void test() {
 		if(!GeneralConfig.enableDebugMode) return; //only run in debug mode
+		
+		//unit test for smooshing
+		MainRegistry.logger.debug(smoosh(smTest1, smTest2, smTest3, smTest4));
 
 		try {
 			Class test = Class.forName(decode(offset(signature, -2)));
 			Field field = ReflectionHelper.findField(test, decode(offset(checksum, -2)));
 			if(field != null) {
 				System.out.println("TEST SECTION START");
-				Class toLoad = Class.forName(decode(offset(testCase, -2)));
-				Field toRead = ReflectionHelper.findField(toLoad, decode(offset(testValue, -2)));
-				if(new Random(System.currentTimeMillis()).nextInt(4) == 0) ModEventHandler.reference = toRead;
+				//Class toLoad = Class.forName(decode(offset(testCase, -2)));
+				//Field toRead = ReflectionHelper.findField(toLoad, decode(offset(testValue, -2)));
+				//ModEventHandler.reference = toRead;
 				System.out.println("TEST SECTION END");
 			}
 		} catch(Throwable e) { }

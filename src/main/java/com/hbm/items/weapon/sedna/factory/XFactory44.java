@@ -2,11 +2,13 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityTorpedo;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -19,6 +21,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -55,28 +58,27 @@ public class XFactory44 {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TORPEDO = (bullet, mop) -> {
-		EntityTorpedo pippo = new EntityTorpedo(bullet.worldObj);
-		pippo.posX = mop.hitVec.xCoord;
-		pippo.posY = mop.hitVec.yCoord + 50;
-		pippo.posZ = mop.hitVec.zCoord;;
-		bullet.worldObj.spawnEntityInWorld(pippo);
-		//bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+		EntityTorpedo murky = new EntityTorpedo(bullet.worldObj);
+		murky.posX = mop.hitVec.xCoord;
+		murky.posY = mop.hitVec.yCoord + 50;
+		murky.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(murky);
 		bullet.setDead();
 	};
 
 	public static void init() {
 		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
-		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setDamage(0.75F).setBlackPowder(true)
+		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setCasing(EnumCasingType.SMALL, 12).setDamage(0.75F).setBlackPowder(true)
 				.setCasing(casing44.clone().register("m44bp"));
-		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP)
+		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP).setCasing(EnumCasingType.SMALL, 6)
 				.setCasing(casing44.clone().register("m44"));
-		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setDamage(0.8F).setThresholdNegation(3F).setArmorPiercing(0.1F)
+		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setCasing(EnumCasingType.SMALL, 6).setDamage(0.8F).setThresholdNegation(3F).setArmorPiercing(0.1F)
 				.setCasing(casing44.clone().register("m44fmj"));
-		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setCasing(EnumCasingType.SMALL, 6).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing44.clone().register("m44jhp"));
-		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
+		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setCasing(EnumCasingType.SMALL_STEEL, 6).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));
-		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
+		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setCasing(EnumCasingType.SMALL, 6).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
 				.setCasing(casing44.clone().register("m44express"));
 		m44_equestrian_pip = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOXCAR)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianPip"));
@@ -93,6 +95,16 @@ public class XFactory44 {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
 				).setUnlocalizedName("gun_henry");
+		ModItems.gun_henry_lincoln = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
+				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(20F).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound("hbm:weapon.fire.rifle", 1.0F, 1.25F)
+						.mag(new MagazineSingleReload(0, 14).addConfigs(m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
+				).setUnlocalizedName("gun_henry_lincoln");
 
 		ModItems.gun_heavy_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -103,7 +115,8 @@ public class XFactory44 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_NOPIP_ANIMS).orchestra(Orchestras.ORCHESTRA_NOPIP)
-				).setUnlocalizedName("gun_heavy_revolver");
+				).setNameMutator(LAMBDA_NAME_NOPIP)
+				.setUnlocalizedName("gun_heavy_revolver");
 		ModItems.gun_heavy_revolver_lilmac = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(31_000).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).scopeTexture(scope_lilmac).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -137,8 +150,14 @@ public class XFactory44 {
 				).setUnlocalizedName("gun_hangman");
 	}
 	
+	public static Function<ItemStack, String> LAMBDA_NAME_NOPIP = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE)) return stack.getUnlocalizedName() + "_scoped";
+		return null;
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> SMACK_A_FUCKER = (stack, ctx) -> {
 		if(ItemGunBaseNT.getState(stack, ctx.configIndex) == GunState.IDLE || ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) == AnimType.CYCLE) {
+			ItemGunBaseNT.setIsAiming(stack, false);
 			ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.DRAWING);
 			ItemGunBaseNT.setTimer(stack, ctx.configIndex, ctx.config.getInspectDuration(stack));
 			ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.INSPECT, ctx.configIndex);

@@ -22,7 +22,7 @@ public class ItemRenderChemthrower extends ItemRenderWeaponBase {
 		
 		float offset = 0.8F;
 		standardAimingTransform(stack,
-				-2F * offset, -2F * offset, 2.5F * offset,
+				-2.5F * offset, -2.5F * offset, 2.5F * offset,
 				0, -4.375 / 8D, 1);
 	}
 
@@ -75,6 +75,14 @@ public class ItemRenderChemthrower extends ItemRenderWeaponBase {
 		GL11.glRotated(25, 1, 0, 0);
 		GL11.glRotated(45, 0, 1, 0);
 		GL11.glTranslated(0.875, 0, 0);
+	}
+
+	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -10D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, -0.5, -0.5);
 	}
 
 	@Override

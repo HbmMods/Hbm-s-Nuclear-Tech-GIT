@@ -6,7 +6,7 @@ import com.hbm.inventory.container.ContainerCompressor;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
-import com.hbm.tileentity.machine.TileEntityMachineCompressor;
+import com.hbm.tileentity.machine.TileEntityMachineCompressorBase;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -18,9 +18,9 @@ import net.minecraft.util.ResourceLocation;
 public class GUICompressor extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_compressor.png");
-	private TileEntityMachineCompressor compressor;
+	private TileEntityMachineCompressorBase compressor;
 
-	public GUICompressor(InventoryPlayer invPlayer, TileEntityMachineCompressor tedf) {
+	public GUICompressor(InventoryPlayer invPlayer, TileEntityMachineCompressorBase tedf) {
 		super(new ContainerCompressor(invPlayer, tedf));
 		compressor = tedf;
 		

@@ -5,12 +5,15 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
+import com.hbm.world.gen.INBTTransformable;
+
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -23,6 +26,8 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
@@ -32,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable {
+public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTTransformable {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
@@ -72,27 +77,20 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		super.onNeighborBlockChange(world, x, y, z, block);
 
-		if(world.isRemote || safeRem)
+		if(safeRem)
 			return;
 
-		int metadata = world.getBlockMetadata(x, y, z);
-
-		// if it's an extra, remove the extra-ness
-		if(metadata >= extra)
-			metadata -= extra;
-
-		ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
-		Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-
-		if(b != this) {
-			world.setBlockToAir(x, y, z);
-		}
+		destroyIfOrphan(world, x, y, z);
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		super.updateTick(world, x, y, z, rand);
 
+		destroyIfOrphan(world, x, y, z);
+	}
+
+	private void destroyIfOrphan(World world, int x, int y, int z) {
 		if(world.isRemote)
 			return;
 
@@ -105,10 +103,32 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
 		Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
-		if(b != this) {
-			world.setBlockToAir(x, y, z);
+		// An extra precaution against multiblocks on chunk borders being erroneously deleted.
+		// Technically, this might be used to persist ghost dummy blocks by manipulating
+		// loaded chunks and block destruction, but this gives no benefit to the player,
+		// cannot be done accidentally, and is definitely preferable to multiblocks
+		// just vanishing when their chunks are unloaded in an unlucky way.
+		if(b != this && world.checkChunksExist(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1)) {
+			if (isLegacyMonoblock(world, x, y, z)) {
+				fixLegacyMonoblock(world, x, y, z);
+			} else {
+				world.setBlockToAir(x, y, z);
+			}
 		}
+	}
 
+	// Override this when turning a single block into a pseudo-multiblock.
+	// If this returns true, instead of being deleted as an orphan, the block
+	// will be promoted to a core of a dummyable, however without any dummies.
+	// This is only called if the block is presumed an orphan, so you don't
+	// need to check that here.
+	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
+		return false;
+	}
+
+	protected void fixLegacyMonoblock(World world, int x, int y, int z) {
+		// Promote to a lone core block with the same effective rotation as before the change
+		world.setBlockMetadataWithNotify(x, y, z, offset + world.getBlockMetadata(x, y, z), 3);
 	}
 
 	public int[] findCore(World world, int x, int y, int z) {
@@ -116,7 +136,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return findCoreRec(world, x, y, z);
 	}
 
-	List<ThreeInts> positions = new ArrayList();
+	List<ThreeInts> positions = new ArrayList<>();
 
 	public int[] findCoreRec(World world, int x, int y, int z) {
 
@@ -216,11 +236,6 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 
-	/*@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		lastBlockSet = new BlockPos(x, y, z);
-	}*/
-
 	/**
 	 * A bit more advanced than the dir modifier, but it is important that the resulting direction meta is in the core range.
 	 * Using the "extra" metas is technically possible but requires a bit of tinkering, e.g. preventing a recursive loop
@@ -267,9 +282,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-		this.safeRem = true;
+		safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
-		this.safeRem = false;
+		safeRem = false;
 	}
 
 	public void removeExtra(World world, int x, int y, int z) {
@@ -283,9 +298,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-		this.safeRem = true;
+		safeRem = true;
 		world.setBlock(x, y, z, this, meta - extra, 3);
-		this.safeRem = false;
+		safeRem = false;
 	}
 
 	// checks if the dummy metadata is within the extra range
@@ -423,8 +438,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return !bounding.isEmpty();
 	}
 
-	public List<AxisAlignedBB> bounding = new ArrayList();
+	public List<AxisAlignedBB> bounding = new ArrayList<>();
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
 
@@ -442,8 +458,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		y = pos[1];
 		z = pos[2];
 
-		for(AxisAlignedBB aabb :this.bounding) {
-			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - this.offset).getRotation(ForgeDirection.UP));
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP);
+
+		for(AxisAlignedBB aabb : this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, rot);
 
 			if(entityBounding.intersectsWith(boxlet)) {
 				list.add(boxlet);
@@ -466,6 +484,32 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		}
 
 		return AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ).offset(x + 0.5, y + 0.5, z + 0.5);
+	}
+
+	// Don't mutate the xyz parameters, or the interaction max distance will bite you
+	@Override
+	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
+		if(!this.useDetailedHitbox()) {
+			return super.collisionRayTrace(world, x, y, z, startVec, endVec);
+		}
+
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return super.collisionRayTrace(world, x, y, z, startVec, endVec);
+
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset).getRotation(ForgeDirection.UP);
+
+		for(AxisAlignedBB aabb : this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, pos[0] + 0.5, pos[1], pos[2] + 0.5, rot);
+
+			MovingObjectPosition intercept = boxlet.calculateIntercept(startVec, endVec);
+			if(intercept != null) {
+				return new MovingObjectPosition(x, y, z, intercept.sideHit, intercept.hitVec);
+			}
+		}
+
+		return null;
 	}
 
 	@Override
@@ -501,10 +545,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		float exp = 0.002F;
 
-		int meta = world.getBlockMetadata(x, y, z);
+		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP);
 
 		ICustomBlockHighlight.setup();
-		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		for(AxisAlignedBB aabb : this.bounding) RenderGlobal.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, rot).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
 	}
 
@@ -534,4 +578,27 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			return ((ICopiable) tile).infoForDisplay(world, x, y, z);
 		return null;
 	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		boolean isOffset = meta >= 12; // squishing causes issues
+		boolean isExtra = !isOffset && meta >= extra;
+
+		if(isOffset) {
+			meta -= offset;
+		} else if(isExtra) {
+			meta -= extra;
+		}
+
+		meta = INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+
+		if(isOffset) {
+			meta += offset;
+		} else if(isExtra) {
+			meta += extra;
+		}
+
+		return meta;
+	}
+
 }

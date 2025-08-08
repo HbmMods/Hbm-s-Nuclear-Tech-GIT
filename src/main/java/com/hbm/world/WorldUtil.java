@@ -111,18 +111,14 @@ public class WorldUtil {
 		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
 		byte loadRadius = 2;
 
-		for (int k = chunkX - loadRadius; k <= chunkX + loadRadius; ++k)
-		{
-			for (int l = chunkZ - loadRadius; l <= chunkZ + loadRadius; ++l)
-			{
+		for(int k = chunkX - loadRadius; k <= chunkX + loadRadius; ++k) {
+			for(int l = chunkZ - loadRadius; l <= chunkZ + loadRadius; ++l) {
 				world.getChunkFromChunkCoords(k, l);
 			}
 		}
 
-		if (!world.loadedEntityList.contains(entity))
-		{
-			if (!MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world)))
-			{
+		if(!world.loadedEntityList.contains(entity)) {
+			if(!MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world))) {
 				world.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
 				world.loadedEntityList.add(entity);
 				world.onEntityAdded(entity);

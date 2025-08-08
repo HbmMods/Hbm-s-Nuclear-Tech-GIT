@@ -1,5 +1,7 @@
 package com.hbm.render.anim;
 
+import com.hbm.config.ClientConfig;
+
 //"pieces" that make up a bus
 public class BusAnimationKeyframe {
 
@@ -84,7 +86,7 @@ public class BusAnimationKeyframe {
 	public BusAnimationKeyframe(double value, int duration) {
 		this();
 		this.value = value;
-		this.duration = duration;
+		this.duration = (int) (duration / Math.max(0.001D, ClientConfig.GUN_ANIMATION_SPEED.get()));
 	}
 
 	public BusAnimationKeyframe(double value, int duration, IType interpolation) {
@@ -234,12 +236,12 @@ public class BusAnimationKeyframe {
 
 	// Blender bezier solvers, but rewritten (pain)
 	private double solveCubic(double c0, double c1, double c2, double c3) {
-		if(c3 > 0.000001) {
+		if(c3 > 0.000001 || c3 < -0.000001) {
 			double a = c2 / c3;
 			double b = c1 / c3;
 			double c = c0 / c3;
 			a = a / 3;
-		
+
 			double p = b / 3 - a * a;
 			double q = (2 * a * a * a - a * b + c) / 2;
 			double d = q * q + p * p * p;

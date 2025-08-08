@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -53,7 +54,7 @@ public class ItemRenderPanzerschreck extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		ResourceManager.panzerschreck.renderPart("Tube");
-		ResourceManager.panzerschreck.renderPart("Shield");
+		if(hasShield(stack)) ResourceManager.panzerschreck.renderPart("Shield");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(rocket[0], rocket[1], rocket[2]);
@@ -91,13 +92,24 @@ public class ItemRenderPanzerschreck extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -10D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.panzerschreck_tex);
 		ResourceManager.panzerschreck.renderPart("Tube");
-		ResourceManager.panzerschreck.renderPart("Shield");
+		if(hasShield(stack)) ResourceManager.panzerschreck.renderPart("Shield");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasShield(ItemStack stack) {
+		return !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_SHIELD);
 	}
 }

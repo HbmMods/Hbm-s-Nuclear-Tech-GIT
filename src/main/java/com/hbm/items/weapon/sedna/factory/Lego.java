@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityBulletBaseMK4CL;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectTiny;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.NotableComments;
@@ -22,6 +23,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -32,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * "LEGO" - i.e. standardized building blocks which can be used to set up gun configs easily.
@@ -64,6 +67,7 @@ public class Lego {
 				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
+				if(ctx.config.getReloadChangesType(stack)) mag.initNewType(stack, ctx.inventory);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
 				if(!ctx.config.getInspectCancel(stack)) {
@@ -201,7 +205,7 @@ public class Lego {
 		int index = ctx.configIndex;
 		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 		
-		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
+		boolean aim = ItemGunBaseNT.getIsAiming(stack);
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
 		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
@@ -217,10 +221,11 @@ public class Lego {
 		
 		int projectiles = config.projectilesMin;
 		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
+		projectiles = (int) (projectiles * primary.getSplitProjectiles(stack));
 		
 		for(int i = 0; i < projectiles; i++) {
 			float damage = calcDamage(ctx, stack, primary, calcWear, index);
-			float spread = calcSpread(ctx, stack, primary, calcWear, index, aim);
+			float spread = calcSpread(ctx, stack, primary, config, calcWear, index, aim);
 			
 			if(config.pType == ProjectileType.BULLET) {
 				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
@@ -238,6 +243,7 @@ public class Lego {
 			}
 		}
 		
+		if(player != null) player.addStat(MainRegistry.statBullets, 1);
 		mag.useUpAmmo(stack, ctx.inventory, 1);
 		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
 	}
@@ -260,14 +266,17 @@ public class Lego {
 		return primary.getBaseDamage(stack) * (calcWear ? getStandardWearDamage(stack, ctx.config, index) : 1);
 	}
 	
-	public static float calcSpread(LambdaContext ctx, ItemStack stack, Receiver primary, boolean calcWear, int index, float aim) {
-		return primary.getGunSpread(stack) * aim + (calcWear ? getStandardWearSpread(stack, ctx.config, index) * 0.125F : 0F); //TODO: redo all this spread shit
-		/*
-		 * spread should have multiple additive parts:
-		 *  - hipfire penalty (mitigated by aiming)
-		 *  - innate gun inaccuracy (usually 0, increases with wear)
-		 *  - bullet inaccuray (usually 0, higher with buckshot)
-		 */
+	public static float calcSpread(LambdaContext ctx, ItemStack stack, Receiver primary, BulletConfig config, boolean calcWear, int index, boolean aim) {
+		// the gun's innate spread, SMGs will have poor accuracy no matter what
+		float spreadInnate = primary.getInnateSpread(stack);
+		// the ammo's spread (for example for buckshot) multiplied with the gun's ammo modifier (choke or sawed off barrel)
+		float spreadAmmo = config.spread * primary.getAmmoSpread(stack);
+		// hipfire penalty, i.e. extra spread when not aiming
+		float spreadHipfire = aim ? 0F : primary.getHipfireSpread(stack);
+		// extra spread caused by weapon durability, [0;0.125] by default
+		float spreadWear = !calcWear ? 0F : (getStandardWearSpread(stack, ctx.config, index) * primary.getDurabilitySpread(stack));
+		
+		return spreadInnate + spreadAmmo + spreadHipfire + spreadWear;
 	}
 	
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }
@@ -276,6 +285,20 @@ public class Lego {
 		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod).setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+	}
+
+	public static void tinyExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { tinyExplode(bullet, mop, range, 1F); }
+	public static void tinyExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
+		ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+		double x = mop.hitVec.xCoord + dir.offsetX * 0.25D;
+		double y = mop.hitVec.yCoord + dir.offsetY * 0.25D;
+		double z = mop.hitVec.zCoord + dir.offsetZ * 0.25D;
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, x, y, z, range, bullet.getThrower());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod)
+				.setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent).setKnockback(0.25D));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectTiny());
 		vnt.explode();
 	}
 	

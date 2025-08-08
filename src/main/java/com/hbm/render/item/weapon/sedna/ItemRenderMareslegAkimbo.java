@@ -136,6 +136,14 @@ public class ItemRenderMareslegAkimbo extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -12.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, -0.5, 1);
+	}
+
+	@Override
 	public void renderInv(ItemStack stack) {
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -166,6 +174,11 @@ public class ItemRenderMareslegAkimbo extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderModTable(ItemStack stack, int index) {
+		renderOther(stack, ItemRenderType.INVENTORY);
 	}
 
 	@Override

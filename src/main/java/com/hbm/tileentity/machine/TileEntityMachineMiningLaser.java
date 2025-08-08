@@ -23,8 +23,8 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
@@ -211,11 +211,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	private void buildDam() {
-
-		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX - 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX - 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ + 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ + 1, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ - 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ - 1, ModBlocks.barricade);
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			if(worldObj.getBlock(targetX + dir.offsetX, targetY + dir.offsetY, targetZ + dir.offsetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + dir.offsetX, targetY + dir.offsetY, targetZ + dir.offsetZ, ModBlocks.barricade);
+		}
 	}
 
 	private void tryFillContainer(int x, int y, int z) {

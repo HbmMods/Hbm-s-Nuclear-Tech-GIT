@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -16,8 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class BlockMachineBase extends BlockContainer {
-	
+public abstract class BlockMachineBase extends BlockContainer implements INBTTransformable {
+
 	int guiID = -1;
 	protected boolean rotatable = false;
 
@@ -25,13 +26,13 @@ public abstract class BlockMachineBase extends BlockContainer {
 		super(mat);
 		this.guiID = guiID;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
+
 		if(guiID == -1)
 			return false;
-		
+
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
@@ -41,9 +42,9 @@ public abstract class BlockMachineBase extends BlockContainer {
 			return false;
 		}
 	}
-	
+
 	private static boolean keepInventory;
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 
@@ -96,18 +97,24 @@ public abstract class BlockMachineBase extends BlockContainer {
 
 		super.breakBlock(world, x, y, z, block, meta);
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		
+
 		if(!rotatable)
 			return;
-		
+
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
+
 		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		if(!rotatable) return meta;
+		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 }

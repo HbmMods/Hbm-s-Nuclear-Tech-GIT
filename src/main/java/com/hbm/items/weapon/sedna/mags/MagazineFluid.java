@@ -52,6 +52,7 @@ public class MagazineFluid implements IMagazine<FluidType> {
 	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
 
 	@Override public boolean canReload(ItemStack stack, IInventory inventory) { return false; }
+	@Override public void initNewType(ItemStack stack, IInventory inventory) { }
 	@Override public void reloadAction(ItemStack stack, IInventory inventory) { }
 	@Override public SpentCasing getCasing(ItemStack stack, IInventory inventory) { return null; }
 

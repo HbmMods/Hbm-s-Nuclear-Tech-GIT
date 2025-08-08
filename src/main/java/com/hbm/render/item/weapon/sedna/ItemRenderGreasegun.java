@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -34,7 +35,7 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.greasegun_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(isRefurbished(stack) ? ResourceManager.greasegun_clean_tex : ResourceManager.greasegun_tex);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -121,7 +122,6 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
 		GL11.glTranslated(0, 1, 3);
-
 	}
 
 	@Override
@@ -135,12 +135,24 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -7.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, 2, 0);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.greasegun_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(isRefurbished(stack) ? ResourceManager.greasegun_clean_tex : ResourceManager.greasegun_tex);
 		ResourceManager.greasegun.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean isRefurbished(ItemStack stack) {
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_GREASEGUN_CLEAN);
 	}
 }

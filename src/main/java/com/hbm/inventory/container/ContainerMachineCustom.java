@@ -94,13 +94,7 @@ public class ContainerMachineCustom extends Container {
 			
 		} else {
 	
-			slot.putStack(held != null ? held.copy() : null);
-			
-			if(slot.getHasStack()) {
-				slot.getStack().stackSize = 1;
-			}
-			
-			slot.onSlotChanged();
+			slot.putStack(held);
 			custom.matcher.initPatternSmart(player.worldObj, slot.getStack(), index - 10);
 			
 			return ret;

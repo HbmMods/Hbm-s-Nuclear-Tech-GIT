@@ -25,8 +25,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class ChemplantRecipes extends SerializableRecipe {
-	
+
 	/**
 	 * Nice order: The order in which the ChemRecipe are added to the recipes list
 	 * Meta order: Fixed using the id param, saved in indexMapping
@@ -34,13 +35,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 
 	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap();
 	public static List<ChemRecipe> recipes = new ArrayList();
-	
+
 	@Override
 	public void registerDefaults() {
-		
-		//6-30, formerly oil cracking, coal liquefaction and solidifciation
+
+		//6-30, formerly oil cracking, coal liquefaction and solidification
 		registerOtherOil();
-		
+
 		recipes.add(new ChemRecipe(36, "COOLANT", 50)
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.WATER, 1800))
@@ -99,7 +100,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
-		
+
 		//Laminate Glass going here
 		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
 				.inputFluids(
@@ -219,10 +220,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.HYDROGEN, 400),
 						new FluidStack(Fluids.OXYGEN, 400)));
 		recipes.add(new ChemRecipe(59, "XENON", 300)
-				.inputFluids(new FluidStack(Fluids.NONE, 0))
+				.inputFluids(new FluidStack(Fluids.AIR, 16_000))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(60, "XENON_OXY", 20)
-				.inputFluids(new FluidStack(Fluids.OXYGEN, 250))
+				.inputFluids(
+						new FluidStack(Fluids.AIR, 8_000),
+						new FluidStack(Fluids.OXYGEN, 250))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
@@ -327,7 +330,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.nugget_bismuth, 4))
 				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1000, 0)));
-		//one bucket of ethanol equals 275_000 TU using the diesel baseline0
+		//one bucket of ethanol equals 275_000 TU using the diesel baseline
 		//the coal baseline is 400_000 per piece
 		//if we assume a burntime of 1.5 ops (300 ticks) for sugar at 100 TU/t that would equal a total of 30_000 TU
 		recipes.add(new ChemRecipe(75, "ETHANOL", 50)
@@ -374,7 +377,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
-		
+
 		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
 				.inputItems(new OreDictStack(TH232.nugget(), 2))
@@ -390,11 +393,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.niter, 3))
 				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
 
+		recipes.add(new ChemRecipe(104, "RUSTY_DECO_STEEL", 100)
+			.inputItems(new ComparableStack(ModBlocks.deco_steel, 8))
+			.inputFluids(new FluidStack(Fluids.WATER, 1000))
+			.outputItems(new ItemStack(ModBlocks.deco_rusty_steel, 8)));
 	}
 
 	public static void registerOtherOil() {
 		recipes.add(new ChemRecipe(31, "BP_BIOGAS", 60)
 				.inputItems(new ComparableStack(ModItems.biomass, 16)) //if we assume 1B BF = 500k and translate that to 2B BG = 500k, then each biomass is worth ~31k or roughly 1.5 furnace operations
+				.inputFluids(new FluidStack(Fluids.AIR, 4000))
 				.outputFluids(new FluidStack(2000, Fluids.BIOGAS)));
 		recipes.add(new ChemRecipe(32, "BP_BIOFUEL", 60)
 				.inputFluids(new FluidStack(1500, Fluids.BIOGAS), new FluidStack(250, Fluids.ETHANOL))
@@ -411,8 +419,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(1000, Fluids.BITUMEN))
 				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 	}
-	
-	public static class ChemRecipe {
+
+	@Deprecated public static class ChemRecipe {
 
 		public int listing;
 		private int id;
@@ -422,49 +430,49 @@ public class ChemplantRecipes extends SerializableRecipe {
 		public ItemStack[] outputs;
 		public FluidStack[] outputFluids;
 		private int duration;
-		
+
 		public ChemRecipe(int index, String name, int duration) {
 			this.id = index;
 			this.name = name;
 			this.duration = duration;
 			this.listing = recipes.size();
-			
+
 			this.inputs = new AStack[4];
 			this.outputs = new ItemStack[4];
 			this.inputFluids = new FluidStack[2];
 			this.outputFluids = new FluidStack[2];
-			
+
 			if(!indexMapping.containsKey(id)) {
 				indexMapping.put(id, this);
 			} else {
 				throw new IllegalStateException("Chemical plant recipe " + name + " has been registered with duplicate id " + id + " used by " + indexMapping.get(id).name + "!");
 			}
 		}
-		
+
 		public ChemRecipe inputItems(AStack... in) {
 			for(int i = 0; i < in.length; i++) this.inputs[i] = in[i];
 			return this;
 		}
-		
+
 		public ChemRecipe inputFluids(FluidStack... in) {
 			for(int i = 0; i < in.length; i++) this.inputFluids[i] = in[i];
 			return this;
 		}
-		
+
 		public ChemRecipe outputItems(ItemStack... out) {
 			for(int i = 0; i < out.length; i++) this.outputs[i] = out[i];
 			return this;
 		}
-		
+
 		public ChemRecipe outputFluids(FluidStack... out) {
 			for(int i = 0; i < out.length; i++) this.outputFluids[i] = out[i];
 			return this;
 		}
-		
+
 		public int getId() {
 			return this.id;
 		}
-		
+
 		public int getDuration() {
 			return this.duration;
 		}
@@ -486,7 +494,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		int id = obj.get("id").getAsInt();
 		String name = obj.get("name").getAsString();
 		int duration = obj.get("duration").getAsInt();
-		
+
 		recipes.add(new ChemRecipe(id, name, duration)
 				.inputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidInput")))
 				.inputItems(	this.readAStackArray(		(JsonArray) obj.get("itemInput")))
@@ -522,7 +530,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public String getComment() {
 		return "Rules: All in- and output arrays need to be present, even if empty. IDs need to be unique, but not sequential. It's safe if you add your own"
 				+ " recipes starting with ID 1000. Template order depends on the order of the recipes in this JSON file. The 'name' field is responsible for"

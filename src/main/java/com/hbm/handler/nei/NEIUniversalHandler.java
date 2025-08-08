@@ -25,11 +25,6 @@ import net.minecraft.item.ItemStack;
 
 public abstract class NEIUniversalHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
-	@Override
-	public ItemStack[] getMachinesForRecipe() {
-		return machine;
-	}
-
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
@@ -106,8 +101,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		@Override
 		public List<PositionedStack> getOtherStacks() {
 			List<PositionedStack> other = new ArrayList();
-			for(PositionedStack pos : output) {
-				other.add(pos);
+			for(int i = 1; i < output.length; i++) {
+				other.add(output[i]);
 			}
 			other.add(machinePositioned);
 			return getCycledIngredients(cycleticks / 20, other);
@@ -117,6 +112,11 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 	@Override
 	public String getRecipeName() {
 		return this.display;
+	}
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return machine;
 	}
 
 	@Override
@@ -242,19 +242,19 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		case 6: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
+			{102, 42}, {120, 42},
 		};
 		case 7: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
+			{102, 42}, {120, 42},
 			{138, 24},
 		};
 		case 8: return new int[][] {
 			{102, 6}, {120, 6},
 			{102, 24}, {120, 24},
-			{102, 32}, {120, 32},
-			{138, 24}, {138, 32},
+			{102, 42}, {120, 42},
+			{138, 24}, {138, 42},
 		};
 		}
 		

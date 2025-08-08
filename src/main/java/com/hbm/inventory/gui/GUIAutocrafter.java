@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.container.ContainerAutocrafter;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
 
 import net.minecraft.client.Minecraft;
@@ -41,16 +42,7 @@ public class GUIAutocrafter extends GuiInfoContainer {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
 				if(this.isMouseOverSlot(slot, x, y) && diFurnace.matcher.modes[i] != null) {
-					
-					String label = EnumChatFormatting.YELLOW + "";
-					
-					switch(diFurnace.matcher.modes[i]) {
-					case "exact": label += "Item and meta match"; break;
-					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + diFurnace.matcher.modes[i]; break;
-					}
-					
-					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", ModulePatternMatcher.getLabel(diFurnace.matcher.modes[i]) }), x, y - 30);
 				}
 			}
 			

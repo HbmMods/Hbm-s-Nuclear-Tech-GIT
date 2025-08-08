@@ -4,11 +4,11 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockDetonatable;
-import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.explosion.ExplosionThermo;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -68,7 +68,8 @@ public class RedBarrel extends BlockDetonatable {
 				int a = rand.nextInt(9) - 4 + ix;
 				int b = rand.nextInt(9) - 4 + iy;
 				int c = rand.nextInt(9) - 4 + iz;
-				if(world.getBlock(a, b, c).isReplaceable(world, a, b, c) && BlockTaint.hasPosNeightbour(world, a, b, c)) {
+				Block block = world.getBlock(a, b, c);
+				if(block.isNormalCube() && !block.isAir(world, a, b, c)) {
 					world.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
 				}
 			}

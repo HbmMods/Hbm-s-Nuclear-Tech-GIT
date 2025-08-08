@@ -28,8 +28,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public abstract class ItemRenderWeaponBase implements IItemRenderer {
-	
+
 	public static final ResourceLocation flash_plume = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lilmac_plume.png");
+	public static final ResourceLocation laser_flash = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/laser_flash.png");
 	
 	public static float interp;
 	
@@ -84,6 +85,16 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glPushMatrix();
 
 		if(mc.gameSettings.thirdPersonView == 0 && !mc.renderViewEntity.isPlayerSleeping() && !mc.gameSettings.hideGUI && !mc.playerController.enableEverythingIsScrewedUpMode()) {
+			/*ItemRenderer ir = mc.entityRenderer.itemRenderer;
+			float equip = ir.prevEquippedProgress + (ir.equippedProgress- ir.prevEquippedProgress) * interp;
+			Animation current = HbmAnimations.getRelevantAnim();
+			// flicker prevention, if equip is in progress, only render if an animation is playing
+			if(!(equip < 0.25 && ir.prevEquippedProgress < ir.equippedProgress && (current == null || current.type != AnimType.EQUIP))) {
+				entityRenderer.enableLightmap(interp);
+				this.setupTransformsAndRender(stack);
+				entityRenderer.disableLightmap(interp);
+			}*/
+			
 			entityRenderer.enableLightmap(interp);
 			this.setupTransformsAndRender(stack);
 			entityRenderer.disableLightmap(interp);
@@ -250,6 +261,17 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	public void setupEntity(ItemStack stack) {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(-90, 0, 1, 0);
+	}
+	
+	public void setupModTable(ItemStack stack) {
+		double scale = -5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+	}
+	
+	public void renderModTable(ItemStack stack, int index) {
+		renderOther(stack, ItemRenderType.INVENTORY);
 	}
 
 	public abstract void renderFirstPerson(ItemStack stack);
@@ -272,6 +294,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glDepthMask(false);
 
 			tess.startDrawingQuads();
@@ -321,6 +344,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		if(System.currentTimeMillis() - lastShot < flash) {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glDepthMask(false);
 			GL11.glPushMatrix();
 			
 			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
@@ -330,6 +354,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			double inset = 2;
 			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
 			tess.startDrawingQuads();
+			tess.setBrightness(240);
 			tess.setNormal(0F, 1F, 0F);
 			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
 			
@@ -355,6 +380,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			
 			tess.draw();
 			GL11.glPopMatrix();
+			GL11.glDepthMask(true);
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}
@@ -378,6 +404,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			double lengthOffset = 0.125;
 			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
 			tess.startDrawingQuads();
+			tess.setBrightness(240);
 			tess.setNormal(0F, 1F, 0F);
 			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
 			
@@ -403,6 +430,38 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			
 			tess.draw();
 			GL11.glPopMatrix();
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+	}
+	
+	public static void renderLaserFlash(long lastShot, int flash, double scale, int color) {
+		Tessellator tess = Tessellator.instance;
+		
+		if(System.currentTimeMillis() - lastShot < flash) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glDepthMask(false);
+			GL11.glPushMatrix();
+			
+			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
+			
+			double size = 4 * fire * scale;
+			
+			Minecraft.getMinecraft().renderEngine.bindTexture(laser_flash);
+			tess.startDrawingQuads();
+			tess.setBrightness(240);
+			tess.setNormal(0F, 1F, 0F);
+			
+			tess.setColorRGBA_I(color, 255);
+			
+			tess.addVertexWithUV(0, -size, -size, 1, 1);
+			tess.addVertexWithUV(0, size, -size, 0, 1);
+			tess.addVertexWithUV(0, size, size, 0 ,0);
+			tess.addVertexWithUV(0, -size, size, 1, 0);
+			
+			tess.draw();
+			GL11.glPopMatrix();
+			GL11.glDepthMask(true);
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 	}

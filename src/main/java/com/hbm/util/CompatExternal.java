@@ -9,12 +9,17 @@ import java.util.function.Consumer;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluidmk2.IFluidRegisterListener;
+import api.hbm.fluidmk2.IFluidUserMK2;
+import api.hbm.recipe.IRecipeRegisterListener;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
@@ -120,11 +125,11 @@ public class CompatExternal {
 	public static ArrayList<Object[]> getFluidInfoFromTile(TileEntity tile) {
 		ArrayList<Object[]> list = new ArrayList();
 
-		if(!(tile instanceof IFluidUser)) {
+		if(!(tile instanceof IFluidUserMK2)) {
 			return list;
 		}
 
-		IFluidUser container = (IFluidUser) tile;
+		IFluidUserMK2 container = (IFluidUserMK2) tile;
 
 		for(FluidTank tank : container.getAllTanks()) {
 			FluidType type = tank.getTankType();
@@ -186,6 +191,24 @@ public class CompatExternal {
 	public static void setWarheadLabel(WarheadType type, String label) { type.labelCustom = label; }
 	public static void setWarheadImpact(WarheadType type, Consumer<EntityMissileCustom> impact) { type.impactCustom = impact; }
 	public static void setWarheadUpdate(WarheadType type, Consumer<EntityMissileCustom> update) { type.updateCustom = update; }
+	
+	/**
+	 * Registers an IRecipeRegisterListener to the recipe system. The listener is called every time a SerializableRecipe instance has its recipes loaded, before the
+	 * config files are written, but after the defaults are initialized.
+	 * @param listener
+	 */
+	public static void registerRecipeRegisterListener(IRecipeRegisterListener listener) {
+		SerializableRecipe.additionalListeners.add(listener);
+	}
+	
+	/**
+	 * Registers an IFluidRegisterListener which is called every time the fluid list is loaded, either during startup or when the refresh command is used.
+	 * Ensures that fluids are registered when they should, instead of being purged permanently when the system reloads.
+	 * @param listener
+	 */
+	public static void registerFluidRegisterListener(IFluidRegisterListener listener) {
+		Fluids.additionalListeners.add(listener);
+	}
 
 	public static void compatExamples() {
 		// Makes all cows be targeted by turrets if player mode is active in addition to the existing rules. Applies to all entities that inherit EntityCow.

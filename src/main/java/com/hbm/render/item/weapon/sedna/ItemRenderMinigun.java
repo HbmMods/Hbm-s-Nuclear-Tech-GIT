@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -58,6 +59,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		ResourceManager.minigun.renderPart("Gun");
+		ResourceManager.minigun.renderPart("Grip");
 		
 		GL11.glPushMatrix();
 		GL11.glRotated(rotate[2], 0, 0, 1);
@@ -78,9 +80,16 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, 12);
 		GL11.glRotated(90, 0, 1, 0);
-		GL11.glRotated(gun.shotRand * 90, 1, 0, 0);
-		GL11.glScaled(1.5, 1.5, 1.5);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
+		
+		if(stack.getItem() == ModItems.gun_minigun_lacunae) {
+			renderLaserFlash(gun.lastShot[0], 50, 1D, 0xff00ff);
+			GL11.glTranslated(0, 0, -0.25);
+			renderLaserFlash(gun.lastShot[0], 50, 0.5D, 0xff0080);
+		} else {
+			GL11.glRotated(gun.shotRand * 90, 1, 0, 0);
+			GL11.glScaled(1.5, 1.5, 1.5);
+			this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
+		}
 		GL11.glPopMatrix();
 	}
 
@@ -104,12 +113,21 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -6.25D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		ResourceManager.minigun.renderAll();
+		ResourceManager.minigun.renderPart("Gun");
+		ResourceManager.minigun.renderPart("Grip");
+		ResourceManager.minigun.renderPart("Barrels");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }

@@ -21,6 +21,9 @@ import net.minecraftforge.client.model.ModelFormatException;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
+import com.hbm.util.Clock;
+
+@Deprecated
 public class HbmModelObject implements IModelCustom {
     private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
     private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
@@ -188,9 +191,10 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void tessellateAll(Tessellator tessellator)
     {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
-            groupObject.render(tessellator);
+            groupObject.render(currentTime, tessellator);
         }
     }
 
@@ -198,13 +202,14 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderOnly(String... groupNames)
     {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
                 if (groupName.equalsIgnoreCase(groupObject.name))
                 {
-                    groupObject.render();
+                    groupObject.render(currentTime);
                 }
             }
         }
@@ -212,13 +217,14 @@ public class HbmModelObject implements IModelCustom {
 
     @SideOnly(Side.CLIENT)
     public void tessellateOnly(Tessellator tessellator, String... groupNames) {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
                 if (groupName.equalsIgnoreCase(groupObject.name))
                 {
-                    groupObject.render(tessellator);
+                    groupObject.render(currentTime, tessellator);
                 }
             }
         }
@@ -228,22 +234,24 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderPart(String partName)
     {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
-                groupObject.render();
+                groupObject.render(currentTime);
             }
         }
     }
 
     @SideOnly(Side.CLIENT)
     public void tessellatePart(Tessellator tessellator, String partName) {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
-                groupObject.render(tessellator);
+                groupObject.render(currentTime, tessellator);
             }
         }
     }
@@ -252,6 +260,7 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void renderAllExcept(String... excludedGroupNames)
     {
+	float currentTime = Clock.get_ms();
         for (HbmGroupObject groupObject : groupObjects)
         {
             boolean skipPart=false;
@@ -264,7 +273,7 @@ public class HbmModelObject implements IModelCustom {
             }
             if(!skipPart)
             {
-                groupObject.render();
+                groupObject.render(currentTime);
             }
         }
     }
@@ -272,6 +281,7 @@ public class HbmModelObject implements IModelCustom {
     @SideOnly(Side.CLIENT)
     public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames)
     {
+	float currentTime = Clock.get_ms();
         boolean exclude;
         for (HbmGroupObject groupObject : groupObjects)
         {
@@ -285,7 +295,7 @@ public class HbmModelObject implements IModelCustom {
             }
             if(!exclude)
             {
-                groupObject.render(tessellator);
+                groupObject.render(currentTime, tessellator);
             }
         }
     }

@@ -4,13 +4,14 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockICFLaserComponent.EnumICFPart;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.machine.TileEntityICFController;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -209,7 +210,7 @@ public class MachineICFController extends BlockContainer implements ILookOverlay
 			data.setInteger("expires", 5_000);
 			data.setDouble("dist", 128D);
 			if(message != null) data.setString("label", message);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
+			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
 		}
 	}
 

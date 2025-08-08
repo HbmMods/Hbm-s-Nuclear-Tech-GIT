@@ -13,12 +13,17 @@ Things you should also avoid include:
 * duplicate util functions (just use what we have, man)
 * unused or half finished util functions (for obvious reasons)
 * half finished or obviously broken features (à la "bob will fix it, i'm sure of it", please don't do that)
+* updating the changelog (you're guaranteed to cause a merge conflict with that)
+* any use of `I18n`, use `I18nUtil` instead
 
 ## Test your code
 
 This should go without saying, but please don't PR code that was never actually tested or has obvious compiler errors in it.
 
 **Addendum:** Because apparently some people think that testing is somehow optional, it is now **mandatory** to test the code both on a client and on a server. If the PR contains compat code, the game has to work **with and without** the mod that the compat is for.
+
+## No refactor PRs
+Your refactors suck ass and usually something ends up breaking.
 
 ## Communication
 

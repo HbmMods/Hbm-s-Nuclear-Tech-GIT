@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
+
 public class ItemStackUtil {
 
 	public static ItemStack carefulCopy(ItemStack stack) {
@@ -166,6 +169,19 @@ public class ItemStackUtil {
 
 		return list;
 	}
+	
+	/**
+	 * Returns a String of the mod id of an itemstack. If a unique identifier can't be found in the registry, returns null.
+	 * @param stack
+	 * @return
+	 */
+	public static String getModIdFromItemStack(ItemStack stack) {
+		UniqueIdentifier id = GameRegistry.findUniqueIdentifierFor(stack.getItem());
+		if(id!=null) {
+			return id.modId;
+		}
+		return null;
+	}
 
 	public static void spillItems(World world, int x, int y, int z, Block block, Random rand) {
 		IInventory tileentityfurnace = (IInventory) world.getTileEntity(x, y, z);
@@ -197,5 +213,9 @@ public class ItemStackUtil {
 			}
 			world.func_147453_f(x, y, z, block);
 		}
+	}
+	
+	public static boolean areStacksCompatible(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage() && ItemStack.areItemStackTagsEqual(sta1, sta2);
 	}
 }

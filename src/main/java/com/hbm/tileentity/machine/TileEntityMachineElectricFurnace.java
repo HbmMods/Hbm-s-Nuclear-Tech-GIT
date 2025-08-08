@@ -15,7 +15,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -154,7 +154,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 			for(int i = 1; i < 2; i++) {
 				if(slots[i].stackSize <= 0) {
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
+					slots[i] = new ItemStack(slots[i].getItem());
 				} else {
 					slots[i].stackSize--;
 				}

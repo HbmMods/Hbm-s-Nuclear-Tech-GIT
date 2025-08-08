@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.particle.helper.FlameCreator;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.IRepairable.EnumExtinguishType;
 import com.hbm.util.ArmorUtil;
@@ -35,7 +36,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -104,12 +104,17 @@ public class EntityChemical extends EntityThrowableNT {
 			}
 			
 		} else {
-			
+
+			FluidType type = getType();
 			ChemicalStyle style = getStyle();
 			
-			if(style == ChemicalStyle.LIQUID) {
+			if(type == Fluids.BALEFIRE) {
 				
-				FluidType type = getType();
+				if(MainRegistry.proxy.me().getDistanceToEntity(this) < 100)
+					FlameCreator.composeEffectClient(worldObj, posX, posY - 0.125, posZ, FlameCreator.META_BALEFIRE);
+				
+			} else if(style == ChemicalStyle.LIQUID) {
+				
 				Color color = new Color(type.getColor());
 				
 				NBTTagCompound data = new NBTTagCompound();
@@ -125,21 +130,11 @@ public class EntityChemical extends EntityThrowableNT {
 				data.setFloat("g", color.getGreen() / 255F);
 				data.setFloat("b", color.getBlue() / 255F);
 				MainRegistry.proxy.effectNT(data);
-			}
-			
-			if(style == ChemicalStyle.BURNING) {
 				
-				double motion = Math.min(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector(), 0.1);
+			} else if(style == ChemicalStyle.BURNING) {
 				
-				for(double d = 0; d < motion; d += 0.0625) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vanillaExt");
-					nbt.setString("mode", "flame");
-					nbt.setDouble("posX", (this.lastTickPosX - this.posX) * d + this.posX);
-					nbt.setDouble("posY", (this.lastTickPosY - this.posY) * d + this.posY);
-					nbt.setDouble("posZ", (this.lastTickPosZ - this.posZ) * d + this.posZ);
-					MainRegistry.proxy.effectNT(nbt);
-				}
+				if(MainRegistry.proxy.me().getDistanceToEntity(this) < 100)
+					FlameCreator.composeEffectClient(worldObj, posX, posY - 0.125, posZ, FlameCreator.META_FIRE);
 			}
 		}
 		super.onUpdate();
@@ -172,7 +167,7 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 		
 		if(type.temperature >= 100) {
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), 0.25F + (type.temperature - 100) * 0.001F); //.25 damage at 100°C with one extra damage every 1000°C
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), Math.min(0.25F + (type.temperature - 100) * 0.001F, 15F)); //.25 damage at 100°C with one extra damage every 1000°C
 			
 			if(type.temperature >= 500) {
 				e.setFire(10); //afterburn for 10 seconds
@@ -182,6 +177,7 @@ public class EntityChemical extends EntityThrowableNT {
 		if(style == ChemicalStyle.LIQUID || style == ChemicalStyle.GAS) {
 			if(type.temperature < -20) {
 				if(living != null) { //only living things are affected
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), Math.min(0.25F + (-type.temperature) * 0.01F, 2F));
 				}
 			}
 			
@@ -213,7 +209,7 @@ public class EntityChemical extends EntityThrowableNT {
 		
 		if(style == ChemicalStyle.BURNING) {
 			FT_Combustible trait = type.getTrait(FT_Combustible.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), 0.2F + (trait != null ? (trait.getCombustionEnergy() / 100_000F) : 0));
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), 0.2F + (trait != null ? (Math.min(trait.getCombustionEnergy() / 100_000F, 15F)) : 0));
 			e.setFire(5);
 		}
 		
@@ -221,7 +217,7 @@ public class EntityChemical extends EntityThrowableNT {
 			FT_Flammable flammable = type.getTrait(FT_Flammable.class);
 			FT_Combustible combustible = type.getTrait(FT_Combustible.class);
 			
-			float heat = Math.max(flammable != null ? flammable.getHeatEnergy() / 50_000F : 0, combustible != null ? combustible.getCombustionEnergy() / 100_000F : 0);
+			float heat = Math.max(flammable != null ? flammable.getHeatEnergy() / 50_000F : 0, combustible != null ? Math.min(combustible.getCombustionEnergy() / 100_000F, 15F) : 0);
 			heat *= intensity;
 			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_flamethrower), (0.2F + heat) * (float) intensity);
 			e.setFire((int) Math.ceil(5 * intensity));

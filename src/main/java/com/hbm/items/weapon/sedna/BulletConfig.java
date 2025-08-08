@@ -10,7 +10,9 @@ import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.interfaces.NotableComments;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -42,6 +44,8 @@ public class BulletConfig implements Cloneable {
 	public int id;
 	
 	public ComparableStack ammo;
+	public ItemStack casingItem;
+	public int casingAmount;
 	/** How much ammo is added to a standard mag when loading one item */
 	public int ammoReloadCount = 1;
 	public float velocity = 10F;
@@ -103,6 +107,8 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setItem(ComparableStack ammo) {									this.ammo = ammo; return this; }
 	public BulletConfig setItem(EnumAmmo ammo) {										this.ammo = new ComparableStack(ModItems.ammo_standard, 1, ammo.ordinal()); return this; }
 	public BulletConfig setItem(EnumAmmoSecret ammo) {									this.ammo = new ComparableStack(ModItems.ammo_secret, 1, ammo.ordinal()); return this; }
+	public BulletConfig setCasing(ItemStack item, int amount) {							this.casingItem = item; this.casingAmount = amount; return this; }
+	public BulletConfig setCasing(EnumCasingType item, int amount) {					this.casingItem = DictFrame.fromOne(ModItems.casing, item); this.casingAmount = amount; return this; }
 	public BulletConfig setReloadCount(int ammoReloadCount) {							this.ammoReloadCount = ammoReloadCount; return this; }
 	public BulletConfig setVel(float velocity) {										this.velocity = velocity; return this; }
 	public BulletConfig setSpread(float spread) {										this.spread = spread; return this; }
@@ -117,7 +123,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setupDamageClass(DamageClass clazz) {							this.dmgClass = clazz; return this; }
 	public BulletConfig setRicochetAngle(float angle) {									this.ricochetAngle = angle; return this; }
 	public BulletConfig setRicochetCount(int count) {									this.maxRicochetCount = count; return this; }
-	public BulletConfig setDamageFalloutByPen(boolean falloff) {						this.damageFalloffByPen = falloff; return this; }
+	public BulletConfig setDamageFalloffByPen(boolean falloff) {						this.damageFalloffByPen = falloff; return this; }
 	public BulletConfig setGrav(double gravity) {										this.gravity = gravity; return this; }
 	public BulletConfig setLife(int expires) {											this.expires = expires; return this; }
 	public BulletConfig setImpactsEntities(boolean impact) {							this.impactsEntities = impact; return this; }

@@ -83,16 +83,7 @@ public class GUICraneRouter extends GuiInfoContainer {
 				int index = i % 5;
 				
 				if(this.isMouseOverSlot(slot, x, y) && matcher.modes[index] != null) {
-					
-					String label = EnumChatFormatting.YELLOW + "";
-					
-					switch(matcher.modes[index]) {
-					case "exact": label += "Item and meta match"; break;
-					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + matcher.modes[index]; break;
-					}
-					
-					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label}), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", ModulePatternMatcher.getLabel(matcher.modes[index])}), x, y - 30);
 				}
 			}
 		}

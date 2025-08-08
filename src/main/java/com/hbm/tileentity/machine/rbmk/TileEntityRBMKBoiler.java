@@ -1,8 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
-import api.hbm.fluid.IFluidUser;
-import api.hbm.fluid.IPipeNet;
+import api.hbm.fluidmk2.FluidNode;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.ModBlocks;
@@ -16,6 +15,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.uninos.UniNodespace;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
@@ -212,9 +212,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		
 		if(RBMKDials.getOverpressure(worldObj)) {
 			for(DirPos pos : getOutputPos()) {
-				IPipeNet net = IFluidUser.getPipeNet(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType());
-				if(net != null) {
-					this.pipes.add(net);
+				FluidNode node = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType().getNetworkProvider());
+				if(node.net != null) {
+					this.pipes.add(node.net);
 				}
 			}
 		}

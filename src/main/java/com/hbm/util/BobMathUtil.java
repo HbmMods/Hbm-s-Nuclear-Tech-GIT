@@ -15,6 +15,48 @@ import java.util.function.ToIntFunction;
 
 public class BobMathUtil {
 
+	//finally!
+	public static int min(int... nums) {
+		int smallest = Integer.MAX_VALUE;
+		for(int num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static int max(int... nums) {
+		int largest = Integer.MIN_VALUE;
+		for(int num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+	public static long min(long... nums) {
+		long smallest = Long.MAX_VALUE;
+		for(long num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static long max(long... nums) {
+		long largest = Long.MIN_VALUE;
+		for(long num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+	public static float min(float... nums) {
+		float smallest = Float.MAX_VALUE;
+		for(float num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static float max(float... nums) {
+		float largest = Float.MIN_VALUE;
+		for(float num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+	public static double min(double... nums) {
+		double smallest = Double.MAX_VALUE;
+		for(double num : nums) if(num < smallest) smallest = num;
+		return smallest;
+	}
+	public static double max(double... nums) {
+		double largest = Double.MIN_VALUE;
+		for(double num : nums) if(num > largest) largest = num;
+		return largest;
+	}
+
 	public static double safeClamp(double val, double min, double max) {
 
 		val = MathHelper.clamp_double(val, min, max);
@@ -34,9 +76,8 @@ public class BobMathUtil {
 				);
 	}
 
-	public static double interp(double x, double y, float interp) {
-		return x + (y - x) * interp;
-	}
+	public static double interp(double x, double y, float interp) { return x + (y - x) * interp; }
+	public static double interp(double x, double y, double interp) { return x + (y - x) * interp; }
 
 	public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 
@@ -138,6 +179,14 @@ public class BobMathUtil {
 
 		return new BigDecimal(num).setScale(digits, RoundingMode.HALF_UP).doubleValue();
 	}
+	
+	/**
+	 * @param amount
+	 * @return the number as a string with thousand group commas
+	 */
+	public static String format(int amount) {
+		return String.format(Locale.US, "%,d", amount);
+	}
 
 	public static boolean getBlink() {
 		return System.currentTimeMillis() % 1000 < 500;
@@ -218,7 +267,26 @@ public class BobMathUtil {
 
 	public static int[] collectionToIntArray(Collection<? extends Object> in, ToIntFunction<? super Object> mapper) {
 		return Arrays.stream(in.toArray()).mapToInt(mapper).toArray();
- }
+	}
+	
+	public static void shuffleIntArray(int[] array) {
+		Random rand = new Random();
+		for(int i = array.length - 1; i > 0; i--) {
+			int r = rand.nextInt(i + 1);
+			int temp = array[r];
+			array[r] = array[i];
+			array[i] = temp;
+		}
+	}
+	
+	public static void reverseIntArray(int[] array) {
+		int len = array.length;
+		for(int i = 0; i < len / 2; i++) {
+			int temp = array[i];
+			array[i] = array[len - 1 - i];
+			array[len - 1 - i] = temp;
+		}
+	}
 
 	/** Soft peak sine */
 	public static double sps(double x) {

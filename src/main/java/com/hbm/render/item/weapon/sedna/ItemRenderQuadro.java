@@ -88,8 +88,7 @@ public class ItemRenderQuadro extends ItemRenderWeaponBase {
 			GL11.glTranslated(-(font.getStringWidth(label) / 2) * f3, 0, 0);
 			GL11.glScalef(f3, -f3, f3);
 			GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
-			float variance = 0.7F + player.getRNG().nextFloat() * 0.3F;
-			font.drawString(label, 0, 0, new Color(0F, variance, variance).getRGB());
+			font.drawString(label, 0, 0, new Color(0F, 1F, 1F).getRGB());
 			GL11.glColor3f(1F, 1F, 1F);
 
 			GL11.glEnable(GL11.GL_LIGHTING);
@@ -128,6 +127,14 @@ public class ItemRenderQuadro extends ItemRenderWeaponBase {
 		GL11.glRotated(25, 1, 0, 0);
 		GL11.glRotated(45, 0, 1, 0);
 		GL11.glTranslated(0, -1, 0);
+	}
+
+	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -30D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, -1.125, 0);
 	}
 
 	@Override

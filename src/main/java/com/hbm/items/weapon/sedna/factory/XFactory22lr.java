@@ -2,9 +2,11 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -14,6 +16,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -33,26 +36,32 @@ public class XFactory22lr {
 
 	public static void init() {
 		SpentCasing casing22 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.5F);
-		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setKnockback(0F)
+		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F)
 				.setCasing(casing22.clone().register("p22"));
-		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setKnockback(0F).setDamage(0.8F).setThresholdNegation(1F).setArmorPiercing(0.1F)
+		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F).setDamage(0.8F).setThresholdNegation(1F).setArmorPiercing(0.1F)
 				.setCasing(casing22.clone().register("p22fmj"));
-		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setKnockback(0F).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setCasing(EnumCasingType.SMALL, 24).setKnockback(0F).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing22.clone().register("p22jhp"));
-		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setKnockback(0F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(2.5F).setArmorPiercing(0.15F)
+		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setCasing(EnumCasingType.SMALL_STEEL, 24).setKnockback(0F).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(2.5F).setArmorPiercing(0.15F)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(2F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
+						.dmg(2F).delay(1).dry(10).auto(true).spread(0.01F).reload(66).jam(30).sound("hbm:weapon.fire.greaseGun", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AM180))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
-				).setUnlocalizedName("gun_am180");
+				).setNameMutator(LAMBDA_NAME_AM180)
+				.setUnlocalizedName("gun_am180");
 	}
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_AM180 = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER)) return stack.getUnlocalizedName() + "_silenced";
+		return null;
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 3000, 0.05D, 1.1D, 0);

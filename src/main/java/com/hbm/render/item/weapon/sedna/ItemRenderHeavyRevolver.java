@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -116,12 +117,6 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 		GL11.glTranslated(0.125, 2.5, 0);
 		this.renderGapFlash(gun.lastShot[0]);
 		GL11.glPopMatrix();
-
-		GL11.glPushMatrix();
-		GL11.glTranslated(-9.5, 2.5, 0);
-		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		//this.renderMuzzleFlash(gun.lastShot);
-		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -150,6 +145,14 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glTranslated(0, -0.5, 0);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 
 		GL11.glRotated(90, 0, 1, 0);
@@ -173,6 +176,6 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	}
 	
 	public boolean isScoped(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_heavy_revolver_lilmac;
+		return stack.getItem() == ModItems.gun_heavy_revolver_lilmac || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
 	}
 }

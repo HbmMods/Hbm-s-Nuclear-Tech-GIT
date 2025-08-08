@@ -21,7 +21,7 @@ public class GunFactory {
 
 	public static BulletConfig ammo_debug;
 	
-	public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_44);
+	public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setColor(SpentCasing.COLOR_CASE_44);
 
 	public static void init() {
 		
@@ -65,6 +65,14 @@ public class GunFactory {
 		XFactoryFolly.init();
 		XFactoryTurret.init();
 		XFactory10ga.init();
+		XFactory35800.init();
+		XFactory45.init();
+		XFactoryTool.init();
+		
+		ModItems.weapon_mod_test = new ItemEnumMulti(EnumModTest.class, true, true).setUnlocalizedName("weapon_mod_test").setMaxStackSize(1);
+		ModItems.weapon_mod_generic = new ItemEnumMulti(EnumModGeneric.class, true, true).setUnlocalizedName("weapon_mod_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
+		ModItems.weapon_mod_special = new ItemEnumMulti(EnumModSpecial.class, true, true).setUnlocalizedName("weapon_mod_special").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
+		ModItems.weapon_mod_caliber = new ItemEnumMulti(EnumModCaliber.class, true, true).setUnlocalizedName("weapon_mod_caliber").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab);
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -80,7 +88,7 @@ public class GunFactory {
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
 		BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
 		B75, B75_INC, B75_EXP,
-		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS, //G12_ANTHRAX,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS,
 		G26_FLARE, G26_FLARE_SUPPLY, G26_FLARE_WEAPON,
 		G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
 		ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
@@ -90,6 +98,10 @@ public class GunFactory {
 		COIL_TUNGSTEN, COIL_FERROURANIUM,
 		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
 		G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
+		R762_HE, BMG50_HE, G10_EXPLOSIVE,
+		P45_SP, P45_FMJ, P45_JHP, P45_AP, P45_DU,
+		CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
+		NUKE_BALEFIRE, BMG50_SM,
 		
 		//ONLY ADD NEW ENTRIES AT THE BOTTOM TO AVOID SHIFTING!
 		;
@@ -101,12 +113,13 @@ public class GunFactory {
 			M44_BP, M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
 			P22_SP, P22_FMJ, P22_JHP, P22_AP,
 			P9_SP, P9_FMJ, P9_JHP, P9_AP,
+			P45_SP, P45_FMJ, P45_JHP, P45_AP, P45_DU,
 			R556_SP, R556_FMJ, R556_JHP, R556_AP,
-			R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
-			BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
+			R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU, R762_HE,
+			BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU, BMG50_SM, BMG50_HE,
 			B75, B75_INC, B75_EXP,
 			G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS,
-			G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
+			G10, G10_SHRAPNEL, G10_DU, G10_SLUG, G10_EXPLOSIVE,
 			G26_FLARE, G26_FLARE_SUPPLY, G26_FLARE_WEAPON,
 			G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
 			ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
@@ -114,7 +127,8 @@ public class GunFactory {
 			CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
 			TAU_URANIUM,
 			COIL_TUNGSTEN, COIL_FERROURANIUM,
-			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE, NUKE_BALEFIRE,
+			CT_HOOK, CT_MORTAR, CT_MORTAR_CHARGE,
 		};
 		
 		public Enum[] getOrder() {
@@ -124,6 +138,36 @@ public class GunFactory {
 	
 	public static enum EnumAmmoSecret {
 		FOLLY_SM, FOLLY_NUKE,
-		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
+		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN,
+		P35_800, BMG50_BLACK, P35_800_BL
+	}
+	
+	public static enum EnumModTest {
+		FIRERATE, DAMAGE, MULTI,
+		OVERRIDE_2_5, OVERRIDE_5, OVERRIDE_7_5, OVERRIDE_10, OVERRIDE_12_5, OVERRIDE_15, OVERRIDE_20;
+	}
+	
+	public static enum EnumModGeneric {
+		IRON_DAMAGE, IRON_DURA,
+		STEEL_DAMAGE, STEEL_DURA,
+		DURA_DAMAGE, DURA_DURA,
+		DESH_DAMAGE, DESH_DURA,
+		WSTEEL_DAMAGE, WSTEEL_DURA,
+		FERRO_DAMAGE, FERRO_DURA,
+		TCALLOY_DAMAGE, TCALLOY_DURA,
+		BIGMT_DAMAGE, BIGMT_DURA,
+		BRONZE_DAMAGE, BRONZE_DURA,
+	}
+	
+	public static enum EnumModSpecial {
+		SILENCER, SCOPE, SAW, GREASEGUN, SLOWDOWN,
+		SPEEDUP, CHOKE, SPEEDLOADER,
+		FURNITURE_GREEN, FURNITURE_BLACK, BAYONET,
+		STACK_MAG, SKIN_SATURNITE, LAS_SHOTGUN,
+		LAS_CAPACITOR, LAS_AUTO
+	}
+	
+	public static enum EnumModCaliber {
+		P9, P45, P22, M357, M44, R556, R762, BMG50,
 	}
 }

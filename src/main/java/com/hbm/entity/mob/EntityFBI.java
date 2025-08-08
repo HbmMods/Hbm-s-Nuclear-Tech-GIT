@@ -8,7 +8,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.ai.EntityAIBreaking;
 import com.hbm.entity.pathfinder.PathFinderUtils;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -141,24 +140,6 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
-
-		if(this.getEquipmentInSlot(0) != null) {
-			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_heavy_revolver) {
-				EntityBullet bullet = new EntityBullet(worldObj, this, entity, 3F, 2);
-				bullet.damage = 10;
-		        this.worldObj.spawnEntityInWorld(bullet);
-		        this.playSound("hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
-			}
-
-			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_spas12) {
-				for(int i = 0; i < 7; i++) {
-					EntityBullet bullet = new EntityBullet(worldObj, this, entity, 3F, 5);
-					bullet.damage = 3;
-			        this.worldObj.spawnEntityInWorld(bullet);
-				}
-		        this.playSound("hbm:weapon.shotgunShoot", 1.0F, 1.0F);
-			}
-		}
 	}
 	
 	private static final Set<Block> canDestroy = new HashSet();

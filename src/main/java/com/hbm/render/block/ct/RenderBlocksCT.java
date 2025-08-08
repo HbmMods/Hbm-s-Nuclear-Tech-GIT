@@ -2,6 +2,7 @@ package com.hbm.render.block.ct;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.block.ct.CTContext.CTFace;
 
@@ -12,6 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@NotableComments
 public class RenderBlocksCT extends RenderBlocks {
 	
 	public static RenderBlocksCT instance = new RenderBlocksCT();

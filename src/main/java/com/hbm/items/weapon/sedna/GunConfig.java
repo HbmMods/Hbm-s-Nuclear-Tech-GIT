@@ -10,6 +10,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.factory.GunStateDecider;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
@@ -33,6 +34,8 @@ public class GunConfig {
 	public static final String I_INSPECTCANCEL =				"I_INSPECTCANCEL";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
 	public static final String B_HIDECROSSHAIR =				"B_HIDECROSSHAIR";
+	public static final String B_THERMALSIGHTS =				"B_THERMALSIGHTS";
+	public static final String B_RELOADREQUIRESTYPECHANGE =		"B_RELOADREQUIRESTYPECHANGE";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
 	public static final String O_SCOPETEXTURE =					"O_SCOPETEXTURE";
 	public static final String CON_SMOKE =						"CON_SMOKE";
@@ -51,6 +54,7 @@ public class GunConfig {
 	
 	/* FIELDS */
 	
+	public int index;
 	/** List of receivers used by the gun, primary and secondary are usually indices 0 and 1 respectively, if applicable */
 	protected Receiver[] receivers_DNA;
 	protected float durability_DNA;
@@ -59,6 +63,8 @@ public class GunConfig {
 	protected boolean inspectCancel_DNA = true;
 	protected Crosshair crosshair_DNA;
 	protected boolean hideCrosshair_DNA = true;
+	protected boolean thermalSights_DNA = false;
+	protected boolean reloadRequiresTypeChange_DNA = false;
 	protected boolean reloadAnimationsSequential_DNA;
 	protected ResourceLocation scopeTexture_DNA;
 	/** Handles smoke clientside */
@@ -83,42 +89,46 @@ public class GunConfig {
 	
 	/* GETTERS */
 
-	public Receiver[] getReceivers(ItemStack stack) {								return WeaponUpgradeManager.eval(receivers_DNA, stack, O_RECEIVERS, this); }
-	public float getDurability(ItemStack stack) {									return WeaponUpgradeManager.eval(durability_DNA, stack, F_DURABILITY, this); }
-	public int getDrawDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
-	public int getInspectDuration(ItemStack stack) {								return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
-	public boolean getInspectCancel(ItemStack stack) {								return WeaponUpgradeManager.eval(inspectCancel_DNA, stack, I_INSPECTCANCEL, this); }
-	public Crosshair getCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
-	public boolean getHideCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(hideCrosshair_DNA, stack, B_HIDECROSSHAIR, this); }
-	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
-	public ResourceLocation getScopeTexture(ItemStack stack) {						return WeaponUpgradeManager.eval(scopeTexture_DNA, stack, O_SCOPETEXTURE, this); }
-	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponUpgradeManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this); }
-	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {		return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
+	public Receiver[] getReceivers(ItemStack stack) {								return WeaponModManager.eval(receivers_DNA, stack, O_RECEIVERS, this, this.index); }
+	public float getDurability(ItemStack stack) {									return WeaponModManager.eval(durability_DNA, stack, F_DURABILITY, this, this.index); }
+	public int getDrawDuration(ItemStack stack) {									return WeaponModManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this, this.index); }
+	public int getInspectDuration(ItemStack stack) {								return WeaponModManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this, this.index); }
+	public boolean getInspectCancel(ItemStack stack) {								return WeaponModManager.eval(inspectCancel_DNA, stack, I_INSPECTCANCEL, this, this.index); }
+	public Crosshair getCrosshair(ItemStack stack) {								return WeaponModManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this, this.index); }
+	public boolean getHideCrosshair(ItemStack stack) {								return WeaponModManager.eval(hideCrosshair_DNA, stack, B_HIDECROSSHAIR, this, this.index); }
+	public boolean hasThermalSights(ItemStack stack) {								return WeaponModManager.eval(thermalSights_DNA, stack, B_THERMALSIGHTS, this, this.index); }
+	public boolean getReloadChangesType(ItemStack stack) {							return WeaponModManager.eval(reloadRequiresTypeChange_DNA, stack, B_RELOADREQUIRESTYPECHANGE, this, this.index); }
+	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponModManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this, this.index); }
+	public ResourceLocation getScopeTexture(ItemStack stack) {						return WeaponModManager.eval(scopeTexture_DNA, stack, O_SCOPETEXTURE, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponModManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {		return WeaponModManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this, this.index); }
 
-	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onPressPrimary_DNA, stack, CON_ONPRESSPRIMARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onPressSecondary_DNA, stack, CON_ONPRESSSECONDARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getPressTertiary(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onPressTertiary_DNA, stack, CON_ONPRESSTERTIARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getPressReload(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onPressReload_DNA, stack, CON_ONPRESSRELOAD, this); }
+	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return WeaponModManager.eval(this.onPressPrimary_DNA, stack, CON_ONPRESSPRIMARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return WeaponModManager.eval(this.onPressSecondary_DNA, stack, CON_ONPRESSSECONDARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getPressTertiary(ItemStack stack) {		return WeaponModManager.eval(this.onPressTertiary_DNA, stack, CON_ONPRESSTERTIARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getPressReload(ItemStack stack) {		return WeaponModManager.eval(this.onPressReload_DNA, stack, CON_ONPRESSRELOAD, this, this.index); }
 
-	public BiConsumer<ItemStack, LambdaContext> getReleasePrimary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onReleasePrimary_DNA, stack, CON_ONRELEASEPRIMARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getReleaseSecondary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onReleaseSecondary_DNA, stack, CON_ONRELEASESECONDARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getReleaseTertiary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onReleaseTertiary_DNA, stack, CON_ONRELEASETERTIARY, this); }
-	public BiConsumer<ItemStack, LambdaContext> getReleaseReload(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onReleaseReload_DNA, stack, CON_ONRELEASERELOAD, this); }
+	public BiConsumer<ItemStack, LambdaContext> getReleasePrimary(ItemStack stack) {	return WeaponModManager.eval(this.onReleasePrimary_DNA, stack, CON_ONRELEASEPRIMARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseSecondary(ItemStack stack) {	return WeaponModManager.eval(this.onReleaseSecondary_DNA, stack, CON_ONRELEASESECONDARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseTertiary(ItemStack stack) {	return WeaponModManager.eval(this.onReleaseTertiary_DNA, stack, CON_ONRELEASETERTIARY, this, this.index); }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseReload(ItemStack stack) {		return WeaponModManager.eval(this.onReleaseReload_DNA, stack, CON_ONRELEASERELOAD, this, this.index); }
 	
-	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return WeaponUpgradeManager.eval(this.decider_DNA, stack, CON_DECIDER, this); }
+	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return WeaponModManager.eval(this.decider_DNA, stack, CON_DECIDER, this, this.index); }
 	
-	public BiFunction<ItemStack, AnimType, BusAnimation> getAnims(ItemStack stack) {	return WeaponUpgradeManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this); }
-	public IHUDComponent[] getHUDComponents(ItemStack stack) {							return WeaponUpgradeManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this); }
+	public BiFunction<ItemStack, AnimType, BusAnimation> getAnims(ItemStack stack) {	return WeaponModManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this, this.index); }
+	public IHUDComponent[] getHUDComponents(ItemStack stack) {							return WeaponModManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this, this.index); }
 	
 	/* SETTERS */
 	
-	public GunConfig rec(Receiver... receivers) {			this.receivers_DNA = receivers; return this; }
+	public GunConfig rec(Receiver... receivers) {			this.receivers_DNA = receivers; for(Receiver r : receivers_DNA) r.parent = this; return this; }
 	public GunConfig dura(float dura) {						this.durability_DNA = dura; return this; }
 	public GunConfig draw(int draw) {						this.drawDuration_DNA = draw; return this; }
 	public GunConfig inspect(int inspect) {					this.inspectDuration_DNA = inspect; return this; }
 	public GunConfig inspectCancel(boolean flag) {			this.inspectCancel_DNA = flag; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {		this.crosshair_DNA = crosshair; return this; }
 	public GunConfig hideCrosshair(boolean flag) {			this.hideCrosshair_DNA = flag; return this; }
+	public GunConfig thermalSights(boolean flag) {			this.thermalSights_DNA = flag; return this; }
+	public GunConfig reloadChangeType(boolean flag) {		this.reloadRequiresTypeChange_DNA = flag; return this; }
 	public GunConfig reloadSequential(boolean flag) {		this.reloadAnimationsSequential_DNA = flag; return this; }
 	public GunConfig scopeTexture(ResourceLocation tex) {	this.scopeTexture_DNA = tex; return this; }
 

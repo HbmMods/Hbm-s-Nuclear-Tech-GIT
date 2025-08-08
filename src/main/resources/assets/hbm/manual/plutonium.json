@@ -1,0 +1,11 @@
+{
+	"name": "Plutonium",
+	"icon": ["hbm:item.ingot_plutonium", 1, 0],
+    "trigger": [["hbm:item.ingot_plutonium"], ["hbm:item.billet_plutonium"], ["hbm:item.nugget_plutonium"], ["hbm:item.powder_plutonium"]],
+    "title": {
+        "en_US": "Plutonium"
+    },
+	"content": {
+		"en_US": "Rare form of impure plutonium, composed of plutonium-238, 239 and 240. Plutonium in ore form is disabled by default. May be processed in a [[gas centrifuge|Gas Centrifuge]] in hexafluoride form, or used for certain [[cyclotron|Cyclotron]] recipes.<br><br>Moderately radioactive.<br><br>See also:<br>[[Plutonium-238]]<br>[[Plutonium-239]]<br>[[Plutonium-240]]<br>[[Plutonium-241]]"
+	}
+}

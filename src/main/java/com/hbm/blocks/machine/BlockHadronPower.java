@@ -6,7 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.tileentity.machine.TileEntityHadronPower;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

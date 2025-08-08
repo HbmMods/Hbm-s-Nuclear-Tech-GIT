@@ -86,7 +86,8 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			};
 		} else {
 			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord, Library.NEG_Y)
 			};
 		}
 	}

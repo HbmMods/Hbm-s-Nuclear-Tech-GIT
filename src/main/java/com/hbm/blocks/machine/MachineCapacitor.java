@@ -13,11 +13,12 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -149,7 +150,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		player.addExhaustion(0.025F);
 	}
 
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT {
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, IRORValueProvider {
 
 		public long power;
 		protected long maxPower;
@@ -298,6 +299,21 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			super.writeToNBT(nbt);
 			nbt.setLong("power", power);
 			nbt.setLong("maxPower", maxPower);
+		}
+
+		@Override
+		public String[] getFunctionInfo() {
+			return new String[] {
+					PREFIX_VALUE + "fill",
+					PREFIX_VALUE + "fillpercent",
+			};
+		}
+
+		@Override
+		public String provideRORValue(String name) {
+			if((PREFIX_VALUE + "fill").equals(name))		return "" + this.power;
+			if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.power * 100 / this.maxPower;
+			return null;
 		}
 	}
 }

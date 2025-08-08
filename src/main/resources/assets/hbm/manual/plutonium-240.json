@@ -1,0 +1,11 @@
+{
+	"name": "Plutonium-240",
+	"icon": ["hbm:item.billet_pu240", 1, 0],
+    "trigger": [["hbm:item.ingot_pu240"], ["hbm:item.billet_pu240"], ["hbm:item.nugget_pu240"]],
+    "title": {
+        "en_US": "Plutonium-240"
+    },
+	"content": {
+		"en_US": "Non-fissile isotope found in [[plutonium|Plutonium]] and [[reactor-grade plutonium|Reactor-Grade-Plutonium]]. Only useful when manually making reactor-grade plutonium from [[plutonium-239|Plutonium-239]] or inspecialized [[zirconium|Zirconium]] fast breeder rods for making [[plutonium-241|Plutonium-241]] in the [[RBMK]]."
+	}
+}

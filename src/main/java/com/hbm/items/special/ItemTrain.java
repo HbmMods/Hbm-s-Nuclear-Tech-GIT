@@ -8,13 +8,11 @@ import com.hbm.blocks.rail.IRailNTM.RailCheckType;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.entity.train.TrainCargoTramTrailer;
-import com.hbm.entity.train.TrainTunnelBore;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -25,7 +23,7 @@ public class ItemTrain extends ItemEnumMulti {
 
 	public ItemTrain() {
 		super(EnumTrainType.class, true, true);
-		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setCreativeTab(null);//CreativeTabs.tabTransport);
 		this.setMaxStackSize(1);
 	}
 	
@@ -45,8 +43,7 @@ public class ItemTrain extends ItemEnumMulti {
 		
 		//                                              Engine          Gauge               Max Speed   Accel.      Eng. Brake  Parking Brake
 		CARGO_TRAM(TrainCargoTram.class, 				"Electric",		"Standard Gauge",	"10m/s",	"0.2m/s²",	"<1m/s",	"Yes"),
-		CARGO_TRAM_TRAILER(TrainCargoTramTrailer.class,	null,			"Standard Gauge",	"Yes",		null,		null,		"No"),
-		TUNNEL_BORE(TrainTunnelBore.class, 				"NONE",			"Standard Gauge",	"10m/s",	"0.2m/s²",	"<1m/s",	"Yes");
+		CARGO_TRAM_TRAILER(TrainCargoTramTrailer.class,	null,			"Standard Gauge",	"Yes",		null,		null,		"No");
 		
 		public Class<? extends EntityRailCarBase> train;
 		public String engine;

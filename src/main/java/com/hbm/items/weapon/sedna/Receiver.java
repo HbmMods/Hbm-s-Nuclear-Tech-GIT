@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
@@ -22,7 +23,11 @@ public class Receiver {
 	public static final String I_DELAYAFTERFIRE =			"I_DELAYAFTERFIRE";
 	public static final String I_DELAYAFTERDRYFIRE =		"I_DELAYAFTERDRYFIRE";
 	public static final String I_ROUNDSPERCYCLE =			"I_ROUNDSPERCYCLE";
-	public static final String F_SPREADMOD =				"F_SPREADMOD";
+	public static final String F_SPLITPROJECTILES =			"F_SPLITPROJECTILES";
+	public static final String F_SPREADINNATE =				"F_SPREADINNATE";
+	public static final String F_SPREADAMMO =				"F_SPREADAMMO";
+	public static final String F_SPREADHIPFIRE =			"F_SPREADHIPFIRE";
+	public static final String F_SPREADDURABILITY =			"F_SPREADDURABILITY";
 	public static final String B_REFIREONHOLD =				"B_REFIREONHOLD";
 	public static final String B_REFIREAFTERDRY =			"B_REFIREAFTERDRY";
 	public static final String B_DOESDRYFIRE =				"B_DOESDRYFIRE";
@@ -50,11 +55,16 @@ public class Receiver {
 	}
 	
 	protected int index;
+	protected GunConfig parent;
 	protected float baseDamage_DNA;
 	protected int delayAfterFire_DNA;
 	protected int delayAfterDryFire_DNA;
 	protected int roundsPerCycle_DNA = 1;
-	protected float spreadModExtra_DNA = 0F;
+	protected float splitProjectiles_DNA = 1;
+	protected float spreadInnate_DNA = 0F;
+	protected float spreadMultAmmo_DNA = 1F;
+	protected float spreadPenaltyHipfire_DNA = 0.025F;
+	protected float spreadDurability_DNA = 0.125F;
 	protected boolean refireOnHold_DNA = false;
 	protected boolean refireAfterDry_DNA = false;
 	protected boolean doesDryFire_DNA = true;
@@ -78,40 +88,48 @@ public class Receiver {
 	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
 	
 	/* GETTERS */
-	public float getBaseDamage(ItemStack stack) {				return WeaponUpgradeManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this); }
-	public int getDelayAfterFire(ItemStack stack) {				return WeaponUpgradeManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this); }
-	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this); }
-	public int getRoundsPerCycle(ItemStack stack) {				return WeaponUpgradeManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this); }
-	public float getGunSpread(ItemStack stack) {				return WeaponUpgradeManager.eval(this.spreadModExtra_DNA, stack, F_SPREADMOD, this); }
-	public boolean getRefireOnHold(ItemStack stack) {			return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
-	public boolean getRefireAfterDry(ItemStack stack) {			return WeaponUpgradeManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this); }
-	public boolean getDoesDryFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this); }
-	public boolean getDoesDryFireAfterAuto(ItemStack stack) {	return WeaponUpgradeManager.eval(this.doesDryFireAfterAuto_DNA, stack, B_DOESDRYFIREAFTERAUTO, this); }
-	public boolean getEjectOnFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this); }
-	public boolean getReloadOnEmpty(ItemStack stack) {			return WeaponUpgradeManager.eval(this.reloadOnEmpty_DNA, stack, B_RELOADONEMPTY, this); }
-	public int getReloadBeginDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this); }
-	public int getReloadCycleDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this); }
-	public int getReloadEndDuration(ItemStack stack) {			return WeaponUpgradeManager.eval(this.reloadEndDuration_DNA, stack, I_RELOADENDDURATION, this); }
-	public int getReloadCockOnEmptyPre(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadCockOnEmptyPre_DNA, stack, I_RELOADCOCKONEMPTYPRE, this); }
-	public int getReloadCockOnEmptyPost(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadCockOnEmptyPost_DNA, stack, I_RELOADCOCKONEMPTYPOST, this); }
-	public int getJamDuration(ItemStack stack) {				return WeaponUpgradeManager.eval(this.jamDuration_DNA, stack, I_JAMDURATION, this); }
-	public String getFireSound(ItemStack stack) {				return WeaponUpgradeManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this); }
-	public float getFireVolume(ItemStack stack) {				return WeaponUpgradeManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this); }
-	public float getFirePitch(ItemStack stack) {				return WeaponUpgradeManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this); }
-	public IMagazine getMagazine(ItemStack stack) {				return WeaponUpgradeManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this); }
-	public Vec3 getProjectileOffset(ItemStack stack) {			return WeaponUpgradeManager.eval(this.projectileOffset_DNA, stack, O_PROJECTILEOFFSET, this); }
-	public Vec3 getProjectileOffsetScoped(ItemStack stack) {	return WeaponUpgradeManager.eval(this.projectileOffsetScoped_DNA, stack, O_PROJECTILEOFFSETSCOPED, this); }
+	public float getBaseDamage(ItemStack stack) {				return WeaponModManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this, parent.index); }
+	public int getDelayAfterFire(ItemStack stack) {				return WeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
+	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
+	public int getRoundsPerCycle(ItemStack stack) {				return WeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }
+	public float getSplitProjectiles(ItemStack stack) {			return WeaponModManager.eval(this.splitProjectiles_DNA, stack, F_SPLITPROJECTILES, this, parent.index); }
+	public float getInnateSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPREADINNATE, this, parent.index); }
+	public float getAmmoSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this, parent.index); }
+	public float getHipfireSpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this, parent.index); }
+	public float getDurabilitySpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadDurability_DNA, stack, F_SPREADDURABILITY, this, parent.index); }
+	public boolean getRefireOnHold(ItemStack stack) {			return WeaponModManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this, parent.index); }
+	public boolean getRefireAfterDry(ItemStack stack) {			return WeaponModManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this, parent.index); }
+	public boolean getDoesDryFire(ItemStack stack) {			return WeaponModManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this, parent.index); }
+	public boolean getDoesDryFireAfterAuto(ItemStack stack) {	return WeaponModManager.eval(this.doesDryFireAfterAuto_DNA, stack, B_DOESDRYFIREAFTERAUTO, this, parent.index); }
+	public boolean getEjectOnFire(ItemStack stack) {			return WeaponModManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this, parent.index); }
+	public boolean getReloadOnEmpty(ItemStack stack) {			return WeaponModManager.eval(this.reloadOnEmpty_DNA, stack, B_RELOADONEMPTY, this, parent.index); }
+	public int getReloadBeginDuration(ItemStack stack) {		return WeaponModManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this, parent.index); }
+	public int getReloadCycleDuration(ItemStack stack) {		return WeaponModManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this, parent.index); }
+	public int getReloadEndDuration(ItemStack stack) {			return WeaponModManager.eval(this.reloadEndDuration_DNA, stack, I_RELOADENDDURATION, this, parent.index); }
+	public int getReloadCockOnEmptyPre(ItemStack stack) {		return WeaponModManager.eval(this.reloadCockOnEmptyPre_DNA, stack, I_RELOADCOCKONEMPTYPRE, this, parent.index); }
+	public int getReloadCockOnEmptyPost(ItemStack stack) {		return WeaponModManager.eval(this.reloadCockOnEmptyPost_DNA, stack, I_RELOADCOCKONEMPTYPOST, this, parent.index); }
+	public int getJamDuration(ItemStack stack) {				return WeaponModManager.eval(this.jamDuration_DNA, stack, I_JAMDURATION, this, parent.index); }
+	public String getFireSound(ItemStack stack) {				return WeaponModManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this, parent.index); }
+	public float getFireVolume(ItemStack stack) {				return WeaponModManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this, parent.index); }
+	public float getFirePitch(ItemStack stack) {				return WeaponModManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this, parent.index); }
+	public IMagazine getMagazine(ItemStack stack) {				return WeaponModManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this, parent.index); }
+	public Vec3 getProjectileOffset(ItemStack stack) {			return WeaponModManager.eval(this.projectileOffset_DNA, stack, O_PROJECTILEOFFSET, this, parent.index); }
+	public Vec3 getProjectileOffsetScoped(ItemStack stack) {	return WeaponModManager.eval(this.projectileOffsetScoped_DNA, stack, O_PROJECTILEOFFSETSCOPED, this, parent.index); }
 	
-	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this); }
-	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this); }
-	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this); }
+	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponModManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this, parent.index); }
+	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponModManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this, parent.index); }
+	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return WeaponModManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this, parent.index); }
 
 	/* SETTERS */
 	public Receiver dmg(float dmg) {								this.baseDamage_DNA = dmg;											return this; }
 	public Receiver delay(int delay) {								this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;		return this; }
 	public Receiver dry(int delay) {								this.delayAfterDryFire_DNA = delay;									return this; }
 	public Receiver rounds(int rounds) {							this.roundsPerCycle_DNA = rounds;									return this; }
-	public Receiver spread(float spread) {							this.spreadModExtra_DNA = spread;									return this; }
+	public Receiver split(float rounds) {							this.splitProjectiles_DNA = rounds;									return this; }
+	public Receiver spread(float spread) {							this.spreadInnate_DNA = spread;										return this; }
+	public Receiver spreadAmmo(float spread) {						this.spreadMultAmmo_DNA = spread;									return this; }
+	public Receiver spreadHipfire(float spread) {					this.spreadPenaltyHipfire_DNA = spread;								return this; }
+	public Receiver spreadDurability(float spread) {				this.spreadDurability_DNA = spread;									return this; }
 	public Receiver auto(boolean auto) {							this.refireOnHold_DNA = auto;										return this; }
 	public Receiver autoAfterDry(boolean auto) {					this.refireAfterDry_DNA = auto;										return this; }
 	public Receiver dryfire(boolean dryfire) {						this.doesDryFire_DNA = dryfire;										return this; }

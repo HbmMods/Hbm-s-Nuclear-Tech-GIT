@@ -11,7 +11,7 @@ import com.hbm.items.tool.ItemGuideBook.GuideImage;
 import com.hbm.items.tool.ItemGuideBook.GuidePage;
 import com.hbm.items.tool.ItemGuideBook.GuideText;
 import com.hbm.lib.RefStrings;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

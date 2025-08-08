@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ public class GUIScreenClayTablet extends GuiScreen {
 	protected int ySize = 84;
 	protected int guiLeft;
 	protected int guiTop;
+	protected int tabletMeta = 0;
 	
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/guide_pedestal.png");
 	
@@ -49,29 +51,36 @@ public class GUIScreenClayTablet extends GuiScreen {
 
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		
-		if(player.getHeldItem() != null && player.getHeldItem().hasTagCompound() && player.getHeldItem().stackTagCompound.hasKey("tabletSeed") && !PedestalRecipes.recipes.isEmpty()) {
-			Random rand = new Random(player.getHeldItem().stackTagCompound.getLong("tabletSeed"));
-			PedestalRecipe recipe = PedestalRecipes.recipes.get(rand.nextInt(PedestalRecipes.recipes.size()));
+		if(player.getHeldItem() != null) tabletMeta = player.getHeldItem().getItemDamage();
+		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
-			if(recipe.extra == recipe.extra.FULL_MOON) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142, 32, 16, 16);
-			if(recipe.extra == recipe.extra.NEW_MOON) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142, 48, 16, 16);
-			if(recipe.extra == recipe.extra.SUN) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142, 64, 16, 16);
+		int tabletOffset = tabletMeta == 1 ? 84 : 0;
+		int iconOffset = tabletMeta == 1 ? 16 : 0;
+		float revealChance = tabletMeta == 1 ? 0.25F : 0.5F;
+		drawTexturedModalRect(guiLeft, guiTop, 0,  tabletOffset, xSize, ySize);
+		
+		ArrayList<PedestalRecipe> recipeSet = PedestalRecipes.recipeSets[Math.abs(tabletMeta) % PedestalRecipes.recipeSets.length];
+		
+		if(player.getHeldItem() != null && player.getHeldItem().hasTagCompound() && player.getHeldItem().stackTagCompound.hasKey("tabletSeed") && !recipeSet.isEmpty()) {
+			Random rand = new Random(player.getHeldItem().stackTagCompound.getLong("tabletSeed"));
+			PedestalRecipe recipe = recipeSet.get(rand.nextInt(recipeSet.size()));
+
+			if(recipe.extra == recipe.extra.FULL_MOON) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142 + iconOffset, 32, 16, 16);
+			if(recipe.extra == recipe.extra.NEW_MOON) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142 + iconOffset, 48, 16, 16);
+			if(recipe.extra == recipe.extra.SUN) drawTexturedModalRect(guiLeft + 120, guiTop + 62, 142 + iconOffset, 64, 16, 16);
 			
 			for(int l = 0; l < 3; l++) {
 				for(int r = 0; r < 3; r++) {
-					if(rand.nextBoolean()) {
-						drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142, 16, 16, 16);
+					if(rand.nextFloat() > revealChance) {
+						drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142 + iconOffset, 16, 16, 16);
 					} else {
 						
 						AStack ingredient = recipe.input[r + l * 3];
 						
 						if(ingredient == null) {
-							drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142, 0, 16, 16);
+							drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142 + iconOffset, 0, 16, 16);
 							continue;
 						}
 						
@@ -124,7 +133,7 @@ public class GUIScreenClayTablet extends GuiScreen {
 			
 			for(int l = 0; l < 3; l++) {
 				for(int r = 0; r < 3; r++) {
-					drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142, 16, 16, 16);
+					drawTexturedModalRect(guiLeft + 7 + r * 27, guiTop + 7 + l * 27, 142 + iconOffset, 16, 16, 16);
 				}
 			}
 		}

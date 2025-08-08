@@ -10,6 +10,7 @@ import com.hbm.interfaces.Untested;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -47,8 +48,8 @@ public class RenderScreenOverlay {
 
 		radiation = lastResult - prevResult;
 
-		if(System.currentTimeMillis() >= lastSurvey + 1000) {
-			lastSurvey = System.currentTimeMillis();
+		if(Clock.get_ms() >= lastSurvey + 1000) {
+			lastSurvey = Clock.get_ms();
 			prevResult = lastResult;
 			lastResult = in;
 		}

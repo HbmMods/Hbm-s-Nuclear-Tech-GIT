@@ -65,13 +65,11 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
 	public void networkPackNT(int range) {
-		if(worldObj.isRemote) {
-			return;
-		}
+		if(worldObj.isRemote) return;
 
 		BufPacket packet = new BufPacket(xCoord, yCoord, zCoord, this);
 
-		ByteBuf preBuf = packet.getPreBuf();
+		ByteBuf preBuf = packet.getCompiledBuffer();
 
 		// Don't send unnecessary packets, except for maybe one every second or so.
 		// If we stop sending duplicate packets entirely, this causes issues when
@@ -80,9 +78,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		// In my testing, this can be reliably reproduced with a full fluid barrel, for instance.
 		// I think it might be fixable by doing something with getDescriptionPacket() and onDataPacket(),
 		// but this sidesteps the problem for the mean time.
-		if (preBuf.equals(lastPackedBuf) && this.worldObj.getWorldTime() % 20 != 0) {
-			return;
-		}
+		if(preBuf.equals(lastPackedBuf) && this.worldObj.getTotalWorldTime() % 20 != 0) return;
 
 		this.lastPackedBuf = preBuf.copy();
 

@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityMovingItem extends EntityMovingConveyorObject implements IConveyorItem {
+	
+	public EntityItem cacheForRender = null;
 
 	public EntityMovingItem(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -68,6 +70,23 @@ public class EntityMovingItem extends EntityMovingConveyorObject implements ICon
 	}
 
 	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		
+		if(worldObj.isRemote) {
+			ItemStack item = this.getItemStack();
+			//initial cache creation
+			if(this.cacheForRender == null) {
+				cacheForRender = new EntityItem(worldObj, 0, 0, 0, item);
+			}
+			//if the cache is no longer relevant, update
+			if(!ItemStack.areItemStacksEqual(cacheForRender.getEntityItem(), item)) {
+				cacheForRender.setEntityItemStack(item);
+			}
+		}
+	}
+
+	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 
 		NBTTagCompound compound = nbt.getCompoundTag("Item");
@@ -88,6 +107,7 @@ public class EntityMovingItem extends EntityMovingConveyorObject implements ICon
 
 	@Override
 	public void enterBlock(IEnterableBlock enterable, BlockPos pos, ForgeDirection dir) {
+		if(this.isDead) return;
 		
 		if(enterable.canItemEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this)) {
 			enterable.onItemEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this);

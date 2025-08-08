@@ -7,7 +7,6 @@ import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.logic.EntityExplosionChunkloading;
-import com.hbm.saveddata.AuxSavedData;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.BiomeGenCraterBase;
 
@@ -19,7 +18,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
@@ -107,17 +105,6 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 			}
 
 			tickDelay--;
-
-			if(this.isDead) {
-				if(BombConfig.rain > 0 && getScale() > 150) {
-					WorldInfo info = worldObj.getWorldInfo();
-					info.setRaining(true);
-					info.setThundering(true);
-					info.setRainTime(BombConfig.rain);
-					info.setThunderTime(BombConfig.rain);
-					AuxSavedData.setThunder(worldObj, BombConfig.rain);
-				}
-			}
 		}
 	}
 	

@@ -3,11 +3,11 @@ package com.hbm.blocks.network;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.gui.GUIScreenRadioTorch;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
@@ -45,16 +45,11 @@ public abstract class RadioTorchRWBase extends RadioTorchBase {
 		}
 	}
 
-	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
-
-		if(te instanceof TileEntityRadioTorchBase)
-			return new GUIScreenRadioTorch((TileEntityRadioTorchBase) te);
-
+		if(te instanceof TileEntityRadioTorchBase) return new GUIScreenRadioTorch((TileEntityRadioTorchBase) te);
 		return null;
 	}
 }

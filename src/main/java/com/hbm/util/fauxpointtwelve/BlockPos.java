@@ -36,6 +36,10 @@ public class BlockPos implements Cloneable {
 		return this;
 	}
 	
+	public boolean compare(int x, int y, int z) {
+		return this.x == x && this.y == y && this.z == z;
+	}
+	
 	public BlockPos add(int x, int y, int z) {
 		return x == 0 && y == 0 && z == 0 ? this : new BlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
 	}
@@ -81,7 +85,11 @@ public class BlockPos implements Cloneable {
 	/** modified 1.12 vanilla implementation */
 	@Override
 	public int hashCode() {
-		return (this.getY() + this.getZ() * 27644437) * 27644437 + this.getX();
+		return getIdentity(this.getX(), this.getY(), this.getZ());
+	}
+	
+	public static int getIdentity(int x, int y, int z) {
+		return (y + z * 27644437) * 27644437 + x;
 	}
 
 	@Override

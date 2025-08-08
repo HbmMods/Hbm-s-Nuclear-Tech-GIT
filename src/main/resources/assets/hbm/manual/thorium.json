@@ -1,0 +1,11 @@
+{
+	"name": "Thorium-232",
+	"icon": ["hbm:item.billet_th232", 1, 0],
+    "trigger": [["hbm:item.ingot_th232"], ["hbm:item.billet_th232"], ["hbm:item.nugget_th232"], ["hbm:item.powder_thorium"]],
+    "title": {
+        "en_US": "Thorium-232"
+    },
+	"content": {
+		"en_US": "Fertile (i.e. can be bred) isotope which yields [[uranium-233|Uranium-233]]. Can either be irradiated in an [[RBMK]] to produce [[thorium fuel|Thorium Fuel]] or combined with uranium-233. Thorium-derived fuels are generally cost-effective but not very powerful. Also usable in [[liquid thorium salt|Liquid Thorium Salt]], a powerful [[PWR]] coolant (turning it into a molten salt reactor) which yields tons of uranium-233 quickly.<br><br>Slightly radioactive."
+	}
+}

@@ -2,8 +2,10 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -13,7 +15,9 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
@@ -22,7 +26,10 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class XFactory9mm {
@@ -34,13 +41,13 @@ public class XFactory9mm {
 
 	public static void init() {
 		SpentCasing casing9 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(1F, 1F, 0.75F);
-		p9_sp = new BulletConfig().setItem(EnumAmmo.P9_SP)
+		p9_sp = new BulletConfig().setItem(EnumAmmo.P9_SP).setCasing(EnumCasingType.SMALL, 12)
 				.setCasing(casing9.clone().register("p9"));
-		p9_fmj = new BulletConfig().setItem(EnumAmmo.P9_FMJ).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F)
+		p9_fmj = new BulletConfig().setItem(EnumAmmo.P9_FMJ).setCasing(EnumCasingType.SMALL, 12).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F)
 				.setCasing(casing9.clone().register("p9fmj"));
-		p9_jhp = new BulletConfig().setItem(EnumAmmo.P9_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
+		p9_jhp = new BulletConfig().setItem(EnumAmmo.P9_JHP).setCasing(EnumCasingType.SMALL, 12).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing9.clone().register("p9jhp"));
-		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(5F).setArmorPiercing(0.15F)
+		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setCasing(EnumCasingType.SMALL_STEEL, 12).setDoesPenetrate(true).setDamageFalloffByPen(false).setDamage(1.25F).setThresholdNegation(5F).setArmorPiercing(0.15F)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9ap"));
 
 		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
@@ -52,7 +59,8 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_GREASEGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_GREASEGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_GREASEGUN)
-				).setUnlocalizedName("gun_greasegun");
+				).setNameMutator(LAMBDA_NAME_GREASEGUN)
+				.setUnlocalizedName("gun_greasegun");
 
 		ModItems.gun_lag = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(1_700).draw(7).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
@@ -60,7 +68,7 @@ public class XFactory9mm {
 						.dmg(25F).delay(4).dry(10).spread(0.005F).reload(53).jam(44).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(LAMBDA_RECOIL_LAG))
+						.setupStandardFire().fire(LAMBDA_FIRE_LAG).recoil(LAMBDA_RECOIL_LAG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LAG_ANIMS).orchestra(Orchestras.ORCHESTRA_LAG)
 				).setUnlocalizedName("gun_lag");
@@ -74,11 +82,12 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI)
-				).setUnlocalizedName("gun_uzi");
+				).setNameMutator(LAMBDA_NAME_UZI)
+				.setUnlocalizedName("gun_uzi");
 		ModItems.gun_uzi_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(3F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
+						.dmg(3F).spreadHipfire(0F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, 0.375D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
@@ -87,7 +96,7 @@ public class XFactory9mm {
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI_AKIMBO),
 				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(3F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
+						.dmg(3F).spreadHipfire(0F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(1, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.375D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
@@ -96,6 +105,16 @@ public class XFactory9mm {
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI_AKIMBO)
 				).setUnlocalizedName("gun_uzi_akimbo");
 	}
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_GREASEGUN = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_GREASEGUN_CLEAN)) return stack.getUnlocalizedName() + "_m3";
+		return null;
+	};
+	
+	public static Function<ItemStack, String> LAMBDA_NAME_UZI = (stack) -> {
+		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER)) return stack.getUnlocalizedName() + "_richter";
+		return null;
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_GREASEGUN = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(2, (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5));
@@ -116,6 +135,27 @@ public class XFactory9mm {
 		GunStateDecider.deciderStandardClearJam(stack, lastState, index);
 		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
 		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getSecondary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE_LAG = (stack, ctx) -> {
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		EntityPlayer player = ctx.getPlayer();
+		if(player != null && type == AnimType.INSPECT && timer > 20 && timer < 60) {
+			int index = ctx.configIndex;
+			Receiver primary = ctx.config.getReceivers(stack)[0];
+			IMagazine mag = primary.getMagazine(stack);
+			BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
+			player.addStat(MainRegistry.statBullets, 1);
+			mag.useUpAmmo(stack, ctx.inventory, 1);
+			ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, primary.getFireSound(stack), primary.getFireVolume(stack), primary.getFirePitch(stack));
+			ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
+			ItemGunBaseNT.setTimer(stack, index, primary.getDelayAfterFire(stack));
+			EntityDamageUtil.attackEntityFromNT(player, BulletConfig.getDamage(player, player, DamageClass.PHYSICAL), 1_000F, true, false, 1D, 5F, 0F);
+		} else {
+			Lego.doStandardFire(stack, ctx, AnimType.CYCLE, true);
+		}
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

@@ -121,6 +121,19 @@ public class ItemRenderHangman extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public void setupEntity(ItemStack stack) {
+		double scale = 0.0625D;
+		GL11.glScaled(scale, scale, scale);
+	}
+
+	@Override
+	public void setupModTable(ItemStack stack) {
+		double scale = -2.5D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, 1, 0);
+	}
+
+	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		

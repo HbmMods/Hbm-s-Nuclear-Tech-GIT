@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
@@ -24,13 +25,12 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecip
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.*;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -66,6 +66,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public MaterialStack leftStack;
 	public MaterialStack rightStack;
 	public int maxMaterial = MaterialShapes.BLOCK.q(16);
+	
+	private int lastSelectedGUI = 0;
 
 	public FluidTank[] tanks;
 
@@ -180,7 +182,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 
 					if(this.leftStack.amount <= 0) this.leftStack = null;
 				}
@@ -203,7 +205,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 					data.setFloat("off", 0.625F);
 					data.setFloat("base", 0.625F);
 					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
 
 					if(this.rightStack.amount <= 0) this.rightStack = null;
 				}
@@ -248,6 +250,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			buf.writeInt(rightStack.material.id);
 			buf.writeInt(rightStack.amount);
 		}
+		buf.writeInt(lastSelectedGUI);
 	}
 
 	@Override
@@ -269,6 +272,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(right) {
 			this.rightStack = new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt());
 		}
+		this.lastSelectedGUI = buf.readInt();
 	}
 
 	public boolean canProcessFluid() {
@@ -423,6 +427,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
 		else this.rightStack = null;
 		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
+		this.lastSelectedGUI = nbt.getInteger("lastSelectedGUI");
 	}
 
 	@Override
@@ -443,7 +448,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			nbt.setInteger("rightAmount", rightStack.amount);
 		}
 		for(int i = 0; i < 4; i++) tanks[i].writeToNBT(nbt, "t" + i);
-
+		nbt.setInteger("lastSelectedGUI", this.lastSelectedGUI);
 	}
 
 	AxisAlignedBB bb = null;
@@ -503,6 +508,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(ID == -1) ID = lastSelectedGUI;
 		if(ID == 0) return new ContainerElectrolyserFluid(player.inventory, this);
 		return new ContainerElectrolyserMetal(player.inventory, this);
 	}
@@ -510,6 +516,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(ID == -1) ID = lastSelectedGUI;
 		if(ID == 0) return new GUIElectrolyserFluid(player.inventory, this);
 		return new GUIElectrolyserMetal(player.inventory, this);
 	}
@@ -520,8 +527,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
-		if(data.hasKey("sgm")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, worldObj, xCoord, yCoord, zCoord);
-		if(data.hasKey("sgf")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, worldObj, xCoord, yCoord, zCoord);
+		if(data.hasKey("sgm")) lastSelectedGUI = 1;
+		if(data.hasKey("sgf")) lastSelectedGUI = 0;
+
+		FMLNetworkHandler.openGui(player, MainRegistry.instance, lastSelectedGUI, worldObj, xCoord, yCoord, zCoord);
 	}
 
 	@Override

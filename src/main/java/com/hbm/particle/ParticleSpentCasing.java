@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +21,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -49,8 +51,10 @@ public class ParticleSpentCasing extends EntityFX {
 		this.momentumPitch = momentumPitch;
 		this.momentumYaw = momentumYaw;
 		this.config = config;
-
+		
 		this.particleMaxAge = config.getMaxAge();
+		this.setSize(2 * dScale * Math.max(config.getScaleX(), config.getScaleZ()), dScale * config.getScaleY());
+		this.yOffset = this.height / 2F;
 		
 		this.isSmoking = smoking;
 		this.maxSmokeGen = smokeLife;
@@ -85,26 +89,20 @@ public class ParticleSpentCasing extends EntityFX {
 		}
 
 		this.motionY -= 0.04D * (double) this.particleGravity;
-		double prevMotionY = this.motionY;
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		this.motionX *= 0.98D;
 		this.motionY *= 0.98D;
 		this.motionZ *= 0.98D;
-
+		
 		if(this.onGround) {
 			this.motionX *= 0.7D;
 			this.motionZ *= 0.7D;
-		}
-
-		if(onGround) {
-			this.onGround = false;
-			motionY = prevMotionY * -0.5;
-			this.rotationPitch = 0;
-			//momentumPitch = (float) rand.nextGaussian() * config.getBouncePitch();
-			//momentumYaw = (float) rand.nextGaussian() * config.getBounceYaw();
 			
+			this.rotationPitch = (float) (Math.floor(this.rotationPitch / 180F + 0.5F)) * 180F;
+			this.momentumYaw *= 0.7F;
+			this.onGround = false;
 		}
-
+		
 		if(particleAge > maxSmokeGen && !smokeNodes.isEmpty())
 			smokeNodes.clear();
 
@@ -124,16 +122,100 @@ public class ParticleSpentCasing extends EntityFX {
 				smokeNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), smokeNodes.isEmpty() ? 0.0D : 1D));
 			}
 		}
-
+		
 		prevRotationPitch = rotationPitch;
 		prevRotationYaw = rotationYaw;
-
-		if(onGround) {
-			rotationPitch = 0;
-		} else {
-			rotationPitch += momentumPitch;
-			rotationYaw += momentumYaw;
+		
+		rotationPitch += momentumPitch;
+		rotationYaw += momentumYaw;
+	}
+	
+	public void moveEntity(double motionX, double motionY, double motionZ) {
+		this.worldObj.theProfiler.startSection("move");
+		this.ySize *= 0.4F;
+		
+		if (this.isInWeb) {
+			this.isInWeb = false;
+			motionX *= 0.25D;
+			motionY *= 0.05000000074505806D;
+			motionZ *= 0.25D;
+			this.motionX = 0.0D;
+			this.motionY = 0.0D;
+			this.motionZ = 0.0D;
 		}
+		
+		//Handle block collision
+		double initMoX = motionX;
+		double initMoY = motionY;
+		double initMoZ = motionZ;
+		
+		List list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(motionX, motionY, motionZ));
+		
+		for (int i = 0; i < list.size(); ++i) {
+			motionY = ((AxisAlignedBB)list.get(i)).calculateYOffset(this.boundingBox, motionY);
+		}
+		
+		this.boundingBox.offset(0.0D, motionY, 0.0D);
+		
+		int j;
+		
+		for (j = 0; j < list.size(); ++j) {
+			motionX = ((AxisAlignedBB)list.get(j)).calculateXOffset(this.boundingBox, motionX);
+		}
+		
+		this.boundingBox.offset(motionX, 0.0D, 0.0D);
+		
+		for (j = 0; j < list.size(); ++j) {
+			motionZ = ((AxisAlignedBB)list.get(j)).calculateZOffset(this.boundingBox, motionZ);
+		}
+		
+		this.boundingBox.offset(0.0D, 0.0D, motionZ);
+		
+		this.worldObj.theProfiler.endSection();
+		this.worldObj.theProfiler.startSection("rest");
+		this.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
+		this.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;
+		this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
+		this.isCollidedHorizontally = initMoX != motionX || initMoZ != motionZ;
+		this.isCollidedVertically = initMoY != motionY;
+		this.onGround = initMoY != motionY && initMoY < 0.0D;
+		this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
+		this.updateFallState(motionY, this.onGround);
+		
+		//Handles bounces
+		if (initMoX != motionX) {
+			this.motionX *= -0.25D;
+			
+			if(Math.abs(momentumYaw) > 1e-7)
+				momentumYaw *= -0.75F;
+			else
+				momentumYaw = (float) rand.nextGaussian() * 10F * this.config.getBounceYaw();
+		}
+		
+		if (initMoY != motionY) {
+			this.motionY *= -0.5D;
+			
+			boolean rotFromSpeed = Math.abs(this.motionY) > 0.04;
+			if(rotFromSpeed || Math.abs(momentumPitch) > 1e-7) {
+				momentumPitch *= -0.75F;
+				if(rotFromSpeed) {
+					float mult = (float) BobMathUtil.safeClamp(initMoY / 0.2F, -1F, 1F);
+					momentumPitch += rand.nextGaussian() * 10F * this.config.getBouncePitch() * mult;
+					momentumYaw += (float) rand.nextGaussian() * 10F * this.config.getBounceYaw() * mult;
+				}
+			}
+		}
+		
+		if (initMoZ != motionZ) {
+			this.motionZ *= -0.25D;
+			
+			if(Math.abs(momentumYaw) > 1e-7)
+				momentumYaw *= -0.75F;
+			else
+				momentumYaw = (float) rand.nextGaussian() * 10F * this.config.getBounceYaw();
+		}
+		
+		this.worldObj.theProfiler.endSection();
 	}
 
 	/** Used for frame-perfect translation of smoke */

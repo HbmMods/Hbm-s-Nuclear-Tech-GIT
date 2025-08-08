@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
+import com.hbm.world.gen.INBTTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -16,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockPipe extends Block implements ITooltipProvider {
+public class BlockPipe extends Block implements ITooltipProvider, INBTTransformable {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon sideIcon;
@@ -24,7 +25,7 @@ public class BlockPipe extends Block implements ITooltipProvider {
 	public IIcon frameIcon;
 	@SideOnly(Side.CLIENT)
 	public IIcon meshIcon;
-	
+
 	private String sideString;
 	public int rType = 0; //because registering either new renderer classes or making new block classes is a pain in the ass
 
@@ -33,7 +34,7 @@ public class BlockPipe extends Block implements ITooltipProvider {
 		this.sideString = tex;
 		this.rType = rType;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -42,7 +43,7 @@ public class BlockPipe extends Block implements ITooltipProvider {
 		this.frameIcon = iconRegister.registerIcon(RefStrings.MODID + ":pipe_frame");
 		this.meshIcon = iconRegister.registerIcon(RefStrings.MODID + ":pipe_mesh");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
@@ -92,4 +93,10 @@ public class BlockPipe extends Block implements ITooltipProvider {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		list.add("Purely decorative");
 	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaPillar(meta, coordBaseMode);
+	}
+
 }

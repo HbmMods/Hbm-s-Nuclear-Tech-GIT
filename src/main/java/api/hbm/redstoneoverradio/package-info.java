@@ -32,7 +32,7 @@ INDEX includes:
   optionally returning a value
 
 On the implementation side we can expect:
-- ROR readers, torches which have a list of named values which are read, as well as frequencies on which these values are boradcasted
+- ROR readers, torches which have a list of named values which are read, as well as frequencies on which these values are broadcasted
 - ROR controllers, torches which have one frequency and can receive commands with parameters which will be executed on the component
 - ROR programmers, torches which have a list of frequencies and return frequencies which can receive commands with parameters and
   then send the return value on the return frequency
@@ -42,5 +42,8 @@ On the implementation side we can expect:
 ROR programmers can indeed do everything that the readers and controllers can, but their added complexity requires more GUI elements
 which are more time-consuming to set up and limits the amount of command channels available, hence why readers and controllers exist
 when only a simple solution is required
+
+Addendum: While the RTTY system can support any arbitrary object as a signal, INDEX will strictly use strings, since that simplifies
+things regarding serialization and saving signals to NBT. Counters already use a parse to int32 function, so this still checks out.
 
 */

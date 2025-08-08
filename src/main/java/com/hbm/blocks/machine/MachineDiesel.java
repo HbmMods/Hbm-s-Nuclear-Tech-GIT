@@ -29,20 +29,9 @@ public class MachineDiesel extends BlockMachineBase implements ITooltipProvider 
 		return new TileEntityMachineDiesel();
 	}
 	
-	@Override
-	public int getRenderType(){
-		return -1;
-	}
-	
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType(){ return -1; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 	
 	@Override
 	@SideOnly(Side.CLIENT)

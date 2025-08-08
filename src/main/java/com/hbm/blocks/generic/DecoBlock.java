@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
+import com.hbm.world.gen.INBTTransformable;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -24,8 +25,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class DecoBlock extends BlockContainer implements IToolable {
-	
+public class DecoBlock extends BlockContainer implements IToolable, INBTTransformable {
+
 	Random rand = new Random();
 
 	public DecoBlock(Material p_i45386_1_) {
@@ -36,7 +37,7 @@ public class DecoBlock extends BlockContainer implements IToolable {
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		if(tool != ToolType.SCREWDRIVER) return false;
 		if(this != ModBlocks.steel_wall && this != ModBlocks.steel_corner) return false;
-		
+
 		int meta = world.getBlockMetadata(x, y, z);
 
 		if(!player.isSneaking()) {
@@ -50,7 +51,7 @@ public class DecoBlock extends BlockContainer implements IToolable {
 			else if(meta == 2) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
 			else if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
 		}
-		
+
 		return true;
 	}
 
@@ -65,7 +66,7 @@ public class DecoBlock extends BlockContainer implements IToolable {
 	public static int renderIDBeam = RenderingRegistry.getNextAvailableRenderId();
 	public static int renderIDWall = RenderingRegistry.getNextAvailableRenderId();
 	public static int renderIDCorner = RenderingRegistry.getNextAvailableRenderId();
-	
+
 	@Override
 	public int getRenderType(){
 		if(this == ModBlocks.steel_wall) return renderIDWall;
@@ -73,32 +74,32 @@ public class DecoBlock extends BlockContainer implements IToolable {
 		if(this == ModBlocks.steel_beam) return renderIDBeam;
 		return -1;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
 		return Item.getItemFromBlock(this);
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
+
 		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 	}
-	
+
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		int te = world.getBlockMetadata(x, y, z);
@@ -141,14 +142,14 @@ public class DecoBlock extends BlockContainer implements IToolable {
 		this.setBlockBoundsBasedOnState(world, x, y, z);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
-	
+
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity collider) {
-		
+
 		if(this == ModBlocks.steel_corner) {
 			int meta = world.getBlockMetadata(x, y, z);
 			List<AxisAlignedBB> bbs = new ArrayList();
-			
+
 			switch(meta) {
 			case 2:
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.25D, y + 0D, z + 0.875D, x + 1D, y + 1D, z + 1D));
@@ -171,7 +172,7 @@ public class DecoBlock extends BlockContainer implements IToolable {
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.25D, y + 0D, z + 0D, x + 1D, y + 1D, z + 0.125D));
 				break;
 			}
-			
+
 			for(AxisAlignedBB bb : bbs) {
 				if(aabb.intersectsWith(bb)) {
 					list.add(bb);
@@ -180,5 +181,10 @@ public class DecoBlock extends BlockContainer implements IToolable {
 		} else {
 			super.addCollisionBoxesToList(world, x, y, z, aabb, list, collider);
 		}
+	}
+
+	@Override
+	public int transformMeta(int meta, int coordBaseMode) {
+		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 }

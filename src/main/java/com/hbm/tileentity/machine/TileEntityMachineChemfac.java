@@ -18,8 +18,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,6 +33,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase implements IUpgradeInfoProvider, IFluidCopiable {
 
 	float rotSpeed;
@@ -81,7 +82,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 
 			for(DirPos pos : getConPos()) for(FluidTank tank : outTanks()) {
 				if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-					this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(tank, worldObj, pos);
 				}
 			}
 

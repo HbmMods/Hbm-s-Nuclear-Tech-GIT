@@ -5,9 +5,6 @@ import net.minecraftforge.common.config.Property;
 
 public class WeaponConfig {
 	
-	public static int radarRange = 1000;
-	public static int radarBuffer = 30;
-	public static int radarAltitude = 55;
 	public static int ciwsHitrate = 50;
 
 	public static boolean dropCell = true;
@@ -21,18 +18,9 @@ public class WeaponConfig {
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_MISSILE = CommonConfig.CATEGORY_MISSILE;
-		Property propRadarRange = config.get(CATEGORY_MISSILE, "7.00_radarRange", 1000);
-		propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
-		radarRange = propRadarRange.getInt();
-		Property propRadarBuffer = config.get(CATEGORY_MISSILE, "7.01_radarBuffer", 30);
-		propRadarBuffer.comment = "How high entities have to be above the radar to be detected";
-		radarBuffer = propRadarBuffer.getInt();
-		Property propRadarAltitude = config.get(CATEGORY_MISSILE, "7.02_radarAltitude", 55);
-		propRadarAltitude.comment = "Y height required for the radar to work";
-		radarAltitude = propRadarAltitude.getInt();
 		Property propCiwsHitrate = config.get(CATEGORY_MISSILE, "7.03_ciwsAccuracy", 50);
 		propCiwsHitrate.comment = "Additional modifier for CIWS accuracy";
-		ciwsHitrate = propRadarAltitude.getInt();
+		ciwsHitrate = propCiwsHitrate.getInt();
 
 		final String CATEGORY_DROPS = CommonConfig.CATEGORY_DROPS;
 		dropCell = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.00_dropCell", "Whether antimatter cells should explode when dropped", true);

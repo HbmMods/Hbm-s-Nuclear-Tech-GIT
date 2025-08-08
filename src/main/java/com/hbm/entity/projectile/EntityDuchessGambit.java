@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -26,7 +26,7 @@ public class EntityDuchessGambit extends EntityThrowable {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 
@@ -34,7 +34,7 @@ public class EntityDuchessGambit extends EntityThrowable {
 			for(int i = 0; i < 50; i++) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "bf");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
 						posX + (rand.nextDouble() - 0.5) * 5,
 						posY + (rand.nextDouble() - 0.5) * 7,
 						posZ + (rand.nextDouble() - 0.5) * 20),
@@ -47,7 +47,7 @@ public class EntityDuchessGambit extends EntityThrowable {
 		this.lastTickPosY = this.prevPosY = posY;
 		this.lastTickPosZ = this.prevPosZ = posZ;
 		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
-		
+
 		this.motionY -= 0.03;
 		if(motionY < -1.5)
 			motionY = -1.5;
@@ -81,9 +81,9 @@ public class EntityDuchessGambit extends EntityThrowable {
 
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
-		
+
 	}
-	
+
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)

@@ -16,7 +16,7 @@ import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -134,7 +134,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			
 			int index = ((mouseX - bX - guiLeft) / size + (mouseY - bY - guiTop) / size * 15);
 			
-			if(index > 0 && index < selection.length && console.columns[index] != null) {
+			if(index >= 0 && index < selection.length && console.columns[index] != null) {
 				this.selection[index] = !this.selection[index];
 				
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.75F + (this.selection[index] ? 0.25F : 0.0F)));
@@ -366,6 +366,10 @@ public class GUIRBMKConsole extends GuiScreen {
 					int fe = (int)Math.ceil((col.data.getDouble("enrichment")) * 8);
 					if(fe > 8) fe = 8;
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + size - fe - 1, 14, 191 - fe, 2, fe);
+					
+					int fx = (int)Math.ceil((col.data.getDouble("xenon")) * 8 / 100);
+					if(fx > 8) fx = 8;
+					drawTexturedModalRect(guiLeft + x + 7, guiTop + y + size - fx - 1, 17, 191 - fx, 2, fx);
 				}
 				break;
 				

@@ -10,9 +10,9 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -29,14 +29,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityGlyphidNuclear extends EntityGlyphid {
-	
+
 	public int deathTicks;
 	public EntityGlyphidNuclear(World world) {
 		super(world);
 		this.setSize(2.5F, 1.75F);
 		this.isImmuneToFire = true;
 	}
-	
+
 	@Override
 	public ResourceLocation getSkin() {
 		return ResourceManager.glyphid_nuclear_tex;
@@ -54,7 +54,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getNuclear().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getNuclear().damage);
 	}
-	
+
 	public StatBundle getStats() {
 		return GlyphidStats.getStats().statsNuclear;
 	}
@@ -120,7 +120,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 			communicate(TASK_INITIATE_RETREAT, null);
 			hasWaypoint = true;
 		}
-		
+
 		if(deathTicks == 90){
 			int radius = 8;
 			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX, this.posY, this.posZ).expand(radius, radius, radius);
@@ -134,7 +134,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 			}
 		}
 		if(this.deathTicks == 100) {
-			
+
 			if(!worldObj.isRemote) {
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
 
@@ -154,22 +154,22 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 					vnt.setBlockAllocator(new BlockAllocatorStandard(24));
 					vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
 				}
-				
+
 				vnt.setEntityProcessor(new EntityProcessorStandard());
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
 
 				worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
-	
+
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "muke");
 				// if the FX type is "muke", apply random BF effect
 				if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) {
 					data.setBoolean("balefire", true);
 				}
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 			}
-			
+
 			this.setDead();
 		} else {
 			if(!worldObj.isRemote && this.deathTicks % 10 == 0) {

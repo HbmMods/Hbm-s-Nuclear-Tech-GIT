@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
@@ -22,9 +21,11 @@ import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectableNT;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -161,7 +162,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	}
 
 	@Override
-	public void onImpact() { //TODO: demolish this steaming pile of shit
+	public void onMissileImpact(MovingObjectPosition mop) { //TODO: demolish this steaming pile of shit
 
 		ItemCustomMissilePart part = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
 
@@ -190,7 +191,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		case NUCLEAR:
 		case TX:
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int) strength, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, strength);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, strength);
 			break;
 		case BALEFIRE:
 			EntityBalefire bf = new EntityBalefire(worldObj);
@@ -203,7 +204,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 			break;
 		case N2:
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
-			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, strength);
+			EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, strength);
 			break;
 		case TAINT:
 			int r = (int) strength;
@@ -211,14 +212,15 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 				int a = rand.nextInt(r) + (int) posX - (r / 2 - 1);
 				int b = rand.nextInt(r) + (int) posY - (r / 2 - 1);
 				int c = rand.nextInt(r) + (int) posZ - (r / 2 - 1);
-				if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) {
+				Block block = worldObj.getBlock(a, b, c);
+				if(block.isNormalCube() && !block.isAir(worldObj, a, b, c)) {
 					worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
 				}
 			}
 			break;
 		case CLOUD:
 			this.worldObj.playAuxSFX(2002, (int) Math.round(this.posX), (int) Math.round(this.posY), (int) Math.round(this.posZ), 0);
-			ExplosionChaos.spawnChlorine(worldObj, posX - motionX, posY - motionY, posZ - motionZ, 750, 2.5, 2);
+			ExplosionChaos.spawnPoisonCloud(worldObj, posX - motionX, posY - motionY, posZ - motionZ, 750, 2.5, 2);
 			break;
 		case TURBINE:
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 10, true, false, true);

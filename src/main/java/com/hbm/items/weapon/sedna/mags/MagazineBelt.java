@@ -3,6 +3,8 @@ package com.hbm.items.weapon.sedna.mags;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemAmmoBag.InventoryAmmoBag;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.particle.SpentCasing;
@@ -13,7 +15,7 @@ import net.minecraft.item.ItemStack;
 
 public class MagazineBelt implements IMagazine<BulletConfig> {
 
-	protected List<BulletConfig> acceptedBullets = new ArrayList();
+	public List<BulletConfig> acceptedBullets = new ArrayList();
 	
 	public MagazineBelt addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
 
@@ -28,6 +30,8 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 
 	@Override
 	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount) {
+		if(inventory == null) return;
+		if(!IMagazine.shouldUseUpTrenchie(inventory)) return;
 		
 		BulletConfig first = this.getFirstConfig(stack, inventory);
 		
@@ -39,6 +43,26 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 					int toRemove = Math.min(slot.stackSize, amount);
 					amount -= toRemove;
 					inventory.decrStackSize(i, toRemove);
+					IMagazine.handleAmmoBag(inventory, first, toRemove);
+					if(amount <= 0) return;
+				}
+
+				boolean infBag = slot.getItem() == ModItems.ammo_bag_infinite;
+				if(slot.getItem() == ModItems.ammo_bag || infBag) {
+					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
+					for(int j = 0; j < bag.getSizeInventory(); j++) {
+						ItemStack bagslot = bag.getStackInSlot(j);
+						
+						if(bagslot != null) {
+							if(first.ammo.matchesRecipe(bagslot, true)) {
+								int toRemove = Math.min(bagslot.stackSize, amount);
+								amount -= toRemove;
+								if(!infBag) bag.decrStackSize(j, toRemove);
+								IMagazine.handleAmmoBag(inventory, first, toRemove);
+								if(amount <= 0) return;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -48,6 +72,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 	@Override public int getCapacity(ItemStack stack) { return 0; }
 	@Override public void setAmount(ItemStack stack, int amount) { }
 	@Override public boolean canReload(ItemStack stack, IInventory inventory) { return false; }
+	@Override public void initNewType(ItemStack stack, IInventory inventory) { }
 	@Override public void reloadAction(ItemStack stack, IInventory inventory) { }
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { }
 	@Override public int getAmountBeforeReload(ItemStack stack) { return 0; }
@@ -56,6 +81,7 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 
 	@Override
 	public int getAmount(ItemStack stack, IInventory inventory) {
+		if(inventory == null) return 1; // for EntityAIFireGun
 		BulletConfig first = this.getFirstConfig(stack, inventory);
 		int count = 0;
 		for(int i = 0; i < inventory.getSizeInventory(); i++) {
@@ -63,6 +89,21 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 			
 			if(slot != null) {
 				if(first.ammo.matchesRecipe(slot, true)) count += slot.stackSize;
+
+				boolean infBag = slot.getItem() == ModItems.ammo_bag_infinite;
+				if(slot.getItem() == ModItems.ammo_bag || infBag) {
+					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
+					for(int j = 0; j < bag.getSizeInventory(); j++) {
+						ItemStack bagslot = bag.getStackInSlot(j);
+						
+						if(bagslot != null) {
+							if(first.ammo.matchesRecipe(bagslot, true)) {
+								if(infBag) return 9_999;
+								count += bagslot.stackSize;
+							}
+						}
+					}
+				}
 			}
 		}
 		return count;
@@ -94,6 +135,19 @@ public class MagazineBelt implements IMagazine<BulletConfig> {
 			if(slot != null) {
 				for(BulletConfig config : this.acceptedBullets) {
 					if(config.ammo.matchesRecipe(slot, true)) return config;
+				}
+
+				if(slot.getItem() == ModItems.ammo_bag || slot.getItem() == ModItems.ammo_bag_infinite) {
+					InventoryAmmoBag bag = new InventoryAmmoBag(slot);
+					for(int j = 0; j < bag.getSizeInventory(); j++) {
+						ItemStack bagslot = bag.getStackInSlot(j);
+						
+						if(bagslot != null) {
+							for(BulletConfig config : this.acceptedBullets) {
+								if(config.ammo.matchesRecipe(bagslot, true)) return config;
+							}
+						}
+					}
 				}
 			}
 		}

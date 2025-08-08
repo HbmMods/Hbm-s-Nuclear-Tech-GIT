@@ -13,7 +13,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelT45Boots extends ModelBiped {
-	// fields
+
 	ModelRenderer leftleg;
 	ModelRenderer rightleg;
 	ModelRenderer Shape1;
@@ -22,61 +22,49 @@ public class ModelT45Boots extends ModelBiped {
 	ModelRenderer Shape4;
 
 	public ModelT45Boots() {
-		textureWidth = 64;
-		textureHeight = 32;
+		this.textureWidth = 64;
+		this.textureHeight = 32;
 
-		leftleg = new ModelRenderer(this, 0, 0);
-		rightleg = new ModelRenderer(this, 0, 0);
-		Shape1 = new ModelRenderer(this, 0, 0);
-		Shape1.addBox(0F, 0F, 0F, 4, 2, 6);
-		Shape1.setRotationPoint(-4F + 2, 0F + 9.5F, -4F);
-		Shape1.setTextureSize(64, 32);
-		Shape1.mirror = true;
-		setRotation(Shape1, 0F, 0F, 0F);
-		convertToChild(leftleg, Shape1);
-		Shape2 = new ModelRenderer(this, 0, 8);
-		Shape2.addBox(0F, 0F, 0F, 4, 2, 6);
-		Shape2.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
-		Shape2.setTextureSize(64, 32);
-		Shape2.mirror = true;
-		setRotation(Shape2, 0F, 0F, 0F);
-		convertToChild(rightleg, Shape2);
-		Shape3 = new ModelRenderer(this, 0, 16);
-		Shape3.addBox(0F, -1F, 0F, 4, 2, 4);
-		Shape3.setRotationPoint(-4F + 2, 0F + 9.5F, -4F);
-		Shape3.setTextureSize(64, 32);
-		Shape3.mirror = true;
-		setRotation(Shape3, 0.2617994F, 0F, 0F);
-		convertToChild(leftleg, Shape3);
-		Shape4 = new ModelRenderer(this, 0, 22);
-		Shape4.addBox(0F, -1F, 0F, 4, 2, 4);
-		Shape4.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
-		Shape4.setTextureSize(64, 32);
-		Shape4.mirror = true;
-		setRotation(Shape4, 0.2617994F, 0F, 0F);
-		convertToChild(rightleg, Shape4);
-	}
-
-	/*
-	 * public void render(Entity entity, float f, float f1, float f2, float f3,
-	 * float f4, float f5) { super.render(entity, f, f1, f2, f3, f4, f5);
-	 * setRotationAngles(f, f1, f2, f3, f4, f5); Shape1.render(f5);
-	 * Shape2.render(f5); Shape3.render(f5); Shape4.render(f5); }
-	 */
-
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+		this.leftleg = new ModelRenderer(this, 0, 0);
+		this.rightleg = new ModelRenderer(this, 0, 0);
+		this.Shape1 = new ModelRenderer(this, 0, 0);
+		this.Shape1.addBox(0F, 0F, 0F, 4, 2, 6);
+		this.Shape1.setRotationPoint(-4F + 2, 0F + 9.5F, -4F);
+		this.Shape1.setTextureSize(64, 32);
+		this.Shape1.mirror = true;
+		setRotation(this.Shape1, 0F, 0F, 0F);
+		convertToChild(this.leftleg, this.Shape1);
+		this.Shape2 = new ModelRenderer(this, 0, 8);
+		this.Shape2.addBox(0F, 0F, 0F, 4, 2, 6);
+		this.Shape2.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
+		this.Shape2.setTextureSize(64, 32);
+		this.Shape2.mirror = true;
+		setRotation(this.Shape2, 0F, 0F, 0F);
+		convertToChild(this.rightleg, this.Shape2);
+		this.Shape3 = new ModelRenderer(this, 0, 16);
+		this.Shape3.addBox(0F, -1F, 0F, 4, 2, 4);
+		this.Shape3.setRotationPoint(-4F + 2, 0F + 9.5F, -4F);
+		this.Shape3.setTextureSize(64, 32);
+		this.Shape3.mirror = true;
+		setRotation(this.Shape3, 0.2617994F, 0F, 0F);
+		convertToChild(this.leftleg, this.Shape3);
+		this.Shape4 = new ModelRenderer(this, 0, 22);
+		this.Shape4.addBox(0F, -1F, 0F, 4, 2, 4);
+		this.Shape4.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
+		this.Shape4.setTextureSize(64, 32);
+		this.Shape4.mirror = true;
+		setRotation(this.Shape4, 0.2617994F, 0F, 0F);
+		convertToChild(this.rightleg, this.Shape4);
 	}
 
 	@Override
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
 
 		this.isSneak = entity.isSneaking();
 		this.isRiding = entity.isRiding();
 
-		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
+
 		this.leftleg.rotationPointX = this.bipedLeftLeg.rotationPointX;
 		this.leftleg.rotationPointY = this.bipedLeftLeg.rotationPointY - 1.5F;
 		this.leftleg.rotationPointZ = this.bipedLeftLeg.rotationPointZ;
@@ -99,31 +87,40 @@ public class ModelT45Boots extends ModelBiped {
 	}
 
 	@Override
-	public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7) {
-		setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+
+		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
+
 		GL11.glPushMatrix();
 		GL11.glScalef(1.125F, 1.125F, 1.125F);
 		// this.leftleg.addChild(Shape1);
 		// this.leftleg.addChild(Shape3);
-		this.leftleg.render(par7);
+		this.leftleg.render(scaleFactor);
 
 		// this.rightleg.addChild(Shape2);
 		// this.rightleg.addChild(Shape4);
-		this.rightleg.render(par7);
+		this.rightleg.render(scaleFactor);
 		GL11.glPopMatrix();
 	}
 
-	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild) {
+	protected static void convertToChild(ModelRenderer parent, ModelRenderer child) {
+
 		// move child rotation point to be relative to parent
-		parChild.rotationPointX -= parParent.rotationPointX;
-		parChild.rotationPointY -= parParent.rotationPointY;
-		parChild.rotationPointZ -= parParent.rotationPointZ;
+		child.rotationPointX -= parent.rotationPointX;
+		child.rotationPointY -= parent.rotationPointY;
+		child.rotationPointZ -= parent.rotationPointZ;
 		// make rotations relative to parent
-		parChild.rotateAngleX -= parParent.rotateAngleX;
-		parChild.rotateAngleY -= parParent.rotateAngleY;
-		parChild.rotateAngleZ -= parParent.rotateAngleZ;
+		child.rotateAngleX -= parent.rotateAngleX;
+		child.rotateAngleY -= parent.rotateAngleY;
+		child.rotateAngleZ -= parent.rotateAngleZ;
 		// create relationship
-		parParent.addChild(parChild);
+		parent.addChild(child);
 	}
 
+	private static void setRotation(ModelRenderer model, float x, float y, float z) {
+
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 }

@@ -1,19 +1,18 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.storage.TileEntitySafe;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 //@invtweaks.api.container.ChestContainer(rowSize = 5)
 public class ContainerSafe extends Container {
 
-	private TileEntitySafe diFurnace;
+	private IInventory diFurnace;
 
-	public ContainerSafe(InventoryPlayer invPlayer, TileEntitySafe tedf) {
+	public ContainerSafe(InventoryPlayer invPlayer, IInventory tedf) {
 		diFurnace = tedf;
 
 		for(int i = 0; i < 3; i++) {

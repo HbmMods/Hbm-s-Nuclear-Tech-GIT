@@ -102,4 +102,5 @@ public class ItemEnumMulti extends Item {
 			return super.getUnlocalizedName(stack);
 		}
 	}
+	
 }

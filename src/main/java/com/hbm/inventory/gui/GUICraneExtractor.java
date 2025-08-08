@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.ModulePatternMatcher;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.network.TileEntityCraneExtractor;
@@ -41,16 +42,7 @@ public class GUICraneExtractor extends GuiInfoContainer {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
 				if(this.isMouseOverSlot(slot, x, y) && ejector.matcher.modes[i] != null) {
-					
-					String label = EnumChatFormatting.YELLOW + "";
-					
-					switch(ejector.matcher.modes[i]) {
-					case "exact": label += "Item and meta match"; break;
-					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + ejector.matcher.modes[i]; break;
-					}
-					
-					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", ModulePatternMatcher.getLabel(ejector.matcher.modes[i]) }), x, y - 30);
 				}
 			}
 		}

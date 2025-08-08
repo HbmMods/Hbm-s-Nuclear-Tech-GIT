@@ -3,7 +3,9 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -21,6 +23,7 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory10ga {
 
@@ -28,19 +31,27 @@ public class XFactory10ga {
 	public static BulletConfig g10_shrapnel;
 	public static BulletConfig g10_du;
 	public static BulletConfig g10_slug;
+	public static BulletConfig g10_explosive;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
+		Lego.tinyExplode(bullet, mop, 1.5F); bullet.setDead();
+	};
 
 	public static void init() {
-		
-		g10 = new BulletConfig().setItem(EnumAmmo.G10).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
-		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setProjectiles(10).setDamage(1F/10F).setSpread(0.05F).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
-		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setProjectiles(10).setDamage(1F/4F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
-		g10_slug = new BulletConfig().setItem(EnumAmmo.G10_SLUG).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.1F).setDoesPenetrate(true).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x808080, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GASlug"));
+
+		float buckshotSpread = 0.035F;
+		g10 = new BulletConfig().setItem(EnumAmmo.G10).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(buckshotSpread).setRicochetAngle(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GA"));
+		g10_shrapnel = new BulletConfig().setItem(EnumAmmo.G10_SHRAPNEL).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/10F).setSpread(buckshotSpread).setRicochetAngle(90).setRicochetCount(15).setThresholdNegation(5F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xE5DD00, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAShrapnel"));
+		g10_du = new BulletConfig().setItem(EnumAmmo.G10_DU).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setProjectiles(10).setDamage(1F/4F).setSpread(buckshotSpread).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.2F).setDoesPenetrate(true).setDamageFalloffByPen(false).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x538D53, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GADU"));
+		g10_slug = new BulletConfig().setItem(EnumAmmo.G10_SLUG).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setRicochetAngle(15).setThresholdNegation(10F).setArmorPiercing(0.1F).setDoesPenetrate(true).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x808080, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GASlug"));
+		g10_explosive = new BulletConfig().setItem(EnumAmmo.G10_EXPLOSIVE).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 4).setWear(3F).setProjectiles(10).setDamage(1F/4F).setSpread(buckshotSpread).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xFAC943, SpentCasing.COLOR_CASE_12GA).setScale(1F).register("10GAEXP")).setOnImpact(LAMBDA_TINY_EXPLODE);
 
 		ModItems.gun_double_barrel = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(1000).draw(10).inspect(39).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(30F).rounds(2).delay(10).reload(41).reloadOnEmpty(true).sound("hbm:weapon.fire.shotgun", 1.0F, 0.9F)
-						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug))
+						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug, g10_explosive))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
 				.setupStandardConfiguration()
@@ -49,13 +60,24 @@ public class XFactory10ga {
 		ModItems.gun_double_barrel_sacred_dragon = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(6000).draw(10).inspect(39).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(45F).rounds(2).delay(10).reload(41).reloadOnEmpty(true).sound("hbm:weapon.fire.shotgun", 1.0F, 0.9F)
-						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug))
+						.dmg(45F).spreadAmmo(1.35F).rounds(2).delay(10).reload(41).reloadOnEmpty(true).sound("hbm:weapon.fire.shotgun", 1.0F, 0.9F)
+						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug, g10_explosive))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_DOUBLE_BARREL_ANIMS).orchestra(Orchestras.ORCHESTRA_DOUBLE_BARREL)
 				).setUnlocalizedName("gun_double_barrel_sacred_dragon");
+
+		ModItems.gun_autoshotgun_heretic = new ItemGunBaseNT(WeaponQuality.DEBUG, new GunConfig()
+				.draw(20).inspect(65).reloadSequential(true).inspectCancel(false).crosshair(Crosshair.L_CIRCLE).hideCrosshair(false).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(100F).delay(3).auto(true).dryfireAfterAuto(true).reload(110).jam(19).sound("hbm:weapon.fire.shotgunAuto", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 250).addConfigs(g10, g10_shrapnel, g10_du, g10_slug, g10_explosive))
+						.offset(0.75, -0.125, -0.25)
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(XFactory12ga.LAMBDA_RECOIL_SEXY))
+				.setupStandardConfiguration()
+				.anim(XFactory12ga.LAMBDA_SEXY_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER_SEXY)
+				).setUnlocalizedName("gun_autoshotgun_heretic");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_DOUBLE_BARREL = (stack, ctx) -> {

@@ -6,19 +6,15 @@ import java.util.List;
 import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
-import com.hbm.inventory.recipes.ChemplantRecipes;
-import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
@@ -82,22 +78,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				}
 			}
 		}
-		
-		// Assembly Templates
-		for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
-			ComparableStack comp = AssemblerRecipes.recipeList.get(i);
-			AssemblerRecipe recipe = AssemblerRecipes.recipes.get(comp);
-			if(recipe != null && recipe.folders.contains(item)) {
-				allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
-			}
-		}
 
 		if(!this.isJournal) {
-			// Chemistry Templates
-			for(int i = 0; i < ChemplantRecipes.recipes.size(); i++) {
-				ChemRecipe chem = ChemplantRecipes.recipes.get(i);
-				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, chem.getId()));
-			}
 			
 			// Crucible Templates
 			for(int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
@@ -153,6 +135,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		return (int) Math.ceil((stacks.size() - 1) / (5 * 7));
 	}
 
+	@Override
 	public void updateScreen() {
 		if(currentPage < 0)
 			currentPage = 0;
@@ -160,6 +143,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			currentPage = getPageCount();
 	}
 
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
@@ -168,6 +152,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
+	@Override
 	public void initGui() {
 		super.initGui();
 		this.guiLeft = (this.width - this.xSize) / 2;
@@ -204,6 +189,26 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			buttons.add(new FolderButton(guiLeft + 25 + (27 * 4) + 18, guiTop + 26 + (27 * 3), 2, "Next"));
 	}
 
+	@Override
+	public void handleMouseInput() {
+		super.handleMouseInput();
+
+		if(Mouse.getEventButton() == -1) {
+			int scroll = Mouse.getEventDWheel();
+
+			if(scroll > 0) {
+				if(currentPage > 0)
+					currentPage--;
+				updateButtons();
+			} else if(scroll < 0) {
+				if(currentPage < getPageCount())
+					currentPage++;
+				updateButtons();
+			}
+		}
+	}
+
+	@Override
 	protected void mouseClicked(int i, int j, int k) {
 		
 		if(i >= guiLeft + 45 && i < guiLeft + 117 && j >= guiTop + 211 && j < guiTop + 223) {
@@ -251,6 +256,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		search.drawTextBox();
 	}
 
+	@Override
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
 		
 		if (this.search.textboxKeyTyped(p_73869_1_, p_73869_2_)) {

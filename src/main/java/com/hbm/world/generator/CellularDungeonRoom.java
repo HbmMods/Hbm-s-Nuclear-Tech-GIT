@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class CellularDungeonRoom {
 	
 	protected CellularDungeon parent;

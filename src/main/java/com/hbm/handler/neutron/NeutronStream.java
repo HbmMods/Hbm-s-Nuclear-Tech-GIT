@@ -1,9 +1,9 @@
 package com.hbm.handler.neutron;
 
+import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 
 import java.util.Iterator;
 
@@ -43,13 +43,8 @@ public abstract class NeutronStream {
 		this.fluxQuantity = flux;
 		this.fluxRatio = ratio;
 		this.type = type;
-		World worldObj = origin.tile.getWorldObj();
-		if (NeutronNodeWorld.streamWorlds.get(worldObj) == null) {
-			StreamWorld world = new StreamWorld();
-			world.addStream(this);
-			NeutronNodeWorld.streamWorlds.put(worldObj, world);
-		} else
-			NeutronNodeWorld.streamWorlds.get(worldObj).addStream(this);
+
+		NeutronNodeWorld.getOrAddWorld(origin.tile.getWorldObj()).addStream(this);
 	}
 
 	protected BlockPos posInstance;
@@ -78,5 +73,5 @@ public abstract class NeutronStream {
 		};
 	}
 
-	public abstract void runStreamInteraction(World worldObj);
+	public abstract void runStreamInteraction(World worldObj, StreamWorld streamWorld);
 }

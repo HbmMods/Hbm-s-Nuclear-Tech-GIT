@@ -4,9 +4,14 @@ import api.hbm.block.ICrucibleAcceptor;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluidmk2.IFluidConnectorMK2;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInfo;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
 import cpw.mods.fml.common.Loader;
@@ -26,7 +31,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -70,14 +75,17 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		return this;
 	}
 	
-	//fewer messy recursive operations
+	/** Returns the actual tile entity that represents the core. Only for internal use, and EnergyControl. */
 	public TileEntity getTile() {
-		
 		if(tile == null || tile.isInvalid()) {
 			tile = this.getTE();
 		}
-		
 		return tile;
+	}
+	
+	/** Returns the core tile entity, or a delegate object. */
+	protected Object getCoreObject() {
+		return getTile();
 	}
 
 	@Override
@@ -86,8 +94,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return;
 		
-		if(getTile() instanceof IEnergyReceiverMK2) {
-			((IEnergyReceiverMK2)getTile()).setPower(i);
+		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+			((IEnergyReceiverMK2)getCoreObject()).setPower(i);
 		}
 	}
 
@@ -97,8 +105,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyReceiverMK2) {
-			return ((IEnergyReceiverMK2)getTile()).getPower();
+		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getCoreObject()).getPower();
 		}
 		
 		return 0;
@@ -110,8 +118,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyReceiverMK2) {
-			return ((IEnergyReceiverMK2)getTile()).getMaxPower();
+		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getCoreObject()).getMaxPower();
 		}
 		
 		return 0;
@@ -123,8 +131,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!this.power)
 			return power;
 		
-		if(getTile() instanceof IEnergyReceiverMK2) {
-			return ((IEnergyReceiverMK2)getTile()).transferPower(power);
+		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getCoreObject()).transferPower(power);
 		}
 		
 		return power;
@@ -136,10 +144,57 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return false;
 		
-		if(getTile() instanceof IEnergyReceiverMK2) {
-			return ((IEnergyReceiverMK2)getTile()).canConnect(dir);
+		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getCoreObject()).canConnect(dir);
 		}
 		
+		return true;
+	}
+
+	public static final FluidTank[] EMPTY_TANKS = new FluidTank[0];
+	
+	@Override
+	public FluidTank[] getAllTanks() {
+		if(!fluid) return EMPTY_TANKS;
+		
+		if(getCoreObject() instanceof IFluidReceiverMK2) {
+			return ((IFluidReceiverMK2)getCoreObject()).getAllTanks();
+		}
+		
+		return EMPTY_TANKS;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, int pressure, long amount) {
+		if(!fluid) return amount;
+		
+		if(getCoreObject() instanceof IFluidReceiverMK2) {
+			return ((IFluidReceiverMK2)getCoreObject()).transferFluid(type, pressure, amount);
+		}
+		
+		return amount;
+	}
+
+	@Override
+	public long getDemand(FluidType type, int pressure) {
+		if(!fluid) return 0;
+		
+		if(getCoreObject() instanceof IFluidReceiverMK2) {
+			return ((IFluidReceiverMK2)getCoreObject()).getDemand(type, pressure);
+		}
+		
+		return 0;
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		
+		if(!this.fluid)
+			return false;
+		
+		if(getCoreObject() instanceof IFluidConnectorMK2) {
+			return ((IFluidConnectorMK2) getCoreObject()).canConnect(type, dir);
+		}
 		return true;
 	}
 
@@ -149,8 +204,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return 0;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getSizeInventory();
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).getSizeInventory();
 		}
 		
 		return 0;
@@ -162,8 +217,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return null;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getStackInSlot(slot);
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).getStackInSlot(slot);
 		}
 		
 		return null;
@@ -172,8 +227,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).decrStackSize(i, j);
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).decrStackSize(i, j);
 		}
 		
 		return null;
@@ -185,8 +240,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return null;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getStackInSlotOnClosing(slot);
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).getStackInSlotOnClosing(slot);
 		}
 		
 		return null;
@@ -198,8 +253,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return;
 		
-		if(getTile() instanceof ISidedInventory) {
-			((ISidedInventory)getTile()).setInventorySlotContents(slot, stack);
+		if(getCoreObject() instanceof ISidedInventory) {
+			((ISidedInventory)getCoreObject()).setInventorySlotContents(slot, stack);
 		}
 	}
 
@@ -209,8 +264,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return null;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getInventoryName();
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).getInventoryName();
 		}
 		
 		return null;
@@ -222,8 +277,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return false;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).hasCustomInventoryName();
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).hasCustomInventoryName();
 		}
 		
 		return false;
@@ -235,8 +290,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return 0;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).getInventoryStackLimit();
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).getInventoryStackLimit();
 		}
 		
 		return 0;
@@ -248,8 +303,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return false;
 		
-		if(getTile() instanceof ISidedInventory) {
-			return ((ISidedInventory)getTile()).isUseableByPlayer(player);
+		if(getCoreObject() instanceof ISidedInventory) {
+			return ((ISidedInventory)getCoreObject()).isUseableByPlayer(player);
 		}
 		
 		return false;
@@ -261,8 +316,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return;
 		
-		if(getTile() instanceof ISidedInventory) {
-			((ISidedInventory)getTile()).openInventory();
+		if(getCoreObject() instanceof ISidedInventory) {
+			((ISidedInventory)getCoreObject()).openInventory();
 		}
 	}
 
@@ -272,8 +327,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return;
 		
-		if(getTile() instanceof ISidedInventory) {
-			((ISidedInventory)getTile()).closeInventory();
+		if(getCoreObject() instanceof ISidedInventory) {
+			((ISidedInventory)getCoreObject()).closeInventory();
 		}
 	}
 
@@ -283,11 +338,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return false;
 		
-		if(getTile() instanceof ISidedInventory) {
+		if(getCoreObject() instanceof ISidedInventory) {
 			
-			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).isItemValidForSlot(xCoord, yCoord, zCoord, slot, stack);
+			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).isItemValidForSlot(xCoord, yCoord, zCoord, slot, stack);
 			
-			return ((ISidedInventory)getTile()).isItemValidForSlot(slot, stack);
+			return ((ISidedInventory)getCoreObject()).isItemValidForSlot(slot, stack);
 		}
 		
 		return false;
@@ -299,11 +354,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return new int[0];
 		
-		if(getTile() instanceof ISidedInventory) {
+		if(getCoreObject() instanceof ISidedInventory) {
 			
-			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).getAccessibleSlotsFromSide(xCoord, yCoord, zCoord, side);
+			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).getAccessibleSlotsFromSide(xCoord, yCoord, zCoord, side);
 			
-			return ((ISidedInventory)getTile()).getAccessibleSlotsFromSide(side);
+			return ((ISidedInventory)getCoreObject()).getAccessibleSlotsFromSide(side);
 		}
 		
 		return new int[0];
@@ -315,11 +370,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return false;
 		
-		if(getTile() instanceof ISidedInventory) {
+		if(getCoreObject() instanceof ISidedInventory) {
 			
-			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canInsertItem(xCoord, yCoord, zCoord, i, stack, j);
+			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canInsertItem(xCoord, yCoord, zCoord, i, stack, j);
 			
-			return ((ISidedInventory)getTile()).canInsertItem(i, stack, j);
+			return ((ISidedInventory)getCoreObject()).canInsertItem(i, stack, j);
 		}
 		
 		return false;
@@ -331,11 +386,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!inventory)
 			return false;
 		
-		if(getTile() instanceof ISidedInventory) {
+		if(getCoreObject() instanceof ISidedInventory) {
 			
-			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canExtractItem(xCoord, yCoord, zCoord, i, stack, j);
+			if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canExtractItem(xCoord, yCoord, zCoord, i, stack, j);
 			
-			return ((ISidedInventory)getTile()).canExtractItem(i, stack, j);
+			return ((ISidedInventory)getCoreObject()).canExtractItem(i, stack, j);
 		}
 		
 		return false;
@@ -369,49 +424,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public long transferFluid(FluidType type, int pressure, long fluid) {
-		
-		if(!this.fluid)
-			return fluid;
-		
-		if(getTile() instanceof IFluidConnector) {
-			return ((IFluidConnector)getTile()).transferFluid(type, pressure, fluid);
-		}
-		return fluid;
-	}
-
-	@Override
-	public long getDemand(FluidType type, int pressure) {
-		
-		if(!this.fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidConnector) {
-			return ((IFluidConnector)getTile()).getDemand(type, pressure);
-		}
-		return 0;
-	}
-	
-	@Override
-	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		
-		if(!this.fluid)
-			return false;
-		
-		if(getTile() instanceof IFluidConnector) {
-			return ((IFluidConnector)getTile()).canConnect(type, dir);
-		}
-		return true;
-	}
-
-	@Override
 	public int getHeatStored() {
 		
 		if(!this.heat)
 			return 0;
 		
-		if(getTile() instanceof IHeatSource) {
-			return ((IHeatSource)getTile()).getHeatStored();
+		if(getCoreObject() instanceof IHeatSource) {
+			return ((IHeatSource)getCoreObject()).getHeatStored();
 		}
 		
 		return 0;
@@ -423,39 +442,39 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!this.heat)
 			return;
 		
-		if(getTile() instanceof IHeatSource) {
-			((IHeatSource)getTile()).useUpHeat(heat);
+		if(getCoreObject() instanceof IHeatSource) {
+			((IHeatSource)getCoreObject()).useUpHeat(heat);
 		}
 	}
 
 	@Override
 	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.moltenMetal && getTile() instanceof ICrucibleAcceptor){
-			return ((ICrucibleAcceptor)getTile()).canAcceptPartialPour(world, x, y, z, dX, dY, dZ, side, stack);
+		if(this.moltenMetal && getCoreObject() instanceof ICrucibleAcceptor){
+			return ((ICrucibleAcceptor)getCoreObject()).canAcceptPartialPour(world, x, y, z, dX, dY, dZ, side, stack);
 		}
 		return false;
 	}
 
 	@Override
 	public Mats.MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.moltenMetal && getTile() instanceof ICrucibleAcceptor){
-			return ((ICrucibleAcceptor)getTile()).pour(world, x, y, z, dX, dY, dZ, side, stack);
+		if(this.moltenMetal && getCoreObject() instanceof ICrucibleAcceptor){
+			return ((ICrucibleAcceptor)getCoreObject()).pour(world, x, y, z, dX, dY, dZ, side, stack);
 		}
 		return null;
 	}
 
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.moltenMetal && getTile() instanceof ICrucibleAcceptor){
-			return ((ICrucibleAcceptor)getTile()).canAcceptPartialFlow(world, x, y, z, side, stack);
+		if(this.moltenMetal && getCoreObject() instanceof ICrucibleAcceptor){
+			return ((ICrucibleAcceptor)getCoreObject()).canAcceptPartialFlow(world, x, y, z, side, stack);
 		}
 		return false;
 	}
 
 	@Override
 	public Mats.MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.moltenMetal && getTile() instanceof ICrucibleAcceptor){
-			return ((ICrucibleAcceptor)getTile()).flow(world, x, y, z, side, stack);
+		if(this.moltenMetal && getCoreObject() instanceof ICrucibleAcceptor){
+			return ((ICrucibleAcceptor)getCoreObject()).flow(world, x, y, z, side, stack);
 		}
 		return null;
 	}
@@ -465,9 +484,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	public String getComponentName() {
 		if(this.worldObj == null) // OC is going too fast, grab from NBT!
 			return componentName;
-		if(this.getTile() instanceof OCComponent) {
+		if(this.getCoreObject() instanceof OCComponent) {
 			if (componentName == null || componentName.equals(OCComponent.super.getComponentName())) {
-				componentName = ((OCComponent) this.getTile()).getComponentName();
+				componentName = ((OCComponent) this.getCoreObject()).getComponentName();
 			}
 			return componentName;
 		}
@@ -477,26 +496,44 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public boolean canConnectNode(ForgeDirection side) {
-		if(this.getTile() instanceof OCComponent)
+		if(this.getCoreObject() instanceof OCComponent)
 			return (this.getBlockMetadata() >= 6 && this.getBlockMetadata() <= 11)
 					&& (power || fluid) &&
-					((OCComponent) this.getTile()).canConnectNode(side);
+					((OCComponent) this.getCoreObject()).canConnectNode(side);
 		return OCComponent.super.canConnectNode(null);
 	}
 
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
-		if(this.getTile() instanceof OCComponent)
-			return ((OCComponent) this.getTile()).methods();
+		if(this.getCoreObject() instanceof OCComponent)
+			return ((OCComponent) this.getCoreObject()).methods();
 		return OCComponent.super.methods();
 	}
 
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		if(this.getTile() instanceof OCComponent)
-			return ((OCComponent) this.getTile()).invoke(method, context, args);
+		if(this.getCoreObject() instanceof OCComponent)
+			return ((OCComponent) this.getCoreObject()).invoke(method, context, args);
 		return OCComponent.super.invoke(null, null, null);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		if(getCoreObject() instanceof IRORInfo) return ((IRORInfo) getCoreObject()).getFunctionInfo();
+		return new String[0];
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if(getCoreObject() instanceof IRORValueProvider) return ((IRORValueProvider) getCoreObject()).provideRORValue(name);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if(getCoreObject() instanceof IRORInteractive) return ((IRORInteractive) getCoreObject()).runRORFunction(name, params);
+		return null;
 	}
 }

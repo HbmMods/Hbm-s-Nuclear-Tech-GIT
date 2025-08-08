@@ -28,6 +28,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 	protected double nodeDist = 2D;
 	protected IEntityRangeMutator range;
 	protected ICustomDamageHandler damage;
+	protected double knockbackMult = 1D;
 	protected boolean allowSelfDamage = false;
 	
 	public EntityProcessorCross(double nodeDist) {
@@ -36,6 +37,11 @@ public class EntityProcessorCross implements IEntityProcessor {
 	
 	public EntityProcessorCross setAllowSelfDamage() {
 		this.allowSelfDamage = true;
+		return this;
+	}
+	
+	public EntityProcessorCross setKnockback(double mult) {
+		this.knockbackMult = mult;
 		return this;
 	}
 
@@ -73,7 +79,12 @@ public class EntityProcessorCross implements IEntityProcessor {
 		for(int index = 0; index < list.size(); ++index) {
 			
 			Entity entity = (Entity) list.get(index);
-			double distanceScaled = entity.getDistance(x, y, z) / size;
+			
+			double xDist = (entity.boundingBox.minX <= x && entity.boundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entity.boundingBox.minX - x), Math.abs(entity.boundingBox.maxX - x));
+			double yDist = (entity.boundingBox.minY <= y && entity.boundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entity.boundingBox.minY - y), Math.abs(entity.boundingBox.maxY - y));
+			double zDist = (entity.boundingBox.minZ <= z && entity.boundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entity.boundingBox.minZ - z), Math.abs(entity.boundingBox.maxZ - z));
+			double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+			double distanceScaled = dist / size;
 
 			if(distanceScaled <= 1.0D) {
 				
@@ -104,13 +115,13 @@ public class EntityProcessorCross implements IEntityProcessor {
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
 					if(!(entity instanceof EntityBulletBaseMK4)) {
-						entity.motionX += deltaX * enchKnockback;
-						entity.motionY += deltaY * enchKnockback;
-						entity.motionZ += deltaZ * enchKnockback;
+						entity.motionX += deltaX * enchKnockback * knockbackMult;
+						entity.motionY += deltaY * enchKnockback * knockbackMult;
+						entity.motionZ += deltaZ * enchKnockback * knockbackMult;
 					}
 
 					if(entity instanceof EntityPlayer) {
-						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
+						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
 					}
 				}
 			}
@@ -122,7 +133,11 @@ public class EntityProcessorCross implements IEntityProcessor {
 			attackEntity(entity, explosion, entry.getValue());
 			
 			if(damage != null) {
-				double distanceScaled = entity.getDistance(x, y, z) / size;
+				double xDist = (entity.boundingBox.minX <= x && entity.boundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entity.boundingBox.minX - x), Math.abs(entity.boundingBox.maxX - x));
+				double yDist = (entity.boundingBox.minY <= y && entity.boundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entity.boundingBox.minY - y), Math.abs(entity.boundingBox.maxY - y));
+				double zDist = (entity.boundingBox.minZ <= z && entity.boundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entity.boundingBox.minZ - z), Math.abs(entity.boundingBox.maxZ - z));
+				double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+				double distanceScaled = dist / size;
 				damage.handleAttack(explosion, entity, distanceScaled);
 			}
 		}

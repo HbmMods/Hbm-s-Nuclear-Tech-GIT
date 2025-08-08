@@ -3,11 +3,6 @@ package com.hbm.tileentity.network;
 import api.hbm.energymk2.Nodespace;
 
 public class TileEntityCableSwitch extends TileEntityCableBaseNT {
-	
-	@Override
-	public boolean canUpdate() {
-		return super.canUpdate();
-	}
 
 	public void updateState() {
 		

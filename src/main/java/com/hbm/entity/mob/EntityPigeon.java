@@ -7,8 +7,8 @@ import com.hbm.entity.mob.ai.EntityAIStartFlying;
 import com.hbm.entity.mob.ai.EntityAIStopFlying;
 import com.hbm.entity.mob.ai.EntityAISwimmingConditional;
 import com.hbm.entity.mob.ai.EntityAIWanderConditional;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.tool.ItemFertilizer;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -31,7 +31,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAnimals {
-	
+
 	public float fallTime;
 	public float dest;
 	public float prevDest;
@@ -50,16 +50,16 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 		this.setSize(0.5F, 1.0F);
 	}
-	
+
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		
+
 		if(amount >= this.getMaxHealth() * 2 && !worldObj.isRemote) {
 			this.setDead();
-			
+
 			for(int i = 0; i < 10; i++) {
 				Vec3 vec = Vec3.createVectorHelper(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian()).normalize();
-				
+
 				EntityItem feather = new EntityItem(worldObj);
 				feather.setEntityItemStack(new ItemStack(Items.feather));
 				feather.setPosition(posX + vec.xCoord, posY + height / 2D + vec.yCoord, posZ + vec.zCoord);
@@ -68,13 +68,13 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 				feather.motionZ = vec.zCoord * 0.5;
 				worldObj.spawnEntityInWorld(feather);
 			}
-			
+
 			return true;
 		}
-		
+
 		return super.attackEntityFrom(source, amount);
 	}
-	
+
 	@Override
 	public boolean isAIEnabled() {
 		return true;
@@ -91,7 +91,7 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 	protected Item getDropItem() {
 		return Items.feather;
 	}
-	
+
 	@Override
 	protected void func_145780_a(int x, int y, int z, Block block) {
 		this.playSound("mob.chicken.step", 0.15F, 1.0F);
@@ -121,15 +121,15 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 	public void setFlyingState(int state) {
 		this.dataWatcher.updateObject(12, (byte) state);
 	}
-	
+
 	public boolean isFat() {
 		return this.dataWatcher.getWatchableObjectByte(13) == 1;
 	}
-	
+
 	public void setFat(boolean fat) {
 		this.dataWatcher.updateObject(13, (byte) (fat ? 1 : 0));
 	}
-	
+
 	protected String getLivingSound() {
 		return null;
 	}
@@ -145,51 +145,51 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 	@Override
 	protected void updateAITasks() {
 		super.updateAITasks();
-		
+
 		if(this.getFlyingState() == this.STATE_FLYING) {
 			int height = worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ));
-			
+
 			boolean ceil = posY - height > 10;
-	
+
 			this.motionY = this.getRNG().nextGaussian() * 0.05 + (ceil ? 0 : 0.04) + (this.isInWater() ? 0.2 : 0);
-			
+
 			if(onGround) this.motionY = Math.abs(this.motionY) + 0.1D;
-			
+
 			this.moveForward = 1.5F;
 			if(this.getRNG().nextInt(20) == 0) this.rotationYaw += this.getRNG().nextGaussian() * 30;
-			
+
 			if(this.isFat() && this.getRNG().nextInt(50) == 0) {
-				
+
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "sweat");
 				nbt.setInteger("count", 3);
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.wool));
 				nbt.setInteger("entity", getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(dimension, posX, posY, posZ, 50));
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(dimension, posX, posY, posZ, 50));
 
 				int x = (int) Math.floor(posX);
 				int y = (int) Math.floor(posY) - 1;
 				int z = (int) Math.floor(posZ);
 				EntityPlayer player = FakePlayerFactory.getMinecraft((WorldServer)worldObj);
-				
+
 				for(int i = 0; i < 25; i++) {
-					
+
 					if(ItemFertilizer.fertilize(worldObj, x, y - i, z, player, true)) {
 						worldObj.playAuxSFX(2005, x, y - i, z, 0);
 						break;
 					}
 				}
-				
+
 				if(this.getRNG().nextInt(10) == 0) {
 					this.setFat(false);
 				}
 			}
-			
+
 		} else if(!this.onGround && this.motionY < 0.0D) {
 			this.motionY *= 0.8D;
 		}
 	}
-	
+
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();

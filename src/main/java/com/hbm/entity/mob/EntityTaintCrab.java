@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactory762mm;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.machine.TileEntityTesla;
@@ -23,7 +23,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityTaintCrab extends EntityCyberCrab {
-	
+
 	public List<double[]> targets = new ArrayList();
 
 	public EntityTaintCrab(World p_i1733_1_) {
@@ -48,7 +48,7 @@ public class EntityTaintCrab extends EntityCyberCrab {
 		targets = TileEntityTesla.zap(worldObj, posX, posY + 1.25, posZ, 10, this);
 
 		List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
-		
+
 		for(EntityLivingBase e : targets) {
 			if(!(e instanceof EntityCyberCrab)) e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 10, 15));
 		}
@@ -67,7 +67,7 @@ public class EntityTaintCrab extends EntityCyberCrab {
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
-		
+
 		EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(this, XFactory762mm.r762_fmj, 10F, 0F, 0F, 0F, 0F);
 		Vec3 motion = Vec3.createVectorHelper(posX - entity.posX, posY - entity.posZ - entity.height / 2, posZ - entity.posZ);
 		motion = motion.normalize();
@@ -77,7 +77,7 @@ public class EntityTaintCrab extends EntityCyberCrab {
 		data.setDouble("mX", bullet.motionX * 0.3);
 		data.setDouble("mY", bullet.motionY * 0.3);
 		data.setDouble("mZ", bullet.motionZ * 0.3);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(this.dimension, posX, posY, posZ, 50));
+		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(this.dimension, posX, posY, posZ, 50));
 		this.worldObj.spawnEntityInWorld(bullet);
 		this.playSound("hbm:weapon.sawShoot", 1.0F, 0.5F);
 	}

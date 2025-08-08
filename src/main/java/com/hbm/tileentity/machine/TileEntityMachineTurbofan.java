@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineTurbofan;
 import com.hbm.inventory.fluid.Fluids;
@@ -19,7 +20,6 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
@@ -27,8 +27,8 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -162,21 +162,32 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 			long burnValue = 0;
 			int amount = 1 + this.afterburner;
-
-			if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
-				burnValue = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
-			}
-
 			int amountToBurn = Math.min(amount, this.tank.getFill());
-
-			if(amountToBurn > 0) {
-				this.wasOn = true;
-				this.tank.setFill(this.tank.getFill() - amountToBurn);
-				this.output = (int) (burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4)));
-				this.power += this.output;
-				this.consumption = amountToBurn;
-
-				if(worldObj.getTotalWorldTime() % 20 == 0) super.pollute(tank.getTankType(), FluidTrait.FluidReleaseType.BURN, amountToBurn * 5);;
+			
+			boolean redstone = false;
+			
+			for(DirPos pos : getConPos()) {
+				if(this.worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) {
+					redstone = true;
+					break;
+				}
+			}
+			
+			if(!redstone) {
+	
+				if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
+					burnValue = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
+				}
+	
+				if(amountToBurn > 0) {
+					this.wasOn = true;
+					this.tank.setFill(this.tank.getFill() - amountToBurn);
+					this.output = (int) (burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4)));
+					this.power += this.output;
+					this.consumption = amountToBurn;
+	
+					if(worldObj.getTotalWorldTime() % 20 == 0) super.pollute(tank.getTankType(), FluidTrait.FluidReleaseType.BURN, amountToBurn * 5);;
+				}
 			}
 
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
@@ -203,7 +214,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 						data.setDouble("mX", -dir.offsetX * speed + deviation);
 						data.setDouble("mZ", -dir.offsetZ * speed + deviation);
 						data.setFloat("scale", 8F);
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 					}
 
 					/*if(this.afterburner > 90 && worldObj.rand.nextInt(60) == 0) {
@@ -219,7 +230,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 						data.setString("type", "gasfire");
 						data.setDouble("mY", 0.1 * worldObj.rand.nextDouble());
 						data.setFloat("scale", 4F);
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data,
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data,
 								this.xCoord + 0.5F + dir.offsetX * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetX * (worldObj.rand.nextDouble() * 2 - 1),
 								this.yCoord + 1F + worldObj.rand.nextDouble() * 2,
 								this.zCoord + 0.5F - dir.offsetZ * (worldObj.rand.nextDouble() * 4 - 2) + rot.offsetZ * (worldObj.rand.nextDouble() * 2 - 1)
@@ -272,7 +283,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 						vdat.setString("type", "giblets");
 						vdat.setInteger("ent", e.getEntityId());
 						vdat.setInteger("cDiv", 5);
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
 
 						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 

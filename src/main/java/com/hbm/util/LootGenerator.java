@@ -2,6 +2,7 @@ package com.hbm.util;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.crafting.handlers.MKUCraftingHandler;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsPile;
@@ -10,12 +11,55 @@ import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class LootGenerator {
+
+	public static final String LOOT_BOOKLET = "LOOT_BOOKLET";
+	public static final String LOOT_CAPNUKE = "LOOT_CAPNUKE";
+	public static final String LOOT_MEDICINE = "LOOT_MEDICINE";
+	public static final String LOOT_CAPSTASH = "LOOT_CAPSTASH";
+	public static final String LOOT_MAKESHIFT_GUN = "LOOT_MAKESHIFT_GUN";
+	public static final String LOOT_NUKE_STORAGE = "LOOT_NUKE_STORAGE";
+	public static final String LOOT_BONES = "LOOT_BONES";
+	public static final String LOOT_GLYPHID_HIVE = "LOOT_GLYPHID_HIVE";
+	public static final String LOOT_METEOR = "LOOT_METEOR";
+	public static final String LOOT_FLAREGUN = "LOOT_FLAREGUN";
+
+	public static void applyLoot(World world, int x, int y, int z, String name) {
+		switch(name) {
+			case LOOT_BOOKLET: lootBooklet(world, x, y, z);
+			case LOOT_CAPNUKE: lootCapNuke(world, x, y, z);
+			case LOOT_MEDICINE: lootMedicine(world, x, y, z);
+			case LOOT_CAPSTASH: lootCapStash(world, x, y, z);
+			case LOOT_MAKESHIFT_GUN: lootMakeshiftGun(world, x, y, z);
+			case LOOT_NUKE_STORAGE: lootNukeStorage(world, x, y, z);
+			case LOOT_BONES: lootBones(world, x, y, z);
+			case LOOT_GLYPHID_HIVE: lootGlyphidHive(world, x, y, z);
+			case LOOT_METEOR: lootBookMeteor(world, x, y, z);
+			case LOOT_FLAREGUN: lootFlareGun(world, x, y, z);
+			default: lootBones(world, x, y, z); break;
+		}
+	}
+
+	public static String[] getLootNames() {
+		return new String[] {
+			LOOT_BOOKLET,
+			LOOT_CAPNUKE,
+			LOOT_MEDICINE,
+			LOOT_CAPSTASH,
+			LOOT_MAKESHIFT_GUN,
+			LOOT_NUKE_STORAGE,
+			LOOT_BONES,
+			LOOT_GLYPHID_HIVE,
+			LOOT_METEOR,
+			LOOT_FLAREGUN,
+		};
+	}
 
 	public static void setBlock(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, ModBlocks.deco_loot);
@@ -142,6 +186,19 @@ public class LootGenerator {
 		}
 	}
 
+	public static void lootBookMeteor(World world, int x, int y, int z) {
+
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+
+		if(loot != null && loot.items.isEmpty()) {
+			Item mkuItem = MKUCraftingHandler.getMKUItem(world);
+			ItemStack mkuBook = MKUCraftingHandler.generateBook(world, mkuItem);
+
+			addItemWithDeviation(loot, world.rand, new ItemStack(mkuItem), 0, 0, 0.25);
+			addItemWithDeviation(loot, world.rand, mkuBook, 0, 0, -0.25);
+		}
+	}
+
 	public static void lootBookLore(World world, int x, int y, int z, ItemStack book) {
 
 		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
@@ -157,4 +214,23 @@ public class LootGenerator {
 		}
 	}
 
+	public static void lootFlareGun(World world, int x, int y, int z) {
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		if (loot != null && loot.items.isEmpty()) {
+			addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_flaregun), 0, 0, -0.25);
+
+			int count = world.rand.nextInt(3) + 2;
+			for (int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand,
+					new ItemStack(ModItems.ammo_standard, 1, EnumAmmo.G26_FLARE.ordinal()),
+					-0.25, k * 0.03125, 0.25);
+
+			count = world.rand.nextInt(1) + 1;
+			for (int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand,
+					new ItemStack(ModItems.ammo_standard, 1,
+						world.rand.nextBoolean() ? EnumAmmo.G26_FLARE_SUPPLY.ordinal() : EnumAmmo.G26_FLARE_WEAPON.ordinal()),
+					0.25, k * 0.03125, 0.125);
+		}
+	}
 }

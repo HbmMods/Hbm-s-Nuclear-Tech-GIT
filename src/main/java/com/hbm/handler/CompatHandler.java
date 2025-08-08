@@ -6,6 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.Items;
@@ -38,16 +39,15 @@ public class CompatHandler {
      * @return Object[] array containing an int with the "compression level"
      */
     public static Object[] steamTypeToInt(FluidType type) {
-        switch(type.getID()) {
-            case(4): // Fluids.HOTSTEAM
-                return new Object[] {1};
-            case(5): // Fluids.SUPERHOTSTEAM
-                return new Object[] {2};
-            case(6): // Fluids.ULTRAHOTSTEAM
-                return new Object[] {3};
-			default:
-				return new Object[] {0};
-        }
+		final int typeId = type.getID();
+		if(typeId == Fluids.HOTSTEAM.getID()) {
+			return new Object[]{1};
+		} else if(typeId == Fluids.SUPERHOTSTEAM.getID()) {
+			return new Object[]{2};
+		} else if(typeId == Fluids.ULTRAHOTSTEAM.getID()) {
+			return new Object[]{3};
+		}
+		return new Object[] {0};
     }
 
     /**
@@ -109,27 +109,66 @@ public class CompatHandler {
         }
     }
 
-    /**
-     * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
-     */
-    public enum OCColors {
-        BLACK, //0x444444
-        RED, //0xB3312C
-        GREEN, //0x339911
-        BROWN, //0x51301A
-        BLUE, //0x6666FF
-        PURPLE, //0x7B2FBE
-        CYAN, //0x66FFFF
-        LIGHTGRAY, //0xABABAB
-        GRAY, //0x666666
-        PINK, //0xD88198
-        LIME, //0x66FF66
-        YELLOW, //0xFFFF66
-        LIGHTBLUE, //0xAAAAFF
-        MAGENTA, //0xC354CD
-        ORANGE, //0xEB8844
-        WHITE //0xF0F0F0
-    }
+	/**
+	 * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
+	 */
+	public enum OCColors {
+		BLACK(0x444444, "dyeBlack"),
+		RED(0xB3312C, "dyeRed"),
+		GREEN(0x339911, "dyeGreen"),
+		BROWN(0x51301A, "dyeBrown"),
+		BLUE(0x6666FF, "dyeBlue"),
+		PURPLE(0x7B2FBE, "dyePurple"),
+		CYAN(0x66FFFF, "dyeCyan"),
+		LIGHTGRAY(0xABABAB, "dyeLightGray"),
+		GRAY(0x666666, "dyeGray"),
+		PINK(0xD88198, "dyePink"),
+		LIME(0x66FF66, "dyeLime"),
+		YELLOW(0xFFFF66, "dyeYellow"),
+		LIGHTBLUE(0xAAAAFF, "dyeLightBlue"),
+		MAGENTA(0xC354CD, "dyeMagenta"),
+		ORANGE(0xEB8844, "dyeOrange"),
+		WHITE(0xF0F0F0, "dyeWhite"),
+		NONE(0x0, "");
+
+		private final int color;
+		private final String dictName;
+
+		OCColors(int color, String dictName) {
+			this.color = color;
+			this.dictName = dictName;
+		}
+
+		public int getColor() {
+			return color;
+		}
+
+		public static OCColors fromInt(int intColor) {
+			for (OCColors iColor : OCColors.values()) {
+				if (intColor == iColor.getColor())
+					return iColor;
+			}
+			return OCColors.NONE;
+		}
+
+		public static OCColors fromDye(ItemStack stack) {
+			List<String> oreNames = ItemStackUtil.getOreDictNames(stack);
+
+			for(String dict : oreNames) {
+				if(!(dict.length() > 3) || !dict.startsWith("dye"))
+					continue;
+
+				for (OCColors color : OCColors.values()) {
+					if(!color.dictName.equals(dict))
+						continue;
+
+					return color;
+				}
+			}
+
+			return OCColors.NONE;
+		}
+	}
 
     // Where all disks are stored with their name and `FloppyDisk` class.
     public static HashMap<String, FloppyDisk> disks = new HashMap<>();
@@ -232,7 +271,7 @@ public class CompatHandler {
         @Override
         @Optional.Method(modid = "OpenComputers")
         default boolean canConnectNode(ForgeDirection side) {
-            return true;
+            return !this.getComponentName().equals(nullComponent);
         }
 
         /**

@@ -15,8 +15,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.feature.OilSpot;
 
 import cpw.mods.fml.relauncher.Side;

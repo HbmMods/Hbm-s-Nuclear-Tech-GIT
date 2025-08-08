@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 
 public class HydrotreatingRecipes extends SerializableRecipe {
 	
-	private static HashMap<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipes = new HashMap();
+	public static HashMap<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {

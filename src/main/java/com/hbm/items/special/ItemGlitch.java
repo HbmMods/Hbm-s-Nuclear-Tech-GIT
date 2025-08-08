@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityVortex;
-import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
@@ -23,14 +24,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
+@Spaghetti("why do you even exist")
 public class ItemGlitch extends Item implements IBatteryItem {
 
-    public ItemGlitch()
-    {
-        this.maxStackSize = 1;
-        this.setMaxDamage(1);
-    }
-
+	public ItemGlitch() {
+		this.maxStackSize = 1;
+		this.setMaxDamage(1);
+	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -152,7 +152,7 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				world.spawnEntityInWorld(vortex);
 				break;
 			case 28:
-				EntityMIRV mirv = new EntityMIRV(world);
+				EntityMeteor mirv = new EntityMeteor(world);
 				mirv.posX = player.posX;
 				mirv.posY = player.posY + 100;
 				mirv.posZ = player.posZ;

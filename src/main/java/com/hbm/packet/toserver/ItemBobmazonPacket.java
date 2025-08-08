@@ -24,21 +24,11 @@ public class ItemBobmazonPacket implements IMessage {
 
 	int offer;
 
-	public ItemBobmazonPacket()
-	{
-		
-	}
+	public ItemBobmazonPacket() { }
 
-	public ItemBobmazonPacket(EntityPlayer player, Offer offer)
-	{
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_materials)
-			this.offer = BobmazonOfferFactory.materials.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_machines)
-			this.offer = BobmazonOfferFactory.machines.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_weapons)
-			this.offer = BobmazonOfferFactory.weapons.indexOf(offer);
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_tools)
-			this.offer = BobmazonOfferFactory.tools.indexOf(offer);
+	public ItemBobmazonPacket(EntityPlayer player, Offer offer) {
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon)
+			this.offer = BobmazonOfferFactory.standard.indexOf(offer);
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_hidden)
 			this.offer = BobmazonOfferFactory.special.indexOf(offer);
 	}
@@ -62,16 +52,8 @@ public class ItemBobmazonPacket implements IMessage {
 			World world = p.worldObj;
 
 			Offer offer = null;
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_materials)
-				offer = BobmazonOfferFactory.materials.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_machines)
-				offer = BobmazonOfferFactory.machines.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_weapons)
-				offer = BobmazonOfferFactory.weapons.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_tools)
-				offer = BobmazonOfferFactory.tools.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden)
-				offer = BobmazonOfferFactory.special.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon) offer = BobmazonOfferFactory.standard.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden) offer = BobmazonOfferFactory.special.get(m.offer);
 			
 			if(offer == null) {
 				p.addChatMessage(new ChatComponentText("[BOBMAZON] There appears to be a mismatch between the offer you have requested and the offers that exist."));

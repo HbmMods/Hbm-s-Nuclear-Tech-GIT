@@ -1,8 +1,8 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
@@ -10,7 +10,8 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -24,14 +25,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityBombletZeta extends EntityThrowable {
-	
+
 	public int type = 0;
 
 	public EntityBombletZeta(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 
@@ -70,7 +71,11 @@ public class EntityBombletZeta extends EntityThrowable {
 				}
 				if(type == 2) {
 					worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
-					ExplosionChaos.spawnChlorine(worldObj, this.posX + 0.5F - motionX, this.posY + 0.5F - motionY, this.posZ + 0.5F - motionZ, 75, 2, 0);
+					EntityMist mist = new EntityMist(worldObj);
+					mist.setType(Fluids.CHLORINE);
+					mist.setPosition(this.posX - motionX, this.posY - motionY, this.posZ - motionZ);
+					mist.setArea(15, 7.5F);
+					worldObj.spawnEntityInWorld(mist);
 				}
 				if(type == 4) {
 					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int) (BombConfig.fatmanRadius * 1.5), posX, posY, posZ));
@@ -79,14 +84,14 @@ public class EntityBombletZeta extends EntityThrowable {
 					data.setString("type", "muke");
 					if(rand.nextInt(100) == 0)
 						data.setBoolean("balefire", true);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 					worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 				}
 				this.setDead();
 			}
 		}
 	}
-	
+
 	public void rotation() {
         float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -115,7 +120,7 @@ public class EntityBombletZeta extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 	}
-	
+
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)

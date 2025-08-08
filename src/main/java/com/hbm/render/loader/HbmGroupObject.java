@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 
+@Deprecated
 public class HbmGroupObject {
 	
     public String name;
@@ -29,25 +30,25 @@ public class HbmGroupObject {
     }
 
     @SideOnly(Side.CLIENT)
-    public void render()
+    public void render(float currentTime)
     {
         if (faces.size() > 0)
         {
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawing(glDrawingMode);
-            render(tessellator);
+            render(currentTime, tessellator);
             tessellator.draw();
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public void render(Tessellator tessellator)
+    public void render(float currentTime, Tessellator tessellator)
     {
         if (faces.size() > 0)
         {
             for (HbmFace face : faces)
             {
-                face.addFaceForRender(tessellator);
+                face.addFaceForRender(currentTime, tessellator);
             }
         }
     }

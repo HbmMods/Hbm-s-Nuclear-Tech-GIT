@@ -180,6 +180,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 
 			if(diff > 0) {
 				diff = (int) Math.ceil(diff * diffusion);
+				diff = Math.min(diff, this.maxHeat - this.heat);
 				source.useUpHeat(diff);
 				this.heat += diff;
 				if(this.heat > this.maxHeat)

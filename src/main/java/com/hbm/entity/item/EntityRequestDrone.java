@@ -43,6 +43,8 @@ public class EntityRequestDrone extends EntityDroneBase {
 	@Override
 	public boolean hitByEntity(Entity attacker) {
 
+		if(this.isDead) return false;
+
 		if(attacker instanceof EntityPlayer && !worldObj.isRemote) {
 			this.setDead();
 			if(heldItem != null)
