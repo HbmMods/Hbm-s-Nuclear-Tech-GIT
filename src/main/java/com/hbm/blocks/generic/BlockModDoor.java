@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +21,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockModDoor extends Block implements INBTTransformable {
+public class BlockModDoor extends Block implements INBTBlockTransformable {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] field_150017_a;
 	@SideOnly(Side.CLIENT)
@@ -400,6 +400,6 @@ public class BlockModDoor extends Block implements INBTTransformable {
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDoor(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaDoor(meta, coordBaseMode);
 	}
 }

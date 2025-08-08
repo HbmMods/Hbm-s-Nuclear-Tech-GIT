@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.BlockContainer;
@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class DecoTapeRecorder extends BlockContainer implements INBTTransformable {
+public class DecoTapeRecorder extends BlockContainer implements INBTBlockTransformable {
 
 	public DecoTapeRecorder(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -63,7 +63,7 @@ public class DecoTapeRecorder extends BlockContainer implements INBTTransformabl
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockPipe extends Block implements ITooltipProvider, INBTTransformable {
+public class BlockPipe extends Block implements ITooltipProvider, INBTBlockTransformable {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon sideIcon;
@@ -96,7 +96,7 @@ public class BlockPipe extends Block implements ITooltipProvider, INBTTransforma
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaPillar(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaPillar(meta, coordBaseMode);
 	}
 
 }

@@ -1,10 +1,11 @@
 package com.hbm.lib;
 
 import com.hbm.world.gen.MapGenNTMFeatures;
-import com.hbm.world.gen.NBTStructure;
 import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
+import com.hbm.world.gen.nbt.NBTStructure;
+
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.world.gen.structure.MapGenStructureIO;

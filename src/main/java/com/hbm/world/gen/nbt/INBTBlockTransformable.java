@@ -1,8 +1,8 @@
-package com.hbm.world.gen;
+package com.hbm.world.gen.nbt;
 
 import net.minecraft.block.Block;
 
-public interface INBTTransformable {
+public interface INBTBlockTransformable {
 
 	/**
 	 * Defines this block as something that has a rotation or some other blockstate
@@ -75,6 +75,30 @@ public interface INBTTransformable {
 				meta = meta ^ 3;
 			else //Flip second bit for N/S
 				meta = meta ^ 2;
+			break;
+		}
+		return meta;
+	}
+
+	// what in the FUCK mojangles
+	// same as stairs but 1 & 3 flipped
+	public static int transformMetaTrapdoor(int meta, int coordBaseMode) {
+		if(coordBaseMode == 0) return meta;
+		switch(coordBaseMode) {
+		case 1: //West
+			if((meta & 3) < 2)
+				meta = meta ^ 3;
+			else
+				meta = meta ^ 2;
+			break;
+		case 2: //North
+			meta = meta ^ 1; //Flip first bit
+			break;
+		case 3: //East
+			if((meta & 3) < 2)
+				meta = meta ^ 2;
+			else
+				meta = meta ^ 3;
 			break;
 		}
 		return meta;

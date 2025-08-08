@@ -5,7 +5,7 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTTransformable {
+public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
@@ -590,7 +590,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			meta -= extra;
 		}
 
-		meta = INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+		meta = INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 
 		if(isOffset) {
 			meta += offset;

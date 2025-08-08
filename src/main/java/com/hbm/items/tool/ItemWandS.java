@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.world.gen.NBTStructure;
+import com.hbm.world.gen.nbt.NBTStructure;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

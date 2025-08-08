@@ -4,10 +4,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
 import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import api.hbm.block.IToolable;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import com.hbm.world.gen.INBTTransformable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class Floodlight extends BlockContainer implements IToolable, INBTTransformable {
+public class Floodlight extends BlockContainer implements IToolable, INBTBlockTransformable {
 
 	public Floodlight(Material mat) {
 		super(mat);

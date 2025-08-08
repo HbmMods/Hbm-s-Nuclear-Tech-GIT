@@ -2,7 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blocks.BlockMulti;
 import com.hbm.lib.RefStrings;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockDecoCRT extends BlockMulti implements INBTTransformable {
+public class BlockDecoCRT extends BlockMulti implements INBTBlockTransformable {
 
 	protected String[] variants = new String[] {"crt_clean", "crt_broken", "crt_blinking", "crt_bsod"};
 	@SideOnly(Side.CLIENT) protected IIcon[] icons;
@@ -77,7 +77,7 @@ public class BlockDecoCRT extends BlockMulti implements INBTTransformable {
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDecoModel(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaDecoModel(meta, coordBaseMode);
 	}
 
 }

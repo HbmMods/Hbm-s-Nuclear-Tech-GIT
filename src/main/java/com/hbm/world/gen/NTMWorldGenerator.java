@@ -9,14 +9,15 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.StructureConfig;
 import com.hbm.main.StructureManager;
-import com.hbm.world.gen.NBTStructure.JigsawPiece;
-import com.hbm.world.gen.NBTStructure.JigsawPool;
-import com.hbm.world.gen.NBTStructure.SpawnCondition;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.component.Component.CrabSpawners;
 import com.hbm.world.gen.component.Component.GreenOoze;
 import com.hbm.world.gen.component.Component.MeteorBricks;
 import com.hbm.world.gen.component.Component.SupplyCrates;
+import com.hbm.world.gen.nbt.JigsawPiece;
+import com.hbm.world.gen.nbt.JigsawPool;
+import com.hbm.world.gen.nbt.NBTStructure;
+import com.hbm.world.gen.nbt.SpawnCondition;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -41,44 +42,44 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		final List<BiomeGenBase> lighthouseBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
 
 		/// SPIRE ///
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("spire") {{
 			canSpawn = biome -> biome.heightVariation <= 0.05F && !invalidBiomes.contains(biome);
 			structure = new JigsawPiece("spire", StructureManager.spire, -1);
 			spawnWeight = 2;
 		}});
-		
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+
+		NBTStructure.registerStructure(0, new SpawnCondition("features") {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new MapGenNTMFeatures.Start(d.getW(), d.getX(), d.getY(), d.getZ());
 			spawnWeight = 14 * 4;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("bunker") {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new BunkerStart(d.getW(), d.getX(), d.getY(), d.getZ());
 			spawnWeight = 1 * 4;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("vertibird") {{
 			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
 			structure = new JigsawPiece("vertibird", StructureManager.vertibird, -3);
 			spawnWeight = 3 * 4;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("crashed_vertibird") {{
 			canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 2F;
 			structure = new JigsawPiece("crashed_vertibird", StructureManager.crashed_vertibird, -10);
 			spawnWeight = 3 * 4;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("aircraft_carrier") {{
 			canSpawn = oceanBiomes::contains;
 			structure = new JigsawPiece("aircraft_carrier", StructureManager.aircraft_carrier, -6);
 			maxHeight = 42;
 			spawnWeight = 1;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("oil_rig") {{
 			canSpawn = biome -> biome == BiomeGenBase.deepOcean;
 			structure = new JigsawPiece("oil_rig", StructureManager.oil_rig, -20);
 			maxHeight = 12;
@@ -86,7 +87,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 2;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("lighthouse") {{
 			canSpawn = lighthouseBiomes::contains;
 			structure = new JigsawPiece("lighthouse", StructureManager.lighthouse, -40);
 			maxHeight = 29;
@@ -94,7 +95,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 2;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("beached_patrol") {{
 			canSpawn = beachBiomes::contains;
 			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol, -5);
 			minHeight = 58;
@@ -103,8 +104,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 
 		NBTStructure.registerNullWeight(0, 2, oceanBiomes::contains); //why the fuck did this change
-    
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+
+		NBTStructure.registerStructure(0, new SpawnCondition("dish") {{
 			canSpawn = biome -> biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("dish", StructureManager.dish, -10);
 			minHeight = 53;
@@ -128,13 +129,13 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			put(ModBlocks.concrete_colored, new GreenOoze());
 		}};
 
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		NBTStructure.registerStructure(0, new SpawnCondition("meteor_dungeon") {{
 			minHeight = 32;
 			maxHeight = 32;
 			sizeLimit = 128;
 			canSpawn = biome -> biome.rootHeight >= 0;
 			startPool = "start";
-			pools = new HashMap<String, NBTStructure.JigsawPool>() {{
+			pools = new HashMap<String, JigsawPool>() {{
 				put("start", new JigsawPool() {{
 					add(new JigsawPiece("meteor_core", StructureManager.meteor_core) {{ blockTable = bricks; }}, 1);
 				}});
@@ -253,6 +254,15 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		setRandomSeed(world, chunkX, chunkZ); //Reset the random seed to compensate
 
 		nbtGen.generateStructures(world, rand, chunkProvider, chunkX, chunkZ);
+	}
+
+	public SpawnCondition getStructureAt(World world, int chunkX, int chunkZ) {
+		if(StructureConfig.enableStructures == 0) return null;
+		if(StructureConfig.enableStructures == 2 && !world.getWorldInfo().isMapFeaturesEnabled()) return null;
+
+		setRandomSeed(world, chunkX, chunkZ);
+
+		return nbtGen.getStructureAt(world, chunkX, chunkZ);
 	}
 
 }
