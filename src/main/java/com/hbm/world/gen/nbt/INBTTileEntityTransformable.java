@@ -1,4 +1,4 @@
-package com.hbm.world.gen;
+package com.hbm.world.gen.nbt;
 
 import net.minecraft.world.World;
 

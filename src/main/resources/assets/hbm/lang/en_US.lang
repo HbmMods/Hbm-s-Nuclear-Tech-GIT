@@ -705,6 +705,10 @@ commands.satellite.satellite_descended=Satellite successfully descended.
 commands.satellite.satellite_orbited=Satellite launched.
 commands.satellite.should_be_run_as_player=This command should be run by a player!
 
+commands.locate.no_match=No structures with that name!
+commands.locate.none_found=No structures found nearby!
+commands.locate.success.coordinates=Structure %s found at %d, %d
+
 container.ammoBag=Ammo Bag
 container.amsBase=AMS Base (Deco)
 container.amsEmitter=AMS Emitter (Deco)

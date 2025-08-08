@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.world.gen.INBTTileEntityTransformable;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTTileEntityTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class BlockPlushie extends BlockContainer implements IBlockMulti, ITooltipProvider, INBTTransformable {
+public class BlockPlushie extends BlockContainer implements IBlockMulti, ITooltipProvider, INBTBlockTransformable {
 
 	public BlockPlushie() {
 		super(Material.cloth);

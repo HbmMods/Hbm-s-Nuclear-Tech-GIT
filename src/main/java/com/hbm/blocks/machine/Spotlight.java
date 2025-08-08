@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnums.LightType;
 import com.hbm.blocks.ISpotlight;
 import com.hbm.main.ResourceManager;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class Spotlight extends Block implements ISpotlight, INBTTransformable {
+public class Spotlight extends Block implements ISpotlight, INBTBlockTransformable {
 
 	public static boolean disableOnGeneration = true;
 
@@ -367,7 +367,7 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	public int transformMeta(int meta, int coordBaseMode) {
 		// +1 to set as broken, won't turn on until broken and replaced
 		int disabled = disableOnGeneration ? 1 : 0;
-		return (INBTTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + disabled;
+		return (INBTBlockTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + disabled;
 	}
 
 	@Override
