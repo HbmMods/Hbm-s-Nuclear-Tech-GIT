@@ -1,0 +1,11 @@
+{
+	"name": "Plutonium-241",
+	"icon": ["hbm:item.billet_pu241", 1, 0],
+    "trigger": [["hbm:item.ingot_pu241"], ["hbm:item.billet_pu241"], ["hbm:item.nugget_pu241"]],
+    "title": {
+        "en_US": "Plutonium-241"
+    },
+	"content": {
+		"en_US": "Secondary fissile isotope of [[plutonium|Plutonium]]. Can be recovered from [[plutonium-240|Plutonium-240]]-rich spent [[RBMK]] fuels, as well as certain types of [[zirconium|Zirconium]] fast breefer fuels. Only used in specialized breeding fuels and as high enriched fuel, which is more powerful than its [[plutonium-239|Plutonium-239]] counterpart. Plutonium-241 in RBMKs yields [[americium-241|Americium-241]] and [[americium-242|Americium-242]] when reprocessed.<br><br>Highly radioactive."
+	}
+}

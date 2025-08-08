@@ -1,0 +1,11 @@
+{
+	"name": "Plutonium-239",
+	"icon": ["hbm:item.billet_pu239", 1, 0],
+    "trigger": [["hbm:item.ingot_pu239"], ["hbm:item.billet_pu239"], ["hbm:item.nugget_pu239"]],
+    "title": {
+        "en_US": "Plutonium-239"
+    },
+	"content": {
+		"en_US": "Primary fissile isotope of [[plutonium|Plutonium]]. Can be extracted from many spent fuels that use [[uranium-238|Uranium-238]] or directly from [[reactor-grade plutonium|Reactor-Grade Plutonium]]. Usable in high enriched fuels for various reactors, mixed with other isotopes for lower enriched fuels, or as fissile material in many nuclear bombs.<br><br>Moderately radioactive."
+	}
+}

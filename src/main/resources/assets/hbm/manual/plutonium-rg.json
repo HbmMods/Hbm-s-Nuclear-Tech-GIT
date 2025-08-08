@@ -1,0 +1,11 @@
+{
+	"name": "Reactor-Grade Plutonium",
+	"icon": ["hbm:item.billet_pu_mix", 1, 0],
+    "trigger": [["hbm:item.ingot_pu_mix"], ["hbm:item.billet_pu_mix"], ["hbm:item.nugget_pu_mix"]],
+    "title": {
+        "en_US": "Reactor-Grade Plutonium"
+    },
+	"content": {
+		"en_US": "Mixture of [[plutonium-239|Plutonium-239]] and [[plutonium-240|Plutonium-240]]. Common result of reprocessing many [[uranium|Uranium]]-based fuels, as well as by breeding uranium in the [[Chicago Pile]]. Usable in many reactors as medium enriched plutonium fuel.<br><br>Moderately radioactive."
+	}
+}

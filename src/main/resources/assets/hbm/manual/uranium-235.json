@@ -1,0 +1,11 @@
+{
+	"name": "Uranium-235",
+	"icon": ["hbm:item.billet_u235", 1, 0],
+    "trigger": [["hbm:item.ingot_u235"], ["hbm:item.billet_u235"], ["hbm:item.nugget_u235"]],
+    "title": {
+        "en_US": "Uranium-235"
+    },
+	"content": {
+		"en_US": "Enriched uranium. Fissile, usable in some reactors directly as high enriched fuel, or mixed back with [[uranium-238|Uranium-238]] for medium enriched uranium fuels. Weapons grade. Created initially by processing [[uranium hexafluuoride|Uranium Hexafluoride]] in a cascade of four [[gas centrifuges|Gas Centriuge]], available later on by separating [[natural uranium|Uranium]] via [[SILEX]].<br><br>Moderately radioactive."
+	}
+}
