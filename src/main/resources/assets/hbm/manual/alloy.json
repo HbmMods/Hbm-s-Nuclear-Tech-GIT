@@ -1,0 +1,11 @@
+{
+	"name": "Advanced Alloy",
+	"icon": ["hbm:item.ingot_advanced_alloy", 1, 0],
+    "trigger": [["hbm:item.ingot_advanced_alloy"], ["hbm:item.powder_advanced_alloy"], ["hbm:item.plate_advanced_alloy"]],
+    "title": {
+        "en_US": "Advanced Alloy"
+    },
+	"content": {
+		"en_US": "Made in a [[blast furnace|Blast Furnace]] from [[steel|Steel]] and [[Minecraft grade copper|Minecraft Grade Copper]]. Makes better-than-diamond gear. Also used in some high-powered magnets for the [[fusion reactor|Fusion Reactor]] and the [[exposure chamber|Exposure Chamber]]."
+	}
+}

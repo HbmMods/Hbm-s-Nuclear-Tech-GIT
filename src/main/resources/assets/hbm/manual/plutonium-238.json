@@ -1,0 +1,11 @@
+{
+	"name": "Plutonium-238",
+	"icon": ["hbm:item.billet_pu238", 1, 0],
+    "trigger": [["hbm:item.ingot_pu238"], ["hbm:item.billet_pu238"], ["hbm:item.nugget_pu238"]],
+    "title": {
+        "en_US": "Plutonium-238"
+    },
+	"content": {
+		"en_US": "Radioisotope, used mainly in [[RTGs|RTG]]. Derived from [[plutonium|Plutonium]] hexafluoride, or from various nuclear fuels, mainly ones using [[uranium-235|Uranium-235]]. Usable with [[beryllium|Beryllium]] as Pu238Be neutron sources in [[RBMKs|RBMK]].<br><br>Moderately radioactive, very hot."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Radium-226",
+	"icon": ["hbm:item.billet_ra226", 1, 0],
+    "trigger": [["hbm:item.ingot_ra226"], ["hbm:item.billet_ra226"], ["hbm:item.nugget_ra226"], ["hbm:item.powder_ra226"]],
+    "title": {
+        "en_US": "Radium-226"
+    },
+	"content": {
+		"en_US": "Rare radioactive material found in [[uranium|Uranium]] and [[thorium|Thorium-232]] ores, may be extracted using a [[centrifuge|Centrifuge]]. Used with [[beryllium|Beryllium]] in Ra226Be neutron sources, which are vital for kickstarting the [[Chicago Pile]], [[PWR]], [[research reactor|Research Reactor]] and [[RBMK]]. The first available neutron source, and often times the cheapest.<br><br>Moderately radioactive."
+	}
+}

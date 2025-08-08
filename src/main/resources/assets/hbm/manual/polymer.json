@@ -1,0 +1,11 @@
+{
+	"name": "Polymer",
+	"icon": ["hbm:item.ingot_polymer", 1, 0],
+    "trigger": [["hbm:item.ingot_polymer"], ["hbm:item.powder_polymer"]],
+    "title": {
+        "en_US": "Polymer"
+    },
+	"content": {
+		"en_US": "Polymer ('Teflon') is the first available type of plastic. Requires [[petroleum gas|Petroleum Gas]] and therefore [[oil processing|Crude Oil]].<br><br>Fully interchangable with [[Bakelite]], which becomes available after [[oil cracking|Catalytic Cracking Tower]]."
+	}
+}

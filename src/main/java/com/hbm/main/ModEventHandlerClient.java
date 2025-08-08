@@ -14,6 +14,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -36,6 +37,9 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.AuxButtonPacket;
+import com.hbm.qmaw.GuiQMAW;
+import com.hbm.qmaw.QMAWLoader;
+import com.hbm.qmaw.QuickManualAndWiki;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -747,6 +751,17 @@ public class ModEventHandlerClient {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
 		}
 
+		try {
+			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
+			if(qmaw != null) {
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
+				lastQMAW = qmaw;
+				qmawTimestamp = Clock.get_ms();
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
+		}
+
 		/*ItemStack copy = stack.copy();
 		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
 
@@ -759,6 +774,8 @@ public class ModEventHandlerClient {
 
 	private static long canneryTimestamp;
 	private static ComparableStack lastCannery = null;
+	private static long qmawTimestamp;
+	private static QuickManualAndWiki lastQMAW = null;
 
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 
@@ -888,6 +905,16 @@ public class ModEventHandlerClient {
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 					FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
 				}
+			}
+		}
+
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
+
+			QuickManualAndWiki qmaw = qmawTimestamp > Clock.get_ms() - 100 ? lastQMAW : null;
+
+			if(qmaw != null) {
+				Minecraft.getMinecraft().thePlayer.closeScreen();
+				FMLCommonHandler.instance().showGuiScreen(new GuiQMAW(qmaw));
 			}
 		}
 
