@@ -1,5 +1,6 @@
 package com.hbm.world.gen.nbt;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
@@ -7,6 +8,9 @@ import net.minecraft.world.gen.structure.StructureComponent.BlockSelector;
 
 // Assigned to a Component to build
 public class JigsawPiece {
+
+    // Translates a given name into a jigsaw piece, for serialization
+    protected static Map<String, JigsawPiece> jigsawMap = new HashMap<>();
 
 	public final String name;
 	public final NBTStructure structure;
@@ -23,11 +27,11 @@ public class JigsawPiece {
 
 	public JigsawPiece(String name, NBTStructure structure, int heightOffset) {
 		if(name == null) throw new IllegalStateException("A severe error has occurred in NBTStructure! A jigsaw piece has been registered without a valid name!");
-		if(NBTStructure.jigsawMap.containsKey(name)) throw new IllegalStateException("A severe error has occurred in NBTStructure! A jigsaw piece has been registered with the same name as another: " + name);
+		if(jigsawMap.containsKey(name)) throw new IllegalStateException("A severe error has occurred in NBTStructure! A jigsaw piece has been registered with the same name as another: " + name);
 
 		this.name = name;
 		this.structure = structure;
-		NBTStructure.jigsawMap.put(name, this);
+		jigsawMap.put(name, this);
 
 		this.heightOffset = heightOffset;
 	}

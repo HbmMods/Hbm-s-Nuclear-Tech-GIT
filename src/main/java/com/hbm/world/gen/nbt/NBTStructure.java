@@ -59,9 +59,6 @@ public class NBTStructure {
 	protected static Map<Integer, List<SpawnCondition>> weightedMap = new HashMap<>();
 	protected static Map<Integer, List<SpawnCondition>> customSpawnMap = new HashMap<>();
 
-	// serialization data
-	protected static Map<String, JigsawPiece> jigsawMap = new HashMap<>();
-
 	private String name;
 
 	private boolean isLoaded;
@@ -761,7 +758,7 @@ public class NBTStructure {
 		// Load from NBT
 		@Override
 		protected void func_143011_b(NBTTagCompound nbt) {
-			piece = jigsawMap.get(nbt.getString("piece"));
+			piece = JigsawPiece.jigsawMap.get(nbt.getString("piece"));
 			minHeight = nbt.getInteger("min");
 			maxHeight = nbt.getInteger("max");
 			heightUpdated = nbt.getBoolean("hasHeight");
