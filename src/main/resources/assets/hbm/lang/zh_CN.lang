@@ -6137,3 +6137,4 @@ item.gun_autoshotgun_heretic.name=异教徒
 purex.schrab=从 %s 中萃取Sa326
 tile.machine_purex.name=钚铀还原提取设备（PUREX）
 tile.machine_purex.desc=可用于多种核燃料的再处理机器。$大多数配方需要用到硝酸和煤油。
+qmaw.tab=[按 %s 键获取帮助]
