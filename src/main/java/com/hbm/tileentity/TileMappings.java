@@ -20,6 +20,7 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.BlockWandJigsaw.TileEntityWandJigsaw;
 import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
+import com.hbm.blocks.generic.BlockWandTandem.TileEntityWandTandem;
 import com.hbm.blocks.generic.BlockWandLogic.TileEntityWandLogic;
 import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
 import com.hbm.blocks.generic.LogicBlock;
@@ -243,6 +244,7 @@ public class TileMappings {
 		put(TileEntityWandLoot.class, "tileentity_wand_loot");
 		put(TileEntityWandJigsaw.class, "tileentity_wand_jigsaw");
 		put(TileEntityWandLogic.class, "tileentity_wand_spawner");
+		put(TileEntityWandTandem.class, "tileentity_wand_tandem");
 
 		putNetwork();
 		putBombs();

@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.world.gen.NBTStructure;
+import com.hbm.world.gen.nbt.NBTStructure;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -68,5 +68,7 @@ public class StructureManager {
 	// public static final NBTStructure test_jigsaw = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw.nbt"));
 	// public static final NBTStructure test_jigsaw_core = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw-core.nbt"));
 	// public static final NBTStructure test_jigsaw_hall = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw-hall.nbt"));
+	// public static final NBTStructure test_tandem_core = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-tandem-core.nbt"));
+	// public static final NBTStructure test_tandem = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-tandem.nbt"));
 
 }

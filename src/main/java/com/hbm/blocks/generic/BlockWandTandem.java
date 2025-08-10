@@ -18,7 +18,13 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.i18n.I18nUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
+import com.hbm.world.gen.nbt.NBTStructure;
+import com.hbm.world.gen.nbt.NBTStructure.JigsawConnection;
+import com.hbm.world.gen.nbt.SpawnCondition;
+import com.hbm.world.gen.nbt.JigsawPiece;
+import com.hbm.world.gen.nbt.JigsawPool;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -36,6 +42,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -46,20 +53,40 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotation, INBTBlockTransformable, IGUIProvider, ILookOverlay {
+/**
+ * You're familiar with Billy Mitchell, World Video Game Champion? He could probably do it.
+ * So I gotta find a way to harness his power. And I think I've found a way.
+ *
+ * THAT'S RIGHT, WE'RE GONNA CHEAT.
+ *
+ * NBTStructures have the inherent flaws of the vanilla structure system: Structures are composed
+ * before terrain gen even kicks in, placement order of components are arbitrary and certain
+ * connected parts will fall apart due to unexpected variance in the terrain. Not good.
+ * The solution: Simply delay generation of parts using a tile entity that checks if the chunks
+ * in front of it are loaded, and then places a random part from the chosen pool. When this happens,
+ * the player is usually still far far away so they'll be none the wiser. Chunk load checks help
+ * prevent forced chunk loading and all the lag that comes with that.
+ *
+ * The system is named after tandem shaped charges: Make a hole with the first charge, then deliver
+ * the actual payload.
+ *
+ * @author hbm, Mellow
+ */
+public class BlockWandTandem extends BlockContainer implements IBlockSideRotation, INBTBlockTransformable, IGUIProvider, ILookOverlay {
 
 	private IIcon iconTop;
 	private IIcon iconSide;
 	private IIcon iconBack;
 
-	public BlockWandJigsaw() {
+	public BlockWandTandem() {
 		super(Material.iron);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityWandJigsaw();
+		return new TileEntityWandTandem();
 	}
 
 	@Override
@@ -71,10 +98,10 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":wand_jigsaw");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":wand_jigsaw_top");
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":wand_jigsaw_side");
-		this.iconBack = iconRegister.registerIcon(RefStrings.MODID + ":wand_jigsaw_back");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":wand_tandem");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":wand_tandem_top");
+		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":wand_tandem_side");
+		this.iconBack = iconRegister.registerIcon(RefStrings.MODID + ":wand_tandem_back");
 	}
 
 	@Override
@@ -130,9 +157,22 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityWandJigsaw)) return false;
+		if(!(te instanceof TileEntityWandTandem)) return false;
 
-		TileEntityWandJigsaw jigsaw = (TileEntityWandJigsaw) te;
+		TileEntityWandTandem jigsaw = (TileEntityWandTandem) te;
+
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == Items.paper) {
+			TileEntityWandTandem.copyMode = true;
+			if(!player.getHeldItem().hasTagCompound()) {
+				player.getHeldItem().stackTagCompound = new NBTTagCompound();
+				jigsaw.writeToNBT(player.getHeldItem().stackTagCompound);
+			} else {
+				jigsaw.readFromNBT(player.getHeldItem().stackTagCompound);
+				jigsaw.markDirty();
+			}
+			TileEntityWandTandem.copyMode = false;
+			return true;
+		}
 
 		if(!player.isSneaking()) {
 			Block block = getBlock(world, player.getHeldItem());
@@ -141,6 +181,7 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			if(block != null && block != ModBlocks.wand_jigsaw && block != ModBlocks.wand_loot) {
 				jigsaw.replaceBlock = block;
 				jigsaw.replaceMeta = player.getHeldItem().getItemDamage();
+				jigsaw.markDirty();
 
 				return true;
 			}
@@ -165,7 +206,7 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GuiWandJigsaw((TileEntityWandJigsaw) world.getTileEntity(x, y, z));
+		return new GuiWandTandem((TileEntityWandTandem) world.getTileEntity(x, y, z));
 	}
 
 	@Override
@@ -176,47 +217,82 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(!(te instanceof TileEntityWandJigsaw)) return;
-		TileEntityWandJigsaw jigsaw = (TileEntityWandJigsaw) te;
+		if(!(te instanceof TileEntityWandTandem)) return;
+		TileEntityWandTandem jigsaw = (TileEntityWandTandem) te;
 
 		List<String> text = new ArrayList<String>();
 
 		text.add(EnumChatFormatting.GRAY + "Target pool: " + EnumChatFormatting.RESET + jigsaw.pool);
-		text.add(EnumChatFormatting.GRAY + "Name: " + EnumChatFormatting.RESET + jigsaw.name);
 		text.add(EnumChatFormatting.GRAY + "Target name: " + EnumChatFormatting.RESET + jigsaw.target);
 		text.add(EnumChatFormatting.GRAY + "Turns into: " + EnumChatFormatting.RESET + GameRegistry.findUniqueIdentifierFor(jigsaw.replaceBlock).toString());
 		text.add(EnumChatFormatting.GRAY + "   with meta: " + EnumChatFormatting.RESET + jigsaw.replaceMeta);
-		text.add(EnumChatFormatting.GRAY + "Selection/Placement priority: " + EnumChatFormatting.RESET + jigsaw.selectionPriority + "/" + jigsaw.placementPriority);
 		text.add(EnumChatFormatting.GRAY + "Joint type: " + EnumChatFormatting.RESET + (jigsaw.isRollable ? "Rollable" : "Aligned"));
 
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
 
-	public static class TileEntityWandJigsaw extends TileEntityLoadedBase implements IControlReceiver {
+	public static class TileEntityWandTandem extends TileEntityLoadedBase implements IControlReceiver {
 
-		private int selectionPriority = 0; // higher priority = this jigsaw block is selected first for generation
-		private int placementPriority = 0; // higher priority = children of this jigsaw block are checked for jigsaw blocks of their own and selected first
+		public static boolean copyMode = false;
+
 		private String pool = "default";
-		private String name = "default";
 		private String target = "default";
 		private Block replaceBlock = Blocks.air;
 		private int replaceMeta = 0;
 		private boolean isRollable = true; // sets joint type, rollable joints can be placed in any orientation for vertical jigsaw connections
 
+		private boolean isArmed = false;
+		private SpawnCondition structure;
+
 		@Override
 		public void updateEntity() {
 			if(!worldObj.isRemote) {
+				tryGenerate();
 				networkPackNT(15);
 			}
 		}
 
+		private void tryGenerate() {
+			if(!this.isArmed || target == null || target.isEmpty() || pool == null || pool.isEmpty()) return;
+
+			JigsawPool pool = structure.getPool(this.pool);
+			if(pool == null) return;
+
+			JigsawPiece nextPiece = pool.get(worldObj.rand);
+			if(nextPiece == null) return;
+
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+
+			List<JigsawConnection> connectionPool = nextPiece.structure.getConnectionPool(dir, target);
+			if(connectionPool == null) return;
+
+			JigsawConnection toConnection = connectionPool.get(worldObj.rand.nextInt(connectionPool.size()));
+			int nextCoordBase = directionOffsetToCoordBase(dir.getOpposite(), toConnection.dir);
+
+			BlockPos pos = new BlockPos(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+
+			// offset the starting point to the connecting point
+			int ox = nextPiece.structure.rotateX(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
+			int oy = toConnection.pos.y;
+			int oz = nextPiece.structure.rotateZ(toConnection.pos.x, toConnection.pos.z, nextCoordBase);
+
+			nextPiece.structure.build(worldObj, nextPiece, pos.getX() - ox, pos.getY() - oy, pos.getZ() - oz, nextCoordBase, structure.name);
+
+			worldObj.setBlock(xCoord, yCoord, zCoord, replaceBlock, replaceMeta, 2);
+		}
+
+		private int directionOffsetToCoordBase(ForgeDirection from, ForgeDirection to) {
+			for(int i = 0; i < 4; i++) {
+				if(from == to) return i % 4;
+				from = from.getRotation(ForgeDirection.DOWN);
+			}
+			return 0;
+		}
+
 		@Override
 		public void serialize(ByteBuf buf) {
-			buf.writeInt(selectionPriority);
-			buf.writeInt(placementPriority);
 			BufferUtil.writeString(buf, pool);
-			BufferUtil.writeString(buf, name);
 			BufferUtil.writeString(buf, target);
 			buf.writeInt(Block.getIdFromBlock(replaceBlock));
 			buf.writeInt(replaceMeta);
@@ -225,10 +301,7 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void deserialize(ByteBuf buf) {
-			selectionPriority = buf.readInt();
-			placementPriority = buf.readInt();
 			pool = BufferUtil.readString(buf);
-			name = BufferUtil.readString(buf);
 			target = BufferUtil.readString(buf);
 			replaceBlock = Block.getBlockById(buf.readInt());
 			replaceMeta = buf.readInt();
@@ -237,13 +310,16 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
-			super.writeToNBT(nbt);
-			nbt.setInteger("direction", this.getBlockMetadata());
+			if(!copyMode) {
+				super.writeToNBT(nbt);
+				nbt.setInteger("direction", this.getBlockMetadata());
+				if(isArmed) {
+					nbt.setBoolean("isArmed", isArmed);
+					nbt.setString("structure", structure.name);
+				}
+			}
 
-			nbt.setInteger("selection", selectionPriority);
-			nbt.setInteger("placement", placementPriority);
 			nbt.setString("pool", pool);
-			nbt.setString("name", name);
 			nbt.setString("target", target);
 			nbt.setString("block", GameRegistry.findUniqueIdentifierFor(replaceBlock).toString());
 			nbt.setInteger("meta", replaceMeta);
@@ -252,12 +328,13 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
-			super.readFromNBT(nbt);
+			if(!copyMode) {
+				super.readFromNBT(nbt);
+				isArmed = nbt.getBoolean("isArmed");
+				structure = NBTStructure.getStructure(nbt.getString("structure"));
+			}
 
-			selectionPriority = nbt.getInteger("selection");
-			placementPriority = nbt.getInteger("placement");
 			pool = nbt.getString("pool");
-			name = nbt.getString("name");
 			target = nbt.getString("target");
 			replaceBlock = Block.getBlockFromName(nbt.getString("block"));
 			replaceMeta = nbt.getInteger("meta");
@@ -275,22 +352,23 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			markDirty();
 		}
 
+		public void arm(SpawnCondition structure) {
+			isArmed = true;
+			this.structure = structure;
+		}
+
 	}
 
-	public static class GuiWandJigsaw extends GuiScreen {
+	public static class GuiWandTandem extends GuiScreen {
 
-		private final TileEntityWandJigsaw jigsaw;
+		private final TileEntityWandTandem jigsaw;
 
 		private GuiTextField textPool;
-		private GuiTextField textName;
 		private GuiTextField textTarget;
-
-		private GuiTextField textSelectionPriority;
-		private GuiTextField textPlacementPriority;
 
 		private GuiButton jointToggle;
 
-		public GuiWandJigsaw(TileEntityWandJigsaw jigsaw) {
+		public GuiWandTandem(TileEntityWandTandem jigsaw) {
 			this.jigsaw = jigsaw;
 		}
 
@@ -301,17 +379,8 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			textPool = new GuiTextField(fontRendererObj, this.width / 2 - 150, 50, 300, 20);
 			textPool.setText(jigsaw.pool);
 
-			textName = new GuiTextField(fontRendererObj, this.width / 2 - 150, 100, 140, 20);
-			textName.setText(jigsaw.name);
-
 			textTarget = new GuiTextField(fontRendererObj, this.width / 2 + 10, 100, 140, 20);
 			textTarget.setText(jigsaw.target);
-
-			textSelectionPriority = new GuiTextField(fontRendererObj, this.width / 2 - 150, 150, 90, 20);
-			textSelectionPriority.setText("" + jigsaw.selectionPriority);
-
-			textPlacementPriority = new GuiTextField(fontRendererObj, this.width / 2 - 40, 150, 90, 20);
-			textPlacementPriority.setText("" + jigsaw.placementPriority);
 
 			jointToggle = new GuiButton(0, this.width / 2 + 60, 150, 90, 20, jigsaw.isRollable ? "Rollable" : "Aligned");
 		}
@@ -323,17 +392,8 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			drawString(fontRendererObj, "Target pool:", this.width / 2 - 150, 37, 0xA0A0A0);
 			textPool.drawTextBox();
 
-			drawString(fontRendererObj, "Name:", this.width / 2 - 150, 87, 0xA0A0A0);
-			textName.drawTextBox();
-
 			drawString(fontRendererObj, "Target name:", this.width / 2 + 10, 87, 0xA0A0A0);
 			textTarget.drawTextBox();
-
-			drawString(fontRendererObj, "Selection priority:", this.width / 2 - 150, 137, 0xA0A0A0);
-			textSelectionPriority.drawTextBox();
-
-			drawString(fontRendererObj, "Placement priority:", this.width / 2 - 40, 137, 0xA0A0A0);
-			textPlacementPriority.drawTextBox();
 
 			drawString(fontRendererObj, "Joint type:", this.width / 2 + 60, 137, 0xA0A0A0);
 			jointToggle.drawButton(mc, mouseX, mouseY);
@@ -349,12 +409,7 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			jigsaw.writeToNBT(data);
 
 			data.setString("pool", textPool.getText());
-			data.setString("name", textName.getText());
 			data.setString("target", textTarget.getText());
-
-			try { data.setInteger("selection", Integer.parseInt(textSelectionPriority.getText())); } catch(Exception ex) {}
-			try { data.setInteger("placement", Integer.parseInt(textPlacementPriority.getText())); } catch(Exception ex) {}
-
 			data.setBoolean("roll", jointToggle.displayString == "Rollable");
 
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, jigsaw.xCoord, jigsaw.yCoord, jigsaw.zCoord));
@@ -364,27 +419,20 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 		protected void keyTyped(char typedChar, int keyCode) {
 			super.keyTyped(typedChar, keyCode);
 			textPool.textboxKeyTyped(typedChar, keyCode);
-			textName.textboxKeyTyped(typedChar, keyCode);
 			textTarget.textboxKeyTyped(typedChar, keyCode);
-			textSelectionPriority.textboxKeyTyped(typedChar, keyCode);
-			textPlacementPriority.textboxKeyTyped(typedChar, keyCode);
 		}
 
 		@Override
 		protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 			super.mouseClicked(mouseX, mouseY, mouseButton);
 			textPool.mouseClicked(mouseX, mouseY, mouseButton);
-			textName.mouseClicked(mouseX, mouseY, mouseButton);
 			textTarget.mouseClicked(mouseX, mouseY, mouseButton);
-			textSelectionPriority.mouseClicked(mouseX, mouseY, mouseButton);
-			textPlacementPriority.mouseClicked(mouseX, mouseY, mouseButton);
 
 			if(jointToggle.mousePressed(mc, mouseX, mouseY)) {
-				System.out.println("displayString: " + jointToggle.displayString);
 				jointToggle.displayString = jointToggle.displayString == "Rollable" ? "Aligned" : "Rollable";
 			}
 		}
 
+		@Override public boolean doesGuiPauseGame() { return false; }
 	}
-
 }

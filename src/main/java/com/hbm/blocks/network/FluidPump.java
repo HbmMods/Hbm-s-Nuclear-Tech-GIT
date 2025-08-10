@@ -25,7 +25,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.i18n.I18nUtil;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -55,7 +55,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FluidPump extends BlockContainer implements INBTTransformable, ILookOverlay, IGUIProvider {
+public class FluidPump extends BlockContainer implements INBTBlockTransformable, ILookOverlay, IGUIProvider {
 
 	public FluidPump(Material mat) {
 		super(mat);
@@ -127,7 +127,7 @@ public class FluidPump extends BlockContainer implements INBTTransformable, ILoo
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
