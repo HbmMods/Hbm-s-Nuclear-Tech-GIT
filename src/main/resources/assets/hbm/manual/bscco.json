@@ -1,0 +1,11 @@
+{
+	"name": "BSCCO",
+	"icon": ["hbm:item.ingot_bscco", 1, 0],
+    "trigger": [["hbm:item.ingot_bscco"], ["hbm:item.wire_dense", 1, 48]],
+    "title": {
+        "en_US": "BSCCO"
+    },
+	"content": {
+		"en_US": "Powerful superconductor, used in high tier circuits and coils for the [[particle accelerator|Particle Accelerator]]. Requires [[bismuth|Bismuth]], and is therefore only obtainable after building an [[RBMK]]."
+	}
+}

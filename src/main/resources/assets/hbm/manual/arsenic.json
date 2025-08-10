@@ -1,0 +1,11 @@
+{
+	"name": "Arsenic",
+	"icon": ["hbm:item.ingot_arsenic", 1, 0],
+    "trigger": [["hbm:item.ingot_arsenic"], ["hbm:item.nugget_arsenic"]],
+    "title": {
+        "en_US": "Arsenic"
+    },
+	"content": {
+		"en_US": "Obtainable by treating oily scraps with [[high-performance solvent|High-Performance Solvent]] in an [[acidizer|Ore Acidizer]]. Oily scraps can be created by [[shredding|Shredder]] polluted blocks created by the [[fracking tower|Hydraulic Fracking Tower]]. Primarily used as [[arsenic bronze|Arsenic Bronze]]."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Tantalium",
+	"icon": ["hbm:item.ingot_tantalium", 1, 0],
+    "trigger": [["hbm:item.ingot_tantalium"], ["hbm:item.powder_tantalium"], ["hbm:item.nugget_tantalium"]],
+    "title": {
+        "en_US": "Tantalium"
+    },
+	"content": {
+		"en_US": "Tantalium ('Tantalum') can be ectracted out of [[coltan|Coltan]] which is only found within one specific area in the world. Used mainly for tantalium capacitors, which are crucial for the control units used by most nuclear bombs."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Cadmium",
+	"icon": ["hbm:item.ingot_cadmium", 1, 0],
+    "trigger": [["hbm:item.ingot_cadmium"], ["hbm:item.powder_cadmium"]],
+    "title": {
+        "en_US": "Cadmium"
+    },
+	"content": {
+		"en_US": "Made by treating mustard willow leaves with [[high-performance solvent|High-Performance Solvent]]. Used in [[PVC]], a lategame alternate recipe for [[rubber|Rubber]] and for [[cadmium steel|Cadmium Steel]], which acts as a [[technetium steel|Technetium Steel]] substitute."
+	}
+}

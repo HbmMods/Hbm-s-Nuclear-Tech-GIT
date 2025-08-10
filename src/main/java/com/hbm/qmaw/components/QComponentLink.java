@@ -68,8 +68,8 @@ public class QComponentLink extends ManualElement {
 			GL11.glRotated(180, 1, 0, 0);
 			RenderHelper.enableStandardItemLighting();
 			GL11.glRotated(-180, 1, 0, 0);
-			itemRender.renderItemAndEffectIntoGUI(this.font, mc.renderEngine, this.icon, x, y);
-			itemRender.renderItemOverlayIntoGUI(this.font, mc.renderEngine, this.icon, x, y, null);
+			itemRender.renderItemAndEffectIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1);
+			itemRender.renderItemOverlayIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1, null);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();

@@ -1,0 +1,11 @@
+{
+	"name": "Bismuth Bronze",
+	"icon": ["hbm:item.ingot_bismuth_bronze", 1, 0],
+    "trigger": [["hbm:item.ingot_bismuth_bronze"]],
+    "title": {
+        "en_US": "Bismuth Bronze"
+    },
+	"content": {
+		"en_US": "Derivative of [[bismuth|Bismuth]] made in the [[crucible|Crucible]], therefore available only after building an [[RBMK]].<br><br>Fully interchangeable with [[arsenic bronze|Arsenic Bronze]]."
+	}
+}

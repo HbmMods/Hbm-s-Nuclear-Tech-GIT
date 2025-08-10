@@ -1,0 +1,11 @@
+{
+	"name": "Arsenic Bronze",
+	"icon": ["hbm:item.ingot_arsenic_bronze", 1, 0],
+    "trigger": [["hbm:item.ingot_arsenic_bronze"]],
+    "title": {
+        "en_US": "Arsenic Bronze"
+    },
+	"content": {
+		"en_US": "Derivative of [[arsenic|Arsenic]] made in the [[crucible|Crucible]], therefore available only after building an [[RBMK]] due to requiring [[high-performance solvent|High-Performance Solvent]].<br><br>Fully interchangeable with [[bismuth bronze|Bismuth Bronze]]."
+	}
+}
