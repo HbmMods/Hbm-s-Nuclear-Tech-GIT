@@ -3,13 +3,16 @@ package com.hbm.qmaw;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.qmaw.components.*;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.LanguageManager;
@@ -22,8 +25,12 @@ public class GuiQMAW extends GuiScreen {
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_wiki.png");
 	
 	public String title;
+	public String qmawID;
 	public ItemStack icon;
 	public List<List<ManualElement>> lines = new ArrayList();
+	/** History for returning via button */
+	public List<String> back = new ArrayList();
+	public List<String> forward = new ArrayList();
 	
 	protected int xSize = 340;
 	protected int ySize = 224;
@@ -38,6 +45,7 @@ public class GuiQMAW extends GuiScreen {
 	public static final String EN_US = "en_US";
 	
 	public GuiQMAW(QuickManualAndWiki qmaw) {
+		qmawID = qmaw.name;
 		parseQMAW(qmaw);
 	}
 	
@@ -163,6 +171,43 @@ public class GuiQMAW extends GuiScreen {
 			this.lastClickX = x;
 			this.lastClickY = y;
 		}
+
+		if(guiLeft + 3 <= x && guiLeft + 3 + 18 > x && guiTop + 3 < y && guiTop + 3 + 18 >= y) back();
+		if(guiLeft + 21 <= x && guiLeft + 21 + 18 > x && guiTop + 3 < y && guiTop + 3 + 18 >= y) forward();
+	}
+	
+	public void back() {
+		if(this.back.isEmpty()) return;
+		
+		String prev = back.get(back.size() - 1);
+
+		QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(prev);
+		if(qmaw != null) {
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			GuiQMAW screen = new GuiQMAW(qmaw);
+			screen.back.addAll(back);
+			screen.back.remove(screen.back.size() - 1);
+			screen.forward.addAll(forward);
+			screen.forward.add(qmawID);
+			FMLCommonHandler.instance().showGuiScreen(screen);
+		}
+	}
+	
+	public void forward() {
+		if(this.forward.isEmpty()) return;
+		
+		String next = forward.get(forward.size() - 1);
+
+		QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(next);
+		if(qmaw != null) {
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			GuiQMAW screen = new GuiQMAW(qmaw);
+			screen.back.addAll(back);
+			screen.back.add(qmawID);
+			screen.forward.addAll(forward);
+			screen.forward.remove(screen.forward.size() - 1);
+			FMLCommonHandler.instance().showGuiScreen(screen);
+		}
 	}
 	
 	public int getSliderPosition() {
@@ -213,7 +258,7 @@ public class GuiQMAW extends GuiScreen {
 
 	private void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
-		int x = 7;
+		int x = 43;
 		int y = 4;
 		
 		if(this.icon != null) {
@@ -242,7 +287,11 @@ public class GuiQMAW extends GuiScreen {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, 170, ySize);
-		drawTexturedModalRect(guiLeft + 170, guiTop, 22, 0, 170, ySize);
+		drawTexturedModalRect(guiLeft + 170, guiTop, 52, 0, 30, ySize);
+		drawTexturedModalRect(guiLeft + 200, guiTop, 52, 0, 140, ySize);
+
+		if(!back.isEmpty()) drawTexturedModalRect(guiLeft + 3, guiTop + 3, 204, 0, 18, 18);
+		if(!forward.isEmpty()) drawTexturedModalRect(guiLeft + 21, guiTop + 3, 222, 0, 18, 18);
 		
 		// scroll bar
 		drawTexturedModalRect(guiLeft +  xSize - 15, guiTop + getSliderPosition(), 192, 0, 12, 16);
@@ -273,7 +322,7 @@ public class GuiQMAW extends GuiScreen {
 				boolean mouseOver = (elementX <= mouseX && elementX + element.getWidth() > mouseX && elementY < mouseY && elementY + element.getHeight() >= mouseY);
 				element.render(mouseOver, elementX, elementY, mouseX, mouseY);
 				if(elementX <= lastClickX && elementX + element.getWidth() > lastClickX && elementY < lastClickY && elementY + element.getHeight() >= lastClickY)
-					element.onClick();
+					element.onClick(this);
 				inset += element.getWidth();
 			}
 			
@@ -283,6 +332,9 @@ public class GuiQMAW extends GuiScreen {
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
+
+		if(keyCode == Keyboard.KEY_LEFT) back();
+		if(keyCode == Keyboard.KEY_RIGHT) forward();
 		
 		if(keyCode == 1 || keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 			this.mc.displayGuiScreen((GuiScreen) null);

@@ -1,23 +1,2 @@
-## Added
-* QMAW (quick manual and wiki)
-  * It's a simple ingame manual that can be found by pressing F1 on items (like the WIAJ presentations)
-  * Supports text and links and not much else
-  * Easy to make entries for, the system scans `assets/manual` for valid `.json` format files
-  * Should also work in resource packs (no recent tests for that, not going to make promises)
-  * Still WIP, many new info pages are yet to be made
-* `/ntmlocate`
-  * Finds structures
-  * Only works on the new component structures, the old crusty ones like the factors and powerplant aren't supported
-
 ## Changed
-* Updated chinese and russian localization
-* All the never completed missile parts (20/20 fuselage, 20 warhead, 10 and 15 tec kerosene thrusters) have been removed
-* The electric arc furnace now scrapes the vanilla furnace recipe list on server start in addition to postinit, making sure recipes added during postinit after NTM loads (like Thermal's ingots) are covered too
-* The shredder's sound will now start immediately when processing instead of with random delay
-* The assembly machine can now make nuclear waste into barrels
-* Capacitors now have OpenComputers integration
-
-## Fixed
-* Fixed GT6 compatibility watz pellets crashing due to misconfigured recipes
-* Removed failed attempt at fixing the gun desync dupe which made things worse
-* Fixed a potential crash regarding structure blocks
+* QMAW now has buttons for returning to previously viewed pages

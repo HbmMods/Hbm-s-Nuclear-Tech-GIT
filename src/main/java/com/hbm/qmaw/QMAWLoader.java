@@ -60,6 +60,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 		//no fucking null check, if this fails then the entire game will sink along with the ship
 		String path = QMAWLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		// exclude .class in the case of a dev env
+		MainRegistry.logger.info("[QMAW] Current running file: " + path);
 		if(!path.endsWith(".class")) registerModFileURL(new File(path)); // i am going to shit myself
 		
 		qmaw.clear();
@@ -76,7 +77,10 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	 * */
 	public static void agonyEngine() {
 		
-		for(File modFile : registeredModFiles) dissectZip(modFile);
+		for(File modFile : registeredModFiles) {
+			logJarAttempt(modFile.getName());
+			dissectZip(modFile);
+		}
 		
 		File devEnvManualFolder = new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath().replace("/eclipse/.".replace('/', File.separatorChar), "") + "/src/main/resources/assets/hbm/manual".replace('/', File.separatorChar));
 		if(devEnvManualFolder.exists() && devEnvManualFolder.isDirectory()) {
@@ -102,6 +106,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 		}
 	}
 
+	public static void logJarAttempt(String name) { MainRegistry.logger.info("[QMAW] Dissecting jar " + name); }
 	public static void logPackAttempt(String name) { MainRegistry.logger.info("[QMAW] Dissecting resource " + name); }
 	public static void logFoundManual(String name) { MainRegistry.logger.info("[QMAW] Found manual " + name); }
 	
