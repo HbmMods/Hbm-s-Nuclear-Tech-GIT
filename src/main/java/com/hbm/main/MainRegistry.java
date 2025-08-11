@@ -40,6 +40,7 @@ import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.qmaw.QMAWLoader;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
@@ -253,6 +254,8 @@ public class MainRegistry {
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
 		CrashHelper.init();
+		
+		QMAWLoader.registerModFileURL(FMLCommonHandler.instance().findContainerFor(RefStrings.MODID).getSource());
 
 		startupTime = System.currentTimeMillis();
 		configDir = PreEvent.getModConfigurationDirectory();

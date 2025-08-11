@@ -48,7 +48,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 		MainRegistry.logger.info("[QMAW] Loaded " + qmaw.size() + " manual entries! (" + (System.currentTimeMillis() - timestamp) + "ms)");
 	}
 	
-	/** For the like 2 people who might consider making an NTM addon and want to include manual pages */
+	/** For the like 2 people who might consider making an NTM addon and want to include manual pages. Requires the mod's actual JAR file as the parameter. */
 	public static void registerModFileURL(File file) {
 		registeredModFiles.add(file);
 	}
@@ -56,12 +56,14 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	/** Searches the asset folder for QMAW format JSON files and adds entries based on that */
 	public static void init() {
 
-		//the mod's file, assuming the mod is a file (not the case in a dev env, fuck!)
+		/*//the mod's file, assuming the mod is a file (not the case in a dev env, fuck!)
 		//no fucking null check, if this fails then the entire game will sink along with the ship
 		String path = QMAWLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		// exclude .class in the case of a dev env
 		MainRegistry.logger.info("[QMAW] Current running file: " + path);
-		if(!path.endsWith(".class")) registerModFileURL(new File(path)); // i am going to shit myself
+		if(!path.endsWith(".class")) registerModFileURL(new File(path)); // i am going to shit myself*/ // deactivated because it likely doesn't even fucking work
+		
+		// registering of the mod file now happens in the MainRegistry during preinit
 		
 		qmaw.clear();
 		triggers.clear();
@@ -153,7 +155,7 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	
 	/** Opens a resource pack folder, skips to the manual folder, then tries to dissect that */
 	public static void dissectFolder(File folder) {
-		File manualFolder = new File(folder, "/assets/manual");
+		File manualFolder = new File(folder, "/assets/hbm/manual");
 		if(manualFolder.exists() && manualFolder.isDirectory()) dissectManualFolder(manualFolder);
 	}
 	
@@ -180,6 +182,12 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 	public static void registerJson(String file, JsonObject json) {
 		
 		String name = json.get("name").getAsString();
+		
+		if(QMAWLoader.qmaw.containsKey(name)) {
+			MainRegistry.logger.info("[QMAW] Skipping existing entry " + file);
+			return;
+		}
+		
 		QuickManualAndWiki qmaw = new QuickManualAndWiki(name);
 		
 		if(json.has("icon")) {
