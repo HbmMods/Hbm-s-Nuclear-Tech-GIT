@@ -3,6 +3,10 @@ package com.hbm.blocks.bomb;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.config.ClientConfig;
+
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
@@ -280,10 +284,12 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 
 		/** I SEE SMOKE, AND WHERE THERE'S SMOKE THERE'S FIRE! */
 		private void spawnSmoke() {
-			NBTTagCompound dPart = new NBTTagCompound();
-			dPart.setString("type", "vanillaExt");
-			dPart.setString("mode", "volcano");
-			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5, yCoord + 10, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 10, zCoord + 0.5, 250));
+			if((ClientConfig.VOLCANO_PARTICLES.get){
+				NBTTagCompound dPart = new NBTTagCompound();
+				dPart.setString("type", "vanillaExt");
+				dPart.setString("mode", "volcano");
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5, yCoord + 10, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 10, zCoord + 0.5, 250));
+			}
 		}
 	}
 }
