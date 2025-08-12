@@ -284,7 +284,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 
 		/** I SEE SMOKE, AND WHERE THERE'S SMOKE THERE'S FIRE! */
 		private void spawnSmoke() {
-			if((ClientConfig.VOLCANO_PARTICLES.get){
+			if(ClientConfig.VOLCANO_PARTICLES.get()){
 				NBTTagCompound dPart = new NBTTagCompound();
 				dPart.setString("type", "vanillaExt");
 				dPart.setString("mode", "volcano");
