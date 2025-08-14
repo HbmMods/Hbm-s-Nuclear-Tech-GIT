@@ -37,7 +37,7 @@ public class LoadingScreenRendererNT extends LoadingScreenRenderer {
 	}
 	
 	private String chooseTip() {
-		if(HTTPHandler.tipOfTheDay.isEmpty()) return "null";
+		if(HTTPHandler.tipOfTheDay.isEmpty()) return "Explore! There's tons of free stuff to find.";
 		return HTTPHandler.tipOfTheDay.get(new Random().nextInt(HTTPHandler.tipOfTheDay.size()));
 	}
 

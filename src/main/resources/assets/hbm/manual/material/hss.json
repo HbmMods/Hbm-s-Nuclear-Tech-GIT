@@ -1,0 +1,11 @@
+{
+	"name": "High-Speed Steel",
+	"icon": ["hbm:item.ingot_dura_steel", 1, 0],
+    "trigger": [["hbm:item.ingot_dura_steel"], ["hbm:item.powder_dura_steel"], ["hbm:item.plate_dura_steel"]],
+    "title": {
+        "en_US": "High-Speed Steel"
+    },
+	"content": {
+		"en_US": "Alloy made from [[steel|Steel]], [[tungsten|Tungsten]] and [[cobalt|Cobalt]] in a [[curcible|Crucible]]. Created as liquid metal, needs to be cast into ingot or plate shape before being usable."
+	}
+}

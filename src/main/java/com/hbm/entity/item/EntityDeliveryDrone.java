@@ -200,9 +200,11 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 			}
 			
 			// This is the lowest padding that worked with my drone waypoint path. if they stop getting loaded crank up paddingSize
-			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) this.posX, (int) this.posZ, (int) (this.posX + this.motionX), (int) (this.posZ + this.motionZ), 4)){
+			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) Math.floor(this.posX), (int) Math.floor(this.posZ), (int) Math.floor(this.posX + this.motionX), (int) Math.floor(this.posZ + this.motionZ), 8)){
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
 			}
+			
+			System.out.println("guhhh");
 		}
 	}
 

@@ -114,6 +114,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.oredict.OreDictionary;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -753,6 +755,9 @@ public class ModEventHandlerClient {
 
 		try {
 			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
+			if(qmaw == null) {
+				qmaw = QMAWLoader.triggers.get(new ComparableStack(comp.item, 1, OreDictionary.WILDCARD_VALUE));
+			}
 			if(qmaw != null) {
 				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
 				lastQMAW = qmaw;

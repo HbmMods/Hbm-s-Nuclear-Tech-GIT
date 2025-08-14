@@ -1,0 +1,11 @@
+{
+	"name": "Aluminium",
+	"icon": ["hbm:item.ingot_aluminium", 1, 0],
+    "trigger": [["hbm:item.ingot_aluminium"], ["hbm:item.plate_aluminium"], ["hbm:item.powder_aluminium"]],
+    "title": {
+        "en_US": "Aluminium"
+    },
+	"content": {
+		"en_US": "Common, lightweight metal. Available early on from smelting cryolite ('aluminium-bearing ore') in a [[combination oven|Combination Oven]]. Can be made later by processing [[bauxite|Bauxite]], and [[electrolyzing|Electrolysis Machine]] the resulting alumina solution.<br><br>Used in piping, general fluid handling, as part of [[gunmetal|Gunmetal]] and missile fuselages."
+	}
+}

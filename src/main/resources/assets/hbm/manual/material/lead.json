@@ -1,0 +1,11 @@
+{
+	"name": "Lead",
+	"icon": ["hbm:item.ingot_lead", 1, 0],
+    "trigger": [["hbm:item.ingot_lead"], ["hbm:item.nugget_lead"], ["hbm:item.powder_lead"]],
+    "title": {
+        "en_US": "Lead"
+    },
+	"content": {
+		"en_US": "Common resource. Mainly used for things that involve radiation, as well as ammunition, and as solder for many circuits."
+	}
+}

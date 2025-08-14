@@ -1,0 +1,11 @@
+{
+	"name": "Cinnabar",
+	"icon": ["hbm:item.cinnebar", 1, 0],
+    "trigger": [["hbm:item.cinnebar"]],
+    "title": {
+        "en_US": "Cinnabar"
+    },
+	"content": {
+		"en_US": "Rare ore. Can be [[acidized|Ore Acidizer]] into 375mB worth of [[mercury|Mercury]] drops, or [[combination smelted|Combination Oven]] into 100mB of mercury and some sulfur. Mainly exists as an early means to get mercury for [[desh|Desh]] production."
+	}
+}

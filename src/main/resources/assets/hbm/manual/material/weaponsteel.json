@@ -1,0 +1,11 @@
+{
+	"name": "Weapon Steel",
+	"icon": ["hbm:item.ingot_weaponsteel", 1, 0],
+    "trigger": [["hbm:item.ingot_weaponsteel"], ["hbm:item.plate_weaponsteel"]],
+    "title": {
+        "en_US": "Weapon Steel"
+    },
+	"content": {
+		"en_US": "High-purity version of [[steel|Steel]] made in a [[rotary furnace|Rotary Furnace]]. Requires [[coker gas|Coker Gas]], and therefore a [[coker unit|Coker Unit]]. Used in many mid-game weapons, weapon modifications and missile warheads."
+	}
+}

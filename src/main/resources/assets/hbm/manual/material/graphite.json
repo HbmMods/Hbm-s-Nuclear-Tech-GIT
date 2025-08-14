@@ -1,0 +1,11 @@
+{
+	"name": "Graphite",
+	"icon": ["hbm:item.ingot_graphite", 1, 0],
+    "trigger": [["hbm:item.ingot_graphite"]],
+    "title": {
+        "en_US": "Graphite"
+    },
+	"content": {
+		"en_US": "Made from pressing coke. Used in nuclear reactors, graphite electrodes for the [[electric arc furnace|Electric Arc Furnace]] or as a source for carbon in various [[crucible|Crucible]] recipes."
+	}
+}
