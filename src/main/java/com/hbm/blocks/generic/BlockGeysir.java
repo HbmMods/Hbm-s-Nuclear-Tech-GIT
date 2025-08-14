@@ -62,7 +62,7 @@ public class BlockGeysir extends BlockContainer {
 
 		int l = p_149734_1_.getBlockMetadata(x, y, z);
 		
-		if(this == ModBlocks.geysir_vapor && l == 1) {
+		if(this == ModBlocks.geysir_vapor && l == 1 && ClientConfig.GEYSIR_PARTICLES.get()) {
 			float f = x + 0.5F;
 			float f1 = y + 1.0F;
 			float f2 = z + 0.5F;
