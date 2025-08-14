@@ -34,6 +34,8 @@ public class ClientConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> COOLING_TOWER_PARTICLES =			new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> RENDER_REBAR_SIMPLE =				new ConfigWrapper(false);
 	public static ConfigWrapper<Boolean> VOLCANO_PARTICLES =			    new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> GEYSIR_PARTICLES =			        new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> GEYSIR_LESSER_PARTICLES =          new ConfigWrapper(false);
 
 	private static void initDefaults() {
 		configMap.put("GEIGER_OFFSET_HORIZONTAL", GEIGER_OFFSET_HORIZONTAL);
@@ -57,6 +59,9 @@ public class ClientConfig extends RunningConfig {
 		configMap.put("COOLING_TOWER_PARTICLES", COOLING_TOWER_PARTICLES);
 		configMap.put("RENDER_REBAR_SIMPLE", RENDER_REBAR_SIMPLE);
 		configMap.put("VOLCANO_PARTICLES", VOLCANO_PARTICLES);
+		configMap.put("GEYSIR_PARTICLES", GEYSIR_PARTICLES);
+		configMap.put("GEYSIR_LESSER_PARTICLES", GEYSIR_LESSER_PARTICLES);
+		
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */
