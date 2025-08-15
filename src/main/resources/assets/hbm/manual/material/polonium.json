@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.billet_polonium", 1, 0],
     "trigger": [["hbm:item.ingot_polonium"], ["hbm:item.billet_polonium"], ["hbm:item.nugget_polonium"]],
     "title": {
-        "en_US": "Polonium-210"
+        "en_US": "Polonium-210",
+		"ru_RU": "Полоний-210"
     },
 	"content": {
-		"en_US": "Radioisotope derived from reprocessing [[radium-226|Radium-226]] neutron sources. Usable for [[RTGs|RTG]], or with [[beryllium|Beryllium]] in Po210Be neutron sources for [[RBMKs|RBMK]].<br><br>Highly radioactive, very hot."
+		"en_US": "Radioisotope derived from reprocessing [[radium-226|Radium-226]] neutron sources. Usable for [[RTGs|RTG]], or with [[beryllium|Beryllium]] in Po210Be neutron sources for [[RBMKs|RBMK]].<br><br>Highly radioactive, very hot.",
+		"ru_RU": "Радиоизотоп, получаемый из переработки нейтронных источников [[радия-226|Radium-226]]. Используется для [[РТГ|RTG]] или с [[бериллием|Beryllium]] в нейтронных источниках Полоний-210-бериллий для [[РБМК|RBMK]].<br><br>Сильно радиоактивен, очень горячий."
 	}
 }
