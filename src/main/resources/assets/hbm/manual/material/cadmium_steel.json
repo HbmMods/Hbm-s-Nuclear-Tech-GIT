@@ -1,0 +1,11 @@
+{
+	"name": "Cadmium Steel",
+	"icon": ["hbm:item.ingot_cdalloy", 1, 0],
+    "trigger": [["hbm:item.ingot_cdalloy"]],
+    "title": {
+        "en_US": "Cadmium Steel"
+    },
+	"content": {
+		"en_US": "Corrosion-resistant alloy, made from [[steel|Steel]] and [[cadmium|Cadmium]]. Alternative to [[technetium steel|Technetium Steel]] in most recipes."
+	}
+}

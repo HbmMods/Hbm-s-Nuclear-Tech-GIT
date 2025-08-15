@@ -1,0 +1,11 @@
+{
+	"name": "Rubber",
+	"icon": ["hbm:item.ingot_rubber", 1, 0],
+    "trigger": [["hbm:item.ingot_rubber"]],
+    "title": {
+        "en_US": "Rubber"
+    },
+	"content": {
+		"en_US": "Oil product, derived from [[unsaturated hydrocabons|Unsaturated Hydrocarbons]] and [[sulfur|Sulfur]]. Requires at least a [[cracking tower|Catalytic Cracking Tower]] to make. Can replace [[latex|Latex]] in every recipe."
+	}
+}

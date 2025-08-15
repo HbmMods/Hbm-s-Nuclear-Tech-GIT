@@ -153,5 +153,4 @@ public class TileEntityRefueler extends TileEntityLoadedBase implements IFluidSt
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tank };
 	}
-	
 }

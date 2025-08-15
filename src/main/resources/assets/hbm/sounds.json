@@ -64,6 +64,7 @@
     "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
     "block.hephaestusRunning": {"category": "block", "sounds": [{"name": "block/hephaestusRunning", "stream": false}]},
     "block.squeakyToy": {"category": "block", "sounds": [{"name": "block/squeakyToy", "stream": false}]},
+    "block.hunduns_magnificent_howl": {"category": "block", "sounds": [{"name": "block/hunduns_magnificent_howl", "stream": false}]},
     "block.pyroOperate": {"category": "block", "sounds": [{"name": "block/pyroOperate", "stream": false}]},
     "block.motor": {"category": "block", "sounds": [{"name": "block/motor", "stream": false}]},
     "block.engine": {"category": "block", "sounds": [{"name": "block/engine", "stream": false}]},

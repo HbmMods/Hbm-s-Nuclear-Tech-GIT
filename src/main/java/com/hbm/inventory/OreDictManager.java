@@ -454,7 +454,7 @@ public class OreDictManager {
 		 * HAZARDS, MISC
 		 */
 		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium);
-		NA	.hydro(1F)													.dust(powder_sodium);
+		NA	.hydro(1F)	.hazIngot()										.dust(powder_sodium);
 
 		/*
 		 * PHOSPHORUS
@@ -494,7 +494,7 @@ public class OreDictManager {
 		/*
 		 * FISSION FRAGMENTS
 		 */
-		SR									.hot(1F)	.hydro(1F)									.dust(powder_strontium);
+		SR									.hot(1F)	.hydro(1F)	.hazIngot()						.dust(powder_strontium);
 		SR90	.rad(HazardRegistry.sr90)	.hot(1F)	.hydro(1F)	.dustSmall(powder_sr90_tiny)	.dust(powder_sr90)	.ingot(ingot_sr90)	.billet(billet_sr90)	.nugget(nugget_sr90);
 		I131	.rad(HazardRegistry.i131)	.hot(1F)				.dustSmall(powder_i131_tiny)	.dust(powder_i131);
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
@@ -910,6 +910,21 @@ public class OreDictManager {
 		}
 		public DictFrame makeBlocks(String tag, Block... blocks) {
 			for(Block b : blocks) registerStack(tag, new ItemStack(b));
+			return this;
+		}
+		
+		public DictFrame hazIngot() {
+			hazMult = HazardRegistry.ingot;
+			return autoRegHazard(INGOT);
+		}
+		
+		// TODO: rethink this. currently, keys are only registered on-demand if the dict frame has a valid entry, even though we can maximize compatibility
+		// by simply registereing all known shapes in the haz reg, whether it exists or not
+		public DictFrame autoRegHazard(MaterialShapes shape) {
+			String tag = shape.name();
+			for(String mat : mats) {
+				registerHazards(hazards, hazMult, tag + mat);
+			}
 			return this;
 		}
 

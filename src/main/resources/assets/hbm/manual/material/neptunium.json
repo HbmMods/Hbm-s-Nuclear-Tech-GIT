@@ -1,0 +1,11 @@
+{
+	"name": "Neptunium",
+	"icon": ["hbm:item.ingot_neptunium", 1, 0],
+    "trigger": [["hbm:item.ingot_neptunium"], ["hbm:item.billet_neptunium"], ["hbm:item.nugget_neptunium"], ["hbm:item.powder_neptunium"]],
+    "title": {
+        "en_US": "Neptunium"
+    },
+	"content": {
+		"en_US": "Fissile isotope, usually found in spent [[uranium-235|Uranium-235]] fuel. Mostly used for nuclear reactors, either pure as high enriched neptunium fuel, or combined with [[uranium-238|Uranium-238]] as medium enriched neptunium fuel. Usable in the [[PWR]] and [[RBMK]]."
+	}
+}

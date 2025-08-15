@@ -40,6 +40,7 @@ import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.qmaw.QMAWLoader;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
@@ -253,6 +254,8 @@ public class MainRegistry {
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
 		CrashHelper.init();
+		
+		QMAWLoader.registerModFileURL(FMLCommonHandler.instance().findContainerFor(RefStrings.MODID).getSource());
 
 		startupTime = System.currentTimeMillis();
 		configDir = PreEvent.getModConfigurationDirectory();
@@ -848,6 +851,12 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
+		// to make sure that foreign registered fluids are accounted for,
+		// even when the reload listener is registered too late due to load order
+		// IMPORTANT: fluids have to load before recipes. weird shit happens if not.
+		Fluids.reloadFluids();
+		FluidContainerRegistry.register();
+		
 		MagicRecipes.register();
 		LemegetonRecipes.register();
 		SILEXRecipes.register();
@@ -876,7 +885,6 @@ public class MainRegistry {
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
 		DamageResistanceHandler.init();
-		FluidContainerRegistry.register();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
@@ -908,10 +916,6 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-
-		// to make sure that foreign registered fluids are accounted for,
-		// even when the reload listener is registered too late due to load order
-		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}
