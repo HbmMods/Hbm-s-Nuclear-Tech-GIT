@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.ingot_rubber", 1, 0],
     "trigger": [["hbm:item.ingot_rubber"]],
     "title": {
-        "en_US": "Rubber"
+        "en_US": "Rubber",
+		"ru_RU": "Резина"
     },
 	"content": {
-		"en_US": "Oil product, derived from [[unsaturated hydrocabons|Unsaturated Hydrocarbons]] and [[sulfur|Sulfur]]. Requires at least a [[cracking tower|Catalytic Cracking Tower]] to make. Can replace [[latex|Latex]] in every recipe."
+		"en_US": "Oil product, derived from [[unsaturated hydrocabons|Unsaturated Hydrocarbons]] and [[sulfur|Sulfur]]. Requires at least a [[cracking tower|Catalytic Cracking Tower]] to make. Can replace [[latex|Latex]] in every recipe.",
+		"ru_RU": "Продукт переработки нефти, получаемый из [[ненасыщенных углеводородов|Unsaturated Hydrocarbons]] и [[серы|Sulfur]]. Требует как минимум [[башню крекинга|Catalytic Cracking Tower]] для производства. Может заменить [[латекс|Latex]] во всех рецептах."
 	}
 }

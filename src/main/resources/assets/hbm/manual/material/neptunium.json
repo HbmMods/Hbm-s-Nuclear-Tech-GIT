@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.ingot_neptunium", 1, 0],
     "trigger": [["hbm:item.ingot_neptunium"], ["hbm:item.billet_neptunium"], ["hbm:item.nugget_neptunium"], ["hbm:item.powder_neptunium"]],
     "title": {
-        "en_US": "Neptunium"
+        "en_US": "Neptunium",
+		"ru_RU": "Нептуний"
     },
 	"content": {
-		"en_US": "Fissile isotope, usually found in spent [[uranium-235|Uranium-235]] fuel. Mostly used for nuclear reactors, either pure as high enriched neptunium fuel, or combined with [[uranium-238|Uranium-238]] as medium enriched neptunium fuel. Usable in the [[PWR]] and [[RBMK]]."
+		"en_US": "Fissile isotope, usually found in spent [[uranium-235|Uranium-235]] fuel. Mostly used for nuclear reactors, either pure as high enriched neptunium fuel, or combined with [[uranium-238|Uranium-238]] as medium enriched neptunium fuel. Usable in the [[PWR]] and [[RBMK]].",
+		"ru_RU": "Делящийся изотоп, обычно содержится в отработанном топливе [[урана-235|Uranium-235]]. В основном используется для ядерных реакторов, либо в чистом виде как высокообогащённое нептуниевое топливо, либо в сочетании с [[ураном-238|Uranium-238]] как среднеобогащённое нептуниевое топливо. Применяется в [[ВВЭР|PWR]] и [[РБМК|RBMK]]."
 	}
 }

@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.billet_pu239", 1, 0],
     "trigger": [["hbm:item.ingot_pu239"], ["hbm:item.billet_pu239"], ["hbm:item.nugget_pu239"]],
     "title": {
-        "en_US": "Plutonium-239"
+        "en_US": "Plutonium-239",
+		"ru_RU": "Плутоний-239"
     },
 	"content": {
-		"en_US": "Primary fissile isotope of [[plutonium|Plutonium]]. Can be extracted from many spent fuels that use [[uranium-238|Uranium-238]] or directly from [[reactor-grade plutonium|Reactor-Grade Plutonium]]. Usable in high enriched fuels for various reactors, mixed with other isotopes for lower enriched fuels, or as fissile material in many nuclear bombs.<br><br>Moderately radioactive."
+		"en_US": "Primary fissile isotope of [[plutonium|Plutonium]]. Can be extracted from many spent fuels that use [[uranium-238|Uranium-238]] or directly from [[reactor-grade plutonium|Reactor-Grade Plutonium]]. Usable in high enriched fuels for various reactors, mixed with other isotopes for lower enriched fuels, or as fissile material in many nuclear bombs.<br><br>Moderately radioactive.",
+		"ru_RU": "Основной делящийся изотоп [[плутония|Plutonium]]. Может быть извлечен из многих отработанных топлив, использующих [[уран-238|Uranium-238]], или непосредственно из [[реакторного плутония|Reactor-Grade Plutonium]]. Используется в высокообогащённых топливах для различных реакторов, в смеси с другими изотопами для менее обогащённых топлив или как делящийся материал во многих ядерных бомбах.<br><br>Умеренно радиоактивен."
 	}
 }
