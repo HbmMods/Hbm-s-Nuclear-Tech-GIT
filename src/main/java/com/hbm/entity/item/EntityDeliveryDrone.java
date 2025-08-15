@@ -203,8 +203,6 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) Math.floor(this.posX), (int) Math.floor(this.posZ), (int) Math.floor(this.posX + this.motionX), (int) Math.floor(this.posZ + this.motionZ), 8)){
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
 			}
-			
-			System.out.println("guhhh");
 		}
 	}
 

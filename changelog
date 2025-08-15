@@ -2,9 +2,16 @@
 * QMAW now has buttons for returning to previously viewed pages
 * QMAW file detection now includes subfolders to `manual`
 * OpenComputers integration for the ZIRNOX should now return values in °C and bar instead of unexplained weird internal units
+* The sodium and strontium autogen ingots now have their correct hazard tags
+* Pattern matchers, like the one used on the automatic crafting table, no longer care about NBT data of an item
+  * This means that RBMK fuel rods can now be automatically disassembled without the depletion number having to be a 100% match
+  * Due to the way the RBMK uncrafting handler works, a single autocrafter now correctly supports RBMK fuel of one type of any depletion level, yielding the correct recycling pellets
 
 ## Fixed
 * Fixed QMAW not working at all
 * Potentially fixed a bug where proxy tile entities would reference unloaded core tile entities which would cause bizarre item voiding/duping issues in rare cases
 * Fixed fusion reactor automation being able to remove items other than the breeding output slot
 * Fixed chunkloading transport drones getting stuck due to off-by-one rounding errors
+* Fixed shift-click handling on the electric arc furnace not working with upgrades, and putting electrodes in the wrong slot
+* Fixed issue with the load order where custom fluids wouldn't work properly for fluid loading/unloading and in custom recipes
+* Fixed balefire bomb not rendering the egg when fully loaded

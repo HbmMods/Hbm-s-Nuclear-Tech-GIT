@@ -139,8 +139,8 @@ public class ModulePatternMatcher {
 		}
 		
 		switch(mode) {
-		case MODE_EXACT: return input.isItemEqual(filter) && ItemStack.areItemStackTagsEqual(input, filter);
-		case MODE_WILDCARD: return input.getItem() == filter.getItem() && ItemStack.areItemStackTagsEqual(input, filter);
+		case MODE_EXACT: return input.isItemEqual(filter)/* && ItemStack.areItemStackTagsEqual(input, filter)*/;
+		case MODE_WILDCARD: return input.getItem() == filter.getItem()/* && ItemStack.areItemStackTagsEqual(input, filter)*/;
 		case MODE_BEDROCK:
 			if(input.getItem() != filter.getItem()) return false;
 			if(!(input.getItem() instanceof ItemBedrockOreNew)) return false;

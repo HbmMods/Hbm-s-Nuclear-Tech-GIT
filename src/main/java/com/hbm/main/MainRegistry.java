@@ -851,6 +851,12 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
+		// to make sure that foreign registered fluids are accounted for,
+		// even when the reload listener is registered too late due to load order
+		// IMPORTANT: fluids have to load before recipes. weird shit happens if not.
+		Fluids.reloadFluids();
+		FluidContainerRegistry.register();
+		
 		MagicRecipes.register();
 		LemegetonRecipes.register();
 		SILEXRecipes.register();
@@ -879,7 +885,6 @@ public class MainRegistry {
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
 		DamageResistanceHandler.init();
-		FluidContainerRegistry.register();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
@@ -911,10 +916,6 @@ public class MainRegistry {
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 		CommandReloadClient.register();
-
-		// to make sure that foreign registered fluids are accounted for,
-		// even when the reload listener is registered too late due to load order
-		Fluids.reloadFluids();
 
 		//ExplosionTests.runTest();
 	}

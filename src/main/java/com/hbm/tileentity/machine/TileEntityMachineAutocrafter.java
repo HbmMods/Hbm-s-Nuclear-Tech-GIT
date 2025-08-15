@@ -239,7 +239,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 			ItemStack valid = slots[i];
 			
 			if(valid == null) return false; //null? since slots[slot] is not null by now, this other slot needs the item more
-			if(!(valid.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(valid, stack))) continue; //different item anyway? out with it
+			if(!(valid.isItemEqual(stack)/* && ItemStack.areItemStackTagsEqual(valid, stack)*/)) continue; //different item anyway? out with it
 			
 			//if there is another slot that actually does need the same item more, cancel
 			if(valid.stackSize < size)
