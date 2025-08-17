@@ -271,8 +271,8 @@ public class XFactory12ga {
 		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setCasing(EnumCasingType.BUCKSHOT_ADVANCED, 6).setProjectiles(8).setDamage(1F/8F).setSpread(magnumSpread).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"))
 				.setOnImpact((bullet, mop) -> { if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) { HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit); if(data.phosphorus < 300) data.phosphorus = 300; } });
 		//g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"));
-		g12_equestrian_bj = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOAT).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_EQUESTRIAN, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12gaEquestrianBJ"));
-		g12_equestrian_tkr = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_EQUESTRIAN, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12gaEquestrianTKR"));
+		g12_equestrian_bj = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOAT).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianBJ"));
+		g12_equestrian_tkr = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_EQUESTRIAN).setScale(0.75F).register("12gaEquestrianTKR"));
 
 		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus};
 
