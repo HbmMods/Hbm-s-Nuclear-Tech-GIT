@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.cinnebar", 1, 0],
     "trigger": [["hbm:item.cinnebar"]],
     "title": {
-        "en_US": "Cinnabar"
+        "en_US": "Cinnabar",
+		"ru_RU": "Киноварь"
     },
 	"content": {
-		"en_US": "Rare ore. Can be [[acidized|Ore Acidizer]] into 375mB worth of [[mercury|Mercury]] drops, or [[combination smelted|Combination Oven]] into 100mB of mercury and some sulfur. Mainly exists as an early means to get mercury for [[desh|Desh]] production."
+		"en_US": "Rare ore. Can be [[acidized|Ore Acidizer]] into 375mB worth of [[mercury|Mercury]] drops, or [[combination smelted|Combination Oven]] into 100mB of mercury and some sulfur. Mainly exists as an early means to get mercury for [[desh|Desh]] production.",
+		"ru_RU": "Редкая руда. Может быть [[обработана кислотой|Ore Acidizer]] в 375 мБ капель [[ртути|Mercury]] или [[переплавлена в коксовой печи|Combination Oven]] в 100 мБ ртути и немного серы. В основном используется как ранний способ получения ртути для производства [[деша|Desh]]."
 	}
 }
