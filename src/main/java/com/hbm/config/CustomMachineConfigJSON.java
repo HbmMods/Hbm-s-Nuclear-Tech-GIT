@@ -50,7 +50,8 @@ public class CustomMachineConfigJSON {
 		if(!config.exists()) {
 			writeDefault(config);
 		}
-
+		customMachines.clear();
+		niceList.clear();
 		readConfig(config);
 	}
 
@@ -82,6 +83,7 @@ public class CustomMachineConfigJSON {
 			writer.name("recipeConsumptionMult").value(1.0D);
 			writer.name("maxPower").value(10_000L);
 			writer.name("maxHeat").value(0);
+			writer.name("progressSound").value("hbm:block.assemblerOperate");
 
 			writer.name("recipeShape").beginArray();
 			writer.value("IPI").value("PCP").value("IPI");
@@ -143,9 +145,9 @@ public class CustomMachineConfigJSON {
 			writer.name("customModel").beginObject();
 			writer.name("model").value("models/machines/furnace_steel.obj");
 			writer.name("modelTexture").value("textures/models/machines/furnace_steel.png");
-			writer.name("model_x").value(0.5);
+			writer.name("model_x").value(0.0);
 			writer.name("model_y").value(2.0);
-			writer.name("model_z").value(1.5);
+			writer.name("model_z").value(1.0);
 			writer.name("model_Bounding_x1").value(-1.0);
 			writer.name("model_Bounding_y1").value(0.0);
 			writer.name("model_Bounding_z1").value(0.0);
@@ -196,6 +198,7 @@ public class CustomMachineConfigJSON {
 				configuration.recipeConsumptionMult = machineObject.get("recipeConsumptionMult").getAsDouble();
 				configuration.maxPower = machineObject.get("maxPower").getAsLong();
 				if(machineObject.has("maxHeat")) configuration.maxHeat = machineObject.get("maxHeat").getAsInt();
+				if(machineObject.has("progressSound")) configuration.progressSound = machineObject.get("progressSound").getAsString();
 
 				if(machineObject.has("recipeShape") && machineObject.has("recipeParts")) {
 					try {
@@ -237,7 +240,8 @@ public class CustomMachineConfigJSON {
 
 				JsonArray components = machineObject.get("components").getAsJsonArray();
 				configuration.components = new ArrayList();
-
+				double model_Bounding_x1 = 0,model_Bounding_y1 = 0,model_Bounding_z1 = 0;
+				double model_Bounding_x2 = 0,model_Bounding_y2 = 0,model_Bounding_z2 = 0;
 				for(int j = 0; j < components.size(); j++) {
 					JsonObject compObject = components.get(j).getAsJsonObject();
 					ComponentDefinition compDef = new ComponentDefinition();
@@ -250,8 +254,16 @@ public class CustomMachineConfigJSON {
 					for(int k = 0; k < compDef.metas.size(); k++) {
 						compDef.allowedMetas.add(compDef.metas.get(k).getAsInt());
 					}
-
 					configuration.components.add(compDef);
+
+					if(machineObject.has("customModel")) {
+						model_Bounding_x1 = model_Bounding_x1 > compDef.x ? model_Bounding_x1 : compDef.x;
+						model_Bounding_y1 = model_Bounding_y1 > compDef.y ? model_Bounding_y1 : compDef.y;
+						model_Bounding_z1 = model_Bounding_z1 > compDef.z ? model_Bounding_z1 : compDef.z;
+						model_Bounding_x2 = model_Bounding_x2 < compDef.x ? model_Bounding_x2 : compDef.x;
+						model_Bounding_y2 = model_Bounding_y2 < compDef.y ? model_Bounding_y2 : compDef.y;
+						model_Bounding_z2 = model_Bounding_z2 < compDef.z ? model_Bounding_z2 : compDef.z;
+					}
 				}
 
 				if(machineObject.has("customModel")) {
@@ -262,12 +274,12 @@ public class CustomMachineConfigJSON {
 					customModel.model_x = modelObject.get("model_x").getAsDouble();
 					customModel.model_y = modelObject.get("model_y").getAsDouble();
 					customModel.model_z = modelObject.get("model_z").getAsDouble();
-					customModel.model_Bounding_x1 = modelObject.get("model_Bounding_x1").getAsDouble();
-					customModel.model_Bounding_y1 = modelObject.get("model_Bounding_y1").getAsDouble();
-					customModel.model_Bounding_z1 = modelObject.get("model_Bounding_z1").getAsDouble();
-					customModel.model_Bounding_x2 = modelObject.get("model_Bounding_x2").getAsDouble();
-					customModel.model_Bounding_y2 = modelObject.get("model_Bounding_y2").getAsDouble();
-					customModel.model_Bounding_z2 = modelObject.get("model_Bounding_z2").getAsDouble();
+					customModel.model_Bounding_x1 = modelObject.has("model_Bounding_x1") ? modelObject.get("model_Bounding_x1").getAsDouble() : model_Bounding_x1 + 1;
+					customModel.model_Bounding_y1 = modelObject.has("model_Bounding_y1") ? modelObject.get("model_Bounding_y1").getAsDouble() : model_Bounding_y1 + 2;
+					customModel.model_Bounding_z1 = modelObject.has("model_Bounding_z1") ? modelObject.get("model_Bounding_z1").getAsDouble() : model_Bounding_z1 + 1;
+					customModel.model_Bounding_x2 = modelObject.has("model_Bounding_x2") ? modelObject.get("model_Bounding_x2").getAsDouble() : model_Bounding_x2;
+					customModel.model_Bounding_y2 = modelObject.has("model_Bounding_y2") ? modelObject.get("model_Bounding_y2").getAsDouble() : model_Bounding_y2;
+					customModel.model_Bounding_z2 = modelObject.has("model_Bounding_z2") ? modelObject.get("model_Bounding_z2").getAsDouble() : model_Bounding_z2;
 					configuration.customModel = customModel;
 				}
 
@@ -304,6 +316,7 @@ public class CustomMachineConfigJSON {
 		public double recipeConsumptionMult = 1D;
 		public long maxPower;
 		public int maxHeat;
+		public String progressSound;
 
 
 		/** Definitions of blocks that this machine is composed of */

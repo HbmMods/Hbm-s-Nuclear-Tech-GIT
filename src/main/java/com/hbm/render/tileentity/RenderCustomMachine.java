@@ -50,7 +50,21 @@ public class RenderCustomMachine extends TileEntitySpecialRenderer {
 			}
 			else if(config.customModel!=null){
 				GL11.glPushMatrix();
-				GL11.glTranslated(x + config.customModel.model_x, y + config.customModel.model_y, z + config.customModel.model_z);
+				double rx = -dir.offsetX * (config.customModel.model_x) + 0.5;
+				double ry = +(config.customModel.model_y);
+				double rz = -dir.offsetZ * (config.customModel.model_z) + 0.5;
+				if (dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+					rx = -dir.offsetX * (config.customModel.model_z) + 0.5;
+					rz = -dir.offsetZ * (config.customModel.model_x) + 0.5;
+				}
+				GL11.glTranslated(x+rx ,y+ry ,z+rz );
+
+				switch(tile.getBlockMetadata()) {
+					case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
+					case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+					case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+					case 4: GL11.glRotatef(270, 0F, 1F, 0F);break;
+				}
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glEnable(GL11.GL_CULL_FACE);
 
