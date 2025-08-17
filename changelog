@@ -8,6 +8,9 @@
   * Due to the way the RBMK uncrafting handler works, a single autocrafter now correctly supports RBMK fuel of one type of any depletion level, yielding the correct recycling pellets
 * Blueprint folders have been added to more loot pools, making them less rare
 * Replaced the winnie the pooh plushie with hundun
+* Retextured the universal fluid tanks and barrels again
+* Updated steel trapdoor texture
+* Removed the old hexafluoride tanks from the creative tab
 
 ## Fixed
 * Fixed QMAW not working at all
@@ -18,3 +21,5 @@
 * Fixed issue with the load order where custom fluids wouldn't work properly for fluid loading/unloading and in custom recipes
 * Fixed balefire bomb not rendering the egg when fully loaded
 * Fixed selenium steel 12ga casings having the wrong color
+* Fixed the buzzsaw sometimes not replanting crops
+* Scrungus
