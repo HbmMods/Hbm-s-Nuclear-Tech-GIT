@@ -6138,3 +6138,6 @@ purex.schrab=从 %s 中萃取Sa326
 tile.machine_purex.name=钚铀还原提取设备（PUREX）
 tile.machine_purex.desc=可用于多种核燃料的再处理机器。$大多数配方需要用到硝酸和煤油。
 qmaw.tab=[按 %s 键获取帮助]
+commands.locate.no_match=没有具有此名称的结构！
+commands.locate.none_found=未在附近找到结构！
+commands.locate.success.coordinates=在 %d, %d 处找到结构 %s
