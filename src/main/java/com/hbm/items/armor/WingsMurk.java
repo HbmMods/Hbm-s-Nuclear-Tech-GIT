@@ -1,6 +1,7 @@
 package com.hbm.items.armor;
 
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelArmorWings;
@@ -51,13 +52,12 @@ public class WingsMurk extends JetpackBase {
 		if(player.fallDistance > 0)
 			player.fallDistance = 0;
 		
-		if(player.motionY < -0.4D)
-			player.motionY = -0.4D;
-		
 		if(this == ModItems.wings_limp) {
+		
+			if(player.motionY < -0.4D)
+				player.motionY = -0.4D;
 			
-			 if(player.isSneaking()) {
-					
+			if(player.isSneaking()) {
 				if(player.motionY < -0.08) {
 
 					double mo = player.motionY * -0.2;
