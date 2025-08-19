@@ -81,10 +81,26 @@ public class WingsMurk extends JetpackBase {
 
 			if(props.isJetpackActive()) {
 
-				if(player.motionY < 0.6D)
-					player.motionY += 0.2D;
-				else
-					player.motionY = 0.8D;
+				if(player.isSneaking()) {
+					if(player.motionY < -1)
+						player.motionY += 0.4D;
+					else if(player.motionY < -0.1)
+						player.motionY += 0.2D;
+					else if(player.motionY < 0)
+						player.motionY = 0;
+					else if(player.motionY > 1)
+						player.motionY -= 0.4D;
+					else if(player.motionY > 0.1)
+						player.motionY -= 0.2D;
+					else if(player.motionY > 0)
+						player.motionY = 0;
+					
+				} else {
+					if(player.motionY < 0.6D)
+						player.motionY += 0.2D;
+					else
+						player.motionY = 0.8D;
+				}
 				
 			} else if(props.enableBackpack && !player.isSneaking()) {
 				
