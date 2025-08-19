@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.billet_u235", 1, 0],
     "trigger": [["hbm:item.ingot_u235"], ["hbm:item.billet_u235"], ["hbm:item.nugget_u235"]],
     "title": {
-        "en_US": "Uranium-235"
+        "en_US": "Uranium-235",
+		"ru_RU": "Уран-235"
     },
 	"content": {
-		"en_US": "Enriched uranium. Fissile, usable in some reactors directly as high enriched fuel, or mixed back with [[uranium-238|Uranium-238]] for medium enriched uranium fuels. Weapons grade. Created initially by processing [[uranium hexafluuoride|Uranium Hexafluoride]] in a cascade of four [[gas centrifuges|Gas Centriuge]], available later on by separating [[natural uranium|Uranium]] via [[SILEX]].<br><br>Moderately radioactive."
+		"en_US": "Enriched uranium. Fissile, usable in some reactors directly as high enriched fuel, or mixed back with [[uranium-238|Uranium-238]] for medium enriched uranium fuels. Weapons grade. Created initially by processing [[uranium hexafluuoride|Uranium Hexafluoride]] in a cascade of four [[gas centrifuges|Gas Centriuge]], available later on by separating [[natural uranium|Uranium]] via [[SILEX]].<br><br>Moderately radioactive.",
+		"ru_RU": "Обогащенный уран. Делящийся, используется в некоторых реакторах непосредственно как высокообогащенное топливо или смешивается с [[ураном-238|Uranium-238]] для среднеобогащенных урановых топлив. Оружейное качество. Изначально создается путём переработки [[гексафторида урана|Uranium Hexafluoride]] в каскаде из четырех [[газовых центрифуг|Gas Centrifuge]], позже доступен через разделение [[натурального урана|Uranium]] с помощью [[SILEX]].<br><br>Умеренно радиоактивен."
 	}
 }

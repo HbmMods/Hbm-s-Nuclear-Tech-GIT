@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.sulfur", 1, 0],
     "trigger": [["hbm:item.sulfur"]],
     "title": {
-        "en_US": "Sulfur"
+        "en_US": "Sulfur",
+		"ru_RU": "Сера"
     },
 	"content": {
-		"en_US": "Common ore, found in even larger numbers in the nether. Used in a variety of things, like [[sulfuric acid|Sulfuric Acid]], [[rubber|Rubber]] and in yellowcake for [[uranium|Uranium]] hexafluoride. Can also make gunpowder, matchsticks, or act as yellow dye."
+		"en_US": "Common ore, found in even larger numbers in the nether. Used in a variety of things, like [[sulfuric acid|Sulfuric Acid]], [[rubber|Rubber]] and in yellowcake for [[uranium|Uranium]] hexafluoride. Can also make gunpowder, matchsticks, or act as yellow dye.",
+		"ru_RU": "Обычная руда, в больших количествах встречается в Незере. Используется для различных целей, таких как [[серная кислота|Sulfuric Acid]], [[резина|Rubber]] и в йеллоукейке для гексафторида [[урана|Uranium]]. Также может использоваться для изготовления пороха, спичек или в качестве жёлтого красителя."
 	}
 }
