@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_rubber"]],
     "title": {
         "en_US": "Rubber",
-	"uk_UA": "Гума",
+		"uk_UA": "Гума",
 		"ru_RU": "Резина"
     },
 	"content": {

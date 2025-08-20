@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_bakelite"], ["hbm:item.powder_bakelite"]],
     "title": {
         "en_US": "Bakelite",
-	"uk_UA": "Карболіт",
+		"uk_UA": "Карболіт",
 		"ru_RU": "Бакелит"
     },
 	"content": {

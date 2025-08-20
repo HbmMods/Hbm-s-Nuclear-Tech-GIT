@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_gunmetal"], ["hbm:item.plate_gunmetal"]],
     "title": {
         "en_US": "Gunmetal",
-	"uk_UA": "Гарматна бронза",
+		"uk_UA": "Гарматна бронза",
 		"ru_RU": "Оружейный металл"
     },
 	"content": {

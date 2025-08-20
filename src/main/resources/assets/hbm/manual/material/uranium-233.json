@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_u233"], ["hbm:item.billet_u233"], ["hbm:item.nugget_u233"]],
     "title": {
         "en_US": "Uranium-233",
-	"uk_UA": "Уран-233",
+		"uk_UA": "Уран-233",
 		"ru_RU": "Уран-233"
     },
 	"content": {

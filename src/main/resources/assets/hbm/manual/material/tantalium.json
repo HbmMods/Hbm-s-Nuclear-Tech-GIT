@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_tantalium"], ["hbm:item.powder_tantalium"], ["hbm:item.nugget_tantalium"]],
     "title": {
         "en_US": "Tantalium",
-	"uk_UA": "Тантал",
+		"uk_UA": "Тантал",
 		"ru_RU": "Тантал"
     },
 	"content": {

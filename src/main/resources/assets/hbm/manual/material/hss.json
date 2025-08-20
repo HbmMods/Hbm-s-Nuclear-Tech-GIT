@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_dura_steel"], ["hbm:item.powder_dura_steel"], ["hbm:item.plate_dura_steel"]],
     "title": {
         "en_US": "High-Speed Steel",
-	"uk_UA": "Швидкорізальна сталь",
+		"uk_UA": "Швидкорізальна сталь",
 		"ru_RU": "Высокоскоростная сталь"
     },
 	"content": {

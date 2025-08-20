@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_cdalloy"]],
     "title": {
         "en_US": "Cadmium Steel",
-	"uk_UA": "Кадмієва сталь",
+		"uk_UA": "Кадмієва сталь",
 		"ru_RU": "Кадмиевая сталь"
     },
 	"content": {

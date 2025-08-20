@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.billet_technetium"], ["hbm:item.ingot_technetium"], ["hbm:item.nugget_technetium"]],
     "title": {
         "en_US": "Technetium",
-	"uk_UA": "Технецій-99",
+		"uk_UA": "Технецій-99",
 		"ru_RU": "Технеций"
     },
 	"content": {

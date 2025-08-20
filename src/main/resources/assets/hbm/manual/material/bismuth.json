@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_bismuth"], ["hbm:item.billet_bismuth"], ["hbm:item.nugget_bismuth"], ["hbm:item.powder_bismuth"]],
     "title": {
         "en_US": "Bismuth",
-	"uk_UA": "Вісмут",
+		"uk_UA": "Вісмут",
 		"ru_RU": "Висмут"
     },
 	"content": {

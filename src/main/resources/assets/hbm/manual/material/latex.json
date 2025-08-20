@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_biorubber"], ["hbm:item.ball_resin"]],
     "title": {
         "en_US": "Latex",
-	"uk_UA": "Латекс",
+		"uk_UA": "Латекс",
 		"ru_RU": "Латекс"
     },
 	"content": {

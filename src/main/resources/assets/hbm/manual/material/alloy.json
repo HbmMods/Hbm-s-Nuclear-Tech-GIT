@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_advanced_alloy"], ["hbm:item.powder_advanced_alloy"], ["hbm:item.plate_advanced_alloy"]],
     "title": {
         "en_US": "Advanced Alloy",
-	"uk_UA": "Удосконалений сплав",
+		"uk_UA": "Удосконалений сплав",
 		"ru_ru": "Продвинутый сплав"
     },
 	"content": {

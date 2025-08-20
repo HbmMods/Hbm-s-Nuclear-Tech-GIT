@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_cadmium"], ["hbm:item.powder_cadmium"]],
     "title": {
         "en_US": "Cadmium",
-	"uk_UA": "Кадмій",
+		"uk_UA": "Кадмій",
 		"ru_RU": "Кадмий"
     },
 	"content": {

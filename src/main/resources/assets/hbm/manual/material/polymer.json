@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_polymer"], ["hbm:item.powder_polymer"]],
     "title": {
         "en_US": "Polymer",
-	"uk_UA": "Полімер",
+		"uk_UA": "Полімер",
 		"ru_RU": "Полимер"
     },
 	"content": {

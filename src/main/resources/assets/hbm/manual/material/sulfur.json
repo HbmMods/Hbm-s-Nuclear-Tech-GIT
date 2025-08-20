@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.sulfur"]],
     "title": {
         "en_US": "Sulfur",
-	"uk_UA": "Сірка",
+		"uk_UA": "Сірка",
 		"ru_RU": "Сера"
     },
 	"content": {

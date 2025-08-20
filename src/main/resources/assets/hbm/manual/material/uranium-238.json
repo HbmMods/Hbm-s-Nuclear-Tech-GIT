@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_u238"], ["hbm:item.billet_u238"], ["hbm:item.nugget_u238"]],
     "title": {
         "en_US": "Uranium-238",
-	"uk_UA": "Уран-238",
+		"uk_UA": "Уран-238",
 		"ru_RU": "Уран-238"
     },
 	"content": {

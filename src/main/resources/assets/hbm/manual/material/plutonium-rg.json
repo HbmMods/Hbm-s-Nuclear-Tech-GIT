@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_pu_mix"], ["hbm:item.billet_pu_mix"], ["hbm:item.nugget_pu_mix"]],
     "title": {
         "en_US": "Reactor-Grade Plutonium",
-	"uk_UA": "Реакторний плутоній",
+		"uk_UA": "Реакторний плутоній",
 		"ru_RU": "Плутоний реакторного качества"
     },
 	"content": {

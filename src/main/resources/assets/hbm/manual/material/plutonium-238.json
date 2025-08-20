@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_pu238"], ["hbm:item.billet_pu238"], ["hbm:item.nugget_pu238"]],
     "title": {
         "en_US": "Plutonium-238",
-	"uk_UA": "Плутоній-238",
+		"uk_UA": "Плутоній-238",
 		"ru_RU": "Плутоний-238"
     },
 	"content": {

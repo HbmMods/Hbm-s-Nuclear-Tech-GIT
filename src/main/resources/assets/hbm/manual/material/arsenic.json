@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_arsenic"], ["hbm:item.nugget_arsenic"]],
     "title": {
         "en_US": "Arsenic",
-	"uk_UA": "Миш'як",
+		"uk_UA": "Миш'як",
 		"ru_RU": "Мышьяк"
     },
 	"content": {

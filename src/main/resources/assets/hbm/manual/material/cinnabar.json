@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.cinnebar"]],
     "title": {
         "en_US": "Cinnabar",
-	"uk_UA": "Кіновар",
+		"uk_UA": "Кіновар",
 		"ru_RU": "Киноварь"
     },
 	"content": {

@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_arsenic_bronze"]],
     "title": {
         "en_US": "Arsenic Bronze",
-	"uk_UA": "Миш'якова бронза",
+		"uk_UA": "Миш'якова бронза",
 		"ru_RU": "Мышьяковая бронза"
     },
 	"content": {

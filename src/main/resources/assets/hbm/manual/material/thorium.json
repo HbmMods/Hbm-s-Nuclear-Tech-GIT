@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_th232"], ["hbm:item.billet_th232"], ["hbm:item.nugget_th232"], ["hbm:item.powder_thorium"]],
     "title": {
         "en_US": "Thorium-232",
-	"uk_UA": "Торій-232",
+		"uk_UA": "Торій-232",
 		"ru_RU": "Торий-232"
     },
 	"content": {

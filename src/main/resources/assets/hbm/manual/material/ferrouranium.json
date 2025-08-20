@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_ferrouranium"]],
     "title": {
         "en_US": "Ferrouranium",
-	"uk_UA": "Фероуран",
+		"uk_UA": "Фероуран",
 		"ru_RU": "Ферроуран"
     },
 	"content": {

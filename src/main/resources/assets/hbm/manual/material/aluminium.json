@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_aluminium"], ["hbm:item.plate_aluminium"], ["hbm:item.powder_aluminium"]],
     "title": {
         "en_US": "Aluminium",
-	"uk_UA": "Алюміній",
+		"uk_UA": "Алюміній",
 		"ru_RU": "Алюминий"
     },
 	"content": {

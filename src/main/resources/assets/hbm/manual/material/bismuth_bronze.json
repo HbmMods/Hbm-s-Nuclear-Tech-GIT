@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_bismuth_bronze"]],
     "title": {
         "en_US": "Bismuth Bronze",
-	"uk_UA": "Вісмутова бронза",
+		"uk_UA": "Вісмутова бронза",
 		"ru_RU": "Висмутовая бронза"
     },
 	"content": {

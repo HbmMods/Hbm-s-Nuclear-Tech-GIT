@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_steel"], ["hbm:item.plate_steel"], ["hbm:item.powder_steel"]],
     "title": {
         "en_US": "Steel",
-	"uk_UA": "Сталь",
+		"uk_UA": "Сталь",
 		"ru_RU": "Сталь"
     },
 	"content": {

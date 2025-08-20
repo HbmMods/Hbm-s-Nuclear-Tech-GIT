@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_silicon"], ["hbm:item.billet_silicon"], ["hbm:item.nugget_silicon"]],
     "title": {
         "en_US": "Silicon",
-	"uk_UA": "Кремній",
+		"uk_UA": "Кремній",
 		"ru_RU": "Кремний"
     },
 	"content": {

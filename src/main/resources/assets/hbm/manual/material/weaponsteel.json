@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_weaponsteel"], ["hbm:item.plate_weaponsteel"]],
     "title": {
         "en_US": "Weapon Steel",
-	"uk_UA": "Збройова сталь",
+		"uk_UA": "Збройова сталь",
 		"ru_RU": "Оружейная сталь"
     },
 	"content": {

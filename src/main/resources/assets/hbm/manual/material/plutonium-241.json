@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_pu241"], ["hbm:item.billet_pu241"], ["hbm:item.nugget_pu241"]],
     "title": {
         "en_US": "Plutonium-241",
-	"uk_UA": "Плутоній-241",
+		"uk_UA": "Плутоній-241",
 		"ru_RU": "Плутоний-241"
     },
 	"content": {

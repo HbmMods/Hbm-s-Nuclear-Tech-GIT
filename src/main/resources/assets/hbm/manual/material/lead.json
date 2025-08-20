@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_lead"], ["hbm:item.nugget_lead"], ["hbm:item.powder_lead"]],
     "title": {
         "en_US": "Lead",
-	"uk_UA": "Свинець",
+		"uk_UA": "Свинець",
 		"ru_RU": "Свинец"
     },
 	"content": {
