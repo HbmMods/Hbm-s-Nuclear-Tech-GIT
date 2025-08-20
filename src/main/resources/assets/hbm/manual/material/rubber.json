@@ -4,7 +4,8 @@
     "trigger": [["hbm:item.ingot_rubber"]],
     "title": {
         "en_US": "Rubber",
-		"ru_RU": "Резина"
+		"ru_RU": "Резина",
+		"zh_CN": "橡胶"
     },
 	"content": {
 		"en_US": "Oil product, derived from [[unsaturated hydrocabons|Unsaturated Hydrocarbons]] and [[sulfur|Sulfur]]. Requires at least a [[cracking tower|Catalytic Cracking Tower]] to make. Can replace [[latex|Latex]] in every recipe.",

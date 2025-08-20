@@ -4,7 +4,8 @@
     "trigger": [["hbm:item.ingot_cdalloy"]],
     "title": {
         "en_US": "Cadmium Steel",
-		"ru_RU": "Кадмиевая сталь"
+		"ru_RU": "Кадмиевая сталь",
+		"zh_CN": "镉钢"
     },
 	"content": {
 		"en_US": "Corrosion-resistant alloy, made from [[steel|Steel]] and [[cadmium|Cadmium]]. Alternative to [[technetium steel|Technetium Steel]] in most recipes.",
