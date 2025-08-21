@@ -100,7 +100,7 @@ public class WingsMurk extends JetpackBase {
 				
 				Vec3 orig = player.getLookVec();
 				Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-				double mod = player.isSneaking() ? 0.25D : 1D;
+				double mod = player.isSneaking() ? 0.25D : player.isSprinting() ? 1D : 0.5D;
 				
 				if(player.moveForward != 0) {
 					player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
