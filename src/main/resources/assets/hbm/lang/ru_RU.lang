@@ -6552,3 +6552,22 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 tile.oc_cable_paintable.name=Окрашиваемый сетевой кабель
+
+desc.util.type=Тип
+desc.util.size=Размер
+desc.util.weight=Вес
+desc.util.inaccuracy=Неточность
+desc.util.strength=Сила
+desc.util.top_size=Верхний размер
+desc.util.bottom_size=Нижний размер
+desc.util.fuel_type=Тип топлива
+desc.util.fuel_amount=Количество топлива
+desc.util.health=Здоровье
+desc.util.rarity=Редкость
+desc.util.not_launchable=Не запускается!
+desc.util.fuel_capacity=Ёмкость топливного бака
+desc.util.warhead=Боеголовка
+desc.util.chip_inaccuracy=Неточность чипа
+desc.util.fin_inaccuracy=Неточность стабилизатора
+
+// Last updated 22.08.2025 by Bufka2011 //
