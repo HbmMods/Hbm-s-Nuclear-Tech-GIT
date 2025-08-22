@@ -4586,6 +4586,20 @@ item.sat_miner.name=Модуль для добычи астероидов
 item.sat_radar.name=Спутник с Радиолокационным Зондированием
 item.sat_resonator.name=Спутник с Зен-Резонатором
 item.sat_scanner.name=Спутник с модулем глубинно-ресурсного сканирования
+
+item.sat.desc.frequency=Частота спутника
+item.sat.desc.foeq=Даёт тебе достижение. Это всё.
+item.sat.desc.gerald.single_use=Одноразовое.
+item.sat.desc.gerald.orbital_module=Требует орбитальный модуль.
+item.sat.desc.gerald.melter=Расплавитель процессоров, проклятие каждого владельца сервера.
+item.sat.desc.laser=Позволяет вызывать лазеры с перезарядкой 15 секунд.
+item.sat.desc.mapper=Отображает загруженные в данный момент чанки.
+item.sat.desc.miner=Доставит рудные порошки на грузовую посадочную площадку.
+item.sat.desc.lunar_miner=Добывает лунный грунт, чтобы доставить его на грузовую посадочную площадку.
+item.sat.desc.radar=Показывает карту активных объектов.
+item.sat.desc.resonator=Позволяет телепортироваться без перезарядки.
+item.sat.desc.scanner=Создает карту подземных руд сверху вниз.
+
 item.sawblade.name=Лезвие пилорамы
 item.schnitzel_vegan.name=Вегетарианский шницель
 item.schrabidium_axe.name=Шрабидиевый топор
@@ -4997,6 +5011,49 @@ item.wrench_flipped.name=Лезвие на гаечном ключе
 item.xanax.name=Препарат "НАКСА" против дигаммы
 item.xanax.desc=Снимает 500mDRX
 item.zirconium_legs.name=Циркониевые штаны
+
+item.custom_missile_part.he.type=HE
+item.custom_missile_part.inc.type=Зажигательная
+item.custom_missile_part.buster.type=Разрушитель бункеров
+item.custom_missile_part.cluster.type=Кластерная
+item.custom_missile_part.nuclear.type=Ядерная
+item.custom_missile_part.tx.type=Термоядерная (TX)
+item.custom_missile_part.n2.type=N²
+item.custom_missile_part.balefire.type=Жар
+item.custom_missile_part.schrab.type=Шрабидиевая
+item.custom_missile_part.taint.type=Порча
+item.custom_missile_part.cloud.type=Облако
+item.custom_missile_part.turbine.type=Турбина
+item.custom_missile_part.custom0.type=Custom0
+item.custom_missile_part.custom1.type=Custom1
+item.custom_missile_part.custom2.type=Custom2
+item.custom_missile_part.custom3.type=Custom3
+item.custom_missile_part.custom4.type=Custom4
+item.custom_missile_part.custom5.type=Custom5
+item.custom_missile_part.custom6.type=Custom6
+item.custom_missile_part.custom7.type=Custom7
+item.custom_missile_part.custom8.type=Custom8
+item.custom_missile_part.custom9.type=Custom9
+
+item.custom_missile_part.fuel.any=Любое жидкое топливо
+item.custom_missile_part.fuel.kerosene=Керосин / Пероксид
+item.custom_missile_part.fuel.solid=Твёрдое топливо
+item.custom_missile_part.fuel.hydrogen=Водород / Кислород
+item.custom_missile_part.fuel.xenon=Ксеноновый газ
+item.custom_missile_part.fuel.balefire=Ракетное жар-топливо / Пероксид
+
+item.custom_missile_part.rarity.common=§7Обычный
+item.custom_missile_part.rarity.uncommon=§eНеобычный
+item.custom_missile_part.rarity.rare=§bРедкий
+item.custom_missile_part.rarity.epic=§dЭпический
+item.custom_missile_part.rarity.legendary=§2Легендарный
+item.custom_missile_part.rarity.strange=§3Странный
+
+item.missile.fuel.solid=Твёрдое топливо (предварительно заправленное)
+item.missile.fuel.ethanol_peroxide=Этанол / Пероксид водорода
+item.missile.fuel.kerosene_peroxide=Керосин / Пероксид водорода
+item.missile.fuel.kerosene_loxy=Керосин / Жидкий кислород
+item.missile.fuel.jetfuel_loxy=Авиационное топливо / Жидкий кислород
 
 itemGroup.tabBlocks=Руды и блоки NTM
 itemGroup.tabConsumable=Расходные материалы и снаряжение NTM
@@ -6538,3 +6595,20 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 tile.oc_cable_paintable.name=Окрашиваемый сетевой кабель
+
+desc.util.type=Тип
+desc.util.size=Размер
+desc.util.weight=Вес
+desc.util.inaccuracy=Неточность
+desc.util.strength=Сила
+desc.util.top_size=Верхний размер
+desc.util.bottom_size=Нижний размер
+desc.util.fuel_type=Тип топлива
+desc.util.fuel_amount=Количество топлива
+desc.util.health=Здоровье
+desc.util.rarity=Редкость
+desc.util.not_launchable=Не запускается!
+desc.util.fuel_capacity=Ёмкость топливного бака
+desc.util.warhead=Боеголовка
+desc.util.chip_inaccuracy=Неточность чипа
+desc.util.fin_inaccuracy=Неточность стабилизатора

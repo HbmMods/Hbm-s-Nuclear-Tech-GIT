@@ -65,10 +65,10 @@ public class ItemCustomMissile extends Item {
 			ItemCustomMissilePart stability = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "stability"));
 			ItemCustomMissilePart thruster = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "thruster"));
 
-			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.warhead") + ": " + EnumChatFormatting.GRAY + warhead.getWarhead());
-			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.strength") + ": " + EnumChatFormatting.GRAY + warhead.attributes[1]);
+			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.warhead") + ": " + EnumChatFormatting.GRAY + warhead.getWarhead((WarheadType)warhead.attributes[0]));
+			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.strength") + ": " + EnumChatFormatting.GRAY + (Float)warhead.attributes[1]);
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.fuel_type") + ": " + EnumChatFormatting.GRAY + fuselage.getFuelName());
-			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.fuel_amount") + ": " + EnumChatFormatting.GRAY + fuselage.getTankSize() + "l");
+			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.fuel_amount") + ": " + EnumChatFormatting.GRAY + (Float)fuselage.getTankSize() + "l");
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("desc.util.chip_inaccuracy") + ": " + EnumChatFormatting.GRAY + (Float)chip.attributes[0] * 100 + "%");
 
 			if(stability != null)
