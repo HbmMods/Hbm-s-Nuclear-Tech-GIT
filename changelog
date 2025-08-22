@@ -1,6 +1,2 @@
 ## Changed
-* Blueprint folders can now be bought on bobmazon (64 for blue recipes, 256 for beige ones)
-
-## Fixed
-* Fixed the QMAW loader crashing servers
-  * Oops
+* Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
