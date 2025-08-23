@@ -6270,4 +6270,15 @@ desc.gui.upgrade.overdrive= * §7Overdrive§r: Stacks to level 3
 desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
 
+# Shared recipe labels
+gui.recipe.duration=Duration
+gui.recipe.consumption=Consumption
+gui.recipe.input=Input
+gui.recipe.output=Output
+gui.recipe.mB=mB
+gui.recipe.atPressure=at
+gui.recipe.autoswitch=Auto-switch group
+gui.recipe.enabledFor=Enabled for
+gui.recipe.setRecipe=Click to set recipe
+
 tile.oc_cable_paintable.name=Paintable Network Cable

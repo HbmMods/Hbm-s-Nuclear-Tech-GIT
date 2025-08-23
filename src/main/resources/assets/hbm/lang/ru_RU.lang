@@ -6614,11 +6614,15 @@ desc.util.warhead=Боеголовка
 desc.util.chip_inaccuracy=Неточность чипа
 desc.util.fin_inaccuracy=Неточность стабилизатора
 
-gui.chemical.duration=Длительность: %s
-gui.chemical.consumption=Потребление: %s
-gui.chemical.input=Вход:
-gui.chemical.output=Выход:
-gui.chemical.click_to_set_recipe=Нажмите, чтобы выбрать рецепт
-
+# Shared recipe labels
+gui.recipe.duration=Длительность
+gui.recipe.consumption=Потребление
+gui.recipe.input=Вход
+gui.recipe.output=Выход
+gui.recipe.mB=mB
+gui.recipe.atPressure=при давлении в
+gui.recipe.autoswitch=Группа автоматического переключения
+gui.recipe.enabledFor=Включено для
+gui.recipe.setRecipe=Нажмите, чтобы выбрать рецепт
 
 // Last updated 23.08.2025 by Bufka2011, MrKimkimora and TactiCOOLHimZa //
