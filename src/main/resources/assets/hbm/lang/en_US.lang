@@ -6271,3 +6271,25 @@ desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
 
 tile.oc_cable_paintable.name=Paintable Network Cable
+
+desc.util.type=Type
+desc.util.size=Size
+desc.util.weight=Weight
+desc.util.inaccuracy=Inaccuracy
+desc.util.strength=Strength
+desc.util.top_size=Top size
+desc.util.bottom_size=Bottom size
+desc.util.fuel_type=Fuel type
+desc.util.fuel_amount=Fuel amount
+desc.util.health=Health
+desc.util.rarity=Rarity
+desc.util.fuel_capacity=Fuel capacity
+desc.util.warhead=Warhead
+desc.util.chip_inaccuracy=Chip inaccuracy
+desc.util.fin_inaccuracy=Fin inaccuracy
+
+gui.chemical.duration=Duration: %s
+gui.chemical.consumption=Consumption: %s
+gui.chemical.input=Input:
+gui.chemical.output=Output:
+gui.chemical.click_to_set_recipe=Click to set recipe

@@ -35,20 +35,20 @@ public class GenericRecipe {
 	public boolean customLocalization = false;
 	protected String[] blueprintPools = null;
 	public String autoSwitchGroup = null;
-	
+
 	public GenericRecipe(String name) {
 		this.name = name;
 	}
-	
+
 	public boolean isPooled() { return blueprintPools != null; }
 	public String[] getPools() { return this.blueprintPools; }
-	
+
 	public boolean isPartOfPool(String lookingFor) {
 		if(!isPooled()) return false;
 		for(String pool : blueprintPools) if (pool.equals(lookingFor)) return true;
 		return false;
 	}
-	
+
 	public GenericRecipe setDuration(int duration) { this.duration = duration; return this; }
 	public GenericRecipe setPower(long power) { this.power = power; return this; }
 	public GenericRecipe setup(int duration, long power) { return this.setDuration(duration).setPower(power); }
@@ -68,13 +68,13 @@ public class GenericRecipe {
 	public GenericRecipe inputFluidsEx(FluidStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputFluid = input; return this; }
 	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
-	
+
 	public GenericRecipe outputItems(ItemStack... output) {
 		this.outputItem = new IOutput[output.length];
 		for(int i = 0; i < outputItem.length; i++) this.outputItem[i] = new ChanceOutput(output[i]);
 		return this;
 	}
-	
+
 	public GenericRecipe setIconToFirstIngredient() {
 		if(this.inputItem != null) {
 			List<ItemStack> stacks = this.inputItem[0].extractForNEI();
@@ -82,9 +82,9 @@ public class GenericRecipe {
 		}
 		return this;
 	}
-	
+
 	public ItemStack getIcon() {
-		
+
 		if(icon == null) {
 			if(outputItem != null) {
 				if(outputItem[0] instanceof ChanceOutput) icon = ((ChanceOutput) outputItem[0]).stack.copy();
@@ -95,15 +95,15 @@ public class GenericRecipe {
 				icon = ItemFluidIcon.make(outputFluid[0]);
 			}
 		}
-		
+
 		if(icon == null) icon = new ItemStack(ModItems.nothing);
 		return icon;
 	}
-	
+
 	public String getInternalName() {
 		return this.name;
 	}
-	
+
 	public String getLocalizedName() {
 		String name = null;
 		if(customLocalization) name = I18nUtil.resolveKey(this.name);
@@ -111,7 +111,7 @@ public class GenericRecipe {
 		if(this.nameWrapper != null) name = I18nUtil.resolveKey(this.nameWrapper, name);
 		return name;
 	}
-	
+
 	public List<String> print() {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
@@ -132,7 +132,70 @@ public class GenericRecipe {
 		if(outputFluid != null) for(FluidStack fluid : outputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " at " + EnumChatFormatting.RED + fluid.pressure + " PU"));
 		return list;
 	}
-	
+
+	/** Returns a localized version of the lines produced by print().
+	 *  It translates GUI-specific fixed English labels (Duration, Consumption, Input, Output, Click...)
+	 *  using I18nUtil.resolveKey(...) while preserving any leading EnumChatFormatting prefix.
+	 */
+	public List<String> printLocalized() {
+		List original = this.print();
+		List<String> localized = new ArrayList<String>();
+		for (Object o : original) {
+			if (!(o instanceof String)) {
+				localized.add(String.valueOf(o));
+				continue;
+			}
+			String line = (String) o;
+
+			// Duration: (e.g. EnumChatFormatting.RED + "Duration: 5.0s")
+			if (line.contains("Duration:")) {
+				int pos = line.indexOf("Duration:");
+				String prefix = line.substring(0, pos);
+				String value = line.substring(pos + "Duration:".length()).trim();
+				localized.add(prefix + I18nUtil.resolveKey("gui.chemical.duration", value));
+				continue;
+			}
+
+			// Consumption:
+			if (line.contains("Consumption:")) {
+				int pos = line.indexOf("Consumption:");
+				String prefix = line.substring(0, pos);
+				String value = line.substring(pos + "Consumption:".length()).trim();
+				localized.add(prefix + I18nUtil.resolveKey("gui.chemical.consumption", value));
+				continue;
+			}
+
+			// Input:
+			if (line.contains("Input:")) {
+				int pos = line.indexOf("Input:");
+				String prefix = line.substring(0, pos);
+				localized.add(prefix + I18nUtil.resolveKey("gui.chemical.input"));
+				continue;
+			}
+
+			// Output:
+			if (line.contains("Output:")) {
+				int pos = line.indexOf("Output:");
+				String prefix = line.substring(0, pos);
+				localized.add(prefix + I18nUtil.resolveKey("gui.chemical.output"));
+				continue;
+			}
+
+			// Click to set recipe (just in case some code returns it)
+			if (line.contains("Click to set recipe")) {
+				// Preserve any potential prefix
+				int pos = line.indexOf("Click to set recipe");
+				String prefix = line.substring(0, pos);
+				localized.add(prefix + I18nUtil.resolveKey("gui.chemical.click_to_set_recipe"));
+				continue;
+			}
+
+			// Default: unchanged (likely item/fluid names which are already localized)
+			localized.add(line);
+		}
+		return localized;
+	}
+
 	/** Default impl only matches localized name substring, can be extended to include ingredients as well */
 	public boolean matchesSearch(String substring) {
 		return getLocalizedName().toLowerCase(Locale.US).contains(substring.toLowerCase(Locale.US));

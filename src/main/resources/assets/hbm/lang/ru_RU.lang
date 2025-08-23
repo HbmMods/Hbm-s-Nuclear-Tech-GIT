@@ -6571,4 +6571,11 @@ desc.util.warhead=Боеголовка
 desc.util.chip_inaccuracy=Неточность чипа
 desc.util.fin_inaccuracy=Неточность стабилизатора
 
-// Last updated 22.08.2025 by Bufka2011, MrKimkimora and TactiCOOLHimZa //
+gui.chemical.duration=Длительность: %s
+gui.chemical.consumption=Потребление: %s
+gui.chemical.input=Вход:
+gui.chemical.output=Выход:
+gui.chemical.click_to_set_recipe=Нажмите, чтобы выбрать рецепт
+
+
+// Last updated 23.08.2025 by Bufka2011, MrKimkimora and TactiCOOLHimZa //
