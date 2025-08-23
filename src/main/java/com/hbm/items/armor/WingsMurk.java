@@ -1,7 +1,6 @@
 package com.hbm.items.armor;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelArmorWings;
