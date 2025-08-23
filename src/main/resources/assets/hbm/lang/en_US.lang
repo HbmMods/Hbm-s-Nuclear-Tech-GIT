@@ -4325,6 +4325,20 @@ item.sat_miner.name=Asteroid Mining Ship
 item.sat_radar.name=Radar Survey Satellite
 item.sat_resonator.name=Xenium Resonator Satellite
 item.sat_scanner.name=Satellite with Depth-Resource Scanning Module
+
+item.sat.desc.frequency=Satellite frequency
+item.sat.desc.foeq=Gives you an achievement. That's it.
+item.sat.desc.gerald.single_use=Single use.
+item.sat.desc.gerald.orbital_module=Requires orbital module.
+item.sat.desc.gerald.melter=Melter of CPUs, bane of every server owner.
+item.sat.desc.laser=Allows to summon lasers with a 15 second cooldown.
+item.sat.desc.mapper=Displays currently loaded chunks.
+item.sat.desc.miner=Will deliver ore powders to a cargo landing pad.
+item.sat.desc.lunar_miner=Mines moon turf to deliver it to a cargo landing pad.
+item.sat.desc.radar=Shows a map of active entities.
+item.sat.desc.resonator=Allows for teleportation with no cooldown.
+item.sat.desc.scanner=Creates a topdown map of underground ores.
+
 item.sawblade.name=Sawblade
 item.schnitzel_vegan.name=Vegan Schnitzel
 item.schrabidium_axe.name=Schrabidium Axe
@@ -4729,6 +4743,51 @@ item.wrench_flipped.name=Blade on a Wrench
 item.xanax.name=NAXA Anti-Digamma Medication
 item.xanax.desc=Removes 500mDRX
 item.zirconium_legs.name=Zirconium Pants
+
+item.custom_missile_part.he.type=HE
+item.custom_missile_part.inc.type=Incendiary
+item.custom_missile_part.buster.type=Bunker Buster
+item.custom_missile_part.cluster.type=Cluster
+item.custom_missile_part.nuclear.type=Nuclear
+item.custom_missile_part.tx.type=Thermonuclear (TX)
+item.custom_missile_part.n2.type=N²
+item.custom_missile_part.balefire.type=BF
+item.custom_missile_part.schrab.type=Schrabidium
+item.custom_missile_part.taint.type=Taint
+item.custom_missile_part.cloud.type=Cloud
+item.custom_missile_part.turbine.type=Turbine
+item.custom_missile_part.apollo.type=Capsule
+item.custom_missile_part.satellite.type=Satellite
+item.custom_missile_part.custom0.type=Custom0
+item.custom_missile_part.custom1.type=Custom1
+item.custom_missile_part.custom2.type=Custom2
+item.custom_missile_part.custom3.type=Custom3
+item.custom_missile_part.custom4.type=Custom4
+item.custom_missile_part.custom5.type=Custom5
+item.custom_missile_part.custom6.type=Custom6
+item.custom_missile_part.custom7.type=Custom7
+item.custom_missile_part.custom8.type=Custom8
+item.custom_missile_part.custom9.type=Custom9
+
+item.custom_missile_part.fuel.any=Any Liquid Fuel
+item.custom_missile_part.fuel.kerosene=Kerosene / Peroxide
+item.custom_missile_part.fuel.solid=Solid Fuel
+item.custom_missile_part.fuel.hydrogen=Hydrogen / Oxygen
+item.custom_missile_part.fuel.xenon=Xenon Gas
+item.custom_missile_part.fuel.balefire=BF Rocket Fuel / Peroxide
+
+item.custom_missile_part.rarity.common=§7Common
+item.custom_missile_part.rarity.uncommon=§eUncommon
+item.custom_missile_part.rarity.rare=§bRare
+item.custom_missile_part.rarity.epic=§dEpic
+item.custom_missile_part.rarity.legendary=§2Legendary
+item.custom_missile_part.rarity.strange=§3Strange
+
+item.missile.fuel.solid=Solid Fuel (pre-fueled)
+item.missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
+item.missile.fuel.kerosene_peroxide=Kerosene / Hydrogen Peroxide
+item.missile.fuel.kerosene_loxy=Kerosene / Liquid Oxygen
+item.missile.fuel.jetfuel_loxy=Jet Fuel / Liquid Oxygen
 
 itemGroup.tabBlocks=NTM Ores and Blocks
 itemGroup.tabConsumable=NTM Consumables and Gear

@@ -5013,6 +5013,49 @@ item.xanax.name=Препарат "НАКСА" против Дигаммы
 item.xanax.desc=Снимает 500mDRX
 item.zirconium_legs.name=Циркониевые штаны
 
+item.custom_missile_part.he.type=HE
+item.custom_missile_part.inc.type=Зажигательная
+item.custom_missile_part.buster.type=Разрушитель бункеров
+item.custom_missile_part.cluster.type=Кластерная
+item.custom_missile_part.nuclear.type=Ядерная
+item.custom_missile_part.tx.type=Термоядерная (TX)
+item.custom_missile_part.n2.type=N²
+item.custom_missile_part.balefire.type=Жар
+item.custom_missile_part.schrab.type=Шрабидиевая
+item.custom_missile_part.taint.type=Порча
+item.custom_missile_part.cloud.type=Облако
+item.custom_missile_part.turbine.type=Турбина
+item.custom_missile_part.custom0.type=Custom0
+item.custom_missile_part.custom1.type=Custom1
+item.custom_missile_part.custom2.type=Custom2
+item.custom_missile_part.custom3.type=Custom3
+item.custom_missile_part.custom4.type=Custom4
+item.custom_missile_part.custom5.type=Custom5
+item.custom_missile_part.custom6.type=Custom6
+item.custom_missile_part.custom7.type=Custom7
+item.custom_missile_part.custom8.type=Custom8
+item.custom_missile_part.custom9.type=Custom9
+
+item.custom_missile_part.fuel.any=Любое жидкое топливо
+item.custom_missile_part.fuel.kerosene=Керосин / Пероксид
+item.custom_missile_part.fuel.solid=Твёрдое топливо
+item.custom_missile_part.fuel.hydrogen=Водород / Кислород
+item.custom_missile_part.fuel.xenon=Ксеноновый газ
+item.custom_missile_part.fuel.balefire=Ракетное жар-топливо / Пероксид
+
+item.custom_missile_part.rarity.common=§7Обычный
+item.custom_missile_part.rarity.uncommon=§eНеобычный
+item.custom_missile_part.rarity.rare=§bРедкий
+item.custom_missile_part.rarity.epic=§dЭпический
+item.custom_missile_part.rarity.legendary=§2Легендарный
+item.custom_missile_part.rarity.strange=§3Странный
+
+item.missile.fuel.solid=Твёрдое топливо (предварительно заправленное)
+item.missile.fuel.ethanol_peroxide=Этанол / Пероксид водорода
+item.missile.fuel.kerosene_peroxide=Керосин / Пероксид водорода
+item.missile.fuel.kerosene_loxy=Керосин / Жидкий кислород
+item.missile.fuel.jetfuel_loxy=Авиационное топливо / Жидкий кислород
+
 itemGroup.tabBlocks=Руды и блоки NTM
 itemGroup.tabConsumable=Расходные материалы и снаряжение NTM
 itemGroup.tabControl=Топливо и элементы механизмов NTM
