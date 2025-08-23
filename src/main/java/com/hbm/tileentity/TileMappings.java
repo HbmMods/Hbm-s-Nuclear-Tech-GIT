@@ -54,8 +54,9 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
-import cpw.mods.fml.common.Loader;
+import com.hbm.util.Compat;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
@@ -480,5 +481,12 @@ public class TileMappings {
 		if(IConfigurableMachine.class.isAssignableFrom(clazz)) {
 			configurables.add((Class<? extends IConfigurableMachine>) clazz);
 		}
+		
+		/**
+		 * Causes problems with most machines where two independently acting tiles work together (TU machines, RBMKs, fluid transfer)
+		 * Also breaks due to some sort of buffer leak in the threaded packets, if a boiler is involved (which uses a ByteBuf instead of the usual serializing) it crashes
+		 * Ticking order of Torcherinos is AAA BBB CCC instead of ABC ABC ABC which can lead to some horrifying behavior
+		 */
+		Compat.blacklistAccelerator(clazz);
 	}
 }
