@@ -6316,6 +6316,7 @@ missile.tier.tier4=Tier 4
 
 # missile fuel names
 missile.fuel.solid=Solid Fuel
+missile.fuel.solid.prefueled=Solid Fuel (pre-fueled)
 missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
 missile.fuel.kerosene_peroxide=Kerosene / Hydrogen Peroxide
 missile.fuel.kerosene_loxy=Kerosene / Liquid Oxygen
