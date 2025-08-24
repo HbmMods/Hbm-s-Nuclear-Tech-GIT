@@ -1397,8 +1397,6 @@ gun.name.win20Poly=Winchester Model 20 Polymer
 gun.name.win20Satur=Winchester Model 20 D-25A
 gun.name.zomg=EMC101 Prismatic Negative Energy Cannon
 
-
-
 hadron.analysis=Analyzing...
 hadron.buttonOn=Analysis Chamber (if present) is ON
 hadron.buttonOff=Analysis Chamber is OFF
@@ -6378,3 +6376,6 @@ desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
 
 tile.oc_cable_paintable.name=Paintable Network Cable
+
+general.na=N/A
+error.generic=### I AM ERROR ###
