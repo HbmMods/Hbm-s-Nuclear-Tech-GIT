@@ -1057,6 +1057,16 @@ desc.gui.zirnox.pressure=§6Pressure§r$Pressure can be reduced by venting CO2.$
 desc.gui.zirnox.warning1=§cError:§r Water is required for$the reactor to function properly!
 desc.gui.zirnox.warning2=§cError:§r CO2 is required for$the reactor to function properly!
 
+gui.recipe.duration=Duration
+gui.recipe.consumption=Consumption
+gui.recipe.input=Input
+gui.recipe.output=Output
+gui.recipe.mB=mB
+gui.recipe.atPressure=at
+gui.recipe.autoswitch=Auto-switch group
+gui.recipe.enabledFor=Enabled for
+gui.recipe.setRecipe=Click to set recipe
+
 desc.item.ammo.con_accuracy2=- Highly decreased accuracy
 desc.item.ammo.con_damage=- Highly decreased damage
 desc.item.ammo.con_heavy_wear=- Highly increased wear
@@ -1386,6 +1396,8 @@ gun.name.win20Inox=Winchester Model 20 Inox
 gun.name.win20Poly=Winchester Model 20 Polymer
 gun.name.win20Satur=Winchester Model 20 D-25A
 gun.name.zomg=EMC101 Prismatic Negative Energy Cannon
+
+
 
 hadron.analysis=Analyzing...
 hadron.buttonOn=Analysis Chamber (if present) is ON
@@ -2994,6 +3006,18 @@ item.gun_tesla_cannon.name=Tesla Cannon
 item.gun_uzi.name=Uzi
 item.gun_uzi_richter.name=Richter
 item.gun_uzi_akimbo.name=Uzis
+gui.weapon.ammo=Ammo
+gui.weapon.baseDamage=Base Damage
+gui.weapon.damageWithAmmo=Damage with current ammo
+gui.weapon.condition=Condition
+gui.weapon.accepts=Accepts
+gui.weapon.quality.aside=Standard Arsenal
+gui.weapon.quality.bside=B-Side
+gui.weapon.quality.legendary=Legendary Weapon
+gui.weapon.quality.special=Special Weapon
+gui.weapon.quality.utility=Utility
+gui.weapon.quality.secret=SECRET
+gui.weapon.quality.debug=DEBUG
 item.hand_drill.name=Hand Drill
 item.hand_drill_desh.name=Desh Hand Drill
 item.hazmat_boots.name=Hazmat Boots
@@ -3346,6 +3370,85 @@ item.missile_strong.name=Strong HE Missile
 item.missile_taint.name=Taint-Tipped Missile
 item.missile_volcano.name=Tectonic Missile
 item.missile_volcano.desc=Using the power of nuclear explosives, we can summon a volcano!
+
+gui.missile.warhead=Warhead
+gui.missile.strength=Strength
+gui.missile.fuelType=Fuel Type
+gui.missile.fuelAmount=Fuel amount
+gui.missile.chipInaccuracy=Chip inaccuracy
+gui.missile.finInaccuracy=Fin inaccuracy
+gui.missile.size=Size
+gui.missile.health=Health
+gui.missile.fuel=Fuel
+gui.missile.fuelCapacity=Fuel capacity
+gui.missile.notLaunchable=Not launchable!
+
+missile.tier.tier0=Tier 0
+missile.tier.tier1=Tier 1
+missile.tier.tier2=Tier 2
+missile.tier.tier3=Tier 3
+missile.tier.tier4=Tier 4
+
+missile.fuel.solid=Solid Fuel
+missile.fuel.solid.prefueled=Solid Fuel (pre-fueled)
+missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
+missile.fuel.kerosene_peroxide=Kerosene / Hydrogen Peroxide
+missile.fuel.kerosene_loxy=Kerosene / Liquid Oxygen
+missile.fuel.jetfuel_loxy=Jet Fuel / Liquid Oxygen
+
+warhead.he=HE
+warhead.incendiary=Incendiary
+warhead.cluster=Cluster
+warhead.bunker_buster=Bunker Buster
+warhead.nuclear=Nuclear
+warhead.thermonuclear=Thermonuclear (TX)
+warhead.n2=N²
+warhead.balefire=BF
+warhead.schrabidium=Schrabidium
+warhead.taint=Taint
+warhead.cloud=Cloud
+warhead.turbine=Turbine
+
+part.inaccuracy=Inaccuracy
+part.size=Size
+part.type=Type
+part.strength=Strength
+part.weight=Weight
+part.topSize=Top size
+part.bottomSize=Bottom size
+part.fuelType=Fuel type
+part.fuelAmount=Fuel amount
+part.fuelConsumption=Fuel consumption
+part.maxPayload=Max. payload
+part.health=Health
+part.rarity=Rarity
+part.by=by
+part.size.any=Any
+part.size.none=None
+
+fuel.xenon=Xenon
+fuel.balefire=BF Rocket Fuel
+
+part.rarity.common=Common
+part.rarity.uncommon=Uncommon
+part.rarity.rare=Rare
+part.rarity.epic=Epic
+part.rarity.legendary=Legendary
+part.rarity.strange=Strange
+
+satchip.frequency=Satellite frequency
+satchip.foeq=Gives you an achievement. That's it.
+satchip.gerald.line1=Single use.
+satchip.gerald.line2=Requires orbital module.
+satchip.gerald.line3=Melter of CPUs, bane of every server owner.
+satchip.laser=Allows to summon lasers with a 15 second cooldown.
+satchip.mapper=Displays currently loaded chunks.
+satchip.miner=Will deliver ore powders to a cargo landing pad.
+satchip.lunar_miner=Mines moon turf to deliver it to a cargo landing pad.
+satchip.radar=Shows a map of active entities.
+satchip.resonator=Allows for teleportation with no cooldown.
+satchip.scanner=Creates a topdown map of underground ores.
+
 item.mold_base.name=Blank Foundry Mold
 item.mold.name=Foundry Mold
 item.morning_glory.name=Morning Glory
@@ -5713,6 +5816,10 @@ tile.nuke_n45.name=N45 Naval Mine
 tile.nuke_prototype.name=The Prototype
 tile.nuke_solinium.name=The Blue Rinse
 tile.nuke_tsar.name=Tsar Bomba
+item.bomb_part.used_in=Used in:
+item.n2.mine=N² Mine
+item.fleija.name=F.L.E.I.J.A.
+item.solinium.name=Solinium Bomb
 tile.oil_duct.name=Oil Pipe
 tile.oil_duct_solid.name=Coated Oil Pipe
 tile.oil_pipe.name=Crude Oil Extraction Pipe
@@ -6270,137 +6377,4 @@ desc.gui.upgrade.overdrive= * §7Overdrive§r: Stacks to level 3
 desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
 
-# Shared recipe labels
-gui.recipe.duration=Duration
-gui.recipe.consumption=Consumption
-gui.recipe.input=Input
-gui.recipe.output=Output
-gui.recipe.mB=mB
-gui.recipe.atPressure=at
-gui.recipe.autoswitch=Auto-switch group
-gui.recipe.enabledFor=Enabled for
-gui.recipe.setRecipe=Click to set recipe
-
 tile.oc_cable_paintable.name=Paintable Network Cable
-
-# shared recipe / machine labels
-gui.recipe.duration=Duration
-gui.recipe.consumption=Consumption
-gui.recipe.input=Input
-gui.recipe.output=Output
-gui.recipe.mB=mB
-gui.recipe.atPressure=at
-gui.recipe.autoswitch=Auto-switch group
-gui.recipe.enabledFor=Enabled for
-gui.recipe.setRecipe=Click to set recipe
-
-# --- Missile / parts (generic) ---
-gui.missile.warhead=Warhead
-gui.missile.strength=Strength
-gui.missile.fuelType=Fuel Type
-gui.missile.fuelAmount=Fuel amount
-gui.missile.chipInaccuracy=Chip inaccuracy
-gui.missile.finInaccuracy=Fin inaccuracy
-gui.missile.size=Size
-gui.missile.health=Health
-gui.missile.fuel=Fuel
-gui.missile.fuelCapacity=Fuel capacity
-gui.missile.notLaunchable=Not launchable!
-
-# missile tiers
-missile.tier.tier0=Tier 0
-missile.tier.tier1=Tier 1
-missile.tier.tier2=Tier 2
-missile.tier.tier3=Tier 3
-missile.tier.tier4=Tier 4
-
-# missile fuel names
-missile.fuel.solid=Solid Fuel
-missile.fuel.solid.prefueled=Solid Fuel (pre-fueled)
-missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
-missile.fuel.kerosene_peroxide=Kerosene / Hydrogen Peroxide
-missile.fuel.kerosene_loxy=Kerosene / Liquid Oxygen
-missile.fuel.jetfuel_loxy=Jet Fuel / Liquid Oxygen
-
-# warheads (used by parts)
-warhead.he=HE
-warhead.incendiary=Incendiary
-warhead.cluster=Cluster
-warhead.bunker_buster=Bunker Buster
-warhead.nuclear=Nuclear
-warhead.thermonuclear=Thermonuclear (TX)
-warhead.n2=N²
-warhead.balefire=BF
-warhead.schrabidium=Schrabidium
-warhead.taint=Taint
-warhead.cloud=Cloud
-warhead.turbine=Turbine
-
-# part keys
-part.inaccuracy=Inaccuracy
-part.size=Size
-part.type=Type
-part.strength=Strength
-part.weight=Weight
-part.topSize=Top size
-part.bottomSize=Bottom size
-part.fuelType=Fuel type
-part.fuelAmount=Fuel amount
-part.fuelConsumption=Fuel consumption
-part.maxPayload=Max. payload
-part.health=Health
-part.rarity=Rarity
-part.by=by
-part.size.any=Any
-part.size.none=None
-
-# fuel extras used by parts
-fuel.xenon=Xenon
-fuel.balefire=BF Rocket Fuel
-
-# part rarity keys (enum-based)
-part.rarity.common=Common
-part.rarity.uncommon=Uncommon
-part.rarity.rare=Rare
-part.rarity.epic=Epic
-part.rarity.legendary=Legendary
-part.rarity.strange=Strange
-
-# generic / fallback
-general.na=N/A
-error.generic=### I AM ERROR ###
-
-# --- Satellite chips ---
-satchip.frequency=Satellite frequency
-satchip.foeq=Gives you an achievement. That's it.
-satchip.gerald.line1=Single use.
-satchip.gerald.line2=Requires orbital module.
-satchip.gerald.line3=Melter of CPUs, bane of every server owner.
-satchip.laser=Allows to summon lasers with a 15 second cooldown.
-satchip.mapper=Displays currently loaded chunks.
-satchip.miner=Will deliver ore powders to a cargo landing pad.
-satchip.lunar_miner=Mines moon turf to deliver it to a cargo landing pad.
-satchip.radar=Shows a map of active entities.
-satchip.resonator=Allows for teleportation with no cooldown.
-satchip.scanner=Creates a topdown map of underground ores.
-
-# --- Items (bomb components) ---
-item.bomb_part.used_in=Used in:
-item.n2.mine=N² Mine
-item.fleija.name=F.L.E.I.J.A.
-item.solinium.name=Solinium Bomb
-
-# --- Weapon / gun tooltips ---
-gui.weapon.ammo=Ammo
-gui.weapon.baseDamage=Base Damage
-gui.weapon.damageWithAmmo=Damage with current ammo
-gui.weapon.condition=Condition
-gui.weapon.accepts=Accepts
-
-gui.weapon.quality.aside=Standard Arsenal
-gui.weapon.quality.bside=B-Side
-gui.weapon.quality.legendary=Legendary Weapon
-gui.weapon.quality.special=Special Weapon
-gui.weapon.quality.utility=Utility
-gui.weapon.quality.secret=SECRET
-gui.weapon.quality.debug=DEBUG
