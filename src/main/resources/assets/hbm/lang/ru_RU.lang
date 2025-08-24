@@ -6501,8 +6501,8 @@ trait.rbmx.xenon=Свинцовое отравление: %s
 trait.rbmx.xenonBurn=Функция разрушения свинца: %s
 trait.rbmx.xenonGen=Функция создания свинца: %s
 
-trait.tile.cluster=Выпадает только тогда, когда разрушен игроком
-trait.tile.depth=Может быть разрушен только взрывом
+trait.tile.cluster=Выпадает только тогда, когда добыт игроком
+trait.tile.depth=Может быть добыт только взрывом
 
 tool.ability.centrifuge=Авто-центрифуга
 tool.ability.crystallizer=Авто-кристаллизатор
