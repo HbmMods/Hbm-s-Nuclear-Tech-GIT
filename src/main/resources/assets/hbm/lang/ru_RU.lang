@@ -2333,6 +2333,7 @@ item.blades_desh.name=Деш-лезвия измельчителя
 item.blades_steel.name=Стальные лезвия измельчителя
 item.blades_titanium.name=Титановые лезвия измельчителя
 item.blowtorch.name=Паяльная лампа
+item.blueprint_folder.name=Буклет чертежей
 item.blueprints.name=Чертежи
 item.board_copper.name=Медная панель
 item.boat_rubber.name=Резиновая лодка
