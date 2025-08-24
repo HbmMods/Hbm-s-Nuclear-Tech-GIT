@@ -6282,3 +6282,124 @@ gui.recipe.enabledFor=Enabled for
 gui.recipe.setRecipe=Click to set recipe
 
 tile.oc_cable_paintable.name=Paintable Network Cable
+
+# shared recipe / machine labels
+gui.recipe.duration=Duration
+gui.recipe.consumption=Consumption
+gui.recipe.input=Input
+gui.recipe.output=Output
+gui.recipe.mB=mB
+gui.recipe.atPressure=at
+gui.recipe.autoswitch=Auto-switch group
+gui.recipe.enabledFor=Enabled for
+gui.recipe.setRecipe=Click to set recipe
+
+# --- Missile / parts (generic) ---
+gui.missile.warhead=Warhead
+gui.missile.strength=Strength
+gui.missile.fuelType=Fuel Type
+gui.missile.fuelAmount=Fuel amount
+gui.missile.chipInaccuracy=Chip inaccuracy
+gui.missile.finInaccuracy=Fin inaccuracy
+gui.missile.size=Size
+gui.missile.health=Health
+gui.missile.fuel=Fuel
+gui.missile.fuelCapacity=Fuel capacity
+gui.missile.notLaunchable=Not launchable!
+
+# missile tiers
+missile.tier.tier0=Tier 0
+missile.tier.tier1=Tier 1
+missile.tier.tier2=Tier 2
+missile.tier.tier3=Tier 3
+missile.tier.tier4=Tier 4
+
+# missile fuel names
+missile.fuel.solid=Solid Fuel
+missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
+missile.fuel.kerosene_peroxide=Kerosene / Hydrogen Peroxide
+missile.fuel.kerosene_loxy=Kerosene / Liquid Oxygen
+missile.fuel.jetfuel_loxy=Jet Fuel / Liquid Oxygen
+
+# warheads (used by parts)
+warhead.he=HE
+warhead.incendiary=Incendiary
+warhead.cluster=Cluster
+warhead.bunker_buster=Bunker Buster
+warhead.nuclear=Nuclear
+warhead.thermonuclear=Thermonuclear (TX)
+warhead.n2=N²
+warhead.balefire=BF
+warhead.schrabidium=Schrabidium
+warhead.taint=Taint
+warhead.cloud=Cloud
+warhead.turbine=Turbine
+
+# part keys
+part.inaccuracy=Inaccuracy
+part.size=Size
+part.type=Type
+part.strength=Strength
+part.weight=Weight
+part.topSize=Top size
+part.bottomSize=Bottom size
+part.fuelType=Fuel type
+part.fuelAmount=Fuel amount
+part.fuelConsumption=Fuel consumption
+part.maxPayload=Max. payload
+part.health=Health
+part.rarity=Rarity
+part.by=by
+part.size.any=Any
+part.size.none=None
+
+# fuel extras used by parts
+fuel.xenon=Xenon
+fuel.balefire=BF Rocket Fuel
+
+# part rarity keys (enum-based)
+part.rarity.common=Common
+part.rarity.uncommon=Uncommon
+part.rarity.rare=Rare
+part.rarity.epic=Epic
+part.rarity.legendary=Legendary
+part.rarity.strange=Strange
+
+# generic / fallback
+general.na=N/A
+error.generic=### I AM ERROR ###
+
+# --- Satellite chips ---
+satchip.frequency=Satellite frequency
+satchip.foeq=Gives you an achievement. That's it.
+satchip.gerald.line1=Single use.
+satchip.gerald.line2=Requires orbital module.
+satchip.gerald.line3=Melter of CPUs, bane of every server owner.
+satchip.laser=Allows to summon lasers with a 15 second cooldown.
+satchip.mapper=Displays currently loaded chunks.
+satchip.miner=Will deliver ore powders to a cargo landing pad.
+satchip.lunar_miner=Mines moon turf to deliver it to a cargo landing pad.
+satchip.radar=Shows a map of active entities.
+satchip.resonator=Allows for teleportation with no cooldown.
+satchip.scanner=Creates a topdown map of underground ores.
+
+# --- Items (bomb components) ---
+item.bomb_part.used_in=Used in:
+item.n2.mine=N² Mine
+item.fleija.name=F.L.E.I.J.A.
+item.solinium.name=Solinium Bomb
+
+# --- Weapon / gun tooltips ---
+gui.weapon.ammo=Ammo
+gui.weapon.baseDamage=Base Damage
+gui.weapon.damageWithAmmo=Damage with current ammo
+gui.weapon.condition=Condition
+gui.weapon.accepts=Accepts
+
+gui.weapon.quality.aside=Standard Arsenal
+gui.weapon.quality.bside=B-Side
+gui.weapon.quality.legendary=Legendary Weapon
+gui.weapon.quality.special=Special Weapon
+gui.weapon.quality.utility=Utility
+gui.weapon.quality.secret=SECRET
+gui.weapon.quality.debug=DEBUG

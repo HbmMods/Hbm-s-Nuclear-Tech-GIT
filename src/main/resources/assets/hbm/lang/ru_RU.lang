@@ -4588,19 +4588,6 @@ item.sat_radar.name=Спутник с радиолокационным зонд�
 item.sat_resonator.name=Спутник с Зен-Резонатором
 item.sat_scanner.name=Спутник с модулем глубинно-ресурсного сканирования
 
-item.sat.desc.frequency=Частота спутника
-item.sat.desc.foeq=Даёт тебе достижение. Это всё.
-item.sat.desc.gerald.single_use=Одноразовое.
-item.sat.desc.gerald.orbital_module=Требует орбитальный модуль.
-item.sat.desc.gerald.melter=Расплавитель процессоров, проклятие каждого владельца сервера.
-item.sat.desc.laser=Позволяет вызывать лазеры с перезарядкой 15 секунд.
-item.sat.desc.mapper=Отображает загруженные в данный момент чанки.
-item.sat.desc.miner=Доставит рудные порошки на грузовую посадочную площадку.
-item.sat.desc.lunar_miner=Добывает лунный грунт, чтобы доставить его на грузовую посадочную площадку.
-item.sat.desc.radar=Показывает карту активных объектов.
-item.sat.desc.resonator=Позволяет телепортироваться без перезарядки.
-item.sat.desc.scanner=Создаёт карту подземных руд сверху вниз.
-
 item.sawblade.name=Лезвие пилорамы
 item.schnitzel_vegan.name=Вегетарианский шницель
 item.schrabidium_axe.name=Шрабидиевый топор
@@ -6624,5 +6611,126 @@ gui.recipe.atPressure=при давлении в
 gui.recipe.autoswitch=Группа автоматического переключения
 gui.recipe.enabledFor=Включено для
 gui.recipe.setRecipe=Нажмите, чтобы выбрать рецепт
+
+# shared recipe / machine labels
+gui.recipe.duration=Время
+gui.recipe.consumption=Потребление
+gui.recipe.input=Вход
+gui.recipe.output=Выход
+gui.recipe.mB=mB
+gui.recipe.atPressure=при
+gui.recipe.autoswitch=Автопереключение группы
+gui.recipe.enabledFor=Доступно для
+gui.recipe.setRecipe=Нажмите, чтобы установить рецепт
+
+# --- Missile / parts (generic) ---
+gui.missile.warhead=Боеголовка
+gui.missile.strength=Мощность
+gui.missile.fuelType=Тип топлива
+gui.missile.fuelAmount=Количество топлива
+gui.missile.chipInaccuracy=Неточность чипа
+gui.missile.finInaccuracy=Неточность стабилизаторов
+gui.missile.size=Размер
+gui.missile.health=Прочность
+gui.missile.fuel=Топливо
+gui.missile.fuelCapacity=Ёмкость топлива
+gui.missile.notLaunchable=Невозможно запустить!
+
+# missile tiers
+missile.tier.tier0=Уровень 0
+missile.tier.tier1=Уровень 1
+missile.tier.tier2=Уровень 2
+missile.tier.tier3=Уровень 3
+missile.tier.tier4=Уровень 4
+
+# missile fuel names
+missile.fuel.solid=Твердое топливо
+missile.fuel.ethanol_peroxide=Этанол / Перекись водорода
+missile.fuel.kerosene_peroxide=Керосин / Перекись водорода
+missile.fuel.kerosene_loxy=Керосин / Жидкий кислород
+missile.fuel.jetfuel_loxy=Авиационное топливо / Жидкий кислород
+
+# warheads (used by parts)
+warhead.he=HE
+warhead.incendiary=Зажигательная
+warhead.cluster=Кассетная
+warhead.bunker_buster=Противобункерная
+warhead.nuclear=Ядерная
+warhead.thermonuclear=Термоядерная (TX)
+warhead.n2=N²
+warhead.balefire=Жар-ядерная
+warhead.schrabidium=Шрабидевая
+warhead.taint=Порча
+warhead.cloud=Облако
+warhead.turbine=Турбина
+
+# part keys
+part.inaccuracy=Неточность
+part.size=Размер
+part.type=Тип
+part.strength=Прочность
+part.weight=Вес
+part.topSize=Верхний размер
+part.bottomSize=Нижний размер
+part.fuelType=Тип топлива
+part.fuelAmount=Количество топлива
+part.fuelConsumption=Расход топлива
+part.maxPayload=Макс. нагрузка
+part.health=Прочность
+part.rarity=Редкость
+part.by=Автор
+part.size.any=Любой
+part.size.none=Нет
+
+# fuel extras used by parts
+fuel.xenon=Ксенон
+fuel.balefire=Жар-ракетное топливо
+
+# part rarity keys (enum-based, neuter)
+part.rarity.common=Обычное
+part.rarity.uncommon=Необычное
+part.rarity.rare=Редкое
+part.rarity.epic=Эпическое
+part.rarity.legendary=Легендарное
+part.rarity.strange=Странное
+
+# generic / fallback
+general.na=Н/Д
+error.generic=### Я ОШИБКА ###
+
+# --- Satellite chips ---
+satchip.frequency=Частота спутника
+satchip.foeq=Даёт достижение. И всё.
+satchip.gerald.line1=Одноразовый.
+satchip.gerald.line2=Требуется орбитальный модуль.
+satchip.gerald.line3=Расплавитель процессоров, проклятие каждого владельца сервера.
+satchip.laser=Позволяет вызывать лазеры с перезарядкой 15 секунд.
+satchip.mapper=Отображает загруженные в данный момент чанки.
+satchip.miner=Доставляет рудные порошки на посадочную площадку.
+satchip.lunar_miner=Добывает лунный грунт и доставляет на посадочную площадку.
+satchip.radar=Показывает карту активных сущностей
+satchip.resonator=Позволяет телепортироваться без перезарядки.
+satchip.scanner=Создаёт карту подземных руд сверху вниз.
+
+# --- Items (bomb components) ---
+item.bomb_part.used_in=Используется в:
+item.n2.mine=Мина N²
+item.fleija.name=Ф.Л.Е.Я.
+item.solinium.name=Синий Ополаскиватель
+
+# --- Weapon / gun tooltips ---
+gui.weapon.ammo=Боеприпасы
+gui.weapon.baseDamage=Базовый урон
+gui.weapon.damageWithAmmo=Урон с текущими боеприпасами
+gui.weapon.condition=Состояние
+gui.weapon.accepts=Принимает
+
+gui.weapon.quality.aside=Стандартный арсенал
+gui.weapon.quality.bside=Би-Сайд
+gui.weapon.quality.legendary=Легендарное оружие
+gui.weapon.quality.special=Специальное оружие
+gui.weapon.quality.utility=Утилитарное
+gui.weapon.quality.secret=СЕКРЕТ
+gui.weapon.quality.debug=ОТЛАДКА
 
 // Last updated 23.08.2025 by Bufka2011, MrKimkimora and TactiCOOLHimZa //
