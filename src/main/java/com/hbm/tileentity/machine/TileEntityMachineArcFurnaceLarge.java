@@ -29,6 +29,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -399,6 +400,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 		liquids.add(matStack.copy());
 	}
+
+	
 
 	public static int getStackAmount(List<MaterialStack> stack) {
 		int amount = 0;
