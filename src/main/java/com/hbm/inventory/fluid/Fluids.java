@@ -1,9 +1,8 @@
 package com.hbm.inventory.fluid;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ import net.minecraft.potion.PotionEffect;
 public class Fluids {
 
 	public static final Gson gson = new Gson();
-	
+
 	public static List<IFluidRegisterListener> additionalListeners = new ArrayList();
 
 	public static FluidType NONE;
@@ -797,7 +796,7 @@ public class Fluids {
 	private static void readCustomFluids(File file) {
 
 		try {
-			JsonObject json = gson.fromJson(new FileReader(file), JsonObject.class);
+			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8), JsonObject.class);
 
 			for(Entry<String, JsonElement> entry : json.entrySet()) {
 
@@ -879,12 +878,12 @@ public class Fluids {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static void reloadFluids(){
 		File folder = MainRegistry.configHbmDir;
 		File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
 		if(!customTypes.exists()) initDefaultFluids(customTypes);
-		
+
 		for(FluidType type : customFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -892,7 +891,7 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		customFluids.clear();
-		
+
 		for(FluidType type : foreignFluids){
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
@@ -900,7 +899,7 @@ public class Fluids {
 			metaOrder.remove(type);
 		}
 		foreignFluids.clear();
-		
+
 		readCustomFluids(customTypes);
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 		File config = new File(MainRegistry.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
@@ -911,7 +910,7 @@ public class Fluids {
 		} else {
 			readTraits(config);
 		}
-		
+
 		for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 	}
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
