@@ -14,5 +14,6 @@ public class AE2CompatHandler {
     @Optional.Method(modid = "appliedenergistics2")
     private static void registerHandler() {
         AEApi.instance().registries().externalStorage().addExternalStorageInterface(new MSUExternalStorageHandler());
+		AEApi.instance().registries().externalStorage().addExternalStorageInterface(new AFLExternalStorageHandler());
     }
 }
