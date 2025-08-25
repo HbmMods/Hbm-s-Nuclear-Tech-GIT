@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_u233"], ["hbm:item.billet_u233"], ["hbm:item.nugget_u233"]],
     "title": {
         "en_US": "Uranium-233",
+		"uk_UA": "Уран-233",
 		"ru_RU": "Уран-233"
     },
 	"content": {
 		"en_US": "Artificial type of fissile uranium (i.e. reactor capable), created by reprocessing [[thorium-based fuels|Thorium Fuel]]. High enriched uranium-233 fuel is generally more powerful than fuel derived from [[uranium-235|Uranium-235]].<br><br>Moderately radioactive.",
+		"uk_UA": "Штучний ізотоп урану здатного до розщеплення (тобто придатного для реакторів), отримується шляхом переробки [[палива на основі торію|Thorium Fuel]]. Високозбагачене паливо з урану-233, як правило, потужніше, ніж паливо, отримане з [[урану-235|Uranium-235]].<br><br>Помірно радіоактивний.",
 		"ru_RU": "Искусственный тип делящегося урана (т.е. пригодного для реакторов), получаемый путём переработки [[ториевых топлив|Thorium Fuel]]. Высокообогащенное топливо урана-233, как правило, мощнее, чем топливо, полученное из [[урана-235|Uranium-235]].<br><br>Умеренно радиоактивен."
 	}
 }

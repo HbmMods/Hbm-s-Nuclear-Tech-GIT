@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.powder_sodium"]],
     "title": {
         "en_US": "Sodium",
+		"uk_UA": "Натрій",
 		"ru_RU": "Натрий"
     },
 	"content": {
 		"en_US": "Mainly derived from sodalite, a gem which is found as a [[centrifuge|Centrifuge]] byproduct of many ores. Used in liquid form as a powerful [[PWR]] coolant.",
+		"uk_UA": "В основному отримується з содаліту, дорогоцінного каменю, який зустрічається як побічний продукт [[центрифугування|Centrifuge]] багатьох руд. Використовується в рідкому вигляді як потужний охолоджувач для [[ВВЕР|PWR]].",
 		"ru_RU": "В основном добывается из содалита, драгоценного камня, который является побочным продуктом [[центрифуги|Centrifuge]] при переработке многих руд. Используется в жидкой форме как мощный охладитель для [[ВВЭР|PWR]]."
 	}
 }

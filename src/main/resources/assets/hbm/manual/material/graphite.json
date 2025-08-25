@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_graphite"]],
     "title": {
         "en_US": "Graphite",
+		"uk_UA": "Графіт",
 		"ru_RU": "Графит"
     },
 	"content": {
 		"en_US": "Made from pressing coke. Used in nuclear reactors, graphite electrodes for the [[electric arc furnace|Electric Arc Furnace]] or as a source for carbon in various [[crucible|Crucible]] recipes.",
+		"uk_UA": "Виготовляється пресуванням коксу. Використовується в ядерних реакторах, графітових електродах для [[електричної дугової печі|Electric Arc Furnace]] або як джерело вуглецю в різних рецептах [[ливарні|Crucible]].",
 		"ru_RU": "Изготавливается путём прессования кокса. Используется в ядерных реакторах, графитовых электродах для [[электродуговой печи|Electric Arc Furnace]] или как источник углерода в различных рецептах для [[плавильни|Crucible]]."
 	}
 }

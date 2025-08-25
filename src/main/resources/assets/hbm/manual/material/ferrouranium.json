@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_ferrouranium"]],
     "title": {
         "en_US": "Ferrouranium",
+		"uk_UA": "Фероуран",
 		"ru_RU": "Ферроуран"
     },
 	"content": {
 		"en_US": "Alloy of [[steel|Steel]] and [[uranium-238|Uranium-238]] made in the [[crucible|Crucible]]. Mainly used in ducrete, weapon parts and high-explosive ammunition.",
+		"uk_UA": "Сплав [[сталі|Steel]] та [[урану-238|Uranium-238]], виготовлений у [[ливарні|Crucible]]. В основному використовується в уранобетоні, деталях зброї та вибухових боєприпасах.",
 		"ru_RU": "Сплав из [[стали|Steel]] и [[урана-238|Uranium-238]], изготовленный в [[тигле|Crucible]]. В основном используется в дюкрете, деталях оружий и взрывных боеприпасах."
 	}
 }

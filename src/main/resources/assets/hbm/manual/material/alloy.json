@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_advanced_alloy"], ["hbm:item.powder_advanced_alloy"], ["hbm:item.plate_advanced_alloy"]],
     "title": {
         "en_US": "Advanced Alloy",
+		"uk_UA": "Удосконалений сплав",
 		"ru_ru": "Продвинутый сплав"
     },
 	"content": {
 		"en_US": "Made in a [[blast furnace|Blast Furnace]] from [[steel|Steel]] and [[Minecraft grade copper|Minecraft Grade Copper]]. Makes better-than-diamond gear. Also used in some high-powered magnets for the [[fusion reactor|Fusion Reactor]] and the [[exposure chamber|Exposure Chamber]].",
+		"uk_UA": "Виготовлено в [[доменній печі|Blast Furnace]] зі [[сталі|Steel]] та [[червоної міді|Minecraft Grade Copper]]. З нього робиться спорядження краще за алмазне. Також використовується в деяких потужних магнітах для [[термоядерного реактору|Fusion Reactor]] та [[камери опромінювання|Exposure Chamber]].",
 		"ru_RU": "Изготовлено в [[доменной печи|Blast Furnace]] из [[стали|Steel]] и [[красной меди|Minecraft Grade Copper]]. Из него делают инструменты, превосходящие алмазные. Также используется в некоторых мощных магнитах для [[термоядерного реактора|Fusion Reactor]] и [[камеры облучения|Exposure Chamber]]."
 	}
 }

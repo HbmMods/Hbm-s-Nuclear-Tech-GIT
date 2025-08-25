@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_pu240"], ["hbm:item.billet_pu240"], ["hbm:item.nugget_pu240"]],
     "title": {
         "en_US": "Plutonium-240",
+		"uk_UA": "Плутоній-240",
 		"ru_RU": "Плутоний-240"
     },
 	"content": {
 		"en_US": "Non-fissile isotope found in [[plutonium|Plutonium]] and [[reactor-grade plutonium|Reactor-Grade-Plutonium]]. Only useful when manually making reactor-grade plutonium from [[plutonium-239|Plutonium-239]] or inspecialized [[zirconium|Zirconium]] fast breeder rods for making [[plutonium-241|Plutonium-241]] in the [[RBMK]].",
+		"uk_UA": "Не здатний до поділу ізотоп, що міститься в [[плутонії|Plutonium]] та [[реакторному плутонії|Reactor-Grade-Plutonium]]. Корисний лише при ручному виготовленні реакторного плутонію з [[плутонію-239|Plutonium-239]] або у спеціалізованих [[цирконієвих|Zirconium]] швидких розмножувачах для виготовлення [[плутонію-241|Plutonium-241]] в [[РБМК|RBMK]]." ,
 		"ru_RU": "Неделимый изотоп, содержащийся в [[плутонии|Plutonium]] и [[реакторном плутонии|Reactor-Grade-Plutonium]]. Полезен только при ручном создании реакторного плутония из [[плутония-239|Plutonium-239]] или в специализированных [[циркониевых|Zirconium]] стержнях быстрого размножения для производства [[плутония-241|Plutonium-241]] в [[РБМК|RBMK]]."
 	}
 }

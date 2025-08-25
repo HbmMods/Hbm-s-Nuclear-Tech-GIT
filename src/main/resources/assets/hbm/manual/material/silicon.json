@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_silicon"], ["hbm:item.billet_silicon"], ["hbm:item.nugget_silicon"]],
     "title": {
         "en_US": "Silicon",
+		"uk_UA": "Кремній",
 		"ru_RU": "Кремний"
     },
 	"content": {
 		"en_US": "Important material for producing integrated circuits, and any electronics more sophisticated than an analog circuit. Created in an [[electric arc furnace|Electric Arc Furnace]] using things that contain silicon dioxide, like regular sand, nether quartz, fiberglass, flint or [[asbestos|Asbestos]]. Used primarily as wafers (i.e. billets) which are [[pressed|Burner Press]] using a circuit stamp, and then crafted into different types of microchips. Due to requiring an arc furnace, silicon is available after obtaining [[polymer|Polymer]], requiring [[oil|Crude Oil]] processing.",
+		"uk_UA": "Важливий матеріал для виробництва інтегральних плат та будь-якої електроніки, складнішої за аналогову плату. Виготовляється в [[електричній дуговій печі|Electric Arc Furnace]] використанням матеріалів, що містять діоксид кремнію, наприклад звичайного піску, пекельного кварцу, скловолокна, кременю або [[азбесту|Asbestos]]. Використовується переважно як пластини (тобто заготовки) які [[пресуються|Burner Press]] за допомогою штампа схеми, а потім перетворюються на різні типи мікрочіпів. Через необхідність у дуговій печі, кремній стає доступний після отримання [[полімеру|Polymer]], що вимагає переробки [[нафти|Crude Oil]].",
 		"ru_RU": "Важный материал для производства интегральных схем и любой электроники, более сложной, чем аналоговые схемы. Производится в [[электродуговой печи|Electric Arc Furnace]] из материалов, содержащих диоксид кремния, таких как обычный песок, незер-кварц, стекловолокно, кремень или [[асбест|Asbestos]]. В основном используется в виде пластин (т.е. заготовок), которые [[прессуются|Burner Press]] с использованием штампа для схем, а затем превращаются в различные типы микросхем. Из-за необходимости в дуговой печи кремний доступен после получения [[полимера|Polymer]], что требует переработки [[нефти|Crude Oil]]."
 	}
 }

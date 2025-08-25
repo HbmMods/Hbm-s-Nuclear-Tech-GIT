@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_plutonium"], ["hbm:item.billet_plutonium"], ["hbm:item.nugget_plutonium"], ["hbm:item.powder_plutonium"]],
     "title": {
         "en_US": "Plutonium",
+		"uk_UA": "Плутоній",
 		"ru_RU": "Плутоний"
     },
 	"content": {
 		"en_US": "Rare form of impure plutonium, composed of plutonium-238, 239 and 240. Plutonium in ore form is disabled by default. May be processed in a [[gas centrifuge|Gas Centrifuge]] in hexafluoride form, or used for certain [[cyclotron|Cyclotron]] recipes.<br><br>Moderately radioactive.<br><br>See also:<br>[[Plutonium-238]]<br>[[Plutonium-239]]<br>[[Plutonium-240]]<br>[[Plutonium-241]]",
+		"uk_UA": "Рідкісна форма природнього плутонію, що складається з плутонію-238, 239 та 240. Плутоній у формі руди вимкнено за замовчуванням. Може бути перероблений в [[газовій центріфузі|Gas Centrifuge]] у формі гексафториду, або використовуватися для певних рецептів [[циклотрона|Cyclotron]].<br><br>Помірно радіоактивний.<br><br>Див. також:<br>[[Плутоній-238|Plutonium-238]]<br>[[Плутоній-239|Plutonium-239]]<br>[[Плутоній-240|Plutonium-240]]<br>[[Плутоній-241|Plutonium-241]]",
 		"ru_RU": "Редкая форма нечистого плутония, состоящая из плутония-238, 239 и 240. Плутоний в рудной форме по умолчанию отключен. Может быть переработан в [[газовой центрифуге|Gas Centrifuge]] в форме гексафторида или использован для определенных рецептов [[циклотрона|Cyclotron]].<br><br>Умеренно радиоактивен.<br><br>См. также:<br>[[Плутоний-238|Plutonium-238]]<br>[[Плутоний-239|Plutonium-239]]<br>[[Плутоний-240|Plutonium-240]]<br>[[Плутоний-241|Plutonium-241]]"
 	}
 }

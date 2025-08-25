@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_desh"], ["hbm:item.powder_desh"]],
     "title": {
         "en_US": "Desh",
+		"uk_UA": "Деш",
 		"ru_RU": "Деш"
     },
 	"content": {
 		"en_US": "High-strength working alloy made in a [[chemical plant|Chemical Plant]]. Requires [[light oil|Light oil]] from basic [[oil|Crude Oil]] refining, [[mercury|Mercury]], a byproduct of [[centrifuging|Centrifuge]] redstone ore and desh blend, which is just [[shredded|Shredder]] rare earth ore chunks.<br><br>Used in a variety of things, especially tools and weapons. Desh tools are slow and only iron tier, but are the first available ones to be unbreakable and offer many tool abilities.",
+		"uk_UA": "Високоміцний робочий сплав, виготовлений на [[хімічному заводі|Chemical Plant]]. Потребує [[легку нафту|Light oil]] з базової переробки [[нафти|Crude Oil]], [[ртуть|Mercury]], побічний продукт [[[центрифугування|Centrifuge]] редстоунової руди та деш суміш, яка є просто [[подрібненими|Shredder]] шматками рідкоземельної руди.<br><br>Використовується в різних речах, особливо в інструментах та зброї. Деш інструменти повільні та відповідають лише залізному тіру, але є першими доступними незламними інструментами з багатьма режимами роботи.",
 		"ru_RU": "Высокопрочный рабочий сплав, изготовленный на [[химической установке|Chemical Plant]]. Требует [[легкой нефти|Light oil]] из базовой переработки [[нефти|Crude Oil]], [[ртути|Mercury]], побочного продукта [[центрифугирования|Centrifuge]] красной руды, и смеси деша, которая представляет собой просто [[измельчённые|Shredder]] куски редкоземельной руды.<br><br>Используется в различных вещах, особенно в инструментах и оружии. Инструменты из деша медленные и соответствуют железному уровню, но являются первыми доступными неломающимися инструментами с множеством способностей."
 	}
 }

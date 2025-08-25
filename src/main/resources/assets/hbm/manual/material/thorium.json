@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_th232"], ["hbm:item.billet_th232"], ["hbm:item.nugget_th232"], ["hbm:item.powder_thorium"]],
     "title": {
         "en_US": "Thorium-232",
+		"uk_UA": "Торій-232",
 		"ru_RU": "Торий-232"
     },
 	"content": {
 		"en_US": "Fertile (i.e. can be bred) isotope which yields [[uranium-233|Uranium-233]]. Can either be irradiated in an [[RBMK]] to produce [[thorium fuel|Thorium Fuel]] or combined with uranium-233. Thorium-derived fuels are generally cost-effective but not very powerful. Also usable in [[liquid thorium salt|Liquid Thorium Salt]], a powerful [[PWR]] coolant (turning it into a molten salt reactor) which yields tons of uranium-233 quickly.<br><br>Slightly radioactive.",
+		"uk_UA": "Фертильний (тобто придатний до розмноження) ізотоп який дає [[уран-233|Uranium-233]]. Може бути опромінений в [[РБМК|RBMK]] для отримання [[торієвого палива|Thorium Fuel]] або поєднаний з ураном-233. Паливо, отримане з торію, зазвичай економічне, але не дуже потужне. Також використовується у вигляді [[рідкої торієвої солі|Liquid Thorium Salt]], потужному теплоносію [[ВВЕР|PWR]] (перетворюючи його у реактор на розплавах солей) який швидко дає тонни урану-233.<br><br>Слабко радіоактивний.",
 		"ru_RU": "Фертильный (т.е. пригодный для размножения) изотоп, дающий [[уран-233|Uranium-233]]. Может быть облучен в [[РБМК|RBMK]] для производства [[ториевого топлива|Thorium Fuel]] или комбинирован с ураном-233. Топлива, производные от тория, обычно экономичны, но не очень мощные. Также используется в [[жидкой ториевой соли|Liquid Thorium Salt]], мощном охладителе [[ВВЭР|PWR]], превращающем его в реактор на расплавленных солях, который быстро производит большое количество урана-233.<br><br>Слабо радиоактивен."
 	}
 }

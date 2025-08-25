@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_uranium"], ["hbm:item.billet_uranium"], ["hbm:item.nugget_uranium"], ["hbm:item.powder_uranium"], ["hbm:tile.ore_uranium"]],
     "title": {
         "en_US": "Uranium",
+		"uk_UA": "Уран",
 		"ru_RU": "Уран"
     },
 	"content": {
 		"en_US": "Natural uranium, slightly radioactive. Not very fissile on its own, can be enriched by turning it into [[uranium hexafluoride|Uranium Hexafluoride]] and processing it in [[gas centrifuges|Gas Centrifuge]]. [[ZIRNOX]], [[RBMK]] and [[Chigago Pile]] may use natural uranium as fuel without enrichment.<br><br>See also:<br>[[Uranium-233]]<br>[[Uranium-235]]<br>[[Uranium-238]]",
+		"uk_UA": "Природний уран, слабо радіоактивний. Сам по собі не дуже ділиться, його можна збагачувати, перетворюючи на [[гексафторид урану|Uranium Hexafluoride]] та оброблюючи в [[газових центрифугах|Gas Centrifuge]]. [[ЦИРНОКС|ZIRNOX]], [[РБМК|RBMK]] та [[Чиказька дровітня|Chigago Pile]] можуть використовувати природний уран як паливо без збагачення.<br><br>Див. також:<br>[[Уран-233|Uranium-233]]<br>[[Уран-235|Uranium-235]]<br>[[Уран-238|Uranium-238]]",
 		"ru_RU": "Натуральный уран, слабо радиоактивен. Сам по себе не очень делящийся, может быть обогащен путём превращения в [[гексафторид урана|Uranium Hexafluoride]] и переработки в [[газовых центрифугах|Gas Centrifuge]]. [[ЦИРНОКС|ZIRNOX]], [[РБМК|RBMK]] и [[Чикагская поленница|Chicago Pile]] могут использовать натуральный уран как топливо без обогащения.<br><br>См. также:<br>[[Уран-233|Uranium-233]]<br>[[Уран-235|Uranium-235]]<br>[[Уран-238|Uranium-238]]"
 	}
 }

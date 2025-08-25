@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_weaponsteel"], ["hbm:item.plate_weaponsteel"]],
     "title": {
         "en_US": "Weapon Steel",
+		"uk_UA": "Збройова сталь",
 		"ru_RU": "Оружейная сталь"
     },
 	"content": {
 		"en_US": "High-purity version of [[steel|Steel]] made in a [[rotary furnace|Rotary Furnace]]. Requires [[coker gas|Coker Gas]], and therefore a [[coker unit|Coker Unit]]. Used in many mid-game weapons, weapon modifications and missile warheads.",
+		"uk_UA": "Високочиста версія [[сталі|Steel]] виготовлена в [[роторній печі|Rotary Furnace]]. Потребує [[коксовий газ|Coker Gas]], тому і [[коксову установку|Coker Unit]]. Використовується в багатьох видах мідгеймової зброї, модифікаціях зброї та ракетних боєголовках.",
 		"ru_RU": "Высококачественная версия [[стали|Steel]], изготовленная в [[роторной печи|Rotary Furnace]]. Требует [[коксовый газ|Coker Gas]] и, следовательно, [[коксовую установку|Coker Unit]]. Используется во многих оружиях среднего этапа игры, модификациях оружия и боеголовках ракет."
 	}
 }

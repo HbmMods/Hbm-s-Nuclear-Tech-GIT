@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_u238"], ["hbm:item.billet_u238"], ["hbm:item.nugget_u238"]],
     "title": {
         "en_US": "Uranium-238",
+		"uk_UA": "Уран-238",
 		"ru_RU": "Уран-238"
     },
 	"content": {
 		"en_US": "Depleted uranium, not fissile (i.e. not directly reactor-usable). Primarily a byproduct from enriching [[uranium|Uranium]]. Used in [[ferrouranium|Ferrouranium]], for [[depleted uranium ammo|Depleted Uranium Ammo]] and for certain low-enriched fuels. Fuels that contain uranium-238 typically yield useful [[plutonium-239|Plutonium-239]] when reprocessing.<br><br>Slightly radioactive.",
+		"uk_UA": "Збіднений уран, не ділиться (тобто не придатний для безпосереднього використання в реакторах). В основному побічний продукт збагачення [[урану|Uranium]]. Використовується у виготовленні [[фероурану|Ferrouranium]], [[боєприпасів зі збідненим ураном|Depleted Uranium Ammo]] та для певного низькозбагаченого палива. Паливо, що містить уран-238 зазвичай дає корисний [[плутоній-239|Plutonium-239]] під час переробки.<br><br>Слабо радіоактивний.",
 		"ru_RU": "Истощенный уран, не делящийся (т.е. не пригоден для прямого использования в реакторах). В основном является побочным продуктом обогащения [[урана|Uranium]]. Используется в [[ферроурание|Ferrouranium]], для [[боеприпасов с истощенным ураном|Depleted Uranium Ammo]] и для некоторых низкообогащенных топлив. Топлива, содержащие уран-238, при переработке обычно дают полезный [[плутоний-239|Plutonium-239]].<br><br>Слабо радиоактивен."
 	}
 }

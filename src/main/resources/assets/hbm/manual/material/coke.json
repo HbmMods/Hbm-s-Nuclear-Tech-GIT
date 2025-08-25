@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.coke", 1, 32767]],
     "title": {
         "en_US": "Coke",
+		"uk_UA": "Кокс",
 		"ru_RU": "Кокс"
     },
 	"content": {
 		"en_US": "High-purity carbon, has twice the burn value of coal. Can be pressed into [[graphite|Graphite]], used in various [[steel|Steel]] recipes or as a source of carbon for the [[crucible|Crucible]].<br><br>Coal coke can be made by smelting coal briquettes, or combination smelting coal in its various forms.<br><br>Lignite coke is made from the much cheaper and less powerful lignite in much the same way, despite this it has the same characteristics.<br><br>Petroleum coke is made either from non-coal tars in a [[combination oven|Combination Oven]], or by coking various types of oil in a [[coker|Coking Unit]].",
+		"uk_UA": "Високочистий вуглець, має вдвічі вищу горючість, ніж вугілля. Може бути зпресований у [[графіт|Graphite]], використовується у різних рецептах [[сталі|Steel]] або як джерело вуглецю для [[ливарні|Crucible]].<br><br>Вугільний кокс можна виготовляти шляхом обсмаження вугільних брикетів або коксування вугілля в різних його формах.<br><br>Буровугільний кокс виготовляється з набагато дешевшого та менш потужного бурого вугілля майже таким самим способом, незважаючи на це, він має ті ж характеристики.<br><br>Нафтовий кокс виготовляється або з невугільних смол у [[коксовій печі|Combination Oven]], або шляхом коксування різних видів нафтопродуктів у [[коксовій установці|Coking Unit]].",
 		"ru_RU": "Высокочистый углерод, имеет вдвое большую энергию сгорания, чем уголь. Может быть спрессован в [[графит|Graphite]], используется в различных рецептах [[стали|Steel]] или как источник углерода для [[плавильни|Crucible]].<br><br>Угольный кокс можно получить путём переплавки угольных брикетов или комбинированной переплавки угля в различных формах.<br><br>Бурый кокс изготавливается из более дешёвого и менее мощного бурого угля тем же способом, но обладает теми же характеристиками.<br><br>Нефтяной кокс производится либо из неугольных смол в [[коксовой печи|Combination Oven]], либо путём коксования различных видов масла в [[коксовой установке|Coking Unit]]."
 	}
 }

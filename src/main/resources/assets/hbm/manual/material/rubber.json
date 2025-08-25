@@ -4,10 +4,12 @@
     "trigger": [["hbm:item.ingot_rubber"]],
     "title": {
         "en_US": "Rubber",
+		"uk_UA": "Гума",
 		"ru_RU": "Резина"
     },
 	"content": {
 		"en_US": "Oil product, derived from [[unsaturated hydrocabons|Unsaturated Hydrocarbons]] and [[sulfur|Sulfur]]. Requires at least a [[cracking tower|Catalytic Cracking Tower]] to make. Can replace [[latex|Latex]] in every recipe.",
+		"uk_UA": "Нафтопродукт, отриманий з [[ненасичених вуглеводнів|Unsaturated Hydrocarbons]] та [[сірки|Sulfur]]. Для виробництва потрібна щонайменше [[вежа каталітичного крекінгу|Catalytic Cracking Tower]]. Може замінити [[латекс|Latex]] у всіх рецептах.",
 		"ru_RU": "Продукт переработки нефти, получаемый из [[ненасыщенных углеводородов|Unsaturated Hydrocarbons]] и [[серы|Sulfur]]. Требует как минимум [[башню крекинга|Catalytic Cracking Tower]] для производства. Может заменить [[латекс|Latex]] во всех рецептах."
 	}
 }
