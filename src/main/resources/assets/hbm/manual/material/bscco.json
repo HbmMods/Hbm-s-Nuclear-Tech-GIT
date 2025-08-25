@@ -5,11 +5,13 @@
     "title": {
         "en_US": "BSCCO",
 		"uk_UA": "Вісмут стронцій кальцій мідь оксид (BSCCO)",
-		"ru_RU": "BSCCO"
+		"ru_RU": "BSCCO",
+		"zh_CN": "BSCCO超导体"
     },
 	"content": {
 		"en_US": "Powerful superconductor, used in high tier circuits and coils for the [[particle accelerator|Particle Accelerator]]. Requires [[bismuth|Bismuth]], and is therefore only obtainable after building an [[RBMK]].",
 		"uk_UA": "Потужний надпровідник, що використовується у високоякісних платах та котушках для [[прискорювача часток|Particle Accelerator]]. Потребує [[вісмут|Bismuth]], і тому доступний лише після побудови [[РБМК|RBMK]].",
-		"ru_RU": "Мощный сверхпроводник, используемый в высокоуровневых цепях и катушках для [[ускорителя частиц|Particle Accelerator]]. Требует [[висмута|Bismuth]], и поэтому доступен только после постройки [[РБМК|RBMK]]."
+		"ru_RU": "Мощный сверхпроводник, используемый в высокоуровневых цепях и катушках для [[ускорителя частиц|Particle Accelerator]]. Требует [[висмута|Bismuth]], и поэтому доступен только после постройки [[РБМК|RBMK]].",
+		"zh_CN": "强力的超导体，用于制作高等级的电路及用于[[粒子加速器|Particle Accelerator]]的线圈。需要[[铋|Bismuth]]制作，因此只能在建造[[RBMK]]后获得。"
 	}
 }

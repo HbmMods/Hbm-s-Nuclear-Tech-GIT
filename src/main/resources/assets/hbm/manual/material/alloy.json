@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Advanced Alloy",
 		"uk_UA": "Удосконалений сплав",
-		"ru_ru": "Продвинутый сплав"
+		"ru_ru": "Продвинутый сплав",
+		"zh_CN": "高级合金"
     },
 	"content": {
 		"en_US": "Made in a [[blast furnace|Blast Furnace]] from [[steel|Steel]] and [[Minecraft grade copper|Minecraft Grade Copper]]. Makes better-than-diamond gear. Also used in some high-powered magnets for the [[fusion reactor|Fusion Reactor]] and the [[exposure chamber|Exposure Chamber]].",
 		"uk_UA": "Виготовлено в [[доменній печі|Blast Furnace]] зі [[сталі|Steel]] та [[червоної міді|Minecraft Grade Copper]]. З нього робиться спорядження краще за алмазне. Також використовується в деяких потужних магнітах для [[термоядерного реактору|Fusion Reactor]] та [[камери опромінювання|Exposure Chamber]].",
-		"ru_RU": "Изготовлено в [[доменной печи|Blast Furnace]] из [[стали|Steel]] и [[красной меди|Minecraft Grade Copper]]. Из него делают инструменты, превосходящие алмазные. Также используется в некоторых мощных магнитах для [[термоядерного реактора|Fusion Reactor]] и [[камеры облучения|Exposure Chamber]]."
+		"ru_RU": "Изготовлено в [[доменной печи|Blast Furnace]] из [[стали|Steel]] и [[красной меди|Minecraft Grade Copper]]. Из него делают инструменты, превосходящие алмазные. Также используется в некоторых мощных магнитах для [[термоядерного реактора|Fusion Reactor]] и [[камеры облучения|Exposure Chamber]].",
+		"zh_CN": "在[[高炉|Blast Furnace]]中使用[[钢|Steel]]和[[紫铜|Minecraft Grade Copper]]制成。其制成的工具比钻石更加优质。同时也能用于制作[[聚变反应堆|Fusion Reactor]]和[[辐照舱|Exposure Chamber]]的高能磁铁。"
 	}
 }

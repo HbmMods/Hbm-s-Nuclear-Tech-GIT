@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Cadmium",
 		"uk_UA": "Кадмій",
-		"ru_RU": "Кадмий"
+		"ru_RU": "Кадмий",
+		"zh_CN": "镉"
     },
 	"content": {
 		"en_US": "Made by treating mustard willow leaves with [[high-performance solvent|High-Performance Solvent]]. Used in [[PVC]], a lategame alternate recipe for [[rubber|Rubber]] and for [[cadmium steel|Cadmium Steel]], which acts as a [[technetium steel|Technetium Steel]] substitute.",
 		"uk_UA": "Виготовляється шляхом обробки листя гірчичної верби [[високоефективним розчинником|High-Performance Solvent]]. Використовується у [[полівінілхлориді|PVC]], пізньому альтернативному рецепті для [[гуми|Rubber]] та для [[кадмієвої сталі|Cadmium Steel]], яка виступає як замінник [[технецієвої сталі|Technetium Steel]].",
-		"ru_RU": "Изготовлен путём обработки листьев горчичной ивы [[высокоэффективным растворителем|High-Performance Solvent]]. Используется в [[ПВХ|PVC]], позднеигровом альтернативном рецепте для [[резины|Rubber]] и для [[кадмиевой стали|Cadmium Steel]], которая действует как замена [[технециевой стали|Technetium Steel]]."
+		"ru_RU": "Изготовлен путём обработки листьев горчичной ивы [[высокоэффективным растворителем|High-Performance Solvent]]. Используется в [[ПВХ|PVC]], позднеигровом альтернативном рецепте для [[резины|Rubber]] и для [[кадмиевой стали|Cadmium Steel]], которая действует как замена [[технециевой стали|Technetium Steel]].",
+		"zh_CN": "使用[[高性能溶剂|High-Performance Solvent]]处理芥子柳叶获取。用于制作[[PVC]]，也可用于游戏后期的[[橡胶|Rubber]]替代配方，以及制作[[锝钢|Technetium Steel]]的替代品[[镉钢|Cadmium Steel]]。"
 	}
 }

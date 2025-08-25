@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Bismuth Bronze",
 		"uk_UA": "Вісмутова бронза",
-		"ru_RU": "Висмутовая бронза"
+		"ru_RU": "Висмутовая бронза",
+		"zh_CN": "铋青铜"
     },
 	"content": {
 		"en_US": "Derivative of [[bismuth|Bismuth]] made in the [[crucible|Crucible]], therefore available only after building an [[RBMK]].<br><br>Fully interchangeable with [[arsenic bronze|Arsenic Bronze]].",
 		"uk_UA": "Похідна від [[вісмуту|Bismuth]], виготовлена в [[ливарні|Crucible]], доступна лише після будівництва [[РБМК|RBMK]]br><br>Повністю взаємозамінна з [[миш'яковою бронзою|Arsenic Bronze]].",
-		"ru_RU": "Производное от [[висмута|Bismuth]], изготовленное в [[плавильне|Crucible]], поэтому доступно только после постройки [[РБМК|RBMK]].<br><br>Полностью взаимозаменяемо с [[мышьяковой бронзой|Arsenic Bronze]]."
+		"ru_RU": "Производное от [[висмута|Bismuth]], изготовленное в [[плавильне|Crucible]], поэтому доступно только после постройки [[РБМК|RBMK]].<br><br>Полностью взаимозаменяемо с [[мышьяковой бронзой|Arsenic Bronze]].",
+		"zh_CN": "使用[[铋|Bismuth]]在[[坩埚|Crucible]]中制作的衍生物，只能在建造[[RBMK]]之后获得。<br><br>和[[砷青铜|Arsenic Bronze]]完全通用。"
 	}
 }

@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Bakelite",
 		"uk_UA": "Карболіт",
-		"ru_RU": "Бакелит"
+		"ru_RU": "Бакелит",
+		"zh_CN": "电木"
     },
 	"content": {
 		"en_US": "Alternative to [[polymer|Polymer]] made from [[aromatic hydrocarbons|Aromatic Hydrocarbons]] derived from [[cracked oil products|Catalytic Cracking Tower]]. Completely interchangeable in all recipes.",
 		"uk_UA": "Карболіт (радянська назва бакеліту) — альтернатива [[полімеру|Polymer]], виготовлений з [[ароматичних вуглеводнів|Aromatic Hydrocarbons]], отриманих з [[продуктів крекінгу нафти|Catalytic Cracking Tower]]. Повністю взаємозамінний у всіх рецептах.",
-		"ru_RU": "Альтернатива [[полимеру|Polymer]], изготовленная из [[ароматических углеводородов|Aromatic Hydrocarbons]], полученных из [[продуктов крекинга нефти|Catalytic Cracking Tower]]. Полностью взаимозаменяема во всех рецептах."
+		"ru_RU": "Альтернатива [[полимеру|Polymer]], изготовленная из [[ароматических углеводородов|Aromatic Hydrocarbons]], полученных из [[продуктов крекинга нефти|Catalytic Cracking Tower]]. Полностью взаимозаменяема во всех рецептах.",
+		"zh_CN": "[[聚合物|Polymer]]的替代品，使用处理[[裂化油|Catalytic Cracking Tower]]得到的产品之一[[芳香烃|Aromatic Hydrocarbons]]制作。在所有配方中与聚合物完全通用。"
 	}
 }

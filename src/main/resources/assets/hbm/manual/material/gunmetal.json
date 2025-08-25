@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Gunmetal",
 		"uk_UA": "Гарматна бронза",
-		"ru_RU": "Оружейный металл"
+		"ru_RU": "Оружейный металл",
+		"zh_CN": "炮铜"
     },
 	"content": {
 		"en_US": "Alloy of [[aluminium|Aluminium]] and [[copper|Copper]]. Can be made in an anvil, or more efficiently in a [[rotary furnace|Rotary Furnace]]. Used mainly for weapon parts, as well as casings for most ammunition.",
 		"uk_UA": "Сплав [[алюмінію|Aluminium]] та [[міді|Copper]]. Може бути виготовлений на ковадлі або, що ефективніше, у [[роторній печі|Rotary Furnace]]. Використовується переважно для деталей зброї, а також для гільз більшості боєприпасів.",
-		"ru_RU": "Сплав из [[алюминия|Aluminium]] и [[меди|Copper]]. Может быть изготовлен на наковальне или более эффективно в [[роторной печи|Rotary Furnace]]. В основном используется для деталей оружия, а также для гильз большинства боеприпасов."
+		"ru_RU": "Сплав из [[алюминия|Aluminium]] и [[меди|Copper]]. Может быть изготовлен на наковальне или более эффективно в [[роторной печи|Rotary Furnace]]. В основном используется для деталей оружия, а также для гильз большинства боеприпасов.",
+		"zh_CN": "[[铝|Aluminium]]和[[铜|Copper]]的合金。可在砧中制作，也可在[[回转炉|Rotary Furnace]]中更高效地制作。主要用于制作武器部件，也用于制作大部分弹壳。"
 	}
 }

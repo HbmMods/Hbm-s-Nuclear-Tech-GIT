@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Bismuth",
 		"uk_UA": "Вісмут",
-		"ru_RU": "Висмут"
+		"ru_RU": "Висмут",
+		"zh_CN": "铋"
     },
 	"content": {
 		"en_US": "Heavy metal, intially derived from reprocessing spent [[RBMK]] fuel in the [[SILEX]], can also be made from later stage bedrock ore processing using [[high-performance solvent|High-Performance Solvent]]. Primarily used as [[bismuth bronze|Bismuth Bronze]].",
 		"uk_UA": "Важкий метал, початково який можна отримати у результаті переробки відпрацьованого палива [[РБМК|RBMK]] в [[SILEX]], також може бути отриманий на пізнішій стадії переробки корінної руди з використанням [[високоефективного розчинника|High-Performance Solvent]]. Переважно використовуюється як [[вісмутова бронза|Bismuth Bronze]].",
-		"ru_RU": "Тяжелый металл, первоначально получаемый из переработки отработанного топлива [[РБМК|RBMK]] в [[SILEX]], также может быть получен из поздних стадий обработки бедроковой руды с использованием [[высокоэффективного растворителя|High-Performance Solvent]]. В основном используется в виде [[висмутовай бронзы|Bismuth Bronze]]."
+		"ru_RU": "Тяжелый металл, первоначально получаемый из переработки отработанного топлива [[РБМК|RBMK]] в [[SILEX]], также может быть получен из поздних стадий обработки бедроковой руды с использованием [[высокоэффективного растворителя|High-Performance Solvent]]. В основном используется в виде [[висмутовай бронзы|Bismuth Bronze]].",
+		"zh_CN": "一种重金属，最初可使用[[SILEX]]回收枯竭的[[RBMK]]燃料获取，之后也可在基岩矿石处理的后期步骤中，使用[[高性能溶剂|Hing-Performance Solvent]]处理矿石获取。主要用于制作[[铋青铜|Bismuth Bronze]]。"
 	}
 }

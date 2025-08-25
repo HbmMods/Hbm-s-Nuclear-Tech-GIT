@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Graphite",
 		"uk_UA": "Графіт",
-		"ru_RU": "Графит"
+		"ru_RU": "Графит",
+		"zh_CN": "石墨"
     },
 	"content": {
 		"en_US": "Made from pressing coke. Used in nuclear reactors, graphite electrodes for the [[electric arc furnace|Electric Arc Furnace]] or as a source for carbon in various [[crucible|Crucible]] recipes.",
 		"uk_UA": "Виготовляється пресуванням коксу. Використовується в ядерних реакторах, графітових електродах для [[електричної дугової печі|Electric Arc Furnace]] або як джерело вуглецю в різних рецептах [[ливарні|Crucible]].",
-		"ru_RU": "Изготавливается путём прессования кокса. Используется в ядерных реакторах, графитовых электродах для [[электродуговой печи|Electric Arc Furnace]] или как источник углерода в различных рецептах для [[плавильни|Crucible]]."
+		"ru_RU": "Изготавливается путём прессования кокса. Используется в ядерных реакторах, графитовых электродах для [[электродуговой печи|Electric Arc Furnace]] или как источник углерода в различных рецептах для [[плавильни|Crucible]].",
+		"zh_CN": "通过锻压焦炭获取。用于核反应堆、[[电弧炉|Electric Arc Furnace]]电极，也可作为部分[[坩埚|Crucible]]配方中碳的来源。"
 	}
 }

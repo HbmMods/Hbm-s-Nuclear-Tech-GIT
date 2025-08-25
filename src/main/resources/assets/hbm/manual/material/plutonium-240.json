@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Plutonium-240",
 		"uk_UA": "Плутоній-240",
-		"ru_RU": "Плутоний-240"
+		"ru_RU": "Плутоний-240",
+		"zh_CN": "钚-240"
     },
 	"content": {
-		"en_US": "Non-fissile isotope found in [[plutonium|Plutonium]] and [[reactor-grade plutonium|Reactor-Grade-Plutonium]]. Only useful when manually making reactor-grade plutonium from [[plutonium-239|Plutonium-239]] or inspecialized [[zirconium|Zirconium]] fast breeder rods for making [[plutonium-241|Plutonium-241]] in the [[RBMK]].",
+		"en_US": "Non-fissile isotope found in [[plutonium|Plutonium]] and [[reactor-grade plutonium|Reactor-Grade-Plutonium]]. Only useful when manually making reactor-grade plutonium from [[plutonium-239|Plutonium-239]] or in specialized [[zirconium|Zirconium]] fast breeder rods for making [[plutonium-241|Plutonium-241]] in the [[RBMK]].",
 		"uk_UA": "Не здатний до поділу ізотоп, що міститься в [[плутонії|Plutonium]] та [[реакторному плутонії|Reactor-Grade-Plutonium]]. Корисний лише при ручному виготовленні реакторного плутонію з [[плутонію-239|Plutonium-239]] або у спеціалізованих [[цирконієвих|Zirconium]] швидких розмножувачах для виготовлення [[плутонію-241|Plutonium-241]] в [[РБМК|RBMK]]." ,
-		"ru_RU": "Неделимый изотоп, содержащийся в [[плутонии|Plutonium]] и [[реакторном плутонии|Reactor-Grade-Plutonium]]. Полезен только при ручном создании реакторного плутония из [[плутония-239|Plutonium-239]] или в специализированных [[циркониевых|Zirconium]] стержнях быстрого размножения для производства [[плутония-241|Plutonium-241]] в [[РБМК|RBMK]]."
+		"ru_RU": "Неделимый изотоп, содержащийся в [[плутонии|Plutonium]] и [[реакторном плутонии|Reactor-Grade-Plutonium]]. Полезен только при ручном создании реакторного плутония из [[плутония-239|Plutonium-239]] или в специализированных [[циркониевых|Zirconium]] стержнях быстрого размножения для производства [[плутония-241|Plutonium-241]] в [[РБМК|RBMK]].",
+		"zh_CN": "[[钚|Plutonium]]和[[反应堆级钚|Reactor-Grade Plutonium]]中存在的不易裂变同位素。仅有的用途是手动与[[钚-239|Plutonium-239]]混合为反应堆级钚，或与[[锆|Zirconium]]一同制成专用于增殖的ZFB燃料棒，以在[[RBMK]]中生产[[钚-241|Plutonium-241]]。"
 	}
 }

@@ -5,11 +5,13 @@
     "title": {
         "en_US": "Steel",
 		"uk_UA": "Сталь",
-		"ru_RU": "Сталь"
+		"ru_RU": "Сталь",
+		"zh_CN": "钢"
     },
 	"content": {
 		"en_US": "Upgraded version of iron, basic material. Used in almost everything. Initially obtained by combining coal and iron in a [[blast furnace|Blast Furnace]]. Upgraded recipes are available later on via [[crucible|Crucible]] and [[rotary furnace|Rotary Furnace]].",
 		"uk_UA": "Покращена версія заліза, базовий матеріал. Використовується майже в усьому. Спочатку отримується шляхом поєднання вугілля та заліза в [[доменній печі|Blast Furnace]]. Покращені рецепти доступні пізніше в [[ливарні|Crucible]] та [[роторній печі|Rotary Furnace]].",
-		"ru_RU": "Улучшенная версия железа, базовый материал. Используется почти во всем. Изначально получается путём комбинирования угля и железа в [[доменной печи|Blast Furnace]]. Улучшенные рецепты доступны позже через [[плавильню|Crucible]] и [[роторную печь|Rotary Furnace]]."
+		"ru_RU": "Улучшенная версия железа, базовый материал. Используется почти во всем. Изначально получается путём комбинирования угля и железа в [[доменной печи|Blast Furnace]]. Улучшенные рецепты доступны позже через [[плавильню|Crucible]] и [[роторную печь|Rotary Furnace]].",
+		"zh_CN": "铁的升级版，是一种基础金属，几乎所有东西都要用到钢。最初可通过在[[高炉|Blast Furnace]]中混合煤炭和铁获取，而之后也有通过[[坩埚|Crucible]]和[[回转炉|Rotary Furnace]]制作的高级配方。"
 	}
 }
