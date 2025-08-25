@@ -1,2 +1,7 @@
 ## Changed
 * Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
+* RBMK control rod colors and auto control rod settings are now copiable
+
+## Fixed
+* Fixed conveyor grabber dropping items off at an offset when placing them on a conveyor belt due to a client desync
+* Fixed occasional crash caused by using the settings tool on the autoloader

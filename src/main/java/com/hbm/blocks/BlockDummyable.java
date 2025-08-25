@@ -565,6 +565,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	@Override
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		int[] pos = findCore(world, x, y, z);
+		if(pos == null) return;
 		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
 		if (tile instanceof ICopiable)
 			((ICopiable) tile).pasteSettings(nbt, index, world, player, pos[0], pos[1], pos[2]);
