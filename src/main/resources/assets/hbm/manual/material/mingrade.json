@@ -1,13 +1,13 @@
 {
 	"name": "Minecraft Grade Copper",
 	"icon": ["hbm:item.ingot_red_copper", 1, 0],
-    "trigger": [["hbm:item.ingot_red_copper"], ["hbm:item.powder_red_copper"]],
-    "title": {
-        "en_US": "Minecraft Grade Copper (Red Copper)",
+	"trigger": [["hbm:item.ingot_red_copper"], ["hbm:item.powder_red_copper"]],
+	"title": {
+		"en_US": "Minecraft Grade Copper (Red Copper)",
 		"uk_UA": "Червона мідь (aka Minecraft Grade Copper)",
-		"ru_RU": "Медь Minecraft (Красная медь)",
+		"ru_RU": "Красная медь",
 		"zh_CN": "紫铜"
-    },
+	},
 	"content": {
 		"en_US": "Alloy made from copper and redstone in equal parts using the [[blast furnace|Blast Furnace]]. Used in almost all things electric, commonly in wire form.",
 		"uk_UA": "Сплав, виготовлений з [[міді|Copper]] та редстоуну в рівному співвідношенні в [[доменній печі|Blast Furnace]]. Використовується майже у всій електриці, зазвичай у вигляді дроту.",

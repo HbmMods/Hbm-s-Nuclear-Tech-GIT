@@ -1,17 +1,17 @@
 {
 	"name": "Plutonium-238",
 	"icon": ["hbm:item.billet_pu238", 1, 0],
-    "trigger": [["hbm:item.ingot_pu238"], ["hbm:item.billet_pu238"], ["hbm:item.nugget_pu238"]],
-    "title": {
-        "en_US": "Plutonium-238",
+	"trigger": [["hbm:item.ingot_pu238"], ["hbm:item.billet_pu238"], ["hbm:item.nugget_pu238"]],
+	"title": {
+		"en_US": "Plutonium-238",
 		"uk_UA": "Плутоній-238",
 		"ru_RU": "Плутоний-238",
 		"zh_CN": "钚-238"
-    },
+	},
 	"content": {
 		"en_US": "Radioisotope, used mainly in [[RTGs|RTG]]. Derived from [[plutonium|Plutonium]] hexafluoride, or from various nuclear fuels, mainly ones using [[uranium-235|Uranium-235]]. Usable with [[beryllium|Beryllium]] as Pu238Be neutron sources in [[RBMKs|RBMK]].<br><br>Moderately radioactive, very hot.",
 		"uk_UA": "Радіоізотоп, що використовується переважно в [[РІТЕГ|RTG]]. Отримується з гексафториду [[плутонію|Plutonium]], або з різного ядерного палива, переважно того, що використовує [[уран-235|Uranium-235]]. Використовується з [[берилієм|Beryllium]] як Плутоній-238 берилієве джерело нейтронів в [[РБМК|RBMK]].<br><br>Помірно радіоактивний, дуже гарячий.",
-		"ru_RU": "Радиоизотоп, в основном используется в [[РТГ|RTG]]. Получается из гексафторида [[плутония|Plutonium]] или из различных ядерных топлив, преимущественно использующих [[уран-235|Uranium-235]]. Используется с [[бериллием|Beryllium]] в нейтронных источниках Плутоний-210-Бериллий для [[РБМК|RBMK]].<br><br>Умеренно радиоактивен, очень горячий.",
+		"ru_RU": "Радиоизотоп, в основном используется в [[РИТЭГ|RTG]]. Получается из гексафторида [[плутония|Plutonium]] или из различных ядерных топлив, преимущественно использующих [[уран-235|Uranium-235]]. Используется с [[бериллием|Beryllium]] в нейтронных источниках плутоний-210-бериллевых источниках для [[РБМК|RBMK]].<br><br>Умеренно радиоактивен, очень горячий.",
 		"zh_CN": "放射性同位素，主要用于[[RTG]]。可从六氟化[[钚|Plutonium]]中提取，也可从一些核燃料（主要是含[[铀-235|Uranium-235]]的种类）中分离得到。可与[[铍|Beryllium]]混合制成钚-238-铍中子源，用于[[RBMK]]反应堆。<br><br>放射性中等，高温。"
 	}
 }

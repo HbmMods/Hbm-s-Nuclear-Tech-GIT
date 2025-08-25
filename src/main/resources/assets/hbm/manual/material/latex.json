@@ -1,13 +1,13 @@
 {
 	"name": "Latex",
 	"icon": ["hbm:item.ingot_biorubber", 1, 0],
-    "trigger": [["hbm:item.ingot_biorubber"], ["hbm:item.ball_resin"]],
-    "title": {
-        "en_US": "Latex",
+	"trigger": [["hbm:item.ingot_biorubber"], ["hbm:item.ball_resin"]],
+	"title": {
+		"en_US": "Latex",
 		"uk_UA": "Латекс",
 		"ru_RU": "Латекс",
 		"zh_CN": "乳胶"
-    },
+	},
 	"content": {
 		"en_US": "Natural form of rubber, obtainable from dandelions or by pressing jungle wood. Can be replaced in all recipes by [[rubber|Rubber]], but not vice versa.",
 		"uk_UA": "Натуральна форма гуми, яку можна отримати з кульбаб або пресуванням тропічного дерева. У всіх рецептах може бути замінена на [[гуму|Rubber]], але не навпаки.",

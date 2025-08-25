@@ -1,17 +1,17 @@
 {
 	"name": "Radium-226",
 	"icon": ["hbm:item.billet_ra226", 1, 0],
-    "trigger": [["hbm:item.ingot_ra226"], ["hbm:item.billet_ra226"], ["hbm:item.nugget_ra226"], ["hbm:item.powder_ra226"]],
-    "title": {
-        "en_US": "Radium-226",
+	"trigger": [["hbm:item.ingot_ra226"], ["hbm:item.billet_ra226"], ["hbm:item.nugget_ra226"], ["hbm:item.powder_ra226"]],
+	"title": {
+		"en_US": "Radium-226",
 		"uk_UA": "Радій-226",
 		"ru_RU": "Радий-226",
 		"zh_CN": "镭-226"
-    },
+	},
 	"content": {
 		"en_US": "Rare radioactive material found in [[uranium|Uranium]] and [[thorium|Thorium-232]] ores, may be extracted using a [[centrifuge|Centrifuge]]. Used with [[beryllium|Beryllium]] in Ra226Be neutron sources, which are vital for kickstarting the [[Chicago Pile]], [[PWR]], [[research reactor|Research Reactor]] and [[RBMK]]. The first available neutron source, and often times the cheapest.<br><br>Moderately radioactive.",
 		"uk_UA": "Рідкісний радіоактивний матеріал, що міститься в [[уранових|Uranium]] та [[торієвих|Thorium-232]] рудах, можна отримати за допомогою [[центрифуги|Centrifuge]]. Використовується разом з [[берилієм|Beryllium]] у радій-226 берилієвих джерелах нейтронів, які необхідні для запуску [[Чиказької дровітні|Chicago Pile]], [[ВВЕР|PWR]], [[дослідницького реактора|Research Reactor]] та [[РБМК|RBMK]]. Перше доступне джерело нейтронів і часто найдешевше.<br><br>Помірно радіоактивний.",
-		"ru_RU": "Редкий радиоактивный материал, содержащийся в рудах [[урана|Uranium]] и [[тория-232|Thorium-232]], может быть извлечён с помощью [[центрифуги|Centrifuge]]. Используется с [[бериллием|Beryllium]] в нейтронных источниках Радий-226-бериллий, которые необходимы для запуска [[Чикагской поленницы|Chicago Pile]], [[ВВЭР|PWR]], [[исследовательского реактора|Research Reactor]] и [[РБМК|RBMK]]. Первый доступный нейтронный источник, часто самый дешевый.<br><br>Умеренно радиоактивен.",
+		"ru_RU": "Редкий радиоактивный материал, содержащийся в рудах [[урана|Uranium]] и [[тория-232|Thorium-232]], может быть извлечён с помощью [[центрифуги|Centrifuge]]. Используется с [[бериллием|Beryllium]] в нейтронных источниках радий-226-бериллий, которые необходимы для запуска [[Чикагской поленницы|Chicago Pile]], [[ВВЭР|PWR]], [[исследовательского реактора|Research Reactor]] и [[РБМК|RBMK]]. Первый доступный нейтронный источник, часто самый дешевый.<br><br>Умеренно радиоактивен.",
 		"zh_CN": "稀有的放射性物质，存在于[[铀|Uranium]]矿石和[[钍|Thorium]]矿石中，可通过[[离心机|Centrifuge]]提取。可与[[铍|Beryllium]]混合得到启动[[芝加哥反应堆|Chicago Pile]]、[[RBMK]]、[[PWR]]、[[研究型反应堆|]]必须的镭-226-铍中子源。是最早可获得的中子放射源，而且通常也是最便宜的。<br><br>放射性中等。"
 	}
 }
