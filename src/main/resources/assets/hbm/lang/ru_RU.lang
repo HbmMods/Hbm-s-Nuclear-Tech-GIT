@@ -3589,18 +3589,43 @@ item.mese_axe.name=Месе топор
 item.mese_pickaxe.name=Месе кирка
 item.meteor_charm.name=Талисман от метеоритов
 item.meteor_remote.name=Устройство для вызова метеоритов
+
 item.meteorite_sword.name=Метеоритовый меч
+item.meteorite_sword.desc1=Forged from a fallen star
+item.meteorite_sword.desc2=Sharper than most terrestrial blades
 item.meteorite_sword_seared.name=Метеоритовый меч (Опаленный)
+item.meteorite_sword.seared.desc1=Fire strengthens the blade
+item.meteorite_sword.seared.desc2=Making it even more powerful
 item.meteorite_sword_reforged.name=Метеоритовый меч (Перекованный)
+item.meteorite_sword.reforged.desc1=The sword has been reforged
+item.meteorite_sword.reforged.desc2=To rectify past imperfections
 item.meteorite_sword_hardened.name=Метеоритовый меч (Закалённый)
+item.meteorite_sword.hardened.desc1=Extremely high pressure has been used
+item.meteorite_sword.hardened.desc2=To harden the blade further
 item.meteorite_sword_alloyed.name=Метеоритовый меч (Легированный)
+item.meteorite_sword.alloyed.desc1=Cobalt fills the fissures
+item.meteorite_sword.alloyed.desc2=Strengthening the sword
 item.meteorite_sword_machined.name=Метеоритовый меч (Механически обработанный)
+item.meteorite_sword.machined.desc1=Advanced machinery was used
+item.meteorite_sword.machined.desc2=To refine the blade even more
 item.meteorite_sword_treated.name=Метеоритовый меч (Обработанный)
+item.meteorite_sword.treated.desc1=Chemicals have been applied
+item.meteorite_sword.treated.desc2=Making the sword more powerful
 item.meteorite_sword_etched.name=Метеоритовый меч (Гравированный)
+item.meteorite_sword.etched.desc1=Acids clean the material
+item.meteorite_sword.etched.desc2=To make this the perfect sword
 item.meteorite_sword_bred.name=Метеоритовый меч (Разведённый)
+item.meteorite_sword.bred.desc1=Immense heat and radiation
+item.meteorite_sword.bred.desc2=Compress the material
 item.meteorite_sword_irradiated.name=Метеоритовый меч (Облучённый)
+item.meteorite_sword.irradiated.desc1=The power of the Atom
+item.meteorite_sword.irradiated.desc2=Gives the sword might
 item.meteorite_sword_fused.name=Метеоритовый меч (Сплавленный)
+item.meteorite_sword.fused.desc1=This blade has met
+item.meteorite_sword.fused.desc2=With the forces of the stars
 item.meteorite_sword_baleful.name=Метеоритовый меч (Зловещий)
+item.meteorite_sword.baleful.desc1=This sword has met temperatures
+item.meteorite_sword.baleful.desc2=Far beyond what normal material can endure
 item.mike_cooling_unit.name=Блок охлаждения дейтерия
 item.mike_core.name=Дейтериевый бак с урановым покрытием
 item.mike_deut.name=Дейтериевый бак
@@ -6671,3 +6696,7 @@ general.na=Н/Д
 error.generic=### Я ОШИБКА ###
 
 // Last updated 24.08.2025 by Bufka2011, MrKimkimora and TactiCOOLHimZa //
+
+# Hot Dusted Item
+item.hot_dusted.forged=Кован
+item.hot_dusted.times=раз(а)
