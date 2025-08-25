@@ -1,7 +1,13 @@
 ## Changed
+* Updated ukrainian and chinese localization, including QMAW
 * Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
 * RBMK control rod colors and auto control rod settings are now copiable
+* Murky wings no longer have slowfall, and using shift+space cancels the momentum
+* Murky wings are now slow by default and speed up when sprinting
+* The arc furnace can now be used with AE2 buses, which was previously not possible due to the unique stacksize limitations
 
 ## Fixed
 * Fixed conveyor grabber dropping items off at an offset when placing them on a conveyor belt due to a client desync
 * Fixed occasional crash caused by using the settings tool on the autoloader
+* Fixed QMAW not correctly working with other languages
+* Fixed QMAW loading breaking entirely due to file encoding
