@@ -1,5 +1,6 @@
 package com.hbm.commands;
 
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.Fluids;
@@ -32,6 +33,7 @@ public class CommandReloadRecipes extends CommandBase {
 			Fluids.reloadFluids();
 			FluidContainerRegistry.register();
 			SerializableRecipe.initialize();
+			CustomMachineConfigJSON.initialize();
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
 			SkeletonCreator.init();
