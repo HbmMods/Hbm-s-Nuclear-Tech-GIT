@@ -65,11 +65,12 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
 				} else {
-					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 5, 25, false)) return null;
+					stack = furnace.distributeInput(stack, true);
+					if(stack != null && stack.stackSize == rStack.stackSize) return null;
 				}
 			}
 
-			if(stack.stackSize == 0) {
+			if(stack == null || stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
