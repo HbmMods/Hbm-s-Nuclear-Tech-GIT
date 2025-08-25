@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_polonium"], ["hbm:item.billet_polonium"], ["hbm:item.nugget_polonium"]],
     "title": {
         "en_US": "Polonium-210",
-		"ru_RU": "Полоний-210"
+				"ru_RU": "Полоний-210"
     },
 	"content": {
 		"en_US": "Radioisotope derived from reprocessing [[radium-226|Radium-226]] neutron sources. Usable for [[RTGs|RTG]], or with [[beryllium|Beryllium]] in Po210Be neutron sources for [[RBMKs|RBMK]].<br><br>Highly radioactive, very hot.",

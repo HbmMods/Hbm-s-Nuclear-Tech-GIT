@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.ingot_red_copper"], ["hbm:item.powder_red_copper"]],
     "title": {
         "en_US": "Minecraft Grade Copper (Red Copper)",
-		"ru_RU": "Медь Minecraft (Красная медь)"
+				"ru_RU": "Медь Minecraft (Красная медь)"
     },
 	"content": {
 		"en_US": "Alloy made from copper and redstone in equal parts using the [[blast furnace|Blast Furnace]]. Used in almost all things electric, commonly in wire form.",

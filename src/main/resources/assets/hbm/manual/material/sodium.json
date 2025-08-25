@@ -4,7 +4,7 @@
     "trigger": [["hbm:item.powder_sodium"]],
     "title": {
         "en_US": "Sodium",
-		"ru_RU": "Натрий"
+				"ru_RU": "Натрий"
     },
 	"content": {
 		"en_US": "Mainly derived from sodalite, a gem which is found as a [[centrifuge|Centrifuge]] byproduct of many ores. Used in liquid form as a powerful [[PWR]] coolant.",
