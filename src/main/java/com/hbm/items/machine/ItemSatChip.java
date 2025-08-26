@@ -20,10 +20,11 @@ public class ItemSatChip extends Item implements ISatChip {
 		if(this == ModItems.sat_foeq)
 			list.add(I18nUtil.resolveKey("satchip.foeq"));
 
-		if(this == ModItems.sat_gerald) {
-			list.add(I18nUtil.resolveKey("satchip.gerald.line1"));
-			list.add(I18nUtil.resolveKey("satchip.gerald.line2"));
-			list.add(I18nUtil.resolveKey("satchip.gerald.line3"));
+		if (this == ModItems.sat_gerald) {
+			String[] lines = I18nUtil.resolveKeyArray("satchip.gerald.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.sat_laser)

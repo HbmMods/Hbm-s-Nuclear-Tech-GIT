@@ -91,7 +91,7 @@ public class ItemCustomMissilePart extends Item {
 		CLOUD,
 		TURBINE,
 
-		//dummy/custom types
+		//shit solution but it works. this allows traits to be attached to these empty dummy types, allowing for custom warheads
 		CUSTOM0, CUSTOM1, CUSTOM2, CUSTOM3, CUSTOM4, CUSTOM5, CUSTOM6, CUSTOM7, CUSTOM8, CUSTOM9;
 
 		/** Overrides that type's impact effect. Only runs serverside */
@@ -113,12 +113,12 @@ public class ItemCustomMissilePart extends Item {
 
 	public enum Rarity {
 
-		COMMON("part.rarity.common", EnumChatFormatting.GRAY),
-		UNCOMMON("part.rarity.uncommon", EnumChatFormatting.YELLOW),
-		RARE("part.rarity.rare", EnumChatFormatting.AQUA),
-		EPIC("part.rarity.epic", EnumChatFormatting.LIGHT_PURPLE),
-		LEGENDARY("part.rarity.legendary", EnumChatFormatting.DARK_GREEN),
-		SEWS_CLOTHES_AND_SUCKS_HORSE_COCK("part.rarity.strange", EnumChatFormatting.DARK_AQUA);
+		COMMON("item.missile.part.rarity.common", EnumChatFormatting.GRAY),
+		UNCOMMON("item.missile.part.rarity.uncommon", EnumChatFormatting.YELLOW),
+		RARE("item.missile.part.rarity.rare", EnumChatFormatting.AQUA),
+		EPIC("item.missile.part.rarity.epic", EnumChatFormatting.LIGHT_PURPLE),
+		LEGENDARY("item.missile.part.rarity.legendary", EnumChatFormatting.DARK_GREEN),
+		SEWS_CLOTHES_AND_SUCKS_HORSE_COCK("item.missile.part.rarity.strange", EnumChatFormatting.DARK_AQUA);
 
 		private final String key;
 		private final EnumChatFormatting color;
@@ -207,29 +207,29 @@ public class ItemCustomMissilePart extends Item {
 		try {
 			switch(type) {
 				case CHIP:
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.inaccuracy") + ": " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.inaccuracy") + ": " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
 					break;
 				case WARHEAD:
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.size") + ": " + EnumChatFormatting.GRAY + getSize(bottom));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.type") + ": " + EnumChatFormatting.GRAY + getWarhead((WarheadType)attributes[0]));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.strength") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1]);
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.weight") + ": " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.size") + ": " + EnumChatFormatting.GRAY + getSize(bottom));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.type") + ": " + EnumChatFormatting.GRAY + getWarhead((WarheadType)attributes[0]));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.strength") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1]);
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.weight") + ": " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 					break;
 				case FUSELAGE:
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.topSize") + ": " + EnumChatFormatting.GRAY + getSize(top));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.bottomSize") + ": " + EnumChatFormatting.GRAY + getSize(bottom));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.fuelType") + ": " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.fuelAmount") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.topSize") + ": " + EnumChatFormatting.GRAY + getSize(top));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.bottomSize") + ": " + EnumChatFormatting.GRAY + getSize(bottom));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.fuelType") + ": " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.fuelAmount") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l");
 					break;
 				case FINS:
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.size") + ": " + EnumChatFormatting.GRAY + getSize(top));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.inaccuracy") + ": " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.size") + ": " + EnumChatFormatting.GRAY + getSize(top));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.inaccuracy") + ": " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
 					break;
 				case THRUSTER:
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.size") + ": " + EnumChatFormatting.GRAY + getSize(top));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.fuelType") + ": " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.fuelConsumption") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
-					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.maxPayload") + ": " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.size") + ": " + EnumChatFormatting.GRAY + getSize(top));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.fuelType") + ": " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.fuelConsumption") + ": " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
+					list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.maxPayload") + ": " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 					break;
 			}
 		} catch(Exception ex) {
@@ -237,12 +237,12 @@ public class ItemCustomMissilePart extends Item {
 		}
 
 		if(type != PartType.CHIP)
-			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.health") + ": " + EnumChatFormatting.GRAY + health + "HP");
+			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.health") + ": " + EnumChatFormatting.GRAY + health + "HP");
 
 		if(this.rarity != null)
-			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("part.rarity") + ": " + EnumChatFormatting.GRAY + this.rarity.getDisplay());
+			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("item.missile.part.rarity") + ": " + EnumChatFormatting.GRAY + this.rarity.getDisplay());
 		if(author != null)
-			list.add(EnumChatFormatting.WHITE + "   " + I18nUtil.resolveKey("part.by") + " " + author);
+			list.add(EnumChatFormatting.WHITE + "   " + I18nUtil.resolveKey("item.missile.part.by") + " " + author);
 		if(witty != null)
 			list.add(EnumChatFormatting.GOLD + "   " + EnumChatFormatting.ITALIC + "\"" + witty + "\"");
 	}
@@ -251,7 +251,7 @@ public class ItemCustomMissilePart extends Item {
 
 		switch(size) {
 			case ANY:
-				return I18nUtil.resolveKey("part.size.any");
+				return I18nUtil.resolveKey("item.missile.part.size.any");
 			case SIZE_10:
 				return "1.0m";
 			case SIZE_15:
@@ -259,7 +259,7 @@ public class ItemCustomMissilePart extends Item {
 			case SIZE_20:
 				return "2.0m";
 			default:
-				return I18nUtil.resolveKey("part.size.none");
+				return I18nUtil.resolveKey("item.missile.part.size.none");
 		}
 	}
 
@@ -269,29 +269,29 @@ public class ItemCustomMissilePart extends Item {
 
 		switch(type) {
 			case HE:
-				return EnumChatFormatting.YELLOW + I18nUtil.resolveKey("warhead.he");
+				return EnumChatFormatting.YELLOW + I18nUtil.resolveKey("item.warhead.desc.he");
 			case INC:
-				return EnumChatFormatting.GOLD + I18nUtil.resolveKey("warhead.incendiary");
+				return EnumChatFormatting.GOLD + I18nUtil.resolveKey("item.warhead.desc.incendiary");
 			case CLUSTER:
-				return EnumChatFormatting.GRAY + I18nUtil.resolveKey("warhead.cluster");
+				return EnumChatFormatting.GRAY + I18nUtil.resolveKey("item.warhead.desc.cluster");
 			case BUSTER:
-				return EnumChatFormatting.WHITE + I18nUtil.resolveKey("warhead.bunker_buster");
+				return EnumChatFormatting.WHITE + I18nUtil.resolveKey("item.warhead.desc.bunker_buster");
 			case NUCLEAR:
-				return EnumChatFormatting.DARK_GREEN + I18nUtil.resolveKey("warhead.nuclear");
+				return EnumChatFormatting.DARK_GREEN + I18nUtil.resolveKey("item.warhead.desc.nuclear");
 			case TX:
-				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("warhead.thermonuclear");
+				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.warhead.desc.thermonuclear");
 			case N2:
-				return EnumChatFormatting.RED + I18nUtil.resolveKey("warhead.n2");
+				return EnumChatFormatting.RED + I18nUtil.resolveKey("item.warhead.desc.n2");
 			case BALEFIRE:
-				return EnumChatFormatting.GREEN + I18nUtil.resolveKey("warhead.balefire");
+				return EnumChatFormatting.GREEN + I18nUtil.resolveKey("item.warhead.desc.balefire");
 			case SCHRAB:
-				return EnumChatFormatting.AQUA + I18nUtil.resolveKey("warhead.schrabidium");
+				return EnumChatFormatting.AQUA + I18nUtil.resolveKey("item.warhead.desc.schrabidium");
 			case TAINT:
-				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("warhead.taint");
+				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.warhead.desc.taint");
 			case CLOUD:
-				return EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("warhead.cloud");
+				return EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("item.warhead.desc.cloud");
 			case TURBINE:
-				return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + I18nUtil.resolveKey("warhead.turbine");
+				return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + I18nUtil.resolveKey("item.warhead.desc.turbine");
 			default:
 				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("general.na");
 		}
@@ -301,15 +301,15 @@ public class ItemCustomMissilePart extends Item {
 
 		switch(type) {
 			case KEROSENE:
-				return EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("missile.fuel.kerosene_peroxide"); // reuse missile fuel keys
+				return EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("item.missile.fuel.kerosene_peroxide"); // reuse missile fuel keys
 			case SOLID:
-				return EnumChatFormatting.GOLD + I18nUtil.resolveKey("missile.fuel.solid");
+				return EnumChatFormatting.GOLD + I18nUtil.resolveKey("item.missile.fuel.solid");
 			case HYDROGEN:
-				return EnumChatFormatting.DARK_AQUA + I18nUtil.resolveKey("missile.fuel.ethanol_peroxide"); // closest match
+				return EnumChatFormatting.DARK_AQUA + I18nUtil.resolveKey("item.missile.fuel.ethanol_peroxide"); // closest match
 			case XENON:
-				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("fuel.xenon");
+				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.missile.fuel.xenon");
 			case BALEFIRE:
-				return EnumChatFormatting.GREEN + I18nUtil.resolveKey("fuel.balefire");
+				return EnumChatFormatting.GREEN + I18nUtil.resolveKey("item.missile.fuel.balefire");
 			default:
 				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("general.na");
 		}

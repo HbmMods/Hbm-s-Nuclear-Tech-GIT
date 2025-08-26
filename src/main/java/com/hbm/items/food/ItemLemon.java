@@ -35,20 +35,24 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.med_ipecac) {
-			list.add(I18nUtil.resolveKey("item.med_ipecac.desc.1"));
-			list.add(I18nUtil.resolveKey("item.med_ipecac.desc.2"));
+			String[] lines = I18nUtil.resolveKeyArray("item.med_ipecac.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.med_ptsd) {
-			list.add(I18nUtil.resolveKey("item.med_ptsd.desc.1"));
-			list.add(I18nUtil.resolveKey("item.med_ptsd.desc.2"));
+			String[] lines = I18nUtil.resolveKeyArray("item.med_ptsd.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.med_schizophrenia) {
-			list.add(I18nUtil.resolveKey("item.med_schizophrenia.desc.1"));
-			list.add("");
-			list.add(I18nUtil.resolveKey("item.med_schizophrenia.desc.2"));
-			list.add(I18nUtil.resolveKey("item.med_schizophrenia.desc.3"));
+			String[] lines = I18nUtil.resolveKeyArray("item.med_schizophrenia.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.loops) {
@@ -64,15 +68,17 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.pudding) {
-			list.add(I18nUtil.resolveKey("item.pudding.desc.1"));
-			list.add(I18nUtil.resolveKey("item.pudding.desc.2"));
-			list.add(I18nUtil.resolveKey("item.pudding.desc.3"));
+			String[] lines = I18nUtil.resolveKeyArray("item.pudding.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.ingot_semtex) {
-			list.add(I18nUtil.resolveKey("item.ingot_semtex.desc.1"));
-			list.add(I18nUtil.resolveKey("item.ingot_semtex.desc.2"));
-			list.add(I18nUtil.resolveKey("item.ingot_semtex.desc.3"));
+			String[] lines = I18nUtil.resolveKeyArray("item.ingot_semtex.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.peas) {

@@ -118,9 +118,8 @@ public class GenericRecipe {
 
 		// autoswitch group (two lines: label + "Enabled for")
 		if(this.autoSwitchGroup != null) {
-			String groupNameLocalized = I18nUtil.resolveKey(this.autoSwitchGroup);
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("gui.recipe.autoswitch") + ": " + groupNameLocalized);
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("gui.recipe.enabledFor") + " " + groupNameLocalized);
+			String[] lines = I18nUtil.resolveKeyArray("autoswitch", I18nUtil.resolveKey(this.autoSwitchGroup));
+			for(String line : lines) list.add(EnumChatFormatting.GOLD + line);
 		}
 
 		// duration (seconds)
@@ -140,12 +139,7 @@ public class GenericRecipe {
 			ItemStack display = stack.extractForCyclingDisplay(20);
 			list.add("  " + EnumChatFormatting.GRAY + display.stackSize + "x " + display.getDisplayName());
 		}
-		if(inputFluid != null) for(FluidStack fluid : inputFluid) {
-			String mB = I18nUtil.resolveKey("gui.recipe.mB");
-			String pressurePart = fluid.pressure == 0 ? "" :
-				" " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU";
-			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + mB + " " + fluid.type.getLocalizedName() + pressurePart);
-		}
+		if (inputFluid != null) for (FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU"));
 
 		// output label + items
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.recipe.output") + ":");

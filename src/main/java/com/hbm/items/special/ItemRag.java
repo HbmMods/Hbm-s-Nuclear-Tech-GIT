@@ -19,7 +19,8 @@ public class ItemRag extends Item {
 
 		if(entityItem != null && !entityItem.worldObj.isRemote) {
 
-			if(entityItem.worldObj.getBlock((int)Math.floor(entityItem.posX), (int)Math.floor(entityItem.posY), (int)Math.floor(entityItem.posZ)).getMaterial() == Material.water) {
+			if (entityItem.worldObj.getBlock((int) Math.floor(entityItem.posX), (int) Math.floor(entityItem.posY),
+				(int) Math.floor(entityItem.posZ)).getMaterial() == Material.water) {
 				ItemStack stack = entityItem.getEntityItem();
 				entityItem.setEntityItemStack(new ItemStack(ModItems.rag_damp, stack.stackSize));
 				return true;
@@ -37,7 +38,9 @@ public class ItemRag extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(I18nUtil.resolveKey("item.rag.desc.1"));
-		list.add(I18nUtil.resolveKey("item.rag.desc.2"));
+		String[] lines = I18nUtil.resolveKeyArray("item.rag.desc");
+		for (String line : lines) {
+			list.add(line);
+		}
 	}
 }

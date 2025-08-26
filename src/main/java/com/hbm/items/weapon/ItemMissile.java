@@ -41,15 +41,15 @@ public class ItemMissile extends ItemCustomLore {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		// Tier localized: missile.tier.tier0, missile.tier.tier1, ...
-		String tierKey = "missile.tier." + this.tier.name().toLowerCase();
+		String tierKey = "item.missile.tier." + this.tier.name().toLowerCase();
 		list.add(EnumChatFormatting.ITALIC + I18nUtil.resolveKey(tierKey));
 
 		if(!this.launchable) {
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.missile.notLaunchable"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("item.missile.desc.notLaunchable"));
 		} else {
 			// Fuel localized & colored via enum helper
-			list.add(I18nUtil.resolveKey("gui.missile.fuel") + ": " + this.fuel.getDisplay());
-			if(this.fuelCap > 0) list.add(I18nUtil.resolveKey("gui.missile.fuelCapacity") + ": " + this.fuelCap + "mB");
+			list.add(I18nUtil.resolveKey("item.missile.desc.fuel") + ": " + this.fuel.getDisplay());
+			if(this.fuelCap > 0) list.add(I18nUtil.resolveKey("item.missile.desc.fuelCapacity") + ": " + this.fuelCap + "mB");
 			super.addInformation(itemstack, player, list, bool);
 		}
 	}
@@ -85,11 +85,11 @@ public class ItemMissile extends ItemCustomLore {
 	}
 
 	public enum MissileFuel {
-		SOLID("missile.fuel.solid.prefueled", EnumChatFormatting.GOLD, 0),
-		ETHANOL_PEROXIDE("missile.fuel.ethanol_peroxide", EnumChatFormatting.AQUA, 4_000),
-		KEROSENE_PEROXIDE("missile.fuel.kerosene_peroxide", EnumChatFormatting.BLUE, 8_000),
-		KEROSENE_LOXY("missile.fuel.kerosene_loxy", EnumChatFormatting.LIGHT_PURPLE, 12_000),
-		JETFUEL_LOXY("missile.fuel.jetfuel_loxy", EnumChatFormatting.RED, 16_000);
+		SOLID("item.missile.fuel.solid.prefueled", EnumChatFormatting.GOLD, 0),
+		ETHANOL_PEROXIDE("item.missile.fuel.ethanol_peroxide", EnumChatFormatting.AQUA, 4_000),
+		KEROSENE_PEROXIDE("item.missile.fuel.kerosene_peroxide", EnumChatFormatting.BLUE, 8_000),
+		KEROSENE_LOXY("item.missile.fuel.kerosene_loxy", EnumChatFormatting.LIGHT_PURPLE, 12_000),
+		JETFUEL_LOXY("item.missile.fuel.jetfuel_loxy", EnumChatFormatting.RED, 16_000);
 
 		private final String key;
 		public final EnumChatFormatting color;
