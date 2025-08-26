@@ -25,16 +25,12 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.CraftingManager;
 import com.hbm.main.MainRegistry;
 
-import com.hbm.render.loader.HFRWavefrontObject;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class CustomMachineConfigJSON {
 
@@ -269,8 +265,8 @@ public class CustomMachineConfigJSON {
 				if(machineObject.has("customModel")) {
 					JsonObject modelObject = machineObject.get("customModel").getAsJsonObject();
 					MachineConfiguration.CustomModel customModel = new MachineConfiguration.CustomModel();
-					customModel.customModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, modelObject.get("model").getAsString()));
-					customModel.modelTexture = new ResourceLocation(RefStrings.MODID, modelObject.get("modelTexture").getAsString());
+					customModel.customModel = modelObject.get("model").getAsString();
+					customModel.modelTexture = modelObject.get("modelTexture").getAsString();
 					customModel.model_x = modelObject.get("model_x").getAsDouble();
 					customModel.model_y = modelObject.get("model_y").getAsDouble();
 					customModel.model_z = modelObject.get("model_z").getAsDouble();
@@ -332,8 +328,8 @@ public class CustomMachineConfigJSON {
 		}
 		public CustomModel customModel;
 		public static class CustomModel {
-			public IModelCustom customModel;
-			public ResourceLocation modelTexture;
+			public String customModel;
+			public String modelTexture;
 			public double model_x;
 			public double model_y;
 			public double model_z;

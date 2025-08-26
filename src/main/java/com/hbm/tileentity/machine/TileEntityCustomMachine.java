@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IHeatSource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ReactorResearch;
@@ -45,7 +46,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
+public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiverMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
 
 	public String machineType;
 	public MachineConfiguration config;
@@ -164,7 +165,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				for (FluidTank tank : this.outputTanks)
 					if (tank.getFill() > 0)
-						this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.tryProvide(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
@@ -196,22 +197,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 							this.processRecipe(cachedRecipe);
 							this.cachedRecipe = null;
 						}
-						if(this.progress > 0) {
-							if (audio == null) {
-								audio = this.createAudioLoop();
-								audio.updateVolume(volume);
-								audio.startSound();
-							} else if (!audio.isPlaying()) {
-								audio = rebootAudio(audio);
-								audio.updateVolume(volume);
-							}
-						} else {
-
-							if(audio != null) {
-								audio.stopSound();
-								audio = null;
-							}
-						}
 					}
 
 				} else {
@@ -234,22 +219,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 								this.useUpInput(recipe);
 								this.processRecipe(recipe);
 							}
-							if(this.progress > 0) {
-								if (audio == null) {
-									audio = this.createAudioLoop();
-									audio.updateVolume(volume);
-									audio.startSound();
-								} else if (!audio.isPlaying()) {
-									audio = rebootAudio(audio);
-									audio.updateVolume(volume);
-								}
-							} else {
-
-								if(audio != null) {
-									audio.stopSound();
-									audio = null;
-								}
-							}
 						}
 					} else {
 						this.progress = 0;
@@ -259,6 +228,24 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				this.progress = 0;
 			}
 			this.networkPackNT(50);
+		} else {
+			float volume = this.getVolume(1F);
+			if(this.progress > 0) {
+				if (audio == null) {
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
+					audio.startSound();
+				} else if (!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
+				}
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 
 	}

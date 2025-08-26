@@ -1,18 +1,20 @@
 package com.hbm.render.tileentity;
 
 import com.hbm.config.CustomMachineConfigJSON;
-import com.hbm.main.ResourceManager;
+import com.hbm.lib.RefStrings;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.SmallBlockPronter;
 import com.hbm.tileentity.machine.TileEntityCustomMachine;
 
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RenderCustomMachine extends TileEntitySpecialRenderer {
-
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
 
@@ -49,31 +51,46 @@ public class RenderCustomMachine extends TileEntitySpecialRenderer {
 				GL11.glPopMatrix();
 			}
 			else if(config.customModel!=null){
-				GL11.glPushMatrix();
-				double rx = -dir.offsetX * (config.customModel.model_x) + 0.5;
-				double ry = +(config.customModel.model_y);
-				double rz = -dir.offsetZ * (config.customModel.model_z) + 0.5;
-				if (dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-					rx = -dir.offsetX * (config.customModel.model_z) + 0.5;
-					rz = -dir.offsetZ * (config.customModel.model_x) + 0.5;
+				try{
+					IModelCustom customModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, config.customModel.customModel));
+					ResourceLocation modelTexture = new ResourceLocation(RefStrings.MODID, config.customModel.modelTexture);
+					GL11.glPushMatrix();
+					double rx = -dir.offsetX * (config.customModel.model_x) + 0.5;
+					double ry = +(config.customModel.model_y);
+					double rz = -dir.offsetZ * (config.customModel.model_z) + 0.5;
+					if (dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+						rx = -dir.offsetX * (config.customModel.model_z) + 0.5;
+						rz = -dir.offsetZ * (config.customModel.model_x) + 0.5;
+					}
+					GL11.glTranslated(x + rx, y + ry, z + rz);
+
+					switch (tile.getBlockMetadata()) {
+						case 3:
+							GL11.glRotatef(0, 0F, 1F, 0F);
+							break;
+						case 5:
+							GL11.glRotatef(90, 0F, 1F, 0F);
+							break;
+						case 2:
+							GL11.glRotatef(180, 0F, 1F, 0F);
+							break;
+						case 4:
+							GL11.glRotatef(270, 0F, 1F, 0F);
+							break;
+					}
+					GL11.glEnable(GL11.GL_LIGHTING);
+					GL11.glEnable(GL11.GL_CULL_FACE);
+
+					GL11.glShadeModel(GL11.GL_SMOOTH);
+					bindTexture(modelTexture);
+					customModel.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
+
+					GL11.glPopMatrix();
 				}
-				GL11.glTranslated(x+rx ,y+ry ,z+rz );
+				catch (Exception e){
 
-				switch(tile.getBlockMetadata()) {
-					case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
-					case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
-					case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
-					case 4: GL11.glRotatef(270, 0F, 1F, 0F);break;
 				}
-				GL11.glEnable(GL11.GL_LIGHTING);
-				GL11.glEnable(GL11.GL_CULL_FACE);
-
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(config.customModel.modelTexture);
-				config.customModel.customModel.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-
-				GL11.glPopMatrix();
 			}
 		}
 	}
