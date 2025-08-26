@@ -11,3 +11,4 @@
 * Fixed occasional crash caused by using the settings tool on the autoloader
 * Fixed QMAW not correctly working with other languages
 * Fixed QMAW loading breaking entirely due to file encoding
+* Fixed PWR fuel rod textures being 18x18 instead of 16x16
