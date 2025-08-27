@@ -490,7 +490,7 @@ public class EntityModBeam extends Entity implements IProjectile {
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 				this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.gadgetRadius, posX, posY, posZ));
-				EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.gadgetRadius);
+				EntityNukeTorex.statFacStandard(worldObj, posX, posY, posZ, BombConfig.gadgetRadius);
 			}
 		}
 	}

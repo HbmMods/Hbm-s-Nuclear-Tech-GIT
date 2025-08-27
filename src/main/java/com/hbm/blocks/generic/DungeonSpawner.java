@@ -81,6 +81,7 @@ public class DungeonSpawner extends BlockContainer {
 	
 	public static Function<TileEntityDungeonSpawner, Boolean> CON_ABERRATOR = (tile) -> {
 		World world = tile.getWorldObj();
+		if(world.difficultySetting.ordinal() == 0) return false;
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
@@ -122,7 +123,11 @@ public class DungeonSpawner extends BlockContainer {
 			TileEntity te = world.getTileEntity(x, y + 18, z);
 			if(te instanceof TileEntitySkeletonHolder) {
 				TileEntitySkeletonHolder skeleton = (TileEntitySkeletonHolder) te;
-				skeleton.item = new ItemStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR.ordinal());
+				if(world.rand.nextInt(5) == 0) {
+					skeleton.item = new ItemStack(ModItems.item_secret, 1, EnumSecretType.ABERRATOR.ordinal());
+				} else {
+					skeleton.item = new ItemStack(ModItems.clay_tablet, 1, 1);
+				}
 				skeleton.markDirty();
 				world.markBlockForUpdate(x, y + 18, z);
 			}

@@ -1,17 +1,14 @@
-## Added
-* Sandbags
-  * Connect to other sandbags or solid blocks
-  * Pretts
-* Wooden barrier
-  * Pretty
-  * Automatically walls off connected solid blocks in addition to the direction it was placed in
-
 ## Changed
-* Increased bayonet damage from 5 to 7.5 hearts
-* Two numeric redstone over radio signals sent over the same channel will now be added together instead of one signal replacing the other
-  * This means that reading the fill state of multiple batteries over the same channel should result the combined fill state of all batteries
-* Halved base spread of the .22 SMG
-* Certain secret guns now have a proper way of being obtained
+* Updated ukrainian and chinese localization, including QMAW
+* Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
+* RBMK control rod colors and auto control rod settings are now copiable
+* Murky wings no longer have slowfall, and using shift+space cancels the momentum
+* Murky wings are now slow by default and speed up when sprinting
+* The arc furnace can now be used with AE2 buses, which was previously not possible due to the unique stacksize limitations
 
 ## Fixed
-* Fixed RoR controller having the wrong recipe
+* Fixed conveyor grabber dropping items off at an offset when placing them on a conveyor belt due to a client desync
+* Fixed occasional crash caused by using the settings tool on the autoloader
+* Fixed QMAW not correctly working with other languages
+* Fixed QMAW loading breaking entirely due to file encoding
+* Fixed PWR fuel rod textures being 18x18 instead of 16x16

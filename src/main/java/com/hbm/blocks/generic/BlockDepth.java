@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.item.IDepthRockTool;
 import net.minecraft.block.Block;

@@ -79,6 +79,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+		markDirty();
 	}
 
 	@Override
@@ -150,6 +151,8 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+
+		customName = nbt.getString("name");
 	}
 	
 	@Override
@@ -169,6 +172,10 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 			}
 		}
 		nbt.setTag("items", list);
+		
+		if (customName != null) {
+			nbt.setString("name", customName);
+		}
 	}
 	
 	@Override
@@ -233,7 +240,7 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 			{
 				if(slots[i].stackSize <= 0)
 				{
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
+					slots[i] = new ItemStack(slots[i].getItem());
 				}else{
 					slots[i].stackSize--;
 				}

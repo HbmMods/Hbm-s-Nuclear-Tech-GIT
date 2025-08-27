@@ -124,6 +124,7 @@ public class ItemPoolsSingle {
 					weighted(ModItems.launch_code_piece, 0, 1, 1, 5),
 					weighted(ModItems.egg_glyphid, 0, 1, 1, 5),
 					weighted(ModItems.gem_alexandrite, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 1, 1, 1, 1)
 			};
 		}};
 	}

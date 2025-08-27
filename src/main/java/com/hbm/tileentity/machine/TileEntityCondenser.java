@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -17,7 +16,6 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, IInfoProviderEC, IConfigurableMachine, IBufPacketReceiver, IFluidCopiable {
 
@@ -75,15 +73,8 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 
 				if(convert > 0)
 					this.waterTimer = 20;
-
-				int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-
-				if(TomSaveData.forWorld(worldObj).fire > 1e-5 && light > 7) { // Make both steam and water evaporate during firestorms...
-					tanks[1].setFill(tanks[1].getFill() - convert);
-				} else {
-					tanks[1].setFill(tanks[1].getFill() + convert);
-				}
-
+				
+				tanks[1].setFill(tanks[1].getFill() + convert);
 				postConvert(convert);
 			}
 

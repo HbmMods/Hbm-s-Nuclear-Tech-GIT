@@ -27,7 +27,7 @@ public class TestCore extends Block {
 
 				world.setBlockToAir(x, y, z);
 				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
-				EntityNukeTorex.statFac(world, x + 0.5, y + 0.5, z + 0.5, BombConfig.missileRadius);
+				EntityNukeTorex.statFacStandard(world, x + 0.5, y + 0.5, z + 0.5, BombConfig.missileRadius);
 				
 			} else if(meta > 0) {
 				

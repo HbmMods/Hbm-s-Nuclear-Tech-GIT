@@ -3,6 +3,7 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockCrashedBomb.EnumDudType;
 import com.hbm.config.GeneralConfig;
 
 import net.minecraft.block.Block;
@@ -60,7 +61,7 @@ public class Dud extends WorldGenerator {
 		if(!LocationIsValidSpawn(world, x, y, z))
 			return false;
 
-		world.setBlock(x, y, z, ModBlocks.crashed_balefire, rand.nextInt(4) + 2, 3);
+		world.setBlock(x, y, z, ModBlocks.crashed_balefire, rand.nextInt(EnumDudType.values().length), 3);
 
 		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned dud at " + x + " " + y + " " + z + "\n");

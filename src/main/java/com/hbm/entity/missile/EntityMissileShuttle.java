@@ -15,6 +15,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityMissileShuttle extends EntityMissileBaseNT {
@@ -28,7 +29,7 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public void onImpact() {
+	public void onMissileImpact(MovingObjectPosition mop) {
 		ExplosionNT explosion = new ExplosionNT(worldObj, null, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 20.0F).overrideResolution(64);
 		explosion.atttributes.add(ExAttrib.NOSOUND);
 		explosion.atttributes.add(ExAttrib.NOPARTICLE);

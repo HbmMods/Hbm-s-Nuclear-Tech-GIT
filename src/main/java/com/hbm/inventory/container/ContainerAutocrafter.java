@@ -24,7 +24,7 @@ public class ContainerAutocrafter extends ContainerBase {
 				this.addSlotToContainer(new SlotPattern(tedf, j + i * 3, 44 + j * 18, 22 + i * 18));
 			}
 		}
-		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40));
+		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40, true));
 
 		/* RECIPE */
 		addSlots(tedf,10, 44, 86, 3, 3);
@@ -74,13 +74,7 @@ public class ContainerAutocrafter extends ContainerBase {
 			
 		} else {
 	
-			slot.putStack(held != null ? held.copy() : null);
-			
-			if(slot.getHasStack()) {
-				slot.getStack().stackSize = 1;
-			}
-			
-			slot.onSlotChanged();
+			slot.putStack(held);
 			autocrafter.matcher.initPatternSmart(autocrafter.getWorldObj(), slot.getStack(), index);
 			autocrafter.updateTemplateGrid();
 			

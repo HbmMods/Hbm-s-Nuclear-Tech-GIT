@@ -16,7 +16,7 @@ import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
@@ -63,6 +63,11 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			// Triggers the legacy monoblock fix
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 12) {
+				worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord), 1);
+			}
 
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);

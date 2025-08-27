@@ -1,5 +1,6 @@
 package com.hbm.entity.item;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
@@ -193,9 +194,13 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	@Override
 	protected void loadNeighboringChunks() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			clearChunkLoader();
+
+			for(ChunkCoordIntPair chunk : ImmutableSet.copyOf(loaderTicket.getChunkList())) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
+			
 			// This is the lowest padding that worked with my drone waypoint path. if they stop getting loaded crank up paddingSize
-			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) this.posX, (int) this.posZ, (int) (this.posX + this.motionX), (int) (this.posZ + this.motionZ), 4)){
+			for (ChunkCoordIntPair chunk : ChunkShapeHelper.getChunksAlongLineSegment((int) Math.floor(this.posX), (int) Math.floor(this.posZ), (int) Math.floor(this.posX + this.motionX), (int) Math.floor(this.posZ + this.motionZ), 8)){
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
 			}
 		}
@@ -209,9 +214,8 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 
 	public void clearChunkLoader() {
 		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loaderTicket.getChunkList()) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
+			ForgeChunkManager.releaseTicket(loaderTicket);
+			this.loaderTicket = null;
 		}
 	}
 

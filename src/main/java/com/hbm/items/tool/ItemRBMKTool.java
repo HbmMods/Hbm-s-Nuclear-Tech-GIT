@@ -8,7 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;

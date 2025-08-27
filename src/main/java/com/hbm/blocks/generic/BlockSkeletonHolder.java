@@ -41,18 +41,19 @@ public class BlockSkeletonHolder extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) return true;
 		if(player.isSneaking()) return false;
 
 		TileEntitySkeletonHolder pedestal = (TileEntitySkeletonHolder) world.getTileEntity(x, y, z);
 
 		if(pedestal.item == null && player.getHeldItem() != null) {
+			if(world.isRemote) return true;
 			pedestal.item = player.getHeldItem().copy();
 			player.inventory.mainInventory[player.inventory.currentItem] = null;
 			pedestal.markDirty();
 			world.markBlockForUpdate(x, y, z);
 			return true;
 		} else if(pedestal.item != null && player.getHeldItem() == null) {
+			if(world.isRemote) return true;
 			player.inventory.mainInventory[player.inventory.currentItem] = pedestal.item.copy();
 			pedestal.item = null;
 			pedestal.markDirty();

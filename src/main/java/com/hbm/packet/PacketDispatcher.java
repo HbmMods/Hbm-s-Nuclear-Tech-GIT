@@ -35,8 +35,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ExtPropPacket.Handler.class, ExtPropPacket.class, i++, Side.CLIENT);
 		//Packet for force fields
 		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
-		//Sends button information for ItemGunBase
-		wrapper.registerMessage(GunButtonPacket.Handler.class, GunButtonPacket.class, i++, Side.SERVER);
 		//Signals server to buy offer from bobmazon
 		wrapper.registerMessage(ItemBobmazonPacket.Handler.class, ItemBobmazonPacket.class, i++, Side.SERVER);
 		//Packet to send missile multipart information to TEs
@@ -55,8 +53,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
 		//Packet to send for anvil recipes to be crafted
 		wrapper.registerMessage(AnvilCraftPacket.Handler.class, AnvilCraftPacket.class, i++, Side.SERVER);
-		//Sends a funi text to display like a music disc announcement
-		wrapper.registerMessage(TEDoorAnimationPacket.Handler.class, TEDoorAnimationPacket.class, i++, Side.CLIENT);
 		//Does ExVNT standard player knockback
 		wrapper.registerMessage(ExplosionKnockbackPacket.Handler.class, ExplosionKnockbackPacket.class, i++, Side.CLIENT);
 		//just go fuck yourself already
@@ -69,6 +65,10 @@ public class PacketDispatcher {
 		wrapper.registerMessage(BiomeSyncPacket.Handler.class, BiomeSyncPacket.class, i++, Side.CLIENT);
 		//The not-so-convenient but not laggy one
 		wrapper.registerMessage(BufPacket.Handler.class, BufPacket.class, i++, Side.CLIENT);
+		//Syncs server recipe configs to the client
+		wrapper.registerMessage(SerializableRecipePacket.Handler.class, SerializableRecipePacket.class, i++, Side.CLIENT);
+		//Syncing of NBT for guns
+		wrapper.registerMessage(HeldItemNBTPacket.Handler.class, HeldItemNBTPacket.class, i++, Side.CLIENT);
 	}
 
 }

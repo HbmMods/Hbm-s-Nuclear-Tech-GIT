@@ -1,9 +1,8 @@
 package com.hbm.config;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -148,7 +147,7 @@ public class CustomMachineConfigJSON {
 	public static void readConfig(File config) {
 
 		try {
-			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(config.toPath()), StandardCharsets.UTF_8), JsonObject.class);
 			JsonArray machines = json.get("machines").getAsJsonArray();
 
 			for(int i = 0; i < machines.size(); i++) {
@@ -182,32 +181,32 @@ public class CustomMachineConfigJSON {
 					try {
 						JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
 						JsonArray recipeParts = machineObject.get("recipeParts").getAsJsonArray();
-	
+
 						Object[] parts = new Object[recipeShape.size() + recipeParts.size()];
-	
+
 						for(int j = 0; j < recipeShape.size(); j++) {
 							parts[j] = recipeShape.get(j).getAsString();
 						}
-	
+
 						for(int j = 0; j < recipeParts.size(); j++) {
 							Object o = null;
-	
+
 							if(j % 2 == 0) {
 								o = recipeParts.get(j).getAsString().charAt(0); //god is dead and we killed him
 							} else {
 								AStack a = SerializableRecipe.readAStack(recipeParts.get(j).getAsJsonArray());
-	
+
 								if(a instanceof ComparableStack) o = ((ComparableStack) a).toStack();
 								if(a instanceof OreDictStack) o = ((OreDictStack) a).name;
 							}
-	
+
 							parts[j + recipeShape.size()] = o;
 						}
-	
+
 						ItemStack stack = new ItemStack(ModBlocks.custom_machine, 1, i + 100);
 						stack.stackTagCompound = new NBTTagCompound();
 						stack.stackTagCompound.setString("machineType", configuration.unlocalizedName);
-	
+
 						CraftingManager.addRecipeAuto(stack, parts);
 					} catch(Exception ex) {
 						MainRegistry.logger.error("Caught exception trying to parse core recipe for custom machine " + configuration.unlocalizedName);

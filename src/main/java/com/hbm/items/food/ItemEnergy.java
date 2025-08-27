@@ -23,6 +23,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
+@Spaghetti("wtf is this shit")
 public class ItemEnergy extends Item {
 	
 	private Item container = null;
@@ -142,18 +143,6 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
 			}
-			if(this == ModItems.bottle2_korl_special) {
-				player.heal(16);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
-			}
-			if(this == ModItems.bottle2_fritz_special) {
-				player.heal(16);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
-			}
 			if(this == ModItems.bottle_sparkle) {
 				player.heal(10F);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
@@ -202,28 +191,24 @@ public class ItemEnergy extends Item {
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
+	public int getMaxItemUseDuration(ItemStack stack) {
 		return 32;
 	}
 
 	@Override
-	public EnumAction getItemUseAction(ItemStack p_77661_1_) {
+	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.drink;
 	}
 
 	@Spaghetti("cover yourself in oil")
 	@Override
-	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if(VersatileConfig.hasPotionSickness(player)) return stack;
+		if(this.requiresOpener && !player.inventory.hasItem(ModItems.bottle_opener)) return stack;
 
-		if(VersatileConfig.hasPotionSickness(p_77659_3_))
-			return p_77659_1_;
-		
-			if(this.requiresOpener && !p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
-				return p_77659_1_;
+		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 
-		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
-
-		return p_77659_1_;
+		return stack;
 	}
 
 	@Override
@@ -260,51 +245,32 @@ public class ItemEnergy extends Item {
 		}
 		if(this == ModItems.bottle_nuka) {
 			list.add("Contains about 210 kcal and 1500 mSv.");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle_cherry) {
 			list.add("Now with severe radiation poisoning in every seventh bottle!");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle_quantum) {
 			list.add("Comes with a colorful mix of over 70 isotopes!");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle2_korl) {
 			list.add("Contains actual orange juice!");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle2_fritz) {
 			list.add("moremore caffeine");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle2_korl_special) {
-			if(MainRegistry.polaroidID == 11)
-				list.add("shgehgev u rguer");
-			else
-				list.add("Contains actual orange juice!");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle2_fritz_special) {
-			if(MainRegistry.polaroidID == 11)
-				list.add("ygrogr fgrof bf");
-			else
-				list.add("moremore caffeine");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle_sparkle) {
 			if(MainRegistry.polaroidID == 11)
 				list.add("Contains trace amounts of taint.");
 			else
 				list.add("The most delicious beverage in the wasteland!");
-			list.add("[Requires bottle opener]");
 		}
 		if(this == ModItems.bottle_rad) {
 			if(MainRegistry.polaroidID == 11)
 				list.add("Now with 400% more radiation!");
 			else
 				list.add("Tastes like radish and radiation.");
-			list.add("[Requires bottle opener]");
 		}
+		
+		if(this.requiresOpener) list.add("[Requires bottle opener]");
 	}
 }

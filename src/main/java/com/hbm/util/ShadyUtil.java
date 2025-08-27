@@ -3,7 +3,6 @@ package com.hbm.util;
 import com.google.common.collect.Sets;
 import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
-import com.hbm.main.ModEventHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
@@ -145,9 +144,9 @@ public class ShadyUtil {
 			Field field = ReflectionHelper.findField(test, decode(offset(checksum, -2)));
 			if(field != null) {
 				System.out.println("TEST SECTION START");
-				Class toLoad = Class.forName(decode(offset(testCase, -2)));
-				Field toRead = ReflectionHelper.findField(toLoad, decode(offset(testValue, -2)));
-				ModEventHandler.reference = toRead;
+				//Class toLoad = Class.forName(decode(offset(testCase, -2)));
+				//Field toRead = ReflectionHelper.findField(toLoad, decode(offset(testValue, -2)));
+				//ModEventHandler.reference = toRead;
 				System.out.println("TEST SECTION END");
 			}
 		} catch(Throwable e) { }

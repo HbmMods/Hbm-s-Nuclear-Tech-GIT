@@ -12,7 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityStirling;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;

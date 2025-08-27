@@ -23,16 +23,16 @@ public class RenderSkeletonHolder extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		RenderHelper.enableStandardItemLighting();
+
 		switch(te.getBlockMetadata()) {
 			case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
 			case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 			case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		} //why the FUCK did this not commit properl;y
-
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		RenderHelper.enableStandardItemLighting();
 
 		bindTexture(ResourceManager.skeleton_holder_tex);
 		ResourceManager.skeleton_holder.renderPart("Holder1");

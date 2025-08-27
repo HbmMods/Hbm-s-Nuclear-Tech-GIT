@@ -4,7 +4,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.armor.ArmorTrenchmaster;
-import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
@@ -76,38 +75,10 @@ public class GunAnimationPacket implements IMessage {
 				ItemStack stack = player.getHeldItem();
 				int slot = player.inventory.currentItem;
 				
-				if(stack == null)
-					return null;
+				if(stack == null) return null;
 				
 				if(stack.getItem() instanceof ItemGunBaseNT) {
 					handleSedna(player, stack, slot, AnimType.values()[m.type], m.receiverIndex, m.gunIndex);
-				}
-				
-				if(!(stack.getItem() instanceof ItemGunBase))
-					return null;
-				
-				if(m.type < 0 || m.type >= AnimType.values().length)
-					return null;
-				
-				AnimType type = AnimType.values()[m.type];
-				ItemGunBase base = (ItemGunBase) stack.getItem();
-
-				BusAnimation animation = base.getAnimation(stack, type);
-
-				// Fallback to regular reload if no empty reload animation
-				if(animation == null && type == AnimType.RELOAD_EMPTY) {
-					animation = base.getAnimation(stack, AnimType.RELOAD);
-				}
-
-				// Fallback to regular CYCLE if no ALT_CYCLE (or CYCLE_EMPTY) exists
-				if(animation == null && (type == AnimType.ALT_CYCLE || type == AnimType.CYCLE_EMPTY)) {
-					animation = base.getAnimation(stack, AnimType.CYCLE);
-				}
-				
-				if(animation != null) {
-					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-					if(isReloadAnimation && ArmorTrenchmaster.isTrenchMaster(player)) animation.setTimeMult(0.5D);
-					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, type, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
 				}
 				
 			} catch(Exception x) { }

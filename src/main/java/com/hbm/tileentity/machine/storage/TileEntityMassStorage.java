@@ -7,6 +7,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 
 import com.hbm.util.BufferUtil;
+import com.hbm.util.ItemStackUtil;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -62,7 +63,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			if(this.getType() == null)
 				this.stack = 0;
 
-			if(getType() != null && getStockpile() < getCapacity() && slots[0] != null && slots[0].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[0], getType())) {
+			if(canInsert(slots[0])) {
 
 				int remaining = getCapacity() - getStockpile();
 				int toRemove = Math.min(remaining, slots[0].stackSize);
@@ -93,6 +94,147 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 			networkPackNT(15);
 		}
+	}
+
+	public boolean canInsert(ItemStack stack) {
+		return getType() != null && getStockpile() < getCapacity() && stack != null && stack.isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(stack, getType());
+	}
+
+	public boolean quickInsert(ItemStack stack) {
+		if (!canInsert(stack))
+			return false;
+		
+		int remaining = getCapacity() - getStockpile();
+
+		if (remaining < stack.stackSize)
+			return false;
+
+		this.stack += stack.stackSize;
+		stack.stackSize = 0;
+		this.markDirty();
+
+		return true;
+	}
+
+	public ItemStack quickExtract() {
+		if (!output) {
+			return null;
+		}
+
+		int amount = getType().getMaxStackSize();
+
+		if (getStockpile() < amount)
+			return null;
+		
+		ItemStack result = slots[1].copy();
+		result.stackSize = amount;
+		this.stack -= amount;
+		this.markDirty();
+
+		return result;
+	}
+
+	// Note: the following three methods are used for AE2 integration, and aren't meant to be called in any other context by default
+	
+	public int getTotalStockpile() {
+		ItemStack type = getType();
+		if (type == null)
+			return 0;
+
+		int result = getStockpile();
+
+		ItemStack inStack = slots[0];
+        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+            result += inStack.stackSize;
+        }
+
+		ItemStack outStack = slots[2];
+		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+			result += outStack.stackSize;
+		}
+
+		return result;
+	}
+
+	// Returns the remainder that didn't fit.
+	// If `actually` is false, only predicts the outcome, but doesn't change the state
+	public int increaseTotalStockpile(int amount, boolean actually) {
+		return changeTotalStockpile(amount, actually, +1);
+	}
+
+	// Returns the remainder that couldn't be extracted.
+	// If `actually` is false, only predicts the outcome, but doesn't change the state
+	public int decreaseTotalStockpile(int amount, boolean actually) {
+		return changeTotalStockpile(amount, actually, -1);
+	}
+
+	private int changeTotalStockpile(int amount, boolean actually, int sign) {
+		ItemStack type = getType();
+
+		if (type == null)
+			return amount;
+
+		int stockpileAvail = sign > 0 ? getCapacity() - getStockpile() : getStockpile();
+
+		if (amount > 0 && stockpileAvail > 0) {
+			int depositStockpile = Math.min(amount, stockpileAvail);
+			if (actually) {
+				this.stack += sign * depositStockpile;
+			}
+			amount -= depositStockpile;
+		}
+		
+		int inputAvail = 0;
+		ItemStack inStack = slots[0];
+        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+			inputAvail = sign > 0 ? inStack.getMaxStackSize() - inStack.stackSize : inStack.stackSize;
+		} else if (inStack == null) {
+			inputAvail = sign > 0 ? type.getMaxStackSize() : 0;
+		}
+
+		if (amount > 0 && inputAvail > 0) {
+			int depositInput = Math.min(amount, inputAvail);
+			if (actually) {
+				if (slots[0] == null) {  // Only possible with sign == +1
+					slots[0] = slots[1].copy();
+					slots[0].stackSize = 0;
+				}
+				slots[0].stackSize += sign * depositInput;
+				if (slots[0].stackSize == 0) {
+					slots[0] = null;
+				}
+			}
+			amount -= depositInput;
+		}
+		
+		int outputAvail = 0;
+		ItemStack outStack = slots[2];
+		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+			outputAvail = sign > 0 ? outStack.getMaxStackSize() - outStack.stackSize : outStack.stackSize;
+		} else if (outStack == null) {
+			outputAvail = sign > 0 ? type.getMaxStackSize() : 0;
+		}
+
+		if (amount > 0 && outputAvail > 0) {
+			int depositOutput = Math.min(amount, outputAvail);
+			if (actually) {
+				if (slots[2] == null) {  // Only possible with sign == +1
+					slots[2] = slots[1].copy();
+					slots[2].stackSize = 0;
+				}
+				slots[2].stackSize += sign * depositOutput;
+				if (slots[2].stackSize == 0) {
+					slots[2] = null;
+				}
+			}
+			amount -= depositOutput;
+		}
+
+		if (actually) {
+			this.markDirty();
+		}
+		
+		return amount;
 	}
 
 	@Override
@@ -132,12 +274,12 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	@Override
 	public void openInventory() {
-		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 1.0F, 1.0F);
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 0.5F, 1.0F);
 	}
 
 	@Override
 	public void closeInventory() {
-		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 1.0F, 1.0F);
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageClose", 0.5F, 1.0F);
 	}
 
 	@Override
@@ -196,9 +338,9 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		if(data.hasKey("toggle")) {
 			this.output = !output;
 		}
+
 		if(data.hasKey("slot") && this.getStockpile() <= 0){
 			setFilterContents(data);
-			if(slots[1] != null) slots[1].stackSize = 1;
 		}
 	}
 
