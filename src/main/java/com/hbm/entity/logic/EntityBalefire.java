@@ -10,8 +10,8 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityBalefire extends EntityExplosionChunkloading  {
-	
+public class EntityBalefire extends EntityExplosionChunkloading {
+
 	public int age = 0;
 	public int destructionRange = 0;
 	public ExplosionBalefire exp;
@@ -24,13 +24,11 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 		destructionRange = nbt.getInteger("destructionRange");
 		speed = nbt.getInteger("speed");
 		did = nbt.getBoolean("did");
-		
-    	
-		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
+
+		exp = new ExplosionBalefire((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, this.destructionRange);
 		exp.readFromNbt(nbt, "exp_");
-    	
-    	this.did = true;
-		
+
+		this.did = true;
 	}
 
 	@Override
@@ -39,10 +37,10 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 		nbt.setInteger("destructionRange", destructionRange);
 		nbt.setInteger("speed", speed);
 		nbt.setBoolean("did", did);
-    	
+
 		if(exp != null)
 			exp.saveToNbt(nbt, "exp_");
-		
+
 	}
 
 	public EntityBalefire(World p_i1582_1_) {
@@ -53,7 +51,8 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 	public void onUpdate() {
 		super.onUpdate();
 
-		if(!worldObj.isRemote) loadChunk((int) Math.floor(posX / 16D), (int) Math.floor(posZ / 16D));
+		if(!worldObj.isRemote)
+			loadChunk((int) Math.floor(posX / 16D), (int) Math.floor(posZ / 16D));
 
 		if(!this.did) {
 			if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)

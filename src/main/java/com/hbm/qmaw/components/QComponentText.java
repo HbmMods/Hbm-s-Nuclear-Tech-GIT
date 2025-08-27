@@ -1,5 +1,6 @@
 package com.hbm.qmaw.components;
 
+import com.hbm.qmaw.GuiQMAW;
 import com.hbm.qmaw.ManualElement;
 
 import net.minecraft.client.Minecraft;
@@ -36,9 +37,9 @@ public class QComponentText extends ManualElement {
 	}
 
 	@Override
-	public void render(boolean isMouseOver, int mouseX, int mouseY) {
+	public void render(boolean isMouseOver, int x, int y, int mouseX, int mouseY) {
 		font.drawString(text, x, y, color);
 	}
 
-	@Override public void onClick() { }
+	@Override public void onClick(GuiQMAW gui) { }
 }

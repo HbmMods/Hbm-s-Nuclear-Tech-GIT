@@ -39,6 +39,9 @@ public class BobmazonOfferFactory {
 		standard.add(new Offer(new ItemStack(ModItems.gun_kit_1, 1), Requirement.ASSEMBLY, 16));
 		standard.add(new Offer(new ItemStack(ModItems.geiger_counter, 1), Requirement.NONE, 16));
 		standard.add(new Offer(new ItemStack(ModItems.matchstick, 16), Requirement.STEEL, 2));
+		//blueprints
+		standard.add(new Offer(new ItemStack(ModItems.blueprint_folder, 1, 0), Requirement.ASSEMBLY, 64));
+		standard.add(new Offer(new ItemStack(ModItems.blueprint_folder, 1, 1), Requirement.OIL, 256));
 		//plants
 		standard.add(new Offer(new ItemStack(Blocks.sapling, 1, 3), Requirement.STEEL, 12, 9));
 		standard.add(new Offer(new ItemStack(ModBlocks.plant_flower, 1, EnumFlowerType.FOXGLOVE.ordinal()), Requirement.STEEL, 16, 5));

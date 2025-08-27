@@ -79,6 +79,18 @@ repositories {
 	//	name = "CurseForge"
 	//	url = "https://minecraft.curseforge.com/api/maven/"
 	//}
+	maven {
+		name = "Jitpack"
+		url = "https://jitpack.io"
+	}
+	maven {
+		name = "CurseMaven"
+		url = "https://cursemaven.com"
+	}
+	maven {
+        name = "OpenComputers"
+        url = "https://maven.cil.li/"
+    }
 }
 
 dependencies {
@@ -94,6 +106,8 @@ dependencies {
 	compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
 
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+
+	compileOnly "com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev"
 }
 
 processResources {

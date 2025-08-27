@@ -37,7 +37,8 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		if(skipDefaultDrops) {
 			// Emulate the block breaking without drops
 			world.setBlockToAir(x, y, z);
-			player.getHeldItem().damageItem(1, player);
+			ItemStack stack = player.getHeldItem();
+			if(stack != null) stack.damageItem(1, player);
 		} else if(player instanceof EntityPlayerMP) {
 			// Break the block conventionally
 			ItemToolAbility.standardDigPost(world, x, y, z, (EntityPlayerMP) player);
@@ -78,7 +79,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		@Override
 		public void preHarvestAll(int level, World world, EntityPlayer player) {
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
+			if(stack != null) EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
 		}
 
 		@Override
@@ -88,7 +89,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			// Even if can be forced somehow, the player doesn't gain any
 			// benefit from it.
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
+			if(stack != null) EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
 		}
 	};
 
@@ -123,7 +124,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 		@Override
 		public void preHarvestAll(int level, World world, EntityPlayer player) {
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, powerAtLevel[level]);
+			if(stack != null) EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, powerAtLevel[level]);
 		}
 
 		@Override
@@ -133,7 +134,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			// Even if can be forced somehow, the player doesn't gain any
 			// benefit from it.
 			ItemStack stack = player.getHeldItem();
-			EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
+			if(stack != null) EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
 		}
 	};
 
@@ -175,7 +176,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
 			if(doesSmelt) {
 				for(ItemStack stack : drops) {
-					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
+					world.spawnEntityInWorld(new EntityItem(world, ItemToolAbility.dropX + 0.5, ItemToolAbility.dropY + 0.5, ItemToolAbility.dropZ + 0.5, stack.copy()));
 				}
 			}
 		}
@@ -211,7 +212,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			harvestBlock(doesShred, world, x, y, z, player);
 
 			if(doesShred) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
+				world.spawnEntityInWorld(new EntityItem(world, ItemToolAbility.dropX + 0.5, ItemToolAbility.dropY + 0.5, ItemToolAbility.dropZ + 0.5, result.copy()));
 			}
 		}
 	};
@@ -248,7 +249,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			if(doesCentrifuge) {
 				for(ItemStack st : result) {
 					if(st != null) {
-						world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, st.copy()));
+						world.spawnEntityInWorld(new EntityItem(world, ItemToolAbility.dropX + 0.5, ItemToolAbility.dropY + 0.5, ItemToolAbility.dropZ + 0.5, st.copy()));
 					}
 				}
 			}
@@ -285,7 +286,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			harvestBlock(doesCrystallize, world, x, y, z, player);
 
 			if(doesCrystallize) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.output.copy()));
+				world.spawnEntityInWorld(new EntityItem(world, ItemToolAbility.dropX + 0.5, ItemToolAbility.dropY + 0.5, ItemToolAbility.dropZ + 0.5, result.output.copy()));
 			}
 		}
 	};
@@ -324,7 +325,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 			harvestBlock(doesConvert, world, x, y, z, player);
 
 			if(doesConvert) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ingot_mercury, mercury)));
+				world.spawnEntityInWorld(new EntityItem(world, ItemToolAbility.dropX + 0.5, ItemToolAbility.dropY + 0.5, ItemToolAbility.dropZ + 0.5, new ItemStack(ModItems.ingot_mercury, mercury)));
 			}
 		}
 	};

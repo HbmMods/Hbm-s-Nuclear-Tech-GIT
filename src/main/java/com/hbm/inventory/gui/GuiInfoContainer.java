@@ -292,6 +292,8 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 							this.drawGradientRect(minX + indent, minY, minX + indent + 16, minY + 16, 0xffb0b0b0, 0xffb0b0b0);
 						}
 						GL11.glEnable(GL11.GL_DEPTH_TEST);
+						RenderHelper.enableGUIStandardItemLighting();
+						GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 						itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY);
 						itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY, null);
 						RenderHelper.disableStandardItemLighting();

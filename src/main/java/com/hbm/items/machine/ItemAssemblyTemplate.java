@@ -24,6 +24,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
+@Deprecated
 public class ItemAssemblyTemplate extends Item {
 
 	@SideOnly(Side.CLIENT)
@@ -157,6 +158,7 @@ public class ItemAssemblyTemplate extends Item {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		list.add(EnumChatFormatting.RED + "Deprecated");
 
 		if(!(stack.getItem() instanceof ItemAssemblyTemplate))
 			return;
@@ -197,9 +199,6 @@ public class ItemAssemblyTemplate extends Item {
 			names[a] = I18nUtil.resolveKey(folder.getUnlocalizedName() + ".name");
 			a++;
 		}
-
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", String.join(" / ", names)));
-		list.add("");
 
 		if(out == null) {
 			list.add("I AM ERROR");
