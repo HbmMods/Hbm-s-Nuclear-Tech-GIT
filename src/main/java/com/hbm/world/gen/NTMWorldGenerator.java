@@ -47,7 +47,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("spire", StructureManager.spire, -1);
 			spawnWeight = 2;
 		}});
-		
+
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = biome -> !invalidBiomes.contains(biome);
 			start = d -> new MapGenNTMFeatures.Start(d.getW(), d.getX(), d.getY(), d.getZ());
@@ -114,7 +114,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		NBTStructure.registerStructure(0, new SpawnCondition() {{
 			canSpawn = flatbiomes::contains;
 			structure = new JigsawPiece("radio_house", StructureManager.radio_house, -6);
-			spawnWeight = 40;
+			spawnWeight = 30;
 		}});
 
 		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
