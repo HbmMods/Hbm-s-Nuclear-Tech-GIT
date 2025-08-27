@@ -1,17 +1,17 @@
 {
 	"name": "Cinnabar",
 	"icon": ["hbm:item.cinnebar", 1, 0],
-    "trigger": [["hbm:item.cinnebar"]],
-    "title": {
-        "en_US": "Cinnabar",
+	"trigger": [["hbm:item.cinnebar"]],
+	"title": {
+		"en_US": "Cinnabar",
 		"uk_UA": "Кіновар",
 		"ru_RU": "Киноварь",
 		"zh_CN": "朱砂"
-    },
+	},
 	"content": {
 		"en_US": "Rare ore. Can be [[acidized|Ore Acidizer]] into 375mB worth of [[mercury|Mercury]] drops, or [[combination smelted|Combination Oven]] into 100mB of mercury and some sulfur. Mainly exists as an early means to get mercury for [[desh|Desh]] production.",
 		"uk_UA": "Рідкісна руда. Може бути [[окислена|Ore Acidizer]] в 375mB [[ртуті|Mercury]] (3 краплі ртуті), або виплавлена у [[коксовій печі|Combination Oven]] в 100mB ртуті та трохи сірки. Здебільшого використовується як ранній спосіб отримання ртуті для виробництва [[деш|Desh]].",
-		"ru_RU": "Редкая руда. Может быть [[обработана кислотой|Ore Acidizer]] в 375 мБ капель [[ртути|Mercury]] или [[переплавлена в коксовой печи|Combination Oven]] в 100 мБ ртути и немного серы. В основном используется как ранний способ получения ртути для производства [[деша|Desh]].",
+		"ru_RU": "Редкая руда. Может быть [[обработана кислотой|Ore Acidizer]] в 375 мБ капель [[ртути|Mercury]] или [[переплавлена в коксовой печи|Combination Oven]] в 100 мБ ртути и немного серы. В основном используется как ранний способ получения ртути для производства [[деш|Desh]].",
 		"zh_CN": "稀有矿物，可[[酸化|Ore Acidizer]]为相当于375mB流体的[[水银|Mercury]]液滴，也可[[炼焦|Combination Oven]]为100mB水银和一个硫粉。其主要作为获取生产[[Desh]]需要的水银的早期手段。"
 	}
 }

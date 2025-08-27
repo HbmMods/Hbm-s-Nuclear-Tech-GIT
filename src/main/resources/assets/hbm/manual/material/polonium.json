@@ -1,17 +1,17 @@
 {
 	"name": "Polonium-210",
 	"icon": ["hbm:item.billet_polonium", 1, 0],
-    "trigger": [["hbm:item.ingot_polonium"], ["hbm:item.billet_polonium"], ["hbm:item.nugget_polonium"]],
-    "title": {
-        "en_US": "Polonium-210",
+	"trigger": [["hbm:item.ingot_polonium"], ["hbm:item.billet_polonium"], ["hbm:item.nugget_polonium"]],
+	"title": {
+		"en_US": "Polonium-210",
 		"uk_UA": "Полоній-210",
 		"ru_RU": "Полоний-210",
 		"zh_CN": "钋-210"
-    },
+	},
 	"content": {
 		"en_US": "Radioisotope derived from reprocessing [[radium-226|Radium-226]] neutron sources. Usable for [[RTGs|RTG]], or with [[beryllium|Beryllium]] in Po210Be neutron sources for [[RBMKs|RBMK]].<br><br>Highly radioactive, very hot.",
 		"uk_UA": "Радіоізотоп, отриманий в результаті переробки [[радій-226|Radium-226]]берилієвих джерел нейтронів. Використовується для [[РІТЕГ|RTG]] або з [[берилієм|Beryllium]] у полоній-210 берилієвих джерелах нейтронів для [[РБМК|RBMK]].<br><br>Високорадіоактивний, дуже гарячий.",
-		"ru_RU": "Радиоизотоп, получаемый из переработки нейтронных источников [[радия-226|Radium-226]]. Используется для [[РТГ|RTG]] или с [[бериллием|Beryllium]] в нейтронных источниках Полоний-210-бериллий для [[РБМК|RBMK]].<br><br>Сильно радиоактивен, очень горячий.",
+		"ru_RU": "Радиоизотоп, получаемый переработкой нейтронных источников [[радия-226|Radium-226]]. Используется для [[РИТЭГ|RTG]] или с [[бериллием|Beryllium]] в полоний-210-бериллиевых источниках нейтронов для [[РБМК|RBMK]].<br><br>Сильно радиоактивен, очень горячий.",
 		"zh_CN": "再处理[[镭-226|Radium-226]]中子源时得到的放射性同位素。可用于[[RTG]]，也可与[[铍|Beryllium]]混合为钋-210-铍中子源，用于[[RBMK]]。<br><br>放射性强，高温。"
 	}
 }
