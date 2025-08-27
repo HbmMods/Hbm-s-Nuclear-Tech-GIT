@@ -51,13 +51,12 @@ public class WingsMurk extends JetpackBase {
 		if(player.fallDistance > 0)
 			player.fallDistance = 0;
 		
-		if(player.motionY < -0.4D)
-			player.motionY = -0.4D;
-		
 		if(this == ModItems.wings_limp) {
+		
+			if(player.motionY < -0.4D)
+				player.motionY = -0.4D;
 			
-			 if(player.isSneaking()) {
-					
+			if(player.isSneaking()) {
 				if(player.motionY < -0.08) {
 
 					double mo = player.motionY * -0.2;
@@ -81,10 +80,26 @@ public class WingsMurk extends JetpackBase {
 
 			if(props.isJetpackActive()) {
 
-				if(player.motionY < 0.6D)
-					player.motionY += 0.2D;
-				else
-					player.motionY = 0.8D;
+				if(player.isSneaking()) {
+					if(player.motionY < -1)
+						player.motionY += 0.4D;
+					else if(player.motionY < -0.1)
+						player.motionY += 0.2D;
+					else if(player.motionY < 0)
+						player.motionY = 0;
+					else if(player.motionY > 1)
+						player.motionY -= 0.4D;
+					else if(player.motionY > 0.1)
+						player.motionY -= 0.2D;
+					else if(player.motionY > 0)
+						player.motionY = 0;
+					
+				} else {
+					if(player.motionY < 0.6D)
+						player.motionY += 0.2D;
+					else
+						player.motionY = 0.8D;
+				}
 				
 			} else if(props.enableBackpack && !player.isSneaking()) {
 				
@@ -100,7 +115,7 @@ public class WingsMurk extends JetpackBase {
 				
 				Vec3 orig = player.getLookVec();
 				Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-				double mod = player.isSneaking() ? 0.25D : 1D;
+				double mod = player.isSprinting() ? 1D : 0.25D;
 				
 				if(player.moveForward != 0) {
 					player.motionX += look.xCoord * 0.35 * player.moveForward * mod;

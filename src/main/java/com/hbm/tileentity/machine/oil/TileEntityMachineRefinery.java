@@ -49,7 +49,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 
 	public long power = 0;
 	public int sulfur = 0;
-	public static final int maxSulfur = 100;
+	public static final int maxSulfur = 10;
 	public static final long maxPower = 1000;
 	public FluidTank[] tanks;
 	

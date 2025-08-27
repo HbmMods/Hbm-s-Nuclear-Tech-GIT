@@ -34,7 +34,6 @@ public class MaterialShapes {
 	public static final MaterialShapes PIPE = new MaterialShapes(INGOT.quantity * 3, "ntmpipe");
 	public static final MaterialShapes QUART = new MaterialShapes(162);
 	public static final MaterialShapes BLOCK = new MaterialShapes(INGOT.quantity * 9, "block");
-	public static final MaterialShapes HEAVY_COMPONENT = new MaterialShapes(CASTPLATE.quantity * 256, "componentHeavy");
 
 	public static final MaterialShapes LIGHTBARREL =	new MaterialShapes(INGOT.quantity * 3, "barrelLight");
 	public static final MaterialShapes HEAVYBARREL =	new MaterialShapes(INGOT.quantity * 6, "barrelHeavy");

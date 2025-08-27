@@ -31,7 +31,7 @@ public class UpgradeManagerNT {
 	public UpgradeManagerNT(TileEntity te) { this.owner = te; }
 	@Deprecated public UpgradeManagerNT() { }
 	
-	public void checkSlots(ItemStack[] slots, int start, int end) { checkSlots(owner, slots, start, end); }
+	public void checkSlots(ItemStack[] slots, int start, int end) { checkSlotsInternal(owner, slots, start, end); }
 	@Deprecated public void checkSlots(TileEntity te, ItemStack[] slots, int start, int end) { checkSlotsInternal(te, slots, start, end); }
 
 	private void checkSlotsInternal(TileEntity te, ItemStack[] slots, int start, int end) {

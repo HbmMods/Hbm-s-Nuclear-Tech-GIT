@@ -151,7 +151,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		if(te instanceof TileEntityMachineGasCent) {
 			TileEntityMachineGasCent cent = (TileEntityMachineGasCent) te;
 
-			if(cent.tank.getFill() == 0 && cent.tank.getTankType() == tank.getTankType()) {
+			if(cent.tank.getTankType() == tank.getTankType()) {
 				if(cent.inputTank.getTankType() != outputTank.getTankType() && outputTank.getTankType() != PseudoFluidType.NONE) {
 					cent.inputTank.setTankType(outputTank.getTankType());
 					cent.outputTank.setTankType(outputTank.getTankType().getOutputType());
@@ -237,7 +237,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
 
-			if(audioDuration > 10) {
+			if(audioDuration > 10 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 25) {
 
 				if(audio == null) {
 					audio = createAudioLoop();
@@ -248,6 +248,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 				audio.updateVolume(getVolume(1F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
+				audio.keepAlive();
 
 			} else {
 
@@ -261,7 +262,27 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 
 	@Override
@@ -314,21 +335,9 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		};
 	}
 
-	@Override
-	public void setPower(long i) {
-		power = i;
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
-	}
+	@Override public void setPower(long i) { power = i; }
+	@Override public long getPower() { return power; }
+	@Override public long getMaxPower() { return maxPower; }
 
 	public int getProcessingSpeed() {
 		if(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed) {
@@ -352,7 +361,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 					tank.setTankType(newType);
 				}
 			}
-
 		}
 	}
 
@@ -374,7 +382,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 5, zCoord + 1);
 		}
-
 		return bb;
 	}
 

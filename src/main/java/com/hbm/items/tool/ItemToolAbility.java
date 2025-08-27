@@ -1,5 +1,7 @@
 package com.hbm.items.tool;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -27,6 +29,7 @@ import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.item.IDepthRockTool;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -151,6 +154,10 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		return true;
 	}
 
+	// Should be safe, considering the AoE ability does a similar trick already.
+	// If not, wrap this in a ThreadLocal or something...
+	public static int dropX, dropY, dropZ;
+
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
 
@@ -172,6 +179,10 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 		if(!world.isRemote && (canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) && canOperate(stack)) {
 			Configuration config = getConfiguration(stack);
 			ToolPreset preset = config.getActivePreset();
+
+			dropX = x;
+			dropY = y;
+			dropZ = z;
 
 			preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, world, player);
 
@@ -280,15 +291,21 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
-
-		if(!(canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) || block == Blocks.bedrock || block == ModBlocks.stone_keyhole)
-			return;
+		
+		if(!(canHarvestBlock(block, stack) ||
+				canShearBlock(block, stack, world, x, y, z)) ||
+				(block.getBlockHardness(world, x, y, z) == -1.0F && block.getPlayerRelativeBlockHardness(player, world, x, y, z) == 0.0F) ||
+				block == ModBlocks.stone_keyhole) return;
 
 		Block refBlock = world.getBlock(refX, refY, refZ);
 		float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
 		float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
 
-		if(!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f || refBlock.getPlayerRelativeBlockHardness(player, world, refX, refY, refZ) < 0)
+		if(
+			!ForgeHooks.canHarvestBlock(block, player, meta) || 
+			refStrength / strength > 10f || 
+			refBlock.getPlayerRelativeBlockHardness(player, world, refX, refY, refZ) < 0
+		)
 			return;
 
 		BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world, player.theItemInWorldManager.getGameType(), player, x, y, z);
@@ -316,7 +333,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 				double d = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				double d1 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				double d2 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-				EntityItem entityitem = new EntityItem(player.worldObj, (double) x + d, (double) y + d1, (double) z + d2, stack);
+				EntityItem entityitem = new EntityItem(player.worldObj, (double) dropX + d, (double) dropY + d1, (double) dropZ + d2, stack);
 				entityitem.delayBeforeCanPickup = 10;
 				player.worldObj.spawnEntityInWorld(entityitem);
 			}
@@ -325,6 +342,9 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(block)], 1);
 		}
 	}
+
+	// Since it's added by forge, access transformers don't affect it (even wildcards), so we do it the old-fashioned way
+	private static Method blockCaptureDrops = ReflectionHelper.findMethod(Block.class, null, new String[] { "captureDrops" }, new Class[] { boolean.class });
 
 	public static void standardDigPost(World world, int x, int y, int z, EntityPlayerMP player) {
 
@@ -351,7 +371,20 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			}
 			
 			if(removedByPlayer && canHarvest) {
-				block.harvestBlock(world, player, x, y, z, l);
+				try {
+					blockCaptureDrops.invoke(block, true);
+					block.harvestBlock(world, player, x, y, z, l);
+					List<ItemStack> drops = (List)blockCaptureDrops.invoke(block, false);
+					for (ItemStack stack : drops) {
+						block.dropBlockAsItem(world, dropX, dropY, dropZ, stack);
+					}
+				} catch (IllegalAccessException e) {
+					// Shouldn't be possible with ReflectionHelper
+					MainRegistry.logger.error("Failed to capture drops for block " + block, e);
+				} catch (InvocationTargetException e) {
+					// Might be possible? Not in practice, though
+					MainRegistry.logger.error("Failed to capture drops for block " + block, e);
+				} 
 			}
 		}
 

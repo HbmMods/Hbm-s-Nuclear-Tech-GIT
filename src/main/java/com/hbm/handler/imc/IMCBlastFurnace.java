@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagList;
  * @author UFFR
  */
 
+@Deprecated
 public class IMCBlastFurnace extends IMCHandler {
 	public static final ArrayList<Triplet<Object, Object, ItemStack>> buffer = new ArrayList<>();
 

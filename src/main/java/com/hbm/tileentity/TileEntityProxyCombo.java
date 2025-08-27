@@ -75,9 +75,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		return this;
 	}
 	
-	/** Returns the actual tile entity that represents the core. Only for internal use. */
-	protected TileEntity getTile() {
-		if(tile == null || tile.isInvalid()) {
+	/** Returns the actual tile entity that represents the core. Only for internal use, and EnergyControl. */
+	public TileEntity getTile() {
+		if(tile == null || tile.isInvalid() || (tile instanceof TileEntityLoadedBase && !((TileEntityLoadedBase) tile).isLoaded)) {
 			tile = this.getTE();
 		}
 		return tile;

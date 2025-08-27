@@ -281,12 +281,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-			this.onImpact();
+			this.onMissileImpact(mop);
 			this.setDead();
 		}
 	}
 
-	public abstract void onImpact();
+	public abstract void onMissileImpact(MovingObjectPosition mop);
 	public abstract List<ItemStack> getDebris();
 	public abstract ItemStack getDebrisRareDrop();
 	public void cluster() { }

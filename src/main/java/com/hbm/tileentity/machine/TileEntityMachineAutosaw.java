@@ -305,6 +305,14 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				entityItem.delayBeforeCanPickup = 10;
 				worldObj.spawnEntityInWorld(entityItem);
 			}
+
+			// Apparently, until 1.14 full-grown wheat could sometimes drop no seeds at all
+			// This is a quick and dirty workaround for that.
+			if (b == Blocks.wheat && !replanted) {
+				replacementBlock = b;
+				replacementMeta = 0;
+				replanted = true;
+			}
 		}
 
 		worldObj.setBlock(x, y, z, replacementBlock, replacementMeta, 3);
