@@ -19,7 +19,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -54,11 +53,7 @@ public class GUIScreenWikiRender extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
-		if(this.mc.theWorld != null) {
-			GuiScreen.drawRect(0, 0, this.width, this.height, 0xFFC6C6C6);
-		} else {
-			this.drawBackground(0);
-		}
+		GuiScreen.drawRect(0, 0, this.width, this.height, 0xFFFF00FF);
 
 		// Once we've reached the end of the array, immedaitely close this GUI
 		if(index >= preview.length) {
@@ -66,7 +61,6 @@ public class GUIScreenWikiRender extends GuiScreen {
 			return;
 		}
 
-		this.drawGuiContainerBackgroundLayer();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.drawGuiContainerForegroundLayer(preview[index]);
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -84,35 +78,6 @@ public class GUIScreenWikiRender extends GuiScreen {
 		}
 
 		index++;
-	}
-
-	protected void drawGuiContainerBackgroundLayer() {
-		GL11.glPushMatrix();
-		{
-
-			ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-
-			int size = 18;
-			double y = res.getScaledHeight_double() / scale - 18D;
-
-			GL11.glScaled(scale, scale, scale);
-
-			GL11.glColor4f(1.0F, 0.0F, 1.0F, 1.0F);
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-			Tessellator tessellator = Tessellator.instance;
-			tessellator.startDrawingQuads();
-			tessellator.addVertex((double) 0, (double) y + size, (double) this.zLevel);
-			tessellator.addVertex((double) size, (double) y + size, (double) this.zLevel);
-			tessellator.addVertex((double) size, (double) y, (double) this.zLevel);
-			tessellator.addVertex((double) 0, (double) y, (double) this.zLevel);
-			tessellator.draw();
-
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		}
-		GL11.glPopMatrix();
 	}
 
 	protected void drawGuiContainerForegroundLayer(ItemStack preview) {
