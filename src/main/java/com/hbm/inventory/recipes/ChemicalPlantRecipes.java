@@ -60,7 +60,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.xenonoxy").setupNamed(20, 1_000).setIcon(ModItems.gas_full, Fluids.XENON.getID())
 				.inputFluids(new FluidStack(Fluids.AIR, 8_000), new FluidStack(Fluids.OXYGEN, 250))
-				.outputFluids(new FluidStack(Fluids.XENON, 50)));
+				.outputFluids(new FluidStack(Fluids.XENON, 50)).setPools(GenericRecipes.POOL_PREFIX_ALT + ".xenonoxy"));
 		
 		this.register(new GenericRecipe("chem.helium3").setupNamed(200, 2_000).setIcon(ModItems.gas_full, Fluids.HELIUM3.getID())
 				.inputItems(new ComparableStack(ModBlocks.moon_turf, 8))
@@ -116,6 +116,12 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.outputItems(DictFrame.fromOne(ModItems.fuel_additive, EnumFuelAdditive.DEICER)));
 
 		/// THE CONC AND ASPHALE ///
+		this.register(new GenericRecipe("chem.cobble").setup(20, 100)
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000), new FluidStack(Fluids.LAVA, 25))
+				.outputItems(new ItemStack(Blocks.cobblestone)));
+		this.register(new GenericRecipe("chem.stone").setup(60, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER)
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000), new FluidStack(Fluids.LAVA, 25), new FluidStack(Fluids.AIR, 4_000))
+				.outputItems(new ItemStack(Blocks.stone)));
 		this.register(new GenericRecipe("chem.concrete").setup(100, 100)
 				.inputItems(new ComparableStack(ModItems.powder_cement, 1), new ComparableStack(Blocks.gravel, 8), new OreDictStack(KEY_SAND, 8))
 				.inputFluids(new FluidStack(Fluids.WATER, 2_000))
@@ -130,6 +136,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.powder_cement, 4), new OreDictStack(FERRO.ingot()), new OreDictStack(KEY_SAND, 8))
 				.inputFluids(new FluidStack(Fluids.WATER, 2_000))
 				.outputItems(new ItemStack(ModBlocks.ducrete_smooth, 8)));
+		
+		this.register(new GenericRecipe("chem.liquidconk").setup(100, 100)
+				.inputItems(new ComparableStack(ModItems.powder_cement, 1), new ComparableStack(Blocks.gravel, 8), new OreDictStack(KEY_SAND, 8))
+				.inputFluids(new FluidStack(Fluids.WATER, 2_000))
+				.outputFluids(new FluidStack(Fluids.CONCRETE, 16_000)));
 		
 		this.register(new GenericRecipe("chem.asphalt").setup(100, 100)
 				.inputItems(new ComparableStack(Blocks.gravel, 2), new OreDictStack(KEY_SAND, 6))
@@ -209,7 +220,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.birkeland").setupNamed(200, 5_000)
 				.inputFluids(new FluidStack(Fluids.AIR, 8_000), new FluidStack(Fluids.WATER, 2_000))
-				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1_000)));
+				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1_000)).setPools(GenericRecipes.POOL_PREFIX_ALT + ".birkeland"));
 		
 		this.register(new GenericRecipe("chem.schrabidic").setup(100, 5_000)
 				.inputItems(new ComparableStack(ModItems.pellet_charged))
@@ -268,21 +279,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
 		
-		this.register(new GenericRecipe("chem.shellchlorine").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.CHLORINE, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
-		
-		this.register(new GenericRecipe("chem.shellphosgene").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
-		
-		this.register(new GenericRecipe("chem.shellmustard").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
-				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4_000))
-				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
-		
 		/// GLASS ///
 		this.register(new GenericRecipe("chem.laminate").setup(20, 100)
 				.inputFluids(new FluidStack(Fluids.XYLENE, 50), new FluidStack(Fluids.PHOSGENE, 50))
@@ -321,29 +317,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 6_000))
 				.outputItems(new ItemStack(ModItems.powder_balefire))
 				.outputFluids(new FluidStack(Fluids.BALEFIRE, 8_000)));
-
-		this.register(new GenericRecipe("chem.thoriumsalt").setup(100, 10_000).setIcon(ModItems.fluid_icon, Fluids.THORIUM_SALT.getID())
-				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
-				.inputItems(new OreDictStack(TH232.nugget(), 2))
-				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
-				.outputItems(
-						new ChanceOutput(new ItemStack(ModItems.nugget_u233, 1), 0.5F),
-						new ChanceOutput(new ItemStack(ModItems.nuclear_waste_tiny, 1), 0.25F)));
-		
-		/// VITRIFICATION ///
-		this.register(new GenericRecipe("chem.vitliquid").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1_000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		
-		this.register(new GenericRecipe("chem.vitgaseous").setup(100, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1_000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		
-		this.register(new GenericRecipe("chem.vitsolid").setup(300, 1_000)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead), new ComparableStack(ModItems.nuclear_waste, 4))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified, 4)));
 		
 		/// OSMIRIDIUM ///
 		this.register(new GenericRecipe("chem.osmiridiumdeath").setup(240, 1_000)

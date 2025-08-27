@@ -4,8 +4,8 @@ import com.hbm.inventory.gui.GUIScreenBobble;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.world.gen.INBTTileEntityTransformable;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTTileEntityTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class BlockBobble extends BlockContainer implements IGUIProvider, INBTTransformable {
+public class BlockBobble extends BlockContainer implements IGUIProvider, INBTBlockTransformable {
 
 	public BlockBobble() {
 		super(Material.iron);

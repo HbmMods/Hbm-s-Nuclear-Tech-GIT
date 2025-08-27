@@ -52,7 +52,8 @@ public class GUIScreenToolAbility extends GuiScreen {
 		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.NONE, 0, 91));
 		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.RECURSION, 32, 91));
 		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.HAMMER, 64, 91));
-		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.EXPLOSION, 96, 91));
+		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.HAMMER_FLAT, 96, 91));
+		abilitiesArea.add(new AbilityInfo(IToolAreaAbility.EXPLOSION, 128, 91));
 
 		abilitiesHarvest.add(new AbilityInfo(IToolHarvestAbility.NONE, 0, 107));
 		abilitiesHarvest.add(new AbilityInfo(IToolHarvestAbility.SILK, 32, 107));

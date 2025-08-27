@@ -156,7 +156,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	 * Moves heat to neighboring parts, if possible, in a relatively fair manner
 	 */
 	private void moveHeat() {
-		
+
 		boolean reasim = RBMKDials.getReasimBoilers(worldObj);
 
 		List<TileEntityRBMKBase> rec = new ArrayList<>();
@@ -344,6 +344,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		exceptions.add("id");
 		exceptions.add("muffled");
 
+		//Keep the title unlocalized is cool.
 		String title = "Dump of Ordered Data Diagnostic (DODD)";
 		mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);
 		mc.fontRenderer.drawString(title, pX, pZ - 20, 0x00FF00);
@@ -359,8 +360,15 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 			if(exceptions.contains(key))
 				continue;
-
-			mc.fontRenderer.drawString(key + ": " + flush.getTag(key), pX, pZ, 0xFFFFFF);
+			String value = flush.getTag(key).toString();
+			//No...’d‘ doesn't refer to "day" and ‘s’ doesn't refer to "second". Meaningless.
+			if (!value.isEmpty()) {
+				char lastChar = value.charAt(value.length() - 1);
+				if (lastChar == 'd' || lastChar == 's' || lastChar == 'b') {
+					value = value.substring(0, value.length() - 1);
+				}
+			}
+			mc.fontRenderer.drawString(I18nUtil.resolveKey("tile.rbmk.dodd." + key) + ": " + value, pX, pZ, 0xFFFFFF);
 			pZ += 10;
 		}
 

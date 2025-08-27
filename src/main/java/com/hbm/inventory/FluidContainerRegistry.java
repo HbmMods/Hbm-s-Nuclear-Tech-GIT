@@ -18,12 +18,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class FluidContainerRegistry {
-	
-	//TODO: continue incorporating hashmaps into this
+
+	// TODO: continue incorporating hashmaps into this
 	public static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
 	private static HashMap<FluidType, List<FluidContainer>> containerMap = new HashMap<FluidType, List<FluidContainer>>();
 	
+	public static void clearRegistry() {
+		allContainers.clear();
+		containerMap.clear();
+	}
+
 	public static void register() {
+
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), Fluids.WATER, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.potionitem), new ItemStack(Items.glass_bottle), Fluids.WATER, 250));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), Fluids.LAVA, 1000));
@@ -59,34 +65,34 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.experience_bottle), new ItemStack(Items.glass_bottle), Fluids.XPJUICE, 100));
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.can_mug), new ItemStack(ModItems.can_empty), Fluids.MUG, 100));
-		
+
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
-			
+
 			FluidType type = fluids[i];
 			int id = type.getID();
-			
+
 			if(type.getContainer(CD_Canister.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, id), new ItemStack(ModItems.canister_empty), type, 1000));
 			if(type.getContainer(CD_Gastank.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full, 1, id), new ItemStack(ModItems.gas_empty), type, 1000));
-			
+
 			if(type.hasNoContainer()) continue;
-			
-			if(type.isDispersable()){
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.disperser_canister, 1 , i), new ItemStack(ModItems.disperser_canister_empty), Fluids.fromID(i), 2000));
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.glyphid_gland, 1 , i), new ItemStack(ModItems.glyphid_gland_empty), Fluids.fromID(i), 4000));
+
+			if(type.isDispersable()) {
+				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.disperser_canister, 1, i), new ItemStack(ModItems.disperser_canister_empty), Fluids.fromID(i), 2000));
+				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.glyphid_gland, 1, i), new ItemStack(ModItems.glyphid_gland_empty), Fluids.fromID(i), 4000));
 			}
 
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, id), new ItemStack(ModItems.fluid_tank_lead_empty), type, 1000));
 
 			if(type.needsLeadContainer()) continue;
-			
+
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, id), new ItemStack(ModItems.fluid_tank_empty), type, 1000));
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, id), new ItemStack(ModItems.fluid_barrel_empty), type, 16000));
 		}
-		
+
 		Compat.registerCompatFluidContainers();
 	}
-	
+
 	public static void registerContainer(FluidContainer con) {
 		allContainers.add(con);
 		OreDictionary.registerOre(con.type.getDict(con.content), con.fullContainer);
@@ -103,51 +109,48 @@ public class FluidContainerRegistry {
 	}
 
 	public static FluidContainer getContainer(FluidType type, ItemStack stack) {
-		if(stack == null)
-			return null;
-		
+		if(stack == null) return null;
+
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		if (!containerMap.containsKey(type))
+		if(!containerMap.containsKey(type))
 			return null;
 
-		for (FluidContainer container : getContainers(type)) {
-			if (ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta)) {
+		for(FluidContainer container : getContainers(type)) {
+			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta)) {
 				return container;
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static int getFluidContent(ItemStack stack, FluidType type) {
-		
+
 		if(stack == null)
 			return 0;
-		
+
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		if (!containerMap.containsKey(type))
+		if(!containerMap.containsKey(type))
 			return 0;
-		
+
 		for(FluidContainer container : containerMap.get(type)) {
 			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.content;
 		}
-		
+
 		return 0;
 	}
-	
+
 	public static FluidType getFluidType(ItemStack stack) {
-		
-		if(stack == null)
-			return Fluids.NONE;
-		
+		if(stack == null) return Fluids.NONE;
+
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
-		
+
 		for(FluidContainer container : allContainers) {
 			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.type;
@@ -155,29 +158,26 @@ public class FluidContainerRegistry {
 
 		return Fluids.NONE;
 	}
-	
+
 	public static ItemStack getFullContainer(ItemStack stack, FluidType type) {
-		if(stack == null)
-			return null;
-		
+		if(stack == null) return null;
+
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		if (!containerMap.containsKey(type))
-			return null;
+		if(!containerMap.containsKey(type)) return null;
 
 		for(FluidContainer container : containerMap.get(type)) {
-			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) &&  ItemStack.areItemStackTagsEqual(container.emptyContainer, sta))
+			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta))
 				return container.fullContainer.copy();
 		}
-		
+
 		return null;
 	}
-	
+
 	public static ItemStack getEmptyContainer(ItemStack stack) {
-		if(stack == null)
-			return null;
-		
+		if(stack == null) return null;
+
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
@@ -185,8 +185,7 @@ public class FluidContainerRegistry {
 			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.emptyContainer == null ? null : container.emptyContainer.copy();
 		}
-		
+
 		return null;
 	}
-
 }

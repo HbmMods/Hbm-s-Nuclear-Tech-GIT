@@ -29,6 +29,13 @@ public class Vec3NT extends Vec3 {
 		return this;
 	}
 
+	public Vec3NT add(Vec3 vec) {
+		this.xCoord += vec.xCoord;
+		this.yCoord += vec.yCoord;
+		this.zCoord += vec.zCoord;
+		return this;
+	}
+
 	public Vec3NT multiply(double m) {
 		this.xCoord *= m;
 		this.yCoord *= m;
@@ -41,6 +48,13 @@ public class Vec3NT extends Vec3 {
 		this.yCoord *= y;
 		this.zCoord *= z;
 		return this;
+	}
+
+	public double distanceTo(double x, double y, double z) {
+		double dX = x - this.xCoord;
+		double dY = y - this.yCoord;
+		double dZ = z - this.zCoord;
+		return Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 	}
 
 	@Override

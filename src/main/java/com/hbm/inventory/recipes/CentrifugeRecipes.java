@@ -1,7 +1,6 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -26,8 +25,6 @@ import com.hbm.items.ItemEnums;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
-import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
@@ -50,257 +47,11 @@ public class CentrifugeRecipes extends SerializableRecipe {
 
 		boolean lbs = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCentrifuge;
 
-		recipes.put(new ComparableStack(ModItems.waste_natural_uranium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 2),
-				new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
-
-		recipes.put(new ComparableStack(ModItems.waste_uranium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu_mix, 2),
-				new ItemStack(ModItems.nugget_plutonium, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
-
-		recipes.put(new ComparableStack(ModItems.waste_thorium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 1),
-				new ItemStack(ModItems.nugget_th232, 1),
-				new ItemStack(ModItems.nugget_u233, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
-
-		recipes.put(new ComparableStack(ModItems.waste_mox), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nugget_u238, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plutonium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-
-		recipes.put(new ComparableStack(ModItems.waste_u233), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-
-		recipes.put(new ComparableStack(ModItems.waste_u235), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu238, 1),
-				new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-
-		recipes.put(new ComparableStack(ModItems.waste_schrabidium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_beryllium, 2),
-				new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
-
-		recipes.put(new ComparableStack(ModItems.waste_zfb_mox), new ItemStack[] {
-				new ItemStack(ModItems.nugget_zirconium, 3),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_mox), new ItemStack[] {
-				new ItemStack(ModItems.powder_sr90_tiny, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 3),
-				new ItemStack(ModItems.powder_cs137_tiny, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 4) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_pu238be), new ItemStack[] {
-				new ItemStack(ModItems.nugget_beryllium, 1),
-				new ItemStack(ModItems.nugget_pu238, 1),
-				new ItemStack(ModItems.powder_coal_tiny, 2),
-				new ItemStack(ModItems.nugget_lead, 2) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_pu239), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu240, 2),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.powder_cs137_tiny, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 5) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_ra226be), new ItemStack[] {
-				new ItemStack(ModItems.nugget_beryllium, 2),
-				new ItemStack(ModItems.nugget_polonium, 2),
-				new ItemStack(ModItems.powder_coal_tiny, 1),
-				new ItemStack(ModItems.nugget_lead, 1) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_sa326), new ItemStack[] {
-				new ItemStack(ModItems.nugget_solinium, 1),
-				new ItemStack(ModItems.powder_neodymium_tiny, 1),
-				new ItemStack(ModItems.nugget_tantalium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_u233), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.powder_i131_tiny, 1),
-				new ItemStack(ModItems.powder_sr90_tiny, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-
-		recipes.put(new ComparableStack(ModItems.waste_plate_u235), new ItemStack[] {
-				new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.nugget_pu238, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.SCHRABIDIUM)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_solinium, 15),
-				new ItemStack(ModItems.nugget_euphemium, 3),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.HES)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_solinium, 17),
-				new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.MES)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_solinium, 12),
-				new ItemStack(ModItems.nugget_tantalium, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.LES)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_solinium, 9),
-				new ItemStack(ModItems.nugget_tantalium, 9),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.HEN)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_pu239, 12),
-				new ItemStack(ModItems.nugget_technetium, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.MEU)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_pu239, 12),
-				new ItemStack(ModItems.nugget_bismuth, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.MEP)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_pu241, 12),
-				new ItemStack(ModItems.nugget_bismuth, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.LEAD)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_lead, 6),
-				new ItemStack(ModItems.nugget_bismuth, 12),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.BORON)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.powder_coal_tiny, 12),
-				new ItemStack(ModItems.nugget_co60, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.DU)), new ItemStack[] {
-				new ItemStack(ModItems.ingot_mud, 1),
-				new ItemStack(ModItems.nugget_polonium, 12),
-				new ItemStack(ModItems.nugget_pu238, 6),
-				new ItemStack(ModItems.nuclear_waste, 2) });
-
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MEU)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 3),
-				new ItemStack(ModItems.nugget_plutonium, 4),
-				new ItemStack(ModItems.nugget_technetium, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEU233)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u235, 3),
-				new ItemStack(ModItems.nugget_pu238, 3),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 5) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEU235)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_neptunium, 3),
-				new ItemStack(ModItems.nugget_pu238, 3),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 5) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MEN)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 3),
-				new ItemStack(ModItems.nugget_pu239, 4),
-				new ItemStack(ModItems.nugget_technetium, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEN237)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu238, 2),
-				new ItemStack(ModItems.nugget_pu239, 4),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 5) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MOX)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_u238, 3),
-				new ItemStack(ModItems.nugget_pu240, 4),
-				new ItemStack(ModItems.nugget_technetium, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MEP)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_lead, 2),
-				new ItemStack(ModItems.nugget_pu_mix, 4),
-				new ItemStack(ModItems.nugget_technetium, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEP239)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu_mix, 2),
-				new ItemStack(ModItems.nugget_pu240, 4),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 5) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEP241)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_lead, 3),
-				new ItemStack(ModItems.nugget_zirconium, 2),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MEA)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_lead, 3),
-				new ItemStack(ModItems.nugget_zirconium, 2),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HEA242)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_lead, 3),
-				new ItemStack(ModItems.nugget_zirconium, 2),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HES326)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_solinium, 3),
-				new ItemStack(ModItems.nugget_lead, 2),
-				new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.HES327)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_australium, 4),
-				new ItemStack(ModItems.nugget_lead, 1),
-				new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.BFB_AM_MIX)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_am_mix, 9),
-				new ItemStack(ModItems.nugget_pu_mix, 2),
-				new ItemStack(ModItems.nugget_bismuth, 6),
-				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.BFB_PU241)), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu241, 9),
-				new ItemStack(ModItems.nugget_pu_mix, 2),
-				new ItemStack(ModItems.nugget_bismuth, 6),
-				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
-
-		recipes.put(new ComparableStack(ModItems.icf_pellet_depleted), new ItemStack[] {
-				new ItemStack(ModItems.icf_pellet_empty, 1),
-				new ItemStack(ModItems.pellet_charged, 1),
-				new ItemStack(ModItems.pellet_charged, 1),
-				new ItemStack(ModItems.powder_iron, 1) });
-
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 2),
 				new ItemStack(ModItems.powder_niobium_tiny, 2),
 				new ItemStack(ModItems.nugget_zirconium, 3) });
-
-		ArrayList<ItemStack> naquadriaNuggets = OreDictionary.getOres("nuggetNaquadria");
-		if(naquadriaNuggets.size() != 0) {
-			ItemStack nuggetNQR = naquadriaNuggets.get(0);
-			ItemStack copy = nuggetNQR.copy();
-			copy.stackSize = 12;
-			recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.NQD)), new ItemStack[] {
-					new ItemStack(ModItems.ingot_mud, 1),
-					copy,
-					new ItemStack(ModItems.nugget_euphemium, 6),
-					new ItemStack(ModItems.nuclear_waste, 2) });
-			recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.NQR)), new ItemStack[] {
-					new ItemStack(ModItems.ingot_mud, 1),
-					new ItemStack(ModItems.nugget_co60, 12),
-					new ItemStack(ModItems.nugget_euphemium, 6),
-					new ItemStack(ModItems.nuclear_waste, 2) });
-		}
 
 		recipes.put(new OreDictStack(COAL.ore()), new ItemStack[] {
 				new ItemStack(ModItems.powder_coal, 2),
@@ -552,8 +303,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		}
 
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });
-
-		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium, 2), new ItemStack(ModItems.nugget_schrabidium, 1), new ItemStack(ModItems.nugget_uranium, 3), new ItemStack(ModItems.nugget_neptunium, 2) });
 
 		recipes.put(new ComparableStack(ModItems.crystal_coal), new ItemStack[] { new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_coal, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_iron), new ItemStack[] { new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_titanium, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });

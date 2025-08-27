@@ -61,15 +61,16 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
 				} else if(rStack.getItem() == ModItems.arc_electrode) {
-					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
-				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 3, false)) return null;
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
 				} else {
-					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 5, 25, false)) return null;
+					stack = furnace.distributeInput(stack, true);
+					if(stack != null && stack.stackSize == rStack.stackSize) return null;
 				}
 			}
 
-			if(stack.stackSize == 0) {
+			if(stack == null || stack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();

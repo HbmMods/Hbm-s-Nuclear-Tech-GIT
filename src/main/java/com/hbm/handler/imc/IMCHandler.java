@@ -6,6 +6,13 @@ import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 
+/**
+ * I'm not aware of anyone even using these, and for proper addon mods it's way easier to use direct calls instead of messages.
+ * Too cumbersome to implement and maintain, especially since the recipe register listeners exist now. Current implementation will break on recipe reload anyway.
+ * 
+ * @author hbm
+ */
+@Deprecated
 public abstract class IMCHandler {
 	
 	private static final HashMap<String, IMCHandler> handlers = new HashMap();

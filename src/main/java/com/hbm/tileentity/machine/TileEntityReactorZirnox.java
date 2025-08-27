@@ -468,13 +468,13 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTemp(Context context, Arguments args) {
-		return new Object[] {heat};
+		return new Object[] {Math.round(heat * 1.0E-5D * 780.0D + 20.0D)};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getPressure(Context context, Arguments args) {
-		return new Object[] {pressure};
+		return new Object[] {Math.round(pressure * 1.0E-5D * 30.0D)};
 	}
 
 	@Callback(direct = true)
@@ -504,7 +504,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {heat, pressure, water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
+		return new Object[] {Math.round(heat * 1.0E-5D * 780.0D + 20.0D), Math.round(pressure * 1.0E-5D * 30.0D), water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
 	}
 
 	@Callback(direct = true, limit = 4)

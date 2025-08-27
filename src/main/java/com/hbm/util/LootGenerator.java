@@ -28,6 +28,7 @@ public class LootGenerator {
 	public static final String LOOT_BONES = "LOOT_BONES";
 	public static final String LOOT_GLYPHID_HIVE = "LOOT_GLYPHID_HIVE";
 	public static final String LOOT_METEOR = "LOOT_METEOR";
+	public static final String LOOT_FLAREGUN = "LOOT_FLAREGUN";
 
 	public static void applyLoot(World world, int x, int y, int z, String name) {
 		switch(name) {
@@ -40,6 +41,7 @@ public class LootGenerator {
 			case LOOT_BONES: lootBones(world, x, y, z);
 			case LOOT_GLYPHID_HIVE: lootGlyphidHive(world, x, y, z);
 			case LOOT_METEOR: lootBookMeteor(world, x, y, z);
+			case LOOT_FLAREGUN: lootFlareGun(world, x, y, z);
 			default: lootBones(world, x, y, z); break;
 		}
 	}
@@ -55,6 +57,7 @@ public class LootGenerator {
 			LOOT_BONES,
 			LOOT_GLYPHID_HIVE,
 			LOOT_METEOR,
+			LOOT_FLAREGUN,
 		};
 	}
 
@@ -211,4 +214,23 @@ public class LootGenerator {
 		}
 	}
 
+	public static void lootFlareGun(World world, int x, int y, int z) {
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		if (loot != null && loot.items.isEmpty()) {
+			addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_flaregun), 0, 0, -0.25);
+
+			int count = world.rand.nextInt(3) + 2;
+			for (int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand,
+					new ItemStack(ModItems.ammo_standard, 1, EnumAmmo.G26_FLARE.ordinal()),
+					-0.25, k * 0.03125, 0.25);
+
+			count = world.rand.nextInt(1) + 1;
+			for (int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand,
+					new ItemStack(ModItems.ammo_standard, 1,
+						world.rand.nextBoolean() ? EnumAmmo.G26_FLARE_SUPPLY.ordinal() : EnumAmmo.G26_FLARE_WEAPON.ordinal()),
+					0.25, k * 0.03125, 0.125);
+		}
+	}
 }

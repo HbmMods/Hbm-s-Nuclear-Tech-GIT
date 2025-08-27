@@ -50,16 +50,18 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	protected int index;
 	protected IControlReceiver tile;
 	protected GuiScreen previousScreen;
+	protected String installedPool;
 	
-	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
-		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, previousScreen));
+	public static void openSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
+		FMLCommonHandler.instance().showGuiScreen(new GUIScreenRecipeSelector(recipeSet, tile, selection, index, installedPool, previousScreen));
 	}
 	
-	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, GuiScreen previousScreen) {
+	public GUIScreenRecipeSelector(GenericRecipes recipeSet, IControlReceiver tile, String selection, int index, String installedPool, GuiScreen previousScreen) {
 		this.recipeSet = recipeSet;
 		this.tile = tile;
 		this.selection = selection;
 		this.index = index;
+		this.installedPool = installedPool;
 		this.previousScreen = previousScreen;
 		if(this.selection == null) this.selection = NULL_SELECTION;
 		
@@ -83,7 +85,11 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 	private void regenerateRecipes() {
 		
 		this.recipes.clear();
-		this.recipes.addAll(recipeSet.recipeOrderedList);
+		
+		for(Object o : recipeSet.recipeOrderedList) {
+			GenericRecipe recipe = (GenericRecipe) o;
+			if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
+		}
 		
 		resetPaging();
 	}
@@ -92,15 +98,17 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		this.recipes.clear();
 		
 		if(search.isEmpty()) {
-			this.recipes.addAll(recipeSet.recipeOrderedList);
+			regenerateRecipes();
 		} else {
 			for(Object o : recipeSet.recipeOrderedList) {
 				GenericRecipe recipe = (GenericRecipe) o;
-				if(recipe.matchesSearch(search)) this.recipes.add(recipe);
+				if(recipe.matchesSearch(search)) {
+					if(!recipe.isPooled() || (this.installedPool != null && recipe.isPartOfPool(installedPool))) this.recipes.add(recipe);
+				}
 			}
+			
+			resetPaging();
 		}
-		
-		resetPaging();
 	}
 	
 	private void resetPaging() {
@@ -127,7 +135,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 				
 				if(guiLeft + ix <= mouseX && guiLeft + ix + 18 > mouseX && guiTop + iy < mouseY && guiTop + iy + 18 >= mouseY) {
 					GenericRecipe recipe = recipes.get(i);
-					this.func_146283_a(recipe.print(), mouseX, mouseY);
+					this.func_146283_a(recipe.print(), 0, 900);
 				}
 			}
 		}
@@ -135,7 +143,7 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		if(guiLeft + 151 <= mouseX && guiLeft + 151 + 18 > mouseX && guiTop + 71 < mouseY && guiTop + 71 + 18 >= mouseY) {
 			if(this.selection != null && this.recipeSet.recipeNameMap.containsKey(selection)) {
 				GenericRecipe recipe = (GenericRecipe) this.recipeSet.recipeNameMap.get(selection);
-				this.func_146283_a(recipe.print(), mouseX, mouseY);
+				this.func_146283_a(recipe.print(), 0, 900);
 			}
 		}
 

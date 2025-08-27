@@ -111,6 +111,10 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		}
 		
 		// Autogen for furnace recipes
+		registerFurnaceSmeltables();
+	}
+	
+	public static void registerFurnaceSmeltables() {
 		for(Object o : FurnaceRecipes.smelting().getSmeltingList().entrySet()) {
 			Entry entry = (Entry) o;
 			ItemStack input = (ItemStack) entry.getKey();

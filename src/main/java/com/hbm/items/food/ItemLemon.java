@@ -2,6 +2,8 @@ package com.hbm.items.food;
 
 import java.util.List;
 
+import com.hbm.util.i18n.I18nUtil;
+
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -29,70 +31,68 @@ public class ItemLemon extends ItemFood {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		if(this == ModItems.lemon) {
-			list.add("Eh, good enough.");
+			list.add(I18nUtil.resolveKey("item.lemon.desc"));
 		}
 
 		if(this == ModItems.med_ipecac) {
-			list.add("Bitter juice that will cause your stomach");
-			list.add("to forcefully eject its contents.");
+			String[] lines = I18nUtil.resolveKeyArray("item.med_ipecac.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.med_ptsd) {
-			list.add("This isn't even PTSD mediaction, it's just");
-			list.add("Ipecac in a different bottle!");
+			String[] lines = I18nUtil.resolveKeyArray("item.med_ptsd.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.med_schizophrenia) {
-			list.add("Makes the voices go away. Just for a while.");
-			list.add("");
-			list.add("...");
-			list.add("Better not take it.");
-		}
-
-		if(this == ModItems.med_schizophrenia) {
-			list.add("Makes the voices go away. Just for a while.");
-			list.add("");
-			list.add("...");
-			list.add("Better not take it.");
+			String[] lines = I18nUtil.resolveKeyArray("item.med_schizophrenia.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.loops) {
-			list.add("Brøther, may I have some lööps?");
+			list.add(I18nUtil.resolveKey("item.loops.desc"));
 		}
 
 		if(this == ModItems.loop_stew) {
-			list.add("A very, very healthy breakfast.");
+			list.add(I18nUtil.resolveKey("item.loop_stew.desc"));
 		}
 
 		if(this == ModItems.twinkie) {
-			list.add("Expired 600 years ago!");
+			list.add(I18nUtil.resolveKey("item.twinkie.desc"));
 		}
 
 		if(this == ModItems.pudding) {
-			list.add("What if he did?");
-			list.add("What if he didn't?");
-			list.add("What if the world was made of pudding?");
+			String[] lines = I18nUtil.resolveKeyArray("item.pudding.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.ingot_semtex) {
-			list.add("Semtex H Plastic Explosive");
-			list.add("Performant explosive for many applications.");
-			list.add("Edible");
+			String[] lines = I18nUtil.resolveKeyArray("item.ingot_semtex.desc");
+			for (String line : lines) {
+				list.add(line);
+			}
 		}
 
 		if(this == ModItems.peas) {
-			list.add("He accepts your offering.");
+			list.add(I18nUtil.resolveKey("item.peas.desc"));
 		}
 
 		if(this == ModItems.quesadilla) {
-			list.add("That's what a 50 year old yeast infection does to you.");
+			list.add(I18nUtil.resolveKey("item.cheese_quesadilla.desc"));
 		}
 	}
 
-
-    @Override
+	@Override
 	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
-    {
+	{
 		if(this == ModItems.med_ipecac || this == ModItems.med_ptsd) {
 			player.addPotionEffect(new PotionEffect(Potion.hunger.id, 50, 49));
 

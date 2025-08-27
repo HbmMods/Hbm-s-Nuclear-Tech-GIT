@@ -14,12 +14,16 @@ import com.hbm.blocks.generic.BlockGlyphidSpawner.TileEntityGlpyhidSpawner;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockPedestal.TileEntityPedestal;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
+import com.hbm.blocks.generic.BlockRebar.TileEntityRebar;
 import com.hbm.blocks.generic.BlockSkeletonHolder.TileEntitySkeletonHolder;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.BlockWandJigsaw.TileEntityWandJigsaw;
 import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
+import com.hbm.blocks.generic.BlockWandTandem.TileEntityWandTandem;
+import com.hbm.blocks.generic.BlockWandLogic.TileEntityWandLogic;
 import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
+import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
@@ -35,8 +39,11 @@ import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.CranePartitioner.TileEntityCranePartitioner;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
+import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhaustPaintable;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
+import com.hbm.blocks.network.PneumoTubePaintableBlock.TileEntityPneumoTubePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
+import com.hbm.blocks.network.BlockOpenComputersCablePaintable.TileEntityOpenComputersCablePaintable;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
@@ -47,7 +54,9 @@ import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.util.Compat;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
@@ -142,7 +151,6 @@ public class TileMappings {
 		put(TileEntityCoreInjector.class, "tileentity_v0_injector");
 		put(TileEntityCoreStabilizer.class, "tileentity_v0_stabilizer");
 		put(TileEntityCore.class, "tileentity_v0");
-		put(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
 		put(TileEntityMachineAmgen.class, "tileentity_amgen");
 		put(TileEntityMachineHephaestus.class, "tileentity_hephaestus");
 		put(TileEntityGeysir.class, "tileentity_geysir");
@@ -207,6 +215,7 @@ public class TileMappings {
 		put(TileEntityPedestal.class, "tileentity_ntm_pedestal");
 		put(TileEntitySkeletonHolder.class, "tileentity_ntm_skeleton");
 		put(TileEntityDungeonSpawner.class, "tileentity_ntm_dungeon_spawner");
+		put(LogicBlock.TileEntityLogicBlock.class, "tileentity_ntm_logic_block");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityPlushie.class, "tileentity_ntm_plushie");
@@ -235,6 +244,8 @@ public class TileMappings {
 
 		put(TileEntityWandLoot.class, "tileentity_wand_loot");
 		put(TileEntityWandJigsaw.class, "tileentity_wand_jigsaw");
+		put(TileEntityWandLogic.class, "tileentity_wand_spawner");
+		put(TileEntityWandTandem.class, "tileentity_wand_tandem");
 
 		putNetwork();
 		putBombs();
@@ -339,11 +350,13 @@ public class TileMappings {
 		put(TileEntityMachineCombustionEngine.class, "tileentity_combustion_engine");
 
 		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
+		put(TileEntityMachineAssemblyMachine.class, "tileentity_assemblymachine");
 		put(TileEntityMachineAssemfac.class, "tileentity_assemfac");
 		put(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		put(TileEntityMachineChemicalPlant.class, "tileentity_chemicalplant");
 		put(TileEntityMachineChemfac.class, "tileentity_chemfac");
 		put(TileEntityMachineChemicalFactory.class, "tileentity_chemicalfactory");
+		put(TileEntityMachinePUREX.class, "tileentity_purex");
 
 		put(TileEntityMachineOilWell.class, "tileentity_derrick");
 		put(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
@@ -393,6 +406,7 @@ public class TileMappings {
 		put(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
+		put(TileEntityRBMKAutoloader.class, "tileentity_rbmk_autoloader");
 	}
 
 	private static void putNetwork() {
@@ -412,6 +426,7 @@ public class TileMappings {
 		put(TileEntityPipePaintable.class, "tileentity_pipe_paintable");
 		put(TileEntityPipeGauge.class, "tileentity_pipe_gauge");
 		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
+		put(TileEntityPipeExhaustPaintable.class, "tileentity_pipe_exhaust_paintable");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
@@ -425,8 +440,9 @@ public class TileMappings {
 		put(TileEntityCranePartitioner.class, "tileentity_partitioner");
 		put(TileEntityFan.class, "tileentity_fan");
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
-		
+
 		put(TileEntityPneumoTube.class, "tileentity_pneumatic_tube");
+		put(TileEntityPneumoTubePaintable.class, "tileentity_pneumatic_tube_paintable");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
@@ -444,6 +460,15 @@ public class TileMappings {
 		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
 
 		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
+
+		put(TileEntityRebar.class, "tileentity_rebar");
+
+		// OC Compat items
+		boolean ocPresent = Loader.isModLoaded("OpenComputers");
+
+		if (ocPresent) {
+			put(TileEntityOpenComputersCablePaintable.class, "tileentity_oc_cable_paintable");
+		}
 	}
 
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
@@ -456,5 +481,12 @@ public class TileMappings {
 		if(IConfigurableMachine.class.isAssignableFrom(clazz)) {
 			configurables.add((Class<? extends IConfigurableMachine>) clazz);
 		}
+		
+		/**
+		 * Causes problems with most machines where two independently acting tiles work together (TU machines, RBMKs, fluid transfer)
+		 * Also breaks due to some sort of buffer leak in the threaded packets, if a boiler is involved (which uses a ByteBuf instead of the usual serializing) it crashes
+		 * Ticking order of Torcherinos is AAA BBB CCC instead of ABC ABC ABC which can lead to some horrifying behavior
+		 */
+		Compat.blacklistAccelerator(clazz);
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.generic.BlockRebar;
 import com.hbm.config.ClientConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -13,6 +14,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -22,6 +24,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.inventory.gui.GUIScreenWikiRender;
+import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
@@ -34,6 +37,9 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.AuxButtonPacket;
+import com.hbm.qmaw.GuiQMAW;
+import com.hbm.qmaw.QMAWLoader;
+import com.hbm.qmaw.QuickManualAndWiki;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -108,6 +114,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.oredict.OreDictionary;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -745,6 +753,20 @@ public class ModEventHandlerClient {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
 		}
 
+		try {
+			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
+			if(qmaw == null) {
+				qmaw = QMAWLoader.triggers.get(new ComparableStack(comp.item, 1, OreDictionary.WILDCARD_VALUE));
+			}
+			if(qmaw != null) {
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
+				lastQMAW = qmaw;
+				qmawTimestamp = Clock.get_ms();
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
+		}
+
 		/*ItemStack copy = stack.copy();
 		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
 
@@ -757,6 +779,8 @@ public class ModEventHandlerClient {
 
 	private static long canneryTimestamp;
 	private static ComparableStack lastCannery = null;
+	private static long qmawTimestamp;
+	private static QuickManualAndWiki lastQMAW = null;
 
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 
@@ -889,6 +913,16 @@ public class ModEventHandlerClient {
 			}
 		}
 
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
+
+			QuickManualAndWiki qmaw = qmawTimestamp > Clock.get_ms() - 100 ? lastQMAW : null;
+
+			if(qmaw != null) {
+				Minecraft.getMinecraft().thePlayer.closeScreen();
+				FMLCommonHandler.instance().showGuiScreen(new GuiQMAW(qmaw));
+			}
+		}
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_LMENU)) {
 
 			ItemStack stack = getMouseOverStack();
@@ -922,9 +956,10 @@ public class ModEventHandlerClient {
 					ItemFluidDuct.class
 				);
 				
-				String prefix = "Slot ";
-				//int gunScale = 8;
-				int slotScale = 1;
+				String prefix = "Gun ";
+				//int gunScale = 16;
+				//int defaultScale = 1;
+				int slotScale = 16;
 				boolean ignoreNonNTM = true;
 				boolean onlyGuns = true;
 
@@ -1028,14 +1063,26 @@ public class ModEventHandlerClient {
 
 	public static boolean renderLodeStar = false;
 	public static long lastStarCheck = 0L;
+	public static long lastLoadScreenReplacement = 0L;
+	public static int loadingScreenReplacementRetry = 0;
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		long millis = Clock.get_ms();
+		if(millis == 0) millis = System.currentTimeMillis();
+		
+		if(GeneralConfig.enableLoadScreenReplacement && loadingScreenReplacementRetry < 25 && !(mc.loadingScreen instanceof LoadingScreenRendererNT) && millis > lastLoadScreenReplacement + 5_000) {
+			mc.loadingScreen = new LoadingScreenRendererNT(mc);
+			lastLoadScreenReplacement = millis;
+			loadingScreenReplacementRetry++; // this might not do anything, but at least it should prevent a metric fuckton of framebuffers from being created
+		}
 
 		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 
-			World world = Minecraft.getMinecraft().theWorld;
+			World world = mc.theWorld;
 			if(world == null) return;
 
 			IRenderHandler sky = world.provider.getSkyRenderer();
@@ -1059,8 +1106,7 @@ public class ModEventHandlerClient {
 				}
 			}
 
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			long millis = Clock.get_ms();
+			EntityPlayer player = mc.thePlayer;
 
 			if(lastStarCheck + 200 < millis) {
 				renderLodeStar = false;
@@ -1125,6 +1171,8 @@ public class ModEventHandlerClient {
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		Clock.update();
+		
+		BlockRebar.renderRebar(Minecraft.getMinecraft().theWorld.loadedTileEntityList, event.partialTicks);
 
 		GL11.glPushMatrix();
 
