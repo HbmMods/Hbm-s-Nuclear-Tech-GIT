@@ -275,16 +275,32 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 		this.centerY = y + RBMKDials.getColumnHeight(worldObj) + 1;
 		this.centerZ = z;
 
-		this.spanF = 7;
-		this.spanB = 7;
-		this.spanL = 7;
-		this.spanR = 7;
+		int girderY = centerY + 6;
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		this.spanF = this.findRoomExtent(x, girderY, z, dir, 16);
+		dir = dir.getRotation(ForgeDirection.UP);
+		this.spanR = this.findRoomExtent(x, girderY, z, dir, 16);
+		dir = dir.getRotation(ForgeDirection.UP);
+		this.spanB = this.findRoomExtent(x, girderY, z, dir, 16);
+		dir = dir.getRotation(ForgeDirection.UP);
+		this.spanL = this.findRoomExtent(x, girderY, z, dir, 16);
 
 		this.height = 7;
 
 		this.setUpCrane = true;
 
 		this.markDirty();
+	}
+
+	private int findRoomExtent(int x, int y, int z, ForgeDirection dir, int max) {
+		for (int i = 1; i < max; i++) {
+			if (!worldObj.isAirBlock(x + dir.offsetX * i, y, z + dir.offsetZ * i)) {
+				return i - 1;
+			}
+		}
+
+		return max;
 	}
 
 	public void cycleCraneRotation() {

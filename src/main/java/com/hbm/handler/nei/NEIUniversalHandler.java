@@ -25,11 +25,6 @@ import net.minecraft.item.ItemStack;
 
 public abstract class NEIUniversalHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
-	@Override
-	public ItemStack[] getMachinesForRecipe() {
-		return machine;
-	}
-
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
@@ -117,6 +112,11 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 	@Override
 	public String getRecipeName() {
 		return this.display;
+	}
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return machine;
 	}
 
 	@Override

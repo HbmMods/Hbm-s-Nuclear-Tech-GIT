@@ -73,7 +73,7 @@ public class ParticleFlamethrower extends EntityFXRotating {
 			tess.setColorRGBA_F(this.particleRed - add, this.particleGreen - add * 0.75F, this.particleBlue, this.particleAlpha);
 		} else if(type == FlameCreator.META_BLACK) {
 			this.particleAlpha = (float) (1 - ageScaled);
-			float add = (float) ageScaled * 4F - 1F;
+			float add = (float) ageScaled * 2F - 0.25F;
 			tess.setColorRGBA_F(this.particleRed - add * 0.75F, this.particleGreen - add, this.particleBlue - add * 0.5F, this.particleAlpha);
 		} else {
 			this.particleAlpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.5);

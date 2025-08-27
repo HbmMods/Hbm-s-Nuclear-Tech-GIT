@@ -25,8 +25,10 @@ public class ContainerCrateBase extends ContainerBase {
 
 		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(
-					invPlayer.currentItem == i ? new SlotPlayerCrateLocked(invPlayer, i, playerInvX + i * 18, playerHotbarY) :
-						new SlotNonRetarded(invPlayer, i, playerInvX + i * 18, playerHotbarY));
+				(invPlayer.currentItem == i && this.tile instanceof ItemBlockStorageCrate.InventoryCrate) ?
+				new SlotPlayerCrateLocked(invPlayer, i, playerInvX + i * 18, playerHotbarY) :
+				new SlotNonRetarded(invPlayer, i, playerInvX + i * 18, playerHotbarY)
+			);
 		}
 	}
 

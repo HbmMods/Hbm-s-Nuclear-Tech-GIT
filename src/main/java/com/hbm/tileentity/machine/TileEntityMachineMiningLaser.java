@@ -211,11 +211,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	private void buildDam() {
-
-		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX - 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX - 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ + 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ + 1, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ - 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ - 1, ModBlocks.barricade);
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			if(worldObj.getBlock(targetX + dir.offsetX, targetY + dir.offsetY, targetZ + dir.offsetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + dir.offsetX, targetY + dir.offsetY, targetZ + dir.offsetZ, ModBlocks.barricade);
+		}
 	}
 
 	private void tryFillContainer(int x, int y, int z) {

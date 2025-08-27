@@ -28,6 +28,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -48,7 +49,7 @@ public class DamageResistanceHandler {
 
 	public static final String CATEGORY_EXPLOSION = "EXPL";
 	public static final String CATEGORY_FIRE = "FIRE";
-	public static final String CATEGORY_PROJECTILE = "PROJ";
+	public static final String CATEGORY_PHYSICAL = "PHYS";
 	public static final String CATEGORY_ENERGY = "EN";
 
 	public static final Gson gson = new Gson();
@@ -121,70 +122,70 @@ public class DamageResistanceHandler {
 		entityStats.put(EntityCreeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
 
 		itemStats.put(ModItems.jackt, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F));
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F));
 		itemStats.put(ModItems.jackt2, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F));
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F));
 
 		registerSet(ModItems.steel_helmet, ModItems.steel_plate, ModItems.steel_legs, ModItems.steel_boots, new ResistanceStats());
 		registerSet(ModItems.titanium_helmet, ModItems.titanium_plate, ModItems.titanium_legs, ModItems.titanium_boots, new ResistanceStats());
 		registerSet(ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.1F));
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.1F));
 		registerSet(ModItems.cobalt_helmet, ModItems.cobalt_plate, ModItems.cobalt_legs, ModItems.cobalt_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.1F));
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.1F));
 		registerSet(ModItems.starmetal_helmet, ModItems.starmetal_plate, ModItems.starmetal_legs, ModItems.starmetal_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 3F, 0.25F)
+				.addCategory(CATEGORY_PHYSICAL, 3F, 0.25F)
 				.setOther(1F, 0.1F));
 		registerSet(ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs, new ResistanceStats()
 				.setOther(0F, 1F));
 		registerSet(ModItems.dnt_helmet, ModItems.dnt_plate, ModItems.dnt_legs, ModItems.dnt_boots, new ResistanceStats());
 		registerSet(ModItems.cmb_helmet, ModItems.cmb_plate, ModItems.cmb_legs, ModItems.cmb_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F)
 				.setOther(5F, 0.25F));
 		registerSet(ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 10F, 0.65F)
+				.addCategory(CATEGORY_PHYSICAL, 10F, 0.65F)
 				.setOther(5F, 0.5F));
 		registerSet(ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots, new ResistanceStats());
 
 		registerSet(ModItems.security_helmet, ModItems.security_plate, ModItems.security_legs, ModItems.security_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
 		registerSet(ModItems.steamsuit_helmet, ModItems.steamsuit_plate, ModItems.steamsuit_legs, ModItems.steamsuit_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 5F, 0.25F)
 				.setOther(0F, 0.1F));
 		registerSet(ModItems.dieselsuit_helmet, ModItems.dieselsuit_plate, ModItems.dieselsuit_legs, ModItems.dieselsuit_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 1F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 1F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 2F, 0.15F)
 				.setOther(0F, 0.1F));
 		registerSet(ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
 				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(0F, 0.1F));
 		registerSet(ModItems.ajr_helmet, ModItems.ajr_plate, ModItems.ajr_legs, ModItems.ajr_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 4F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 4F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
 				.addCategory(CATEGORY_EXPLOSION, 7.5F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(0F, 0.15F));
 		registerSet(ModItems.ajro_helmet, ModItems.ajro_plate, ModItems.ajro_legs, ModItems.ajro_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 4F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 4F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
 				.addCategory(CATEGORY_EXPLOSION, 7.5F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(0F, 0.15F));
 		registerSet(ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 25F, 0.65F)
+				.addCategory(CATEGORY_PHYSICAL, 25F, 0.65F)
 				.addCategory(CATEGORY_FIRE, 10F, 0.9F)
 				.addCategory(CATEGORY_EXPLOSION, 15F, 0.25F)
 				.addCategory(CATEGORY_ENERGY, 25F, 0.75F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(15F, 0.3F));
 		ResistanceStats bj = new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F)
 				.addCategory(CATEGORY_FIRE, 2.5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 10F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
@@ -197,14 +198,14 @@ public class DamageResistanceHandler {
 				.addExact(DamageSource.fall.damageType, 5F, 0.75F)
 				.setOther(0F, 0.1F));
 		registerSet(ModItems.hev_helmet, ModItems.hev_plate, ModItems.hev_legs, ModItems.hev_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.25F)
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.25F)
 				.addCategory(CATEGORY_FIRE, 0.5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
 				.addExact(DamageSource.onFire.damageType, 0F, 1F)
 				.addExact(DamageSource.fall.damageType, 10F, 0F)
 				.setOther(2F, 0.25F));
 		registerSet(ModItems.bismuth_helmet, ModItems.bismuth_plate, ModItems.bismuth_legs, ModItems.bismuth_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
@@ -220,13 +221,13 @@ public class DamageResistanceHandler {
 				.addCategory(CATEGORY_FIRE, 0F, 1F)
 				.setOther(1000F, 1F));
 		registerSet(ModItems.taurun_helmet, ModItems.taurun_plate, ModItems.taurun_legs, ModItems.taurun_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_PHYSICAL, 2F, 0.15F)
 				.addCategory(CATEGORY_FIRE, 0F, 0.25F)
 				.addCategory(CATEGORY_EXPLOSION, 0F, 0.25F)
 				.addExact(DamageSource.fall.damageType, 4F, 0.5F)
 				.setOther(2F, 0.1F));
 		registerSet(ModItems.trenchmaster_helmet, ModItems.trenchmaster_plate, ModItems.trenchmaster_legs, ModItems.trenchmaster_boots, new ResistanceStats()
-				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
+				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F)
 				.addCategory(CATEGORY_FIRE, 5F, 0.5F)
 				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
 				.addExact(DamageClass.LASER.name(), 15F, 0.9F)
@@ -443,10 +444,13 @@ public class DamageResistanceHandler {
 	public static String typeToCategory(DamageSource source) {
 		if(source.isExplosion()) return CATEGORY_EXPLOSION;
 		if(source.isFireDamage()) return CATEGORY_FIRE;
-		if(source.isProjectile()) return CATEGORY_PROJECTILE;
+		if(source.isProjectile()) return CATEGORY_PHYSICAL;
 		if(source.damageType.equals(DamageClass.LASER.name())) return CATEGORY_ENERGY;
 		if(source.damageType.equals(DamageClass.MICROWAVE.name())) return CATEGORY_ENERGY;
 		if(source.damageType.equals(DamageClass.SUBATOMIC.name())) return CATEGORY_ENERGY;
+		if(source.damageType.equals(DamageClass.ELECTRIC.name())) return CATEGORY_ENERGY;
+		if(source == DamageSource.cactus) return CATEGORY_PHYSICAL;
+		if(source instanceof EntityDamageSource) return CATEGORY_PHYSICAL;
 		return source.damageType;
 	}
 	

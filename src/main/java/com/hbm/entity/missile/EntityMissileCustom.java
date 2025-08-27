@@ -25,6 +25,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -161,7 +162,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	}
 
 	@Override
-	public void onImpact() { //TODO: demolish this steaming pile of shit
+	public void onMissileImpact(MovingObjectPosition mop) { //TODO: demolish this steaming pile of shit
 
 		ItemCustomMissilePart part = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
 

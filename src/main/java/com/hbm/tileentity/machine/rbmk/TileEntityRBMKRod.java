@@ -264,8 +264,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 			BufferUtil.writeString(buf, ItemRBMKRod.getYield(slots[0]) + " / " + rod.yield + " (" + (ItemRBMKRod.getEnrichment(slots[0]) * 100) + "%)");
 			BufferUtil.writeString(buf, ItemRBMKRod.getPoison(slots[0]) + "%");
-			BufferUtil.writeString(buf, ItemRBMKRod.getCoreHeat(slots[0]) + " / " + ItemRBMKRod.getHullHeat(slots[0])  + " / " + rod.meltingPoint);
-		}
+			//Heat is too long! Reduce it to 6 numbers is enough.
+			BufferUtil.writeString(buf, String.format("%.6f", ItemRBMKRod.getCoreHeat(slots[0]))
+				+ " / " + String.format("%.6f", ItemRBMKRod.getHullHeat(slots[0]))
+				+ " / " + String.format("%.2f", rod.meltingPoint));		}
 	}
 
 	@Override

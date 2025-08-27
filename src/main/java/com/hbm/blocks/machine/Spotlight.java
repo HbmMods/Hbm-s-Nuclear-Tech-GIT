@@ -7,13 +7,14 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnums.LightType;
 import com.hbm.blocks.ISpotlight;
 import com.hbm.main.ResourceManager;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class Spotlight extends Block implements ISpotlight, INBTTransformable {
+public class Spotlight extends Block implements ISpotlight, INBTBlockTransformable {
 
 	public static boolean disableOnGeneration = true;
 
@@ -44,7 +45,7 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 		this.type = type;
 		this.isOn = isOn;
 
-		this.setHardness(1F);
+		this.setHardness(0.5F);
 
 		if(isOn) setLightLevel(1.0F);
 	}
@@ -80,6 +81,17 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
+
+	@Override
+	// Ah yes, I love methods named the literal opposite of what they do
+	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) {
+		return true;
+	}
+
+	@Override
+	public MapColor getMapColor(int meta) {
+        return MapColor.airColor;
+    }
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
@@ -355,7 +367,7 @@ public class Spotlight extends Block implements ISpotlight, INBTTransformable {
 	public int transformMeta(int meta, int coordBaseMode) {
 		// +1 to set as broken, won't turn on until broken and replaced
 		int disabled = disableOnGeneration ? 1 : 0;
-		return (INBTTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + disabled;
+		return (INBTBlockTransformable.transformMetaDeco(meta >> 1, coordBaseMode) << 1) + disabled;
 	}
 
 	@Override
