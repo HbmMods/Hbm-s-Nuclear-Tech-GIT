@@ -103,8 +103,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 8;
 		}});
 
-		NBTStructure.registerNullWeight(0, 2, oceanBiomes::contains); //why the fuck did this change
-
 		NBTStructure.registerStructure(0, new SpawnCondition("dish") {{
 			canSpawn = biome -> biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("dish", StructureManager.dish, -10);
@@ -113,8 +111,16 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 1;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("labolatory") {{
+			canSpawn = biome -> biome == BiomeGenBase.plains;
+			structure = new JigsawPiece("laboratory", StructureManager.laboratory, -10);
+			minHeight = 53;
+			maxHeight = 65;
+			spawnWeight = 8;
+		}});
+
 		NBTStructure.registerNullWeight(0, 2, biome -> biome == BiomeGenBase.plains);
-		NBTStructure.registerNullWeight(0, 2, oceanBiomes::contains);
+		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
 
 		Map<Block, BlockSelector> bricks = new HashMap<Block, BlockSelector>() {{
 			put(ModBlocks.meteor_brick, new MeteorBricks());
