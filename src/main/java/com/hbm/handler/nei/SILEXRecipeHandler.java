@@ -14,8 +14,8 @@ import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes.SILEXRecipe;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.WeightedRandomObject;
+import com.hbm.util.i18n.I18nUtil;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;

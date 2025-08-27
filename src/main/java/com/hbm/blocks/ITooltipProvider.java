@@ -1,12 +1,13 @@
 package com.hbm.blocks;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
+
+import com.hbm.util.i18n.I18nUtil;
 
 import java.util.List;
 

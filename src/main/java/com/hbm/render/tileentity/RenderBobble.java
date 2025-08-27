@@ -50,6 +50,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_peep = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/peep.png");
 	public static final ResourceLocation bobble_mellow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8.png");
 	public static final ResourceLocation bobble_mellow_glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8_glow.png");
+	public static final ResourceLocation bobble_abel = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/abel.png");
+	public static final ResourceLocation bobble_abel_glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/abel_glow.png");
 
 	private long time;
 
@@ -106,6 +108,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case MICROWAVE:	bindTexture(bobble_microwave); break;
 		case PEEP:		bindTexture(bobble_peep); break;
 		case MELLOW:	bindTexture(bobble_mellow); break;
+		case ABEL:		bindTexture(bobble_abel); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -219,6 +222,10 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			rotRightArm = new double[]{0, -10, 0};
 			rotLeftLeg = new double[]{3, 5, 2};
 			rotRightLeg = new double[]{-3, -5, 0};
+			break;
+		case ABEL:
+			rotLeftArm = new double[]{0, 80, 90};
+			rotRightArm = new double[]{0, -80, 90};
 			break;
 		}
 	}
@@ -470,6 +477,13 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			bobble.renderPart("Glow");
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glPopAttrib();
+			break;
+		case ABEL:
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			bindTexture(bobble_abel_glow);
+			renderGuy(type);
 			GL11.glPopAttrib();
 			break;
 		}

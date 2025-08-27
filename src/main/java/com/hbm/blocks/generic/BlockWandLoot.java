@@ -15,8 +15,8 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.LootGenerator;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.gen.INBTTileEntityTransformable;
 import com.mojang.authlib.GameProfile;
 

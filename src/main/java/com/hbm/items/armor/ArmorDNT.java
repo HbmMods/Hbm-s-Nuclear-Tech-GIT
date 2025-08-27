@@ -11,13 +11,12 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorDNT;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -180,7 +179,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 		if(!effects.isEmpty()) {
 
 			for(PotionEffect effect : effects) {
-				list.add(EnumChatFormatting.AQUA + "  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
+				list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.format(Potion.potionTypes[effect.getPotionID()].getName()));
 			}
 		}
 

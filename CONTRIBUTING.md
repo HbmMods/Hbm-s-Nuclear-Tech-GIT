@@ -13,6 +13,8 @@ Things you should also avoid include:
 * duplicate util functions (just use what we have, man)
 * unused or half finished util functions (for obvious reasons)
 * half finished or obviously broken features (à la "bob will fix it, i'm sure of it", please don't do that)
+* updating the changelog (you're guaranteed to cause a merge conflict with that)
+* any use of `I18n`, use `I18nUtil` instead
 
 ## Test your code
 

@@ -93,7 +93,7 @@ public class XFactoryFolly {
 		if(bullet.isDead) return;
 		bullet.setDead();
 		bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(bullet.worldObj, 100, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
-		EntityNukeTorex.statFac(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100);
+		EntityNukeTorex.statFacStandard(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100);
 	};
 
 	public static void init() {

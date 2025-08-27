@@ -38,6 +38,7 @@ public class GeneralConfig {
 	public static boolean enableGuideBook = true;
 	public static boolean enableSoundExtension = true;
 	public static boolean enableMekanismChanges = true;
+	public static boolean enableServerRecipeSync = false;
 	public static int normalSoundChannels = 200;
 
 	public static boolean enableExpensiveMode = false;
@@ -80,6 +81,8 @@ public class GeneralConfig {
 		packetThreadingCoreCount = config.get(CATEGORY_GENERAL, "0.02_packetThreadingCoreCount", 1, "Number of core threads to create for packets (recommended 1).").getInt(1);
 		packetThreadingMaxCount = config.get(CATEGORY_GENERAL, "0.03_packetThreadingMaxCount", 1, "Maximum number of threads to create for packet threading. Must be greater than or equal to 0.02_packetThreadingCoreCount.").getInt(1);
 		packetThreadingErrorBypass = config.get(CATEGORY_GENERAL, "0.04_packetThreadingErrorBypass", false, "Forces the bypassing of most packet threading errors, only enable this if directed to or if you know what you're doing.").getBoolean(false);
+
+		enableServerRecipeSync = config.get(CATEGORY_GENERAL, "0.05_enableServerRecipeSync", false, "Syncs any recipes customised via JSON to clients connecting to the server.").getBoolean(false);
 
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false, "Enable debugging mode").getBoolean(false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false, "Allows glowing mycelium to spread").getBoolean(false);

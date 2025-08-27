@@ -7,7 +7,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 /**
- * Because vanilla slots have severe mental disabilities that prevent them from working as expected.
+ * Because vanilla slots have shit idiot brain fungus that prevent them from working as expected.
  * @author hbm
  */
 @NotableComments

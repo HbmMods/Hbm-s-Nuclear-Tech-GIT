@@ -9,8 +9,8 @@ import java.util.function.Function;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
