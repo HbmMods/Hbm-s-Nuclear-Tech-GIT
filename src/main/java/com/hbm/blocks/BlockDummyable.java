@@ -5,7 +5,7 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTTransformable {
+public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
@@ -77,27 +77,20 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		super.onNeighborBlockChange(world, x, y, z, block);
 
-		if(world.isRemote || safeRem)
+		if(safeRem)
 			return;
 
-		int metadata = world.getBlockMetadata(x, y, z);
-
-		// if it's an extra, remove the extra-ness
-		if(metadata >= extra)
-			metadata -= extra;
-
-		ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
-		Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-
-		if(b != this) {
-			world.setBlockToAir(x, y, z);
-		}
+		destroyIfOrphan(world, x, y, z);
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		super.updateTick(world, x, y, z, rand);
 
+		destroyIfOrphan(world, x, y, z);
+	}
+
+	private void destroyIfOrphan(World world, int x, int y, int z) {
 		if(world.isRemote)
 			return;
 
@@ -110,10 +103,32 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
 		Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
-		if(b != this) {
-			world.setBlockToAir(x, y, z);
+		// An extra precaution against multiblocks on chunk borders being erroneously deleted.
+		// Technically, this might be used to persist ghost dummy blocks by manipulating
+		// loaded chunks and block destruction, but this gives no benefit to the player,
+		// cannot be done accidentally, and is definitely preferable to multiblocks
+		// just vanishing when their chunks are unloaded in an unlucky way.
+		if(b != this && world.checkChunksExist(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1)) {
+			if (isLegacyMonoblock(world, x, y, z)) {
+				fixLegacyMonoblock(world, x, y, z);
+			} else {
+				world.setBlockToAir(x, y, z);
+			}
 		}
+	}
 
+	// Override this when turning a single block into a pseudo-multiblock.
+	// If this returns true, instead of being deleted as an orphan, the block
+	// will be promoted to a core of a dummyable, however without any dummies.
+	// This is only called if the block is presumed an orphan, so you don't
+	// need to check that here.
+	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
+		return false;
+	}
+
+	protected void fixLegacyMonoblock(World world, int x, int y, int z) {
+		// Promote to a lone core block with the same effective rotation as before the change
+		world.setBlockMetadataWithNotify(x, y, z, offset + world.getBlockMetadata(x, y, z), 3);
 	}
 
 	public int[] findCore(World world, int x, int y, int z) {
@@ -550,6 +565,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	@Override
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		int[] pos = findCore(world, x, y, z);
+		if(pos == null) return;
 		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
 		if (tile instanceof ICopiable)
 			((ICopiable) tile).pasteSettings(nbt, index, world, player, pos[0], pos[1], pos[2]);
@@ -575,7 +591,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			meta -= extra;
 		}
 
-		meta = INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+		meta = INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 
 		if(isOffset) {
 			meta += offset;

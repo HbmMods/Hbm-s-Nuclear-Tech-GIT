@@ -242,7 +242,7 @@ public class XFactoryTool {
 				.setOnUpdate(LAMBDA_FOAM_UPDATE)
 				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
 				.setOnRicochet(LAMBDA_FOAM_HIT);
-		fext_sand = new BulletConfig().setItem(new ItemStack(ModItems.ammo_fireext, 1, 1)).setReloadCount(300).setLife(100).setVel(0.75F).setGrav(0.04D).setSpread(0.05F)
+		fext_sand = new BulletConfig().setItem(new ItemStack(ModItems.ammo_fireext, 1, 2)).setReloadCount(300).setLife(100).setVel(0.75F).setGrav(0.04D).setSpread(0.05F)
 				.setOnUpdate(LAMBDA_SAND_UPDATE)
 				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
 				.setOnRicochet(LAMBDA_SAND_HIT);

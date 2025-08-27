@@ -83,7 +83,9 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new PedestalRecipes());
 		
 		//GENERIC
+		recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
 		recipeHandlers.add(ChemicalPlantRecipes.INSTANCE);
+		recipeHandlers.add(PUREXRecipes.INSTANCE);
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
@@ -105,6 +107,8 @@ public abstract class SerializableRecipe {
 
 		MainRegistry.logger.info("Starting recipe init!");
 
+		GenericRecipes.clearPools();
+		
 		for(SerializableRecipe recipe : recipeHandlers) {
 
 			recipe.deleteRecipes();
@@ -119,7 +123,7 @@ public abstract class SerializableRecipe {
 					Reader reader = new InputStreamReader(stream);
 					recipe.readRecipeStream(reader);
 					recipe.modified = true;
-				} catch(IOException ex) {
+				} catch(Throwable ex) {
 					MainRegistry.logger.error("Failed to reset synced recipe stream", ex);
 				}
 			} else if(recFile.exists() && recFile.isFile()) {
@@ -237,7 +241,7 @@ public abstract class SerializableRecipe {
 		JsonObject json = gson.fromJson(reader, JsonObject.class);
 		JsonArray recipes = json.get("recipes").getAsJsonArray();
 		for(JsonElement recipe : recipes) {
-			this.readRecipe(recipe);
+			if(recipe != null) this.readRecipe(recipe);
 		}
 	}
 

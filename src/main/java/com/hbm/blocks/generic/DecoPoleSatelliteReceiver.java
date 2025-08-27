@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.tileentity.deco.TileEntityDecoPoleSatelliteReceiver;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class DecoPoleSatelliteReceiver extends BlockContainer implements INBTTransformable {
+public class DecoPoleSatelliteReceiver extends BlockContainer implements INBTBlockTransformable {
 
 	public DecoPoleSatelliteReceiver(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -61,7 +61,7 @@ public class DecoPoleSatelliteReceiver extends BlockContainer implements INBTTra
 
 	@Override
 	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+		return INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 
 }

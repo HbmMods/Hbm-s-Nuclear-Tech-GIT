@@ -14,7 +14,10 @@ import com.hbm.items.tool.ItemToolAbility;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -219,6 +222,104 @@ public interface IToolAreaAbility extends IBaseAbility {
 		}
 	};
 
+	public static final IToolAreaAbility HAMMER_FLAT = new IToolAreaAbility() {
+		@Override
+		public String getName() {
+			return "tool.ability.hammer_flat";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityHammer;
+		}
+
+		public final int[] rangeAtLevel = { 1, 2, 3, 4 };
+
+		@Override
+		public int levels() {
+			return rangeAtLevel.length;
+		}
+
+		@Override
+		public String getExtension(int level) {
+			return " (" + rangeAtLevel[level] + ")";
+		}
+
+		@Override
+		public int sortOrder() {
+			return SORT_ORDER_BASE + 3;
+		}
+
+		@Override
+		public boolean onDig(int level, World world, int x, int y, int z, EntityPlayer player, ItemToolAbility tool) {
+			int range = rangeAtLevel[level];
+
+			MovingObjectPosition hit = raytraceFromEntity(world, player, false, 4.5d);
+			if(hit == null) return true;
+			int sideHit = hit.sideHit;
+
+			// we successfully destroyed a block. time to do AOE!
+			int xRange = range;
+			int yRange = range;
+			int zRange = 0;
+			switch (sideHit) {
+				case 0:
+				case 1:
+					yRange = 0;
+					zRange = range;
+					break;
+				case 2:
+				case 3:
+					xRange = range;
+					zRange = 0;
+					break;
+				case 4:
+				case 5:
+					xRange = 0;
+					zRange = range;
+					break;
+			}
+
+			for(int a = x - xRange; a <= x + xRange; a++) {
+				for(int b = y - yRange; b <= y + yRange; b++) {
+					for(int c = z - zRange; c <= z + zRange; c++) {
+						if(a == x && b == y && c == z)
+							continue;
+
+						tool.breakExtraBlock(world, a, b, c, player, x, y, z);
+					}
+				}
+			}
+
+			return false;
+		}
+
+		// Taken from TConstruct, licensed under CC0 (public domain)
+		// https://github.com/SlimeKnights/TinkersConstruct/blob/9ea7a0e60fe180aff591701b12c89da21da99289/src/main/java/tconstruct/library/tools/AbilityHelper.java#L707-L731
+		private MovingObjectPosition raytraceFromEntity(World world, EntityPlayer player, boolean par3, double range) {
+			float f = 1.0F;
+			float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
+			float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double) f;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double) f + 1.62D;
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) f;
+			Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
+			float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
+			float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
+			float f5 = -MathHelper.cos(-f1 * 0.017453292F);
+			float f6 = MathHelper.sin(-f1 * 0.017453292F);
+			float f7 = f4 * f5;
+			float f8 = f3 * f5;
+			double d3 = range;
+			if (player instanceof EntityPlayerMP)
+			{
+				d3 = ((EntityPlayerMP) player).theItemInWorldManager.getBlockReachDistance();
+			}
+			Vec3 vec31 = vec3.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+			return world.func_147447_a(vec3, vec31, par3, !par3, par3);
+		}
+	};
+
 	public static final IToolAreaAbility EXPLOSION = new IToolAreaAbility() {
 		@Override
 		public String getName() {
@@ -249,7 +350,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 
 		@Override
 		public int sortOrder() {
-			return SORT_ORDER_BASE + 3;
+			return SORT_ORDER_BASE + 4;
 		}
 
 		@Override
@@ -270,7 +371,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 	};
 	// endregion handlers
 
-	static final IToolAreaAbility[] abilities = { NONE, RECURSION, HAMMER, EXPLOSION };
+	static final IToolAreaAbility[] abilities = { NONE, RECURSION, HAMMER, HAMMER_FLAT, EXPLOSION };
 
 	static IToolAreaAbility getByName(String name) {
 		for(IToolAreaAbility ability : abilities) {

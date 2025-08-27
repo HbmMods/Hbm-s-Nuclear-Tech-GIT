@@ -89,44 +89,28 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 		double flux = 0;
 
-		for(int i = -7; i <= 7; i++) {
-			for(int j = -7; j <= 7; j++) {
-				int rx = i, rz = j;
-				switch (rotation) {
-					case 1: // 90°
-						rx = -j;
-						rz = i;
-						break;
-					case 2: // 180°
-						rx = -i;
-						rz = -j;
-						break;
-					case 3: // 270°
-						rx = j;
-						rz = -i;
-						break;
+		for(int index = 0; index < columns.length; index++) {
+			int rx = getXFromIndex(index);
+			int rz = getZFromIndex(index);
+
+			TileEntity te = Compat.getTileStandard(worldObj, targetX + rx, targetY, targetZ + rz);
+
+			if(te instanceof TileEntityRBMKBase) {
+
+				TileEntityRBMKBase rbmk = (TileEntityRBMKBase)te;
+
+				columns[index] = new RBMKColumn(rbmk.getConsoleType(), rbmk.getNBTForConsole());
+				columns[index].data.setDouble("heat", rbmk.heat);
+				columns[index].data.setDouble("maxHeat", rbmk.maxHeat());
+				if(rbmk.isModerated()) columns[index].data.setBoolean("moderated", true); //false is the default anyway and not setting it when we don't need to reduces cruft
+
+				if(te instanceof TileEntityRBMKRod) {
+					TileEntityRBMKRod fuel = (TileEntityRBMKRod) te;
+					flux += fuel.lastFluxQuantity;
 				}
 
-				TileEntity te = Compat.getTileStandard(worldObj, targetX + rx, targetY, targetZ + rz);
-				int index = (i + 7) + (j + 7) * 15;
-
-				if(te instanceof TileEntityRBMKBase) {
-
-					TileEntityRBMKBase rbmk = (TileEntityRBMKBase)te;
-
-					columns[index] = new RBMKColumn(rbmk.getConsoleType(), rbmk.getNBTForConsole());
-					columns[index].data.setDouble("heat", rbmk.heat);
-					columns[index].data.setDouble("maxHeat", rbmk.maxHeat());
-					if(rbmk.isModerated()) columns[index].data.setBoolean("moderated", true); //false is the default anyway and not setting it when we don't need to reduces cruft
-
-					if(te instanceof TileEntityRBMKRod) {
-						TileEntityRBMKRod fuel = (TileEntityRBMKRod) te;
-						flux += fuel.lastFluxQuantity;
-					}
-
-				} else {
-					columns[index] = null;
-				}
+			} else {
+				columns[index] = null;
 			}
 		}
 
@@ -281,8 +265,9 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 				if(key.startsWith("sel_")) {
 
-					int x = data.getInteger(key) % 15 - 7;
-					int z = data.getInteger(key) / 15 - 7;
+					int index = data.getInteger(key);
+					int x = getXFromIndex(index);
+					int z = getZFromIndex(index);
 
 					TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 
@@ -322,8 +307,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			int[] cols = data.getIntArray("cols");
 
 			for(int i : cols) {
-				int x = i % 15 - 7;
-				int z = i / 15 - 7;
+				int x = getXFromIndex(i);
+				int z = getZFromIndex(i);
 
 				TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 
@@ -339,8 +324,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			int[] cols = data.getIntArray("cols");
 
 			for(int i : cols) {
-				int x = i % 15 - 7;
-				int z = i / 15 - 7;
+				int x = getXFromIndex(i);
+				int z = getZFromIndex(i);
 
 				TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 
@@ -402,6 +387,40 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 	public void rotate() {
 		rotation = (byte)((rotation + 1) % 4);
+	}
+
+	public int getXFromIndex(int col) {
+		final int i = col % 15 - 7;
+		final int j = col / 15 - 7;
+		switch (rotation) {
+			case 0: // 0°
+				return i;
+			case 1: // 90°
+				return -j;
+			case 2: // 180°
+				return -i;
+			case 3: // 270°
+				return j;
+		}
+
+		return i;
+	}
+
+	public int getZFromIndex(int col) {
+		final int i = col % 15 - 7;
+		final int j = col / 15 - 7;
+		switch (rotation) {
+			case 0: // 0°
+				return j;
+			case 1: // 90°
+				return i;
+			case 2: // 180°
+				return -j;
+			case 3: // 270°
+				return -i;
+		}
+
+		return j;
 	}
 
 	public static class RBMKColumn {
@@ -556,13 +575,32 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		int x = args.checkInteger(0) - 7;
 		int y = -args.checkInteger(1) + 7;
 
-		int i = (y + 7) * 15 + (x + 7);
+		int i = x;
+		int j = y;
+		switch (rotation) {
+			case 0:
+				break;
+			case 1:
+				i = y;
+				j = -x;
+				break;
+			case 2:
+				i = -x;
+				j = -y;
+				break;
+			case 3:
+				i = -y;
+				j = x;
+				break;
+		}
+
+		int index = (j + 7) * 15 + (i + 7);
 
 		TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + y);
 		if (te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase column = (TileEntityRBMKBase) te;
 
-			NBTTagCompound column_data = columns[i].data;
+			NBTTagCompound column_data = columns[index].data;
 			LinkedHashMap<String, Object> data_table = new LinkedHashMap<>();
 			data_table.put("type", column.getConsoleType().name());
 			data_table.put("hullTemp", column_data.getDouble("heat"));

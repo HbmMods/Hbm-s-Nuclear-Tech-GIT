@@ -127,7 +127,7 @@ public class BunkerComponents {
 			fillWithMetadataBlocks(world, box, 1, hpos, 4, 1, hpos, 6, ModBlocks.concrete_smooth_stairs, getStairMeta(0));
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 1, 2, hpos, 3, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, getStairMeta(2), 2, hpos, 4, box);
-			placeBlockAtCurrentPosition(world, Blocks.trapdoor, getDecoModelMeta(8) >> 2, 2, hpos, 5, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.trapdoor_steel, getDecoModelMeta(8) >> 2, 2, hpos, 5, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, getStairMeta(3), 2, hpos, 6, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 1, 2, hpos, 7, box);
 			fillWithMetadataBlocks(world, box, 3, hpos, 4, 3, hpos, 6, ModBlocks.concrete_smooth_stairs, getStairMeta(1));

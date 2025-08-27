@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.world.gen.INBTTileEntityTransformable;
-import com.hbm.world.gen.INBTTransformable;
+import com.hbm.world.gen.nbt.INBTTileEntityTransformable;
+import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class BlockPlushie extends BlockContainer implements IBlockMulti, ITooltipProvider, INBTTransformable {
+public class BlockPlushie extends BlockContainer implements IBlockMulti, ITooltipProvider, INBTBlockTransformable {
 
 	public BlockPlushie() {
 		super(Material.cloth);
@@ -96,12 +96,16 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 
+		TileEntityPlushie plushie = (TileEntityPlushie) world.getTileEntity(x, y, z);
 		if(world.isRemote) {
-			TileEntityPlushie plushie = (TileEntityPlushie) world.getTileEntity(x, y, z);
 			plushie.squishTimer = 11;
 			return true;
 		} else {
-			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.squeakyToy", 0.25F, 1F);
+			if(plushie.type == PlushieType.HUNDUN) {
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.hunduns_magnificent_howl", 100F, 1F);
+			} else {
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.squeakyToy", 0.25F, 1F);
+			}
 			return true;
 		}
 	}
@@ -155,7 +159,7 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 		NONE(		"NONE",				null),
 		YOMI(		"Yomi",				"Hi! Can I be your rabbit friend?"),
 		NUMBERNINE(	"Number Nine",		"None of y'all deserve coal."),
-		POOH(		"Winnie the Pooh",	"Beloved children's character with no malicious intent.");
+		HUNDUN(		"Hundun",			"混沌");
 
 		public String label;
 		public String inscription;

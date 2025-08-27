@@ -64,10 +64,14 @@
     "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
     "block.hephaestusRunning": {"category": "block", "sounds": [{"name": "block/hephaestusRunning", "stream": false}]},
     "block.squeakyToy": {"category": "block", "sounds": [{"name": "block/squeakyToy", "stream": false}]},
+    "block.hunduns_magnificent_howl": {"category": "block", "sounds": [{"name": "block/hunduns_magnificent_howl", "stream": false}]},
     "block.pyroOperate": {"category": "block", "sounds": [{"name": "block/pyroOperate", "stream": false}]},
     "block.motor": {"category": "block", "sounds": [{"name": "block/motor", "stream": false}]},
     "block.engine": {"category": "block", "sounds": [{"name": "block/engine", "stream": false}]},
     "block.chemicalPlant": {"category": "block", "sounds": [{"name": "block/chemicalPlant", "stream": false}]},
+    "block.assemblerStrike": {"category": "block", "sounds": ["block/assemblerStrike1", "block/assemblerStrike2"]},
+    "block.assemblerStart": {"category": "block", "sounds": [{"name": "block/assemblerStart", "stream": false}]},
+    "block.assemblerStop": {"category": "block", "sounds": [{"name": "block/assemblerStop", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
@@ -219,6 +223,7 @@
     "weapon.explosionSmallNear": {"category": "player", "sounds": ["weapon/explosionSmallNear1", "weapon/explosionSmallNear2", "weapon/explosionSmallNear3"]},
     "weapon.explosionSmallFar": {"category": "player", "sounds": ["weapon/explosionSmallFar1", "weapon/explosionSmallFar2"]},
     "weapon.explosionTiny": {"category": "player", "sounds": ["weapon/explosionTiny1", "weapon/explosionTiny2"]},
+    "weapon.hkShoot": {"category": "player", "sounds": [{"name": "weapon/hkShoot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
