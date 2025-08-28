@@ -2,9 +2,11 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.blocks.machine.rbmk.RBMKControl;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerRBMKControl;
 import com.hbm.inventory.gui.GUIRBMKControl;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +22,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver {
+public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver, ICopiable {
 
 	public RBMKColor color;
 	public double startingLevel;
@@ -177,5 +179,17 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKControl(player.inventory, this);
-	}	
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("color", color.ordinal());
+		return data;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		if(nbt.hasKey("color")) color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+	}
 }

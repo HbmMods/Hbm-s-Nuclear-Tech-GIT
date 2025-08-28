@@ -1477,7 +1477,7 @@ public class ModItems {
 	public static Item gun_aberrator_eott;
 	public static Item gun_double_barrel;
 	public static Item gun_double_barrel_sacred_dragon;
-
+	public static Item gun_n_i_4_n_i; // we GET THERE when we GET THERE
 	public static Item gun_charge_thrower;
 
 	public static Item ammo_standard;
