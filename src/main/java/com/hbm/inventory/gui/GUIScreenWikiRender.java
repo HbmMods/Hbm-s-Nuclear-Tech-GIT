@@ -116,7 +116,7 @@ public class GUIScreenWikiRender extends GuiScreen {
 
 	// This implementation is based directly on ScreenShotHelper.saveScreenshot()
 	// But allows for defining a rect where you want to sample pixels from
-	private static void saveScreenshot(File dataDir, String ssDir, String fileName, int x, int y, int width, int height, int transparentColor) {
+	public static void saveScreenshot(File dataDir, String ssDir, String fileName, int x, int y, int width, int height, int transparentColor) {
 		try {
 			File screenshotDirectory = new File(dataDir, ssDir);
 			screenshotDirectory.mkdir();
