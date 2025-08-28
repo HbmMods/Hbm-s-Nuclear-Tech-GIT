@@ -29,6 +29,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 	private static int x1, y1, z1;
 	private static int x2, y2, z2;
 	private static Block[] blockSync;
+	private static ForgeDirection dir;
 
 	private HashSet<BlockPos> fill = new HashSet<>();
 	private static HashSet<Block> whitelist = new HashSet<Block>() {{
@@ -44,6 +45,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 		buf.writeInt(x2);
 		buf.writeInt(y2);
 		buf.writeInt(z2);
+		buf.writeInt(dir.ordinal());
 
 		for(Block block : blockSync) {
 			buf.writeInt(Block.getIdFromBlock(block));
@@ -59,6 +61,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 		x2 = buf.readInt();
 		y2 = buf.readInt();
 		z2 = buf.readInt();
+		dir = ForgeDirection.values()[buf.readInt()];
 
 		for(int x = x1; x <= x2; x++) {
 			for(int y = y1; y <= y2; y++) {
@@ -121,7 +124,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 	}
 
 	public void findBounds(World world, TileEntityPWRController pwr) {
-		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(pwr.xCoord, pwr.yCoord, pwr.zCoord)).getOpposite();
+		dir = ForgeDirection.getOrientation(world.getBlockMetadata(pwr.xCoord, pwr.yCoord, pwr.zCoord)).getOpposite();
 
 		fill.clear();
 		fill.add(new BlockPos(pwr.xCoord, pwr.yCoord, pwr.zCoord));
@@ -161,7 +164,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 
 	@Override
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIScreenSlicePrinter(x1, y1, z1, x2, y2, z2, whitelist);
+		return new GUIScreenSlicePrinter(x1, y1, z1, x2, y2, z2, dir, whitelist);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

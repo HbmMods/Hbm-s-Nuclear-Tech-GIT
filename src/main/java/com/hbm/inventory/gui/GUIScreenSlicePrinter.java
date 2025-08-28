@@ -18,12 +18,14 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GUIScreenSlicePrinter extends GuiScreen {
 
 	private final int x1, y1, z1;
 	private final int x2, y2, z2;
 	private final int sizeX, sizeY, sizeZ;
+	private final ForgeDirection dir;
 
 	private HashSet<Block> whitelist;
 
@@ -34,13 +36,15 @@ public class GUIScreenSlicePrinter extends GuiScreen {
 	private String dirname;
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
-	public GUIScreenSlicePrinter(int x1, int y1, int z1, int x2, int y2, int z2) {
+	public GUIScreenSlicePrinter(int x1, int y1, int z1, int x2, int y2, int z2, ForgeDirection dir) {
 		this.x1 = Math.min(x1, x2);
 		this.y1 = Math.min(y1, y2);
 		this.z1 = Math.min(z1, z2);
 		this.x2 = Math.max(x1, x2);
 		this.y2 = Math.max(y1, y2);
 		this.z2 = Math.max(z1, z2);
+
+		this.dir = dir;
 
 		this.sizeX = this.x2 - this.x1 + 1;
 		this.sizeY = this.y2 - this.y1 + 1;
@@ -49,8 +53,8 @@ public class GUIScreenSlicePrinter extends GuiScreen {
 		dirname = dateFormat.format(new Date()).toString();
 	}
 
-	public GUIScreenSlicePrinter(int x1, int y1, int z1, int x2, int y2, int z2, HashSet<Block> whitelist) {
-		this(x1, y1, z1, x2, y2, z2);
+	public GUIScreenSlicePrinter(int x1, int y1, int z1, int x2, int y2, int z2, ForgeDirection dir, HashSet<Block> whitelist) {
+		this(x1, y1, z1, x2, y2, z2, dir);
 		this.whitelist = whitelist;
 	}
 
@@ -121,7 +125,20 @@ public class GUIScreenSlicePrinter extends GuiScreen {
 
 		GL11.glRotated(-30, 1, 0, 0);
 		GL11.glRotated(-45, 0, 1, 0);
-		GL11.glTranslated(sizeX / -2D, -sizeY / 2D, sizeZ / -2D);
+
+		if(dir == ForgeDirection.WEST) {
+			GL11.glRotated(180, 0, 1, 0);
+		} else if(dir == ForgeDirection.NORTH) {
+			GL11.glRotated(-90, 0, 1, 0);
+		} else if(dir == ForgeDirection.SOUTH) {
+			GL11.glRotated(90, 0, 1, 0);
+		}
+
+		if(dir == ForgeDirection.WEST || dir == ForgeDirection.EAST) {
+			GL11.glTranslated(sizeX / -2D, -sizeY / 2D, sizeZ / -2D);
+		} else {
+			GL11.glTranslated(sizeZ / -2D, -sizeY / 2D, sizeX / -2D);
+		}
 	}
 
 }
