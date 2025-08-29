@@ -1,5 +1,6 @@
 ## Changed
-* Updated ukrainian and chinese localization, including QMAW
+* Updated ukrainian, chinese and russian localization, including QMAW
+* Some previously hardcoded lang strings are now affected by translations
 * Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
 * RBMK control rod colors and auto control rod settings are now copiable
 * Murky wings no longer have slowfall, and using shift+space cancels the momentum
