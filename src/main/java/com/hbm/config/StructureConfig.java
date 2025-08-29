@@ -10,8 +10,8 @@ public class StructureConfig {
 
 	public static int enableStructures = 2;
 
-	public static int structureMinChunks = 8;
-	public static int structureMaxChunks = 24;
+	public static int structureMinChunks = 4;
+	public static int structureMaxChunks = 12;
 
 	public static double lootAmountFactor = 1D;
 
@@ -25,15 +25,15 @@ public class StructureConfig {
 
 		enableStructures = CommonConfig.parseStructureFlag(unparsedStructureFlag);
 
-		structureMinChunks = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.01_structureMinChunks", "Minimum non-zero distance between structures in chunks (Settings lower than 8 may be problematic).", 8);
-		structureMaxChunks = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.02_structureMaxChunks", "Maximum non-zero distance between structures in chunks.", 24);
+		structureMinChunks = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.01_structureMinChunks", "Minimum non-zero distance between structures in chunks (Settings lower than 8 may be problematic).", 4);
+		structureMaxChunks = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.02_structureMaxChunks", "Maximum non-zero distance between structures in chunks.", 16);
 
 		lootAmountFactor = CommonConfig.createConfigDouble(config, CATEGORY_STRUCTURES, "5.03_lootAmountFactor", "General factor for loot spawns. Applies to spawned IInventories, not loot blocks.", 1D);
 
 		debugStructures = CommonConfig.createConfigBool(config, CATEGORY_STRUCTURES, "5.04_debugStructures", "If enabled, special structure blocks like jigsaw blocks will not be transformed after generating", false);
 
-		structureMinChunks = CommonConfig.setDef(structureMinChunks, 8);
-		structureMaxChunks = CommonConfig.setDef(structureMaxChunks, 24);
+		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);
+		structureMaxChunks = CommonConfig.setDef(structureMaxChunks, 12);
 
 		if(structureMinChunks > structureMaxChunks) {
 			MainRegistry.logger.error("Fatal error config: Minimum value has been set higher than the maximum value!");
