@@ -8,6 +8,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
+import com.hbm.util.i18n.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -63,9 +64,11 @@ public class ItemToolBox extends Item implements IGUIProvider {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		list.add("Click with the toolbox to swap hotbars in/out of the toolbox.");
-		list.add("Shift-click with the toolbox to open the toolbox.");
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+		String[] lines = I18nUtil.resolveKeyArray("item.toolbox.desc");
+		for (String line : lines) {
+			list.add(line);
+		}
 	}
 
 	// Finds active rows in the toolbox (rows with items inside them).

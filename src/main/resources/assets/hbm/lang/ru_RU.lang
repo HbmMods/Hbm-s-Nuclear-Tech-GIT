@@ -3515,6 +3515,7 @@ item.key_red_cracked.name=Сломанный ключ
 item.key_red_cracked.desc=???
 item.key_red.key_red_cracked.P11=§4???§r
 item.toolbox.name=Ящик для инструментов
+item.toolbox.desc=Нажмите ПКМ, чтобы переместить хотбары в ящик для инструментов или из него.$Shift+ПКМ, чтобы открыть ящик для инструментов.
 item.toolbox_legacy.name=Ящик для инструментов (LEGACY)
 item.kit_toolbox.name=Ящик для инструментов
 item.kit_toolbox_empty.name=Пустой ящик для инструментов

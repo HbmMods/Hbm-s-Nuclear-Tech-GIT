@@ -4615,6 +4615,7 @@ item.titanium_plate.name=Titanium Chestplate
 item.titanium_shovel.name=Titanium Shovel
 item.titanium_sword.name=Titanium Sword
 item.toolbox.name=Toolbox
+item.toolbox.desc=Click with the toolbox to swap hotbars in/out of the toolbox.$Shift-click with the toolbox to open the toolbox.
 item.toolbox_legacy.name=Toolbox (LEGACY)
 item.toothpicks.name=Toothpicks
 item.train.cargo_tram.name=Electric Flat Bed Tram
