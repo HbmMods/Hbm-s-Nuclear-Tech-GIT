@@ -1788,6 +1788,7 @@ info.template_out=Output:
 info.template_out_p=Outputs:
 info.template_seconds=seconds
 info.template_time=Production Time:
+info.world_loaded=Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.7.10!
 
 item.acetylene_torch.name=Acetylene Welding Torch
 item.ajr_boots.name=Steel Ranger Boots

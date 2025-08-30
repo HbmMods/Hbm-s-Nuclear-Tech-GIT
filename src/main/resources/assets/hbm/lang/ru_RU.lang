@@ -1785,6 +1785,7 @@ info.template_out=Выход:
 info.template_out_p=Выходы:
 info.template_seconds=секунд
 info.template_time=Время производства:
+info.world_loaded=Загружен мир с модом Hbm's Nuclear Tech Mod %s для Minecraft 1.7.10!
 
 item.acetylene_torch.name=Ацетиленовая сварочная горелка
 item.ajr_boots.name=Ботинки Стальных Рейнджеров

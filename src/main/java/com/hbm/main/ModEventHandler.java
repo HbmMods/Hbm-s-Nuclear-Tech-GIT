@@ -132,7 +132,7 @@ public class ModEventHandler {
 		if(!event.player.worldObj.isRemote) {
 
 			if(GeneralConfig.enableMOTD) {
-				event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+				event.player.addChatMessage(new ChatComponentText(I18nUtil.format("info.ntm.world_loaded", RefStrings.VERSION)));
 
 				if(HTTPHandler.newVersion) {
 					event.player.addChatMessage(
