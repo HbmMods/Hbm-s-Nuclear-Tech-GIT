@@ -4626,6 +4626,7 @@ item.rod_mox_fuel.name=МОКС-топливный стержень
 item.rod_mox_fuel_depleted.name=Обеднённый МОКС-топливный стержень
 item.rod_neptunium.name=Neptunium Rod
 item.rod_of_discord.name=Жезл раздора
+item.rod_of_discord.desc=§e§oЯ видел Rod of Discord и честно,$§e§oон не такой крутой, как все говорят.$§r$§c§oRod of Discord имеет решающее значение во многих боях с боссами.$§c§oПредставь, что тебя окутывают черви-боссы.$§r$§e§oА, ты имеешь в виду предмет из Террарии.$§e§oПонятия не имею об этой штуке.
 item.rod_plutonium.name=Plutonium Rod
 item.rod_plutonium_fuel.name=Плутониевый топливный стержень
 item.rod_plutonium_fuel_depleted.name=Топливный стержень с обеднённым плутонием

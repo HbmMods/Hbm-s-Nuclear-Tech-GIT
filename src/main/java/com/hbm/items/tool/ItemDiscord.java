@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -46,14 +47,9 @@ public class ItemDiscord extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "I've seen the Rod of Discord and honestly");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "it's not as amazing as people say.");
-		list.add("");
-		list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Rod of Discord is crucial in so many boss fights.");
-		list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Imagine getting coiled by worm bosses.");
-		list.add("");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Oh, you mean the Terraria item.");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Idk about that thing.");
+		String[] lines = I18nUtil.resolveKeyArray("item.rod_of_discord.desc");
+		for (String line : lines) {
+			list.add(line);
+		}
 	}
 }

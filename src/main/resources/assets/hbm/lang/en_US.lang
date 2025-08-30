@@ -4363,6 +4363,7 @@ item.rod_mox_fuel.name=MOX Fuel Rod
 item.rod_mox_fuel_depleted.name=Depleted MOX Fuel Rod
 item.rod_neptunium.name=Neptunium Rod
 item.rod_of_discord.name=Rod of Discord
+item.rod_of_discord.desc=§e§lI've seen the Rod of Discord and honestly$§e§lit's not as amazing as people say.$§r$...
 item.rod_plutonium.name=Plutonium Rod
 item.rod_plutonium_fuel.name=Plutonium Fuel Rod
 item.rod_plutonium_fuel_depleted.name=Depleted Plutonium Fuel Rod
