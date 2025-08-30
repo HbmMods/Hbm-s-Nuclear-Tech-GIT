@@ -52,6 +52,7 @@ import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -132,7 +133,7 @@ public class ModEventHandler {
 		if(!event.player.worldObj.isRemote) {
 
 			if(GeneralConfig.enableMOTD) {
-				event.player.addChatMessage(new ChatComponentText(I18nUtil.format("info.ntm.world_loaded", RefStrings.VERSION)));
+				event.player.addChatMessage(new ChatComponentText(I18nUtil.format("info.world_loaded", RefStrings.VERSION)));
 
 				if(HTTPHandler.newVersion) {
 					event.player.addChatMessage(
