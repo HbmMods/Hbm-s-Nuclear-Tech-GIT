@@ -293,7 +293,7 @@ public class ItemCustomMissilePart extends Item {
 			case TURBINE:
 				return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + I18nUtil.resolveKey("item.warhead.desc.turbine");
 			default:
-				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("general.na");
+				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("generic.na");
 		}
 	}
 
@@ -311,7 +311,7 @@ public class ItemCustomMissilePart extends Item {
 			case BALEFIRE:
 				return EnumChatFormatting.GREEN + I18nUtil.resolveKey("item.missile.fuel.balefire");
 			default:
-				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("general.na");
+				return EnumChatFormatting.BOLD + I18nUtil.resolveKey("generic.na");
 		}
 	}
 

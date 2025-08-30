@@ -1262,6 +1262,7 @@ geiger.title=GEIGER COUNTER
 geiger.title.dosimeter=DOSIMETER
 
 general.na=N/A
+generic.na=N/A
 
 gui.recipe.duration=Duration
 gui.recipe.consumption=Consumption

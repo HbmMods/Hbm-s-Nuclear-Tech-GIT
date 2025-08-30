@@ -1259,6 +1259,7 @@ geiger.title=СЧЁТЧИК ГЕЙГЕРА
 geiger.title.dosimeter=ДОЗИМЕТР
 
 general.na=Н/Д
+generic.na=Н/Д
 
 gui.recipe.duration=Длительность
 gui.recipe.consumption=Потребление
