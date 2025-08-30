@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,21 +21,21 @@ public class ItemAnchorRemote extends ItemBattery {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		
+
 		long charge = maxCharge;
-		
-		if(itemstack.hasTagCompound())
+
+		if (itemstack.hasTagCompound())
 			charge = getCharge(itemstack);
 
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
-			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
+		if (itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
+			list.add(I18nUtil.resolveKey("generic.energy_stored") + ": " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		} else {
-			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
-			list.add("Charge: " + charge1 + "%");
+			String percent = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
+			list.add(I18nUtil.resolveKey("generic.charge") + ": " + percent + "%");
 			list.add("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE)");
 		}
-		
-		list.add("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
+
+		list.add(I18nUtil.resolveKey("generic.charge_rate") + ": " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class ItemAnchorRemote extends ItemBattery {
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
 			return stack;
 		}
-		
+
 		if(this.getCharge(stack) < 10_000) {
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
 			return stack;
@@ -93,9 +94,9 @@ public class ItemAnchorRemote extends ItemBattery {
 			for(int i = 0; i < 32; ++i) {
 				world.spawnParticle("portal", player.posX, player.posY + player.getRNG().nextDouble() * 2.0D, player.posZ, player.getRNG().nextGaussian(), 0.0D, player.getRNG().nextGaussian());
 			}
-			
+
 			this.dischargeBattery(stack, 10_000);
-			
+
 		} else {
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
 		}

@@ -1258,7 +1258,9 @@ geiger.playerRes=Защищённость игрока:
 geiger.title=СЧЁТЧИК ГЕЙГЕРА
 geiger.title.dosimeter=ДОЗИМЕТР
 
-general.na=Н/Д
+generic.charge=Заряд
+generic.charge_rate=Скорость заряда
+generic.energy_stored=Заряд
 generic.na=Н/Д
 
 gui.recipe.duration=Длительность

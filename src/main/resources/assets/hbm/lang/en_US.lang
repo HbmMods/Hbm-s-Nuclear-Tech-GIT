@@ -1261,7 +1261,9 @@ geiger.playerRes=Player resistance:
 geiger.title=GEIGER COUNTER
 geiger.title.dosimeter=DOSIMETER
 
-general.na=N/A
+generic.charge=Charge
+generic.charge_rate=Charge rate
+generic.energy_stored=Energy stored
 generic.na=N/A
 
 gui.recipe.duration=Duration
