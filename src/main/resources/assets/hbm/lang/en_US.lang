@@ -4949,6 +4949,7 @@ rbmk.screen.xenon=Xenon: %s
 satchip.frequency=Satellite frequency
 satchip.foeq=Gives you an achievement. That's it.
 satchip.gerald.desc=Single use.$Requires orbital module.$Melter of CPUs, bane of every server owner.
+satchip.horizons=Horizons has been activated.
 satchip.laser=Allows to summon lasers with a 15 second cooldown.
 satchip.mapper=Displays currently loaded chunks.
 satchip.miner=Will deliver ore powders to a cargo landing pad.
