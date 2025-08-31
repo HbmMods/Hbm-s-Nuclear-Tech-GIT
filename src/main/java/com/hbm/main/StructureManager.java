@@ -53,7 +53,6 @@ public class StructureManager {
 
 
 
-
 	public static final NBTStructure vertibird = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/vertibird.nbt"));
 	public static final NBTStructure crashed_vertibird = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/crashed-vertibird.nbt"));
 	public static final NBTStructure aircraft_carrier = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/aircraft_carrier.nbt"));
@@ -61,6 +60,7 @@ public class StructureManager {
 	public static final NBTStructure beached_patrol = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/beached_patrol.nbt"));
 	public static final NBTStructure lighthouse = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/lighthouse.nbt"));
 	public static final NBTStructure dish = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/dish.nbt"));
+	public static final NBTStructure radio_house = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/radio_house.nbt"));
 
 	public static final NBTStructure ntmruinsA = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/ntmruinsA.nbt"));
 	public static final NBTStructure ntmruinsB = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/ntmruinsB.nbt"));

@@ -40,6 +40,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		final List<BiomeGenBase> oceanBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean });
 		final List<BiomeGenBase> beachBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
 		final List<BiomeGenBase> lighthouseBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
+		final List<BiomeGenBase> flatbiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.plains, BiomeGenBase.icePlains, BiomeGenBase.desert });
 
 		/// SPIRE ///
 		NBTStructure.registerStructure(0, new SpawnCondition("spire") {{
@@ -162,6 +163,11 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
 			structure = new JigsawPiece("NTMRuinsJ", StructureManager.ntmruinsJ, -1) {{conformToTerrain = true;}};
 			spawnWeight = 35;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("radio") {{
+			canSpawn = flatbiomes::contains;
+			structure = new JigsawPiece("radio_house", StructureManager.radio_house, -6);
+			spawnWeight = 30;
 		}});
 
 		NBTStructure.registerNullWeight(0, 2, biome -> biome == BiomeGenBase.plains);
