@@ -112,6 +112,11 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 1;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("forestchem") {{
+			canSpawn = biome -> biome == BiomeGenBase.forest;
+			structure = new JigsawPiece("forest_chem", StructureManager.forest_chem, -9);
+			spawnWeight = 50;
+		}});
 		NBTStructure.registerStructure(0, new SpawnCondition("plane1") {{
 			canSpawn = biome -> biome == BiomeGenBase.forest || biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("crashed_plane_1", StructureManager.plane1, -5);
