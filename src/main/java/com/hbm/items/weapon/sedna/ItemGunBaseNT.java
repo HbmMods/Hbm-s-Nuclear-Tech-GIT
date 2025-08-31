@@ -19,6 +19,7 @@ import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.items.weapon.sedna.mags.MagazineInfinite;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -173,7 +174,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 			GunConfig config = getConfig(stack, i);
 			for(Receiver rec : config.getReceivers(stack)) {
 				IMagazine mag = rec.getMagazine(stack);
-				list.add(I18nUtil.resolveKey("gui.weapon.ammo") + ": " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
+				if(!(mag instanceof MagazineInfinite)) {
+					list.add(I18nUtil.resolveKey("gui.weapon.ammo") + ": " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
+				}
 				float dmg = rec.getBaseDamage(stack);
 				list.add(I18nUtil.resolveKey("gui.weapon.baseDamage") + ": " + FORMAT_DMG.format(dmg));
 				if(mag.getType(stack, player.inventory) instanceof BulletConfig) {

@@ -41,7 +41,7 @@ public class HbmWorld {
 	private static void registerNTMFeatures() {
 		CivilianFeatures.registerComponents();
 		OfficeFeatures.registerComponents();
-		RuinFeatures.registerComponents();
+//		RuinFeatures.registerComponents();
 		BunkerComponents.registerComponents();
 		MapGenStructureIO.func_143031_a(SiloComponent.class, "NTMSiloComponent");
 	}
