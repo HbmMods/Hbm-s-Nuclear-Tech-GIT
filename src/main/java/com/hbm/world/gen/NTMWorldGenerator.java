@@ -117,6 +117,36 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("forest_chem", StructureManager.forest_chem, -9);
 			spawnWeight = 50;
 		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("plane1") {{
+			canSpawn = biome -> biome == BiomeGenBase.forest || biome == BiomeGenBase.plains;
+			structure = new JigsawPiece("crashed_plane_1", StructureManager.plane1, -5);
+			spawnWeight = 50;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("plane2") {{
+			canSpawn = biome -> biome == BiomeGenBase.forest || biome == BiomeGenBase.plains;
+			structure = new JigsawPiece("crashed_plane_2", StructureManager.plane2, -8);
+			spawnWeight = 50;
+		}});
+    
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_1") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_1", StructureManager.desert_shack_1, -7);
+			spawnWeight = 20;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_2") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_2", StructureManager.desert_shack_2, -7);
+			spawnWeight = 25;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_3") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_3", StructureManager.desert_shack_3, -5);
+			spawnWeight = 30;
+		}});
+
 		NBTStructure.registerStructure(0, new SpawnCondition("labolatory") {{
 			canSpawn = biome -> biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("laboratory", StructureManager.laboratory, -10);
@@ -129,7 +159,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 40;
 		}});
 
-		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
 		NBTStructure.registerStructure(0, new SpawnCondition("ruin1") {{
 			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
 			structure = new JigsawPiece("NTMRuinsA", StructureManager.ntmruinsA, -1) {{conformToTerrain = true;}};
