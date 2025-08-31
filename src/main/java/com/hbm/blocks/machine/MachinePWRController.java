@@ -56,7 +56,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return metadata == 0 && side != 0 && side != 1 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
+		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 
 	@Override

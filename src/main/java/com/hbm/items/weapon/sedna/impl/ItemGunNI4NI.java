@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.items.ICustomizable;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.util.ChatBuilder;
 
 import cpw.mods.fml.relauncher.Side;
@@ -27,7 +28,12 @@ public class ItemGunNI4NI extends ItemGunBaseNT implements ICustomizable {
 		super.onUpdate(stack, world, entity, slot, isHeld);
 		
 		if(!world.isRemote) {
-			if(this.getCoinCount(stack) < 4) {
+			
+			int maxCoin = 4;
+			if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NI4NI_NICKEL)) maxCoin += 2;
+			if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NI4NI_DOUBLOONS)) maxCoin += 2;
+			
+			if(this.getCoinCount(stack) < maxCoin) {
 				this.setCoinCharge(stack, this.getCoinCharge(stack) + 1);
 				
 				if(this.getCoinCharge(stack) >= 80) {
@@ -36,7 +42,7 @@ public class ItemGunNI4NI extends ItemGunBaseNT implements ICustomizable {
 					this.setCoinCount(stack, newCount);
 					
 					if(isHeld) {
-						world.playSoundAtEntity(entity, "hbm:item.techBoop", 1.0F, 1.25F + newCount * 0.125F);
+						world.playSoundAtEntity(entity, "hbm:item.techBoop", 1.0F, 1F + newCount / (float) maxCoin);
 					}
 				}
 			}

@@ -94,12 +94,12 @@ public class ItemRenderNI4NI extends ItemRenderWeaponBase {
 		ResourceManager.n_i_4_n_i.renderPart("Barrel");
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glColor3f(0F, 1F, 0F);
 		int coinCount = ItemGunNI4NI.getCoinCount(stack);
-		if(coinCount > 3) ResourceManager.n_i_4_n_i.renderPart("Coin1");
-		if(coinCount > 2) ResourceManager.n_i_4_n_i.renderPart("Coin2");
-		if(coinCount > 1) ResourceManager.n_i_4_n_i.renderPart("Coin3");
-		if(coinCount > 0) ResourceManager.n_i_4_n_i.renderPart("Coin4");
+		if(coinCount > 3) { GL11.glColor3f(coinCount > 7 ? 1F : 0F, 1F, 0F); ResourceManager.n_i_4_n_i.renderPart("Coin1"); }
+		if(coinCount > 2) { GL11.glColor3f(coinCount > 6 ? 1F : 0F, 1F, 0F); ResourceManager.n_i_4_n_i.renderPart("Coin2"); }
+		if(coinCount > 1) { GL11.glColor3f(coinCount > 5 ? 1F : 0F, 1F, 0F); ResourceManager.n_i_4_n_i.renderPart("Coin3"); }
+		if(coinCount > 0) { GL11.glColor3f(coinCount > 4 ? 1F : 0F, 1F, 0F); ResourceManager.n_i_4_n_i.renderPart("Coin4"); }
+		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		RenderArcFurnace.fullbright(false);

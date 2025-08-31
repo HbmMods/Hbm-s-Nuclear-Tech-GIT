@@ -1,3 +1,14 @@
+## Added
+* N I 4 N I
+  * It's that one gun from that one game, you throw coins and your shots bounce around
+  * Needs no introduction
+  * Can be upgraded with nickels or gold doubloons for more pocket change to yeet
+  * Found in airdrop supply crates, about 10x rarer than a double barrel shotgun
+* More structures
+  * I haven't even looked at them so it's a surprise for everyone
+* PWR printer
+  * Using it on a PWR controller will cause the game to generate images of each layer of the reactor
+
 ## Changed
 * Updated ukrainian, chinese and russian localization, including QMAW
 * Some previously hardcoded lang strings are now affected by translations

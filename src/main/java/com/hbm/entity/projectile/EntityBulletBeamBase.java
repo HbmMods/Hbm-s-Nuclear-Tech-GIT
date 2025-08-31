@@ -266,13 +266,13 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 					newBeam.setPosition(coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord);
 					Vec3 delta = Vec3.createVectorHelper(target.posX - newBeam.posX, (target.posY + target.height / 2D) - newBeam.posY, target.posZ - newBeam.posZ);
 					newBeam.setRotationsFromVector(delta);
-					newBeam.performHitscanExternal(delta.lengthVector());
+					newBeam.performHitscanExternal(250D);
 					worldObj.spawnEntityInWorld(newBeam);
 				} else {
 					EntityBulletBeamBase newBeam = new EntityBulletBeamBase(hitCoin.getThrower() != null ? hitCoin.getThrower() : this.thrower, this.config, this.damage * 1.25F);
 					newBeam.setPosition(coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord);
 					newBeam.setRotationsFromVector(Vec3.createVectorHelper(rand.nextGaussian() * 0.5, -1, rand.nextGaussian() * 0.5));
-					newBeam.performHitscanExternal(100);
+					newBeam.performHitscanExternal(250D);
 					worldObj.spawnEntityInWorld(newBeam);
 				}
 				

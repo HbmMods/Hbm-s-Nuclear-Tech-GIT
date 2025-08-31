@@ -209,7 +209,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		}
 
 		if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable && !this.recognizedMods.isEmpty()) {
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.weapon.accepts" + ":"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.weapon.accepts") + ":");
 			for(ComparableStack comp : this.recognizedMods) list.add(EnumChatFormatting.RED + "  " + comp.toStack().getDisplayName());
 		}
 	}
