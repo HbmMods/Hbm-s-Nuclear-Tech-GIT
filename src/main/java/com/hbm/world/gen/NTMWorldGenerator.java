@@ -40,6 +40,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		final List<BiomeGenBase> oceanBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean });
 		final List<BiomeGenBase> beachBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
 		final List<BiomeGenBase> lighthouseBiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.ocean, BiomeGenBase.deepOcean, BiomeGenBase.beach, BiomeGenBase.stoneBeach, BiomeGenBase.coldBeach });
+		final List<BiomeGenBase> flatbiomes = Arrays.asList(new BiomeGenBase[] { BiomeGenBase.plains, BiomeGenBase.icePlains, BiomeGenBase.desert });
 
 		/// SPIRE ///
 		NBTStructure.registerStructure(0, new SpawnCondition("spire") {{
@@ -121,6 +122,92 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			canSpawn = biome -> biome == BiomeGenBase.forest || biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("crashed_plane_2", StructureManager.plane2, -8);
 			spawnWeight = 50;
+		}});
+    
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_1") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_1", StructureManager.desert_shack_1, -7);
+			spawnWeight = 20;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_2") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_2", StructureManager.desert_shack_2, -7);
+			spawnWeight = 25;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("desert_shack_3") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("desert_shack_3", StructureManager.desert_shack_3, -5);
+			spawnWeight = 30;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("labolatory") {{
+			canSpawn = biome -> biome == BiomeGenBase.plains;
+			structure = new JigsawPiece("laboratory", StructureManager.laboratory, -10);
+			minHeight = 53;
+			maxHeight = 65;
+			spawnWeight = 8;
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome == BiomeGenBase.forest;
+			structure = new JigsawPiece("forest_post", StructureManager.forest_post, -9);
+			spawnWeight = 40;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin1") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsA", StructureManager.ntmruinsA, -1) {{conformToTerrain = true;}};
+			spawnWeight = 20;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin2") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsB", StructureManager.ntmruinsB, -1) {{conformToTerrain = true;}};
+			spawnWeight = 25;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin3") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsC", StructureManager.ntmruinsC, -1) {{conformToTerrain = true;}};
+			spawnWeight = 25;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin4") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsD", StructureManager.ntmruinsD, -1) {{conformToTerrain = true;}};
+			spawnWeight = 30;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin5") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsE", StructureManager.ntmruinsE, -1) {{conformToTerrain = true;}};
+			spawnWeight = 30;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin6") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsF", StructureManager.ntmruinsF, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin7") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsG", StructureManager.ntmruinsG, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin8") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsH", StructureManager.ntmruinsH, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin9") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsI", StructureManager.ntmruinsI, -1) {{conformToTerrain = true;}};
+			spawnWeight = 50;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("ruin10") {{
+			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
+			structure = new JigsawPiece("NTMRuinsJ", StructureManager.ntmruinsJ, -1) {{conformToTerrain = true;}};
+			spawnWeight = 35;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("radio") {{
+			canSpawn = flatbiomes::contains;
+			structure = new JigsawPiece("radio_house", StructureManager.radio_house, -6);
+			spawnWeight = 30;
 		}});
 
 		NBTStructure.registerNullWeight(0, 2, biome -> biome == BiomeGenBase.plains);
