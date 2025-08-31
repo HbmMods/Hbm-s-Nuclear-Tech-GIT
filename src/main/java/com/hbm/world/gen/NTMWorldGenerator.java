@@ -153,7 +153,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			minHeight = 53;
 			maxHeight = 65;
 			spawnWeight = 8;
-		NBTStructure.registerStructure(0, new SpawnCondition() {{
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("forest_post") {{
 			canSpawn = biome -> biome == BiomeGenBase.forest;
 			structure = new JigsawPiece("forest_post", StructureManager.forest_post, -9);
 			spawnWeight = 40;
