@@ -33,14 +33,15 @@ public class ItemPoolsC130 {
 
 		new ItemPool(POOL_WEAPONS) {{
 			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.gun_light_revolver, 0, 1, 1, 10),
-					weighted(ModItems.gun_henry, 0, 1, 1, 10),
-					weighted(ModItems.gun_maresleg, 0, 1, 1, 10),
-					weighted(ModItems.gun_greasegun, 0, 1, 1, 10),
-					weighted(ModItems.gun_carbine, 0, 1, 1, 5),
-					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 5),
-					weighted(ModItems.gun_panzerschreck, 0, 1, 1, 2),
-					weighted(ModItems.gun_double_barrel, 0, 1, 1, 1),
+					weighted(ModItems.gun_light_revolver, 0, 1, 1, 100),
+					weighted(ModItems.gun_henry, 0, 1, 1, 100),
+					weighted(ModItems.gun_maresleg, 0, 1, 1, 100),
+					weighted(ModItems.gun_greasegun, 0, 1, 1, 100),
+					weighted(ModItems.gun_carbine, 0, 1, 1, 50),
+					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 50),
+					weighted(ModItems.gun_panzerschreck, 0, 1, 1, 20),
+					weighted(ModItems.gun_double_barrel, 0, 1, 1, 10),
+					weighted(ModItems.gun_n_i_4_n_i, 0, 1, 1, 1),
 			};
 		}};
 
