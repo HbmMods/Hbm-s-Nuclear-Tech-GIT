@@ -114,6 +114,13 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = 1;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition() {{
+			canSpawn = biome -> biome == BiomeGenBase.forest;
+			structure = new JigsawPiece("forest_post", StructureManager.forest_post, -9);
+			spawnWeight = 40;
+		}});
+
+		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
 		NBTStructure.registerStructure(0, new SpawnCondition("ruin1") {{
 			canSpawn = biome -> !invalidBiomes.contains(biome) && biome.canSpawnLightningBolt();
 			structure = new JigsawPiece("NTMRuinsA", StructureManager.ntmruinsA, -1) {{conformToTerrain = true;}};
