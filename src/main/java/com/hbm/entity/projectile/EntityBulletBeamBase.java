@@ -2,14 +2,19 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -144,9 +149,30 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		if(!this.worldObj.isRemote && this.doesImpactEntities()) {
 			
 			Entity hitEntity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.headingX, this.headingY, this.headingZ).expand(1.0D, 1.0D, 1.0D));
+			List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.headingX, this.headingY, this.headingZ).expand(1.0D, 1.0D, 1.0D));
 			double nearest = 0.0D;
 			MovingObjectPosition nonPenImpact = null;
+			MovingObjectPosition coinHit = null;
+			
+			double closestCoin = 0;
+			EntityCoin hitCoin = null;
+			
+			for(Entity entity : list) {
+				if(entity.isDead) continue;
+				if(entity instanceof EntityCoin) {
+					double hitbox = 0.3F;
+					AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
+					MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
+					if(hitMop != null) {
+						double dist = pos.distanceTo(hitMop.hitVec);
+						if(closestCoin == 0 || dist < closestCoin) {
+							closestCoin = dist;
+							hitCoin = (EntityCoin) entity;
+							coinHit = hitMop;
+						}
+					}
+				}
+			}
 
 			for(int j = 0; j < list.size(); ++j) {
 				Entity entity = (Entity) list.get(j);
@@ -158,13 +184,14 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 
 					if(hitMop != null) {
 						
+						double dist = pos.distanceTo(hitMop.hitVec);
+						
 						// if penetration is enabled, run impact for all intersecting entities
 						if(this.doesPenetrate()) {
-							this.onImpact(new MovingObjectPosition(entity, hitMop.hitVec));
+							if(hitCoin == null || dist < closestCoin) {
+								this.onImpact(new MovingObjectPosition(entity, hitMop.hitVec));
+							}
 						} else {
-							
-							double dist = pos.distanceTo(hitMop.hitVec);
-	
 							if(dist < nearest || nearest == 0.0D) {
 								hitEntity = entity;
 								nearest = dist;
@@ -178,6 +205,86 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 			// if not, only run it for the closest MOP
 			if(!this.doesPenetrate() && hitEntity != null) {
 				mop = new MovingObjectPosition(hitEntity, nonPenImpact.hitVec);
+			}
+			
+			if(hitCoin != null) {
+				Vec3 vec = Vec3.createVectorHelper(coinHit.hitVec.xCoord - posX, coinHit.hitVec.yCoord - posY, coinHit.hitVec.zCoord - posZ);
+				this.beamLength = vec.lengthVector();
+				
+				double range = 50;
+				List<Entity> targets = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord, coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord).expand(range, range, range));
+				Entity nearestCoin = null;
+				Entity nearestPlayer = null;
+				Entity nearestMob = null;
+				Entity nearestOther = null;
+				double coinDist = 0;
+				double playerDist = 0;
+				double mobDist = 0;
+				double otherDist = 0;
+				
+				hitCoin.setDead();
+				
+				// well i mean we could just uuse a single var for all variants and then overwrite stuff
+				// when we run into things with higher priority. however i can't be assed fuck off
+				for(Entity entity : targets) {
+					if(entity == this.getThrower()) continue;
+					if(entity.isDead) continue;
+					double dist = entity.getDistanceToEntity(hitCoin);
+					if(dist > range) continue;
+					
+					if(entity instanceof EntityCoin) {
+						if(coinDist == 0 || dist < coinDist) {
+							coinDist = dist;
+							nearestCoin = entity;
+						}
+					} else if(entity instanceof EntityPlayer) {
+						if(playerDist == 0 || dist < playerDist) {
+							playerDist = dist;
+							nearestPlayer = entity;
+						}
+					} else if(entity instanceof EntityMob) {
+						if(mobDist == 0 || dist < mobDist) {
+							mobDist = dist;
+							nearestMob = entity;
+						}
+					} else if(entity instanceof EntityLivingBase) {
+						if(otherDist == 0 || dist < otherDist) {
+							otherDist = dist;
+							nearestOther = entity;
+						}
+					}
+				}
+				
+				// ternary of shame
+				Entity target = nearestCoin != null ? nearestCoin :
+					nearestPlayer != null ? nearestPlayer :
+					nearestMob != null ? nearestMob :
+					nearestOther != null ? nearestOther : null;
+				
+				if(target != null) {
+					EntityBulletBeamBase newBeam = new EntityBulletBeamBase(hitCoin.getThrower() != null ? hitCoin.getThrower() : this.thrower, this.config, this.damage * 1.25F);
+					newBeam.setPosition(coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord);
+					Vec3 delta = Vec3.createVectorHelper(target.posX - newBeam.posX, (target.posY + target.height / 2D) - newBeam.posY, target.posZ - newBeam.posZ);
+					newBeam.setRotationsFromVector(delta);
+					newBeam.performHitscanExternal(delta.lengthVector());
+					worldObj.spawnEntityInWorld(newBeam);
+				} else {
+					EntityBulletBeamBase newBeam = new EntityBulletBeamBase(hitCoin.getThrower() != null ? hitCoin.getThrower() : this.thrower, this.config, this.damage * 1.25F);
+					newBeam.setPosition(coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord);
+					newBeam.setRotationsFromVector(Vec3.createVectorHelper(rand.nextGaussian() * 0.5, -1, rand.nextGaussian() * 0.5));
+					newBeam.performHitscanExternal(100);
+					worldObj.spawnEntityInWorld(newBeam);
+				}
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "largeexplode");
+				data.setFloat("size", 1.5F);
+				data.setByte("count", (byte)1);
+				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord), new TargetPoint(worldObj.provider.dimensionId, coinHit.hitVec.xCoord, coinHit.hitVec.yCoord, coinHit.hitVec.zCoord, 100));
+			
+				
+				return;
 			}
 		}
 

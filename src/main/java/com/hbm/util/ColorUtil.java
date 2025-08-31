@@ -70,6 +70,30 @@ public class ColorUtil {
 			return 0xFFFFFF;
 		}
 	}
+	
+	public static int ir(int color) {
+		return (color & 0xff0000) >> 16;
+	}
+	
+	public static int ig(int color) {
+		return (color & 0x00ff00) >> 8;
+	}
+	
+	public static int ib(int color) {
+		return (color & 0x0000ff) >> 0;
+	}
+	
+	public static float fr(int color) {
+		return ir(color) / 255F;
+	}
+	
+	public static float fg(int color) {
+		return ig(color) / 255F;
+	}
+	
+	public static float fb(int color) {
+		return ib(color) / 255F;
+	}
 
 	@SideOnly(Side.CLIENT)
 	public static int getMedianBrightnessColorFromStack(ItemStack stack) {
