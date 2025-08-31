@@ -60,6 +60,7 @@ public class StructureManager {
 	public static final NBTStructure beached_patrol = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/beached_patrol.nbt"));
 	public static final NBTStructure lighthouse = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/lighthouse.nbt"));
 	public static final NBTStructure dish = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/dish.nbt"));
+	public static final NBTStructure laboratory = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/laboratory.nbt"));
 	public static final NBTStructure radio_house = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/radio_house.nbt"));
 
 	public static final NBTStructure ntmruinsA = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/ntmruinsA.nbt"));
