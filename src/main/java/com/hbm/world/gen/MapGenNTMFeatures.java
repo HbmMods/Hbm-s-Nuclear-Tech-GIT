@@ -15,10 +15,10 @@ import com.hbm.world.gen.component.CivilianFeatures.NTMLab2;
 import com.hbm.world.gen.component.CivilianFeatures.RuralHouse1;
 import com.hbm.world.gen.component.OfficeFeatures.LargeOffice;
 import com.hbm.world.gen.component.OfficeFeatures.LargeOfficeCorner;
-import com.hbm.world.gen.component.RuinFeatures.NTMRuin1;
-import com.hbm.world.gen.component.RuinFeatures.NTMRuin2;
-import com.hbm.world.gen.component.RuinFeatures.NTMRuin3;
-import com.hbm.world.gen.component.RuinFeatures.NTMRuin4;
+//import com.hbm.world.gen.component.RuinFeatures.NTMRuin1;
+//import com.hbm.world.gen.component.RuinFeatures.NTMRuin2;
+//import com.hbm.world.gen.component.RuinFeatures.NTMRuin3;
+//import com.hbm.world.gen.component.RuinFeatures.NTMRuin4;
 import com.hbm.world.gen.component.SiloComponent;
 
 import net.minecraft.world.World;
@@ -124,26 +124,26 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 */
 			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
 
-			if(rand.nextInt(3) == 0) { //Empty Ruin Structures
-				switch(rand.nextInt(4)) {
-				case 0:
-					NTMRuin1 ruin1 = new NTMRuin1(rand, i, j);
-					this.components.add(ruin1);
-					break;
-				case 1:
-					NTMRuin2 ruin2 = new NTMRuin2(rand, i, j);
-					this.components.add(ruin2);
-					break;
-				case 2:
-					NTMRuin3 ruin3 = new NTMRuin3(rand, i, j);
-					this.components.add(ruin3);
-					break;
-				case 3:
-					NTMRuin4 ruin4 = new NTMRuin4(rand, i, j);
-					this.components.add(ruin4);
-				}
+//			if(rand.nextInt(3) == 0) { //Empty Ruin Structures
+//				switch(rand.nextInt(4)) {
+//				case 0:
+//					NTMRuin1 ruin1 = new NTMRuin1(rand, i, j);
+//					this.components.add(ruin1);
+//					break;
+//				case 1:
+//					NTMRuin2 ruin2 = new NTMRuin2(rand, i, j);
+//					this.components.add(ruin2);
+//					break;
+//				case 2:
+//					NTMRuin3 ruin3 = new NTMRuin3(rand, i, j);
+//					this.components.add(ruin3);
+//					break;
+//				case 3:
+//					NTMRuin4 ruin4 = new NTMRuin4(rand, i, j);
+//					this.components.add(ruin4);
+//				}
 
-			} else if(biome.heightVariation <= 0.25F && rand.nextInt(10) == 0) { //for now our only restriction is kinda-flat biomes. that and chance might change idk
+			if(biome.heightVariation <= 0.25F && rand.nextInt(10) == 0) { //for now our only restriction is kinda-flat biomes. that and chance might change idk
 				SiloComponent silo = new SiloComponent(rand, i, j);
 				this.components.add(silo);
 			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
