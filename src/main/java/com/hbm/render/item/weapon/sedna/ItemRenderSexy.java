@@ -11,9 +11,16 @@ import com.hbm.util.Vec3NT;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 @NotableComments
 public class ItemRenderSexy extends ItemRenderWeaponBase {
+	
+	protected ResourceLocation texture;
+	
+	public ItemRenderSexy(ResourceLocation texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
@@ -21,7 +28,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 	@Override
 	public float getViewFOV(ItemStack stack, float fov) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
-		return  fov * (1 - aimingProgress * 0.66F);
+		return  fov * (1 - aimingProgress * 0.33F);
 	}
 
 	@Override
@@ -29,10 +36,6 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 0, 0.875);
 		
 		float offset = 0.8F;
-
-		/*standardAimingTransform(stack,
-				-1.25F * offset, -0.75F * offset, 3.25F * offset,
-			0, -5.25 / 8D, 1);*/
 		
 		standardAimingTransform(stack,
 				-1F * offset, -0.75F * offset, 3F * offset,
@@ -45,6 +48,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
+		// i'm not going overboard with the animation
 		boolean doesCycle = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("CYCLE") != null;
 		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BELT") != null;
 		boolean useShellCount = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("SHELLS") != null;
@@ -79,7 +83,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 			GL11.glPopMatrix();
 		}
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sexy_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		
 		GL11.glTranslated(0, -1, -8);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -172,6 +176,13 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, 8);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
+		this.renderMuzzleFlash(gun.lastShot[0], 150, 7.5);
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -205,7 +216,7 @@ public class ItemRenderSexy extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sexy_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.sexy.renderPart("Gun");
 		ResourceManager.sexy.renderPart("Barrel");
 		ResourceManager.sexy.renderPart("RecoilSpring");

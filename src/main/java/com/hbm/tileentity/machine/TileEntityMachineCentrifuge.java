@@ -236,7 +236,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
 
-			if(audioDuration > 10) {
+			if(audioDuration > 10 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 25) {
 
 				if(audio == null) {
 					audio = createAudioLoop();
@@ -247,6 +247,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 				audio.updateVolume(getVolume(1F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
+				audio.keepAlive();
 
 			} else {
 
@@ -276,7 +277,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 	}
 
 	@Override

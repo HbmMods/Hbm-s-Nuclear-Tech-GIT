@@ -1,129 +1,80 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
-import com.hbm.main.MainRegistry;
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
-import com.hbm.world.gen.INBTTransformable;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineEPress extends BlockContainer implements INBTTransformable {
+public class MachineEPress extends BlockDummyable implements IToolable {
 
-	private final Random field_149933_a = new Random();
-	private static boolean keepInventory;
-
-	public MachineEPress(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public MachineEPress(Material mat) {
+		super(mat);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineEPress();
+	public TileEntity createNewTileEntity(World world, int meta) {
+		if(meta >= 12) return new TileEntityMachineEPress();
+		if(meta >= 6) return new TileEntityProxyCombo(true, false, false);
+		return null;
 	}
 
 	@Override
-	public int getRenderType() {
-		return -1;
+	public int[] getDimensions() {
+		return new int[] {2, 0, 0, 0, 0, 0};
 	}
 
 	@Override
-	public boolean isOpaqueCube() {
-		return false;
+	public int getOffset() {
+		return 0;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
-		if(!keepInventory) {
-			ISidedInventory tileentityfurnace = (ISidedInventory) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
-
-			if(tileentityfurnace != null) {
-				for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
-					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
-
-					if(itemstack != null) {
-						float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-						float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-						float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-
-						while(itemstack.stackSize > 0) {
-							int j1 = this.field_149933_a.nextInt(21) + 10;
-
-							if(j1 > itemstack.stackSize) {
-								j1 = itemstack.stackSize;
-							}
-
-							itemstack.stackSize -= j1;
-							EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-
-							if(itemstack.hasTagCompound()) {
-								entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-							}
-
-							float f3 = 0.05F;
-							entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
-							entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
-							entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
-							p_149749_1_.spawnEntityInWorld(entityitem);
-						}
-					}
-				}
-
-				p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
-			}
-		}
-
-		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+	protected boolean isLegacyMonoblock(World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		return te != null && te instanceof TileEntityMachineEPress;
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 
 		if(itemStack.hasDisplayName()) {
-			((TileEntityMachineEPress) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+			int[] pos = this.findCore(world, x, y, z);
+			if(pos != null) {
+				TileEntityMachineEPress entity = (TileEntityMachineEPress) world.getTileEntity(pos[0], pos[1], pos[2]);
+				if(entity != null) {
+					entity.setCustomName(itemStack.getDisplayName());
+				}
+			}
 		}
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			TileEntityMachineEPress entity = (TileEntityMachineEPress) world.getTileEntity(x, y, z);
-			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			}
-			return true;
-		} else {
-			return false;
-		}
+		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
+	// Un-multiblickable with a hand drill for schenanigans
 	@Override
-	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTTransformable.transformMetaDeco(meta, coordBaseMode);
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if (tool != ToolType.HAND_DRILL) 
+			return false;
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		if (meta >= 12)
+			return false;
+		
+		safeRem = true;
+		world.setBlockToAir(x, y, z);
+		safeRem = false;
+		return true;
 	}
 }

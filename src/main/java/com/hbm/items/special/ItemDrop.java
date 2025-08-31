@@ -202,7 +202,7 @@ public class ItemDrop extends Item {
 			list.add("Continuously heats up matter by");
 			list.add("resonating every planck second.");
 			list.add("Tends to catch fire or to create");
-			list.add("small plamsa arcs. Not edible.");
+			list.add("small plasma arcs. Not edible.");
 		}
 		if (this == ModItems.black_hole) {
 			list.add("Contains a regular singularity");

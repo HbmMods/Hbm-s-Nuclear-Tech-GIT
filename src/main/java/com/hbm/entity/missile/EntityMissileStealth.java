@@ -10,6 +10,7 @@ import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityMissileStealth extends EntityMissileBaseNT {
@@ -27,7 +28,7 @@ public class EntityMissileStealth extends EntityMissileBaseNT {
 	@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_stealth); }
 	@Override public boolean canBeSeenBy(Object radar) { return false; }
 	
-	@Override public void onImpact() { this.explodeStandard(20F, 24, false); ExplosionCreator.composeEffectStandard(worldObj, posX, posY, posZ); }
+	@Override public void onMissileImpact(MovingObjectPosition mop) { this.explodeStandard(20F, 24, false); ExplosionCreator.composeEffectStandard(worldObj, posX, posY, posZ); }
 	@Override public ItemStack getDebrisRareDrop() { return DictFrame.fromOne(ModItems.powder_ash, EnumAshType.MISC); }
 
 }

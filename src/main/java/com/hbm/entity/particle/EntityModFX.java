@@ -31,7 +31,6 @@ public class EntityModFX extends Entity
     public static double interpPosX;
     public static double interpPosY;
     public static double interpPosZ;
-    public static final String __OBFID = "CL_00000914";
     float smokeParticleScale;
     public int particleAge;
     public int maxAge;
@@ -39,7 +38,7 @@ public class EntityModFX extends Entity
     public EntityModFX(World world) {
     	super(world);
     }
-    
+
     protected EntityModFX(World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_)
     {
         super(p_i1218_1_);
@@ -257,7 +256,7 @@ public class EntityModFX extends Entity
     {
         return this.getClass().getSimpleName() + ", Pos (" + this.posX + "," + this.posY + "," + this.posZ + "), RGBA (" + this.particleRed + "," + this.particleGreen + "," + this.particleBlue + "," + this.particleAlpha + "), Age " + this.particleAge;
     }
-	
+
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)

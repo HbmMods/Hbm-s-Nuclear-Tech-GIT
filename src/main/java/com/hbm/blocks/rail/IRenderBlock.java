@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
+@Deprecated
 public interface IRenderBlock {
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

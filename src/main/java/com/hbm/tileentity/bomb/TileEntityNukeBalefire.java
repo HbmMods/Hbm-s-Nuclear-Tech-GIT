@@ -40,7 +40,9 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 		
 		if(!worldObj.isRemote) {
 			
-			if(!this.isLoaded()) {
+			this.loaded = this.isLoaded();
+			
+			if(!loaded) {
 				started = false;
 			}
 			
@@ -89,21 +91,15 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 	}
 	
 	public boolean isLoaded() {
-		
 		return hasEgg() && hasBattery();
 	}
 	
 	public boolean hasEgg() {
-		
-		if(slots[0] != null && slots[0].getItem() == ModItems.egg_balefire) {
-			return true;
-		}
-		
+		if(slots[0] != null && slots[0].getItem() == ModItems.egg_balefire) return true;
 		return false;
 	}
 	
 	public boolean hasBattery() {
-		
 		return getBattery() > 0;
 	}
 	

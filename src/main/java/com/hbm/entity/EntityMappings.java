@@ -31,6 +31,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import net.minecraft.world.biome.BiomeGenMushroomIsland;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -204,6 +205,7 @@ public class EntityMappings {
 		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
 		addEntity(EntityBoatRubber.class, "entity_rubber_boat", 250, false);
 		addEntity(EntityMissileStealth.class, "entity_missile_stealth", 1000);
+		addEntity(EntityCoin.class, "entity_coin", 1000);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);
@@ -279,6 +281,7 @@ public class EntityMappings {
 		for(BiomeGenBase biome : biomes) {
 			
 			if(biome == null) continue;
+			if(biome instanceof BiomeGenMushroomIsland) continue;
 			
 			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
 
