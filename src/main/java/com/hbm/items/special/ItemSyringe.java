@@ -10,6 +10,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.fluidmk2.IFillableItem;
 import net.minecraft.entity.EntityLivingBase;
@@ -354,73 +355,54 @@ public class ItemSyringe extends Item {
 			list.add(I18nUtil.resolveKey("item.syringe_metal_medx.desc"));
 		}
 		if(this == ModItems.syringe_metal_psycho) {
-			for(String s : I18nUtil.resolveKeyArray("item.jetpack_break.desc")) {
+			for(String s : I18nUtil.resolveKeyArray("item.syringe_metal_psycho")) {
 				list.add(s);
 			}
-			list.add("Resistance I for 2 minutes");
-			list.add("Strength I for 2 minutes");
 		}
 		if(this == ModItems.syringe_metal_stimpak) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Heals 2.5 hearts");
+			list.add(I18nUtil.resolveKey("item.syringe_metal_stimpak.desc"));
 		}
 		if(this == ModItems.syringe_metal_super) {
-			for(String s : I18nUtil.resolveKeyArray("item.jetpack_break.desc")) {
+			for(String s : I18nUtil.resolveKeyArray("item.syringe_metal_super.desc")) {
 				list.add(s);
 			}
-			list.add("Heals 25 hearts");
-			list.add("Slowness I for 10 seconds");
 		}
 		if(this == ModItems.syringe_poison) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Deadly");
+			list.add(I18nUtil.resolveKey("item.syringe_poison.desc"));
 		}
 		if(this == ModItems.med_bag) {
-			for(String s : I18nUtil.resolveKeyArray("item.jetpack_break.desc")) {
+			for(String s : I18nUtil.resolveKeyArray("item.med_bag.desc")) {
 				list.add(s);
 			}
-			list.add("Full heal, regardless of max health");
-			list.add("Removes negative effects");
 		}
 		if(this == ModItems.radaway) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Removes 140 RAD");
+			list.add(I18nUtil.resolveKey("item.radaway.desc"));
 		}
 		if(this == ModItems.radaway_strong) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Removes 350 RAD");
+			list.add(I18nUtil.resolveKey("item.radaway_strong.desc"));
 		}
 		if(this == ModItems.radaway_flush) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Removes 1000 RAD");
+			list.add(I18nUtil.resolveKey("tem.radaway_flush.desc"));
 		}
 		if(this == ModItems.syringe_taint) {
-			for(String s : I18nUtil.resolveKeyArray("item.jetpack_break.desc")) {
+			for(String s : I18nUtil.resolveKeyArray("item.syringe_taint.desc")) {
 				list.add(s);
 			}
-			list.add("Tainted I for 60 seconds");
-			list.add("Nausea I for 5 seconds");
-			list.add("Cloud damage + taint = tainted heart effect");
 		}
 		if(this == ModItems.gas_mask_filter) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Repairs worn gas mask");
+			list.add(I18nUtil.resolveKey("item.gas_mask_filter.desc"));
 		}
 		if(this == ModItems.gas_mask_filter_mono) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Repairs worn monoxide mask");
+			list.add(I18nUtil.resolveKey("item.gas_mask_filter_mono.desc"));
 		}
 		if(this == ModItems.jetpack_tank) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Fills worn jetpack with up to 1000mB of kerosene");
+			list.add(I18nUtil.resolveKey("item.jetpack_tank.desc"));
 		}
 		if(this == ModItems.gun_kit_1) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Repairs all weapons in hotbar by 10%");
+			list.add(I18nUtil.resolveKey("item.gun_kit_1.desc"));
 		}
 		if(this == ModItems.gun_kit_2) {
-			list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
-			list.add("Repairs all weapons in hotbar by 50%");
+			list.add(I18nUtil.resolveKey("item.gun_kit_2.desc"));
 		}
 
 		if(this == ModItems.syringe_mkunicorn) {
