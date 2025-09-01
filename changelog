@@ -11,3 +11,5 @@
 
 ## Fixed
 * Fixed broken localization in the recipe selector GUI
+* Fixed the server crashing instantly
+  * I lost track of how many times this has been an issue
