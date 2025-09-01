@@ -1,26 +1,13 @@
-## Added
-* N I 4 N I
-  * It's that one gun from that one game, you throw coins and your shots bounce around
-  * Needs no introduction
-  * Can be upgraded with nickels or gold doubloons for more pocket change to yeet
-  * Found in airdrop supply crates, about 10x rarer than a double barrel shotgun
-* More structures
-  * I haven't even looked at them so it's a surprise for everyone
-* PWR printer
-  * Using it on a PWR controller will cause the game to generate images of each layer of the reactor
-
 ## Changed
-* Updated ukrainian, chinese and russian localization, including QMAW
-* Some previously hardcoded lang strings are now affected by translations
-* Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
-* RBMK control rod colors and auto control rod settings are now copiable
-* Murky wings no longer have slowfall, and using shift+space cancels the momentum
-* Murky wings are now slow by default and speed up when sprinting
-* The arc furnace can now be used with AE2 buses, which was previously not possible due to the unique stacksize limitations
+* The amount of filled rebar that can be rendered at once is now capped (can be changed with the client config `RENDER_REBAR_LIMIT`)
+  * This causes holes and looks a bit buggy, but for now it's better than lagging the game out
+* The amount of light beams per solar boiler is now limited (can be changed with the client config `RENDER_HELIOSTAT_BEAM_LIMIT`)
+* Changed the way mirror linking works for the solar boiler
+  * The max range is now 100m (instead of 25m)
+  * There is now an angle requirement, mirrors cannot be rotated more than 45°
+  * This means that the solar boiler can use more mirrors, the higher up it is
+  * Existing setups will continue to function, as these rules only apply during the linking process
+* The PWR and watz now have NEI handlers, showing the fuel to depleted fuel process
 
 ## Fixed
-* Fixed conveyor grabber dropping items off at an offset when placing them on a conveyor belt due to a client desync
-* Fixed occasional crash caused by using the settings tool on the autoloader
-* Fixed QMAW not correctly working with other languages
-* Fixed QMAW loading breaking entirely due to file encoding
-* Fixed PWR fuel rod textures being 18x18 instead of 16x16
+* Fixed broken localization in the recipe selector GUI

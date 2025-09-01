@@ -250,7 +250,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return i >= 7 && i <= 9;
+		return (i >= 7 && i <= 9) || this.chemplantModule.isSlotClogged(i);
 	}
 
 	@Override

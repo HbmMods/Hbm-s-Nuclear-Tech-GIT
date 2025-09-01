@@ -98,6 +98,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		if(i >= 15 && i <= 17) return true;
 		if(i >= 22 && i <= 24) return true;
 		if(i >= 29 && i <= 31) return true;
+		for(int k = 0; k < 4; k++) if(this.chemplantModule[k].isSlotClogged(i)) return true;
 		return false;
 	}
 
