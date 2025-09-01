@@ -7,6 +7,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -72,18 +73,17 @@ public class JetpackBreak extends JetpackFueledBase {
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 				this.useUpFuel(player, stack, 10);
 			}
-			
+
 			ArmorUtil.resetFlightTime(player);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
+	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-
-		list.add("Regular jetpack that will automatically hover mid-air.");
-		list.add("Sneaking will stop hover mode.");
-		list.add("Hover mode will consume less fuel and increase air-mobility.");
-
+		for(String s : I18nUtil.resolveKeyArray("item.jetpack_break.desc")) {
+			list.add(s);
+		}
 		super.addInformation(stack, player, list, ext);
 	}
 }

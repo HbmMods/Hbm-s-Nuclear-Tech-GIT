@@ -233,7 +233,7 @@ public class ItemCustomMissilePart extends Item {
 					break;
 			}
 		} catch(Exception ex) {
-			list.add(I18nUtil.resolveKey("error.generic"));
+			list.add(I18nUtil.resolveKey("generic.error"));
 		}
 
 		if(type != PartType.CHIP)

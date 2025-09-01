@@ -70,8 +70,9 @@ public class JetpackVectorized extends JetpackFueledBase {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 
-		list.add("High-mobility jetpack.");
-		list.add("Higher fuel consumption.");
+		for(String s : I18nUtil.resolveKeyArray("item.jetpack_vector.desc")) {
+			list.add(s);
+		}
 
 		super.addInformation(stack, player, list, ext);
 	}

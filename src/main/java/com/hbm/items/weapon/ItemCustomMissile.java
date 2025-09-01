@@ -94,7 +94,7 @@ public class ItemCustomMissile extends Item {
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.missile.health") + ": " + EnumChatFormatting.GRAY + health + "HP");
 
 		} catch(Exception ex) {
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("error.generic"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("generic.error"));
 		}
 	}
 

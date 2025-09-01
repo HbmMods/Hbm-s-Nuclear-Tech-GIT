@@ -24,22 +24,22 @@ public class ItemArmorMod extends Item {
 	public final boolean chestplate;
 	public final boolean leggings;
 	public final boolean boots;
-	
+
 	public ItemArmorMod(int type, boolean helmet, boolean chestplate, boolean leggings, boolean boots) {
 		this.type = type;
 		this.helmet = helmet;
 		this.chestplate = chestplate;
 		this.leggings = leggings;
 		this.boots = boots;
-		
+
 		this.setMaxStackSize(1);
 		this.setCreativeTab(MainRegistry.consumableTab);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("armorMod.applicableTo"));
-		
+		list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("armorMod.applicableTo") + ":");
+
 		if(helmet && chestplate && leggings && boots) {
 			list.add("  " + I18nUtil.resolveKey("armorMod.all"));
 		} else {
@@ -53,8 +53,8 @@ public class ItemArmorMod extends Item {
 			if(boots)
 				list.add("  " + I18nUtil.resolveKey("armorMod.boots"));
 		}
-		list.add(EnumChatFormatting.DARK_PURPLE + "Slot:");
-		
+		list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("armorMod.slot") + ":");
+
 		switch(this.type) {
 		case ArmorModHandler.helmet_only: list.add("  " + I18nUtil.resolveKey("armorMod.type.helmet")); break;
 		case ArmorModHandler.plate_only: list.add("  " + I18nUtil.resolveKey("armorMod.type.chestplate")); break;
@@ -72,13 +72,13 @@ public class ItemArmorMod extends Item {
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
 		list.add(stack.getDisplayName());
 	}
-	
+
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) { }
-	
+
 	public void modDamage(LivingHurtEvent event, ItemStack armor) { }
-	
+
 	public Multimap getModifiers(ItemStack armor) { return null; }
-	
+
 	@SideOnly(Side.CLIENT)
 	public void modRender(RenderPlayerEvent.SetArmorModel event, ItemStack armor) { }
 }
