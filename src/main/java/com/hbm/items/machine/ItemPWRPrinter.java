@@ -13,6 +13,8 @@ import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -54,6 +56,8 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 		blockSync = null;
 	}
 
+	// idiot box for server crashes: 2
+	@SideOnly(Side.CLIENT)
 	public static void deserialize(World world, ByteBuf buf) {
 		x1 = buf.readInt();
 		y1 = buf.readInt();
@@ -75,15 +79,12 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 			}
 		}
 
-		System.out.println("oh wow it synced and attempted to GUI!");
-
 		// Open the printer GUI on any client players holding the printer
 		// yeah it's a shit hack yay weee wooo
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		if(player != null && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemPWRPrinter) {
-			FMLNetworkHandler.openGui(Minecraft.getMinecraft().thePlayer, MainRegistry.instance, 0, world, 0, 0, 0);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, 0, 0, 0);
 		}
-
 	}
 
 	@Override
