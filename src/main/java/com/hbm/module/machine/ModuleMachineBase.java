@@ -199,6 +199,13 @@ public abstract class ModuleMachineBase {
 		return false;
 	}
 	
+	/** Returns true if the supplied slot is occupied with an item that does not match the recipe */
+	public boolean isSlotClogged(int slot) {
+		ItemStack stack = slots[slot];
+		if(stack == null) return false;
+		return !isItemValid(slot, stack); // we need to use this because it also handles autoswitch correctly, otherwise autoswitch items may be ejected instantly
+	}
+	
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(progress);
 		ByteBufUtils.writeUTF8String(buf, recipe);

@@ -98,7 +98,22 @@ public class GUIScreenSlicePrinter extends GuiScreen {
 						}
 					}
 
-					renderer.renderBlockByRenderType(block, x, 0, z);
+					int dx = x;
+					int dz = z;
+
+					// swizzle instead of rotating, so the PWR controller faces the correct rotation
+					if(dir == ForgeDirection.WEST) {
+						dx = sizeZ - 1 - z;
+						dz = x;
+					} else if(dir == ForgeDirection.SOUTH) {
+						dx = sizeX - 1 - x;
+						dz = sizeZ - 1 - z;
+					} else if(dir == ForgeDirection.EAST) {
+						dx = z;
+						dz = sizeX - 1 - x;
+					}
+
+					renderer.renderBlockByRenderType(block, dx, 0, dz);
 				}
 			}
 
@@ -124,15 +139,7 @@ public class GUIScreenSlicePrinter extends GuiScreen {
 		GL11.glScaled(1, 1, 0.5); //incredible flattening power
 
 		GL11.glRotated(-30, 1, 0, 0);
-		GL11.glRotated(-45, 0, 1, 0);
-
-		if(dir == ForgeDirection.WEST) {
-			GL11.glRotated(180, 0, 1, 0);
-		} else if(dir == ForgeDirection.NORTH) {
-			GL11.glRotated(-90, 0, 1, 0);
-		} else if(dir == ForgeDirection.SOUTH) {
-			GL11.glRotated(90, 0, 1, 0);
-		}
+		GL11.glRotated(225, 0, 1, 0);
 
 		if(dir == ForgeDirection.WEST || dir == ForgeDirection.EAST) {
 			GL11.glTranslated(sizeX / -2D, -sizeY / 2D, sizeZ / -2D);

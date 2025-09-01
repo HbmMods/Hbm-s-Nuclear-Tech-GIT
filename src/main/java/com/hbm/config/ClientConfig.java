@@ -33,6 +33,8 @@ public class ClientConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> NEI_HIDE_SECRETS =					new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> COOLING_TOWER_PARTICLES =			new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> RENDER_REBAR_SIMPLE =				new ConfigWrapper(false);
+	public static ConfigWrapper<Integer> RENDER_HELIOSTAT_BEAM_LIMIT =		new ConfigWrapper(250);
+	public static ConfigWrapper<Integer> RENDER_REBAR_LIMIT =				new ConfigWrapper(250);
 
 	private static void initDefaults() {
 		configMap.put("GEIGER_OFFSET_HORIZONTAL", GEIGER_OFFSET_HORIZONTAL);
@@ -55,6 +57,8 @@ public class ClientConfig extends RunningConfig {
 		configMap.put("NEI_HIDE_SECRETS", NEI_HIDE_SECRETS);
 		configMap.put("COOLING_TOWER_PARTICLES", COOLING_TOWER_PARTICLES);
 		configMap.put("RENDER_REBAR_SIMPLE", RENDER_REBAR_SIMPLE);
+		configMap.put("RENDER_HELIOSTAT_BEAM_LIMIT", RENDER_HELIOSTAT_BEAM_LIMIT);
+		configMap.put("RENDER_REBAR_LIMIT", RENDER_REBAR_LIMIT);
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */

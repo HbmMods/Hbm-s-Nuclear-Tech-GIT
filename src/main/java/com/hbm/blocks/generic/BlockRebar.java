@@ -372,6 +372,7 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			if(!(o instanceof TileEntityRebar)) continue;
 			TileEntityRebar rebar = (TileEntityRebar) o;
 			if(rebar.progress > 0) rebars.add(rebar);
+			if(rebars.size() >= ClientConfig.RENDER_REBAR_LIMIT.get()) break;
 		}
 
 		Minecraft mc = Minecraft.getMinecraft();
