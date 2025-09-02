@@ -18,12 +18,13 @@ public class ItemModSensor extends ItemArmorMod {
 	public ItemModSensor() {
 		super(ArmorModHandler.extra, true, true, true, true);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.YELLOW + "Beeps near hazardous gasses");
-		list.add(EnumChatFormatting.YELLOW + "Works in the inventory or when applied to armor");
+		for(String s : I18nUtil.resolveKeyArray("item.gas_tester.desc")) {
+			list.add(s);
+		}
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
@@ -42,16 +43,16 @@ public class ItemModSensor extends ItemArmorMod {
 
 	@Override
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
-		
+
 		if(entity.worldObj.isRemote || entity.worldObj.getTotalWorldTime() % 20 != 0) return;
 
 		int x = (int) Math.floor(entity.posX);
 		int y = (int) Math.floor(entity.posY + entity.getEyeHeight() - entity.getYOffset());
 		int z = (int) Math.floor(entity.posZ);
-		
+
 		boolean poison = false;
 		boolean explosive = false;
-		
+
 		for(int i = -3; i <= 3; i++) {
 			for(int j = -1; j <= 1; j++) {
 				for(int k = -3; k <= 3; k++) {
@@ -65,7 +66,7 @@ public class ItemModSensor extends ItemArmorMod {
 				}
 			}
 		}
-		
+
 		if(explosive) {
 			entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.follyAquired", 0.5F, 1.0F);
 		} else if(poison) {

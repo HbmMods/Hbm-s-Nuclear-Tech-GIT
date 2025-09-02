@@ -13,6 +13,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -245,8 +246,9 @@ public class WeaponSpecial extends ItemSword {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		if(this == ModItems.schrabidium_hammer) {
-			list.add("Even though it says \"+1000000000");
-			list.add("damage\", it's actually \"onehit anything\"");
+			for(String s : I18nUtil.resolveKeyArray("item.schrabidium_hammer.desc")) {
+				list.add(s);
+			}
 		}
 		if(this == ModItems.ullapool_caber) {
 			list.add("High-yield Scottish face removal.");
