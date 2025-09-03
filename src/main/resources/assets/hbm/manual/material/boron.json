@@ -1,0 +1,11 @@
+{
+	"name": "Boron",
+	"icon": ["hbm:item.ingot_boron", 1, 0],
+	"trigger": [["hbm:item.ingot_boron"], ["hbm:item.powder_boron"], ["hbm:item.fragment_boron"]],
+	"title": {
+		"en_US": "Boron"
+	},
+	"content": {
+		"en_US": "Can be extracted from [[rare earth ore|Rare Earths]], or in small quantities from coal ash. Blocks neutrons, and is therefore mainly used in casings or control rods for nuclear reactors."
+	}
+}

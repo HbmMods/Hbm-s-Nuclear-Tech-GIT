@@ -1,0 +1,11 @@
+{
+	"name": "Centrifuge",
+	"icon": ["hbm:tile.machine_centrifuge", 1, 0],
+	"trigger": [["hbm:tile.machine_centrifuge"]],
+	"title": {
+		"en_US": "Centrifuge"
+	},
+	"content": {
+		"en_US": "Separates items, can be used as a more efficient way of ore processing. Initially mainly used for gathering [[mercury|Mercury]] from redstone ore, required for making [[desh|Desh]]."
+	}
+}

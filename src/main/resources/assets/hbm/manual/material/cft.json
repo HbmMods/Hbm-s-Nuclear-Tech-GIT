@@ -1,0 +1,11 @@
+{
+	"name": "Fullerite",
+	"icon": ["hbm:item.ingot_cft", 1, 0],
+	"trigger": [["hbm:item.ingot_cft"]],
+	"title": {
+		"en_US": "Fullerite"
+	},
+	"content": {
+		"en_US": "Expensive lategame material, derived from fine soot, captured by [[industrial smokestacks|Smokestack]] and [[ash pits|Ash Pit]], processed in various ways, and finally [[acidized|Ore Acidizer]] using [[BTX]], a derivative of [[vaccum oil|Vacuum Oil]]."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Boiler",
+	"icon": ["hbm:tile.machine_boiler", 1, 0],
+	"trigger": [["hbm:tile.machine_boiler"], ["hbm:tile.machine_industrial_boiler"]],
+	"title": {
+		"en_US": "Boiler"
+	},
+	"content": {
+		"en_US": "Use an [[external heat source|External Heat Source]] to heat up fluids. The input type has to be set with a fluid identifier, with the output being automatically changed to the corresponding hot fluid.<br><br>Used early on for heating up water into [[steam|Steam]], to be used in a [[steam engine|Steam Engine]].<br><br>Also required for oil refining, as [[refineries|Oil Refinery]] require hot oil.<br><br>Standard copper boilers may explode when running full, while industrial boilers will simply stop. Destroyed boilers cannot be repaired."
+	}
+}

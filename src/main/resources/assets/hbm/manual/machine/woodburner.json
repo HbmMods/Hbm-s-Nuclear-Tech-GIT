@@ -1,0 +1,11 @@
+{
+	"name": "Wood-Burning Generator",
+	"icon": ["hbm:tile.machine_wood_burner", 1, 0],
+	"trigger": [["hbm:tile.machine_wood_burner"]],
+	"title": {
+		"en_US": "Wood-Burning Generator"
+	},
+	"content": {
+		"en_US": "The first available way of making power. Can burn solid or liquid fuels, the operating mode may be changed by clicking the arrow button. Burns wooden logs and planks more efficiently. Cables and pipes can be connected at the back."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Anvil",
+	"icon": ["hbm:tile.anvil_iron", 1, 0],
+	"trigger": [["hbm:tile.anvil_iron"], ["hbm:tile.anvil_lead"], ["hbm:tile.anvil_steel"], ["hbm:tile.anvil_desh"], ["hbm:tile.anvil_ferrouranium"], ["hbm:tile.anvil_saturnite"], ["hbm:tile.anvil_bismuth_bronze"], ["hbm:tile.anvil_arsenic_bronze"], ["hbm:tile.anvil_schrabidate"], ["hbm:tile.anvil_dnt"], ["hbm:tile.anvil_osmiridium"], ["hbm:tile.anvil_murky"]],
+	"title": {
+		"en_US": "Anvil"
+	},
+	"content": {
+		"en_US": "One of the first tools used in progression. The anvil GUI has two relevant sections:<br><br>The top slots are used for smithing type recipes, like forging meteorite ingots or making [[foundry molds|Foundry Molds]].<br><br>The bottom section is for construction, once a recipe is selected, clicking the blue button will perform the recipe. The anvil will use items directly from the inventory."
+	}
+}

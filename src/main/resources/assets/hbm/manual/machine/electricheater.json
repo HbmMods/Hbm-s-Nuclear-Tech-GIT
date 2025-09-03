@@ -1,0 +1,11 @@
+{
+	"name": "Electric Heater",
+	"icon": ["hbm:tile.heater_electric", 1, 0],
+	"trigger": [["hbm:tile.heater_electric"]],
+	"title": {
+		"en_US": "Electric Heater"
+	},
+	"content": {
+		"en_US": "An [[external heat source|External Heat Source]] powered by electricity. Needs to be configured with a screwdriver.<br><br>Due to the first law of thermodynamics, boiling water with an electric heater will produce less energy than is used to create it."
+	}
+}
