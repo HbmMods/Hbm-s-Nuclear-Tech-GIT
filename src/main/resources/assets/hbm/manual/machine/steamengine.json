@@ -1,0 +1,11 @@
+{
+	"name": "Steam Engine",
+	"icon": ["hbm:tile.machine_steam_engine", 1, 0],
+	"trigger": [["hbm:tile.machine_steam_engine"]],
+	"title": {
+		"en_US": "Steam Engine"
+	},
+	"content": {
+		"en_US": "The earliest way of making power out of [[steam|Steam]], usually from a [[boiler|Boiler]]. Outputs [[low-pressure steam|Low-Pressure Steam]], which either has to be vented or [[condensed|Condenser]] back into water.<br><br>Can only handle regular pressure steam, higher pressures require a [[steam turbine|Steam Turbine]]."
+	}
+}

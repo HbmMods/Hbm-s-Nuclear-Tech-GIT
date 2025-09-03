@@ -1,0 +1,11 @@
+{
+	"name": "Firebox",
+	"icon": ["hbm:tile.heater_firebox", 1, 0],
+	"trigger": [["hbm:tile.heater_firebox"]],
+	"title": {
+		"en_US": "Firebox"
+	},
+	"content": {
+		"en_US": "Cheapest type of [[external heat source|External Heat Source]]. Burning things like coal, [[coke|Coke]] or [[solid fuel|Solid Fuel]] increases the TU output as well as the efficiency.<br><br>Placing an [[ashpit|Ashpit]] under it will capture ashes, which can be burned again or recycled."
+	}
+}

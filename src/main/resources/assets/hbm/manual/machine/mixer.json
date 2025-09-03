@@ -1,0 +1,11 @@
+{
+	"name": "Industrial Mixer",
+	"icon": ["hbm:tile.machine_mixer", 1, 0],
+	"trigger": [["hbm:tile.machine_mixer"]],
+	"title": {
+		"en_US": "Industrial Mixer"
+	},
+	"content": {
+		"en_US": "Can combine two fluids and one item into a single fluid. The recipe is defined by setting the output fluid with a fluid identifier. If an output has multiple possible recipes, the recipe can be changed using the [C] button."
+	}
+}

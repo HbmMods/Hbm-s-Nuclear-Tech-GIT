@@ -1,0 +1,11 @@
+{
+	"name": "Combination Oven",
+	"icon": ["hbm:tile.furnace_combination", 1, 0],
+	"trigger": [["hbm:tile.furnace_combination"]],
+	"title": {
+		"en_US": "Combination Oven"
+	},
+	"content": {
+		"en_US": "A type of oven that can produce solid and liquid outputs. Requires an [[external heat source|External Heat Source]] to function."
+	}
+}

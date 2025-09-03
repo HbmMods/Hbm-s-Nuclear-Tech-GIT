@@ -1,0 +1,11 @@
+{
+	"name": "Heating Oven",
+	"icon": ["hbm:tile.heater_oven", 1, 0],
+	"trigger": [["hbm:tile.heater_oven"]],
+	"title": {
+		"en_US": "Heating Oven"
+	},
+	"content": {
+		"en_US": "Advanced version of the [[firebox|Firebox]], an [[external heat source|External Heat Source]]. Burns 5x hotter, but uses up fuel 8x quicker, making it less eficient. Heating ovens have a copper contact at the bottom, allowing them to be stacked, however they only receive heat from below at half efficiency.<br><br>Placing an [[ashpit|Ashpit]] under it will capture ashes, which can be burned again or recycled."
+	}
+}

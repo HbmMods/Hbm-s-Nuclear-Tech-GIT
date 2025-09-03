@@ -1,0 +1,11 @@
+{
+	"name": "Ashpit",
+	"icon": ["hbm:tile.machine_ashpit", 1, 0],
+	"trigger": [["hbm:tile.machine_ashpit"]],
+	"title": {
+		"en_US": "Ashpit"
+	},
+	"content": {
+		"en_US": "An ashpit can be placed under certain machines to collect ashes. [[Fireboxes|Firebox]] and [[heating ovens|Heating Oven]] will produce types of ash depending on the fuel used. [[Smokestacks|Smokestack]] create fly ash, with industrial smokestacks in particular also producing small amounts of fine soot, the raw material used for making [[fullerite|Fullerite]]."
+	}
+}

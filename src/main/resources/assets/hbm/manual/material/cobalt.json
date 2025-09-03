@@ -1,0 +1,11 @@
+{
+	"name": "Cobalt",
+	"icon": ["hbm:item.ingot_cobalt", 1, 0],
+	"trigger": [["hbm:item.ingot_cobalt"], ["hbm:item.nugget_cobalt"], ["hbm:item.billet_cobalt"]],
+	"title": {
+		"en_US": "Cobalt"
+	},
+	"content": {
+		"en_US": "Rare ore, also found in the nether near the ceiling. Drops fragments that need to be [[shredded|Shredder]]. Also obtainable from shredding lapis dust, or from [[rare earth ore|Rare Earths]]."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Rare Earths",
+	"icon": ["hbm:item.chunk_ore", 1, 0],
+	"trigger": [["hbm:item.chunk_ore"], ["hbm:tile.ore_rare"], ["hbm:tile.ore_gneiss_rare"]],
+	"title": {
+		"en_US": "Rare Earths"
+	},
+	"content": {
+		"en_US": "A type of ore, found especially common in [[schist layers|Graphitic Schist]]. Can be shredded into powder to be used for making [[desh|Desh]], or hammered into fragments using an [[anvil|Anvil]] to be shredded and then smelted.<br><br>Contains:<br>[[Boron]]<br>[[Lanthanium]]<br>[[Cobalt]]<br>[[Cerium]]<br>[[Neodymium]]<br>[[Niobium]]<br><br>Also yields [[zirconium|Zirconium]] when [[centrifuged|Centrifuge]]."
+	}
+}

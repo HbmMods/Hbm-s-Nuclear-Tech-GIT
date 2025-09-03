@@ -1,0 +1,11 @@
+{
+	"name": "External Heat Source",
+	"icon": ["hbm:tile.heater_firebox", 1, 0],
+	"trigger": [],
+	"title": {
+		"en_US": "External Heat Source"
+	},
+	"content": {
+		"en_US": "Many machines require TU - thermal units - to function. TU is transfered via copper contacts on the undersides of machines, they cannot be connected with pipes or cables.<br><br>Machines that can provide heat are:<br>[[Firebox]]<br>[[Heating Oven]]<br>[[Fluid Burner]]<br>[[Electric Heater]]<br>[[Heat Exchanging Heater]]<br><br>Machines that use TU include, but are not limited to:<br>[[Stirling Engine]]<br>[[Combination Oven]]<br>[[Boiler]]<br>[[Steel Furnace]]<br>[[Crucible]]"
+	}
+}
