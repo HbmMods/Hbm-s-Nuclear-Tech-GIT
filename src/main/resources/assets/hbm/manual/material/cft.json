@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.ingot_cft", 1, 0],
 	"trigger": [["hbm:item.ingot_cft"]],
 	"title": {
-		"en_US": "Fullerite"
+		"en_US": "Fullerite",
+		"zh_CN": "富勒烯"
 	},
 	"content": {
-		"en_US": "Expensive lategame material, derived from fine soot, captured by [[industrial smokestacks|Smokestack]] and [[ash pits|Ash Pit]], processed in various ways, and finally [[acidized|Ore Acidizer]] using [[BTX]], a derivative of [[vaccum oil|Vacuum Oil]]."
+		"en_US": "Expensive lategame material, derived from fine soot, captured by [[industrial smokestacks|Smokestack]] and [[ash pits|Ash Pit]], processed in various ways, and finally [[acidized|Ore Acidizer]] using [[BTX]], a derivative of [[vaccum oil|Vacuum Oil]].",
+		"zh_CN": "昂贵的后期材料，是细烟灰的衍生产品；要制造富勒烯，首先要通过[[工业烟囱|Smokestack]]和[[储灰槽|Ash Pit]]收集细烟灰，再经过若干步处理，最终再用[[真空炼油|Vacuum Oil]]的产品之一[[BTX]]进行[[酸化|Ore Acidizer]]即可。"
 	}
 }
