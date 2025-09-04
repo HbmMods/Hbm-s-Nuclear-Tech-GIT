@@ -1,0 +1,11 @@
+{
+	"name": "Advanced Oil Processing",
+	"icon": ["hbm:tile.machine_catalytic_cracker", 1, 0],
+	"trigger": [],
+	"title": {
+		"en_US": "Advanced Oil Processing"
+	},
+	"content": {
+		"en_US": "Advanced oil processing (\"Oil 2\") involves turning [[crude oil|Crude Oil]] into [[cracked oil|Cracked Oil]] using a [[catalytic cracking tower|Catalytic Cracking Tower]] and separating it using a [[refinery|Oil Refinery]].<br><br>For this you will need:<br>[[Boiler]]<br>[[External Heat Source]]<br>[[Condenser]]<br>[[Oil Refinery]]<br>[[Catalytic Cracking Tower]]<br>[[Fractioning Tower]]<br><br>Connect your source of crude oil to the cracking tower. Also supply the cracking tower with steam, produced by a boiler. Pipe the resulting low-pressure steam into a condenser, and loop the water back into the boiler (closed loop steam cycle). The cracking tower also creates petroleum gas, ready for use, and cracked oil. Heat the cracked oil in a boiler and pipe it into the refinery. Two of the resulting fluids can be separated further using the fractioning towers.<br><br>This process will yield the following fluids:<br>[[Heating Oil]] (for burning)<br>[[Cracked Diesel]] (a lower power form of [[diesel|Diesel]])<br>[[Kerosene]] (powerful fuel)<br>[[Petroleum Gas]] (for plastics)<br>[[Aromatic Hydrocarbons]] (for plastics and explosives)<br>[[Unsaturated Hydrocarbons]] (for plastics, burns incredibly hot)<br><br>These resources enable the creation of some new materials:<br>[[Rubber]] made from unsaturateds and [[sulfur|Sulfur]]<br>[[Bakelite]] as a cheap [[polymer|Polymer]] substitute<br>[[TNT]] from aromatics<br>[[C4]] from unsaturateds<br><br>The [[coker unit|Coker Unit]] (\"Oil 2.5\") can turn many oil products into [[petroleum coke|Coke]] with a byproduct, these byproducts can often be processed into cracked oil derivatives.<br><br>See also:<br>[[Oil Collection]]<br>[[Basic Oil Processing]]<br>[[Vacuum Oil Processing]]"
+	}
+}

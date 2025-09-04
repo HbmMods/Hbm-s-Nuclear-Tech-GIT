@@ -1,0 +1,11 @@
+{
+	"name": "Pyrolysis Oven",
+	"icon": ["hbm:tile.machine_pyrooven", 1, 0],
+	"trigger": [["hbm:tile.machine_pyrooven"]],
+	"title": {
+		"en_US": "Pyrolysis Oven"
+	},
+	"content": {
+		"en_US": "A machine available after [[vacuum oil processing|Vacuum Oil Processing]] which plays a similar role as the [[coker unit|Coker Unit]]. Instead of [[petroleum coke|Coke]], it makes the more powerful [[solid fuel|Solid Fuel]]. Also has several recipes for [[bedrock ore processing|Bedrock Ore]] shared with the [[combination oven|Combination Oven]], for making [[syngas|Syngas]], and for making [[fine soot|Ashpit]]."
+	}
+}

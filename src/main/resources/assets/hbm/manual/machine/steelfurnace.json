@@ -1,0 +1,11 @@
+{
+	"name": "Steel Furnace",
+	"icon": ["hbm:tile.furnace_steel", 1, 0],
+	"trigger": [["hbm:tile.furnace_steel"]],
+	"title": {
+		"en_US": "Steel Furnace"
+	},
+	"content": {
+		"en_US": "A furnace powered by an [[external heat source|External Heat Source]]. Can run three recipes at the same time. Certain recipes, like smelting ores or logs, have a bonus output, indicated by the small meter below the progress bar. Not particularly fast due to the heat transfer limitation, but very versatile."
+	}
+}

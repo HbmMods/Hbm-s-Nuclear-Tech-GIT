@@ -1,0 +1,11 @@
+{
+	"name": "Hydraulic Fracking Tower",
+	"icon": ["hbm:tile.machine_fracking_tower", 1, 0],
+	"trigger": [["hbm:tile.machine_fracking_tower"]],
+	"title": {
+		"en_US": "Hydraulic Fracking Tower"
+	},
+	"content": {
+		"en_US": "The fastest and most efficient way of collecting [[oil|Crude Oil]] from an [[oil deposit|Oil Collection]], compared to a [[derrick|Derrick]] or [[pumpjack|Pumpjack]].<br><br>Using it like this is not advised though, as the fracking tower's main advantage is being able to access bedrock oil deposits. Pumping oil out of bedrock deposits is slower, but these deposts will bever deplete.<br><br>Requires [[fracking solution|Fracking Solution]] in addition to large amounts of power to work, even when using it on regular oil deposits.<br><br>Caustion: May alter the landscape a little bit.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+	}
+}

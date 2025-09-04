@@ -1,15 +1,7 @@
 ## Changed
-* The amount of filled rebar that can be rendered at once is now capped (can be changed with the client config `RENDER_REBAR_LIMIT`)
-  * This causes holes and looks a bit buggy, but for now it's better than lagging the game out
-* The amount of light beams per solar boiler is now limited (can be changed with the client config `RENDER_HELIOSTAT_BEAM_LIMIT`)
-* Changed the way mirror linking works for the solar boiler
-  * The max range is now 100m (instead of 25m)
-  * There is now an angle requirement, mirrors cannot be rotated more than 45°
-  * This means that the solar boiler can use more mirrors, the higher up it is
-  * Existing setups will continue to function, as these rules only apply during the linking process
-* The PWR and watz now have NEI handlers, showing the fuel to depleted fuel process
+* Added more QMAW manual pages
+* WIAJ presentations now use a configurable keybind, like QMAW
+  * The default keybind is now F5, in order to not collide with QMAW's F1
 
 ## Fixed
-* Fixed broken localization in the recipe selector GUI
-* Fixed the server crashing instantly
-  * I lost track of how many times this has been an issue
+* Fixed fusion reactor item IO being broken

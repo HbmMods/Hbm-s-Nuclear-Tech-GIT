@@ -1,0 +1,11 @@
+{
+	"name": "Catalytic Cracking Tower",
+	"icon": ["hbm:tile.machine_catalytic_cracker", 1, 0],
+	"trigger": [["hbm:tile.machine_catalytic_cracker"]],
+	"title": {
+		"en_US": "Catalytic Cracking Tower"
+	},
+	"content": {
+		"en_US": "Vital for [[advanced oil processing|Advanced Oil Processing]]. Right-click with a fluid identifier to set the input type. Requires [[steam|Steam]] to work, outputs [[low-pressure steam|Low-Pressure Steam]] in addition to its oil output. Mainly used for cracking [[crude oil|Crude Oil]] into [[cracked oil|Cracked Oil]], but can also convert many other types of petrochemicals."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Solid Fuel",
+	"icon": ["hbm:item.solid_fuel", 1, 0],
+	"trigger": [["hbm:item.solid_fuel"]],
+	"title": {
+		"en_US": "Solid Fuel"
+	},
+	"content": {
+		"en_US": "Oil in a solid, conveniently cuboid form. Burns twice as long as coal and way hotter. Commonly made in a [[solidifier|Solidifier]] or [[pyrolysis oven|Pyrolysis Oven]]. Used in solid rocket propellant."
+	}
+}

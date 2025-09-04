@@ -1,0 +1,11 @@
+{
+	"name": "Basic Oil Processing",
+	"icon": ["hbm:tile.machine_refinery", 1, 0],
+	"trigger": [],
+	"title": {
+		"en_US": "Basic Oil Processing"
+	},
+	"content": {
+		"en_US": "Basic oil processing (\"Oil 1\") involves separating [[crude oil|Crude Oil]] using a [[refinery|Oil Refinery]].<br><br>For this you will need:<br>[[Boiler]]<br>[[External Heat Source]]<br>[[Oil Refinery]]<br>[[Fractioning Tower]]<br><br>Connect your source of crude oil to the boiler. Set the boiler's input type to crude oil by right-clicking it with a fluid identifier. Power up the boiler using a heat source (like a [[firebox|Firebox]]) and pipe the resulting hot crude oil into the refinery.<br><br>Most resulting oils can be split once more with a fractioning tower. Once again use a fluid identifier to set the fractioning tower's input type, then connect it with the refinery.<br><br>This process will yield the following fluids:<br>[[Petroleum Gas]] (for plastics and various other uses)<br>[[Bitumen]] (for asphalt)<br>[[Heating Oil]] (mostly for burning)<br>[[Industrial Oil]] (may be processed into [[petroil|Petroil]])<br>[[Lubricant]] (for various uses)<br>[[Diesel]] (powerful early engine fuel)<br>[[Kerosene]] (powerful fuel)<br><br>These resources enable the creation of some new materials:<br>[[Polymer]] from petroleum gas<br>[[Gasoline]] out of naphtha<br>[[Desh]] using light oil<br>[[LPG]], a compressed form of petroleum gas, powerful fuel<br><br>See also:<br>[[Oil Collection]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+	}
+}

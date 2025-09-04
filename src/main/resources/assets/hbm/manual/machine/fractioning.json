@@ -1,0 +1,11 @@
+{
+	"name": "Fractioning Tower",
+	"icon": ["hbm:tile.machine_fraction_tower", 1, 0],
+	"trigger": [["hbm:tile.machine_fraction_tower"]],
+	"title": {
+		"en_US": "Fractioning Tower"
+	},
+	"content": {
+		"en_US": "Used in many refining processes to extend the [[refinery's|Oil Refinery]] variety of outputs. Splits one fluid into exactly two output fluids. Right-click with a fluid identifier to set the input type. Stacking multiple fractioning towers will combine them, the type has to be set on the lowest one. Input oil travels upwards and output oil travels downwards, so it is advised to always connect pipes to the bottom tower segment. Segments can be split using fraction tower spacers.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Stirling Engine",
+	"icon": ["hbm:tile.machine_stirling", 1, 0],
+	"trigger": [["hbm:tile.machine_stirling"], ["hbm:tile.machine_stirling_steel"]],
+	"title": {
+		"en_US": "Stirling Engine"
+	},
+	"content": {
+		"en_US": "Early machine for turning [[TU|External Heat Source]] directly into energy. Has low efficiency, and can only accept limited amounts of heat. Too much heat will cause the machine to violently disassemble. Detached parts can be collected and slotted back into the machine.<br><br>A step up from the [[wood burner|Wood-Burning Generator]], but not by much."
+	}
+}

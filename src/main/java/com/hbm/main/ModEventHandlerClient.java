@@ -745,7 +745,7 @@ public class ModEventHandlerClient {
 		try {
 			CanneryBase cannery = Jars.canneries.get(comp);
 			if(cannery != null) {
-				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1", Keyboard.getKeyName(HbmKeybinds.wiaj.getKeyCode())));
 				lastCannery = comp;
 				canneryTimestamp = Clock.get_ms();
 			}
@@ -895,7 +895,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.wiaj.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
 
 			ComparableStack comp = canneryTimestamp > Clock.get_ms() - 100 ? lastCannery : null;
 

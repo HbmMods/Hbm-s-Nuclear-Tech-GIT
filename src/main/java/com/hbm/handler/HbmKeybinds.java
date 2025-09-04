@@ -39,6 +39,7 @@ public class HbmKeybinds {
 	public static KeyBinding trainKey = new KeyBinding(category + ".trainInv", Keyboard.KEY_R, category);
 
 	public static KeyBinding qmaw = new KeyBinding(category + ".qmaw", Keyboard.KEY_F1, category);
+	public static KeyBinding wiaj = new KeyBinding(category + ".wiaj", Keyboard.KEY_F5, category);
 	
 	public static KeyBinding abilityCycle = new KeyBinding(category + ".ability", -99, category);
 	public static KeyBinding abilityAlt = new KeyBinding(category + ".abilityAlt", Keyboard.KEY_LMENU, category);
@@ -65,6 +66,7 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(trainKey);
 		
 		ClientRegistry.registerKeyBinding(qmaw);
+		ClientRegistry.registerKeyBinding(wiaj);
 
 		ClientRegistry.registerKeyBinding(reloadKey);
 		ClientRegistry.registerKeyBinding(gunPrimaryKey);

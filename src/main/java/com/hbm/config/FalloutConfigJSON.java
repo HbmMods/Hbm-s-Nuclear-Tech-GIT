@@ -207,7 +207,7 @@ public class FalloutConfigJSON {
 		public FalloutEntry fo(double falloffStart) { this.falloffStart = falloffStart; return this; }
 		public FalloutEntry sol(boolean solid) { this.isSolid = solid; return this; }
 		
-		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist, Block originalBlock, int originalMeta) {
+		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist) {
 
 			if(dist > maxDist || dist < minDist) return false;
 			if(matchesBlock != null && b != matchesBlock) return false;
@@ -219,9 +219,9 @@ public class FalloutConfigJSON {
 			MetaBlock conversion = chooseRandomOutcome((primaryChance == 1D || rand.nextDouble() < primaryChance) ? primaryBlocks : secondaryBlocks);
 			
 			if(conversion != null) {
-				if(conversion.block == ModBlocks.sellafield_slaked && originalBlock == ModBlocks.sellafield_slaked && conversion.meta <= originalMeta) return false;
-				if(conversion.block == ModBlocks.sellafield_bedrock && originalBlock == ModBlocks.sellafield_bedrock && conversion.meta <= originalMeta) return false;
-				if(originalBlock == ModBlocks.sellafield_bedrock && conversion.block != ModBlocks.sellafield_bedrock) return false;
+				if(conversion.block == ModBlocks.sellafield_slaked && b == ModBlocks.sellafield_slaked && conversion.meta <= meta) return false;
+				if(conversion.block == ModBlocks.sellafield_bedrock && b == ModBlocks.sellafield_bedrock && conversion.meta <= meta) return false;
+				if(b == ModBlocks.sellafield_bedrock && conversion.block != ModBlocks.sellafield_bedrock) return false;
 				if(y == 0 && conversion.block != ModBlocks.sellafield_bedrock) return false;
 				
 				world.setBlock(x, y, z, conversion.block, conversion.meta, 3);

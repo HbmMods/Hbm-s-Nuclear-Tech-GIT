@@ -1,0 +1,11 @@
+{
+	"name": "Heat Exchanging Heater",
+	"icon": ["hbm:tile.heater_heatex", 1, 0],
+	"trigger": [["hbm:tile.heater_heatex"]],
+	"title": {
+		"en_US": "Heat Exchanging Heater"
+	},
+	"content": {
+		"en_US": "Powerful [[external heat source|External Heat Source]] usually used by nuclear reactory that employ a form of [[coolant|Perfluoromethyl]] instead of making [[steam|Steam]] outright. Produces usable heats by using hot fluids and cooling them down in the process.<br><br>The top field in the GUI is for the amount of fluid used per cycle, the bottom field is for the tick delay between cycles for fine-tuning."
+	}
+}

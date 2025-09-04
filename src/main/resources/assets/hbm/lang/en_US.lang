@@ -468,7 +468,7 @@ book_lore.beacon.page.9=Once the desired peer has responded, give the "ACCEPT CO
 book_lore.beacon.page.10=using the FAR-5M standard. Communication will end immediately if no standard has been negotiated, serving as a "ping". Should communication continue, the connection can be ended using another long single tone "END CONNECTION".
 book_lore.beacon.page.11=Chapter 5: Warranty $ [ page intentionally left blank ]
 
-cannery.f1=[ Press F1 for help ]
+cannery.f1=[ Press %s for a presentation ]
 
 cannery.centrifuge=Gas Centrifuge
 cannery.centrifuge.0=Gas centrifuges can be supplied with fluid using regular fluid ducts.

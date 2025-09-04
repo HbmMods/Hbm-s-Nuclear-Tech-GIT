@@ -1,0 +1,11 @@
+{
+	"name": "Vacuum Oil Processing",
+	"icon": ["hbm:tile.machine_vacuum_distill", 1, 0],
+	"trigger": [],
+	"title": {
+		"en_US": "Vacuum Oil Processing"
+	},
+	"content": {
+		"en_US": "Vacuum oil processing (\"Oil 3\") requires [[oil|Crude Oil]] to be [[compressed|Compressor]] and then processed in a [[vacuum refinery|Vacuum Refinery]]. Due to the refinery requiring [[bismuth|Bismuth]] to be made, vacuum refining can only be done once an [[RBMK]] has been built.<br><br>For this you will need:<br>Two [[compressors|Compressor]]<br>[[Vacuum Refinery]]<br>[[Fractioning Tower]]<br><br>Connect your source of crude oil to a compressor, then connect that compressor to a second compressor configured to \"1 PU -> 2PU\". This compressed crude oil then has to be piped into the vacuum refinery. Like before, most of the results can be fractioned again using the fractioning towers.<br><br>This process will yield the following fluids:<br>[[Heavy Heating Oil]] for burning<br>[[Reformate]] as blending stock for high-power fuels<br>[[BTX]] for making [[hard plastic|Hard Plastic]] and [[fullerite|Fullerite]]<br>[[Sour Gas]] for [[TATB]] or as a source of [[sulfur|Sulfur]]<br>[[Reformate Gas]] as a powerful fuel, for [[saturnite|Saturnite]] and late-game welding<br><br>These resources enable the creation of some new materials:<br>[[Hard Plastic]] made from BTX<br>[[TATB]] as a better form of [[TNT]] used in nuclear bombs<br>[[Saturnite]] for making weapon parts<br><br>Once [[bismuth|Bismuth]] has been obtained, different paths to making vacuum oils become available (\"Oil 3.5\"). The [[hydrotreater|Hydrotreater]] can use [[hydrogen|Hydrogen]] to turn cracked oil products into their non-cracked counterparts, or desulfurize oil which can be processed in a standard [[refinery|Oil Refinery]] to make vacuum oil products. The [[cytalytic reformer|Catalytic Reformer]] can process less valuable oils into more desirable ones like reformate, reformate gas, aromatic hydrocarbons and petroleum gas.<br><br>See also:<br>[[Oil Collection]]<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]"
+	}
+}

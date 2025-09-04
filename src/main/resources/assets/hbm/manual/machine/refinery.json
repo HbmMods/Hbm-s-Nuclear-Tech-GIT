@@ -1,0 +1,11 @@
+{
+	"name": "Oil Refinery",
+	"icon": ["hbm:tile.machine_refinery", 1, 0],
+	"trigger": [["hbm:tile.machine_refinery"]],
+	"title": {
+		"en_US": "Oil Refinery"
+	},
+	"content": {
+		"en_US": "Used for [[processing|Basic Oil Processing]] either [[crude oil|Crude Oil]] or [[cracked oil|Cracked Oil]]. Oil needs to be heated in a [[boiler|Boiler]] beforehand. Has four fluid outputs and one solid output."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Pumpjack",
+	"icon": ["hbm:tile.machine_pumpjack", 1, 0],
+	"trigger": [["hbm:tile.machine_pumpjack"]],
+	"title": {
+		"en_US": "Pumpjack"
+	},
+	"content": {
+		"en_US": "A faster and more efficient way of extracting [[oil|Crude Oil]]. When placed on top of an [[oil depsoit|Oil Collection]] and powered, it will slowly drill down and pump up oil and [[natural gas|Natural Gas]]. A more powerful version of the [[oil derrick|Derrick]].<br><br>A green indicator means that the derrick is currently drilling or pumping up oil. A red indicator means that the drill is jammed, the tanks are full or the derrick is out of power. A crossed out droplet means that the derrick's drill has reached the max depth, and there's no oil to gather.<br><br>See also:<br>[[Basic Oil Processing]]"
+	}
+}

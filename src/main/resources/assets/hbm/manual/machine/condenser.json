@@ -1,0 +1,11 @@
+{
+	"name": "Condenser",
+	"icon": ["hbm:tile.machine_condenser", 1, 0],
+	"trigger": [["hbm:tile.machine_condenser"], ["hbm:tile.machine_condenser_powered"], ["hbm:tile.machine_tower_small"], ["hbm:tile.machine_tower_large"]],
+	"title": {
+		"en_US": "Condenser"
+	},
+	"content": {
+		"en_US": "Turns [[low-pressure steam|Low-Pressure Steam]] back into water. A small condenser can handle 100mB/t, an auxiliary cooling tower 1,000mb/t, a large cooling tower 10,000mB/t and a high-power condenser 1,000,000mB/t. The high-power condenser needs electricity to work, all other condensers work passively.<br><br>An important part of any closed steam cycle, for example for [[steam engines|Steam Engine]], [[cracking towers|Catalytic Cracking Tower]] or most nuclear reactors."
+	}
+}

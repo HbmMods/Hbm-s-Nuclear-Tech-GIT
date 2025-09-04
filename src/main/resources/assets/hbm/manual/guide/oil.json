@@ -1,0 +1,11 @@
+{
+	"name": "Oil Collection",
+	"icon": ["hbm:tile.ore_oil", 1, 0],
+	"trigger": [["hbm:tile.ore_oil"], ["hbm:item.oil_detector", 1, 0]],
+	"title": {
+		"en_US": "Oil Collection"
+	},
+	"content": {
+		"en_US": "Oil can be found in two forms: Oil deposits and bedrock oil.<br><br>Oil deposits spawn like ores but shouldn't be minded, rather they require a [[derrick|Derrick]] or [[pumpjack|Pumpjack]] on the surface to dig down and extract the oil. The deposits can be found either when mining, or from the surface by using an oil deposit detector. The detector scans a small radius for oil, and also gives a notification when there's a deposit directly below. Oil deposits will last a while, but are ultimately finite.<br><br>Bedrock oil cannot be located this way, instead it is marked on the surface by patches of oily dirt or sand. Bedrock oil is infinite, however it requires a specialized [[hydraulic fracking tower|Hydraulic Fracking Tower]] to be extracted, which needs [[fracking solution|Fracking Solution]] to work.<br><br>See also:<br>[[Basic Oil Processing]]"
+	}
+}

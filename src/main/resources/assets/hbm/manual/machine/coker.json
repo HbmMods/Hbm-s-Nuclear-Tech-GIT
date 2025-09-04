@@ -1,0 +1,11 @@
+{
+	"name": "Coker Unit",
+	"icon": ["hbm:tile.machine_coker", 1, 0],
+	"trigger": [["hbm:tile.machine_coker"]],
+	"title": {
+		"en_US": "Coker Unit"
+	},
+	"content": {
+		"en_US": "Can turn many types of oil into [[petroleum coke|Coke]] at varying efficiencies. Usually produces an oil byproduct, which can be processed into [[cracked oil derivatives|Advanced Oil Processing]]. Requires an [[external heat source|External Heat Source]]."
+	}
+}
