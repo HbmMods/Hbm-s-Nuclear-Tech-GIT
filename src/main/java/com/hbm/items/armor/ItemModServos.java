@@ -26,13 +26,17 @@ public class ItemModServos extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if(this == ModItems.servo_set) {
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.servo_set.chestplate"));
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.servo_set.leggings"));
+		if (this == ModItems.servo_set) {
+			String[] lines = I18nUtil.resolveKeyArray("item.servo_set.desc");
+			for (String line : lines) {
+				list.add(EnumChatFormatting.DARK_PURPLE + line);
+			}
 		}
-		if(this == ModItems.servo_set_desh) {
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.servo_set_desh.chestplate"));
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.servo_set_desh.leggings"));
+		if (this == ModItems.servo_set_desh) {
+			String[] lines = I18nUtil.resolveKeyArray("item.servo_set_desh.desc");
+			for (String line : lines) {
+				list.add(EnumChatFormatting.DARK_PURPLE + line);
+			}
 		}
 
 		list.add("");
