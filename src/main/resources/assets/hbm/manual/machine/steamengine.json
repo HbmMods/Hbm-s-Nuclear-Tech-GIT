@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_steam_engine", 1, 0],
 	"trigger": [["hbm:tile.machine_steam_engine"]],
 	"title": {
-		"en_US": "Steam Engine"
+		"en_US": "Steam Engine",
+		"zh_CN": "蒸汽机"
 	},
 	"content": {
-		"en_US": "The earliest way of making power out of [[steam|Steam]], usually from a [[boiler|Boiler]]. Outputs [[low-pressure steam|Low-Pressure Steam]], which either has to be vented or [[condensed|Condenser]] back into water.<br><br>Can only handle regular pressure steam, higher pressures require a [[steam turbine|Steam Turbine]]."
+		"en_US": "The earliest way of making power out of [[steam|Steam]], usually from a [[boiler|Boiler]]. Outputs [[low-pressure steam|Low-Pressure Steam]], which either has to be vented or [[condensed|Condenser]] back into water.<br><br>Can only handle regular pressure steam, higher pressures require a [[steam turbine|Steam Turbine]].",
+		"zh_CN": "使用[[蒸汽|Steam]]发电的最早方式，而此时蒸汽通常来自[[锅炉|Boiler]]。会输出[[低压蒸汽|Low-Pressure Steam]]，这些低压蒸汽必须被排放，或者被[[冷凝|Condenser]]回水。<br><br>蒸汽机只能处理普通蒸汽，处理高等级蒸汽需要[[汽轮机|Steam Turbine]]。"
 	}
 }

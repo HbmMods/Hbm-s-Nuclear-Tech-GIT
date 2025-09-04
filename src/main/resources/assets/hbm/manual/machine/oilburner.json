@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.heater_oilburner", 1, 0],
 	"trigger": [["hbm:tile.heater_oilburner"]],
 	"title": {
-		"en_US": "Fluid Burner"
+		"en_US": "Fluid Burner",
+		"zh_CN": "流体燃烧器"
 	},
 	"content": {
-		"en_US": "An [[external heat source|External Heat Source]] powered by flammable fluids, usually derivatives of [[oil|Crude Oil]]. Needs to be turned on in the GUI to function. The flow rate can be increased using a screwdriver, from 1mB/t to 10mB/t."
+		"en_US": "An [[external heat source|External Heat Source]] powered by flammable fluids, usually derivatives of [[oil|Crude Oil]]. Needs to be turned on in the GUI to function. The flow rate can be increased using a screwdriver, from 1mB/t to 10mB/t.",
+		"zh_CN": "一种由可燃流体供能的[[外部热源|External Heat Source]]，常燃烧来自[[原油|Crude Oil]]的流体。需要在GUI中开机才会工作。可使用螺丝刀调整内部流体的燃烧速率， 范围从1mB/t到10mB/t."
 	}
 }

@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.heater_firebox", 1, 0],
 	"trigger": [["hbm:tile.heater_firebox"]],
 	"title": {
-		"en_US": "Firebox"
+		"en_US": "Firebox",
+		"zh_CN": "燃烧室"
 	},
 	"content": {
-		"en_US": "Cheapest type of [[external heat source|External Heat Source]]. Burning things like coal, [[coke|Coke]] or [[solid fuel|Solid Fuel]] increases the TU output as well as the efficiency.<br><br>Placing an [[ashpit|Ashpit]] under it will capture ashes, which can be burned again or recycled."
+		"en_US": "Cheapest type of [[external heat source|External Heat Source]]. Burning things like coal, [[coke|Coke]] or [[solid fuel|Solid Fuel]] increases the TU output as well as the efficiency.<br><br>Placing an [[ashpit|Ashpit]] under it will capture ashes, which can be burned again or recycled.",
+		"zh_CN": "最廉价的[[外部热源|External Heat Source]]。在其中燃烧煤炭、[[焦炭|Coke]]或[[固体燃料|Solid Fuel]]等物品可提高燃烧室的TU输出，同时也可提高燃料效率。<br><br>在其下方放置[[储灰槽|Ashpit]]可收集灰烬，收集的灰烬可回收或者再次燃烧。"
 	}
 }

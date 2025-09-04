@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.chunk_ore", 1, 0],
 	"trigger": [["hbm:item.chunk_ore"], ["hbm:tile.ore_rare"], ["hbm:tile.ore_gneiss_rare"]],
 	"title": {
-		"en_US": "Rare Earths"
+		"en_US": "Rare Earths",
+		"zh_CN": "稀土"
 	},
 	"content": {
-		"en_US": "A type of ore, found especially common in [[schist layers|Graphitic Schist]]. Can be shredded into powder to be used for making [[desh|Desh]], or hammered into fragments using an [[anvil|Anvil]] to be shredded and then smelted.<br><br>Contains:<br>[[Boron]]<br>[[Lanthanium]]<br>[[Cobalt]]<br>[[Cerium]]<br>[[Neodymium]]<br>[[Niobium]]<br><br>Also yields [[zirconium|Zirconium]] when [[centrifuged|Centrifuge]]."
+		"en_US": "A type of ore, found especially common in [[schist layers|Graphitic Schist]]. Can be shredded into powder to be used for making [[desh|Desh]], or hammered into fragments using an [[anvil|Anvil]] to be shredded and then smelted.<br><br>Contains:<br>[[Boron]]<br>[[Lanthanium]]<br>[[Cobalt]]<br>[[Cerium]]<br>[[Neodymium]]<br>[[Niobium]]<br><br>Also yields [[zirconium|Zirconium]] when [[centrifuged|Centrifuge]].",
+		"zh_CN": "一大类矿物，主要存在于[[页岩地层|Graphitic Schist]]中。可粉碎为用于制作[[Desh]]的粉末，也可在[[砧|Anvil]]中砸成碎片后再进一步粉碎和烧炼。<br><br>含有：<br>[[硼|Boron]]<br>[[镧|Lanthanium]]<br>[[钴|Cobalt]]<br>[[铈|Cerium]]<br>[[钕|Neodymium]]<br>[[铌|Niobium]]<br><br>使用[[离心机|Centrifuge]]处理时，还可获取[[锆|Zirconium]]."
 	}
 }
