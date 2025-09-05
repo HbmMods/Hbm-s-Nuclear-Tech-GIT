@@ -345,67 +345,17 @@ public class ItemSyringe extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(this == ModItems.syringe_antidote) {
-			list.add(I18nUtil.resolveKey("item.syringe_antidote.desc"));
-		}
-		if(this == ModItems.syringe_awesome) {
-			list.add(I18nUtil.resolveKey("item.syringe_awesome.desc"));
-		}
-		if(this == ModItems.syringe_metal_medx) {
-			list.add(I18nUtil.resolveKey("item.syringe_metal_medx.desc"));
-		}
-		if(this == ModItems.syringe_metal_psycho) {
-			for(String s : I18nUtil.resolveKeyArray("item.syringe_metal_psycho")) {
-				list.add(s);
+		String descKey = this.getUnlocalizedName() + ".desc";
+		String[] descriptions = I18nUtil.resolveKeyArray(descKey);
+
+		if (descriptions != null && descriptions.length > 0) {
+			for (String desc : descriptions) {
+				list.add(desc);
 			}
-		}
-		if(this == ModItems.syringe_metal_stimpak) {
-			list.add(I18nUtil.resolveKey("item.syringe_metal_stimpak.desc"));
-		}
-		if(this == ModItems.syringe_metal_super) {
-			for(String s : I18nUtil.resolveKeyArray("item.syringe_metal_super.desc")) {
-				list.add(s);
-			}
-		}
-		if(this == ModItems.syringe_poison) {
-			list.add(I18nUtil.resolveKey("item.syringe_poison.desc"));
-		}
-		if(this == ModItems.med_bag) {
-			for(String s : I18nUtil.resolveKeyArray("item.med_bag.desc")) {
-				list.add(s);
-			}
-		}
-		if(this == ModItems.radaway) {
-			list.add(I18nUtil.resolveKey("item.radaway.desc"));
-		}
-		if(this == ModItems.radaway_strong) {
-			list.add(I18nUtil.resolveKey("item.radaway_strong.desc"));
-		}
-		if(this == ModItems.radaway_flush) {
-			list.add(I18nUtil.resolveKey("tem.radaway_flush.desc"));
-		}
-		if(this == ModItems.syringe_taint) {
-			for(String s : I18nUtil.resolveKeyArray("item.syringe_taint.desc")) {
-				list.add(s);
-			}
-		}
-		if(this == ModItems.gas_mask_filter) {
-			list.add(I18nUtil.resolveKey("item.gas_mask_filter.desc"));
-		}
-		if(this == ModItems.gas_mask_filter_mono) {
-			list.add(I18nUtil.resolveKey("item.gas_mask_filter_mono.desc"));
-		}
-		if(this == ModItems.jetpack_tank) {
-			list.add(I18nUtil.resolveKey("item.jetpack_tank.desc"));
-		}
-		if(this == ModItems.gun_kit_1) {
-			list.add(I18nUtil.resolveKey("item.gun_kit_1.desc"));
-		}
-		if(this == ModItems.gun_kit_2) {
-			list.add(I18nUtil.resolveKey("item.gun_kit_2.desc"));
+		} else {
+			list.add(I18nUtil.resolveKey(descKey));
 		}
 
-		if(this == ModItems.syringe_mkunicorn) {
 			list.add(EnumChatFormatting.RED + "?");
 		}
 	}

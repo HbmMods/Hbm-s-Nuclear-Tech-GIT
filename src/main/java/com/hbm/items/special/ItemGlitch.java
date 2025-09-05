@@ -15,6 +15,9 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.i18n.I18nUtil;
 
+import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -176,65 +179,14 @@ public class ItemGlitch extends Item implements IBatteryItem {
 	}
 
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 		list.add(I18nUtil.resolveKey("item.glitch.desc"));
 		list.add("");
-		switch(MainRegistry.polaroidID) {
-		case 1:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.1"));
-			break;
-		case 2:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.2"));
-			break;
-		case 3:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.3"));
-			break;
-		case 4:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.4"));
-			break;
-		case 5:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.5"));
-			break;
-		case 6:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.6"));
-			break;
-		case 7:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.7"));
-			break;
-		case 8:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.8"));
-			break;
-		case 9:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.9"));
-			break;
-		case 10:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.10"));
-			break;
-		case 11:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.11"));
-			break;
-		case 12:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.12"));
-			break;
-		case 13:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.13"));
-			break;
-		case 14:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.14"));
-			break;
-		case 15:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.15"));
-			break;
-		case 16:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.16"));
-			break;
-		case 17:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.17"));
-			break;
-		case 18:
-			list.add(I18nUtil.resolveKey("item.glitch.desc.18"));
-			break;
+
+		int id = MainRegistry.polaroidID;
+		if (id >= 1 && id <= 18) {
+			list.add(I18nUtil.resolveKey("item.glitch.desc." + id));
 		}
 	}
 
