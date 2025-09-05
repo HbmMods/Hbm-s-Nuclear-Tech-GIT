@@ -357,6 +357,5 @@ public class ItemSyringe extends Item {
 		}
 
 			list.add(EnumChatFormatting.RED + "?");
-		}
 	}
 }
