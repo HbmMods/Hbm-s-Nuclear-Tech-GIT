@@ -214,65 +214,35 @@ public class ItemEnergy extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-		if(this == ModItems.can_smart) {
-			list.add(I18nUtil.resolveKey("item.can_smart.desc"));
-		}
-		if(this == ModItems.can_creature) {
-			list.add(I18nUtil.resolveKey("item.can_creature.desc"));
-		}
-		if(this == ModItems.can_redbomb) {
-			list.add(I18nUtil.resolveKey("item.can_redbomb.desc"));
-		}
-		if(this == ModItems.can_mrsugar) {
-			list.add(I18nUtil.resolveKey("item.can_mrsugar.desc"));
-		}
-		if(this == ModItems.can_overcharge) {
-			list.add(I18nUtil.resolveKey("item.can_overcharge.desc"));
-		}
-		if(this == ModItems.can_luna) {
-			list.add(I18nUtil.resolveKey("item.can_luna.desc"));
-		}
-		if(this == ModItems.can_bepis) {
-			list.add(I18nUtil.resolveKey("item.can_bepis.desc"));
-		}
-		if(this == ModItems.can_breen) {
-			for (String line : I18nUtil.resolveKeyArray("item.can_breen.desc")) {
-				list.add(line);
-			}
-		}
-		if(this == ModItems.chocolate_milk) {
-			for (String line : I18nUtil.resolveKeyArray("item.chocolate_milk.desc")) {
-				list.add(line);
-			}
-		}
-		if(this == ModItems.bottle_nuka) {
-			list.add(I18nUtil.resolveKey("item.bottle_nuka.desc"));
-		}
-		if(this == ModItems.bottle_cherry) {
-			list.add(I18nUtil.resolveKey("item.bottle_cherry.desc"));
-		}
-		if(this == ModItems.bottle_quantum) {
-			list.add(I18nUtil.resolveKey("item.bottle_quantum.desc"));
-		}
-		if(this == ModItems.bottle2_korl) {
-			list.add(I18nUtil.resolveKey("item.bottle2_korl.desc"));
-		}
-		if(this == ModItems.bottle2_fritz) {
-			list.add(I18nUtil.resolveKey("item.bottle2_fritz.desc"));
-		}
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+		// Особые случаи с альтернативами
 		if(this == ModItems.bottle_sparkle) {
 			if(MainRegistry.polaroidID == 11)
-				list.add(I18nUtil.resolveKey("item.bottle_sparkle.alt"));
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
-				list.add(I18nUtil.resolveKey("item.bottle_sparkle.desc"));
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
+			return;
 		}
 		if(this == ModItems.bottle_rad) {
 			if(MainRegistry.polaroidID == 11)
-				list.add(I18nUtil.resolveKey("item.bottle_rad.alt"));
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
-				list.add(I18nUtil.resolveKey("item.bottle_rad.desc"));
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
+			return;
 		}
-		if(this.requiresOpener) list.add(I18nUtil.resolveKey("item.bottle.desc"));
+
+		if(this == ModItems.can_breen || this == ModItems.chocolate_milk) {
+			for (String line : I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc")) {
+				list.add(line);
+			}
+			return;
+		}
+
+		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
+
+		if(this.requiresOpener) {
+			list.add(I18nUtil.resolveKey("item.bottle.desc"));
+		}
 	}
 }
