@@ -1,0 +1,11 @@
+{
+	"name": "Assembly Machine",
+	"icon": ["hbm:tile.machine_assembly_machine", 1, 0],
+	"trigger": [["hbm:tile.machine_assembly_machine"]],
+	"title": {
+		"en_US": "Assembly Machine"
+	},
+	"content": {
+		"en_US": "Universal machine for building things with up to twelve item inputs. Important early on and used widely throughout progression. Build in an [[anvil|Anvil]], using plates from a [[press|Press]]."
+	}
+}

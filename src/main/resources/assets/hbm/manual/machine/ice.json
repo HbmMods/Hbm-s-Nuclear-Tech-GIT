@@ -1,0 +1,11 @@
+{
+	"name": "Industrial Combustion Engine",
+	"icon": ["hbm:tile.machine_combustion_engine", 1, 0],
+	"trigger": [["hbm:tile.machine_combustion_engine"]],
+	"title": {
+		"en_US": "Industrial Combustion Engine"
+	},
+	"content": {
+		"en_US": "An improved engine using combustible fuels. The efficiency of the fuel grade used depends on the installed piston set. Will not work if no piston set is installed. Flow rate can be adjusted in the GUI.<br><br>See also:<br>[[Diesel Generator]]<br>[[Turbofan]]<br>[[Combined Cycle Gas Turbine]]"
+	}
+}

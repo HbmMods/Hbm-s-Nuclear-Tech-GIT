@@ -1,0 +1,11 @@
+{
+	"name": "Shredder",
+	"icon": ["hbm:tile.machine_shredder", 1, 0],
+	"trigger": [["hbm:tile.machine_shredder"]],
+	"title": {
+		"en_US": "Shredder"
+	},
+	"content": {
+		"en_US": "Allows ores to be shredded into powder, which doubles the yield. Any item that has no recipe will be shredded anyway, and turned to scrap. Requires two shredder blades to work, blades made from [[desh|Desh]] will never break. Will process one item from every slot at the same time, so filling all slots will make it run more efficiently."
+	}
+}
