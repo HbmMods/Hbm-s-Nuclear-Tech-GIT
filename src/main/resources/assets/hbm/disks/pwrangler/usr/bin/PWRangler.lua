@@ -57,7 +57,7 @@ end
 
 buttons = {}
 
-local deltas = {1,5,10} -- This is very bad. We need new buttons
+local deltas = {1,5,10} -- This is very bad. Need new buttons
 for i, d in ipairs(deltas) do
     buttons[i] = newButton(61+(i-1)*7, 6, 6, 2, 0xFFFFFF, 0xAAAAAA, function() component.proxy(pwrController).setLevel(call(pwrController, "getLevel")+d) end)
     buttons[i+3] = newButton(61+(i-1)*7, 9, 6, 2, 0xFFFFFF, 0xAAAAAA, function() component.proxy(pwrController).setLevel(call(pwrController, "getLevel")-d) end)
@@ -163,7 +163,7 @@ gpu.fill(99,15,7,1,"█")
 --HotDelta
 
 gpu.set(66,19,"┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃")
-for (y=22,30,2) do
+for y=22,30,2 do
     gpu.fill(66,y,19,1,"█")
 end
 gpu.set(66,32,"┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃")
@@ -209,7 +209,7 @@ while (runSig == true) do
     gpu.setBackground(0xFFFFFF)
 
     gpu.setForeground(0xFFFFFF)
-    for (y = 22, 30, 2) do
+    for y = 22, 30, 2 do
         gpu.fill(66,y,19,1,"█")
     end
 
