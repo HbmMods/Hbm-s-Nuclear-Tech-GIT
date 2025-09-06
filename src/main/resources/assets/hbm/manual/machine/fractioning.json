@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_fraction_tower", 1, 0],
 	"trigger": [["hbm:tile.machine_fraction_tower"]],
 	"title": {
-		"en_US": "Fractioning Tower"
+		"en_US": "Fractioning Tower",
+		"zh_CN": "分馏塔"
 	},
 	"content": {
-		"en_US": "Used in many refining processes to extend the [[refinery's|Oil Refinery]] variety of outputs. Splits one fluid into exactly two output fluids. Right-click with a fluid identifier to set the input type. Stacking multiple fractioning towers will combine them, the type has to be set on the lowest one. Input oil travels upwards and output oil travels downwards, so it is advised to always connect pipes to the bottom tower segment. Segments can be split using fraction tower spacers.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+		"en_US": "Used in many refining processes to extend the [[refinery's|Oil Refinery]] variety of outputs. Splits one fluid into exactly two output fluids. Right-click with a fluid identifier to set the input type. Stacking multiple fractioning towers will combine them, the type has to be set on the lowest one. Input oil travels upwards and output oil travels downwards, so it is advised to always connect pipes to the bottom tower segment. Segments can be split using fraction tower spacers.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+		"zh_CN": "用于多个原油精炼步骤，以扩展[[炼油厂|Oil Refinery]]产物的种类。可将一种流体分离为刚好两种流体。使用流体识别码右键点击以 设置输入流体种类。多个分馏塔堆叠时会合并，此时需要在最底部的分馏塔处 设置流体种类。输入的流体会向上运动，而输出的流体会向下运动，因此建议 在分馏塔最下方一段连接管道。各段分馏塔之间可使用分馏塔分隔器分隔。<br><br>另见：<br>[[基础炼油|Basic Oil Processing]]<br>[[高级炼油|Advanced Oil Processing]]<br>[[真空炼油|Vacuum Oil Processing]]"
 	}
 }

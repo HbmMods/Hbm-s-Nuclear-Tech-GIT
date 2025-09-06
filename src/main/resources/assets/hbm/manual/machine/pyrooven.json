@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_pyrooven", 1, 0],
 	"trigger": [["hbm:tile.machine_pyrooven"]],
 	"title": {
-		"en_US": "Pyrolysis Oven"
+		"en_US": "Pyrolysis Oven",
+		"zh_CN": "热解炉"
 	},
 	"content": {
-		"en_US": "A machine available after [[vacuum oil processing|Vacuum Oil Processing]] which plays a similar role as the [[coker unit|Coker Unit]]. Instead of [[petroleum coke|Coke]], it makes the more powerful [[solid fuel|Solid Fuel]]. Also has several recipes for [[bedrock ore processing|Bedrock Ore]] shared with the [[combination oven|Combination Oven]], for making [[syngas|Syngas]], and for making [[fine soot|Ashpit]]."
+		"en_US": "A machine available after [[vacuum oil processing|Vacuum Oil Processing]] which plays a similar role as the [[coker unit|Coker Unit]]. Instead of [[petroleum coke|Coke]], it makes the more powerful [[solid fuel|Solid Fuel]]. Also has several recipes for [[bedrock ore processing|Bedrock Ore]] shared with the [[combination oven|Combination Oven]], for making [[syngas|Syngas]], and for making [[fine soot|Ashpit]].",
+		"zh_CN": "在[[真空炼油|Vacuum Oil Processing]]阶段后才可获得的机器，与[[焦化装置|Coker Unit]]用途一致。热解炉可将油类固化为能量更高的[[固体燃料|Solid Fuel]]，而非[[石油焦炭|Coke]]。也有一些与[[复式炼焦炉|Combination Oven]]共享的基岩矿石处理配方，制作[[合成气|Syngas]]的配方，以及制作[[细烟灰|Ashpit]的配方。"
 	}
 }

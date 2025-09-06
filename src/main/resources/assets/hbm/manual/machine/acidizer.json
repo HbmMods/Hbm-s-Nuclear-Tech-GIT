@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_crystallizer", 1, 0],
 	"trigger": [["hbm:tile.machine_crystallizer"]],
 	"title": {
-		"en_US": "Ore Acidizer"
+		"en_US": "Ore Acidizer",
+		"zh_CN": "矿物酸化机"
 	},
 	"content": {
-		"en_US": "Processing machine that can turn ores into crystals, which yield more when [[centrifuged|Centrifuge]]. Also used heavily for [[bedrock ore processing|Bedrock Ore Processing]]."
+		"en_US": "Processing machine that can turn ores into crystals, which yield more when [[centrifuged|Centrifuge]]. Also used heavily for [[bedrock ore processing|Bedrock Ore Processing]].",
+		"zh_CN": "将矿物酸化为晶体的处理机器，[[离心|Centrifuge]]这些晶体可以实现矿物增产。也在[[基岩矿石处理|Bedrock Ore Processing]]中大量使用。"
 	}
 }

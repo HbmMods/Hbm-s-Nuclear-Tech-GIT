@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_arc_welder", 1, 0],
 	"trigger": [["hbm:tile.machine_arc_welder"]],
 	"title": {
-		"en_US": "Arc Welder"
+		"en_US": "Arc Welder",
+		"zh_CN": "电弧焊机"
 	},
 	"content": {
-		"en_US": "Mainly used for producing welded plates as well as assembling missiles. Power demand changes heavily based on recipe. Important for making [[dense copper or gold wires|Dense Wire]] before being able to cast them using the [[crucible|Crucible]], as one sample is required beforehand to make a foundry mold."
+		"en_US": "Mainly used for producing welded plates as well as assembling missiles. Power demand changes heavily based on recipe. Important for making [[dense copper or gold wires|Dense Wire]] before being able to cast them using the [[crucible|Crucible]], as one sample is required beforehand to make a foundry mold.",
+		"zh_CN": "主要用于制造焊接板和装配导弹，其能量需求会随配方大幅度改变。在能够通过[[坩埚|Crucible]]铸造[[致密线材|Dense Wire]]前，使用电弧焊机制造致密铜线或金线很重要，因为制造致密线材的铸造模具需要 一个致密线材作为样本。"
 	}
 }

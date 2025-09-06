@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_diesel", 1, 0],
 	"trigger": [["hbm:tile.machine_diesel"]],
 	"title": {
-		"en_US": "Diesel Generator"
+		"en_US": "Diesel Generator",
+		"zh_CN": "柴油发电机"
 	},
 	"content": {
-		"en_US": "A simple, early way of making power out of combustible fuels, like [[diesel|Diesel]] or [[gasoline|Gasoline]]. Can only hold 4,000mB of fuel, so explosive barrels cannot be emptied in them, as those carry 10,000mB. Can be stopped using a redstone signal.<br><br>See also:<br>[[Industrial Combustion Engine]]<br>[[Turbofan]]<br>[[Combined Cycle Gas Turbine]]"
+		"en_US": "A simple, early way of making power out of combustible fuels, like [[diesel|Diesel]] or [[gasoline|Gasoline]]. Can only hold 4,000mB of fuel, so explosive barrels cannot be emptied in them, as those carry 10,000mB. Can be stopped using a redstone signal.<br><br>See also:<br>[[Industrial Combustion Engine]]<br>[[Turbofan]]<br>[[Combined Cycle Gas Turbine]]",
+		"zh_CN": "一种简单且早期的燃烧[[柴油|Diesel]]、[[汽油|Gasoline]]等可燃流体的发电手段。只能储存4,000mB燃料，所以并不能在其中放出装有 10,000mB流体的炸药桶中的燃料。收到红石信号时停止工作。<br><br>另见：<br>[[工业内燃机|Industrial Combustion Engine]]<br>[[涡扇发动机|Turbofan]]<br>[[联合循环燃气轮机|Combined Cycle Gas Turbine]]"
 	}
 }

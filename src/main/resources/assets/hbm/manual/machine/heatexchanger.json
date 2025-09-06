@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.heater_heatex", 1, 0],
 	"trigger": [["hbm:tile.heater_heatex"]],
 	"title": {
-		"en_US": "Heat Exchanging Heater"
+		"en_US": "Heat Exchanging Heater",
+		"zh_CN": "换热加热器"
 	},
 	"content": {
-		"en_US": "Powerful [[external heat source|External Heat Source]] usually used by nuclear reactory that employ a form of [[coolant|Perfluoromethyl]] instead of making [[steam|Steam]] outright. Produces usable heats by using hot fluids and cooling them down in the process.<br><br>The top field in the GUI is for the amount of fluid used per cycle, the bottom field is for the tick delay between cycles for fine-tuning."
+		"en_US": "Powerful [[external heat source|External Heat Source]] usually used by nuclear reactory that employ a form of [[coolant|Perfluoromethyl]] instead of making [[steam|Steam]] outright. Produces usable heats by using hot fluids and cooling them down in the process.<br><br>The top field in the GUI is for the amount of fluid used per cycle, the bottom field is for the tick delay between cycles for fine-tuning.",
+		"zh_CN": "强力的[[外部热源|External Heat Source]]，主要被使用某种形式的[[冷却剂|Perfluoromethyl]]，而完全不产生[[蒸汽|Steam]]的核反应堆使用。通过接收热流体并将其冷却的过程产生可利用的热量。<br><br>GUI上方的输入框用于设定每个工作循环使用的热流体量，下方的输入框用于设定 每个工作循环之间的tick数，以进行精细调控。"
 	}
 }
