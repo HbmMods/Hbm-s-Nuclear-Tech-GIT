@@ -1,7 +1,9 @@
 ## Changed
 * Added more QMAW manual pages
-* WIAJ presentations now use a configurable keybind, like QMAW
-  * The default keybind is now F5, in order to not collide with QMAW's F1
+* WIAJ presentations now use the same configurable keybind as QMAW
+  * Shift has to be held for the presentations, while F1 will open the standard QMAW page
+* Double UZIs no longer render weirdly when dropped
 
 ## Fixed
 * Fixed fusion reactor item IO being broken
+* Fixed issue with the chemical factory where the declogging feature would be triggered by a recipe processor that doesn't even own the reported slot

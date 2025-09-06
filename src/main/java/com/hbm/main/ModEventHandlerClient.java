@@ -743,17 +743,6 @@ public class ModEventHandlerClient {
 		}
 
 		try {
-			CanneryBase cannery = Jars.canneries.get(comp);
-			if(cannery != null) {
-				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1", Keyboard.getKeyName(HbmKeybinds.wiaj.getKeyCode())));
-				lastCannery = comp;
-				canneryTimestamp = Clock.get_ms();
-			}
-		} catch(Exception ex) {
-			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
-		}
-
-		try {
 			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
 			if(qmaw == null) {
 				qmaw = QMAWLoader.triggers.get(new ComparableStack(comp.item, 1, OreDictionary.WILDCARD_VALUE));
@@ -762,6 +751,17 @@ public class ModEventHandlerClient {
 				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
 				lastQMAW = qmaw;
 				qmawTimestamp = Clock.get_ms();
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
+		}
+
+		try {
+			CanneryBase cannery = Jars.canneries.get(comp);
+			if(cannery != null) {
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1", Keyboard.getKeyName(Keyboard.KEY_LSHIFT) + " + " + Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
+				lastCannery = comp;
+				canneryTimestamp = Clock.get_ms();
 			}
 		} catch(Exception ex) {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
@@ -895,7 +895,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(HbmKeybinds.wiaj.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Minecraft.getMinecraft().currentScreen != null) {
 
 			ComparableStack comp = canneryTimestamp > Clock.get_ms() - 100 ? lastCannery : null;
 
@@ -913,7 +913,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Minecraft.getMinecraft().currentScreen != null) {
 
 			QuickManualAndWiki qmaw = qmawTimestamp > Clock.get_ms() - 100 ? lastQMAW : null;
 
