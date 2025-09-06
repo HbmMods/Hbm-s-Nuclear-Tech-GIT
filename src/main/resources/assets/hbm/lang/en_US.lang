@@ -169,7 +169,7 @@ armor.vats=Enemy HUD
 armor.yield=Protection applies to damage <%s
 
 armorMod.all=All
-armorMod.applicableTo=Applicable To
+armorMod.applicableTo=Applicable To:
 armorMod.boots=Boots
 armorMod.bless=You feel blessed.
 armorMod.chestplates=Chestplates
@@ -178,7 +178,7 @@ armorMod.helmets=Helmets
 armorMod.horizontalDash=Grants horizontal dashes
 armorMod.insertHere=Insert armor to modify...
 armorMod.leggings=Leggings
-armorMod.slot=Slot
+armorMod.slot=Slot:
 armorMod.canBeWorn=Can be worn on its own!
 armorMod.type.battery=Battery
 armorMod.type.boots=Boots

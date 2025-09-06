@@ -160,7 +160,7 @@ armor.vats=HUD del nemico
 armor.yield=La protezione si applica ai danni da <%s
 
 armorMod.all=Tutto
-armorMod.applicableTo=Applicabile a
+armorMod.applicableTo=Applicabile a:
 armorMod.boots=Stivali
 armorMod.chestplates=Corazze
 armorMod.helmets=Elmetti

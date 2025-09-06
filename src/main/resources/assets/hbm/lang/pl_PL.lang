@@ -153,7 +153,7 @@ armor.vats=HUD Przeciwników
 armor.yield=Ochrona dotyczy obrażeń <%s
 
 armorMod.all=Wszystkiego
-armorMod.applicableTo=Stosuje się do
+armorMod.applicableTo=Stosuje się do:
 armorMod.boots=Butów
 armorMod.chestplates=Napierśników
 armorMod.helmets=Hełmów

@@ -168,7 +168,7 @@ armor.vats=Детектор ворогів
 armor.yield=Захист застосовується до шкоди <%s
 
 armorMod.all=До всього
-armorMod.applicableTo=Застосовується до
+armorMod.applicableTo=Застосовується до:
 armorMod.boots=Чобот
 armorMod.chestplates=Нагрудника
 armorMod.helmets=Шолома

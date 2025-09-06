@@ -169,7 +169,7 @@ armor.vats=Детектор врагов
 armor.yield=Защита применима к урону <%s
 
 armorMod.all=Всему
-armorMod.applicableTo=Применяется к
+armorMod.applicableTo=Применяется к:
 armorMod.boots=Ботинкам
 armorMod.bless=Вы чувствуете благословение.
 armorMod.chestplates=Нагруднику
@@ -178,7 +178,7 @@ armorMod.helmets=Шлему
 armorMod.horizontalDash=Предоставляет горизонтальные рывки
 armorMod.insertHere=Вставьте броню, чтобы её модифицировать...
 armorMod.leggings=Поножам
-armorMod.slot=Слот
+armorMod.slot=Слот:
 armorMod.canBeWorn=Может быть надето самостоятельно!
 armorMod.type.battery=Аккумулятор
 armorMod.type.boots=Ботинки
