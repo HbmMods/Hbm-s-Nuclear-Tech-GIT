@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_wood_burner", 1, 0],
 	"trigger": [["hbm:tile.machine_wood_burner"]],
 	"title": {
-		"en_US": "Wood-Burning Generator"
+		"en_US": "Wood-Burning Generator",
+		"zh_CN": "火力发电机"
 	},
 	"content": {
-		"en_US": "The first available way of making power. Can burn solid or liquid fuels, the operating mode may be changed by clicking the arrow button. Burns wooden logs and planks more efficiently. Cables and pipes can be connected at the back."
+		"en_US": "The first available way of making power. Can burn solid or liquid fuels, the operating mode may be changed by clicking the arrow button. Burns wooden logs and planks more efficiently. Cables and pipes can be connected at the back.",
+		"zh_CN": "第一种可用的发电方式。可燃烧固体或液体燃料，其工作模式可通过点击GUI中 的箭头按钮改变。能够更高效地燃烧原木和木板。背部可连接电线和管道。"
 	}
 }

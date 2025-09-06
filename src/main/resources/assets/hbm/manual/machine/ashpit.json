@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_ashpit", 1, 0],
 	"trigger": [["hbm:tile.machine_ashpit"]],
 	"title": {
-		"en_US": "Ashpit"
+		"en_US": "Ashpit",
+		"zh_CN": "储灰槽"
 	},
 	"content": {
-		"en_US": "An ashpit can be placed under certain machines to collect ashes. [[Fireboxes|Firebox]] and [[heating ovens|Heating Oven]] will produce types of ash depending on the fuel used. [[Smokestacks|Smokestack]] create fly ash, with industrial smokestacks in particular also producing small amounts of fine soot, the raw material used for making [[fullerite|Fullerite]]."
+		"en_US": "An ashpit can be placed under certain machines to collect ashes. [[Fireboxes|Firebox]] and [[heating ovens|Heating Oven]] will produce types of ash depending on the fuel used. [[Smokestacks|Smokestack]] create fly ash, with industrial smokestacks in particular also producing small amounts of fine soot, the raw material used for making [[fullerite|Fullerite]].",
+		"zh_CN": "储灰槽可放置在特定机器下方以收集灰烬。[[燃烧室|Firebox]]和[[加热炉|Heating Oven]]会根据使用的燃料产生不同种类的灰烬；两种[[烟囱|Smokestack]]会产生飞尘；特别地，工业烟囱会同时产生少量细烟灰，而细烟灰是制作[[富勒烯|Fullerite]]的原材料。"
 	}
 }

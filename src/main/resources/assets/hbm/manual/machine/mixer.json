@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_mixer", 1, 0],
 	"trigger": [["hbm:tile.machine_mixer"]],
 	"title": {
-		"en_US": "Industrial Mixer"
+		"en_US": "Industrial Mixer",
+		"zh_CN": "工业搅拌机"
 	},
 	"content": {
-		"en_US": "Can combine two fluids and one item into a single fluid. The recipe is defined by setting the output fluid with a fluid identifier. If an output has multiple possible recipes, the recipe can be changed using the [C] button."
+		"en_US": "Can combine two fluids and one item into a single fluid. The recipe is defined by setting the output fluid with a fluid identifier. If an output has multiple possible recipes, the recipe can be changed using the [C] button.",
+		"zh_CN": "可将两种流体和一种物品混合为一种新流体，可通过用流体识别码设定输出的 流体来决定该机器执行的配方。若某种流体有多种可能的配方，则可通过“C”按钮 切换使用的配方。"
 	}
 }

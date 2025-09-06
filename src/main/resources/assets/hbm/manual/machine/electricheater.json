@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.heater_electric", 1, 0],
 	"trigger": [["hbm:tile.heater_electric"]],
 	"title": {
-		"en_US": "Electric Heater"
+		"en_US": "Electric Heater",
+		"zh_CN": "电加热器"
 	},
 	"content": {
-		"en_US": "An [[external heat source|External Heat Source]] powered by electricity. Needs to be configured with a screwdriver.<br><br>Due to the first law of thermodynamics, boiling water with an electric heater will produce less energy than is used to create it."
+		"en_US": "An [[external heat source|External Heat Source]] powered by electricity. Needs to be configured with a screwdriver.<br><br>Due to the first law of thermodynamics, boiling water with an electric heater will produce less energy than is used to create it.",
+		"zh_CN": "一种由电力供能的[[外部热源|External Heat Source]]，需要用螺丝刀配置。<br><br>由于热力学第一定律，用电加热器烧水发电产生的电力会少于烧水消耗的电力。"
 	}
 }

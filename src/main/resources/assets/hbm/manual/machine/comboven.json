@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.furnace_combination", 1, 0],
 	"trigger": [["hbm:tile.furnace_combination"]],
 	"title": {
-		"en_US": "Combination Oven"
+		"en_US": "Combination Oven",
+		"zh_CN": "复式炼焦炉"
 	},
 	"content": {
-		"en_US": "A type of oven that can produce solid and liquid outputs. Requires an [[external heat source|External Heat Source]] to function."
+		"en_US": "A type of oven that can produce solid and liquid outputs. Requires an [[external heat source|External Heat Source]] to function.",
+		"zh_CN": "一种焦炉，可产出固体产物和流体产物。需要[[外部热源|External Heat Source]]才能工作。"
 	}
 }
