@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_turbofan", 1, 0],
 	"trigger": [["hbm:tile.machine_turbofan"]],
 	"title": {
-		"en_US": "Turbofan"
+		"en_US": "Turbofan",
+		"zh_CN": "涡扇发动机"
 	},
 	"content": {
-		"en_US": "An advanced generator using aviation-grade combustible fuel like [[kerosene|Kerosene]]. Can be stopped by supplying a redstone signal to one of its ports. Beware its inake.<br><br>See also:<br>[[Diesel Generator]]<br>[[Industrial Combustion Engine]]<br>[[Combined Cycle Gas Turbine]]"
+		"en_US": "An advanced generator using aviation-grade combustible fuel like [[kerosene|Kerosene]]. Can be stopped by supplying a redstone signal to one of its ports. Beware its intake.<br><br>See also:<br>[[Diesel Generator]]<br>[[Industrial Combustion Engine]]<br>[[Combined Cycle Gas Turbine]]",
+		"zh_CN": "一种高级发电机，使用[[煤油|Kerosene]]等航空级燃料发电。可通过对此机器的一个接口通入红石信号使之停机。<br>注意本机器的进气口。<br><br>另见：<br>[[柴油发电机|Diesel Generator]]<br>[[工业内燃机|Industrial Combustion Engine]]<br>[[联合循环燃气轮机|Combined Cycle Gas Turbine]]"
 	}
 }
