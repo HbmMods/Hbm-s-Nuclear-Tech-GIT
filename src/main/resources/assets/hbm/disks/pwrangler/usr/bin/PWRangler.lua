@@ -3,23 +3,7 @@ local event = require "event"
 local gpu = component.gpu
 local call = component.invoke
 
-local function lerp(a, b, t)
-    return a + (b - a) * t
-end
-
-local function gradient(startColor, endColor, steps)
-    local colors = {}
-    for i = 0, steps-1 do
-        local t = i / (steps-1)
-        local r = math.floor(lerp((startColor >> 16) & 0xFF, (endColor >> 16) & 0xFF, t))
-        local g = math.floor(lerp((startColor >> 8) & 0xFF, (endColor >> 8) & 0xFF, t))
-        local b = math.floor(lerp(startColor & 0xFF, endColor & 0xFF, t))
-        table.insert(colors, (r << 16) | (g << 8) | b)
-    end
-    return colors
-end
-
-colorGradient = gradient(0x00FF00, 0xFF0000, 10)
+colorGradient = {0x00FF00, 0x6BEE00, 0x95DB00, 0xB0C800, 0xC5B400, 0xD79F00, 0xE68700, 0xF46900, 0xFC4700, 0xFF0000}
 coreHeatESTOP = true
 coolantLossESTOP = true
 
