@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IHeatSource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ReactorResearch;
@@ -18,7 +19,9 @@ import com.hbm.inventory.gui.GUIMachineCustom;
 import com.hbm.inventory.recipes.CustomMachineRecipes;
 import com.hbm.inventory.recipes.CustomMachineRecipes.CustomMachineRecipe;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.tileentity.TileEntityProxyBase;
@@ -39,10 +42,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
+public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiverMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
 
 	public String machineType;
 	public MachineConfiguration config;
@@ -58,6 +62,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 	public ModulePatternMatcher matcher;
 	public int structureCheckDelay;
 	public boolean structureOK = false;
+	private AudioWrapper audio;
 	public CustomMachineRecipe cachedRecipe;
 
 	public List<DirPos> connectionPos = new ArrayList();
@@ -160,12 +165,12 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				for (FluidTank tank : this.outputTanks)
 					if (tank.getFill() > 0)
-						this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.tryProvide(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			if (this.structureOK) {
-
+				float volume = 1F;
 				if (config.generatorMode) {
 					if (this.cachedRecipe == null) {
 						CustomMachineRecipe recipe = this.getMatchingRecipe();
@@ -223,6 +228,24 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				this.progress = 0;
 			}
 			this.networkPackNT(50);
+		} else {
+			float volume = this.getVolume(1F);
+			if(this.progress > 0) {
+				if (audio == null) {
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
+					audio.startSound();
+				} else if (!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
+				}
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 
 	}
@@ -260,6 +283,31 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		for (FluidTank inputTank : inputTanks) inputTank.deserialize(buf);
 		for (FluidTank outputTank : outputTanks) outputTank.deserialize(buf);
 		this.matcher.deserialize(buf);
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound(config.progressSound, xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 
 	/** Only accepts inputs in a fixed order, saves a ton of performance because there's no permutations to check for */
@@ -550,9 +598,47 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		return all;
 	}
 
+	AxisAlignedBB bb = null;
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+
+		if(bb == null ) {
+
+			if(config!=null && config.customModel!=null){
+				bb = AxisAlignedBB.getBoundingBox(
+					xCoord + config.customModel.model_Bounding_x1,
+					yCoord + config.customModel.model_Bounding_y1,
+					zCoord + config.customModel.model_Bounding_z1,
+					xCoord + config.customModel.model_Bounding_x2,
+					yCoord + config.customModel.model_Bounding_y2,
+					zCoord + config.customModel.model_Bounding_z2
+				);
+			}
+			else {
+				bb = AxisAlignedBB.getBoundingBox(
+					xCoord,
+					yCoord,
+					zCoord,
+					xCoord,
+					yCoord,
+					zCoord
+				);
+			}
+		}
+
+		return bb;
+	}
+
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return inputTanks != null ? inputTanks : new FluidTank[0];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 
 	@Override
