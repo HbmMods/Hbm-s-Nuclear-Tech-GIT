@@ -1,0 +1,11 @@
+{
+	"name": "Turbofan",
+	"icon": ["hbm:tile.machine_turbofan", 1, 0],
+	"trigger": [["hbm:tile.machine_turbofan"]],
+	"title": {
+		"en_US": "Turbofan"
+	},
+	"content": {
+		"en_US": "An advanced generator using aviation-grade combustible fuel like [[kerosene|Kerosene]]. Can be stopped by supplying a redstone signal to one of its ports. Beware its inake.<br><br>See also:<br>[[Diesel Generator]]<br>[[Industrial Combustion Engine]]<br>[[Combined Cycle Gas Turbine]]"
+	}
+}

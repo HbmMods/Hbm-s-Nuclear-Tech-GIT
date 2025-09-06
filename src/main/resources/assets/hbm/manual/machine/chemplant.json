@@ -1,0 +1,11 @@
+{
+	"name": "Chemical Plant",
+	"icon": ["hbm:tile.machine_chemical_plant", 1, 0],
+	"trigger": [["hbm:tile.machine_chemical_plant"]],
+	"title": {
+		"en_US": "Chemical Plant"
+	},
+	"content": {
+		"en_US": "Universal chemical processor, can be made right after the [[assembly machine|Assembly Machine]]. Used in many processes, with the most important ones early on being [[desh|Desh]], [[polymer|Polymer]], [[hydrogen peroxide|Hydrogen Peroxide]] and [[sulfuric acid|Sulfuric Acid]]."
+	}
+}

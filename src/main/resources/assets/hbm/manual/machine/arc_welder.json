@@ -1,0 +1,11 @@
+{
+	"name": "Arc Welder",
+	"icon": ["hbm:tile.machine_arc_welder", 1, 0],
+	"trigger": [["hbm:tile.machine_arc_welder"]],
+	"title": {
+		"en_US": "Arc Welder"
+	},
+	"content": {
+		"en_US": "Mainly used for producing welded plates as well as assembling missiles. Power demand changes heavily based on recipe. Important for making [[dense copper or gold wires|Dense Wire]] before being able to cast them using the [[crucible|Crucible]], as one sample is required beforehand to make a foundry mold."
+	}
+}

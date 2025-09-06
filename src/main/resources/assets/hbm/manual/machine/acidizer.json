@@ -1,0 +1,11 @@
+{
+	"name": "Ore Acidizer",
+	"icon": ["hbm:tile.machine_crystallizer", 1, 0],
+	"trigger": [["hbm:tile.machine_crystallizer"]],
+	"title": {
+		"en_US": "Ore Acidizer"
+	},
+	"content": {
+		"en_US": "Processing machine that can turn ores into crystals, which yield more when [[centrifuged|Centrifuge]]. Also used heavily for [[bedrock ore processing|Bedrock Ore Processing]]."
+	}
+}

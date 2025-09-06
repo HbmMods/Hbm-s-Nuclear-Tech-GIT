@@ -1,0 +1,11 @@
+{
+	"name": "Diesel Generator",
+	"icon": ["hbm:tile.machine_diesel", 1, 0],
+	"trigger": [["hbm:tile.machine_diesel"]],
+	"title": {
+		"en_US": "Diesel Generator"
+	},
+	"content": {
+		"en_US": "A simple, early way of making power out of combustible fuels, like [[diesel|Diesel]] or [[gasoline|Gasoline]]. Can only hold 4,000mB of fuel, so explosive barrels cannot be emptied in them, as those carry 10,000mB. Can be stopped using a redstone signal.<br><br>See also:<br>[[Industrial Combustion Engine]]<br>[[Turbofan]]<br>[[Combined Cycle Gas Turbine]]"
+	}
+}

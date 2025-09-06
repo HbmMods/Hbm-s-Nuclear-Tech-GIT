@@ -1,0 +1,11 @@
+{
+	"name": "Dense Wire",
+	"icon": ["hbm:item.wire_dense", 1, 7900],
+	"trigger": [["hbm:item.wire_dense", 1, 32767]],
+	"title": {
+		"en_US": "Dense Wire"
+	},
+	"content": {
+		"en_US": "Made primarily by casting material from the [[crucible]]. The foundry mold requires dense wires to be made, therefore it is necessary to make at least one wire from either copper or gold using the [[arc welder|Arc Welder]] recipe."
+	}
+}

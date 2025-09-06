@@ -1,0 +1,11 @@
+{
+	"name": "Press",
+	"icon": ["hbm:tile.machine_press", 1, 0],
+	"trigger": [["hbm:tile.machine_press"], ["hbm:tile.machine_epress"], ["hbm:tile.machine_conveyor_press"]],
+	"title": {
+		"en_US": "Press"
+	},
+	"content": {
+		"en_US": "One of the earliest machines, used for making things like plates and wires. A burner press requires a solid fuel like coal to run, as well as a stamp of the desired shape. Stamps are crafted as flat stamps, which are only used in a few recipes, most recipes require the stamp to be turned into a plate or wire stamp using the template folder.<br><br>Electric presses are much faster and require electricity to run instead of fuel.<br><br>Conveyor presses also run on electricity, and can press single items that pass on its conveyor belt. The conveyor press has no GUI, stamps can be removed with a screwdriver."
+	}
+}

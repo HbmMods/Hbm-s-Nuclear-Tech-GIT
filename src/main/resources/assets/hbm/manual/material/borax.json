@@ -1,0 +1,11 @@
+{
+	"name": "Borax",
+	"icon": ["hbm:item.powder_borax", 1, 0],
+	"trigger": [["hbm:item.powder_borax"]],
+	"title": {
+		"en_US": "Borax"
+	},
+	"content": {
+		"en_US": "Found as depth deposits near bedrock, required explosives to be mined. Source of [[boron|Boron]], and an efficient way to make [[flux|Flux]]."
+	}
+}
