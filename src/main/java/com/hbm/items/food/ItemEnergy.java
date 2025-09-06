@@ -216,7 +216,6 @@ public class ItemEnergy extends Item {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
-		// Особые случаи с альтернативами
 		if(this == ModItems.bottle_sparkle) {
 			if(MainRegistry.polaroidID == 11)
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
