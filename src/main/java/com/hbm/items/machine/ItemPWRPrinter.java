@@ -11,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -171,7 +172,7 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		list.add("Use on a constructed PWR controller to generate construction diagrams");
+		list.add(I18nUtil.resolveKey("item.pwr_printer.desc"));
 	}
 
 }

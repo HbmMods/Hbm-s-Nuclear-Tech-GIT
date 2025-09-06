@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.handler.BossSpawnHandler;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,9 +13,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemMeteorRemote extends Item {
-	
+
 	Random rand = new Random();
-	
+
 	public ItemMeteorRemote() {
 		this.canRepair = false;
 		this.setMaxDamage(2);
@@ -22,7 +23,7 @@ public class ItemMeteorRemote extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add("Right click to summon a meteorite!");
+		list.add(I18nUtil.resolveKey("item.meteor_remote.desc"));
 	}
 
 	@Override
@@ -32,12 +33,12 @@ public class ItemMeteorRemote extends Item {
 
 		if(!world.isRemote) {
 			BossSpawnHandler.spawnMeteorAtPlayer(player, false);
-			player.addChatMessage(new ChatComponentText("Watch your head!"));
+			player.addChatMessage(new ChatComponentText(I18nUtil.resolveKey("item.meteor_remote.chat")));
 		}
 
 		world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 		player.swingItem();
-		
+
 		return stack;
 	}
 }

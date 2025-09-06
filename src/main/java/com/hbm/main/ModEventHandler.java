@@ -52,6 +52,7 @@ import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -132,27 +133,26 @@ public class ModEventHandler {
 		if(!event.player.worldObj.isRemote) {
 
 			if(GeneralConfig.enableMOTD) {
-				event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+				event.player.addChatMessage(new ChatComponentTranslation("info.world_loaded", RefStrings.VERSION));
 
 				if(HTTPHandler.newVersion) {
 					event.player.addChatMessage(
-							new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
+						new ChatComponentTranslation("info.new_version_available", HTTPHandler.versionNumber)
 							.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
 							.appendSibling(new ChatComponentText("[here]")
-									.setChatStyle(new ChatStyle()
-										.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-										.setUnderlined(true)
-										.setColor(EnumChatFormatting.RED)
-									)
+								.setChatStyle(new ChatStyle()
+									.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+									.setUnderlined(true)
+									.setColor(EnumChatFormatting.RED)
 								)
-							.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
-							);
+							)
+							.appendSibling(new ChatComponentTranslation("info.download").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
+					);
 				}
 			}
 
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
-
 
 			if(GeneralConfig.enableGuideBook) {
 				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
@@ -172,7 +172,7 @@ public class ModEventHandler {
 				boolean hasSent = false;
 
 				for(SerializableRecipe recipe : SerializableRecipe.recipeHandlers) {
-					File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
+					File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + "hbmRecipes" + File.separatorChar + recipe.getFileName());
 					if(recFile.exists() && recFile.isFile()) {
 						MainRegistry.logger.info("Sending recipe file: " + recFile.getName());
 						PacketDispatcher.wrapper.sendTo(new SerializableRecipePacket(recFile), (EntityPlayerMP) event.player);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.lib.Library;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,17 +27,19 @@ public class ItemBombCaller extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Aim & click to call an airstrike!");
+		list.add(I18nUtil.resolveKey("item.bomb_caller.desc"));
 
 		switch (stack.getItemDamage()) {
-			case 0: list.add("Type: Carpet bombing"); break;
-			case 1: list.add("Type: Napalm"); break;
-			case 2: list.add("Type: Poison gas"); break;
-			case 3: list.add("Type: Agent orange"); break;
-			case 4: list.add("Type: Atomic bomb"); break;
-			case 5: list.add("Type: VT stinger rockets"); break;
-			case 6: list.add("Type: PIP OH GOD"); break;
-			case 7: list.add("Type: Cloud the cloud oh god the cloud"); break;
+			case 0: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.carpet")); break;
+			case 1: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.napalm")); break;
+			case 2: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.gas")); break;
+			case 3: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.orange")); break;
+			case 4: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.nuke")); break;
+
+			// IDK if we need to translate these ones, but whatever
+			case 5: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.vt")); break;
+			case 6: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.pip")); break;
+			case 7: list.add(I18nUtil.resolveKey("item.bomb_caller.type") + ": " + I18nUtil.resolveKey("item.bomb_caller.type.cloud")); break;
 		}
 	}
 
