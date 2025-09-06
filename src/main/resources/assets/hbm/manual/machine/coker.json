@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_coker", 1, 0],
 	"trigger": [["hbm:tile.machine_coker"]],
 	"title": {
-		"en_US": "Coker Unit"
+		"en_US": "Coker Unit",
+		"zh_CN": "焦化装置"
 	},
 	"content": {
-		"en_US": "Can turn many types of oil into [[petroleum coke|Coke]] at varying efficiencies. Usually produces an oil byproduct, which can be processed into [[cracked oil derivatives|Advanced Oil Processing]]. Requires an [[external heat source|External Heat Source]]."
+		"en_US": "Can turn many types of oil into [[petroleum coke|Coke]] at varying efficiencies. Usually produces an oil byproduct, which can be processed into [[cracked oil derivatives|Advanced Oil Processing]]. Requires an [[external heat source|External Heat Source]].",
+		"zh_CN": "可以以不同的效率将多种油转化为[[石油焦炭|Coke]]。一般会产生一种副产物油，这种油可被处理为[[裂化油产品|Advanced Oil Processing]]。需要[[外部热源|External Heat Source]]。"
 	}
 }

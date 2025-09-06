@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_refinery", 1, 0],
 	"trigger": [["hbm:tile.machine_refinery"]],
 	"title": {
-		"en_US": "Oil Refinery"
+		"en_US": "Oil Refinery",
+		"zh_CN": "炼油厂"
 	},
 	"content": {
-		"en_US": "Used for [[processing|Basic Oil Processing]] either [[crude oil|Crude Oil]] or [[cracked oil|Cracked Oil]]. Oil needs to be heated in a [[boiler|Boiler]] beforehand. Has four fluid outputs and one solid output."
+		"en_US": "Used for [[processing|Basic Oil Processing]] either [[crude oil|Crude Oil]] or [[cracked oil|Cracked Oil]]. Oil needs to be heated in a [[boiler|Boiler]] beforehand. Has four fluid outputs and one solid output.",
+		"zh_CN": "用于[[精炼|Basic Oil Processing]][[原油|Crude Oil]]或[[裂化油|Cracked Oil]]，这些油在精炼前需要在[[锅炉|Boiler]]中加热。具有四个流体输出槽和一个固体输出槽。"
 	}
 }
