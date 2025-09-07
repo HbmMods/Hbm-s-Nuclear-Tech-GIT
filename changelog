@@ -1,4 +1,5 @@
 ## Changed
+* Updated chinese localization
 * Added more QMAW manual pages
 * WIAJ presentations now use the same configurable keybind as QMAW
   * Shift has to be held for the presentations, while F1 will open the standard QMAW page
