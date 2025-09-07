@@ -9,16 +9,22 @@ coolantLossESTOP = true
 hotCoolantESTOP = true
 
 local const = {}
+local initialized = {}
 local mt = {
     __newindex = function(t, k, v)
-        error(k .. " is a constant")
+        if not initialized[k] then
+            rawset(t, k, v)
+            initialized[k] = true
+        else
+            error(k .. " is a constant")
+        end
     end
 }
 setmetatable(const, mt)
 
-local const.fullCoreHeatMAX = 9000000
-local const.coldCoolantLevelMIN = 10000
-local const.hotCoolantLevelMAX -- = what?
+const.fullCoreHeatMAX = 9000000
+const.coldCoolantLevelMIN = 10000
+const.hotCoolantLevelMAX -- = what?
 
 runSig = true
 
