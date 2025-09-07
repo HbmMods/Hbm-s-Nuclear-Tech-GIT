@@ -6,6 +6,19 @@ local call = component.invoke
 colorGradient = {0x00FF00, 0x6BEE00, 0x95DB00, 0xB0C800, 0xC5B400, 0xD79F00, 0xE68700, 0xF46900, 0xFC4700, 0xFF0000}
 coreHeatESTOP = true
 coolantLossESTOP = true
+hotCoolantESTOP = true
+
+local const = {}
+local mt = {
+    __newindex = function(t, k, v)
+        error(k .. " is a constant")
+    end
+}
+setmetatable(const, mt)
+
+local const.fullCoreHeatMAX = 9000000
+local const.coldCoolantLevelMIN = 10000
+local const.hotCoolantLevelMAX -- = what?
 
 runSig = true
 
@@ -251,11 +264,15 @@ while (runSig == true) do
     gpu.setBackground(0x000000)
     gpu.setForeground(0xFFFFFF)
 
-    if (coreHeatESTOP == true) and (fullCoreHeat) > 9000000 then
+    if (coreHeatESTOP == true) and (fullCoreHeat) > const.fullCoreHeatMAX then
         component.proxy(pwrController).setLevel(100)
     end
 
-    if (coolantLossESTOP == true) and (coldCoolantLevel) < 10000 then
+    if (coolantLossESTOP == true) and (coldCoolantLevel) < const.coldCoolantLevelMIN then
+        component.proxy(pwrController).setLevel(100)
+    end
+
+    if (hotCoolantESTOP == true) and (hotCoolantLevel) > const.hotCoolantLevelMAX then
         component.proxy(pwrController).setLevel(100)
     end
 
