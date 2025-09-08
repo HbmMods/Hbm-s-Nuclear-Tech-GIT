@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.albion.TileEntityPADetector;
 
@@ -24,8 +24,8 @@ public class ContainerPADetector extends Container {
 		this.addSlotToContainer(new Slot(tile, 1, 62, 18));
 		this.addSlotToContainer(new Slot(tile, 2, 80, 18));
 		//Outputs
-		this.addSlotToContainer(new SlotTakeOnly(tile, 3, 62, 45));
-		this.addSlotToContainer(new SlotTakeOnly(tile, 4, 80, 45));
+		this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, tile, 3, 62, 45));
+		this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, tile, 4, 80, 45));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
