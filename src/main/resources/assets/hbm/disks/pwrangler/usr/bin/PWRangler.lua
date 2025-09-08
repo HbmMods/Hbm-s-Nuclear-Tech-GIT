@@ -24,7 +24,7 @@ setmetatable(const, mt)
 
 const.fullCoreHeatMAX = 9000000
 const.coldCoolantLevelMIN = 10000
-const.hotCoolantLevelMAX -- = what?
+const.hotCoolantLevelMAX = 0.5
 
 runSig = true
 
@@ -242,7 +242,7 @@ while (runSig == true) do
     prevHotCoolantFlow = hotCoolantLevel
 
     fullCoreHeat, fullHullHeat = call(pwrController, "getHeat")
-    coldCoolantLevel, _, hotCoolantLevel, _ = call(pwrController, "getCoolantInfo")
+    coldCoolantLevel, _, hotCoolantLevel, maxHotCoolantLevel = call(pwrController, "getCoolantInfo")
     
     coldCoolantOutflow = coldCoolantLevel - prevCoolantFlow
     hotCoolantOutflow = hotCoolantLevel - prevHotCoolantFlow
@@ -278,7 +278,7 @@ while (runSig == true) do
         component.proxy(pwrController).setLevel(100)
     end
 
-    if (hotCoolantESTOP == true) and (hotCoolantLevel) > const.hotCoolantLevelMAX then
+    if (hotCoolantESTOP == true) and (hotCoolantLevel) > const.hotCoolantLevelMAX * maxHotCoolantLevel then
         component.proxy(pwrController).setLevel(100)
     end
 
