@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityMachineAssemblyFactory;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -29,8 +30,107 @@ public class RenderAssemblyFactory extends TileEntitySpecialRenderer implements 
 		case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		}
 		
+		TileEntityMachineAssemblyFactory assemfac = (TileEntityMachineAssemblyFactory) tileEntity;
+		
 		bindTexture(ResourceManager.assembly_factory_tex);
-		ResourceManager.assembly_factory.renderAll();
+		ResourceManager.assembly_factory.renderPart("Base");
+		if(assemfac.frame) ResourceManager.assembly_factory.renderPart("Frame");
+
+		double[] arm1 = new double[] {-30, -30, -30, -0.125};
+		double[] arm2 = new double[] {-30, -30, -30, -0.125};
+		double blade = (System.currentTimeMillis() / 1) % 360D;
+
+		GL11.glPushMatrix(); {
+			ResourceManager.assembly_factory.renderPart("Slider1");
+			
+			GL11.glTranslated(0, 1.625, -0.9375);
+			GL11.glRotated(arm1[0], 1, 0, 0);
+			GL11.glTranslated(0, -1.625, 0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmLower1");
+	
+			GL11.glTranslated(0, 2.375, -0.9375);
+			GL11.glRotated(arm1[1], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, 0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmUpper1");
+	
+			GL11.glTranslated(0, 2.375, -0.4375);
+			GL11.glRotated(arm1[2], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, 0.4375);
+			ResourceManager.assembly_factory.renderPart("Head1");
+			GL11.glTranslated(0, arm1[3], 0);
+			ResourceManager.assembly_factory.renderPart("Striker1");
+		} GL11.glPopMatrix();
+
+		GL11.glPushMatrix(); {
+			ResourceManager.assembly_factory.renderPart("Slider2");
+			
+			GL11.glTranslated(0, 1.625, 0.9375);
+			GL11.glRotated(-arm2[0], 1, 0, 0);
+			GL11.glTranslated(0, -1.625, -0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmLower2");
+	
+			GL11.glTranslated(0, 2.375, 0.9375);
+			GL11.glRotated(-arm2[1], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, -0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmUpper2");
+	
+			GL11.glTranslated(0, 2.375, 0.4375);
+			GL11.glRotated(-arm2[2], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, -0.4375);
+			ResourceManager.assembly_factory.renderPart("Head2");
+			GL11.glTranslated(0, arm2[3], 0);
+			ResourceManager.assembly_factory.renderPart("Striker2");
+			GL11.glTranslated(0, 1.625, 0.3125);
+			GL11.glRotated(-blade, 1, 0, 0);
+			GL11.glTranslated(0, -1.625, -0.3125);
+			ResourceManager.assembly_factory.renderPart("Blade2");
+		} GL11.glPopMatrix();
+
+		GL11.glPushMatrix(); {
+			ResourceManager.assembly_factory.renderPart("Slider3");
+			
+			GL11.glTranslated(0, 1.625, 0.9375);
+			GL11.glRotated(-arm2[0], 1, 0, 0);
+			GL11.glTranslated(0, -1.625, -0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmLower3");
+	
+			GL11.glTranslated(0, 2.375, 0.9375);
+			GL11.glRotated(-arm2[1], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, -0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmUpper3");
+	
+			GL11.glTranslated(0, 2.375, 0.4375);
+			GL11.glRotated(-arm2[2], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, -0.4375);
+			ResourceManager.assembly_factory.renderPart("Head3");
+			GL11.glTranslated(0, arm2[3], 0);
+			ResourceManager.assembly_factory.renderPart("Striker3");
+		} GL11.glPopMatrix();
+
+		GL11.glPushMatrix(); {
+			ResourceManager.assembly_factory.renderPart("Slider4");
+			
+			GL11.glTranslated(0, 1.625, -0.9375);
+			GL11.glRotated(arm1[0], 1, 0, 0);
+			GL11.glTranslated(0, -1.625, 0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmLower4");
+	
+			GL11.glTranslated(0, 2.375, -0.9375);
+			GL11.glRotated(arm1[1], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, 0.9375);
+			ResourceManager.assembly_factory.renderPart("ArmUpper4");
+	
+			GL11.glTranslated(0, 2.375, -0.4375);
+			GL11.glRotated(arm1[2], 1, 0, 0);
+			GL11.glTranslated(0, -2.375, 0.4375);
+			ResourceManager.assembly_factory.renderPart("Head4");
+			GL11.glTranslated(0, arm1[3], 0);
+			ResourceManager.assembly_factory.renderPart("Striker4");
+			GL11.glTranslated(0, 1.625, -0.3125);
+			GL11.glRotated(blade, 1, 0, 0);
+			GL11.glTranslated(0, -1.625, 0.3125);
+			ResourceManager.assembly_factory.renderPart("Blade4");
+		} GL11.glPopMatrix();
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();

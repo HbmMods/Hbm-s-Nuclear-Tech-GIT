@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
@@ -24,6 +25,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityProxyDyn.IProxyDelegateProvider;
+import com.hbm.tileentity.machine.TileEntityMachineAssemblyMachine.AssemblerArm.ArmActionState;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
@@ -181,6 +183,9 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			this.networkPackNT(100);
 		} else {
 			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
+			}
 		}
 	}
 
@@ -403,5 +408,53 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {TileEntityMachineAssemblyFactory.this.lps}; }
 
 		@Override public FluidTank[] getAllTanks() { return TileEntityMachineAssemblyFactory.this.getAllTanks(); }
+	}
+	
+	public static class TragicYuri {
+		
+	}
+	
+	public static class AssemblerArm {
+		
+		public double[] angles = new double[4];
+		public double[] prevAngles = new double[4];
+		public double[] targetAngles = new double[4];
+		public double[] speed = new double[4];
+		public double sawAngle;
+		public double prevSawAngle;
+
+		Random rand = new Random();
+		ArmActionState state = ArmActionState.ASSUME_POSITION;
+		int actionDelay = 0;
+		boolean saw = false;
+		
+		public AssemblerArm() {
+			this.resetSpeed();
+		}
+		
+		private void resetSpeed() {
+			speed[0] = 15;	//Pivot
+			speed[1] = 15;	//Arm
+			speed[2] = 15;	//Piston
+			speed[3] = 0.5;	//Striker
+		}
+		
+		public double[] getPositions(float interp) {
+			return new double[] {
+					BobMathUtil.interp(this.prevAngles[0], this.angles[0], interp),
+					BobMathUtil.interp(this.prevAngles[1], this.angles[1], interp),
+					BobMathUtil.interp(this.prevAngles[2], this.angles[2], interp),
+					BobMathUtil.interp(this.prevAngles[3], this.angles[3], interp),
+					BobMathUtil.interp(this.prevSawAngle, this.sawAngle, interp)
+			};
+		}
+	}
+	
+	public static enum YuriState {
+		WORKING, RETIRING, SLIDING
+	}
+
+	public static enum ArmState {
+		REPOSITION, EXTEND, CUT, RETRACT, RETIRE
 	}
 }
