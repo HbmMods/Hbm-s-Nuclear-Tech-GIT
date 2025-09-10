@@ -1,4 +1,5 @@
 ## Changed
+* Updated chinese localization
 * Added more QMAW manual pages
 * WIAJ presentations now use the same configurable keybind as QMAW
   * Shift has to be held for the presentations, while F1 will open the standard QMAW page
@@ -7,3 +8,5 @@
 ## Fixed
 * Fixed fusion reactor item IO being broken
 * Fixed issue with the chemical factory where the declogging feature would be triggered by a recipe processor that doesn't even own the reported slot
+* Fixed the new PA not triggering the omega-12 achievement
+  * In addition to granting the achievement to nearby players on recipe completion, it is also granted when taking it out of the output slot
