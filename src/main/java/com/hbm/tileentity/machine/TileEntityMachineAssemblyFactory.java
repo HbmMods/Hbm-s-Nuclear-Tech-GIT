@@ -186,6 +186,24 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			this.networkPackNT(100);
 		} else {
 			
+			if(MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				audio.keepAlive();
+				audio.updatePitch(0.75F);
+				audio.updateVolume(this.getVolume(0.5F));
+				
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+			
 			for(TragicYuri animation : animations) animation.update(true || didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]);
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
@@ -546,6 +564,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 						if(saw) {
 							state = ArmState.CUT;
 							targetAngles[2] = -targetAngles[2];
+							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerCut", getVolume(0.5F), 1F + rand.nextFloat() * 0.25F);
 						} else {
 							state = ArmState.RETRACT;
 							targetAngles[3] = 0D;
