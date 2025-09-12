@@ -172,7 +172,7 @@ public class ModEventHandler {
 				boolean hasSent = false;
 
 				for(SerializableRecipe recipe : SerializableRecipe.recipeHandlers) {
-					File recFile = new File(recDir, recipe.getFileName());
+					File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
 					if(recFile.exists() && recFile.isFile()) {
 						MainRegistry.logger.info("Sending recipe file: " + recFile.getName());
 						PacketDispatcher.wrapper.sendTo(new SerializableRecipePacket(recFile), (EntityPlayerMP) event.player);
