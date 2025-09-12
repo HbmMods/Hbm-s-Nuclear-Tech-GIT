@@ -352,10 +352,9 @@ public class ItemSyringe extends Item {
 			for (String desc : descriptions) {
 				list.add(desc);
 			}
-		} else {
-			list.add(I18nUtil.resolveKey(descKey));
 		}
-
+		if (this == ModItems.syringe_mkunicorn) {
 			list.add(EnumChatFormatting.RED + "?");
+		}
 	}
 }
