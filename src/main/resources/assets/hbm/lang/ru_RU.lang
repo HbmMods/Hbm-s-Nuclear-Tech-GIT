@@ -791,6 +791,7 @@ container.machineArcWelder=Дуговой сварщик
 container.machineChemicalFactory=Химический завод
 container.machineChemicalPlant=Химическая установка
 container.machineArcFurnaceLarge=Дуговая печь
+container.machineAssemblyFactory=Сборочный завод
 container.machineBoiler=Нагреватель нефти
 container.machineCMB=Печь для стали Альянса
 container.machineCoal=Генератор внутреннего сгорания
