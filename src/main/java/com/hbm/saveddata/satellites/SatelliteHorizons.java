@@ -57,7 +57,7 @@ public class SatelliteHorizons extends Satellite {
 		//not necessary but JUST to make sure
 		if(!world.isRemote) {
 
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + I18nUtil.resolveKey("satchip.horizons")));
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation("satchip.horizons").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 		}
 	}
 }
