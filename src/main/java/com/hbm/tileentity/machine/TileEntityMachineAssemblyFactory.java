@@ -71,7 +71,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		super(60);
 		
 		animations = new TragicYuri[2];
-		for(int i = 0; i < animations.length; i++) animations[i] = new TragicYuri();
+		for(int i = 0; i < animations.length; i++) animations[i] = new TragicYuri(i);
 		
 		this.inputTanks = new FluidTank[4];
 		this.outputTanks = new FluidTank[4];
@@ -171,7 +171,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			boolean markDirty = false;
 			
 			for(int i = 0; i < 4; i++) {
-				this.assemblerModule[i].update(speed * 2D, pow * 2D, canCool(), slots[4 + i * 7]);
+				this.assemblerModule[i].update(speed * 2D, pow * 2D, canCool(), slots[4 + i * 14]);
 				this.didProcess[i] =  this.assemblerModule[i].didProcess;
 				markDirty |= this.assemblerModule[i].markDirty;
 				
@@ -204,7 +204,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				}
 			}
 			
-			for(TragicYuri animation : animations) animation.update(true || didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]);
+			for(TragicYuri animation : animations) animation.update(didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]);
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
@@ -245,17 +245,6 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord - 2, yCoord, zCoord - 3, Library.NEG_Z),
 				new DirPos(xCoord + 0, yCoord, zCoord - 3, Library.NEG_Z),
 				new DirPos(xCoord + 2, yCoord, zCoord - 3, Library.NEG_Z),
-
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 0 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
 
 				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
 				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
@@ -451,16 +440,17 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		boolean direction = false;
 		int timeUntilReposition;
 		
-		public TragicYuri() {
-			striker = new AssemblerArm();
-			saw = new AssemblerArm().yepThatsASaw();
+		public TragicYuri(int group) {
+			striker = new AssemblerArm(	group == 0 ? 0 : 3);
+			saw = new AssemblerArm(		group == 0 ? 1 : 2).yepThatsASaw();
 			timeUntilReposition = 200;
 		}
 		
 		public void update(boolean working) {
 			this.prevSlider = this.slider;
 			
-			if(working) switch(state) {
+			// one of the arms must do something. doesn't matter which or what position the carriage is in
+			if(didProcess[striker.recipeIndex] || didProcess[saw.recipeIndex]) switch(state) {
 			case WORKING: {
 				timeUntilReposition--;
 				if(timeUntilReposition <= 0) {
@@ -475,7 +465,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				}
 			} break;
 			case SLIDING: {
-				double sliderSpeed = 1D / 20D; // 20 ticks for transit
+				double sliderSpeed = 1D / 10D; // 10 ticks for transit
 				if(direction) {
 					slider += sliderSpeed;
 					if(slider >= 1) {
@@ -493,8 +483,8 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			} break;
 			}
 			
-			striker.updateArm(working);
-			saw.updateArm(working);
+			striker.updateArm();
+			saw.updateArm();
 		}
 		
 		public double getSlider(float interp) {
@@ -510,12 +500,14 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			public double[] speed = new double[4];
 			public double sawAngle;
 			public double prevSawAngle;
+			public int recipeIndex; // the index of which pedestal is serviced, assuming the carriage is at default position
 
 			ArmState state = ArmState.REPOSITION;
 			int actionDelay = 0;
 			boolean saw = false;
 			
-			public AssemblerArm() {
+			public AssemblerArm(int index) {
+				this.recipeIndex = index;
 				this.resetSpeed();
 				this.chooseNewArmPoistion();
 			}
@@ -529,7 +521,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				speed[3] = saw ? 0.125 : 0.5;	//Striker
 			}
 
-			public void updateArm(boolean working) {
+			public void updateArm() {
 				resetSpeed();
 				
 				for(int i = 0; i < angles.length; i++) {
@@ -538,7 +530,9 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				
 				prevSawAngle = sawAngle;
 				
-				if(!working) return;
+				int serviceIndex = recipeIndex;
+				if(slider > 0.5) serviceIndex += (serviceIndex % 2 == 0 ? 1 : -1); // if the carriage has moved, swap the indices so they match up with the serviced pedestal
+				if(!didProcess[serviceIndex]) state = ArmState.RETIRE;
 				
 				if(state == ArmState.CUT || state == ArmState.EXTEND) {
 					this.sawAngle += 45D;

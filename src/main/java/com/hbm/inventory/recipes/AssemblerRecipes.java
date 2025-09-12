@@ -793,29 +793,6 @@ import net.minecraft.item.ItemStack;
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD)
 			}, 100);
 
-		makeRecipe(new ComparableStack(ModBlocks.machine_assemfac, 1), new AStack[] {
-				!exp ? new OreDictStack(STEEL.ingot(), 48) : new OreDictStack(STEEL.heavyComp(), 2),
-				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
-				new OreDictStack(B.ingot(), 4),
-				new OreDictStack(RUBBER.ingot(), 16),
-				new OreDictStack(KEY_ANYPANE, 64),
-				new ComparableStack(ModItems.motor, 18),
-				new OreDictStack(W.bolt(), 16),
-				new OreDictStack(STEEL.pipe(), 8),
-				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BASIC)
-			}, 400);
-
-		makeRecipe(new ComparableStack(ModBlocks.machine_chemical_factory, 1), new AStack[] {
-				new OreDictStack(DURA.ingot(), 16),
-				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
-				new OreDictStack(RUBBER.ingot(), 16),
-				new OreDictStack(STEEL.shell(), 12),
-				new OreDictStack(CU.pipe(), 8),
-				new ComparableStack(ModItems.motor_desh, 4),
-				new ComparableStack(ModItems.coil_tungsten, 16),
-				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BASIC)
-			}, 400);
-
 		makeRecipe(new ComparableStack(ModItems.missile_shuttle, 1), new AStack[] {
 				new ComparableStack(ModItems.missile_generic, 2),
 				new ComparableStack(ModItems.missile_strong, 1),
