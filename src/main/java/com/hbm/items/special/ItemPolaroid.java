@@ -26,6 +26,7 @@ public class ItemPolaroid extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean advanced) {
 		tooltip.add(I18nUtil.resolveKey("item.polaroid.desc."));
+		tooltip.add("");
 
 		String baseKey = this.getUnlocalizedName(stack) + ".desc";
 		String[] extraLines = I18nUtil.resolveKeyArray(baseKey);
