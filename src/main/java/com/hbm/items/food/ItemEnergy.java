@@ -221,14 +221,12 @@ public class ItemEnergy extends Item {
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
-			return;
 		}
 		if(this == ModItems.bottle_rad) {
 			if(MainRegistry.polaroidID == 11)
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
 				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
-			return;
 		}
 
 		if(this == ModItems.can_breen || this == ModItems.chocolate_milk) {
