@@ -11,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,15 +26,15 @@ import net.minecraftforge.common.util.FakePlayer;
 
 @Spaghetti("wtf is this shit")
 public class ItemEnergy extends Item {
-	
+
 	private Item container = null;
 	private Item cap = null;
 	private boolean requiresOpener = false;
-	
+
 	public ItemEnergy() {
 		this.setCreativeTab(MainRegistry.consumableTab);
 	}
-	
+
 	public ItemEnergy makeCan() {
 		this.container = ModItems.can_empty;
 		this.cap = ModItems.ring_pull;
@@ -41,7 +42,7 @@ public class ItemEnergy extends Item {
 		this.setContainerItem(this.container);
 		return this;
 	}
-	
+
 	public ItemEnergy makeBottle(Item bottle, Item cap) {
 		this.container = bottle;
 		this.cap = cap;
@@ -64,7 +65,7 @@ public class ItemEnergy extends Item {
 				world.newExplosion(player, player.posX, player.posY, player.posZ, 5F, true, true);
 				return super.onEaten(stack, world, player);
 			}
-			
+
 			VersatileConfig.applyPotionSickness(player, 5);
 
 			if(this == ModItems.can_smart) {
@@ -183,7 +184,7 @@ public class ItemEnergy extends Item {
 					player.inventory.addItemStackToInventory(new ItemStack(this.container));
 				}
 			}
-			
+
 			player.inventoryContainer.detectAndSendChanges();
 		}
 
@@ -213,64 +214,32 @@ public class ItemEnergy extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-		if(this == ModItems.can_smart) {
-			list.add("Cheap and full of bubbles");
-		}
-		if(this == ModItems.can_creature) {
-			list.add("Basically gasoline in a tin can");
-		}
-		if(this == ModItems.can_redbomb) {
-			list.add("Liquefied explosives");
-		}
-		if(this == ModItems.can_mrsugar) {
-			list.add("An intellectual drink, for the chosen ones!");
-		}
-		if(this == ModItems.can_overcharge) {
-			list.add("Possible side effects include heart attacks, seizures or zombification");
-		}
-		if(this == ModItems.can_luna) {
-			list.add("Contains actual selenium and star metal. Tastes like night.");
-		}
-		if(this == ModItems.can_bepis) {
-			list.add("beppp");
-		}
-		if(this == ModItems.can_breen) {
-			list.add("Don't drink the water. They put something in it, to make you forget.");
-			list.add("I don't even know how I got here.");
-		}
-		if(this == ModItems.chocolate_milk) {
-			list.add("Regular chocolate milk. Safe to drink.");
-			list.add("Totally not made from nitroglycerine.");
-		}
-		if(this == ModItems.bottle_nuka) {
-			list.add("Contains about 210 kcal and 1500 mSv.");
-		}
-		if(this == ModItems.bottle_cherry) {
-			list.add("Now with severe radiation poisoning in every seventh bottle!");
-		}
-		if(this == ModItems.bottle_quantum) {
-			list.add("Comes with a colorful mix of over 70 isotopes!");
-		}
-		if(this == ModItems.bottle2_korl) {
-			list.add("Contains actual orange juice!");
-		}
-		if(this == ModItems.bottle2_fritz) {
-			list.add("moremore caffeine");
-		}
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
 		if(this == ModItems.bottle_sparkle) {
 			if(MainRegistry.polaroidID == 11)
-				list.add("Contains trace amounts of taint.");
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
-				list.add("The most delicious beverage in the wasteland!");
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
 		}
 		if(this == ModItems.bottle_rad) {
 			if(MainRegistry.polaroidID == 11)
-				list.add("Now with 400% more radiation!");
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".alt"));
 			else
-				list.add("Tastes like radish and radiation.");
+				list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
 		}
-		
-		if(this.requiresOpener) list.add("[Requires bottle opener]");
+
+		if(this == ModItems.can_breen || this == ModItems.chocolate_milk) {
+			for (String line : I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc")) {
+				list.add(line);
+			}
+			return;
+		}
+
+		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
+
+		if(this.requiresOpener) {
+			list.add(I18nUtil.resolveKey("item.bottle.desc"));
+		}
 	}
 }
