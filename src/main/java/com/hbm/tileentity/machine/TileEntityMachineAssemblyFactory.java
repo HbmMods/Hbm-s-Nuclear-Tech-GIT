@@ -186,7 +186,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			this.networkPackNT(100);
 		} else {
 			
-			if(MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+			if((didProcess[0] ||didProcess[1] ||didProcess[2] ||didProcess[3]) && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();
@@ -443,7 +443,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 		public TragicYuri(int group) {
 			striker = new AssemblerArm(	group == 0 ? 0 : 3);
 			saw = new AssemblerArm(		group == 0 ? 1 : 2).yepThatsASaw();
-			timeUntilReposition = 200;
+			timeUntilReposition = 140 + rand.nextInt(161);
 		}
 		
 		public void update(boolean working) {

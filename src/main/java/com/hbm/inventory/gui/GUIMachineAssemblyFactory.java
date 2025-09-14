@@ -36,8 +36,8 @@ public class GUIMachineAssemblyFactory extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		for(int j = 0; j < 4; j++) {
-			assembler.inputTanks[j].renderTankInfo(this, mouseX, mouseY, guiLeft + 105 + (j % 2) * 109, guiTop + 20 + (j / 2) * 56, 3, 16);
-			assembler.outputTanks[j].renderTankInfo(this, mouseX, mouseY, guiLeft + 105 + (j % 2) * 109, guiTop + 54 + (j / 2) * 56, 3, 16);
+			assembler.inputTanks[j].renderTankInfo(this, mouseX, mouseY, guiLeft + 105 + (j % 2) * 109, guiTop + 20 + (j / 2) * 56, 5, 32);
+			assembler.outputTanks[j].renderTankInfo(this, mouseX, mouseY, guiLeft + 105 + (j % 2) * 109, guiTop + 54 + (j / 2) * 56, 5, 16);
 		}
 		
 		assembler.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 232, guiTop + 149, 7, 52);

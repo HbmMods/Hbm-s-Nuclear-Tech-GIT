@@ -12,7 +12,9 @@ import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineAssemblyFactory;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -145,7 +147,7 @@ public class RenderAssemblyFactory extends TileEntitySpecialRenderer implements 
 			GL11.glTranslated(0, arm4[3], 0);
 			ResourceManager.assembly_factory.renderPart("Striker4");
 			GL11.glTranslated(0, 1.625, -0.3125);
-			GL11.glRotated(-arm4[4], 1, 0, 0);
+			GL11.glRotated(arm4[4], 1, 0, 0);
 			GL11.glTranslated(0, -1.625, 0.3125);
 			ResourceManager.assembly_factory.renderPart("Blade4");
 		} GL11.glPopMatrix();
@@ -189,6 +191,67 @@ public class RenderAssemblyFactory extends TileEntitySpecialRenderer implements 
 				}
 				GL11.glPopMatrix();
 			}
+	
+			RenderArcFurnace.fullbright(true);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			bindTexture(ResourceManager.assembly_factory_sparks_tex);
+			
+			Tessellator tess = Tessellator.instance;
+			double wide = 0.1875D;
+			double narrow = 0.00D;
+			double length = 1.25D;
+			double uMin = ((tileEntity.getWorldObj().getTotalWorldTime() / 10D + interp)) % 10;
+			double uMax = uMin + 1;
+			double epsilon = 0.01D;
+			
+			// renders two layers of sparks, one with regular UV and one with mirrored +0.5 offset
+			// render left and right of the blade with small offset to eliminate z-fighting
+			GL11.glPushMatrix(); if(arm2[3] <= -0.375D) {
+				GL11.glTranslated(0.5 + slide1, 1.0625D, -arm2[2] / 45D); // arm angle/45 is a seemingly good enough approximation
+				tess.startDrawingQuads();
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertexWithUV(-epsilon, -wide, length, uMin + 0.5, 0);
+				tess.addVertexWithUV(-epsilon, wide, length, uMin + 0.5, 1);
+				tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+				tess.addVertexWithUV(-epsilon, narrow, 0, uMax + 0.5, 1);
+				tess.addVertexWithUV(-epsilon, -narrow, 0, uMax + 0.5, 0);
+	
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertexWithUV(epsilon, -wide, length, uMin, 1);
+				tess.addVertexWithUV(epsilon, wide, length, uMin, 0);
+				tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+				tess.addVertexWithUV(epsilon, narrow, 0, uMax, 0);
+				tess.addVertexWithUV(epsilon, -narrow, 0, uMax, 1);
+				tess.draw();
+			} GL11.glPopMatrix();
+			
+			GL11.glPushMatrix();  if(arm4[3] <= -0.375D) {
+				GL11.glTranslated(-0.5 - slide2, 1.0625D, arm4[2] / 45D);
+				tess.startDrawingQuads();
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertexWithUV(-epsilon, -wide, -length, uMin + 0.5, 0);
+				tess.addVertexWithUV(-epsilon, wide, -length, uMin + 0.5, 1);
+				tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+				tess.addVertexWithUV(-epsilon, narrow, 0, uMax + 0.5, 1);
+				tess.addVertexWithUV(-epsilon, -narrow, 0, uMax + 0.5, 0);
+	
+				tess.setNormal(-1, 0, 0);
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertexWithUV(epsilon, -wide, -length, uMin, 1);
+				tess.addVertexWithUV(epsilon, wide, -length, uMin, 0);
+				tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+				tess.addVertexWithUV(epsilon, narrow, 0, uMax, 0);
+				tess.addVertexWithUV(epsilon, -narrow, 0, uMax, 1);
+				tess.draw();
+			} GL11.glPopMatrix();
+			
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			RenderArcFurnace.fullbright(false);
 		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
