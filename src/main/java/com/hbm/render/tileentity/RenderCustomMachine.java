@@ -2,7 +2,6 @@ package com.hbm.render.tileentity;
 
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.SmallBlockPronter;
 import com.hbm.tileentity.machine.TileEntityCustomMachine;
 
@@ -13,6 +12,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
+
+import static com.hbm.config.CustomMachineConfigJSON.customModels;
 
 public class RenderCustomMachine extends TileEntitySpecialRenderer {
 	@Override
@@ -52,7 +53,7 @@ public class RenderCustomMachine extends TileEntitySpecialRenderer {
 			}
 			else if(config.customModel!=null){
 				try{
-					IModelCustom customModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, config.customModel.customModel));
+					IModelCustom customModel = customModels.get(config.unlocalizedName);
 					ResourceLocation modelTexture = new ResourceLocation(RefStrings.MODID, config.customModel.modelTexture);
 					GL11.glPushMatrix();
 					double rx = -dir.offsetX * (config.customModel.model_x) + 0.5;
@@ -88,7 +89,7 @@ public class RenderCustomMachine extends TileEntitySpecialRenderer {
 
 					GL11.glPopMatrix();
 				}
-				catch (Exception e){
+				catch (Exception ignored){
 
 				}
 			}

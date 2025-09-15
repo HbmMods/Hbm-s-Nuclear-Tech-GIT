@@ -32,7 +32,6 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -57,6 +56,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 	public int maxHeat;
 	public int progress;
 	public int maxProgress = 1;
+	public boolean isProgressing;
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
 	public ModulePatternMatcher matcher;
@@ -116,7 +116,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				return;
 			}
-
+			this.isProgressing = false;
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.config.maxPower);
 
 			if (this.inputTanks.length > 0) this.inputTanks[0].setType(1, slots);
@@ -170,7 +170,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			}
 
 			if (this.structureOK) {
-				float volume = 1F;
 				if (config.generatorMode) {
 					if (this.cachedRecipe == null) {
 						CustomMachineRecipe recipe = this.getMatchingRecipe();
@@ -181,6 +180,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 					}
 
 					if (this.cachedRecipe != null) {
+						isProgressing = true;
 						this.maxProgress = (int) Math.max(cachedRecipe.duration / this.config.recipeSpeedMult, 1);
 						int powerReq = (int) Math.max(cachedRecipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 
@@ -207,6 +207,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 						int powerReq = (int) Math.max(recipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 
 						if (this.power >= powerReq && this.hasRequiredQuantities(recipe) && this.hasSpace(recipe)) {
+							isProgressing = true;
 							this.progress++;
 							this.power -= powerReq;
 							this.heat -= recipe.heat;
@@ -230,24 +231,23 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			this.networkPackNT(50);
 		} else {
 			float volume = this.getVolume(1F);
-			if(this.progress > 0) {
+			if (this.isProgressing && config.progressSound!=null && MainRegistry.proxy.me().getDistance(xCoord, yCoord, zCoord) < 50) {
 				if (audio == null) {
 					audio = this.createAudioLoop();
-					audio.updateVolume(volume);
 					audio.startSound();
 				} else if (!audio.isPlaying()) {
 					audio = rebootAudio(audio);
-					audio.updateVolume(volume);
 				}
+				audio.keepAlive();
+				audio.updateVolume(volume);
 			} else {
-
-				if(audio != null) {
+				if (audio != null) {
 					audio.stopSound();
 					audio = null;
 				}
 			}
-		}
 
+		}
 	}
 
 	@Override
@@ -258,6 +258,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 		buf.writeLong(power);
 		buf.writeInt(progress);
+		buf.writeBoolean(isProgressing);
 		buf.writeInt(flux);
 		buf.writeInt(heat);
 		buf.writeBoolean(structureOK);
@@ -276,6 +277,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 		this.power = buf.readLong();
 		this.progress = buf.readInt();
+		this.isProgressing = buf.readBoolean();
 		this.flux = buf.readInt();
 		this.heat = buf.readInt();
 		this.structureOK = buf.readBoolean();
@@ -367,7 +369,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 	public boolean hasRequiredQuantities(CustomMachineRecipe recipe) {
 
 		for(int i = 0; i < recipe.inputFluids.length; i++) {
-			if(this.inputTanks[i].getFill() < recipe.inputFluids[i].fill) return false;
+			if (this.inputTanks[i].getFill() < recipe.inputFluids[i].fill) return false;
 		}
 
 		for(int i = 0; i < recipe.inputItems.length; i++) {

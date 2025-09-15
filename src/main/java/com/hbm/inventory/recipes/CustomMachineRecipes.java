@@ -83,12 +83,13 @@ public class CustomMachineRecipes extends SerializableRecipe {
 				recipeInstance.pollutionAmount = rec.get("pollutionAmount").getAsFloat();
 			} else {
 				recipeInstance.pollutionType = "";
+				recipeInstance.pollutionAmount = 0;
 			}
-			
-			if(rec.has("radiationAmount")) recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
-			if(rec.has("flux")) recipeInstance.flux = rec.get("flux").getAsInt();
-			if(rec.has("heat")) recipeInstance.heat = rec.get("heat").getAsInt();
-			
+
+			recipeInstance.radiationAmount = rec.has("radiationAmount") ? rec.get("radiationAmount").getAsFloat() : 0;
+			recipeInstance.flux = rec.has("flux") ? rec.get("flux").getAsInt() : 0;
+			recipeInstance.heat = rec.has("heat") ? rec.get("heat").getAsInt() : 0;
+
 			list.add(recipeInstance);
 		}
 
