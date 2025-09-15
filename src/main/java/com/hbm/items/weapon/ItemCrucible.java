@@ -8,14 +8,12 @@ import com.google.common.collect.Multimap;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.IEquipReceiver;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemSwordAbility;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.render.anim.AnimationEnums.ToolAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
-import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -38,7 +36,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IAnimatedItem {
+public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IAnimatedItem<ToolAnimation> {
 
 	public ItemCrucible(float damage, double movement, ToolMaterial material) {
 		super(damage, movement, material);
@@ -55,7 +53,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 			World world = player.worldObj;
 			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.cDeploy", 1.0F, 1.0F);
 
-			playAnimation(player, AnimType.EQUIP);
+			playAnimation(player, ToolAnimation.EQUIP);
 		}
 	}
 
@@ -72,7 +70,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;
 
-		playAnimation((EntityPlayerMP)entityLiving, AnimType.CYCLE);
+		playAnimation((EntityPlayerMP)entityLiving, ToolAnimation.SWING);
 
 		return false;
 	}
@@ -139,9 +137,9 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 	}
 
 	@Override
-	public BusAnimation getAnimation(AnimType type, ItemStack stack) {
+	public BusAnimation getAnimation(ToolAnimation type, ItemStack stack) {
 		/* crucible deploy */
-		if(type == AnimType.EQUIP) {
+		if(type == ToolAnimation.EQUIP) {
 
 			return new BusAnimation()
 					.addBus("GUARD_ROT", new BusAnimationSequence()
@@ -151,7 +149,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 		}
 
 		/* crucible swing */
-		if(type == AnimType.CYCLE) {
+		if(type == ToolAnimation.SWING) {
 
 			if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
 
@@ -182,4 +180,10 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 	private void playSwing(float pitchProbablyIDontFuckingCare) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), pitchProbablyIDontFuckingCare));
 	}
+
+	@Override
+	public Class<ToolAnimation> getEnum() {
+		return ToolAnimation.class;
+	}
+
 }

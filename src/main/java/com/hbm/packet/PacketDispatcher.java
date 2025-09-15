@@ -44,7 +44,7 @@ public class PacketDispatcher {
 		//Signals server to do coord based satellite stuff
 		wrapper.registerMessage(SatCoordPacket.Handler.class, SatCoordPacket.class, i++, Side.SERVER);
 		//Triggers gun animations of the client
-		wrapper.registerMessage(GunAnimationPacket.Handler.class, GunAnimationPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(HbmAnimationPacket.Handler.class, HbmAnimationPacket.class, i++, Side.CLIENT);
 		//Sends a funi text to display like a music disc announcement
 		wrapper.registerMessage(PlayerInformPacket.Handler.class, PlayerInformPacket.class, i++, Side.CLIENT);
 		//Universal keybind packet

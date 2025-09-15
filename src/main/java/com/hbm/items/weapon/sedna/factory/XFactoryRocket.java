@@ -26,10 +26,10 @@ import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
@@ -46,7 +46,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class XFactoryRocket {
 
 	public static BulletConfig[] rocket_template;
-	
+
 	public static BulletConfig[] rocket_rpzb;
 	public static BulletConfig[] rocket_qd;
 	public static BulletConfig[] rocket_ml;
@@ -60,24 +60,24 @@ public class XFactoryRocket {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 4) bullet.accel += 0.4D;
 		if(bullet.getThrower() == null || !(bullet.getThrower() instanceof EntityPlayer)) return;
-		
+
 		EntityPlayer player = (EntityPlayer) bullet.getThrower();
 		if(Vec3.createVectorHelper(bullet.posX - player.posX, bullet.posY - player.posY, bullet.posZ - player.posZ).lengthVector() > 100) return;
 		if(player.getHeldItem() == null || !(player.getHeldItem().getItem() instanceof ItemGunBaseNT) || !ItemGunBaseNT.getIsAiming(player.getHeldItem())) return;
-		
+
 		MovingObjectPosition mop = Library.rayTrace(player, 200, 1);
 		if(mop == null || mop.hitVec == null) return;
-		
+
 		Vec3 vec = Vec3.createVectorHelper(mop.hitVec.xCoord - bullet.posX, mop.hitVec.yCoord - bullet.posY, mop.hitVec.zCoord - bullet.posZ);
 		if(vec.lengthVector() < 3) return;
 		vec = vec.normalize();
-		
+
 		double speed = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
 		bullet.motionX = vec.xCoord * speed;
 		bullet.motionY = vec.yCoord * speed;
 		bullet.motionZ = vec.zCoord * speed;
 	};
-	
+
 	// IMPACT
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
@@ -110,7 +110,7 @@ public class XFactoryRocket {
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_PHOSPHORUS = (bullet, mop) -> {
 		spawnFire(bullet, mop, true, 600);
 	};
-	
+
 	public static void spawnFire(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, boolean phosphorus, int duration) {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
 		World world = bullet.worldObj;
@@ -135,18 +135,18 @@ public class XFactoryRocket {
 			}
 		}
 	}
-	
+
 	public static BulletConfig makeRPZB(BulletConfig original) { return original.clone(); }
 	public static BulletConfig makeQD(BulletConfig original) { return original.clone().setLife(400).setOnUpdate(LAMBDA_STEERING_ACCELERATE); }
 	public static BulletConfig makeML(BulletConfig original) { return original.clone(); }
-	
+
 	//this is starting to get messy but we need to put this crap *somewhere* and fragmenting it into a billion classes with two methods each just isn't gonna help
 	public static void init() {
 
 		rocket_template = new BulletConfig[5];
-		
+
 		BulletConfig baseRocket = new BulletConfig().setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
-		
+
 		rocket_template[0] = baseRocket.clone().setItem(EnumAmmo.ROCKET_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE);
 		rocket_template[1] = baseRocket.clone().setItem(EnumAmmo.ROCKET_HEAT).setDamage(0.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT);
 		rocket_template[2] = baseRocket.clone().setItem(EnumAmmo.ROCKET_DEMO).setDamage(0.75F).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO);
@@ -156,7 +156,7 @@ public class XFactoryRocket {
 		rocket_rpzb = new BulletConfig[rocket_template.length];
 		rocket_qd = new BulletConfig[rocket_template.length];
 		rocket_ml = new BulletConfig[rocket_template.length];
-		
+
 		for(int i = 0; i < rocket_template.length; i++) {
 			rocket_rpzb[i] = makeRPZB(rocket_template[i]);
 			rocket_qd[i] = makeQD(rocket_template[i]);
@@ -210,7 +210,7 @@ public class XFactoryRocket {
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_PRESS = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, true); };
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_RELEASE = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, false); };
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS = (stack, ctx) -> {
 		if(ItemGunBaseNT.getIsAiming(stack)) {
 			int target = ItemGunStinger.getLockonTarget(ctx.getPlayer(), 150D, 20D);
@@ -222,10 +222,10 @@ public class XFactoryRocket {
 		Lego.LAMBDA_STANDARD_CLICK_PRIMARY.accept(stack, ctx);
 		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ROCKET = (stack, ctx) -> { };
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
 		boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory) <= 0;
 		switch(type) {
 		case EQUIP: return new BusAnimation()
@@ -242,7 +242,7 @@ public class XFactoryRocket {
 		return null;
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_QUADRO_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_QUADRO_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
@@ -258,7 +258,7 @@ public class XFactoryRocket {
 		return null;
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MISSILE_LAUNCHER_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_MISSILE_LAUNCHER_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 1000, IType.SIN_DOWN));

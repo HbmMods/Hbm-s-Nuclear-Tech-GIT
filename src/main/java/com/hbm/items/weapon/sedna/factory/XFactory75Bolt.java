@@ -17,9 +17,9 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -47,7 +47,7 @@ public class XFactory75Bolt {
 
 	public static void init() {
 		SpentCasing casing75 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(2F, 2F, 1.5F);
-		
+
 		b75 = new BulletConfig().setItem(EnumAmmo.B75)
 				.setCasing(casing75.clone().register("b75")).setOnImpact(LAMBDA_TINY_EXPLODE);
 		b75_inc = new BulletConfig().setItem(EnumAmmo.B75_INC).setDamage(0.8F).setArmorPiercing(0.1F)
@@ -66,16 +66,16 @@ public class XFactory75Bolt {
 				.anim(LAMBDA_BOLTER_ANIMS).orchestra(Orchestras.ORCHESTRA_BOLTER)
 				).setUnlocalizedName("gun_bolter");
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 2000, 0.05D, 1.1D, 0);
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_BOLT = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5), (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_BOLTER_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_BOLTER_ANIMS = (stack, type) -> {
 		switch(type) {
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(1, 0, 0, 25).addPos(0, 0, 0, 75));
@@ -86,7 +86,7 @@ public class XFactory75Bolt {
 				.addBus("TILT", new BusAnimationSequence().addPos(0, 0, 0, 500).addPos(1, 0, 0, 250).addPos(1, 0, 0, 700).addPos(0, 0, 0, 250))
 				.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 750).addPos(0.6, 0, 0, 250).addPos(0, 0, 0, 250));
 		}
-		
+
 		return null;
 	};
 }

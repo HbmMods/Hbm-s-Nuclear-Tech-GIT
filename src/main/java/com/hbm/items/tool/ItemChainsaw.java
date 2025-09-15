@@ -3,17 +3,17 @@ package com.hbm.items.tool;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.IHeldSoundProvider;
+import com.hbm.render.anim.AnimationEnums.ToolAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 
-public class ItemChainsaw extends ItemToolAbilityFueled implements IHeldSoundProvider, IAnimatedItem {
+public class ItemChainsaw extends ItemToolAbilityFueled implements IHeldSoundProvider, IAnimatedItem<ToolAnimation> {
 
 	public ItemChainsaw(float damage, double movement, ToolMaterial material, EnumToolType type, int maxFuel, int consumption, int fillRate, FluidType... acceptedFuels) {
 		super(damage, movement, material, type, maxFuel, consumption, fillRate, acceptedFuels);
@@ -28,13 +28,13 @@ public class ItemChainsaw extends ItemToolAbilityFueled implements IHeldSoundPro
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;
 
-		playAnimation((EntityPlayer) entityLiving);
+		playAnimation((EntityPlayer) entityLiving, ToolAnimation.SWING);
 
 		return false;
 	}
 
 	@Override
-	public BusAnimation getAnimation(AnimType type, ItemStack stack) {
+	public BusAnimation getAnimation(ToolAnimation type, ItemStack stack) {
 		int forward = 150;
 		int sideways = 100;
 		int retire = 200;
@@ -69,5 +69,10 @@ public class ItemChainsaw extends ItemToolAbilityFueled implements IHeldSoundPro
 							.addPos(2, 0, 2, sideways)
 							.addPos(0, 0, 0, retire));
 		}
+	}
+
+	@Override
+	public Class<ToolAnimation> getEnum() {
+		return ToolAnimation.class;
 	}
 }

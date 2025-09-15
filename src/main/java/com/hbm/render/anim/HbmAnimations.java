@@ -18,24 +18,6 @@ public class HbmAnimations {
 	//animation is playing, though this will cancel the animation entirely.
 	public static final Animation[][] hotbar = new Animation[9][8]; //now with 8 parallel rails per slot! time to get railed!
 
-	public static enum AnimType {
-		RELOAD,			//either a full reload or start of a reload
-		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
-		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
-		CYCLE,			//animation for every firing cycle / weapon swing
-		CYCLE_EMPTY,	//animation for the final shot in the magazine
-		CYCLE_DRY,		//animation for trying to fire, but no round is available
-		ALT_CYCLE,		//animation for alt fire cycles
-		SPINUP,			//animation for actionstart
-		SPINDOWN,		//animation for actionend
-		EQUIP,			//animation for drawing the weapon
-		INSPECT,		//animation for inspecting the weapon
-		JAMMED,			//animation for jammed weapons
-	}
-
-	// A NOTE ON SHOTGUN STYLE RELOADS
-	// Make sure the RELOAD adds shells, not just RELOAD_CYCLE, they all proc once for each loaded shell
-
 	public static class Animation {
 
 		//the "name" of the animation slot. if the item has a different key than
@@ -55,9 +37,7 @@ public class HbmAnimations {
 		}
 
 		public Animation(String key, long startMillis, BusAnimation animation, boolean holdLastFrame) {
-			this.key = key;
-			this.startMillis = startMillis;
-			this.animation = animation;
+			this(key, startMillis, animation);
 			this.holdLastFrame = holdLastFrame;
 		}
 	}

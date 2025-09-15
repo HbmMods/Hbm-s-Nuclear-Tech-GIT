@@ -24,8 +24,8 @@ import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.GunAnimationPacket;
-import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.packet.toclient.HbmAnimationPacket;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
@@ -247,8 +247,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	@Override
 	public void onEquip(EntityPlayer player, ItemStack stack) {
 		for(int i = 0; i < this.configs_DNA.length; i++) {
-			if(this.getLastAnim(stack, i) == AnimType.EQUIP && this.getAnimTimer(stack, i) < 5) continue;
-			playAnimation(player, stack, AnimType.EQUIP, i);
+			if(this.getLastAnim(stack, i) == GunAnimation.EQUIP && this.getAnimTimer(stack, i) < 5) continue;
+			playAnimation(player, stack, GunAnimation.EQUIP, i);
 			this.setPrimary(stack, i, false);
 			this.setSecondary(stack, i, false);
 			this.setTertiary(stack, i, false);
@@ -256,9 +256,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 		}
 	}
 
-	public static void playAnimation(EntityPlayer player, ItemStack stack, AnimType type, int index) {
+	public static void playAnimation(EntityPlayer player, ItemStack stack, GunAnimation type, int index) {
 		if(player instanceof EntityPlayerMP) {
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(type.ordinal(), 0, index), (EntityPlayerMP) player);
+			PacketDispatcher.wrapper.sendTo(new HbmAnimationPacket(type.ordinal(), 0, index), (EntityPlayerMP) player);
 			setLastAnim(stack, index, type);
 			setAnimTimer(stack, index, 0);
 		}
@@ -327,7 +327,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 					this.setState(stack, i, GunState.DRAWING);
 					this.setTimer(stack, i, configs[i].getDrawDuration(stack));
 				}
-				this.setLastAnim(stack, i, AnimType.CYCLE); //prevents new guns from initializing with DRAWING, 0
+				this.setLastAnim(stack, i, GunAnimation.CYCLE); //prevents new guns from initializing with DRAWING, 0
 			}
 			this.setIsAiming(stack, false);
 			this.setReloadCancel(stack, false);
@@ -371,8 +371,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	public static boolean getIsLockedOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKEDON); }
 	public static void setIsLockedOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKEDON, value); }
 	// ANIM TRACKING //
-	public static AnimType getLastAnim(ItemStack stack, int index) { return EnumUtil.grabEnumSafely(AnimType.class, getValueInt(stack, KEY_LASTANIM + index)); }
-	public static void setLastAnim(ItemStack stack, int index, AnimType value) { setValueInt(stack, KEY_LASTANIM + index, value.ordinal()); }
+	public static GunAnimation getLastAnim(ItemStack stack, int index) { return EnumUtil.grabEnumSafely(GunAnimation.class, getValueInt(stack, KEY_LASTANIM + index)); }
+	public static void setLastAnim(ItemStack stack, int index, GunAnimation value) { setValueInt(stack, KEY_LASTANIM + index, value.ordinal()); }
 	public static int getAnimTimer(ItemStack stack, int index) { return getValueInt(stack, KEY_ANIMTIMER + index); }
 	public static void setAnimTimer(ItemStack stack, int index, int value) { setValueInt(stack, KEY_ANIMTIMER + index, value); }
 
