@@ -13,8 +13,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.i18n.I18nUtil;
+import com.hbm.world.gen.nbt.INBTTileEntityTransformable;
 import com.hbm.world.gen.util.LogicBlockActions;
-import com.hbm.world.gen.INBTTileEntityTransformable;
 import com.hbm.world.gen.util.LogicBlockConditions;
 import com.hbm.world.gen.util.LogicBlockInteractions;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -273,7 +273,8 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			super.writeToNBT(nbt);
 			nbt.setString("actionID", actionID);
 			nbt.setString("conditionID", conditionID);
-			nbt.setString("interactionID", interactionID);
+			if(interactionID != null)
+				nbt.setString("interactionID", interactionID);
 			nbt.setInteger("rotation", placedRotation);
 			if(disguise != null){
 				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
@@ -286,7 +287,8 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			super.readFromNBT(nbt);
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
-			interactionID = nbt.getString("interactionID");
+			if(nbt.hasKey("interactionID"))
+				interactionID = nbt.getString("interactionID");
 			placedRotation = nbt.getInteger("rotation");
 			if(nbt.hasKey("disguise")){
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));

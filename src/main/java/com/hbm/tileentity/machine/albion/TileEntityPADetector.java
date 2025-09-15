@@ -1,10 +1,14 @@
 package com.hbm.tileentity.machine.albion;
 
+import java.util.List;
+
 import com.hbm.inventory.container.ContainerPADetector;
 import com.hbm.inventory.gui.GUIPADetector;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes.ParticleAcceleratorRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
@@ -142,6 +146,12 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 					}
 				}
 			}
+			
+			if((recipe.output1 != null && recipe.output1.getItem() == ModItems.particle_digamma) || (recipe.output2 != null && recipe.output2.getItem() == ModItems.particle_digamma)) {
+				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 50, 100));
+				for(EntityPlayer player : players) player.triggerAchievement(MainRegistry.achOmega12);
+			}
+			
 			particle.crash(PAState.SUCCESS);
 			return;
 		}

@@ -282,7 +282,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return i == 16;
+		return i == 16 || this.assemblerModule.isSlotClogged(i);
 	}
 
 	@Override

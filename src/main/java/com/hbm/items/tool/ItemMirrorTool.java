@@ -50,20 +50,24 @@ public class ItemMirrorTool extends Item {
 		if(b == ModBlocks.solar_mirror && stack.hasTagCompound()) {
 			
 			if(!world.isRemote) {
-				TileEntitySolarMirror mirror = (TileEntitySolarMirror)world.getTileEntity(x, y, z);
+				TileEntitySolarMirror mirror = (TileEntitySolarMirror) world.getTileEntity(x, y, z);
 				int tx = stack.stackTagCompound.getInteger("posX");
 				int ty = stack.stackTagCompound.getInteger("posY");
 				int tz = stack.stackTagCompound.getInteger("posZ");
+
+				boolean withinReach = Vec3.createVectorHelper(x - tx, y - ty, z - tz).lengthVector() <= 100;
+				boolean withinAngle = (x - tx) * (x - tx) + (z - tz) * (z - tz) <= (y - ty) * (y - ty);
 				
-				if(Vec3.createVectorHelper(x - tx, y - ty, z - tz).lengthVector() < 25)
-					mirror.setTarget(tx, ty, tz);
+				if(!withinReach) player.addChatComponentMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".reach").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				else if(!withinAngle) player.addChatComponentMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".angle").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				else mirror.setTarget(tx, ty, tz);
 			}
 			
 			return true;
 		}
 		
 		return false;
-    }
+	}
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {

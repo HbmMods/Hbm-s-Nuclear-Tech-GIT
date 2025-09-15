@@ -4,6 +4,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -80,6 +81,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 			if(!controller.assembled) {
 				assemble(world, x, y, z, player);
 			} else {
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.pwr_printer) return false;
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 

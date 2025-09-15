@@ -69,6 +69,10 @@ public class GUIMachineSolderingStation extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(solderer.collisionPrevention) {
+			drawTexturedModalRect(guiLeft + 5, guiTop + 66, 192, 14, 10, 10);
+		}
 
 		int p = (int) (solderer.power * 52 / Math.max(solderer.maxPower, 1));
 		drawTexturedModalRect(guiLeft + 152, guiTop + 70 - p, 176, 52 - p, 16, p);

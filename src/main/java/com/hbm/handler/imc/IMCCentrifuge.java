@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+@Deprecated
 public class IMCCentrifuge extends IMCHandler {
 	
 	public static HashMap<AStack, ItemStack[]> buffer = new HashMap();

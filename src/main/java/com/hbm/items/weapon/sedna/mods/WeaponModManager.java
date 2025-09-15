@@ -149,6 +149,8 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.LAS_SHOTGUN).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasShotgun(ID_LAS_SHOTGUN));
 		new WeaponModDefinition(EnumModSpecial.LAS_CAPACITOR).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasCapacitor(ID_LAS_CAPACITOR));
 		new WeaponModDefinition(EnumModSpecial.LAS_AUTO).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasAuto(ID_LAS_AUTO));
+		new WeaponModDefinition(EnumModSpecial.NICKEL).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_NICKEL, "COIN1"));
+		new WeaponModDefinition(EnumModSpecial.DOUBLOONS).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_DOUBLOONS, "COIN2"));
 
 		BulletConfig[] p9 = new BulletConfig[] {XFactory9mm.p9_sp, XFactory9mm.p9_fmj, XFactory9mm.p9_jhp, XFactory9mm.p9_ap};
 		BulletConfig[] p45 = new BulletConfig[] {XFactory45.p45_sp, XFactory45.p45_fmj, XFactory45.p45_jhp, XFactory45.p45_ap, XFactory45.p45_du};
@@ -202,6 +204,8 @@ public class WeaponModManager {
 	public static final int ID_LAS_CAPACITOR = 217;
 	public static final int ID_LAS_AUTO = 218;
 	public static final int ID_CARBINE_BAYONET = 219;
+	public static final int ID_NI4NI_NICKEL = 220;
+	public static final int ID_NI4NI_DOUBLOONS = 221;
 	
 	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];

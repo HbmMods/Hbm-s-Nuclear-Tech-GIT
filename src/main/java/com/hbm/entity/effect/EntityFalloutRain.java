@@ -187,7 +187,7 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
 				
-				if(entry.eval(worldObj, x, y, z, b, meta, dist, b, meta)) {
+				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
 					if(entry.isSolid()) {
 						depth++;
 					}

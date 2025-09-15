@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenRecipeSelector extends GuiScreen {
@@ -325,7 +326,16 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 			search(this.search.getText());
 			return;
 		}
-			
+
+		if(keyCode == Keyboard.KEY_UP) pageIndex--;
+		if(keyCode == Keyboard.KEY_DOWN) pageIndex++;
+		if(keyCode == Keyboard.KEY_PRIOR) pageIndex -= 5;
+		if(keyCode == Keyboard.KEY_NEXT) pageIndex += 5;
+		if(keyCode == Keyboard.KEY_HOME) pageIndex = 0;
+		if(keyCode == Keyboard.KEY_END) pageIndex = size;
+		
+		pageIndex = MathHelper.clamp_int(pageIndex, 0, size);
+		
 		if(keyCode == 1 || keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 			FMLCommonHandler.instance().showGuiScreen(previousScreen);
 		}
