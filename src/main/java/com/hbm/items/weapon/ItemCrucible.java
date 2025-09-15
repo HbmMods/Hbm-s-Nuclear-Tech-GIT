@@ -153,11 +153,9 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 
 			if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
 
-				Random rand = Minecraft.getMinecraft().theWorld.rand;
+				int offset = itemRand.nextInt(80) - 20;
 
-				int offset = rand.nextInt(80) - 20;
-
-				playSwing(0.8F + rand.nextFloat() * 0.2F);
+				playSwing(0.8F + itemRand.nextFloat() * 0.2F);
 
 				return new BusAnimation()
 						.addBus("SWING_ROT", new BusAnimationSequence()
@@ -184,6 +182,11 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IA
 	@Override
 	public Class<ToolAnimation> getEnum() {
 		return ToolAnimation.class;
+	}
+
+	@Override
+	public boolean shouldPlayerModelAim(ItemStack stack) {
+		return false;
 	}
 
 }

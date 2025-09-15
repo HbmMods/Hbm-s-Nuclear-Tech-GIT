@@ -127,4 +127,9 @@ public class ItemBoltgun extends Item implements IAnimatedItem<ToolAnimation> {
 						.addPos(0, 0, 1, 100));
 	}
 
+	@Override
+	public boolean shouldPlayerModelAim(ItemStack stack) {
+		return false;
+	}
+
 }

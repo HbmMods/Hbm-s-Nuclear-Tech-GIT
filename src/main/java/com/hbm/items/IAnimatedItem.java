@@ -10,8 +10,11 @@ import net.minecraft.item.ItemStack;
 
 public interface IAnimatedItem<T extends Enum<?>> {
 
-	// Fetch the animation for a given type
+	/** Fetch the animation for a given type */
 	public BusAnimation getAnimation(T type, ItemStack stack);
+
+	/** Should a player holding this item aim it like a gun/bow? */
+	public boolean shouldPlayerModelAim(ItemStack stack);
 
 	// Runtime erasure means we have to explicitly give the class a second time :(
 	public Class<T> getEnum();

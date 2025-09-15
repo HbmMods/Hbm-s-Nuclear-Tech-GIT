@@ -75,4 +75,10 @@ public class ItemChainsaw extends ItemToolAbilityFueled implements IHeldSoundPro
 	public Class<ToolAnimation> getEnum() {
 		return ToolAnimation.class;
 	}
+
+	@Override
+	public boolean shouldPlayerModelAim(ItemStack stack) {
+		return false;
+	}
+
 }
