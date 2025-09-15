@@ -1,27 +1,10 @@
-## Added
-* New assembly factory
-  * Once again four recipe units at double the base speed
-  * Upgrades and stats are identical to the chemical factory
-  * Comes with an improved version of the old assemfac animations
-
 ## Changed
-* Updated chinese localization
-* Added more QMAW manual pages
-* WIAJ presentations now use the same configurable keybind as QMAW
-  * Shift has to be held for the presentations, while F1 will open the standard QMAW page
-* Double UZIs no longer render weirdly when dropped
-* Added keyboard controls to the recipe selector's scroll function
-  * Up and down keys scroll by one line
-  * PgUp and PgDown scroll by 5 lines (full page)
-  * Pos1 and End keys scroll to the top and bottom of the list respectively
-* C4, like semtex, is now edible
-* Assembly machines can now be made with the assembly machine
-  * The recipe is similar to the anvil recipe, but it uses only half as much steel, and one analog circuit instead of four vacuum tubes
+* Added a (LEGACY) tag to the schrabidium transmutator
+* Existing schrabidium transmutators are now way slower
+  * get souped
+* Removed the schraranium tooltip mentioning the transmutator
+* Changed the last remaining recipes that use the old steel pipes item, as well as the recipe for the steel pipes
+  * Any remaining steel pipes can be either smelted in a crucible or shredded
 
 ## Fixed
-* Fixed fusion reactor item IO being broken
-* Fixed issue with the chemical factory where the declogging feature would be triggered by a recipe processor that doesn't even own the reported slot
-* Fixed the new PA not triggering the omega-12 achievement
-  * In addition to granting the achievement to nearby players on recipe completion, it is also granted when taking it out of the output slot
-* Fixed the PUREX recipe for processing ZIRNOX MEU fuel not yielding technetium as it should
-* Fixed turbofans pulling in players even when disabled via redstone
+* Fixed various issues with the localization
