@@ -1,15 +1,27 @@
+## Added
+* New assembly factory
+  * Once again four recipe units at double the base speed
+  * Upgrades and stats are identical to the chemical factory
+  * Comes with an improved version of the old assemfac animations
+
 ## Changed
-* The amount of filled rebar that can be rendered at once is now capped (can be changed with the client config `RENDER_REBAR_LIMIT`)
-  * This causes holes and looks a bit buggy, but for now it's better than lagging the game out
-* The amount of light beams per solar boiler is now limited (can be changed with the client config `RENDER_HELIOSTAT_BEAM_LIMIT`)
-* Changed the way mirror linking works for the solar boiler
-  * The max range is now 100m (instead of 25m)
-  * There is now an angle requirement, mirrors cannot be rotated more than 45°
-  * This means that the solar boiler can use more mirrors, the higher up it is
-  * Existing setups will continue to function, as these rules only apply during the linking process
-* The PWR and watz now have NEI handlers, showing the fuel to depleted fuel process
+* Updated chinese localization
+* Added more QMAW manual pages
+* WIAJ presentations now use the same configurable keybind as QMAW
+  * Shift has to be held for the presentations, while F1 will open the standard QMAW page
+* Double UZIs no longer render weirdly when dropped
+* Added keyboard controls to the recipe selector's scroll function
+  * Up and down keys scroll by one line
+  * PgUp and PgDown scroll by 5 lines (full page)
+  * Pos1 and End keys scroll to the top and bottom of the list respectively
+* C4, like semtex, is now edible
+* Assembly machines can now be made with the assembly machine
+  * The recipe is similar to the anvil recipe, but it uses only half as much steel, and one analog circuit instead of four vacuum tubes
 
 ## Fixed
-* Fixed broken localization in the recipe selector GUI
-* Fixed the server crashing instantly
-  * I lost track of how many times this has been an issue
+* Fixed fusion reactor item IO being broken
+* Fixed issue with the chemical factory where the declogging feature would be triggered by a recipe processor that doesn't even own the reported slot
+* Fixed the new PA not triggering the omega-12 achievement
+  * In addition to granting the achievement to nearby players on recipe completion, it is also granted when taking it out of the output slot
+* Fixed the PUREX recipe for processing ZIRNOX MEU fuel not yielding technetium as it should
+* Fixed turbofans pulling in players even when disabled via redstone

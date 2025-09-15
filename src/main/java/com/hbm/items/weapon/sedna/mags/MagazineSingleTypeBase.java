@@ -229,7 +229,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }
 	@Override public int getAmount(ItemStack stack, IInventory inventory) { return getMagCount(stack, index); }
-	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
+	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, Math.max(amount, 0)); }
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }
 	@Override public int getAmountBeforeReload(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_PREV + index); }

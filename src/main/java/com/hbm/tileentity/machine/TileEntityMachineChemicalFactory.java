@@ -145,14 +145,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 1, 3);
-
-			inputTanks[0].loadTank(10, 13, slots);
-			inputTanks[1].loadTank(11, 14, slots);
-			inputTanks[2].loadTank(12, 15, slots);
-
-			outputTanks[0].unloadTank(16, 19, slots);
-			outputTanks[1].unloadTank(17, 20, slots);
-			outputTanks[2].unloadTank(18, 21, slots);
 			
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos);
@@ -188,6 +180,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				}
 			}
 			
+			// internal fluid sharing logic
 			for(FluidTank in : inputTanks) if(in.getTankType() != Fluids.NONE) for(FluidTank out : outputTanks) { // up to 144 iterations, but most of them are NOP anyway
 				if(out.getTankType() == Fluids.NONE) continue;
 				if(out.getTankType() != in.getTankType()) continue;
