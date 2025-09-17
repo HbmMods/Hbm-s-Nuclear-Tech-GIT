@@ -1,6 +1,7 @@
 package com.hbm.qmaw.components;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.qmaw.GuiQMAW;
 import com.hbm.qmaw.ManualElement;
@@ -64,6 +65,7 @@ public class QComponentLink extends ManualElement {
 			
 			GL11.glPushMatrix();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			Minecraft mc = Minecraft.getMinecraft();
 			GL11.glRotated(180, 1, 0, 0);
 			RenderHelper.enableStandardItemLighting();
@@ -71,6 +73,7 @@ public class QComponentLink extends ManualElement {
 			itemRender.renderItemAndEffectIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1);
 			itemRender.renderItemOverlayIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1, null);
 			RenderHelper.disableStandardItemLighting();
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 			
