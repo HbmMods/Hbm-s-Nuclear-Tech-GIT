@@ -193,6 +193,27 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 		ResourceManager.bio_revolver.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
+	
+	@Override
+	public void renderEntity(ItemStack stack) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		GL11.glPushMatrix();
+		
+		GL11.glTranslated(-2, 1, 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_lunar_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(2, 1, 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glPopMatrix();
+		
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
 
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
