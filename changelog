@@ -1,6 +1,9 @@
 ## Changed
 * Added more QMAW pages
 * Removed most old particle accelerator blocks from the creative inventory
+* All dual wielded guns now render more accurately when dropped instead of only showing one gun
+* Added support for left handed guns (currently unused)*
+* Removed the presentations for the old particle accelerator and schottky diode
 
 ## Fixed
 * Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value

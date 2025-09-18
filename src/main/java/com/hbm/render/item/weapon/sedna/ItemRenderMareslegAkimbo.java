@@ -180,6 +180,28 @@ public class ItemRenderMareslegAkimbo extends ItemRenderWeaponBase {
 	public void renderModTable(ItemStack stack, int index) {
 		renderOther(stack, ItemRenderType.INVENTORY);
 	}
+	
+	@Override
+	public void renderEntity(ItemStack stack) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		GL11.glPushMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.maresleg_tex);
+		
+		GL11.glTranslated(-1, 1, 0);
+		ResourceManager.maresleg.renderPart("Gun");
+		ResourceManager.maresleg.renderPart("Lever");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(1, 1, 0);
+		ResourceManager.maresleg.renderPart("Gun");
+		ResourceManager.maresleg.renderPart("Lever");
+		GL11.glPopMatrix();
+		
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
 
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
