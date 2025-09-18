@@ -195,6 +195,7 @@ public class ItemRenderUziAkimbo extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	
+	@Override
 	public void renderEntity(ItemStack stack) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glShadeModel(GL11.GL_SMOOTH);

@@ -238,6 +238,34 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	public void renderModTable(ItemStack stack, int index) {
 		renderOther(stack, ItemRenderType.INVENTORY);
 	}
+	
+	@Override
+	public void renderEntity(ItemStack stack) {
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		GL11.glPushMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.eott_tex);
+		
+		GL11.glTranslated(-1, 1, 0);
+		ResourceManager.aberrator.renderPart("Gun");
+		ResourceManager.aberrator.renderPart("Hammer");
+		ResourceManager.aberrator.renderPart("Magazine");
+		ResourceManager.aberrator.renderPart("Slide");
+		ResourceManager.aberrator.renderPart("Sight");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(1, 1, 0);
+		ResourceManager.aberrator.renderPart("Gun");
+		ResourceManager.aberrator.renderPart("Hammer");
+		ResourceManager.aberrator.renderPart("Magazine");
+		ResourceManager.aberrator.renderPart("Slide");
+		ResourceManager.aberrator.renderPart("Sight");
+		GL11.glPopMatrix();
+		
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
 
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {

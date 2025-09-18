@@ -89,6 +89,12 @@ public class ModEventHandlerRenderer {
 					ModelRenderer box = getBoxFromType(renderer, EnumPlayerPart.LEFT_ARM);
 					box.isHidden = true;
 				}
+				if(renderGun.isLeftHanded()) {
+					partsHidden[EnumPlayerPart.LEFT_ARM.ordinal()] = true;
+					partsHidden[EnumPlayerPart.RIGHT_ARM.ordinal()] = true;
+					getBoxFromType(renderer, EnumPlayerPart.LEFT_ARM).isHidden = true;
+					getBoxFromType(renderer, EnumPlayerPart.RIGHT_ARM).isHidden = true;
+				}
 			}
 		}
 
@@ -121,6 +127,7 @@ public class ModEventHandlerRenderer {
 		RenderPlayer renderer = event.renderer;
 
 		boolean akimbo = false;
+		boolean leftHand = false;
 
 		ItemStack held = player.getHeldItem();
 
@@ -128,9 +135,8 @@ public class ModEventHandlerRenderer {
 			IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
 			if(customRenderer instanceof ItemRenderWeaponBase) {
 				ItemRenderWeaponBase renderGun = (ItemRenderWeaponBase) customRenderer;
-				if(renderGun.isAkimbo()) {
-					akimbo = true;
-				}
+				if(renderGun.isAkimbo()) akimbo = true;
+				if(renderGun.isLeftHanded()) leftHand = true;
 			}
 		}
 
@@ -145,6 +151,23 @@ public class ModEventHandlerRenderer {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(acp.getLocationSkin());
 				biped.bipedLeftArm.isHidden = false;
 				biped.bipedLeftArm.render(0.0625F);
+			}
+		}
+
+		if(leftHand) {
+			ModelBiped biped = renderer.modelBipedMain;
+			renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY =
+					0.1F + biped.bipedHead.rotateAngleY;
+			renderer.modelArmorChestplate.bipedRightArm.rotateAngleY = renderer.modelArmor.bipedRightArm.rotateAngleY = biped.bipedRightArm.rotateAngleY =
+					-0.5F + biped.bipedHead.rotateAngleY;
+			
+			if(!isManly) {
+				AbstractClientPlayer acp = (AbstractClientPlayer) player;
+				Minecraft.getMinecraft().getTextureManager().bindTexture(acp.getLocationSkin());
+				biped.bipedLeftArm.isHidden = false;
+				biped.bipedLeftArm.render(0.0625F);
+				biped.bipedRightArm.isHidden = false;
+				biped.bipedRightArm.render(0.0625F);
 			}
 		}
 
@@ -200,6 +223,11 @@ public class ModEventHandlerRenderer {
 					ModelBiped biped = renderer.modelBipedMain;
 					renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY = 0.1F + biped.bipedHead.rotateAngleY;
 				}
+				if(renderGun.isLeftHanded()) {
+					ModelBiped biped = renderer.modelBipedMain;
+					renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY = 0.1F + biped.bipedHead.rotateAngleY;
+					renderer.modelArmorChestplate.bipedRightArm.rotateAngleY = renderer.modelArmor.bipedRightArm.rotateAngleY = biped.bipedRightArm.rotateAngleY = -0.5F + biped.bipedHead.rotateAngleY;
+				}
 			}
 		}
 	}
@@ -216,7 +244,7 @@ public class ModEventHandlerRenderer {
 
 		if(customRenderer instanceof ItemRenderWeaponBase) {
 			ItemRenderWeaponBase renderWeapon = (ItemRenderWeaponBase) customRenderer;
-			if(renderWeapon.isAkimbo()) {
+			if(renderWeapon.isAkimbo() || renderWeapon.isLeftHanded()) {
 				GL11.glPushMatrix();
 				renderer.modelBipedMain.bipedLeftArm.isHidden = false;
 				renderer.modelBipedMain.bipedLeftArm.postRender(0.0625F);
@@ -235,8 +263,14 @@ public class ModEventHandlerRenderer {
 				GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-				renderWeapon.setupThirdPersonAkimbo(held);
-				renderWeapon.renderEquippedAkimbo(held);
+				if(renderWeapon.isLeftHanded()) {
+					GL11.glTranslatef(0.1875F, 0F, 0.0F);
+					renderWeapon.setupThirdPerson(held);
+					renderWeapon.renderEquippedAkimbo(held);
+				} else {
+					renderWeapon.setupThirdPersonAkimbo(held);
+					renderWeapon.renderEquippedAkimbo(held);
+				}
 				GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 				GL11.glPopMatrix();
 			}

@@ -90,9 +90,9 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 							if(type == EnumAshType.COAL) ashLevelCoal += burn;
 							if(type == EnumAshType.MISC) ashLevelMisc += burn;
 							int threshold = 2000;
-							if(processAsh(ashLevelWood, EnumAshType.WOOD, threshold)) ashLevelWood -= threshold;
-							if(processAsh(ashLevelCoal, EnumAshType.COAL, threshold)) ashLevelCoal -= threshold;
-							if(processAsh(ashLevelMisc, EnumAshType.MISC, threshold)) ashLevelMisc -= threshold;
+							while(processAsh(ashLevelWood, EnumAshType.WOOD, threshold)) ashLevelWood -= threshold;
+							while(processAsh(ashLevelCoal, EnumAshType.COAL, threshold)) ashLevelCoal -= threshold;
+							while(processAsh(ashLevelMisc, EnumAshType.MISC, threshold)) ashLevelMisc -= threshold;
 							
 							this.maxBurnTime = this.burnTime = burn;
 							ItemStack container = slots[0].getItem().getContainerItem(slots[0]);
