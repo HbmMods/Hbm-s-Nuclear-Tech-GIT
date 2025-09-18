@@ -145,6 +145,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.factorySpawnWeight;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("crane") {{
+			canSpawn = flatbiomes::contains;
+			structure = new JigsawPiece("crane", StructureManager.crane, -10);
+			spawnWeight = StructureConfig.craneSpawnWeight;
+		}});
+
 		NBTStructure.registerStructure(0, new SpawnCondition("plane1") {{
 			canSpawn = biome -> biome.heightVariation <= 0.3F;
 			structure = new JigsawPiece("crashed_plane_1", StructureManager.plane1, -5);
