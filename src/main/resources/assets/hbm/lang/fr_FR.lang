@@ -1127,9 +1127,9 @@ item.stealth_boy.name=Module de furtiviter
 entity.hbm.entity_bullet.name=Balle
 entity.hbm.entity_rocket.name=Roquettes
 entity.hbm.entity_schrabnel.name=Shrapnel
-entity.entity_mob_nuclear_creeper.name=Creeper nucléaire
-entity.entity_mob_hunter_chopper.name=Hélicoptère de chasse
-entity.entity_cyber_crab.name=Cyber-crabe
+entity.hbm.entity_mob_nuclear_creeper.name=Creeper nucléaire
+entity.hbm.entity_mob_hunter_chopper.name=Hélicoptère de chasse
+entity.hbm.entity_cyber_crab.name=Cyber-crabe
 
 item.cap_aluminium.name=Capuchon en aluminium
 item.hull_small_steel.name=Petite coque en acier

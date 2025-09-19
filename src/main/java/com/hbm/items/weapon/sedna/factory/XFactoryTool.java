@@ -28,10 +28,10 @@ import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.IRepairable.EnumExtinguishType;
 import com.hbm.util.CompatExternal;
@@ -52,15 +52,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class XFactoryTool {
 
 	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_tool.png");
-	
+
 	public static BulletConfig fext_water;
 	public static BulletConfig fext_foam;
 	public static BulletConfig fext_sand;
-	
+
 	public static BulletConfig ct_hook;
 	public static BulletConfig ct_mortar;
 	public static BulletConfig ct_mortar_charge;
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_WATER_HIT = (bullet, mop) -> {
 		if(!bullet.worldObj.isRemote) {
 			int ix = mop.blockX;
@@ -80,7 +80,7 @@ public class XFactoryTool {
 			bullet.setDead();
 		}
 	};
-	
+
 	public static Consumer<Entity> LAMBDA_WATER_UPDATE = (bullet) -> {
 		if(bullet.worldObj.isRemote) {
 			NBTTagCompound data = new NBTTagCompound();
@@ -102,7 +102,7 @@ public class XFactoryTool {
 			}
 		}
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_FOAM_HIT = (bullet, mop) -> {
 		if(!bullet.worldObj.isRemote) {
 			int ix = mop.blockX;
@@ -135,7 +135,7 @@ public class XFactoryTool {
 			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
 		}
 	};
-	
+
 	public static Consumer<Entity> LAMBDA_FOAM_UPDATE = (bullet) -> {
 		if(bullet.worldObj.isRemote) {
 			NBTTagCompound data = new NBTTagCompound();
@@ -149,7 +149,7 @@ public class XFactoryTool {
 			MainRegistry.proxy.effectNT(data);
 		}
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_SAND_HIT = (bullet, mop) -> {
 		if(!bullet.worldObj.isRemote) {
 			int ix = mop.blockX;
@@ -174,7 +174,7 @@ public class XFactoryTool {
 			}
 		}
 	};
-	
+
 	public static Consumer<Entity> LAMBDA_SAND_UPDATE = (bullet) -> {
 		if(bullet.worldObj.isRemote) {
 			NBTTagCompound data = new NBTTagCompound();
@@ -199,7 +199,7 @@ public class XFactoryTool {
 		}
 		bullet.ignoreFrustumCheck = true;
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_HOOK = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			Vec3NT vec = new Vec3NT(-bullet.motionX, -bullet.motionY, -bullet.motionZ).normalizeSelf().multiply(0.05);
@@ -207,7 +207,7 @@ public class XFactoryTool {
 			bullet.getStuck(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 		}
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_MORTAR = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5, bullet.getThrower());
@@ -219,7 +219,7 @@ public class XFactoryTool {
 		vnt.explode();
 		bullet.setDead();
 	};
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_MORTAR_CHARGE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 15, bullet.getThrower());
@@ -246,14 +246,14 @@ public class XFactoryTool {
 				.setOnUpdate(LAMBDA_SAND_UPDATE)
 				.setOnEntityHit((bulletEntity, target) -> { if(target.entityHit != null) target.entityHit.extinguish(); })
 				.setOnRicochet(LAMBDA_SAND_HIT);
-		
+
 		ct_hook = new BulletConfig().setItem(EnumAmmo.CT_HOOK).setRenderRotations(false).setLife(6_000).setVel(3F).setGrav(0.035D).setDoesPenetrate(true).setDamageFalloffByPen(false)
 				.setOnUpdate(LAMBDA_SET_HOOK).setOnImpact(LAMBDA_HOOK);
 		ct_mortar = new BulletConfig().setItem(EnumAmmo.CT_MORTAR).setDamage(2.5F).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR);
 		ct_mortar_charge = new BulletConfig().setItem(EnumAmmo.CT_MORTAR_CHARGE).setDamage(5F).setLife(200).setVel(3F).setGrav(0.035D)
 				.setOnImpact(LAMBDA_MORTAR_CHARGE);
-		
+
 		ModItems.gun_fireext = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
 				.dura(5_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
@@ -264,7 +264,7 @@ public class XFactoryTool {
 				.setupStandardConfiguration()
 				.orchestra(Orchestras.ORCHESTRA_FIREEXT)
 				).setUnlocalizedName("gun_fireext");
-		
+
 		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
@@ -276,12 +276,12 @@ public class XFactoryTool {
 				.anim(LAMBDA_CT_ANIMS).orchestra(Orchestras.ORCHESTRA_CHARGE_THROWER)
 				).setUnlocalizedName("gun_charge_thrower");
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_CT = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_CT_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_CT_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
@@ -295,7 +295,7 @@ public class XFactoryTool {
 				.addBus("TURN", new BusAnimationSequence().addPos(0, 60, 0, 500, IType.SIN_FULL).hold(1750).addPos(0, 0, 0, 500, IType.SIN_FULL))
 				.addBus("ROLL", new BusAnimationSequence().hold(750).addPos(0, 0, -90, 500, IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 500, IType.SIN_FULL));
 		}
-		
+
 		return null;
 	};
 }
