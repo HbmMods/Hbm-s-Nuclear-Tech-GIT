@@ -1,10 +1,13 @@
 ## Changed
-* Updated chinese localization
-* Added more QMAW manual pages
-* WIAJ presentations now use the same configurable keybind as QMAW
-  * Shift has to be held for the presentations, while F1 will open the standard QMAW page
-* Double UZIs no longer render weirdly when dropped
+* Added more QMAW pages
+* Removed most old particle accelerator blocks from the creative inventory
+* All dual wielded guns now render more accurately when dropped instead of only showing one gun
+* Added support for left handed guns (currently unused)*
+* Removed the presentations for the old particle accelerator and schottky diode
+* Gibbing NPCs now also spawns bones, if supported by the skeletonizer
+  * Gibbed bones only have a 50% chance of spawning and come with a unique red texture
+  * Gibbed bones have a way shorter lifetime and higher gravity to match the gib particles
 
 ## Fixed
-* Fixed fusion reactor item IO being broken
-* Fixed issue with the chemical factory where the declogging feature would be triggered by a recipe processor that doesn't even own the reported slot
+* Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
+* Fixed some QMAW link icons not having the correct block lighting applied

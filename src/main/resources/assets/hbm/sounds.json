@@ -72,6 +72,7 @@
     "block.assemblerStrike": {"category": "block", "sounds": ["block/assemblerStrike1", "block/assemblerStrike2"]},
     "block.assemblerStart": {"category": "block", "sounds": [{"name": "block/assemblerStart", "stream": false}]},
     "block.assemblerStop": {"category": "block", "sounds": [{"name": "block/assemblerStop", "stream": false}]},
+    "block.assemblerCut": {"category": "block", "sounds": [{"name": "block/assemblerCut", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

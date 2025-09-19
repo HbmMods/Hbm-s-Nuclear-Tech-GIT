@@ -48,6 +48,8 @@ public class ConfettiUtil {
 		if(entity instanceof EntitySkeleton) return;
 		if(entity instanceof EntitySlime) return;
 
+		SkeletonCreator.composeEffectGib(entity.worldObj, entity, 0.25F);
+
 		NBTTagCompound vdat = new NBTTagCompound();
 		vdat.setString("type", "giblets");
 		vdat.setInteger("ent", entity.getEntityId());

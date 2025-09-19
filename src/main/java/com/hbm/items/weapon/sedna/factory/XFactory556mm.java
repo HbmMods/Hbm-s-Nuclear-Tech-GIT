@@ -25,10 +25,10 @@ import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -43,12 +43,12 @@ public class XFactory556mm {
 	public static BulletConfig r556_fmj;
 	public static BulletConfig r556_jhp;
 	public static BulletConfig r556_ap;
-	
+
 	public static BulletConfig r556_inc_sp;
 	public static BulletConfig r556_inc_fmj;
 	public static BulletConfig r556_inc_jhp;
 	public static BulletConfig r556_inc_ap;
-	
+
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> INCENDIARY = (bullet, mop) -> {
 		if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) {
 			HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit);
@@ -71,7 +71,7 @@ public class XFactory556mm {
 		r556_inc_fmj = r556_fmj.clone().setOnImpact(INCENDIARY);
 		r556_inc_jhp = r556_jhp.clone().setOnImpact(INCENDIARY);
 		r556_inc_ap = r556_ap.clone().setOnImpact(INCENDIARY);
-		
+
 		ModItems.gun_g3 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
@@ -105,21 +105,21 @@ public class XFactory556mm {
 				.anim(LAMBDA_STG77_ANIMS).orchestra(Orchestras.ORCHESTRA_STG77)
 				).setUnlocalizedName("gun_stg77");
 	}
-	
+
 	public static Function<ItemStack, String> LAMBDA_NAME_G3 = (stack) -> {
 		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER) &&
-				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) && 
-				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK) && 
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) &&
+				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK) &&
 				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE)) return stack.getUnlocalizedName() + "_infiltrator";
-		if(!WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) && 
+		if(!WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK) &&
 				WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_GREEN)) return stack.getUnlocalizedName() + "_a3";
 		return null;
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 1500, 0.075D, 1.1D, 0);
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STG77_DECIDER = (stack, ctx) -> {
 		int index = ctx.configIndex;
 		GunState lastState = ItemGunBaseNT.getState(stack, index);
@@ -128,18 +128,18 @@ public class XFactory556mm {
 		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
 		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getSecondary(stack, index); });
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_G3 = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25));
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ZEBRA = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.125));
 	};
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_STG = (stack, ctx) -> { };
-	
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_G3_ANIMS = (stack, type) -> {
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_G3_ANIMS = (stack, type) -> {
 		boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory) <= 0;
 		switch(type) {
 		case EQUIP: return new BusAnimation()
@@ -206,11 +206,11 @@ public class XFactory556mm {
 				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 1000).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100).addPos(0, 0, 0, 250).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100))
 				.addBus("PLUG", new BusAnimationSequence().addPos(0, 0, 0, 1000).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100).addPos(0, 0, 0, 250).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100));
 		}
-		
+
 		return null;
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_STG77_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_STG77_ANIMS = (stack, type) -> {
 		if(ClientConfig.GUN_ANIMS_LEGACY.get()) {
 			switch(type) {
 			case EQUIP: return new BusAnimation()
@@ -245,8 +245,8 @@ public class XFactory556mm {
 			case INSPECT: return ResourceManager.stg77_anim.get("Inspect");
 			}
 		}
-		
-		
+
+
 		return null;
 	};
 }
