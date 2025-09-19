@@ -277,9 +277,9 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCrafting(Context context, Arguments args) {
 		if (slots[0] == null)
-			return new Object[] { null, null };
+			return new Object[] { "", 0 };
 		else
-			return new Object[]{slots[0].getUnlocalizedName(), slots[0].stackSize};
+			return new Object[]{slots[0].getUnlocalizedName(), slots[0].stackSize };
 	}
 
 	@Callback(direct = true)
@@ -291,7 +291,11 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord};
+		ItemStack input = slots[0];
+		if (input != null)
+			return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord, input.getUnlocalizedName(), input.stackSize };
+		else
+			return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord, "", 0 };
 	}
 
 	@Override
