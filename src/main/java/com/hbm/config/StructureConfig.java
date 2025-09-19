@@ -34,9 +34,11 @@ public class StructureConfig {
 	public static int plane1SpawnWeight = 25;
 	public static int plane2SpawnWeight = 25;
 
-	public static int desertShack1SpawnWeight = 18;
+	public static int desertShack1SpawnWeight = 21;
 	public static int desertShack2SpawnWeight = 20;
-	public static int desertShack3SpawnWeight = 22;
+	public static int desertShack3SpawnWeight = 18;
+	public static int deadDishSmallSpawnWeight = 25;
+	public static int deadDishBigSpawnWeight = 15;
 
 	public static int laboratorySpawnWeight = 20;
 	public static int lighthouseSpawnWeight = 4;
@@ -109,6 +111,8 @@ public class StructureConfig {
 		ruinsJSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.34_ruinJSpawnWeight", "Spawn weight for ruin J structure.", 12);
 		radioSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.35_radioSpawnWeight", "Spawn weight for radio structure.", 25);
 		factorySpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.36_factorySpawnWeight", "Spawn weight for factory structure.", 40);
+		deadDishSmallSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.38_deadDishSmallSpawnWeight", "Spawn weight for factory structure.", 25);
+		deadDishBigSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.39_deadDishBigSpawnWeight", "Spawn weight for factory structure.", 10);
 
 		plainsNullWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.37_plainsNullWeight", "Null spawn weight for plains biome", 20);
 		oceanNullWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.38_oceanNullWeight", "Null spawn weight for ocean biomes", 35);

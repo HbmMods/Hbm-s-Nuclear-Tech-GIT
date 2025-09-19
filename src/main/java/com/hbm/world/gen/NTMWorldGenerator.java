@@ -105,14 +105,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.enableOceanStructures ? StructureConfig.lighthouseSpawnWeight : 0;
 		}});
 
-		NBTStructure.registerStructure(0, new SpawnCondition("beached_patrol") {{
-			canSpawn = beachBiomes::contains;
-			structure = new JigsawPiece("beached_patrol", StructureManager.beached_patrol, -5);
-			minHeight = 58;
-			maxHeight = 67;
-			spawnWeight = 8;
-		}});
-
 		NBTStructure.registerStructure(0, new SpawnCondition("dish") {{
 			canSpawn = biome -> biome == BiomeGenBase.plains;
 			structure = new JigsawPiece("dish", StructureManager.dish, -10);
@@ -150,17 +142,15 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_big") {{
 			canSpawn = biome -> biome == BiomeGenBase.desert;
 			structure = new JigsawPiece("dead_dish_big", StructureManager.dead_dish_big, -17);
-			spawnWeight = 6;
+			spawnWeight = StructureConfig.deadDishBigSpawnWeight;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_small") {{
 			canSpawn = biome -> biome == BiomeGenBase.desert;
 			structure = new JigsawPiece("dead_dish_small", StructureManager.dead_dish_small, -5);
-			spawnWeight = 12;
+			spawnWeight = StructureConfig.deadDishSmallSpawnWeight;
 		}});
 
-		NBTStructure.registerNullWeight(0, 2, biome -> biome == BiomeGenBase.plains);
-		NBTStructure.registerNullWeight(0, 4, oceanBiomes::contains);
 		NBTStructure.registerStructure(0, new SpawnCondition("factory") {{
 			canSpawn = flatbiomes::contains;
 			structure = new JigsawPiece("factory", StructureManager.factory, -10);
