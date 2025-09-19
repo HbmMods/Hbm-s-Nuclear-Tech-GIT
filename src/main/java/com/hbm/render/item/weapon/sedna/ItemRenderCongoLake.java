@@ -9,8 +9,8 @@ import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.HbmAnimations;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	@Override
 	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 0.875);
-		
+
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.5F * offset, -2F * offset, 1.25F * offset,
@@ -38,12 +38,12 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
-		
+
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.congolake_tex);
 		double scale = 0.5D;
 		GL11.glScaled(scale, scale, scale);
-		
+
 		HbmAnimations.applyRelevantTransformation("Gun");
 		ResourceManager.congolake.renderPart("Gun");
 
@@ -94,30 +94,30 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		{
 			IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
-			if(gun.getLastAnim(stack, 0) != AnimType.INSPECT || mag.getAmount(stack, MainRegistry.proxy.me().inventory) > 0) { //omit when inspecting and no shell is loaded
-				
+			if(gun.getLastAnim(stack, 0) != GunAnimation.INSPECT || mag.getAmount(stack, MainRegistry.proxy.me().inventory) > 0) { //omit when inspecting and no shell is loaded
+
 				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
-	
+
 				HbmAnimations.applyRelevantTransformation("Shell");
-	
+
 				SpentCasing casing = mag.getCasing(stack, MainRegistry.proxy.me().inventory);
 				int[] colors = casing != null ? casing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
-	
+
 				Color shellColor = new Color(colors[0]);
 				GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
 				ResourceManager.congolake.renderPart("Shell");
-				
+
 				Color shellForeColor = new Color(colors.length > 1 ? colors[1] : colors[0]);
 				GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
 				ResourceManager.congolake.renderPart("ShellFore");
-	
+
 				GL11.glColor3f(1F, 1F, 1F);
 			}
 		}
 		GL11.glPopMatrix();
 
 		double smokeScale = 0.25;
-		
+
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.75, 4.25);
@@ -170,7 +170,7 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
 		GL11.glEnable(GL11.GL_LIGHTING);
-		
+
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.congolake_tex);
 		ResourceManager.congolake.renderAll();

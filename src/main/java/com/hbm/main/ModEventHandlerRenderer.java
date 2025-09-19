@@ -4,6 +4,7 @@ import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.config.ClientConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.items.IAnimatedItem;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
@@ -55,7 +56,7 @@ public class ModEventHandlerRenderer {
 
 	private static ModelMan manlyModel;
 	private static boolean[] partsHidden = new boolean[7];
-	
+
 	@SubscribeEvent
 	public void onRenderTickPre(TickEvent.RenderTickEvent event) { }
 
@@ -210,7 +211,17 @@ public class ModEventHandlerRenderer {
 		RenderPlayer renderer = event.renderer;
 		ItemStack held = player.getHeldItem();
 
-		if(held != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+		if(held == null) return;
+
+		if(held.getItem() instanceof IAnimatedItem) {
+			if(((IAnimatedItem<?>) held.getItem()).shouldPlayerModelAim(held)) {
+				renderer.modelBipedMain.aimedBow = true;
+				renderer.modelArmor.aimedBow = true;
+				renderer.modelArmorChestplate.aimedBow = true;
+			}
+		}
+
+		if(held.getItem() instanceof ItemGunBaseNT) {
 			renderer.modelBipedMain.aimedBow = true;
 			renderer.modelArmor.aimedBow = true;
 			renderer.modelArmorChestplate.aimedBow = true;

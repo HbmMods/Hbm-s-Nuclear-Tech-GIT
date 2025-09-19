@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.render.anim.AnimationEnums.ToolAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EntityDamageUtil;
@@ -14,12 +15,9 @@ import com.hbm.util.EntityDamageUtil;
 import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +25,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemBoltgun extends Item implements IAnimatedItem {
+public class ItemBoltgun extends Item implements IAnimatedItem<ToolAnimation> {
 
 	public ItemBoltgun() {
 		this.setMaxStackSize(1);
@@ -73,13 +71,10 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 							data.setFloat("size", 1F);
 							data.setByte("count", (byte)1);
 							PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.height / 2 - entity.yOffset, entity.posZ), new TargetPoint(world.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 50));
-						} else {
-							// doing this on the client outright removes the packet delay and makes the animation silky-smooth
-							NBTTagCompound d0 = new NBTTagCompound();
-							d0.setString("type", "anim");
-							d0.setString("mode", "generic");
-							MainRegistry.proxy.effectNT(d0);
+
+							playAnimation(player, ToolAnimation.SWING);
 						}
+
 						return true;
 					}
 				}
@@ -110,10 +105,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 				data.setByte("count", (byte)1);
 				PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, x + fX + dir.offsetX * off, y + fY + dir.offsetY * off, z + fZ + dir.offsetZ * off), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
 
-				NBTTagCompound d0 = new NBTTagCompound();
-				d0.setString("type", "anim");
-				d0.setString("mode", "generic");
-				PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(d0, 0, 0, 0), (EntityPlayerMP) player);
+				playAnimation(player, ToolAnimation.SWING);
 			}
 
 			return false;
@@ -123,11 +115,21 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
+	public Class<ToolAnimation> getEnum() {
+		return ToolAnimation.class;
+	}
+
+	@Override
+	public BusAnimation getAnimation(ToolAnimation type, ItemStack stack) {
 		return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
 						.addPos(1, 0, 1, 50)
 						.addPos(0, 0, 1, 100));
 	}
+
+	@Override
+	public boolean shouldPlayerModelAim(ItemStack stack) {
+		return false;
+	}
+
 }

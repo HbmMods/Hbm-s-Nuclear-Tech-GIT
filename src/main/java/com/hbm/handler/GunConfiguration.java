@@ -7,14 +7,14 @@ import java.util.function.Consumer;
 
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.util.ResourceLocation;
 
 @Deprecated
 public class GunConfiguration implements Cloneable {
-	
+
 	/**
 	 * alt function restrictions:
 	 * alt can not be reloaded (reload type of 0, ammo cap of 0)
@@ -35,9 +35,9 @@ public class GunConfiguration implements Cloneable {
 	public int firingMode;
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
-	
+
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	public HashMap<GunAnimation, BusAnimation> animations = new HashMap<GunAnimation, BusAnimation>();
 	//lazy-ish loading for animations, required for loading animations from ResourceManager, since that occurs after we've initialised the guns
 	public Consumer<Void> loadAnimations;
 	public boolean animationsLoaded = false;
@@ -47,7 +47,7 @@ public class GunConfiguration implements Cloneable {
 	public boolean isCentered;
 	//texture overlay when sneaking
 	public ResourceLocation scopeTexture;
-	
+
 	//duration of every animation cycle, used also for how quickly a burst fire rifle can fire
 	public int firingDuration;
 	//sound path to the shooting sound
@@ -65,7 +65,7 @@ public class GunConfiguration implements Cloneable {
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
 	public String equipSound = "";
-	
+
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
 	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
@@ -76,7 +76,7 @@ public class GunConfiguration implements Cloneable {
 	public boolean allowsInfinity;
 	//whether the ammo count should be displayed
 	public boolean showAmmo = true;
-	
+
 	//for electrically powered weapons:
 	//the Maximum capacity of the gun
 	public long maxCharge;
@@ -84,7 +84,7 @@ public class GunConfiguration implements Cloneable {
 	public long chargeRate;
 	//how much energy is discharged per shot
 	public long dischargePerShot;
-	
+
 	public String name = "";
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	public List<String> comment = new ArrayList<String>();
@@ -94,7 +94,7 @@ public class GunConfiguration implements Cloneable {
 
 	//crosshair
 	public Crosshair crosshair;
-	
+
 	//casing eject behavior
 	public CasingEjector ejector = null;
 

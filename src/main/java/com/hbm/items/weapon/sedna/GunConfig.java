@@ -11,8 +11,8 @@ import com.hbm.items.weapon.sedna.factory.GunStateDecider;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -20,13 +20,13 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Despite how complicated the GunConfig looks, it actually only exists to hold together a bunch of fields. Everything else is infrastructure for getting and setting.
  * The gun config determines general gun specific stats like durability, crosshair, animations, receivers, click handling and the decider.
- * 
+ *
  * @author hbm
  * */
 public class GunConfig {
 
-	public List<SmokeNode> smokeNodes = new ArrayList();
-	
+	public List<SmokeNode> smokeNodes = new ArrayList<>();
+
 	public static final String O_RECEIVERS =					"O_RECEIVERS";
 	public static final String F_DURABILITY =					"F_DURABILITY";
 	public static final String I_DRAWDURATION =					"I_DRAWDURATION";
@@ -51,9 +51,9 @@ public class GunConfig {
 	public static final String CON_DECIDER =					"CON_DECIDER";
 	public static final String FUN_ANIMNATIONS =				"FUN_ANIMNATIONS";
 	public static final String O_HUDCOMPONENTS =				"O_HUDCOMPONENTS";
-	
+
 	/* FIELDS */
-	
+
 	public int index;
 	/** List of receivers used by the gun, primary and secondary are usually indices 0 and 1 respectively, if applicable */
 	protected Receiver[] receivers_DNA;
@@ -84,9 +84,9 @@ public class GunConfig {
 	/** The engine for the state machine that determines the gun's overall behavior */
 	protected BiConsumer<ItemStack, LambdaContext> decider_DNA;
 	/** Lambda that returns the relevant animation for the given params */
-	protected BiFunction<ItemStack, AnimType, BusAnimation> animations_DNA;
+	protected BiFunction<ItemStack, GunAnimation, BusAnimation> animations_DNA;
 	protected IHUDComponent[] hudComponents_DNA;
-	
+
 	/* GETTERS */
 
 	public Receiver[] getReceivers(ItemStack stack) {								return WeaponModManager.eval(receivers_DNA, stack, O_RECEIVERS, this, this.index); }
@@ -112,14 +112,14 @@ public class GunConfig {
 	public BiConsumer<ItemStack, LambdaContext> getReleaseSecondary(ItemStack stack) {	return WeaponModManager.eval(this.onReleaseSecondary_DNA, stack, CON_ONRELEASESECONDARY, this, this.index); }
 	public BiConsumer<ItemStack, LambdaContext> getReleaseTertiary(ItemStack stack) {	return WeaponModManager.eval(this.onReleaseTertiary_DNA, stack, CON_ONRELEASETERTIARY, this, this.index); }
 	public BiConsumer<ItemStack, LambdaContext> getReleaseReload(ItemStack stack) {		return WeaponModManager.eval(this.onReleaseReload_DNA, stack, CON_ONRELEASERELOAD, this, this.index); }
-	
+
 	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return WeaponModManager.eval(this.decider_DNA, stack, CON_DECIDER, this, this.index); }
-	
-	public BiFunction<ItemStack, AnimType, BusAnimation> getAnims(ItemStack stack) {	return WeaponModManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this, this.index); }
-	public IHUDComponent[] getHUDComponents(ItemStack stack) {							return WeaponModManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this, this.index); }
-	
+
+	public BiFunction<ItemStack, GunAnimation, BusAnimation> getAnims(ItemStack stack) {	return WeaponModManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this, this.index); }
+	public IHUDComponent[] getHUDComponents(ItemStack stack) {								return WeaponModManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this, this.index); }
+
 	/* SETTERS */
-	
+
 	public GunConfig rec(Receiver... receivers) {			this.receivers_DNA = receivers; for(Receiver r : receivers_DNA) r.parent = this; return this; }
 	public GunConfig dura(float dura) {						this.durability_DNA = dura; return this; }
 	public GunConfig draw(int draw) {						this.drawDuration_DNA = draw; return this; }
@@ -134,7 +134,7 @@ public class GunConfig {
 
 	public GunConfig smoke(BiConsumer<ItemStack, LambdaContext> smoke) {			this.smokeHandler_DNA = smoke; return this; }
 	public GunConfig orchestra(BiConsumer<ItemStack, LambdaContext> orchestra) {	this.orchestra_DNA = orchestra; return this; }
-	
+
 	//press
 	public GunConfig pp(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressPrimary_DNA = lambda;	return this; }
 	public GunConfig ps(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressSecondary_DNA = lambda;	return this; }
@@ -146,14 +146,14 @@ public class GunConfig {
 	public GunConfig rs(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseSecondary_DNA = lambda;	return this; }
 	public GunConfig rt(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseTertiary_DNA = lambda;		return this; }
 	public GunConfig rr(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseReload_DNA = lambda;		return this; }
-	
+
 	//decider
 	public GunConfig decider(BiConsumer<ItemStack, LambdaContext> lambda) { this.decider_DNA = lambda;	return this; }
-	
+
 	//client
-	public GunConfig anim(BiFunction<ItemStack, AnimType, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
-	public GunConfig hud(IHUDComponent... components) {								this.hudComponents_DNA = components;	return this; }
-	
+	public GunConfig anim(BiFunction<ItemStack, GunAnimation, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
+	public GunConfig hud(IHUDComponent... components) {									this.hudComponents_DNA = components;	return this; }
+
 	/** Standard package for keybind handling and decider using LEGO prefabs: Primary fire on LMB,
 	 * reload on R, aiming on MMB and the standard decider which includes jamming and auto fire handling*/
 	public GunConfig setupStandardConfiguration() {
