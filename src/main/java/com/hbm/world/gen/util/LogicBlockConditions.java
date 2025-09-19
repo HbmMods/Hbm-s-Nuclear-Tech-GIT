@@ -43,6 +43,14 @@ public class LogicBlockConditions {
 		return false;
 	};
 
+	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> PLAYER_CUBE_3 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(3, 3, 3)).isEmpty();
+	};
+
 	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> PLAYER_CUBE_5 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
@@ -97,6 +105,7 @@ public class LogicBlockConditions {
 		//example conditions
 		conditions.put("EMPTY", EMPTY);
 		conditions.put("ABERRATOR", ABERRATOR);
+		conditions.put("PLAYER_CUBE_3", PLAYER_CUBE_3);
 		conditions.put("PLAYER_CUBE_5", PLAYER_CUBE_5);
 		conditions.put("PLAYER_CUBE_25", PLAYER_CUBE_25);
 		conditions.put("REDSTONE", REDSTONE);
