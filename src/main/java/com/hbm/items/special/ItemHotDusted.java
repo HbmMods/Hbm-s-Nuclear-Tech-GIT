@@ -14,7 +14,7 @@ public class ItemHotDusted extends ItemHot {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add(String.format(I18nUtil.resolveKey("item.hot_dusted.forged"), stack.getItemDamage()));
+		list.add(I18nUtil.resolveKey("item.hot_dusted.forged", stack.getItemDamage()));
 	}
 
 	public static int getMaxHeat(ItemStack stack) {

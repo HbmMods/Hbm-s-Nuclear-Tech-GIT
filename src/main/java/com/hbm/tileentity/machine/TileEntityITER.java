@@ -318,7 +318,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return slot == 2; // only allow removing breeder outputs
+		return slot == 2 || slot == 4; // only allow removing breeder outputs <- ?????
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	public long power = 0;
 	public int process = 0;
 	public static final long maxPower = 5000000;
-	public static final int processSpeed = 600;
+	public static final int processSpeed = 6000;
 	
 	private AudioWrapper audio;
 

@@ -35,7 +35,7 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.med_ipecac) {
-			String[] lines = I18nUtil.resolveKeyArray("item.med_ipecac.desc");
+			String[] lines = I18nUtil.resolveKeyArray("item.med_ipecac.desс");
 			for (String line : lines) {
 				list.add(line);
 			}

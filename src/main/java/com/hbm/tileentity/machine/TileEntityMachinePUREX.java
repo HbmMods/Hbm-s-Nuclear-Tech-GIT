@@ -208,7 +208,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return i >= 7 && i <= 12;
+		return (i >= 7 && i <= 12) || this.purexModule.isSlotClogged(i);
 	}
 
 	@Override

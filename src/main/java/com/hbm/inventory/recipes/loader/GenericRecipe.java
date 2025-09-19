@@ -116,7 +116,7 @@ public class GenericRecipe {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
-		// autoswitch group (two lines: label + "Enabled for")
+		// autoswitch group
 		if(this.autoSwitchGroup != null) {
 			String[] lines = I18nUtil.resolveKeyArray("autoswitch", I18nUtil.resolveKey(this.autoSwitchGroup));
 			for(String line : lines) list.add(EnumChatFormatting.GOLD + line);
@@ -146,10 +146,9 @@ public class GenericRecipe {
 		if(outputItem != null) for(IOutput output : outputItem)
 			for(String line : output.getLabel()) list.add("  " + line);
 		if(outputFluid != null) for(FluidStack fluid : outputFluid) {
-			String mB = I18nUtil.resolveKey("gui.recipe.mB");
 			String pressurePart = fluid.pressure == 0 ? "" :
 				" " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU";
-			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + mB + " " + fluid.type.getLocalizedName() + pressurePart);
+			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + pressurePart);
 		}
 
 		return list;

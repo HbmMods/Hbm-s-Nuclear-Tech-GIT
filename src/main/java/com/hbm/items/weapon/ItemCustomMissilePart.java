@@ -305,7 +305,7 @@ public class ItemCustomMissilePart extends Item {
 			case SOLID:
 				return EnumChatFormatting.GOLD + I18nUtil.resolveKey("item.missile.fuel.solid");
 			case HYDROGEN:
-				return EnumChatFormatting.DARK_AQUA + I18nUtil.resolveKey("item.missile.fuel.ethanol_peroxide"); // closest match
+				return EnumChatFormatting.DARK_AQUA + I18nUtil.resolveKey("item.missile.fuel.hydrogen"); // closest match
 			case XENON:
 				return EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("item.missile.fuel.xenon");
 			case BALEFIRE:

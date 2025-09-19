@@ -9,10 +9,10 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.Orchestras;
 import com.hbm.items.weapon.sedna.factory.XFactory44;
 import com.hbm.items.weapon.sedna.factory.XFactory762mm;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.EntityDamageUtil;
 
 import net.minecraft.block.Block;
@@ -36,15 +36,15 @@ public class WeaponModMASBayonet extends WeaponModBase {
 		if(key == GunConfig.I_INSPECTCANCEL) return cast(false, base);
 		return base;
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_MAS36 = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		if(entity.worldObj.isRemote) return;
-		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 
-		if(type == AnimType.INSPECT) {
-			
+		if(type == GunAnimation.INSPECT) {
+
 			if(timer == 15 && ctx.getPlayer() != null) {
 				MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), 3.0D);
 				if(mop != null) {
@@ -63,16 +63,16 @@ public class WeaponModMASBayonet extends WeaponModBase {
 			}
 			return;
 		}
-		
+
 		Orchestras.ORCHESTRA_MAS36.accept(stack, ctx);
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MAS36_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_MAS36_ANIMS = (stack, type) -> {
 		switch(type) {
 		case INSPECT: return new BusAnimation()
 				.addBus("STAB", new BusAnimationSequence().addPos(0, 1, -2, 250, IType.SIN_DOWN).hold(250).addPos(0, 1, 5, 250, IType.SIN_UP).hold(250).addPos(0, 0, 0, 500, IType.SIN_FULL));
 		}
-		
+
 		return XFactory762mm.LAMBDA_MAS36_ANIMS.apply(stack, type);
 	};
 }

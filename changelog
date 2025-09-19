@@ -1,14 +1,10 @@
 ## Changed
-* Updated ukrainian and chinese localization, including QMAW
-* Due to severe issues with ticking order as well as a crash caused by certain tiles that uses threaded packets, Torcherino accelerator torches no longer affect NTM machines
-* RBMK control rod colors and auto control rod settings are now copiable
-* Murky wings no longer have slowfall, and using shift+space cancels the momentum
-* Murky wings are now slow by default and speed up when sprinting
-* The arc furnace can now be used with AE2 buses, which was previously not possible due to the unique stacksize limitations
+* Added more QMAW pages
+* Removed most old particle accelerator blocks from the creative inventory
+* All dual wielded guns now render more accurately when dropped instead of only showing one gun
+* Added support for left handed guns (currently unused)*
+* Removed the presentations for the old particle accelerator and schottky diode
 
 ## Fixed
-* Fixed conveyor grabber dropping items off at an offset when placing them on a conveyor belt due to a client desync
-* Fixed occasional crash caused by using the settings tool on the autoloader
-* Fixed QMAW not correctly working with other languages
-* Fixed QMAW loading breaking entirely due to file encoding
-* Fixed PWR fuel rod textures being 18x18 instead of 16x16
+* Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
+* Fixed some QMAW link icons not having the correct block lighting applied

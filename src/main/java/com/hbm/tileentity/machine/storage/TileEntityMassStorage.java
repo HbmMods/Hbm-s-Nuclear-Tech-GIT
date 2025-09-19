@@ -101,13 +101,10 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	}
 
 	public boolean quickInsert(ItemStack stack) {
-		if (!canInsert(stack))
-			return false;
-		
-		int remaining = getCapacity() - getStockpile();
+		if(!canInsert(stack)) return false;
 
-		if (remaining < stack.stackSize)
-			return false;
+		int remaining = getCapacity() - getStockpile();
+		if(remaining < stack.stackSize) return false;
 
 		this.stack += stack.stackSize;
 		stack.stackSize = 0;
@@ -117,15 +114,12 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	}
 
 	public ItemStack quickExtract() {
-		if (!output) {
-			return null;
-		}
+		if(!output) return null;
 
 		int amount = getType().getMaxStackSize();
 
-		if (getStockpile() < amount)
-			return null;
-		
+		if(getStockpile() < amount) return null;
+
 		ItemStack result = slots[1].copy();
 		result.stackSize = amount;
 		this.stack -= amount;
@@ -138,18 +132,17 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	
 	public int getTotalStockpile() {
 		ItemStack type = getType();
-		if (type == null)
-			return 0;
+		if(type == null) return 0;
 
 		int result = getStockpile();
 
 		ItemStack inStack = slots[0];
-        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
-            result += inStack.stackSize;
-        }
+		if(inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+			result += inStack.stackSize;
+		}
 
 		ItemStack outStack = slots[2];
-		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+		if(outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
 			result += outStack.stackSize;
 		}
 
@@ -170,9 +163,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	private int changeTotalStockpile(int amount, boolean actually, int sign) {
 		ItemStack type = getType();
-
-		if (type == null)
-			return amount;
+		if(type == null) return amount;
 
 		int stockpileAvail = sign > 0 ? getCapacity() - getStockpile() : getStockpile();
 
@@ -186,21 +177,21 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		
 		int inputAvail = 0;
 		ItemStack inStack = slots[0];
-        if (inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
+		if(inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
 			inputAvail = sign > 0 ? inStack.getMaxStackSize() - inStack.stackSize : inStack.stackSize;
-		} else if (inStack == null) {
+		} else if(inStack == null) {
 			inputAvail = sign > 0 ? type.getMaxStackSize() : 0;
 		}
 
-		if (amount > 0 && inputAvail > 0) {
+		if(amount > 0 && inputAvail > 0) {
 			int depositInput = Math.min(amount, inputAvail);
-			if (actually) {
-				if (slots[0] == null) {  // Only possible with sign == +1
+			if(actually) {
+				if(slots[0] == null) { // Only possible with sign == +1
 					slots[0] = slots[1].copy();
 					slots[0].stackSize = 0;
 				}
 				slots[0].stackSize += sign * depositInput;
-				if (slots[0].stackSize == 0) {
+				if(slots[0].stackSize == 0) {
 					slots[0] = null;
 				}
 			}
@@ -209,28 +200,28 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		
 		int outputAvail = 0;
 		ItemStack outStack = slots[2];
-		if (outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
+		if(outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
 			outputAvail = sign > 0 ? outStack.getMaxStackSize() - outStack.stackSize : outStack.stackSize;
-		} else if (outStack == null) {
+		} else if(outStack == null) {
 			outputAvail = sign > 0 ? type.getMaxStackSize() : 0;
 		}
 
-		if (amount > 0 && outputAvail > 0) {
+		if(amount > 0 && outputAvail > 0) {
 			int depositOutput = Math.min(amount, outputAvail);
-			if (actually) {
-				if (slots[2] == null) {  // Only possible with sign == +1
+			if(actually) {
+				if(slots[2] == null) { // Only possible with sign == +1
 					slots[2] = slots[1].copy();
 					slots[2].stackSize = 0;
 				}
 				slots[2].stackSize += sign * depositOutput;
-				if (slots[2].stackSize == 0) {
+				if(slots[2].stackSize == 0) {
 					slots[2] = null;
 				}
 			}
 			amount -= depositOutput;
 		}
 
-		if (actually) {
+		if(actually) {
 			this.markDirty();
 		}
 		

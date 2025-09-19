@@ -23,6 +23,14 @@ public class MobUtil {
 	/**Unlike the above two, the Double is interpreted as minimum soot level, instead of armor slot **/
 	public static HashMap<Double, List<WeightedRandomObject>> slotPoolGuns = new HashMap<>();
 
+	//slop pools
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolGunsTier1 = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolGunsTier2 = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolGunsTier3 = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolMasks = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolHelms = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolTierArmor = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolMelee = new HashMap<>();
 
 	public static void intializeMobPools(){
 		slotPoolCommon.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
@@ -109,6 +117,72 @@ public class MobUtil {
 			{ModItems.sopsign, 4}, {ModItems.chernobylsign, 16},
 			{ModItems.titanium_sword, 18}, {ModItems.lead_gavel, 8},
 			{ModItems.wrench, 20}
+		}));
+
+		//For action block
+		slotPoolGunsTier1.put(0, createSlotPool(0, new Object[][]{
+			{ModItems.gun_light_revolver, 16}, {ModItems.gun_greasegun, 8}, {ModItems.gun_maresleg, 2}
+		}));
+
+		slotPoolGunsTier2.put(0, createSlotPool(0, new Object[][]{
+			{ModItems.gun_uzi, 10}, {ModItems.gun_maresleg, 8}, {ModItems.gun_henry, 12}, {ModItems.gun_heavy_revolver, 4}, {ModItems.gun_flaregun, 4}, {ModItems.gun_carbine, 4}
+		}));
+
+		slotPoolGunsTier3.put(0, createSlotPool(0, new Object[][]{
+			{ModItems.gun_uzi, 25}, {ModItems.gun_spas12, 20}, {ModItems.gun_carbine, 20}, {ModItems.gun_g3, 10}, {ModItems.gun_am180, 5}, {ModItems.gun_stg77, 5}
+		}));
+
+		slotPoolMasks.put(4, createSlotPool(0, new Object[][]{
+			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+			{ModItems.rag_piss, 4}, {ModItems.goggles, 12}
+		}));
+
+		slotPoolHelms.put(4, createSlotPool(0, new Object[][]{
+			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+			{ModItems.cobalt_helmet, 2}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+		}));
+
+		slotPoolTierArmor.put(4, createSlotPool(new Object[][]{
+			{ModItems.gas_mask_m65, 20},
+			{ModItems.gas_mask_olde, 15},
+			{ModItems.steel_helmet, 25},
+			{ModItems.titanium_helmet, 15},
+			{ModItems.alloy_helmet, 10},
+		}));
+
+		slotPoolTierArmor.put(3, createSlotPool(new Object[][]{
+			{ModItems.steel_plate, 30},
+			{ModItems.titanium_plate, 20},
+			{ModItems.alloy_plate, 15},
+			{ModItems.cobalt_plate, 5},
+			{ModItems.starmetal_plate, 5}
+		}));
+
+		slotPoolTierArmor.put(2, createSlotPool(new Object[][]{
+			{ModItems.steel_legs, 30},
+			{ModItems.titanium_legs, 20},
+			{ModItems.alloy_legs, 15},
+			{ModItems.cobalt_legs, 5},
+			{ModItems.zirconium_legs, 5}
+		}));
+
+		slotPoolTierArmor.put(1, createSlotPool(new Object[][]{
+			{ModItems.steel_boots, 30},
+			{ModItems.robes_boots, 25},
+			{ModItems.titanium_boots, 20},
+			{ModItems.alloy_boots, 15},
+			{ModItems.hazmat_boots, 10},
+			{ModItems.cobalt_boots, 5},
+		}));
+
+		slotPoolMelee.put(0, createSlotPool(2000, new Object[][]{
+			{ModItems.pipe_lead, 40}, {ModItems.crowbar, 35}, {ModItems.wrench, 30},
+			{ModItems.steel_sword, 25}, {ModItems.titanium_sword, 20},
+			{ModItems.reer_graar, 20}, {ModItems.stopsign, 15},
+			{ModItems.lead_gavel, 12}, {ModItems.wrench_flipped, 10},
+			{ModItems.sopsign, 8}, {ModItems.chernobylsign, 8}
 		}));
 
 		slotPoolAdvRanged = new HashMap<>(slotPoolAdv);
