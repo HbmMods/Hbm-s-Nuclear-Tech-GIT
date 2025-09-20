@@ -8,15 +8,15 @@ import com.hbm.items.weapon.sedna.factory.XFactory12ga;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
 
 public class WeaponModLiberatorSpeedloader extends WeaponModBase {
-	
+
 	public static MagazineFullReload MAG = new MagazineFullReload(0, 4);
 
 	public WeaponModLiberatorSpeedloader(int id) {
@@ -31,11 +31,11 @@ public class WeaponModLiberatorSpeedloader extends WeaponModBase {
 			if(MAG.acceptedBullets.isEmpty()) MAG.acceptedBullets.addAll(originalMag.acceptedBullets);
 			return (T) MAG;
 		}
-		
+
 		return base;
 	}
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LIBERATOR_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_LIBERATOR_ANIMS = (stack, type) -> {
 		switch(type) {
 		case RELOAD: return new BusAnimation()
 				.addBus("LATCH", new BusAnimationSequence().addPos(15, 0, 0, 100))
@@ -51,7 +51,7 @@ public class WeaponModLiberatorSpeedloader extends WeaponModBase {
 				.addBus("LATCH", new BusAnimationSequence().addPos(15, 0, 0, 0).addPos(15, 0, 0, 250).addPos(0, 0, 0, 50).addPos(0, 0, 0, 550).addPos(15, 0, 0, 100).addPos(15, 0, 0, 600).addPos(0, 0, 0, 50))
 				.addBus("BREAK", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 250, IType.SIN_UP).addPos(0, 0, 0, 600).addPos(45, 0, 0, 250, IType.SIN_DOWN).addPos(45, 0, 0, 300).addPos(0, 0, 0, 150, IType.SIN_UP));
 		}
-		
+
 		return XFactory12ga.LAMBDA_LIBERATOR_ANIMS.apply(stack, type);
 	};
 }

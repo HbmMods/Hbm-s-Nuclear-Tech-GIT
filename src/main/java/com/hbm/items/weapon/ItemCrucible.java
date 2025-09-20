@@ -5,15 +5,22 @@ import java.util.List;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.items.IAnimatedItem;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.tool.ItemSwordAbility;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.render.anim.AnimationEnums.ToolAnimation;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -25,9 +32,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
+public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver, IAnimatedItem<ToolAnimation> {
 
 	public ItemCrucible(float damage, double movement, ToolMaterial material) {
 		super(damage, movement, material);
@@ -44,10 +52,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 			World world = player.worldObj;
 			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.cDeploy", 1.0F, 1.0F);
 
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("type", "anim");
-			nbt.setString("mode", "crucible");
-			PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)player);
+			playAnimation(player, ToolAnimation.EQUIP);
 		}
 	}
 
@@ -64,10 +69,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;
 
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setString("type", "anim");
-		nbt.setString("mode", "cSwing");
-		PacketThreading.createSendToThreadedPacket(new AuxParticlePacketNT(nbt, 0, 0, 0), (EntityPlayerMP)entityLiving);
+		playAnimation((EntityPlayerMP)entityLiving, ToolAnimation.SWING);
 
 		return false;
 	}
@@ -132,4 +134,58 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 
 		list.add(charge);
 	}
+
+	@Override
+	public BusAnimation getAnimation(ToolAnimation type, ItemStack stack) {
+		/* crucible deploy */
+		if(type == ToolAnimation.EQUIP) {
+
+			return new BusAnimation()
+					.addBus("GUARD_ROT", new BusAnimationSequence()
+							.addPos(90, 0, 1, 0)
+							.addPos(90, 0, 1, 800)
+							.addPos(0, 0, 1, 50));
+		}
+
+		/* crucible swing */
+		if(type == ToolAnimation.SWING) {
+
+			if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
+
+				int offset = itemRand.nextInt(80) - 20;
+
+				playSwing(0.8F + itemRand.nextFloat() * 0.2F);
+
+				return new BusAnimation()
+						.addBus("SWING_ROT", new BusAnimationSequence()
+								.addPos(90 - offset, 90 - offset, 35, 75)
+								.addPos(90 + offset, 90 - offset, -45, 150)
+								.addPos(0, 0, 0, 500))
+						.addBus("SWING_TRANS", new BusAnimationSequence()
+								.addPos(-3, 0, 0, 75)
+								.addPos(8, 0, 0, 150)
+								.addPos(0, 0, 0, 500));
+			}
+		}
+
+		return null;
+	}
+
+	// could do this better, but this preserves existing behaviour the closest with the least amount
+	// of effort, without crashing servers (I'm learning my lesson :o_ )
+	@SideOnly(Side.CLIENT)
+	private void playSwing(float pitchProbablyIDontFuckingCare) {
+		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), pitchProbablyIDontFuckingCare));
+	}
+
+	@Override
+	public Class<ToolAnimation> getEnum() {
+		return ToolAnimation.class;
+	}
+
+	@Override
+	public boolean shouldPlayerModelAim(ItemStack stack) {
+		return false;
+	}
+
 }

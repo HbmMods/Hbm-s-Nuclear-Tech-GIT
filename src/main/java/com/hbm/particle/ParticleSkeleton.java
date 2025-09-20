@@ -26,8 +26,13 @@ public class ParticleSkeleton extends EntityFX {
 
 	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/skeleton.png");
 	public static final ResourceLocation texture_ext = new ResourceLocation(RefStrings.MODID + ":textures/particle/skoilet.png");
+	public static final ResourceLocation texture_blood = new ResourceLocation(RefStrings.MODID + ":textures/particle/skeleton_blood.png");
+	public static final ResourceLocation texture_blood_ext = new ResourceLocation(RefStrings.MODID + ":textures/particle/skoilet_blood.png");
 	public static final IModelCustom skeleton = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/effect/skeleton.obj"), false).asVBO();
 	protected EnumSkeletonType type;
+
+	public ResourceLocation useTexture;
+	public ResourceLocation useTextureExt;
 	
 	private float momentumYaw;
 	private float momentumPitch;
@@ -50,6 +55,18 @@ public class ParticleSkeleton extends EntityFX {
 
 		this.momentumPitch = rand.nextFloat() * 5 * (rand.nextBoolean() ? 1 : -1);
 		this.momentumYaw = rand.nextFloat() * 5 * (rand.nextBoolean() ? 1 : -1);
+
+		this.useTexture = texture;
+		this.useTextureExt = texture_ext;
+	}
+	
+	public ParticleSkeleton makeGib() {
+		this.initialDelay = -2; // skip post delay motion randomization
+		this.useTexture = texture_blood;
+		this.useTextureExt = texture_blood_ext;
+		this.particleGravity = 0.04F;
+		this.particleMaxAge = 600 + rand.nextInt(20);
+		return this;
 	}
 	
 	@Override
@@ -139,16 +156,16 @@ public class ParticleSkeleton extends EntityFX {
 		
 		switch(type) {
 		case SKULL: 
-			this.textureManager.bindTexture(texture);
+			this.textureManager.bindTexture(useTexture);
 			skeleton.renderPart("Skull"); break;
 		case TORSO: 
-			this.textureManager.bindTexture(texture);
+			this.textureManager.bindTexture(useTexture);
 			skeleton.renderPart("Torso"); break;
 		case LIMB: 
-			this.textureManager.bindTexture(texture);
+			this.textureManager.bindTexture(useTexture);
 			skeleton.renderPart("Limb"); break;
 		case SKULL_VILLAGER: 
-			this.textureManager.bindTexture(texture_ext);
+			this.textureManager.bindTexture(useTextureExt);
 			skeleton.renderPart("SkullVillager"); break;
 		}
 		

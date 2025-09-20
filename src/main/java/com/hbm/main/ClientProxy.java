@@ -41,7 +41,6 @@ import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.imc.IMCHandlerNHNEI;
-import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactoryClient;
 import com.hbm.lib.RefStrings;
@@ -49,10 +48,6 @@ import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
 import com.hbm.qmaw.QMAWLoader;
-import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationSequence;
-import com.hbm.render.anim.HbmAnimations;
-import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.RenderEmpty;
 import com.hbm.render.entity.effect.*;
@@ -1786,105 +1781,6 @@ public class ClientProxy extends ServerProxy {
 		if("deadleaf".equals(type)) {
 			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
 				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
-		}
-
-		if("anim".equals(type)) {
-
-			String mode = data.getString("mode");
-
-			/* crucible deploy */
-			if("crucible".equals(mode) && player.getHeldItem() != null) {
-
-				BusAnimation animation = new BusAnimation()
-						.addBus("GUARD_ROT", new BusAnimationSequence()
-								.addPos(90, 0, 1, 0)
-								.addPos(90, 0, 1, 800)
-								.addPos(0, 0, 1, 50));
-
-				String id = ModItems.crucible.getUnlocalizedName();
-				HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
-			}
-
-			/* crucible swing */
-			if("cSwing".equals(mode)) {
-
-				if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
-
-					int offset = rand.nextInt(80) - 20;
-
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addPos(90 - offset, 90 - offset, 35, 75)
-									.addPos(90 + offset, 90 - offset, -45, 150)
-									.addPos(0, 0, 0, 500))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addPos(-3, 0, 0, 75)
-									.addPos(8, 0, 0, 150)
-									.addPos(0, 0, 0, 500));
-
-					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
-					String id = ModItems.crucible.getUnlocalizedName();
-					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(id, System.currentTimeMillis(), animation, null);
-				}
-			}
-
-			/* chainsaw swing */
-			if("sSwing".equals(mode) || "lSwing".equals(mode)) { //temp for lance
-
-				int forward = 150;
-				int sideways = 100;
-				int retire = 200;
-
-				if(HbmAnimations.getRelevantAnim() == null) {
-
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addPos(0, 0, 90, forward)
-									.addPos(45, 0, 90, sideways)
-									.addPos(0, 0, 0, retire))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addPos(0, 0, 3, forward)
-									.addPos(2, 0, 2, sideways)
-									.addPos(0, 0, 0, retire));
-
-
-					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
-
-				} else {
-
-					double[] rot = HbmAnimations.getRelevantTransformation("SWING_ROT");
-					double[] trans = HbmAnimations.getRelevantTransformation("SWING_TRANS");
-
-					if(System.currentTimeMillis() - HbmAnimations.getRelevantAnim().startMillis < 50) return;
-
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addPos(rot[0], rot[1], rot[2], 0)
-									.addPos(0, 0, 90, forward)
-									.addPos(45, 0, 90, sideways)
-									.addPos(0, 0, 0, retire))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addPos(trans[0], trans[1], trans[2], 0)
-									.addPos(0, 0, 3, forward)
-									.addPos(2, 0, 2, sideways)
-									.addPos(0, 0, 0, retire));
-
-					HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, null);
-				}
-			}
-
-			if("generic".equals(mode)) {
-				ItemStack stack = player.getHeldItem();
-
-				if(stack != null && stack.getItem() instanceof IAnimatedItem) {
-					IAnimatedItem item = (IAnimatedItem) stack.getItem();
-					BusAnimation anim = item.getAnimation(data, stack);
-
-					if(anim != null) {
-						HbmAnimations.hotbar[player.inventory.currentItem][0] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), anim, null);
-					}
-				}
-			}
 		}
 
 		if("tau".equals(type)) {
