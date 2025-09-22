@@ -92,23 +92,23 @@ public class MobUtil {
 		}));
 
 		slotPoolAdv.put(4, createSlotPool(new Object[][]{
-			{ModItems.security_helmet, 10}, {ModItems.t45_helmet, 4}, {ModItems.asbestos_helmet, 12},
+			{ModItems.security_helmet, 10}, {ModItems.t51_helmet, 4}, {ModItems.asbestos_helmet, 12},
 			{ModItems.liquidator_helmet, 4}, {ModItems.no9, 12},
 			{ModItems.hazmat_helmet, 6}
 		}));
 		slotPoolAdv.put(3, createSlotPool(new Object[][]{
 			{ModItems.liquidator_plate, 4}, {ModItems.security_plate, 8}, {ModItems.asbestos_plate, 12},
-			{ModItems.t45_plate, 4}, {ModItems.hazmat_plate, 6},
+			{ModItems.t51_plate, 4}, {ModItems.hazmat_plate, 6},
 			{ModItems.steel_plate, 8}
 		}));
 		slotPoolAdv.put(2, createSlotPool(new Object[][]{
 			{ModItems.liquidator_legs, 4}, {ModItems.security_legs, 8}, {ModItems.asbestos_legs, 12},
-			{ModItems.t45_legs, 4}, {ModItems.hazmat_legs, 6},
+			{ModItems.t51_legs, 4}, {ModItems.hazmat_legs, 6},
 			{ModItems.steel_legs, 8}
 		}));
 		slotPoolAdv.put(1, createSlotPool(new Object[][]{
 			{ModItems.liquidator_boots, 4}, {ModItems.security_boots, 8}, {ModItems.asbestos_boots, 12},
-			{ModItems.t45_boots, 4}, {ModItems.hazmat_boots, 6},
+			{ModItems.t51_boots, 4}, {ModItems.hazmat_boots, 6},
 			{ModItems.robes_boots, 8}
 		}));
 		slotPoolAdv.put(0, createSlotPool(new Object[][]{

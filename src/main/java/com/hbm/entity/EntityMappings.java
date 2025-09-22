@@ -25,7 +25,6 @@ import com.hbm.entity.train.*;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
