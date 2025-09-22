@@ -11,7 +11,13 @@
 * Gibbing NPCs now also spawns bones, if supported by the skeletonizer
   * Gibbed bones only have a 50% chance of spawning and come with a unique red texture
   * Gibbed bones have a way shorter lifetime and higher gravity to match the gib particles
+* Updated the factory structure
+* NBT based structures now have a config for the spawn weight, unlike the old structure configs, higher numbers make structures more frequent
+* Mobs are no longer registered in the vanilla namespace
+* Drills no longer clip through depth rock, depth rock now has to be cleared before bedrock ore becomes accessible
+* When an area modifier is selected on a tool, an icon will now render next to the crosshair to make it obvious that the modifier is active
 
 ## Fixed
 * Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
 * Fixed some QMAW link icons not having the correct block lighting applied
+* Fixed a rare crash caused by RBMK neutron calculations happening in unloaded chunks
