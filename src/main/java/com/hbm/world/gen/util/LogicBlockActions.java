@@ -116,6 +116,40 @@ public class LogicBlockActions {
 //		world.setBlock(x, y, z, ModBlocks.block_steel); this is useless
 	};
 
+	public static Consumer<LogicBlock.TileEntityLogicBlock> COLLAPSE_ROOF_RAD_10 = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		if(tile.phase == 0) return;
+
+		int r = 8;
+		int r2 = r * r;
+		int r22 = r2 / 2;
+
+		for (int xx = -r; xx < r; xx++) {
+			int X = xx + x;
+			int XX = xx * xx;
+			for (int yy = -r; yy < r; yy++) {
+				int Y = yy + y;
+				int YY = XX + yy * yy;
+				for (int zz = -r; zz < r; zz++) {
+					int Z = zz + z;
+					int ZZ = YY + zz * zz;
+					if (ZZ < r22) {
+
+						if (world.getBlock(X, Y, Z).getExplosionResistance(null) <= 70) {
+							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, X + 0.5, Y + 0.5, Z + 0.5, world.getBlock(X, Y, Z), world.getBlockMetadata(X, Y, Z));
+							world.spawnEntityInWorld(entityfallingblock);
+						}
+					}
+				}
+			}
+		}
+		world.setBlock(x, y, z, Blocks.air);
+	};
+
 	public static Consumer<LogicBlock.TileEntityLogicBlock> FODDER_WAVE = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
@@ -342,6 +376,7 @@ public class LogicBlockActions {
 		actions.put("FODDER_WAVE", FODDER_WAVE);
 		actions.put("ABERRATOR", PHASE_ABERRATOR);
 		actions.put("COLLAPSE_ROOF_RAD_5", COLLAPSE_ROOF_RAD_5);
+		actions.put("COLLAPSE_ROOF_RAD_10", COLLAPSE_ROOF_RAD_10);
 		actions.put("PUZZLE_TEST", PUZZLE_TEST);
 		actions.put("MISSILE_STRIKE", MISSILE_STRIKE);
 		actions.put("IRRADIATE_ENTITIES_AOE", RAD_CONTAINMENT_SYSTEM);
