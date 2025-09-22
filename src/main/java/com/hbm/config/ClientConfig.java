@@ -61,8 +61,8 @@ public class ClientConfig extends RunningConfig {
 		configMap.put("RENDER_REBAR_SIMPLE", RENDER_REBAR_SIMPLE);
 		configMap.put("RENDER_HELIOSTAT_BEAM_LIMIT", RENDER_HELIOSTAT_BEAM_LIMIT);
 		configMap.put("RENDER_REBAR_LIMIT", RENDER_REBAR_LIMIT);
-		configMap.put("TOOL_HUD_INDICATORE_X", TOOL_HUD_INDICATOR_X);
-		configMap.put("TOOL_HUD_INDICATORE_Y", TOOL_HUD_INDICATOR_Y);
+		configMap.put("TOOL_HUD_INDICATOR_X", TOOL_HUD_INDICATOR_X);
+		configMap.put("TOOL_HUD_INDICATOR_Y", TOOL_HUD_INDICATOR_Y);
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */
