@@ -1,9 +1,16 @@
+## Added
+* T-51b power armor
+  * Serves as a replacement for the T-45
+
 ## Changed
 * Added more QMAW pages
 * Removed most old particle accelerator blocks from the creative inventory
 * All dual wielded guns now render more accurately when dropped instead of only showing one gun
 * Added support for left handed guns (currently unused)*
 * Removed the presentations for the old particle accelerator and schottky diode
+* Gibbing NPCs now also spawns bones, if supported by the skeletonizer
+  * Gibbed bones only have a 50% chance of spawning and come with a unique red texture
+  * Gibbed bones have a way shorter lifetime and higher gravity to match the gib particles
 
 ## Fixed
 * Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
