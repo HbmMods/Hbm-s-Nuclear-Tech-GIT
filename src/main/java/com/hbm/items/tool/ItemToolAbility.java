@@ -18,6 +18,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ClientConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IBaseAbility;
@@ -603,12 +604,14 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 		GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
 		int size = 16;
+		int ox = ClientConfig.TOOL_HUD_INDICATOR_X.get();
+		int oy = ClientConfig.TOOL_HUD_INDICATOR_Y.get();
 
 		GL11.glPushMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(GUIScreenToolAbility.texture);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
-		gui.drawTexturedModalRect(event.resolution.getScaledWidth() / 2 - size - 8, event.resolution.getScaledHeight() / 2 + 8, uv.key, uv.value, size, size);
+		gui.drawTexturedModalRect(event.resolution.getScaledWidth() / 2 - size - 8 + ox, event.resolution.getScaledHeight() / 2 + 8 + oy, uv.key, uv.value, size, size);
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
