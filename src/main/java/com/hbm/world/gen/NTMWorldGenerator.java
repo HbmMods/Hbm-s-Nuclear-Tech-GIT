@@ -139,6 +139,18 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.radioSpawnWeight;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_big") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("dead_dish_big", StructureManager.dead_dish_big, -17);
+			spawnWeight = StructureConfig.deadDishBigSpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_small") {{
+			canSpawn = biome -> biome == BiomeGenBase.desert;
+			structure = new JigsawPiece("dead_dish_small", StructureManager.dead_dish_small, -5);
+			spawnWeight = StructureConfig.deadDishSmallSpawnWeight;
+		}});
+
 		NBTStructure.registerStructure(0, new SpawnCondition("factory") {{
 			canSpawn = flatbiomes::contains;
 			structure = new JigsawPiece("factory", StructureManager.factory, -10);
