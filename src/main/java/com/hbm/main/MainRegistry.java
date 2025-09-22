@@ -1428,6 +1428,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.mp_f_20");
 		ignoreMappings.add("hbm:item.mp_thruster_10_kerosene_tec");
 		ignoreMappings.add("hbm:item.mp_thruster_15_kerosene_tec");
+		ignoreMappings.add("hbm:item.t45_kit");
+		ignoreMappings.add("hbm:item.fusion_core_infinite");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -4,7 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.model.ModelArmorHEV;
+import com.hbm.render.tileentity.IItemRendererProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,11 +18,13 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
-public class ArmorHEV extends ArmorFSBPowered {
+public class ArmorHEV extends ArmorFSBPowered implements IItemRendererProvider {
 
 	public ArmorHEV(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
@@ -174,5 +179,18 @@ public class ArmorHEV extends ArmorFSBPowered {
 		GL11.glPopMatrix();
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+	}
+	@Override public Item getItemForRenderer() { return this; }
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() { setupRenderInv(); }
+			public void renderNonInv() { setupRenderNonInv(); }
+			public void renderCommon() {
+				renderStandard(ResourceManager.armor_hev, armorType,
+						ResourceManager.hev_helmet, ResourceManager.hev_chest, ResourceManager.hev_arm, ResourceManager.hev_leg,
+						"Head", "Body", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot");
+			}};
 	}
 }

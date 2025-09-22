@@ -3,23 +3,32 @@ package com.hbm.items.armor;
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.model.ModelArmorEnvsuit;
+import com.hbm.render.tileentity.IItemRendererProvider;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 
 import java.util.UUID;
 
-public class ArmorEnvsuit extends ArmorFSBPowered {
+import org.lwjgl.opengl.GL11;
+
+public class ArmorEnvsuit extends ArmorFSBPowered implements IItemRendererProvider {
 
 	public ArmorEnvsuit(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
@@ -90,5 +99,33 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 				}
 			}
 		}
+	}
+
+	@Override public Item getItemForRenderer() { return this; }
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() { setupRenderInv(); }
+			public void renderNonInv() { setupRenderNonInv(); }
+			public void renderCommon() {
+				if(armorType == 0) {
+					GL11.glScaled(0.3125, 0.3125, 0.3125);
+					GL11.glTranslated(0, 1, 0);
+					Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.envsuit_helmet);
+					ResourceManager.armor_envsuit.renderPart("Helmet");
+					GL11.glDisable(GL11.GL_LIGHTING);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glColor3f(1F, 1F, 0.8F);
+					ResourceManager.armor_envsuit.renderPart("Lamps");
+					GL11.glColor3f(1F, 1F, 1F);
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+					GL11.glEnable(GL11.GL_LIGHTING);
+				} else {
+					renderStandard(ResourceManager.armor_envsuit, armorType,
+							ResourceManager.envsuit_helmet, ResourceManager.envsuit_chest, ResourceManager.envsuit_arm, ResourceManager.envsuit_leg,
+							"Helmet,Lamps", "Chest", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot");
+				}
+			}};
 	}
 }

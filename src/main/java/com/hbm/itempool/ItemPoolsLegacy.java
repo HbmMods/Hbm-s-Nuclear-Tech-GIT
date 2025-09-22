@@ -187,11 +187,10 @@ public class ItemPoolsLegacy {
 		//loot found in vertibirds
 		new ItemPool(POOL_VERTIBIRD) {{
 			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.t45_helmet, 0, 1, 1, 15),
-					weighted(ModItems.t45_plate, 0, 1, 1, 15),
-					weighted(ModItems.t45_legs, 0, 1, 1, 15),
-					weighted(ModItems.t45_boots, 0, 1, 1, 15),
-					weighted(ModItems.t45_kit, 0, 1, 1, 3),
+					weighted(ModItems.t51_helmet, 0, 1, 1, 15),
+					weighted(ModItems.t51_plate, 0, 1, 1, 15),
+					weighted(ModItems.t51_legs, 0, 1, 1, 15),
+					weighted(ModItems.t51_boots, 0, 1, 1, 15),
 					weighted(ModItems.fusion_core, 0, 1, 1, 10),
 					weighted(ModItems.gun_light_revolver, 0, 1, 1, 4),
 					weighted(ModItems.gun_kit_1, 0, 2, 3, 4),

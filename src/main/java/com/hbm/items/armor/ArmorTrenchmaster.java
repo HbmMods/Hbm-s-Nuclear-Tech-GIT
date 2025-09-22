@@ -2,10 +2,15 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.model.ModelArmorTrenchmaster;
+import com.hbm.render.tileentity.IItemRendererProvider;
 import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,12 +18,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorTrenchmaster extends ArmorFSB {
+public class ArmorTrenchmaster extends ArmorFSB implements IItemRendererProvider {
 
 	public ArmorTrenchmaster(ArmorMaterial material, int slot, String texture) {
 		super(material, slot, texture);
@@ -101,5 +108,23 @@ public class ArmorTrenchmaster extends ArmorFSB {
 			return helmet != null && helmet.getItem() == ModItems.card_aos;
 		}
 		return false;
+	}
+
+	@Override public Item getItemForRenderer() { return this; }
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() {
+				if(armorType == 0) GL11.glTranslated(0, 1, 0);
+				if(armorType == 1) GL11.glTranslated(0, 1.5, 0);
+				setupRenderInv();
+			}
+			public void renderNonInv() { setupRenderNonInv(); }
+			public void renderCommon() {
+				renderStandard(ResourceManager.armor_trenchmaster, armorType,
+						ResourceManager.trenchmaster_helmet, ResourceManager.trenchmaster_chest, ResourceManager.trenchmaster_arm, ResourceManager.trenchmaster_leg,
+						"Helmet,Light", "Chest", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftBoot", "RightBoot");
+			}};
 	}
 }

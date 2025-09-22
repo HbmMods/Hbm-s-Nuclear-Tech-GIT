@@ -41,6 +41,7 @@ public class StructureConfig {
 	public static int laboratorySpawnWeight = 20;
 	public static int lighthouseSpawnWeight = 4;
 	public static int oilRigSpawnWeight = 5;
+	public static int broadcastingTowerSpawnWeight = 25;
 	public static int beachedPatrolSpawnWeight = 15;
 	public static int vertibirdSpawnWeight = 6;
 	public static int vertibirdCrashedSpawnWeight = 10;
@@ -51,6 +52,7 @@ public class StructureConfig {
 	public static int forestPostSpawnWeight = 30;
 
 	public static int spireSpawnWeight = 2;
+	public static int craneSpawnWeight = 20;
 	public static int bunkerSpawnWeight = 6;
 	public static int dishSpawnWeight = 20;
 	public static int featuresSpawnWeight = 50;
@@ -109,9 +111,10 @@ public class StructureConfig {
 		ruinsJSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.34_ruinJSpawnWeight", "Spawn weight for ruin J structure.", 12);
 		radioSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.35_radioSpawnWeight", "Spawn weight for radio structure.", 25);
 		factorySpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.36_factorySpawnWeight", "Spawn weight for factory structure.", 40);
-
 		plainsNullWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.37_plainsNullWeight", "Null spawn weight for plains biome", 20);
 		oceanNullWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.38_oceanNullWeight", "Null spawn weight for ocean biomes", 35);
+		craneSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.39_craneSpawnWeight", "Spawn weight for crane structure.", 20);
+		broadcastingTowerSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.40_broadcastingTowerSpawnWeight", "Spawn weight for broadcasting tower structure.", 25);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);
