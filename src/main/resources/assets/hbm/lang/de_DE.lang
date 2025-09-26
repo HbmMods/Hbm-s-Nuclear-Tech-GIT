@@ -199,6 +199,12 @@ chem.gasoline=Benzin
 chem.tarsand=Bitumen aus Teersand
 chem.meatprocessing=Glyphidflesch-Verarbeitung
 chem.birkeland=Salpetersäure aus Luft
+chem.biooilsolidfuel=Festbrennstoff aus Biomasse
+chem.biosolidfuel=Festbrennstoff aus Öl und Biomasse
+chem.coallube=Schmiermittel aus Kohleteer
+chem.heavylube=Schmiermittel aus Schweröl
+chem.oilelectrodes=Instant-Elektroden (Heizöl)
+chem.lubeelectrodes=Instant-Elektroden (Schmiermittel)
 
 chem.ARSENIC=Arsenextraktion
 chem.ASPHALT=Asphaltherstellung

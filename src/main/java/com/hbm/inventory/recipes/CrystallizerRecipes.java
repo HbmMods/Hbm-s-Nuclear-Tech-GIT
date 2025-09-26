@@ -122,6 +122,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(CD.dust(),										new CrystallizerRecipe(ModItems.ingot_rubber, utilityTime), new FluidStack(Fluids.FISHOIL, 250));
 		registerRecipe(LATEX.ingot(),									new CrystallizerRecipe(ModItems.ingot_rubber, mixingTime).prod(0.15F), new FluidStack(Fluids.SOURGAS, 25));
 		registerRecipe(new ComparableStack(ModItems.powder_sawdust),	new CrystallizerRecipe(ModItems.cordite, mixingTime).prod(0.25F), new FluidStack(Fluids.NITROGLYCERIN, 250));
+		registerRecipe(new ComparableStack(ModBlocks.rebar),			new CrystallizerRecipe(ModBlocks.concrete_rebar, 10), new FluidStack(Fluids.CONCRETE, 1_000));
 
 		registerRecipe(new ComparableStack(ModItems.meteorite_sword_treated),	new CrystallizerRecipe(ModItems.meteorite_sword_etched, baseTime));
 		registerRecipe(new ComparableStack(ModItems.powder_impure_osmiridium),	new CrystallizerRecipe(ModItems.crystal_osmiridium, baseTime), new FluidStack(Fluids.SCHRABIDIC, 1_000));
@@ -242,7 +243,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(CINNABAR.dust(), new CrystallizerRecipe(new ItemStack(ModItems.cinnebar), utilityTime), new FluidStack(Fluids.PEROXIDE, 50));
 		}
 		
-		registerRecipe(new ComparableStack(ModBlocks.moon_turf, 16), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200));
+		registerRecipe(new ComparableStack(ModBlocks.moon_turf), new CrystallizerRecipe(new ItemStack(ModItems.chunk_ore, 1, EnumChunkType.MOONSTONE.ordinal()), 1200).setReq(16));
 
 		if(!IMCCrystallizer.buffer.isEmpty()) {
 			recipes.putAll(IMCCrystallizer.buffer);

@@ -588,6 +588,12 @@ chem.gasoline=Gasoline
 chem.tarsand=Bitumen from Tar Sand
 chem.meatprocessing=Glyphid Meat Processing
 chem.birkeland=Nitric Acid from Air
+chem.biooilsolidfuel=Solid Fuel from Oil and Biomass
+chem.biosolidfuel=Solid Fuel from Biomass
+chem.coallube=Lubricant from Coal Tar Creosote
+chem.heavylube=Lubricant from Heavy Oil
+chem.oilelectrodes=Instant Electrodes (Heating Oil)
+chem.lubeelectrodes=Instant Electrodes (Lubricant)
 
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production

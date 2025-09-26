@@ -17,8 +17,17 @@
 * Drills no longer clip through depth rock, depth rock now has to be cleared before bedrock ore becomes accessible
 * When an area modifier is selected on a tool, an icon will now render next to the crosshair to make it obvious that the modifier is active
 * Crucibles will now produce a smoke effect when producing pollution, making it more obvious where the pollution is coming from
+* Halved the amount of schrabidic acid needed in the schrabidium recipes in the PUREX, increasing the defacto yield per used fuel rod
+* Changed thorium salt enrichment recipe from 5s to 1s
+* There are now two new alternate recipes for making solid fuel in the chemical plant out of biomass
+* The helium-3 recipe no longer requires batches of 8, the input, duration and output have been divided equally
+* Helium-4 can now be filled into gas tanks
+* Reinforced concrete can now also be created by filling rebar with liquid concrete in the acidizer
+* Graphite electrodes can now be made in the chemical plant from either heating oil or lubricant
+* Lubricant can now be made in the chemical plant from either coal tar or heavy oil
 
 ## Fixed
 * Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
 * Fixed some QMAW link icons not having the correct block lighting applied
 * Fixed a rare crash caused by RBMK neutron calculations happening in unloaded chunks
+* Fixed moonstone recipe being broken
