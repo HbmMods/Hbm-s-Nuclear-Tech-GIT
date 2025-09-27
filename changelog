@@ -25,6 +25,7 @@
 * Reinforced concrete can now also be created by filling rebar with liquid concrete in the acidizer
 * Graphite electrodes can now be made in the chemical plant from either heating oil or lubricant
 * Lubricant can now be made in the chemical plant from either coal tar or heavy oil
+* The cracking tower and coker are now cheaper in expensive mode, using more bolted steel plates and fewer heavy frameworks
 
 ## Fixed
 * Fixed wood burner only being able to create one ash pile per item burned, even when that item yields more, creating a backlog in the internal ash value
