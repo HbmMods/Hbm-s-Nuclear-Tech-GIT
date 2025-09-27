@@ -449,6 +449,18 @@ public class ClientProxy extends ServerProxy {
 				}
 			}
 		}
+		
+		// same crap but for items directly because why invent a new solution when this shit works just fine
+		Iterator itItems = Item.itemRegistry.iterator();
+		while(itItems.hasNext()) {
+			Object o = itItems.next();
+			if(o instanceof IItemRendererProvider) {
+				IItemRendererProvider prov = (IItemRendererProvider) o;
+				for(Item item : prov.getItemsForRenderer()) {
+					MinecraftForgeClient.registerItemRenderer(item, prov.getRenderer());
+				}
+			}
+		}
 
 		//universal JSON translated items
 		double[] rtp = new double[] {0, 180, -90};

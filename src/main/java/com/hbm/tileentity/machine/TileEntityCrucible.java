@@ -19,6 +19,7 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
@@ -224,6 +225,24 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 			/* sync */
 			this.networkPackNT(25);
+		} else {
+			
+			if(!this.recipeStack.isEmpty() || !this.wasteStack.isEmpty()) {
+
+				if(worldObj.getTotalWorldTime() % 10 == 0) {
+					NBTTagCompound fx = new NBTTagCompound();
+					fx.setString("type", "tower");
+					fx.setFloat("lift", 10F);
+					fx.setFloat("base", 0.75F);
+					fx.setFloat("max", 3.5F);
+					fx.setInteger("life", 100 + worldObj.rand.nextInt(20));
+					fx.setInteger("color",0x202020);
+					fx.setDouble("posX", xCoord + 0.5);
+					fx.setDouble("posY", yCoord + 1);
+					fx.setDouble("posZ", zCoord + 0.5);
+					MainRegistry.proxy.effectNT(fx);
+				}
+			}
 		}
 	}
 

@@ -25,12 +25,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import li.cil.oc.api.machine.Arguments;
@@ -631,6 +629,15 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				TileEntityRBMKOutgasser irradiationChannel = (TileEntityRBMKOutgasser)te;
 				data_table.put("fluxProgress", irradiationChannel.progress);
 				data_table.put("requiredFlux", irradiationChannel.duration);
+				ItemStack input = irradiationChannel.getStackInSlot(0);
+				if (input != null){
+					data_table.put("craftingName", input.getUnlocalizedName());
+					data_table.put("craftingNumber", input.stackSize);
+				}
+				else {
+					data_table.put("craftingName", "");
+					data_table.put("craftingNumber", 0);
+				}
 			}
 
 			if(te instanceof TileEntityRBMKHeater){
@@ -760,6 +767,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] pressAZ5(Context context, Arguments args) {
+		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5,"hbm:block.shutdown",1.0F, 1.0F);
 		boolean hasRods = false;
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {

@@ -3,12 +3,17 @@ package com.hbm.items.armor;
 import java.util.List;
 import java.util.UUID;
 
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.Multimap;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
+import com.hbm.main.ResourceManager;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.model.ModelArmorDNT;
+import com.hbm.render.tileentity.IItemRendererProvider;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
@@ -21,16 +26,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorDNT extends ArmorFSBPowered {
+public class ArmorDNT extends ArmorFSBPowered implements IItemRendererProvider {
 
 	public ArmorDNT(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
@@ -189,5 +196,24 @@ public class ArmorDNT extends ArmorFSBPowered {
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.rocketBoots"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.fastFall"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.sprintBoost"));
+	}
+
+	@Override public Item getItemForRenderer() { return this; }
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() {
+				if(armorType == 0) {
+					GL11.glTranslated(0, -1, 0);
+				}
+				setupRenderInv();
+			}
+			public void renderNonInv() { setupRenderNonInv(); }
+			public void renderCommon() {
+				renderStandard(ResourceManager.armor_dnt, armorType,
+						ResourceManager.dnt_helmet, ResourceManager.dnt_chest, ResourceManager.dnt_arm, ResourceManager.dnt_leg,
+						"Head", "Body", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftBoot", "RightBoot");
+			}};
 	}
 }

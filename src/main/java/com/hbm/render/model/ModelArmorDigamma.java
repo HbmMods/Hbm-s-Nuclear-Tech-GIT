@@ -43,8 +43,8 @@ public class ModelArmorDigamma extends ModelArmorBase {
 		if(this.type == 1) {
 			bindTexture(ResourceManager.fau_chest);
 			this.body.render(scaleFactor);
-	        GL11.glEnable(GL11.GL_BLEND);
-	        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+			GL11.glEnable(GL11.GL_BLEND);
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 			bindTexture(ResourceManager.fau_cassette);
 			this.cassette.render(scaleFactor);
 			bindTexture(ResourceManager.fau_arm);
