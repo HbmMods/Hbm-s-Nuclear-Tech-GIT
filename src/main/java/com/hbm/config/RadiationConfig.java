@@ -38,7 +38,7 @@ public class RadiationConfig {
 	public static double smokeStackSootMult = 0.8;
 	public static String[] coalDustItems = {"hbm:item.powder_coal:0", "hbm:item.powder_lignite:0"};
 	public static String[] coalDustTinyItems = {"hbm:item.powder_coal_tiny:0", "hbm:item.powder_lignite_tiny:0"};
-	public static String[] coalDustBlocks = {"hbm:tile.ore_lignite", "minecraft:coal_ore"};
+	public static String[] coalDustBlocks = {"hbm:tile.ore_lignite:0", "minecraft:coal_ore:0"};
 
 	public static void loadFromConfig(Configuration config) {
 
@@ -81,6 +81,6 @@ public class RadiationConfig {
 		smokeStackSootMult = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_08_smokeStackSootMult", "How much does smokestack multiply soot by, with decimal values reducing the soot", 0.8);
 		coalDustItems = CommonConfig.createConfigStringList(config, CATEGORY_POL, "POL_09_coalDustHazards", "Items that cause the coal dust hazard to apply.", new String[]{"hbm:item.powder_coal:0", "hbm:item.powder_lignite:0"});
 		coalDustTinyItems = CommonConfig.createConfigStringList(config, CATEGORY_POL, "POL_10_tinyCoalDustHarzards", "Items that cause the coal hazard to apply, but with a smaller effect than normal coal dust hazard items.", new String[]{"hbm:item.powder_coal_tiny:0", "hbm:item.powder_lignite_tiny:0"});
-		coalDustBlocks = CommonConfig.createConfigStringList(config, CATEGORY_POL, "POL_11_coalDustBlocks", "Blocks that can cause a puff of coal dust to appear.", new String[]{"hbm:tile.ore_lignite", "minecraft:coal_ore"});
+		coalDustBlocks = CommonConfig.createConfigStringList(config, CATEGORY_POL, "POL_11_coalDustBlocks", "Blocks that can cause a puff of coal dust to appear.", new String[]{"hbm:tile.ore_lignite:0", "minecraft:coal_ore:0"});
 	}
 }
