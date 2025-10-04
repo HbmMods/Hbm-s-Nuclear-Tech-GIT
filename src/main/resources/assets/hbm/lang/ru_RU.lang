@@ -3594,6 +3594,7 @@ item.mese_axe.name=Месе топор
 item.mese_pickaxe.name=Месе кирка
 item.meteor_charm.name=Талисман от метеоритов
 item.meteor_remote.name=Устройство для вызова метеоритов
+item.meteorite_sword.name=Метеоритовый меч
 item.meteorite_sword.desc=Выкован из павшей звезды$Острее, чем большинство земных лезвий
 item.meteorite_sword_seared.name=Метеоритовый меч (Опалённый)
 item.meteorite_sword.seared.desc=Огонь укрепляет клинок,$Делая его даже ещё мощнее
