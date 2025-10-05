@@ -74,6 +74,8 @@ public class BlockAllocatorStandard implements IBlockAllocator {
 			}
 		}
 		
+		explosion.compat.affectedBlockPositions.addAll(affectedBlocks);
+		
 		return affectedBlocks;
 	}
 }

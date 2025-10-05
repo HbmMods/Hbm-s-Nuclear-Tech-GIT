@@ -50,7 +50,7 @@ public class HazmatRegistry {
 		double paa = 1.7D; // 97%
 		double liquidator = 2.4D; // 99.6%
 
-		double t45 = 1D; // 90%
+		double t51 = 1D; // 90%
 		double ajr = 1.3D; // 95%
 		double bj = 1D; // 90%
 		double env = 1.0D; // 99%
@@ -85,10 +85,15 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.liquidator_legs, liquidator * legs);
 		HazmatRegistry.registerHazmat(ModItems.liquidator_boots, liquidator * boots);
 
-		HazmatRegistry.registerHazmat(ModItems.t45_helmet, t45 * helmet);
-		HazmatRegistry.registerHazmat(ModItems.t45_plate, t45 * chest);
-		HazmatRegistry.registerHazmat(ModItems.t45_legs, t45 * legs);
-		HazmatRegistry.registerHazmat(ModItems.t45_boots, t45 * boots);
+		HazmatRegistry.registerHazmat(ModItems.t45_helmet, t51 * helmet);
+		HazmatRegistry.registerHazmat(ModItems.t45_plate, t51 * chest);
+		HazmatRegistry.registerHazmat(ModItems.t45_legs, t51 * legs);
+		HazmatRegistry.registerHazmat(ModItems.t45_boots, t51 * boots);
+
+		HazmatRegistry.registerHazmat(ModItems.t51_helmet, t51 * helmet);
+		HazmatRegistry.registerHazmat(ModItems.t51_plate, t51 * chest);
+		HazmatRegistry.registerHazmat(ModItems.t51_legs, t51 * legs);
+		HazmatRegistry.registerHazmat(ModItems.t51_boots, t51 * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.ajr_helmet, ajr * helmet);
 		HazmatRegistry.registerHazmat(ModItems.ajr_plate, ajr * chest);

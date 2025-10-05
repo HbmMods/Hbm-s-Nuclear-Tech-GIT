@@ -175,7 +175,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			Vec3NT vec = new Vec3NT(0, 0, 0);
 			EntitySkeleton mob = new EntitySkeleton(world);
 			mob.setPositionAndRotation(x, y, z, 0, 0);
 			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier1, new Random());
@@ -192,7 +191,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			Vec3NT vec = new Vec3NT(0, 0, 0);
 			EntitySkeleton mob = new EntitySkeleton(world);
 			mob.setPositionAndRotation(x, y, z, 0, 0);
 			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier2, new Random());
@@ -209,7 +207,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			Vec3NT vec = new Vec3NT(0, 0, 0);
 			EntitySkeleton mob = new EntitySkeleton(world);
 			mob.setPositionAndRotation(x, y, z, 0, 0);
 			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier3, new Random());
@@ -226,7 +223,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			Vec3NT vec = new Vec3NT(0, 0, 0);
 			EntityZombie mob = new EntityZombie(world);
 			mob.setPositionAndRotation(x, y, z, 0, 0);
 			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
@@ -242,7 +238,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			Vec3NT vec = new Vec3NT(0, 0, 0);
 			EntityZombie mob = new EntityZombie(world);
 			mob.setPositionAndRotation(x, y, z, 0, 0);
 			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
