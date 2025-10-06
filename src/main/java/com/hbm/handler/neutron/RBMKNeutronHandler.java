@@ -253,8 +253,9 @@ public class RBMKNeutronHandler {
 			if(node != null) {
 				originTE = (TileEntityRBMKBase) node.tile;
 			} else {
-				originTE = (TileEntityRBMKBase) blockPosToTE(worldObj, pos);
-				if(originTE == null) return; // Doesn't exist anymore!
+				TileEntity tile = blockPosToTE(worldObj, pos);
+				if(!(tile instanceof TileEntityRBMKBase)) return; // Doesn't exist anymore!
+				originTE = (TileEntityRBMKBase) tile;
 
 				streamWorld.addNode(new RBMKNeutronNode(originTE, originTE.getRBMKType(), originTE.hasLid()));
 			}

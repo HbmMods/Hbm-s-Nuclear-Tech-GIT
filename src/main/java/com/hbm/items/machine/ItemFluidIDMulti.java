@@ -16,6 +16,7 @@ import com.hbm.util.i18n.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -30,6 +31,19 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 	IIcon overlayIcon;
 
 	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			if(!order[i].hasNoID()) {
+				ItemStack id = new ItemStack(item, 1, order[i].getID());
+				setType(id, Fluids.fromID(i), true);
+				list.add(id);
+			}
+		}
+	}
+
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(!world.isRemote && !player.isSneaking()) {
@@ -37,6 +51,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 			FluidType secondary = getType(stack, false);
 			setType(stack, secondary, true);
 			setType(stack, primary, false);
+			updateMeta(stack);
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 1.25F);
 			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.startTranslation(secondary.getConditionalName()).flush(), /*MainRegistry.proxy.ID_DETONATOR*/ 7, 3000), (EntityPlayerMP) player);
 		}
@@ -56,6 +71,12 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		if(data.hasKey("secondary")) {
 			setType(stack, Fluids.fromID(data.getInteger("secondary")), false);
 		}
+		
+		updateMeta(stack);
+	}
+	
+	public static void updateMeta(ItemStack stack) {
+		if(stack.hasTagCompound()) stack.setItemDamage(stack.stackTagCompound.getInteger("fluid1"));
 	}
 
 	@Override

@@ -115,28 +115,24 @@ public class ArmorUtil {
 		}
 	}
 
-	/*
-	 * The more horrifying part
-	 */
-	public static boolean checkForHazmat(EntityLivingBase player) {
+	//TODO: figure out a way of handling this more gracefully (hazmat trait for FSBs?)
+	//and stop using this shit
+	@Deprecated public static boolean checkForHazmat(EntityLivingBase player) {
 
 		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) ||
 				checkArmor(player, ModItems.hazmat_helmet_red, ModItems.hazmat_plate_red, ModItems.hazmat_legs_red, ModItems.hazmat_boots_red) ||
 				checkArmor(player, ModItems.hazmat_helmet_grey, ModItems.hazmat_plate_grey, ModItems.hazmat_legs_grey, ModItems.hazmat_boots_grey) ||
-				checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) ||
 				checkArmor(player, ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots) ||
 				checkForHaz2(player)) {
 
 			return true;
 		}
 
-		if(player.isPotionActive(HbmPotion.mutation))
-			return true;
-
+		if(player.isPotionActive(HbmPotion.mutation)) return true;
 		return false;
 	}
 
-	public static boolean checkForHaz2(EntityLivingBase player) {
+	@Deprecated public static boolean checkForHaz2(EntityLivingBase player) {
 
 		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) ||
 				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) ||
@@ -152,43 +148,28 @@ public class ArmorUtil {
 	}
 
 	public static boolean checkForAsbestos(EntityLivingBase player) {
-
-		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
-			return true;
-
+		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots)) return true;
 		return false;
 	}
 
 	public static boolean checkForDigamma(EntityPlayer player) {
-
-		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
-			return true;
-
-		if(checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots))
-			return true;
-
-		if(player.isPotionActive(HbmPotion.stability.id))
-			return true;
+		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots)) return true;
+		if(checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots)) return true;
+		if(player.isPotionActive(HbmPotion.stability.id)) return true;
 
 		return false;
 	}
 
 	public static boolean checkForDigamma2(EntityPlayer player) {
 
-		if(!checkArmor(player, ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots))
-			return false;
-
-		if(player.isPotionActive(HbmPotion.stability.id))
-			return true;
+		if(!checkArmor(player, ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots)) return false;
+		if(!player.isPotionActive(HbmPotion.stability.id)) return false;
 
 		for(int i = 0; i < 4; i++) {
-
 			ItemStack armor = player.getCurrentArmor(i);
 
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
-
 				ItemStack mods[] = ArmorModHandler.pryMods(armor);
-
 				if(!(mods[ArmorModHandler.cladding] != null && mods[ArmorModHandler.cladding].getItem() == ModItems.cladding_iron))
 					return false;
 			}
@@ -228,6 +209,7 @@ public class ArmorUtil {
 			"bronze",
 			"electrum",
 			"t45",
+			"t51",
 			"bj",
 			"starmetal",
 			"hazmat", //also count because rubber is insulating
@@ -242,14 +224,8 @@ public class ArmorUtil {
 
 		String name = item.getUnlocalizedName();
 
-		for(String metal : metals) {
-
-			if(name.toLowerCase(Locale.US).contains(metal))
-				return true;
-		}
-
-		if(HazmatRegistry.getCladding(item) > 0)
-			return true;
+		for(String metal : metals) if(name.toLowerCase(Locale.US).contains(metal)) return true;
+		if(HazmatRegistry.getCladding(item) > 0) return true;
 
 		return false;
 	}

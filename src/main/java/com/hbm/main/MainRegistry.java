@@ -246,6 +246,7 @@ public class MainRegistry {
 		configHbmDir = new File(configDir.getAbsolutePath() + File.separatorChar + "hbmConfig");
 
 		if(!configHbmDir.exists()) configHbmDir.mkdir();
+		Identity.init(configDir);
 
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
@@ -1430,6 +1431,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.mp_thruster_15_kerosene_tec");
 		ignoreMappings.add("hbm:item.t45_kit");
 		ignoreMappings.add("hbm:item.fusion_core_infinite");
+		ignoreMappings.add("hbm:item.fluid_identifier");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

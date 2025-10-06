@@ -1,7 +1,16 @@
 ## Changed
+* Updated russian and chinese localiazation
 * VNT type explosions now track affected block positions when the explosion events fire, this should ensure compatibility with mods that rely on that
   * For example, this should make ForgeCreeperHeal work with most of NTM's explosions
+* Obliterated standard fluid IDs
+  * The multi ID is now a lot cheaper
+  * For convenience in the creative tab, fluid IDs are now listed with all fluids pre-defined, just like how the old IDs were available
+  * The multi ID now changes metadata based on the selected fluid type, allowing it to be usable for crafting pre-defined pipes
+* The multi ID fluid selector now displays fluid traits in addition to the name when hovering over an icon
+* Added more values to the data table returned by RBMK consoles via OC integration
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
-* Potentially fixed a crash on thermos -derived servers involving the flow control pumps
+* Potentially fixed a crash on thermos-derived servers involving the flow control pumps
+* Fixed crash caused when another tile entity replaces an RBMK component due to an unchecked cast
+* Fixed constant cascading chunk gen caused by meteorites and flower patches
