@@ -130,7 +130,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 					IBatteryItem battery = (IBatteryItem) stack.getItem();
 
 					long toCharge = Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate());
-					toCharge = Math.min(toCharge, power / 5);
+					toCharge = Math.min(toCharge, Math.max(power / 5, 1));
 					battery.chargeBattery(stack, toCharge);
 					power -= toCharge;
 
