@@ -386,24 +386,6 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(WorldConfig.radfreq > 0 && GeneralConfig.enableRad && rand.nextInt(WorldConfig.radfreq) == 0 && biome == BiomeGenBase.desert) {
-
-				for (int a = 0; a < 1; a++) {
-					int x = i + rand.nextInt(16);
-					int z = j + rand.nextInt(16);
-
-					double r = rand.nextInt(15) + 10;
-
-					if(rand.nextInt(50) == 0)
-						r = 50;
-
-					new Sellafield().generate(world, x, z, r, r * 0.35D);
-
-					if(GeneralConfig.enableDebugMode)
-						MainRegistry.logger.info("[Debug] Successfully spawned raditation hotspot at " + x + " " + z);
-				}
-			}
-
 			if (WorldConfig.geyserChlorine > 0 && biome == BiomeGenBase.plains && rand.nextInt(WorldConfig.geyserWater) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);

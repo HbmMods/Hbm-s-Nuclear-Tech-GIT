@@ -1,5 +1,11 @@
 package com.hbm.lib;
 
+import com.hbm.world.gen.MapGenChainloader.MapGenEventHandler;
+import com.hbm.world.gen.MapGenCrater;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.world.gen.MapGenChainloader;
 import com.hbm.world.gen.MapGenNTMFeatures;
 import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.*;
@@ -8,6 +14,7 @@ import com.hbm.world.gen.nbt.NBTStructure;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -31,6 +38,9 @@ public class HbmWorld {
 		MinecraftForge.EVENT_BUS.register(worldGenerator);
 
 		NBTStructure.register();
+
+		MinecraftForge.TERRAIN_GEN_BUS.register(new MapGenEventHandler());
+		registerNTMTerrain();
 	}
 
 	private static void registerWorldGen(IWorldGenerator nukerWorldGen, int weightedProbability) {
@@ -45,4 +55,15 @@ public class HbmWorld {
 		BunkerComponents.registerComponents();
 		MapGenStructureIO.func_143031_a(SiloComponent.class, "NTMSiloComponent");
 	}
+
+	/** Register multi-chunk spanning terrain features using chainloader */
+	private static void registerNTMTerrain() {
+		if(GeneralConfig.enableRad && WorldConfig.radfreq > 0) {
+			MapGenCrater sellafieldCrater = new MapGenCrater(WorldConfig.radfreq);
+			sellafieldCrater.regolith = sellafieldCrater.rock = ModBlocks.sellafield_slaked;
+			sellafieldCrater.targetBiome = BiomeGenBase.desert;
+			MapGenChainloader.addOverworldGenerator(sellafieldCrater);
+		}
+	}
+
 }
