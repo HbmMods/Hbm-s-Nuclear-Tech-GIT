@@ -44,7 +44,7 @@ public class MapGenCrater extends MapGenBase {
 
 			for(int bx = 15; bx >= 0; bx--) { // bx, bz is the coordinate of the block we're modifying, relative to the generating chunk origin
 				for(int bz = 15; bz >= 0; bz--) {
-					for(int y = 254; y >= 0; y--) {
+					for(int y = 127; y >= 0; y--) {
 						int index = (bx * 16 + bz) * 256 + y;
 
 						if(blocks[index] != null && (blocks[index].isOpaqueCube() || blocks[index].getMaterial().isLiquid())) {

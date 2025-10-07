@@ -495,28 +495,6 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 
-		if(WorldConfig.bedrockOilSpawn > 0 && rand.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosZ = j + rand.nextInt(16);
-
-			for(int x = -4; x <= 4; x++) {
-				for(int y = 0; y <= 4; y++) {
-					for(int z = -4; z <= 4; z++) {
-
-						if(Math.abs(x) + Math.abs(y) + Math.abs(z) <= 6) {
-							Block b = world.getBlock(randPosX + x, y, randPosZ + z);
-							if(b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.stone) || b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.bedrock)) {
-								world.setBlock(randPosX + x, y, randPosZ + z, ModBlocks.ore_bedrock_oil);
-							}
-						}
-					}
-				}
-			}
-
-			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
-			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50, true);
-		}
-
 		if(WorldConfig.meteoriteSpawn > 0 && rand.nextInt(WorldConfig.meteoriteSpawn) == 0) {
 			int x = i + rand.nextInt(16) + 8;
 			int z = j + rand.nextInt(16) + 8;

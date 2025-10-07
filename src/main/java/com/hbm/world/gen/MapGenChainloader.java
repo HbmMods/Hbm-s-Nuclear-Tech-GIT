@@ -10,6 +10,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraftforge.event.terraingen.InitMapGenEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.terraingen.ChunkProviderEvent.ReplaceBiomeBlocks;
 import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 
 public class MapGenChainloader extends MapGenBase {
@@ -27,6 +29,9 @@ public class MapGenChainloader extends MapGenBase {
 	private static List<MapGenBase> overworldGenerators = new ArrayList<>();
 	private static List<MapGenBase> netherGenerators = new ArrayList<>();
 
+	// Hack to provide the current generating chunk's block metas to the generation function
+	private static byte[] blockMetas;
+
 	// Executes our chainloaded parent, and all our child generators
 	@Override
 	public void func_151539_a(IChunkProvider chunk, World world, int chunkX, int chunkZ, Block[] blocks) {
@@ -36,8 +41,15 @@ public class MapGenChainloader extends MapGenBase {
 		if(world.provider.dimensionId != 0 && world.provider.dimensionId != -1) return;
 
 		for(MapGenBase generator : generators) {
+			if(generator instanceof MapGenBaseMeta) ((MapGenBaseMeta)generator).setMetas(blockMetas);
 			generator.func_151539_a(chunk, world, chunkX, chunkZ, blocks);
 		}
+	}
+
+	public static void register() {
+		MapGenEventHandler handler = new MapGenEventHandler();
+		MinecraftForge.TERRAIN_GEN_BUS.register(handler);
+		MinecraftForge.EVENT_BUS.register(handler);
 	}
 
 	public static void addOverworldGenerator(MapGenBase generator) {
@@ -68,6 +80,11 @@ public class MapGenChainloader extends MapGenBase {
 					event.newGen = loader;
 				}
 			}
+		}
+
+		@SubscribeEvent
+		public void storeLatestBlockMeta(ReplaceBiomeBlocks event) {
+			blockMetas = event.metaArray;
 		}
 
 	}

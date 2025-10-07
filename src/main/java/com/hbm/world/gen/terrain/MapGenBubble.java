@@ -43,9 +43,9 @@ public class MapGenBubble extends MapGenBase {
 
 	@Override
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
-		if(rand.nextInt(frequency) == 0 && (canSpawn == null || canSpawn.test(world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16)))) {
-			int xCoord = chunkX - offsetX;
-			int zCoord = chunkZ - offsetZ;
+		if(rand.nextInt(frequency) == frequency - 1 && (canSpawn == null || canSpawn.test(world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16)))) {
+			int xCoord = (chunkX - offsetX) * 16 + rand.nextInt(16);
+			int zCoord = (chunkZ - offsetZ) * 16 + rand.nextInt(16);
 
 			int yCoord = rand.nextInt(rangeY) + minY;
 
@@ -62,8 +62,8 @@ public class MapGenBubble extends MapGenBase {
 
 				if(blocks[index] == replace) {
 					// x, z are the coordinates relative to the target virtual chunk origin
-					int x = xCoord * 16 + bx;
-					int z = zCoord * 16 + bz;
+					int x = xCoord + bx;
+					int z = zCoord + bz;
 					int y = yCoord - by;
 
 					double rSqr = x * x + z * z + y * y * 3;

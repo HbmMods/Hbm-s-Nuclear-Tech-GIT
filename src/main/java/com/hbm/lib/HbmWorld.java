@@ -1,6 +1,5 @@
 package com.hbm.lib;
 
-import com.hbm.world.gen.MapGenChainloader.MapGenEventHandler;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
@@ -10,6 +9,7 @@ import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.nbt.NBTStructure;
+import com.hbm.world.gen.terrain.MapGenBedrockOil;
 import com.hbm.world.gen.terrain.MapGenBubble;
 import com.hbm.world.gen.terrain.MapGenCrater;
 
@@ -41,7 +41,7 @@ public class HbmWorld {
 
 		NBTStructure.register();
 
-		MinecraftForge.TERRAIN_GEN_BUS.register(new MapGenEventHandler());
+		MapGenChainloader.register();
 		registerNTMTerrain();
 	}
 
@@ -72,6 +72,11 @@ public class HbmWorld {
 			oilBubble.block = ModBlocks.ore_oil;
 			oilBubble.setSize(8, 16);
 			MapGenChainloader.addOverworldGenerator(oilBubble);
+		}
+
+		if(WorldConfig.bedrockOilSpawn > 0) {
+			MapGenBedrockOil bedrockBubble = new MapGenBedrockOil(WorldConfig.bedrockOilSpawn);
+			MapGenChainloader.addOverworldGenerator(bedrockBubble);
 		}
 
 		int sandBubbleSpawn = 200;
