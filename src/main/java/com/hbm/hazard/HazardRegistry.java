@@ -20,7 +20,6 @@ import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.util.Compat;
 import com.hbm.util.Compat.ReikaIsotope;
-import com.hbm.config.RadiationConfig;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -172,52 +171,8 @@ public class HazardRegistry {
 		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
 
 		// Register all coal dust items
-		for (int i = 0; i < RadiationConfig.coalDustItems.length; i++) {
-			String dustName = RadiationConfig.coalDustItems[i];
-			int dataTag = 0;
-
-			String[] dustNameParts = dustName.split(":");
-			if (dustNameParts.length <= 1){
-				continue;
-			}
-			else if (dustNameParts.length == 3) {
-				try {
-					dataTag = Integer.parseInt(dustNameParts[2]);
-				} catch (NumberFormatException e){}
-			}
-
-			Item dustItem = Compat.tryLoadItem(dustNameParts[0], dustNameParts[1]);
-			ItemStack dustStack = new ItemStack(dustItem, 1, dataTag);
-
-			if (dustItem == null) {
-				continue;
-			}
-			HazardSystem.register(dustStack, makeData(COAL, powder));
-		}
-
-		// Register all tiny coal dust items
-		for (int i = 0; i < RadiationConfig.coalDustTinyItems.length; i++) {
-			String tinyDustName = RadiationConfig.coalDustTinyItems[i];
-			int dataTag = 0;
-
-			String[] tinyDustNameParts = tinyDustName.split(":");
-			if (tinyDustNameParts.length <= 1){
-				continue;
-			}
-			else if (tinyDustNameParts.length == 3) {
-				try {
-					dataTag = Integer.parseInt(tinyDustNameParts[2]);
-				} catch (NumberFormatException e){}
-			}
-
-			Item tinyDustItem = Compat.tryLoadItem(tinyDustNameParts[0], tinyDustNameParts[1]);
-			ItemStack tinyDustStack = new ItemStack(tinyDustItem, 1, dataTag);
-
-			if (tinyDustItem == null) {
-				continue;
-			}
-			HazardSystem.register(tinyDustStack, makeData(COAL, powder));
-		}
+		HazardBuilder builder = new HazardBuilder();
+		builder.initialize();
 
 		HazardSystem.register(insert_polonium, makeData(RADIATION, 100F));
 
