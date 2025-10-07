@@ -1,7 +1,6 @@
 package com.hbm.lib;
 
 import com.hbm.world.gen.MapGenChainloader.MapGenEventHandler;
-import com.hbm.world.gen.MapGenCrater;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
@@ -11,9 +10,12 @@ import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.nbt.NBTStructure;
+import com.hbm.world.gen.terrain.MapGenBubble;
+import com.hbm.world.gen.terrain.MapGenCrater;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.MinecraftForge;
@@ -63,6 +65,26 @@ public class HbmWorld {
 			sellafieldCrater.regolith = sellafieldCrater.rock = ModBlocks.sellafield_slaked;
 			sellafieldCrater.targetBiome = BiomeGenBase.desert;
 			MapGenChainloader.addOverworldGenerator(sellafieldCrater);
+		}
+
+		if(WorldConfig.oilSpawn > 0) {
+			MapGenBubble oilBubble = new MapGenBubble(WorldConfig.oilSpawn);
+			oilBubble.block = ModBlocks.ore_oil;
+			oilBubble.setSize(8, 16);
+			MapGenChainloader.addOverworldGenerator(oilBubble);
+		}
+
+		int sandBubbleSpawn = 200;
+		if(sandBubbleSpawn > 0) {
+			MapGenBubble sandOilBubble = new MapGenBubble(sandBubbleSpawn);
+			sandOilBubble.replace = Blocks.sand;
+			sandOilBubble.block = ModBlocks.ore_oil_sand;
+			sandOilBubble.canSpawn = biome -> !biome.canSpawnLightningBolt() && biome.temperature >= 1.5F;
+			sandOilBubble.minY = 56;
+			sandOilBubble.rangeY = 16;
+			sandOilBubble.setSize(16, 48);
+			sandOilBubble.fuzzy = true;
+			MapGenChainloader.addOverworldGenerator(sandOilBubble);
 		}
 	}
 

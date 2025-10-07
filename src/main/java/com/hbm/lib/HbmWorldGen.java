@@ -223,18 +223,6 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-//			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-//				if(WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {
-//					for(int a = 0; a < 1; a++) {
-//						int x = i + rand.nextInt(16);
-//						int z = j + rand.nextInt(16);
-//						int y = world.getHeightValue(x, z);
-//
-//						new Radio01().generate(world, rand, x, y, z);
-//					}
-//				}
-//			}
-
 			if(biome.temperature >= 0.4F && biome.rainfall <= 0.6F) {
 				if(WorldConfig.antennaStructure > 0 && rand.nextInt(WorldConfig.antennaStructure) == 0) {
 					for(int a = 0; a < 1; a++) {
@@ -277,26 +265,6 @@ public class HbmWorldGen implements IWorldGenerator {
 					}
 				}
 			}
-
-			if(!biome.canSpawnLightningBolt() && biome.temperature >= 1.5F) {
-				if(rand.nextInt(200) == 0) {
-					for(int a = 0; a < 1; a++) {
-						int x = i + rand.nextInt(16);
-						int z = j + rand.nextInt(16);
-						int y = world.getHeightValue(x, z);
-
-						OilSandBubble.spawnOil(world, x, y, z, 15 + rand.nextInt(31));
-					}
-				}
-			}
-
-//			if(WorldConfig.factoryStructure > 0 && rand.nextInt(WorldConfig.factoryStructure) == 0) {
-//				int x = i + rand.nextInt(16);
-//				int z = j + rand.nextInt(16);
-//				int y = world.getHeightValue(x, z);
-//
-//				new Factory().generate(world, rand, x, y, z);
-//			}
 
 			if(WorldConfig.dudStructure > 0 && rand.nextInt(WorldConfig.dudStructure) == 0) {
 				int x = i + 8 + rand.nextInt(16);
@@ -525,14 +493,6 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				new AncientTomb().build(world, rand, x, y, z);
 			}
-		}
-
-		if(WorldConfig.oilSpawn > 0 && rand.nextInt(WorldConfig.oilSpawn) == 0) {
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(25);
-			int randPosZ = j + rand.nextInt(16);
-
-			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 10 + rand.nextInt(7));
 		}
 
 		if(WorldConfig.bedrockOilSpawn > 0 && rand.nextInt(WorldConfig.bedrockOilSpawn) == 0) {

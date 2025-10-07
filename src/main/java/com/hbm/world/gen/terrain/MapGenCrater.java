@@ -1,4 +1,4 @@
-package com.hbm.world.gen;
+package com.hbm.world.gen.terrain;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.MathHelper;
