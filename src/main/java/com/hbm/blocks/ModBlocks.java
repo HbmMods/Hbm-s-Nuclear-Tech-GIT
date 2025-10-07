@@ -792,6 +792,7 @@ public class ModBlocks {
 	public static Block fluid_duct_gauge;
 	public static Block fluid_duct_exhaust;
 	public static Block fluid_duct_paintable_block_exhaust;
+	public static Block pipe_anchor;
 	public static Block fluid_valve;
 	public static Block fluid_switch;
 	public static Block fluid_pump;
@@ -1933,6 +1934,7 @@ public class ModBlocks {
 		fluid_duct_box = new FluidDuctBox(Material.iron).setBlockName("fluid_duct_box").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		fluid_duct_exhaust = new FluidDuctBoxExhaust(Material.iron).setBlockName("fluid_duct_exhaust").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		fluid_duct_paintable_block_exhaust = new FluidDuctPaintableBlockExhaust().setBlockName("fluid_duct_paintable_block_exhaust").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		pipe_anchor = new FluidPipeAnchor().setBlockName("pipe_anchor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_duct_paintable = new FluidDuctPaintable().setBlockName("fluid_duct_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3216,11 +3218,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(cable_detector, cable_detector.getUnlocalizedName());
 		GameRegistry.registerBlock(cable_diode, ItemBlockBase.class, cable_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_detector, machine_detector.getUnlocalizedName());
+		
 		register(fluid_duct_neo);
 		register(fluid_duct_box);
 		register(fluid_duct_exhaust);
 		register(fluid_duct_paintable_block_exhaust);
 		register(fluid_duct_paintable);
+		register(pipe_anchor);
 		register(fluid_duct_gauge);
 		register(fluid_valve);
 		register(fluid_switch);

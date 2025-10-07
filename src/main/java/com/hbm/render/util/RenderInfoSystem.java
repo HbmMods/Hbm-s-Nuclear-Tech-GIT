@@ -68,7 +68,7 @@ public class RenderInfoSystem {
 		
 		int longest = 0;
 		
-		for(InfoEntry entry : messages.values()) {
+		for(InfoEntry entry : entries) {
 			int length = mc.fontRenderer.getStringWidth(entry.text);
 			
 			if(length > longest)
@@ -101,7 +101,7 @@ public class RenderInfoSystem {
 		int off = 0;
 		long now = System.currentTimeMillis();
 		
-		for(InfoEntry entry : messages.values()) {
+		for(InfoEntry entry : entries) {
 			
 			int elapsed = (int) (now - entry.start);
 			

@@ -1,5 +1,5 @@
 ## Changed
-* Updated russian and chinese localiazation
+* Updated russian and chinese localization
 * VNT type explosions now track affected block positions when the explosion events fire, this should ensure compatibility with mods that rely on that
   * For example, this should make ForgeCreeperHeal work with most of NTM's explosions
 * Obliterated standard fluid IDs
@@ -14,3 +14,4 @@
 * Potentially fixed a crash on thermos-derived servers involving the flow control pumps
 * Fixed crash caused when another tile entity replaces an RBMK component due to an unchecked cast
 * Fixed constant cascading chunk gen caused by meteorites and flower patches
+* Fixed garbage loot pool sometimes producing "stone wires"

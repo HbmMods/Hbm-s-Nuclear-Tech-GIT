@@ -4,20 +4,25 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.network.TileEntityPylonBase;
+import com.hbm.tileentity.network.TileEntityPipelineBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemWiring extends Item {
+public class ItemWrench extends ItemSword {
+
+	public ItemWrench(ToolMaterial mat) {
+		super(mat);
+	}
 
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
@@ -38,7 +43,7 @@ public class ItemWiring extends Item {
 			
 			TileEntity te = world.getTileEntity(x, y, z);
 
-			if(te != null && te instanceof TileEntityPylonBase) {
+			if(te != null && te instanceof TileEntityPipelineBase) {
 
 				if(stack.stackTagCompound == null) {
 					stack.stackTagCompound = new NBTTagCompound();
@@ -48,7 +53,7 @@ public class ItemWiring extends Item {
 					stack.stackTagCompound.setInteger("z", z);
 
 					if(!world.isRemote) {
-						player.addChatMessage(new ChatComponentText("Wire start"));
+						player.addChatMessage(new ChatComponentText("Pipe start"));
 					}
 				} else if(!world.isRemote) {
 
@@ -56,35 +61,28 @@ public class ItemWiring extends Item {
 					int y1 = stack.stackTagCompound.getInteger("y");
 					int z1 = stack.stackTagCompound.getInteger("z");
 
-					if(world.getTileEntity(x1, y1, z1) instanceof TileEntityPylonBase) {
+					if(world.getTileEntity(x1, y1, z1) instanceof TileEntityPipelineBase) {
 
-						TileEntityPylonBase first = (TileEntityPylonBase) world.getTileEntity(x1, y1, z1);
-						TileEntityPylonBase second = ((TileEntityPylonBase) te);
+						TileEntityPipelineBase first = (TileEntityPipelineBase) world.getTileEntity(x1, y1, z1);
+						TileEntityPipelineBase second = ((TileEntityPipelineBase) te);
 						
-						switch (TileEntityPylonBase.canConnect(first, second)) {
+						switch (TileEntityPipelineBase.canConnect(first, second)) {
 							case 0:
 								first.addConnection(x, y, z);
 								second.addConnection(x1, y1, z1);
-								player.addChatMessage(new ChatComponentText("Wire end"));
+								player.addChatMessage(new ChatComponentText("Pipe end"));
 								break;
-							case 1:
-								player.addChatMessage(new ChatComponentText("Wire error - Pylons are not the same type"));
-								break;
-							case 2:
-								player.addChatMessage(new ChatComponentText("Wire error - Cannot connect to the same pylon"));
-								break;
-							case 3:
-								player.addChatMessage(new ChatComponentText("Wire error - Pylon is too far away"));
-								break;
+							case 1: player.addChatMessage(new ChatComponentText("Pipe error - Pipes are not the same type")); break;
+							case 2: player.addChatMessage(new ChatComponentText("Pipe error - Cannot connect to the same pipe anchor")); break;
+							case 3: player.addChatMessage(new ChatComponentText("Pipe error - Pipe anchor is too far away")); break;
+							case 4: player.addChatMessage(new ChatComponentText("Pipe error - Pipe anchor fluid types do not match")); break;
 						}
 						
 						stack.stackTagCompound = null;
 
 					} else {
 
-						if(!world.isRemote) {
-							player.addChatMessage(new ChatComponentText("Wire error"));
-						}
+						player.addChatMessage(new ChatComponentText("Pipe error"));
 						stack.stackTagCompound = null;
 					}
 				}
@@ -98,13 +96,31 @@ public class ItemWiring extends Item {
 	}
 
 	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer) {
+		World world = entity.worldObj;
+
+		Vec3 vec = entityPlayer.getLookVec();
+
+		double dX = vec.xCoord * 0.5;
+		double dY = vec.yCoord * 0.5;
+		double dZ = vec.zCoord * 0.5;
+
+		entity.motionX += dX;
+		entity.motionY += dY;
+		entity.motionZ += dZ;
+		world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.75F);
+		
+		return false;
+	}
+
+	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		if(itemstack.stackTagCompound != null) {
-			list.add("Wire start x: " + itemstack.stackTagCompound.getInteger("x"));
-			list.add("Wire start y: " + itemstack.stackTagCompound.getInteger("y"));
-			list.add("Wire start z: " + itemstack.stackTagCompound.getInteger("z"));
+			list.add("Pipe start x: " + itemstack.stackTagCompound.getInteger("x"));
+			list.add("Pipe start y: " + itemstack.stackTagCompound.getInteger("y"));
+			list.add("Pipe start z: " + itemstack.stackTagCompound.getInteger("z"));
 		} else {
-			list.add("Right-click poles to connect");
+			list.add("Right-click anchor to connect");
 		}
 	}
 
@@ -118,7 +134,7 @@ public class ItemWiring extends Item {
 						entity.posY - stack.stackTagCompound.getInteger("y"),
 						entity.posZ - stack.stackTagCompound.getInteger("z"));
 				
-				MainRegistry.proxy.displayTooltip(stack.getDisplayName() + ": " + ((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_CABLE);
+				MainRegistry.proxy.displayTooltip(stack.getDisplayName() + ": " + ((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_WRENCH);
 			}
 		}
 	}

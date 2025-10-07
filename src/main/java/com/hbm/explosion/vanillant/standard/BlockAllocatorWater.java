@@ -72,8 +72,6 @@ public class BlockAllocatorWater implements IBlockAllocator {
 				}
 			}
 		}
-		
-		explosion.compat.affectedBlockPositions.addAll(affectedBlocks);
 
 		return affectedBlocks;
 	}
