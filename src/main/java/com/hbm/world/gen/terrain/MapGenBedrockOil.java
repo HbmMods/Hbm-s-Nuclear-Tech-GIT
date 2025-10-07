@@ -1,6 +1,7 @@
 package com.hbm.world.gen.terrain;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.world.gen.MapGenBaseMeta;
 
@@ -11,7 +12,8 @@ import net.minecraft.world.World;
 public class MapGenBedrockOil extends MapGenBaseMeta {
 
 	/**
-	 * Similar to oil bubbles, but with a few more behaviours, like adding oily dirt and porous stone
+	 * Similar to oil bubbles, but with a few more behaviours, like adding oily dirt
+	 * no porous stone don't @ me
 	 */
 
 	private final int frequency;
@@ -31,8 +33,8 @@ public class MapGenBedrockOil extends MapGenBaseMeta {
 	@Override
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
 		if(rand.nextInt(frequency) == frequency - 2) {
-			int xCoord = (chunkX - offsetX) * 16;
-			int zCoord = (chunkZ - offsetZ) * 16;
+			int xCoord = (chunkX - offsetX) * 16 + rand.nextInt(16);
+			int zCoord = (chunkZ - offsetZ) * 16 + rand.nextInt(16);
 
 			// Add the bedrock oil spot
 			for(int bx = 15; bx >= 0; bx--)
@@ -51,10 +53,12 @@ public class MapGenBedrockOil extends MapGenBaseMeta {
 				}
 			}
 
+			int deadMetaCount = EnumDeadPlantType.values().length;
+
 			// Add oil spot damage
 			for(int i = 0; i < spotCount; i++) {
-				int rx = xCoord + (int)(world.rand.nextGaussian() * spotWidth);
-				int rz = zCoord + (int)(world.rand.nextGaussian() * spotWidth);
+				int rx = (int)(rand.nextGaussian() * spotWidth) - xCoord;
+				int rz = (int)(rand.nextGaussian() * spotWidth) - zCoord;
 
 				if(rx >= 0 && rx < 16 && rz >= 0 && rz < 16) {
 					// find ground level
@@ -65,14 +69,19 @@ public class MapGenBedrockOil extends MapGenBaseMeta {
 							for(int oy = 1; oy > -3; oy--) {
 								int subIndex = index + oy;
 
-								// this generation occurs BEFORE decoration, so we have no plants to modify
-
 								if(blocks[subIndex] == Blocks.grass || blocks[subIndex] == Blocks.dirt) {
 									blocks[subIndex] = rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead;
 
 									if(addWillows && oy == 0 && rand.nextInt(50) == 0) {
 										blocks[subIndex + 1] = ModBlocks.plant_flower;
 										metas[subIndex + 1] = (byte)EnumFlowerType.CD0.ordinal();
+									}
+
+									// this generation occurs BEFORE decoration, so we have no plants to modify
+									// so we'll instead just add some new ones right now
+									if(oy == 0 && rand.nextInt(20) == 0) {
+										blocks[subIndex + 1] = ModBlocks.plant_dead;
+										metas[subIndex + 1] = (byte)rand.nextInt(deadMetaCount);
 									}
 
 									break;
