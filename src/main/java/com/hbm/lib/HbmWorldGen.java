@@ -24,7 +24,6 @@ import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
 import cpw.mods.fml.common.IWorldGenerator;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
