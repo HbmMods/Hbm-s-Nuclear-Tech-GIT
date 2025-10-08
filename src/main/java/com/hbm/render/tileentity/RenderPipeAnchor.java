@@ -106,8 +106,8 @@ public class RenderPipeAnchor extends TileEntitySpecialRenderer implements IItem
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -1.5, 0);
-				double scale = 5;
+				GL11.glTranslated(0, -3.5, 0);
+				double scale = 10;
 				GL11.glScaled(scale, scale, scale);
 			}
 			public void renderCommon() {
