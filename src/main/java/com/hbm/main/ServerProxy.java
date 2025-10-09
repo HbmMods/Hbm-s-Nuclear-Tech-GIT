@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerProxy {
-	
+
 	private static final I18nServer I18N = new I18nServer();
 
 	//sort by estimated time of display. longer lasting ones should be sorted at the top.
@@ -33,7 +33,7 @@ public class ServerProxy {
 	public static final int ID_FAN_MODE = 10;
 	public static final int ID_TOOLABILITY = 11;
 	public static final int ID_GAS_HAZARD = 12;
-	
+
 	public ITranslate getI18n() { return I18N; }
 
 	public void registerPreRenderInfo() { }
@@ -51,6 +51,9 @@ public class ServerProxy {
 
 	public void registerMissileItems() { }
 
+	public void registerCustomMachineModels() { }
+	public void registerCustomMachineSounds() { }
+
 	/** Retired in favor of the version that uses keepAlive */
 	@Deprecated public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) { return null; }
@@ -60,13 +63,13 @@ public class ServerProxy {
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}
-	
+
 	public void displayTooltip(String msg, int time, int id) { }
 
 	public boolean getIsKeyPressed(EnumKeybind key) {
 		return false;
 	}
-	
+
 	public EntityPlayer me() {
 		return null;
 	}

@@ -13,6 +13,7 @@ import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.EntityMinecartCrate;
 import com.hbm.entity.cart.EntityMinecartNTM;
@@ -134,11 +135,11 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ClientProxy extends ServerProxy {
-	
+
 	private static final I18nClient I18N = new I18nClient();
 
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
-	
+
 	public ITranslate getI18n() { return I18N; }
 
 	/** Runs just before item an block init */
@@ -782,7 +783,7 @@ public class ClientProxy extends ServerProxy {
 	public void registerBlockRenderer() {
 
 		RenderingRegistry.registerBlockHandler(new RenderISBRHUniversal());
-		
+
 		/// STOP DOING THIS ///
 		RenderingRegistry.registerBlockHandler(new RenderScaffoldBlock());
 		RenderingRegistry.registerBlockHandler(new RenderTapeBlock());
@@ -861,6 +862,14 @@ public class ClientProxy extends ServerProxy {
 		}
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
+	}
+	@Override
+	public void registerCustomMachineModels() {
+		CustomMachineConfigJSON.registerCustomModels();
+	}
+	@Override
+	public void registerCustomMachineSounds() {
+		CustomMachineConfigJSON.doesSoundExist();
 	}
 
 	//mk3, only use this one

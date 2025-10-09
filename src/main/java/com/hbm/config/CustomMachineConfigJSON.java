@@ -57,8 +57,6 @@ public class CustomMachineConfigJSON {
 
 		customModels.clear();
 		readConfig(config);
-		registerCustomModels();
-		doesSoundExist();
 	}
 
 	public static void writeDefault(File config) {
@@ -302,17 +300,15 @@ public class CustomMachineConfigJSON {
 			ex.printStackTrace();
 		}
 	}
-	@SideOnly(Side.CLIENT)
 	public static void registerCustomModels() {
 		for (MachineConfiguration config : niceList){
 			customModels.put(config.unlocalizedName, new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, config.customModel.customModel)));
 		}
 	}
-	@SideOnly(Side.CLIENT)
 	public static void doesSoundExist() {
+		SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
 		for (MachineConfiguration config : niceList) {
 			ResourceLocation soundLocation = new ResourceLocation(config.progressSound);
-			SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
 			SoundEventAccessorComposite accessor = soundHandler.getSound(soundLocation);
 			if(accessor==null){
 				config.progressSound = null;
