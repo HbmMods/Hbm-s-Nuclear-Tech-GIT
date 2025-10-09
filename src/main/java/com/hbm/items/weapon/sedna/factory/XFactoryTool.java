@@ -24,6 +24,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
+import com.hbm.items.weapon.sedna.impl.ItemGunDrill;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -275,6 +276,17 @@ public class XFactoryTool {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_CT_ANIMS).orchestra(Orchestras.ORCHESTRA_CHARGE_THROWER)
 				).setUnlocalizedName("gun_charge_thrower");
+
+		ModItems.gun_drill = new ItemGunDrill(WeaponQuality.UTILITY, new GunConfig()
+				.dura(3_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
+				.rec(new Receiver(0)
+						.dmg(10F).delay(4).dry(10).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(0).sound("hbm:weapon.fire.grenade", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 1).addConfigs(ct_hook, ct_mortar, ct_mortar_charge))
+						.offset(1, -0.0625 * 2.5, -0.25D)
+						.setupStandardFire())
+				.setupStandardConfiguration()
+				//.anim(LAMBDA_CT_ANIMS).orchestra(Orchestras.ORCHESTRA_CHARGE_THROWER)
+				).setUnlocalizedName("gun_drill");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_CT = (stack, ctx) -> {

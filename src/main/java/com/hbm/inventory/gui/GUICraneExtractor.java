@@ -12,7 +12,6 @@ import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.network.TileEntityCraneExtractor;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -29,7 +28,7 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		super(new ContainerCraneExtractor(invPlayer, tedf));
 		ejector = tedf;
 		
-		this.xSize = 176;
+		this.xSize = 212;
 		this.ySize = 185;
 	}
 	
@@ -46,15 +45,25 @@ public class GUICraneExtractor extends GuiInfoContainer {
 				}
 			}
 		}
+		
+		if(guiLeft + 187 <= x && guiLeft + 187 + 18 > x && guiTop + 34 < y && guiTop + 34 + 18 >= y) {
+			this.func_146283_a(Arrays.asList(new String[] { "Only take maximum possible: " + (ejector.maxEject ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF") }), x, y);
+		}
 	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(guiLeft + 128 <= x && guiLeft + 128 + 14 > x && guiTop + 30 < y && guiTop + 30 + 26 >= y) {
+		if(guiLeft + 187 <= x && guiLeft + 187 + 18 > x && guiTop + 34 < y && guiTop + 34 + 18 >= y) {
+			click();
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("maxEject", true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, ejector.xCoord, ejector.yCoord, ejector.zCoord));
+		}
 
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+		if(guiLeft + 128 <= x && guiLeft + 128 + 14 > x && guiTop + 30 < y && guiTop + 30 + 26 >= y) {
+			click();
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("whitelist", true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, ejector.xCoord, ejector.yCoord, ejector.zCoord));
@@ -74,10 +83,12 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
+		if(ejector.maxEject) drawTexturedModalRect(guiLeft + 187, guiTop + 34, 212, 0, 18, 18);
+		
 		if(ejector.isWhitelist) {
-			drawTexturedModalRect(guiLeft + 139, guiTop + 33, 176, 0, 3, 6);
+			drawTexturedModalRect(guiLeft + 139, guiTop + 33, 212, 18, 3, 6);
 		} else {
-			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
+			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 212, 18, 3, 6);
 		}
 	}
 }

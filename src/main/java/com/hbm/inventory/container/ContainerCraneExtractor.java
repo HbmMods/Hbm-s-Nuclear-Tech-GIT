@@ -26,13 +26,13 @@ public class ContainerCraneExtractor extends ContainerBase {
 		}
 		
 		//buffer
-		addSlots(extractor,9,8,17,3,3);
+		addSlots(extractor, 9, 8, 17, 3, 3);
 
 		//upgrades
 		this.addSlotToContainer(new SlotUpgrade(extractor, 18, 152, 23));
 		this.addSlotToContainer(new SlotUpgrade(extractor, 19, 152, 47));
 
-		playerInv(invPlayer, 8, 103, 161);
+		playerInv(invPlayer, 26, 103, 161);
 
 	}
 

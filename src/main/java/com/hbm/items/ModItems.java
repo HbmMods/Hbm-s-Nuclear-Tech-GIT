@@ -1480,6 +1480,7 @@ public class ModItems {
 	public static Item gun_double_barrel_sacred_dragon;
 	public static Item gun_n_i_4_n_i;
 	public static Item gun_charge_thrower;
+	public static Item gun_drill;
 
 	public static Item ammo_standard;
 	public static Item ammo_secret;
@@ -6417,6 +6418,7 @@ public class ModItems {
 
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_charge_thrower, gun_charge_thrower.getUnlocalizedName());
+		GameRegistry.registerItem(gun_drill, gun_drill.getUnlocalizedName());
 
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());

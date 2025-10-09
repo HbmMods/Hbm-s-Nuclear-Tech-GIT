@@ -8,6 +8,9 @@
   * The multi ID now changes metadata based on the selected fluid type, allowing it to be usable for crafting pre-defined pipes
 * The multi ID fluid selector now displays fluid traits in addition to the name when hovering over an icon
 * Added more values to the data table returned by RBMK consoles via OC integration
+* The conveyor ejector now has a "only take maximum possible" toggle
+  * Enabling this means that, if stack ejection upgrades are installed, only stacks that meet the limit can be ejected
+  * Items with a lower maximum stacksize will be ejected regardless
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
