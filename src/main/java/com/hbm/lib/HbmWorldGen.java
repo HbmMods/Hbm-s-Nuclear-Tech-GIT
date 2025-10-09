@@ -223,17 +223,17 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-				if(WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {
-					for(int a = 0; a < 1; a++) {
-						int x = i + rand.nextInt(16);
-						int z = j + rand.nextInt(16);
-						int y = world.getHeightValue(x, z);
-
-						new Radio01().generate(world, rand, x, y, z);
-					}
-				}
-			}
+//			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
+//				if(WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {
+//					for(int a = 0; a < 1; a++) {
+//						int x = i + rand.nextInt(16);
+//						int z = j + rand.nextInt(16);
+//						int y = world.getHeightValue(x, z);
+//
+//						new Radio01().generate(world, rand, x, y, z);
+//					}
+//				}
+//			}
 
 			if(biome.temperature >= 0.4F && biome.rainfall <= 0.6F) {
 				if(WorldConfig.antennaStructure > 0 && rand.nextInt(WorldConfig.antennaStructure) == 0) {

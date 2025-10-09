@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.entity.projectile.EntityCoin;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -14,7 +15,9 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.impl.ItemGunNI4NI;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
+import com.hbm.items.weapon.sedna.mags.MagazineInfinite;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
@@ -22,11 +25,13 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
+import com.hbm.util.Vec3NT;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -40,6 +45,8 @@ public class XFactoryAccelerator {
 
 	public static BulletConfig coil_tungsten;
 	public static BulletConfig coil_ferrouranium;
+
+	public static BulletConfig ni4ni_arc;
 
 	public static Consumer<Entity> LAMBDA_UPDATE_TUNGSTEN = (entity) -> {breakInPath(entity, 1.25F); };
 	public static Consumer<Entity> LAMBDA_UPDATE_FERRO = (entity) -> { breakInPath(entity, 2.5F); };
@@ -89,6 +96,9 @@ public class XFactoryAccelerator {
 				.setOnUpdate(LAMBDA_UPDATE_TUNGSTEN);
 		coil_ferrouranium = new BulletConfig().setItem(EnumAmmo.COIL_FERROURANIUM).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloffByPen(false).setSpectral(true)
 				.setOnUpdate(LAMBDA_UPDATE_FERRO);
+
+		ni4ni_arc = new BulletConfig().setupDamageClass(DamageClass.PHYSICAL).setBeam().setLife(5).setThresholdNegation(10F).setArmorPiercing(0.2F).setRenderRotations(false).setDoesPenetrate(false)
+				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
 		
 		tauChargeMag.addConfigs(tau_uranium_charge);
 
@@ -118,6 +128,18 @@ public class XFactoryAccelerator {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_COILGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_COILGUN)
 				).setUnlocalizedName("gun_coilgun");
+
+		ModItems.gun_n_i_4_n_i = new ItemGunNI4NI(WeaponQuality.SPECIAL, new GunConfig()
+				.dura(0).draw(5).inspect(39).crosshair(Crosshair.CIRCLE)
+				.rec(new Receiver(0)
+						.dmg(35F).delay(10).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
+						.mag(new MagazineInfinite(ni4ni_arc))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().fire(Lego.LAMBDA_NOWEAR_FIRE))
+				.setupStandardConfiguration()
+				.ps(LAMBDA_NI4NI_SECONDARY_PRESS)
+				.anim(LAMBDA_NI4NI_ANIMS).orchestra(Orchestras.ORCHESTRA_COILGUN)
+				).setUnlocalizedName("gun_n_i_4_n_i");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_PRIMARY_RELEASE = (stack, ctx) -> {
@@ -163,6 +185,27 @@ public class XFactoryAccelerator {
 		}
 	};
 	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_NI4NI_SECONDARY_PRESS = (stack, ctx) -> {
+		if(ctx.getPlayer() == null) return;
+		EntityPlayer player = ctx.getPlayer();
+		
+		if(ItemGunNI4NI.getCoinCount(stack) > 0) {
+			Vec3NT vec = new Vec3NT(player.getLookVec()).multiply(0.8D);
+			EntityCoin coin = new EntityCoin(player.worldObj);
+			coin.setPosition(player.posX, player.posY + player.getEyeHeight() - coin.yOffset - 0.125, player.posZ);
+			coin.motionX = vec.xCoord;
+			coin.motionY = vec.yCoord + 0.5;
+			coin.motionZ = vec.zCoord;
+			coin.rotationYaw = player.rotationYaw;
+			coin.setThrower(player);
+			player.worldObj.spawnEntityInWorld(coin);
+			
+			player.worldObj.playSoundAtEntity(player, "random.orb", 1.0F, 1F + player.getRNG().nextFloat() * 0.25F);
+			
+			ItemGunNI4NI.setCoinCount(stack, ItemGunNI4NI.getCoinCount(stack) - 1);
+		}
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_TAU = (stack, ctx) -> { };
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_COILGUN = (stack, ctx) -> {
@@ -194,6 +237,22 @@ public class XFactoryAccelerator {
 		if(type == AnimType.EQUIP) return new BusAnimation().addBus("RELOAD", new BusAnimationSequence().addPos(1, 0, 0, 0).addPos(0, 0, 0, 250));
 		if(type == AnimType.CYCLE) return new BusAnimation().addBus("RECOIL", new BusAnimationSequence().addPos(ItemGunBaseNT.getIsAiming(stack) ? 0.5 : 1, 0, 0, 100).addPos(0, 0, 0, 200));
 		if(type == AnimType.RELOAD) return new BusAnimation().addBus("RELOAD", new BusAnimationSequence().addPos(1, 0, 0, 250).addPos(1, 0, 0, 500).addPos(0, 0, 0, 250));
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_NI4NI_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-360 * 2, 0, 0, 500));
+		case CYCLE:
+			boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+			return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(aiming ? -5 : -30, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
+				.addBus("DRUM", new BusAnimationSequence().hold(50).addPos(0, 0, 120, 300, IType.SIN_FULL));
+		case INSPECT: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-360 * 3, 0, 0, 750).hold(100).addPos(0, 0, 0, 750));
+		}
+		
 		return null;
 	};
 }

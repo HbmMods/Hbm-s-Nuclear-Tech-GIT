@@ -109,7 +109,8 @@ public class ItemPoolsComponent {
 					weighted(ModItems.can_mrsugar, 0, 1, 2, 2),
 					weighted(ModItems.cap_nuka, 0, 1, 16, 2),
 					weighted(ModItems.book_guide, 3, 1, 1, 1),
-					weighted(ModBlocks.deco_computer, 0, 1, 1, 1)
+					weighted(ModBlocks.deco_computer, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1)
 			};
 		}};
 
@@ -158,7 +159,8 @@ public class ItemPoolsComponent {
 					weighted(ModItems.powder_bromine, 0, 1, 1, 1),
 					weighted(ModItems.powder_cobalt, 0, 1, 1, 1),
 					weighted(ModItems.powder_neodymium, 0, 1, 1, 1),
-					weighted(ModItems.powder_boron, 0, 1, 1, 1)
+					weighted(ModItems.powder_boron, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 1, 1, 1, 1)
 			};
 		}};
 
@@ -186,7 +188,9 @@ public class ItemPoolsComponent {
 					weighted(Items.paper, 0, 1, 6, 7),
 					weighted(Items.clock, 0, 1, 1, 3),
 					weighted(Items.book, 0, 1, 5, 10),
-					weighted(Items.experience_bottle, 0, 1, 3, 1)
+					weighted(Items.experience_bottle, 0, 1, 3, 1),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1),
+					weighted(ModItems.blueprint_folder, 1, 1, 1, 1)
 			};
 		}};
 
@@ -222,7 +226,7 @@ public class ItemPoolsComponent {
 				weighted(ModItems.pellet_rtg_weak,0, 0, 1, 1),
 			};
 		}};
-        
+		
 		new ItemPool(POOL_REPAIR_MATERIALS) {{
 			this.pool = new WeightedRandomChestContent[] {
 				weighted(ModItems.ingot_aluminium, 0, 2, 8, 3),

@@ -123,7 +123,7 @@ public abstract class SerializableRecipe {
 					Reader reader = new InputStreamReader(stream);
 					recipe.readRecipeStream(reader);
 					recipe.modified = true;
-				} catch(IOException ex) {
+				} catch(Throwable ex) {
 					MainRegistry.logger.error("Failed to reset synced recipe stream", ex);
 				}
 			} else if(recFile.exists() && recFile.isFile()) {

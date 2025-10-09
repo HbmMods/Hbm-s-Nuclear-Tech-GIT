@@ -114,6 +114,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.oredict.OreDictionary;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -741,22 +743,25 @@ public class ModEventHandlerClient {
 		}
 
 		try {
-			CanneryBase cannery = Jars.canneries.get(comp);
-			if(cannery != null) {
-				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
-				lastCannery = comp;
-				canneryTimestamp = Clock.get_ms();
+			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
+			if(qmaw == null) {
+				qmaw = QMAWLoader.triggers.get(new ComparableStack(comp.item, 1, OreDictionary.WILDCARD_VALUE));
+			}
+			if(qmaw != null) {
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
+				lastQMAW = qmaw;
+				qmawTimestamp = Clock.get_ms();
 			}
 		} catch(Exception ex) {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
 		}
 
 		try {
-			QuickManualAndWiki qmaw = QMAWLoader.triggers.get(comp);
-			if(qmaw != null) {
-				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("qmaw.tab", Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
-				lastQMAW = qmaw;
-				qmawTimestamp = Clock.get_ms();
+			CanneryBase cannery = Jars.canneries.get(comp);
+			if(cannery != null) {
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1", Keyboard.getKeyName(Keyboard.KEY_LSHIFT) + " + " + Keyboard.getKeyName(HbmKeybinds.qmaw.getKeyCode())));
+				lastCannery = comp;
+				canneryTimestamp = Clock.get_ms();
 			}
 		} catch(Exception ex) {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
@@ -890,7 +895,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Minecraft.getMinecraft().currentScreen != null) {
 
 			ComparableStack comp = canneryTimestamp > Clock.get_ms() - 100 ? lastCannery : null;
 
@@ -908,7 +913,7 @@ public class ModEventHandlerClient {
 			}
 		}
 
-		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && Minecraft.getMinecraft().currentScreen != null) {
+		if(Keyboard.isKeyDown(HbmKeybinds.qmaw.getKeyCode()) && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Minecraft.getMinecraft().currentScreen != null) {
 
 			QuickManualAndWiki qmaw = qmawTimestamp > Clock.get_ms() - 100 ? lastQMAW : null;
 

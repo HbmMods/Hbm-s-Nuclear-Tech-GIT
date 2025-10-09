@@ -101,6 +101,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_double_barrel,				new ItemRenderDoubleBarrel(ResourceManager.double_barrel_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_double_barrel_sacred_dragon,	new ItemRenderDoubleBarrel(ResourceManager.double_barrel_sacred_dragon_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_charge_thrower,				new ItemRenderChargeThrower());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_n_i_4_n_i,					new ItemRenderNI4NI());
 		
 		//PROJECTILES
 		ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
@@ -226,6 +227,8 @@ public class GunFactoryClient {
 
 		p35800.setRendererBeam(LegoClient.RENDER_CRACKLE);
 		p35800_bl.setRendererBeam(LegoClient.RENDER_BLACK_LIGHTNING);
+		
+		ni4ni_arc.setRendererBeam(LegoClient.RENDER_NI4NI_BOLT);
 
 		ct_hook.setRenderer(LegoClient.RENDER_CT_HOOK);
 		ct_mortar.setRenderer(LegoClient.RENDER_CT_MORTAR);

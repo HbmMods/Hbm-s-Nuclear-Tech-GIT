@@ -346,7 +346,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			 * All movement related stuff has to be repeated on the client, but only for the client's player
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
-			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
+			if(wasOn && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 

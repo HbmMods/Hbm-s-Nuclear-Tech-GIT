@@ -26,12 +26,8 @@ public class MachineSolarBoiler extends BlockDummyable implements ILookOverlay {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-
-		if(meta >= 12)
-			return new TileEntitySolarBoiler();
-		if(meta >= extra)
-			return new TileEntityProxyCombo(false, false, true);
-
+		if(meta >= 12) return new TileEntitySolarBoiler();
+		if(meta >= extra) return new TileEntityProxyCombo(false, false, true);
 		return null;
 	}
 

@@ -9,7 +9,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
-public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFluidStandardTransceiver, IBufPacketReceiver, IFluidCopiable {
+public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IBufPacketReceiver, IFluidCopiable {
 
 	private FluidTank water;
 	private FluidTank steam;
@@ -50,8 +50,8 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
 
-			this.sendFluid(steam, worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
-			this.sendFluid(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			this.tryProvide(steam, worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
+			this.tryProvide(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 
 			heat = 0;
 

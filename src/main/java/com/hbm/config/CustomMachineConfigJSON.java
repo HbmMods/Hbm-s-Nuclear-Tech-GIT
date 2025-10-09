@@ -1,6 +1,8 @@
 package com.hbm.config;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -173,7 +175,7 @@ public class CustomMachineConfigJSON {
 	public static void readConfig(File config) {
 
 		try {
-			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(config.toPath()), StandardCharsets.UTF_8), JsonObject.class);
 			JsonArray machines = json.get("machines").getAsJsonArray();
 
 			for(int i = 0; i < machines.size(); i++) {

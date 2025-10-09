@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import com.hbm.handler.guncfg.*;
 
+@Deprecated
 public class BulletConfigSyncingUtil {
 
 	private static HashMap<Integer, BulletConfiguration> configSet = new HashMap<Integer, BulletConfiguration>();

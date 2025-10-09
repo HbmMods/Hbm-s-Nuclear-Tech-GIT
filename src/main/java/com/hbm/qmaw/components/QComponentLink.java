@@ -68,8 +68,8 @@ public class QComponentLink extends ManualElement {
 			GL11.glRotated(180, 1, 0, 0);
 			RenderHelper.enableStandardItemLighting();
 			GL11.glRotated(-180, 1, 0, 0);
-			itemRender.renderItemAndEffectIntoGUI(this.font, mc.renderEngine, this.icon, x, y);
-			itemRender.renderItemOverlayIntoGUI(this.font, mc.renderEngine, this.icon, x, y, null);
+			itemRender.renderItemAndEffectIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1);
+			itemRender.renderItemOverlayIntoGUI(this.font, mc.renderEngine, this.icon, x, y - 1, null);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
@@ -81,11 +81,14 @@ public class QComponentLink extends ManualElement {
 		font.drawString(text, x, y, isMouseOver ? hoverColor : color);
 	}
 
-	@Override public void onClick() {
+	@Override public void onClick(GuiQMAW gui) {
 		QuickManualAndWiki qmaw = QMAWLoader.qmaw.get(link);
 		if(qmaw != null) {
 			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			FMLCommonHandler.instance().showGuiScreen(new GuiQMAW(qmaw));
+			GuiQMAW screen = new GuiQMAW(qmaw);
+			screen.back.addAll(gui.back);
+			screen.back.add(gui.qmawID);
+			FMLCommonHandler.instance().showGuiScreen(screen);
 		}
 	}
 }

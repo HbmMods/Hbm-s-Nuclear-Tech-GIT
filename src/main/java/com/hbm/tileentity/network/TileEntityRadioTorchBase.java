@@ -17,6 +17,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
+import java.util.Map;
+
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
@@ -135,6 +137,20 @@ public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IC
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCustomMap(Context context, Arguments args) {
 		customMap = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "setCustomMapValues(value: table) -- Sets the custom signal mapping values with a table with indices corresponding to the redstone value (1-16)")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setCustomMapValues(Context context, Arguments args){
+		Map values = args.checkTable(0);
+
+		for (int i = 1; i <= 16; i++){
+			if (values.containsKey(i) && values.get(i) instanceof String){
+				this.mapping[i - 1] = (String) values.get(i);
+			}
+		}
+
 		return new Object[] {};
 	}
 }

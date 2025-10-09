@@ -3,6 +3,12 @@ package com.hbm.blocks.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.ILookOverlay;
@@ -149,13 +155,15 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		player.addExhaustion(0.025F);
 	}
-
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, IRORValueProvider {
+	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, IRORValueProvider, SimpleComponent, CompatHandler.OCComponent {
 
 		public long power;
 		protected long maxPower;
 		public long powerReceived;
 		public long powerSent;
+		public long lastPowerReceived;
+		public long lastPowerSent;
 
 		public TileEntityCapacitor() { }
 
@@ -198,6 +206,8 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 
 				networkPackNT(15);
 
+				this.lastPowerSent = powerSent;
+				this.lastPowerReceived = powerReceived;
 				this.powerSent = 0;
 				this.powerReceived = 0;
 			}
@@ -314,6 +324,70 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			if((PREFIX_VALUE + "fill").equals(name))		return "" + this.power;
 			if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.power * 100 / this.maxPower;
 			return null;
+		}
+
+		// opencomputer
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public String getComponentName() {
+			return "capacitor";
+		}
+
+		@Callback(direct = true)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getEnergy(Context context, Arguments args) {
+			return new Object[] {power};
+		}
+
+		@Callback(direct = true)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getMaxEnergy(Context context, Arguments args) {
+			return new Object[] {maxPower};
+		}
+
+		@Callback(direct = true)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getEnergySent(Context context, Arguments args) {
+			return new Object[] {lastPowerReceived};
+		}
+
+		@Callback(direct = true)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getEnergyReceived(Context context, Arguments args) { return new Object[] {lastPowerSent}; }
+
+		@Callback(direct = true)
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] getInfo(Context context, Arguments args) {
+			return new Object[] {power, maxPower, lastPowerReceived, lastPowerSent};
+		}
+
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public String[] methods() {
+			return new String[] {
+				"getEnergy",
+				"getMaxEnergy",
+				"getEnergySent",
+				"getEnergyReceived",
+				"getInfo"
+			};
+		}
+		@Override
+		@Optional.Method(modid = "OpenComputers")
+		public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+			switch(method) {
+				case ("getEnergy"):
+					return getEnergy(context, args);
+				case ("getMaxEnergy"):
+					return getMaxEnergy(context, args);
+				case ("getEnergySent"):
+					return getEnergySent(context, args);
+				case ("getEnergyReceived"):
+					return getEnergyReceived(context, args);
+				case ("getInfo"):
+					return getEnergyReceived(context, args);
+			}
+			throw new NoSuchMethodException();
 		}
 	}
 }
