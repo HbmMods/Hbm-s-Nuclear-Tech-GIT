@@ -19,7 +19,7 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	public ItemRenderHeavyRevolver(ResourceLocation texture) {
 		this.texture = texture;
 	}
-
+	
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 

@@ -7,7 +7,6 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
@@ -407,21 +406,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_emp, 1));
 		}
 		
-		if(this == ModItems.t45_kit)
-		{
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_helmet, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_plate, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_legs, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_boots, 1));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
-		}
-		
 		if(this == ModItems.stealth_boy)
 		{
 			player.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30 * 20, 1, true));
@@ -470,7 +454,6 @@ public class ItemStarterKit extends Item {
 				this == ModItems.prototype_kit ||
 				this == ModItems.fleija_kit ||
 				this == ModItems.solinium_kit ||
-				this == ModItems.t45_kit ||
 				this == ModItems.grenade_kit ||
 				this == ModItems.missile_kit ||
 				this == ModItems.multi_kit) {

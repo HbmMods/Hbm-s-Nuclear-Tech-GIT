@@ -25,12 +25,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import li.cil.oc.api.machine.Arguments;
@@ -604,10 +602,11 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			LinkedHashMap<String, Object> data_table = new LinkedHashMap<>();
 			data_table.put("type", column.getConsoleType().name());
 			data_table.put("hullTemp", column_data.getDouble("heat"));
-			data_table.put("realSimWater", column_data.getDouble("water"));
-			data_table.put("realSimSteam", column_data.getDouble("steam"));
+			data_table.put("realSimWater", column.reasimWater);
+			data_table.put("realSimSteam", column.reasimSteam);
 			data_table.put("moderated", column_data.getBoolean("moderated"));
 			data_table.put("level", column_data.getDouble("level"));
+			data_table.put("targetLevel", column_data.getDouble("targetLevel"));
 			data_table.put("color", column_data.getShort("color"));
 			data_table.put("enrichment", column_data.getDouble("enrichment"));
 			data_table.put("xenon", column_data.getDouble("xenon"));
@@ -615,28 +614,59 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			data_table.put("coreTemp", column_data.getDouble("c_coreHeat"));
 			data_table.put("coreMaxTemp", column_data.getDouble("c_maxHeat"));
 
+			if (te instanceof TileEntityRBMKControlAuto){
+				TileEntityRBMKControlAuto controlAuto = (TileEntityRBMKControlAuto) te;
+				data_table.put("function", controlAuto.function.toString());
+				data_table.put("heatUpper", controlAuto.heatUpper);
+				data_table.put("heatLower", controlAuto.heatLower);
+				data_table.put("levelUpper", controlAuto.levelUpper);
+				data_table.put("levelLower",controlAuto.levelLower);
+			}
+
 			if(te instanceof TileEntityRBMKRod){
 				TileEntityRBMKRod fuelChannel = (TileEntityRBMKRod)te;
 				data_table.put("fluxQuantity", fuelChannel.lastFluxQuantity);
 				data_table.put("fluxRatio", fuelChannel.fluxFastRatio);
+				ItemStack rod = fuelChannel.getStackInSlot(0);
+				if (rod != null)
+					data_table.put("rodName", rod.getUnlocalizedName());
+				else
+					data_table.put("rodName", "");
 			}
 
 			if(te instanceof TileEntityRBMKBoiler){
 				TileEntityRBMKBoiler boiler = (TileEntityRBMKBoiler)te;
 				data_table.put("water", boiler.feed.getFill());
 				data_table.put("steam", boiler.steam.getFill());
+				data_table.put("steamType", Fluids.fromID(column_data.getShort("type")).getUnlocalizedName());
 			}
 
 			if(te instanceof TileEntityRBMKOutgasser){
 				TileEntityRBMKOutgasser irradiationChannel = (TileEntityRBMKOutgasser)te;
 				data_table.put("fluxProgress", irradiationChannel.progress);
 				data_table.put("requiredFlux", irradiationChannel.duration);
+				ItemStack input = irradiationChannel.getStackInSlot(0);
+				if (input != null){
+					data_table.put("craftingName", input.getUnlocalizedName());
+					data_table.put("craftingNumber", input.stackSize);
+				}
+				else {
+					data_table.put("craftingName", "");
+					data_table.put("craftingNumber", 0);
+				}
 			}
 
 			if(te instanceof TileEntityRBMKHeater){
 				TileEntityRBMKHeater heaterChannel = (TileEntityRBMKHeater)te;
 				data_table.put("coolant", heaterChannel.feed.getFill());
 				data_table.put("hotcoolant", heaterChannel.steam.getFill());
+				data_table.put("coldtype", Fluids.fromID(column_data.getShort("type")).getUnlocalizedName());
+				data_table.put("hottype", Fluids.fromID(column_data.getShort("hottype")).getUnlocalizedName());
+			}
+
+			if (te instanceof TileEntityRBMKCooler){
+				TileEntityRBMKCooler coolerChannel = (TileEntityRBMKCooler) te;
+				data_table.put("cryogel", coolerChannel.getAllTanks()[0].getFill());
 			}
 
 			return new Object[] {data_table};
@@ -760,6 +790,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] pressAZ5(Context context, Arguments args) {
+		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5,"hbm:block.shutdown",1.0F, 1.0F);
 		boolean hasRods = false;
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {

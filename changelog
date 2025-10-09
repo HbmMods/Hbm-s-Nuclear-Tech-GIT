@@ -1,10 +1,20 @@
 ## Changed
-* Added a (LEGACY) tag to the schrabidium transmutator
-* Existing schrabidium transmutators are now way slower
-  * get souped
-* Removed the schraranium tooltip mentioning the transmutator
-* Changed the last remaining recipes that use the old steel pipes item, as well as the recipe for the steel pipes
-  * Any remaining steel pipes can be either smelted in a crucible or shredded
+* Updated russian and chinese localization
+* VNT type explosions now track affected block positions when the explosion events fire, this should ensure compatibility with mods that rely on that
+  * For example, this should make ForgeCreeperHeal work with most of NTM's explosions
+* Obliterated standard fluid IDs
+  * The multi ID is now a lot cheaper
+  * For convenience in the creative tab, fluid IDs are now listed with all fluids pre-defined, just like how the old IDs were available
+  * The multi ID now changes metadata based on the selected fluid type, allowing it to be usable for crafting pre-defined pipes
+* The multi ID fluid selector now displays fluid traits in addition to the name when hovering over an icon
+* Added more values to the data table returned by RBMK consoles via OC integration
+* The conveyor ejector now has a "only take maximum possible" toggle
+  * Enabling this means that, if stack ejection upgrades are installed, only stacks that meet the limit can be ejected
+  * Items with a lower maximum stacksize will be ejected regardless
 
 ## Fixed
-* Fixed various issues with the localization
+* Fixed the T-51b set not having radiation resistance
+* Potentially fixed a crash on thermos-derived servers involving the flow control pumps
+* Fixed crash caused when another tile entity replaces an RBMK component due to an unchecked cast
+* Fixed constant cascading chunk gen caused by meteorites and flower patches
+* Fixed garbage loot pool sometimes producing "stone wires"

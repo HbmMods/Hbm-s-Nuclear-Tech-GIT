@@ -10,8 +10,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
@@ -69,14 +67,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			}
-			
-			// Fluid IDs
-			FluidType[] fluids = Fluids.getInNiceOrder();
-			for(int i = 1; i < fluids.length; i++) {
-				if(!fluids[i].hasNoID()) {
-					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, fluids[i].getID()));
-				}
-			}
 		}
 
 		if(!this.isJournal) {
@@ -116,14 +106,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 						stacks.add(stack);
 						continue outer;
 					}
-				}
-			}
-			
-			if(stack.getItem() == ModItems.fluid_identifier) {
-				FluidType fluid = Fluids.fromID(stack.getItemDamage());
-				
-				if(fluid.getLocalizedName().contains(sub)) {
-					stacks.add(stack);
 				}
 			}
 		}

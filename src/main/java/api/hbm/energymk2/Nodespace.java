@@ -16,6 +16,7 @@ import net.minecraft.world.World;
  * 
  * @author hbm
  */
+@NotableComments
 public class Nodespace {
 	
 	public static final PowerNetProvider THE_POWER_PROVIDER = new PowerNetProvider();

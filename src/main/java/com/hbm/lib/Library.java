@@ -237,7 +237,6 @@ public class Library {
 		if(power > maxPower) return maxPower;
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative) return 0;
-		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite) return 0;
 
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
 
@@ -259,7 +258,6 @@ public class Library {
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative) return maxPower;
-		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite) return maxPower;
 
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
 

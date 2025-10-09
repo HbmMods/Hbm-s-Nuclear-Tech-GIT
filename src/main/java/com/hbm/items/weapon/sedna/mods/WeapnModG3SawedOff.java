@@ -4,10 +4,10 @@ import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory556mm;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
 
@@ -23,8 +23,8 @@ public class WeapnModG3SawedOff extends WeaponModBase {
 		if(key == GunConfig.FUN_ANIMNATIONS) return (T) LAMBDA_G3_ANIMS;
 		return base;
 	}
-	
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_G3_ANIMS = (stack, type) -> {
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_G3_ANIMS = (stack, type) -> {
 		switch(type) {
 			case EQUIP: return new BusAnimation().addBus("EQUIP", new BusAnimationSequence().addPos(45, 0, 0, 0).addPos(0, 0, 0, 250, IType.SIN_FULL));
 		}

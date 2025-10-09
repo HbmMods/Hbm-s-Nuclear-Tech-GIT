@@ -31,6 +31,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public boolean isWhitelist = false;
+	public boolean maxEject = false;
 	public ModulePatternMatcher matcher;
 
 	public TileEntityCraneExtractor() {
@@ -113,8 +114,10 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 						int index = access == null ? i : access[i];
 						ItemStack stack = inv.getStackInSlot(index);
 						
-						if(stack != null && (sided == null || sided.canExtractItem(index, stack, inputSide.getOpposite().ordinal()))){
-							
+						if(stack != null && (sided == null || sided.canExtractItem(index, stack, inputSide.getOpposite().ordinal()))) {
+
+							int maxTarget = Math.min(amount, stack.getMaxStackSize());
+							if(this.maxEject && stack.stackSize < maxTarget) continue;
 							boolean match = this.matchesFilter(stack);
 							
 							if((isWhitelist && match) || (!isWhitelist && !match)) {
@@ -146,6 +149,9 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 						if(stack != null){
 							stack = stack.copy();
 							int toSend = Math.min(amount, stack.stackSize);
+							
+							int maxTarget = Math.min(amount, stack.getMaxStackSize());
+							if(this.maxEject && stack.stackSize < maxTarget) continue;
 
 							decrStackSize(i, toSend);
 							stack.stackSize = toSend;
@@ -169,7 +175,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		moving.setItemStack(stack);
 		worldObj.spawnEntityInWorld(moving);
 
-		if (belt instanceof IEnterableBlock) {
+		if(belt instanceof IEnterableBlock) {
 			IEnterableBlock enterable = (IEnterableBlock) belt;
 
 			if(enterable.canItemEnter(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, outputSide.getOpposite(), moving)) {
@@ -183,6 +189,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(isWhitelist);
+		buf.writeBoolean(maxEject);
 		this.matcher.serialize(buf);
 	}
 	
@@ -190,6 +197,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		isWhitelist = buf.readBoolean();
+		maxEject = buf.readBoolean();
 		this.matcher.deserialize(buf);
 	}
 	
@@ -250,6 +258,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.maxEject = nbt.getBoolean("maxEject");
 		this.matcher.readFromNBT(nbt);
 	}
 	
@@ -257,6 +266,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isWhitelist", this.isWhitelist);
+		nbt.setBoolean("maxEject", this.maxEject);
 		this.matcher.writeToNBT(nbt);
 	}
 
@@ -270,14 +280,18 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}
+		if(data.hasKey("maxEject")) {
+			this.maxEject = !this.maxEject;
+		}
 		if(data.hasKey("slot")){
 			setFilterContents(data);
 		}
+		this.markDirty();
 	}
 
 	@Override
 	public int[] getFilterSlots() {
-		return new int[]{0,9};
+		return new int[] {0, 9};
 	}
 }
 

@@ -60,7 +60,7 @@ public abstract class EntityRailCarElectric extends EntityRailCarRidable {
 						this.setPower(this.getPower() + powerTransfered);
 					}
 				} else if(stack != null) {
-					if(stack.getItem() == ModItems.battery_creative || stack.getItem() == ModItems.fusion_core_infinite) {
+					if(stack.getItem() == ModItems.battery_creative) {
 						this.setPower(this.getMaxPower());
 					}
 				}

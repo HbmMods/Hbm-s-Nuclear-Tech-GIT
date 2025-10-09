@@ -28,7 +28,7 @@ public abstract class PylonBase extends BlockContainer implements ITooltipProvid
 	}
 
 	@Override
-	public int getRenderType(){
+	public int getRenderType() {
 		return -1;
 	}
 

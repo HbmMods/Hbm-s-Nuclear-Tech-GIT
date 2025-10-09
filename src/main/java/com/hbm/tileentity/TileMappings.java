@@ -430,6 +430,8 @@ public class TileMappings {
 		put(TileEntityPipeExhaustPaintable.class, "tileentity_pipe_exhaust_paintable");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
+		
+		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");

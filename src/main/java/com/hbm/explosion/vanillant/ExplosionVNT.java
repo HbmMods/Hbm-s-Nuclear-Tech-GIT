@@ -83,15 +83,14 @@ public class ExplosionVNT {
 		
 		//allocation
 		if(processBlocks) affectedBlocks = blockAllocator.allocate(this, world, posX, posY, posZ, size);
+		if(processBlocks) this.compat.affectedBlockPositions.addAll(affectedBlocks);
 		if(processEntities) affectedPlayers = entityProcessor.process(this, world, posX, posY, posZ, size);
+		// technically not necessary, as the affected entity list is a separate parameter during the Detonate event
+		if(processEntities) this.compatPlayers.putAll(affectedPlayers);
 		
 		//serverside processing
 		if(processBlocks) blockProcessor.process(this, world, posX, posY, posZ, affectedBlocks);
 		if(processEntities) playerProcessor.process(this, world, posX, posY, posZ, affectedPlayers);
-		
-		//compat
-		if(processBlocks) this.compat.affectedBlockPositions.addAll(affectedBlocks);
-		if(processEntities) this.compatPlayers.putAll(affectedPlayers);
 		
 		if(sfx != null) {
 			for(IExplosionSFX fx : sfx) {

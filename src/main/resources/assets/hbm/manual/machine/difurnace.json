@@ -1,0 +1,11 @@
+{
+	"name": "Blast Furnace",
+	"icon": ["hbm:tile.machine_difurnace_off", 1, 0],
+	"trigger": [["hbm:tile.machine_difurnace_off"], ["hbm:tile.machine_difurnace_extension"]],
+	"title": {
+		"en_US": "Blast Furnace"
+	},
+	"content": {
+		"en_US": "Simple furnace that can combine two items into one output, usually in the form of an alloy. Needed early on as the first source of [[steel|Steel]], [[red copper|Minecraft Grade Copper]] and [[advanced alloy|Advanced Alloy]]. Does not accept all furnace fuels, only works with hot burning ones like coal, coke or lava buckets. Can be accelerated by placing a blast furnace extension on top, which also makes it more efficient."
+	}
+}

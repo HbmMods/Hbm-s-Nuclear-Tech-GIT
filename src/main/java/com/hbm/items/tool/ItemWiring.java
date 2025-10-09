@@ -118,7 +118,7 @@ public class ItemWiring extends Item {
 						entity.posY - stack.stackTagCompound.getInteger("y"),
 						entity.posZ - stack.stackTagCompound.getInteger("z"));
 				
-				MainRegistry.proxy.displayTooltip(((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_CABLE);
+				MainRegistry.proxy.displayTooltip(stack.getDisplayName() + ": " + ((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_CABLE);
 			}
 		}
 	}

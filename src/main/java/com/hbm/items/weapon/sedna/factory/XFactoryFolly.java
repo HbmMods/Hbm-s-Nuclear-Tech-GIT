@@ -22,10 +22,10 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.Vec3NT;
@@ -119,17 +119,17 @@ public class XFactoryFolly {
 		if(ItemGunBaseNT.getState(stack, ctx.configIndex) == GunState.IDLE) {
 			boolean wasAiming = ItemGunBaseNT.getIsAiming(stack);
 			ItemGunBaseNT.setIsAiming(stack, !wasAiming);
-			if(!wasAiming) ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.SPINUP, ctx.configIndex);
+			if(!wasAiming) ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, GunAnimation.SPINUP, ctx.configIndex);
 		}
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE = (stack, ctx) -> {
-		Lego.doStandardFire(stack, ctx, AnimType.CYCLE, false);
+		Lego.doStandardFire(stack, ctx, GunAnimation.CYCLE, false);
 	};
 
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> {
 		if(!ItemGunBaseNT.getIsAiming(stack)) return false;
-		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != AnimType.SPINUP) return false;
+		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != GunAnimation.SPINUP) return false;
 		if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
 		return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0;
 	};
@@ -138,7 +138,7 @@ public class XFactoryFolly {
 		ItemGunBaseNT.setupRecoil(25, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FOLLY_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_FOLLY_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-60, 0, 0, 0).addPos(5, 0, 0, 1500, IType.SIN_DOWN).addPos(0, 0, 0, 500, IType.SIN_FULL));

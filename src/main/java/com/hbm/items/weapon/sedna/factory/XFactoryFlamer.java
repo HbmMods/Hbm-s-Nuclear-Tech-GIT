@@ -22,10 +22,10 @@ import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.helper.FlameCreator;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.block.Block;
@@ -42,7 +42,7 @@ public class XFactoryFlamer {
 
 	public static BulletConfig flame_nograv;
 	public static BulletConfig flame_nograv_bf;
-	
+
 	public static BulletConfig flame_diesel;
 	public static BulletConfig flame_gas;
 	public static BulletConfig flame_napalm;
@@ -80,7 +80,7 @@ public class XFactoryFlamer {
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_LINGER_GAS = (bullet, mop) -> { igniteIfPossible(bullet, mop); };
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_LINGER_NAPALM = (bullet, mop) -> { if(!igniteIfPossible(bullet, mop)) spawnFire(bullet, mop, 2.5F, 1F, 200, EntityFireLingering.TYPE_DIESEL); };
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_LINGER_BALEFIRE = (bullet, mop) -> { spawnFire(bullet, mop, 3F, 1F, 300, EntityFireLingering.TYPE_BALEFIRE); };
-	
+
 	public static boolean igniteIfPossible(EntityBulletBaseMK4 bullet, MovingObjectPosition mop) {
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			World world = bullet.worldObj;
@@ -96,7 +96,7 @@ public class XFactoryFlamer {
 		}
 		return false;
 	}
-	
+
 	public static void spawnFire(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float width, float height, int duration, int type) {
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			List<EntityFireLingering> fires = bullet.worldObj.getEntitiesWithinAABB(EntityFireLingering.class,
@@ -119,15 +119,15 @@ public class XFactoryFlamer {
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
 		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setCasing(new ItemStack(ModItems.plate_steel, 2), 500).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
-		
+
 		flame_nograv = flame_diesel.clone().setGrav(0);
 		flame_nograv_bf = flame_balefire.clone().setGrav(0).setLife(100);
-		
+
 		flame_topaz_diesel = flame_diesel		.clone().setProjectiles(2).setSpread(0.05F).setLife(60).setGrav(0.0D);
 		flame_topaz_gas = flame_gas				.clone().setProjectiles(2).setSpread(0.05F);
 		flame_topaz_napalm = flame_napalm		.clone().setProjectiles(2).setSpread(0.05F).setLife(60).setGrav(0.0D);
 		flame_topaz_balefire = flame_balefire	.clone().setProjectiles(2).setSpread(0.05F).setLife(60).setGrav(0.0D);
-		
+
 		flame_daybreaker_diesel = flame_diesel.clone().setLife(200).setVel(2F).setGrav(0.035D)
 				.setOnImpact((bullet, mop) -> { Lego.standardExplode(bullet, mop, 5F); spawnFire(bullet, mop, 6F, 2F, 200, EntityFireLingering.TYPE_DIESEL); bullet.setDead(); });
 		flame_daybreaker_gas = flame_gas.clone().setLife(200).setVel(2F).setGrav(0.035D)
@@ -136,7 +136,7 @@ public class XFactoryFlamer {
 				.setOnImpact((bullet, mop) -> { Lego.standardExplode(bullet, mop, 7.5F); spawnFire(bullet, mop, 6F, 2F, 300, EntityFireLingering.TYPE_DIESEL); bullet.setDead(); });
 		flame_daybreaker_balefire = flame_balefire.clone().setLife(200).setVel(2F).setGrav(0.035D)
 				.setOnImpact((bullet, mop) -> { Lego.standardExplode(bullet, mop, 5F); spawnFire(bullet, mop, 7.5F, 2.5F, 400, EntityFireLingering.TYPE_BALEFIRE); bullet.setDead(); });
-		
+
 		ModItems.gun_flamer = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
@@ -167,7 +167,7 @@ public class XFactoryFlamer {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER_DAYBREAKER)
 				).setUnlocalizedName("gun_flamer_daybreaker");
-		
+
 		ModItems.gun_chemthrower = new ItemGunChemthrower(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -180,7 +180,7 @@ public class XFactoryFlamer {
 				).setUnlocalizedName("gun_chemthrower");
 	}
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FLAMER_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_FLAMER_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
@@ -189,16 +189,16 @@ public class XFactoryFlamer {
 		case JAMMED: return new BusAnimation()
 				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, 45, 250, IType.SIN_FULL).addPos(0, 0, 45, 350).addPos(0, 0, -15, 150, IType.SIN_FULL).addPos(0, 0, 0, 100, IType.SIN_FULL));
 		}
-		
+
 		return null;
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_CHEMTHROWER_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_CHEMTHROWER_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		}
-		
+
 		return null;
 	};
 }

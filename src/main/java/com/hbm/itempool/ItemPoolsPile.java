@@ -112,12 +112,11 @@ public class ItemPoolsPile {
 			this.pool = new WeightedRandomChestContent[] {
 				weighted(ModItems.pipe, 2600, 0, 2, 20),
 				weighted(ModItems.scrap, 0, 1, 5, 20),
-				weighted(ModItems.wire_fine, 8200, 1, 2, 20),
 				weighted(ModItems.dust, 0, 1, 3, 40),
 				weighted(ModItems.dust_tiny, 0, 1, 7, 40),
 				weighted(ModItems.powder_cement, 0, 1, 6, 40),
 				weighted(ModItems.nugget_lead, 0, 0, 3, 20),
-				weighted(ModItems.wire_fine, 0, 0, 3, 20),
+				weighted(ModItems.wire_fine, Mats.MAT_LEAD.id, 1, 2, 20),
 				weighted(ModItems.powder_ash, 0, 0, 1, 15),
 				weighted(ModItems.plate_lead, 0, 0, 1, 15),
 				weighted(Items.string, 0, 0, 1, 15),

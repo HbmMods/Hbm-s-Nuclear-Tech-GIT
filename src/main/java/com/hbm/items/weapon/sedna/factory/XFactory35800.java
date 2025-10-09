@@ -18,10 +18,10 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,7 +32,7 @@ public class XFactory35800 {
 
 	public static BulletConfig p35800;
 	public static BulletConfig p35800_bl;
-	
+
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_BLACK_IMPACT = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 			Entity hit = mop.entityHit;
@@ -45,10 +45,10 @@ public class XFactory35800 {
 			fire.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 			bullet.worldObj.spawnEntityInWorld(fire);
 		}
-		
+
 		BulletConfig.LAMBDA_STANDARD_BEAM_HIT.accept(bullet, mop);
 	};
-	
+
 	public static void init() {
 
 		p35800 = new BulletConfig().setItem(EnumAmmoSecret.P35_800).setArmorPiercing(0.5F).setThresholdNegation(50F).setBeam().setSpread(0.0F).setLife(3).setRenderRotations(false)
@@ -66,7 +66,7 @@ public class XFactory35800 {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ABERRATOR).orchestra(Orchestras.ORCHESTRA_ABERRATOR)
 				).setUnlocalizedName("gun_aberrator");
-		
+
 		ModItems.gun_aberrator_eott = new ItemGunBaseNT(WeaponQuality.SECRET,
 				new GunConfig().dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -88,12 +88,12 @@ public class XFactory35800 {
 				.anim(LAMBDA_ABERRATOR).orchestra(Orchestras.ORCHESTRA_ABERRATOR)
 				).setUnlocalizedName("gun_aberrator_eott");
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ABERRATOR = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
-	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_ABERRATOR = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_ABERRATOR = (stack, type) -> {
 		boolean aim = ItemGunBaseNT.getIsAiming(stack);
 		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null);
 		switch(type) {
@@ -122,7 +122,7 @@ public class XFactory35800 {
 		case INSPECT: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(0, 0, 0, 0).addPos(-720, 0, 0, 1000, IType.SIN_FULL).addPos(-720, 0, 0, 250).addPos(0, 0, 0, 1000, IType.SIN_FULL));
 		}
-		
+
 		return null;
 	};
 }

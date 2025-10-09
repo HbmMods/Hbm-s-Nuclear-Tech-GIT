@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCraneInserter;
@@ -13,6 +15,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUICraneInserter extends GuiInfoContainer {
@@ -26,6 +29,15 @@ public class GUICraneInserter extends GuiInfoContainer {
 		
 		this.xSize = 176;
 		this.ySize = 185;
+	}
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+
+		if(guiLeft + 151 <= x && guiLeft + 151 + 18 > x && guiTop + 34 < y && guiTop + 34 + 18 >= y) {
+			this.func_146283_a(Arrays.asList(new String[] { "Destroy overflow: " + (inserter.destroyer ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF") }), x, y);
+		}
 	}
 
 	@Override
