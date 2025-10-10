@@ -203,7 +203,7 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 				progress += extension ? 3 : 1;
 
 				if(this.progress >= TileEntityDiFurnace.processingSpeed) {
-					this.progress = 0;
+					this.progress -= TileEntityDiFurnace.processingSpeed; // look mom, ive finally added something to a popular project
 					this.processItem();
 					markDirty = true;
 				}
