@@ -36,7 +36,8 @@ public class RadiationConfig {
 	public static double sootFogThreshold = 35D;
 	public static double sootFogDivisor = 120D;
 	public static double smokeStackSootMult = 0.8;
-	
+	public static String[] coalDustBlocks = {"hbm:tile.ore_lignite:0", "minecraft:coal_ore:0"};
+
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_NUKE = CommonConfig.CATEGORY_RADIATION;
@@ -53,7 +54,7 @@ public class RadiationConfig {
 		enableChunkRads = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_01_enableChunkRads", "Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)", true);
 		enablePRISM = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_99_enablePRISM", "Enables the new 3D resistance-aware PRISM radiation system", false);
 		if(enablePRISM) ChunkRadiationManager.proxy = new ChunkRadiationHandlerPRISM();
-		
+
 		fogCh = CommonConfig.setDef(fogCh, 20);
 
 		final String CATEGORY_HAZ = CommonConfig.CATEGORY_HAZARD;
@@ -76,5 +77,6 @@ public class RadiationConfig {
 		sootFogThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_06_sootFogThreshold", "How much soot is required for smog to become visible", 35D);
 		sootFogDivisor = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_07_sootFogDivisor", "The divisor for smog, higher numbers will require more soot for the same smog density", 120D);
 		smokeStackSootMult = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_08_smokeStackSootMult", "How much does smokestack multiply soot by, with decimal values reducing the soot", 0.8);
+		coalDustBlocks = CommonConfig.createConfigStringList(config, CATEGORY_POL, "POL_11_coalDustBlocks", "Blocks that can cause a puff of coal dust to appear.", new String[]{"hbm:tile.ore_lignite:0", "minecraft:coal_ore:0"});
 	}
 }

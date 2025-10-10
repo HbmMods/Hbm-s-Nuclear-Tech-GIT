@@ -1121,8 +1121,32 @@ public class ModEventHandler {
 			event.setExpToDrop(500);
 		}
 
-		if(event.block == Blocks.coal_ore || event.block == Blocks.coal_block || event.block == ModBlocks.ore_lignite) {
+		// Itterate over all blocks in config
+		boolean isCoalBlock = false;
+		for (String itemName : RadiationConfig.coalDustBlocks) {
+			int dataTag = 0;
+			String[] itemNameParts = itemName.split(":");
+			if (itemNameParts.length <= 1) {
+				continue;
+			}
+			if (itemNameParts.length == 3) {
+				try {
+					dataTag = Integer.parseInt(itemNameParts[2]);
+				} catch (NumberFormatException e){}
+			}
 
+			Block coalBlock = Compat.tryLoadBlock(itemNameParts[0], itemNameParts[1]);
+			if (coalBlock == null){
+				continue;
+			}
+
+			if (coalBlock == event.block && dataTag == event.blockMetadata) {
+				isCoalBlock = true;
+				break;
+			}
+		}
+
+		if (isCoalBlock) {
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 
 				int x = event.x + dir.offsetX;
