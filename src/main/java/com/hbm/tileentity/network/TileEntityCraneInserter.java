@@ -5,6 +5,8 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneInserter;
 import com.hbm.inventory.gui.GUICraneInserter;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityProxyBase;
+import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
 import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -40,7 +42,7 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 		super.updateEntity();
 		if(!worldObj.isRemote) {
 
-			if (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {ForgeDirection outputSide = getOutputSide();
+			if(!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {ForgeDirection outputSide = getOutputSide();
 				TileEntity te = worldObj.getTileEntity(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				
 				int[] access = null;
@@ -50,6 +52,8 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 					//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
 					access = InventoryUtil.masquerade(sided, outputSide.getOpposite().ordinal());
 				}
+				
+				boolean didSomething = false;
 				
 				if(te instanceof IInventory) {
 					for(int i = 0; i < slots.length; i++) {
@@ -62,26 +66,44 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 							if(ret == null || ret.stackSize != stack.stackSize) {
 								slots[i] = ret;
 								this.markDirty();
-								return;
+								didSomething = true;
+								break;
 							}
 						}
 					}
 					
 					//if the previous operation fails, repeat but use single items instead of the whole stack instead
 					//this should fix cases where the inserter can't insert into something that has a stack size limitation
-					for(int i = 0; i < slots.length; i++) {
+					if(!didSomething) for(int i = 0; i < slots.length; i++) {
 						
 						ItemStack stack = slots[i];
 						
 						if(stack != null) {
 							stack = stack.copy();
-							stack.stackSize = 1;
+							
+							int overshoot = 0;
+							if(te instanceof TileEntityProxyBase) te = ((TileEntityProxyBase) te).getTE(); // we can't get this far without some slots being exposed, so the result has to be compatible with IInventory anyway
+							if(te instanceof TileEntityMachineArcFurnaceLarge) {
+								int toInsert = Math.min(stack.stackSize, ((TileEntityMachineArcFurnaceLarge) te).getMaxInputSize());
+								overshoot = stack.stackSize - toInsert;
+								stack.stackSize = toInsert;
+							} else {
+								stack.stackSize = 1;
+							}
+							
 							ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, stack.copy(), outputSide.getOpposite().ordinal());
 							
 							if(ret == null || ret.stackSize != stack.stackSize) {
-								this.decrStackSize(i, 1);
+								slots[i] = ret;
+								if(slots[1] != null) {
+									slots[i].stackSize += overshoot;
+								} else if(overshoot > 0){
+									slots[i] = stack.copy();
+									slots[i].stackSize = overshoot;
+								}
 								this.markDirty();
-								return;
+								didSomething = true;
+								break;
 							}
 						}
 					}

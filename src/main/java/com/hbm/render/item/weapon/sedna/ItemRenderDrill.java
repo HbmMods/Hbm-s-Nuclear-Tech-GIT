@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -20,19 +21,23 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.25F * offset, -1.75F * offset, 1.75F * offset,
-				0, -4.6825 / 8D, 0.75);
-
-		GL11.glRotated(15, 0, 1, 0);
-		GL11.glRotated(-10, 1, 0, 0);
+				-1F * offset, -1.75F * offset, 1.25F * offset);
 	}
 
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
-		
+
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.drill_tex);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
+		
+		IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		double gauge = (double) mag.getAmount(stack, null) / (double) mag.getCapacity(stack);
+
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		GL11.glRotated(15 * (1 - aimingProgress), 0, 1, 0);
+		GL11.glRotated(-10 * (1 - aimingProgress), 1, 0, 0);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.drill.renderPart("Base");
@@ -40,23 +45,37 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(1, 2.0625, -1.75);
 		GL11.glRotated(45, 1, 0, 0);
-		GL11.glRotated(-135, 0, 0, 1);
+		GL11.glRotated(-135 + gauge * 270, 0, 0, 1);
 		GL11.glRotated(-45, 1, 0, 0);
 		GL11.glTranslated(-1, -2.0625, 1.75);
 		ResourceManager.drill.renderPart("Gauge");
 		GL11.glPopMatrix();
-		
+
+		double rot = System.currentTimeMillis() / 3 % 360D;
+		double rot2 = rot * 5;
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, Math.sin(rot2 * Math.PI / 180) * 0.125 - 0.125, 0);
 		ResourceManager.drill.renderPart("Piston1");
-		ResourceManager.drill.renderPart("Piston2");
-		ResourceManager.drill.renderPart("Piston3");
+		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		GL11.glRotated(System.currentTimeMillis() / 3 % 360D, 0, 0, -1);
+		GL11.glTranslated(0, Math.sin(rot2 * Math.PI / 180 + Math.PI * 2D / 3D) * 0.125 - 0.125, 0);
+		ResourceManager.drill.renderPart("Piston2");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, Math.sin(rot2 * Math.PI / 180 + Math.PI * 4D / 3D) * 0.125 - 0.125, 0);
+		ResourceManager.drill.renderPart("Piston3");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glRotated(rot, 0, 0, -1);
 		ResourceManager.drill.renderPart("DrillBack");
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
-		GL11.glRotated(System.currentTimeMillis() / 3 % 360D, 0, 0, 1);
+		GL11.glRotated(rot, 0, 0, 1);
 		ResourceManager.drill.renderPart("DrillFront");
 		GL11.glPopMatrix();
 		
@@ -66,7 +85,7 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		double scale = 1.75D;
+		double scale = 2.25D;
 		GL11.glScaled(scale, scale, scale);
 		GL11.glTranslated(1, -2, 6);
 	}
@@ -83,10 +102,10 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 
 	@Override
 	public void setupModTable(ItemStack stack) {
-		double scale = -7.5D;
+		double scale = -8.75D;
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(90, 0, 1, 0);
-		GL11.glTranslated(0, 2, 0);
+		GL11.glTranslated(0, 0, 0);
 	}
 
 	@Override

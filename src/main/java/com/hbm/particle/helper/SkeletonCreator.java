@@ -60,6 +60,7 @@ public class SkeletonCreator implements IParticleCreator {
 		float force = data.getFloat("force");
 		int entityID = data.getInteger("entityID");
 		Entity entity = world.getEntityByID(entityID);
+		boolean skel = entity instanceof EntitySkeleton;
 		if(!(entity instanceof EntityLivingBase)) return;
 		EntityLivingBase living = (EntityLivingBase) entity;
 		
@@ -72,12 +73,16 @@ public class SkeletonCreator implements IParticleCreator {
 		if(bonealizer != null) {
 			BoneDefinition[] bones = bonealizer.apply(living);
 			for(BoneDefinition bone : bones) {
-				if(gib && rand.nextBoolean()) continue;
+				if(gib && rand.nextBoolean() && !skel) continue;
 				ParticleSkeleton skeleton = new ParticleSkeleton(Minecraft.getMinecraft().getTextureManager(), world, bone.x, bone.y, bone.z, brightness, brightness, brightness, bone.type);
 				skeleton.prevRotationYaw = skeleton.rotationYaw = bone.yaw;
 				skeleton.prevRotationPitch = skeleton.rotationPitch = bone.pitch;
 				if(gib) {
 					skeleton.makeGib();
+					if(skel) {
+						skeleton.useTexture = skeleton.texture;
+						skeleton.useTextureExt = skeleton.texture_ext;
+					}
 					skeleton.motionX = rand.nextGaussian() * force;
 					skeleton.motionY = (rand.nextGaussian() + 1) * force;
 					skeleton.motionZ = rand.nextGaussian() * force;

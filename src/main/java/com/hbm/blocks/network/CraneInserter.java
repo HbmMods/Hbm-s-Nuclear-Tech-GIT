@@ -145,18 +145,50 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		return toAdd;
 	}
 
-	@Override
-	public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
-		return false;
-	}
+	@Override public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) { return true; }
 
 	@Override
-	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) { }
+	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
+		ForgeDirection outputDirection = getOutputSide(world, x, y, z);
+		TileEntity te = world.getTileEntity(x + outputDirection.offsetX, y + outputDirection.offsetY, z + outputDirection.offsetZ);
 
-    @Override
-	public boolean hasComparatorInputOverride() {
-		return true;
+		if(entity == null || entity.getItemStacks() == null || entity.getItemStacks().length == 0) {
+			return;
+		}
+		
+		ItemStack[] toAdd = entity.getItemStacks();
+
+		if(!world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			int[] access = null;
+
+			if(te instanceof ISidedInventory) {
+				ISidedInventory sided = (ISidedInventory) te;
+				access = InventoryUtil.masquerade(sided, outputDirection.getOpposite().ordinal());
+			}
+
+			if(te instanceof IInventory) {
+				IInventory inv = (IInventory) te;
+
+				for(ItemStack stack : toAdd) addToInventory(inv, access, stack, outputDirection.getOpposite().ordinal());
+			}
+		}
+
+		TileEntityCraneInserter inserter = null;
+		
+		for(ItemStack stack : toAdd) {
+			
+			if(stack.stackSize > 0) {
+				inserter = (TileEntityCraneInserter) world.getTileEntity(x, y, z);
+				addToInventory(inserter, null, stack, outputDirection.getOpposite().ordinal());
+			}
+			if(stack.stackSize > 0 && inserter != null && !inserter.destroyer) {
+				EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy());
+				world.spawnEntityInWorld(drop);
+			}
+		}
 	}
+
+	@Override public boolean hasComparatorInputOverride() { return true; }
 
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {

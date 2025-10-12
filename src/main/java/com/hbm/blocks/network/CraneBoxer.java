@@ -6,6 +6,7 @@ import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneBase;
 import com.hbm.tileentity.network.TileEntityCraneBoxer;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -84,9 +85,21 @@ public class CraneBoxer extends BlockCraneBase implements IEnterableBlock {
 
 	@Override
 	public boolean canPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
-		return false;
+		return true;
 	}
 
 	@Override
-	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) { }
+	public void onPackageEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorPackage entity) {
+		TileEntityCraneBoxer unboxer = (TileEntityCraneBoxer) world.getTileEntity(x, y, z);
+		ForgeDirection accessedSide = getOutputSide(world, x, y, z).getOpposite();
+
+		for(ItemStack stack : entity.getItemStacks()) {
+			ItemStack remainder = CraneInserter.addToInventory(unboxer, unboxer.getAccessibleSlotsFromSide(accessedSide.ordinal()), stack, accessedSide.ordinal());
+			
+			if(remainder != null && remainder.stackSize > 0) {
+				EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, remainder.copy());
+				world.spawnEntityInWorld(drop);
+			}
+		}
+	}
 }

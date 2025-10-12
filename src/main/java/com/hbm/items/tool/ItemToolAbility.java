@@ -385,6 +385,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 			if(removedByPlayer && canHarvest) {
 				try {
+					
 					blockCaptureDrops.invoke(block, true);
 					block.harvestBlock(world, player, x, y, z, l);
 					List<ItemStack> drops = (List)blockCaptureDrops.invoke(block, false);

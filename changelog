@@ -11,6 +11,16 @@
 * The conveyor ejector now has a "only take maximum possible" toggle
   * Enabling this means that, if stack ejection upgrades are installed, only stacks that meet the limit can be ejected
   * Items with a lower maximum stacksize will be ejected regardless
+* Survey scanners now pick up bedrock oil
+* The conveyor sorter filter slots now have directional labels instead of only color coding
+  * Apparently color blind people exist?
+* Conveyor sorters can now process boxes
+  * All stacks are sorted individually, and each batch of items that comes out of one side is sent as a box
+* Conveyor boxers can now accept boxes, this is useful for batching up partial boxes that come out of sorters
+* Conveyor inserters can now accept boxes directly instead of causing them to burst open
+* Conveyor inserters now have a special rule when supplying an arc furnace where instead of trying a full stack and then one item, the first always failing and the last being too slow, they will supply the slot target amount instead
+  * Given the cycle delay and the lid's movement speed, the inserters should now be fast enough to fully supply a speed III arc furnace
+* Skeletons can bow be gibbed by explosions, although it will spawn clean bone particles and omit the gore splash effect
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance

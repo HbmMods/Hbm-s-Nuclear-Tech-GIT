@@ -74,6 +74,7 @@ public class EntityMovingPackage extends EntityMovingConveyorObject implements I
 
 	@Override
 	public void enterBlock(IEnterableBlock enterable, BlockPos pos, ForgeDirection dir) {
+		if(this.isDead) return;
 		
 		if(enterable.canPackageEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this)) {
 			enterable.onPackageEnter(worldObj, pos.getX(), pos.getY(), pos.getZ(), dir, this);
