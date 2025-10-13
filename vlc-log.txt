@@ -1,0 +1,27 @@
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+﻿-- logger module started --
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+﻿-- logger module started --
+﻿-- logger module started --
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+-- logger module stopped --

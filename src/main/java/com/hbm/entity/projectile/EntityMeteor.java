@@ -12,10 +12,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import com.hbm.sound.AudioWrapper;
 
 public class EntityMeteor extends Entity {
 
 	public boolean safe = false;
+
+	// Audio
+	private boolean soundStarted = false;
+	private AudioWrapper audioFly;
 
 	public EntityMeteor(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -57,6 +62,12 @@ public class EntityMeteor extends Entity {
 
 	@Override
 	public void onUpdate() {
+		if(!soundStarted) {
+			this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", (int)this.posX, 5000, (int)this.posZ, 1F, 150F, 1F, 2);
+			this.audioFly.startSound();
+
+			soundStarted = true;
+		}
 
 		if(!worldObj.isRemote && !WorldConfig.enableMeteorStrikes) {
 			this.setDead();
@@ -72,9 +83,12 @@ public class EntityMeteor extends Entity {
 			motionY = -2.5;
 
 		this.moveEntity(motionX, motionY, motionZ);
+		this.audioFly.updatePosition((int)this.posX, (int)this.posY, (int)this.posZ);
+		this.audioFly.keepAlive();
 
 		if(!this.worldObj.isRemote && this.posY < 260) {
 			if(destroyWeakBlocks(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 6) && this.onGround) {
+				this.audioFly.stopSound();
 				//worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 				if(WorldConfig.enableMeteorTails) {
 					ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
