@@ -156,87 +156,8 @@ public class HazardRegistry {
 	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
 
 	public static void registerItems() {
-
-		HazardSystem.register(Items.gunpowder, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(Blocks.tnt, makeData(EXPLOSIVE, 4F));
-		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 1F));
-
-		HazardSystem.register(ball_dynamite, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(stick_dynamite, makeData(EXPLOSIVE, 1F));
-		HazardSystem.register(stick_tnt, makeData(EXPLOSIVE, 1.5F));
-		HazardSystem.register(stick_semtex, makeData(EXPLOSIVE, 2.5F));
-		HazardSystem.register(stick_c4, makeData(EXPLOSIVE, 2.5F));
-
-		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
-		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
-
-		// Register all coal dust items
 		HazardBuilder builder = new HazardBuilder();
 		builder.initialize();
-
-		HazardSystem.register(insert_polonium, makeData(RADIATION, 100F));
-
-		HazardSystem.register(demon_core_open, makeData(RADIATION, 5F));
-		HazardSystem.register(demon_core_closed, makeData(RADIATION, 100_000F));
-		HazardSystem.register(lamp_demon, makeData(RADIATION, 100_000F));
-
-		HazardSystem.register(cell_tritium, makeData(RADIATION, 0.001F));
-		HazardSystem.register(cell_sas3, makeData().addEntry(RADIATION, sas3).addEntry(BLINDING, 60F));
-		HazardSystem.register(cell_balefire, makeData(RADIATION, 50F));
-		HazardSystem.register(powder_balefire, makeData(RADIATION, 500F));
-		HazardSystem.register(egg_balefire_shard, makeData(RADIATION, bf * nugget));
-		HazardSystem.register(egg_balefire, makeData(RADIATION, bf * ingot));
-
-		HazardSystem.register(solid_fuel_bf, makeData(RADIATION, 1000)); //roughly the amount of the balefire shard diluted in 250mB of rocket fuel
-		HazardSystem.register(solid_fuel_presto_bf, makeData(RADIATION, 2000));
-		HazardSystem.register(solid_fuel_presto_triplet_bf, makeData(RADIATION, 6000));
-
-		HazardSystem.register(nuclear_waste_long, makeData(RADIATION, 5F));
-		HazardSystem.register(nuclear_waste_long_tiny, makeData(RADIATION, 0.5F));
-		HazardSystem.register(nuclear_waste_short, makeData().addEntry(RADIATION, 30F).addEntry(HOT, 5F));
-		HazardSystem.register(nuclear_waste_short_tiny, makeData().addEntry(RADIATION, 3F).addEntry(HOT, 5F));
-		HazardSystem.register(nuclear_waste_long_depleted, makeData(RADIATION, 0.5F));
-		HazardSystem.register(nuclear_waste_long_depleted_tiny, makeData(RADIATION, 0.05F));
-		HazardSystem.register(nuclear_waste_short_depleted, makeData(RADIATION, 3F));
-		HazardSystem.register(nuclear_waste_short_depleted_tiny, makeData(RADIATION, 0.3F));
-
-		HazardSystem.register(scrap_nuclear, makeData(RADIATION, 1F));
-		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
-		HazardSystem.register(block_trinitite, makeData(RADIATION, trn * block));
-		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
-		HazardSystem.register(yellow_barrel, makeData(RADIATION, wst * ingot * 10));
-		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));
-		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
-		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));
-		HazardSystem.register(nuclear_waste_vitrified_tiny, makeData(RADIATION, wstv * nugget));
-		HazardSystem.register(block_waste, makeData(RADIATION, wst * block));
-		HazardSystem.register(block_waste_painted, makeData(RADIATION, wst * block));
-		HazardSystem.register(block_waste_vitrified, makeData(RADIATION, wstv * block));
-		HazardSystem.register(ancient_scrap, makeData(RADIATION, 150F));
-		HazardSystem.register(block_corium, makeData(RADIATION, 150F));
-		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
-
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 0), makeData(RADIATION, 0.5F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 1), makeData(RADIATION, 1F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 2), makeData(RADIATION, 2.5F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 3), makeData(RADIATION, 4F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 4), makeData(RADIATION, 5F));
-		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 5), makeData(RADIATION, 10F));
-
-		HazardSystem.register(new ItemStack(ModBlocks.ore_sellafield_radgem), makeData(RADIATION, 25F));
-		HazardSystem.register(new ItemStack(ModItems.gem_rad), makeData(RADIATION, 25F));
-
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.NATURAL_URANIUM_FUEL.ordinal(), u * rod_dual, wst * rod_dual * 11.5F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.URANIUM_FUEL.ordinal(), uf * rod_dual, wst * rod_dual * 10F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.TH232.ordinal(), th232 * rod_dual, thf * rod_dual, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.THORIUM_FUEL.ordinal(), thf * rod_dual, wst * rod_dual * 7.5F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.MOX_FUEL.ordinal(), mox * rod_dual, wst * rod_dual * 10F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.PLUTONIUM_FUEL.ordinal(), puf * rod_dual, wst * rod_dual * 12.5F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.U233_FUEL.ordinal(), u233 * rod_dual, wst * rod_dual * 10F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.U235_FUEL.ordinal(), u235 * rod_dual, wst * rod_dual * 11F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.LES_FUEL.ordinal(), saf * rod_dual, wst * rod_dual * 15F, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.LITHIUM.ordinal(), 0, 0.001F * rod_dual, false);
-		registerOtherFuel(rod_zirnox, EnumZirnoxType.ZFB_MOX.ordinal(), mox * rod_dual, wst * rod_dual * 5F, false);
 
 		HazardSystem.register(rod_zirnox_natural_uranium_fuel_depleted, makeData(RADIATION, wst * rod_dual * 11.5F));
 		HazardSystem.register(rod_zirnox_uranium_fuel_depleted, makeData(RADIATION, wst * rod_dual * 10F));
@@ -530,6 +451,11 @@ public class HazardRegistry {
 				}
 			}
 		}
+	}
+
+	public static void initialize(){
+		HazardBuilder builder = new HazardBuilder();
+		builder.initialize();
 	}
 
 	public static void registerTrafos() {
