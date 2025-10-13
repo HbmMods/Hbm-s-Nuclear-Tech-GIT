@@ -7,12 +7,14 @@ import com.hbm.world.feature.Meteorite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityMeteor extends Entity {
-	
+
 	public boolean safe = false;
 
 	public EntityMeteor(World p_i1582_1_) {
@@ -22,9 +24,40 @@ public class EntityMeteor extends Entity {
 		this.setSize(4F, 4F);
 	}
 
+	public boolean destroyWeakBlocks(World world, int x, int y, int z, int radius) {
+		int rSq = radius * radius;
+		boolean foundSolidBlock = false;
+
+		for (int dx = -radius; dx <= radius; dx++) {
+			for (int dy = -radius; dy <= radius; dy++) {
+				for (int dz = -radius; dz <= radius; dz++) {
+					// Check if point (dx, dy, dz) lies inside the sphere
+					if (dx * dx + dy * dy + dz * dz <= rSq) {
+						int blockX = x + dx;
+						int blockY = y + dy;
+						int blockZ = z + dz;
+
+						Block block = world.getBlock(blockX, blockY, blockZ);
+						if (block == null) continue;
+
+						float hardness = block.getBlockHardness(world, blockX, blockY, blockZ);
+
+						if (block == Blocks.leaves || block == Blocks.log || hardness <= 0.3F || block == Blocks.water) {
+							world.setBlockToAir(blockX, blockY, blockZ);
+						} else {
+							foundSolidBlock = true;
+						}
+					}
+				}
+			}
+		}
+
+		return foundSolidBlock;
+	}
+
 	@Override
 	public void onUpdate() {
-		
+
 		if(!worldObj.isRemote && !WorldConfig.enableMeteorStrikes) {
 			this.setDead();
 			return;
@@ -37,23 +70,24 @@ public class EntityMeteor extends Entity {
 		this.motionY -= 0.03;
 		if(motionY < -2.5)
 			motionY = -2.5;
-		
+
 		this.moveEntity(motionX, motionY, motionZ);
 
-		if(!this.worldObj.isRemote && this.onGround && this.posY < 260) {
-			
-			worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
-			if(WorldConfig.enableMeteorTails) {
-				ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
-				ExplosionLarge.spawnParticles(worldObj, posX + 5, posY, posZ, 75);
-				ExplosionLarge.spawnParticles(worldObj, posX - 5, posY, posZ, 75);
-				ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ + 5, 75);
-				ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ - 5, 75);
-			}
+		if(!this.worldObj.isRemote && this.posY < 260) {
+			if(destroyWeakBlocks(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 6) && this.onGround) {
+				//worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
+				if(WorldConfig.enableMeteorTails) {
+					ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
+					ExplosionLarge.spawnParticles(worldObj, posX + 5, posY, posZ, 75);
+					ExplosionLarge.spawnParticles(worldObj, posX - 5, posY, posZ, 75);
+					ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ + 5, 75);
+					ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ - 5, 75);
+				}
 
-			(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
-			this.setDead();
+				(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
+				this.setDead();
+			}
 		}
 
 		if(WorldConfig.enableMeteorTails && worldObj.isRemote) {
