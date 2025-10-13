@@ -7,8 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.hazard.modifier.HazardModifier;
-import com.hbm.hazard.modifier.HazardModifierFuelRadiation;
+import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.type.*;
 import com.google.gson.Gson;
 import com.hbm.inventory.RecipesCommon;
@@ -20,7 +19,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 
 import java.io.*;
@@ -43,7 +41,7 @@ public class HazardBuilder {
 			throw new IllegalStateException("Unable to make hazards directory: " + hazDir.getAbsolutePath());
 		}
 
-		MainRegistry.logger.info("Starting hazard init!");
+		MainRegistry.logger.info("[Hazard] Starting hazard init!");
 
 		HashMap<Object, HazardData> newHazardItems;
 
@@ -52,18 +50,18 @@ public class HazardBuilder {
 			try{
 				newHazardItems = parseConfigFile(hazFile);
 			} catch (IOException e){
-				MainRegistry.logger.error("{} is malformed or inaccessible! Using default values.", FILE_NAME);
+				MainRegistry.logger.error("[Hazard] {} is malformed or inaccessible! Using default values.", FILE_NAME);
 				newHazardItems = registerDefault();
 			}
 		}
 		else {
-			MainRegistry.logger.info("{} doesn't exists, creating a new one using default values...", FILE_NAME);
+			MainRegistry.logger.info("[Hazard] {} doesn't exists, creating a new one using default values...", FILE_NAME);
 			File hazFileTemplate = new File(hazDir.getAbsolutePath() + File.separatorChar + "_" + FILE_NAME);
 			newHazardItems = registerDefault();
 			createDefaultFile(hazFileTemplate, newHazardItems);
 		}
 
-		// Remove old hazard items
+		// Remove current hazard items
 		for (Map.Entry<Object, HazardData> set : hazardItems.entrySet()){
 			if(set.getKey() instanceof String)
 				HazardSystem.oreMap.remove(set.getKey());
@@ -72,12 +70,12 @@ public class HazardBuilder {
 			if(set.getKey() instanceof Block)
 				HazardSystem.itemMap.remove(Item.getItemFromBlock((Block)set.getKey()));
 			if(set.getKey() instanceof ItemStack)
-				HazardSystem.stackMap.remove(new RecipesCommon.ComparableStack((ItemStack)set.getKey()));
+				HazardSystem.stackMap.remove(new RecipesCommon.ComparableStack((ItemStack) set.getKey()));
 			if(set.getKey() instanceof RecipesCommon.ComparableStack)
 				HazardSystem.stackMap.remove((RecipesCommon.ComparableStack)set.getKey());
 		}
 
-		// Add new hazard items
+		// Add all hazard items
 		hazardItems.clear();
 		hazardItems.putAll(newHazardItems);
 
@@ -232,7 +230,7 @@ public class HazardBuilder {
 				hazData = extractHazardEnrties(obj.get("hazards").getAsJsonArray());
 			}
 			catch (ClassCastException e){
-				MainRegistry.logger.warn("Invalid hazard data format! Skipping: {}", itemHazards);
+				MainRegistry.logger.warn("[Hazard] Invalid hazard data format! Skipping: {}", itemHazards);
 				continue;
 			}
 
@@ -249,7 +247,7 @@ public class HazardBuilder {
 
 			Item possibleItem = Compat.tryLoadItem(parts[0], parts[1]);
 			if (possibleItem == null){
-				MainRegistry.logger.warn("Item {} does not exists, skipping.", itemName);
+				MainRegistry.logger.warn("[Hazard] Item {} does not exists, skipping.", itemName);
 				continue;
 			}
 
@@ -296,15 +294,76 @@ public class HazardBuilder {
 					type = HazardRegistry.RADIATION;
 					break;
 				default:
-					MainRegistry.logger.warn("Hazard type {} doesn't exists skipping.");
+					MainRegistry.logger.warn("[Hazard] Hazard type {} doesn't exists skipping.");
 					continue;
 			}
 
 			float level = obj.get("level").getAsFloat();
-			toReturn.addEntry(type, level);
+
+			JsonArray modifierEntries;
+			try {
+				modifierEntries = obj.get("modifiers").getAsJsonArray();
+			}
+			catch (Exception e){
+				toReturn.addEntry(type, level);
+				continue;
+			}
+
+			List<HazardModifier> modifiers;
+			try{
+				modifiers = extractHazardModifiers(modifierEntries);
+			}
+			catch (ClassCastException e){
+				modifiers = new ArrayList<>();
+				MainRegistry.logger.warn("[Hazard] Modifiers formatted incorrectly, make sure the types are correct!");
+			}
+			catch (Exception e){
+				MainRegistry.logger.error("[Hazard] An unknown error occurred while trying to extract hazard modifiers", e);
+				continue;
+			}
+
+			HazardEntry hazardEntry = new HazardEntry(type, level);
+			for (HazardModifier mod : modifiers){
+				hazardEntry.addMod(mod);
+			}
+			toReturn.addEntry(hazardEntry);
 		}
 
 		return toReturn;
+	}
+
+	private ArrayList<HazardModifier> extractHazardModifiers(JsonArray entries) throws ClassCastException {
+		ArrayList<HazardModifier> modifiers = new ArrayList<>();
+
+		for (JsonElement entry : entries) {
+			JsonObject obj = (JsonObject) entry;
+
+			String type = obj.get("type").getAsString();
+			switch (type) {
+				case "FUEL-RADIATION": {
+					float target = obj.get("target").getAsFloat();
+					modifiers.add(new HazardModifierFuelRadiation(target));
+					break;
+				}
+				case "RBMK-HOT": {
+					modifiers.add(new HazardModifierRBMKHot());
+					break;
+				}
+				case "RBMK-RADIATION": {
+					float target = obj.get("target").getAsFloat();
+					boolean isLinear = obj.get("isLinear").getAsBoolean();
+					modifiers.add(new HazardModifierRBMKRadiation(target, isLinear));
+					break;
+				}
+				case "RTG-RADIATION": {
+					float target = obj.get("target").getAsFloat();
+					modifiers.add(new HazardModifierRTGRadiation(target));
+					break;
+				}
+			}
+		}
+
+		return modifiers;
 	}
 
 	private void createDefaultFile(File hazFile, HashMap<Object, HazardData> hazardItemsWrite){
@@ -324,70 +383,18 @@ public class HazardBuilder {
 				writer.beginObject();
 
 				// Determine the item name
-				writer.name("itemName");
 				Object o = set.getKey();
-				if(o instanceof String) {
-					writer.value((String) o);
-					writer.name("dataTag").value(0);
-				}
-				else if(o instanceof Item){
-					writer.value(getModId((Item)o) + ":" + getItemName((Item)o));
-					writer.name("dataTag").value(0);
-				}
-				else if(o instanceof Block) {
-					Item item = Item.getItemFromBlock((Block)o);
-					writer.value(getModId(item) + ":" + getItemName(item));
-					writer.name("dataTag").value(0);
-				}
-				else if(o instanceof ItemStack) {
-					ItemStack stack = (ItemStack)o;
-					writer.value(getModId(stack) + ":" + getItemName(stack));
-					writer.name("dataTag").value(stack.getItemDamage());
-				}
-				else if(o instanceof RecipesCommon.ComparableStack) {
-					ItemStack stack = ((RecipesCommon.ComparableStack)o).toStack();
-					writer.value(getModId(stack) + ":" + getItemName(stack));
-					writer.name("dataTag").value(stack.getItemDamage());
-				}
-				else {
-					writer.value("undefined");
-					writer.name("dataTag").value(0);
-				}
-
-				// Add all hazards and their levels
-				writer.name("hazards").beginArray();
-				for(HazardEntry he : set.getValue().entries){
-					writer.beginObject();
-					writer.name("type");
-					if(he.type instanceof HazardTypeAsbestos){
-						writer.value("ASBESTOS");
-					}
-					if(he.type instanceof HazardTypeBlinding){
-						writer.value("BLINDING");
-					}
-					if(he.type instanceof HazardTypeCoal){
-						writer.value("COAL");
-					}
-					if(he.type instanceof HazardTypeDigamma){
-						writer.value("DIGAMMA");
-					}
-					if(he.type instanceof HazardTypeExplosive){
-						writer.value("EXPLOSIVE");
-					}
-					if(he.type instanceof HazardTypeHot){
-						writer.value("HOT");
-					}
-					if(he.type instanceof HazardTypeHydroactive){
-						writer.value("HYDROACTIVE");
-					}
-					if(he.type instanceof HazardTypeRadiation){
-						writer.value("RADIATION");
-					}
-					writer.name("level").value(he.baseLevel);
+				String itemName = encodeItemName(o);
+				if (itemName == null) {
+					MainRegistry.logger.warn("[Hazard] Unable to parse class of type \"{}\", skipping.", o.getClass());
 					writer.endObject();
+					continue;
 				}
-				writer.endArray();
+				writer.name("itemName").value(itemName);
+				writer.name("dataTag").value(encodeItemDataTag(o));
 
+				// Add all hazards their levels and modifiers
+				writeHazardsToFile(writer, set);
 
 				writer.endObject();
 			}
@@ -396,9 +403,142 @@ public class HazardBuilder {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e){
-			MainRegistry.logger.error("An error occurred while tyring to write hazards to {}!", FILE_NAME);
-			e.printStackTrace();
+			MainRegistry.logger.error("[Hazard] An error occurred while tyring to write hazards to {}!", FILE_NAME, e);
 		}
+	}
+
+	private void writeHazardsToFile(JsonWriter writer, Map.Entry<Object, HazardData> set) throws IOException {
+		writer.name("hazards").beginArray();
+		for (HazardEntry he : set.getValue().entries) {
+			String hazardName = encodeHazardType(he.type);
+			if (hazardName == null) {
+				MainRegistry.logger.warn("[Hazard] Cannot encode hazard class \"{}\", conversion not implemented, skipping.", he.type.getClass());
+				continue;
+			}
+
+			writer.beginObject();
+
+			writer.name("type").value(hazardName);
+			writer.name("level").value(he.baseLevel);
+			writeModifiersToFile(writer, he.mods);
+
+			writer.endObject();
+		}
+		writer.endArray();
+	}
+
+	private void writeModifiersToFile(JsonWriter writer, List<HazardModifier> modifiers) throws IOException {
+		if (modifiers.isEmpty()) {
+			return;
+		}
+
+		writer.name("modifiers").beginArray();
+		for (HazardModifier mod : modifiers) {
+			writer.beginObject();
+
+			writer.name("type");
+			if (mod instanceof HazardModifierFuelRadiation) {
+				HazardModifierFuelRadiation fuelMod = (HazardModifierFuelRadiation) mod;
+				writer.value("FUEL-RADIATION");
+				writer.name("target").value(fuelMod.getTarget());
+			}
+			else if (mod instanceof HazardModifierRBMKHot) {
+				writer.value("RBMK-HOT");
+			}
+			else if (mod instanceof HazardModifierRBMKRadiation) {
+				HazardModifierRBMKRadiation radiationMod = (HazardModifierRBMKRadiation) mod;
+				writer.value("RBMK-RADIATION");
+				writer.name("target").value(radiationMod.getTarget());
+				writer.name("isLinear").value(radiationMod.isLinear());
+			}
+			else if (mod instanceof HazardModifierRTGRadiation) {
+				HazardModifierRTGRadiation radiationMod = (HazardModifierRTGRadiation) mod;
+				writer.value("RTG-RADIATION");
+				writer.name("target").value(radiationMod.getTarget());
+			}
+			else {
+				writer.value("unknown");
+				MainRegistry.logger.warn("[Hazard] Unaccounted for hazard modifier {}, marking unknown!", mod.getClass());
+			}
+
+			writer.endObject();
+		}
+		writer.endArray();
+	}
+
+	private String encodeHazardType(HazardTypeBase hazardType) {
+		String typeName;
+		if (hazardType instanceof HazardTypeAsbestos) {
+			typeName = "ASBESTOS";
+		}
+		else if (hazardType instanceof HazardTypeBlinding) {
+			typeName = "BLINDING";
+		}
+		else if (hazardType instanceof HazardTypeCoal) {
+			typeName = "COAL";
+		}
+		else if (hazardType instanceof HazardTypeDigamma) {
+			typeName = "DIGAMMA";
+		}
+		else if (hazardType instanceof HazardTypeExplosive) {
+			typeName = "EXPLOSIVE";
+		}
+		else if (hazardType instanceof HazardTypeHot) {
+			typeName = "HOT";
+		}
+		else if (hazardType instanceof HazardTypeHydroactive) {
+			typeName = "HYDROACTIVE";
+		}
+		else if (hazardType instanceof HazardTypeRadiation) {
+			typeName = "RADIATION";
+		}
+		else {
+			typeName = null;
+		}
+
+		return typeName;
+	}
+
+	private String encodeItemName(Object o) {
+		String itemName;
+		if (o instanceof String) {
+			itemName = (String) o;
+		}
+		else if (o instanceof Item) {
+			itemName = getModId((Item) o) + ":" + getItemName((Item) o);
+		}
+		else if (o instanceof Block) {
+			Item item = Item.getItemFromBlock((Block) o);
+			itemName = getModId(item) + ":" + getItemName(item);
+		}
+		else if (o instanceof ItemStack) {
+			ItemStack stack = (ItemStack) o;
+			itemName = getModId(stack) + ":" + getItemName(stack);
+		}
+		else if (o instanceof RecipesCommon.ComparableStack) {
+			ItemStack stack = ((RecipesCommon.ComparableStack) o).toStack();
+			itemName = getModId(stack) + ":" + getItemName(stack);
+		}
+		else {
+			itemName = null;
+		}
+
+		return itemName;
+	}
+
+	private int encodeItemDataTag(Object o) {
+		int dataTag;
+		if (o instanceof ItemStack) {
+			dataTag = ((ItemStack) o).getItemDamage();
+		}
+		else if (o instanceof RecipesCommon.ComparableStack) {
+			dataTag = (((RecipesCommon.ComparableStack) o).toStack()).getItemDamage();
+		}
+		else {
+			dataTag = 0;
+		}
+
+		return dataTag;
 	}
 
 	private String getItemName(Item item){

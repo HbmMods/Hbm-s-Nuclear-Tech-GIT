@@ -16,13 +16,10 @@ import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
-import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.util.Compat;
 import com.hbm.util.Compat.ReikaIsotope;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -155,8 +152,9 @@ public class HazardRegistry {
 	public static final HazardTypeBase HYDROACTIVE = new HazardTypeHydroactive();
 	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
 
+	private static final HazardBuilder builder = new HazardBuilder();
+
 	public static void registerItems() {
-		HazardBuilder builder = new HazardBuilder();
 		builder.initialize();
 
 		HazardSystem.register(rod_zirnox_natural_uranium_fuel_depleted, makeData(RADIATION, wst * rod_dual * 11.5F));
@@ -454,7 +452,6 @@ public class HazardRegistry {
 	}
 
 	public static void initialize(){
-		HazardBuilder builder = new HazardBuilder();
 		builder.initialize();
 	}
 
