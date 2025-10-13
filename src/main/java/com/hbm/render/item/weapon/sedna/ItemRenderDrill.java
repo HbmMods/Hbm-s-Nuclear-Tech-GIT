@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -35,9 +36,26 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 		IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
 		double gauge = (double) mag.getAmount(stack, null) / (double) mag.getCapacity(stack);
 
-		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] deploy = HbmAnimations.getRelevantTransformation("DEPLOY");
+		double[] lift = HbmAnimations.getRelevantTransformation("LIFT");
+		double[] spin = HbmAnimations.getRelevantTransformation("SPIN");
+
+		/*float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
 		GL11.glRotated(15 * (1 - aimingProgress), 0, 1, 0);
-		GL11.glRotated(-10 * (1 - aimingProgress), 1, 0, 0);
+		GL11.glRotated(-10 * (1 - aimingProgress), 1, 0, 0);*/
+		
+		GL11.glRotated(15 * (1 - deploy[0] * 0.5), 0, 1, 0);
+		GL11.glRotated(-10 * (1 - deploy[0] * 0.5), 1, 0, 0);
+		
+		GL11.glTranslated(0, 2, -6);
+		GL11.glRotated(equip[0] * -45, 0, 1, 0);
+		GL11.glRotated(equip[0] * -20, 1, 0, 0);
+		GL11.glTranslated(0, -2, 6);
+		
+		GL11.glRotated(lift[0], 1, 0, 0);
+		
+		GL11.glTranslated(0, 0, deploy[0]);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.drill.renderPart("Base");
@@ -51,7 +69,7 @@ public class ItemRenderDrill extends ItemRenderWeaponBase {
 		ResourceManager.drill.renderPart("Gauge");
 		GL11.glPopMatrix();
 
-		double rot = System.currentTimeMillis() / 3 % 360D;
+		double rot = spin[0];
 		double rot2 = rot * 5;
 
 		GL11.glPushMatrix();
