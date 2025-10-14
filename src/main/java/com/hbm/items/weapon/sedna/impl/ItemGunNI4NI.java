@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.items.ICustomizable;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.util.ChatBuilder;
 
 import cpw.mods.fml.relauncher.Side;
@@ -30,8 +30,8 @@ public class ItemGunNI4NI extends ItemGunBaseNT implements ICustomizable {
 		if(!world.isRemote) {
 			
 			int maxCoin = 4;
-			if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NI4NI_NICKEL)) maxCoin += 2;
-			if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NI4NI_DOUBLOONS)) maxCoin += 2;
+			if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_NI4NI_NICKEL)) maxCoin += 2;
+			if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_NI4NI_DOUBLOONS)) maxCoin += 2;
 			
 			if(this.getCoinCount(stack) < maxCoin) {
 				this.setCoinCharge(stack, this.getCoinCharge(stack) + 1);

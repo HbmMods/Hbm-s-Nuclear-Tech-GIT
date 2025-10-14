@@ -60,8 +60,8 @@ public class WeaponModCaliber extends WeaponModBase {
 	}
 	
 	/* adding or removing a caliber mod annihilates the loaded rounds */
-	public void onInstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
-	public void onUninstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
+	@Override public void onInstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
+	@Override public void onUninstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
 	
 	public void clearMag(ItemStack stack, int index) {
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();

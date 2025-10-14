@@ -15,7 +15,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.impl.ItemGunDrill;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineLiquidEngine;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
@@ -71,7 +71,7 @@ public class XFactoryDrill {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), getModdableReach(stack, 5.0D));
 		if(mop != null) {
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-				float damage = 5.0F;
+				float damage = primary.getBaseDamage(stack);
 				if(mop.entityHit instanceof EntityLivingBase) {
 					EntityDamageUtil.attackEntityFromNT((EntityLivingBase) mop.entityHit, DamageSource.causePlayerDamage(ctx.getPlayer()), damage, true, true, 0.1F, getModdableDTNegation(stack, 2F), getModdablePiercing(stack, 0.15F));
 				} else {
@@ -87,7 +87,9 @@ public class XFactoryDrill {
 			}
 		}
 
-		mag.useUpAmmo(stack, ctx.inventory, 10);
+		int ammoToUse = 10;
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_ENGINE_ELECTRIC)) ammoToUse = 500; // that's 2,000 operations
+		mag.useUpAmmo(stack, ctx.inventory, ammoToUse);
 		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index), ctx.config.getDurability(stack)));
 	}
 
@@ -113,11 +115,11 @@ public class XFactoryDrill {
 	}
 	
 	// this system technically doesn't need to be part of the GunCfg or Receiver or anything, we can just do this and it works the exact same
-	public static double getModdableReach(ItemStack stack, double base) {		return WeaponModManager.eval(base, stack, D_REACH, ModItems.gun_drill, 0); }
-	public static float getModdableDTNegation(ItemStack stack, float base) {	return WeaponModManager.eval(base, stack, F_DTNEG, ModItems.gun_drill, 0); }
-	public static float getModdablePiercing(ItemStack stack, float base) {		return WeaponModManager.eval(base, stack, F_PIERCE, ModItems.gun_drill, 0); }
-	public static int getModdableAoE(ItemStack stack, int base) {				return WeaponModManager.eval(base, stack, I_AOE, ModItems.gun_drill, 0); }
-	public static int getModdableHarvestLevel(ItemStack stack, int base) {		return WeaponModManager.eval(base, stack, I_HARVEST, ModItems.gun_drill, 0); }
+	public static double getModdableReach(ItemStack stack, double base) {		return XWeaponModManager.eval(base, stack, D_REACH, ModItems.gun_drill, 0); }
+	public static float getModdableDTNegation(ItemStack stack, float base) {	return XWeaponModManager.eval(base, stack, F_DTNEG, ModItems.gun_drill, 0); }
+	public static float getModdablePiercing(ItemStack stack, float base) {		return XWeaponModManager.eval(base, stack, F_PIERCE, ModItems.gun_drill, 0); }
+	public static int getModdableAoE(ItemStack stack, int base) {				return XWeaponModManager.eval(base, stack, I_AOE, ModItems.gun_drill, 0); }
+	public static int getModdableHarvestLevel(ItemStack stack, int base) {		return XWeaponModManager.eval(base, stack, I_HARVEST, ModItems.gun_drill, 0); }
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_DRILL_ANIMS = (stack, type) -> {
 		switch(type) {

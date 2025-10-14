@@ -1,11 +1,14 @@
 package com.hbm.sound;
 
+import net.minecraft.entity.Entity;
+
 public class AudioWrapper {
 
 	public void setKeepAlive(int keepAlive) { }
 	public void keepAlive() { }
-	
+
 	public void updatePosition(float x, float y, float z) { }
+	public void attachTo(Entity e) { }
 
 	public void updateVolume(float volume) { }
 	public void updateRange(float range) { }

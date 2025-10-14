@@ -3,7 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -177,10 +177,10 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 	}
 	
 	public boolean hasSilencer(ItemStack stack, int cfg) {
-		return WeaponModManager.hasUpgrade(stack, cfg, WeaponModManager.ID_SILENCER);
+		return XWeaponModManager.hasUpgrade(stack, cfg, XWeaponModManager.ID_SILENCER);
 	}
 	
 	public boolean isSaturnite(ItemStack stack) {
-		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_UZI_SATURN);
+		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_UZI_SATURN);
 	}
 }

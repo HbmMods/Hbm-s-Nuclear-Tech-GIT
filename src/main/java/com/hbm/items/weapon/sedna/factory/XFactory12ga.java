@@ -25,7 +25,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.packet.PacketDispatcher;
@@ -387,7 +387,7 @@ public class XFactory12ga {
 	}
 
 	public static Function<ItemStack, String> LAMBDA_NAME_MARESLEG = (stack) -> {
-		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SAWED_OFF)) return stack.getUnlocalizedName() + "_short";
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SAWED_OFF)) return stack.getUnlocalizedName() + "_short";
 		return null;
 	};
 

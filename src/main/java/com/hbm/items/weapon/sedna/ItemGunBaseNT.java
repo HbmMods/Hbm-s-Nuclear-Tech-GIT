@@ -20,7 +20,7 @@ import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineInfinite;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -115,7 +115,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
 		if(stack == null) return cfg;
-		return WeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this, index);
+		return XWeaponModManager.eval(cfg, stack, O_GUNCONFIG + index, this, index);
 	}
 
 	public int getConfigCount() {
@@ -193,7 +193,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 				list.add(I18nUtil.resolveKey("gui.weapon.condition") + ": " + dura + "%");
 			}
 
-			for(ItemStack upgrade : WeaponModManager.getUpgradeItems(stack, i)) {
+			for(ItemStack upgrade : XWeaponModManager.getUpgradeItems(stack, i)) {
 				list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());
 			}
 		}

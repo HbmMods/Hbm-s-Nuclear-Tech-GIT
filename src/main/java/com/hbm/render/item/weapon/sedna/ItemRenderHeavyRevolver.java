@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -176,6 +176,6 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	}
 	
 	public boolean isScoped(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_heavy_revolver_lilmac || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		return stack.getItem() == ModItems.gun_heavy_revolver_lilmac || XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 	}
 }

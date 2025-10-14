@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +36,7 @@ public class ContainerWeaponTable extends Container {
 				ContainerWeaponTable.this.index = 0;
 				
 				if(stack != null) {
-					ItemStack[] mods = WeaponModManager.getUpgradeItems(stack, index);
+					ItemStack[] mods = XWeaponModManager.getUpgradeItems(stack, index);
 					
 					if(mods != null) for(int i = 0; i < Math.min(mods.length, 7); i++) {
 						ContainerWeaponTable.this.mods.setInventorySlotContents(i, mods[i]);
@@ -50,7 +50,7 @@ public class ContainerWeaponTable extends Container {
 			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 				super.onPickupFromSlot(player, stack);
 				
-				WeaponModManager.install(
+				XWeaponModManager.install(
 						stack, index,
 						mods.getStackInSlot(0),
 						mods.getStackInSlot(1),
@@ -62,7 +62,7 @@ public class ContainerWeaponTable extends Container {
 				
 				for(int i = 0; i < 7; i++) {
 					ItemStack mod = ContainerWeaponTable.this.mods.getStackInSlot(i);
-					if(WeaponModManager.isApplicable(stack, mod, index, false)) ContainerWeaponTable.this.mods.setInventorySlotContents(i, null);
+					if(XWeaponModManager.isApplicable(stack, mod, index, false)) ContainerWeaponTable.this.mods.setInventorySlotContents(i, null);
 				}
 				
 				ContainerWeaponTable.this.index = 0;
@@ -92,7 +92,7 @@ public class ContainerWeaponTable extends Container {
 				int configs = ((ItemGunBaseNT) stack.getItem()).getConfigCount();
 				if(configs < button) return null;
 				
-				WeaponModManager.install(
+				XWeaponModManager.install(
 						stack, this.index,
 						mods.getStackInSlot(0),
 						mods.getStackInSlot(1),
@@ -104,13 +104,13 @@ public class ContainerWeaponTable extends Container {
 				
 				for(int i = 0; i < 7; i++) {
 					ItemStack mod = ContainerWeaponTable.this.mods.getStackInSlot(i);
-					if(WeaponModManager.isApplicable(stack, mod, this.index, false)) ContainerWeaponTable.this.mods.setInventorySlotContents(i, null);
+					if(XWeaponModManager.isApplicable(stack, mod, this.index, false)) ContainerWeaponTable.this.mods.setInventorySlotContents(i, null);
 				}
 
 				this.index = button;
 				
 				if(stack != null) {
-					ItemStack[] mods = WeaponModManager.getUpgradeItems(stack, this.index);
+					ItemStack[] mods = XWeaponModManager.getUpgradeItems(stack, this.index);
 					
 					if(mods != null) for(int i = 0; i < Math.min(mods.length, 7); i++) {
 						ContainerWeaponTable.this.mods.setInventorySlotContents(i, mods[i]);
@@ -141,7 +141,7 @@ public class ContainerWeaponTable extends Container {
 			ItemStack itemstack = this.gun.getStackInSlotOnClosing(0);
 			
 			if(itemstack != null) {
-				WeaponModManager.uninstall(itemstack, index);
+				XWeaponModManager.uninstall(itemstack, index);
 				player.dropPlayerItemWithRandomChoice(itemstack, false);
 			}
 		}
@@ -190,27 +190,27 @@ public class ContainerWeaponTable extends Container {
 
 		@Override
 		public boolean isItemValid(ItemStack stack) {
-			return gun.getStackInSlot(0) != null && WeaponModManager.isApplicable(gun.getStackInSlot(0), stack, index, true);
+			return gun.getStackInSlot(0) != null && XWeaponModManager.isApplicable(gun.getStackInSlot(0), stack, index, true);
 		}
 		
 		@Override
 		public void putStack(ItemStack stack) {
 			super.putStack(stack);
 			refreshInstalledMods();
-			WeaponModManager.onInstallStack(gun.getStackInSlot(0), stack, index);
+			XWeaponModManager.onInstallStack(gun.getStackInSlot(0), stack, index);
 		}
 
 		@Override
 		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 			super.onPickupFromSlot(player, stack);
 			refreshInstalledMods();
-			WeaponModManager.onUninstallStack(gun.getStackInSlot(0), stack, index);
+			XWeaponModManager.onUninstallStack(gun.getStackInSlot(0), stack, index);
 		}
 		
 		public void refreshInstalledMods() {
 			if(gun.getStackInSlot(0) == null) return;
-			WeaponModManager.uninstall(gun.getStackInSlot(0), index);
-			WeaponModManager.install(
+			XWeaponModManager.uninstall(gun.getStackInSlot(0), index);
+			XWeaponModManager.install(
 					gun.getStackInSlot(0), index,
 					mods.getStackInSlot(0),
 					mods.getStackInSlot(1),

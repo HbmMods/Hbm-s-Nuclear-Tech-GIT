@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -212,20 +212,20 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	}
 	
 	public boolean hasStock(ItemStack stack) {
-		return !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_NO_STOCK);
+		return !XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_NO_STOCK);
 	}
 	
 	public boolean hasSilencer(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER);
+		return stack.getItem() == ModItems.gun_g3_zebra || XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SILENCER);
 	}
 	
 	public boolean isScoped(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		return stack.getItem() == ModItems.gun_g3_zebra || XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 	}
 	
 	public ResourceLocation getTexture(ItemStack stack) {
-		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_GREEN)) return ResourceManager.g3_green_tex;
-		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_FURNITURE_BLACK)) return ResourceManager.g3_black_tex;
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_FURNITURE_GREEN)) return ResourceManager.g3_green_tex;
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_FURNITURE_BLACK)) return ResourceManager.g3_black_tex;
 		return texture;
 	}
 }

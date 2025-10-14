@@ -5,7 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -193,10 +193,10 @@ public class ItemRenderMAS36 extends ItemRenderWeaponBase {
 	}
 	
 	public boolean isScoped(ItemStack stack) {
-		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 	}
 	
 	public boolean hasBayonet(ItemStack stack) {
-		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_MAS_BAYONET);
+		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_MAS_BAYONET);
 	}
 }

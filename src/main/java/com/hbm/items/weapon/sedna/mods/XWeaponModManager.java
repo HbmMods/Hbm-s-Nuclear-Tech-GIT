@@ -25,6 +25,7 @@ import com.hbm.items.weapon.sedna.factory.XFactory762mm;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -33,7 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
  * 
  * @author hbm
  */
-public class WeaponModManager {
+public class XWeaponModManager {
 	
 	public static final String KEY_MOD_LIST = "KEY_MOD_LIST_";
 	
@@ -151,6 +152,15 @@ public class WeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.LAS_AUTO).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasAuto(ID_LAS_AUTO));
 		new WeaponModDefinition(EnumModSpecial.NICKEL).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_NICKEL, "COIN1"));
 		new WeaponModDefinition(EnumModSpecial.DOUBLOONS).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_DOUBLOONS, "COIN2"));
+		
+		new WeaponModDefinition(EnumModSpecial.DRILL_HSS).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_HSS).damage(1.25F).dt(3F).pierce(0.15F).harvest(ToolMaterial.EMERALD.ordinal()));
+		new WeaponModDefinition(EnumModSpecial.DRILL_WEAPONSTEEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_WSTEEL).damage(1.5F).dt(5F).pierce(0.2F).aoe(2).harvest(ToolMaterial.EMERALD.ordinal()));
+		new WeaponModDefinition(EnumModSpecial.DRILL_TCALLOY).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_TCALLOY).damage(2F).dt(7.5F).pierce(0.2F).reach(1.5).aoe(2).harvest(ToolMaterial.EMERALD.ordinal() + 1));
+		new WeaponModDefinition(EnumModSpecial.DRILL_SATURNITE).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_SATURN).damage(3F).dt(10F).pierce(0.25F).reach(2).aoe(2).harvest(ToolMaterial.EMERALD.ordinal() + 2));
+		new WeaponModDefinition(EnumModSpecial.ENGINE_DIESEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_DIESEL).mag(WeaponModEngine.ENGINE_DIESEL).delay(15));
+		new WeaponModDefinition(EnumModSpecial.ENGINE_AVIATION).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_AVIATION).mag(WeaponModEngine.ENGINE_AVIATION).delay(10));
+		new WeaponModDefinition(EnumModSpecial.ENGINE_ELECTRIC).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_ELECTRIC).mag(WeaponModEngine.ENGINE_ELECTRIC).delay(15));
+		new WeaponModDefinition(EnumModSpecial.ENGINE_TURBO).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_TURBO).mag(WeaponModEngine.ENGINE_TURBO).delay(2));
 
 		BulletConfig[] p9 = new BulletConfig[] {XFactory9mm.p9_sp, XFactory9mm.p9_fmj, XFactory9mm.p9_jhp, XFactory9mm.p9_ap};
 		BulletConfig[] p45 = new BulletConfig[] {XFactory45.p45_sp, XFactory45.p45_fmj, XFactory45.p45_jhp, XFactory45.p45_ap, XFactory45.p45_du};
@@ -206,6 +216,14 @@ public class WeaponModManager {
 	public static final int ID_CARBINE_BAYONET = 219;
 	public static final int ID_NI4NI_NICKEL = 220;
 	public static final int ID_NI4NI_DOUBLOONS = 221;
+	public static final int ID_DRILL_HSS = 222;
+	public static final int ID_DRILL_WSTEEL = 223;
+	public static final int ID_DRILL_TCALLOY = 224;
+	public static final int ID_DRILL_SATURN = 225;
+	public static final int ID_ENGINE_DIESEL = 226;
+	public static final int ID_ENGINE_AVIATION = 227;
+	public static final int ID_ENGINE_ELECTRIC = 228;
+	public static final int ID_ENGINE_TURBO = 229;
 	
 	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];

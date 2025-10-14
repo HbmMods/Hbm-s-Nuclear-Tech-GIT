@@ -11,7 +11,7 @@ import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -552,11 +552,11 @@ public class Orchestras {
 					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.flameLoop", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
 					ItemGunBaseNT.loopedSounds.put(entity, audio);
 					audio.startSound();
+					audio.attachTo(entity);
 				}
 				//keepalive
 				if(runningAudio != null && runningAudio.isPlaying()) {
 					runningAudio.keepAlive();
-					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
 				}
 			} else {
 				//stop sound due to timeout
@@ -744,7 +744,7 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-		boolean scoped = stack.getItem() == ModItems.gun_g3_zebra || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		boolean scoped = stack.getItem() == ModItems.gun_g3_zebra || XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !scoped;
 
 		if(type == GunAnimation.CYCLE) {
@@ -999,13 +999,13 @@ public class Orchestras {
 
 		if(type == GunAnimation.CYCLE) {
 			if(timer == 0) {
-				int rounds = WeaponModManager.hasUpgrade(stack, ctx.configIndex, WeaponModManager.ID_MINIGUN_SPEED) ? 3 : 1;
+				int rounds = XWeaponModManager.hasUpgrade(stack, ctx.configIndex, XWeaponModManager.ID_MINIGUN_SPEED) ? 3 : 1;
 				for(int i = 0; i < rounds; i++) {
 					SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
 					if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, aiming ? 0.125 : 0.5, aiming ? -0.125 : -0.25, aiming ? -0.25 : -0.5D, 0, 0.18, -0.12, 0.01, (float)entity.getRNG().nextGaussian() * 15F, (float)entity.getRNG().nextGaussian() * 15F, casing.getName());
 				}
 			}
-			if(timer == (WeaponModManager.hasUpgrade(stack, 0, 207) ? 3 : 1)) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverSpin", 1F, 0.75F);
+			if(timer == (XWeaponModManager.hasUpgrade(stack, 0, 207) ? 3 : 1)) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverSpin", 1F, 0.75F);
 		}
 		if(type == GunAnimation.CYCLE_DRY) {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
@@ -1028,13 +1028,13 @@ public class Orchestras {
 		if(type == GunAnimation.CYCLE) {
 			if(timer == 0) {
 				int index = ctx.configIndex == 0 ? -1 : 1;
-				int rounds = WeaponModManager.hasUpgrade(stack, ctx.configIndex, WeaponModManager.ID_MINIGUN_SPEED) ? 3 : 1;
+				int rounds = XWeaponModManager.hasUpgrade(stack, ctx.configIndex, XWeaponModManager.ID_MINIGUN_SPEED) ? 3 : 1;
 				for(int i = 0; i < rounds; i++) {
 					SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
 					if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.25, -0.25, -0.5D * index, 0, 0.18, -0.12 * index, 0.01, (float)entity.getRNG().nextGaussian() * 15F, (float)entity.getRNG().nextGaussian() * 15F, casing.getName());
 				}
 			}
-			if(timer == (WeaponModManager.hasUpgrade(stack, 0, 207) ? 3 : 1)) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverSpin", 1F, 0.75F);
+			if(timer == (XWeaponModManager.hasUpgrade(stack, 0, 207) ? 3 : 1)) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverSpin", 1F, 0.75F);
 		}
 		if(type == GunAnimation.CYCLE_DRY) {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
@@ -1448,7 +1448,7 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SCOPE);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack) && !XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 
 		if(type == GunAnimation.EQUIP) {
 			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.openLatch", 1F, 1F);

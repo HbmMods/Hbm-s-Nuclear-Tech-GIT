@@ -17,7 +17,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
@@ -107,12 +107,12 @@ public class XFactory9mm {
 	}
 
 	public static Function<ItemStack, String> LAMBDA_NAME_GREASEGUN = (stack) -> {
-		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_GREASEGUN_CLEAN)) return stack.getUnlocalizedName() + "_m3";
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_GREASEGUN_CLEAN)) return stack.getUnlocalizedName() + "_m3";
 		return null;
 	};
 
 	public static Function<ItemStack, String> LAMBDA_NAME_UZI = (stack) -> {
-		if(WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SILENCER)) return stack.getUnlocalizedName() + "_richter";
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SILENCER)) return stack.getUnlocalizedName() + "_richter";
 		return null;
 	};
 

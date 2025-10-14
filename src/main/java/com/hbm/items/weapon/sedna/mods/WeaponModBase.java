@@ -10,7 +10,7 @@ public abstract class WeaponModBase implements IWeaponMod {
 	public String[] slots;
 	public int priority = 0;
 
-	public WeaponModBase(int id, String... slots) { this.slots = slots; WeaponModManager.idToMod.put(id, this); }
+	public WeaponModBase(int id, String... slots) { this.slots = slots; XWeaponModManager.idToMod.put(id, this); }
 	public WeaponModBase setPriority(int priority) { this.priority = priority; return this; }
 
 	@Override public int getModPriority() { return priority; }

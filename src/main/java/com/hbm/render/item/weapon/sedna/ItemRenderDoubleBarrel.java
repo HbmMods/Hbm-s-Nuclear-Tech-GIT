@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -173,6 +173,6 @@ public class ItemRenderDoubleBarrel extends ItemRenderWeaponBase {
 	}
 	
 	public boolean isSawedOff(ItemStack stack) {
-		return stack.getItem() == ModItems.gun_double_barrel_sacred_dragon || WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_SAWED_OFF);
+		return stack.getItem() == ModItems.gun_double_barrel_sacred_dragon || XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SAWED_OFF);
 	}
 }

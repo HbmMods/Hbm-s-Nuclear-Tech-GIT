@@ -1,16 +1,15 @@
 package com.hbm.items.weapon.sedna.mags;
 
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.particle.SpentCasing;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-/** Type of fixed ammo engine */
-public class MagazineLiquidEngine implements IMagazine<FluidType> {
+public class MagazineElectricEngine implements IMagazine {
 
 	public static final String KEY_MAG_COUNT = "magcount";
 	public static final String KEY_MAG_PREV = "magprev";
@@ -20,17 +19,14 @@ public class MagazineLiquidEngine implements IMagazine<FluidType> {
 	public int index;
 	/** How much ammo this mag can hold */
 	public int capacity;
-	/** Whichever fluids we can pour in this bastard */
-	public FluidType[] acceptedTypes;
 	
-	public MagazineLiquidEngine(int index, int capacity, FluidType... acceptedTypes) {
+	public MagazineElectricEngine(int index, int capacity) {
 		this.index = index;
 		this.capacity = capacity;
-		this.acceptedTypes = acceptedTypes;
 	}
 
-	@Override public FluidType getType(ItemStack stack, IInventory inventory) { return acceptedTypes[0]; }
-	@Override public void setType(ItemStack stack, FluidType type) { }
+	@Override public Object getType(ItemStack stack, IInventory inventory) { return null; }
+	@Override public void setType(ItemStack stack, Object type) { }
 	@Override public int getCapacity(ItemStack stack) { return capacity; }
 
 	@Override
@@ -46,8 +42,8 @@ public class MagazineLiquidEngine implements IMagazine<FluidType> {
 	@Override public void reloadAction(ItemStack stack, IInventory inventory) { }
 	@Override public SpentCasing getCasing(ItemStack stack, IInventory inventory) { return null; }
 
-	@Override public ItemStack getIconForHUD(ItemStack stack, EntityPlayer player) { return new ItemStack(ModItems.fluid_icon, 1, this.getType(stack, player.inventory).getID()); }
-	@Override public String reportAmmoStateForHUD(ItemStack stack, EntityPlayer player) { return getAmount(stack, player.inventory) + "/" + this.capacity + "mB"; }
+	@Override public ItemStack getIconForHUD(ItemStack stack, EntityPlayer player) { return new ItemStack(ModItems.battery_creative); }
+	@Override public String reportAmmoStateForHUD(ItemStack stack, EntityPlayer player) { return BobMathUtil.getShortNumber(getAmount(stack, player.inventory)) + "/" + BobMathUtil.getShortNumber(this.capacity) + "HE"; }
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }
 	@Override public int getAmountBeforeReload(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_PREV + index); }

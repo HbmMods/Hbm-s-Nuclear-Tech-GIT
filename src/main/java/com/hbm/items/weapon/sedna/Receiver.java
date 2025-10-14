@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
-import com.hbm.items.weapon.sedna.mods.WeaponModManager;
+import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
@@ -88,37 +88,37 @@ public class Receiver {
 	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
 	
 	/* GETTERS */
-	public float getBaseDamage(ItemStack stack) {				return WeaponModManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this, parent.index); }
-	public int getDelayAfterFire(ItemStack stack) {				return WeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
-	public int getDelayAfterDryFire(ItemStack stack) {			return WeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
-	public int getRoundsPerCycle(ItemStack stack) {				return WeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }
-	public float getSplitProjectiles(ItemStack stack) {			return WeaponModManager.eval(this.splitProjectiles_DNA, stack, F_SPLITPROJECTILES, this, parent.index); }
-	public float getInnateSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPREADINNATE, this, parent.index); }
-	public float getAmmoSpread(ItemStack stack) {				return WeaponModManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this, parent.index); }
-	public float getHipfireSpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this, parent.index); }
-	public float getDurabilitySpread(ItemStack stack) {			return WeaponModManager.eval(this.spreadDurability_DNA, stack, F_SPREADDURABILITY, this, parent.index); }
-	public boolean getRefireOnHold(ItemStack stack) {			return WeaponModManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this, parent.index); }
-	public boolean getRefireAfterDry(ItemStack stack) {			return WeaponModManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this, parent.index); }
-	public boolean getDoesDryFire(ItemStack stack) {			return WeaponModManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this, parent.index); }
-	public boolean getDoesDryFireAfterAuto(ItemStack stack) {	return WeaponModManager.eval(this.doesDryFireAfterAuto_DNA, stack, B_DOESDRYFIREAFTERAUTO, this, parent.index); }
-	public boolean getEjectOnFire(ItemStack stack) {			return WeaponModManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this, parent.index); }
-	public boolean getReloadOnEmpty(ItemStack stack) {			return WeaponModManager.eval(this.reloadOnEmpty_DNA, stack, B_RELOADONEMPTY, this, parent.index); }
-	public int getReloadBeginDuration(ItemStack stack) {		return WeaponModManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this, parent.index); }
-	public int getReloadCycleDuration(ItemStack stack) {		return WeaponModManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this, parent.index); }
-	public int getReloadEndDuration(ItemStack stack) {			return WeaponModManager.eval(this.reloadEndDuration_DNA, stack, I_RELOADENDDURATION, this, parent.index); }
-	public int getReloadCockOnEmptyPre(ItemStack stack) {		return WeaponModManager.eval(this.reloadCockOnEmptyPre_DNA, stack, I_RELOADCOCKONEMPTYPRE, this, parent.index); }
-	public int getReloadCockOnEmptyPost(ItemStack stack) {		return WeaponModManager.eval(this.reloadCockOnEmptyPost_DNA, stack, I_RELOADCOCKONEMPTYPOST, this, parent.index); }
-	public int getJamDuration(ItemStack stack) {				return WeaponModManager.eval(this.jamDuration_DNA, stack, I_JAMDURATION, this, parent.index); }
-	public String getFireSound(ItemStack stack) {				return WeaponModManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this, parent.index); }
-	public float getFireVolume(ItemStack stack) {				return WeaponModManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this, parent.index); }
-	public float getFirePitch(ItemStack stack) {				return WeaponModManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this, parent.index); }
-	public IMagazine getMagazine(ItemStack stack) {				return WeaponModManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this, parent.index); }
-	public Vec3 getProjectileOffset(ItemStack stack) {			return WeaponModManager.eval(this.projectileOffset_DNA, stack, O_PROJECTILEOFFSET, this, parent.index); }
-	public Vec3 getProjectileOffsetScoped(ItemStack stack) {	return WeaponModManager.eval(this.projectileOffsetScoped_DNA, stack, O_PROJECTILEOFFSETSCOPED, this, parent.index); }
+	public float getBaseDamage(ItemStack stack) {				return XWeaponModManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this, parent.index); }
+	public int getDelayAfterFire(ItemStack stack) {				return XWeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
+	public int getDelayAfterDryFire(ItemStack stack) {			return XWeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
+	public int getRoundsPerCycle(ItemStack stack) {				return XWeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }
+	public float getSplitProjectiles(ItemStack stack) {			return XWeaponModManager.eval(this.splitProjectiles_DNA, stack, F_SPLITPROJECTILES, this, parent.index); }
+	public float getInnateSpread(ItemStack stack) {				return XWeaponModManager.eval(this.spreadInnate_DNA, stack, F_SPREADINNATE, this, parent.index); }
+	public float getAmmoSpread(ItemStack stack) {				return XWeaponModManager.eval(this.spreadMultAmmo_DNA, stack, F_SPREADAMMO, this, parent.index); }
+	public float getHipfireSpread(ItemStack stack) {			return XWeaponModManager.eval(this.spreadPenaltyHipfire_DNA, stack, F_SPREADHIPFIRE, this, parent.index); }
+	public float getDurabilitySpread(ItemStack stack) {			return XWeaponModManager.eval(this.spreadDurability_DNA, stack, F_SPREADDURABILITY, this, parent.index); }
+	public boolean getRefireOnHold(ItemStack stack) {			return XWeaponModManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this, parent.index); }
+	public boolean getRefireAfterDry(ItemStack stack) {			return XWeaponModManager.eval(this.refireAfterDry_DNA, stack, B_REFIREAFTERDRY, this, parent.index); }
+	public boolean getDoesDryFire(ItemStack stack) {			return XWeaponModManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this, parent.index); }
+	public boolean getDoesDryFireAfterAuto(ItemStack stack) {	return XWeaponModManager.eval(this.doesDryFireAfterAuto_DNA, stack, B_DOESDRYFIREAFTERAUTO, this, parent.index); }
+	public boolean getEjectOnFire(ItemStack stack) {			return XWeaponModManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this, parent.index); }
+	public boolean getReloadOnEmpty(ItemStack stack) {			return XWeaponModManager.eval(this.reloadOnEmpty_DNA, stack, B_RELOADONEMPTY, this, parent.index); }
+	public int getReloadBeginDuration(ItemStack stack) {		return XWeaponModManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this, parent.index); }
+	public int getReloadCycleDuration(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this, parent.index); }
+	public int getReloadEndDuration(ItemStack stack) {			return XWeaponModManager.eval(this.reloadEndDuration_DNA, stack, I_RELOADENDDURATION, this, parent.index); }
+	public int getReloadCockOnEmptyPre(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCockOnEmptyPre_DNA, stack, I_RELOADCOCKONEMPTYPRE, this, parent.index); }
+	public int getReloadCockOnEmptyPost(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCockOnEmptyPost_DNA, stack, I_RELOADCOCKONEMPTYPOST, this, parent.index); }
+	public int getJamDuration(ItemStack stack) {				return XWeaponModManager.eval(this.jamDuration_DNA, stack, I_JAMDURATION, this, parent.index); }
+	public String getFireSound(ItemStack stack) {				return XWeaponModManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this, parent.index); }
+	public float getFireVolume(ItemStack stack) {				return XWeaponModManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this, parent.index); }
+	public float getFirePitch(ItemStack stack) {				return XWeaponModManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this, parent.index); }
+	public IMagazine getMagazine(ItemStack stack) {				return XWeaponModManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this, parent.index); }
+	public Vec3 getProjectileOffset(ItemStack stack) {			return XWeaponModManager.eval(this.projectileOffset_DNA, stack, O_PROJECTILEOFFSET, this, parent.index); }
+	public Vec3 getProjectileOffsetScoped(ItemStack stack) {	return XWeaponModManager.eval(this.projectileOffsetScoped_DNA, stack, O_PROJECTILEOFFSETSCOPED, this, parent.index); }
 	
-	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponModManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this, parent.index); }
-	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponModManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this, parent.index); }
-	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return WeaponModManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this, parent.index); }
+	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return XWeaponModManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this, parent.index); }
+	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return XWeaponModManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this, parent.index); }
+	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return XWeaponModManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this, parent.index); }
 
 	/* SETTERS */
 	public Receiver dmg(float dmg) {								this.baseDamage_DNA = dmg;											return this; }
