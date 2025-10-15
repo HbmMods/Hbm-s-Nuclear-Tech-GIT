@@ -497,6 +497,7 @@ public class EntityDamageUtil {
 	}
 
 	public static Vec3 getPosition(EntityPlayer player) {
-		return Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+		boolean client = player.yOffset != 0; // shitty hack to account for the weird offset rules i couldn't really work around otherwise
+		return Vec3.createVectorHelper(player.posX, player.posY + (client ? 0 : player.getEyeHeight()), player.posZ);
 	}
 }

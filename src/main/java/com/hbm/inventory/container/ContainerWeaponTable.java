@@ -49,7 +49,7 @@ public class ContainerWeaponTable extends Container {
 			@Override
 			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 				super.onPickupFromSlot(player, stack);
-				
+
 				XWeaponModManager.install(
 						stack, index,
 						mods.getStackInSlot(0),
@@ -91,7 +91,7 @@ public class ContainerWeaponTable extends Container {
 			if(stack != null && stack.getItem() instanceof ItemGunBaseNT) {
 				int configs = ((ItemGunBaseNT) stack.getItem()).getConfigCount();
 				if(configs < button) return null;
-				
+
 				XWeaponModManager.install(
 						stack, this.index,
 						mods.getStackInSlot(0),
@@ -197,19 +197,16 @@ public class ContainerWeaponTable extends Container {
 		public void putStack(ItemStack stack) {
 			super.putStack(stack);
 			refreshInstalledMods();
-			XWeaponModManager.onInstallStack(gun.getStackInSlot(0), stack, index);
 		}
 
 		@Override
 		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
 			super.onPickupFromSlot(player, stack);
 			refreshInstalledMods();
-			XWeaponModManager.onUninstallStack(gun.getStackInSlot(0), stack, index);
 		}
 		
 		public void refreshInstalledMods() {
 			if(gun.getStackInSlot(0) == null) return;
-			XWeaponModManager.uninstall(gun.getStackInSlot(0), index);
 			XWeaponModManager.install(
 					gun.getStackInSlot(0), index,
 					mods.getStackInSlot(0),

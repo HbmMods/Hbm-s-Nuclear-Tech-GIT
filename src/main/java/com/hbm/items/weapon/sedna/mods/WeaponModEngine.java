@@ -1,7 +1,6 @@
 package com.hbm.items.weapon.sedna.mods;
 
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineElectricEngine;
@@ -36,12 +35,6 @@ public class WeaponModEngine extends WeaponModBase {
 		return base;
 	}
 
-	@Override public void onInstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
-	@Override public void onUninstall(ItemStack gun, ItemStack mod, int index) { clearMag(gun, index); }
-	
-	public void clearMag(ItemStack stack, int index) {
-		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		IMagazine mag = gun.getConfig(stack, index).getReceivers(stack)[0].getMagazine(stack);
-		mag.setAmount(stack, 0);
-	}
+	@Override public void onInstall(ItemStack gun, ItemStack mod, int index) { XWeaponModManager.changedMagState(); }
+	@Override public void onUninstall(ItemStack gun, ItemStack mod, int index) { XWeaponModManager.changedMagState(); }
 }

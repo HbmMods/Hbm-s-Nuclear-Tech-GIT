@@ -425,7 +425,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	private boolean canBreak(Block block, int x, int y, int z) {
-		return !block.isAir(worldObj, x, y, z) && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
+		return !block.isAir(worldObj, x, y, z) && block.getMaterial() != ModBlocks.materialGas && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
 	}
 
 	public int getRange() {

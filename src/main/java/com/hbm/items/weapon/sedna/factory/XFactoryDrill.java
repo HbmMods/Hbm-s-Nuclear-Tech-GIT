@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -23,13 +24,17 @@ import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.util.EntityDamageUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S28PacketEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -88,7 +93,7 @@ public class XFactoryDrill {
 		}
 
 		int ammoToUse = 10;
-		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_ENGINE_ELECTRIC)) ammoToUse = 500; // that's 2,000 operations
+		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_ENGINE_ELECTRIC)) ammoToUse = 1_000; // that's 1,000 operations
 		mag.useUpAmmo(stack, ctx.inventory, ammoToUse);
 		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index), ctx.config.getDurability(stack)));
 	}
@@ -140,4 +145,37 @@ public class XFactoryDrill {
 		
 		return null;
 	};
+	
+	/**
+	 * Called by the ModEventHandlerRenderer if the held item is a drill, cancels the tooltip so we an replace it with this.
+	 * Should probably make an interface for stuff like this
+	 * @param player
+	 * @param drill
+	 * @param interp
+	 */
+	@SideOnly(Side.CLIENT)
+	public static void drawBlockHighlight(EntityPlayer player, ItemStack drill, float interp) {
+		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, getModdableReach(drill, 5.0D));
+		
+		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
+			double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
+			double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
+			
+			ICustomBlockHighlight.setup();
+
+			int aoe = player.isSneaking() ? 0 : getModdableAoE(drill, 1);
+			
+			float exp = 0.002F;
+			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(mop.blockX - dX, mop.blockY - dY, mop.blockZ - dZ), aoe > 0 ? -1 : 0x800000);
+			
+			if(aoe > 0) {
+				aabb = AxisAlignedBB.getBoundingBox(-aoe, -aoe, -aoe, 1 + aoe, 1 + aoe, 1 + aoe);
+				RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(mop.blockX - dX, mop.blockY - dY, mop.blockZ - dZ), 0x800000);
+			}
+			
+			ICustomBlockHighlight.cleanup();
+		}
+	}
 }

@@ -13,7 +13,6 @@ public class EnchantmentUtil {
 	 * @param level
 	 */
 	public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-
 		stack.addEnchantment(enchantment, level);
 	}
 	
@@ -24,8 +23,7 @@ public class EnchantmentUtil {
 	 */
 	public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
 		
-		if(stack.getEnchantmentTagList() == null)
-			return;
+		if(stack.getEnchantmentTagList() == null) return;
 		
 		int i = 0;
 		for( ; i < stack.getEnchantmentTagList().tagCount(); i++) {
@@ -40,20 +38,31 @@ public class EnchantmentUtil {
 			stack.getTagCompound().removeTag("ench");
 	}
 	
+	public static int getEnchantmentLevel(ItemStack stack, Enchantment enchantment) {
+		if(stack.getEnchantmentTagList() == null) return 0;
+		
+		for(int i = 0; i < stack.getEnchantmentTagList().tagCount(); i++) {
+			if(stack.getEnchantmentTagList().getCompoundTagAt(i).getShort("id") == enchantment.effectId)
+				return stack.getEnchantmentTagList().getCompoundTagAt(i).getShort("lvl");
+		}
+		
+		return 0;
+	}
+	
 	/**
 	 * Returns the size of the XP bar for the given level
 	 * @param level
 	 * @return
 	 */
-    public static int xpBarCap(int level) {
-        return level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
-    }
-    
-    /**
-     * 
-     * @param targetXp
-     * @return
-     */
+	public static int xpBarCap(int level) {
+		return level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+	}
+
+	/**
+	 * 
+	 * @param targetXp
+	 * @return
+	 */
     public static int getLevelForExperience(int xp) {
     	
 		int level = 0;

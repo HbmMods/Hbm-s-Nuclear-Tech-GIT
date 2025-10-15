@@ -1,3 +1,15 @@
+## Added
+* Powered drill
+  * Gasoline-fueled mining drill with AoE
+  * Uses the gun system and therefore does not have configurable abilities
+  * Mining level of iron tools by default
+  * AoE, melee damage, reach and mining level can be upgraded with drill bits
+  * Mining speed and fuel used can be changed with engines (diesel, aviation, electric, turbo)
+  * Fortune can be added as mods (both mods do in fact stack)
+  * Not a precision tool, intended to be used alongside pickaxes instead of replacing them
+  * Despite this, sneaking allows the AoE to be disabled
+  * Unlike pickaxes, shows a preview for what area is to be mined
+
 ## Changed
 * Updated russian and chinese localization
 * VNT type explosions now track affected block positions when the explosion events fire, this should ensure compatibility with mods that rely on that
@@ -20,7 +32,8 @@
 * Conveyor inserters can now accept boxes directly instead of causing them to burst open
 * Conveyor inserters now have a special rule when supplying an arc furnace where instead of trying a full stack and then one item, the first always failing and the last being too slow, they will supply the slot target amount instead
   * Given the cycle delay and the lid's movement speed, the inserters should now be fast enough to fully supply a speed III arc furnace
-* Skeletons can bow be gibbed by explosions, although it will spawn clean bone particles and omit the gore splash effect
+* Skeletons can now be gibbed by explosions, although it will spawn clean bone particles and omit the gore splash effect
+* Polymer power tools now only have AoE 1 instead of AoE 2
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
@@ -28,3 +41,4 @@
 * Fixed crash caused when another tile entity replaces an RBMK component due to an unchecked cast
 * Fixed constant cascading chunk gen caused by meteorites and flower patches
 * Fixed garbage loot pool sometimes producing "stone wires"
+* Fixed mining lasers targeting blocks with the "gas" material

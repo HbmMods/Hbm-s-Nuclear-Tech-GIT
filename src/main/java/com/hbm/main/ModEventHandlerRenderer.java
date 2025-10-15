@@ -5,9 +5,11 @@ import com.hbm.config.ClientConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.IAnimatedItem;
+import com.hbm.items.ModItems;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.factory.XFactoryDrill;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
@@ -409,6 +411,14 @@ public class ModEventHandlerRenderer {
 
 	@SubscribeEvent
 	public void onDrawHighlight(DrawBlockHighlightEvent event) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_drill) {
+			XFactoryDrill.drawBlockHighlight(player, player.getHeldItem(), event.partialTicks);
+			event.setCanceled(true);
+			return;
+		}
+		
 		MovingObjectPosition mop = event.target;
 
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {

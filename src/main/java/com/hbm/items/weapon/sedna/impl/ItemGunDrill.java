@@ -6,6 +6,7 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.XFactoryDrill;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.items.weapon.sedna.mags.MagazineElectricEngine;
 import com.hbm.items.weapon.sedna.mags.MagazineLiquidEngine;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -32,7 +33,13 @@ public class ItemGunDrill extends ItemGunBaseNT implements IFillableItem, IBatte
 	@Override
 	public boolean acceptsFluid(FluidType type, ItemStack stack) {
 		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
-		return mag instanceof MagazineLiquidEngine;
+
+		if(mag instanceof MagazineLiquidEngine) {
+			MagazineLiquidEngine engine = (MagazineLiquidEngine) mag;
+			for(FluidType acc : engine.acceptedTypes) if(type == acc) return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -72,12 +79,60 @@ public class ItemGunDrill extends ItemGunBaseNT implements IFillableItem, IBatte
 		return 0;
 	}
 
-	// TBI
-	@Override public void chargeBattery(ItemStack stack, long i) { }
-	@Override public void setCharge(ItemStack stack, long i) { }
-	@Override public void dischargeBattery(ItemStack stack, long i) { }
-	@Override public long getCharge(ItemStack stack) { return 0; }
-	@Override public long getMaxCharge(ItemStack stack) { return 0; }
-	@Override public long getChargeRate() { return 0; }
+	@Override
+	public void chargeBattery(ItemStack stack, long i) {
+		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		
+		if(mag instanceof MagazineElectricEngine) {
+			MagazineElectricEngine engine = (MagazineElectricEngine) mag;
+			engine.setAmount(stack, Math.min(engine.capacity, engine.getAmount(stack, null) + (int) i));
+		}
+	}
+	
+	@Override
+	public void setCharge(ItemStack stack, long i) {
+		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		
+		if(mag instanceof MagazineElectricEngine) {
+			MagazineElectricEngine engine = (MagazineElectricEngine) mag;
+			engine.setAmount(stack, (int) i);
+		}
+	}
+	
+	@Override
+	public void dischargeBattery(ItemStack stack, long i) {
+		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		
+		if(mag instanceof MagazineElectricEngine) {
+			MagazineElectricEngine engine = (MagazineElectricEngine) mag;
+			engine.setAmount(stack, Math.max(0, engine.getAmount(stack, null) - (int) i));
+		}
+	}
+	
+	@Override
+	public long getCharge(ItemStack stack) {
+		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		
+		if(mag instanceof MagazineElectricEngine) {
+			MagazineElectricEngine engine = (MagazineElectricEngine) mag;
+			return engine.getAmount(stack, null);
+		}
+		
+		return 0;
+	}
+	
+	@Override
+	public long getMaxCharge(ItemStack stack) {
+		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+		
+		if(mag instanceof MagazineElectricEngine) {
+			MagazineElectricEngine engine = (MagazineElectricEngine) mag;
+			return engine.getCapacity(stack);
+		}
+		
+		return 0;
+	}
+	
+	@Override public long getChargeRate() { return 50_000; }
 	@Override public long getDischargeRate() { return 0; }
 }

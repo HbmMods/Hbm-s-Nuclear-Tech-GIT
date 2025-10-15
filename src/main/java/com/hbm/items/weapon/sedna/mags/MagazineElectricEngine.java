@@ -42,7 +42,7 @@ public class MagazineElectricEngine implements IMagazine {
 	@Override public void reloadAction(ItemStack stack, IInventory inventory) { }
 	@Override public SpentCasing getCasing(ItemStack stack, IInventory inventory) { return null; }
 
-	@Override public ItemStack getIconForHUD(ItemStack stack, EntityPlayer player) { return new ItemStack(ModItems.battery_creative); }
+	@Override public ItemStack getIconForHUD(ItemStack stack, EntityPlayer player) { return new ItemStack(ModItems.battery_generic); }
 	@Override public String reportAmmoStateForHUD(ItemStack stack, EntityPlayer player) { return BobMathUtil.getShortNumber(getAmount(stack, player.inventory)) + "/" + BobMathUtil.getShortNumber(this.capacity) + "HE"; }
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }
