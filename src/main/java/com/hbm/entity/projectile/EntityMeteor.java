@@ -93,7 +93,7 @@ public class EntityMeteor extends Entity {
 				(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
 
 				// Sound
-				this.audioFly.stopSound();
+				if(this.audioFly != null) this.audioFly.stopSound();
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 
 				this.setDead();
