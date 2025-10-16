@@ -95,7 +95,7 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 							
 							if(ret == null || ret.stackSize != stack.stackSize) {
 								slots[i] = ret;
-								if(slots[1] != null) {
+								if(slots[i] != null) {
 									slots[i].stackSize += overshoot;
 								} else if(overshoot > 0){
 									slots[i] = stack.copy();

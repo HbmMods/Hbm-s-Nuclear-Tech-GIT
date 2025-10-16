@@ -5,10 +5,11 @@
   * Mining level of iron tools by default
   * AoE, melee damage, reach and mining level can be upgraded with drill bits
   * Mining speed and fuel used can be changed with engines (diesel, aviation, electric, turbo)
-  * Fortune can be added as mods (both mods do in fact stack)
+  * Fortune can be added as mods (both mods do in fact stack, yielding fortune III)
   * Not a precision tool, intended to be used alongside pickaxes instead of replacing them
   * Despite this, sneaking allows the AoE to be disabled
   * Unlike pickaxes, shows a preview for what area is to be mined
+  * Due to not being considered a tool like a vanilla one, it's not affected by dig speed penalties from fatigue, being underwater or on a ladder
 
 ## Changed
 * Updated russian and chinese localization
@@ -34,6 +35,14 @@
   * Given the cycle delay and the lid's movement speed, the inserters should now be fast enough to fully supply a speed III arc furnace
 * Skeletons can now be gibbed by explosions, although it will spawn clean bone particles and omit the gore splash effect
 * Polymer power tools now only have AoE 1 instead of AoE 2
+* The fluid container NEI handler now also includes the empty container, making it easier to find what fluids a canister for example is usable for
+* Changed Mk2 infinite water barrel to use generic cast parts instead of a very specific type of pipe
+* Retextured the multi fluid IDs to look more like the old IDs they replaced
+* Logistics provider and requester crates can now only connect to a path node if that path is a dedicated waypoint
+  * This means that requesters and providers will no longer connect automatically, a logistics net now requires at least one dedicated waypoint
+  * This also means that in larger networks with many providers and requesters, all the useless connections between them which scale exponentially will no longer exist
+  * This is a band-aid fix for logistics nets destroying the game even at lower scales due to the path finding being unperformant as hell
+  * The system will have to be reworked entirely sooner or later (ough)
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance

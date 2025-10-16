@@ -132,7 +132,7 @@ public class XFactoryDrill {
 				.addBus("EQUIP", new BusAnimationSequence().setPos(-1, 0, 0).addPos(0, 0, 0, 750, IType.SIN_DOWN));
 		case CYCLE:
 			double deploy = HbmAnimations.getRelevantTransformation("DEPLOY")[0];
-			double spin = HbmAnimations.getRelevantTransformation("SPIN")[2] % 360;
+			double spin = HbmAnimations.getRelevantTransformation("SPIN")[0] % 360; // seamlessly continue from the previous animation state
 			return new BusAnimation()
 					.addBus("DEPLOY", new BusAnimationSequence().setPos(deploy, 0, 0).addPos(1, 0, 0, (int) (500 * (1 - deploy)), IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 500, IType.SIN_FULL))
 					.addBus("SPIN", new BusAnimationSequence().setPos(spin, 0, 0).addPos(spin + 360 * 1.5, 0, 0, 1500).addPos(spin + 360 * 2, 0, 0, 750, IType.SIN_DOWN));

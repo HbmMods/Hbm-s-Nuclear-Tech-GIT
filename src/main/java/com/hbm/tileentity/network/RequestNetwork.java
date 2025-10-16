@@ -19,6 +19,25 @@ public class RequestNetwork {
 	public static HashMap<World, HashMap<ChunkCoordIntPair, HashedSet<PathNode>>> activeWaypoints = new HashMap();
 	public static final int maxAge = 2_000;
 
+	/*
+	 * this entire system sucks
+	 * 
+	 * 1. a lot of the logic is fragmented between the tile entity base class and this one
+	 * 2. it's structured in a way where i can't even tell wtf is going on anymore
+	 * 3. is lags and the drones are dumb as shit
+	 * 
+	 * plan of action:
+	 * 
+	 * 1. nodespace all of it
+	 * 2. limit waypoints to only connect to the three closest waypoints
+	 * 3. limit crates to only connect to whatever waypoint is closest (bypasses the aforementioned cap)
+	 * 4. make pathfinding less stupid
+	 * 5. once a path has been found cache it, and only reset the cache when the nodespace changes
+	 * 6. realistically, blocks shouldn't change to block paths that often, do LOS checks like every 10 seconds or so
+	 * 7. LOS and connections could be directly handled by nodespace, which should make things like connections way easier to handle
+	 * 8. the "neighborhood" close waypoint detection system was a cool idea, keep that
+	 */
+	
 	public static void updateEntries() {
 		
 		if(timer < 0) {
@@ -71,11 +90,13 @@ public class RequestNetwork {
 		public BlockPos pos;
 		public long lease;
 		public boolean active = true;
+		public boolean torchWaypoint;
 		public HashedSet<PathNode> reachableNodes;
 		public PathNode(BlockPos pos, HashedSet<PathNode> reachableNodes) {
 			this.pos = pos;
 			this.reachableNodes = new HashedSet<>(reachableNodes);
 			this.lease = System.currentTimeMillis();
+			this.torchWaypoint = true;
 		}
 		
 		@Override public int hashCode() { return pos.hashCode(); }
@@ -103,6 +124,7 @@ public class RequestNetwork {
 		public OfferNode(BlockPos pos, HashedSet<PathNode> reachableNodes, List<ItemStack> offer) {
 			super(pos, reachableNodes);
 			this.offer = offer;
+			this.torchWaypoint = false;
 		}
 	}
 	
@@ -112,6 +134,7 @@ public class RequestNetwork {
 		public RequestNode(BlockPos pos, HashedSet<PathNode> reachableNodes, List<AStack> request) {
 			super(pos, reachableNodes);
 			this.request = request;
+			this.torchWaypoint = false;
 		}
 	}
 }
