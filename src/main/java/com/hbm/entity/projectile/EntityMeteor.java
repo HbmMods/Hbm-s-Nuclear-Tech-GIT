@@ -8,7 +8,9 @@ import com.hbm.world.feature.Meteorite;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -17,9 +19,6 @@ import com.hbm.sound.AudioWrapper;
 public class EntityMeteor extends Entity {
 
 	public boolean safe = false;
-
-	// Audio
-	private boolean soundStarted = false;
 	private AudioWrapper audioFly;
 
 	public EntityMeteor(World p_i1582_1_) {
@@ -28,8 +27,7 @@ public class EntityMeteor extends Entity {
 		this.isImmuneToFire = true;
 		this.setSize(4F, 4F);
 
-		this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 0F, 100F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
-
+		if(worldObj.isRemote) this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 1F, 100F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
 	}
 
 	public boolean destroyWeakBlocks(World world, int x, int y, int z, int radius) {
@@ -79,11 +77,10 @@ public class EntityMeteor extends Entity {
 			motionY = -2.5;
 
 		this.moveEntity(motionX, motionY, motionZ);
-		this.audioFly.updatePosition((int)this.posX, (int)this.posY, (int)this.posZ);
 
 		if(!this.worldObj.isRemote && this.posY < 260) {
 			if(destroyWeakBlocks(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 6) && this.onGround) {
-				this.audioFly.stopSound();
+
 				//worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 				if(WorldConfig.enableMeteorTails) {
 					ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
@@ -94,19 +91,31 @@ public class EntityMeteor extends Entity {
 				}
 
 				(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
+
+				// Sound
+				this.audioFly.stopSound();
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
+
 				this.setDead();
 			}
 		}
 
-		if(this.motionY <= -2){
+		// Sound
+		if(worldObj.isRemote){
 			if(this.audioFly.isPlaying()) {
-				//this.audioFly.keepAlive();
-				//this.audioFly.updateVolume(1F);
+				// Update sound
+				this.audioFly.keepAlive();
+				this.audioFly.updateVolume(1F);
+				this.audioFly.updatePosition((int)this.posX, (int)this.posY, (int)this.posZ);
 			}
 			else
 			{
-				//this.audioFly.startSound();
+				// Start playing the sound
+				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				double distance = player.getDistanceSq(this.posX, this.posY, this.posZ);
+				if (distance < 110 * 110) {
+					this.audioFly.startSound();
+				}
 			}
 		}
 
