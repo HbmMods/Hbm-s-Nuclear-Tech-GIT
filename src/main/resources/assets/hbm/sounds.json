@@ -328,7 +328,7 @@
     "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1"]},
     "entity.siegeHurt": {"category": "hostile", "sounds": ["entity/siegeHurt1", "entity/siegeHurt2"]},
     "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
-		"entity.meteoriteFallingLoop": {"category": "block", "sounds": ["entity/meteoriteFallingLoop"]},
+		"entity.meteoriteFallingLoop": {"category": "block", "sounds": [{"name": "entity/meteoriteFallingLoop", "stream": false}]},
 
 
 	"step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
