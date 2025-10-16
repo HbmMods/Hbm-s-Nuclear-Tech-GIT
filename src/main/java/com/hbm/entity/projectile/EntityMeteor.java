@@ -27,6 +27,9 @@ public class EntityMeteor extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.setSize(4F, 4F);
+
+		this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 0F, 100F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
+
 	}
 
 	public boolean destroyWeakBlocks(World world, int x, int y, int z, int radius) {
@@ -48,7 +51,7 @@ public class EntityMeteor extends Entity {
 						float hardness = block.getBlockHardness(world, blockX, blockY, blockZ);
 
 						if (block == Blocks.leaves || block == Blocks.log || hardness <= 0.3F || block == Blocks.water) {
-							world.setBlockToAir(blockX, blockY, blockZ);
+							if(!safe) world.setBlockToAir(blockX, blockY, blockZ);
 						} else {
 							foundSolidBlock = true;
 						}
@@ -62,13 +65,6 @@ public class EntityMeteor extends Entity {
 
 	@Override
 	public void onUpdate() {
-		if(!soundStarted) {
-			this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", (int)this.posX, 5000, (int)this.posZ, 1F, 150F, 1F, 2);
-			this.audioFly.startSound();
-
-			soundStarted = true;
-		}
-
 		if(!worldObj.isRemote && !WorldConfig.enableMeteorStrikes) {
 			this.setDead();
 			return;
@@ -84,7 +80,6 @@ public class EntityMeteor extends Entity {
 
 		this.moveEntity(motionX, motionY, motionZ);
 		this.audioFly.updatePosition((int)this.posX, (int)this.posY, (int)this.posZ);
-		this.audioFly.keepAlive();
 
 		if(!this.worldObj.isRemote && this.posY < 260) {
 			if(destroyWeakBlocks(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 6) && this.onGround) {
@@ -101,6 +96,17 @@ public class EntityMeteor extends Entity {
 				(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 				this.setDead();
+			}
+		}
+
+		if(this.motionY <= -2){
+			if(this.audioFly.isPlaying()) {
+				//this.audioFly.keepAlive();
+				//this.audioFly.updateVolume(1F);
+			}
+			else
+			{
+				//this.audioFly.startSound();
 			}
 		}
 
