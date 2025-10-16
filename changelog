@@ -51,3 +51,4 @@
 * Fixed constant cascading chunk gen caused by meteorites and flower patches
 * Fixed garbage loot pool sometimes producing "stone wires"
 * Fixed mining lasers targeting blocks with the "gas" material
+* Fixed gun looping sounds behaving weird when moving while firing

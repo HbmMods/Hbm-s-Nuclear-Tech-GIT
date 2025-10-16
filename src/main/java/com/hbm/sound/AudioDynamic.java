@@ -44,7 +44,7 @@ public class AudioDynamic extends MovingSound {
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		float f = 0;
 		
-		if(parentEntity != null) {
+		if(parentEntity != null && player != parentEntity) {
 			this.setPosition((float) parentEntity.posX, (float) parentEntity.posY, (float) parentEntity.posZ);
 		}
 		
@@ -53,6 +53,8 @@ public class AudioDynamic extends MovingSound {
 			f = (float)Math.sqrt(Math.pow(xPosF - player.posX, 2) + Math.pow(yPosF - player.posY, 2) + Math.pow(zPosF - player.posZ, 2));
 			volume = func(f);
 		} else {
+			// shitty hack that prevents stereo weirdness when using 0 0 0
+			if(player == parentEntity) this.setPosition((float) parentEntity.posX, (float) parentEntity.posY + 10, (float) parentEntity.posZ);
 			volume = maxVolume;
 		}
 		

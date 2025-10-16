@@ -57,7 +57,7 @@ public class XFactoryDrill {
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(LAMBDA_DRILL_FIRE))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD).decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_DRILL_ANIMS)
+				.anim(LAMBDA_DRILL_ANIMS).orchestra(Orchestras.ORCHESTRA_DRILL)
 				).setUnlocalizedName("gun_drill");
 	}
 	
@@ -132,13 +132,16 @@ public class XFactoryDrill {
 				.addBus("EQUIP", new BusAnimationSequence().setPos(-1, 0, 0).addPos(0, 0, 0, 750, IType.SIN_DOWN));
 		case CYCLE:
 			double deploy = HbmAnimations.getRelevantTransformation("DEPLOY")[0];
+			double speed = HbmAnimations.getRelevantTransformation("SPEED")[0];
 			double spin = HbmAnimations.getRelevantTransformation("SPIN")[0] % 360; // seamlessly continue from the previous animation state
 			return new BusAnimation()
 					.addBus("DEPLOY", new BusAnimationSequence().setPos(deploy, 0, 0).addPos(1, 0, 0, (int) (500 * (1 - deploy)), IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 500, IType.SIN_FULL))
-					.addBus("SPIN", new BusAnimationSequence().setPos(spin, 0, 0).addPos(spin + 360 * 1.5, 0, 0, 1500).addPos(spin + 360 * 2, 0, 0, 750, IType.SIN_DOWN));
+					.addBus("SPIN", new BusAnimationSequence().setPos(spin, 0, 0).addPos(spin + 360 * 1.5, 0, 0, 1500).addPos(360 * 3, 0, 0, 750 + (int) (1000 * (1D - spin / 360D)), IType.SIN_DOWN))
+					.addBus("SPEED", new BusAnimationSequence().setPos(speed, 0, 0).addPos(1, 0, 0, 500).hold(1000).addPos(0, 0, 0, 750 + (int) (1000 * (1D - spin / 360D)), IType.SIN_DOWN));
 		case CYCLE_DRY: return new BusAnimation()
 				.addBus("DEPLOY", new BusAnimationSequence().addPos(0.25, 0, 0, 250, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_FULL))
-				.addBus("SPIN", new BusAnimationSequence().addPos(360 * 1, 0, 0, 1500, IType.SIN_DOWN));
+				.addBus("SPIN", new BusAnimationSequence().addPos(360 * 1, 0, 0, 1500, IType.SIN_DOWN))
+				.addBus("SPEED", new BusAnimationSequence().addPos(0.75, 0, 0, 250).addPos(0, 0, 0, 1000, IType.SIN_DOWN));
 		case INSPECT: return new BusAnimation()
 				.addBus("LIFT", new BusAnimationSequence().addPos(-45, 0, 0, 500, IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		}

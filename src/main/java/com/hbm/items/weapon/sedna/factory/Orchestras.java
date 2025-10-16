@@ -17,6 +17,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.helper.CasingCreator;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.EntityDamageUtil;
@@ -820,11 +821,12 @@ public class Orchestras {
 					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.flameLoop", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 1F, 10);
 					ItemGunBaseNT.loopedSounds.put(entity, audio);
 					audio.startSound();
+					audio.attachTo(entity);
 				}
 				//keepalive
 				if(runningAudio != null && runningAudio.isPlaying()) {
 					runningAudio.keepAlive();
-					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
+					runningAudio.attachTo(entity);
 				}
 			} else {
 				//stop sound due to timeout
@@ -1188,10 +1190,11 @@ public class Orchestras {
 					audio.updatePitch(0.75F);
 					ItemGunBaseNT.loopedSounds.put(entity, audio);
 					audio.startSound();
+					audio.attachTo(entity);
 				}
 				if(runningAudio != null && runningAudio.isPlaying()) {
 					runningAudio.keepAlive();
-					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
+					runningAudio.attachTo(entity);
 					runningAudio.updatePitch(0.75F + timer * 0.01F);
 				}
 			} else {
@@ -1517,6 +1520,53 @@ public class Orchestras {
 		if(type == GunAnimation.RELOAD) {
 			if(timer == 30) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertRocket", 1F, 1F);
 			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.boltClose", 1F, 1F);
+		}
+	};
+
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_DRILL = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+
+		if(entity.worldObj.isRemote) {
+			double speed = HbmAnimations.getRelevantTransformation("SPEED")[0];
+			
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+
+			if(speed > 0) {
+				//start sound
+				if(runningAudio == null || !runningAudio.isPlaying()) {
+					boolean electric = XWeaponModManager.hasUpgrade(stack, ctx.configIndex, XWeaponModManager.ID_ENGINE_ELECTRIC);
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound(electric ? "hbm:block.largeTurbineRunning" : "hbm:block.engine", (float) entity.posX, (float) entity.posY, (float) entity.posZ, (float) speed, 15F, (float) speed, 25);
+					ItemGunBaseNT.loopedSounds.put(entity, audio);
+					audio.startSound();
+					audio.attachTo(entity);
+				}
+				//keepalive
+				if(runningAudio != null && runningAudio.isPlaying()) {
+					runningAudio.keepAlive();
+					runningAudio.updateVolume((float) speed);
+					runningAudio.updatePitch((float) speed);
+				}
+			} else {
+				//stop sound due to timeout
+				//if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+				// for some reason this causes stutters, even though speed shouldn't be 0 then
+			}
+		}
+		//stop sound due to state change
+		if(type != GunAnimation.CYCLE && type != GunAnimation.CYCLE_DRY && entity.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+		}
+		if(entity.worldObj.isRemote) return;
+
+		if(type == GunAnimation.RELOAD) {
+			if(timer == 15) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.openLatch", 1F, 1F);
+			if(timer == 35) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.impact", 0.5F, 1F);
+			if(timer == 60) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.75F);
+			if(timer == 70) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertCanister", 1F, 1F);
+			if(timer == 85) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pressureValve", 1F, 1F);
 		}
 	};
 }
