@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
@@ -16,6 +17,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import com.hbm.sound.AudioWrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EntityMeteor extends Entity {
 
 	public boolean safe = false;
@@ -30,35 +34,84 @@ public class EntityMeteor extends Entity {
 		if(worldObj.isRemote) this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 1F, 100F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
 	}
 
-	public boolean destroyWeakBlocks(World world, int x, int y, int z, int radius) {
-		int rSq = radius * radius;
-		boolean foundSolidBlock = false;
+	public List<int[]> getBlocksInRadius(World world, int x, int y, int z, int radius) {
+		List<int[]> foundBlocks = new ArrayList<>();
 
+		int rSq = radius * radius;
 		for (int dx = -radius; dx <= radius; dx++) {
 			for (int dy = -radius; dy <= radius; dy++) {
 				for (int dz = -radius; dz <= radius; dz++) {
 					// Check if point (dx, dy, dz) lies inside the sphere
 					if (dx * dx + dy * dy + dz * dz <= rSq) {
-						int blockX = x + dx;
-						int blockY = y + dy;
-						int blockZ = z + dz;
-
-						Block block = world.getBlock(blockX, blockY, blockZ);
-						if (block == null) continue;
-
-						float hardness = block.getBlockHardness(world, blockX, blockY, blockZ);
-
-						if (block == Blocks.leaves || block == Blocks.log || hardness <= 0.3F || block == Blocks.water) {
-							if(!safe) world.setBlockToAir(blockX, blockY, blockZ);
-						} else {
-							foundSolidBlock = true;
-						}
+						foundBlocks.add(new int[]{x + dx, y + dy, z + dz});
 					}
 				}
 			}
 		}
+		return foundBlocks;
+	}
+
+	public boolean damageOrDestroyBlock(World world, int blockX, int blockY, int blockZ)
+	{
+		if(safe) return true;
+
+		// Get current block info
+		Block block = world.getBlock(blockX, blockY, blockZ);
+		if (block == null) return false;
+		float hardness = block.getBlockHardness(world, blockX, blockY, blockZ);
+
+		// Check if the block is weak and can be destroyed
+		if (block == Blocks.leaves || block == Blocks.log || hardness <= 0.3F) {
+			// Destroy the block
+			world.setBlockToAir(blockX, blockY, blockZ);
+		}
+		else {
+			// Found solid block
+			if(rand.nextInt(6) == 1){
+				// Turn blocks into damaged variants
+				if(block == Blocks.dirt) {
+					world.setBlock(blockX, blockY, blockZ, ModBlocks.dirt_dead);
+				}
+				else if(block == Blocks.sand) {
+					if(rand.nextInt(2) == 1) {
+						world.setBlock(blockX, blockY, blockZ, Blocks.sandstone);
+					}
+					else {
+						world.setBlock(blockX, blockY, blockZ, Blocks.glass);
+					}
+				}
+				else if(block == Blocks.stone) {
+					world.setBlock(blockX, blockY, blockZ, Blocks.cobblestone);
+				}
+				else if(block == Blocks.grass) {
+					world.setBlock(blockX, blockY, blockZ, ModBlocks.waste_earth);
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean clearMeteorPath(World world, int x, int y, int z) {
+		boolean foundSolidBlock = false;
+
+		for (int[] blockPos : getBlocksInRadius(world, x, y, z, 5))
+		{
+			if(damageOrDestroyBlock(worldObj, blockPos[0], blockPos[1], blockPos[2])) {
+				foundSolidBlock = true;
+			}
+		}
 
 		return foundSolidBlock;
+	}
+
+	public void decorateCrater(World world, int x, int y, int z) {
+		for (int[] blockPos : getBlocksInRadius(world, x, y, z, 5))
+		{
+			damageOrDestroyBlock(worldObj, blockPos[0], blockPos[1], blockPos[2]);
+		}
 	}
 
 	@Override
@@ -79,10 +132,12 @@ public class EntityMeteor extends Entity {
 		this.moveEntity(motionX, motionY, motionZ);
 
 		if(!this.worldObj.isRemote && this.posY < 260) {
-			if(destroyWeakBlocks(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 6) && this.onGround) {
+			if(clearMeteorPath(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ) && this.onGround) {
+				worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 
-				//worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 				if(WorldConfig.enableMeteorTails) {
+					ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 25);
+
 					ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
 					ExplosionLarge.spawnParticles(worldObj, posX + 5, posY, posZ, 75);
 					ExplosionLarge.spawnParticles(worldObj, posX - 5, posY, posZ, 75);
@@ -90,7 +145,13 @@ public class EntityMeteor extends Entity {
 					ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ - 5, 75);
 				}
 
-				(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
+				// Bury the meteor into the ground
+				int spawnPosX = (int) (Math.round(this.posX - 0.5D) + (safe ? 0 : (this.motionZ * 5)));
+				int spawnPosY = (int) Math.round(this.posY - (safe ? 0 : 4));
+				int spawnPosZ = (int) (Math.round(this.posZ - 0.5D) + (safe ? 0 : (this.motionZ * 5)));
+
+				(new Meteorite()).generate(worldObj, rand, spawnPosX, spawnPosY, spawnPosZ, safe, true, true);
+				decorateCrater(worldObj, spawnPosX, spawnPosY, spawnPosZ);
 
 				// Sound
 				if(this.audioFly != null) this.audioFly.stopSound();
