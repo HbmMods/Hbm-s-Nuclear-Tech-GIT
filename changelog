@@ -52,3 +52,4 @@
 * Fixed garbage loot pool sometimes producing "stone wires"
 * Fixed mining lasers targeting blocks with the "gas" material
 * Fixed gun looping sounds behaving weird when moving while firing
+* Fixed an issue where weapon mods with the highest stat change priority would break the mod sorting, leading to inconsistent behavior
