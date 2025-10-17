@@ -93,20 +93,7 @@ public class EntityMeteor extends Entity {
 		return false;
 	}
 
-	public boolean clearMeteorPath(World world, int x, int y, int z) {
-		boolean foundSolidBlock = false;
-
-		for (int[] blockPos : getBlocksInRadius(world, x, y, z, 5))
-		{
-			if(damageOrDestroyBlock(worldObj, blockPos[0], blockPos[1], blockPos[2])) {
-				foundSolidBlock = true;
-			}
-		}
-
-		return foundSolidBlock;
-	}
-
-	public void decorateCrater(World world, int x, int y, int z) {
+	public void clearMeteorPath(World world, int x, int y, int z) {
 		for (int[] blockPos : getBlocksInRadius(world, x, y, z, 5))
 		{
 			damageOrDestroyBlock(worldObj, blockPos[0], blockPos[1], blockPos[2]);
@@ -131,7 +118,8 @@ public class EntityMeteor extends Entity {
 		this.moveEntity(motionX, motionY, motionZ);
 
 		if(!this.worldObj.isRemote && this.posY < 260) {
-			if(clearMeteorPath(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ) && this.onGround) {
+			clearMeteorPath(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
+			if(this.onGround) {
 				worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 
 				if(WorldConfig.enableMeteorTails) {
@@ -150,7 +138,7 @@ public class EntityMeteor extends Entity {
 				int spawnPosZ = (int) (Math.round(this.posZ - 0.5D) + (safe ? 0 : (this.motionZ * 5)));
 
 				(new Meteorite()).generate(worldObj, rand, spawnPosX, spawnPosY, spawnPosZ, safe, true, true);
-				decorateCrater(worldObj, spawnPosX, spawnPosY, spawnPosZ);
+				clearMeteorPath(worldObj, spawnPosX, spawnPosY, spawnPosZ);
 
 				// Sound
 				if(this.audioFly != null) this.audioFly.stopSound();

@@ -1,0 +1,16 @@
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+glconv_vaapi_x11 error: vaInitialize: unknown libva error
+glconv_vaapi_drm error: vaInitialize: unknown libva error
+glconv_vaapi_drm error: vaInitialize: operation failed
+avcodec: Using NVIDIA VDPAU Driver Shared Library  580.95.05  Tue Sep 23 09:39:47 UTC 2025 for hardware decoding
+main error: Timestamp conversion failed for 7671001: no reference clock
+main error: Could not convert timestamp 0 for FFmpeg
+-- logger module stopped --
+﻿-- logger module started --
+main: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+glconv_vaapi_x11 error: vaInitialize: unknown libva error
+glconv_vaapi_drm error: vaInitialize: unknown libva error
+glconv_vaapi_drm error: vaInitialize: operation failed
+avcodec: Using NVIDIA VDPAU Driver Shared Library  580.95.05  Tue Sep 23 09:39:47 UTC 2025 for hardware decoding
+-- logger module stopped --
