@@ -30,7 +30,6 @@ public class EntityMeteor extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.setSize(4F, 4F);
-
 		if(worldObj.isRemote) this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 1F, 100F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
 	}
 

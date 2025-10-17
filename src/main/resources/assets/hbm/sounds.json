@@ -330,7 +330,6 @@
     "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
 		"entity.meteoriteFallingLoop": {"category": "block", "sounds": [{"name": "entity/meteoriteFallingLoop", "stream": false}]},
 
-
 	"step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
     "step.iron_jump": {"category": "player", "sounds": [{"name": "footsteps/iron_jump", "stream": false}]},
     "step.iron_land": {"category": "player", "sounds": [{"name": "footsteps/iron_land", "stream": false}]},
