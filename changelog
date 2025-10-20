@@ -43,6 +43,15 @@
   * This also means that in larger networks with many providers and requesters, all the useless connections between them which scale exponentially will no longer exist
   * This is a band-aid fix for logistics nets destroying the game even at lower scales due to the path finding being unperformant as hell
   * The system will have to be reworked entirely sooner or later (ough)
+* PWR parts have been moved fro mthe workbench to the assembler
+* Rebalanced a lot of expensive mode recipes
+  * Some oil proc machines are now a tad cheaper
+  * Extensive boards now use four rubber bars instead of gold wires
+  * The CCGT is now considerably cheaper, using similar materials as a turbofan
+  * Fusion reactors now use welded tc/cd alloy again
+  * 256k tanks now use half as much steel
+  * Gerald is now way more expensive
+  * PWR parts are now subject to expensive mode
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
