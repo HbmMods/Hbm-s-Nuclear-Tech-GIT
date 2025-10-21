@@ -52,6 +52,7 @@
   * 256k tanks now use half as much steel
   * Gerald is now way more expensive
   * PWR parts are now subject to expensive mode
+* Fluid container items now keep their custom name when filling or emptying
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
@@ -62,3 +63,5 @@
 * Fixed mining lasers targeting blocks with the "gas" material
 * Fixed gun looping sounds behaving weird when moving while firing
 * Fixed an issue where weapon mods with the highest stat change priority would break the mod sorting, leading to inconsistent behavior
+* Fixed fluid container items breaking when NBT is attached to them
+* Potentially fixed a mod conflict where corium fluid would crash when flowing into water

@@ -127,7 +127,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 			
 			if(this.isEndpoint() && this.node != null && this.node.net != null && worldObj.getTotalWorldTime() % 10 == 0) {
 				TileEntity tile = Compat.getTileStandard(worldObj, xCoord + this.ejectionDir.offsetX, yCoord + this.ejectionDir.offsetY, zCoord + this.ejectionDir.offsetZ);
-				if(tile instanceof IInventory) this.node.net.addReceiver((IInventory) tile, this.ejectionDir);
+				if(tile instanceof IInventory) this.node.net.addReceiver((IInventory) tile, this.ejectionDir, this);
 			}
 
 			this.networkPackNT(15);
