@@ -314,6 +314,15 @@ public class ModBlocks {
 	public static Block spotlight_beam;
 	public static Block floodlight;
 	public static Block floodlight_beam;
+	
+	// Powered lights
+	public static Block spotlight_incandescent_powered;
+	public static Block spotlight_incandescent_powered_off;
+	public static Block spotlight_fluoro_powered;
+	public static Block spotlight_fluoro_powered_off;
+	public static Block spotlight_halogen_powered;
+	public static Block spotlight_halogen_powered_off;
+	public static Block powered_lights_controller;
 
 	public static Block rebar;
 	public static Block reinforced_stone;
@@ -1528,6 +1537,15 @@ public class ModBlocks {
 		spotlight_beam = new SpotlightBeam().setBlockName("spotlight_beam");
 		floodlight = new Floodlight(Material.iron).setBlockName("floodlight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		floodlight_beam = new FloodlightBeam().setBlockName("floodlight_beam");
+		
+		// Powered lights
+		spotlight_incandescent_powered = new SpotlightPowered(Material.iron, 2, LightType.INCANDESCENT, 40, true).setBlockName("spotlight_incandescent_powered").setBlockTextureName(RefStrings.MODID + ":cage_lamp");
+		spotlight_incandescent_powered_off = new SpotlightPowered(Material.iron, 2, LightType.INCANDESCENT, 40, false).setBlockName("spotlight_incandescent_powered_off").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":cage_lamp_off");
+		spotlight_fluoro_powered = new SpotlightModularPowered(Material.iron, 8, LightType.FLUORESCENT, 20, true).setBlockName("spotlight_fluoro_powered").setBlockTextureName(RefStrings.MODID + ":fluorescent_lamp");
+		spotlight_fluoro_powered_off = new SpotlightModularPowered(Material.iron, 8, LightType.FLUORESCENT, 20, false).setBlockName("spotlight_fluoro_powered_off").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":fluorescent_lamp_off");
+		spotlight_halogen_powered = new SpotlightPowered(Material.iron, 32, LightType.HALOGEN, 80, true).setBlockName("spotlight_halogen_powered").setBlockTextureName(RefStrings.MODID + ":flood_lamp");
+		spotlight_halogen_powered_off = new SpotlightPowered(Material.iron, 32, LightType.HALOGEN, 80, false).setBlockName("spotlight_halogen_powered_off").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":flood_lamp_off");
+		powered_lights_controller = new PoweredLightsController(Material.iron).setBlockName("powered_lights_controller").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":machine_transformer");
 
 		rebar = new BlockRebar().setBlockName("rebar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":rebar");
 		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
@@ -2693,6 +2711,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(spotlight_beam, spotlight_beam.getUnlocalizedName());
 		register(floodlight);
 		GameRegistry.registerBlock(floodlight_beam, floodlight_beam.getUnlocalizedName());
+		
+		// Powered lights
+		register(spotlight_incandescent_powered);
+		register(spotlight_incandescent_powered_off);
+		register(spotlight_fluoro_powered);
+		register(spotlight_fluoro_powered_off);
+		register(spotlight_halogen_powered);
+		register(spotlight_halogen_powered_off);
+		register(powered_lights_controller);
 
 		//Reinforced Blocks
 		register(sandbags);

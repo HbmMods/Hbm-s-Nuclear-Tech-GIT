@@ -29,6 +29,9 @@ import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
+import com.hbm.blocks.machine.SpotlightPowered.TileEntitySpotlightPowered;
+import com.hbm.blocks.machine.SpotlightModularPowered.TileEntitySpotlightModularPowered;
+import com.hbm.blocks.machine.PoweredLightsController.TileEntityPoweredLightsController;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
@@ -205,6 +208,11 @@ public class TileMappings {
 		put(TileEntityFloodlightBeam.class, "tileentity_floodlight_beam");
 		put(TileEntityLantern.class, "tileentity_lantern_ordinary");
 		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
+		
+		// Powered lights
+		put(TileEntitySpotlightPowered.class, "tileentity_spotlight_powered");
+		put(TileEntitySpotlightModularPowered.class, "tileentity_spotlight_modular_powered");
+		put(TileEntityPoweredLightsController.class, "tileentity_powered_lights_controller");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
