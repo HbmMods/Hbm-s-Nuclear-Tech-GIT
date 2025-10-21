@@ -25,11 +25,14 @@ import net.minecraft.util.ResourceLocation;
 public class GUIPneumoTube extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_pipe.png");
+	private static ResourceLocation texture_endpoint = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_endpoint.png");
 	public TileEntityPneumoTube tube;
+	public boolean endpointOnly;
 
-	public GUIPneumoTube(InventoryPlayer invPlayer, TileEntityPneumoTube tedf) {
+	public GUIPneumoTube(InventoryPlayer invPlayer, TileEntityPneumoTube tedf, boolean endpointOnly) {
 		super(new ContainerPneumoTube(invPlayer, tedf));
 		this.tube = tedf;
+		this.endpointOnly = endpointOnly;
 		
 		this.xSize = 176;
 		this.ySize = 185;
@@ -39,14 +42,15 @@ public class GUIPneumoTube extends GuiInfoContainer {
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
 		
-		tube.compair.renderTankInfo(this, x, y, guiLeft + 7, guiTop + 16, 18, 18);
-		
-		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 52, 18, 18, x, y, (tube.redstone ? (EnumChatFormatting.GREEN + "ON ") : (EnumChatFormatting.RED + "OFF ")) + EnumChatFormatting.RESET + "with Redstone");
-		this.drawCustomInfoStat(x, y, guiLeft + 6, guiTop + 36, 20, 8, x, y, "Compressor: " + tube.compair.getPressure() + " PU", "Max range: " + tube.getRangeFromPressure(tube.compair.getPressure()) + "m");
-		
-		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 16, 18, 18, x, y, EnumChatFormatting.YELLOW + "Receiver order:", tube.receiveOrder == PneumaticNetwork.RECEIVE_ROBIN ? "Round robin" : "Random");
-		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 52, 18, 18, x, y, EnumChatFormatting.YELLOW + "Provider slot order:", tube.sendOrder == PneumaticNetwork.SEND_FIRST ? "First to last" : tube.sendOrder == PneumaticNetwork.SEND_LAST ? "Last to first" : "Random");
-
+		if(!endpointOnly) {
+			tube.compair.renderTankInfo(this, x, y, guiLeft + 7, guiTop + 16, 18, 18);
+			
+			this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 52, 18, 18, x, y, (tube.redstone ? (EnumChatFormatting.GREEN + "ON ") : (EnumChatFormatting.RED + "OFF ")) + EnumChatFormatting.RESET + "with Redstone");
+			this.drawCustomInfoStat(x, y, guiLeft + 6, guiTop + 36, 20, 8, x, y, "Compressor: " + tube.compair.getPressure() + " PU", "Max range: " + tube.getRangeFromPressure(tube.compair.getPressure()) + "m");
+			
+			this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 16, 18, 18, x, y, EnumChatFormatting.YELLOW + "Receiver order:", tube.receiveOrder == PneumaticNetwork.RECEIVE_ROBIN ? "Round robin" : "Random");
+			this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 52, 18, 18, x, y, EnumChatFormatting.YELLOW + "Provider slot order:", tube.sendOrder == PneumaticNetwork.SEND_FIRST ? "First to last" : tube.sendOrder == PneumaticNetwork.SEND_LAST ? "Last to first" : "Random");
+		}
 
 		if(this.mc.thePlayer.inventory.getItemStack() == null) {
 			for(int i = 0; i < 15; ++i) {
@@ -63,11 +67,14 @@ public class GUIPneumoTube extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		click(x, y, 7, 52, 18, 18, "redstone");
-		click(x, y, 6, 36, 20, 8, "pressure");
+		if(!endpointOnly) {
+			click(x, y, 7, 52, 18, 18, "redstone");
+			click(x, y, 6, 36, 20, 8, "pressure");
+			click(x, y, 151, 16, 18, 18, "receive");
+			click(x, y, 151, 52, 18, 18, "send");
+		}
+		
 		click(x, y, 128, 30, 14, 26, "whitelist");
-		click(x, y, 151, 16, 18, 18, "receive");
-		click(x, y, 151, 52, 18, 18, "send");
 	}
 	
 	public void click(int x, int y, int left, int top, int sizeX, int sizeY, String name) {
@@ -90,10 +97,8 @@ public class GUIPneumoTube extends GuiInfoContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(endpointOnly ? texture_endpoint : texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
-		if(tube.redstone) drawTexturedModalRect(guiLeft + 7, guiTop + 52, 179, 0, 18, 18);
 		
 		if(tube.whitelist) {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 33, 176, 0, 3, 6);
@@ -101,10 +106,13 @@ public class GUIPneumoTube extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
 		}
 
-		drawTexturedModalRect(guiLeft + 151, guiTop + 16, 197, 18 * tube.receiveOrder, 18, 18);
-		drawTexturedModalRect(guiLeft + 151, guiTop + 52, 215, 18 * tube.sendOrder, 18, 18);
-		
-		drawTexturedModalRect(guiLeft + 6 + 4 * (tube.compair.getPressure() - 1), guiTop + 36, 179, 18, 4, 8);
-		GaugeUtil.drawSmoothGauge(guiLeft + 16, guiTop + 25, this.zLevel, (double) tube.compair.getFill() / (double) tube.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);
+		if(!endpointOnly) {
+			if(tube.redstone) drawTexturedModalRect(guiLeft + 7, guiTop + 52, 179, 0, 18, 18);
+			drawTexturedModalRect(guiLeft + 151, guiTop + 16, 197, 18 * tube.receiveOrder, 18, 18);
+			drawTexturedModalRect(guiLeft + 151, guiTop + 52, 215, 18 * tube.sendOrder, 18, 18);
+			
+			drawTexturedModalRect(guiLeft + 6 + 4 * (tube.compair.getPressure() - 1), guiTop + 36, 179, 18, 4, 8);
+			GaugeUtil.drawSmoothGauge(guiLeft + 16, guiTop + 25, this.zLevel, (double) tube.compair.getFill() / (double) tube.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);
+		}
 	}
 }

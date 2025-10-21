@@ -84,6 +84,7 @@ public class PneumaticNetwork extends NodeNet {
 		if(chosenReceiverEntry == null) return false;
 		
 		IInventory dest = chosenReceiverEntry.getKey();
+		TileEntityPneumoTube endpointTile = chosenReceiverEntry.getValue().getZ();
 		ISidedInventory sidedDest = dest instanceof ISidedInventory ? (ISidedInventory) dest : null;
 		ISidedInventory sidedSource = source instanceof ISidedInventory ? (ISidedInventory) source : null;
 		
@@ -108,8 +109,14 @@ public class PneumaticNetwork extends NodeNet {
 			ItemStack sourceStack = source.getStackInSlot(sourceIndex);
 			if(sourceStack == null) continue;
 			if(sidedSource != null && !sidedSource.canExtractItem(sourceIndex, sourceStack, sourceSide)) continue;
+			// filter of the source
 			boolean match = tube.matchesFilter(sourceStack);
 			if((match && !tube.whitelist) || (!match && tube.whitelist)) continue;
+			// filter of the receiver, only if the sender and receiver aren't the same block
+			if(endpointTile != null && endpointTile != tube) {
+				match = endpointTile.matchesFilter(sourceStack);
+				if((match && !endpointTile.whitelist) || (!match && endpointTile.whitelist)) continue;
+			}
 			// the "mass" of an item. something that only stacks to 4 has a "mass" of 16. max transfer mass is 64, i.e. one standard stack, or one single unstackable item
 			int proportionalValue = MathHelper.clamp_int(64 / sourceStack.getMaxStackSize(), 1, 64);
 			

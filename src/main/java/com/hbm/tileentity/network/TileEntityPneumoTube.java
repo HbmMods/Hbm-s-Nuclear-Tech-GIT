@@ -257,7 +257,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIPneumoTube(player.inventory, this);
+		return new GUIPneumoTube(player.inventory, this, ID == 1);
 	}
 	
 	@Override

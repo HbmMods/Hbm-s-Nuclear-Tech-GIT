@@ -153,6 +153,9 @@ public class PneumoTubePaintableBlock extends BlockContainer implements IToolabl
 					if (tube.isCompressor()) {
 						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 						return true;
+					} else if(tube.isEndpoint()) {
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, world, x, y, z);
+						return true;
 					}
 				}
 			}
