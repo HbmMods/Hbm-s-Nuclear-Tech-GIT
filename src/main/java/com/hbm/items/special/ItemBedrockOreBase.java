@@ -26,7 +26,7 @@ public class ItemBedrockOreBase extends Item {
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		ItemStack ore = new ItemStack(item);
 		EntityPlayer player = MainRegistry.proxy.me();
-		if(player != null) setOreAmount(ore, (int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+		if(player != null) setOreAmount(ore, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), 1D);
 		list.add(ore);
 	}
 
@@ -36,7 +36,7 @@ public class ItemBedrockOreBase extends Item {
 		return data.getDouble(type.suffix);
 	}
 	
-	public static void setOreAmount(ItemStack stack, int x, int z) {
+	public static void setOreAmount(ItemStack stack, int x, int z, double mult) {
 		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 		NBTTagCompound data = stack.getTagCompound();
 

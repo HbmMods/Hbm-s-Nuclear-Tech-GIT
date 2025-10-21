@@ -58,6 +58,7 @@
   * PWR parts are now subject to expensive mode
 * Fluid container items now keep their custom name when filling or emptying
 * Pneumatic tube endpoints now have a GUI that allows filters to be defined
+* Fortune on drillbits affects the bedrock ore yield now, with each level of fortune adding 25%
 
 ## Fixed
 * Fixed the T-51b set not having radiation resistance
