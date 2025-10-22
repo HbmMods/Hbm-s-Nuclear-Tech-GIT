@@ -50,22 +50,23 @@ public class EntityMeteor extends Entity {
 		return foundBlocks;
 	}
 
-	public boolean damageOrDestroyBlock(World world, int blockX, int blockY, int blockZ)
+	public void damageOrDestroyBlock(World world, int blockX, int blockY, int blockZ)
 	{
-		if(safe) return true;
+		if(safe) return;
 
 		// Get current block info
 		Block block = world.getBlock(blockX, blockY, blockZ);
-		if (block == null) return false;
+		if (block == null) return;
 		float hardness = block.getBlockHardness(world, blockX, blockY, blockZ);
 
 		// Check if the block is weak and can be destroyed
-		if (block == Blocks.leaves || block == Blocks.log || hardness <= 0.3F) {
+		if (block == Blocks.leaves || block == Blocks.log || (hardness >= 0 && hardness <= 0.3F)) {
 			// Destroy the block
 			world.setBlockToAir(blockX, blockY, blockZ);
 		}
 		else {
 			// Found solid block
+			if(hardness < 0 || hardness > 5F) return;
 			if(rand.nextInt(6) == 1){
 				// Turn blocks into damaged variants
 				if(block == Blocks.dirt) {
@@ -86,11 +87,7 @@ public class EntityMeteor extends Entity {
 					world.setBlock(blockX, blockY, blockZ, ModBlocks.waste_earth);
 				}
 			}
-
-			return true;
 		}
-
-		return false;
 	}
 
 	public void clearMeteorPath(World world, int x, int y, int z) {
@@ -133,15 +130,13 @@ public class EntityMeteor extends Entity {
 				}
 
 				// Bury the meteor into the ground
-				int spawnPosX = (int) (Math.round(this.posX - 0.5D) + (safe ? 0 : (this.motionZ * 5)));
+				int spawnPosX = (int) (Math.round(this.posX - 0.5D) + (safe ? 0 : (this.motionZ * 4)));
 				int spawnPosY = (int) Math.round(this.posY - (safe ? 0 : 4));
-				int spawnPosZ = (int) (Math.round(this.posZ - 0.5D) + (safe ? 0 : (this.motionZ * 5)));
+				int spawnPosZ = (int) (Math.round(this.posZ - 0.5D) + (safe ? 0 : (this.motionZ * 4)));
 
 				(new Meteorite()).generate(worldObj, rand, spawnPosX, spawnPosY, spawnPosZ, safe, true, true);
 				clearMeteorPath(worldObj, spawnPosX, spawnPosY, spawnPosZ);
 
-				// Sound
-				if(this.audioFly != null) this.audioFly.stopSound();
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 
 				this.setDead();
@@ -150,6 +145,10 @@ public class EntityMeteor extends Entity {
 
 		// Sound
 		if(worldObj.isRemote){
+			if(this.isDead) {
+				if(this.audioFly != null) this.audioFly.stopSound();
+			}
+
 			if(this.audioFly.isPlaying()) {
 				// Update sound
 				this.audioFly.keepAlive();
