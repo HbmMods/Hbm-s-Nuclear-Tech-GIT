@@ -41,7 +41,7 @@ public class ItemBedrockOreBase extends Item {
 		NBTTagCompound data = stack.getTagCompound();
 
 		for(BedrockOreType type : BedrockOreType.values()) {
-			data.setDouble(type.suffix, getOreLevel(x, z, type));
+			data.setDouble(type.suffix, getOreLevel(x, z, type) * mult);
 		}
 	}
 	

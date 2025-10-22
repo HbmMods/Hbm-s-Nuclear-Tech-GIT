@@ -1197,7 +1197,8 @@ public class ClientProxy extends ServerProxy {
 				if("blockdust".equals(data.getString("mode"))) {
 
 					Block b = Block.getBlockById(data.getInteger("block"));
-					fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
+					int m = data.getByte("meta");
+					fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, m);
 					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 50 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
 				}
 

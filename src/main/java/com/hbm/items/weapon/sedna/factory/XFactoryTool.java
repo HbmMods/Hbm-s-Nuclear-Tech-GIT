@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorBulkie;
@@ -168,7 +169,7 @@ public class XFactoryTool {
 				} else {
 					int meta = bullet.worldObj.getBlockMetadata(ix, iy, iz);
 					if(meta < 6) bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
-					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_boron);
+					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_mix, EnumSandType.BORON.ordinal(), 3);
 				}
 				if(b.getMaterial() == Material.fire) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
 			}
@@ -180,7 +181,8 @@ public class XFactoryTool {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaExt");
 			data.setString("mode", "blockdust");
-			data.setInteger("block", Block.getIdFromBlock(ModBlocks.sand_boron));
+			data.setInteger("block", Block.getIdFromBlock(ModBlocks.sand_mix));
+			data.setInteger("meta", EnumSandType.BORON.ordinal());
 			data.setDouble("posX", bullet.posX); data.setDouble("posY", bullet.posY); data.setDouble("posZ", bullet.posZ);
 			data.setDouble("mX", bullet.motionX + bullet.worldObj.rand.nextGaussian() * 0.1);
 			data.setDouble("mY", bullet.motionY - 0.2 + bullet.worldObj.rand.nextGaussian() * 0.1);

@@ -1,73 +1,12 @@
-## Added
-* Powered drill
-  * Gasoline-fueled mining drill with AoE
-  * Uses the gun system and therefore does not have configurable abilities
-  * Mining level of iron tools by default
-  * AoE, melee damage, reach and mining level can be upgraded with drill bits
-  * Mining speed and fuel used can be changed with engines (diesel, aviation, electric, turbo)
-  * Fortune can be added as mods (both mods do in fact stack, yielding fortune III)
-  * Not a precision tool, intended to be used alongside pickaxes instead of replacing them
-  * Despite this, sneaking allows the AoE to be disabled
-  * Unlike pickaxes, shows a preview for what area is to be mined
-  * Due to not being considered a tool like a vanilla one, it's not affected by dig speed penalties from fatigue, being underwater or on a ladder
-* Pipe anchor
-  * Works like a electricity connector but for fluids
-  * Range of 10 blocks
-  * Can be connected using a pipe wrench
-
 ## Changed
-* Updated russian and chinese localization
-* VNT type explosions now track affected block positions when the explosion events fire, this should ensure compatibility with mods that rely on that
-  * For example, this should make ForgeCreeperHeal work with most of NTM's explosions
-* Obliterated standard fluid IDs
-  * The multi ID is now a lot cheaper
-  * For convenience in the creative tab, fluid IDs are now listed with all fluids pre-defined, just like how the old IDs were available
-  * The multi ID now changes metadata based on the selected fluid type, allowing it to be usable for crafting pre-defined pipes
-* The multi ID fluid selector now displays fluid traits in addition to the name when hovering over an icon
-* Added more values to the data table returned by RBMK consoles via OC integration
-* The conveyor ejector now has a "only take maximum possible" toggle
-  * Enabling this means that, if stack ejection upgrades are installed, only stacks that meet the limit can be ejected
-  * Items with a lower maximum stacksize will be ejected regardless
-* Survey scanners now pick up bedrock oil
-* The conveyor sorter filter slots now have directional labels instead of only color coding
-  * Apparently color blind people exist?
-* Conveyor sorters can now process boxes
-  * All stacks are sorted individually, and each batch of items that comes out of one side is sent as a box
-* Conveyor boxers can now accept boxes, this is useful for batching up partial boxes that come out of sorters
-* Conveyor inserters can now accept boxes directly instead of causing them to burst open
-* Conveyor inserters now have a special rule when supplying an arc furnace where instead of trying a full stack and then one item, the first always failing and the last being too slow, they will supply the slot target amount instead
-  * Given the cycle delay and the lid's movement speed, the inserters should now be fast enough to fully supply a speed III arc furnace
-* Skeletons can now be gibbed by explosions, although it will spawn clean bone particles and omit the gore splash effect
-* Polymer power tools now only have AoE 1 instead of AoE 2
-* The fluid container NEI handler now also includes the empty container, making it easier to find what fluids a canister for example is usable for
-* Changed Mk2 infinite water barrel to use generic cast parts instead of a very specific type of pipe
-* Retextured the multi fluid IDs to look more like the old IDs they replaced
-* Logistics provider and requester crates can now only connect to a path node if that path is a dedicated waypoint
-  * This means that requesters and providers will no longer connect automatically, a logistics net now requires at least one dedicated waypoint
-  * This also means that in larger networks with many providers and requesters, all the useless connections between them which scale exponentially will no longer exist
-  * This is a band-aid fix for logistics nets destroying the game even at lower scales due to the path finding being unperformant as hell
-  * The system will have to be reworked entirely sooner or later (ough)
-* PWR parts have been moved fro mthe workbench to the assembler
-* Rebalanced a lot of expensive mode recipes
-  * Some oil proc machines are now a tad cheaper
-  * Extensive boards now use four rubber bars instead of gold wires
-  * The CCGT is now considerably cheaper, using similar materials as a turbofan
-  * Fusion reactors now use welded tc/cd alloy again
-  * 256k tanks now use half as much steel
-  * Gerald is now way more expensive
-  * PWR parts are now subject to expensive mode
-* Fluid container items now keep their custom name when filling or emptying
-* Pneumatic tube endpoints now have a GUI that allows filters to be defined
-* Fortune on drillbits affects the bedrock ore yield now, with each level of fortune adding 25%
+* Fortune on a drillbit now affects the quality of mined bedrock ore, each level of fortune adds 10% of the value to the item
+* The arc furnace now has a five slot input queue which accepts full stacks
+  * This removes the need for weird, hacky, buggy special implementations for inserters to work at a reasonable speed
+  * This also means that pneumatic tubes and other mods' automation systems can now insert into the arc furnace with little issue
+  * Should the mode change and items in the input queue no longer be usable, they automatically become ejectable via automation
+  * The input queue slots are always accessible, not just when the lid is open
+* Removed all the NTM sand mix blocks and replaced them with a single block that uses metadata
+* Removed all tiers of the deprecated PA power plugs except one, leaving the old PAs just barely operational
 
 ## Fixed
-* Fixed the T-51b set not having radiation resistance
-* Potentially fixed a crash on thermos-derived servers involving the flow control pumps
-* Fixed crash caused when another tile entity replaces an RBMK component due to an unchecked cast
-* Fixed constant cascading chunk gen caused by meteorites and flower patches
-* Fixed garbage loot pool sometimes producing "stone wires"
-* Fixed mining lasers targeting blocks with the "gas" material
-* Fixed gun looping sounds behaving weird when moving while firing
-* Fixed an issue where weapon mods with the highest stat change priority would break the mod sorting, leading to inconsistent behavior
-* Fixed fluid container items breaking when NBT is attached to them
-* Potentially fixed a mod conflict where corium fluid would crash when flowing into water
+* Fixed a potential crash caused by inserters connected to multiblocks that don't have a core tile

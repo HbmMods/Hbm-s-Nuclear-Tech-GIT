@@ -28,6 +28,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -83,7 +84,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public List<MaterialStack> liquids = new ArrayList();
 
 	public TileEntityMachineArcFurnaceLarge() {
-		super(25);
+		super(30);
 	}
 
 	@Override
@@ -112,6 +113,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			this.isProgressing = false;
 
 			for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			
+			if(lid == 1) loadIngredients();
 
 			if(power > 0) {
 
@@ -266,6 +269,46 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			}
 		}
 	}
+	
+	/** Moves items from the input queue to the main grid */
+	public void loadIngredients() {
+		
+		boolean markDirty = false;
+		
+		for(int q /* queue */ = 25; q < 30; q++) {
+			if(slots[q] == null) continue;
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[q], this.liquidMode);
+			if(recipe == null) continue;
+			
+			// add to existing stacks
+			for(int i /* ingredient */ = 5; i < 25; i++) {
+				if(slots[i] == null) continue;
+				int max = this.getMaxInputSize();
+				if(!slots[q].isItemEqual(slots[i])) continue;
+				int toMove = BobMathUtil.min(slots[i].getMaxStackSize() - slots[i].stackSize, slots[q].stackSize, max - slots[i].stackSize);
+				if(toMove > 0) {
+					this.decrStackSize(q, toMove);
+					slots[i].stackSize += toMove;
+					markDirty = true;
+				}
+				if(slots[q] == null) break;
+			}
+			
+			// add to empty slot
+			if(slots[q] != null) for(int i /* ingredient */ = 5; i < 25; i++) {
+				if(slots[i] != null) continue;
+				int max = this.getMaxInputSize();
+				int toMove = Math.min(max, slots[q].stackSize);
+				slots[i] = slots[q].copy();
+				slots[i].stackSize = toMove;
+				this.decrStackSize(q, toMove);
+				markDirty = true;
+				if(slots[q] == null) break;
+			}
+		}
+		
+		if(markDirty) this.markDirty();
+	}
 
 	public void decideElectrodeState() {
 		for(int i = 0; i < 3; i++) {
@@ -342,27 +385,19 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return new int[] { 0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+		return new int[] {
+				0, 1, 2,
+				5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+				25, 26, 27, 28, 29};
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if(lid <= 0) return false;
-		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
-		if(slot > 4) {
+		if(slot < 3) return lid <= 0 && stack.getItem() == ModItems.arc_electrode;
+		if(slot >= 25) {
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
-			if(liquidMode) {
-				if(recipe.fluidOutput == null) return false;
-				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
-				sta += stack.stackSize;
-				return sta <= getMaxInputSize();
-			} else {
-				if(recipe.solidOutput == null) return false;
-				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
-				sta += stack.stackSize;
-				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= getMaxInputSize();
-			}
+			return true;
 		}
 		return false;
 	}
@@ -385,7 +420,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
 		if(slot < 3) return lid >= 1 && stack.getItem() != ModItems.arc_electrode;
-		if(slot > 4) return lid > 0 && ArcFurnaceRecipes.getOutput(stack, this.liquidMode) == null;
+		if(slot > 4 && slot < 25) return lid > 0 && ArcFurnaceRecipes.getOutput(stack, this.liquidMode) == null;
+		if(slot >= 25) return ArcFurnaceRecipes.getOutput(stack, this.liquidMode) == null;
 		return false;
 	}
 
