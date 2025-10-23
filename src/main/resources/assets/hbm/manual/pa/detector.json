@@ -1,0 +1,11 @@
+{
+	"name": "Particle Detector",
+	"icon": ["hbm:tile.pa_detector", 1, 0],
+	"trigger": [["hbm:tile.pa_detector"]],
+	"title": {
+		"en_US": "Particle Detector"
+	},
+	"content": {
+		"en_US": "Final component of the [[particle accelerator|Particle Accelerator]], ends the simulation and tries to perform the recipe. Requires empty capsules to catch the resulting particles, inputs are simply voided if the particle cannot be collected. Particle detection requires a defocus of 0, ensure that the accelerator has sufficient [[quadrupoles|Quadrupole Magnets]].<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]]."
+	}
+}

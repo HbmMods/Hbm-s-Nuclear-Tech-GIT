@@ -1,0 +1,11 @@
+{
+	"name": "RF Cavity",
+	"icon": ["hbm:tile.pa_rfc", 1, 0],
+	"trigger": [["hbm:tile.pa_rfc"]],
+	"title": {
+		"en_US": "RF Cavity"
+	},
+	"content": {
+		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Accelerates particles by 100 points of momentum each pass, but also adds 100 points of defocus. Particles exceeding 1000 points of defocus will crash, so refocussing using [[quadrupole magnets|Quadrupole Magnets]] is necessary.<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!"
+	}
+}

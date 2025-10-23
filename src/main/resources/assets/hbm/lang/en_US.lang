@@ -2461,6 +2461,7 @@ item.circuit.controller.name=Control Unit
 item.circuit.controller_advanced.name=Advanced Control Unit
 item.circuit.controller_chassis.name=Control Unit Casing
 item.circuit.controller_quantum.name=Quantum Computer
+item.circuit.numitron.name=Incandescent Seven Segment Display
 item.circuit.pcb.name=Printed Circuit Board
 item.circuit.quantum.name=Quantum Processing Unit
 item.circuit.silicon.name=Printed Silicon Wafer

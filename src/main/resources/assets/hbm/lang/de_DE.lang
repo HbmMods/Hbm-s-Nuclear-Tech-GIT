@@ -1656,6 +1656,7 @@ item.circuit.controller.name=Steuereinheit
 item.circuit.controller_advanced.name=Erweiterte Steuereinheit
 item.circuit.controller_chassis.name=Steuereinheitsgehäuse
 item.circuit.controller_quantum.name=Quantencomputer
+item.circuit.numitron.name=7-Segment Glühfadenröhre
 item.circuit.pcb.name=Leiterplatte
 item.circuit.quantum.name=Quantenprozessoreinheit
 item.circuit.silicon.name=Bedrucker Siliziumwafer
