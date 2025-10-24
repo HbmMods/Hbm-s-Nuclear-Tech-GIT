@@ -147,7 +147,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				} else {
 					if(this.delay > 0) delay--;
 					this.progress = 0;
-					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
+					if(lid < 1) {
 						lid += 1F / (60F / (upgrade * 0.5 + 1));
 						if(lid > 1) lid = 1;
 					}
@@ -393,7 +393,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if(slot < 3) return lid <= 0 && stack.getItem() == ModItems.arc_electrode;
+		if(slot < 3) return lid >= 1 && stack.getItem() == ModItems.arc_electrode;
 		if(slot >= 25) {
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
@@ -404,7 +404,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
+		if(slot < 3) return lid >= 1 && stack.getItem() == ModItems.arc_electrode;
 		if(slot > 4) {
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;

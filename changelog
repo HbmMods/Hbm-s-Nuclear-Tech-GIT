@@ -4,3 +4,7 @@
   * Meteor impacts now have new visuals
   * Falling meteors will produce a sound instead of stealthily blowing people up
   * Fallen meteors will now be placed deeper into the actual crater instead of hovering awkwardly over the hole
+* Addd QMAW pages for the particle accelerator parts along with a PA overview page and a simple step by step construction tutorial
+
+## Fixed
+* Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up

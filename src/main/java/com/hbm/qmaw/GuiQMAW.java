@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiQMAW extends GuiScreen {
 
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_wiki.png");
+	protected static final ResourceLocation the_man = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_wiki_flix.png");
 
 	public String title;
 	public String qmawID;
@@ -300,7 +301,13 @@ public class GuiQMAW extends GuiScreen {
 		int y = guiTop + 30;
 		int lineNum = 0;
 
-		for(List<ManualElement> line : lines) {
+		
+		if(lines.size() > 1 && scrollProgress == lines.size() - 1) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(the_man);
+			drawTexturedModalRect(guiLeft + 60, guiTop + this.ySize - 84, 0, 0, 80, 80);
+			drawTexturedModalRect(guiLeft + 140, guiTop + this.ySize - 60, 0, 80, 77, 39);
+			
+		} else for(List<ManualElement> line : lines) {
 			lineNum++;
 
 			if(lineNum <= this.scrollProgress) continue;

@@ -1,0 +1,11 @@
+{
+	"name": "Compressor",
+	"icon": ["hbm:tile.machine_compressor", 1, 0],
+	"trigger": [["hbm:tile.machine_compressor"], ["hbm:tile.machine_compressor_compact"]],
+	"title": {
+		"en_US": "Compressor"
+	},
+	"content": {
+		"en_US": "Compresses fluids, i.e. increases the \"PU\" number of a fluid. Certain fluids change when compressed, for example [[perfluoromethyl|Perfluoromethyl]] turns into cold PFM when compressed to 2 PU. Each compressor can only do a single PU increase. Compressed fluids can use the same pipes as uncompressed fluids (and in fact share the exact same network, as there is no pressure identification), but they cannot be stored in tanks."
+	}
+}
