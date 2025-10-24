@@ -367,5 +367,7 @@
     "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": false}]},
     "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]},
     "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]},
-    "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]}
+    "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]},
+    
+    "alarm.singer": {"category": "player", "sounds": ["alarm/singer1", "alarm/singer2", "alarm/singer3", "alarm/singer4"]}
 }
