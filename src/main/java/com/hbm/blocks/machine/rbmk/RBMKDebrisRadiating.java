@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -50,13 +51,14 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			int m = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
 			if(rand.nextInt(10) == 0 && block == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 
 			//Boron sand helps stop the fission reaction; 0.66% chance every 20-40 ticks for one side
-			int chance = block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 25 : 1000;
+			int chance = block == ModBlocks.sand_boron_layer || (block == ModBlocks.sand_mix && m == EnumSandType.BORON.ordinal()) ? 25 : 1000;
 
 			if(rand.nextInt(chance) == 0) {
 

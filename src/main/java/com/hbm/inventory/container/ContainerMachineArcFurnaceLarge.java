@@ -31,15 +31,17 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 		this.addSlotToContainer(new Slot(tile, 4, 152, 108));
 		//Inputs
 		for(int i = 0; i < 4; i++) for(int j = 0; j < 5; j++) this.addSlotToContainer(new SlotArcFurnace(tile, 5 + j + i * 5, 44 + j * 18, 54 + i * 18));
+		//IO
+		for(int i = 0; i < 5; i++) this.addSlotToContainer(new SlotNonRetarded(tile, i + 25, 44 + i * 18, 129));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 158 + i * 18));
+				this.addSlotToContainer(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 174 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 216));
+			this.addSlotToContainer(new Slot(playerInv, i, 8 + i * 18, 232));
 		}
 	}
 
@@ -52,8 +54,8 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 			ItemStack stack = slot.getStack();
 			rStack = stack.copy();
 
-			if(index <= 24) {
-				if(!this.mergeItemStack(stack, 25, this.inventorySlots.size(), true)) {
+			if(index <= 29) {
+				if(!this.mergeItemStack(stack, 30, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
@@ -65,8 +67,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
 					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
 				} else {
-					stack = furnace.distributeInput(stack, true);
-					if(stack != null && stack.stackSize == rStack.stackSize) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 25, 30, false)) return null;
 				}
 			}
 

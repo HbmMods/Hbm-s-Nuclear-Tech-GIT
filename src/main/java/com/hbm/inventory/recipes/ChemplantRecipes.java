@@ -270,14 +270,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
-		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
-		recipes.add(new ChemRecipe(69, "VIT_GAS", 100)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
-				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1000))
-				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
 		recipes.add(new ChemRecipe(88, "LUBRICANT", 20)
 				.inputFluids(
 						new FluidStack(Fluids.HEATINGOIL, 500),

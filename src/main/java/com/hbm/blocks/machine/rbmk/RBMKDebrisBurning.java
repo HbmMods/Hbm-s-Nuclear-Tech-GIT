@@ -3,6 +3,7 @@ package com.hbm.blocks.machine.rbmk;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -38,6 +39,7 @@ public class RBMKDebrisBurning extends RBMKDebris {
 
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
 			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			int meta = world.getBlockMetadata(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
 			if(rand.nextInt(10) == 0 && block == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
@@ -45,7 +47,7 @@ public class RBMKDebrisBurning extends RBMKDebris {
 
 			//Foam helps stop the fire; Boron smothers it. 1.66% chance every 100-120 seconds for one side
 			int chance = block == ModBlocks.foam_layer || block == ModBlocks.block_foam ||
-					block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 10 : 100;
+					block == ModBlocks.sand_boron_layer || (block == ModBlocks.sand_mix && meta == EnumSandType.BORON.ordinal()) ? 10 : 100;
 
 			if(rand.nextInt(chance) == 0) {
 				world.setBlock(x, y, z, ModBlocks.pribris);

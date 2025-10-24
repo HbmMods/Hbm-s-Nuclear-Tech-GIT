@@ -96,6 +96,9 @@ public class PneumoTube extends BlockContainer implements IToolable, ITooltipPro
 				if(tube.isCompressor()) {
 					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 					return true;
+				} else if(tube.isEndpoint()) {
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, world, x, y, z);
+					return true;
 				}
 			}
 			return false;

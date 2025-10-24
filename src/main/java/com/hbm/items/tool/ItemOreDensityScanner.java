@@ -47,6 +47,7 @@ public class ItemOreDensityScanner extends Item {
 		if(density <= 0.1) return EnumChatFormatting.DARK_RED;
 		if(density <= 0.35) return EnumChatFormatting.RED;
 		if(density <= 0.75) return EnumChatFormatting.GOLD;
+		if(density > 2) return EnumChatFormatting.LIGHT_PURPLE; // only for BO items that got mined with fortune
 		if(density >= 1.9) return EnumChatFormatting.AQUA;
 		if(density >= 1.65) return EnumChatFormatting.BLUE;
 		if(density >= 1.25) return EnumChatFormatting.GREEN;

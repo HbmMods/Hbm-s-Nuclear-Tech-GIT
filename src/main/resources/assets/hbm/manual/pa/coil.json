@@ -1,0 +1,11 @@
+{
+	"name": "Large Coil",
+	"icon": ["hbm:item.pa_coil", 1, 0],
+	"trigger": [["hbm:item.pa_coil", 1, 32767]],
+	"title": {
+		"en_US": "Large Coil"
+	},
+	"content": {
+		"en_US": "Part of the [[particle accelerator|Particle Accelerator]], required for [[quadrupole|Quadrupole Magnets]] and [[dipole magnets|Dipole Magnets]]. Coils have various attributes and restrictions to them, they determine how fast a particle needs to be to enter a ring and how fast it can be once it leaves.<br><br>The operational range determines how fast a particle needs to be when it passes a component with a coil. If the particle is slower than the lower bound, the component is hit with a 10x increase in energy consumption. If the particle exceeds the upper bound, it will crash. It is therefore important to configure dipoles to cause particles to leave before becoming too fast.<br><br>The dipole minimum side length is the minimum distance a particle needs to travel from one dipole to the next. Two dipoles connected by a single beamline for example creates a side length of 3. If the minimum side length is not met, the power consumption will once again be tenfolded. Dipoles that do not change the particle's direction, i.e. let it pass straight through, do not factor into this limit, instead adding 3 to the side length, just like how a beamline would. In fact, such a dipole is not affected by any power penalties (underspeed or side length).<br><br>If both x10 power penalties apply, the total power draw exceeds the dipole's power buffer, causing the particle to crash. It is therefore important to either build accelerators that are large enough to use high tier coils, or ones that use lower coil tiers that prevent the underspeed penalty."
+	}
+}

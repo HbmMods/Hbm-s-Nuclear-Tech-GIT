@@ -59,8 +59,15 @@ public class CoriumFinite extends GenericFiniteFluid {
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		
-		super.updateTick(world, x, y, z, rand);
+
+		// COFH core apparently replaces the water block class with an incompatible type which breaks
+		// the finite fluid implementation. can't recreate the issue, but according to the provided log
+		// it seems like this shitty band aid might work
+		try {
+			super.updateTick(world, x, y, z, rand);
+		} catch(ClassCastException ex) {
+			if(!world.isRemote) world.setBlockToAir(x, y, z);
+		}
 		
 		if(!world.isRemote && rand.nextInt(10) == 0 && world.getBlock(x, y - 1, z) != this) {
 			

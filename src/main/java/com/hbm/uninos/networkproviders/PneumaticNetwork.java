@@ -13,7 +13,7 @@ import com.hbm.tileentity.network.TileEntityPneumoTube;
 import com.hbm.uninos.NodeNet;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ItemStackUtil;
-import com.hbm.util.Tuple.Pair;
+import com.hbm.util.Tuple.Triplet;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -38,10 +38,10 @@ public class PneumaticNetwork extends NodeNet {
 	
 	// while the system has parts that expects IInventires to be TileEntities to work properly (mostly range checks),
 	// it can actually handle non-TileEntities just fine.
-	public HashMap<IInventory, Pair<ForgeDirection, Long>> receivers = new HashMap();
+	public HashMap<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> receivers = new HashMap();
 	
-	public void addReceiver(IInventory inventory, ForgeDirection pipeDir) {
-		receivers.put(inventory, new Pair(pipeDir, System.currentTimeMillis()));
+	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
+		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));
 	}
 
 	@Override public void update() {
@@ -50,7 +50,7 @@ public class PneumaticNetwork extends NodeNet {
 		// technically not necessary since that step is taken during the send operation,
 		// but we still want to reap garbage data that would otherwise accumulate
 		long timestamp = System.currentTimeMillis();
-		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getValue() > timeout) || NodeNet.isBadLink(x.getKey()); });
+		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getY() > timeout) || NodeNet.isBadLink(x.getKey()); });
 	}
 	
 	public boolean send(IInventory source, TileEntityPneumoTube tube, ForgeDirection accessDir, int sendOrder, int receiveOrder, int maxRange) {
@@ -58,7 +58,7 @@ public class PneumaticNetwork extends NodeNet {
 		// turns out there may be a short time window where the cleanup hasn't happened yet, but chunkloading has already caused tiles to go invalid
 		// so we just run it again here, just to be sure.
 		long timestamp = System.currentTimeMillis();
-		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getValue() > timeout) || NodeNet.isBadLink(x.getKey()); });
+		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getY() > timeout) || NodeNet.isBadLink(x.getKey()); });
 		
 		if(receivers.isEmpty()) return false;
 
@@ -70,12 +70,12 @@ public class PneumaticNetwork extends NodeNet {
 
 		// for round robin, receivers are ordered by proximity to the source
 		ReceiverComparator comparator = new ReceiverComparator(tube);
-		List<Entry<IInventory, Pair<ForgeDirection, Long>>> receiverList = new ArrayList(receivers.size());
+		List<Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>>> receiverList = new ArrayList(receivers.size());
 		receiverList.addAll(receivers.entrySet());
 		receiverList.sort(comparator);
 		
 		int index = nextReceiver % receivers.size();
-		Entry<IInventory, Pair<ForgeDirection, Long>> chosenReceiverEntry = null;
+		Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> chosenReceiverEntry = null;
 		nextReceiver++;
 
 		if(receiveOrder == RECEIVE_ROBIN) chosenReceiverEntry = receiverList.get(index);
@@ -84,6 +84,7 @@ public class PneumaticNetwork extends NodeNet {
 		if(chosenReceiverEntry == null) return false;
 		
 		IInventory dest = chosenReceiverEntry.getKey();
+		TileEntityPneumoTube endpointTile = chosenReceiverEntry.getValue().getZ();
 		ISidedInventory sidedDest = dest instanceof ISidedInventory ? (ISidedInventory) dest : null;
 		ISidedInventory sidedSource = source instanceof ISidedInventory ? (ISidedInventory) source : null;
 		
@@ -98,7 +99,7 @@ public class PneumaticNetwork extends NodeNet {
 			}
 		}
 		
-		int destSide = chosenReceiverEntry.getValue().getKey().getOpposite().ordinal();
+		int destSide = chosenReceiverEntry.getValue().getX().getOpposite().ordinal();
 		int[] destSlotAccess = getSlotAccess(dest, destSide);
 		int itemsLeftToSend = ITEMS_PER_TRANSFER; // not actually individual items, but rather the total "mass", based on max stack size
 		int itemHardCap = dest instanceof TileEntityMachineAutocrafter ? 1 : ITEMS_PER_TRANSFER;
@@ -108,8 +109,14 @@ public class PneumaticNetwork extends NodeNet {
 			ItemStack sourceStack = source.getStackInSlot(sourceIndex);
 			if(sourceStack == null) continue;
 			if(sidedSource != null && !sidedSource.canExtractItem(sourceIndex, sourceStack, sourceSide)) continue;
+			// filter of the source
 			boolean match = tube.matchesFilter(sourceStack);
 			if((match && !tube.whitelist) || (!match && tube.whitelist)) continue;
+			// filter of the receiver, only if the sender and receiver aren't the same block
+			if(endpointTile != null && endpointTile != tube) {
+				match = endpointTile.matchesFilter(sourceStack);
+				if((match && !endpointTile.whitelist) || (!match && endpointTile.whitelist)) continue;
+			}
 			// the "mass" of an item. something that only stacks to 4 has a "mass" of 16. max transfer mass is 64, i.e. one standard stack, or one single unstackable item
 			int proportionalValue = MathHelper.clamp_int(64 / sourceStack.getMaxStackSize(), 1, 64);
 			
@@ -181,7 +188,7 @@ public class PneumaticNetwork extends NodeNet {
 	}
 	
 	/** Compares IInventory by distance, going off the assumption that they are TileEntities. Uses positional data for tie-breaking if the distance is the same. */
-	public static class ReceiverComparator implements Comparator<Entry<IInventory, Pair<ForgeDirection, Long>>> {
+	public static class ReceiverComparator implements Comparator<Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>>> {
 		
 		private TileEntityPneumoTube origin;
 		
@@ -190,7 +197,7 @@ public class PneumaticNetwork extends NodeNet {
 		}
 
 		@Override
-		public int compare(Entry<IInventory, Pair<ForgeDirection, Long>> o1, Entry<IInventory, Pair<ForgeDirection, Long>> o2) {
+		public int compare(Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> o1, Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> o2) {
 
 			TileEntity tile1 = o1.getKey() instanceof TileEntity ? (TileEntity) o1.getKey() : null;
 			TileEntity tile2 = o2.getKey() instanceof TileEntity ? (TileEntity) o2.getKey() : null;

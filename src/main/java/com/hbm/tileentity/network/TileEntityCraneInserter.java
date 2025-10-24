@@ -5,8 +5,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneInserter;
 import com.hbm.inventory.gui.GUICraneInserter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityProxyBase;
-import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
+import com.hbm.util.Compat;
 import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -43,13 +42,12 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 		if(!worldObj.isRemote) {
 
 			if(!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {ForgeDirection outputSide = getOutputSide();
-				TileEntity te = worldObj.getTileEntity(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
+				TileEntity te = Compat.getTileStandard(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				
 				int[] access = null;
 				
 				if(te instanceof ISidedInventory) {
 					ISidedInventory sided = (ISidedInventory) te;
-					//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
 					access = InventoryUtil.masquerade(sided, outputSide.getOpposite().ordinal());
 				}
 				
@@ -80,27 +78,12 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 						
 						if(stack != null) {
 							stack = stack.copy();
-							
-							int overshoot = 0;
-							if(te instanceof TileEntityProxyBase) te = ((TileEntityProxyBase) te).getTE(); // we can't get this far without some slots being exposed, so the result has to be compatible with IInventory anyway
-							if(te instanceof TileEntityMachineArcFurnaceLarge) {
-								int toInsert = Math.min(stack.stackSize, ((TileEntityMachineArcFurnaceLarge) te).getMaxInputSize());
-								overshoot = stack.stackSize - toInsert;
-								stack.stackSize = toInsert;
-							} else {
-								stack.stackSize = 1;
-							}
+							stack.stackSize = 1;
 							
 							ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, stack.copy(), outputSide.getOpposite().ordinal());
 							
 							if(ret == null || ret.stackSize != stack.stackSize) {
-								slots[i] = ret;
-								if(slots[i] != null) {
-									slots[i].stackSize += overshoot;
-								} else if(overshoot > 0){
-									slots[i] = stack.copy();
-									slots[i].stackSize = overshoot;
-								}
+								this.decrStackSize(i, 1);
 								this.markDirty();
 								didSomething = true;
 								break;

@@ -23,19 +23,19 @@ import net.minecraft.world.World;
 
 @Spaghetti("why")
 public class Meteorite {
-	
+
 	public static boolean safeMode = false;
 
 	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials, boolean damagingImpact) {
 		safeMode = safe;
-		
+
 		if(replacables.isEmpty()) {
 			generateReplacables();
 		}
 
 		if(damagingImpact) {
 			List<Entity> list = (List<Entity>) world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x - 7.5, y - 7.5, z - 7.5, x + 7.5, y + 7.5, z + 7.5));
-	
+
 			for(Entity e : list) {
 				e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 			}
@@ -693,21 +693,21 @@ public class Meteorite {
 		for(EnumMeteorType num : EnumMeteorType.values()) ores.add(DictFrame.fromOne(ModBlocks.ore_meteor, num));
 		return ores;
 	}
-	
+
 	private void setBlock(World world, int x, int y, int z, Block b, int meta, int flag) {
 		Block target = world.getBlock(x, y, z);
-		
+
 		if(safeMode) {
-			if(!target.isReplaceable(world, x, y, z) && !replacables.contains(target)) return; 
+			if(!target.isReplaceable(world, x, y, z) && !replacables.contains(target)) return;
 		}
-		
+
 		float hardness = target.getBlockHardness(world, x, y, z);
 		if(hardness != -1 && hardness < 10_000)
 			world.setBlock(x, y, z, b, meta, flag);
 	}
-	
+
 	public static HashSet<Block> replacables = new HashSet();
-	
+
 	public static void generateReplacables() {
 		replacables.add(ModBlocks.block_meteor);
 		replacables.add(ModBlocks.block_meteor_broken);

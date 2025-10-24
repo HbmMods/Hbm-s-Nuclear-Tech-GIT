@@ -1432,6 +1432,15 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.t45_kit");
 		ignoreMappings.add("hbm:item.fusion_core_infinite");
 		ignoreMappings.add("hbm:item.fluid_identifier");
+		ignoreMappings.add("hbm:tile.sand_boron");
+		ignoreMappings.add("hbm:tile.sand_lead");
+		ignoreMappings.add("hbm:tile.sand_uranium");
+		ignoreMappings.add("hbm:tile.sand_polonium");
+		ignoreMappings.add("hbm:tile.sand_quartz");
+		ignoreMappings.add("hbm:tile.hadron_power_10m");
+		ignoreMappings.add("hbm:tile.hadron_power_100m");
+		ignoreMappings.add("hbm:tile.hadron_power_1g");
+		ignoreMappings.add("hbm:tile.hadron_power_10g");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

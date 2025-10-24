@@ -3,6 +3,7 @@ package com.hbm.crafting;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumMeteorType;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
+import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemArcElectrode.EnumElectrodeType;
@@ -125,12 +126,12 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(new ItemStack(Blocks.gravel, 1), new ItemStack(Blocks.cobblestone, 1), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.gravel_obsidian), new ItemStack(Blocks.obsidian), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.gravel_diamond), new ItemStack(Items.diamond), 3.0F);
-		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_uranium), new ItemStack(ModBlocks.glass_uranium), 0.25F);
-		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_polonium), new ItemStack(ModBlocks.glass_polonium), 0.75F);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_mix, 1, EnumSandType.URANIUM.ordinal()), new ItemStack(ModBlocks.glass_uranium), 0.25F);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_mix, 1, EnumSandType.POLONIUM.ordinal()), new ItemStack(ModBlocks.glass_polonium), 0.75F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.waste_trinitite), new ItemStack(ModBlocks.glass_trinitite), 0.25F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.waste_trinitite_red), new ItemStack(ModBlocks.glass_trinitite), 0.25F);
-		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_boron), new ItemStack(ModBlocks.glass_boron), 0.25F);
-		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_lead), new ItemStack(ModBlocks.glass_lead), 0.25F);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_mix, 1, EnumSandType.BORON.ordinal()), new ItemStack(ModBlocks.glass_boron), 0.25F);
+		GameRegistry.addSmelting(new ItemStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD.ordinal()), new ItemStack(ModBlocks.glass_lead), 0.25F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.ash_digamma), new ItemStack(ModBlocks.glass_ash), 10F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.basalt), new ItemStack(ModBlocks.basalt_smooth), 0.1F);
 

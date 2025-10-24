@@ -5,6 +5,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import java.util.ArrayList;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMSand.EnumSandType;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -460,17 +461,17 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 
 		/// Vitrification
 		this.register(new GenericRecipe("purex.vitliquid").setup(100, vitrification)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
+				.inputItems(new ComparableStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD))
 				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1_000))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
 		
 		this.register(new GenericRecipe("purex.vitgaseous").setup(100, vitrification)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead))
+				.inputItems(new ComparableStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD))
 				.inputFluids(new FluidStack(Fluids.WASTEGAS, 1_000))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified)));
 		
 		this.register(new GenericRecipe("purex.vitsolid").setup(300, vitrification)
-				.inputItems(new ComparableStack(ModBlocks.sand_lead), new ComparableStack(ModItems.nuclear_waste, 4))
+				.inputItems(new ComparableStack(ModBlocks.sand_mix, 1, EnumSandType.LEAD), new ComparableStack(ModItems.nuclear_waste, 4))
 				.outputItems(new ItemStack(ModItems.nuclear_waste_vitrified, 4)));
 		
 		// Schrabidium

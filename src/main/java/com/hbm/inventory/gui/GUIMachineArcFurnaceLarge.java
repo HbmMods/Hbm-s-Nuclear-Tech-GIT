@@ -35,7 +35,7 @@ public class GUIMachineArcFurnaceLarge extends GuiInfoContainer {
 		this.arc = arc;
 		
 		this.xSize = 176;
-		this.ySize = 240;
+		this.ySize = 256;
 	}
 	
 	@Override
