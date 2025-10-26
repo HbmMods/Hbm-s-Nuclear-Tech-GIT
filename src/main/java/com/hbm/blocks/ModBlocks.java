@@ -734,10 +734,6 @@ public class ModBlocks {
 	public static Block hadron_coil_chlorophyte;
 	public static Block hadron_coil_mese;
 	public static Block hadron_power;
-	public static Block hadron_power_10m;
-	public static Block hadron_power_100m;
-	public static Block hadron_power_1g;
-	public static Block hadron_power_10g;
 	public static Block hadron_diode;
 	public static Block hadron_analysis;
 	public static Block hadron_analysis_glass;
@@ -1871,11 +1867,7 @@ public class ModBlocks {
 		hadron_coil_starmetal = new BlockHadronCoil(Material.iron, 1000).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_starmetal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_starmetal");
 		hadron_coil_chlorophyte = new BlockHadronCoil(Material.iron, 2500).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_chlorophyte").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_chlorophyte");
 		hadron_coil_mese = new BlockHadronCoil(Material.iron, 10000).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_mese").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_mese");
-		hadron_power = new BlockHadronPower(Material.iron, 1000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
-		hadron_power_10m = new BlockHadronPower(Material.iron, 10000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power_10m").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
-		hadron_power_100m = new BlockHadronPower(Material.iron, 100000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power_100m").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
-		hadron_power_1g = new BlockHadronPower(Material.iron, 1000000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power_1g").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
-		hadron_power_10g = new BlockHadronPower(Material.iron, 10000000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power_10g").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
+		hadron_power = new BlockHadronPower(Material.iron, 10000000000L).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_power");
 		hadron_diode = new BlockHadronDiode(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_diode").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		hadron_analysis = new BlockHadronPlating(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_analysis").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_analysis");
 		hadron_analysis_glass = new BlockNTMGlass(0, RefStrings.MODID + ":hadron_analysis_glass", Material.iron, true).setStepSound(Block.soundTypeMetal).setBlockName("hadron_analysis_glass").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":hadron_analysis_glass");
@@ -3184,10 +3176,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_coil_chlorophyte, ItemBlockBase.class, hadron_coil_chlorophyte.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_coil_mese, ItemBlockBase.class, hadron_coil_mese.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_power, hadron_power.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_power_10m, hadron_power_10m.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_power_100m, hadron_power_100m.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_power_1g, hadron_power_1g.getUnlocalizedName());
-		GameRegistry.registerBlock(hadron_power_10g, hadron_power_10g.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_diode, hadron_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis, hadron_analysis.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis_glass, hadron_analysis_glass.getUnlocalizedName());
