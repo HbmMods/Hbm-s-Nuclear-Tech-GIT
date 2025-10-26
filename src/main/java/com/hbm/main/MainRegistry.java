@@ -1437,13 +1437,6 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sand_uranium");
 		ignoreMappings.add("hbm:tile.sand_polonium");
 		ignoreMappings.add("hbm:tile.sand_quartz");
-<<<<<<< HEAD
-=======
-		ignoreMappings.add("hbm:tile.hadron_power_10m");
-		ignoreMappings.add("hbm:tile.hadron_power_100m");
-		ignoreMappings.add("hbm:tile.hadron_power_1g");
-		ignoreMappings.add("hbm:tile.hadron_power_10g");
->>>>>>> 3b55d26e1737aa2292d14dadcfce96abe19192d5
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
