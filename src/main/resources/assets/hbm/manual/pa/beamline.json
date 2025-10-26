@@ -1,0 +1,11 @@
+{
+	"name": "Beamline",
+	"icon": ["hbm:tile.pa_beamline", 1, 0],
+	"trigger": [["hbm:tile.pa_beamline"]],
+	"title": {
+		"en_US": "Beamline"
+	},
+	"content": {
+		"en_US": "Passive component of the [[particle accelerator|Particle Accelerator]]. Does not need cooling or electricity, simply allows the particle to travel. mainly used for cosmetic reasons, or to fulfill the side length requirement of higher [[coil tiers|Large Coil]].<br><br>This component is one-way only, make sure the particle follows the red arrows!"
+	}
+}

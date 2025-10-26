@@ -84,7 +84,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 		if(particle.invalid) return;
 
-		if (isInline) {
+		if(isInline) {
 			particle.addDistance(3);
 		} else {
 			particle.resetDistance();

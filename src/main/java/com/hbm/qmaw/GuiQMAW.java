@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiQMAW extends GuiScreen {
 
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_wiki.png");
+	protected static final ResourceLocation the_man = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_wiki_flix.png");
 
 	public String title;
 	public String qmawID;
@@ -174,6 +175,12 @@ public class GuiQMAW extends GuiScreen {
 
 		if(guiLeft + 3 <= x && guiLeft + 3 + 18 > x && guiTop + 3 < y && guiTop + 3 + 18 >= y) back();
 		if(guiLeft + 21 <= x && guiLeft + 21 + 18 > x && guiTop + 3 < y && guiTop + 3 + 18 >= y) forward();
+
+		if(lines.size() > 1 && scrollProgress == lines.size() - 1) {
+			if(guiLeft + 60 <= x && guiLeft + 60 + 80 > x && guiTop + this.ySize - 84 < y && guiTop + this.ySize - 4 >= y) {
+				Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:alarm.singer"), 1.0F));
+			}
+		}
 	}
 
 	public void back() {
@@ -300,7 +307,13 @@ public class GuiQMAW extends GuiScreen {
 		int y = guiTop + 30;
 		int lineNum = 0;
 
-		for(List<ManualElement> line : lines) {
+		
+		if(lines.size() > 1 && scrollProgress == lines.size() - 1) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(the_man);
+			drawTexturedModalRect(guiLeft + 60, guiTop + this.ySize - 84, 0, 0, 80, 80);
+			drawTexturedModalRect(guiLeft + 140, guiTop + this.ySize - 60, 0, 80, 77, 39);
+			
+		} else for(List<ManualElement> line : lines) {
 			lineNum++;
 
 			if(lineNum <= this.scrollProgress) continue;

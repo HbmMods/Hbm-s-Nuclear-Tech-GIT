@@ -162,7 +162,7 @@ public class XWeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.ENGINE_DIESEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_DIESEL).mag(WeaponModEngine.ENGINE_DIESEL).delay(15));
 		new WeaponModDefinition(EnumModSpecial.ENGINE_AVIATION).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_AVIATION).mag(WeaponModEngine.ENGINE_AVIATION).delay(10));
 		new WeaponModDefinition(EnumModSpecial.ENGINE_ELECTRIC).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_ELECTRIC).mag(WeaponModEngine.ENGINE_ELECTRIC).delay(15));
-		new WeaponModDefinition(EnumModSpecial.ENGINE_TURBO).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_TURBO).mag(WeaponModEngine.ENGINE_TURBO).delay(2));
+		new WeaponModDefinition(EnumModSpecial.ENGINE_TURBO).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_TURBO).mag(WeaponModEngine.ENGINE_TURBO).delay(5));
 		new WeaponModDefinition(EnumModSpecial.MAGNET).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrillFortune(230, "MAGNET", 2));
 		new WeaponModDefinition(EnumModSpecial.SIFTER).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrillFortune(231, "SIFTER", 1));
 		new WeaponModDefinition(EnumModSpecial.CANISTERS).addMod(new Item[] {ModItems.gun_drill}, new WeaponModCanisters(232));

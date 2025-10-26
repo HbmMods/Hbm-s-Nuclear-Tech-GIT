@@ -21,6 +21,7 @@ public class ItemCircuit extends ItemEnumMulti {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		list.add(new ItemStack(item, 1, EnumCircuitType.VACUUM_TUBE.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.NUMITRON.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_TANTALIUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.ATOMIC_CLOCK.ordinal()));
@@ -61,6 +62,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		CHIP_QUANTUM,
 		CONTROLLER_QUANTUM,
 		ATOMIC_CLOCK,
+		NUMITRON,
 	}
 	
 	@Override
