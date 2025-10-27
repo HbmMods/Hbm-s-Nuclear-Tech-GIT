@@ -114,7 +114,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		double jLower = lower;
 		double jUpper = upper;
 
-		if(te instanceof TileEntityPipeBaseNT) {
+		if(block instanceof FluidDuctBox) {
 			FluidDuctBox.cachedColor = 0xffffff;
 			FluidDuctBox duct = (FluidDuctBox) block;
 
@@ -125,11 +125,13 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 			pZ = duct.canConnectTo(world, x, y, z, Library.POS_Z, te);
 			nZ = duct.canConnectTo(world, x, y, z, Library.NEG_Z, te);
 
-			FluidType type = Fluids.NONE;
-			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
-			type = pipe.getType();
-			if(meta % 3 == 2) {
-				FluidDuctBox.cachedColor = ColorUtil.lightenColor(type.getColor(), 0.25D); //making very dark things not vantablack
+			if(te instanceof TileEntityPipeBaseNT) {
+				FluidType type = Fluids.NONE;
+				TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+				type = pipe.getType();
+				if(meta % 3 == 2) {
+					FluidDuctBox.cachedColor = ColorUtil.lightenColor(type.getColor(), 0.25D); //making very dark things not vantablack
+				}
 			}
 
 			jLower = 0.0625D;
