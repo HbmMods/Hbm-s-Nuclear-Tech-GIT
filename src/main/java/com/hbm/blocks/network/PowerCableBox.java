@@ -83,28 +83,29 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 			return (side == 2 || side == 3) ? iconEnd[meta] : iconStraight;
 		} else if((mask & 0b110011) == 0 && mask > 0) {
 			return (side == 0 || side == 1) ? iconEnd[meta] : iconStraight;
-		} else if(count == 2) {
+		} else {
 
 			if(side == 0 && nY || side == 1 && pY || side == 2 && nZ || side == 3 && pZ || side == 4 && nX || side == 5 && pX)
 				return iconEnd[meta];
-			if(side == 1 && nY || side == 0 && pY || side == 3 && nZ || side == 2 && pZ || side == 5 && nX || side == 4 && pX)
-				return iconStraight;
 
-			if(nY && pZ) return side == 4 ? iconCurveBR : iconCurveBL;
-			if(nY && nZ) return side == 5 ? iconCurveBR : iconCurveBL;
-			if(nY && pX) return side == 3 ? iconCurveBR : iconCurveBL;
-			if(nY && nX) return side == 2 ? iconCurveBR : iconCurveBL;
-			if(pY && pZ) return side == 4 ? iconCurveTR : iconCurveTL;
-			if(pY && nZ) return side == 5 ? iconCurveTR : iconCurveTL;
-			if(pY && pX) return side == 3 ? iconCurveTR : iconCurveTL;
-			if(pY && nX) return side == 2 ? iconCurveTR : iconCurveTL;
+			if(count == 2) {
+				if(side == 1 && nY || side == 0 && pY || side == 3 && nZ || side == 2 && pZ || side == 5 && nX || side == 4 && pX)
+					return iconStraight;
 
-			if(pX && nZ) return side == 0 ? iconCurveTR : iconCurveTR;
-			if(pX && pZ) return side == 0 ? iconCurveBR : iconCurveBR;
-			if(nX && nZ) return side == 0 ? iconCurveTL : iconCurveTL;
-			if(nX && pZ) return side == 0 ? iconCurveBL : iconCurveBL;
+				if(nY && pZ) return side == 4 ? iconCurveBR : iconCurveBL;
+				if(nY && nZ) return side == 5 ? iconCurveBR : iconCurveBL;
+				if(nY && pX) return side == 3 ? iconCurveBR : iconCurveBL;
+				if(nY && nX) return side == 2 ? iconCurveBR : iconCurveBL;
+				if(pY && pZ) return side == 4 ? iconCurveTR : iconCurveTL;
+				if(pY && nZ) return side == 5 ? iconCurveTR : iconCurveTL;
+				if(pY && pX) return side == 3 ? iconCurveTR : iconCurveTL;
+				if(pY && nX) return side == 2 ? iconCurveTR : iconCurveTL;
 
-			return iconJunction;
+				if(pX && nZ) return side == 0 ? iconCurveTR : iconCurveTR;
+				if(pX && pZ) return side == 0 ? iconCurveBR : iconCurveBR;
+				if(nX && nZ) return side == 0 ? iconCurveTL : iconCurveTL;
+				if(nX && pZ) return side == 0 ? iconCurveBL : iconCurveBL;
+			}
 		}
 
 		return iconJunction;
