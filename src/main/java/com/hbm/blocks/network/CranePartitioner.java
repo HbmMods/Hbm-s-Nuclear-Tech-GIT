@@ -139,8 +139,10 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 
 	public static class TileEntityCranePartitioner extends TileEntityMachineBase {
 
+		public static final int SLOT_COUNT = 45;
+		
 		public TileEntityCranePartitioner() {
-			super(18);
+			super(SLOT_COUNT * 2);
 		}
 
 		@Override public String getName() { return "container.partitioner"; }
@@ -151,7 +153,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 			if(!worldObj.isRemote) {
 
 				List<ItemStack> stacks = new ArrayList();
-				for(int i = 0; i < 9; i++) if(slots[i] != null) stacks.add(slots[i]);
+				for(int i = 0; i < SLOT_COUNT; i++) if(slots[i] != null) stacks.add(slots[i]);
 				stacks.sort(stackSizeComparator);
 				boolean markDirty = false;
 
@@ -168,7 +170,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 					}
 				}
 
-				for(int i = 0; i < 9; i++) if(slots[i] != null && slots[i].stackSize <= 0) slots[i] = null;
+				for(int i = 0; i < SLOT_COUNT; i++) if(slots[i] != null && slots[i].stackSize <= 0) slots[i] = null;
 				if(markDirty) this.markDirty();
 			}
 		}
@@ -183,17 +185,25 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 
 		@Override
 		public boolean canExtractItem(int slot, ItemStack stack, int side) {
-			return slot >= 9;
+			return slot >= SLOT_COUNT;
 		}
 
 		@Override
 		public boolean isItemValidForSlot(int i, ItemStack stack) {
-			return i <= 8 && CrystallizerRecipes.getAmount(stack) >= 1;
+			return i <= (SLOT_COUNT - 1) && CrystallizerRecipes.getAmount(stack) >= 1;
 		}
 
+		protected int[] access;
+		
 		@Override
 		public int[] getAccessibleSlotsFromSide(int side) {
-			return new int[] { 0, 1, 2, 3, 4, 5, 6 ,7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+			
+			if(access == null) {
+				access = new int[SLOT_COUNT]; // writing this by hand is for chumps
+				for(int i = 0; i < SLOT_COUNT; i++) access[i] = i;
+			}
+			
+			return access;
 		}
 	}
 

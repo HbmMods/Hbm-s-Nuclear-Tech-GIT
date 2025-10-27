@@ -1,3 +1,7 @@
+## Added
+* Boxcables
+  * Like boxducts, but for power
+
 ## Changed
 * Updated meteors
   * Meteors will now punch through weak blocks like leaves instead of getting stuck on trees
@@ -5,6 +9,9 @@
   * Falling meteors will produce a sound instead of stealthily blowing people up
   * Fallen meteors will now be placed deeper into the actual crater instead of hovering awkwardly over the hole
 * Addd QMAW pages for the particle accelerator parts along with a PA overview page and a simple step by step construction tutorial
+* Increased the acidizer partitioner's input limit from 9 to 45 slots
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
+* Fixed issue where the `amounts` tracker wasn't being used correctly when using a custom acidizer config, preventing the acidizer partitioner from working
+* Fixed multi fluid ID search potentially not working on systems with a non-latin locale

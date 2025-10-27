@@ -383,9 +383,9 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		input.stacksize = 1;
 		cRecipe.acidAmount = fluid.fill;
 		if(input instanceof ComparableStack) {
-			recipes.put(new Pair(((ComparableStack) input), fluid.type), cRecipe);
+			this.registerRecipe(input, cRecipe, fluid);
 		} else if(input instanceof OreDictStack) {
-			recipes.put(new Pair(((OreDictStack) input).name, fluid.type), cRecipe);
+			this.registerRecipe(input, cRecipe, fluid);
 		}
 		if(obj.has("productivity")) cRecipe.prod(obj.get("productivity").getAsFloat());
 	}

@@ -29,8 +29,8 @@ public class SpotlightBeam extends BlockBeamBase {
 		if (world.isRemote) return;
 		if (neighborBlock instanceof SpotlightBeam) return;
 
-		for (ForgeDirection dir : getDirections(world, x, y, z)) {
-			Spotlight.backPropagate(world, x, y, z, dir);
+		for(ForgeDirection dir : getDirections(world, x, y, z)) {
+			Spotlight.backPropagate(world, x, y, z, dir, world.getBlockMetadata(x, y, z));
 		}
 	}
 
