@@ -77,10 +77,10 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			if(isInline) mult = 1;
 		}
 
-		if(!isCool())										particle.crash(PAState.CRASH_NOCOOL);
-		if(this.power < this.usage * mult)					particle.crash(PAState.CRASH_NOPOWER);
-		if(type == null)									particle.crash(PAState.CRASH_NOCOIL);
-		if(type != null && type.diMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
+		if(!isCool())													particle.crash(PAState.CRASH_NOCOOL);
+		if(this.power < usage * mult)									particle.crash(PAState.CRASH_NOPOWER);
+		if(type == null)												particle.crash(PAState.CRASH_NOCOIL);
+		if(type != null && type.diMax < particle.momentum && !isInline)	particle.crash(PAState.CRASH_OVERSPEED);
 
 		if(particle.invalid) return;
 
@@ -90,7 +90,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			particle.resetDistance();
 		}
 
-		this.power -= this.usage * mult;
+		this.power -= usage * mult;
 	}
 
 	@Override
