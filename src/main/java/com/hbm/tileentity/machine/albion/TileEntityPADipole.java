@@ -1,11 +1,13 @@
 package com.hbm.tileentity.machine.albion;
 
+import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPADipole;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIPADipole;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
+import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
@@ -14,9 +16,14 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,7 +32,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, IParticleUser {
+@SuppressWarnings("unused")
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, IParticleUser, OCComponent, SimpleComponent {
 
 	public int dirLower;
 	public int dirUpper;
@@ -77,10 +86,10 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			if(isInline) mult = 1;
 		}
 
-		if(!isCool())										particle.crash(PAState.CRASH_NOCOOL);
-		if(this.power < this.usage * mult)					particle.crash(PAState.CRASH_NOPOWER);
-		if(type == null)									particle.crash(PAState.CRASH_NOCOIL);
-		if(type != null && type.diMax < particle.momentum)	particle.crash(PAState.CRASH_OVERSPEED);
+		if(!isCool())													particle.crash(PAState.CRASH_NOCOOL);
+		if(this.power < usage * mult)									particle.crash(PAState.CRASH_NOPOWER);
+		if(type == null)												particle.crash(PAState.CRASH_NOCOIL);
+		if(type != null && type.diMax < particle.momentum && !isInline)	particle.crash(PAState.CRASH_OVERSPEED);
 
 		if(particle.invalid) return;
 
@@ -90,7 +99,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			particle.resetDistance();
 		}
 
-		this.power -= this.usage * mult;
+		this.power -= usage * mult;
 	}
 
 	@Override
@@ -235,4 +244,111 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		if(dir == 3) return ForgeDirection.WEST;
 		return ForgeDirection.NORTH;
 	}
+
+	public static String dirToName(int dir) {
+		if(dir == 1) return "east";
+		if(dir == 2) return "south";
+		if(dir == 3) return "west";
+		return "north";
+	}
+
+	public static int nameToDir(String name) {
+		if(name.equals("north")) return 0;
+		if(name.equals("east")) return 1;
+		if(name.equals("south")) return 2;
+		if(name.equals("west")) return 3;
+		return -1;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_pa_dipole";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDirLower(Context context, Arguments args) {
+		return new Object[] {dirToName(dirLower)};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDirUpper(Context context, Arguments args) {
+		return new Object[] {dirToName(dirUpper)};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDirRedstone(Context context, Arguments args) {
+		return new Object[] {dirToName(dirRedstone)};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getThreshold(Context context, Arguments args) {
+		return new Object[] {threshold};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDirLower(Context context, Arguments args) {
+		int dir = nameToDir(args.checkString(0));
+		if(dir >= 0) dirLower = dir;
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDirUpper(Context context, Arguments args) {
+		int dir = nameToDir(args.checkString(0));
+		if(dir >= 0) dirUpper = dir;
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDirRedstone(Context context, Arguments args) {
+		int dir = nameToDir(args.checkString(0));
+		if(dir >= 0) dirRedstone = dir;
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setThreshold(Context context, Arguments args) {
+		threshold = MathHelper.clamp_int(args.checkInteger(0), 0, 999_999_999);
+		return new Object[] {};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getDirLower",
+			"setDirLower",
+			"getDirUpper",
+			"setDirUpper",
+			"getDirRedstone",
+			"setDirRedstone",
+			"getThreshold",
+			"setThreshold",
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getDirLower": return getDirLower(context, args);
+			case "setDirLower": return setDirLower(context, args);
+			case "getDirUpper": return getDirUpper(context, args);
+			case "setDirUpper": return setDirUpper(context, args);
+			case "getDirRedstone": return getDirRedstone(context, args);
+			case "setDirRedstone": return setDirRedstone(context, args);
+			case "getThreshold": return getThreshold(context, args);
+			case "setThreshold": return setThreshold(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }
