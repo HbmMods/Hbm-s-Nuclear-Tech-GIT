@@ -153,8 +153,6 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 
 		double lower = 0.125D;
 		double upper = 0.875D;
-		double jLower = 0.0625D;
-		double jUpper = 0.9375D;
 		int meta = world.getBlockMetadata(x, y, z);
 
 		for(int i = 0; i < 5; i++) {
@@ -162,8 +160,6 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 			if(meta > i) {
 				lower += 0.0625D;
 				upper -= 0.0625D;
-				jLower += 0.0625D;
-				jUpper -= 0.0625D;
 			}
 		}
 
@@ -174,10 +170,9 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 		boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, te);
 		boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, te);
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
-		int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);
 
 		if(mask == 0) {
-			bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
+			bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
 		} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
 			bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + lower, z + lower, x + 1.0D, y + upper, z + upper));
 		} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
@@ -185,12 +180,7 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 		} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
 			bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + 0.0D, x + upper, y + upper, z + 1.0D));
 		} else {
-
-			if(count != 2) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
-			} else {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
-			}
+			bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
 
 			if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1.0D, y + upper, z + upper));
 			if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + lower, z + lower, x + lower, y + upper, z + upper));
@@ -227,8 +217,6 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 
 		float lower = 0.125F;
 		float upper = 0.875F;
-		float jLower = 0.0625F;
-		float jUpper = 0.9375F;
 		int meta = world.getBlockMetadata(x, y, z);
 
 		for(int i = 0; i < 5; i++) {
@@ -236,8 +224,6 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 			if(meta > i) {
 				lower += 0.0625F;
 				upper -= 0.0625F;
-				jLower += 0.0625F;
-				jUpper -= 0.0625F;
 			}
 		}
 
@@ -248,10 +234,9 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 		boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, te);
 		boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, te);
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
-		int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);
 
 		if(mask == 0) {
-			this.setBlockBounds(jLower, jLower, jLower, jUpper, jUpper, jUpper);
+			this.setBlockBounds(lower, lower, lower, upper, upper, upper);
 		} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
 			this.setBlockBounds(0F, lower, lower, 1F, upper, upper);
 		} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
@@ -260,23 +245,13 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 			this.setBlockBounds(lower, lower, 0F, upper, upper, 1F);
 		} else {
 
-			if(count != 2) {
-				this.setBlockBounds(
-						nX ? 0F : jLower,
-						nY ? 0F : jLower,
-						nZ ? 0F : jLower,
-						pX ? 1F : jUpper,
-						pY ? 1F : jUpper,
-						pZ ? 1F : jUpper);
-			} else {
-				this.setBlockBounds(
-						nX ? 0F : lower,
-						nY ? 0F : lower,
-						nZ ? 0F : lower,
-						pX ? 1F : upper,
-						pY ? 1F : upper,
-						pZ ? 1F : upper);
-			}
+			this.setBlockBounds(
+					nX ? 0F : lower,
+					nY ? 0F : lower,
+					nZ ? 0F : lower,
+					pX ? 1F : upper,
+					pY ? 1F : upper,
+					pZ ? 1F : upper);
 		}
 	}
 
