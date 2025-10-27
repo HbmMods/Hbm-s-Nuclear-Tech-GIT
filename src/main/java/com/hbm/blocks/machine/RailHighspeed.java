@@ -11,13 +11,14 @@ public class RailHighspeed extends BlockRailBase {
 
 	public RailHighspeed() {
 		super(true);
+		setHarvestLevel("pickaxe", 0);
 	}
-	
+
 	/*@Override
 	@SideOnly(Side.CLIENT) public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
 		return p_149691_2_ >= 6 ? this.icon : this.blockIcon;
 	}
-	
+
 
 	@Override
 	@SideOnly(Side.CLIENT)
