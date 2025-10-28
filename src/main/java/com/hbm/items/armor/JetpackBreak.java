@@ -47,7 +47,10 @@ public class JetpackBreak extends JetpackFueledBase {
 
 		if(getFuel(stack) > 0) {
 
-			if(props.isJetpackActive()) {
+			boolean playerTriesToHover = player.isSneaking() && props.isJetpackActive();
+			boolean playerShouldHover = playerTriesToHover || !player.isSneaking();
+
+			if(props.isJetpackActive() && !playerTriesToHover) {
 				player.fallDistance = 0;
 
 				if(player.motionY < 0.4D)
@@ -56,7 +59,7 @@ public class JetpackBreak extends JetpackFueledBase {
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 				this.useUpFuel(player, stack, 5);
 
-			} else if(!player.isSneaking() && !player.onGround && props.enableBackpack) {
+			} else if(playerShouldHover && !player.onGround && props.enableBackpack) {
 				player.fallDistance = 0;
 
 				if(player.motionY < -1)
@@ -72,7 +75,7 @@ public class JetpackBreak extends JetpackFueledBase {
 				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 				this.useUpFuel(player, stack, 10);
 			}
-			
+
 			ArmorUtil.resetFlightTime(player);
 		}
 	}
