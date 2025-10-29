@@ -79,7 +79,7 @@ public class TritiumLamp extends Block implements ISpotlight {
 	private void updateBeam(World world, int x, int y, int z) {
 		if(!isOn) return;
 
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) Spotlight.propagateBeam(world, x, y, z, dir, getBeamLength());
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) Spotlight.propagateBeam(world, x, y, z, dir, getBeamLength(), getMeta());
 	}
 
 	@Override
@@ -96,6 +96,12 @@ public class TritiumLamp extends Block implements ISpotlight {
 	@Override
 	protected ItemStack createStackedBlock(int e) {
 		return new ItemStack(getOff());
+	}
+	
+	protected int getMeta() {
+		if(this == ModBlocks.lamp_tritium_green_off || this == ModBlocks.lamp_tritium_green_on) return Spotlight.META_GREEN;
+		if(this == ModBlocks.lamp_tritium_blue_off || this == ModBlocks.lamp_tritium_blue_on) return Spotlight.META_BLUE;
+		return Spotlight.META_YELLOW;
 	}
 	
 	protected Block getOff() {

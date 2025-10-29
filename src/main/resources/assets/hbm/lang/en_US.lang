@@ -6143,6 +6143,7 @@ tile.reactor_inserter.name=Reactor Fuel Inserter
 tile.rebar.name=Rebar
 tile.red_barrel.name=Explosive Barrel
 tile.red_cable.name=Red Copper Cable
+tile.red_cable_box.name=Red Copper Boxcable
 tile.red_cable_classic.name=Red Copper Cable (Classic)
 tile.red_cable_gauge.name=Power Gauge
 tile.red_cable_gauge.desc=Cable that displays how much power$moves within the network per tick.$Split networks connected by energy$storage blocks are considered as one shared network.

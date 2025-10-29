@@ -28,6 +28,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class Spotlight extends Block implements ISpotlight, INBTBlockTransformable {
 
+	public static final int META_YELLOW = 0;
+	public static final int META_GREEN = 1;
+	public static final int META_BLUE = 2;
+
 	public static boolean disableOnGeneration = true;
 
 	// I'd be extending the ReinforcedLamp class if it wasn't for the inverted behaviour of these specific lights
@@ -223,7 +227,7 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 		if(!isOn) return;
 
 		ForgeDirection dir = getDirection(world, x, y, z);
-		propagateBeam(world, x, y, z, dir, beamLength);
+		propagateBeam(world, x, y, z, dir, beamLength, META_YELLOW);
 	}
 
 	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z) {
@@ -281,7 +285,7 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 	}
 
 	// Recursively add beam blocks, updating any that already exist with new incoming light directions
-	public static void propagateBeam(World world, int x, int y, int z, ForgeDirection dir, int distance) {
+	public static void propagateBeam(World world, int x, int y, int z, ForgeDirection dir, int distance, int meta) {
 		distance--;
 		if(distance <= 0)
 			return;
@@ -295,7 +299,7 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 			return;
 
 		if(!(block instanceof SpotlightBeam)) {
-			world.setBlock(x, y, z, ModBlocks.spotlight_beam);
+			world.setBlock(x, y, z, ModBlocks.spotlight_beam, meta, 3);
 		}
 
 		// If we encounter an existing beam, add a new INCOMING direction to the
@@ -303,7 +307,7 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 		if (SpotlightBeam.setDirection(world, x, y, z, dir, true) == 0)
 			return;
 
-		propagateBeam(world, x, y, z, dir, distance);
+		propagateBeam(world, x, y, z, dir, distance, meta);
 	}
 
 	// Recursively delete beam blocks, if they aren't still illuminated from a different direction
@@ -326,7 +330,7 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 	}
 
 	// Travels back through a beam to the source, and if found, repropagates the beam
-	public static void backPropagate(World world, int x, int y, int z, ForgeDirection dir) {
+	public static void backPropagate(World world, int x, int y, int z, ForgeDirection dir, int meta) {
 		x -= dir.offsetX;
 		y -= dir.offsetY;
 		z -= dir.offsetZ;
@@ -334,12 +338,12 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 		Block block = world.getBlock(x, y, z);
 		if(block instanceof ISpotlight) {
 			ISpotlight spot = (ISpotlight) block;
-			propagateBeam(world, x, y, z, dir, spot.getBeamLength());
+			propagateBeam(world, x, y, z, dir, spot.getBeamLength(), meta);
 		} else if(!(block instanceof SpotlightBeam)) {
 			return;
 		}
 
-		backPropagate(world, x, y, z, dir);
+		backPropagate(world, x, y, z, dir, meta);
 	}
 
 	protected Block getOff() {
