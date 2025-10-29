@@ -26,9 +26,9 @@ public class RailGeneric extends BlockRailBase implements ITooltipProvider {
 	protected boolean slopable = true;
 	protected boolean flexible = true;
 
-	public RailGeneric() {
+	public RailGeneric(String tool, Integer harvestLevel) {
 		super(false);
-		setHarvestLevel("pickaxe", 0);
+		setHarvestLevel(tool, harvestLevel);
 	}
 
 	@Override

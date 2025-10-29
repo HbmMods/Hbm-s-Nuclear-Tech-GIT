@@ -9,9 +9,9 @@ public class RailHighspeed extends BlockRailBase {
 	/*@SideOnly(Side.CLIENT)
 	private IIcon icon;*/
 
-	public RailHighspeed() {
+	public RailHighspeed(String tool, Integer harvestLevel) {
 		super(true);
-		setHarvestLevel("pickaxe", 0);
+		setHarvestLevel(tool, harvestLevel);
 	}
 
 	/*@Override
