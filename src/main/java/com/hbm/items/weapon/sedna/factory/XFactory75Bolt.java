@@ -64,7 +64,7 @@ public class XFactory75Bolt {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_BOLT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_BOLTER_ANIMS).orchestra(Orchestras.ORCHESTRA_BOLTER)
-				).setUnlocalizedName("gun_bolter");
+				).setDefaultAmmo(EnumAmmo.B75, 15).setUnlocalizedName("gun_bolter");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

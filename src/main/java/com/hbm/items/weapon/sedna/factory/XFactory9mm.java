@@ -59,7 +59,7 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_GREASEGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_GREASEGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_GREASEGUN)
-				).setNameMutator(LAMBDA_NAME_GREASEGUN)
+				).setDefaultAmmo(EnumAmmo.P9_SP, 30).setNameMutator(LAMBDA_NAME_GREASEGUN)
 				.setUnlocalizedName("gun_greasegun");
 
 		ModItems.gun_lag = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
@@ -71,7 +71,7 @@ public class XFactory9mm {
 						.setupStandardFire().fire(LAMBDA_FIRE_LAG).recoil(LAMBDA_RECOIL_LAG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LAG_ANIMS).orchestra(Orchestras.ORCHESTRA_LAG)
-				).setUnlocalizedName("gun_lag");
+				).setDefaultAmmo(EnumAmmo.P9_JHP, 17).setUnlocalizedName("gun_lag");
 
 		ModItems.gun_uzi = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
@@ -82,7 +82,7 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI)
-				).setNameMutator(LAMBDA_NAME_UZI)
+				).setDefaultAmmo(EnumAmmo.P9_SP, 30).setNameMutator(LAMBDA_NAME_UZI)
 				.setUnlocalizedName("gun_uzi");
 		ModItems.gun_uzi_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
@@ -103,7 +103,7 @@ public class XFactory9mm {
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(LAMBDA_SECOND_UZI)
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI_AKIMBO)
-				).setUnlocalizedName("gun_uzi_akimbo");
+				).setDefaultAmmo(EnumAmmo.P9_SP, 60).setUnlocalizedName("gun_uzi_akimbo");
 	}
 
 	public static Function<ItemStack, String> LAMBDA_NAME_GREASEGUN = (stack) -> {

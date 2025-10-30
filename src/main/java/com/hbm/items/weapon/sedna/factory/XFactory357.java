@@ -47,7 +47,7 @@ public class XFactory357 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
-				).setUnlocalizedName("gun_light_revolver");
+				).setDefaultAmmo(EnumAmmo.M357_SP, 12).setUnlocalizedName("gun_light_revolver");
 		ModItems.gun_light_revolver_atlas = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -57,7 +57,7 @@ public class XFactory357 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
-				).setUnlocalizedName("gun_light_revolver_atlas");
+				).setDefaultAmmo(EnumAmmo.M357_JHP, 12).setUnlocalizedName("gun_light_revolver_atlas");
 		ModItems.gun_light_revolver_dani = new ItemGunBaseNT(WeaponQuality.LEGENDARY,
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -77,7 +77,7 @@ public class XFactory357 {
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
-				).setUnlocalizedName("gun_light_revolver_dani");
+				).setDefaultAmmo(EnumAmmo.M357_EXPRESS, 24).setUnlocalizedName("gun_light_revolver_dani");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ATLAS = (stack, ctx) -> {

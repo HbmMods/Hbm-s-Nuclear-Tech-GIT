@@ -146,7 +146,7 @@ public class XFactoryFlamer {
 						.setupStandardFire())
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
-				).setUnlocalizedName("gun_flamer");
+				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer");
 		ModItems.gun_flamer_topaz = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
@@ -156,7 +156,7 @@ public class XFactoryFlamer {
 						.setupStandardFire())
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
-				).setUnlocalizedName("gun_flamer_topaz");
+				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer_topaz");
 		ModItems.gun_flamer_daybreaker = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
@@ -166,7 +166,7 @@ public class XFactoryFlamer {
 						.setupStandardFire())
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER_DAYBREAKER)
-				).setUnlocalizedName("gun_flamer_daybreaker");
+				).setDefaultAmmo(EnumAmmo.FLAME_DIESEL, 1).setUnlocalizedName("gun_flamer_daybreaker");
 
 		ModItems.gun_chemthrower = new ItemGunChemthrower(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)

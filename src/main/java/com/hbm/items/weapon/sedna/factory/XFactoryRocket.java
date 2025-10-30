@@ -172,7 +172,7 @@ public class XFactoryRocket {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_PANERSCHRECK)
-				).setUnlocalizedName("gun_panzerschreck");
+				).setDefaultAmmo(EnumAmmo.ROCKET_HE, 3).setUnlocalizedName("gun_panzerschreck");
 
 		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
@@ -183,7 +183,7 @@ public class XFactoryRocket {
 						.setupLockonFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration().ps(LAMBDA_STINGER_SECONDARY_PRESS).rs(LAMBDA_STINGER_SECONDARY_RELEASE)
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_STINGER)
-				).setUnlocalizedName("gun_stinger");
+				).setDefaultAmmo(EnumAmmo.ROCKET_HEAT, 3).setUnlocalizedName("gun_stinger");
 
 		ModItems.gun_quadro = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
@@ -194,7 +194,7 @@ public class XFactoryRocket {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_QUADRO_ANIMS).orchestra(Orchestras.ORCHESTRA_QUADRO)
-				).setUnlocalizedName("gun_quadro");
+				).setDefaultAmmo(EnumAmmo.ROCKET_HE, 4).setUnlocalizedName("gun_quadro");
 
 		ModItems.gun_missile_launcher = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(500).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
@@ -205,7 +205,7 @@ public class XFactoryRocket {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
 				.anim(LAMBDA_MISSILE_LAUNCHER_ANIMS).orchestra(Orchestras.ORCHESTRA_MISSILE_LAUNCHER)
-				).setUnlocalizedName("gun_missile_launcher");
+				).setDefaultAmmo(EnumAmmo.ROCKET_HEAT, 5).setUnlocalizedName("gun_missile_launcher");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_PRESS = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, true); };

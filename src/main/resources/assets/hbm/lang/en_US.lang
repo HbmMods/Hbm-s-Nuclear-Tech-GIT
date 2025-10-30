@@ -1829,6 +1829,7 @@ item.ammo_arty_phosphorus_multi.name=16" Multi Phosphorus Shell
 item.ammo_bag.name=Ammo Bag
 item.ammo_bag_infinite.name=Infinite Ammo Bag
 item.ammo_container.name=Ammo Container
+item.ammo_container.desc=Gives ammo for up to three held weapons
 item.ammo_dgk.name=Goalkeeper Twin CIWS 200 Round Belt
 item.ammo_fireext.name=Fire Extinguisher Water Tank
 item.ammo_fireext_foam.name=Fire Extinguisher Foam Tank

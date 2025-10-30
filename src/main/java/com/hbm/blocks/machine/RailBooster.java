@@ -5,7 +5,7 @@ import net.minecraft.world.World;
 
 public class RailBooster extends RailGeneric {
 
-	public RailBooster(String tool, Integer harvestLevel) {
+	public RailBooster(String tool, int harvestLevel) {
 		super(tool, harvestLevel);
 		this.setMaxSpeed(1.0F);
 		this.setFlexible(false);

@@ -75,7 +75,7 @@ public class XFactory762mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_CARBINE_ANIMS).orchestra(Orchestras.ORCHESTRA_CARBINE)
-				).setUnlocalizedName("gun_carbine");
+				).setDefaultAmmo(EnumAmmo.R762_SP, 14).setUnlocalizedName("gun_carbine");
 
 		ModItems.gun_minigun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
@@ -86,7 +86,7 @@ public class XFactory762mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN)
-				).setUnlocalizedName("gun_minigun");
+				).setDefaultAmmo(EnumAmmo.R762_FMJ, 30).setUnlocalizedName("gun_minigun");
 		ModItems.gun_minigun_lacunae = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
@@ -96,7 +96,7 @@ public class XFactory762mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_LACUNAE))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN)
-				).setUnlocalizedName("gun_minigun_lacunae");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR, 15).setUnlocalizedName("gun_minigun_lacunae");
 		ModItems.gun_minigun_dual = new ItemGunBaseNT(WeaponQuality.DEBUG,
 				new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
@@ -118,7 +118,7 @@ public class XFactory762mm {
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(LAMBDA_SECOND_MINIGUN)
 				.anim(LAMBDA_MINIGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_MINIGUN_DUAL)
-				).setUnlocalizedName("gun_minigun_dual");
+				).setDefaultAmmo(EnumAmmo.R762_SP, 50).setUnlocalizedName("gun_minigun_dual");
 
 		ModItems.gun_mas36 = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
@@ -129,7 +129,7 @@ public class XFactory762mm {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MAS36_ANIMS).orchestra(Orchestras.ORCHESTRA_MAS36)
-				).setUnlocalizedName("gun_mas36");
+				).setDefaultAmmo(EnumAmmo.R762_AP, 14).setUnlocalizedName("gun_mas36");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SECOND_MINIGUN = (stack, ctx) -> {

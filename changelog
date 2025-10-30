@@ -10,8 +10,20 @@
   * Fallen meteors will now be placed deeper into the actual crater instead of hovering awkwardly over the hole
 * Addd QMAW pages for the particle accelerator parts along with a PA overview page and a simple step by step construction tutorial
 * Increased the acidizer partitioner's input limit from 9 to 45 slots
+* Ammo containers are now functional again
+  * Each gun has a fixed "default ammo" that will be given
+  * Grants ammo for up to three held guns, selected randomly
+  * Ammo given does not respect caliber conversion mods
+  * Amount of ammo given depends on the mag size and type of ammo
+    * Most pistols and low capacity rifles will get two reloads worth of ammo
+    * High capacity rifles will typically get only one magazine
+    * Rocket launchers typically only get a small amount of rockets
+    * The fat man only gets a single nuke
+    * Certain legendaries do not give ammo at all, they are omitted when three randomly held guns are selected
+* Ammo containers are now found in more itempools
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
 * Fixed issue where the `amounts` tracker wasn't being used correctly when using a custom acidizer config, preventing the acidizer partitioner from working
 * Fixed multi fluid ID search potentially not working on systems with a non-latin locale
+* Fixed particle accelerator source working even if not cooled

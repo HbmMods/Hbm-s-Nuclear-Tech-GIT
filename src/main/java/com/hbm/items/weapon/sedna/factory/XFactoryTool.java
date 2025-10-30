@@ -276,7 +276,7 @@ public class XFactoryTool {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_CT_ANIMS).orchestra(Orchestras.ORCHESTRA_CHARGE_THROWER)
-				).setUnlocalizedName("gun_charge_thrower");
+				).setDefaultAmmo(EnumAmmo.CT_MORTAR, 3).setUnlocalizedName("gun_charge_thrower");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_CT = (stack, ctx) -> {

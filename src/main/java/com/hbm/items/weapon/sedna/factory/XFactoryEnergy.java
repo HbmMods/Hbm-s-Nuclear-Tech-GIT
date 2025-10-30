@@ -179,7 +179,7 @@ public class XFactoryEnergy {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_TESLA_ANIMS).orchestra(Orchestras.ORCHESTRA_TESLA)
-				).setUnlocalizedName("gun_tesla_cannon");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR, 15).setUnlocalizedName("gun_tesla_cannon");
 
 		ModItems.gun_laser_pistol = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(500).draw(10).inspect(26).crosshair(Crosshair.CIRCLE)
@@ -190,7 +190,7 @@ public class XFactoryEnergy {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LASER_PISTOL).orchestra(Orchestras.ORCHESTRA_LASER_PISTOL)
-				).setUnlocalizedName("gun_laser_pistol");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR, 15).setUnlocalizedName("gun_laser_pistol");
 		ModItems.gun_laser_pistol_pew_pew = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(500).draw(10).inspect(26).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
@@ -200,7 +200,7 @@ public class XFactoryEnergy {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LASER_PISTOL).orchestra(Orchestras.ORCHESTRA_LASER_PISTOL)
-				).setUnlocalizedName("gun_laser_pistol_pew_pew");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR_OVERCHARGE, 10).setUnlocalizedName("gun_laser_pistol_pew_pew");
 		ModItems.gun_laser_pistol_morning_glory = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(1_500).draw(10).inspect(26).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
@@ -210,7 +210,7 @@ public class XFactoryEnergy {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LASER_PISTOL).orchestra(Orchestras.ORCHESTRA_LASER_PISTOL)
-				).setUnlocalizedName("gun_laser_pistol_morning_glory");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR_OVERCHARGE, 20).setUnlocalizedName("gun_laser_pistol_morning_glory");
 
 		ModItems.gun_lasrifle = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(26).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
@@ -221,7 +221,7 @@ public class XFactoryEnergy {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LASRIFLE).orchestra(Orchestras.ORCHESTRA_LASRIFLE)
-				).setUnlocalizedName("gun_lasrifle");
+				).setDefaultAmmo(EnumAmmo.CAPACITOR, 24).setUnlocalizedName("gun_lasrifle");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ENERGY = (stack, ctx) -> { };

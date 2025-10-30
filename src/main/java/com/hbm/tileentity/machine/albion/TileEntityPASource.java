@@ -109,6 +109,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	}
 
 	public void tryRun() {
+		if(!isCool()) return;
 		if(slots[1].getItem().hasContainerItem(slots[1]) && slots[3] != null) return;
 		if(slots[2].getItem().hasContainerItem(slots[2]) && slots[4] != null) return;
 

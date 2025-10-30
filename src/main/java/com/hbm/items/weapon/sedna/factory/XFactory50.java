@@ -89,7 +89,7 @@ public class XFactory50 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
-				).setUnlocalizedName("gun_amat");
+				).setDefaultAmmo(EnumAmmo.BMG50_SP, 7).setUnlocalizedName("gun_amat");
 		ModItems.gun_amat_subtlety = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(1_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
@@ -99,7 +99,7 @@ public class XFactory50 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
-				).setUnlocalizedName("gun_amat_subtlety");
+				).setDefaultAmmo(EnumAmmo.BMG50_JHP, 7).setUnlocalizedName("gun_amat_subtlety");
 		ModItems.gun_amat_penance = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope_thermal).thermalSights(true).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
@@ -109,7 +109,7 @@ public class XFactory50 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AMAT_ANIMS).orchestra(Orchestras.ORCHESTRA_AMAT)
-				).setUnlocalizedName("gun_amat_penance");
+				).setDefaultAmmo(EnumAmmo.BMG50_JHP, 7).setUnlocalizedName("gun_amat_penance");
 
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
@@ -120,7 +120,7 @@ public class XFactory50 {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_M2))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_M2_ANIMS).orchestra(Orchestras.ORCHESTRA_M2)
-				).setUnlocalizedName("gun_m2");
+				).setDefaultAmmo(EnumAmmo.BMG50_FMJ, 25).setUnlocalizedName("gun_m2");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

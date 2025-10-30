@@ -56,6 +56,7 @@ public class ItemPoolsC130 {
 					weighted(ModItems.ammo_standard, EnumAmmo.R762_SP.ordinal(), 6, 6, 5),
 					weighted(ModItems.ammo_standard, EnumAmmo.G12_BP.ordinal(), 6, 6, 10),
 					weighted(ModItems.ammo_standard, EnumAmmo.ROCKET_HE.ordinal(), 1, 1, 3),
+					weighted(ModItems.ammo_container, 0, 1, 1, 1),
 			};
 		}};
 	}

@@ -12,7 +12,6 @@ import net.minecraft.util.WeightedRandomChestContent;
 
 public class ItemPoolsSingle {
 
-	public static final String POOL_POWDER = "POOL_POWDER";
 	public static final String POOL_VAULT_RUSTY = "POOL_VAULT_RUSTY";
 	public static final String POOL_VAULT_STANDARD = "POOL_VAULT_STANDARD";
 	public static final String POOL_VAULT_REINFORCED = "POOL_VAULT_REINFORCED";
@@ -21,24 +20,6 @@ public class ItemPoolsSingle {
 	
 	public static void init() {
 
-		//powder boxes
-		new ItemPool(POOL_POWDER) {{
-			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.powder_neptunium, 0, 1, 32, 1),
-					weighted(ModItems.powder_iodine, 0, 1, 32, 1),
-					weighted(ModItems.powder_thorium, 0, 1, 32, 1),
-					weighted(ModItems.powder_astatine, 0, 1, 32, 1),
-					weighted(ModItems.powder_neodymium, 0, 1, 32, 1),
-					weighted(ModItems.powder_caesium, 0, 1, 32, 1),
-					weighted(ModItems.powder_strontium, 0, 1, 32, 1),
-					weighted(ModItems.powder_cobalt, 0, 1, 32, 1),
-					weighted(ModItems.powder_bromine, 0, 1, 32, 1),
-					weighted(ModItems.powder_niobium, 0, 1, 32, 1),
-					weighted(ModItems.powder_tennessine, 0, 1, 32, 1),
-					weighted(ModItems.powder_cerium, 0, 1, 32, 1)
-			};
-		}};
-		
 		new ItemPool(POOL_VAULT_RUSTY) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(Items.gold_ingot, 0, 3, 14, 1),

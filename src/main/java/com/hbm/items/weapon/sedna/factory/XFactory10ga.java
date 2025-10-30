@@ -56,7 +56,7 @@ public class XFactory10ga {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_DOUBLE_BARREL_ANIMS).orchestra(Orchestras.ORCHESTRA_DOUBLE_BARREL)
-				).setUnlocalizedName("gun_double_barrel");
+				).setDefaultAmmo(EnumAmmo.G10, 6).setUnlocalizedName("gun_double_barrel");
 		ModItems.gun_double_barrel_sacred_dragon = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(6000).draw(10).inspect(39).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -66,7 +66,7 @@ public class XFactory10ga {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_DOUBLE_BARREL_ANIMS).orchestra(Orchestras.ORCHESTRA_DOUBLE_BARREL)
-				).setUnlocalizedName("gun_double_barrel_sacred_dragon");
+				).setDefaultAmmo(EnumAmmo.G10_DU, 6).setUnlocalizedName("gun_double_barrel_sacred_dragon");
 
 		ModItems.gun_autoshotgun_heretic = new ItemGunBaseNT(WeaponQuality.DEBUG, new GunConfig()
 				.draw(20).inspect(65).reloadSequential(true).inspectCancel(false).crosshair(Crosshair.L_CIRCLE).hideCrosshair(false).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -77,7 +77,7 @@ public class XFactory10ga {
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(XFactory12ga.LAMBDA_RECOIL_SEXY))
 				.setupStandardConfiguration()
 				.anim(XFactory12ga.LAMBDA_SEXY_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER_SEXY)
-				).setUnlocalizedName("gun_autoshotgun_heretic");
+				).setDefaultAmmo(EnumAmmo.G10, 50).setUnlocalizedName("gun_autoshotgun_heretic");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_DOUBLE_BARREL = (stack, ctx) -> {

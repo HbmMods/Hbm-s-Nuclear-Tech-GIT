@@ -171,7 +171,7 @@ public class XFactoryCatapult {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FATMAN_ANIMS).orchestra(Orchestras.ORCHESTRA_FATMAN)
-				).setUnlocalizedName("gun_fatman");
+				).setDefaultAmmo(EnumAmmo.NUKE_STANDARD, 1).setUnlocalizedName("gun_fatman");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_FATMAN = (stack, ctx) -> { };

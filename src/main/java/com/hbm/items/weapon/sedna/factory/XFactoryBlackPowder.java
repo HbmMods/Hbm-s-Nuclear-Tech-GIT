@@ -38,7 +38,7 @@ public class XFactoryBlackPowder {
 						.setupStandardFire().recoil(LAMBDA_RECOIL_PEPPERBOX))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_PEPPERBOX_ANIMS).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
-				).setUnlocalizedName("gun_pepperbox");
+				).setDefaultAmmo(EnumAmmo.STONE, 12).setUnlocalizedName("gun_pepperbox");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_PEPPERBOX = (stack, ctx) -> {

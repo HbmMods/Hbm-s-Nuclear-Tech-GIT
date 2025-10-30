@@ -26,7 +26,6 @@ import com.hbm.world.generator.DungeonToolbox;
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -499,74 +498,6 @@ public class HbmWorldGen implements IWorldGenerator {
 			int z = j + rand.nextInt(16) + 8;
 			int y = world.getHeightValue(x, z) - rand.nextInt(10);
 			if(y > 1) (new Meteorite()).generate(world, rand, x, y, z, false, false, false);
-		}
-
-		if (GeneralConfig.enableNITAN) {
-
-			if (i <= 10000 && i + 16 >= 10000 && j <= 10000 && j + 16 >= 10000) {
-				if (world.getBlock(10000, 250, 10000) == Blocks.air) {
-					world.setBlock(10000, 250, 10000, Blocks.chest);
-					if (world.getBlock(10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, 10000), 29);
-					}
-				}
-			}
-			if (i <= 0 && i + 16 >= 0 && j <= 10000 && j + 16 >= 10000) {
-				if (world.getBlock(0, 250, 10000) == Blocks.air) {
-					world.setBlock(0, 250, 10000, Blocks.chest);
-					if (world.getBlock(0, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(0, 250, 10000), 29);
-					}
-				}
-			}
-			if (i <= -10000 && i + 16 >= -10000 && j <= 10000 && j + 16 >= 10000) {
-				if (world.getBlock(-10000, 250, 10000) == Blocks.air) {
-					world.setBlock(-10000, 250, 10000, Blocks.chest);
-					if (world.getBlock(-10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, 10000), 29);
-					}
-				}
-			}
-			if (i <= 10000 && i + 16 >= 10000 && j <= 0 && j + 16 >= 0) {
-				if (world.getBlock(10000, 250, 0) == Blocks.air) {
-					world.setBlock(10000, 250, 0, Blocks.chest);
-					if (world.getBlock(10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, 0), 29);
-					}
-				}
-			}
-			if (i <= -10000 && i + 16 >= -10000 && j <= 0 && j + 16 >= 0) {
-				if (world.getBlock(-10000, 250, 0) == Blocks.air) {
-					world.setBlock(-10000, 250, 0, Blocks.chest);
-					if (world.getBlock(-10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, 0), 29);
-					}
-				}
-			}
-			if (i <= 10000 && i + 16 >= 10000 && j <= -10000 && j + 16 >= -10000) {
-				if (world.getBlock(10000, 250, -10000) == Blocks.air) {
-					world.setBlock(10000, 250, -10000, Blocks.chest);
-					if (world.getBlock(10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, -10000), 29);
-					}
-				}
-			}
-			if (i <= 0 && i + 16 >= 0 && j <= -10000 && j + 16 >= -10000) {
-				if (world.getBlock(0, 250, -10000) == Blocks.air) {
-					world.setBlock(0, 250, -10000, Blocks.chest);
-					if (world.getBlock(0, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(0, 250, -10000), 29);
-					}
-				}
-			}
-			if (i <= -10000 && i + 16 >= -10000 && j <= -10000 && j + 16 >= -10000) {
-				if (world.getBlock(-10000, 250, -10000) == Blocks.air) {
-					world.setBlock(-10000, 250, -10000, Blocks.chest);
-					if (world.getBlock(-10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, -10000), 29);
-					}
-				}
-			}
 		}
 
 		if(rand.nextInt(4) == 0) {
