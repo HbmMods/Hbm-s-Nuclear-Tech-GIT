@@ -4,9 +4,9 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.world.World;
 
 public class RailBooster extends RailGeneric {
-	
-	public RailBooster() {
-		super();
+
+	public RailBooster(String tool, Integer harvestLevel) {
+		super(tool, harvestLevel);
 		this.setMaxSpeed(1.0F);
 		this.setFlexible(false);
 	}

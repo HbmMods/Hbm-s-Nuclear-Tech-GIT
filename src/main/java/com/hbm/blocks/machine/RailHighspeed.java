@@ -9,15 +9,16 @@ public class RailHighspeed extends BlockRailBase {
 	/*@SideOnly(Side.CLIENT)
 	private IIcon icon;*/
 
-	public RailHighspeed() {
+	public RailHighspeed(String tool, Integer harvestLevel) {
 		super(true);
+		setHarvestLevel(tool, harvestLevel);
 	}
-	
+
 	/*@Override
 	@SideOnly(Side.CLIENT) public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
 		return p_149691_2_ >= 6 ? this.icon : this.blockIcon;
 	}
-	
+
 
 	@Override
 	@SideOnly(Side.CLIENT)
