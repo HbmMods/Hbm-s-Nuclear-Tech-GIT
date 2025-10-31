@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Controller",
+	"icon": ["hbm:tile.radio_torch_controller", 1, 0],
+	"trigger": [["hbm:tile.radio_torch_controller"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Controller"
+	},
+	"content": {
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, listens on one frequency for commands to execute for the connected block. Commands follow the format of <command_name>!<parameter1>:<parameter2> where the actual command name is followed by a \"!\" which separates the command name from the parameters, which are separated from one another with \":\". Hovering over the [V] icon will list available commands for the connected block, as well as what parameters are accepted.<br><br>The controller can be used for example for barrels, where the \"setmode\" command can use a number from 0 to 3 to change the barrel's IO mode. The second variant of the same command has another parameter, which is a fallback to use if the first specified mode is already selected, ultimately allowing the command to \"switch\" between two modes instead of just setting it."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Reader",
+	"icon": ["hbm:tile.radio_torch_reader", 1, 0],
+	"trigger": [["hbm:tile.radio_torch_reader"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Reader"
+	},
+	"content": {
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can be connected to certain machines and configured to read up to eight different values and transmit them over separate fequencies. Supported values are listed when hovering over the [V] icon. Comparators, and therefore [[RoR transmitters|Redstone-over-Radio Transmitter]] are limited to interpreting single values as numbers 0 - 15, while the reader can send multiple values with exact precision. For example, connecting the reader to a barrel and reading the \"fill\" value will cause it to send the exact amount of millibuckets in that barrel."
+	}
+}

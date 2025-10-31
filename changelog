@@ -21,9 +21,13 @@
     * The fat man only gets a single nuke
     * Certain legendaries do not give ammo at all, they are omitted when three randomly held guns are selected
 * Ammo containers are now found in more itempools
+* The arc furnace input queue can now be moved into the recipe grid if the lid is at least slightly open instead of requiring a fully opened lid
+  * This means that in system with slow input, the time window when items can be added to the arc furance is now more forgiving
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
 * Fixed issue where the `amounts` tracker wasn't being used correctly when using a custom acidizer config, preventing the acidizer partitioner from working
 * Fixed multi fluid ID search potentially not working on systems with a non-latin locale
 * Fixed particle accelerator source working even if not cooled
+* Fixed foundry channels being overly laggy in certain setups
+* Fixed potential mod incompatibilities with world generation mods that use outdated forge hooks

@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Logic Receiver",
+	"icon": ["hbm:tile.radio_torch_logic", 1, 0],
+	"trigger": [["hbm:tile.radio_torch_logic"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Logic Receiver"
+	},
+	"content": {
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, reads a radio signal and tries to interpret it as a redstone signal using the supplied rules. Can compare numbers as well as text (\"Strings\"), and will evaluate the signal in ascending or descending order, depending on how it is configured. The first condition that matches will determine the resulting redstone signal strength. If no condition matches, the resulting redstone output is 0.<br><br>Most commonly used along with the [[item counter|Redstone-over-Radio Item Counter]], since it's capable of comparing quantities of items that surpass the limitations of regular redstone signals with exact precision."
+	}
+}

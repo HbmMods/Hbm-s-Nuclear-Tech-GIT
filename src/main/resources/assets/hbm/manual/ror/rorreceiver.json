@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Receiver",
+	"icon": ["hbm:tile.radio_torch_receiver", 1, 0],
+	"trigger": [["hbm:tile.radio_torch_receiver"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Receiver"
+	},
+	"content": {
+		"en_US": "Basic [[redstone over radio|Redstone over Radio]] receiving device, reads the configured radio signal and outputs a redstone signal based on that. By default, it is set to \"Redstone Passthrough\" which means it will simply try to interpret the signal as a number and produce a matching redstone signal. If set to \"Custom Mapping\", it will instead translate the received value to a redstone signal level. Received signals must match the configured mapping exactly in order to be interpreted, for less precise comparisons, a [[logic receiver|Redstone-over-Radio Logic Receiver]] is required."
+	}
+}

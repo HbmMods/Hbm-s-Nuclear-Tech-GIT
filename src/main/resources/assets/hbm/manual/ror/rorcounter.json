@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Item Counter",
+	"icon": ["hbm:tile.radio_torch_counter", 1, 0],
+	"trigger": [["hbm:tile.radio_torch_counter"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Transmitter"
+	},
+	"content": {
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can broadcast to up to three frequencies at once. When connected to an inventory (e.g. a chest), it will count items that match the specified filters, and output the resulting values as a radio signals."
+	}
+}
