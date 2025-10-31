@@ -1,11 +1,13 @@
 package com.hbm.world.gen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.MapGenBase;
@@ -31,6 +33,9 @@ public class MapGenChainloader extends MapGenBase {
 
 	// Hack to provide the current generating chunk's block metas to the generation function
 	private static byte[] blockMetas;
+
+	// Double hack to check we actually get the damn metas, if not we will have to do a quick bit of post gen!
+	private static HashMap<ChunkCoordIntPair, byte[]> blockMetaMap = new HashMap<>();
 
 	// Executes our chainloaded parent, and all our child generators
 	@Override
@@ -62,6 +67,24 @@ public class MapGenChainloader extends MapGenBase {
 		netherGenerators.add(generator);
 	}
 
+	public static void repairBadGeneration(World world, int chunkX, int chunkZ) {
+		ChunkCoordIntPair coords = new ChunkCoordIntPair(chunkX, chunkZ);
+		if(MapGenChainloader.blockMetaMap.containsKey(coords)) {
+			byte[] metas = MapGenChainloader.blockMetaMap.get(coords);
+			for(int i = 0; i < metas.length; i++) {
+				if(metas[i] == 0) continue;
+				int y = i % 256;
+				int xz = (i - y) / 256;
+				int z = xz % 16;
+				int x = (xz - z) / 16;
+
+				world.setBlockMetadataWithNotify(chunkX * 16 + x, y, chunkZ * 16 + z, metas[i], 3);
+			}
+
+			MapGenChainloader.blockMetaMap.remove(coords);
+		}
+	}
+
 	public static class MapGenEventHandler {
 
 		// Register as late as possible to pick up any modded cave generators
@@ -84,7 +107,14 @@ public class MapGenChainloader extends MapGenBase {
 
 		@SubscribeEvent
 		public void storeLatestBlockMeta(ReplaceBiomeBlocks event) {
-			blockMetas = event.metaArray;
+			if(event.metaArray.length == 256) {
+				// a mod is using a deprecated forge hook! fuck!
+				// we will store our own meta array and apply metas _after_ chunk gen has finished
+				blockMetas = new byte[65536];
+				blockMetaMap.put(new ChunkCoordIntPair(event.chunkX, event.chunkZ), blockMetas);
+			} else {
+				blockMetas = event.metaArray;
+			}
 		}
 
 	}

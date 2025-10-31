@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFoundryChannel;
+import com.hbm.uninos.GenNode;
+import com.hbm.uninos.INetworkProvider;
+import com.hbm.uninos.networkproviders.FoundryNetwork;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -41,7 +47,7 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 	public FoundryChannel() {
 		super(Material.rock);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -65,16 +71,16 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
-		
+
 		List<AxisAlignedBB> bbs = new ArrayList();
-		
+
 		bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.3125D, x + 0.6875D, y + 0.5D, z + 0.6875D));
 
 		if(canConnectTo(world, x, y, z, Library.POS_X)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y, z + 0.3125D, x + 1D, y + 0.5D, z + 0.6875D));
 		if(canConnectTo(world, x, y, z, Library.NEG_X)) bbs.add(AxisAlignedBB.getBoundingBox(x, y, z + 0.3125D, x + 0.3125D, y + 0.5D, z + 0.6875D));
 		if(canConnectTo(world, x, y, z, Library.POS_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z + 0.6875D, x + 0.6875D, y + 0.5D, z + 1D));
 		if(canConnectTo(world, x, y, z, Library.NEG_Z)) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y, z, x + 0.6875D, y + 0.5D, z + 0.3125D));
-		
+
 		for(AxisAlignedBB bb : bbs) {
 			if(entityBounding.intersectsWith(bb)) {
 				list.add(bb);
@@ -120,23 +126,23 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
 		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).canAcceptPartialFlow(world, x, y, z, side, stack);
 	}
-	
+
 	@Override
 	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
 		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).flow(world, x, y, z, side, stack);
 	}
-	
+
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		
+
 		if(dir == ForgeDirection.UP || dir == ForgeDirection.DOWN || dir == ForgeDirection.UNKNOWN)
 			return false;
-		
+
 		Block b = world.getBlock(x + dir.offsetX, y, z + dir.offsetZ);
 		int meta = world.getBlockMetadata(x + dir.offsetX, y, z + dir.offsetZ);
-		
+
 		if((b == ModBlocks.foundry_outlet || b == ModBlocks.foundry_slagtap) && meta == dir.ordinal())
 			return true;
-		
+
 		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold;
 	}
 
@@ -146,25 +152,25 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 	public int getRenderType() {
 		return renderID;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {
 			return true;
 		}
-		
+
 		TileEntityFoundryChannel cast = (TileEntityFoundryChannel) world.getTileEntity(x, y, z);
-		
+
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && ((ItemTool) player.getHeldItem().getItem()).getToolClasses(player.getHeldItem()).contains("shovel")) {
 			if(cast.amount > 0) {
 				ItemStack scrap = ItemScraps.create(new MaterialStack(cast.type, cast.amount));
@@ -176,19 +182,18 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 				}
 				cast.amount = 0;
 				cast.type = null;
-				cast.propagateMaterial(null);
 				cast.markDirty();
 				world.markBlockForUpdate(x, y, z);
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
-		
+
 		TileEntityFoundryChannel channel = (TileEntityFoundryChannel) world.getTileEntity(x, y, z);
 		if(channel.amount > 0) {
 			ItemStack scrap = ItemScraps.create(new MaterialStack(channel.type, channel.amount));
@@ -196,7 +201,24 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 			world.spawnEntityInWorld(item);
 			channel.amount = 0;
 		}
-		
+
 		super.breakBlock(world, x, y, z, b, i);
 	}
+
+	public static class FoundryNode extends GenNode<FoundryNetwork> {
+
+		public NTMMaterial type;
+
+		public FoundryNode(INetworkProvider<FoundryNetwork> provider, BlockPos... positions) {
+			super(provider, positions);
+		}
+
+		@Override
+		public FoundryNode setConnections(DirPos... connections) {
+			super.setConnections(connections);
+			return this;
+		}
+
+	}
+
 }
