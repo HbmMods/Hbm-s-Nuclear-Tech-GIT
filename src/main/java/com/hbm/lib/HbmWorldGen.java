@@ -21,6 +21,7 @@ import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.*;
 import com.hbm.world.feature.*;
 import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
+import com.hbm.world.gen.MapGenChainloader;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -40,6 +41,11 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+		// quick fix for bad generators
+		if(world.provider.dimensionId == 0) {
+			MapGenChainloader.repairBadGeneration(world, chunkX, chunkZ);
+		}
+
 		switch (world.provider.dimensionId) {
 		case -1:
 			generateNether(world, rand, chunkX * 16, chunkZ * 16); break;
