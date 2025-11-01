@@ -1,5 +1,6 @@
 package com.hbm.commands;
 
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.Fluids;
@@ -8,6 +9,8 @@ import com.hbm.particle.helper.SkeletonCreator;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.DamageResistanceHandler;
 
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -32,6 +35,11 @@ public class CommandReloadRecipes extends CommandBase {
 			Fluids.reloadFluids();
 			FluidContainerRegistry.register();
 			SerializableRecipe.initialize();
+			CustomMachineConfigJSON.initialize();
+			if(FMLLaunchHandler.side() == Side.CLIENT){
+				CustomMachineConfigJSON.registerCustomModels();
+				CustomMachineConfigJSON.doesSoundExist();
+			}
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
 			SkeletonCreator.init();
