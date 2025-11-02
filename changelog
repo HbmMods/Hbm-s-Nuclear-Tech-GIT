@@ -23,6 +23,8 @@
 * Ammo containers are now found in more itempools
 * The arc furnace input queue can now be moved into the recipe grid if the lid is at least slightly open instead of requiring a fully opened lid
   * This means that in system with slow input, the time window when items can be added to the arc furance is now more forgiving
+* Pipe anchors now have a look overlay showing the currently configured fluid type
+* Removed ammo duping using nitra, instead, four large piles can now be combined into an ammo container
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up

@@ -13,19 +13,18 @@ public class RenderMeteor extends Render {
 	public RenderMeteor() { }
 
 	@Override
-	public void doRender(Entity rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
-			float p_76986_9_) {
+	public void doRender(Entity meteor, double x, double y, double z, float p_76986_8_, float interp) {
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
+		GL11.glTranslated(x, y, z);
 		GL11.glScalef(1.0F, 1.0F, 1.0F);
 		GL11.glRotatef(180, 1, 0, 0);
-		GL11.glRotatef((rocket.ticksExisted % 360) * 10, 1, 1, 1);
+		GL11.glRotatef((meteor.ticksExisted % 360 + interp) * 10, 1, 1, 1);
 		
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glScalef(5.0F, 5.0F, 5.0F);
-		renderBlock(getEntityTexture(rocket), 0, 0, 0);
+		renderBlock(getEntityTexture(meteor), 0, 0, 0);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
@@ -37,53 +36,40 @@ public class RenderMeteor extends Render {
 		GL11.glTranslated(x, y, z);
 		GL11.glRotatef(180, 0F, 0F, 1F);
 		Tessellator tesseract = Tessellator.instance;
+		this.bindTexture(loc1);
+		
 		tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(-0.5, -0.5, -0.5, 1, 0);
 			tesseract.addVertexWithUV(+0.5, -0.5, -0.5, 0, 0);
 			tesseract.addVertexWithUV(+0.5, +0.5, -0.5, 0, 1);
 			tesseract.addVertexWithUV(-0.5, +0.5, -0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
 
-			tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(-0.5, -0.5, +0.5, 1, 0);
 			tesseract.addVertexWithUV(-0.5, -0.5, -0.5, 0, 0);
 			tesseract.addVertexWithUV(-0.5, +0.5, -0.5, 0, 1);
 			tesseract.addVertexWithUV(-0.5, +0.5, +0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
 
-			tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(+0.5, -0.5, +0.5, 1, 0);
 			tesseract.addVertexWithUV(-0.5, -0.5, +0.5, 0, 0);
 			tesseract.addVertexWithUV(-0.5, +0.5, +0.5, 0, 1);
 			tesseract.addVertexWithUV(+0.5, +0.5, +0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
 
-			tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(+0.5, -0.5, -0.5, 1, 0);
 			tesseract.addVertexWithUV(+0.5, -0.5, +0.5, 0, 0);
 			tesseract.addVertexWithUV(+0.5, +0.5, +0.5, 0, 1);
 			tesseract.addVertexWithUV(+0.5, +0.5, -0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
 
-			tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(-0.5, -0.5, +0.5, 1, 0);
 			tesseract.addVertexWithUV(+0.5, -0.5, +0.5, 0, 0);
 			tesseract.addVertexWithUV(+0.5, -0.5, -0.5, 0, 1);
 			tesseract.addVertexWithUV(-0.5, -0.5, -0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
 
-			tesseract.startDrawingQuads();
 			tesseract.addVertexWithUV(+0.5, +0.5, +0.5, 1, 0);
 			tesseract.addVertexWithUV(-0.5, +0.5, +0.5, 0, 0);
 			tesseract.addVertexWithUV(-0.5, +0.5, -0.5, 0, 1);
 			tesseract.addVertexWithUV(+0.5, +0.5, -0.5, 1, 1);
-			this.bindTexture(loc1);
-			tesseract.draw();
+		tesseract.draw();
+		
 		GL11.glPopMatrix();
 		
 	}
