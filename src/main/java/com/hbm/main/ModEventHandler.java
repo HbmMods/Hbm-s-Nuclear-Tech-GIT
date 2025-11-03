@@ -494,6 +494,10 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
+		
+		if(event.entityLiving instanceof EntityCreeper && event.entityLiving.getEntityData().getBoolean("hfr_defused")) {
+			ItemModDefuser.defuse((EntityCreeper) event.entityLiving, null, false);
+		}
 
 		ItemStack[] prevArmor = event.entityLiving.previousEquipment;
 

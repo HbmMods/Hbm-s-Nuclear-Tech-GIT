@@ -42,30 +42,38 @@ public class ItemModDefuser extends ItemArmorMod {
 		
 		List<EntityCreeper> creepers = entity.worldObj.getEntitiesWithinAABB(EntityCreeper.class, entity.boundingBox.expand(5, 5, 5));
 		
-		for(EntityCreeper creeper : creepers) {
-			
-			if(creeper.getCreeperState() == 1 || creeper.func_146078_ca()) {
-				creeper.setCreeperState(-1);
-				creeper.getDataWatcher().updateObject(18, new Byte((byte) 0));
-				
-				EntityAICreeperSwell toRem = null;
-				for(Object o : creeper.tasks.taskEntries) {
-					EntityAITaskEntry entry = (EntityAITaskEntry) o;
-					
-					if(entry.action instanceof EntityAICreeperSwell) {
-						toRem = (EntityAICreeperSwell) entry.action;
-						break;
-					}
+		for(EntityCreeper creeper : creepers) defuse(creeper, entity, true);
+	}
+	
+	public static boolean defuse(EntityCreeper creeper, EntityLivingBase entity, boolean dropItem) {
+		
+		creeper.setCreeperState(-1);
+		creeper.getDataWatcher().updateObject(18, new Byte((byte) 0));
+
+		if(!creeper.worldObj.isRemote) {
+			EntityAICreeperSwell toRem = null;
+			for(Object o : creeper.tasks.taskEntries) {
+				EntityAITaskEntry entry = (EntityAITaskEntry) o;
+
+				if(entry.action instanceof EntityAICreeperSwell) {
+					toRem = (EntityAICreeperSwell) entry.action;
+					break;
 				}
-				
-				if(toRem != null) {
-					creeper.tasks.removeTask(toRem);
+			}
+
+			if(toRem != null) {
+				creeper.tasks.removeTask(toRem);
+				if(dropItem) {
 					creeper.worldObj.playSoundEffect(creeper.posX, creeper.posY, creeper.posZ, "hbm:item.pinBreak", 1.0F, 1.0F);
 					creeper.dropItem(ModItems.safety_fuse, 1);
 					creeper.attackEntityFrom(DamageSource.causeMobDamage(entity), 1.0F);
 					creeper.addPotionEffect(new PotionEffect(Potion.weakness.id, 0, 200));
 				}
+				creeper.getEntityData().setBoolean("hfr_defused", true);
+				return true;
 			}
 		}
+		
+		return false;
 	}
 }

@@ -2,16 +2,13 @@ package com.hbm.handler.ability;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
-import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ModItems;
-import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -22,8 +19,6 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -253,7 +248,7 @@ public interface IWeaponAbility extends IBaseAbility {
 		@Override
 		public void onHit(int level, World world, EntityPlayer player, Entity victim, Item tool) {
 			int divider = dividerAtLevel[level];
-
+			
 			if(victim instanceof EntityLivingBase) {
 				EntityLivingBase living = (EntityLivingBase) victim;
 
@@ -264,18 +259,8 @@ public interface IWeaponAbility extends IBaseAbility {
 						living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
 						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
 					}
-
-					if(player instanceof EntityPlayerMP) {
-						NBTTagCompound data = new NBTTagCompound();
-						data.setString("type", "vanillaburst");
-						data.setInteger("count", count * 4);
-						data.setDouble("motion", 0.1D);
-						data.setString("mode", "blockdust");
-						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, living.posX, living.posY + living.height * 0.5, living.posZ),
-								new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
-					}
-
+					
+					ConfettiUtil.gib(living);
 					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "hbm:weapon.chainsaw", 0.5F, 1.0F);
 				}
 			}

@@ -25,6 +25,14 @@
   * This means that in system with slow input, the time window when items can be added to the arc furance is now more forgiving
 * Pipe anchors now have a look overlay showing the currently configured fluid type
 * Removed ammo duping using nitra, instead, four large piles can now be combined into an ammo container
+* Using a defuser, creepers can now be rendered harmless manually
+* Defusing creepers now also works if the creeper hasn't lit its fuse yet
+* Defused creepers are now permanently harmless, they can no longer be manually re-ignited at all
+* Manual defusers now also affect big man johnson
+  * The glpyhid will explode instantly, but only about as powerful as a conventional rocket, not destroying blocks
+  * Doing so will also drop one usable demolition mini nuke
+* The painsaw ability no longer plays the blood splash particle effect
+  * Instead, it will outright gib the target
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
@@ -33,3 +41,5 @@
 * Fixed particle accelerator source working even if not cooled
 * Fixed foundry channels being overly laggy in certain setups
 * Fixed potential mod incompatibilities with world generation mods that use outdated forge hooks
+* Fixed the buzzsaw not properly replanting trees using the `leaves2` block type
+* Fixed creepers regaining their exploding AI task upon relog, if defused
