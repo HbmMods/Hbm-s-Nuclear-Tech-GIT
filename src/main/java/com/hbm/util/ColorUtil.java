@@ -217,11 +217,12 @@ public class ColorUtil {
 		put("purple", 8073150);
 		put("cyan", 2651799);
 		put("silver", 11250603);
+		put("lightgray", 11250603);
 		put("gray", 4408131);
 		put("pink", 14188952);
 		put("lime", 4312372);
 		put("yellow", 14602026);
-		put("lightBlue", 6719955);
+		put("lightblue", 6719955);
 		put("magenta", 12801229);
 		put("orange", 15435844);
 		put("white", 15790320);

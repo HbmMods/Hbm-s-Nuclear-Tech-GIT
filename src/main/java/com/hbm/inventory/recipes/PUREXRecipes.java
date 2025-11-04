@@ -34,11 +34,31 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 	@Override
 	public void registerDefaults() {
 
+		long pilePower = 100;
 		long zirnoxPower = 1_000;
 		long platePower = 1_500;
 		long pwrPower = 2_500;
 		long watzPower = 10_000;
 		long vitrification = 1_000;
+		
+		//CP-1
+		String autoPile = "autoswitch.pile";
+		this.register(new GenericRecipe("purex.pilepu").setup(40, pilePower).setNameWrapper("purex.recycle").setGroup(autoPile, this)
+				.inputItems(new ComparableStack(ModItems.pile_rod_plutonium))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+				.outputItems(new ItemStack(ModItems.billet_pu_mix, 2),
+						new ItemStack(ModItems.billet_uranium, 1),
+						new ItemStack(ModItems.plate_iron, 2))
+				.setIconToFirstIngredient());
+
+		this.register(new GenericRecipe("purex.pilepu239").setup(40, pilePower).setNameWrapper("purex.recycle").setGroup(autoPile, this)
+				.inputItems(new ComparableStack(ModItems.pile_rod_pu239))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+				.outputItems(new ItemStack(ModItems.billet_pu239, 1),
+						new ItemStack(ModItems.billet_pu_mix, 1),
+						new ItemStack(ModItems.billet_uranium, 1),
+						new ItemStack(ModItems.plate_iron, 2))
+				.setIconToFirstIngredient());
 
 		// ZIRNOX
 		String autoZirnox = "autoswitch.zirnox";

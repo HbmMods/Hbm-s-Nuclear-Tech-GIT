@@ -98,7 +98,7 @@ public class FluidDuctPaintable extends FluidDuctBase implements IToolable, IBlo
 			ItemBlock ib = (ItemBlock) stack.getItem();
 			Block block = ib.field_150939_a;
 
-			if(block.renderAsNormalBlock() && block != this) {
+			if(BlockCablePaintable.allowedPaint(block, this)) {
 
 				TileEntity tile = world.getTileEntity(x, y, z);
 

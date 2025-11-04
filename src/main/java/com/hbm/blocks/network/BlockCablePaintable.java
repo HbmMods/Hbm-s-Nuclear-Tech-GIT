@@ -13,6 +13,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -73,7 +74,7 @@ public class BlockCablePaintable extends BlockContainer implements IToolable, IB
 			ItemBlock ib = (ItemBlock) stack.getItem();
 			Block block = ib.field_150939_a;
 
-			if(block.renderAsNormalBlock() && block != this) {
+			if(allowedPaint(block, this)) {
 
 				TileEntity tile = world.getTileEntity(x, y, z);
 
@@ -92,6 +93,11 @@ public class BlockCablePaintable extends BlockContainer implements IToolable, IB
 		}
 
 		return super.onBlockActivated(world, x, y, z, player, side, fX, fY, fZ);
+	}
+	
+	public static boolean allowedPaint(Block paint, Block that) {
+		if(paint == Blocks.grass) return false;
+		return paint.renderAsNormalBlock() && paint != that;
 	}
 
 	@Override

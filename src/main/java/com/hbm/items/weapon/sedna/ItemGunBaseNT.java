@@ -64,6 +64,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	public List<ComparableStack> recognizedMods = new ArrayList();
 	
 	public ItemStack defaultAmmo;
+	public boolean isDefaultExpensive = false;
 
 	public static final DecimalFormatSymbols SYMBOLS_US = new DecimalFormatSymbols(Locale.US);
 	public static final DecimalFormat FORMAT_DMG = new DecimalFormat("#.##", SYMBOLS_US);
@@ -158,6 +159,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	public ItemGunBaseNT setDefaultAmmo(EnumAmmo ammo, int amount) {
 		this.defaultAmmo = new ItemStack(ModItems.ammo_standard, amount, ammo.ordinal());
 		return this;
+	}
+	
+	public ItemGunBaseNT setDefaultAmmoExpensive(EnumAmmo ammo, int amount) {
+		this.isDefaultExpensive = true;
+		return setDefaultAmmo(ammo, amount);
 	}
 
 	public ItemGunBaseNT setNameMutator(Function<ItemStack, String> lambda) {

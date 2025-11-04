@@ -1,5 +1,6 @@
 package com.hbm.entity.effect;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
@@ -197,7 +198,7 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 			}
 			
 			float hardness = b.getBlockHardness(worldObj, x, y, z);
-			if(y > 0 && dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/) {
+			if(y > 0 && dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/ && !(b instanceof BlockDummyable)) {
 				
 				if(worldObj.getBlock(x, y - 1, z) == Blocks.air) {
 					for(int i = 0; i <= depth; i++) {

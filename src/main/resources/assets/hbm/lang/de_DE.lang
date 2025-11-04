@@ -130,12 +130,13 @@ armorMod.type.servo=Servos
 armorMod.type.special=Spezial
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
-autoswitch.plate=Wiederanreicherung Plattenbrennstoff
+autoswitch.pile=Wiederaufbereitung Chicago-Pile-Brennstoff
+autoswitch.plate=Wiederaufbereitung Plattenbrennstoff
 autoswitch.plates=Metallplatten
-autoswitch.pwr=Wiederanreicherung PWR-Brennstoff
+autoswitch.pwr=Wiederaufbereitung PWR-Brennstoff
 autoswitch.schrab=Schrabidium-Extraktion
-autoswitch.watz=Wiederanreicherung Watzpellet
-autoswitch.zirnox=Wiederanreicherung ZIRNOX-Brennstoff
+autoswitch.watz=Wiederaufbereitung Watzpellet
+autoswitch.zirnox=Wiederaufbereitung ZIRNOX-Brennstoff
 
 bomb.detonated=Erfolgreich gezündet!
 bomb.incompatible=Gerät kann nicht ausgelöst werden!
@@ -1076,6 +1077,9 @@ item.ammo_arty_phosphorus.name=16" Phosphor-Artilleriegranate
 item.ammo_arty_phosphorus_multi.name=16" Mehrfach-Phosphor-Artilleriegranate
 item.ammo_bag.name=Munitionstasche
 item.ammo_bag_infinite.name=Unendliche Munitionstasche
+item.ammo_container.name=Munitionsbehäter
+item.ammo_container.desc=Enthält Munition für bis zu drei gehaltene Waffen
+item.ammo_container.1.desc=Enthält Munition für bis zu drei gehaltene Waffen$Inkludiert keine hochwertigen Munitionstypen wie Miniatombomben
 item.ammo_dgk.name=Goalkeeper-Zwilling CIWS 200er Gürtel
 item.ammo_fireext.name=Feuerlöscher-Wassertank
 item.ammo_fireext_foam.name=Feuerlöscher-Schaumtank

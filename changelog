@@ -25,6 +25,8 @@
   * This means that in system with slow input, the time window when items can be added to the arc furance is now more forgiving
 * Pipe anchors now have a look overlay showing the currently configured fluid type
 * Removed ammo duping using nitra, instead, four large piles can now be combined into an ammo container
+  * Ammo containers crafted from nitra cannot give "expensive" ammo types
+  * This mainly excludes mini nukes and .35
 * Using a defuser, creepers can now be rendered harmless manually
 * Defusing creepers now also works if the creeper hasn't lit its fuse yet
 * Defused creepers are now permanently harmless, they can no longer be manually re-ignited at all
@@ -33,6 +35,11 @@
   * Doing so will also drop one usable demolition mini nuke
 * The painsaw ability no longer plays the blood splash particle effect
   * Instead, it will outright gib the target
+* Pile plutonium rods can now be reprocessed in the PUREX in addition to the old anvil recipes
+  * The recipes require 100mB of sulfuric acid and 100HE/t, the lowest requirement for all reprocessing recipes
+  * The recipes are part of a shared auto switch group, meaning that even if different rod types are produced, only one PUREX is necessary
+* Grass is no longer a valid paint block for paintable cables and ducts
+* Multiblocks are no longer affected by collapses caused by nuclear explosions
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
@@ -43,3 +50,5 @@
 * Fixed potential mod incompatibilities with world generation mods that use outdated forge hooks
 * Fixed the buzzsaw not properly replanting trees using the `leaves2` block type
 * Fixed creepers regaining their exploding AI task upon relog, if defused
+* Fixed assembly and chemical factories not properly saving their recipe fluid buffers
+* Fixed light blue and light gray dyes not working when dyeing cables
