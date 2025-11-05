@@ -305,6 +305,7 @@ public class MainRegistry {
 		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
 		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
 		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
+		aMatBismuth.customCraftingMaterial = ModItems.plate_bismuth;
 		tMatSchrab.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		tMatHammmer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		tMatChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));

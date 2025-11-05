@@ -40,6 +40,8 @@
   * The recipes are part of a shared auto switch group, meaning that even if different rod types are produced, only one PUREX is necessary
 * Grass is no longer a valid paint block for paintable cables and ducts
 * Multiblocks are no longer affected by collapses caused by nuclear explosions
+* The old NITAN powder chests have been removed
+  * In their place, there's now a different, more useful structure with similar but not identical spawn rules
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
@@ -52,3 +54,4 @@
 * Fixed creepers regaining their exploding AI task upon relog, if defused
 * Fixed assembly and chemical factories not properly saving their recipe fluid buffers
 * Fixed light blue and light gray dyes not working when dyeing cables
+* Fixed bismuth armor not having a valid repair material

@@ -17,6 +17,7 @@ public class ItemPoolsSingle {
 	public static final String POOL_VAULT_REINFORCED = "POOL_VAULT_REINFORCED";
 	public static final String POOL_VAULT_UNBREAKABLE = "POOL_VAULT_UNBREAKABLE";
 	public static final String POOL_METEORITE_TREASURE = "POOL_METEORITE_TREASURE";
+	public static final String POOL_BLUEPRINTS = "POOL_BLUEPRINTS";
 	
 	public static void init() {
 
@@ -106,6 +107,14 @@ public class ItemPoolsSingle {
 					weighted(ModItems.egg_glyphid, 0, 1, 1, 5),
 					weighted(ModItems.gem_alexandrite, 0, 1, 1, 1),
 					weighted(ModItems.blueprint_folder, 1, 1, 1, 1)
+			};
+		}};
+		
+		new ItemPool(POOL_BLUEPRINTS) {{
+			this.pool = new WeightedRandomChestContent[] {
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 10),
+					weighted(ModItems.blueprint_folder, 1, 1, 1, 5),
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1),
 			};
 		}};
 	}

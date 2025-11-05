@@ -16,6 +16,7 @@ import com.hbm.tileentity.bomb.TileEntityLandmine;
 import com.hbm.tileentity.deco.TileEntityLanternBehemoth;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
+import com.hbm.util.Compat;
 import com.hbm.util.LootGenerator;
 import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.*;
@@ -27,6 +28,8 @@ import com.hbm.world.generator.DungeonToolbox;
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -515,7 +518,32 @@ public class HbmWorldGen implements IWorldGenerator {
 				world.setBlock(x, y, z, ModBlocks.stone_keyhole);
 			}
 		}
+		
+		genBlueprintChest(world, rand, i, j, 5000, 5000);
+	}
+	
+	private static void genBlueprintChest(World world, Random rand, int i, int j, int boundsX, int boundsZ) {
+		if(Math.abs(i) < 100 && Math.abs(j) < 100) return;
+		if(rand.nextBoolean()) return;
 
+		int cX = Math.abs(i) % boundsX;
+		int cZ = Math.abs(j) % boundsZ;
+		
+		if(cX <= 0 && cX + 16 >= 0 && cZ <= 0 && cZ + 16 >= 0) {
+			int x = i + 8;
+			int z = j + 8;
+			int y = world.getHeightValue(x, z) - rand.nextInt(2);
+			
+			world.setBlock(x, y, z, Blocks.chest);
+			
+			for(int a = x - 1; a <= x + 1; a++) for(int b = y - 1; b <= y + 1; b++) for(int c = z - 1; c <= z + 1; c++) {
+				if(a != x || b != y || c != z) world.setBlock(a, b, c, Blocks.obsidian);
+			}
+			
+			TileEntity tile = Compat.getTileStandard(world, x, y, z);
+			
+			if(tile instanceof TileEntityChest) WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_BLUEPRINTS), (TileEntityChest) tile, 50);
+		}
 	}
 
 	private void generateNether(World world, Random rand, int i, int j) {
