@@ -903,6 +903,8 @@ public class ModBlocks {
 
 	public static Block iter;
 	public static Block plasma_heater;
+	
+	public static Block fusion_component;
 
 	public static Block machine_icf_press;
 	public static Block icf_component;
@@ -2043,6 +2045,8 @@ public class ModBlocks {
 		iter = new MachineITER().setBlockName("iter").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":iter");
 		plasma_heater = new MachinePlasmaHeater().setBlockName("plasma_heater").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":plasma_heater");
 
+		fusion_component = new BlockFusionComponent().setBlockName("fusion_component").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_component");
+		
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf_component = new BlockICFComponent().setBlockName("icf_component").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":icf_component");
@@ -3423,6 +3427,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(iter, iter.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
+		
+		register(fusion_component);
 
 		register(watz_element);
 		register(watz_cooler);

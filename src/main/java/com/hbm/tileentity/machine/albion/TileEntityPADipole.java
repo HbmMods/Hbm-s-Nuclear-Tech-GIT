@@ -16,6 +16,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @SuppressWarnings("unused")
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, IParticleUser, OCComponent, SimpleComponent {
+public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, IParticleUser, OCComponent, SimpleComponent, IRORInteractive {
 
 	public int dirLower;
 	public int dirUpper;
@@ -351,4 +352,20 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		throw new NoSuchMethodException();
 	}
 
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setthreshold" + NAME_SEPARATOR + "threshold",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setthreshold").equals(name) && params.length > 0) {
+			this.threshold = IRORInteractive.parseInt(params[0], 0, 999_999_999);
+			this.markChanged();
+		}
+		return null;
+	}
 }
