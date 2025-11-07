@@ -8,6 +8,7 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.machine.albion.*;
+import com.hbm.blocks.machine.fusion.MachineFusionTorus;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
@@ -903,8 +904,9 @@ public class ModBlocks {
 
 	public static Block iter;
 	public static Block plasma_heater;
-	
+
 	public static Block fusion_component;
+	public static Block fusion_torus;
 
 	public static Block machine_icf_press;
 	public static Block icf_component;
@@ -2046,6 +2048,7 @@ public class ModBlocks {
 		plasma_heater = new MachinePlasmaHeater().setBlockName("plasma_heater").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":plasma_heater");
 
 		fusion_component = new BlockFusionComponent().setBlockName("fusion_component").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_component");
+		fusion_torus = new MachineFusionTorus().setBlockName("fusion_torus").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3429,6 +3432,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
 		
 		register(fusion_component);
+		register(fusion_torus);
 
 		register(watz_element);
 		register(watz_cooler);

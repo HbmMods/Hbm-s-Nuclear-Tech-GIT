@@ -48,6 +48,7 @@ import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.albion.*;
+import com.hbm.tileentity.machine.fusion.*;
 import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
@@ -253,6 +254,7 @@ public class TileMappings {
 		putMachines();
 		putPile();
 		putRBMK();
+		putFusion();
 
 		TileEntityMachineRadarNT.registerEntityClasses();
 		TileEntityMachineRadarNT.registerConverters();
@@ -408,6 +410,10 @@ public class TileMappings {
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
 		put(TileEntityRBMKAutoloader.class, "tileentity_rbmk_autoloader");
+	}
+
+	private static void putFusion() {
+		put(TileEntityFusionTorus.class, "tileentity_fusion_torus");
 	}
 
 	private static void putNetwork() {

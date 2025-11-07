@@ -248,6 +248,7 @@ public class ResourceManager {
 
 	//ITER
 	public static final IModelCustom iter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/iter.obj")).asVBO();
+	public static final IModelCustom fusion_torus = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fusion/torus.obj")).asVBO();
 
 	//ICF
 	public static final IModelCustom icf = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/icf.obj")).asVBO();
@@ -698,6 +699,7 @@ public class ResourceManager {
 	public static final ResourceLocation iter_torus_desh = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_desh.png");
 	public static final ResourceLocation iter_torus_chlorophyte = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_chlorophyte.png");
 	public static final ResourceLocation iter_torus_vaporwave = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_vaporwave.png");
+	public static final ResourceLocation fusion_torus_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/torus.png");
 
 	//ICF
 	public static final ResourceLocation icf_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/icf.png");
