@@ -1,6 +1,7 @@
 package com.hbm.handler.radiation;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
@@ -25,7 +26,7 @@ import net.minecraftforge.event.world.WorldEvent;
  */
 public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
-	private HashMap<World, SimpleRadiationPerWorld> perWorld = new HashMap();
+	private Map<World, SimpleRadiationPerWorld> perWorld = new HashMap<>();
 	private static final float maxRad = 100_000F;
 
 	@Override
@@ -71,8 +72,8 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
 		for(Entry<World, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
 
-			HashMap<ChunkCoordIntPair, Float> radiation = entry.getValue().radiation;
-			HashMap<ChunkCoordIntPair, Float> buff = new HashMap(radiation);
+			Map<ChunkCoordIntPair, Float> radiation = entry.getValue().radiation;
+			Map<ChunkCoordIntPair, Float> buff = new HashMap<>(radiation);
 			radiation.clear();
 			World world = entry.getKey();
 
@@ -183,7 +184,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
 	public static class SimpleRadiationPerWorld {
 
-		public HashMap<ChunkCoordIntPair, Float> radiation = new HashMap();
+		public Map<ChunkCoordIntPair, Float> radiation = new HashMap<>();
 	}
 
 	@Override

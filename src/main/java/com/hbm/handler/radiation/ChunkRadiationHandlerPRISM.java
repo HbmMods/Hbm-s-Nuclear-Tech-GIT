@@ -2,6 +2,7 @@ package com.hbm.handler.radiation;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,8 +45,8 @@ import net.minecraftforge.event.world.WorldEvent;
  *
  */
 public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
-	
-	public ConcurrentHashMap<World, RadPerWorld> perWorld = new ConcurrentHashMap();
+
+	public Map<World, RadPerWorld> perWorld = new ConcurrentHashMap<>();
 	public static int cycles = 0;
 	
 	public static final float MAX_RADIATION = 1_000_000;
@@ -171,8 +172,8 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 			}
 		}
 	}
-	
-	public static final HashMap<ChunkCoordIntPair, SubChunk[]> newAdditions = new HashMap();
+
+	public static final Map<ChunkCoordIntPair, SubChunk[]> newAdditions = new HashMap<>();
 
 	@Override
 	public void updateSystem() {
@@ -260,8 +261,8 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 	}
 	
 	/** Returns the amount of radiation spread */
-	private static float spreadRadiation(World world, SubChunk source, int y, ChunkCoordIntPair origin, SubChunk[] chunk, ConcurrentHashMap<ChunkCoordIntPair, SubChunk[]> map, ForgeDirection dir) {
-		
+	private static float spreadRadiation(World world, SubChunk source, int y, ChunkCoordIntPair origin, SubChunk[] chunk, Map<ChunkCoordIntPair, SubChunk[]> map, ForgeDirection dir) {
+
 		float spread = 0.1F;
 		float amount = source.prevRadiation * spread;
 		
@@ -305,7 +306,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 	}
 	
 	public static class RadPerWorld {
-		public ConcurrentHashMap<ChunkCoordIntPair, SubChunk[]> radiation = new ConcurrentHashMap();
+		public Map<ChunkCoordIntPair, SubChunk[]> radiation = new ConcurrentHashMap<>();
 	}
 	
 	public static class SubChunk {
