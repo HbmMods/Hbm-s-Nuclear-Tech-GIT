@@ -16,6 +16,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.NBTStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -29,6 +30,9 @@ import com.hbm.util.Tuple.Pair;
 import api.hbm.recipe.IRecipeRegisterListener;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 
 //the anti-spaghetti. this class provides so much functionality and saves so much time, i just love you, SerializableRecipe <3
 public abstract class SerializableRecipe {
@@ -253,6 +257,12 @@ public abstract class SerializableRecipe {
 		try {
 			String type = array.get(0).getAsString();
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
+			if("nbt".equals(type)) {
+				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
+				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
+				NBTBase nbt = JsonToNBT.func_150315_a(array.get(array.size() - 1).getAsString());
+				return new NBTStack(item, stacksize, meta).withNBT(nbt instanceof NBTTagCompound ? (NBTTagCompound) nbt : null);
+			}
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
 				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
@@ -280,18 +290,24 @@ public abstract class SerializableRecipe {
 	public static void writeAStack(AStack astack, JsonWriter writer) throws IOException {
 		writer.beginArray();
 		writer.setIndent("");
-		if(astack instanceof ComparableStack) {
+		if(astack instanceof NBTStack) {
+			NBTStack comp = (NBTStack) astack;
+			writer.value(comp.nbt != null ? "nbt" : "item");							//NBT  identifier
+			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));	//item name
+			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);		//stack size
+			if(comp.meta > 0) writer.value(comp.meta);									//metadata
+			if(comp.nbt != null) writer.value(comp.nbt.toString());						//NBT
+		} else if(astack instanceof ComparableStack) {
 			ComparableStack comp = (ComparableStack) astack;
 			writer.value("item");														//ITEM  identifier
 			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));	//item name
-			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);						//stack size
+			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);		//stack size
 			if(comp.meta > 0) writer.value(comp.meta);									//metadata
-		}
-		if(astack instanceof OreDictStack) {
+		} else if(astack instanceof OreDictStack) {
 			OreDictStack ore = (OreDictStack) astack;
-			writer.value("dict");			//DICT identifier
-			writer.value(ore.name);			//dict name
-			if(ore.stacksize != 1) writer.value(ore.stacksize);	//stacksize
+			writer.value("dict");														//DICT identifier
+			writer.value(ore.name);														//dict name
+			if(ore.stacksize != 1) writer.value(ore.stacksize);							//stacksize
 		}
 		writer.endArray();
 		writer.setIndent("  ");

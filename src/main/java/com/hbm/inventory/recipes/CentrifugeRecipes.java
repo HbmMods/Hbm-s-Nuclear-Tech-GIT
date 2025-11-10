@@ -353,7 +353,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 			return RecipesCommon.copyStackArray(recipes.get(comp));
 
 		for(Entry<AStack, ItemStack[]> entry : recipes.entrySet()) {
-			if(entry.getKey().isApplicable(stack)) {
+			if(entry.getKey().matchesRecipe(stack, true)) {
 				return RecipesCommon.copyStackArray(entry.getValue());
 			}
 		}

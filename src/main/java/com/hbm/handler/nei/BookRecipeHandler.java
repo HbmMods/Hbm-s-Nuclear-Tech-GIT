@@ -141,7 +141,7 @@ public class BookRecipeHandler extends TemplateRecipeHandler implements ICompatN
 			
 			for(AStack astack : recipe.in) {
 				
-				if(astack.isApplicable(ingredient)) {
+				if(astack.matchesRecipe(ingredient, true)) {
 					
 					List<Object> input = new ArrayList();
 					

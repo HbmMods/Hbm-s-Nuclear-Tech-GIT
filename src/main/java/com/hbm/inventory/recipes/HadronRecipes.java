@@ -133,8 +133,8 @@ import net.minecraft.item.ItemStack;
 		
 		for(HadronRecipe r : recipes) {
 			
-			if((r.in1.isApplicable(in1) && r.in2.isApplicable(in2)) ||
-					(r.in1.isApplicable(in2) && r.in2.isApplicable(in1))) {
+			if((r.in1.matchesRecipe(in1, false) && r.in2.matchesRecipe(in2, false)) ||
+					(r.in1.matchesRecipe(in2, false) && r.in2.matchesRecipe(in1, false))) {
 
 				if(analysisOnly && !r.analysisOnly)	returnCode = EnumHadronState.NORESULT_WRONG_MODE;
 				if(momentum < r.momentum)			returnCode = EnumHadronState.NORESULT_TOO_SLOW;

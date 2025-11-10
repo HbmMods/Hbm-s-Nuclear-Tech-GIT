@@ -79,8 +79,7 @@ public class MagicRecipes {
 			
 			for(int i = 0; i < in.size(); i++) {
 				
-				if(!in.get(i).isApplicable(comps.get(i)))
-					return false;
+				if(!in.get(i).matchesRecipe(comps.get(i).toStack(), false)) return false;
 			}
 			
 			return true;

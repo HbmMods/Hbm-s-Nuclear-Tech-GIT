@@ -1442,6 +1442,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.hadron_power_100m");
 		ignoreMappings.add("hbm:tile.hadron_power_1g");
 		ignoreMappings.add("hbm:tile.hadron_power_10g");
+		ignoreMappings.add("hbm:item.bob_metalworks");
+		ignoreMappings.add("hbm:item.bob_assembly");
+		ignoreMappings.add("hbm:item.bob_chemistry");
+		ignoreMappings.add("hbm:item.bob_oil");
+		ignoreMappings.add("hbm:item.bob_nuclear");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

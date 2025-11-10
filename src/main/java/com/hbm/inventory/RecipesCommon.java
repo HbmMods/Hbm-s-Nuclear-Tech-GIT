@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
@@ -11,6 +12,7 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -35,6 +37,7 @@ public class RecipesCommon {
 	public static ItemStack[] objectToStackArray(Object[] array) {
 
 		if(array == null)
+			
 			return null;
 		
 		ItemStack[] clone = new ItemStack[array.length];
@@ -52,34 +55,6 @@ public class RecipesCommon {
 		
 		public int stacksize;
 		
-		public boolean isApplicable(ItemStack stack) {
-			return isApplicable(new ComparableStack(stack));
-		}
-		
-		/*
-		 * Is it unprofessional to pool around in child classes from an abstract superclass? Do I look like I give a shit?
-		 * 
-		 * Major fuckup: comparablestacks need EQUAL stacksize but the oredictstack ignores stack size entirely
-		 */
-		public boolean isApplicable(ComparableStack comp) {
-			
-			if(this instanceof ComparableStack) {
-				return ((ComparableStack)this).equals(comp);
-			}
-			
-			if(this instanceof OreDictStack) {
-				
-				List<ItemStack> ores = OreDictionary.getOres(((OreDictStack)this).name);
-				
-				for(ItemStack stack : ores) {
-					if(stack.getItem() == comp.item && stack.getItemDamage() == comp.meta)
-						return true;
-				}
-			}
-			
-			return false;
-		}
-		
 		/**
 		 * Whether the supplied itemstack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
 		 * @param stack the ItemStack to check
@@ -87,8 +62,9 @@ public class RecipesCommon {
 		 * @return
 		 */
 		public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
-		
+
 		public abstract AStack copy();
+		public abstract AStack copy(int stacksize);
 		
 		/**
 		 * Generates either an ItemStack or an ArrayList of ItemStacks
@@ -230,27 +206,26 @@ public class RecipesCommon {
 
 		@Override
 		public boolean equals(Object obj) {
-			if(this == obj)
-				return true;
-			if(obj == null)
-				return false;
-			if(getClass() != obj.getClass())
-				return false;
+			if(this == obj) return true;
+			if(obj == null) return false;
+			if(getClass() != obj.getClass()) return false;
 			ComparableStack other = (ComparableStack) obj;
 			if(item == null) {
-				if(other.item != null)
-					return false;
+				if(other.item != null) return false;
 			} else if(!item.equals(other.item))
 				return false;
-			if(meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
-				return false;
-			if(stacksize != other.stacksize)
-				return false;
+			if(meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta) return false;
+			if(stacksize != other.stacksize) return false;
 			return true;
 		}
 
 		@Override
 		public int compareTo(AStack stack) {
+			
+			//if compared with a NBTStack, the CStack will yield
+			if(stack instanceof NBTStack) return -1;
+			//if compared with an ODStack, the CStack will take priority
+			if(stack instanceof OreDictStack) return 1;
 			
 			if(stack instanceof ComparableStack) {
 				
@@ -259,31 +234,24 @@ public class RecipesCommon {
 				int thisID = Item.getIdFromItem(item);
 				int thatID = Item.getIdFromItem(comp.item);
 				
-				if(thisID > thatID)
-					return 1;
-				if(thatID > thisID)
-					return -1;
+				if(thisID > thatID) return 1;
+				if(thatID > thisID) return -1;
 				
-				if(meta > comp.meta)
-					return 1;
-				if(comp.meta > meta)
-					return -1;
+				if(meta > comp.meta) return 1;
+				if(comp.meta > meta) return -1;
 				
 				return 0;
 			}
-
-			//if compared with an ODStack, the CStack will take priority
-			if(stack instanceof OreDictStack)
-				return 1;
 			
 			return 0;
 		}
 
 		@Override
-		public AStack copy() {
+		public ComparableStack copy() {
 			return new ComparableStack(item, stacksize, meta);
 		}
-		
+
+		@Override
 		public ComparableStack copy(int stacksize) {
 			return new ComparableStack(item, stacksize, meta);
 		}
@@ -291,17 +259,10 @@ public class RecipesCommon {
 		@Override
 		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
 			
-			if(stack == null)
-				return false;
-			
-			if(stack.getItem() != this.item)
-				return false;
-			
-			if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta)
-				return false;
-			
-			if(!ignoreSize && stack.stackSize < this.stacksize)
-				return false;
+			if(stack == null) return false;
+			if(stack.getItem() != this.item) return false;
+			if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta) return false;
+			if(!ignoreSize && stack.stackSize < this.stacksize) return false;
 			
 			return true;
 		}
@@ -312,52 +273,106 @@ public class RecipesCommon {
 		}
 	}
 	
-	/*
-	 * This implementation does not override the compare function, which effectively makes it ignore stack data.
-	 * This is still in line with the use-case of the ComparableNBTStack holding machine output stack information,
-	 * since the compare function is not needed. In case the compare function is required, make a new child class.
-	 */
-	public static class ComparableNBTStack extends ComparableStack {
+	public static class NBTStack extends ComparableStack {
 		
-		NBTTagCompound nbt;
+		public NBTTagCompound nbt;
 		
-		public ComparableNBTStack(ItemStack stack) {
-			super(stack);
-		}
-		
-		public ComparableNBTStack(Item item) {
-			super(item);
-		}
-		
-		public ComparableNBTStack(Block item) {
-			super(item);
-		}
-		
-		public ComparableNBTStack(Block item, int stacksize) {
-			super(item, stacksize);
-		}
-		
-		public ComparableNBTStack(Block item, int stacksize, int meta) {
-			super(item, stacksize, meta);
-		}
-		
-		public ComparableNBTStack(Item item, int stacksize) {
-			super(item, stacksize);
-		}
-		
-		public ComparableNBTStack(Item item, int stacksize, int meta) {
-			super(item, stacksize, meta);
-		}
-		
-		public ComparableNBTStack addNBT(NBTTagCompound nbt) {
+		public NBTStack(Item item) { super(item); }
+		public NBTStack(Block item) { super(item); }
+		public NBTStack(Block item, int stacksize) { super(item, stacksize); }
+		public NBTStack(Block item, int stacksize, int meta) { super(item, stacksize, meta); }
+		public NBTStack(Block item, int stacksize, Enum meta) { super(item, stacksize, meta); }
+		public NBTStack(Item item, int stacksize) { super(item, stacksize); }
+		public NBTStack(Item item, int stacksize, int meta) { super(item, stacksize, meta); }
+		public NBTStack(Item item, int stacksize, Enum meta) { super(item, stacksize, meta); }
+		public NBTStack(ItemStack stack) { super(stack.getItem(), stack.stackSize, stack.getItemDamage()); this.withNBT(stack.stackTagCompound); }
+
+		public NBTStack withNBT(NBTTagCompound nbt) {
 			this.nbt = nbt;
 			return this;
 		}
 		
+		public NBTStack initNBT() {
+			if(this.nbt == null) this.nbt = new NBTTagCompound();
+			return this;
+		}
+		
+		public NBTStack setInt(String key, int value) {
+			initNBT().nbt.setInteger(key, value);
+			return this;
+		}
+		
+		@Override
 		public ItemStack toStack() {
-			ItemStack stack = super.toStack();
-			stack.stackTagCompound = this.nbt;
+			ItemStack stack = new ItemStack(item == null ? ModItems.nothing : item, stacksize, meta);
+			if(this.nbt != null) stack.stackTagCompound = (NBTTagCompound) nbt.copy();
 			return stack;
+		}
+
+		/**
+		 * For an ItemStack to match an NBTStack, all the rules from ComparableStack apply, with the added condition that all
+		 * tags in the NBTStack's NBTTagCompound need to be present and equal the tags of the ItemStack. Any additional tags
+		 * the ItemStack has are ignored.
+		 */
+		@Override
+		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
+			
+			if(stack == null) return false;
+			if(stack.getItem() != this.item) return false;
+			if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta) return false;
+			if(!ignoreSize && stack.stackSize < this.stacksize) return false;
+			if(this.nbt != null && !this.nbt.hasNoTags() && stack.stackTagCompound == null) return false;
+			
+			if(this.nbt != null && stack.stackTagCompound != null) {
+				Set<String> neededKeys = this.nbt.func_150296_c();
+				for(String key : neededKeys) {
+					NBTBase tag = stack.stackTagCompound.getTag(key);
+					if(tag == null) return false;
+					if(!this.nbt.getTag(key).equals(tag)) return false;
+				}
+			}
+			
+			return true;
+		}
+
+		@Override
+		public NBTStack copy() {
+			return new NBTStack(item, stacksize, meta).withNBT(nbt != null ? (NBTTagCompound) nbt.copy() : null);
+		}
+
+		@Override
+		public NBTStack copy(int stacksize) {
+			return new NBTStack(item, stacksize, meta).withNBT(nbt != null ? (NBTTagCompound) nbt.copy() : null);
+		}
+	
+		@Override
+		public int compareTo(AStack stack) {
+			
+			if(stack instanceof NBTStack) {
+				
+				NBTStack comp = (NBTStack) stack;
+				
+				int thisID = Item.getIdFromItem(item);
+				int thatID = Item.getIdFromItem(comp.item);
+				
+				if(thisID > thatID) return 1;
+				if(thatID > thisID) return -1;
+				
+				if(meta > comp.meta) return 1;
+				if(comp.meta > meta) return -1;
+
+				if(nbt != null && comp.nbt == null) return 1;
+				if(nbt == null && comp.nbt != null) return -1;
+				
+				return 0;
+			}
+			
+			//if compared with a CStack, the NBTStack will take priority
+			if(stack instanceof ComparableStack) return 1;
+			//if compared with an ODStack, the NBTStack will take priority
+			if(stack instanceof OreDictStack) return 1;
+			
+			return 0;
 		}
 	}
 	
@@ -387,19 +402,19 @@ public class RecipesCommon {
 				OreDictStack comp = (OreDictStack) stack;
 				return name.compareTo(comp.name);
 			}
-			
+
 			//if compared with a CStack, the ODStack will yield
-			if(stack instanceof ComparableStack)
-				return -1;
+			if(stack instanceof ComparableStack) return -1;
 			
 			return 0;
 		}
 
 		@Override
-		public AStack copy() {
+		public OreDictStack copy() {
 			return new OreDictStack(name, stacksize);
 		}
-		
+
+		@Override
 		public OreDictStack copy(int stacksize) {
 			return new OreDictStack(name, stacksize);
 		}

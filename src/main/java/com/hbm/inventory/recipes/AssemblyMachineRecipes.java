@@ -56,6 +56,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 	@Override
 	public void registerDefaults() {
 
+		// NBTStack test
+		// this.register(new GenericRecipe("demo1").setup(20, 100).outputItems(BrokenItem.make(ModItems.plate_iron)).inputItems(new OreDictStack(IRON.ingot())));
+		// this.register(new GenericRecipe("demo2").setup(20, 100).outputItems(BrokenItem.make(ModItems.plate_gold)).inputItems(new OreDictStack(IRON.ingot())));
+		// this.register(new GenericRecipe("demo3").setup(20, 100).outputItems(new ItemStack(Items.iron_ingot)).inputItems(new NBTStack(BrokenItem.make(ModItems.plate_iron))));
+		
 		// plates and ingots
 		String autoPlate = "autoswitch.plates";
 		this.register(new GenericRecipe("ass.plateiron").setup(60, 100).outputItems(new ItemStack(ModItems.plate_iron, 1)).inputItems(new OreDictStack(IRON.ingot())).setPools(GenericRecipes.POOL_PREFIX_ALT + "plates").setGroup(autoPlate, this));
