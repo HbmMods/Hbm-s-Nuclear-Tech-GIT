@@ -37,6 +37,7 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 	/* once i have to start debugging this, even my nightmares will start shitting themselves */
 	
 	private static HashMap<World, WorldRadiationData> worldMap = new HashMap();
+	private static Map<World, WorldRadiationData> worldMap = new HashMap<>();
 
 	@Override
 	public void clearSystem(World world) {
@@ -729,11 +730,15 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 		public World world;
 		private Set<BlockPos> dirtyChunks = new HashSet();
 		private Set<BlockPos> dirtyChunks2 = new HashSet();
+		private Set<BlockPos> dirtyChunks = new HashSet<>();
+		private Set<BlockPos> dirtyChunks2 = new HashSet<>();
 		private boolean iteratingDirty = false;
 		
 		public Set<RadPocket> activePockets = new HashSet();
 		public HashMap<ChunkCoordIntPair, ChunkRadiationStorage> data = new HashMap();
 		
+		public Set<RadPocket> activePockets = new HashSet<>();
+		public Map<ChunkCoordIntPair, ChunkRadiationStorage> data = new HashMap<>();
 		public WorldRadiationData(World world) {
 			this.world = world;
 		}
