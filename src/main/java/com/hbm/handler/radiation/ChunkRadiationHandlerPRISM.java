@@ -45,8 +45,7 @@ import net.minecraftforge.event.world.WorldEvent;
  *
  */
 public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
-	
-	public ConcurrentHashMap<World, RadPerWorld> perWorld = new ConcurrentHashMap();
+
 	public Map<World, RadPerWorld> perWorld = new ConcurrentHashMap<>();
 	public static int cycles = 0;
 	
@@ -173,8 +172,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 			}
 		}
 	}
-	
-	public static final HashMap<ChunkCoordIntPair, SubChunk[]> newAdditions = new HashMap();
+
 	public static final Map<ChunkCoordIntPair, SubChunk[]> newAdditions = new HashMap<>();
 
 	@Override

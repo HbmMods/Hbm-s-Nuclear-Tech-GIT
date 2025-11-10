@@ -19,8 +19,7 @@ import net.minecraftforge.event.world.WorldEvent;
  * @author hbm
  */
 public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
-	
-	private HashMap<World, ThreeDimRadiationPerWorld> perWorld = new HashMap();
+
 	private Map<World, ThreeDimRadiationPerWorld> perWorld = new HashMap<>();
 
 	@Override @Untested
@@ -74,9 +73,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 	public void updateSystem() {
 		
 		for(Entry<World, ThreeDimRadiationPerWorld> entry : perWorld.entrySet()) {
-			
-			HashMap<ChunkCoordIntPair, Float[]> radiation = entry.getValue().radiation;
-			HashMap<ChunkCoordIntPair, Float[]> buff = new HashMap(radiation);
+
 			Map<ChunkCoordIntPair, Float[]> radiation = entry.getValue().radiation;
 			Map<ChunkCoordIntPair, Float[]> buff = new HashMap<>(radiation);
 			radiation.clear();
@@ -186,7 +183,6 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 	}
 	
 	public static class ThreeDimRadiationPerWorld {
-
 		public Map<ChunkCoordIntPair, Float[]> radiation = new HashMap<>();
 	}
 }
