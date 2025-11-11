@@ -415,6 +415,8 @@ public class TileMappings {
 	private static void putFusion() {
 		put(TileEntityFusionTorusStruct.class, "tileentity_fusion_torus_struct");
 		put(TileEntityFusionTorus.class, "tileentity_fusion_torus");
+		put(TileEntityFusionKlystron.class, "tileentity_fusion_klystron");
+		put(TileEntityFusionBreeder.class, "tileentity_fusion_breeder");
 	}
 
 	private static void putNetwork() {

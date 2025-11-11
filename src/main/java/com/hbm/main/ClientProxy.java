@@ -426,6 +426,8 @@ public class ClientProxy extends ServerProxy {
 		//Fusion
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionTorusStruct.class, new RenderFusionTorusMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionTorus.class, new RenderFusionTorus());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionKlystron.class, new RenderFusionKlystron());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFusionBreeder.class, new RenderFusionBreeder());
 		//Watz
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWatz.class, new RenderWatz());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWatzPump.class, new RenderWatzPump());
