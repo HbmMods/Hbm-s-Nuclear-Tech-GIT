@@ -285,11 +285,9 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
 	@Override
 	public int getRenderId() {
-		return renderID;
+		return FluidDuctBox.renderID;
 	}
 
 }

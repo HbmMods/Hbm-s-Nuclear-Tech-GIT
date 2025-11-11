@@ -125,7 +125,7 @@ public class PowerCableBox extends BlockContainer implements IBlockMulti {
 
 	@Override
 	public int getRenderType() {
-		return RenderBoxDuct.renderID;
+		return FluidDuctBox.renderID;
 	}
 
 	@Override
