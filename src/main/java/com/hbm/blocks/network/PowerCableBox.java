@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.block.RenderBoxDuct;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
 
 import cpw.mods.fml.relauncher.Side;
