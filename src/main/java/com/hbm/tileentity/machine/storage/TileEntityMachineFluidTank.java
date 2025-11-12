@@ -3,8 +3,9 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
-import api.hbm.redstoneoverradio.IRORInteractive;
-import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.ntm1of90.compat.fluid.adapter.ForgeFluidHandlerAdapter;
+import api.ntm1of90.compat.fluid.registry.FluidMappingRegistry;
+import net.minecraftforge.fluids.IFluidHandler;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -42,6 +43,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -56,7 +58,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable, IFluidHandler {
 
 	protected FluidNode node;
 	protected FluidType lastType;
@@ -461,6 +463,81 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		return tank;
 	}
 
+	// Forge IFluidHandler implementation
+
+	private ForgeFluidHandlerAdapter forgeAdapter = new ForgeFluidHandlerAdapter() {
+		@Override
+		protected FluidTank[] getHbmTanks() {
+			return new FluidTank[] { tank };
+		}
+
+		@Override
+		protected TileEntity getTileEntity() {
+			return TileEntityMachineFluidTank.this;
+		}
+
+		@Override
+		protected boolean isFillAllowed(ForgeDirection from) {
+			// allow filling in input or buffer mode
+			if (hasExploded) return false;
+			return (mode == 0 || mode == 1);
+		}
+
+		@Override
+		protected boolean isDrainAllowed(ForgeDirection from) {
+			// allow draining in output or buffer mode
+			if (hasExploded) return false;
+			return (mode == 1 || mode == 2);
+		}
+	};
+
+	static {
+		// Initialize the fluid mapping registry
+		FluidMappingRegistry.initialize();
+	}
+
+	// Common compatibility helpers that some pipe mods reflectively probe for
+	public boolean canConnectFluid(ForgeDirection from) { return !hasExploded; }
+	public boolean isConnectable(ForgeDirection from) { return !hasExploded; }
+	public boolean canInterface(ForgeDirection from) { return !hasExploded; }
+	public boolean canInputFluid(ForgeDirection from) { return !hasExploded && (mode == 0 || mode == 1); }
+	public boolean canOutputFluid(ForgeDirection from) { return !hasExploded && (mode == 1 || mode == 2); }
+	public boolean canReceiveFrom(ForgeDirection from) { return !hasExploded && (mode == 0 || mode == 1); }
+	public boolean canSendTo(ForgeDirection from) { return !hasExploded && (mode == 1 || mode == 2); }
+	public boolean canAcceptFluid(ForgeDirection from) { return !hasExploded && (mode == 0 || mode == 1); }
+	public boolean canProvideFluid(ForgeDirection from) { return !hasExploded && (mode == 1 || mode == 2); }
+	public boolean isFluidHandler(ForgeDirection from) { return !hasExploded; }
+
+	@Override
+	public int fill(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doFill) {
+		return forgeAdapter.fill(from, resource, doFill);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, net.minecraftforge.fluids.FluidStack resource, boolean doDrain) {
+		return forgeAdapter.drain(from, resource, doDrain);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return forgeAdapter.drain(from, maxDrain, doDrain);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canFill(from, fluid);
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, net.minecraftforge.fluids.Fluid fluid) {
+		return forgeAdapter.canDrain(from, fluid);
+	}
+
+	@Override
+	public net.minecraftforge.fluids.FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return forgeAdapter.getTankInfo(from);
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
@@ -538,51 +615,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
-			case "getFluidStored": return getFluidStored(context, args);
-			case "getMaxStored": return getMaxStored(context, args);
-			case "getTypeStored": return getTypeStored(context, args);
-			case "getInfo": return getInfo(context, args);
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getMaxStored":
+				return getMaxStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getInfo":
+				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
-	}
-
-	@Override
-	public String[] getFunctionInfo() {
-		return new String[] {
-				PREFIX_VALUE + "type",
-				PREFIX_VALUE + "fill",
-				PREFIX_VALUE + "fillpercent",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
-		};
-	}
-
-	@Override
-	public String provideRORValue(String name) {
-		if((PREFIX_VALUE + "type").equals(name))		return tank.getTankType().getName();
-		if((PREFIX_VALUE + "fill").equals(name))		return "" + tank.getFill();
-		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + (tank.getFill() * 100 / tank.getMaxFill());
-		return null;
-	}
-
-	@Override
-	public String runRORFunction(String name, String[] params) {
-		
-		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length > 0) {
-			int mode = IRORInteractive.parseInt(params[0], 0, 3);
-			
-			if(mode != this.mode) {
-				this.mode = (short) mode;
-				this.markChanged();
-				return null;
-			} else if(params.length > 1) {
-				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
-				this.mode = (short) altmode;
-				this.markChanged();
-				return null;
-			}
-			return null;
-		}
-		return null;
 	}
 }

@@ -26,7 +26,7 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
-	version_name = mod_version + "_X" + mod_build_number
+	version_name = mod_version + "_X" + mod_build_number + "_NTM-1-of-90_r.9.1-hotfix"
 	version = "[${version_name}]"
 }
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -44,7 +44,7 @@ minecraft {
 eclipse.classpath.file.whenMerged { cp ->
 	// Find all codechicken source jars
 	def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
-	
+
 	// Remove them from classpath
 	cp.entries.removeAll srcent
 
@@ -54,10 +54,10 @@ eclipse.classpath.file.whenMerged { cp ->
 		def file = new File(entry.path)
 		srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
 	}
-	
+
 	// Create file reference factory
 	def fileref = new FileReferenceFactory()
-	
+
 	// Find all codechicken development jars
 	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
 		File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
@@ -96,10 +96,10 @@ repositories {
 dependencies {
 	implementation 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
 	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
-	
+
 	implementation 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
 	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
-	
+
 	implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
 	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 
@@ -118,7 +118,7 @@ processResources {
 	// replace stuff in mcmod.info, nothing else
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		
+
 		// replace version and mcversion
 		filesMatching('mcmod.info') {
 			// replace version, mcversion and credits
@@ -128,7 +128,7 @@ processResources {
 			])
 		}
 	}
-		
+
 	// copy everything else, thats not the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
@@ -182,3 +182,4 @@ static def parseConfig(File config) {
 		return (new ConfigSlurper().parse(prop))
 	}
 }
+

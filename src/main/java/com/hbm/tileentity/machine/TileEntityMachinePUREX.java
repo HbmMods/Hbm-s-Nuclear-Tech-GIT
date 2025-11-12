@@ -105,7 +105,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.purexModule.update(speed, pow, true, slots[1]);
+			this.purexModule.update(speed, pow, true);
 			this.didProcess = this.purexModule.didProcess;
 			if(this.purexModule.markDirty) this.markDirty();
 			
@@ -208,7 +208,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return (i >= 7 && i <= 12) || this.purexModule.isSlotClogged(i);
+		return i >= 7 && i <= 12;
 	}
 
 	@Override

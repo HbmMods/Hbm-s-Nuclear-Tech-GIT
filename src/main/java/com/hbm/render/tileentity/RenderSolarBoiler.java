@@ -3,7 +3,6 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.config.ClientConfig;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntitySolarBoiler;
 
@@ -52,12 +51,7 @@ public class RenderSolarBoiler extends TileEntitySpecialRenderer {
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 			GL11.glDepthMask(false);
 			
-			int beamCount = 0;
-			
 			for(ChunkCoordinates co : boiler.secondary) {
-				beamCount ++;
-				
-				if(beamCount > ClientConfig.RENDER_HELIOSTAT_BEAM_LIMIT.get()) break;
 				
 				int dx = boiler.xCoord - co.posX;
 				int dy = boiler.yCoord - co.posY;

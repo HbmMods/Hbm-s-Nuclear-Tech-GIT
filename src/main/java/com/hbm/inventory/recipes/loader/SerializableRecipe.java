@@ -107,8 +107,6 @@ public abstract class SerializableRecipe {
 
 		MainRegistry.logger.info("Starting recipe init!");
 
-		GenericRecipes.clearPools();
-		
 		for(SerializableRecipe recipe : recipeHandlers) {
 
 			recipe.deleteRecipes();

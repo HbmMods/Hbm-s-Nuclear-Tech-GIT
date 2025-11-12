@@ -50,8 +50,6 @@ public class NEIRegistry {
 
 		//universal boyes
 		handlers.add(new ZirnoxRecipeHandler());
-		handlers.add(new PWRRecipeHandler());
-		handlers.add(new WatzRecipeHandler());
 		if(VersatileConfig.rtgDecay()) handlers.add(new RTGRecipeHandler());
 		handlers.add(new LiquefactionHandler());
 		handlers.add(new SolidificationHandler());

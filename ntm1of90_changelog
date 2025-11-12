@@ -1,0 +1,16 @@
+## NTM-1-of-90-Editon-r.9.1-hotfix
+
+Up to date with HBM-NTM: X5418 (see changelog of HBM X5418 for additional information)
+
+## Fixes
+
+- Missing texture of concrete
+- Added TileMappings for NTM Steel Beam and NTM Steel Beam (Vertical) -- Fixes chunkloading errors when loading NTM Steel Beam
+
+
+
+
+
+
+
+

@@ -26,12 +26,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 
 @Optional.InterfaceList({
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive, IFluidHandler {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -197,6 +201,97 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		}
 		return true;
 	}
+
+    // IFluidHandler proxy implementation for multiblock casings
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (!this.fluid || resource == null || resource.amount <= 0) return 0;
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).fill(from, resource, doFill);
+        }
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        if (!this.fluid || resource == null || resource.amount <= 0) return null;
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).drain(from, resource, doDrain);
+        }
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        if (!this.fluid || maxDrain <= 0) return null;
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).drain(from, maxDrain, doDrain);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        if (!this.fluid) return false;
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).canFill(from, fluid);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        if (!this.fluid) return false;
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).canDrain(from, fluid);
+        }
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        if (!this.fluid) return new FluidTankInfo[0];
+        TileEntity te = getTE();
+        if (te instanceof IFluidHandler) {
+            return ((IFluidHandler) te).getTankInfo(from);
+        }
+        return new FluidTankInfo[0];
+    }
+
+    // Reflective compatibility helpers commonly probed by older pipe mods
+    public boolean isFluidHandler() { return this.fluid; }
+    public boolean canConnectFluid() { return this.fluid; }
+    public boolean canInterface() { return this.fluid; }
+    public boolean canInputFluid() { return this.fluid; }
+    public boolean canOutputFluid() { return this.fluid; }
+    public boolean canReceiveFrom(ForgeDirection dir) { return this.fluid && this.canFill(dir, (Fluid) null); }
+    public boolean canSendTo(ForgeDirection dir) { return this.fluid && this.canDrain(dir, (Fluid) null); }
+    public boolean canAcceptFluid() {
+        if (!this.fluid) return false;
+        FluidTankInfo[] info = this.getTankInfo(ForgeDirection.UNKNOWN);
+        if (info == null) return false;
+        for (FluidTankInfo t : info) {
+            if (t == null) continue;
+            int cap = t.capacity;
+            int amt = t.fluid == null ? 0 : t.fluid.amount;
+            if (cap > amt) return true;
+        }
+        return false;
+    }
+    public boolean canProvideFluid() {
+        if (!this.fluid) return false;
+        FluidTankInfo[] info = this.getTankInfo(ForgeDirection.UNKNOWN);
+        if (info == null) return false;
+        for (FluidTankInfo t : info) {
+            if (t != null && t.fluid != null && t.fluid.amount > 0) return true;
+        }
+        return false;
+    }
 
 	@Override
 	public int getSizeInventory() {

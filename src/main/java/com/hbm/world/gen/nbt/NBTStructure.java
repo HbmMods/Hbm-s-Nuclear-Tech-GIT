@@ -1098,7 +1098,9 @@ public class NBTStructure {
 		private SpawnCondition nextSpawn;
 
 		public void generateStructures(World world, Random rand, IChunkProvider chunkProvider, int chunkX, int chunkZ) {
-			func_151539_a(chunkProvider, world, chunkX, chunkZ, null);
+			Block[] ablock = new Block[65536];
+
+			func_151539_a(chunkProvider, world, chunkX, chunkZ, ablock);
 			generateStructuresInChunk(world, rand, chunkX, chunkZ);
 		}
 

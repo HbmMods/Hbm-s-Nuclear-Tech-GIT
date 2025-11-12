@@ -2,7 +2,7 @@ package com.hbm.items.weapon.sedna.mods;
 
 public abstract class WeaponModBase implements IWeaponMod {
 
-	public static final int PRIORITY_SET = 1_000_000; // used to be MAX_VALUE, but that would break when doing Comparator math
+	public static final int PRIORITY_SET = Integer.MAX_VALUE;
 	public static final int PRIORITY_MULTIPLICATIVE = 1_000;
 	public static final int PRIORITY_ADDITIVE = 500;
 	public static final int PRIORITY_MULT_FINAL = -1;
@@ -10,7 +10,7 @@ public abstract class WeaponModBase implements IWeaponMod {
 	public String[] slots;
 	public int priority = 0;
 
-	public WeaponModBase(int id, String... slots) { this.slots = slots; XWeaponModManager.idToMod.put(id, this); }
+	public WeaponModBase(int id, String... slots) { this.slots = slots; WeaponModManager.idToMod.put(id, this); }
 	public WeaponModBase setPriority(int priority) { this.priority = priority; return this; }
 
 	@Override public int getModPriority() { return priority; }

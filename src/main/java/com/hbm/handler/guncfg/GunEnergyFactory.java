@@ -4,7 +4,6 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
-@Deprecated
 public class GunEnergyFactory {
 
 	public static BulletConfiguration getTurbineConfig() {

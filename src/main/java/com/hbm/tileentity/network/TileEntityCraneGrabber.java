@@ -107,11 +107,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 
 						Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
 						Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
-						EntityMovingItem newItem = new EntityMovingItem(worldObj);
-						newItem.setItemStack(item.getItemStack().copy());
-						newItem.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
-						item.setDead();
-						worldObj.spawnEntityInWorld(newItem);
+						item.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 						break;
 					}
 

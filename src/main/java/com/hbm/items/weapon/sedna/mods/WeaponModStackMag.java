@@ -38,7 +38,4 @@ public class WeaponModStackMag extends WeaponModBase {
 		}
 		return base;
 	}
-
-	@Override public void onInstall(ItemStack gun, ItemStack mod, int index) { XWeaponModManager.changedMagState(); }
-	@Override public void onUninstall(ItemStack gun, ItemStack mod, int index) { XWeaponModManager.changedMagState(); }
 }

@@ -45,11 +45,8 @@ public class ConfettiUtil {
 		if(entity instanceof EntityCyberCrab) return;
 		if(entity instanceof EntityTeslaCrab) return;
 		if(entity instanceof EntityTaintCrab) return;
-		if(entity instanceof EntitySlime) return;
-
-		SkeletonCreator.composeEffectGib(entity.worldObj, entity, 0.25F);
-		
 		if(entity instanceof EntitySkeleton) return;
+		if(entity instanceof EntitySlime) return;
 
 		NBTTagCompound vdat = new NBTTagCompound();
 		vdat.setString("type", "giblets");

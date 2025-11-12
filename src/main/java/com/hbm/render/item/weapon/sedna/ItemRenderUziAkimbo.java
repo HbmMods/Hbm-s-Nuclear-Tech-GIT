@@ -3,7 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -194,44 +194,6 @@ public class ItemRenderUziAkimbo extends ItemRenderWeaponBase {
 		if(hasSilencer(stack, index)) ResourceManager.uzi.renderPart("Silencer");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
-	
-	@Override
-	public void renderEntity(ItemStack stack) {
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-
-		boolean silencer0 = hasSilencer(stack, 1);
-		boolean silencer1 = hasSilencer(stack, 0);
-		boolean anySilenced = silencer0 || silencer1;
-		
-		if(anySilenced) {
-			GL11.glScaled(0.75, 0.75, 0.75);
-		}
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(-1, 1, 0);
-		Minecraft.getMinecraft().renderEngine.bindTexture(isSaturnite(stack, 1) ? ResourceManager.uzi_saturnite_tex : ResourceManager.uzi_tex);
-		ResourceManager.uzi.renderPart("Gun");
-		ResourceManager.uzi.renderPart("StockBack");
-		ResourceManager.uzi.renderPart("StockFront");
-		ResourceManager.uzi.renderPart("Slide");
-		ResourceManager.uzi.renderPart("Magazine");
-		if(silencer0) ResourceManager.uzi.renderPart("Silencer");
-		GL11.glPopMatrix();
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(1, 1, 0);
-		Minecraft.getMinecraft().renderEngine.bindTexture(isSaturnite(stack, 0) ? ResourceManager.uzi_saturnite_tex : ResourceManager.uzi_tex);
-		ResourceManager.uzi.renderPart("GunMirror");
-		ResourceManager.uzi.renderPart("StockBack");
-		ResourceManager.uzi.renderPart("StockFront");
-		ResourceManager.uzi.renderPart("Slide");
-		ResourceManager.uzi.renderPart("Magazine");
-		if(silencer1) ResourceManager.uzi.renderPart("Silencer");
-		GL11.glPopMatrix();
-		
-		GL11.glShadeModel(GL11.GL_FLAT);
-	}
 
 	@Override
 	public void renderOther(ItemStack stack, ItemRenderType type) {
@@ -289,10 +251,10 @@ public class ItemRenderUziAkimbo extends ItemRenderWeaponBase {
 	}
 	
 	public boolean hasSilencer(ItemStack stack, int cfg) {
-		return XWeaponModManager.hasUpgrade(stack, cfg, XWeaponModManager.ID_SILENCER);
+		return WeaponModManager.hasUpgrade(stack, cfg, WeaponModManager.ID_SILENCER);
 	}
 	
 	public boolean isSaturnite(ItemStack stack, int cfg) {
-		return XWeaponModManager.hasUpgrade(stack, cfg, XWeaponModManager.ID_UZI_SATURN);
+		return WeaponModManager.hasUpgrade(stack, cfg, WeaponModManager.ID_UZI_SATURN);
 	}
 }

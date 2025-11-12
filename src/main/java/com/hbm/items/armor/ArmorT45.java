@@ -26,7 +26,6 @@ public class ArmorT45 extends ArmorFSBPowered {
 
 	public ArmorT45(ArmorMaterial material, int slot, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, slot, "", maxPower, chargeRate, consumption, drain);
-		this.setCreativeTab(null);
 	}
 
 	@Override

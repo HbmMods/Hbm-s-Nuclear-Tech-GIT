@@ -14,13 +14,13 @@ import net.minecraft.world.World;
 
 @NotableComments
 public class EntityBomber extends EntityPlaneBase {
-	
+
 	/* This was probably the dumbest fucking way that I could have handled this. Not gonna change it now, be glad I made a superclass at all. */
 	int bombStart = 75;
 	int bombStop = 125;
 	int bombRate = 3;
-	int type = 0;
-	
+	public int type = 0;
+
 	protected AudioWrapper audio;
 
 	public EntityBomber(World world) {
@@ -34,12 +34,12 @@ public class EntityBomber extends EntityPlaneBase {
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
-	
+
 	/** This sucks balls. Too bad! */
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		
+
 		if(worldObj.isRemote) {
 			if(this.getDataWatcher().getWatchableObjectFloat(17) > 0) {
 				if(audio == null || !audio.isPlaying()) {
@@ -56,9 +56,9 @@ public class EntityBomber extends EntityPlaneBase {
 				}
 			}
 		}
-		
+
 		if(!worldObj.isRemote && this.health > 0 && this.ticksExisted > bombStart && this.ticksExisted < bombStop && this.ticksExisted % bombRate == 0) {
-			
+
 			if(type == 3) {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 				ExplosionChaos.spawnPoisonCloud(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
@@ -76,7 +76,7 @@ public class EntityBomber extends EntityPlaneBase {
 			} else if(type == 7) {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 				ExplosionChaos.spawnPoisonCloud(worldObj, this.posX, worldObj.getHeightValue((int) this.posX, (int) this.posZ) + 2, this.posZ, 10, 1, 2);
-			
+
 			} else {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "hbm:entity.bombWhistle", 10.0F, 0.9F + rand.nextFloat() * 0.2F);
 				EntityBombletZeta zeta = new EntityBombletZeta(worldObj);

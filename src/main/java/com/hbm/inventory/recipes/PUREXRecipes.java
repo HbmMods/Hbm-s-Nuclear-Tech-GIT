@@ -53,9 +53,9 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("purex.zirnoxmeu").setup(100, zirnoxPower).setNameWrapper("purex.recycle").setGroup(autoZirnox, this)
 				.inputItems(new ComparableStack(ModItems.waste_uranium))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
-				.outputItems(new ItemStack(ModItems.nugget_pu_mix, 1),
-						new ItemStack(ModItems.nugget_plutonium, 2),
-						new ItemStack(ModItems.nugget_technetium, 1),
+				.outputItems(new ItemStack(ModItems.nugget_u238, 1),
+						new ItemStack(ModItems.nugget_pu_mix, 2),
+						new ItemStack(ModItems.nugget_pu239, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 2))
 				.setIconToFirstIngredient());
 
@@ -80,7 +80,8 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("purex.zirnoxmep").setup(100, zirnoxPower).setNameWrapper("purex.recycle").setGroup(autoZirnox, this)
 				.inputItems(new ComparableStack(ModItems.waste_plutonium))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
-				.outputItems(new ItemStack(ModItems.nugget_pu_mix, 2),
+				.outputItems(new ItemStack(ModItems.nugget_pu_mix, 1),
+						new ItemStack(ModItems.nugget_pu_mix, 1),
 						new ItemStack(ModItems.nugget_technetium, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 3))
 				.setIconToFirstIngredient());
@@ -324,7 +325,7 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.setIconToFirstIngredient());
 
 		// Molten Salt
-		this.register(new GenericRecipe("purex.thoriumsalt").setup(20, 10_000).setIcon(ModItems.fluid_icon, Fluids.THORIUM_SALT.getID())
+		this.register(new GenericRecipe("purex.thoriumsalt").setup(100, 10_000).setIcon(ModItems.fluid_icon, Fluids.THORIUM_SALT.getID())
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
 				.inputItems(new OreDictStack(TH232.nugget(), 2))
 				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
@@ -485,21 +486,21 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 		String autoSchrab = "autoswitch.schrab";
 		this.register(new GenericRecipe("purex.schrabzirnox").setup(200, 50_000).setNameWrapper("purex.schrab").setGroup(autoSchrab, this)
 				.inputItems(new ComparableStack(ModItems.waste_plutonium))
-				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 250))
+				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 500))
 				.outputItems(new ItemStack(ModItems.powder_schrabidium, 1),
 						new ItemStack(ModItems.nugget_technetium, 3),
 						new ItemStack(ModItems.nuclear_waste_tiny, 4))
 				.setIconToFirstIngredient());
 		this.register(new GenericRecipe("purex.schrabpwr").setup(200, 50_000).setNameWrapper("purex.schrab").setGroup(autoSchrab, this)
 				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEP))
-				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 250))
+				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 500))
 				.outputItems(new ItemStack(ModItems.powder_schrabidium, 1),
 						new ItemStack(ModItems.nugget_technetium, 3),
 						new ItemStack(ModItems.nuclear_waste_tiny, 4))
 				.setIconToFirstIngredient());
 		this.register(new GenericRecipe("purex.schrabmen").setup(200, 50_000).setNameWrapper("purex.schrab").setGroup(autoSchrab, this)
 				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEN))
-				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 250))
+				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 500))
 				.outputItems(new ItemStack(ModItems.powder_schrabidium, 1),
 						new ItemStack(ModItems.nugget_technetium, 3),
 						new ItemStack(ModItems.nuclear_waste_tiny, 4))

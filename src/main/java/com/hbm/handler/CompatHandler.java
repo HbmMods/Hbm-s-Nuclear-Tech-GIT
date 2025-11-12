@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.Items;
@@ -109,66 +108,91 @@ public class CompatHandler {
         }
     }
 
-	/**
-	 * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
-	 */
-	public enum OCColors {
-		BLACK(0x444444, "dyeBlack"),
-		RED(0xB3312C, "dyeRed"),
-		GREEN(0x339911, "dyeGreen"),
-		BROWN(0x51301A, "dyeBrown"),
-		BLUE(0x6666FF, "dyeBlue"),
-		PURPLE(0x7B2FBE, "dyePurple"),
-		CYAN(0x66FFFF, "dyeCyan"),
-		LIGHTGRAY(0xABABAB, "dyeLightGray"),
-		GRAY(0x666666, "dyeGray"),
-		PINK(0xD88198, "dyePink"),
-		LIME(0x66FF66, "dyeLime"),
-		YELLOW(0xFFFF66, "dyeYellow"),
-		LIGHTBLUE(0xAAAAFF, "dyeLightBlue"),
-		MAGENTA(0xC354CD, "dyeMagenta"),
-		ORANGE(0xEB8844, "dyeOrange"),
-		WHITE(0xF0F0F0, "dyeWhite"),
-		NONE(0x0, "");
+    /**
+     * Simple enum for mapping OC color ordinals to a nicer format for adding new disks.
+     */
+    public enum OCColors {
+        BLACK, //0x444444
+        RED, //0xB3312C
+        GREEN, //0x339911
+        BROWN, //0x51301A
+        BLUE, //0x6666FF
+        PURPLE, //0x7B2FBE
+        CYAN, //0x66FFFF
+        LIGHTGRAY, //0xABABAB
+        GRAY, //0x666666
+        PINK, //0xD88198
+        LIME, //0x66FF66
+        YELLOW, //0xFFFF66
+        LIGHTBLUE, //0xAAAAFF
+        MAGENTA, //0xC354CD
+        ORANGE, //0xEB8844
+        WHITE; //0xF0F0F0
 
-		private final int color;
-		private final String dictName;
+        /**
+         * Returns the RGB color value for this OC color.
+         */
+        public int getColor() {
+            switch (this) {
+                case BLACK: return 0x444444;
+                case RED: return 0xB3312C;
+                case GREEN: return 0x339911;
+                case BROWN: return 0x51301A;
+                case BLUE: return 0x6666FF;
+                case PURPLE: return 0x7B2FBE;
+                case CYAN: return 0x66FFFF;
+                case LIGHTGRAY: return 0xABABAB;
+                case GRAY: return 0x666666;
+                case PINK: return 0xD88198;
+                case LIME: return 0x66FF66;
+                case YELLOW: return 0xFFFF66;
+                case LIGHTBLUE: return 0xAAAAFF;
+                case MAGENTA: return 0xC354CD;
+                case ORANGE: return 0xEB8844;
+                case WHITE: return 0xF0F0F0;
+                default: return 0xABABAB;
+            }
+        }
 
-		OCColors(int color, String dictName) {
-			this.color = color;
-			this.dictName = dictName;
-		}
+        /**
+         * Maps a stored RGB integer back to an OCColors enum value.
+         */
+        public static OCColors fromInt(int color) {
+            for (OCColors c : values()) {
+                if (c.getColor() == color) return c;
+            }
+            return LIGHTGRAY;
+        }
 
-		public int getColor() {
-			return color;
-		}
-
-		public static OCColors fromInt(int intColor) {
-			for (OCColors iColor : OCColors.values()) {
-				if (intColor == iColor.getColor())
-					return iColor;
-			}
-			return OCColors.NONE;
-		}
-
-		public static OCColors fromDye(ItemStack stack) {
-			List<String> oreNames = ItemStackUtil.getOreDictNames(stack);
-
-			for(String dict : oreNames) {
-				if(!(dict.length() > 3) || !dict.startsWith("dye"))
-					continue;
-
-				for (OCColors color : OCColors.values()) {
-					if(!color.dictName.equals(dict))
-						continue;
-
-					return color;
-				}
-			}
-
-			return OCColors.NONE;
-		}
-	}
+        /**
+         * Converts a dye ItemStack to an OC color.
+         * Accepts vanilla ItemDye damage values (0-15).
+         */
+        public static OCColors fromDye(net.minecraft.item.ItemStack stack) {
+            if (stack == null) return LIGHTGRAY;
+            if (stack.getItem() instanceof net.minecraft.item.ItemDye) {
+                switch (stack.getItemDamage() & 15) {
+                    case 0:  return BLACK;
+                    case 1:  return RED;
+                    case 2:  return GREEN;
+                    case 3:  return BROWN;
+                    case 4:  return BLUE;
+                    case 5:  return PURPLE;
+                    case 6:  return CYAN;
+                    case 7:  return LIGHTGRAY;
+                    case 8:  return GRAY;
+                    case 9:  return PINK;
+                    case 10: return LIME;
+                    case 11: return YELLOW;
+                    case 12: return LIGHTBLUE;
+                    case 13: return MAGENTA;
+                    case 14: return ORANGE;
+                    case 15: return WHITE;
+                }
+            }
+            return LIGHTGRAY;
+        }
+    }
 
     // Where all disks are stored with their name and `FloppyDisk` class.
     public static HashMap<String, FloppyDisk> disks = new HashMap<>();

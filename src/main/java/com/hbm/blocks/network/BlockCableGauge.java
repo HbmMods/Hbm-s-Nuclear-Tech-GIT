@@ -13,7 +13,6 @@ import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
 
-import com.hbm.world.gen.nbt.INBTBlockTransformable;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,7 +37,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, INBTBlockTransformable, ILookOverlay, ITooltipProvider {
+public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, ILookOverlay, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon overlayGauge;
 
@@ -83,11 +82,6 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
-	}
-
-	@Override
-	public int transformMeta(int meta, int coordBaseMode) {
-		return INBTBlockTransformable.transformMetaDeco(meta, coordBaseMode);
 	}
 
 	@Override
@@ -184,6 +178,5 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 			if((PREFIX_VALUE + "deltasecond").equals(name))	return "" + deltaLastSecond;
 			return null;
 		}
-
 	}
 }

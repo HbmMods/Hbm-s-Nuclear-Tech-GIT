@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
-import com.hbm.items.machine.ItemBlueprints;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -153,16 +152,8 @@ public abstract class ModuleMachineBase {
 	
 	public abstract GenericRecipes getRecipeSet();
 	
-	public void update(double speed, double power, boolean extraCondition, ItemStack blueprint) {
+	public void update(double speed, double power, boolean extraCondition) {
 		GenericRecipe recipe = getRecipe();
-		
-		if(recipe != null && recipe.isPooled() && !recipe.isPartOfPool(ItemBlueprints.grabPool(blueprint))) {
-			this.didProcess = false;
-			this.progress = 0F;
-			this.recipe = "null";
-			return;
-		}
-		
 		this.setupTanks(recipe);
 
 		this.didProcess = false;
@@ -197,16 +188,6 @@ public abstract class ModuleMachineBase {
 		}
 		
 		return false;
-	}
-	
-	/** Returns true if the supplied slot is occupied with an item that does not match the recipe */
-	public boolean isSlotClogged(int slot) {
-		boolean isSlotValid = false;
-		for(int i : inputSlots) if(i == slot) isSlotValid = true;
-		if(!isSlotValid) return false;
-		ItemStack stack = slots[slot];
-		if(stack == null) return false;
-		return !isItemValid(slot, stack); // we need to use this because it also handles autoswitch correctly, otherwise autoswitch items may be ejected instantly
 	}
 	
 	public void serialize(ByteBuf buf) {

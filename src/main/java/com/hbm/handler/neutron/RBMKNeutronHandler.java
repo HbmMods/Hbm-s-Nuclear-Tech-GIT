@@ -4,7 +4,6 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.tileentity.machine.rbmk.*;
-import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class RBMKNeutronHandler {
 	}
 
 	private static TileEntity blockPosToTE(World worldObj, BlockPos pos) {
-		return Compat.getTileStandard(worldObj, pos.getX(), pos.getY(), pos.getZ());
+		return worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	public static RBMKNeutronNode makeNode(StreamWorld streamWorld, TileEntityRBMKBase tile) {
@@ -223,7 +222,7 @@ public class RBMKNeutronHandler {
 				pos.mutate(origin.tile.xCoord + x, origin.tile.yCoord, origin.tile.zCoord + z);
 
 				NeutronNode node = streamWorld.getNode(pos);
-				if(node instanceof RBMKNeutronNode) {
+				if(node != null && node instanceof RBMKNeutronNode) {
 					positions[i - 1] = node;
 				} else if(this.origin.tile.getBlockType() instanceof RBMKBase) {
 					TileEntity te = blockPosToTE(world, pos);
@@ -253,9 +252,8 @@ public class RBMKNeutronHandler {
 			if(node != null) {
 				originTE = (TileEntityRBMKBase) node.tile;
 			} else {
-				TileEntity tile = blockPosToTE(worldObj, pos);
-				if(!(tile instanceof TileEntityRBMKBase)) return; // Doesn't exist anymore!
-				originTE = (TileEntityRBMKBase) tile;
+				originTE = (TileEntityRBMKBase) blockPosToTE(worldObj, pos);
+				if(originTE == null) return; // Doesn't exist anymore!
 
 				streamWorld.addNode(new RBMKNeutronNode(originTE, originTE.getRBMKType(), originTE.hasLid()));
 			}

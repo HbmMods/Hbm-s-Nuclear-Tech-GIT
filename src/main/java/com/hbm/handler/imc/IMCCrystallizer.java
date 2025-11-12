@@ -13,7 +13,6 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-@Deprecated
 public class IMCCrystallizer extends IMCHandler {
 	
 	public static HashMap<Pair<Object, FluidType>, CrystallizerRecipe> buffer = new HashMap();

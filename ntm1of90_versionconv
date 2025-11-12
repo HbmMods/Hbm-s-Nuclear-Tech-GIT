@@ -1,0 +1,10 @@
+## NTM1of90 Version Definition
+
+TYPE.MAJOR.MINOR-SUFFIX
+
+TYPE: r (release), b (beta), a (alpha), dev
+MAJOR: number
+MINOR: number
+SUFFIX: additional information, such as "hotfix" or "rc" (release candidate)
+No inappropiate suffixes.
+Hotfix is not always necessary.

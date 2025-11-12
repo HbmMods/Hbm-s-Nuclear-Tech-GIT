@@ -3,7 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import com.hbm.items.weapon.sedna.mods.WeaponModManager;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -138,14 +138,14 @@ public class ItemRenderLasrifle extends ItemRenderWeaponBase {
 	}
 	
 	public boolean hasScope(ItemStack stack) {
-		return !XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_LAS_AUTO);
+		return !WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_LAS_AUTO);
 	}
 	
 	public boolean hasShotgun(ItemStack stack) {
-		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_LAS_SHOTGUN);
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_LAS_SHOTGUN);
 	}
 	
 	public boolean hasCapacitor(ItemStack stack) {
-		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_LAS_CAPACITOR);
+		return WeaponModManager.hasUpgrade(stack, 0, WeaponModManager.ID_LAS_CAPACITOR);
 	}
 }

@@ -112,7 +112,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.SPEED), 3) * 1D;
 			pow += Math.min(upgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10D / 3D;
 			
-			this.assemblerModule.update(speed, pow, true, slots[1]);
+			this.assemblerModule.update(speed, pow, true);
 			this.didProcess = this.assemblerModule.didProcess;
 			if(this.assemblerModule.markDirty) this.markDirty();
 			
@@ -137,8 +137,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 					audio = rebootAudio(audio);
 				}
 				audio.keepAlive();
-				audio.updatePitch(0.75F);
-				audio.updateVolume(this.getVolume(0.5F));
+				audio.updateVolume(this.getVolume(1F));
 				
 			} else {
 				if(audio != null) {
@@ -153,10 +152,6 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 					arm.updateArm();
 				} else{
 					arm.returnToNullPos();
-				}
-				
-				if(!this.muffled && arm.prevAngles[3] != arm.angles[3] && arm.angles[3] == -0.75) {
-					MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStrike", this.getVolume(0.5F), 1F);
 				}
 			}
 			
@@ -180,14 +175,12 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 							this.prevRing += 360D;
 						}
 						this.ringDelay = 20 + worldObj.rand.nextInt(21);
-						//MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.5F);
 					}
 				} else {
 					if(this.ringDelay > 0) this.ringDelay--;
 					if(this.ringDelay <= 0) {
 						this.ringTarget += (worldObj.rand.nextDouble() * 2 - 1) * 135;
 						this.ringSpeed = 10D + worldObj.rand.nextDouble() * 5D;
-						if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStart", this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 					}
 				}
 			}
@@ -195,7 +188,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	}
 
 	@Override public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.motor", xCoord, yCoord, zCoord, 0.5F, 15F, 0.75F, 20);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemicalPlant", xCoord, yCoord, zCoord, 1F, 15F, 1.0F, 20);
 	}
 
 	@Override public void onChunkUnload() {
@@ -238,17 +231,12 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		boolean wasProcessing = this.didProcess;
 		this.inputTank.deserialize(buf);
 		this.outputTank.deserialize(buf);
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
 		this.didProcess = buf.readBoolean();
 		this.assemblerModule.deserialize(buf);
-		
-		if(wasProcessing && !didProcess) {
-			MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.5F);
-		}
 	}
 	
 	@Override
@@ -274,7 +262,6 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot == 0) return true; // battery
-		if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
 		if(slot >= 2 && slot <= 3 && stack.getItem() instanceof ItemMachineUpgrade) return true; // upgrades
 		if(this.assemblerModule.isItemValid(slot, stack)) return true; // recipe input crap
 		return false;
@@ -282,7 +269,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return i == 16 || this.assemblerModule.isSlotClogged(i);
+		return i == 16;
 	}
 
 	@Override

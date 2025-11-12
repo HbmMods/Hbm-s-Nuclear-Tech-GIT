@@ -90,7 +90,6 @@ public abstract class TileEntityRequestNetwork extends TileEntityLoadedBase {
 				//discover new nodes
 				int newNodeLimit = 5;
 				for(PathNode node : localNodes) {
-					if(!areNodesConnectable(node, newNode)) continue;
 
 					if(!knownNodes.contains(node) && !node.equals(pos)) {
 						newNodeLimit--;
@@ -102,10 +101,6 @@ public abstract class TileEntityRequestNetwork extends TileEntityLoadedBase {
 				}
 			}
 		}
-	}
-	
-	public static boolean areNodesConnectable(PathNode node1, PathNode node2) {
-		return node1.torchWaypoint || node2.torchWaypoint;
 	}
 
 	public abstract PathNode createNode(BlockPos pos);

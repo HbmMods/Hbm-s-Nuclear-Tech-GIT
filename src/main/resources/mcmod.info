@@ -1,14 +1,14 @@
 [
 {
   "modid": "hbm",
-  "name": "Hbm's Nuclear Tech",
+  "name": "HBM-NTM-1-of-90-Edition",
   "description": "A mod that adds weapons, nuclear themed stuff and machines",
   "version":"${version}",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
   "credits": "${credits}",
-  "logoFile": "",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }
