@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityFusionBreeder extends TileEntity {
+public class TileEntityFusionBoiler extends TileEntity {
 
 	AxisAlignedBB bb = null;
 
@@ -14,12 +14,12 @@ public class TileEntityFusionBreeder extends TileEntity {
 
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 2,
+					xCoord - 4,
 					yCoord,
-					zCoord - 2,
-					xCoord + 3,
+					zCoord - 4,
+					xCoord + 5,
 					yCoord + 4,
-					zCoord + 3
+					zCoord + 5
 					);
 		}
 

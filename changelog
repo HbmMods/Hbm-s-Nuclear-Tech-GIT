@@ -3,6 +3,7 @@
   * Like boxducts, but for power
 
 ## Changed
+* Updated chinese localization
 * Updated meteors
   * Meteors will now punch through weak blocks like leaves instead of getting stuck on trees
   * Meteor impacts now have new visuals
@@ -45,6 +46,7 @@
   * In their place, there's now a different, more useful structure with similar but not identical spawn rules
 * ROR controller torches can now set the threshold of particle accelerator dipoles
 * Removed the legacy recipes from the terra drills
+* Slag can now be cast into ingots
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up

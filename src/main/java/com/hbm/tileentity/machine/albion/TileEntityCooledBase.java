@@ -7,11 +7,11 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileEntityCooledBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver {
+public abstract class TileEntityCooledBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2 {
 	
 	public FluidTank[] tanks;
 	
@@ -39,7 +39,7 @@ public abstract class TileEntityCooledBase extends TileEntityMachineBase impleme
 			for(DirPos pos : this.getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			this.temperature += this.temp_passive_heating;
