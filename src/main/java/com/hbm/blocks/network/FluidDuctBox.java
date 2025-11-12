@@ -4,10 +4,10 @@ import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.block.RenderBoxDuct;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.i18n.I18nUtil;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -130,9 +130,11 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 		return meta % 15;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return RenderBoxDuct.renderID;
+		return renderID;
 	}
 
 	@Override

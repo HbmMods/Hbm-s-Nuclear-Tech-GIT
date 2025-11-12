@@ -12,7 +12,6 @@ import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.ColorUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -285,11 +284,9 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
 	@Override
 	public int getRenderId() {
-		return renderID;
+		return FluidDuctBox.renderID;
 	}
 
 }
