@@ -116,32 +116,45 @@ public class GenericRecipe {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
-		// autoswitch group
+		autoSwitch(list);
+		duration(list);
+		power(list);
+		input(list);
+		output(list);
+
+		return list;
+	}
+	
+	protected void autoSwitch(List<String> list) {
 		if(this.autoSwitchGroup != null) {
 			String[] lines = I18nUtil.resolveKeyArray("autoswitch", I18nUtil.resolveKey(this.autoSwitchGroup));
 			for(String line : lines) list.add(EnumChatFormatting.GOLD + line);
 		}
-
-		// duration (seconds)
+	}
+	
+	protected void duration(List<String> list) {
 		if(duration > 0) {
 			double seconds = this.duration / 20D;
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.duration") + ": " + seconds + "s");
 		}
-
-		// power / consumption
+	}
+	
+	protected void power(List<String> list) {
 		if(power > 0) {
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.consumption") + ": " + BobMathUtil.getShortNumber(power) + "HE/t");
 		}
+	}
 
-		// input label + items
+	protected void input(List<String> list) {
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.recipe.input") + ":");
 		if(inputItem != null) for(AStack stack : inputItem) {
 			ItemStack display = stack.extractForCyclingDisplay(20);
 			list.add("  " + EnumChatFormatting.GRAY + display.stackSize + "x " + display.getDisplayName());
 		}
 		if (inputFluid != null) for (FluidStack fluid : inputFluid) list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + (fluid.pressure == 0 ? "" : " " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU"));
+	}
 
-		// output label + items
+	protected void output(List<String> list) {
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("gui.recipe.output") + ":");
 		if(outputItem != null) for(IOutput output : outputItem)
 			for(String line : output.getLabel()) list.add("  " + line);
@@ -150,8 +163,6 @@ public class GenericRecipe {
 				" " + I18nUtil.resolveKey("gui.recipe.atPressure") + " " + EnumChatFormatting.RED + fluid.pressure + " PU";
 			list.add("  " + EnumChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getLocalizedName() + pressurePart);
 		}
-
-		return list;
 	}
 
 

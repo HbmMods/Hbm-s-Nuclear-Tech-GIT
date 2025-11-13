@@ -17,7 +17,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIITER;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
-import com.hbm.inventory.recipes.FusionRecipes;
+import com.hbm.inventory.recipes.FusionRecipesLegacy;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
@@ -114,7 +114,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 				if(plasma.getFill() > 0) {
 					this.totalRuntime++;
-					int delay = FusionRecipes.getByproductDelay(plasma.getTankType());
+					int delay = FusionRecipesLegacy.getByproductDelay(plasma.getTankType());
 					if(delay > 0 && totalRuntime % delay == 0) produceByproduct();
 				}
 
@@ -130,7 +130,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 					}
 				}
 
-				int prod = FusionRecipes.getSteamProduction(plasma.getTankType());
+				int prod = FusionRecipesLegacy.getSteamProduction(plasma.getTankType());
 
 				for(int i = 0; i < 20; i++) {
 
@@ -288,7 +288,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 			return;
 		}
 
-		int level = FusionRecipes.getBreedingLevel(plasma.getTankType());
+		int level = FusionRecipesLegacy.getBreedingLevel(plasma.getTankType());
 
 		if(out.flux > level) {
 			this.progress = 0;
@@ -337,7 +337,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 	private void produceByproduct() {
 
-		ItemStack by = FusionRecipes.getByproduct(plasma.getTankType());
+		ItemStack by = FusionRecipesLegacy.getByproduct(plasma.getTankType());
 
 		if(by == null)
 			return;
@@ -556,7 +556,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.isOn && plasma.getFill() > 0);
-		int output = FusionRecipes.getSteamProduction(plasma.getTankType());
+		int output = FusionRecipesLegacy.getSteamProduction(plasma.getTankType());
 		data.setDouble("consumption", output * 10);
 		data.setDouble("outputmb", output);
 	}

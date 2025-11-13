@@ -49,7 +49,7 @@ public abstract class ModuleMachineBase {
 		if(recipe == null) return false;
 		
 		// auto switch functionality
-		if(recipe.autoSwitchGroup != null && slots[inputSlots[0]] != null) {
+		if(recipe.autoSwitchGroup != null && inputSlots.length > 0 && slots[inputSlots[0]] != null) {
 			ItemStack itemToSwitchBy = slots[inputSlots[0]];
 			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup);
 			if(recipes != null) for(GenericRecipe nextRec : recipes) {
@@ -190,7 +190,7 @@ public abstract class ModuleMachineBase {
 			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup); // why the FUCK does this need a cast
 			if(recipes != null) for(GenericRecipe newRec : recipes) {
 				if(newRec.inputItem == null) continue;
-				if(inputSlots[0] == slot && newRec.inputItem[0].matchesRecipe(stack, true)) {
+				if(inputSlots.length > 0 && inputSlots[0] == slot && newRec.inputItem[0].matchesRecipe(stack, true)) {
 					return true;
 				}
 			}

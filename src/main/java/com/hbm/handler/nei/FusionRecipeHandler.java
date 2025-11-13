@@ -9,7 +9,7 @@ import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.gui.GUIITER;
-import com.hbm.inventory.recipes.FusionRecipes;
+import com.hbm.inventory.recipes.FusionRecipesLegacy;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -67,7 +67,7 @@ public class FusionRecipeHandler extends TemplateRecipeHandler implements ICompa
 		
 		if(outputId.equals("fusion") && getClass() == FusionRecipeHandler.class) {
 			
-			Map<ItemStack, ItemStack> recipes = FusionRecipes.getRecipes();
+			Map<ItemStack, ItemStack> recipes = FusionRecipesLegacy.getRecipes();
 			
 			for(Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue()));
@@ -81,7 +81,7 @@ public class FusionRecipeHandler extends TemplateRecipeHandler implements ICompa
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		
-		Map<ItemStack, ItemStack> recipes = FusionRecipes.getRecipes();
+		Map<ItemStack, ItemStack> recipes = FusionRecipesLegacy.getRecipes();
 		
 		for(Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
 			
@@ -104,7 +104,7 @@ public class FusionRecipeHandler extends TemplateRecipeHandler implements ICompa
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		
-		Map<ItemStack, ItemStack> recipes = FusionRecipes.getRecipes();
+		Map<ItemStack, ItemStack> recipes = FusionRecipesLegacy.getRecipes();
 		
 		for(Map.Entry<ItemStack, ItemStack> recipe : recipes.entrySet()) {
 			
