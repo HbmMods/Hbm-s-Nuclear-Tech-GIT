@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine.fusion;
 
 import com.hbm.inventory.container.ContainerFusionTorus;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFusionTorus;
 import com.hbm.module.machine.ModuleMachineFusion;
 import com.hbm.tileentity.IGUIProvider;
@@ -17,11 +19,23 @@ import net.minecraft.world.World;
 
 public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider {
 
-
+	public FluidTank[] torusTanks;
 	public ModuleMachineFusion fusionModule;
 	
 	public TileEntityFusionTorus() {
 		super(3);
+		
+		this.torusTanks = new FluidTank[4];
+
+		this.torusTanks[0] = new FluidTank(Fluids.NONE, 4_000);
+		this.torusTanks[1] = new FluidTank(Fluids.NONE, 4_000);
+		this.torusTanks[2] = new FluidTank(Fluids.NONE, 4_000);
+		this.torusTanks[3] = new FluidTank(Fluids.NONE, 4_000);
+		
+		this.fusionModule = new ModuleMachineFusion(0, this, slots)
+				.fluidInput(torusTanks[0], torusTanks[1], torusTanks[2])
+				.fluidOutput(torusTanks[3])
+				.itemOutput(2);
 	}
 
 	@Override

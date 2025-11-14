@@ -419,6 +419,7 @@ public class TileMappings {
 		put(TileEntityFusionBreeder.class, "tileentity_fusion_breeder");
 		put(TileEntityFusionCollector.class, "tileentity_fusion_collector");
 		put(TileEntityFusionBoiler.class, "tileentity_fusion_boiler");
+		put(TileEntityFusionMHDT.class, "tileentity_fusion_mhdt");
 	}
 
 	private static void putNetwork() {
