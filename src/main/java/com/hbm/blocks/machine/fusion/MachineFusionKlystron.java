@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine.fusion;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionKlystron;
 
@@ -24,7 +25,7 @@ public class MachineFusionKlystron extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] { 4, 0, 4, 3, 2, 2 };
+		return new int[] { 3, 0, 4, 3, 2, 2 };
 	}
 
 	@Override
@@ -34,11 +35,14 @@ public class MachineFusionKlystron extends BlockDummyable {
 
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		return super.checkRequirement(world, x, y, z, dir, o);
+		return super.checkRequirement(world, x, y, z, dir, o) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -3, 4, 3, 1, 1}, x, y, z, dir);
 	}
 
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+		
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y, z + dir.offsetZ * o, new int[] {4, -3, 4, 3, 1, 1}, this, dir);
 	}
 }

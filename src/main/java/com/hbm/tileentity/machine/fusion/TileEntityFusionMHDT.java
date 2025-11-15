@@ -14,12 +14,12 @@ public class TileEntityFusionMHDT extends TileEntity {
 
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 4,
+					xCoord - 7,
 					yCoord,
-					zCoord - 4,
-					xCoord + 5,
+					zCoord - 7,
+					xCoord + 8,
 					yCoord + 4,
-					zCoord + 5
+					zCoord + 8
 					);
 		}
 

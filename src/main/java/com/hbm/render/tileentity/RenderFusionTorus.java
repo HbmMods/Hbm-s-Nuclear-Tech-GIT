@@ -22,7 +22,19 @@ public class RenderFusionTorus extends TileEntitySpecialRenderer implements IIte
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.fusion_torus_tex);
-		ResourceManager.fusion_torus.renderAll();
+		ResourceManager.fusion_torus.renderPart("Torus");
+		
+		GL11.glPushMatrix();
+		double rot = (tile.getWorldObj().getTotalWorldTime() % 360) + interp;
+		GL11.glRotated(rot * 10, 0, 1, 0);
+		ResourceManager.fusion_torus.renderPart("Magnet");
+		GL11.glPopMatrix();
+
+		ResourceManager.fusion_torus.renderPart("Bolts1");
+		ResourceManager.fusion_torus.renderPart("Bolts2");
+		ResourceManager.fusion_torus.renderPart("Bolts3");
+		ResourceManager.fusion_torus.renderPart("Bolts4");
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
@@ -44,7 +56,12 @@ public class RenderFusionTorus extends TileEntitySpecialRenderer implements IIte
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.fusion_torus_tex);
-				ResourceManager.fusion_torus.renderAll();
+				ResourceManager.fusion_torus.renderPart("Torus");
+				GL11.glPushMatrix();
+				double rot = (System.currentTimeMillis() / 5 % 360);
+				GL11.glRotated(rot, 0, 1, 0);
+				ResourceManager.fusion_torus.renderPart("Magnet");
+				GL11.glPopMatrix();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}

@@ -30,7 +30,17 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.fusion_mhdt_tex);
-		ResourceManager.fusion_mhdt.renderAll();
+		ResourceManager.fusion_mhdt.renderPart("Turbine");
+		
+		GL11.glPushMatrix();
+		double rot = (System.currentTimeMillis() / 10) % 30D;
+		rot -= 15;
+		GL11.glTranslated(0, 1.5, 0);
+		GL11.glRotated(rot, 1, 0, 0);
+		GL11.glTranslated(0, -1.5, 0);
+		ResourceManager.fusion_mhdt.renderPart("Coils");
+		GL11.glPopMatrix();
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
@@ -53,7 +63,13 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.fusion_mhdt_tex);
-				ResourceManager.fusion_mhdt.renderAll();
+				ResourceManager.fusion_mhdt.renderPart("Turbine");
+				double rot = (System.currentTimeMillis() / 10) % 30D;
+				rot -= 15;
+				GL11.glTranslated(0, 1.5, 0);
+				GL11.glRotated(rot, 1, 0, 0);
+				GL11.glTranslated(0, -1.5, 0);
+				ResourceManager.fusion_mhdt.renderPart("Coils");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
