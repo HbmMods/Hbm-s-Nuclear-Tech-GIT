@@ -3,9 +3,12 @@
 	"icon": ["hbm:tile.radio_torch_controller", 1, 0],
 	"trigger": [["hbm:tile.radio_torch_controller"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Controller"
+		"en_US": "Redstone-over-Radio Controller",
+		"ru_RU": "Редстоун-по-радио контроллер"
 	},
 	"content": {
-		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, listens on one frequency for commands to execute for the connected block. Commands follow the format of <command_name>!<parameter1>:<parameter2> where the actual command name is followed by a \"!\" which separates the command name from the parameters, which are separated from one another with \":\". Hovering over the [V] icon will list available commands for the connected block, as well as what parameters are accepted.<br><br>The controller can be used for example for barrels, where the \"setmode\" command can use a number from 0 to 3 to change the barrel's IO mode. The second variant of the same command has another parameter, which is a fallback to use if the first specified mode is already selected, ultimately allowing the command to \"switch\" between two modes instead of just setting it."
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, listens on one frequency for commands to execute for the connected block. Commands follow the format of <command_name>!<parameter1>:<parameter2> where the actual command name is followed by a \"!\" which separates the command name from the parameters, which are separated from one another with \":\". Hovering over the [V] icon will list available commands for the connected block, as well as what parameters are accepted.<br><br>The controller can be used for example for barrels, where the \"setmode\" command can use a number from 0 to 3 to change the barrel's IO mode. The second variant of the same command has another parameter, which is a fallback to use if the first specified mode is already selected, ultimately allowing the command to \"switch\" between two modes instead of just setting it.",
+		"ru_RU": "Продвинутое принимающее [[редстоун-по-радио|Redstone over Radio]] устройство, которое прослушивает определённую частоту, ожидая команды для настройки работы подключенного к нему блока. Команды записываются в формате <название_команды>!<параметр1>:<параметр2>, где за названием команды следует символ \"!\", который отделяет название от параметров. Сами же параметры разделяются символом \":\". При наведении курсора на значок [V] отобразится список доступных команд для подключенного блока, а также список принятых параметров.<br><br>Контроллером можно настраивать, например, бочки с помощью команды \"setmode\", которая использует число от 0 до 3 для изменения режима ввода-вывода. Если используются два параметра, второй из которых является запасным, то подача редстоун-сигнала позволит \"переключаться\" между двумя параметрами, чтобы не настраивать каждый в отдельности."
+
 	}
 }
