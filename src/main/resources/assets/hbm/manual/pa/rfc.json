@@ -3,9 +3,12 @@
 	"icon": ["hbm:tile.pa_rfc", 1, 0],
 	"trigger": [["hbm:tile.pa_rfc"]],
 	"title": {
-		"en_US": "RF Cavity"
+		"en_US": "RF Cavity",
+		"ru_RU": "Радиочастотный резонатор"
+
 	},
 	"content": {
-		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Accelerates particles by 100 points of momentum each pass, but also adds 100 points of defocus. Particles exceeding 1000 points of defocus will crash, so refocussing using [[quadrupole magnets|Quadrupole Magnets]] is necessary.<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!"
+		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Accelerates particles by 100 points of momentum each pass, but also adds 100 points of defocus. Particles exceeding 1000 points of defocus will crash, so refocussing using [[quadrupole magnets|Quadrupole Magnets]] is necessary.<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
+		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Ускоряет частицы на 100 единиц импульса за каждый проход, при этом добавляя 100 единиц расфокусировки. Частицы, чей расфокус превышает 1000 единиц, разрушаются, поэтому необходима повторная фокусировка с использованием [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
 	}
 }

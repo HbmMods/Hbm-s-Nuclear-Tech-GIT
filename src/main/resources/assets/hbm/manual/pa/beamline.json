@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.pa_beamline", 1, 0],
 	"trigger": [["hbm:tile.pa_beamline"]],
 	"title": {
-		"en_US": "Beamline"
+		"en_US": "Beamline",
+		"ru_RU": "Канал пучка"
 	},
 	"content": {
-		"en_US": "Passive component of the [[particle accelerator|Particle Accelerator]]. Does not need cooling or electricity, simply allows the particle to travel. mainly used for cosmetic reasons, or to fulfill the side length requirement of higher [[coil tiers|Large Coil]].<br><br>This component is one-way only, make sure the particle follows the red arrows!"
+		"en_US": "Passive component of the [[particle accelerator|Particle Accelerator]]. Does not need cooling or electricity, simply allows the particle to travel. mainly used for cosmetic reasons, or to fulfill the side length requirement of higher [[coil tiers|Large Coil]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
+		"ru_RU": "Пассивный компонент [[ускорителя частиц|Particle Accelerator]], который лишь позволяет частицам перемещаться. Не нуждается в охлаждении или электричестве. В большинстве своём необходим для косметических целей, но можно использовать и для удовлетворения требований к длине стороны, предъявляемых к более высоким [[уровням катушек|Large Coil]].<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
 	}
 }

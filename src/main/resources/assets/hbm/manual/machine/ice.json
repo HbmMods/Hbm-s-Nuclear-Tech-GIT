@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_combustion_engine"]],
 	"title": {
 		"en_US": "Industrial Combustion Engine",
-		"zh_CN": "工业内燃机"
+		"zh_CN": "工业内燃机",
+		"ru_RU": "Промышленный двигатель внутреннего сгорания"
 	},
 	"content": {
 		"en_US": "An improved engine using combustible fuels. The efficiency of the fuel grade used depends on the installed piston set. Will not work if no piston set is installed. Flow rate can be adjusted in the GUI.<br><br>See also:<br>[[Diesel Generator]]<br>[[Turbofan]]<br>[[Combined Cycle Gas Turbine]]",
-		"zh_CN": "改良版的内燃机，通过燃烧可燃流体产能。各个等级燃料的燃烧效率取决于安装 的活塞种类，且在未安装活塞时，工业内燃机不会工作。可在GUI中调节 燃料燃烧速率。<br><br>另见：<br>[[柴油发电机|Diesel Generator]]<br>[[涡扇发动机|Turbofan]]<br>[[联合循环燃气轮机|Combined Cycle Gas Turbine]]"
+		"zh_CN": "改良版的内燃机，通过燃烧可燃流体产能。各个等级燃料的燃烧效率取决于安装 的活塞种类，且在未安装活塞时，工业内燃机不会工作。可在GUI中调节 燃料燃烧速率。<br><br>另见：<br>[[柴油发电机|Diesel Generator]]<br>[[涡扇发动机|Turbofan]]<br>[[联合循环燃气轮机|Combined Cycle Gas Turbine]]",
+		"ru_RU": "Усовершенствованный двигатель, работающий на горючих видах топлива. Эффективность используемого топлива зависит от установленного набора поршней. При отсутствии набора поршней работать не будет. Скорость потока можно регулировать в графическом интерфейсе.<br><br>Смотрите также:<br>[[Дизельный генератор]]<br>[[Турбовентилятор]]<br>[[Газовая турбина комбинированного цикла]]"
 	}
 }

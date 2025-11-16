@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_chemical_plant"]],
 	"title": {
 		"en_US": "Chemical Plant",
-		"zh_CN": "化工厂"
+		"zh_CN": "化工厂",
+		"ru_RU": "Химическая установка"
 	},
 	"content": {
 		"en_US": "Universal chemical processor, can be made right after the [[assembly machine|Assembly Machine]]. Used in many processes, with the most important ones early on being [[desh|Desh]], [[polymer|Polymer]], [[hydrogen peroxide|Hydrogen Peroxide]] and [[sulfuric acid|Sulfuric Acid]].",
-		"zh_CN": "通用的化学反应器，在制作了[[装配机|Assembly Machine]]之后即可制造。用途广泛，而前期最重要的几个用途是制造[[Desh]]、[[聚合物|Polymer]]、[[过氧化氢|Hydrogen Peroxide]]以及[[硫酸|Sulfuric Acid]]。"
+		"zh_CN": "通用的化学反应器，在制作了[[装配机|Assembly Machine]]之后即可制造。用途广泛，而前期最重要的几个用途是制造[[Desh]]、[[聚合物|Polymer]]、[[过氧化氢|Hydrogen Peroxide]]以及[[硫酸|Sulfuric Acid]]。",
+		"ru_RU": "Универсальный химический обработчик, возможность создания которого открывается сразу после [[сборочной машины|Assembly Machine]]. Используется во многих процессах, наиболее важными из которых на ранних стадиях являются: [[деш|Desh]], [[полимер|Polymer]], [[перекись водорода|Hydrogen Peroxide]] и [[серная кислота|Sulfuric Acid]]."
 	}
 }

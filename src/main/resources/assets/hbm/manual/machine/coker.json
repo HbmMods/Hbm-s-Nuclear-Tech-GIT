@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_coker"]],
 	"title": {
 		"en_US": "Coker Unit",
+		"ru_RU": "Коксовая установка",
 		"zh_CN": "焦化装置"
 	},
 	"content": {
 		"en_US": "Can turn many types of oil into [[petroleum coke|Coke]] at varying efficiencies. Usually produces an oil byproduct, which can be processed into [[cracked oil derivatives|Advanced Oil Processing]]. Requires an [[external heat source|External Heat Source]].",
+        "ru_RU": "Может превращать многие виды нефти в [[нефтяной кокс|Coke]] с различной эффективностью. Как правило, при этом образуются побочные нефтепродукты, которые можно переработать в [[производные крекированной нефти|Advanced Oil Processing]]. Требуется [[внешний источник тепла|External Heat Source]].",
 		"zh_CN": "可以以不同的效率将多种油转化为[[石油焦炭|Coke]]。一般会产生一种副产物油，这种油可被处理为[[裂化油产品|Advanced Oil Processing]]。需要[[外部热源|External Heat Source]]。"
 	}
 }

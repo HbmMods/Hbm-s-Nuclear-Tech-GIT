@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_boiler"], ["hbm:tile.machine_industrial_boiler"]],
 	"title": {
 		"en_US": "Boiler",
-		"zh_CN": "锅炉"
+		"zh_CN": "锅炉",
+		"ru_RU": "Бойлер"
 	},
 	"content": {
 		"en_US": "Use an [[external heat source|External Heat Source]] to heat up fluids. The input type has to be set with a fluid identifier, with the output being automatically changed to the corresponding hot fluid.<br><br>Used early on for heating up water into [[steam|Steam]], to be used in a [[steam engine|Steam Engine]].<br><br>Also required for oil refining, as [[refineries|Oil Refinery]] require hot oil.<br><br>Standard copper boilers may explode when running full, while industrial boilers will simply stop. Destroyed boilers cannot be repaired.",
-		"zh_CN": "使用[[外部热源|External Heat Source]]来加热流体。使用时需要使用流体识别码来设定输入的流体种类，而输出流体 种类会被自动设定为相应的热流体。<br><br>前期用于将水加热为[[蒸汽|Steam]]然后用于[[蒸汽机|Steam Engine]]。<br><br>由于[[炼油厂|Oil Refinery]]需要热原油，锅炉也用于原油精炼。<br><br>输出被填满时，普通的铜锅炉会爆炸，而工业锅炉只会简单地停机。损坏的锅炉 不能被修复。"
+		"zh_CN": "使用[[外部热源|External Heat Source]]来加热流体。使用时需要使用流体识别码来设定输入的流体种类，而输出流体 种类会被自动设定为相应的热流体。<br><br>前期用于将水加热为[[蒸汽|Steam]]然后用于[[蒸汽机|Steam Engine]]。<br><br>由于[[炼油厂|Oil Refinery]]需要热原油，锅炉也用于原油精炼。<br><br>输出被填满时，普通的铜锅炉会爆炸，而工业锅炉只会简单地停机。损坏的锅炉 不能被修复。",
+		"ru_RU": "Используйте [[внешний источник тепла|External Heat Source]] для нагрева жидкостей. Нагреваемая жидкость задаётся идентификатором жидкости, а уже нагретая жидкость определяется автоматически.<br><br>Используется на ранних этапах для нагрева воды и получения пара [[пара|Steam]], который преобразуется [[паровым двигателем|Steam Engine]] в энергию.<br><br>Также бойлер требуется для нефтепереработки, так как [[нефтеперерабатывающим заводам|Oil Refinery]] нужна горячая нефть.<br><br>Обычные медные бойлеры могут взорваться при переполнении, в то время как промышленные бойлеры просто остановятся. Разрушенные бойлеры восстановлению не подлежат."
 	}
 }

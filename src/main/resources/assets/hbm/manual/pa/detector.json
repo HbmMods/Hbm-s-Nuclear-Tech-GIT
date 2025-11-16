@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.pa_detector", 1, 0],
 	"trigger": [["hbm:tile.pa_detector"]],
 	"title": {
-		"en_US": "Particle Detector"
+		"en_US": "Particle Detector",
+		"ru_RU": "Детектор частиц"
 	},
 	"content": {
-		"en_US": "Final component of the [[particle accelerator|Particle Accelerator]], ends the simulation and tries to perform the recipe. Requires empty capsules to catch the resulting particles, inputs are simply voided if the particle cannot be collected. Particle detection requires a defocus of 0, ensure that the accelerator has sufficient [[quadrupoles|Quadrupole Magnets]].<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]]."
+		"en_US": "Final component of the [[particle accelerator|Particle Accelerator]], ends the simulation and tries to perform the recipe. Requires empty capsules to catch the resulting particles, inputs are simply voided if the particle cannot be collected. Particle detection requires a defocus of 0, ensure that the accelerator has sufficient [[quadrupoles|Quadrupole Magnets]].<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].",
+		"ru_RU": "Конечный компонент [[ускорителя частиц|Particle Accelerator]], который завершает процесс и выполняет рецепт. Для сбора полученных частиц требуются пустые капсулы. Если частицу не удастся получить, содержимое вводимых капсул пропадёт. Для обнаружения частиц требуется нулевой расфокус, поэтому убедитесь, что ускоритель имеет достаточно [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно."
 	}
 }

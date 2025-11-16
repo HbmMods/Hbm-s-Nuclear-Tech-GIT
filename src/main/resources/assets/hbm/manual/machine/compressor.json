@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.machine_compressor", 1, 0],
 	"trigger": [["hbm:tile.machine_compressor"], ["hbm:tile.machine_compressor_compact"]],
 	"title": {
-		"en_US": "Compressor"
+		"en_US": "Compressor",
+        "ru_RU": "Компрессор"		
 	},
 	"content": {
-		"en_US": "Compresses fluids, i.e. increases the \"PU\" number of a fluid. Certain fluids change when compressed, for example [[perfluoromethyl|Perfluoromethyl]] turns into cold PFM when compressed to 2 PU. Each compressor can only do a single PU increase. Compressed fluids can use the same pipes as uncompressed fluids (and in fact share the exact same network, as there is no pressure identification), but they cannot be stored in tanks."
+		"en_US": "Compresses fluids, i.e. increases the \"PU\" number of a fluid. Certain fluids change when compressed, for example [[perfluoromethyl|Perfluoromethyl]] turns into cold PFM when compressed to 2 PU. Each compressor can only do a single PU increase. Compressed fluids can use the same pipes as uncompressed fluids (and in fact share the exact same network, as there is no pressure identification), but they cannot be stored in tanks.",
+		"ru_RU": "Повышает давление жидкости (PU). Некоторые жидкости могут измениться при сжатии, например, [[перфторметан|Perfluoromethyl]] становится холодным при переходе с 1 до 2 PU. Единственный компрессор может поднять PU лишь на одну единицу за раз. Жидкости одного типа под разным давлением можно перемещать по одной трубе, но их нельзя хранить в резервуарах."
 	}
 }

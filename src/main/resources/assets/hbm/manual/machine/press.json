@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_press"], ["hbm:tile.machine_epress"], ["hbm:tile.machine_conveyor_press"]],
 	"title": {
 		"en_US": "Press",
-		"zh_CN": "锻压机"
+		"zh_CN": "锻压机",
+		"ru_RU": "Пресс"
 	},
 	"content": {
 		"en_US": "One of the earliest machines, used for making things like plates and wires. A burner press requires a solid fuel like coal to run, as well as a stamp of the desired shape. Stamps are crafted as flat stamps, which are only used in a few recipes, most recipes require the stamp to be turned into a plate or wire stamp using the template folder.<br><br>Electric presses are much faster and require electricity to run instead of fuel.<br><br>Conveyor presses also run on electricity, and can press single items that pass on its conveyor belt. The conveyor press has no GUI, stamps can be removed with a screwdriver.",
-		"zh_CN": "最早的几台机器之一，用于制造板、线等物品。火力锻压机需要提供煤炭之类的 固体燃料，同时安装需要的形状的锻模才能工作；刚合成出的锻模是空锻模， 只用于少数配方，大多数配方需要使用板、线等形状的锻模，这些锻模可通过 机器模板文件夹转换空锻模得到。<br><br>电动锻压机速度更快，且需要电力而不是固体燃料来运作。<br><br>输送带锻压机同样需要电力运作，并且可锻压经过其输送带部分的单个物品。 输送带锻压机没有GUI，其中的锻模可使用螺丝刀右击取下。"
+		"zh_CN": "最早的几台机器之一，用于制造板、线等物品。火力锻压机需要提供煤炭之类的 固体燃料，同时安装需要的形状的锻模才能工作；刚合成出的锻模是空锻模， 只用于少数配方，大多数配方需要使用板、线等形状的锻模，这些锻模可通过 机器模板文件夹转换空锻模得到。<br><br>电动锻压机速度更快，且需要电力而不是固体燃料来运作。<br><br>输送带锻压机同样需要电力运作，并且可锻压经过其输送带部分的单个物品。 输送带锻压机没有GUI，其中的锻模可使用螺丝刀右击取下。",
+		"ru_RU": "Одна из самых ранних машин, используемая для изготовления пластин, проводов и прочего. Для работы обычного пресса требуется твёрдое топливо, например, уголь и штамп нужной формы. Штампы изготавливаются сначала плоскими, такие используются только в нескольких рецептах, в большинстве же рецептов требуется, чтобы штамп был превращён в штамп пластины или провода с помощью папки шаблонов.<br><br> Электрические прессы работают намного быстрее, и для их работы требуется электричество.<br><br>Конвейерные прессы также работают на электричестве и могут прессовать отдельные изделия, проходящие по конвейерной ленте по одной штуке. Конвейерный пресс не имеет графического интерфейса, штампы можно снять с помощью отвёртки."
 	}
 }

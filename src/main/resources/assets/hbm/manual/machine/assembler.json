@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_assembly_machine"]],
 	"title": {
 		"en_US": "Assembly Machine",
-		"zh_CN": "装配机"
+		"zh_CN": "装配机",
+		"ru_RU": "Сборочная машина"
 	},
 	"content": {
 		"en_US": "Universal machine for building things with up to twelve item inputs. Important early on and used widely throughout progression. Built in an [[anvil|Anvil]], using plates from a [[press|Press]].",
-		"zh_CN": "用于装配物品的通用机器，最多能够输入十二种物品。前期的重要机器，并且在 整个游戏流程中广泛使用。在[[砧|Anvil]]中使用金属板等合成，需要的金属板可在[[锻压机|Press]]中制造。"
+		"zh_CN": "用于装配物品的通用机器，最多能够输入十二种物品。前期的重要机器，并且在 整个游戏流程中广泛使用。在[[砧|Anvil]]中使用金属板等合成，需要的金属板可在[[锻压机|Press]]中制造。",
+		"ru_RU": "Универсальная машина для сборки изделий с использованием вплоть до двенадцати ингредиентов. Важна на начальном этапе и широко используется на протяжении всего игрового процесса. Собирается на [[наковальне|Anvil]] с использованием пластин, сделанных [[прессом|Press]]."
 	}
 }

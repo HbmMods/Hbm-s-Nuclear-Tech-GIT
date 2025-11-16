@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.pa_quadrupole", 1, 0],
 	"trigger": [["hbm:tile.pa_quadrupole"]],
 	"title": {
-		"en_US": "Quadrupole Magnets"
+		"en_US": "Quadrupole Magnets",
+		"ru_RU": "Квадрупольный магнит"
 	},
 	"content": {
-		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Removes 100 points of defocus per pass, which accumulates by passing [[RF cavities|RF Cavity]].<br><br>This component uses [[large coils|Large Coil]], keep coil restrictions in mind when building the accelerator!<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!"
+		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Removes 100 points of defocus per pass, which accumulates by passing [[RF cavities|RF Cavity]].<br><br>This component uses [[large coils|Large Coil]], keep coil restrictions in mind when building the accelerator!<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
+		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Снижает расфокусировку частицы на 100 единиц за проход, которая накапливается при прохождении [[радиочастотных резонаторов|RF Cavity]].<br><br>В этом компоненте используются [[большие катушки|Large Coil]], учитывайте их ограничения при сборке ускорителя!<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
 	}
 }
