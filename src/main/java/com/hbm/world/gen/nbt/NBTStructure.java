@@ -801,7 +801,9 @@ public class NBTStructure {
 
 			// now we're in the world, update minY/maxY
 			if(!piece.conformToTerrain && !heightUpdated) {
-				int y = MathHelper.clamp_int(getAverageHeight(world, box) + piece.heightOffset, minHeight, maxHeight);
+				int averageHeight = getAverageHeight(world, box) + piece.heightOffset;
+				boolean isFlatWorld = world.getWorldInfo().getTerrainType() == net.minecraft.world.WorldType.FLAT;
+				int y = isFlatWorld ? averageHeight : MathHelper.clamp_int(averageHeight, minHeight, maxHeight);
 
 				if(!piece.alignToTerrain) {
 					parent.offsetYHeight(y);
