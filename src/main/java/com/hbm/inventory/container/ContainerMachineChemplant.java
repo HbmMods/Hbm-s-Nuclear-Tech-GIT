@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
@@ -14,9 +15,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
+@NotableComments
 public class ContainerMachineChemplant extends Container {
 
-	private TileEntityMachineChemplant nukeBoy;
+	private TileEntityMachineChemplant nukeBoy; // still uses ancient copy pasted field names - lmfao
 
 	public ContainerMachineChemplant(InventoryPlayer invPlayer, TileEntityMachineChemplant tedf) {
 		nukeBoy = tedf;

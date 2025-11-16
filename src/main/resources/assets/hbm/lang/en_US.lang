@@ -1273,6 +1273,8 @@ general.na=N/A
 
 gui.recipe.duration=Duration
 gui.recipe.consumption=Consumption
+gui.recipe.fusionIn=Klystron Input Energy
+gui.recipe.fusionOut=Plasma Output Energy
 gui.recipe.input=Input
 gui.recipe.output=Output
 gui.recipe.atPressure=at

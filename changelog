@@ -47,6 +47,9 @@
 * ROR controller torches can now set the threshold of particle accelerator dipoles
 * Removed the legacy recipes from the terra drills
 * Slag can now be cast into ingots
+* Re-solidifcation of bedrock ore crumbs now requires ore slop instead of nitric acid
+  * Due to ore slop being only obtainable from processing raw bedrock ore, this places a hard cap on how many times a single ore can be re-solidified out of crumbs
+  * This approach means that crumb yields don't have to be nerfed, and prevents that issue from popping up again should there ever be a new, more efficient processing path
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up

@@ -10,6 +10,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class ContainerChemfac extends Container {
 	
 	private TileEntityMachineChemfac chemfac;

@@ -37,7 +37,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		for(int i = 1; i < order.length; ++i) {
 			if(!order[i].hasNoID()) {
 				ItemStack id = new ItemStack(item, 1, order[i].getID());
-				setType(id, Fluids.fromID(i), true);
+				setType(id, order[i], true);
 				list.add(id);
 			}
 		}

@@ -38,8 +38,8 @@ public class GUIPASource extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		source.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 36, 16, 52);
-		source.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 36, 16, 52);
+		source.coolantTanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 36, 16, 52);
+		source.coolantTanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 36, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, source.power, source.getMaxPower());
 
 		List<String> info = new ArrayList();
@@ -100,7 +100,7 @@ public class GUIPASource extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 45, guiTop + 73, 176, 52, 68, 14);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		source.tanks[0].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);
-		source.tanks[1].renderTank(guiLeft + 152, guiTop + 88, this.zLevel, 16, 52);
+		source.coolantTanks[0].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);
+		source.coolantTanks[1].renderTank(guiLeft + 152, guiTop + 88, this.zLevel, 16, 52);
 	}
 }
