@@ -473,6 +473,10 @@ public class NBTStructure {
 					Block block = transformBlock(state.definition, null, world.rand);
 					int meta = transformMeta(state.definition, null, coordBaseMode);
 
+					if(ry < 0 || ry >= world.getHeight()) continue;
+					Block existing = world.getBlock(rx, ry, rz);
+					if(existing == Blocks.bedrock) continue;
+
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
 					if(state.nbt != null) {
@@ -545,6 +549,10 @@ public class NBTStructure {
 
 					Block block = transformBlock(state.definition, piece.blockTable, world.rand);
 					int meta = transformMeta(state.definition, piece.blockTable, coordBaseMode);
+
+					if(ry < 0 || ry >= world.getHeight()) continue;
+					Block existing = world.getBlock(rx, ry, rz);
+					if(existing == Blocks.bedrock) continue;
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
