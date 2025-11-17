@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_shredder"]],
 	"title": {
 		"en_US": "Shredder",
-		"zh_CN": "粉碎机"
+		"zh_CN": "粉碎机",
+		"ru_RU": "Измельчитель"
 	},
 	"content": {
 		"en_US": "Allows ores to be shredded into powder, which doubles the yield. Any item that has no recipe will be shredded anyway, and turned to scrap. Requires two shredder blades to work, blades made from [[desh|Desh]] will never break. Will process one item from every slot at the same time, so filling all slots will make it run more efficiently.",
-		"zh_CN": "可将矿物粉碎为粉，以得到双倍产量。任何没有粉碎配方的物品也可以被粉碎， 粉碎后产出废料。需要两个粉碎机刀片才能工作，[[Desh]]制的粉碎机刀片永不损坏。 每次能够同时处理内部所有槽位中的一个物品，因此填满所有的槽位可以使效 率最大化。"
+		"zh_CN": "可将矿物粉碎为粉，以得到双倍产量。任何没有粉碎配方的物品也可以被粉碎， 粉碎后产出废料。需要两个粉碎机刀片才能工作，[[Desh]]制的粉碎机刀片永不损坏。 每次能够同时处理内部所有槽位中的一个物品，因此填满所有的槽位可以使效 率最大化。",
+		"ru_RU": "Позволяет измельчать руду в порошок, что удваивает выход продукта. Любой продукт, не имеющий рецепта, всё равно будет измельчён и превращён в металлолом. Для работы требуются два лезвия измельчителя, лезвия, изготовленные из [[деш|Desh]], никогда не сломаются. Он будет обрабатывать по одному предмету из каждого слота одновременно, ввиду чего заполнение всех слотов повысит эффективность его работы."
 	}
 }

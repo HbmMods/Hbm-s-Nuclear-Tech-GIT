@@ -4,10 +4,12 @@
 	"trigger": [["hbm:item.wire_dense", 1, 32767]],
 	"title": {
 		"en_US": "Dense Wire",
-		"zh_CN": "致密线材"
+		"zh_CN": "致密线材",
+		"ru_RU": "Плотный провод"
 	},
 	"content": {
 		"en_US": "Made primarily by casting material from the [[crucible|Crucible]]. The foundry mold requires dense wires to be made, therefore it is necessary to make at least one wire from either copper or gold using the [[arc welder|Arc Welder]] recipe.",
-		"zh_CN": "主要通过铸造来自[[坩埚|Crucible]]的材料制造。致密线材铸模需要致密线材制作，因此在此之前必须使用[[电弧焊机|Arc Welder]]制造至少一个致密铜线或金线。"
+		"zh_CN": "主要通过铸造来自[[坩埚|Crucible]]的材料制造。致密线材铸模需要致密线材制作，因此在此之前必须使用[[电弧焊机|Arc Welder]]制造至少一个致密铜线或金线。",
+		"ru_RU": "Изготавливается главным образом отливкой материала из [[плавильни]]. Для изготовления литейной формы требуется сам плотный провод, из-за этого необходимо изготовить по крайней мере один провод из меди или золота по рецепту для [[дугового сварщика|Arc Welder]]."
 	}
 }

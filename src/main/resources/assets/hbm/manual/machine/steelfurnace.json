@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.furnace_steel"]],
 	"title": {
 		"en_US": "Steel Furnace",
+		"ru_RU": "Стальная печь",
 		"zh_CN": "钢炉"
 	},
 	"content": {
 		"en_US": "A furnace powered by an [[external heat source|External Heat Source]]. Can run three recipes at the same time. Certain recipes, like smelting ores or logs, have a bonus output, indicated by the small meter below the progress bar. Not particularly fast due to the heat transfer limitation, but very versatile.",
+		"ru_RU": "Печь, работающая от [[внешнего источника тепла|External Heat Source]]. Имеет три параллели. Некоторые рецепты, например, плавки руды или карбонизации брёвен, имеют дополнительный бонус эффективности, о чем свидетельствует небольшой индикатор под шкалой прогресса. Эта печь не очень быстрая из-за ограничения теплопередачи, но очень многофункциональная.",
 		"zh_CN": "由[[外部热源|External Heat Source]]驱动的熔炉，可一次性处理三个配方。特定的配方（如烧炼矿物和原木的配方）会有额外输出，其进度由烧炼进度条 下方的小进度条指示。由于热量传输速率限制，其速度不是特别快，但仍然用 途广泛。"
 	}
 }

@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.radio_torch_receiver", 1, 0],
 	"trigger": [["hbm:tile.radio_torch_receiver"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Receiver"
+		"en_US": "Redstone-over-Radio Receiver",
+		"ru_RU": "Редстоун-по-радио приёмник"
 	},
 	"content": {
-		"en_US": "Basic [[redstone over radio|Redstone over Radio]] receiving device, reads the configured radio signal and outputs a redstone signal based on that. By default, it is set to \"Redstone Passthrough\" which means it will simply try to interpret the signal as a number and produce a matching redstone signal. If set to \"Custom Mapping\", it will instead translate the received value to a redstone signal level. Received signals must match the configured mapping exactly in order to be interpreted, for less precise comparisons, a [[logic receiver|Redstone-over-Radio Logic Receiver]] is required."
+		"en_US": "Basic [[redstone over radio|Redstone over Radio]] receiving device, reads the configured radio signal and outputs a redstone signal based on that. By default, it is set to \"Redstone Passthrough\" which means it will simply try to interpret the signal as a number and produce a matching redstone signal. If set to \"Custom Mapping\", it will instead translate the received value to a redstone signal level. Received signals must match the configured mapping exactly in order to be interpreted, for less precise comparisons, a [[logic receiver|Redstone-over-Radio Logic Receiver]] is required.",
+		"ru_RU": "Базовое [[редстуон-по-радио|Redstone over Radio]] принимающее устройство, считывающее радиосигнал и выдающее его уже в виде редстоун-сигнала соответствующей силы. По умолчанию для него установлено значение \"Redstone Passthrough\", а это значит, что он интерпретирует сигнал как число и выдаёт соответствующий редстоун-сигнал. Если установлено значение \"Custom Mapping\", то он преобразует любое полученное значение в соответствующий уровень редстоун-сигнала. Для корректной интерпретации принимаемые сигналы должны точно соответствовать настраиваемому отображению, а для менее точных сравнений требуется [[РпР логический приёмник|Redstone-over-Radio Logic Receiver]]."
 	}
 }

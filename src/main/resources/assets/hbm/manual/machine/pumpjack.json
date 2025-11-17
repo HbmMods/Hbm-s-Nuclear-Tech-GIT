@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_pumpjack"]],
 	"title": {
 		"en_US": "Pumpjack",
+		"ru_RU": "Станок-качалка",
 		"zh_CN": "石油钻机"
 	},
 	"content": {
 		"en_US": "A faster and more efficient way of extracting [[oil|Crude Oil]]. When placed on top of an [[oil depsoit|Oil Collection]] and powered, it will slowly drill down and pump up oil and [[natural gas|Natural Gas]]. A more powerful version of the [[oil derrick|Derrick]].<br><br>A green indicator means that the derrick is currently drilling or pumping up oil. A red indicator means that the drill is jammed, the tanks are full or the derrick is out of power. A crossed out droplet means that the derrick's drill has reached the max depth, and there's no oil to gather.<br><br>See also:<br>[[Basic Oil Processing]]",
+		"ru_RU": "Более быстрый и эффективный способ извлечения [[нефти|Crude Oil]]. При установке над [[нефтяным карманом|Oil Collection]] и включении она будет медленно бурить вниз, а затем откачивать нефть и [[природный газ|Natural Gas]]. Более мощная версия [[нефтяной вышки|Derrick]].<br><br>Зелёный индикатор означает, что качалка в данный момент бурит или откачивает нефть. Красный индикатор означает, что качалку заклинило, резервуары заполнены или нет питания. Перечёркнутая капля означает, что качалка достигла максимальной глубины погружения и там больше нет нефти, которую можно было бы добыть.<br><br>Смотрите также:<br>[[Нефтепереработка|Basic Oil Processing]]",
 		"zh_CN": "速度更快、效率更高的[[原油|Crude Oil]]钻取方式。当放置在[[油田|Oil Collection]]上方并供电时，便会缓慢向下钻探并抽取原油和[[天然气|Natural Gas]]。是[[钻油塔|Derrick]]的强化版。<br><br>GUI中标识为绿色时表示机器正在钻探或抽取原油，为红色时表示机器卡住、 内部储罐已满或者缺少电力。标识为打叉的原油液滴时表示钻油塔的钻头已到 达最大深度，但此处没有可供钻取的原油。<br><br>另见：<br>[[基础炼油|Basic Oil Processing]]"
 	}
 }

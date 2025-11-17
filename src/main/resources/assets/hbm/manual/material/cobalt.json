@@ -4,10 +4,12 @@
 	"trigger": [["hbm:item.ingot_cobalt"], ["hbm:item.nugget_cobalt"], ["hbm:item.billet_cobalt"]],
 	"title": {
 		"en_US": "Cobalt",
-		"zh_CN": "钴"
+		"zh_CN": "钴",
+		"ru_RU": "Кобальт" 
 	},
 	"content": {
 		"en_US": "Rare ore, also found in the nether near the ceiling. Drops fragments that need to be [[shredded|Shredder]]. Also obtainable from shredding lapis dust, or from [[rare earth ore|Rare Earths]].",
-		"zh_CN": "稀有的主世界矿物，也可在下界天花板附近找到。挖掘后掉落碎片，需要[[粉碎|Shredder]]处理。也可通过粉碎青金石粉获取，或通过[[稀土矿石|Rare Earths]]获得。"
+		"zh_CN": "稀有的主世界矿物，也可在下界天花板附近找到。挖掘后掉落碎片，需要[[粉碎|Shredder]]处理。也可通过粉碎青金石粉获取，或通过[[稀土矿石|Rare Earths]]获得。",
+		"ru_RU": "Редкая руда, также расположенная ближе к верхней границе Незера. Из нее выпадают фрагменты, которые необходимо [[измельчить|Shredder]]. Кобальт также занимает небольшую часть [[редкоземельной руды|Rare Earths]], откуда его можно извлечь. Ну и небольшое количество можно найти в лазуритовом порошке при повторном измельчении."
 	}
 }

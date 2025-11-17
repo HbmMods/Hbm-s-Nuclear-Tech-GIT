@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_condenser"], ["hbm:tile.machine_condenser_powered"], ["hbm:tile.machine_tower_small"], ["hbm:tile.machine_tower_large"]],
 	"title": {
 		"en_US": "Condenser",
+		"ru_RU": "Конденсатор",
 		"zh_CN": "蒸汽冷凝装置"
 	},
 	"content": {
 		"en_US": "Turns [[low-pressure steam|Low-Pressure Steam]] back into water. A small condenser can handle 100mB/t, an auxiliary cooling tower 1,000mb/t, a large cooling tower 10,000mB/t and a high-power condenser 1,000,000mB/t. The high-power condenser needs electricity to work, all other condensers work passively.<br><br>An important part of any closed steam cycle, for example for [[steam engines|Steam Engine]], [[cracking towers|Catalytic Cracking Tower]] or most nuclear reactors.",
+		"ru_RU": "Конденсирует [[пар низкого давления|Low-Pressure Steam]] обратно в воду. Небольшой конденсатор может обрабатывать до 100 mB/т, вспомогательная градирня – 1000 mB/т, большая градирня – 10,000 mB/т и мощный конденсатор – 1,000,000 mB/т. Для работы мощного конденсатора требуется электричество, все остальные работают пассивно.<br><br>Это важная часть любого замкнутого цикла пара, например, для [[паровых двигателей|Steam Engine]], [[башен каталитического крекинга|Catalytic Cracking Tower]] или большинства ядерных реакторов.",
 		"zh_CN": "将[[低压蒸汽|Low-Pressure Steam]]转换回水。<br>小冷凝器的冷凝速率为100mB/t，辅助冷却塔的为1,000mB/t， 大冷却塔的为10,000mB/t，而大功率蒸汽冷凝器的为100,000mB/t。<br>大功率蒸汽冷凝器需要电力才能工作，其他冷凝器则是被动工作。<br><br>在各种封闭蒸汽循环（如[[蒸汽机|Steam Engine]]、[[催化裂化塔|Catalytic Cracking Tower]]和大多数核反应堆的蒸汽循环）中，蒸汽冷凝装置都是重要的组成部分。"
 	}
 }

@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.furnace_combination"]],
 	"title": {
 		"en_US": "Combination Oven",
-		"zh_CN": "复式炼焦炉"
+		"zh_CN": "复式炼焦炉",
+		"ru_RU": "Коксовая печь"
 	},
 	"content": {
 		"en_US": "A type of oven that can produce solid and liquid outputs. Requires an [[external heat source|External Heat Source]] to function.",
-		"zh_CN": "一种焦炉，可产出固体产物和流体产物。需要[[外部热源|External Heat Source]]才能工作。"
+		"zh_CN": "一种焦炉，可产出固体产物和流体产物。需要[[外部热源|External Heat Source]]才能工作。",
+		"ru_RU": "Тип печи, которая производит и твёрдые, и жидкие продукты. Для работы требуется [[внешний источник тепла|External Heat Source]]."
 	}
 }

@@ -4,10 +4,12 @@
 	"trigger": [["hbm:item.powder_borax"]],
 	"title": {
 		"en_US": "Borax",
-		"zh_CN": "硼砂"
+		"zh_CN": "硼砂",
+		"ru_RU": "Бура"
 	},
 	"content": {
 		"en_US": "Found as depth deposits near bedrock, required explosives to be mined. Source of [[boron|Boron]], and an efficient way to make [[flux|Flux]].",
-		"zh_CN": "可在基岩附近的深层岩石团簇中发现，需要爆炸才能开采。<br>是[[硼|Boron]]的来源，也是高效的[[助熔剂|Flux]]原料。"
+		"zh_CN": "可在基岩附近的深层岩石团簇中发现，需要爆炸才能开采。<br>是[[硼|Boron]]的来源，也是高效的[[助熔剂|Flux]]原料。",
+		"ru_RU": "Образуется в виде глубоких залежей вблизи коренной породы. Для добычи требуется взрывчатка. Источник [[бора|Boron]] и эффективный способ получения [[флюса|Flux]]."
 	}
 }

@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_catalytic_cracker"]],
 	"title": {
 		"en_US": "Catalytic Cracking Tower",
+		"ru_RU": "Башня каталитического крекинга",
 		"zh_CN": "催化裂化塔"
 	},
 	"content": {
 		"en_US": "Vital for [[advanced oil processing|Advanced Oil Processing]]. Right-click with a fluid identifier to set the input type. Requires [[steam|Steam]] to work, outputs [[low-pressure steam|Low-Pressure Steam]] in addition to its oil output. Mainly used for cracking [[crude oil|Crude Oil]] into [[cracked oil|Cracked Oil]], but can also convert many other types of petrochemicals.",
+		"ru_RU": "Чрезвычайно важна для [[продвинутой нефтепереработки|Advanced Oil Processing]]. Щёлкните жидкостным идентификатором, чтобы задать вид вводимой жидкости. Для работы требуется [[пар|Steam]], в числе продуктов помимо нефти выводится [[пар низкого давления|Low-Pressure Steam]]. В основном используется для крекинга [[неочищенной нефти|Crude Oil]] в [[крекированную нефть|Cracked Oil]], но может также преобразовывать многие другие виды нефтехимических продуктов.",
 		"zh_CN": "[[高级原油处理|Advanced Oil Processing]]必不可少的部分。使用流体识别码右键单击已设定输入的流体种类。工作时需要[[蒸汽|Steam]]，并同时输出石化产物和[[低压蒸汽|Low-Pressure Steam]]。主要用于将[[原油|Crude Oil]]裂化为[[裂化油|Cracked Oil]]，但也可以转化多种其他的石油化学品。"
 	}
 }

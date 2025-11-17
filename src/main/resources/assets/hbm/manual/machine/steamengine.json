@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_steam_engine"]],
 	"title": {
 		"en_US": "Steam Engine",
-		"zh_CN": "蒸汽机"
+		"zh_CN": "蒸汽机",
+		"ru_RU": "Паровой двигатель"
 	},
 	"content": {
 		"en_US": "The earliest way of making power out of [[steam|Steam]], usually from a [[boiler|Boiler]]. Outputs [[low-pressure steam|Low-Pressure Steam]], which either has to be vented or [[condensed|Condenser]] back into water.<br><br>Can only handle regular pressure steam, higher pressures require a [[steam turbine|Steam Turbine]].",
-		"zh_CN": "使用[[蒸汽|Steam]]发电的最早方式，而此时蒸汽通常来自[[锅炉|Boiler]]。会输出[[低压蒸汽|Low-Pressure Steam]]，这些低压蒸汽必须被排放，或者被[[冷凝|Condenser]]回水。<br><br>蒸汽机只能处理普通蒸汽，处理高等级蒸汽需要[[汽轮机|Steam Turbine]]。"
+		"zh_CN": "使用[[蒸汽|Steam]]发电的最早方式，而此时蒸汽通常来自[[锅炉|Boiler]]。会输出[[低压蒸汽|Low-Pressure Steam]]，这些低压蒸汽必须被排放，或者被[[冷凝|Condenser]]回水。<br><br>蒸汽机只能处理普通蒸汽，处理高等级蒸汽需要[[汽轮机|Steam Turbine]]。",
+		"ru_RU": "Самый ранний способ получения энергии из [[пара|Steam]], обычно с помощью [[бойлера|Boiler]]. Выдаёт [[пар низкого давления|Low-Pressure Steam]], который необходимо либо отвести, либо [[сконденсировать|Condenser]] обратно в воду.<br><br>Может работать исключительно с обычным паром, для более горячего пара требуется [[паровая турбина|Steam Turbine]]."
 	}
 }

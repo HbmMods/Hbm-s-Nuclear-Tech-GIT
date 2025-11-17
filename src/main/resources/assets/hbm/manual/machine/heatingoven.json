@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.heater_oven"]],
 	"title": {
 		"en_US": "Heating Oven",
-		"zh_CN": "加热炉"
+		"zh_CN": "加热炉",
+		"ru_RU": "Нагревательная печь"
 	},
 	"content": {
 		"en_US": "Advanced version of the [[firebox|Firebox]], an [[external heat source|External Heat Source]]. Burns 5x hotter, but uses up fuel 8x quicker, making it less efficient. Heating ovens have a copper contact at the bottom, allowing them to be stacked, however they only receive heat from below at half efficiency.<br><br>Placing an [[ashpit|Ashpit]] under it will capture ashes, which can be burned again or recycled.",
-		"zh_CN": "[[燃烧室|Firebox]]的高级版本，也是一种[[外部热源|External Heat Source]]。具有5倍的热量输出速率，但燃料消耗速率为8倍，这使得其燃料效率不如燃烧 室。加热炉底部有一个铜触点，使得其可以堆叠，但其从底部接受热量的效率只有 一半。<br><br>在其下方放置[[储灰槽|Ashpit]]可收集灰烬，收集的灰烬可回收或者再次燃烧。"
+		"zh_CN": "[[燃烧室|Firebox]]的高级版本，也是一种[[外部热源|External Heat Source]]。具有5倍的热量输出速率，但燃料消耗速率为8倍，这使得其燃料效率不如燃烧 室。加热炉底部有一个铜触点，使得其可以堆叠，但其从底部接受热量的效率只有 一半。<br><br>在其下方放置[[储灰槽|Ashpit]]可收集灰烬，收集的灰烬可回收或者再次燃烧。",
+		"ru_RU": "Усовершенствованная версия [[топки|Firebox]], является [[внешним источником тепла|External Heat Source]]]. Горит в 5 раз жарче, но расходует топливо в 8 раз быстрее, что делает её менее эффективной. Нагревательные печи имеют медный контакт в нижней части, что позволяет укладывать их в штабеля, однако так они получают тепло снизу только с 50% эффективностью.<br><br>При размещении [[зольника|Ashpit]] под ним образуется зола, которую можно снова сжигать или перерабатывать."
 	}
 }

@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.radio_torch_reader", 1, 0],
 	"trigger": [["hbm:tile.radio_torch_reader"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Reader"
+		"en_US": "Redstone-over-Radio Reader",
+		"ru_RU": "Редстоун-по-радио считыватель"
 	},
 	"content": {
-		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can be connected to certain machines and configured to read up to eight different values and transmit them over separate fequencies. Supported values are listed when hovering over the [V] icon. Comparators, and therefore [[RoR transmitters|Redstone-over-Radio Transmitter]] are limited to interpreting single values as numbers 0 - 15, while the reader can send multiple values with exact precision. For example, connecting the reader to a barrel and reading the \"fill\" value will cause it to send the exact amount of millibuckets in that barrel."
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can be connected to certain machines and configured to read up to eight different values and transmit them over separate fequencies. Supported values are listed when hovering over the [V] icon. Comparators, and therefore [[RoR transmitters|Redstone-over-Radio Transmitter]] are limited to interpreting single values as numbers 0 - 15, while the reader can send multiple values with exact precision. For example, connecting the reader to a barrel and reading the \"fill\" value will cause it to send the exact amount of millibuckets in that barrel.",
+		"ru_RU": "Продвинутое передающее [[редстоун-по-радио|Redstone over Radio]] устройство, которое подключается к определённым устройствам и настраивается для считывания до восьми различных значений и передачи их на разных частотах. Поддерживаемые значения (команды) отображаются при наведении курсора мыши на значок [V]. Компараторы и, следовательно, [[РпР передатчики|Redstone-over-Radio Transmitter]] могут преобразовывать значения только в редстоун-сигналы с силой в диапазоне от 0 до 15, в то время как считыватель может передавать несколько значений с высокой точностью. Например, он может определить точный объём содержимого бочки в mB с помощью значения \"fill\" и отправить это значение."
 	}
 }

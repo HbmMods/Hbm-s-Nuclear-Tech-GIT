@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.radio_torch_logic", 1, 0],
 	"trigger": [["hbm:tile.radio_torch_logic"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Logic Receiver"
+		"en_US": "Redstone-over-Radio Logic Receiver",
+		"ru_RU": "Редстоун-по-радио логический приёмник"
 	},
 	"content": {
-		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, reads a radio signal and tries to interpret it as a redstone signal using the supplied rules. Can compare numbers as well as text (\"Strings\"), and will evaluate the signal in ascending or descending order, depending on how it is configured. The first condition that matches will determine the resulting redstone signal strength. If no condition matches, the resulting redstone output is 0.<br><br>Most commonly used along with the [[item counter|Redstone-over-Radio Item Counter]], since it's capable of comparing quantities of items that surpass the limitations of regular redstone signals with exact precision."
+		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, reads a radio signal and tries to interpret it as a redstone signal using the supplied rules. Can compare numbers as well as text (\"Strings\"), and will evaluate the signal in ascending or descending order, depending on how it is configured. The first condition that matches will determine the resulting redstone signal strength. If no condition matches, the resulting redstone output is 0.<br><br>Most commonly used along with the [[item counter|Redstone-over-Radio Item Counter]], since it's capable of comparing quantities of items that surpass the limitations of regular redstone signals with exact precision.",
+		"ru_RU": "Продвинутое принимающее [[редстуон-по-радио|Redstone over Radio]] устройство, которое считывает радиосигнал и интерпретирует его как редстоун-сигнал, используя имеющиеся правила. Может сравнивать числа и текст (\"Strings\"), а также оценивать сигналы в порядке возрастания или убывания в зависимости от настроек. Первое условие, удовлетворяющее правилу, определит итоговое значение силы редстоун-сигнала. Если же ни одно условие не выполняется, результирующее значение редстоун-сигнала будет равно 0.<br><br>Чаще всего используется вместе со [[считывателем предметов|Redstone-over-Radio Item Counter]], поскольку он способен с высокой точностью сравнивать количества предметов, которые превышают допустимый диапазон значений силы редстоун-сигналов."
 	}
 }

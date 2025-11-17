@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_centrifuge"]],
 	"title": {
 		"en_US": "Centrifuge",
-		"zh_CN": "离心机"
+		"zh_CN": "离心机",
+		"ru_RU": "Центрифуга"
 	},
 	"content": {
 		"en_US": "Separates items, can be used as a more efficient way of ore processing. Initially mainly used for gathering [[mercury|Mercury]] from redstone ore, required for making [[desh|Desh]].",
-		"zh_CN": "用于分离物品，可作为一种更高效的矿物处理手段。最初主要用于从红石矿石中 收集制作[[Desh]]需要的[[水银|Mercury]]。"
+		"zh_CN": "用于分离物品，可作为一种更高效的矿物处理手段。最初主要用于从红石矿石中 收集制作[[Desh]]需要的[[水银|Mercury]]。",
+		"ru_RU": "Разделяет предметы, позволяет куда эффективнее перерабатывать руду. Одно из первых применений — получение из руды красного камня [[ртути|Mercury]], необходимой для производства [[деш|Desh]]."
 	}
 }

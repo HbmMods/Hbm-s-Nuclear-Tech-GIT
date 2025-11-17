@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.radio_torch_sender", 1, 0],
 	"trigger": [["hbm:tile.radio_torch_sender"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Transmitter"
+		"en_US": "Redstone-over-Radio Transmitter",
+		"ru_RU": "Редстоун-по-радио контроллер"
 	},
 	"content": {
-		"en_US": "Basic [[redstone over radio|Redstone over Radio]] transmitting device, reads the redstone signal strength of the block it is connected to (connecting redstone to the torch itself does nothing) and sends a radio signal based on that. If no redstone signal is found, it will act like a comparator, meaning it can read the fill state of chests or barrels and interpret them in increments from 0 to 15. By default, it is set to \"Redstone Passthrough\" which means it will simply send the numeric value of the redstone signal it receives. If set to \"Custom Mapping\", it will instead translate the received value to a specified line of text, and send that text instead. Text that only contains numbers can be interpreted like numbers by receivers that support it."
+		"en_US": "Basic [[redstone over radio|Redstone over Radio]] transmitting device, reads the redstone signal strength of the block it is connected to (connecting redstone to the torch itself does nothing) and sends a radio signal based on that. If no redstone signal is found, it will act like a comparator, meaning it can read the fill state of chests or barrels and interpret them in increments from 0 to 15. By default, it is set to \"Redstone Passthrough\" which means it will simply send the numeric value of the redstone signal it receives. If set to \"Custom Mapping\", it will instead translate the received value to a specified line of text, and send that text instead. Text that only contains numbers can be interpreted like numbers by receivers that support it.",
+		"ru_RU": "Классическое передающее [[редстоун-по-радио|Redstone over Radio]] устройство, которое считывает уровень редстоун-сигнала от блока, к которому оно подключено (редстоун-подключение к факелу или другому постоянному источнику ничего не даёт), и отправляет радиосигнал, основываясь на входных данных. Если редстоун-сигнал не обнаружен, он будет действовать как компаратор, то есть сможет считывать уровень заполнения сундуков или бочек и интерпретировать их в виде числовых значений от 0 до 15. По умолчанию для него установлено значение \"Redstone Passthrough\", чтобы отправлять числовое значение силы полученного редстоун-сигнала. Если установлено значение \"Custom Mapping\", то вместо этого полученный редстоун-сигнал преобразуется в указанную строку текста, который и будет отправлен. Текст, состоящий только из чисел, понимается получателями просто как числа."
 	}
 }
