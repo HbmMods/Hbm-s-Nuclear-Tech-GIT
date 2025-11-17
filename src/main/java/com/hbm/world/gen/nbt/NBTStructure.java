@@ -473,6 +473,10 @@ public class NBTStructure {
 					Block block = transformBlock(state.definition, null, world.rand);
 					int meta = transformMeta(state.definition, null, coordBaseMode);
 
+					if(ry < 0 || ry >= world.getHeight()) continue;
+					Block existing = world.getBlock(rx, ry, rz);
+					if(existing == Blocks.bedrock) continue;
+
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
 					if(state.nbt != null) {
@@ -545,6 +549,10 @@ public class NBTStructure {
 
 					Block block = transformBlock(state.definition, piece.blockTable, world.rand);
 					int meta = transformMeta(state.definition, piece.blockTable, coordBaseMode);
+
+					if(ry < 0 || ry >= world.getHeight()) continue;
+					Block existing = world.getBlock(rx, ry, rz);
+					if(existing == Blocks.bedrock) continue;
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
@@ -801,7 +809,9 @@ public class NBTStructure {
 
 			// now we're in the world, update minY/maxY
 			if(!piece.conformToTerrain && !heightUpdated) {
-				int y = MathHelper.clamp_int(getAverageHeight(world, box) + piece.heightOffset, minHeight, maxHeight);
+				int averageHeight = getAverageHeight(world, box) + piece.heightOffset;
+				boolean isFlatWorld = world.getWorldInfo().getTerrainType() == net.minecraft.world.WorldType.FLAT;
+				int y = isFlatWorld ? averageHeight : MathHelper.clamp_int(averageHeight, minHeight, maxHeight);
 
 				if(!piece.alignToTerrain) {
 					parent.offsetYHeight(y);
