@@ -48,6 +48,12 @@ public class UniNodespace {
 		}
 	}
 
+	public static void destroyNode(World world, GenNode node) {
+		if(node != null) {
+			worlds.get(world).popNode(node);
+		}
+	}
+
 	public static void updateNodespace() {
 
 		for(World world : MinecraftServer.getServer().worldServers) {

@@ -65,7 +65,7 @@ public class GUIFusionTorus extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 35, this.ySize - 93, 4210752);
 
 		this.fontRendererObj.drawString(EnumChatFormatting.AQUA + "/123K", 136 + 54, 32, 4210752);
-		int heat = (int) Math.ceil(300);
+		int heat = (int) Math.ceil(torus.temperature);
 		String label = (heat > 123 ? EnumChatFormatting.RED : EnumChatFormatting.AQUA) + "" + heat + "K";
 		this.fontRendererObj.drawString(label, 166 + 54 - this.fontRendererObj.getStringWidth(label), 22, 4210752);
 	}
@@ -112,14 +112,17 @@ public class GUIFusionTorus extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 92, guiTop + 76, 246, 0, 3, 6);
 		}
 		
-		double gauge = BobMathUtil.sps((Minecraft.getMinecraft().theWorld.getTotalWorldTime() + interp) * 0.25) / 2 + 0.5D;
+		double demoGauge = BobMathUtil.sps((Minecraft.getMinecraft().theWorld.getTotalWorldTime() + interp) * 0.25) / 2 + 0.5D;
+
+		double inputGauge = recipe == null ? 0 : Math.min(((double) torus.klystronEnergy / (double) recipe.ignitionTemp), 1.5) / 1.5D;
+		double outputGauge = recipe == null ? 0 : Math.min(((double) torus.plasmaEnergy / (double) recipe.outputTemp), 1.5) / 1.5D;
 		
 		// input energy
-		GaugeUtil.drawSmoothGauge(guiLeft + 52, guiTop + 124, this.zLevel, gauge, 5, 2, 1, 0xA00000);
+		GaugeUtil.drawSmoothGauge(guiLeft + 52, guiTop + 124, this.zLevel, inputGauge, 5, 2, 1, 0xA00000);
 		// output genergy
-		GaugeUtil.drawSmoothGauge(guiLeft + 88, guiTop + 124, this.zLevel, gauge, 5, 2, 1, 0xA00000);
+		GaugeUtil.drawSmoothGauge(guiLeft + 88, guiTop + 124, this.zLevel, outputGauge, 5, 2, 1, 0xA00000);
 		// fuel consumption
-		GaugeUtil.drawSmoothGauge(guiLeft + 124, guiTop + 124, this.zLevel, gauge, 5, 2, 1, 0xA00000);
+		GaugeUtil.drawSmoothGauge(guiLeft + 124, guiTop + 124, this.zLevel, torus.fuelConsumption, 5, 2, 1, 0xA00000);
 
 		// recipe selector
 		this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 44, 81);

@@ -65,6 +65,13 @@ public abstract class ModuleMachineBase {
 		if(power != 1 && battery.getPower() < recipe.power * power) return false; // only check with floating point numbers if mult is not 1
 		if(power == 1 && battery.getPower() < recipe.power) return false;
 		
+		if(!hasInput(recipe)) return false;
+		
+		return canFitOutput(recipe);
+	}
+	
+	protected boolean hasInput(GenericRecipe recipe) {
+		
 		if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
 				if(!recipe.inputItem[i].matchesRecipe(slots[inputSlots[i]], false)) return false;
@@ -77,7 +84,7 @@ public abstract class ModuleMachineBase {
 			}
 		}
 		
-		return canFitOutput(recipe);
+		return true;
 	}
 	
 	/** Whether the machine can hold the output produced by the recipe */

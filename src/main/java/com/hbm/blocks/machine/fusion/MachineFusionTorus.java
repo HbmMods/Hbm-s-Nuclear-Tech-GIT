@@ -161,5 +161,36 @@ public class MachineFusionTorus extends BlockDummyable {
 				}
 			}
 		}
+
+		// is that enough ports?
+		this.makeExtra(world, x, y + 4, z);
+
+		this.makeExtra(world, x + 6, y, z);
+		this.makeExtra(world, x + 6, y + 4, z);
+		this.makeExtra(world, x + 6, y, z + 2);
+		this.makeExtra(world, x + 6, y + 4, z + 2);
+		this.makeExtra(world, x + 6, y, z - 2);
+		this.makeExtra(world, x + 6, y + 4, z - 2);
+
+		this.makeExtra(world, x - 6, y, z);
+		this.makeExtra(world, x - 6, y + 4, z);
+		this.makeExtra(world, x - 6, y, z + 2);
+		this.makeExtra(world, x - 6, y + 4, z + 2);
+		this.makeExtra(world, x - 6, y, z - 2);
+		this.makeExtra(world, x - 6, y + 4, z - 2);
+
+		this.makeExtra(world, x, y, z + 6);
+		this.makeExtra(world, x, y + 4, z + 6);
+		this.makeExtra(world, x + 2, y, z + 6);
+		this.makeExtra(world, x + 2, y + 4, z + 6);
+		this.makeExtra(world, x - 2, y, z + 6);
+		this.makeExtra(world, x - 2, y + 4, z + 6);
+
+		this.makeExtra(world, x, y, z - 6);
+		this.makeExtra(world, x, y + 4, z - 6);
+		this.makeExtra(world, x + 2, y, z - 6);
+		this.makeExtra(world, x + 2, y + 4, z - 6);
+		this.makeExtra(world, x - 2, y, z - 6);
+		this.makeExtra(world, x - 2, y + 4, z - 6);
 	}
 }

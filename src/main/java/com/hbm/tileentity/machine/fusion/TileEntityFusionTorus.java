@@ -5,6 +5,7 @@ import com.hbm.inventory.container.ContainerFusionTorus;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFusionTorus;
+import com.hbm.inventory.recipes.FusionRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.module.machine.ModuleMachineFusion;
@@ -15,6 +16,7 @@ import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.KlystronNetworkProvider;
 import com.hbm.uninos.networkproviders.PlasmaNetworkProvider;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -26,6 +28,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -38,12 +41,23 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 	protected GenNode[] klystronNodes;
 	protected GenNode[] plasmaNodes;
+	public boolean[] connections;
+
+	public long klystronEnergy;
+	public long plasmaEnergy;
+	public double fuelConsumption;
+	
+	public float magnet;
+	public float prevMagnet;
+	public float magnetSpeed;
+	public static final float MAGNET_ACCELERATION = 0.25F;
 	
 	public TileEntityFusionTorus() {
 		super(3);
 
 		klystronNodes = new GenNode[4];
 		plasmaNodes = new GenNode[4];
+		connections = new boolean[4];
 		
 		this.tanks = new FluidTank[4];
 
@@ -65,7 +79,6 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 	@Override
 	public void updateEntity() {
-		super.updateEntity();
 		
 		if(!worldObj.isRemote) {
 
@@ -76,14 +89,83 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				if(klystronNodes[i].net != null) klystronNodes[i].net.addReceiver(this);
 				if(plasmaNodes[i].net != null) plasmaNodes[i].net.addProvider(this);
 			}
+			
+			this.temperature += this.temp_passive_heating;
+			if(this.temperature > KELVIN + 20) this.temperature = KELVIN + 20;
+			
+			if(this.temperature > this.temperature_target) {
+				int cyclesTemp = (int) Math.ceil((Math.min(this.temperature - temperature_target, temp_change_max)) / temp_change_per_mb);
+				int cyclesCool = coolantTanks[0].getFill();
+				int cyclesHot = coolantTanks[1].getMaxFill() - coolantTanks[1].getFill();
+				int cycles = BobMathUtil.min(cyclesTemp, cyclesCool, cyclesHot);
+
+				coolantTanks[0].setFill(coolantTanks[0].getFill() - cycles);
+				coolantTanks[1].setFill(coolantTanks[1].getFill() + cycles);
+				this.temperature -= this.temp_change_per_mb * cycles;
+			}
+			
+			for(DirPos pos : getConPos()) {
+				
+				if(worldObj.getTotalWorldTime() % 20 == 0) {
+					this.trySubscribe(worldObj, pos);
+					this.trySubscribe(coolantTanks[0].getTankType(), worldObj, pos);
+					if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
+					if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), worldObj, pos);
+					if(tanks[2].getTankType() != Fluids.NONE) this.trySubscribe(tanks[2].getTankType(), worldObj, pos);
+				}
+
+				if(coolantTanks[1].getFill() > 0) this.tryProvide(coolantTanks[1], worldObj, pos);
+				if(tanks[3].getFill() > 0) this.tryProvide(tanks[3], worldObj, pos);
+			}
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
-			this.fusionModule.update(1D, 1D, true, slots[1]);
+			for(int i = 0; i < 4; i++) {
+				connections[i] = false;
+				if(klystronNodes[i] != null && klystronNodes[i].hasValidNet() && !klystronNodes[i].net.providerEntries.isEmpty()) connections[i] = true;
+				if(!connections[i] && plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) connections[i] = true;
+			}
+			
+			FusionRecipe recipe = (FusionRecipe) this.fusionModule.getRecipe();
+
+			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
+			double fuel0Factor = recipe != null && recipe.inputFluid.length > 0 ?  getSpeedScaled(tanks[0].getMaxFill(), tanks[0].getFill()) : 1D;
+			double fuel1Factor = recipe != null && recipe.inputFluid.length > 1 ?  getSpeedScaled(tanks[1].getMaxFill(), tanks[1].getFill()) : 1D;
+			double fuel2Factor = recipe != null && recipe.inputFluid.length > 2 ?  getSpeedScaled(tanks[2].getMaxFill(), tanks[2].getFill()) : 1D;
+			double klystronFactor = recipe != null ? getSpeedScaled(recipe.ignitionTemp, this.klystronEnergy) : 1D;
+			
+			double factor = BobMathUtil.min(powerFactor, fuel0Factor, fuel1Factor, fuel2Factor, klystronFactor);
+			
+			this.plasmaEnergy = 0;
+			this.fuelConsumption = 0;
+			this.fusionModule.preUpdate(factor, 0.5D);
+			this.fusionModule.update(1D, 1D, this.isCool(), slots[1]);
 			this.didProcess = this.fusionModule.didProcess;
 			if(this.fusionModule.markDirty) this.markDirty();
+			if(didProcess && recipe != null) {
+				this.plasmaEnergy = (long) Math.ceil(recipe.outputTemp * factor);
+				this.fuelConsumption = factor;
+			}
 			
 			this.networkPackNT(150);
+			
+			this.klystronEnergy = 0;
+			
+		} else {
+
+			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
+			if(this.didProcess) this.magnetSpeed += MAGNET_ACCELERATION;
+			else this.magnetSpeed -= MAGNET_ACCELERATION;
+			
+			this.magnetSpeed = MathHelper.clamp_float(this.magnetSpeed, 0F, 30F * (float) powerFactor);
+			
+			this.prevMagnet = this.magnet;
+			this.magnet += this.magnetSpeed;
+			
+			if(this.magnet >= 360F) {
+				this.magnet -= 360F;
+				this.prevMagnet -= 360F;
+			}
 		}
 	}
 	
@@ -101,26 +183,46 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	}
 
 	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(!worldObj.isRemote) {
+			for(GenNode node : klystronNodes) if(node != null) UniNodespace.destroyNode(worldObj, node);
+			for(GenNode node : plasmaNodes) if(node != null) UniNodespace.destroyNode(worldObj, node);
+		}
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(this.didProcess);
+		buf.writeLong(this.klystronEnergy);
+		buf.writeLong(this.plasmaEnergy);
+		buf.writeDouble(this.fuelConsumption);
+		
 		this.fusionModule.serialize(buf);
 		for(int i = 0; i < 4; i++) this.tanks[i].serialize(buf);
+		for(int i = 0; i < 4; i++) buf.writeBoolean(connections[i]);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.didProcess = buf.readBoolean();
+		this.klystronEnergy = buf.readLong();
+		this.plasmaEnergy = buf.readLong();
+		this.fuelConsumption = buf.readDouble();
+		
 		this.fusionModule.deserialize(buf);
 		for(int i = 0; i < 4; i++) this.tanks[i].deserialize(buf);
+		for(int i = 0; i < 4; i++) connections[i] = buf.readBoolean();
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		for(int i = 0; i < 4; i++) this.tanks[i].readFromNBT(nbt, "t" + i);
+		for(int i = 0; i < 4; i++) this.tanks[i].readFromNBT(nbt, "ft" + i);
 
 		this.power = nbt.getLong("power");
 		this.fusionModule.readFromNBT(nbt);
@@ -130,7 +232,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(nbt, "t" + i);
+		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(nbt, "ft" + i);
 
 		nbt.setLong("power", power);
 		this.fusionModule.writeToNBT(nbt);
@@ -140,16 +242,52 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public long getMaxPower() {
 		return 10_000_000;
 	}
+
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {coolantTanks[1], tanks[3]}; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {coolantTanks[0], tanks[0], tanks[1], tanks[2]}; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {coolantTanks[0], coolantTanks[1], tanks[0], tanks[1], tanks[2], tanks[3]}; }
 	
 	/** Linearly scales up from 0% to 100% from 0 to 0.5, then stays at 100% */
 	public static double getSpeedScaled(double max, double level) {
+		if(max == 0) return 0D;
 		if(level >= max * 0.5) return 1D;
 		return level / max * 2D;
 	}
 
 	@Override
 	public DirPos[] getConPos() {
-		return new DirPos[0]; // TBI
+		return new DirPos[] {
+				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+				new DirPos(xCoord, yCoord + 5, zCoord, Library.POS_Y),
+
+				new DirPos(xCoord + 6, yCoord - 1, zCoord, Library.NEG_Y),
+				new DirPos(xCoord + 6, yCoord + 5, zCoord, Library.POS_Y),
+				new DirPos(xCoord + 6, yCoord - 1, zCoord + 2, Library.NEG_Y),
+				new DirPos(xCoord + 6, yCoord + 5, zCoord + 2, Library.POS_Y),
+				new DirPos(xCoord + 6, yCoord - 1, zCoord - 2, Library.NEG_Y),
+				new DirPos(xCoord + 6, yCoord + 5, zCoord - 2, Library.POS_Y),
+
+				new DirPos(xCoord - 6, yCoord - 1, zCoord, Library.NEG_Y),
+				new DirPos(xCoord - 6, yCoord + 5, zCoord, Library.POS_Y),
+				new DirPos(xCoord - 6, yCoord - 1, zCoord + 2, Library.NEG_Y),
+				new DirPos(xCoord - 6, yCoord + 5, zCoord + 2, Library.POS_Y),
+				new DirPos(xCoord - 6, yCoord - 1, zCoord - 2, Library.NEG_Y),
+				new DirPos(xCoord - 6, yCoord + 5, zCoord - 2, Library.POS_Y),
+
+				new DirPos(xCoord, yCoord - 1, zCoord + 6, Library.NEG_Y),
+				new DirPos(xCoord, yCoord + 5, zCoord + 6, Library.POS_Y),
+				new DirPos(xCoord + 2, yCoord - 1, zCoord + 6, Library.NEG_Y),
+				new DirPos(xCoord + 2, yCoord + 5, zCoord + 6, Library.POS_Y),
+				new DirPos(xCoord - 2, yCoord - 1, zCoord + 6, Library.NEG_Y),
+				new DirPos(xCoord - 2, yCoord + 5, zCoord + 6, Library.POS_Y),
+
+				new DirPos(xCoord, yCoord - 1, zCoord - 6, Library.NEG_Y),
+				new DirPos(xCoord, yCoord + 5, zCoord - 6, Library.POS_Y),
+				new DirPos(xCoord + 2, yCoord - 1, zCoord - 6, Library.NEG_Y),
+				new DirPos(xCoord + 2, yCoord + 5, zCoord - 6, Library.POS_Y),
+				new DirPos(xCoord - 2, yCoord - 1, zCoord - 6, Library.NEG_Y),
+				new DirPos(xCoord - 2, yCoord + 5, zCoord - 6, Library.POS_Y),
+		};
 	}
 
 	@Override

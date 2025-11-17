@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -20,20 +21,22 @@ public class RenderFusionTorus extends TileEntitySpecialRenderer implements IIte
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
+		TileEntityFusionTorus torus = (TileEntityFusionTorus) tile;
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.fusion_torus_tex);
 		ResourceManager.fusion_torus.renderPart("Torus");
 		
 		GL11.glPushMatrix();
-		double rot = (tile.getWorldObj().getTotalWorldTime() % 360) + interp;
-		GL11.glRotated(rot * 10, 0, 1, 0);
+		float rot = torus.prevMagnet + (torus.magnet - torus.prevMagnet) * interp;
+		GL11.glRotatef(rot, 0, 1, 0);
 		ResourceManager.fusion_torus.renderPart("Magnet");
 		GL11.glPopMatrix();
 
-		ResourceManager.fusion_torus.renderPart("Bolts1");
-		ResourceManager.fusion_torus.renderPart("Bolts2");
-		ResourceManager.fusion_torus.renderPart("Bolts3");
-		ResourceManager.fusion_torus.renderPart("Bolts4");
+		if(torus.connections[0]) ResourceManager.fusion_torus.renderPart("Bolts2");
+		if(torus.connections[1]) ResourceManager.fusion_torus.renderPart("Bolts4");
+		if(torus.connections[2]) ResourceManager.fusion_torus.renderPart("Bolts3");
+		if(torus.connections[3]) ResourceManager.fusion_torus.renderPart("Bolts1");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

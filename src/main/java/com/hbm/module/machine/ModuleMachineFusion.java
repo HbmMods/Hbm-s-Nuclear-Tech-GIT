@@ -6,10 +6,13 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ModuleMachineFusion extends ModuleMachineBase {
-	
+
+	public double processSpeed = 1D;
 	public double bonusSpeed = 0D;
 	public double bonus;
 
@@ -31,20 +34,39 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 	public ModuleMachineFusion fluidOutput(FluidTank a) { outputTanks[0] = a; return this; }
 	
 	// setup needs to run before update, used to keep track of things that ModuleMachineBase doesn't handle
-	public void preUpdate(double bonusSpeed) {
+	public void preUpdate(double processSpeed, double bonusSpeed) {
+		this.processSpeed = processSpeed;
 		this.bonusSpeed = bonusSpeed;
 	}
 	
 	@Override
+	protected boolean hasInput(GenericRecipe recipe) {
+		
+		if(recipe.inputFluid != null) {
+			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
+				if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	@Override
 	public void process(GenericRecipe recipe, double speed, double power) {
-		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
-		double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
+		this.battery.setPower(this.battery.getPower() - (long) Math.ceil((power == 1 ? recipe.power : (long) (recipe.power * power)) * processSpeed));
+		double step = Math.min(speed / recipe.duration * processSpeed, 1D); // can't do more than one recipe per tick, might look into that later
 		this.progress += step;
 		this.bonus += step * this.bonusSpeed;
 		this.bonus = Math.min(this.bonus, 1.5D); // bonus might not be used immediately in rare circumstances, allow 50% buffer
 		
+		// fusion reactor is the only machine as of now that consumes input while not having finished the output
+		if(recipe.inputFluid != null) {
+			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
+				inputTanks[i].setFill(inputTanks[i].getFill() - (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed));
+			}
+		}
+		
 		if(this.progress >= 1D) {
-			consumeInput(recipe);
 			produceItem(recipe);
 			
 			if(this.canProcess(recipe, speed, power))  this.progress -= 1D;
@@ -55,5 +77,29 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 			produceItem(recipe);
 			this.bonus -= 1D;
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(bonus);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.bonus = buf.readDouble();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.bonus = nbt.getDouble("bonus" + index);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setDouble("bonus" + index, bonus);
 	}
 }
