@@ -89,6 +89,8 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 				this.compair.setFill(this.compair.getFill() - airReq);
 			}
 			
+			if(output < outputTarget / 50) output = 0;
+			
 			if(klystronNode == null || klystronNode.expired) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
 				klystronNode = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, KlystronNetworkProvider.THE_PROVIDER);

@@ -50,7 +50,11 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, interp);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, klystron.power, klystron.getMaxPower());
+		
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 71, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(klystron.output) + "KyU / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "KyU");
 		klystron.compair.renderTankInfo(this, mouseX, mouseY, guiLeft + 76, guiTop + 71, 18, 18);
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 115, guiTop + 71, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(klystron.output) + "HE / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "HE");
+
 	}
 
 	@Override
@@ -83,12 +87,12 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 
 		// power LED
 		if(powerGauge >= 0.5 && klystron.output > 0) drawTexturedModalRect(guiLeft + 160, guiTop + 71, 210, 8, 8, 8);
-		else if(powerGauge < 0.5 && klystron.output > 0) drawTexturedModalRect(guiLeft + 160, guiTop + 71, 210, 0, 8, 8);
+		else if(powerGauge > 0) drawTexturedModalRect(guiLeft + 160, guiTop + 71, 210, 0, 8, 8);
 		// cooling LED
 		if(airGauge >= 0.5 && klystron.output > 0) drawTexturedModalRect(guiLeft + 170, guiTop + 71, 210, 8, 8, 8);
-		else if(airGauge < 0.5 && klystron.output > 0) drawTexturedModalRect(guiLeft + 170, guiTop + 71, 210, 0, 8, 8);
+		else if(airGauge > 0) drawTexturedModalRect(guiLeft + 170, guiTop + 71, 210, 0, 8, 8);
 		// action LED
-		if(klystron.output >= klystron.outputTarget) drawTexturedModalRect(guiLeft + 180, guiTop + 71, 210, 8, 8, 8);
+		if(klystron.output >= klystron.outputTarget && klystron.output > 0) drawTexturedModalRect(guiLeft + 180, guiTop + 71, 210, 8, 8, 8);
 		else if(klystron.output > 0) drawTexturedModalRect(guiLeft + 180, guiTop + 71, 210, 0, 8, 8);
 		
 		// output energy

@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine.fusion;
 
+import java.util.Map.Entry;
+
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionTorus;
 import com.hbm.inventory.fluid.Fluids;
@@ -120,10 +122,23 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
+			int collectors = 0;
+			
 			for(int i = 0; i < 4; i++) {
 				connections[i] = false;
 				if(klystronNodes[i] != null && klystronNodes[i].hasValidNet() && !klystronNodes[i].net.providerEntries.isEmpty()) connections[i] = true;
 				if(!connections[i] && plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) connections[i] = true;
+				
+				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
+					
+					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
+						Entry<Object, Long> entry = (Entry<Object, Long>) o;
+						if(entry.getKey() instanceof TileEntityFusionCollector) {
+							collectors++;
+						}
+						break;
+					}
+				}
 			}
 			
 			FusionRecipe recipe = (FusionRecipe) this.fusionModule.getRecipe();
@@ -132,14 +147,15 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			double fuel0Factor = recipe != null && recipe.inputFluid.length > 0 ?  getSpeedScaled(tanks[0].getMaxFill(), tanks[0].getFill()) : 1D;
 			double fuel1Factor = recipe != null && recipe.inputFluid.length > 1 ?  getSpeedScaled(tanks[1].getMaxFill(), tanks[1].getFill()) : 1D;
 			double fuel2Factor = recipe != null && recipe.inputFluid.length > 2 ?  getSpeedScaled(tanks[2].getMaxFill(), tanks[2].getFill()) : 1D;
-			double klystronFactor = recipe != null ? getSpeedScaled(recipe.ignitionTemp, this.klystronEnergy) : 1D;
 			
-			double factor = BobMathUtil.min(powerFactor, fuel0Factor, fuel1Factor, fuel2Factor, klystronFactor);
+			double factor = BobMathUtil.min(powerFactor, fuel0Factor, fuel1Factor, fuel2Factor);
+			
+			boolean ignition = recipe != null ? recipe.ignitionTemp <= this.klystronEnergy : true;
 			
 			this.plasmaEnergy = 0;
 			this.fuelConsumption = 0;
-			this.fusionModule.preUpdate(factor, 0.5D);
-			this.fusionModule.update(1D, 1D, this.isCool(), slots[1]);
+			this.fusionModule.preUpdate(factor, collectors * 0.5D);
+			this.fusionModule.update(1D, 1D, this.isCool() && ignition, slots[1]);
 			this.didProcess = this.fusionModule.didProcess;
 			if(this.fusionModule.markDirty) this.markDirty();
 			if(didProcess && recipe != null) {

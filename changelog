@@ -63,3 +63,4 @@
 * Fixed assembly and chemical factories not properly saving their recipe fluid buffers
 * Fixed light blue and light gray dyes not working when dyeing cables
 * Fixed bismuth armor not having a valid repair material
+* Fixed compressors needing at least one mB of fluid more to process a recipe than necessary

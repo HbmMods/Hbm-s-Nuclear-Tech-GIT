@@ -42,6 +42,8 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 	@Override
 	protected boolean hasInput(GenericRecipe recipe) {
 		
+		if(processSpeed <= 0) return false;
+		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
 				if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return false;
