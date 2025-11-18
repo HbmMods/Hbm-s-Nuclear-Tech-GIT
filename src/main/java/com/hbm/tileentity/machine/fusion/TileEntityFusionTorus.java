@@ -122,6 +122,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
+			int receiverCount = 0;
 			int collectors = 0;
 			
 			for(int i = 0; i < 4; i++) {
@@ -133,9 +134,8 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					
 					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
 						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						if(entry.getKey() instanceof TileEntityFusionCollector) {
-							collectors++;
-						}
+						if(entry.getKey() instanceof IFusionPowerReceiver) receiverCount++;
+						if(entry.getKey() instanceof TileEntityFusionCollector) collectors++;
 						break;
 					}
 				}
@@ -163,6 +163,24 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.fuelConsumption = factor;
 			}
 			
+			double outputIntensity = this.getOuputIntensity(receiverCount);
+			double outputFlux = recipe != null ? recipe.neutronFlux * factor : 0D;
+			
+			if(this.plasmaEnergy > 0) for(int i = 0; i < 4; i++) {
+				
+				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
+					
+					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
+						Entry<Object, Long> entry = (Entry<Object, Long>) o;
+						
+						if(entry.getKey() instanceof IFusionPowerReceiver) {
+							long powerReceived = (long) Math.ceil(this.plasmaEnergy * outputIntensity);
+							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux);
+						}
+					}
+				}
+			}
+			
 			this.networkPackNT(150);
 			
 			this.klystronEnergy = 0;
@@ -183,6 +201,13 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.prevMagnet -= 360F;
 			}
 		}
+	}
+	
+	public static double getOuputIntensity(int receiverCount) {
+		if(receiverCount == 1) return 1D; // 100%
+		if(receiverCount == 2) return 0.625D; // 125%
+		if(receiverCount == 3) return 0.5D; // 150%
+		return 0.4375D; // 175%
 	}
 	
 	public GenNode createNode(INetworkProvider provider, ForgeDirection dir) {

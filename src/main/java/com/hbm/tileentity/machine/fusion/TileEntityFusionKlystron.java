@@ -34,7 +34,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityFusionKlystron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider {
 
 	protected GenNode klystronNode;
-	public static final long MAX_OUTPUT = 100_000_000;
+	public static final long MAX_OUTPUT = 1_000_000;
 	public static final int AIR_CONSUMPTION = 2_500;
 	public long outputTarget;
 	public long output;

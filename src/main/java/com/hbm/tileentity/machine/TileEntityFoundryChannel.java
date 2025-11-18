@@ -179,7 +179,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 
 	@Override
 	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
-		if(this.node == null) return false;
+		if(this.node == null || !this.node.hasValidNet()) return false;
 		for(Object o : this.node.net.links) {
 			FoundryNode node = (FoundryNode) o;
 			if(node.type != null && node.type != stack.material) {
