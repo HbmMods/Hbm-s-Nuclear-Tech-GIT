@@ -13,7 +13,6 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import org.lwjgl.Sys;
 
 public abstract class ModuleMachineBase {
 	
@@ -46,7 +45,6 @@ public abstract class ModuleMachineBase {
 	}
 	
 	/** Expects the tanks to be set up correctly beforehand */
-	//Special thanks to O4 for creating the initial code
     public int canProcess(GenericRecipe recipe, double speed, double power) {
 		if(recipe == null) return 0;
 		
