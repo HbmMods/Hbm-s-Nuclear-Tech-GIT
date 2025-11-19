@@ -15,11 +15,14 @@ public class FusionRecipe extends GenericRecipe {
 	public long ignitionTemp;
 	// plasma output energy at full blast
 	public long outputTemp;
+	// neutron output energy at full blast
+	public double neutronFlux;
 
 	public FusionRecipe(String name) { super(name); }
 
 	public FusionRecipe setInputEnergy(long ignitionTemp) { this.ignitionTemp = ignitionTemp; return this; }
 	public FusionRecipe setOutputEnergy(long outputTemp) { this.outputTemp = outputTemp; return this; }
+	public FusionRecipe setOutputFlux(double neutronFlux) { this.neutronFlux = neutronFlux; return this; }
 
 	public List<String> print() {
 		List<String> list = new ArrayList();
@@ -29,6 +32,7 @@ public class FusionRecipe extends GenericRecipe {
 		power(list);
 		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionIn") + ": " + BobMathUtil.getShortNumber(ignitionTemp) + "KyU/t");
 		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionOut") + ": " + BobMathUtil.getShortNumber(outputTemp) + "TU/t");
+		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionFlux") + ": " + ((int)(neutronFlux * 10)) / 10D + " flux/t");
 		input(list);
 		output(list);
 

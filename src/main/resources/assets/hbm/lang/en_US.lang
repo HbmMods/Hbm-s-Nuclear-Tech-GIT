@@ -1273,6 +1273,7 @@ general.na=N/A
 
 gui.recipe.duration=Duration
 gui.recipe.consumption=Consumption
+gui.recipe.fusionFlux=Output Neutron Flux
 gui.recipe.fusionIn=Klystron Input Energy
 gui.recipe.fusionOut=Plasma Output Energy
 gui.recipe.input=Input

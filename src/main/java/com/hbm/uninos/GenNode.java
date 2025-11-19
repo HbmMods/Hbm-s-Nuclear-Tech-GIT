@@ -7,6 +7,8 @@ public class GenNode<N extends NodeNet> {
 	
 	public BlockPos[] positions;
 	public DirPos[] connections;
+	/** Quick reminder that this CAN and WILL be null for the first tick between the node being created
+	 * and the nodepsace update loop establishing a network. always check hasValidNet beforehand! */
 	public N net;
 	public boolean expired = false;
 	public boolean recentlyChanged = true;

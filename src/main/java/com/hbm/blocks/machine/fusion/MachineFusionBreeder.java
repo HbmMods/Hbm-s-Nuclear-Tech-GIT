@@ -5,6 +5,7 @@ import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionBreeder;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -18,7 +19,7 @@ public class MachineFusionBreeder extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityFusionBreeder();
-		if(meta >= 6) return new TileEntityProxyCombo().power().fluid();
+		if(meta >= 6) return new TileEntityProxyCombo().inventory().fluid();
 		return null;
 	}
 
@@ -31,6 +32,11 @@ public class MachineFusionBreeder extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		return super.standardOpenBehavior(world, x, y, z, player, 0);
+	}
 
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
@@ -40,5 +46,16 @@ public class MachineFusionBreeder extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+		this.makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
+		this.makeExtra(world, x + dir.offsetX + rot.offsetX, y, z + dir.offsetZ + rot.offsetZ);
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX, y, z + dir.offsetZ - rot.offsetZ);
+		this.makeExtra(world, x + dir.offsetX * 2, y + 2, z + dir.offsetZ * 2);
 	}
 }
