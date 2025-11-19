@@ -12,6 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.module.machine.ModuleMachineFusion;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.albion.TileEntityCooledBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -122,7 +123,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
+			// keeping track of PLASMA receivers because those need to share the combined output
 			int receiverCount = 0;
+			// collectors for determining the speed of the bonus bar
 			int collectors = 0;
 			
 			for(int i = 0; i < 4; i++) {
@@ -134,8 +137,10 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					
 					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
 						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						if(entry.getKey() instanceof IFusionPowerReceiver) receiverCount++;
-						if(entry.getKey() instanceof TileEntityFusionCollector) collectors++;
+						Object thing = entry.getKey();
+						if(thing instanceof TileEntityLoadedBase && !((TileEntityLoadedBase) thing).isLoaded()) continue;
+						if(thing instanceof IFusionPowerReceiver && ((IFusionPowerReceiver) thing).receivesFusionPower()) receiverCount++;
+						if(thing instanceof TileEntityFusionCollector) collectors++;
 						break;
 					}
 				}

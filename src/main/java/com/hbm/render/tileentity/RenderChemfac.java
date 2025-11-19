@@ -9,6 +9,7 @@ import com.hbm.tileentity.machine.TileEntityMachineChemfac;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class RenderChemfac extends TileEntitySpecialRenderer {
 
 	@Override

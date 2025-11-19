@@ -16,6 +16,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class RenderAssembler extends TileEntitySpecialRenderer {
 	
 	private RenderItem itemRenderer;

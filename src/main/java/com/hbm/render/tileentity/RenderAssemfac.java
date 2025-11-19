@@ -10,6 +10,7 @@ import com.hbm.tileentity.machine.TileEntityMachineAssemfac.AssemblerArm;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class RenderAssemfac extends TileEntitySpecialRenderer {
 
 	@Override
