@@ -45,8 +45,9 @@ public abstract class ModuleMachineBase {
 	}
 	
 	/** Expects the tanks to be set up correctly beforehand */
-	public boolean canProcess(GenericRecipe recipe, double speed, double power) {
-		if(recipe == null) return false;
+	//Special thanks to O4 for creating the initial code
+    public int canProcess(GenericRecipe recipe, double speed, double power) {
+		if(recipe == null) return 0;
 		
 		// auto switch functionality
 		if(recipe.autoSwitchGroup != null && inputSlots.length > 0 && slots[inputSlots[0]] != null) {
@@ -57,100 +58,115 @@ public abstract class ModuleMachineBase {
 				if(nextRec.inputItem == null) continue;
 				if(nextRec.inputItem[0].matchesRecipe(itemToSwitchBy, true)) { // perform the switch
 					this.recipe = nextRec.getInternalName();
-					return false; // cancel the recipe this tick since we need to do the previous checking all over again
+					return 0; // cancel the recipe this tick since we need to do the previous checking all over again
 				}
 			}
 		}
 		
-		if(power != 1 && battery.getPower() < recipe.power * power) return false; // only check with floating point numbers if mult is not 1
-		if(power == 1 && battery.getPower() < recipe.power) return false;
+		if(power != 1 && battery.getPower() < recipe.power * power) return 0; // only check with floating point numbers if mult is not 1
+		if(power == 1 && battery.getPower() < recipe.power) return 0;
+
+        int multi = findMultiplier(recipe); // for calculating the times that the current recipe can be done
 		
-		if(!hasInput(recipe)) return false;
+		if(multi == 0) return 0;
 		
-		return canFitOutput(recipe);
+		return fitOutput(recipe, multi);
 	}
 	
-	protected boolean hasInput(GenericRecipe recipe) {
-		
-		if(recipe.inputItem != null) {
+	protected int findMultiplier(GenericRecipe recipe) {
+		int count = 50; // the fallback value of 50
+        if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
-				if(!recipe.inputItem[i].matchesRecipe(slots[inputSlots[i]], false)) return false;
+                count = Math.min(count, recipe.inputItem[i].matchesRecipe(slots[inputSlots[i]]));
+				if(count == 0) return 0;
 			}
 		}
 		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				if(inputTanks[i].getFill() < recipe.inputFluid[i].fill) return false;
+                if(recipe.inputFluid[i].fill == 0) return count; // to prevent division by zero; although this should be checked on the recipe side
+                count = Math.min(count, inputTanks[i].getFill() / recipe.inputFluid[i].fill);
+                if(count == 0) return 0;
 			}
 		}
 		
-		return true;
+		return count;
 	}
 	
-	/** Whether the machine can hold the output produced by the recipe */
-	protected boolean canFitOutput(GenericRecipe recipe) {
+	/** Whether (and how many times) the machine can hold the output produced by the recipe */
+	protected int fitOutput(GenericRecipe recipe, int count) {
 		
 		if(recipe.outputItem != null) {
 			for(int i = 0; i < Math.min(recipe.outputItem.length, outputSlots.length); i++) {
 				ItemStack stack = slots[outputSlots[i]];
-				if(stack == null) continue; // always continue if output slot is free
 				IOutput output = recipe.outputItem[i];
-				if(output.possibleMultiOutput()) return false; // output slot needs to be empty to decide on multi outputs
-				ItemStack single = output.getSingle();
-				if(single == null) return false; // shouldn't be possible but better safe than sorry
-				if(stack.getItem() != single.getItem()) return false;
-				if(stack.getItemDamage() != single.getItemDamage()) return false;
-				if(stack.stackSize + single.stackSize > stack.getMaxStackSize()) return false;
+				if(output.possibleMultiOutput()) return 0; // output slot needs to be empty to decide on multi outputs
+                ItemStack single = output.getSingle();
+
+                if(stack == null) {
+                    count = Math.min(count, single.getMaxStackSize() / single.stackSize);
+                    continue; // always continue if output slot is free
+                }
+
+				if(single == null) return 0; // shouldn't be possible but better safe than sorry
+				if(stack.getItem() != single.getItem()) return 0;
+				if(stack.getItemDamage() != single.getItemDamage()) return 0;
+                count = Math.min(count, (stack.getMaxStackSize() - stack.stackSize) / single.stackSize);
+
+                if(count == 0) return 0;
 			}
 		}
 		
 		if(recipe.outputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.outputFluid.length, outputTanks.length); i++) {
-				if(recipe.outputFluid[i].fill + outputTanks[i].getFill() > outputTanks[i].getMaxFill()) return false;
+                count = Math.min(count, (outputTanks[i].getMaxFill() - outputTanks[i].getFill()) / recipe.outputFluid[i].fill);
+                if(count == 0) return 0;
 			}
 		}
 		
-		return true;
+		return count;
 	}
 	
-	public void process(GenericRecipe recipe, double speed, double power) {
+	public void process(GenericRecipe recipe, double speed, double power, int count) {
 		
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
-		double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
+		double step = recipe.duration; // now this should be able to do multiple times of recipe in one tick
 		this.progress += step;
+        int multi = Math.min((int)this.progress, count);
 		
-		if(this.progress >= 1D) {
-			consumeInput(recipe);
-			produceItem(recipe);
+		if(multi > 0) {
+			consumeInput(recipe, multi);
+			produceItem(recipe, multi);
 			
-			if(this.canProcess(recipe, speed, power))  this.progress -= 1D;
+			if(this.canProcess(recipe, speed, power) > 0) this.progress -= multi;
 			else this.progress = 0D;
 		}
 	}
 	
 	/** Part 1 of the process completion, uses up input */
-	protected void consumeInput(GenericRecipe recipe) {
+	protected void consumeInput(GenericRecipe recipe, int multi) {
 		
 		if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
-				slots[inputSlots[i]].stackSize -= recipe.inputItem[i].stacksize;
+				slots[inputSlots[i]].stackSize -= multi * recipe.inputItem[i].stacksize;
 				if(slots[inputSlots[i]].stackSize <= 0) slots[inputSlots[i]] = null;
 			}
 		}
 		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				inputTanks[i].setFill(inputTanks[i].getFill() - recipe.inputFluid[i].fill);
+				inputTanks[i].setFill(inputTanks[i].getFill() - multi * recipe.inputFluid[i].fill);
 			}
 		}
 	}
 	
 	/** Part 2 of the process completion, generated output */
-	protected void produceItem(GenericRecipe recipe) {
+	protected void produceItem(GenericRecipe recipe, int multi) {
 		
 		if(recipe.outputItem != null) {
 			for(int i = 0; i < Math.min(recipe.outputItem.length, outputSlots.length); i++) {
 				ItemStack collapse = recipe.outputItem[i].collapse();
+                if(collapse != null) collapse.stackSize *= multi;
 				if(slots[outputSlots[i]] == null) {
 					slots[outputSlots[i]] = collapse;
 				} else {
@@ -161,7 +177,7 @@ public abstract class ModuleMachineBase {
 		
 		if(recipe.outputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.outputFluid.length, outputTanks.length); i++) {
-				outputTanks[i].setFill(outputTanks[i].getFill() + recipe.outputFluid[i].fill);
+				outputTanks[i].setFill(outputTanks[i].getFill() + multi * recipe.outputFluid[i].fill);
 			}
 		}
 		
@@ -188,9 +204,10 @@ public abstract class ModuleMachineBase {
 
 		this.didProcess = false;
 		this.markDirty = false;
-		
-		if(extraCondition && this.canProcess(recipe, speed, power)) {
-			this.process(recipe, speed, power);
+
+        int count = this.canProcess(recipe, speed, power); //find multi using canProcess method
+		if(extraCondition && count > 0) {
+			this.process(recipe, speed, power, count);
 			this.didProcess = true;
 		} else {
 			this.progress = 0F;

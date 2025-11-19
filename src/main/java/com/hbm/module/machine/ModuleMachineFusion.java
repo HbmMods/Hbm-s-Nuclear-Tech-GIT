@@ -40,26 +40,32 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 	}
 	
 	@Override
-	protected boolean hasInput(GenericRecipe recipe) {
-		
-		if(processSpeed <= 0) return false;
+	protected int findMultiplier(GenericRecipe recipe) {
+        int count = 50; // the fallback value of 50
+		if(processSpeed <= 0) return 0;
 		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return false;
+                if(recipe.inputFluid[i].fill == 0) return count; // to prevent division by zero
+                if(inputTanks[i].getFill() > 0 && inputTanks[i].getFill() < (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed)) return 0;
+                count = Math.min(count, inputTanks[i].getFill() / (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed));
+                if(count == 0) return 0;
 			}
 		}
 		
-		return true;
+		return count;
 	}
 	
 	@Override
-	public void process(GenericRecipe recipe, double speed, double power) {
+	public void process(GenericRecipe recipe, double speed, double power, int count) {
 		this.battery.setPower(this.battery.getPower() - (long) Math.ceil((power == 1 ? recipe.power : (long) (recipe.power * power)) * processSpeed));
-		double step = Math.min(speed / recipe.duration * processSpeed, 1D); // can't do more than one recipe per tick, might look into that later
+		double step = speed / recipe.duration * processSpeed;
 		this.progress += step;
-		this.bonus += step * this.bonusSpeed;
-		this.bonus = Math.min(this.bonus, 1.5D); // bonus might not be used immediately in rare circumstances, allow 50% buffer
+        int multi = Math.min((int)this.progress, count);
+
+        this.bonus += step * this.bonusSpeed;
+        //int bonusMulti = (int) this.bonus;
+		//this.bonus = Math.min(this.bonus, 1.5D); // bonus might not be used immediately in rare circumstances, allow 50% buffer
 		
 		// fusion reactor is the only machine as of now that consumes input while not having finished the output
 		if(recipe.inputFluid != null) {
@@ -68,16 +74,17 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 			}
 		}
 		
-		if(this.progress >= 1D) {
-			produceItem(recipe);
+		if(multi > 0) {
+			produceItem(recipe, multi);
 			
-			if(this.canProcess(recipe, speed, power))  this.progress -= 1D;
+			if(this.canProcess(recipe, speed, power) > 0)  this.progress -= multi;
 			else this.progress = 0D;
 		}
 		
-		if(this.bonus >= 1D && this.canFitOutput(recipe)) {
-			produceItem(recipe);
-			this.bonus -= 1D;
+		int bonusMulti = this.fitOutput(recipe, (int) this.bonus);
+        if(bonusMulti > 0) {
+			produceItem(recipe, bonusMulti);
+			this.bonus -= bonusMulti;
 		}
 	}
 
