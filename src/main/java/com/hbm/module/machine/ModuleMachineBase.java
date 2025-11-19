@@ -13,6 +13,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import org.lwjgl.Sys;
 
 public abstract class ModuleMachineBase {
 	
@@ -123,14 +124,14 @@ public abstract class ModuleMachineBase {
                 if(count == 0) return 0;
 			}
 		}
-		
-		return count;
+
+        return count;
 	}
 	
 	public void process(GenericRecipe recipe, double speed, double power, int count) {
 		
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
-		double step = recipe.duration; // now this should be able to do multiple times of recipe in one tick
+		double step = speed / recipe.duration; // now this should be able to do multiple times of recipe in one tick
 		this.progress += step;
         int multi = Math.min((int)this.progress, count);
 		
