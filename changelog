@@ -64,3 +64,4 @@
 * Fixed light blue and light gray dyes not working when dyeing cables
 * Fixed bismuth armor not having a valid repair material
 * Fixed compressors needing at least one mB of fluid more to process a recipe than necessary
+* Fixed many NTM structure spawn conditions being hardcoded (again) preventing them from spawning in modded biomes that would otherwise be a fit

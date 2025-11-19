@@ -44,12 +44,12 @@ public class GUIFusionTorus extends GuiInfoContainer {
 		FusionRecipe recipe = (FusionRecipe) FusionRecipes.INSTANCE.recipeNameMap.get(this.torus.fusionModule.recipe);
 		
 		if(recipe != null) {
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 115, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(torus.klystronEnergy) + "KyU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "KyU");
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 115, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(torus.plasmaEnergy) + "TU / " + BobMathUtil.getShortNumber(recipe.outputTemp) + "TU");
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(torus.klystronEnergy) + "KyU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "KyU");
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(torus.plasmaEnergy) + "TU / " + BobMathUtil.getShortNumber(recipe.outputTemp) + "TU");
 			String[] lines = new String[recipe.inputFluid.length];
 			for(int i = 0; i < lines.length; i++) {
 				int consumption = (int) Math.ceil(recipe.inputFluid[i].fill * torus.fuelConsumption);
-				lines[i] = consumption + "mB/t " + recipe.inputFluid[i].type.getLocalizedName();
+				lines[i] = EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + consumption + "mB/t " + recipe.inputFluid[i].type.getLocalizedName();
 			}
 			drawCustomInfoStat(mouseX, mouseY, guiLeft + 115, guiTop + 115, 18, 18, mouseX, mouseY, lines);
 		} else {

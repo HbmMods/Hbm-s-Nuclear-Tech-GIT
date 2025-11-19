@@ -17,6 +17,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIFusionKlystron extends GuiInfoContainer {
@@ -51,9 +52,9 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 52, klystron.power, klystron.getMaxPower());
 		
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 71, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(klystron.output) + "KyU / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "KyU");
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 71, 18, 18, mouseX, mouseY, EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(klystron.output) + "KyU / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "KyU");
 		klystron.compair.renderTankInfo(this, mouseX, mouseY, guiLeft + 76, guiTop + 71, 18, 18);
-		drawCustomInfoStat(mouseX, mouseY, guiLeft + 115, guiTop + 71, 18, 18, mouseX, mouseY, BobMathUtil.getShortNumber(klystron.output) + "HE / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "HE");
+		drawCustomInfoStat(mouseX, mouseY, guiLeft + 115, guiTop + 71, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(klystron.output) + "HE / " + BobMathUtil.getShortNumber(klystron.outputTarget) + "HE");
 
 	}
 
