@@ -5,6 +5,7 @@ import com.hbm.inventory.container.ContainerFusionBreeder;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFusionBreeder;
+import com.hbm.inventory.recipes.FluidBreederRecipes;
 import com.hbm.inventory.recipes.OutgasserRecipes;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.IGUIProvider;
@@ -57,7 +58,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		
 		if(!worldObj.isRemote) {
 
-			if(!canProcessSolid()) {
+			if(!canProcessSolid() && !canProcessLiquid()) {
 				this.progress = 0;
 			}
 			
@@ -111,6 +112,21 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		return slots[2].getItem() == out.getItem() && slots[2].getItemDamage() == out.getItemDamage() && slots[2].stackSize + out.stackSize <= slots[2].getMaxStackSize();
 	}
 
+	public boolean canProcessLiquid() {
+		
+		Pair<Integer, FluidStack> output = FluidBreederRecipes.getOutput(tanks[0].getTankType());
+		if(output == null) return false;
+		if(tanks[0].getFill() < output.getKey()) return false;
+		
+		FluidStack fluid = output.getValue();
+
+		if(tanks[1].getTankType() != fluid.type && tanks[1].getFill() > 0) return false;
+		tanks[1].setTankType(fluid.type);
+		if(tanks[1].getFill() + fluid.fill > tanks[1].getMaxFill()) return false;
+		
+		return true;
+	}
+
 	private void processSolid() {
 
 		Pair<ItemStack, FluidStack> output = OutgasserRecipes.getOutput(slots[1]);
@@ -131,6 +147,13 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 			}
 		}
 	}
+
+	private void processLiquid() {
+
+		Pair<Integer, FluidStack> output = FluidBreederRecipes.getOutput(tanks[0].getTankType());
+		tanks[0].setFill(tanks[0].getFill() - output.getKey());
+		tanks[1].setFill(tanks[1].getFill() + output.getValue().fill);
+	}
 	
 	public void doProgress() {
 
@@ -141,6 +164,15 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 				progress = 0;
 				this.markDirty();
 			}
+		} else if(canProcessLiquid()) {
+			this.progress += this.neutronEnergy;
+			if(progress > capacity) {
+				processLiquid();
+				progress = 0;
+				this.markDirty();
+			}
+		} else {
+			progress = 0;
 		}
 	}
 
@@ -160,7 +192,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
 				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite()),
 				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetX + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetX - rot.offsetZ * 3, rot.getOpposite())
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetX - rot.offsetZ * 3, rot.getOpposite())
 		};
 	}
 

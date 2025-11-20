@@ -123,6 +123,7 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 			}
 			
 			this.networkPackNT(100);
+			
 		} else {
 			
 			double mult = TileEntityFusionTorus.getSpeedScaled(outputTarget, output);

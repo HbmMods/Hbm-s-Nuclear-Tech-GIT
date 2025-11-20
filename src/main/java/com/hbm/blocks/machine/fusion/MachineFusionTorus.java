@@ -1,16 +1,20 @@
 package com.hbm.blocks.machine.fusion;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFusionTorus extends BlockDummyable {
+public class MachineFusionTorus extends BlockDummyable implements ITooltipProvider {
 	
 	public static final int[][][] layout = new int[][][] {
 
@@ -192,5 +196,10 @@ public class MachineFusionTorus extends BlockDummyable {
 		this.makeExtra(world, x + 2, y + 4, z - 6);
 		this.makeExtra(world, x - 2, y, z - 6);
 		this.makeExtra(world, x - 2, y + 4, z - 6);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 }
