@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine.fusion;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
@@ -36,6 +38,8 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 	public static final int COOLANT_USE = 50;
 	
 	public FluidTank[] tanks;
+
+	private AudioWrapper audio;
 	
 	public TileEntityFusionMHDT() {
 		this.tanks = new FluidTank[2];
@@ -94,6 +98,27 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 				this.rotor -= 360F;
 				this.prevRotor -= 360F;
 			}
+			
+			if(this.rotorSpeed > 0 && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2.5, zCoord + 0.5) < 30 * 30) {
+				
+				float speed = this.rotorSpeed / 15F;
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, getVolume(speed), 20F, speed, 20);
+					audio.startSound();
+				} else {
+					audio.updateVolume(getVolume(speed));
+					audio.updatePitch(speed);
+					audio.keepAlive();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					if(audio.isPlaying()) audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 	
@@ -150,8 +175,23 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 
 		if(!worldObj.isRemote) {
 			if(this.plasmaNode != null) UniNodespace.destroyNode(worldObj, plasmaNode);

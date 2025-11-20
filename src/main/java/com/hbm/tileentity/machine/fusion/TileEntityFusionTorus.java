@@ -10,7 +10,9 @@ import com.hbm.inventory.gui.GUIFusionTorus;
 import com.hbm.inventory.recipes.FusionRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineFusion;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.albion.TileEntityCooledBase;
@@ -54,6 +56,8 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public float prevMagnet;
 	public float magnetSpeed;
 	public static final float MAGNET_ACCELERATION = 0.25F;
+
+	private AudioWrapper audio;
 	
 	public TileEntityFusionTorus() {
 		super(3);
@@ -205,6 +209,27 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.magnet -= 360F;
 				this.prevMagnet -= 360F;
 			}
+			
+			if(this.magnetSpeed > 0 && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2.5, zCoord + 0.5) < 50 * 50) {
+				
+				float speed = this.magnetSpeed / 30F;
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 30F, speed, 20);
+					audio.startSound();
+				} else {
+					audio.updateVolume(getVolume(speed));
+					audio.updatePitch(speed);
+					audio.keepAlive();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					if(audio.isPlaying()) audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 	
@@ -229,8 +254,23 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 
 		if(!worldObj.isRemote) {
 			for(GenNode node : klystronNodes) if(node != null) UniNodespace.destroyNode(worldObj, node);

@@ -11,6 +11,7 @@ import com.hbm.blocks.machine.albion.*;
 import com.hbm.blocks.machine.fusion.MachineFusionBoiler;
 import com.hbm.blocks.machine.fusion.MachineFusionBreeder;
 import com.hbm.blocks.machine.fusion.MachineFusionCollector;
+import com.hbm.blocks.machine.fusion.MachineFusionCoupler;
 import com.hbm.blocks.machine.fusion.MachineFusionKlystron;
 import com.hbm.blocks.machine.fusion.MachineFusionMHDT;
 import com.hbm.blocks.machine.fusion.MachineFusionTorus;
@@ -2068,6 +2069,7 @@ public class ModBlocks {
 		fusion_collector = new MachineFusionCollector().setBlockName("fusion_collector").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_mhdt = new MachineFusionMHDT().setBlockName("fusion_mhdt").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_coupler = new MachineFusionCoupler().setBlockName("fusion_coupler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3460,6 +3462,7 @@ public class ModBlocks {
 		register(fusion_collector);
 		register(fusion_boiler);
 		register(fusion_mhdt);
+		register(fusion_coupler);
 
 		register(watz_element);
 		register(watz_cooler);
