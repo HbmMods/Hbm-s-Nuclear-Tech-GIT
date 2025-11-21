@@ -475,8 +475,8 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.icf_pellet_depleted))
 				.outputItems(new ItemStack(ModItems.icf_pellet_empty, 1),
 						new ItemStack(ModItems.pellet_charged, 1),
-						new ItemStack(ModItems.pellet_charged, 1),
 						new ItemStack(ModItems.powder_iron, 1))
+				.outputFluids(new FluidStack(Fluids.HELIUM4, 1_250)) // enough for another pellet + 25% surplus
 				.setIconToFirstIngredient());
 
 		/// Vitrification

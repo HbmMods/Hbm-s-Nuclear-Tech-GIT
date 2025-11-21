@@ -1264,6 +1264,17 @@ foundry.inverted=Redstone inverted
 foundry.invertFilter=Filter inverted
 foundry.noCast=No mold installed!
 
+fus.bf=Balefire Plasma
+fus.cl=Chlorine Plasma
+fus.dd=Deuterium Plasma
+fus.dhc=DHC Plasma
+fus.do=Deuterium-Oxygen Plasma
+fus.dt=Deuterium-Tritium Plasma
+fus.h3=Helium-3 Plasma
+fus.stellar=Stellar Plasma
+fus.tcl=Tritium-Chlorine Plasma
+fus.th4=Tritium-Helium-4 Plasma
+
 geiger.chunkRad=Current chunk radiation:
 geiger.envRad=Total environmental radiation:
 geiger.playerRad=Player contamination:
@@ -1521,6 +1532,7 @@ hbmfluid.crackoil_ds=Desulfurized Cracked Oil
 hbmfluid.cryogel=Cryogel
 hbmfluid.death=Osmiridic Solution
 hbmfluid.deuterium=Deuterium
+hbmfluid.dhc=Deuterated Hydrocarbon
 hbmfluid.diesel=Diesel
 hbmfluid.diesel_crack=Cracked Diesel
 hbmfluid.diesel_crack_reform=High-Cetane Cracked Diesel

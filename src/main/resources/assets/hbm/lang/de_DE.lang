@@ -675,6 +675,17 @@ fluid.schrabidic_fluid=Schrabidische Säure
 fluid.toxic_fluid=Stereotypischer grüner Schleim
 fluid.volcanic_lava_fluid=Vulkanische Lava
 
+fus.bf=Balefire-Plasma
+fus.cl=Chlor-Plasma
+fus.dd=Deuterium-Plasma
+fus.dhc=DKW-Plasma
+fus.do=Deuterium-Sauerstoff-Plasma
+fus.dt=Deuterium-Tritium-Plasma
+fus.h3=Helium-3-Plasma
+fus.stellar=Stellares Plasma
+fus.tcl=Tritium-Chlor-Plasma
+fus.th4=Tritium-Helium-4-Plasma
+
 foundry.filter=Filter: %s
 foundry.inverted=Redstone invertiert
 foundry.invertFilter=Filter invertiert
@@ -781,7 +792,8 @@ hbmfluid.crackoil=Crack-Öl
 hbmfluid.crackoil_ds=Entschwefeltes Crack-Öl
 hbmfluid.cryogel=Kryogel
 hbmfluid.death=Osmiridiumlösung
-hbmfluid.deuterium=Deuterium
+hbmfluid.deuterium=Deuterierter Kohlenwasserstoff
+hbmfluid.dhc=Deuterated Hydrocarbon
 hbmfluid.diesel=Diesel
 hbmfluid.diesel_crack=Crackdiesel
 hbmfluid.diesel_crack_reform=Hochcetan-Diesel
