@@ -71,7 +71,9 @@ public class ItemAmmoContainer extends Item {
 		for(int i = 0; i < maxGunCount && i < stacks.size(); i++) {
 			ItemStack gunStack = stacks.get(i);
 			ItemGunBaseNT gun = (ItemGunBaseNT) gunStack.getItem();
-			ItemStack remainder = InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, gun.defaultAmmo.copy());
+			ItemStack ammo = gun.defaultAmmo.copy();
+			if(makeshift) ammo.stackSize = (int) Math.ceil(ammo.stackSize / 2D);
+			ItemStack remainder = InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, ammo);
 			if(remainder != null && remainder.stackSize > 0) player.dropPlayerItemWithRandomChoice(remainder, false);
 		}
 

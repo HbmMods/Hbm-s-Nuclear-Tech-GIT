@@ -134,7 +134,9 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		}
 		
 		List<ItemStack> torusItems = new ArrayList();
-		while(wallCount > 0) { int a = Math.min(wallCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 1)); wallCount -= a; }
+		int plateCount = wallCount;
+		while(wallCount > 0) { int a = Math.min(wallCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 0)); wallCount -= a; }
+		while(plateCount > 0) { int a = Math.min(plateCount, 256); torusItems.add(Mats.MAT_STEEL.make(ModItems.plate_cast, a)); plateCount -= a; }
 		while(blanketCount > 0) { int a = Math.min(blanketCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 2)); blanketCount -= a; }
 		while(pipeCount > 0) { int a = Math.min(pipeCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 3)); pipeCount -= a; }
 		torusItems.add(new ItemStack(ModItems.blowtorch));

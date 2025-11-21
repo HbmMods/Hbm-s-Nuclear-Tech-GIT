@@ -1,0 +1,11 @@
+{
+	"name": "Fusion Reactor Boiler",
+	"icon": ["hbm:tile.fusion_boiler", 1, 0],
+	"trigger": [["hbm:tile.fusion_boiler"]],
+	"title": {
+		"en_US": "Fusion Reactor Boiler"
+	},
+	"content": {
+		"en_US": "Simplest energy-extracting component of a [[fusion reactor|Fusion Reactor]], uses the plasma output energy (measured in TU/t) from the [[torus|Fusion Reactor Plasma Vessel]] to boil water into [[super dense steam|Super Dense Steam]]. Each mB of water uses 200TU to boil, as a boiler would, however, the fusion reactor boiler produces a higher compression level of steam directly, making it more efficient than conventional boilers.<br><br>Due to using plasma energy, boilers are affected by port sharing rules, meaning that having multiple connected boilers (or [[MHDTs|MHD Turbine]]) decreases the amount of energy each boiler gets, but overall increases the total amount extracted from the torus."
+	}
+}

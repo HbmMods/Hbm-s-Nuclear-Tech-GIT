@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.qmaw.components.*;
@@ -271,6 +272,7 @@ public class GuiQMAW extends GuiScreen {
 		if(this.icon != null) {
 			GL11.glPushMatrix();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			Minecraft mc = Minecraft.getMinecraft();
 			GL11.glRotated(180, 1, 0, 0);
 			RenderHelper.enableStandardItemLighting();
@@ -278,6 +280,7 @@ public class GuiQMAW extends GuiScreen {
 			itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, mc.renderEngine, this.icon, guiLeft + x, guiTop + y);
 			itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, mc.renderEngine, this.icon, guiLeft + x, guiTop + y, null);
 			RenderHelper.disableStandardItemLighting();
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glPopMatrix();
 

@@ -1,0 +1,11 @@
+{
+	"name": "Fusion Reactor Coupler",
+	"icon": ["hbm:tile.fusion_coupler", 1, 0],
+	"trigger": [["hbm:tile.fusion_coupler"]],
+	"title": {
+		"en_US": "Fusion Reactor Coupler"
+	},
+	"content": {
+		"en_US": "Small and unassuming, yet the most powerful part of a [[fusion reactor|Fusion Reactor]] setup, the coupler turns outgoing plasma energy from a [[torus|Fusion Reactor Plasma Vessel]] into usable klystron energy which can be used as the power source for another torus. Some fuel combinations require this, as the minimum klystron energy needed to ignite the plasma exceeds what four [[klystrons|Klystron]] could deliver.<br><br>Affected by port sharing rules, keep in mind that the coupler's output will be affected when using [[boilers|Fusion Reactor Boiler]] or [[MHDTs|MHD Turbine]] on the torus it draws power from."
+	}
+}

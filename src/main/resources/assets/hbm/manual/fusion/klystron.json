@@ -1,0 +1,11 @@
+{
+	"name": "Klystron",
+	"icon": ["hbm:tile.fusion_klystron", 1, 0],
+	"trigger": [["hbm:tile.fusion_klystron"]],
+	"title": {
+		"en_US": "Klystron"
+	},
+	"content": {
+		"en_US": "Main power source of a [[fusion reactor|Fusion Reactor]], uses electricity and [[compressed air|Compressed Air]] to generate input energy (klystron energy or KyU) for the connected [[torus|Fusion Reactor Plasma Vessel]]. The output target needs to be defined in the GUI. Will throttle if either the buffered electricity or compressed air falls below 50%. If the klystron's output falls below the connected torus' required input level, it will not throttle, rather the plasma will immediately extinguish."
+	}
+}

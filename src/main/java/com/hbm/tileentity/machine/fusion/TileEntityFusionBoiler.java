@@ -91,7 +91,7 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 		
 		if(steamCycles > 0) {
 			tanks[0].setFill(tanks[0].getFill() - steamCycles);
-			tanks[1].setFill(tanks[1].getFill() - steamCycles);
+			tanks[1].setFill(tanks[1].getFill() + steamCycles);
 		}
 	}
 

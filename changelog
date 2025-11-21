@@ -1,4 +1,20 @@
 ## Added
+* New fusion reactor
+  * More dynamic system with more components to choose from
+  * Models and GUIs that are less eye-bleeding
+  * Plasmas are now represented as a recipe selector instead of dedicated fluids, making the entire thing fully configurable
+  * Despite being recipe based, fusion reactors will still burn fuel at a steady rate
+  * Comes with load-balancing, if the solenoid power or fuel supply drops, the reaction will slow down
+    * This ensures that supply below maximum demand doesn't cause "flickering" due to constantly running out of fuel
+  * Comes with many juicy parts
+    * The plasma vessel is where the magic happens, has four connectors for other parts
+    * Klystron is used to ignite the plasma
+    * Breeding chamber uses the plasma's outout flux to do irradiation recipes
+    * Collector increases byproduct yield
+    * Boiler turns water into SDS
+    * MHD turbine makes power out of the plasma directly at greater efficiency
+    * Coupler turns plasma output energy into usable klystron energy, allowing one reactor to be powered by another, creating a multi-torus setup
+  * Also has full QMAW documentation, if the tooltips aren't enough
 * Boxcables
   * Like boxducts, but for power
 
@@ -9,7 +25,7 @@
   * Meteor impacts now have new visuals
   * Falling meteors will produce a sound instead of stealthily blowing people up
   * Fallen meteors will now be placed deeper into the actual crater instead of hovering awkwardly over the hole
-* Addd QMAW pages for the particle accelerator parts along with a PA overview page and a simple step by step construction tutorial
+* Added QMAW pages for the particle accelerator parts along with a PA overview page and a simple step by step construction tutorial
 * Increased the acidizer partitioner's input limit from 9 to 45 slots
 * Ammo containers are now functional again
   * Each gun has a fixed "default ammo" that will be given
@@ -28,6 +44,8 @@
 * Removed ammo duping using nitra, instead, four large piles can now be combined into an ammo container
   * Ammo containers crafted from nitra cannot give "expensive" ammo types
   * This mainly excludes mini nukes and .35
+  * Comes in a distinct blue color instead of military green
+  * Makeshift containers also yield only half as much ammo as regular ones
 * Using a defuser, creepers can now be rendered harmless manually
 * Defusing creepers now also works if the creeper hasn't lit its fuse yet
 * Defused creepers are now permanently harmless, they can no longer be manually re-ignited at all
@@ -52,6 +70,7 @@
   * This approach means that crumb yields don't have to be nerfed, and prevents that issue from popping up again should there ever be a new, more efficient processing path
 * Rewrote the ore layer generator (hematite, bauxite) to be way more performant during worldgen
 * The mining laser can now be stopped by applying a redstone signal to one of the ports
+* Ionized particles can no longer be liquefacted into helium-4, helium is now a direct liquid byproduct of several fusion reactor recipes
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
@@ -68,3 +87,4 @@
 * Fixed compressors needing at least one mB of fluid more to process a recipe than necessary
 * Fixed many NTM structure spawn conditions being hardcoded (again) preventing them from spawning in modded biomes that would otherwise be a fit
 * Fixed spawn offset for some structures which caused them to float in the air
+* Fixed icons in the QMAW title bar often times being too dark when rendered with a 3D model

@@ -1,0 +1,11 @@
+{
+	"name": "MHD Turbine",
+	"icon": ["hbm:tile.fusion_mhdt", 1, 0],
+	"trigger": [["hbm:tile.fusion_mhdt"]],
+	"title": {
+		"en_US": "MHD Turbine"
+	},
+	"content": {
+		"en_US": "Magnetohydrodynamic turbines are advanced components of the [[fusion reactor|Fusion Reactor]] that make electric energy out of plasma energy directly without needing steam or turbines, as a [[boiler|Fusion Reactor Boiler]] would. While more expensive and requiring [[perfluoromethyl|Perfluoromethyl]] cooling, they do have an innate +35% conversion bonus from TU to HE.<br><br>Due to using plasma energy, MHDTs are affected by port sharing rules, meaning that having multiple connected MHDTs (or boilers) decreases the amount of energy each turbine gets, but overall increases the total amount extracted from the torus.<br><br>MHDTs do in fact not have any moving parts, instead the large rotating copper wheel is part of its cooling system. Ya dweeb."
+	}
+}
