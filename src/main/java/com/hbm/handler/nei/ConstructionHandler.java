@@ -1,14 +1,16 @@
 package com.hbm.handler.nei;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.fusion.MachineFusionTorus;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ConstructionHandler extends NEIUniversalHandler {
 
@@ -54,9 +56,9 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* ITER */
 		ItemStack[] iter = new ItemStack[] {
 				new ItemStack(ModBlocks.fusion_conductor, 36),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.fusion_conductor, 256), EnumChatFormatting.RED + "4x64"),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.fusion_conductor, 256)),
 				new ItemStack(ModItems.plate_cast, 36, Mats.MAT_STEEL.id),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.plate_cast, 256, Mats.MAT_STEEL.id), EnumChatFormatting.RED + "4x64"),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModItems.plate_cast, 256, Mats.MAT_STEEL.id)),
 				new ItemStack(ModBlocks.fusion_center, 64),
 				new ItemStack(ModBlocks.fusion_motor, 4),
 				new ItemStack(ModBlocks.reinforced_glass, 8),
@@ -92,11 +94,11 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* SOYUZ LAUNCHER */
 		ItemStack[] soysauce = new ItemStack[] {
 				new ItemStack(ModBlocks.struct_launcher, 30),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_launcher, 384), EnumChatFormatting.RED + "6x64"),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.struct_launcher, 384)),
 				new ItemStack(ModBlocks.struct_scaffold, 63),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_scaffold, 384), EnumChatFormatting.RED + "6x64"),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.struct_scaffold, 384)),
 				new ItemStack(ModBlocks.concrete_smooth, 38),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "5x64"),};
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.concrete_smooth, 320))};
 
 		bufferedRecipes.put(soysauce, new ItemStack(ModBlocks.soyuz_launcher));
 		bufferedTools.put(soysauce, new ItemStack(ModBlocks.struct_soyuz_core));
@@ -104,16 +106,43 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* ICF */
 		ItemStack[] icf = new ItemStack[] {
 				new ItemStack(ModBlocks.icf_component, 50, 0),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 240, 3), EnumChatFormatting.RED + "3x64 + 48"),
-				ItemStackUtil.addTooltipToStack(Mats.MAT_DURA.make(ModItems.bolt, 960), EnumChatFormatting.RED + "15x64"),
-				ItemStackUtil.addTooltipToStack(Mats.MAT_STEEL.make(ModItems.plate_cast, 240), EnumChatFormatting.RED + "3x64 + 48"),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 117, 1), EnumChatFormatting.RED + "64 + 53"),
-				ItemStackUtil.addTooltipToStack(Mats.MAT_BBRONZE.make(ModItems.plate_cast, 117), EnumChatFormatting.RED + "64 + 53"),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.icf_component, 240, 3)),
+				ItemStackUtil.addStackSizeLabel(Mats.MAT_DURA.make(ModItems.bolt, 960)),
+				ItemStackUtil.addStackSizeLabel(Mats.MAT_STEEL.make(ModItems.plate_cast, 240)),
+				ItemStackUtil.addStackSizeLabel(new ItemStack(ModBlocks.icf_component, 117, 1)),
+				ItemStackUtil.addStackSizeLabel(Mats.MAT_BBRONZE.make(ModItems.plate_cast, 117)),
 				new ItemStack(ModItems.blowtorch),
 				new ItemStack(ModItems.boltgun) };
 
 		bufferedRecipes.put(icf, new ItemStack(ModBlocks.icf));
 		bufferedTools.put(icf, new ItemStack(ModBlocks.struct_icf_core));
+		
+		/* FUSION TORUS */
+		int wallCount = 0;
+		int blanketCount = 0;
+		int pipeCount = -1; // one block is replaced by the core
+
+		for(int iy = 0; iy < 5; iy++) {
+			int l = iy > 2 ? 4 - iy : iy;
+			int[][] layer = MachineFusionTorus.layout[l];
+			for(int ix = 0; ix < layer.length; ix++) for(int iz = 0; iz < layer.length; iz++) {
+				int meta = layer[ix][iz];
+				if(meta == 1) wallCount++;
+				if(meta == 2) blanketCount++;
+				if(meta == 3) pipeCount++;
+			}
+		}
+		
+		List<ItemStack> torusItems = new ArrayList();
+		while(wallCount > 0) { int a = Math.min(wallCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 1)); wallCount -= a; }
+		while(blanketCount > 0) { int a = Math.min(blanketCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 2)); blanketCount -= a; }
+		while(pipeCount > 0) { int a = Math.min(pipeCount, 256); torusItems.add(new ItemStack(ModBlocks.fusion_component, a, 3)); pipeCount -= a; }
+		torusItems.add(new ItemStack(ModItems.blowtorch));
+		for(ItemStack stack : torusItems) ItemStackUtil.addStackSizeLabel(stack);
+		ItemStack[] torus = torusItems.toArray(new ItemStack[0]);
+		
+		bufferedRecipes.put(torus, new ItemStack(ModBlocks.fusion_torus));
+		bufferedTools.put(torus, new ItemStack(ModBlocks.struct_torus_core));
 		
 		return recipes ? bufferedRecipes : bufferedTools;
 	}

@@ -8,6 +8,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFusionKlystron;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.GenNode;
@@ -47,6 +49,8 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	public static final float FAN_ACCELERATION = 0.125F;
 	
 	public FluidTank compair;
+
+	private AudioWrapper audio;
 
 	public TileEntityFusionKlystron() {
 		super(1);
@@ -123,6 +127,7 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 			}
 			
 			this.networkPackNT(100);
+			
 		} else {
 			
 			double mult = TileEntityFusionTorus.getSpeedScaled(outputTarget, output);
@@ -137,6 +142,27 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 			if(this.fan >= 360F) {
 				this.fan -= 360F;
 				this.prevFan -= 360F;
+			}
+			
+			if(this.fanSpeed > 0 && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2.5, zCoord + 0.5) < 30 * 30) {
+				
+				float speed = this.fanSpeed / 5F;
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fel", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 15F, speed, 20);
+					audio.startSound();
+				} else {
+					audio.updateVolume(getVolume(speed));
+					audio.updatePitch(speed);
+					audio.keepAlive();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					if(audio.isPlaying()) audio.stopSound();
+					audio = null;
+				}
 			}
 		}
 	}
@@ -153,8 +179,23 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 
 		if(!worldObj.isRemote) {
 			if(this.klystronNode != null) UniNodespace.destroyNode(worldObj, klystronNode);

@@ -6,10 +6,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUIRBMKOutgasser;
 import com.hbm.inventory.recipes.OutgasserRecipes;
 
+import net.minecraft.item.ItemStack;
+
 public class OutgasserHandler extends NEIUniversalHandler {
 
 	public OutgasserHandler() {
-		super(ModBlocks.rbmk_outgasser.getLocalizedName(), ModBlocks.rbmk_outgasser, OutgasserRecipes.getRecipes());
+		super(ModBlocks.rbmk_outgasser.getLocalizedName(), new ItemStack[] {new ItemStack(ModBlocks.rbmk_outgasser), new ItemStack(ModBlocks.fusion_breeder)}, OutgasserRecipes.getRecipes());
 	}
 
 	@Override

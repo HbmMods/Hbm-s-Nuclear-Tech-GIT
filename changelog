@@ -50,6 +50,8 @@
 * Re-solidifcation of bedrock ore crumbs now requires ore slop instead of nitric acid
   * Due to ore slop being only obtainable from processing raw bedrock ore, this places a hard cap on how many times a single ore can be re-solidified out of crumbs
   * This approach means that crumb yields don't have to be nerfed, and prevents that issue from popping up again should there ever be a new, more efficient processing path
+* Rewrote the ore layer generator (hematite, bauxite) to be way more performant during worldgen
+* The mining laser can now be stopped by applying a redstone signal to one of the ports
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
@@ -65,3 +67,4 @@
 * Fixed bismuth armor not having a valid repair material
 * Fixed compressors needing at least one mB of fluid more to process a recipe than necessary
 * Fixed many NTM structure spawn conditions being hardcoded (again) preventing them from spawning in modded biomes that would otherwise be a fit
+* Fixed spawn offset for some structures which caused them to float in the air

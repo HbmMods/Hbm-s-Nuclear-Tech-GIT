@@ -6,14 +6,13 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.machine.fusion.TileEntityFusionMHDT;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
-public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItemRendererProvider {
+public class RenderFusionCoupler extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -21,6 +20,8 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		GL11.glRotatef(90, 0F, 1F, 0F);
 		
 		switch(tile.getBlockMetadata() - BlockDummyable.offset) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -30,20 +31,8 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 		}
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		bindTexture(ResourceManager.fusion_mhdt_tex);
-		ResourceManager.fusion_mhdt.renderPart("Turbine");
-		
-		TileEntityFusionMHDT turbine = (TileEntityFusionMHDT) tile;
-		
-		GL11.glPushMatrix();
-		float rot = (turbine.prevRotor + (turbine.rotor - turbine.prevRotor) * interp) % 30;
-		rot -= 15;
-		GL11.glTranslated(0, 1.5, 0);
-		GL11.glRotated(rot, 1, 0, 0);
-		GL11.glTranslated(0, -1.5, 0);
-		ResourceManager.fusion_mhdt.renderPart("Coils");
-		GL11.glPopMatrix();
-		
+		bindTexture(ResourceManager.fusion_coupler_tex);
+		ResourceManager.fusion_coupler.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
@@ -51,28 +40,23 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 
 	@Override
 	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(ModBlocks.fusion_mhdt);
+		return Item.getItemFromBlock(ModBlocks.fusion_coupler);
 	}
 
 	@Override
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glScaled(2.5, 2.5, 2.5);
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(6, 6, 6);
 				GL11.glRotated(90, 0, 1, 0);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.fusion_mhdt_tex);
-				ResourceManager.fusion_mhdt.renderPart("Turbine");
-				double rot = (System.currentTimeMillis() / 5) % 30D;
-				rot -= 15;
-				GL11.glTranslated(0, 1.5, 0);
-				GL11.glRotated(rot, 1, 0, 0);
-				GL11.glTranslated(0, -1.5, 0);
-				ResourceManager.fusion_mhdt.renderPart("Coils");
+				bindTexture(ResourceManager.fusion_coupler_tex);
+				ResourceManager.fusion_coupler.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}

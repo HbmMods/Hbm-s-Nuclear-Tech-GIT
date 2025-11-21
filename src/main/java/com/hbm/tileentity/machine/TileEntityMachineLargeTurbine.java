@@ -163,13 +163,15 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.075F + audioDesync));
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 					audio.startSound();
 				}
 
 				float turbineSpeed = this.fanAcceleration / 15F;
 				audio.updateVolume(getVolume(0.4f * turbineSpeed));
 				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+				audio.keepAlive();
+				
 			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
 
