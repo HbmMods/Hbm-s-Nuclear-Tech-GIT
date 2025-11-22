@@ -6,6 +6,6 @@
 		"en_US": "Fusion Reactor Breeding Chamber"
 	},
 	"content": {
-		"en_US": "Uses neutron flux from a fusion reactor's [[torus|Fusion Reactor Plasma Vessel]] in order to process materials. Can perform any recipe from the [[RBMK irradiation channel|RBMK Irradiation Channel]], plus a few unique recipes with liquid inputs. Neutron flux output is not affected by port sharing rules, the neutron flux output level on a torus is constant across all ports no matter how many components are attached to it."
+		"en_US": "Uses neutron flux from a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to process materials. Can perform any recipe from the [[RBMK irradiation channel|RBMK Irradiation Channel]], plus a few unique recipes with liquid inputs. Neutron flux output is not affected by port sharing rules, the neutron flux output level on a torus is constant across all ports no matter how many components are attached to it."
 	}
 }

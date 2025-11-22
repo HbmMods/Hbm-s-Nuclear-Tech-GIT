@@ -707,6 +707,9 @@ public class ResourceManager {
 	public static final ResourceLocation iter_torus_chlorophyte = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_chlorophyte.png");
 	public static final ResourceLocation iter_torus_vaporwave = new ResourceLocation(RefStrings.MODID, "textures/models/iter/torus_vaporwave.png");
 	public static final ResourceLocation fusion_torus_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/torus.png");
+	public static final ResourceLocation fusion_plasma_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma.png");
+	public static final ResourceLocation fusion_plasma_glow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma_glow.png");
+	public static final ResourceLocation fusion_plasma_sparkle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma_sparkle.png");
 	public static final ResourceLocation fusion_klystron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/klystron.png");
 	public static final ResourceLocation fusion_breeder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/breeder.png");
 	public static final ResourceLocation fusion_collector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/collector.png");

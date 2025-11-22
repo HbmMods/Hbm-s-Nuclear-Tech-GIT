@@ -36,8 +36,7 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 		TileEntityFusionMHDT turbine = (TileEntityFusionMHDT) tile;
 		
 		GL11.glPushMatrix();
-		float rot = (turbine.prevRotor + (turbine.rotor - turbine.prevRotor) * interp) % 30;
-		rot -= 15;
+		float rot = (turbine.prevRotor + (turbine.rotor - turbine.prevRotor) * interp) % 15;
 		GL11.glTranslated(0, 1.5, 0);
 		GL11.glRotated(rot, 1, 0, 0);
 		GL11.glTranslated(0, -1.5, 0);

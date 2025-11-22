@@ -24,7 +24,7 @@ public class GUITurretHIMARS extends GUITurretBase {
 		super.drawScreen(mouseX, mouseY, f);
 		
 		TileEntityTurretHIMARS arty = (TileEntityTurretHIMARS) turret;
-		String mode = arty.mode == arty.MODE_AUTO ? "artillery" : "manual";
+		String mode = arty.mode == arty.MODE_AUTO ? "artillery_rocket" : "manual_rocket";
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 151, guiTop + 16, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("turret.arty." + mode));
 	}
 

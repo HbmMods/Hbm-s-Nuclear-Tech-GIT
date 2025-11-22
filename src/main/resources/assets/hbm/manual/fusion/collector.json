@@ -6,6 +6,6 @@
 		"en_US": "Fusion Reactor Collector Chamber"
 	},
 	"content": {
-		"en_US": "Can be attached to a fusion reactor's [[torus|Fusion Reactor Plasma Vessel]] in order to increase the byproduct production rate by 50%. The byproducts are extracted from the torus itself, the collector does not have a GUI, nor ports. The collector also does not use the plasma's flux or energy level, so other components affected by energy sharing are unaffected."
+		"en_US": "Can be attached to a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to increase the byproduct production rate by 50%. The byproducts are extracted from the torus itself, the collector does not have a GUI, nor ports. The collector also does not use the plasma's flux or energy level, so other components affected by energy sharing are unaffected."
 	}
 }
