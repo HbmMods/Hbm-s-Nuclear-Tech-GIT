@@ -57,6 +57,8 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			tanks[0].setType(0, slots);
 
 			if(!canProcessSolid() && !canProcessLiquid()) {
 				this.progress = 0;
@@ -182,6 +184,9 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		if(slot == 1) return OutgasserRecipes.getOutput(stack) != null; // input
 		return false;
 	}
+
+	@Override public boolean canExtractItem(int slot, ItemStack itemStack, int side) { return slot == 2; }
+	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {1, 2}; }
 	
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -189,10 +194,10 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		
 		return new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir),
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetX + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetX - rot.offsetZ * 3, rot.getOpposite())
+				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
 		};
 	}
 
