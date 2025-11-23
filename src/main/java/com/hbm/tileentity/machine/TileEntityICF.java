@@ -112,7 +112,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 						markDirty = true;
 					}
 
-					tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 2.5D / this.maxHeat));
+					tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 10D / this.maxHeat));
 					if(tanks[2].getFill() > tanks[2].getMaxFill()) tanks[2].setFill(tanks[2].getMaxFill());
 
 					NBTTagCompound dPart = new NBTTagCompound();
