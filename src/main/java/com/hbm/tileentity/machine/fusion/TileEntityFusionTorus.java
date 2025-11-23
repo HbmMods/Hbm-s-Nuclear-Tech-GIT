@@ -58,6 +58,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public static final float MAGNET_ACCELERATION = 0.25F;
 
 	private AudioWrapper audio;
+	public int timeOffset = -1;
 	
 	public TileEntityFusionTorus() {
 		super(3);
@@ -195,6 +196,8 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			this.klystronEnergy = 0;
 			
 		} else {
+			
+			if(timeOffset == -1) this.timeOffset = worldObj.rand.nextInt(30_000);
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
 			if(this.didProcess) this.magnetSpeed += MAGNET_ACCELERATION;

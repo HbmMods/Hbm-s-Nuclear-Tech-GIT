@@ -70,10 +70,10 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 		
 		return new DirPos[] {
 				//new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 3, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite())
+				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, rot),
+				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, rot.getOpposite())
 		};
 	}
 
@@ -92,6 +92,10 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 		if(steamCycles > 0) {
 			tanks[0].setFill(tanks[0].getFill() - steamCycles);
 			tanks[1].setFill(tanks[1].getFill() + steamCycles);
+			
+			if(worldObj.rand.nextInt(200) == 0) {
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 2.5F, 1.0F);
+			}
 		}
 	}
 

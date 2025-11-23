@@ -88,3 +88,4 @@
 * Fixed many NTM structure spawn conditions being hardcoded (again) preventing them from spawning in modded biomes that would otherwise be a fit
 * Fixed spawn offset for some structures which caused them to float in the air
 * Fixed icons in the QMAW title bar often times being too dark when rendered with a 3D model
+* Fixed rocket artillery modes having incorrect tooltips
