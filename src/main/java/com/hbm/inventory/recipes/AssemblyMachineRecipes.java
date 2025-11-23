@@ -539,7 +539,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.fusionboiler").setup(300, 100).outputItems(new ItemStack(ModBlocks.fusion_boiler, 1))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateCast(), 16), new OreDictStack(CU.shell(), 16), new OreDictStack(STEEL.pipe(), 8), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16)));
 		this.register(new GenericRecipe("ass.fusionmhdt").setup(1_200, 100).outputItems(new ItemStack(ModBlocks.fusion_mhdt, 1))
-				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(CU.plateWelded(), 64), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(BSCCO.wireDense(), 64), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.QUANTUM)));
+				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(CU.plateWelded(), 64), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(SBD.wireDense(), 64), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.QUANTUM)));
 		this.register(new GenericRecipe("ass.fusioncoupler").setup(300, 100).outputItems(new ItemStack(ModBlocks.fusion_coupler, 1))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 4), new OreDictStack(CU.plate(), 32), new OreDictStack(BSCCO.wireDense(), 16), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BISMOID)));
 		

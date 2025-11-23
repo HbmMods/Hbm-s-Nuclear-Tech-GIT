@@ -71,6 +71,7 @@
 * Rewrote the ore layer generator (hematite, bauxite) to be way more performant during worldgen
 * The mining laser can now be stopped by applying a redstone signal to one of the ports
 * Ionized particles can no longer be liquefacted into helium-4, helium is now a direct liquid byproduct of several fusion reactor recipes
+* Adjusted schrabidic acid recipe to account for higher ionized particle yield
 
 ## Fixed
 * Fixed arc furnace only allowing electrodes to be inserted when the lid is down instead of up
