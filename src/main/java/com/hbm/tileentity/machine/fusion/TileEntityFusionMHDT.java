@@ -1,9 +1,14 @@
 package com.hbm.tileentity.machine.fusion;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
@@ -21,7 +26,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver {
+public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver, IConfigurableMachine {
 
 	protected GenNode plasmaNode;
 
@@ -36,15 +41,23 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 	
 	public static final double PLASMA_EFFICIENCY = 1.35D;
 	public static final int COOLANT_USE = 50;
+	public static long MINIMUM_PLASMA = 5_000_000L;
 	
 	public FluidTank[] tanks;
-
 	private AudioWrapper audio;
+
+	@Override public String getConfigName() { return "mhd-turbine"; }
+	@Override public void readIfPresent(JsonObject obj) { MINIMUM_PLASMA = IConfigurableMachine.grab(obj, "L:minimumPlasma", MINIMUM_PLASMA); }
+	@Override public void writeConfig(JsonWriter writer) throws IOException { writer.name("L:minimumPlasma").value(MINIMUM_PLASMA); }
 	
 	public TileEntityFusionMHDT() {
 		this.tanks = new FluidTank[2];
 		this.tanks[0] = new FluidTank(Fluids.PERFLUOROMETHYL_COLD, 4_000);
 		this.tanks[1] = new FluidTank(Fluids.PERFLUOROMETHYL, 4_000);
+	}
+	
+	public boolean hasMinimumPlasma() {
+		return this.plasmaEnergy >= MINIMUM_PLASMA;
 	}
 	
 	@Override
@@ -56,6 +69,7 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 			
 			if(isCool()) {
 				this.power = (long) Math.floor(this.plasmaEnergy * PLASMA_EFFICIENCY);
+				if(!this.hasMinimumPlasma()) this.power /= 2;
 				tanks[0].setFill(tanks[0].getFill() - COOLANT_USE);
 				tanks[1].setFill(tanks[1].getFill() + COOLANT_USE);
 			}
@@ -89,7 +103,7 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 			if(this.plasmaEnergy > 0 && isCool()) this.rotorSpeed += ROTOR_ACCELERATION;
 			else this.rotorSpeed -= ROTOR_ACCELERATION;
 			
-			this.rotorSpeed = MathHelper.clamp_float(this.rotorSpeed, 0F, 15F);
+			this.rotorSpeed = MathHelper.clamp_float(this.rotorSpeed, 0F, hasMinimumPlasma() ? 15F : 10F);
 			
 			this.prevRotor = this.rotor;
 			this.rotor += this.rotorSpeed;

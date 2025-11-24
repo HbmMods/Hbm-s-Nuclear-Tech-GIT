@@ -83,18 +83,22 @@ public class MachineFusionMHDT extends BlockDummyable implements ILookOverlay, I
 		
 		if(!(te instanceof TileEntityFusionMHDT)) return;
 		TileEntityFusionMHDT turbine = (TileEntityFusionMHDT) te;
-		
+
+		boolean hasPlasma = turbine.hasMinimumPlasma();
 		boolean isCool = turbine.isCool();
+		long power = (long) Math.floor(turbine.plasmaEnergy * turbine.PLASMA_EFFICIENCY);
+		if(!hasPlasma) power /= 2;
 		
 		List<String> text = new ArrayList();
-		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(turbine.plasmaEnergy) + " TU/t");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(!isCool ? 0 : (long) Math.floor(turbine.plasmaEnergy * turbine.PLASMA_EFFICIENCY)) + "HE/t");
+		text.add(EnumChatFormatting.GREEN + "-> " + (hasPlasma ? EnumChatFormatting.RESET : EnumChatFormatting.GOLD) + BobMathUtil.getShortNumber(turbine.plasmaEnergy) + "TU/t / " + BobMathUtil.getShortNumber(turbine.MINIMUM_PLASMA) + "TU/t");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(!isCool ? 0 : power) + "HE/t");
 
 		for(int i = 0; i < turbine.getAllTanks().length; i++) {
 			FluidTank tank = turbine.getAllTanks()[i];
 			text.add((i == 0 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + tank.getTankType().getLocalizedName() + ": " + tank.getFill() + "/" + tank.getMaxFill() + "mB");
 		}
-		
+
+		if(turbine.plasmaEnergy > 0 && !hasPlasma) text.add("&[" + (BobMathUtil.getBlink() ? 0xff8000 : 0xffff00) + "&]! LOW POWER !");
 		if(!isCool) text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! INSUFFICIENT COOLING ! ! !");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

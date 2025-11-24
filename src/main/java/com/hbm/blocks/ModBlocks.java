@@ -902,15 +902,15 @@ public class ModBlocks {
 	public static Block pwr_controller;
 	public static Block pwr_block;
 
-	public static Block fusion_conductor;
-	public static Block fusion_center;
-	public static Block fusion_motor;
-	public static Block fusion_heater;
-	public static Block fusion_hatch;
-	public static Block plasma;
+	@Deprecated public static Block fusion_conductor;
+	@Deprecated public static Block fusion_center;
+	@Deprecated public static Block fusion_motor;
+	@Deprecated public static Block fusion_heater;
+	@Deprecated public static Block fusion_hatch;
+	@Deprecated public static Block plasma; // only actually used by the old plasma grenade, will die with the grenade rework
 
-	public static Block iter;
-	public static Block plasma_heater;
+	@Deprecated public static Block iter;
+	@Deprecated public static Block plasma_heater;
 
 	public static Block fusion_component;
 	public static Block fusion_torus;
