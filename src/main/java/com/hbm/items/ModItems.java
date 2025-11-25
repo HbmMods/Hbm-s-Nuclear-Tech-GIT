@@ -1964,17 +1964,6 @@ public class ModItems {
 	public static Item wrench_flipped;
 	public static Item memespoon;
 
-	public static Item multitool_hit;
-	public static Item multitool_dig;
-	public static Item multitool_silk;
-	public static Item multitool_ext;
-	public static Item multitool_miner;
-	public static Item multitool_beam;
-	public static Item multitool_sky;
-	public static Item multitool_mega;
-	public static Item multitool_joule;
-	public static Item multitool_decon;
-
 	public static Item saw;
 	public static Item bat;
 	public static Item bat_nail;
@@ -4871,17 +4860,6 @@ public class ModItems {
 				.addAbility(IWeaponAbility.VAMPIRE, 4)
 				.addAbility(IWeaponAbility.BEHEADER, 0).setUnlocalizedName("mese_gavel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mese_gavel");
 
-		multitool_hit = new ItemMultitoolPassive().setUnlocalizedName("multitool_hit").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
-		multitool_dig = new ItemMultitoolTool(4.0F, MainRegistry.enumToolMaterialMultitool, ItemMultitoolTool.getAllBlocks()).setFull3D().setUnlocalizedName("multitool_dig").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":multitool_claw");
-		multitool_silk = new ItemMultitoolTool(4.0F, MainRegistry.enumToolMaterialMultitool, ItemMultitoolTool.getAllBlocks()).setFull3D().setUnlocalizedName("multitool_silk").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_claw");
-		multitool_ext = new ItemMultitoolPassive().setUnlocalizedName("multitool_ext").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_open");
-		multitool_miner = new ItemMultitoolPassive().setUnlocalizedName("multitool_miner").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_pointer");
-		multitool_beam = new ItemMultitoolPassive().setUnlocalizedName("multitool_beam").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_pointer");
-		multitool_sky= new ItemMultitoolPassive().setUnlocalizedName("multitool_sky").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_open");
-		multitool_mega = new ItemMultitoolPassive().setUnlocalizedName("multitool_mega").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
-		multitool_joule = new ItemMultitoolPassive().setUnlocalizedName("multitool_joule").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
-		multitool_decon = new ItemMultitoolPassive().setUnlocalizedName("multitool_decon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
-
 		saw = new ModSword(MainRegistry.enumToolMaterialSaw).setUnlocalizedName("weapon_saw").setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":saw");
 		bat = new ModSword(MainRegistry.enumToolMaterialBat).setUnlocalizedName("weapon_bat").setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":bat");
 		bat_nail = new ModSword(MainRegistry.enumToolMaterialBatNail).setUnlocalizedName("weapon_bat_nail").setCreativeTab(null).setFull3D().setTextureName(RefStrings.MODID + ":bat_nail");
@@ -6599,18 +6577,6 @@ public class ModItems {
 		GameRegistry.registerItem(meteorite_sword_irradiated, meteorite_sword_irradiated.getUnlocalizedName());
 		GameRegistry.registerItem(meteorite_sword_fused, meteorite_sword_fused.getUnlocalizedName());
 		GameRegistry.registerItem(meteorite_sword_baleful, meteorite_sword_baleful.getUnlocalizedName());
-
-		//Multitool
-		GameRegistry.registerItem(multitool_hit, multitool_hit.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_dig, multitool_dig.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_silk, multitool_silk.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_ext, multitool_ext.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_miner, multitool_miner.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_beam, multitool_beam.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_sky, multitool_sky.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_mega, multitool_mega.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_joule, multitool_joule.getUnlocalizedName());
-		GameRegistry.registerItem(multitool_decon, multitool_decon.getUnlocalizedName());
 
 		//Syringes & Pills
 		GameRegistry.registerItem(syringe_empty, syringe_empty.getUnlocalizedName());

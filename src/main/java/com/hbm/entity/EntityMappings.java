@@ -75,7 +75,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);
 		addEntity(EntityGrenadeTau.class, "entity_grenade_tau", 500);
 		addEntity(EntityChopperMine.class, "entity_chopper_mine", 1000);
-		addEntity(EntityRainbow.class, "entity_rainbow", 1000);
 		addEntity(EntityGrenadeLemon.class, "entity_grenade_lemon", 500);
 		addEntity(EntityCloudFleija.class, "entity_cloud_fleija", 500);
 		addEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 500);
@@ -84,15 +83,12 @@ public class EntityMappings {
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
 		addEntity(EntityGrenadePulse.class, "entity_grenade_pulse", 1000);
-		addEntity(EntityLaserBeam.class, "entity_laser_beam", 1000);
-		addEntity(EntityMinerBeam.class, "entity_miner_beam", 1000);
 		addEntity(EntityRubble.class, "entity_rubble", 1000);
 		addEntity(EntityShrapnel.class, "entity_shrapnel", 1000);
 		addEntity(EntityGrenadeShrapnel.class, "entity_grenade_shrapnel", 250);
 		addEntity(EntityBlackHole.class, "entity_black_hole", 250);
 		addEntity(EntityGrenadeBlackHole.class, "entity_grenade_black_hole", 250);
 		addEntity(EntityMinecartTest.class, "entity_minecart_test", 1000);
-		addEntity(EntitySparkBeam.class, "entity_spark_beam", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);
 		addEntity(EntityMissileDoomsdayRusted.class, "entity_missile_doomsday_rusted", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
@@ -109,7 +105,6 @@ public class EntityMappings {
 		addEntity(EntityMissileMicro.class, "entity_missile_micronuclear", 1000);
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityRagingVortex.class, "entity_raging_vortex", 250);
-		addEntity(EntityModBeam.class, "entity_beam_bang", 1000);
 		addEntity(EntityMissileBHole.class, "entity_missile_blackhole", 1000);
 		addEntity(EntityMissileSchrabidium.class, "entity_missile_schrabidium", 1000);
 		addEntity(EntityMissileEMP.class, "entity_missile_emp", 1000);

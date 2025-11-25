@@ -112,7 +112,7 @@ public class CompatRecipeRegistry {
 
 	public static void registerCrystallizer(AStack input, ItemStack output, int time, float productivity, FluidStack fluid) {
 		CrystallizerRecipe recipe = new CrystallizerRecipe(output, time).prod(productivity);
-		CrystallizerRecipes.registerRecipe(input instanceof OreDictStack ? ((OreDictStack) input).name : input, recipe, fluid);
+		CrystallizerRecipes.registerRecipe(input, recipe, fluid);
 	}
 
 	/** Fractions always use 100mB of input fluid per operation. None of the outputs can be null. */
@@ -219,6 +219,14 @@ public class CompatRecipeRegistry {
 	/** Particles will always perform 8 recipes */
 	public static void registerExposureChamber(AStack particle, AStack input, ItemStack output) {
 		ExposureChamberRecipes.recipes.add(new ExposureChamberRecipe(particle, input, output));
+	}
+	
+	public static void registerFusionReactor(String name, int time, long power, long klystron, long plasma, double neutrons, FluidStack[] inputs, ItemStack outputItem, FluidStack outputFluid) {
+		FusionRecipe recipe = (FusionRecipe) new FusionRecipe(name).setInputEnergy(klystron).setOutputEnergy(klystron).setup(time, power);
+		if(inputs != null) recipe.inputFluids(copyFirst(inputs, 3));
+		if(outputItem != null) recipe.outputItems(outputItem);
+		if(outputFluid != null) recipe.outputFluids(outputFluid);
+		FusionRecipes.INSTANCE.register(recipe);
 	}
 
 	/** Input needs two AStacks, output can take 1-2 ItemStacks. If the same recipe with different

@@ -1447,6 +1447,16 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bob_chemistry");
 		ignoreMappings.add("hbm:item.bob_oil");
 		ignoreMappings.add("hbm:item.bob_nuclear");
+		ignoreMappings.add("hbm:item.multitool_hit");
+		ignoreMappings.add("hbm:item.multitool_dig");
+		ignoreMappings.add("hbm:item.multitool_silk");
+		ignoreMappings.add("hbm:item.multitool_ext");
+		ignoreMappings.add("hbm:item.multitool_miner");
+		ignoreMappings.add("hbm:item.multitool_beam");
+		ignoreMappings.add("hbm:item.multitool_sky");
+		ignoreMappings.add("hbm:item.multitool_mega");
+		ignoreMappings.add("hbm:item.multitool_joule");
+		ignoreMappings.add("hbm:item.multitool_decon");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

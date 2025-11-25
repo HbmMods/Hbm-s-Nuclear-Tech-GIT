@@ -1,6 +1,8 @@
 package com.hbm.entity.grenade;
 
-import com.hbm.explosion.ExplosionChaos;
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
@@ -26,7 +28,24 @@ public class EntityGrenadeZOMG extends EntityGrenadeBouncyBase {
 
 		if(!this.worldObj.isRemote) {
 			this.setDead();
-			ExplosionChaos.zomgMeSinPi(this.worldObj, this.posX, this.posY, this.posZ, 20, this.getThrower(), this);
+			
+			EntityNukeExplosionMK3 ex = new EntityNukeExplosionMK3(worldObj);
+			ex.posX = posX;
+			ex.posY = posY;
+			ex.posZ = posZ;
+			ex.destructionRange = 50;
+			ex.speed = BombConfig.blastSpeed;
+			ex.coefficient = 1.0F;
+			ex.waste = false;
+			worldObj.spawnEntityInWorld(ex);
+			
+			worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100000.0F, 1.0F);
+			
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, 50);
+			cloud.posX = posX;
+			cloud.posY = posY;
+			cloud.posZ = posZ;
+			worldObj.spawnEntityInWorld(cloud);
 		}
 	}
 

@@ -5,14 +5,12 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
-import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
@@ -571,43 +569,6 @@ public class ExplosionChaos { //TODO: destroy this entire class
 
 				world.spawnEntityInWorld(fragment);
 			}
-	}
-
-	public static void zomgMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
-			EntityGrenadeZOMG zomg) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-
-		// if (shooter != null && shooter instanceof EntityPlayer)
-		for (int i = 0; i < count; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d2 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			EntityRainbow entityZomg = new EntityRainbow(world, (EntityPlayer) shooter, 1F, 10000, 100000, zomg);
-
-			entityZomg.motionX = d1;// * 5;
-			entityZomg.motionY = d2;// * 5;
-			entityZomg.motionZ = d3;// * 5;
-			entityZomg.shootingEntity = shooter;
-
-			world.spawnEntityInWorld(entityZomg);
-			world.playSoundAtEntity(zomg, "hbm:weapon.zomgShoot", 10.0F, 0.8F + (rand.nextFloat() * 0.4F));
-		}
 	}
 
 	public static void levelDown(World world, int x, int y, int z, int radius) {

@@ -785,14 +785,6 @@ import net.minecraft.item.ItemStack;
 				new ComparableStack(ModItems.plate_polymer, 4)
 			}, 100);
 
-		makeRecipe(new ComparableStack(ModItems.multitool_hit, 1), new AStack[] {
-				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4),
-				new OreDictStack(STEEL.plate(), 4),
-				new OreDictStack(GOLD.wireFine(), 12),
-				new ComparableStack(ModItems.motor, 4),
-				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD)
-			}, 100);
-
 		makeRecipe(new ComparableStack(ModItems.missile_shuttle, 1), new AStack[] {
 				new ComparableStack(ModItems.missile_generic, 2),
 				new ComparableStack(ModItems.missile_strong, 1),
