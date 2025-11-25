@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.fusion.TileEntityFusionMHDT;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -32,9 +33,10 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 		bindTexture(ResourceManager.fusion_mhdt_tex);
 		ResourceManager.fusion_mhdt.renderPart("Turbine");
 		
+		TileEntityFusionMHDT turbine = (TileEntityFusionMHDT) tile;
+		
 		GL11.glPushMatrix();
-		double rot = (System.currentTimeMillis() / 10) % 30D;
-		rot -= 15;
+		float rot = (turbine.prevRotor + (turbine.rotor - turbine.prevRotor) * interp) % 15;
 		GL11.glTranslated(0, 1.5, 0);
 		GL11.glRotated(rot, 1, 0, 0);
 		GL11.glTranslated(0, -1.5, 0);
@@ -64,7 +66,7 @@ public class RenderFusionMHDT extends TileEntitySpecialRenderer implements IItem
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.fusion_mhdt_tex);
 				ResourceManager.fusion_mhdt.renderPart("Turbine");
-				double rot = (System.currentTimeMillis() / 10) % 30D;
+				double rot = (System.currentTimeMillis() / 5) % 30D;
 				rot -= 15;
 				GL11.glTranslated(0, 1.5, 0);
 				GL11.glRotated(rot, 1, 0, 0);

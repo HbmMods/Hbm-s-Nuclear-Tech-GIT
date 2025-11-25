@@ -17,12 +17,17 @@ public class FusionRecipe extends GenericRecipe {
 	public long outputTemp;
 	// neutron output energy at full blast
 	public double neutronFlux;
+	
+	public float r = 1F;
+	public float g = 0.2F;
+	public float b = 0.6F;
 
 	public FusionRecipe(String name) { super(name); }
 
 	public FusionRecipe setInputEnergy(long ignitionTemp) { this.ignitionTemp = ignitionTemp; return this; }
 	public FusionRecipe setOutputEnergy(long outputTemp) { this.outputTemp = outputTemp; return this; }
 	public FusionRecipe setOutputFlux(double neutronFlux) { this.neutronFlux = neutronFlux; return this; }
+	public FusionRecipe setRGB(float r, float g, float b) { this.r = r; this.g = g; this.b = b; return this; }
 
 	public List<String> print() {
 		List<String> list = new ArrayList();
@@ -30,9 +35,9 @@ public class FusionRecipe extends GenericRecipe {
 
 		duration(list);
 		power(list);
-		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionIn") + ": " + BobMathUtil.getShortNumber(ignitionTemp) + "KyU/t");
-		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionOut") + ": " + BobMathUtil.getShortNumber(outputTemp) + "TU/t");
-		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.recipe.fusionFlux") + ": " + ((int)(neutronFlux * 10)) / 10D + " flux/t");
+		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("gui.recipe.fusionIn") + ": " + BobMathUtil.getShortNumber(ignitionTemp) + "KyU/t");
+		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("gui.recipe.fusionOut") + ": " + BobMathUtil.getShortNumber(outputTemp) + "TU/t");
+		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("gui.recipe.fusionFlux") + ": " + ((int)(neutronFlux * 10)) / 10D + " flux/t");
 		input(list);
 		output(list);
 

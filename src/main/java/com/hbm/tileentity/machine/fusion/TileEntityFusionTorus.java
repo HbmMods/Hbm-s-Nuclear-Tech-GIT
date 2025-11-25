@@ -10,8 +10,11 @@ import com.hbm.inventory.gui.GUIFusionTorus;
 import com.hbm.inventory.recipes.FusionRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineFusion;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.albion.TileEntityCooledBase;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -53,6 +56,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public float prevMagnet;
 	public float magnetSpeed;
 	public static final float MAGNET_ACCELERATION = 0.25F;
+
+	private AudioWrapper audio;
+	public int timeOffset = -1;
 	
 	public TileEntityFusionTorus() {
 		super(3);
@@ -122,7 +128,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 			
+			// keeping track of PLASMA receivers because those need to share the combined output
 			int receiverCount = 0;
+			// collectors for determining the speed of the bonus bar
 			int collectors = 0;
 			
 			for(int i = 0; i < 4; i++) {
@@ -134,8 +142,10 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					
 					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
 						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						if(entry.getKey() instanceof IFusionPowerReceiver) receiverCount++;
-						if(entry.getKey() instanceof TileEntityFusionCollector) collectors++;
+						Object thing = entry.getKey();
+						if(thing instanceof TileEntityLoadedBase && !((TileEntityLoadedBase) thing).isLoaded()) continue;
+						if(thing instanceof IFusionPowerReceiver && ((IFusionPowerReceiver) thing).receivesFusionPower()) receiverCount++;
+						if(thing instanceof TileEntityFusionCollector) collectors++;
 						break;
 					}
 				}
@@ -186,6 +196,8 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			this.klystronEnergy = 0;
 			
 		} else {
+			
+			if(timeOffset == -1) this.timeOffset = worldObj.rand.nextInt(30_000);
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
 			if(this.didProcess) this.magnetSpeed += MAGNET_ACCELERATION;
@@ -199,6 +211,27 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			if(this.magnet >= 360F) {
 				this.magnet -= 360F;
 				this.prevMagnet -= 360F;
+			}
+			
+			if(this.magnetSpeed > 0 && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2.5, zCoord + 0.5) < 50 * 50) {
+				
+				float speed = this.magnetSpeed / 30F;
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 30F, speed, 20);
+					audio.startSound();
+				} else {
+					audio.updateVolume(getVolume(speed));
+					audio.updatePitch(speed);
+					audio.keepAlive();
+				}
+				
+			} else {
+				
+				if(audio != null) {
+					if(audio.isPlaying()) audio.stopSound();
+					audio = null;
+				}
 			}
 		}
 	}
@@ -224,8 +257,23 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
 	public void invalidate() {
 		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 
 		if(!worldObj.isRemote) {
 			for(GenNode node : klystronNodes) if(node != null) UniNodespace.destroyNode(worldObj, node);

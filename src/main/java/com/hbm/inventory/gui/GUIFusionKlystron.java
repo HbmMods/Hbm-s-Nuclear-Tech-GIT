@@ -64,7 +64,8 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 		
 		this.field.mouseClicked(i, j, button);
 	}
-	
+
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.klystron.hasCustomInventoryName() ? this.klystron.getInventoryName() : I18n.format(this.klystron.getInventoryName());
 		this.fontRendererObj.drawString(name, 115 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
@@ -75,6 +76,7 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 		this.fontRendererObj.drawString(result, 183 - this.fontRendererObj.getStringWidth(result), 40, 0x00FF00);
 	}
 
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float interp, int x, int y) {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);

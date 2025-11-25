@@ -1,8 +1,6 @@
 package com.hbm.lib;
 
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityLaserBeam;
-import com.hbm.entity.projectile.EntityMinerBeam;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -94,14 +92,6 @@ public class ModDamageSource extends DamageSource {
 
 	public static DamageSource euthanized(Entity ent, Entity hit) {
 		return (new EntityDamageSourceIndirect(s_euthanized, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeLaserDamage(EntityLaserBeam ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_laser, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeLaserDamage(EntityMinerBeam ent, Entity hit) {
-		return (new EntityDamageSourceIndirect("s_laser", ent, hit)).setDamageBypassesArmor();
 	}
 
 	public static boolean getIsBullet(DamageSource source) {

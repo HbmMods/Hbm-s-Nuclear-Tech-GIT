@@ -3,16 +3,18 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityFallingNuke;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 
@@ -30,9 +32,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+// this entire class sucks ass
+@NotableComments
 public class NukeCustom extends BlockContainer implements IBomb {
-
-	public TileEntityNukeCustom tetn = new TileEntityNukeCustom();
 
 	private static boolean keepInventory = false;
 	private final static Random field_149933_a = new Random();
@@ -134,6 +136,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	public static final int maxAmat = 350;
 	public static final int maxSchrab = 250;
 	
+	// genuinely some of the worst fucking code i've ever written
 	public static void explodeCustom(World worldObj, double xCoord, double yCoord, double zCoord, float tnt, float nuke, float hydro, float amat, float dirty, float schrab, float euph) {
 		
 		dirty = Math.min(dirty, 100);
@@ -142,7 +145,24 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		if(euph > 0) {
 			
 			EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(worldObj, xCoord, yCoord, zCoord);
-			ExplosionChaos.zomgMeSinPi(worldObj, xCoord, yCoord, zCoord, 1000, null, zomg);
+			
+			EntityNukeExplosionMK3 ex = new EntityNukeExplosionMK3(worldObj);
+			ex.posX = xCoord;
+			ex.posY = yCoord;
+			ex.posZ = zCoord;
+			ex.destructionRange = 150;
+			ex.speed = BombConfig.blastSpeed;
+			ex.coefficient = 1.0F;
+			ex.waste = false;
+			worldObj.spawnEntityInWorld(ex);
+			
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
+			
+			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, 50);
+			cloud.posX = xCoord;
+			cloud.posY = yCoord;
+			cloud.posZ = zCoord;
+			worldObj.spawnEntityInWorld(cloud);
 			
 		// SCHRABIDIUM ///
 		} else if(schrab > 0) {

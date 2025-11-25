@@ -187,6 +187,9 @@ public class BobMathUtil {
 	public static String format(int amount) {
 		return String.format(Locale.US, "%,d", amount);
 	}
+	public static String format(long amount) {
+		return String.format(Locale.US, "%,d", amount);
+	}
 
 	public static boolean getBlink() {
 		return System.currentTimeMillis() % 1000 < 500;
