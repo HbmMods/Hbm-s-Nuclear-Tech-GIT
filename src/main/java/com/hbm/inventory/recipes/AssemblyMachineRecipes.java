@@ -943,10 +943,6 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.ammo_arty, 1, 0), new OreDictStack(ANY_PLASTIC.ingot(), 1))
 				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4_000)));
 
-		// tools
-		this.register(new GenericRecipe("ass.multitool").setup(100, 100).outputItems(new ItemStack(ModItems.multitool_hit, 1))
-				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4), new OreDictStack(STEEL.plate(), 4), new OreDictStack(GOLD.wireFine(), 12), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD)));
-
 		// space
 		this.register(new GenericRecipe("ass.soyuz").setup(6_000, 100).outputItems(new ItemStack(ModItems.missile_soyuz, 1))
 				.inputItems(new OreDictStack(TI.shell(), 32),
