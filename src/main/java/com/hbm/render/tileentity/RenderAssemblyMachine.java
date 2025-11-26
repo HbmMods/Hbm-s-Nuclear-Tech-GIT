@@ -54,8 +54,6 @@ public class RenderAssemblyMachine extends TileEntitySpecialRenderer implements 
 		double[] arm1 = assembler.arms[0].getPositions(interp);
 		double[] arm2 = assembler.arms[1].getPositions(interp);
 		
-		// arm1 = arm2 = new double[] {60, -15, 15, -0.25}; // heart
-		
 		GL11.glRotated(spin, 0, 1, 0);
 		ResourceManager.assembly_machine.renderPart("Ring");
 

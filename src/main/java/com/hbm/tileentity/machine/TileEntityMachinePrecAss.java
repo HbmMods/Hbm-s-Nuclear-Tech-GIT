@@ -6,9 +6,11 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
+import com.hbm.inventory.container.ContainerMachinePrecAss;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.gui.GUIMachinePrecAss;
+import com.hbm.inventory.recipes.PrecAssRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -17,6 +19,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachinePrecAss;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
@@ -29,13 +32,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 
 // horribly copy-pasted crap device
-public class TileEntityMachinePrecAss extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver/*, IGUIProvider*/ {
+public class TileEntityMachinePrecAss extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider {
 
 	public FluidTank inputTank;
 	public FluidTank outputTank;
@@ -54,6 +59,13 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 	public double ringSpeed;
 	public double ringTarget;
 	public int ringDelay;
+
+	public double[] armAngles = new double[] {45, -15, -5};
+	public double[] prevArmAngles = new double[] {45, -15, -5};
+	public double[] strikers = new double[4];
+	public double[] prevStrikers = new double[4];
+	protected int strikerIndex;
+	protected int strikerDelay;
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 	
@@ -79,7 +91,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 		
 		if(!worldObj.isRemote) {
 			
-			GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assemblerModule.recipe);
+			GenericRecipe recipe = PrecAssRecipes.INSTANCE.recipeNameMap.get(assemblerModule.recipe);
 			if(recipe != null) {
 				this.maxPower = recipe.power * 100;
 			}
@@ -134,18 +146,8 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 				}
 			}
 
-			/*for(AssemblerArm arm : arms) {
-				arm.updateInterp();
-				if(didProcess) {
-					arm.updateArm();
-				} else{
-					arm.returnToNullPos();
-				}
-				
-				if(!this.muffled && arm.prevAngles[3] != arm.angles[3] && arm.angles[3] == -0.75) {
-					MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStrike", this.getVolume(0.5F), 1F);
-				}
-			}*/
+			for(int i = 0; i < 3; i++) this.prevArmAngles[i] = this.armAngles[i];
+			for(int i = 0; i < 4; i++) this.prevStrikers[i] = this.strikers[i];
 			
 			this.prevRing = this.ring;
 			
@@ -284,8 +286,8 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {outputTank}; }
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {inputTank, outputTank}; }
 
-	//@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineAssemblyMachine(player.inventory, this); }
-	//@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineAssemblyMachine(player.inventory, this); }
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachinePrecAss(player.inventory, this); }
+	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachinePrecAss(player.inventory, this); }
 
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
