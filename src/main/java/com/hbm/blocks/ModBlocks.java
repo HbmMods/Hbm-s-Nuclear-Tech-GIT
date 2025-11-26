@@ -216,6 +216,7 @@ public class ModBlocks {
 	public static Block block_combine_steel;
 	public static Block block_desh;
 	public static Block block_dura_steel;
+	public static Block block_ferrouranium;
 	public static Block block_starmetal;
 	public static Block block_polymer;
 	public static Block block_bakelite;
@@ -1436,6 +1437,7 @@ public class ModBlocks {
 		block_combine_steel = new BlockBeaconable(Material.iron).setBlockName("block_combine_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_combine_steel");
 		block_desh = new BlockBeaconable(Material.iron).setBlockName("block_desh").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":block_desh");
 		block_dura_steel = new BlockBeaconable(Material.iron).setBlockName("block_dura_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":block_dura_steel");
+		block_ferrouranium = new BlockBeaconable(Material.iron).setBlockName("block_ferrouranium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0f).setResistance(400.0F).setBlockTextureName(RefStrings.MODID+":block_ferrouranium");
 		block_starmetal = new BlockBeaconable(Material.iron).setBlockName("block_starmetal").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":block_starmetal");
 		block_polymer = new BlockBeaconable(Material.rock).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
 		block_bakelite = new BlockBeaconable(Material.rock).setBlockName("block_bakelite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":block_bakelite");
@@ -2646,6 +2648,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_combine_steel, block_combine_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_desh, block_desh.getUnlocalizedName());
 		GameRegistry.registerBlock(block_dura_steel, block_dura_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_ferrouranium, block_ferrouranium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_starmetal, block_starmetal.getUnlocalizedName());
 		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
 		GameRegistry.registerBlock(block_bakelite, block_bakelite.getUnlocalizedName());

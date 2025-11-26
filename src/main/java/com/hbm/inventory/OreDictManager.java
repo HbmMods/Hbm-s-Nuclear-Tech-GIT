@@ -420,7 +420,7 @@ public class OreDictManager {
 		GUNMETAL															.ingot(ingot_gunmetal)																				.plate(plate_gunmetal);
 		WEAPONSTEEL															.ingot(ingot_weaponsteel)																			.plate(plate_weaponsteel);
 		BIGMT																.ingot(ingot_saturnite)																				.plate(plate_saturnite);
-		FERRO																.ingot(ingot_ferrouranium);
+		FERRO																.ingot(ingot_ferrouranium)																		.block(block_ferrouranium);
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
