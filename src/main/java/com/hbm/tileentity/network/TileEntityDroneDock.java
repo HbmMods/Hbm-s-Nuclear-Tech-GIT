@@ -134,7 +134,9 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 		paths.add(init);
 		
 		// breadth-first search
-		for(int i = 0; i < pathingDepth; i++) {
+		outer: for(int i = 0; i < pathingDepth; i++) {
+			
+			int iterationBrake = 1000;
 			
 			List<List<PathNode>> newPaths = new ArrayList();
 			
@@ -155,6 +157,11 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 						newPath.add(connectedSafe);
 						newPaths.add(newPath);
 					}
+					
+					// emergency halt after 1000 iterations, forces pathing depth to proceed
+					// theoretical maximum is therefore 10k iterations
+					iterationBrake--;
+					if(iterationBrake <= 0) continue outer;
 				}
 			}
 			

@@ -201,8 +201,8 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 		public int[] getAccessibleSlotsFromSide(int side) {
 			
 			if(access == null) {
-				access = new int[SLOT_COUNT]; // writing this by hand is for chumps
-				for(int i = 0; i < SLOT_COUNT; i++) access[i] = i;
+				access = new int[SLOT_COUNT * 2]; // writing this by hand is for chumps
+				for(int i = 0; i < SLOT_COUNT * 2; i++) access[i] = i;
 			}
 			
 			return access;
