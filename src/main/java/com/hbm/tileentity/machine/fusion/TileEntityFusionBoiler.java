@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.fusion;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -11,35 +12,41 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IFusionPowerReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IFusionPowerReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	protected GenNode plasmaNode;
-	
+
 	public long plasmaEnergy;
 	public long plasmaEnergySync;
 	public FluidTank[] tanks;
-	
+
 	public TileEntityFusionBoiler() {
 		this.tanks = new FluidTank[2];
 		this.tanks[0] = new FluidTank(Fluids.WATER, 32_000);
 		this.tanks[1] = new FluidTank(Fluids.SUPERHOTSTEAM, 32_000);
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.plasmaEnergySync = this.plasmaEnergy;
 			this.plasmaEnergy = 0;
-			
+
 			for(DirPos pos : getConPos()) {
 				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
 				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
@@ -48,26 +55,26 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 			if(plasmaNode == null || plasmaNode.expired) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
 				plasmaNode = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, PlasmaNetworkProvider.THE_PROVIDER);
-				
+
 				if(plasmaNode == null) {
 					plasmaNode = new GenNode(PlasmaNetworkProvider.THE_PROVIDER,
 							new BlockPos(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4))
 							.setConnections(new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir));
-					
+
 					UniNodespace.createNode(worldObj, plasmaNode);
 				}
 			}
-			
+
 			if(plasmaNode != null && plasmaNode.hasValidNet()) plasmaNode.net.addReceiver(this);
-			
+
 			this.networkPackNT(50);
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				//new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
 				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, rot),
@@ -82,17 +89,17 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 	@Override
 	public void receiveFusionPower(long fusionPower, double neutronPower) {
 		this.plasmaEnergy = fusionPower;
-		
+
 		int waterCycles = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 		int steamCycles = (int) (Math.min(fusionPower / tanks[0].getTankType().getTrait(FT_Heatable.class).getFirstStep().heatReq, waterCycles));
 		// the Math.min call was mushed into the steam cycles call instead of doing it afterwards as usual
 		// in order to prevent issues when casting, should the fusion reactor output truly absurd amounts of power
 		// due to the water cycles being effectively capped via the buffer size
-		
+
 		if(steamCycles > 0) {
 			tanks[0].setFill(tanks[0].getFill() - steamCycles);
 			tanks[1].setFill(tanks[1].getFill() + steamCycles);
-			
+
 			if(worldObj.rand.nextInt(200) == 0) {
 				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 2.5F, 1.0F);
 			}
@@ -103,7 +110,7 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeLong(plasmaEnergySync);
-		
+
 		this.tanks[0].serialize(buf);
 		this.tanks[1].serialize(buf);
 	}
@@ -112,7 +119,7 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.plasmaEnergy = buf.readLong();
-		
+
 		this.tanks[0].deserialize(buf);
 		this.tanks[1].deserialize(buf);
 	}
@@ -169,5 +176,58 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_fusion_boiler";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPlasmaEnergy(Context context, Arguments args) {
+		return new Object[] {plasmaEnergySync};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(), tanks[0].getMaxFill(),
+			tanks[1].getFill(), tanks[1].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {
+			plasmaEnergySync,
+
+			tanks[0].getFill(), tanks[0].getMaxFill(),
+			tanks[1].getFill(), tanks[1].getMaxFill(),
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getPlasmaEnergy",
+			"getFluid",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getPlasmaEnergy": return getPlasmaEnergy(context, args);
+			case "getFluid": return getFluid(context, args);
+			case "getInfo": return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.albion;
 
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerPADetector;
 import com.hbm.inventory.gui.GUIPADetector;
 import com.hbm.inventory.recipes.ParticleAcceleratorRecipes;
@@ -15,8 +16,13 @@ import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -24,7 +30,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPADetector extends TileEntityCooledBase implements IGUIProvider, IParticleUser {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityPADetector extends TileEntityCooledBase implements IGUIProvider, IParticleUser, SimpleComponent, CompatHandler.OCComponent {
 
 	public static final long usage = 100_000;
 
@@ -122,7 +129,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 
 		for(ParticleAcceleratorRecipe recipe : ParticleAcceleratorRecipes.recipes) {
 			if(!recipe.matchesRecipe(particle.input1, particle.input2)) continue; // another W for continue
-			
+
 			if(particle.momentum < recipe.momentum) {
 				particle.crash(PAState.CRASH_UNDERSPEED);
 				return;
@@ -146,12 +153,12 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 					}
 				}
 			}
-			
+
 			if((recipe.output1 != null && recipe.output1.getItem() == ModItems.particle_digamma) || (recipe.output2 != null && recipe.output2.getItem() == ModItems.particle_digamma)) {
 				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 50, 100));
 				for(EntityPlayer player : players) player.triggerAchievement(MainRegistry.achOmega12);
 			}
-			
+
 			particle.crash(PAState.SUCCESS);
 			return;
 		}
@@ -182,5 +189,86 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 	@Override
 	public BlockPos getExitPos(Particle particle) {
 		return null;
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_pa_detector";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoolant(Context context, Arguments args) {
+		return new Object[] {
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCrafting(Context context, Arguments args) {
+		Object[] items = new Object[] {"", 0, "", 0, "", 0, "", 0};
+		for (int i = 0; i < 4; i++) {
+			ItemStack slot = slots[i+1];
+			if (slot != null) {
+				items[i*2] = slot.getUnlocalizedName();
+				items[(i*2)+1] = slot.stackSize;
+			}
+		}
+		return items;
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		Object[] items = new Object[] {"", 0, "", 0, "", 0, "", 0};
+		for (int i = 0; i < 4; i++) {
+			ItemStack slot = slots[i+1];
+			if (slot != null) {
+				items[i*2] = slot.getUnlocalizedName();
+				items[(i*2)+1] = slot.stackSize;
+			}
+		}
+
+		return new Object[] {
+			getPower(), getMaxPower(),
+
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+
+			items[0], items[1], items[2], items[3],
+			items[4], items[5], items[6], items[7]
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getEnergyInfo",
+			"getCoolant",
+			"getCrafting",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getEnergyInfo": return getEnergyInfo(context, args);
+			case "getCoolant": return getCoolant(context, args);
+			case "getCrafting": return getCrafting(context, args);
+			case "getInfo": return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }
