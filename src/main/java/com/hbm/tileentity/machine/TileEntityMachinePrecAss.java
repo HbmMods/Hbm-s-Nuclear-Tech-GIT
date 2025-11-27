@@ -37,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 // horribly copy-pasted crap device
@@ -64,6 +65,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 	public double[] prevArmAngles = new double[] {45, -15, -5};
 	public double[] strikers = new double[4];
 	public double[] prevStrikers = new double[4];
+	public boolean[] strikerDir = new boolean[4];
 	protected int strikerIndex;
 	protected int strikerDelay;
 
@@ -151,35 +153,92 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 			
 			this.prevRing = this.ring;
 			
-			if(didProcess) {
-				if(this.ring != this.ringTarget) {
-					double ringDelta = Math.abs(this.ringTarget - this.ring);
-					if(ringDelta <= this.ringSpeed) this.ring = this.ringTarget;
-					if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
-					if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
-					if(this.ringTarget == this.ring) {
-						if(ringTarget >= 360) {
-							this.ringTarget -= 360D;
-							this.ring -= 360D;
-							this.prevRing -= 360D;
-						}
-						if(ringTarget <= -360) {
-							this.ringTarget += 360D;
-							this.ring += 360D;
-							this.prevRing += 360D;
-						}
-						this.ringDelay = 20 + worldObj.rand.nextInt(21);
-					}
+			for(int i = 0; i < 4; i++) {
+				if(this.strikerDir[i]) {
+					this.strikers[i] = -0.75D;
+					this.strikerDir[i] = false;
 				} else {
+					this.strikers[i] = MathHelper.clamp_double(this.strikers[i] + 0.5D, -0.75D, 0D);
+				}
+			}
+			
+			if(this.isInWorkingPosition(prevArmAngles) && !this.isInWorkingPosition(armAngles)) {
+				if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
+			}
+			
+			if(this.ring != this.ringTarget) {
+				double ringDelta = Math.abs(this.ringTarget - this.ring);
+				if(ringDelta <= this.ringSpeed) this.ring = this.ringTarget;
+				if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
+				if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
+				if(this.ringTarget == this.ring) {
+					double sub = ringTarget >= 360 ? -360D : 360D;
+					this.ringTarget += sub;
+					this.ring += sub;
+					this.prevRing += sub;
+					this.ringDelay = 100 + worldObj.rand.nextInt(21);
+				}
+			}
+			
+			if(didProcess) {
+				if(this.ring == this.ringTarget) {
 					if(this.ringDelay > 0) this.ringDelay--;
 					if(this.ringDelay <= 0) {
-						this.ringTarget += (worldObj.rand.nextDouble() * 2 - 1) * 135;
+						this.ringTarget += 45 * (worldObj.rand.nextBoolean() ? -1 : 1);
 						this.ringSpeed = 10D + worldObj.rand.nextDouble() * 5D;
 						if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStart", this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 					}
 				}
+				
+				if(!isInWorkingPosition(this.armAngles) && canArmsMove()) {
+					move(WORKING_POSITION);
+				}
+				
+				if(isInWorkingPosition(this.armAngles)) {
+					this.strikerDelay--;
+					if(this.strikerDelay <= 0) {
+						this.strikerDir[this.strikerIndex] = true;
+						this.strikerIndex = (this.strikerIndex + 1) % this.strikers.length;
+						this.strikerDelay = this.strikerIndex == 3 ? 10 : 2;
+					}
+				}
+				
+			} else {
+				for(int i = 0; i < 4; i++) this.strikerDir[i] = false; // set all strikers to retract
+				if(canArmsMove()) move(NULL_POSITION);
 			}
 		}
+	}
+
+	public double[] NULL_POSITION = new double[] {45, -30, 45};
+	public double[] WORKING_POSITION = new double[] {45, -15, -5};
+	
+	private boolean canArmsMove() {
+		for(int i = 0; i < 4; i++) if(this.strikers[i] != 0) return false;
+		return true;
+	}
+	
+	private boolean isInWorkingPosition(double[] arms) {
+		for(int i = 0; i < 3; i++) if(arms[i] != WORKING_POSITION[i]) return false;
+		return true;
+	}
+	
+	private boolean move(double[] targetAngles) {
+		boolean didMove = false;
+
+		for(int i = 0; i < armAngles.length; i++) {
+			if(armAngles[i] == targetAngles[i]) continue;
+			didMove = true;
+			double angle = armAngles[i];
+			double target = targetAngles[i];
+			double turn = 15D;
+			double delta = Math.abs(angle - target);
+
+			if(delta <= turn) { armAngles[i] = targetAngles[i]; continue; }
+			if(angle < target) armAngles[i] += turn;
+			else armAngles[i] -= turn;
+		}
+		return !didMove;
 	}
 
 	@Override public AudioWrapper createAudioLoop() {
@@ -233,10 +292,6 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 		this.maxPower = buf.readLong();
 		this.didProcess = buf.readBoolean();
 		this.assemblerModule.deserialize(buf);
-		
-		if(wasProcessing && !didProcess) {
-			MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.5F);
-		}
 	}
 	
 	@Override
@@ -324,7 +379,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembly_machine));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_precass));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (level * 100 / 3) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 50) + "%"));

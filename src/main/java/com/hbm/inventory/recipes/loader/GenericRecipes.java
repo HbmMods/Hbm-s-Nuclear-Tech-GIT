@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -38,6 +39,8 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 	public static final String POOL_PREFIX_DISCOVER = "discover.";
 	/** Secret recipes, self-explantory. Why even have this comment? */
 	public static final String POOL_PREFIX_SECRET = "secret.";
+	/** 528 greyprints */
+	public static final String POOL_PREFIX_528 = "528.";
 
 	public List<T> recipeOrderedList = new ArrayList();
 	public HashMap<String, T> recipeNameMap = new HashMap();
@@ -235,13 +238,14 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 
 		@Override 
 		public ItemStack collapse() {
-			if(this.chance >= 1F) return getSingle().copy();
-			return RNG.nextFloat() <= chance ? getSingle().copy() : null;
+			if(this.chance >= 1F) return getSingle();
+			return RNG.nextFloat() <= chance ? getSingle() : null;
 		}
 		
-		@Override public ItemStack getSingle() { return this.stack; }
+		@Override public ItemStack getSingle() { return this.stack.copy(); }
 		@Override public boolean possibleMultiOutput() { return false; }
-		@Override public ItemStack[] getAllPossibilities() { return new ItemStack[] {getSingle()}; }
+		/** For NEI, includes tooltip labels */
+		@Override public ItemStack[] getAllPossibilities() { return new ItemStack[] {this.chance >= 1F ? getSingle() : ItemStackUtil.addTooltipToStack(getSingle(), EnumChatFormatting.RED + "" + (int)(this.chance * 1000) / 10F + "%")}; }
 		
 		@Override
 		public void serialize(JsonWriter writer) throws IOException {
@@ -297,7 +301,13 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		
 		@Override public ItemStack[] getAllPossibilities() {
 			ItemStack[] outputs = new ItemStack[pool.size()];
-			for(int i = 0; i < outputs.length; i++) outputs[i] = pool.get(i).getAllPossibilities()[0];
+			int totalWeight = WeightedRandom.getTotalWeight(pool);
+			for(int i = 0; i < outputs.length; i++) {
+				ChanceOutput out = pool.get(i);
+				float chance = (float) out.itemWeight / (float) totalWeight;
+				outputs[i] = chance >= 1 ? out.getAllPossibilities()[0] : 
+					ItemStackUtil.addTooltipToStack(out.getAllPossibilities()[0], EnumChatFormatting.RED + "" + (int)(chance * 1000) / 10F + "%");
+			}
 			return outputs;
 		}
 		

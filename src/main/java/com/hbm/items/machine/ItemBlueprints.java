@@ -24,6 +24,7 @@ public class ItemBlueprints extends Item {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconDiscover;
 	@SideOnly(Side.CLIENT) protected IIcon iconSecret;
+	@SideOnly(Side.CLIENT) protected IIcon icon528;
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -31,6 +32,7 @@ public class ItemBlueprints extends Item {
 		super.registerIcons(reg);
 		this.iconDiscover = reg.registerIcon(this.getIconString() + "_discover");
 		this.iconSecret = reg.registerIcon(this.getIconString() + "_secret");
+		this.icon528 = reg.registerIcon(this.getIconString() + "_528");
 	}
 
 	@Override
@@ -45,11 +47,12 @@ public class ItemBlueprints extends Item {
 		if(stack.hasTagCompound()) {
 			String poolName = stack.stackTagCompound.getString("pool");
 			if(poolName == null) return this.itemIcon;
-			if(poolName.startsWith(GenericRecipes.POOL_PREFIX_DISCOVER)) return this.iconDiscover;
-			if(poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) return this.iconSecret;
+			if(poolName.startsWith(GenericRecipes.POOL_PREFIX_DISCOVER)) return this.iconDiscover; // beige
+			if(poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) return this.iconSecret; // black
+			if(poolName.startsWith(GenericRecipes.POOL_PREFIX_528)) return this.icon528; // grey
 		}
 		
-		return this.itemIcon;
+		return this.itemIcon; // blue
 	}
 
 	@Override

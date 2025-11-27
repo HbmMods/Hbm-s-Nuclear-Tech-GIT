@@ -110,12 +110,12 @@ public abstract class NEIGenericRecipeHandler extends TemplateRecipeHandler impl
 		}
 
 		@Override public List<PositionedStack> getIngredients() { return getCycledIngredients(cycleticks / 20, Arrays.asList(this.input)); }
-		@Override public PositionedStack getResult() { return this.output[0]; }
+		@Override public PositionedStack getResult() { return null; }
 
 		@Override
 		public List<PositionedStack> getOtherStacks() {
 			List<PositionedStack> other = new ArrayList();
-			for(int i = 1; i < this.output.length; i++) other.add(this.output[i]);
+			for(int i = 0; i < this.output.length; i++) other.add(this.output[i]);
 			other.add(this.machine);
 			if(this.template != null) other.add(this.template);
 			return getCycledIngredients(cycleticks / 20, other);

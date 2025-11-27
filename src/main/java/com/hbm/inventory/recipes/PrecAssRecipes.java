@@ -30,7 +30,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 
 	@Override
 	public void registerDefaults() {
-		
+
 		registerPair(new GenericRecipe("precass.controller").setup(400, 15_000L)
 				.inputItems(new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),
 						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR),
@@ -42,6 +42,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 				DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER), 10, 25);
 	}
 	
+	/** Registers a generic pair of faulty product and recycling of broken items. */
 	public void registerPair(GenericRecipe recipe, ItemStack output, int chance, int reclaim) {
 		recipe.outputItems(new ChanceOutputMulti(
 				new ChanceOutput(output, chance),
@@ -56,6 +57,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 		for(int i = 0; i < recycle.length; i++) {
 			ItemStack stack = recipe.inputItem[i].extractForNEI().get(0).copy();
 			int stackSize = (int) (recipe.inputItem[i].stacksize * fReclaim);
+			// if the resulting stack size is >= 1, use that, otherwise use the original stack size but a chance output percentage
 			if(stackSize > 0) {
 				stack.stackSize = stackSize;
 				recycle[i] = new ChanceOutput(stack);

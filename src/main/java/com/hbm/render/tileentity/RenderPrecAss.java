@@ -57,11 +57,6 @@ public class RenderPrecAss extends TileEntitySpecialRenderer implements IItemRen
 				BobMathUtil.interp(assembler.prevArmAngles[1], assembler.armAngles[1], interp),
 				BobMathUtil.interp(assembler.prevArmAngles[2], assembler.armAngles[2], interp)
 		};
-
-		// test for null position
-		arm[0] = 45;
-		arm[1] = -30;
-		arm[2] = 45;
 		
 		GL11.glRotated(spin, 0, 1, 0);
 		ResourceManager.assembly_machine.renderPart("Ring");
@@ -69,7 +64,7 @@ public class RenderPrecAss extends TileEntitySpecialRenderer implements IItemRen
 
 		for(int i = 0; i < 4; i++) {
 			renderArm(arm, BobMathUtil.interp(assembler.prevStrikers[i], assembler.strikers[i], interp));
-			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(-90, 0, 1, 0);
 		}
 		
 		GL11.glPopMatrix();
@@ -156,9 +151,9 @@ public class RenderPrecAss extends TileEntitySpecialRenderer implements IItemRen
 				ResourceManager.assembly_machine.renderPart("Frame");
 				ResourceManager.assembly_machine.renderPart("Ring");
 				ResourceManager.assembly_machine.renderPart("Ring2");
-				double[] arm = new double[] {45, -15, -5};
+				double[] arm = new double[] {45, -30, 45};
 				for(int i = 0; i < 4; i++) {
-					renderArm(arm, -0.75);
+					renderArm(arm, 0);
 					GL11.glRotated(90, 0, 1, 0);
 				}
 				GL11.glShadeModel(GL11.GL_FLAT);

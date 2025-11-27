@@ -169,18 +169,11 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 					if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
 					if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
 					if(this.ringTarget == this.ring) {
-						if(ringTarget >= 360) {
-							this.ringTarget -= 360D;
-							this.ring -= 360D;
-							this.prevRing -= 360D;
-						}
-						if(ringTarget <= -360) {
-							this.ringTarget += 360D;
-							this.ring += 360D;
-							this.prevRing += 360D;
-						}
+						double sub = ringTarget >= 360 ? -360D : 360D;
+						this.ringTarget += sub;
+						this.ring += sub;
+						this.prevRing += sub;
 						this.ringDelay = 20 + worldObj.rand.nextInt(21);
-						//MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.5F);
 					}
 				} else {
 					if(this.ringDelay > 0) this.ringDelay--;
