@@ -4943,6 +4943,8 @@ potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 
+precass.recycle=Recycling of %s
+
 purex.recycle=Reprocessing of %s
 purex.schrab=Schrabidium extraction from %s
 

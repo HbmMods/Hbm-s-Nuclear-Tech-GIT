@@ -127,9 +127,9 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 		ItemStack stack = entity.getItemStack();
 		ItemStack remainder = null;
 		if(CrystallizerRecipes.getAmount(stack) > 0) {
-			remainder = InventoryUtil.tryAddItemToInventory(partitioner, 0, 8, stack);
+			remainder = InventoryUtil.tryAddItemToInventory(partitioner, 0, TileEntityCranePartitioner.SLOT_COUNT - 1, stack);
 		} else {
-			remainder = InventoryUtil.tryAddItemToInventory(partitioner, 9, 17, stack);
+			remainder = InventoryUtil.tryAddItemToInventory(partitioner, TileEntityCranePartitioner.SLOT_COUNT, TileEntityCranePartitioner.SLOT_COUNT * 2 - 1, stack);
 		}
 		if(remainder != null) {
 			EntityItem item = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, remainder.copy());
@@ -159,6 +159,8 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 
 				for(ItemStack stack : stacks) {
 					int amount = CrystallizerRecipes.getAmount(stack);
+					if(amount == 0) amount = stack.stackSize; // eject full stack if invalid type somehow ended up in the queue
+					
 					while(stack.stackSize >= amount) {
 						ItemStack entityStack = stack.copy();
 						entityStack.stackSize = amount;
@@ -185,7 +187,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 
 		@Override
 		public boolean canExtractItem(int slot, ItemStack stack, int side) {
-			return slot >= SLOT_COUNT;
+			return slot >= SLOT_COUNT; // declog
 		}
 
 		@Override
@@ -199,8 +201,8 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 		public int[] getAccessibleSlotsFromSide(int side) {
 			
 			if(access == null) {
-				access = new int[SLOT_COUNT]; // writing this by hand is for chumps
-				for(int i = 0; i < SLOT_COUNT; i++) access[i] = i;
+				access = new int[SLOT_COUNT * 2]; // writing this by hand is for chumps
+				for(int i = 0; i < SLOT_COUNT * 2; i++) access[i] = i;
 			}
 			
 			return access;

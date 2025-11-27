@@ -42,6 +42,7 @@ public abstract class TileEntityRequestNetwork extends TileEntityLoadedBase {
 
 				PathNode newNode = createNode(pos);
 				if(this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) newNode.active = false;
+				else newNode.active = true;
 				// push new node
 				push(worldObj, newNode);
 

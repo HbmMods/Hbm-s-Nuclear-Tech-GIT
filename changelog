@@ -1,2 +1,11 @@
+## Changed
+* Removed a ton of unused projectile entities
+* Removed the old ZOMG beams, negative energy type explosions now use DFC-like effects instead
+* Removed the old multitool (it sucked)
+
 ## Fixed
 * Fixed ore acidizer recipe config just straight up not working with ore dictionary keys
+* Fixed logistic network nodes disabled via redstone not re-enabling when redstone is cut
+* Added provisional emergency brake to drone pathfinding, pathfinding will simply fail if it goes on for too long
+* Fixed ore acidizer partitioner freezing the game
+* Fixed ore acidizer partitioner trash slots not being accessible via automation

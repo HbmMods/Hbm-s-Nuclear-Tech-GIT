@@ -287,6 +287,10 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		
 		public List<ChanceOutput> pool = new ArrayList();
 		
+		public ChanceOutputMulti(ChanceOutput... out) {
+			for(ChanceOutput output : out) pool.add(output);
+		}
+		
 		@Override public ItemStack collapse() { return ((ChanceOutput) WeightedRandom.getRandomItem(RNG, pool)).collapse(); }
 		@Override public boolean possibleMultiOutput() { return pool.size() > 1; }
 		@Override public ItemStack getSingle() { return possibleMultiOutput() ? null : pool.get(0).getSingle(); }
