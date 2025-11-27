@@ -157,13 +157,10 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 				if(this.strikerDir[i]) {
 					this.strikers[i] = -0.75D;
 					this.strikerDir[i] = false;
+					if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStrike", this.getVolume(0.5F), 1.25F);
 				} else {
 					this.strikers[i] = MathHelper.clamp_double(this.strikers[i] + 0.5D, -0.75D, 0D);
 				}
-			}
-			
-			if(this.isInWorkingPosition(prevArmAngles) && !this.isInWorkingPosition(armAngles)) {
-				if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 			}
 			
 			if(this.ring != this.ringTarget) {
@@ -199,13 +196,17 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 					if(this.strikerDelay <= 0) {
 						this.strikerDir[this.strikerIndex] = true;
 						this.strikerIndex = (this.strikerIndex + 1) % this.strikers.length;
-						this.strikerDelay = this.strikerIndex == 3 ? 10 : 2;
+						this.strikerDelay = this.strikerIndex == 3 ? (10 + worldObj.rand.nextInt(3)) : 2;
 					}
 				}
 				
 			} else {
 				for(int i = 0; i < 4; i++) this.strikerDir[i] = false; // set all strikers to retract
 				if(canArmsMove()) move(NULL_POSITION);
+			}
+			
+			if(this.isInWorkingPosition(prevArmAngles) && !this.isInWorkingPosition(armAngles)) {
+				if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStop", this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 			}
 		}
 	}
@@ -285,7 +286,6 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		boolean wasProcessing = this.didProcess;
 		this.inputTank.deserialize(buf);
 		this.outputTank.deserialize(buf);
 		this.power = buf.readLong();
