@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.fusion;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerFusionBreeder;
 import com.hbm.inventory.fluid.Fluids;
@@ -18,9 +19,14 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -29,10 +35,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionBreeder extends TileEntityMachineBase implements IFluidStandardTransceiverMK2, IFusionPowerReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityFusionBreeder extends TileEntityMachineBase implements IFluidStandardTransceiverMK2, IFusionPowerReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	protected GenNode plasmaNode;
-	
+
 	public FluidTank[] tanks;
 
 	public double neutronEnergy;
@@ -42,7 +49,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 	public TileEntityFusionBreeder() {
 		super(3);
-		
+
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.NONE, 16_000);
 		tanks[1] = new FluidTank(Fluids.NONE, 16_000);
@@ -52,44 +59,44 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	public String getName() {
 		return "container.fusionBreeder";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			tanks[0].setType(0, slots);
 
 			if(!canProcessSolid() && !canProcessLiquid()) {
 				this.progress = 0;
 			}
-			
+
 			// because tile updates may happen in any order and the value that needs
 			// to be synced needs to persist until the next tick due to the batched packets
 			this.neutronEnergySync = this.neutronEnergy;
-			
+
 			for(DirPos pos : getConPos()) {
 				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
 				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
 			}
-			
+
 			if(plasmaNode == null || plasmaNode.expired) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
 				plasmaNode = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 2, PlasmaNetworkProvider.THE_PROVIDER);
-				
+
 				if(plasmaNode == null) {
 					plasmaNode = new GenNode(PlasmaNetworkProvider.THE_PROVIDER,
 							new BlockPos(xCoord + dir.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 2))
 							.setConnections(new DirPos(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir));
-					
+
 					UniNodespace.createNode(worldObj, plasmaNode);
 				}
 			}
-			
+
 			if(plasmaNode != null && plasmaNode.hasValidNet()) plasmaNode.net.addReceiver(this);
-			
+
 			this.networkPackNT(25);
-			
+
 			this.neutronEnergy = 0;
 		}
 	}
@@ -115,17 +122,17 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	}
 
 	public boolean canProcessLiquid() {
-		
+
 		Pair<Integer, FluidStack> output = FluidBreederRecipes.getOutput(tanks[0].getTankType());
 		if(output == null) return false;
 		if(tanks[0].getFill() < output.getKey()) return false;
-		
+
 		FluidStack fluid = output.getValue();
 
 		if(tanks[1].getTankType() != fluid.type && tanks[1].getFill() > 0) return false;
 		tanks[1].setTankType(fluid.type);
 		if(tanks[1].getFill() + fluid.fill > tanks[1].getMaxFill()) return false;
-		
+
 		return true;
 	}
 
@@ -156,7 +163,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		tanks[0].setFill(tanks[0].getFill() - output.getKey());
 		tanks[1].setFill(tanks[1].getFill() + output.getValue().fill);
 	}
-	
+
 	public void doProgress() {
 
 		if(canProcessSolid()) {
@@ -187,11 +194,11 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 	@Override public boolean canExtractItem(int slot, ItemStack itemStack, int side) { return slot == 2; }
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {1, 2}; }
-	
+
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir),
 				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
@@ -215,7 +222,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		super.serialize(buf);
 		buf.writeDouble(neutronEnergySync);
 		buf.writeDouble(progress);
-		
+
 		this.tanks[0].serialize(buf);
 		this.tanks[1].serialize(buf);
 	}
@@ -225,7 +232,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		super.deserialize(buf);
 		this.neutronEnergy = buf.readDouble();
 		this.progress = buf.readDouble();
-		
+
 		this.tanks[0].deserialize(buf);
 		this.tanks[1].deserialize(buf);
 	}
@@ -288,5 +295,112 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_fusion_breeder";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getNeutronEnergy(Context context, Arguments args) {
+		return new Object[] {neutronEnergySync};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getProgress(Context context, Arguments args) {
+		return new Object[] {progress / capacity};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+			tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCrafting(Context context, Arguments args) {
+		ItemStack input = slots[1];
+		String inputName = "";
+		int inputSize = 0;
+		if (input != null) {
+			inputName = input.getUnlocalizedName();
+			inputSize = input.stackSize;
+		}
+
+		ItemStack output = slots[2];
+		String outputName = "";
+		int outputSize = 0;
+		if (output != null) {
+			outputName = output.getUnlocalizedName();
+			outputSize = output.stackSize;
+		}
+
+		return new Object[] {
+			inputName, inputSize,
+			outputName, outputSize
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		ItemStack input = slots[1];
+		String inputName = "";
+		int inputSize = 0;
+		if (input != null) {
+			inputName = input.getUnlocalizedName();
+			inputSize = input.stackSize;
+		}
+
+		ItemStack output = slots[2];
+		String outputName = "";
+		int outputSize = 0;
+		if (output != null) {
+			outputName = output.getUnlocalizedName();
+			outputSize = output.stackSize;
+		}
+
+		return new Object[] {
+			neutronEnergySync, progress / capacity,
+
+			tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+			tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+
+			inputName, inputSize,
+			outputName, outputSize
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getNeutronEnergy",
+			"getProgress",
+			"getFluid",
+			"getCrafting",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getNeutronEnergy": return getNeutronEnergy(context, args);
+			case "getProgress": return getProgress(context, args);
+			case "getFluid": return getFluid(context, args);
+			case "getCrafting": return getCrafting(context, args);
+			case "getInfo": return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }
