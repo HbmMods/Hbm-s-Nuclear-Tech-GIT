@@ -3,8 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.MachineITER;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
@@ -477,37 +475,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	}
 
 	public void disassemble() {
-
-		MachineITER.drop = false;
-
-		int[][][] layout = TileEntityITERStruct.layout;
-
-		for(int y = 0; y < 5; y++) {
-			for(int x = 0; x < layout[0].length; x++) {
-				for(int z = 0; z < layout[0][0].length; z++) {
-
-					int ly = y > 2 ? 4 - y : y;
-
-					int width = 7;
-
-					if(x == width && y == 0 && z == width)
-						continue;
-
-					int b = layout[ly][x][z];
-
-					switch(b) {
-					case 1: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_conductor, 1, 3); break;
-					case 2: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_center); break;
-					case 3: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_motor); break;
-					case 4: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.reinforced_glass); break;
-					}
-				}
-			}
-		}
-
-		worldObj.setBlock(xCoord, yCoord - 2, zCoord, ModBlocks.struct_iter_core);
-
-		MachineITER.drop = true;
+		
+		worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 10, 50));

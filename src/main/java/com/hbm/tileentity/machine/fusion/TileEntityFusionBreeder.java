@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFusionBreeder;
 import com.hbm.inventory.recipes.FluidBreederRecipes;
 import com.hbm.inventory.recipes.OutgasserRecipes;
+import com.hbm.inventory.recipes.OutgasserRecipes.OutgasserRecipe;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -104,10 +105,10 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	public boolean canProcessSolid() {
 		if(slots[1] == null) return false;
 
-		Pair<ItemStack, FluidStack> output = OutgasserRecipes.getOutput(slots[1]);
+		OutgasserRecipe output = OutgasserRecipes.getOutput(slots[1]);
 		if(output == null) return false;
 
-		FluidStack fluid = output.getValue();
+		FluidStack fluid = output.liquidOutput;
 
 		if(fluid != null) {
 			if(tanks[1].getTankType() != fluid.type && tanks[1].getFill() > 0) return false;
@@ -115,7 +116,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 			if(tanks[1].getFill() + fluid.fill > tanks[1].getMaxFill()) return false;
 		}
 
-		ItemStack out = output.getKey();
+		ItemStack out = output.solidOutput;
 		if(slots[2] == null || out == null) return true;
 
 		return slots[2].getItem() == out.getItem() && slots[2].getItemDamage() == out.getItemDamage() && slots[2].stackSize + out.stackSize <= slots[2].getMaxStackSize();
@@ -138,15 +139,15 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 	private void processSolid() {
 
-		Pair<ItemStack, FluidStack> output = OutgasserRecipes.getOutput(slots[1]);
+		OutgasserRecipe output = OutgasserRecipes.getOutput(slots[1]);
 		this.decrStackSize(1, 1);
 		this.progress = 0;
 
-		if(output.getValue() != null) {
-			tanks[1].setFill(tanks[1].getFill() + output.getValue().fill);
+		if(output.liquidOutput != null) {
+			tanks[1].setFill(tanks[1].getFill() + output.liquidOutput.fill);
 		}
 
-		ItemStack out = output.getKey();
+		ItemStack out = output.solidOutput;
 
 		if(out != null) {
 			if(slots[2] == null) {

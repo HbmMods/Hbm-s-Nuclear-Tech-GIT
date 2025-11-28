@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.hbm.config.ClientConfig;
 import com.hbm.handler.imc.ICompatNHNEI;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
@@ -27,6 +28,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
+@NotableComments
 public abstract class NEIGenericRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();

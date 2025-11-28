@@ -24,7 +24,7 @@ public class ItemMultiDetonator extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add("Shift right-click block to add position,");
 		list.add("right-click to detonate!");
-		list.add("Shift right-click in the air to clear postitions.");
+		list.add("Shift right-click in the air to clear positions.");
 
 		if(itemstack.getTagCompound() == null || getLocations(itemstack) == null) {
 			list.add(EnumChatFormatting.RED + "No position set!");
