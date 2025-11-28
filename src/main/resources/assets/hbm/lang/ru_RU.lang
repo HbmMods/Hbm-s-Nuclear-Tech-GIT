@@ -469,7 +469,7 @@ book_lore.beacon.page.9=Как только желаемый партнер от
 book_lore.beacon.page.10=по стандарту ФАР-5М. Связь прекратится немедленно, если не будет согласован ни один стандарт, что будет служить «пингом». Если связь продолжается, соединение можно завершить, используя ещё один длинный тональный сигнал «ЗАВЕРШИТЬ СОЕДИНЕНИЕ».
 book_lore.beacon.page.11=Глава 5: Гарантия $ [страница намеренно оставлена ​​пустой]
 
-cannery.f1=[ Нажмите f1 для справки ]
+cannery.f1=[ Нажмите %s для презентации ]
 
 cannery.centrifuge=Газовая цетрифуга
 cannery.centrifuge.0=В газовые центрифуги можно подать жидкость обычными жидкостными трубами.
@@ -770,7 +770,9 @@ container.furnaceCombination=Коксовая печь
 container.furnaceIron=Железная печь
 container.furnaceSteel=Стальная печь
 container.fusionMultiblock=Большой термоядерный реактор
-container.fusionaryWatzPlant=Реактор Ватцз-установки
+container.fusionBreeder=Размножитель
+container.fusionKlystron=Клистрон
+container.fusionTorus=Термоядерный реактор
 container.gasCentrifuge=Газовая центрифуга
 container.gasFlare=Газовая башня
 container.generator=Ядерный реактор
@@ -812,6 +814,7 @@ container.machineLiquefactor=Разжижитель
 container.machineMixer=Промышленный смеситель
 container.machinePUREX=Пьюрекс
 container.machineOreSlopper=П.Б.Р.
+container.machinePrecAss=Прецизионная сборочная машина
 container.machinePyroOven=Пиролизная печь
 container.machineRefinery=Нефтеперерабатывающий завод
 container.machineRotaryFurnace=Роторная печь
@@ -1516,6 +1519,7 @@ hbmfluid.crackoil_ds=Десульфуризованная крекированн
 hbmfluid.cryogel=Криогель
 hbmfluid.death=Осмиридовый раствор
 hbmfluid.deuterium=Дейтерий
+hbmfluid.dhc=Дейтерированный углеводород
 hbmfluid.diesel=Дизель
 hbmfluid.diesel_crack=Крекированный дизель
 hbmfluid.diesel_crack_reform=Высокоцетановый крекированный дизель
@@ -5197,8 +5201,12 @@ potion.hbm_stability=Стабильность
 potion.hbm_taint=Порча
 potion.hbm_telekinesis=! ! !
 
+precass.recycle=Переработка %s
+
 purex.recycle=Переработка %s
 purex.schrab=Извлечение шрабидия из %s
+
+qmaw.tab=[ Нажмите %s для получения справки ]
 
 radar.clearMap=Очистить карту
 radar.detectMissiles=Обнаружение ракет
@@ -5803,6 +5811,24 @@ tile.furnace_iron.name=Железная печь
 tile.furnace_iron.desc=Большая и более эффективная печь,$не тратит топливо, когда простаивает.
 tile.furnace_steel.name=Стальная печь
 tile.furnace_steel.desc=Огромная печь, даёт бонус к$переплавке предметов. Требует внешний источник тепла.$Скорость теплопередачи: ΔT*0.05 TU/t$(Δ - разница, T - температура)
+tile.fusion_component.name=Сверхпроводящие катушки (BSCCO)
+tile.fusion_component.blanket.name=Защитный слой термоядерного реактора
+tile.fusion_component.bscco_welded.name=Сваренные катушки (BSCCO)
+tile.fusion_component.motor.name=Жидкостная логистика (термоядерный реактор)
+tile.fusion_coupler.name=Спариватель (термоядерный реактор)
+tile.fusion_coupler.desc=Использует энергию плазмы для запуска клистрона, что зажжёт плазму в следующем реакторе.
+tile.fusion_boiler.name=Плазменный бойлер (термоядерный реактор)
+tile.fusion_boiler.desc=Использует энергию плазмы для перегрева воды до состояния раскалённого пара.
+tile.fusion_breeder.name=Камера-размножитель (термоядерный реактор)
+tile.fusion_breeder.desc=Отводит поток нейтронов для обработки материалов. Полезно для производства тритиевого топлива.
+tile.fusion_collector.name=Улавливающая камера (термоядерный реактор)
+tile.fusion_collector.desc=Собирает дополнительное количество продуктов при подключении к основной камере.
+tile.fusion_klystron.name=Клистрон (термоядерный реактор)
+tile.fusion_klystron.desc=Зажигает термоядерный реактор. Требует охлаждения сжатым воздухом.
+tile.fusion_mhdt.name=МГД-турбина (термоядерный реактор)
+tile.fusion_mhdt.desc=Извлекает электроэнергию из плазмы напрямую, что позволяет достичь меньших потерь. Требуется охлаждение!
+tile.fusion_torus.name=Термоядерный реактор (основная камера)
+tile.fusion_torus.desc=Ядро всей системы. Во время работы удерживает раскалённую плазму и нейтронный поток. Необходимы клистрон для поджига плазмы и охлаждение!
 tile.fusion_center.name=Центральный элемент магнита
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_conductor_welded.name=Сверхпроводящий магнит (Сваренный)
@@ -6038,6 +6064,7 @@ tile.machine_nuke_furnace_on.name=Ядерная печь
 tile.machine_orbus.name=Тяжёлый магнитный контейнер для антиматерии
 tile.machine_ore_slopper.name=Переработчик бедроковой руды
 tile.machine_powerrtg.name=ПТ-изотопная ячейка
+tile.machine_precass.name=Прецизионная сборочная машина
 tile.machine_press.name=Пресс
 tile.machine_puf6_tank.name=Бочка гексафторида плутония
 tile.machine_pumpjack.name=Станок-качалка
@@ -6518,7 +6545,8 @@ tile.stone_resource.sulfur.name=Сернистый камень
 tile.stones_slab.lightstone.1.name=Плита из светлокаменной плитки
 tile.stones_slab.lightstone.2.name=Плита из светлокаменного кирпича
 tile.struct_icf_core.name=Ядро инерциального термоядерного реактора (ICF)
-tile.struct_iter_core.name=Ядро термоядерного реактора
+tile.struct_iter_core.name=Ядро термоядерного реактора 
+tile.struct_torus_core.name=Ядро основной камеры
 tile.struct_launcher.name=Блок-компонент пусковой площадки
 tile.struct_launcher_core.name=Ядро компактной пусковой площадки
 tile.struct_launcher_core_large.name=Ядро большой пусковой площадки
@@ -6747,3 +6775,4 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 10.04.2025 by Bufka2011 //
+
