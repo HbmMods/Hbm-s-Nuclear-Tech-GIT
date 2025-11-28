@@ -1,11 +1,12 @@
 ## Changed
-* Removed a ton of unused projectile entities
-* Removed the old ZOMG beams, negative energy type explosions now use DFC-like effects instead
-* Removed the old multitool (it sucked)
+* New fusion reactor and particle accelerator parts now have OpenComputers compat
+* Irradiation recipe config now has the `fusionOnly` flag, preventing the recipe from being done in the RBMK irradiation channel
+* Removed legacy fusion reactor parts from the creative inventory
+* Removed the legacy fusion reactor core components
+* If a legacy fusion reactor explodes, it is now destroyed forever and cannot be reassembled
+* Legacy fusion reactors no longer disassemble when being mined, rather they drop as one block
+* Legacy templates are no longer listed in the creative tab
+* Removed the old meltdown achievement
 
 ## Fixed
-* Fixed ore acidizer recipe config just straight up not working with ore dictionary keys
-* Fixed logistic network nodes disabled via redstone not re-enabling when redstone is cut
-* Added provisional emergency brake to drone pathfinding, pathfinding will simply fail if it goes on for too long
-* Fixed ore acidizer partitioner freezing the game
-* Fixed ore acidizer partitioner trash slots not being accessible via automation
+* Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled

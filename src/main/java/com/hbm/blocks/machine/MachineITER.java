@@ -1,21 +1,14 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.material.Mats;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityITER;
 import com.hbm.tileentity.machine.TileEntityITERStruct;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,11 +33,6 @@ public class MachineITER extends BlockDummyable {
 		if(meta >= 6)
 			return new TileEntityProxyCombo(true, true, true);
 		
-		return null;
-	}
-
-	@Override
-	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
 	}
 
@@ -237,29 +225,6 @@ public class MachineITER extends BlockDummyable {
 	@Override
 	public int getOffset() {
 		return 7;
-	}
-	
-	public static boolean drop = true;
-	
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
-
-		if(i >= 12 && drop) {
-
-			for(int l = 0; l < 4; l++) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 64)));
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_cast, 64, Mats.MAT_STEEL.id)));
-			}
-
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 36)));
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_cast, 36, Mats.MAT_STEEL.id)));
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_center, 64)));
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_motor, 4)));
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.reinforced_glass, 8)));
-			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_iter_core, 1)));
-		}
-
-		super.breakBlock(world, x, y, z, block, i);
 	}
 
 }

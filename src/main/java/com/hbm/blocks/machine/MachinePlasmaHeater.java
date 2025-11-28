@@ -1,25 +1,18 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.Random;
 
 public class MachinePlasmaHeater extends BlockDummyable {
 
@@ -36,11 +29,6 @@ public class MachinePlasmaHeater extends BlockDummyable {
 		if(meta >= 6)
 			return new TileEntityProxyCombo(false, true, true);
 
-		return null;
-	}
-
-	@Override
-	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
 	}
 
@@ -133,19 +121,4 @@ public class MachinePlasmaHeater extends BlockDummyable {
 	public int getOffset() {
 		return 1;
 	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
-
-    	if(i >= 12) {
-
-            for(int l = 0; l < 2; l++)
-            	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_heater, 64)));
-
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_heater, 7)));
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_plasma_core, 1)));
-    	}
-
-		super.breakBlock(world, x, y, z, block, i);
-    }
 }

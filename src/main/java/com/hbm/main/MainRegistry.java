@@ -226,7 +226,6 @@ public class MainRegistry {
 	public static Achievement achBismuth;
 	public static Achievement achBreeding;
 	public static Achievement achFusion;
-	public static Achievement achMeltdown;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -442,7 +441,6 @@ public class MainRegistry {
 		achBismuth = new Achievement("achievement.bismuth", "bismuth", 11, -6, ModItems.ingot_bismuth, achRBMK).initIndependentStat().registerStat();
 		achBreeding = new Achievement("achievement.breeding", "breeding", 7, -6, ModItems.ingot_am_mix, achRBMK).initIndependentStat().setSpecial().registerStat();
 		achFusion = new Achievement("achievement.fusion", "fusion", 13, -7, new ItemStack(ModBlocks.iter), achBismuth).initIndependentStat().setSpecial().registerStat();
-		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.powder_balefire, achFusion).initIndependentStat().setSpecial().registerStat();
 		achRedBalloons = new Achievement("achievement.redBalloons", "redBalloons", 11, 0, ModItems.missile_nuclear, achPolymer).initIndependentStat().setSpecial().registerStat();
 		achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
 
@@ -508,7 +506,6 @@ public class MainRegistry {
 			achBismuth,
 			achBreeding,
 			achFusion,
-			achMeltdown,
 			achRedBalloons,
 			achManhattan
 		}));
@@ -1457,6 +1454,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.multitool_mega");
 		ignoreMappings.add("hbm:item.multitool_joule");
 		ignoreMappings.add("hbm:item.multitool_decon");
+		ignoreMappings.add("hbm:tile.struct_iter_core");
+		ignoreMappings.add("hbm:tile.struct_plasma_core");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

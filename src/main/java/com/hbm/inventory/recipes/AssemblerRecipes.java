@@ -371,14 +371,6 @@ import net.minecraft.item.ItemStack;
 				new ComparableStack(ModItems.ingot_u238m2),
 				new ComparableStack(ModItems.ingot_cft, 128)
 			}, 1200);
-		makeRecipe(new ComparableStack(ModBlocks.struct_iter_core, 1), new AStack[] {
-				!exp ? new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 6) : new OreDictStack(ANY_RESISTANTALLOY.heavyComp(), 2),
-				!exp ? new OreDictStack(W.plateWelded(), 6) : new OreDictStack(W.heavyComp(), 1),
-				new OreDictStack(OreDictManager.getReflector(), 12),
-				new ComparableStack(ModItems.coil_advanced_alloy, 12),
-				new OreDictStack(ANY_PLASTIC.ingot(), 8),
-				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BISMOID),
-			}, 600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_combustion_engine, 1), new AStack[] {
 				new OreDictStack(STEEL.plate528(), 16),
 				new OreDictStack(CU.ingot(), 12),
