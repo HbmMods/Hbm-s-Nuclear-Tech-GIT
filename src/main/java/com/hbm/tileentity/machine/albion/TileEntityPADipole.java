@@ -268,6 +268,21 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoolant(Context context, Arguments args) {
+		return new Object[] {
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDirLower(Context context, Arguments args) {
 		return new Object[] {dirToName(dirLower)};
 	}
@@ -321,10 +336,25 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 		return new Object[] {};
 	}
 
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {
+			getPower(), getMaxPower(),
+
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+
+			dirToName(dirLower), dirToName(dirUpper), dirToName(dirRedstone), threshold
+		};
+	}
+
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
+			"getEnergyInfo",
+			"getCoolant",
 			"getDirLower",
 			"setDirLower",
 			"getDirUpper",
@@ -333,6 +363,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			"setDirRedstone",
 			"getThreshold",
 			"setThreshold",
+			"getInfo",
 		};
 	}
 
@@ -340,6 +371,9 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
+			case "getEnergyInfo": return getEnergyInfo(context, args);
+			case "getCoolant": return getCoolant(context, args);
+
 			case "getDirLower": return getDirLower(context, args);
 			case "setDirLower": return setDirLower(context, args);
 			case "getDirUpper": return getDirUpper(context, args);
@@ -348,6 +382,8 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 			case "setDirRedstone": return setDirRedstone(context, args);
 			case "getThreshold": return getThreshold(context, args);
 			case "setThreshold": return setThreshold(context, args);
+
+			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
@@ -361,7 +397,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
+
 		if((PREFIX_FUNCTION + "setthreshold").equals(name) && params.length > 0) {
 			this.threshold = IRORInteractive.parseInt(params[0], 0, 999_999_999);
 			this.markChanged();

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.fusion;
 
 import java.util.Map.Entry;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionTorus;
 import com.hbm.inventory.fluid.Fluids;
@@ -25,9 +26,14 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -37,10 +43,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	public boolean didProcess = false;
-	
+
 	public FluidTank[] tanks;
 	public ModuleMachineFusion fusionModule;
 
@@ -51,7 +58,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public long klystronEnergy;
 	public long plasmaEnergy;
 	public double fuelConsumption;
-	
+
 	public float magnet;
 	public float prevMagnet;
 	public float magnetSpeed;
@@ -59,21 +66,21 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 	private AudioWrapper audio;
 	public int timeOffset = -1;
-	
+
 	public TileEntityFusionTorus() {
 		super(3);
 
 		klystronNodes = new GenNode[4];
 		plasmaNodes = new GenNode[4];
 		connections = new boolean[4];
-		
+
 		this.tanks = new FluidTank[4];
 
 		this.tanks[0] = new FluidTank(Fluids.NONE, 4_000);
 		this.tanks[1] = new FluidTank(Fluids.NONE, 4_000);
 		this.tanks[2] = new FluidTank(Fluids.NONE, 4_000);
 		this.tanks[3] = new FluidTank(Fluids.NONE, 4_000);
-		
+
 		this.fusionModule = new ModuleMachineFusion(0, this, slots)
 				.fluidInput(tanks[0], tanks[1], tanks[2])
 				.fluidOutput(tanks[3])
@@ -87,7 +94,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 
 			for(int i = 0; i < 4; i++) {
@@ -97,10 +104,10 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				if(klystronNodes[i].net != null) klystronNodes[i].net.addReceiver(this);
 				if(plasmaNodes[i].net != null) plasmaNodes[i].net.addProvider(this);
 			}
-			
+
 			this.temperature += this.temp_passive_heating;
 			if(this.temperature > KELVIN + 20) this.temperature = KELVIN + 20;
-			
+
 			if(this.temperature > this.temperature_target) {
 				int cyclesTemp = (int) Math.ceil((Math.min(this.temperature - temperature_target, temp_change_max)) / temp_change_per_mb);
 				int cyclesCool = coolantTanks[0].getFill();
@@ -111,9 +118,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				coolantTanks[1].setFill(coolantTanks[1].getFill() + cycles);
 				this.temperature -= this.temp_change_per_mb * cycles;
 			}
-			
+
 			for(DirPos pos : getConPos()) {
-				
+
 				if(worldObj.getTotalWorldTime() % 20 == 0) {
 					this.trySubscribe(worldObj, pos);
 					this.trySubscribe(coolantTanks[0].getTankType(), worldObj, pos);
@@ -127,19 +134,19 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			}
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
-			
+
 			// keeping track of PLASMA receivers because those need to share the combined output
 			int receiverCount = 0;
 			// collectors for determining the speed of the bonus bar
 			int collectors = 0;
-			
+
 			for(int i = 0; i < 4; i++) {
 				connections[i] = false;
 				if(klystronNodes[i] != null && klystronNodes[i].hasValidNet() && !klystronNodes[i].net.providerEntries.isEmpty()) connections[i] = true;
 				if(!connections[i] && plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) connections[i] = true;
-				
+
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
-					
+
 					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
 						Entry<Object, Long> entry = (Entry<Object, Long>) o;
 						Object thing = entry.getKey();
@@ -150,18 +157,18 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					}
 				}
 			}
-			
+
 			FusionRecipe recipe = (FusionRecipe) this.fusionModule.getRecipe();
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
 			double fuel0Factor = recipe != null && recipe.inputFluid.length > 0 ?  getSpeedScaled(tanks[0].getMaxFill(), tanks[0].getFill()) : 1D;
 			double fuel1Factor = recipe != null && recipe.inputFluid.length > 1 ?  getSpeedScaled(tanks[1].getMaxFill(), tanks[1].getFill()) : 1D;
 			double fuel2Factor = recipe != null && recipe.inputFluid.length > 2 ?  getSpeedScaled(tanks[2].getMaxFill(), tanks[2].getFill()) : 1D;
-			
+
 			double factor = BobMathUtil.min(powerFactor, fuel0Factor, fuel1Factor, fuel2Factor);
-			
+
 			boolean ignition = recipe != null ? recipe.ignitionTemp <= this.klystronEnergy : true;
-			
+
 			this.plasmaEnergy = 0;
 			this.fuelConsumption = 0;
 			this.fusionModule.preUpdate(factor, collectors * 0.5D);
@@ -172,17 +179,17 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.plasmaEnergy = (long) Math.ceil(recipe.outputTemp * factor);
 				this.fuelConsumption = factor;
 			}
-			
+
 			double outputIntensity = this.getOuputIntensity(receiverCount);
 			double outputFlux = recipe != null ? recipe.neutronFlux * factor : 0D;
-			
+
 			if(this.plasmaEnergy > 0) for(int i = 0; i < 4; i++) {
-				
+
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
-					
+
 					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
 						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						
+
 						if(entry.getKey() instanceof IFusionPowerReceiver) {
 							long powerReceived = (long) Math.ceil(this.plasmaEnergy * outputIntensity);
 							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux);
@@ -190,33 +197,33 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					}
 				}
 			}
-			
+
 			this.networkPackNT(150);
-			
+
 			this.klystronEnergy = 0;
-			
+
 		} else {
-			
+
 			if(timeOffset == -1) this.timeOffset = worldObj.rand.nextInt(30_000);
 
 			double powerFactor = TileEntityFusionTorus.getSpeedScaled(this.getMaxPower(), power);
 			if(this.didProcess) this.magnetSpeed += MAGNET_ACCELERATION;
 			else this.magnetSpeed -= MAGNET_ACCELERATION;
-			
+
 			this.magnetSpeed = MathHelper.clamp_float(this.magnetSpeed, 0F, 30F * (float) powerFactor);
-			
+
 			this.prevMagnet = this.magnet;
 			this.magnet += this.magnetSpeed;
-			
+
 			if(this.magnet >= 360F) {
 				this.magnet -= 360F;
 				this.prevMagnet -= 360F;
 			}
-			
+
 			if(this.magnetSpeed > 0 && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 2.5, zCoord + 0.5) < 50 * 50) {
-				
+
 				float speed = this.magnetSpeed / 30F;
-				
+
 				if(audio == null) {
 					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 30F, speed, 20);
 					audio.startSound();
@@ -225,9 +232,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 					audio.updatePitch(speed);
 					audio.keepAlive();
 				}
-				
+
 			} else {
-				
+
 				if(audio != null) {
 					if(audio.isPlaying()) audio.stopSound();
 					audio = null;
@@ -235,24 +242,24 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			}
 		}
 	}
-	
+
 	public static double getOuputIntensity(int receiverCount) {
 		if(receiverCount == 1) return 1D; // 100%
 		if(receiverCount == 2) return 0.625D; // 125%
 		if(receiverCount == 3) return 0.5D; // 150%
 		return 0.4375D; // 175%
 	}
-	
+
 	public GenNode createNode(INetworkProvider provider, ForgeDirection dir) {
 		GenNode node = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 7, yCoord + 2, zCoord + dir.offsetZ * 7, provider);
 		if(node != null) return node;
-		
+
 		node = new GenNode(provider,
 				new BlockPos(xCoord + dir.offsetX * 7, yCoord + 2, zCoord + dir.offsetZ * 7))
 				.setConnections(new DirPos(xCoord + dir.offsetX * 8, yCoord + 2, zCoord + dir.offsetZ * 8, dir));
-		
+
 		UniNodespace.createNode(worldObj, node);
-		
+
 		return node;
 	}
 
@@ -288,7 +295,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 		buf.writeLong(this.klystronEnergy);
 		buf.writeLong(this.plasmaEnergy);
 		buf.writeDouble(this.fuelConsumption);
-		
+
 		this.fusionModule.serialize(buf);
 		for(int i = 0; i < 4; i++) this.tanks[i].serialize(buf);
 		for(int i = 0; i < 4; i++) buf.writeBoolean(connections[i]);
@@ -301,26 +308,26 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 		this.klystronEnergy = buf.readLong();
 		this.plasmaEnergy = buf.readLong();
 		this.fuelConsumption = buf.readDouble();
-		
+
 		this.fusionModule.deserialize(buf);
 		for(int i = 0; i < 4; i++) this.tanks[i].deserialize(buf);
 		for(int i = 0; i < 4; i++) connections[i] = buf.readBoolean();
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		for(int i = 0; i < 4; i++) this.tanks[i].readFromNBT(nbt, "ft" + i);
 
 		this.power = nbt.getLong("power");
 		this.fusionModule.readFromNBT(nbt);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(nbt, "ft" + i);
 
 		nbt.setLong("power", power);
@@ -335,7 +342,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {coolantTanks[1], tanks[3]}; }
 	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {coolantTanks[0], tanks[0], tanks[1], tanks[2]}; }
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {coolantTanks[0], coolantTanks[1], tanks[0], tanks[1], tanks[2], tanks[3]}; }
-	
+
 	/** Linearly scales up from 0% to 100% from 0 to 0.5, then stays at 100% */
 	public static double getSpeedScaled(double max, double level) {
 		if(max == 0) return 0D;
@@ -452,5 +459,111 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				this.markChanged();
 			}
 		}
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_fusion_torus";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+			tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+			tanks[2].getFill(), tanks[2].getMaxFill(), tanks[2].getTankType().getUnlocalizedName(),
+			tanks[3].getFill(), tanks[3].getMaxFill(), tanks[3].getTankType().getUnlocalizedName(),
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoolant(Context context, Arguments args) {
+		return new Object[] {
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getKlystronEnergy(Context context, Arguments args) {
+		return new Object[] {klystronEnergy};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPlasmaEnergy(Context context, Arguments args) {
+		return new Object[] {plasmaEnergy};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFuelConsumption(Context context, Arguments args) {
+		return new Object[] {fuelConsumption};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRecipeProgress(Context context, Arguments args) {
+		return new Object[] {fusionModule.progress, fusionModule.bonus};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {
+			getPower(), getMaxPower(),
+
+			tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+			tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+			tanks[2].getFill(), tanks[2].getMaxFill(), tanks[2].getTankType().getUnlocalizedName(),
+			tanks[3].getFill(), tanks[3].getMaxFill(), tanks[3].getTankType().getUnlocalizedName(),
+
+			coolantTanks[0].getFill(), coolantTanks[0].getMaxFill(),
+			coolantTanks[1].getFill(), coolantTanks[1].getMaxFill(),
+
+			klystronEnergy, plasmaEnergy, fuelConsumption,
+			fusionModule.progress, fusionModule.bonus
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getEnergyInfo",
+			"getFluid",
+			"getCoolant",
+			"getKlystronEnergy",
+			"getPlasmaEnergy",
+			"getFuelConsumption",
+			"getRecipeProgress",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getEnergyInfo": return getEnergyInfo(context, args);
+			case "getFluid": return getFluid(context, args);
+			case "getCoolant": return getCoolant(context, args);
+			case "getKlystronEnergy": return getKlystronEnergy(context, args);
+			case "getPlasmaEnergy": return getPlasmaEnergy(context, args);
+			case "getFuelConsumption": return getFuelConsumption(context, args);
+			case "getRecipeProgress": return getRecipeProgress(context, args);
+			case "getInfo": return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

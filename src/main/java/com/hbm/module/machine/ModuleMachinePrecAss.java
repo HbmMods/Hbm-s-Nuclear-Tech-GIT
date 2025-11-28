@@ -1,7 +1,7 @@
 package com.hbm.module.machine;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.PrecAssRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.util.BobMathUtil;
@@ -21,7 +21,7 @@ public class ModuleMachinePrecAss extends ModuleMachineBase {
 
 	@Override
 	public GenericRecipes getRecipeSet() {
-		return AssemblyMachineRecipes.INSTANCE;
+		return PrecAssRecipes.INSTANCE;
 	}
 	
 	@Override
