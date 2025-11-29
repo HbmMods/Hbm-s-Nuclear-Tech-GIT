@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.fusion_breeder", 1, 0],
 	"trigger": [["hbm:tile.fusion_breeder"]],
 	"title": {
-		"en_US": "Fusion Reactor Breeding Chamber"
+		"en_US": "Fusion Reactor Breeding Chamber",
+		"ru_RU": "Камера-размножитель"
 	},
 	"content": {
-		"en_US": "Uses neutron flux from a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to process materials. Can perform any recipe from the [[RBMK irradiation channel|RBMK Irradiation Channel]], plus a few unique recipes with liquid inputs. Neutron flux output is not affected by port sharing rules, the neutron flux output level on a torus is constant across all ports no matter how many components are attached to it."
+		"en_US": "Uses neutron flux from a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to process materials. Can perform any recipe from the [[RBMK irradiation channel|RBMK Irradiation Channel]], plus a few unique recipes with liquid inputs. Neutron flux output is not affected by port sharing rules, the neutron flux output level on a torus is constant across all ports no matter how many components are attached to it.",
+		"ru_RU": "Устройство, использующее поток нейтронов из [[главной камеры|Fusion Reactor Vessel]] для облучения материалов. Ввиду этого принцип работы камеры схож со [[стержнем облучения РБМК|RBMK Irradiation Channel]]. Но, в отличие от последнего, камера-размножитель принимает и жидкое сырьё. Нейтронный поток не подвержен действию правила совместного использования портов, а это значит, что он будет одинаков и постоянен на всех портах тора вне зависимости от количества подключенных камер."
 	}
 }
