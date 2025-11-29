@@ -74,7 +74,7 @@ public class ModuleMachineFusion extends ModuleMachineBase {
             else this.progress = 0D;
         }
 
-        int bonusMulti = this.fitOutput(recipe, (int) Math.ceil(bonus)); // maybe this should handle multi processing
+        int bonusMulti = bonus < 1D ? 0 : this.fitOutput(recipe, (int) bonus); // maybe this should handle multi processing
         if(bonusMulti >= 1) {
             produceItem(recipe, bonusMulti);
             this.bonus -= bonusMulti;
