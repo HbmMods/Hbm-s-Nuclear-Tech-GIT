@@ -83,7 +83,7 @@ public abstract class ModuleMachineBase {
 		
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-                if(recipe.inputFluid[i].fill == 0) return count; // to prevent division by zero; although this should be checked on the recipe side
+                if(recipe.inputFluid[i].fill == 0) continue; // to prevent division by zero; although this should be checked on the recipe side
                 count = Math.min(count, inputTanks[i].getFill() / recipe.inputFluid[i].fill);
                 if(count == 0) return 0;
 			}
