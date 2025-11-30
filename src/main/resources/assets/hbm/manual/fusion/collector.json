@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.fusion_collector", 1, 0],
 	"trigger": [["hbm:tile.fusion_collector"]],
 	"title": {
-		"en_US": "Fusion Reactor Collector Chamber"
+		"en_US": "Fusion Reactor Collector Chamber",
+		"ru_RU": "Улавливающая камера"
 	},
 	"content": {
-		"en_US": "Can be attached to a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to increase the byproduct production rate by 50%. The byproducts are extracted from the torus itself, the collector does not have a GUI, nor ports. The collector also does not use the plasma's flux or energy level, so other components affected by energy sharing are unaffected."
+		"en_US": "Can be attached to a fusion reactor's [[torus|Fusion Reactor Vessel]] in order to increase the byproduct production rate by 50%. The byproducts are extracted from the torus itself, the collector does not have a GUI, nor ports. The collector also does not use the plasma's flux or energy level, so other components affected by energy sharing are unaffected.",
+		"ru_RU": "Опциональный компонент реактора, который подключается к [[тору|Fusion Reactor Vessel]] для увеличения выхода побочных продуктов на 50%. Извлекать продукты придётся самостоятельно прямо из тора, так как коллектор не имеет ни интерфейса, ни портов. Он не нуждается в энергии или плазме, а потому не подвержен действию правила распределения энергии."
 	}
 }

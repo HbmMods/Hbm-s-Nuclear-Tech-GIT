@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.fusion_klystron", 1, 0],
 	"trigger": [["hbm:tile.fusion_klystron"]],
 	"title": {
-		"en_US": "Klystron"
+		"en_US": "Klystron",
+		"ru_RU": "Клистрон"
 	},
 	"content": {
-		"en_US": "Main power source of a [[fusion reactor|Fusion Reactor]], uses electricity and [[compressed air|Compressed Air]] to generate input energy (klystron energy or KyU) for the connected [[torus|Fusion Reactor Vessel]]. The output target needs to be defined in the GUI. Will throttle if either the buffered electricity or compressed air falls below 50%. If the klystron's output falls below the connected torus' required input level, it will not throttle, rather the plasma will immediately extinguish."
+		"en_US": "Main power source of a [[fusion reactor|Fusion Reactor]], uses electricity and [[compressed air|Compressed Air]] to generate input energy (klystron energy or KyU) for the connected [[torus|Fusion Reactor Vessel]]. The output target needs to be defined in the GUI. Will throttle if either the buffered electricity or compressed air falls below 50%. If the klystron's output falls below the connected torus' required input level, it will not throttle, rather the plasma will immediately extinguish.",
+		"ru_RU": "Источник энергии для [[термоядерного реактора|Fusion Reactor]]. Использует электричество и [[сжатый воздух|Compressed Air]] для генерации первичной энергии (энергия клистрона), от которой запускается подключенный [[тор|Fusion Reactor Vessel]]. Значение выводимой энергии задаётся в графическом интерфейсе клистрона. Начнёт работать хуже, если количество энергии в буфере или запас топлива будут ниже 50%. Плазма гаснет, если энергии от клистрона недостаточно."
 	}
 }

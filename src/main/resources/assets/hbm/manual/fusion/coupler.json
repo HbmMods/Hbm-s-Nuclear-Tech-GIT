@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.fusion_coupler", 1, 0],
 	"trigger": [["hbm:tile.fusion_coupler"]],
 	"title": {
-		"en_US": "Fusion Reactor Coupler"
+		"en_US": "Fusion Reactor Coupler",
+		"ru_RU": "Спариватель"
 	},
 	"content": {
-		"en_US": "Small and unassuming, yet the most powerful part of a [[fusion reactor|Fusion Reactor]] setup, the coupler turns outgoing plasma energy from a [[torus|Fusion Reactor Vessel]] into usable klystron energy which can be used as the power source for another torus. Some fuel combinations require this, as the minimum klystron energy needed to ignite the plasma exceeds what four [[klystrons|Klystron]] could deliver.<br><br>Affected by port sharing rules, keep in mind that the coupler's output will be affected when using [[boilers|Fusion Reactor Boiler]] or [[MHDTs|MHD Turbine]] on the torus it draws power from."
+		"en_US": "Small and unassuming, yet the most powerful part of a [[fusion reactor|Fusion Reactor]] setup, the coupler turns outgoing plasma energy from a [[torus|Fusion Reactor Vessel]] into usable klystron energy which can be used as the power source for another torus. Some fuel combinations require this, as the minimum klystron energy needed to ignite the plasma exceeds what four [[klystrons|Klystron]] could deliver.<br><br>Affected by port sharing rules, keep in mind that the coupler's output will be affected when using [[boilers|Fusion Reactor Boiler]] or [[MHDTs|MHD Turbine]] on the torus it draws power from.",
+		"ru_RU": "Является самой важной частью схемы [[термоядерного реактора|Fusion Reactor]]. Механизм преобразует выходную энергию плазмы от [[одного тора|Fusion Reactor Vessel]] в энергию клистрона, чтобы ею можно было запустить другой тор. Спариватель совершенно необходим в тех случаях, когда минимум энергии для воспламенения плазмы превышает количество, которое смогли бы обеспечить 4 [[клистрона|Klystron]] на максимальной мощности.<br><br>Подвержен действию правила совместного использования портов, так что мощность спаривателя может снизиться при совместном использовании с [[МГД-турбинами|MHD Turbine]] или [[бойлерами|Fusion Reactor Boiler]]."
 	}
 }
