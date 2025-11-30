@@ -5084,7 +5084,7 @@ item.weapon_mod_generic.tcalloy_dura.name=Высокопрочные запча�
 item.weapon_mod_generic.wsteel_damage.name=Оптимизированный оружейно-стальной ресивер
 item.weapon_mod_generic.wsteel_dura.name=Высокопрочные запчасти из оружейной стали
 item.weapon_mod_special.bayonet.name=Штык
-item.weapon_mod_special.nickel.name=Два никеля 
+item.weapon_mod_special.nickel.name=Два пятака
 item.weapon_mod_special.doubloons.name=Два золотых дублона
 item.weapon_mod_special.choke.name=Чок
 item.weapon_mod_special.drill_hss.name=Головка для силового бура из быстрорежущей стали
@@ -6775,6 +6775,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
