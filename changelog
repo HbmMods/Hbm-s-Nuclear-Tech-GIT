@@ -10,3 +10,5 @@
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled
+* Fixed panzerschreck equip animation not speeding up with the sawed off mod
+* Fixed FENSU not keeping its charge when broken

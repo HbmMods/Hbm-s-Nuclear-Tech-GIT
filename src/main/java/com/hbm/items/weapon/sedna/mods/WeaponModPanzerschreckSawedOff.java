@@ -29,6 +29,7 @@ public class WeaponModPanzerschreckSawedOff extends WeaponModBase {
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
 		if(key == GunConfig.I_DRAWDURATION) return cast(5, base);
 		if(key == Receiver.CON_ONFIRE) { return (T) LAMBDA_FIRE; }
+		if(key == GunConfig.FUN_ANIMNATIONS) { return (T) LAMBDA_PANZERSCHRECK_ANIMS; }
 		return base;
 	}
 

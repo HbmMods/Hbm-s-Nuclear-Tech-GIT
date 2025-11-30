@@ -475,15 +475,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	}
 
 	public void disassemble() {
-		
 		worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 10, 50));
-
-		for(EntityPlayer player : players) {
-			player.triggerAchievement(MainRegistry.achMeltdown);
-		}
 	}
 
 	@Override
