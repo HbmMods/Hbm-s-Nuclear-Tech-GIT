@@ -44,7 +44,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -175,10 +174,10 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		}
 
 		if(!player.isSneaking()) {
-			Block block = getBlock(world, player.getHeldItem());
+			Block block = ModBlocks.getBlockFromStack(player.getHeldItem());
 			if(block == ModBlocks.wand_air) block = Blocks.air;
 
-			if(block != null && block != ModBlocks.wand_jigsaw && block != ModBlocks.wand_loot) {
+			if(block != null && !ModBlocks.isStructureBlock(block, false)) {
 				jigsaw.replaceBlock = block;
 				jigsaw.replaceMeta = player.getHeldItem().getItemDamage();
 				jigsaw.markDirty();
@@ -194,13 +193,6 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		}
 
 		return false;
-	}
-
-	private Block getBlock(World world, ItemStack stack) {
-		if(stack == null) return null;
-		if(!(stack.getItem() instanceof ItemBlock)) return null;
-
-		return ((ItemBlock) stack.getItem()).field_150939_a;
 	}
 
 	@Override

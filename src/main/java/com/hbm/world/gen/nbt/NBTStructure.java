@@ -1,11 +1,15 @@
 package com.hbm.world.gen.nbt;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.Predicate;
+
+import org.apache.commons.io.IOUtils;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockWand;
@@ -92,8 +96,27 @@ public class NBTStructure {
 		loadStructure(stream);
 	}
 
+	public NBTStructure(File file) throws FileNotFoundException {
+		this.name = file.getName();
+		InputStream stream = new FileInputStream(file);
+		loadStructure(stream);
+		IOUtils.closeQuietly(stream);
+	}
+
 	public String getName() {
 		return name.substring(0, name.length() - 4); // trim .nbt
+	}
+
+	public int getSizeX() {
+		return size.x;
+	}
+
+	public int getSizeY() {
+		return size.y;
+	}
+
+	public int getSizeZ() {
+		return size.z;
 	}
 
 	public static void register() {
@@ -150,7 +173,7 @@ public class NBTStructure {
 	}
 
 	// Saves a selected area into an NBT structure (+ some of our non-standard stuff to support 1.7.10)
-	public static void saveArea(String filename, World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
+	public static NBTTagCompound saveArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
 		NBTTagCompound structure = new NBTTagCompound();
 		NBTTagList nbtBlocks = new NBTTagList();
 		NBTTagList nbtPalette = new NBTTagList();
@@ -257,6 +280,13 @@ public class NBTStructure {
 
 		structure.setTag("entities", new NBTTagList());
 
+		return structure;
+	}
+
+	// Writes out a specified area to an .nbt file with a given name
+	public static File quickSaveArea(String filename, World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
+		NBTTagCompound structure = saveArea(world, x1, y1, z1, x2, y2, z2, exclude);
+
 		try {
 			File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
 			structureDirectory.mkdir();
@@ -264,8 +294,12 @@ public class NBTStructure {
 			File structureFile = new File(structureDirectory, filename);
 
 			CompressedStreamTools.writeCompressed(structure, new FileOutputStream(structureFile));
+
+			return structureFile;
 		} catch (Exception ex) {
 			MainRegistry.logger.warn("Failed to save NBT structure", ex);
+
+			return null;
 		}
 	}
 
@@ -449,10 +483,14 @@ public class NBTStructure {
 	}
 
 	public void build(World world, int x, int y, int z) {
-		build(world, x, y, z, 0);
+		build(world, x, y, z, 0, true, false);
 	}
 
 	public void build(World world, int x, int y, int z, int coordBaseMode) {
+		build(world, x, y, z, coordBaseMode, true, false);
+	}
+
+	public void build(World world, int x, int y, int z, int coordBaseMode, boolean center, boolean wipeExisting) {
 		if(!isLoaded) {
 			MainRegistry.logger.info("NBTStructure is invalid");
 			return;
@@ -460,9 +498,11 @@ public class NBTStructure {
 
 		HashMap<Short, Short> worldItemPalette = getWorldItemPalette();
 
-		boolean swizzle = coordBaseMode == 1 || coordBaseMode == 3;
-		x -= (swizzle ? size.z : size.x) / 2;
-		z -= (swizzle ? size.x : size.z) / 2;
+		if(center) {
+			boolean swizzle = coordBaseMode == 1 || coordBaseMode == 3;
+			x -= (swizzle ? size.z : size.x) / 2;
+			z -= (swizzle ? size.x : size.z) / 2;
+		}
 
 		int maxX = size.x;
 		int maxZ = size.z;
@@ -474,7 +514,10 @@ public class NBTStructure {
 
 				for(int by = 0; by < size.y; by++) {
 					BlockState state = blockArray[bx][by][bz];
-					if(state == null) continue;
+					if(state == null) {
+						if(wipeExisting) world.setBlock(rx, by + y, rz, Blocks.air, 0, 2);
+						continue;
+					}
 
 					int ry = by + y;
 
@@ -634,7 +677,7 @@ public class NBTStructure {
 
 		for(int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = items.getCompoundTagAt(i);
-			item.setShort("id", palette.get(item.getShort("id")));
+			item.setShort("id", palette.getOrDefault(item.getShort("id"), (short)0));
 		}
 	}
 
