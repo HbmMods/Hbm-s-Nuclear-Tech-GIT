@@ -14,6 +14,8 @@ import com.hbm.items.BrokenItem;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemFishFood.FishType;
 import net.minecraft.item.ItemStack;
 
 public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
@@ -40,6 +42,24 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 						new OreDictStack(PB.wireFine(), 16))
 				.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 1_000)),
 				DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER), 10, 25);
+		
+		// all hail the pufferfish, driver of all innovation
+		this.register(new GenericRecipe("precass.blueprints").setup(5 * 60 * 20, 20_000L)
+				.inputItems(new ComparableStack(Items.paper, 16),
+						new OreDictStack(KEY_BLUE, 16),
+						new ComparableStack(Items.fish, 16, FishType.PUFFERFISH))
+				.outputItems(new ChanceOutputMulti(
+					new ChanceOutput(new ItemStack(ModItems.blueprint_folder, 1, 0), 10),
+					new ChanceOutput(new ItemStack(Items.paper, 16, 0), 90))
+				));
+		this.register(new GenericRecipe("precass.beigeprints").setup(5 * 60 * 20, 50_000L)
+				.inputItems(new ComparableStack(Items.paper, 24),
+						new OreDictStack(CINNABAR.gem(), 24),
+						new ComparableStack(Items.fish, 32, FishType.PUFFERFISH))
+				.outputItems(new ChanceOutputMulti(
+					new ChanceOutput(new ItemStack(ModItems.blueprint_folder, 1, 1), 5),
+					new ChanceOutput(new ItemStack(Items.paper, 24, 0), 95))
+				));
 	}
 	
 	/** Registers a generic pair of faulty product and recycling of broken items. */

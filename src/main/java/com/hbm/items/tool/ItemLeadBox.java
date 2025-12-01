@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import com.hbm.inventory.container.ContainerLeadBox;
 import com.hbm.inventory.gui.GUILeadBox;
 import com.hbm.items.ItemInventory;
+import com.hbm.items.block.ItemBlockStorageCrate;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ItemStackUtil;
@@ -79,6 +80,12 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 		@Override
 		public int getInventoryStackLimit() {
 			return 1;
+		}
+		
+		@Override
+		public boolean isItemValidForSlot(int slot, ItemStack stack) {
+			if(stack != null && stack.getItem() instanceof ItemBlockStorageCrate) return false;
+			return true;
 		}
 	}
 }

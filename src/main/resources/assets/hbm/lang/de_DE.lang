@@ -2399,6 +2399,7 @@ item.item_expensive.computer.name=Großrechner
 item.item_expensive.ferro_plating.name=Verstärkte Ferrouraniumpanele
 item.item_expensive.heavy_frame.name=Schweres Gestell
 item.item_expensive.lead_plating.name=Strahlenresistente Plattierung
+item.item_expensive.plastic.name=Kunststoffpanele
 item.item_expensive.steel_plating.name=Gebolzte Stahlplatten
 item.item_secret.aberrator.name=Aberrator-Teil
 item.item_secret.canister.name=Komposit SB-26

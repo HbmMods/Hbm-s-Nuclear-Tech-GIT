@@ -1,7 +1,6 @@
 package com.hbm.entity.effect;
 
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.items.ModItems;
@@ -24,10 +23,10 @@ import net.minecraft.world.World;
 
 public class EntityBlackHole extends Entity {
 	
-	Random rand = new Random();
-
-	public EntityBlackHole(World p_i1582_1_) {
-		super(p_i1582_1_);
+	public boolean breaksBlocks = true;
+	
+	public EntityBlackHole(World world) {
+		super(world);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.noClip = true;
@@ -38,13 +37,18 @@ public class EntityBlackHole extends Entity {
 		this.dataWatcher.updateObject(16, size);
 	}
 	
+	public EntityBlackHole noBreak() {
+		this.breaksBlocks = false;
+		return this;
+	}
+	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
 		
 		float size = this.dataWatcher.getWatchableObjectFloat(16);
 		
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && breaksBlocks) {
 			for(int k = 0; k < size * 2; k++) {
 				double phi = rand.nextDouble() * (Math.PI * 2);
 				double costheta = rand.nextDouble() * 2 - 1;
@@ -164,11 +168,13 @@ public class EntityBlackHole extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.dataWatcher.updateObject(16, nbt.getFloat("size"));
+		this.breaksBlocks = nbt.getBoolean("breaksBlocks");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setFloat("size", this.dataWatcher.getWatchableObjectFloat(16));
+		nbt.setBoolean("breaksBlocks", breaksBlocks);
 	}
 	
 	@Override

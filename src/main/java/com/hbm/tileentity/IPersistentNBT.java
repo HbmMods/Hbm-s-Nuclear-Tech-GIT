@@ -42,8 +42,10 @@ public interface IPersistentNBT {
 	public static void restoreData(World world, int x, int y, int z, ItemStack stack) {
 		try {
 			if(!stack.hasTagCompound()) return;
-			IPersistentNBT tile = (IPersistentNBT) world.getTileEntity(x, y, z);
-			tile.readNBT(stack.stackTagCompound);
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(!(tile instanceof IPersistentNBT)) return;
+			IPersistentNBT persistent = (IPersistentNBT) tile;
+			persistent.readNBT(stack.stackTagCompound);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

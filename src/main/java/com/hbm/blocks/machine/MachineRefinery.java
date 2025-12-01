@@ -24,7 +24,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -87,26 +86,10 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	public int getOffset() {
 		return 1;
 	}
-
-	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-		
-		if(!player.capabilities.isCreativeMode) {
-			harvesters.set(player);
-			this.dropBlockAsItem(world, x, y, z, meta, 0);
-			harvesters.set(null);
-		}
-	}
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
-		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
-		player.addExhaustion(0.025F);
 	}
 
 	@Override
