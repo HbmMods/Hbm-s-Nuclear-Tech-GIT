@@ -7,6 +7,18 @@
 * Legacy fusion reactors no longer disassemble when being mined, rather they drop as one block
 * Legacy templates are no longer listed in the creative tab
 * Removed the old meltdown achievement
+* Eating canned fists now hurts
+* Due to repeated incidents regarding canned black holes, the mechanics have changed
+  * Vortices spawned now have a flag set that prevents them from breaking blocks entirely
+  * Vortices decay 4x faster than those spawned by singularity items, it should last about 2.5 seconds in total
+  * It will still very much kill you instantly and destroy your items
+* Storage crates can no longer be placed into containment boxes
+* Expensive mode now has a new microcrafting item, being made from multiple types of plastic
+* Fusion reactor parts now have expensive mode recipes
+* Both types of blueprint booklets are now obtainable via precision assembler
+  * The recipes are lengthy, require a lot of power and have a low chance of succeeding
+  * Recipes require the divine pufferfish, driver of all innovation
+  * Where can you get this much pufferfish? Go figure it out
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled

@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.tool.ItemLeadBox.InventoryLeadBox;
 import com.hbm.util.InventoryUtil;
 
@@ -19,7 +20,7 @@ public class ContainerLeadBox extends Container {
 		
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 5; j++) {
-				this.addSlotToContainer(new Slot(box, j + i * 5, 43 + j * 18, 18 + i * 18));
+				this.addSlotToContainer(new SlotNonRetarded(box, j + i * 5, 43 + j * 18, 18 + i * 18));
 			}
 		}
 
