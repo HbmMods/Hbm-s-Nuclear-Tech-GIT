@@ -20,6 +20,7 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.BlockWandJigsaw.TileEntityWandJigsaw;
 import com.hbm.blocks.generic.BlockWandLoot.TileEntityWandLoot;
+import com.hbm.blocks.generic.BlockWandStructure.TileEntityWandStructure;
 import com.hbm.blocks.generic.BlockWandTandem.TileEntityWandTandem;
 import com.hbm.blocks.generic.BlockWandLogic.TileEntityWandLogic;
 import com.hbm.blocks.generic.DungeonSpawner.TileEntityDungeonSpawner;
@@ -245,6 +246,7 @@ public class TileMappings {
 		put(TileEntityWandJigsaw.class, "tileentity_wand_jigsaw");
 		put(TileEntityWandLogic.class, "tileentity_wand_spawner");
 		put(TileEntityWandTandem.class, "tileentity_wand_tandem");
+		put(TileEntityWandStructure.class, "tileentity_wand_structure");
 
 		putNetwork();
 		putBombs();
@@ -442,7 +444,7 @@ public class TileMappings {
 		put(TileEntityPipeExhaustPaintable.class, "tileentity_pipe_exhaust_paintable");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
-		
+
 		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
@@ -496,7 +498,7 @@ public class TileMappings {
 		if(IConfigurableMachine.class.isAssignableFrom(clazz)) {
 			configurables.add((Class<? extends IConfigurableMachine>) clazz);
 		}
-		
+
 		/**
 		 * Causes problems with most machines where two independently acting tiles work together (TU machines, RBMKs, fluid transfer)
 		 * Also breaks due to some sort of buffer leak in the threaded packets, if a boiler is involved (which uses a ByteBuf instead of the usual serializing) it crashes

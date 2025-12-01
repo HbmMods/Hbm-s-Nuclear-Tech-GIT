@@ -1,11 +1,15 @@
 package com.hbm.world.gen.nbt;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.Predicate;
+
+import org.apache.commons.io.IOUtils;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockWand;
@@ -18,6 +22,7 @@ import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.nbt.SpawnCondition.WorldCoordinate;
+import com.hbm.world.gen.nbt.selector.BiomeBlockSelector;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.*;
@@ -57,8 +62,10 @@ public class NBTStructure {
 
 	private static Map<String, SpawnCondition> namedMap = new HashMap<>();
 
-	protected static Map<Integer, List<SpawnCondition>> weightedMap = new HashMap<>();
+	protected static Map<Integer, List<SpawnCondition>> spawnMap = new HashMap<>();
 	protected static Map<Integer, List<SpawnCondition>> customSpawnMap = new HashMap<>();
+
+	private static Map<Integer, Map<Integer, WeightedSpawnList>> validBiomeCache = new HashMap<>();
 
 	private String name;
 
@@ -84,6 +91,34 @@ public class NBTStructure {
 		}
 	}
 
+	public NBTStructure(String name, InputStream stream) {
+		this.name = name;
+		loadStructure(stream);
+	}
+
+	public NBTStructure(File file) throws FileNotFoundException {
+		this.name = file.getName();
+		InputStream stream = new FileInputStream(file);
+		loadStructure(stream);
+		IOUtils.closeQuietly(stream);
+	}
+
+	public String getName() {
+		return name.substring(0, name.length() - 4); // trim .nbt
+	}
+
+	public int getSizeX() {
+		return size.x;
+	}
+
+	public int getSizeY() {
+		return size.y;
+	}
+
+	public int getSizeZ() {
+		return size.z;
+	}
+
 	public static void register() {
 		MapGenStructureIO.registerStructure(Start.class, "NBTStructures");
 		MapGenStructureIO.func_143031_a(Component.class, "NBTComponents");
@@ -102,10 +137,8 @@ public class NBTStructure {
 			return;
 		}
 
-		List<SpawnCondition> weightedList = weightedMap.computeIfAbsent(dimensionId, integer -> new ArrayList<SpawnCondition>());
-		for(int i = 0; i < spawn.spawnWeight; i++) {
-			weightedList.add(spawn);
-		}
+		List<SpawnCondition> spawnList = spawnMap.computeIfAbsent(dimensionId, integer -> new ArrayList<SpawnCondition>());
+		spawnList.add(spawn);
 	}
 
 	public static void registerStructure(SpawnCondition spawn, int[] dimensionIds) {
@@ -122,10 +155,8 @@ public class NBTStructure {
 	public static void registerNullWeight(int dimensionId, int weight, Predicate<BiomeGenBase> predicate) {
 		SpawnCondition spawn = new SpawnCondition(weight, predicate);
 
-		List<SpawnCondition> weightedList = weightedMap.computeIfAbsent(dimensionId, integer -> new ArrayList<SpawnCondition>());
-		for(int i = 0; i < spawn.spawnWeight; i++) {
-			weightedList.add(spawn);
-		}
+		List<SpawnCondition> spawnList = spawnMap.computeIfAbsent(dimensionId, integer -> new ArrayList<SpawnCondition>());
+		spawnList.add(spawn);
 	}
 
 	// Presents a list of all structures registered (so far)
@@ -142,7 +173,7 @@ public class NBTStructure {
 	}
 
 	// Saves a selected area into an NBT structure (+ some of our non-standard stuff to support 1.7.10)
-	public static void saveArea(String filename, World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
+	public static NBTTagCompound saveArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
 		NBTTagCompound structure = new NBTTagCompound();
 		NBTTagList nbtBlocks = new NBTTagList();
 		NBTTagList nbtPalette = new NBTTagList();
@@ -249,6 +280,13 @@ public class NBTStructure {
 
 		structure.setTag("entities", new NBTTagList());
 
+		return structure;
+	}
+
+	// Writes out a specified area to an .nbt file with a given name
+	public static File quickSaveArea(String filename, World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
+		NBTTagCompound structure = saveArea(world, x1, y1, z1, x2, y2, z2, exclude);
+
 		try {
 			File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
 			structureDirectory.mkdir();
@@ -256,8 +294,12 @@ public class NBTStructure {
 			File structureFile = new File(structureDirectory, filename);
 
 			CompressedStreamTools.writeCompressed(structure, new FileOutputStream(structureFile));
+
+			return structureFile;
 		} catch (Exception ex) {
 			MainRegistry.logger.warn("Failed to save NBT structure", ex);
+
+			return null;
 		}
 	}
 
@@ -441,10 +483,14 @@ public class NBTStructure {
 	}
 
 	public void build(World world, int x, int y, int z) {
-		build(world, x, y, z, 0);
+		build(world, x, y, z, 0, true, false);
 	}
 
 	public void build(World world, int x, int y, int z, int coordBaseMode) {
+		build(world, x, y, z, coordBaseMode, true, false);
+	}
+
+	public void build(World world, int x, int y, int z, int coordBaseMode, boolean center, boolean wipeExisting) {
 		if(!isLoaded) {
 			MainRegistry.logger.info("NBTStructure is invalid");
 			return;
@@ -452,9 +498,11 @@ public class NBTStructure {
 
 		HashMap<Short, Short> worldItemPalette = getWorldItemPalette();
 
-		boolean swizzle = coordBaseMode == 1 || coordBaseMode == 3;
-		x -= (swizzle ? size.z : size.x) / 2;
-		z -= (swizzle ? size.x : size.z) / 2;
+		if(center) {
+			boolean swizzle = coordBaseMode == 1 || coordBaseMode == 3;
+			x -= (swizzle ? size.z : size.x) / 2;
+			z -= (swizzle ? size.x : size.z) / 2;
+		}
 
 		int maxX = size.x;
 		int maxZ = size.z;
@@ -466,16 +514,17 @@ public class NBTStructure {
 
 				for(int by = 0; by < size.y; by++) {
 					BlockState state = blockArray[bx][by][bz];
-					if(state == null) continue;
+					if(state == null) {
+						if(wipeExisting) world.setBlock(rx, by + y, rz, Blocks.air, 0, 2);
+						continue;
+					}
 
 					int ry = by + y;
 
 					Block block = transformBlock(state.definition, null, world.rand);
 					int meta = transformMeta(state.definition, null, coordBaseMode);
 
-					if(ry < 0 || ry >= world.getHeight()) continue;
-					Block existing = world.getBlock(rx, ry, rz);
-					if(existing == Blocks.bedrock) continue;
+					if(ry < 1) continue;
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
@@ -535,11 +584,29 @@ public class NBTStructure {
 		int minZ = Math.min(rotMinZ, rotMaxZ);
 		int maxZ = Math.max(rotMinZ, rotMaxZ);
 
+		if(piece.blockTable != null || piece.platform != null) {
+			BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(generatingBounds.getCenterX(), generatingBounds.getCenterZ());
+
+			if(piece.blockTable != null) {
+				for(BlockSelector selector : piece.blockTable.values()) {
+					if(selector instanceof BiomeBlockSelector) {
+						((BiomeBlockSelector) selector).nextBiome = biome;
+					}
+				}
+			}
+
+			if(piece.platform instanceof BiomeBlockSelector) {
+				((BiomeBlockSelector) piece.platform).nextBiome = biome;
+			}
+		}
+
 		for(int bx = minX; bx <= maxX; bx++) {
 			for(int bz = minZ; bz <= maxZ; bz++) {
 				int rx = rotateX(bx, bz, coordBaseMode) + totalBounds.minX;
 				int rz = rotateZ(bx, bz, coordBaseMode) + totalBounds.minZ;
 				int oy = piece.conformToTerrain ? world.getTopSolidOrLiquidBlock(rx, rz) + piece.heightOffset : totalBounds.minY;
+
+				boolean hasBase = false;
 
 				for(int by = 0; by < size.y; by++) {
 					BlockState state = blockArray[bx][by][bz];
@@ -550,15 +617,23 @@ public class NBTStructure {
 					Block block = transformBlock(state.definition, piece.blockTable, world.rand);
 					int meta = transformMeta(state.definition, piece.blockTable, coordBaseMode);
 
-					if(ry < 0 || ry >= world.getHeight()) continue;
-					Block existing = world.getBlock(rx, ry, rz);
-					if(existing == Blocks.bedrock) continue;
+					if(ry < 1) continue;
 
 					world.setBlock(rx, ry, rz, block, meta, 2);
 
 					if(state.nbt != null) {
 						TileEntity te = buildTileEntity(world, block, worldItemPalette, state.nbt, coordBaseMode, structureName);
 						world.setTileEntity(rx, ry, rz, te);
+					}
+
+					if(by == 0 && piece.platform != null && !block.getMaterial().isReplaceable()) hasBase = true;
+				}
+
+				if(hasBase && !piece.conformToTerrain) {
+					for(int y = oy - 1; y > 0; y--) {
+						if(!world.getBlock(rx, y, rz).isReplaceable(world, rx, y, rz)) break;
+						piece.platform.selectBlocks(world.rand, 0, 0, 0, false);
+						world.setBlock(rx, y, rz, piece.platform.func_151561_a(), piece.platform.getSelectedBlockMetaData(), 2);
 					}
 				}
 			}
@@ -602,7 +677,7 @@ public class NBTStructure {
 
 		for(int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = items.getCompoundTagAt(i);
-			item.setShort("id", palette.get(item.getShort("id")));
+			item.setShort("id", palette.getOrDefault(item.getShort("id"), (short)0));
 		}
 	}
 
@@ -940,6 +1015,8 @@ public class NBTStructure {
 			List<Component> queuedComponents = new ArrayList<>();
 			if(spawn.structure == null) queuedComponents.add(startComponent);
 
+			Set<JigsawPiece> requiredPieces = findRequiredPieces(spawn);
+
 			// Iterate through and build out all the components we intend to spawn
 			while(!queuedComponents.isEmpty()) {
 				queuedComponents.sort((a, b) -> b.priority - a.priority); // sort by placement priority descending
@@ -956,7 +1033,10 @@ public class NBTStructure {
 				if(fromComponent.piece.structure.fromConnections == null) continue;
 
 				int distance = getDistanceTo(fromComponent.getBoundingBox());
-				boolean fallbacksOnly = this.components.size() >= spawn.sizeLimit || distance >= spawn.rangeLimit;
+
+				// Only generate fallback pieces once we hit our size limit, unless we have a required component
+				// Note that there is a HARD limit of 1024 pieces to prevent infinite generation
+				boolean fallbacksOnly = requiredPieces.size() == 0 && (components.size() >= spawn.sizeLimit || distance >= spawn.rangeLimit) || components.size() > 1024;
 
 				for(List<JigsawConnection> unshuffledList : fromComponent.piece.structure.fromConnections) {
 					List<JigsawConnection> connectionList = new ArrayList<>(unshuffledList);
@@ -994,6 +1074,8 @@ public class NBTStructure {
 						if(nextComponent != null) {
 							addComponent(nextComponent, fromConnection.placementPriority);
 							queuedComponents.add(nextComponent);
+
+							requiredPieces.remove(nextComponent.piece);
 						} else {
 							// If we failed to fit anything in, grab something from the fallback pool, ignoring bounds check
 							// unless we are perfectly abutting another piece, so grid layouts can work!
@@ -1043,11 +1125,38 @@ public class NBTStructure {
 			return new BlockPos(x, y, z);
 		}
 
+		private Set<JigsawPiece> findRequiredPieces(SpawnCondition spawn) {
+			Set<JigsawPiece> requiredPieces = new HashSet<>();
+
+			if(spawn.pools == null) return requiredPieces;
+
+			for(JigsawPool pool : spawn.pools.values()) {
+				for(Pair<JigsawPiece, Integer> weight : pool.pieces) {
+					if(weight.getKey().required) {
+						requiredPieces.add(weight.getKey());
+					}
+				}
+			}
+
+			return requiredPieces;
+		}
+
 		private Component buildNextComponent(Random rand, SpawnCondition spawn, JigsawPool pool, Component fromComponent, JigsawConnection fromConnection) {
 			JigsawPiece nextPiece = pool.get(rand);
 			if(nextPiece == null) {
 				MainRegistry.logger.warn("[Jigsaw] Pool returned null piece: " + fromConnection.poolName);
 				return null;
+			}
+
+			if(nextPiece.instanceLimit > 0) {
+				int instances = 0;
+				for(Object component : components) {
+					if(component instanceof Component && ((Component) component).piece == nextPiece) {
+						instances++;
+
+						if(instances >= nextPiece.instanceLimit) return null;
+					}
+				}
 			}
 
 			List<JigsawConnection> connectionPool = nextPiece.structure.getConnectionPool(fromConnection.dir, fromConnection.targetName);
@@ -1153,7 +1262,7 @@ public class NBTStructure {
 				}
 			}
 
-			if (!weightedMap.containsKey(worldObj.provider.dimensionId))
+			if (!spawnMap.containsKey(worldObj.provider.dimensionId))
 				return null;
 
 			int x = chunkX;
@@ -1189,15 +1298,45 @@ public class NBTStructure {
 		}
 
 		private SpawnCondition findSpawn(BiomeGenBase biome) {
-			List<SpawnCondition> spawnList = weightedMap.get(worldObj.provider.dimensionId);
+			Map<Integer, WeightedSpawnList> dimensionCache = validBiomeCache.computeIfAbsent(worldObj.provider.dimensionId, integer -> new HashMap<>());
 
-			for(int i = 0; i < 64; i++) {
-				SpawnCondition spawn = spawnList.get(rand.nextInt(spawnList.size()));
-				if(spawn.isValid(biome)) return spawn;
+			WeightedSpawnList filteredList;
+			if(!dimensionCache.containsKey(biome.biomeID)) {
+				List<SpawnCondition> spawnList = spawnMap.get(worldObj.provider.dimensionId);
+
+				filteredList = new WeightedSpawnList();
+				for(SpawnCondition spawn : spawnList) {
+					if(spawn.isValid(biome)) {
+						filteredList.add(spawn);
+						filteredList.totalWeight += spawn.spawnWeight;
+					}
+				}
+
+				dimensionCache.put(biome.biomeID, filteredList);
+			} else {
+				filteredList = dimensionCache.get(biome.biomeID);
+			}
+
+			if(filteredList.totalWeight == 0) return null;
+
+			int weight = rand.nextInt(filteredList.totalWeight);
+
+			for(SpawnCondition spawn : filteredList) {
+				weight -= spawn.spawnWeight;
+
+				if(weight < 0) {
+					return spawn;
+				}
 			}
 
 			return null;
 		}
+
+	}
+
+	private static class WeightedSpawnList extends ArrayList<SpawnCondition> {
+
+		public int totalWeight = 0;
 
 	}
 
