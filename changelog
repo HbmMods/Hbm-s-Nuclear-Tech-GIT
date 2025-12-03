@@ -23,6 +23,8 @@
   * Recipes require the divine pufferfish, driver of all innovation
   * Where can you get this much pufferfish? Go figure it out
 * Chance output stacks no longer do an RNG call to determine if the whole stack is provided or none, rather, each single item of the stack has its own RNG call
+* Hiperf bedrock ore processing of heavy metals now yields tantalium
+* Bedrock coltan is no longer a dedicated bedrock ore type
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled

@@ -3,8 +3,6 @@ package com.hbm.items.tool;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockWandStructure.TileEntityWandStructure;
@@ -22,8 +20,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemWandS extends Item {
-
-	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
