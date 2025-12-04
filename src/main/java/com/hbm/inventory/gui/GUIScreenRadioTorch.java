@@ -71,7 +71,7 @@ public class GUIScreenRadioTorch extends GuiScreen {
 			this.remap[i].setTextColor(0x00ff00);
 			this.remap[i].setDisabledTextColour(0x00ff00);
 			this.remap[i].setEnableBackgroundDrawing(false);
-			this.remap[i].setMaxStringLength(15);
+			this.remap[i].setMaxStringLength(32);
 			this.remap[i].setText(radio.mapping[i] == null ? "" : radio.mapping[i]);
 		}
 	}

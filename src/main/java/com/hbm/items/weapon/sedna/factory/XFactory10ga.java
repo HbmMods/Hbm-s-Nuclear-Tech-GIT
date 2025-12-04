@@ -11,6 +11,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -22,6 +23,8 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 
@@ -54,7 +57,7 @@ public class XFactory10ga {
 						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug, g10_explosive))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
-				.setupStandardConfiguration()
+				.setupStandardConfiguration().ps(LAMBDA_DOUBLE_SECONDARY)
 				.anim(LAMBDA_DOUBLE_BARREL_ANIMS).orchestra(Orchestras.ORCHESTRA_DOUBLE_BARREL)
 				).setDefaultAmmo(EnumAmmo.G10, 6).setUnlocalizedName("gun_double_barrel");
 		ModItems.gun_double_barrel_sacred_dragon = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
@@ -64,7 +67,7 @@ public class XFactory10ga {
 						.mag(new MagazineFullReload(0, 2).addConfigs(g10, g10_shrapnel, g10_du, g10_slug, g10_explosive))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DOUBLE_BARREL))
-				.setupStandardConfiguration()
+				.setupStandardConfiguration().ps(LAMBDA_DOUBLE_SECONDARY)
 				.anim(LAMBDA_DOUBLE_BARREL_ANIMS).orchestra(Orchestras.ORCHESTRA_DOUBLE_BARREL)
 				).setDefaultAmmo(EnumAmmo.G10_DU, 6).setUnlocalizedName("gun_double_barrel_sacred_dragon");
 
@@ -82,6 +85,39 @@ public class XFactory10ga {
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_DOUBLE_BARREL = (stack, ctx) -> {
 		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
+	};
+
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_DOUBLE_SECONDARY = (stack, ctx) -> {
+
+		EntityLivingBase entity = ctx.entity;
+		EntityPlayer player = ctx.getPlayer();
+		Receiver rec = ctx.config.getReceivers(stack)[0];
+		int index = ctx.configIndex;
+		GunState state = ItemGunBaseNT.getState(stack, index);
+
+		if(state == GunState.IDLE) {
+
+			if(rec.getCanFire(stack).apply(stack, ctx)) {
+				rec.getOnFire(stack).accept(stack, ctx);
+
+				if(rec.getFireSound(stack) != null)
+					entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+
+				ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
+				ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterFire(stack));
+			} else {
+
+				if(rec.getDoesDryFire(stack)) {
+					ItemGunBaseNT.playAnimation(player, stack, GunAnimation.CYCLE_DRY, index);
+					ItemGunBaseNT.setState(stack, index, rec.getRefireAfterDry(stack) ? GunState.COOLDOWN : GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
+				}
+			}
+		}
+
+		if(state == GunState.RELOADING) {
+			ItemGunBaseNT.setReloadCancel(stack, true);
+		}
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_DOUBLE_BARREL_ANIMS = (stack, type) -> {
