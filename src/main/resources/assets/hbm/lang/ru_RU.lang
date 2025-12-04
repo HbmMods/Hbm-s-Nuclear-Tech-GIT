@@ -814,7 +814,7 @@ container.machineLiquefactor=Разжижитель
 container.machineMixer=Промышленный смеситель
 container.machinePUREX=Пьюрекс
 container.machineOreSlopper=П.Б.Р.
-container.machinePrecAss=Прецизионная сборочная машина
+container.machinePrecAss=Прецизионная машина
 container.machinePyroOven=Пиролизная печь
 container.machineRefinery=Нефтеперерабатывающий завод
 container.machineRotaryFurnace=Роторная печь
@@ -1619,7 +1619,7 @@ hbmfluid.solvent=Растворитель
 hbmfluid.sourgas=Кислый газ
 hbmfluid.spentsteam=Пар низкого давления
 hbmfluid.steam=Пар
-hbmfluid.stellar_flux=Звёздный поток
+hbmfluid.stellar_flux=Звёздная материя
 hbmfluid.sulfuric_acid=Серная кислота
 hbmfluid.sunfloweroil=Подсолнечное масло
 hbmfluid.superhotsteam=Перегретый пар
@@ -6776,6 +6776,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
