@@ -1009,6 +1009,7 @@ public class ModBlocks {
 
 	public static Block machine_excavator;
 	public static Block machine_ore_slopper;
+	public static Block machine_annihilator;
 	public static Block machine_autosaw;
 
 	public static Block machine_mining_laser;
@@ -1261,6 +1262,7 @@ public class ModBlocks {
 	public static Block wand_jigsaw;
 	public static Block wand_logic;
 	public static Block wand_tandem;
+	public static Block wand_structure;
 
 	public static Block logic_block;
 
@@ -2066,7 +2068,7 @@ public class ModBlocks {
 		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_mhdt = new MachineFusionMHDT().setBlockName("fusion_mhdt").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_coupler = new MachineFusionCoupler().setBlockName("fusion_coupler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		
+
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf_component = new BlockICFComponent().setBlockName("icf_component").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":icf_component");
@@ -2251,6 +2253,7 @@ public class ModBlocks {
 		machine_autosaw = new MachineAutosaw().setBlockName("machine_autosaw").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_excavator = new MachineExcavator().setBlockName("machine_excavator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_ore_slopper = new MachineOreSlopper().setBlockName("machine_ore_slopper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_annihilator = new MachineAnnihilator().setBlockName("machine_annihilator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mining_laser = new MachineMiningLaser(Material.iron).setBlockName("machine_mining_laser").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_mining_laser");
 		barricade = new BlockNoDrop(Material.sand).setBlockName("barricade").setHardness(1.0F).setResistance(2.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barricade");
 		machine_assembler = new MachineAssembler(Material.iron).setBlockName("machine_assembler").setHardness(5.0F).setResistance(30.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_assembler");
@@ -2430,6 +2433,7 @@ public class ModBlocks {
 		wand_jigsaw = new BlockWandJigsaw().setBlockName("wand_jigsaw").setBlockTextureName(RefStrings.MODID + ":wand_jigsaw");
 		wand_logic = new BlockWandLogic().setBlockName("wand_logic").setBlockTextureName(RefStrings.MODID + ":wand_logic");
 		wand_tandem = new BlockWandTandem().setBlockName("wand_tandem").setBlockTextureName(RefStrings.MODID + ":wand_tandem");
+		wand_structure = new BlockWandStructure().setBlockName("wand_structure");
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
 
@@ -3372,6 +3376,7 @@ public class ModBlocks {
 		register(machine_autosaw);
 		register(machine_excavator);
 		register(machine_ore_slopper);
+		register(machine_annihilator);
 		register(machine_mining_laser);
 		register(barricade);
 		register(machine_turbofan);
@@ -3448,7 +3453,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(iter, iter.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
-		
+
 		register(fusion_component);
 		register(fusion_torus);
 		register(fusion_klystron);
@@ -3603,6 +3608,7 @@ public class ModBlocks {
 		register(wand_jigsaw);
 		register(wand_logic);
 		register(wand_tandem);
+		register(wand_structure);
 
 		register(logic_block);
 	}
@@ -3635,4 +3641,24 @@ public class ModBlocks {
 
 		return ret;
 	}
+
+	public static Block getBlockFromStack(ItemStack stack) {
+		if(stack == null) return null;
+		if(!(stack.getItem() instanceof ItemBlock)) return null;
+
+		return ((ItemBlock) stack.getItem()).field_150939_a;
+	}
+
+	// Is this block a special structure handling block, so we can ignore it for blacklist selection, etc.
+    public static boolean isStructureBlock(Block block, boolean includeAir) {
+        if(block == null) return false;
+        if(block == wand_air) return includeAir;
+		if(block == wand_structure) return true;
+        if(block == wand_jigsaw) return true;
+        if(block == wand_logic) return true;
+        if(block == wand_tandem) return true;
+        if(block == wand_loot) return true;
+        return false;
+    }
+
 }

@@ -165,29 +165,29 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.polymer").setup(100, 100)
 				.inputItems(new OreDictStack(COAL.dust(), 2), new OreDictStack(F.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_polymer)));
 		
 		this.register(new GenericRecipe("chem.bakelite").setup(100, 100)
-				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528 ? 1 : 0), new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0), new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_bakelite)));
 		
 		this.register(new GenericRecipe("chem.rubber").setup(100, 200)
 				.inputItems(new OreDictStack(S.dust()))
-				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 2 : 0))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
 		
 		this.register(new GenericRecipe("chem.hardplastic").setup(100, 1_000)
-				.inputFluids(new FluidStack(Fluids.XYLENE, 500, GeneralConfig.enable528 ? 2 : 0), new FluidStack(Fluids.PHOSGENE, 500, GeneralConfig.enable528 ? 2 : 0))
+				.inputFluids(new FluidStack(Fluids.XYLENE, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0), new FluidStack(Fluids.PHOSGENE, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_pc)));
 		
 		this.register(new GenericRecipe("chem.pvc").setup(100, 1_000)
 				.inputItems(new OreDictStack(CD.dust()))
-				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 250, GeneralConfig.enable528 ? 2 : 0), new FluidStack(Fluids.CHLORINE, 250, GeneralConfig.enable528 ? 2 : 0))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 250, GeneralConfig.enable528PressurizedRecipes ? 2 : 0), new FluidStack(Fluids.CHLORINE, 250, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_pvc, 2)));
 		
 		this.register(new GenericRecipe("chem.kevlar").setup(60, 300)
-				.inputFluids(new FluidStack(Fluids.AROMATICS, 200), new FluidStack(Fluids.NITRIC_ACID, 100), new FluidStack(GeneralConfig.enable528 ? Fluids.PHOSGENE : Fluids.CHLORINE, 100))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 200), new FluidStack(Fluids.NITRIC_ACID, 100), new FluidStack(GeneralConfig.enable528PressurizedRecipes ? Fluids.PHOSGENE : Fluids.CHLORINE, 100))
 				.outputItems(new ItemStack(ModItems.plate_kevlar, 4)));
 		
 		this.register(new GenericRecipe("chem.meth").setup(60, 300)
@@ -282,7 +282,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.rocketfuel").setup(200, 100)
 				.inputItems(new ComparableStack(ModItems.solid_fuel, 2))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0), new FluidStack(Fluids.NITRIC_ACID, 100))
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528PressurizedRecipes ? 1 : 0), new FluidStack(Fluids.NITRIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.rocket_fuel, 4)));
 		
 		this.register(new GenericRecipe("chem.dynamite").setup(50, 100)
@@ -291,7 +291,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.tnt").setup(100, 1_000)
 				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
 		
 		this.register(new GenericRecipe("chem.tatb").setup(50, 5_000)
@@ -301,7 +301,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.c4").setup(100, 1_000)
 				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
 		
 		/// GLASS ///

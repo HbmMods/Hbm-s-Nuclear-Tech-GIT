@@ -23,6 +23,11 @@ public class JigsawPool {
 		totalWeight += weight;
 	}
 
+	public int getAverageWeight() {
+		if(pieces.size() == 0) return 1;
+		return totalWeight / pieces.size();
+	}
+
 	protected JigsawPool clone() {
 		JigsawPool clone = new JigsawPool();
 		clone.pieces = new ArrayList<>(this.pieces);

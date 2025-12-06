@@ -106,7 +106,7 @@ public class EntityEffectHandler {
 				}
 			}
 			//only sets players on fire so mod compatibility doesnt die
-			if((GeneralConfig.enable528 && GeneralConfig.enable528NetherBurn) && entity instanceof EntityPlayer && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+			if(GeneralConfig.enable528NetherBurn && entity instanceof EntityPlayer && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
 

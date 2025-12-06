@@ -239,7 +239,12 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		@Override 
 		public ItemStack collapse() {
 			if(this.chance >= 1F) return getSingle();
-			return RNG.nextFloat() <= chance ? getSingle() : null;
+			int finalSize = 0;
+			for(int i = 0; i < this.stack.stackSize; i++) if(RNG.nextFloat() <= chance) finalSize++; 
+			if(finalSize <= 0) return null;
+			ItemStack finalStack = getSingle();
+			finalStack.stackSize = finalSize;
+			return finalStack;
 		}
 		
 		@Override public ItemStack getSingle() { return this.stack.copy(); }

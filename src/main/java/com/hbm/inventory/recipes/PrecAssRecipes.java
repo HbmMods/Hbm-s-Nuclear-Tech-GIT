@@ -32,6 +32,8 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 
 	@Override
 	public void registerDefaults() {
+		
+		int min = 1_200;
 
 		registerPair(new GenericRecipe("precass.controller").setup(400, 15_000L)
 				.inputItems(new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),
@@ -44,7 +46,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 				DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER), 10, 25);
 		
 		// all hail the pufferfish, driver of all innovation
-		this.register(new GenericRecipe("precass.blueprints").setup(5 * 60 * 20, 20_000L)
+		this.register(new GenericRecipe("precass.blueprints").setup(5 * min, 20_000L)
 				.inputItems(new ComparableStack(Items.paper, 16),
 						new OreDictStack(KEY_BLUE, 16),
 						new ComparableStack(Items.fish, 16, FishType.PUFFERFISH))
@@ -52,7 +54,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 					new ChanceOutput(new ItemStack(ModItems.blueprint_folder, 1, 0), 10),
 					new ChanceOutput(new ItemStack(Items.paper, 16, 0), 90))
 				));
-		this.register(new GenericRecipe("precass.beigeprints").setup(5 * 60 * 20, 50_000L)
+		this.register(new GenericRecipe("precass.beigeprints").setup(5 * min, 50_000L)
 				.inputItems(new ComparableStack(Items.paper, 24),
 						new OreDictStack(CINNABAR.gem(), 24),
 						new ComparableStack(Items.fish, 32, FishType.PUFFERFISH))
@@ -76,14 +78,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 		IOutput[] recycle = new IOutput[recipe.inputItem.length];
 		for(int i = 0; i < recycle.length; i++) {
 			ItemStack stack = recipe.inputItem[i].extractForNEI().get(0).copy();
-			int stackSize = (int) (recipe.inputItem[i].stacksize * fReclaim);
-			// if the resulting stack size is >= 1, use that, otherwise use the original stack size but a chance output percentage
-			if(stackSize > 0) {
-				stack.stackSize = stackSize;
-				recycle[i] = new ChanceOutput(stack);
-			} else {
-				recycle[i] = new ChanceOutput(stack, fReclaim);
-			}
+			recycle[i] = new ChanceOutput(stack, fReclaim);
 		}
 		
 		FluidStack[] fluid = recipe.inputFluid != null ? new FluidStack[1] : null;

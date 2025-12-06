@@ -18,34 +18,70 @@ public class SpawnCondition {
 
 	public final String name;
 
-	// If defined, will spawn a single jigsaw piece, for single nbt structures
+	/**
+	 * If defined, will spawn a single jigsaw piece, for single nbt structures
+	 */
 	public JigsawPiece structure;
 
-	// If defined, will spawn in a non-nbt structure component
+	/**
+	 * If defined, will spawn in a non-nbt structure component
+	 */
 	public Function<Quartet<World, Random, Integer, Integer>, StructureStart> start;
 
-	// If defined, will override regular spawn location checking, for placing at specific coordinates or with special rules
+	/**
+	 * If defined, will override regular spawn location checking, for placing at specific coordinates or with special rules
+	 */
 	public Predicate<WorldCoordinate> checkCoordinates;
 
-	// Our regular spawning mechanics, based on biome, you should generally use these
+	/**
+	 * Defines whether the current biome is valid for spawning this structure
+	 */
 	public Predicate<BiomeGenBase> canSpawn;
+
+	/**
+	 * The chance of this structure spawning relative to others,
+	 * higher weights will spawn more often.
+	 */
 	public int spawnWeight = 1;
 
-	// Named jigsaw pools that are referenced within the structure
+	/**
+	 * Named jigsaw pools that are referenced by jigsaw blocks within the structure
+	 */
 	public Map<String, JigsawPool> pools;
+
+	/**
+	 * The name of the "core" pool, which the structure starts generation from,
+	 * must be a name of a pool defined within `pool`
+	 */
 	public String startPool;
 
-	// Maximum amount of components in this structure
+	/**
+	 * Maximum amount of components in this structure.
+	 * Once the structure reaches this many components,
+	 * it will only generate fallback pieces and stop
+	 *
+	 * Note: there is a hard limit of 1024 pieces to prevent infinite generation,
+	 * even if some pieces are marked as required!
+	 */
 	public int sizeLimit = 8;
 
-	// How far the structure can extend horizontally from the center, maximum of 128
-	// This could be increased by changing GenStructure:range from 8, but this is already quite reasonably large
+	// This could be increased by changing GenStructure:range from 8, but this is
+	// already quite reasonably large
+	/**
+	 * How far the structure can extend horizontally from the center, maximum of 128
+	 */
 	public int rangeLimit = 128;
 
-	// Height modifiers, will clamp height that the start generates at, allowing for:
-	//  * Submarines that must spawn under the ocean surface
-	//  * Bunkers that sit underneath the ground
+	/**
+	 * Height modifiers, will clamp height that the start generates at, allowing for:
+	 * * Submarines that must spawn under the ocean surface
+	 * * Bunkers that sit underneath the ground
+	 */
 	public int minHeight = 1;
+
+	/**
+	 * @see minHeight
+	 */
 	public int maxHeight = 128;
 
 	protected SpawnCondition(int weight, Predicate<BiomeGenBase> predicate) {

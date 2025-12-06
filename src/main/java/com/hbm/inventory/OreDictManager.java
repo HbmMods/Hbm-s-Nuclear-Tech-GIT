@@ -776,9 +776,6 @@ public class OreDictManager {
 		public String grip() {			return GRIP.name()				+ mats[0]; }
 		public String[] all(MaterialShapes shape) {				return appendToAll(shape.prefixes); }
 
-		/** Returns cast (triple) plates if 528 mode is enabled or normal plates if not */
-		public String plate528() { return GeneralConfig.enable528 ? plateCast() : plate(); }
-
 		private String[] appendToAll(String... prefix) {
 
 			String[] names = new String[mats.length * prefix.length];

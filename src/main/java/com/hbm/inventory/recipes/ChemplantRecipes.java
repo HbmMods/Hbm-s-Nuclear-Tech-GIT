@@ -28,19 +28,11 @@ import net.minecraft.item.ItemStack;
 @Deprecated
 public class ChemplantRecipes extends SerializableRecipe {
 
-	/**
-	 * Nice order: The order in which the ChemRecipe are added to the recipes list
-	 * Meta order: Fixed using the id param, saved in indexMapping
-	 */
-
 	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap();
 	public static List<ChemRecipe> recipes = new ArrayList();
 
 	@Override
 	public void registerDefaults() {
-
-		//6-30, formerly oil cracking, coal liquefaction and solidification
-		registerOtherOil();
 
 		recipes.add(new ChemRecipe(36, "COOLANT", 50)
 				.inputItems(new OreDictStack(KNO.dust()))
@@ -83,25 +75,17 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new OreDictStack(COAL.dust(), 2),
 						new OreDictStack(F.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_polymer)));
 		recipes.add(new ChemRecipe(81, "BAKELITE", 100)
 				.inputFluids(
-						new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528 ? 1 : 0),
-						new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528 ? 1 : 0))
+						new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0),
+						new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_bakelite)));
 		recipes.add(new ChemRecipe(82, "RUBBER", 100)
 				.inputItems(new OreDictStack(S.dust()))
-				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 2 : 0))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
-		/*recipes.add(new ChemRecipe(94, "PET", 100)
-				.inputItems(new OreDictStack(AL.dust()))
-				.inputFluids(
-						new FluidStack(Fluids.XYLENE, 500),
-						new FluidStack(Fluids.OXYGEN, 100))
-				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
-
-		//Laminate Glass going here
 		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 250),
@@ -112,14 +96,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
-						new FluidStack(Fluids.XYLENE, 500, GeneralConfig.enable528 ? 2 : 0),
-						new FluidStack(Fluids.PHOSGENE, 500, GeneralConfig.enable528 ? 2 : 0))
+						new FluidStack(Fluids.XYLENE, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0),
+						new FluidStack(Fluids.PHOSGENE, 500, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_pc)));
 		recipes.add(new ChemRecipe(96, "PVC", 100)
 				.inputItems(new OreDictStack(CD.dust()))
 				.inputFluids(
-						new FluidStack(Fluids.UNSATURATEDS, 250, GeneralConfig.enable528 ? 2 : 0),
-						new FluidStack(Fluids.CHLORINE, 250, GeneralConfig.enable528 ? 2 : 0))
+						new FluidStack(Fluids.UNSATURATEDS, 250, GeneralConfig.enable528PressurizedRecipes ? 2 : 0),
+						new FluidStack(Fluids.CHLORINE, 250, GeneralConfig.enable528PressurizedRecipes ? 2 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_pvc, 2)));
 		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
 				.inputItems(
@@ -129,7 +113,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModItems.ball_dynamite, 2)));
 		recipes.add(new ChemRecipe(83, "TNT", 150)
 				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
 		recipes.add(new ChemRecipe(95, "TATB", 50)
 				.inputItems(new ComparableStack(ModItems.ball_tnt))
@@ -137,10 +121,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModItems.ball_tatb)));
 		recipes.add(new ChemRecipe(84, "C4", 150)
 				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528 ? 1 : 0))
+				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_c4, 4)));
-		//44, formerly deuterium
-		//45, formerly steam
 		recipes.add(new ChemRecipe(46, "YELLOWCAKE", 250)
 				.inputItems(
 						new OreDictStack(U.billet(), 2), //12 nuggets: the numbers do match up :)
@@ -211,7 +193,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(57, "SOLID_FUEL", 200)
 				.inputItems(new ComparableStack(ModItems.solid_fuel, 2))
 				.inputFluids(
-						new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0),
+						new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528PressurizedRecipes ? 1 : 0),
 						new FluidStack(Fluids.NITRIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.rocket_fuel, 4)));
 		recipes.add(new ChemRecipe(58, "ELECTROLYSIS", 150)
@@ -242,34 +224,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(IRON.dust()))
 				.inputFluids(new FluidStack(Fluids.SCHRABIDIC, 250))
 				.outputItems(new ItemStack(ModItems.powder_schrabidate)));
-		recipes.add(new ChemRecipe(65, "COLTAN_CLEANING", 60)
-				.inputItems(
-						new OreDictStack(COLTAN.dust(), 2),
-						new OreDictStack(COAL.dust()))
-				.inputFluids(
-						new FluidStack(Fluids.PEROXIDE, 250),
-						new FluidStack(Fluids.HYDROGEN, 500))
-				.outputItems(
-						new ItemStack(ModItems.powder_coltan),
-						new ItemStack(ModItems.powder_niobium),
-						new ItemStack(ModItems.dust))
-				.outputFluids(new FluidStack(Fluids.WATER, 500)));
-		recipes.add(new ChemRecipe(66, "COLTAN_PAIN", 120)
-				.inputItems(
-						new ComparableStack(ModItems.powder_coltan),
-						new OreDictStack(F.dust()))
-				.inputFluids(
-						new FluidStack(Fluids.GAS, 1000),
-						new FluidStack(Fluids.OXYGEN, 500))
-				.outputFluids(new FluidStack(Fluids.PAIN, 1000)));
-		recipes.add(new ChemRecipe(67, "COLTAN_CRYSTAL", 80)
-				.inputFluids(
-						new FluidStack(Fluids.PAIN, 1000),
-						new FluidStack(Fluids.PEROXIDE, 500))
-				.outputItems(
-						new ItemStack(ModItems.gem_tantalium),
-						new ItemStack(ModItems.dust, 3))
-				.outputFluids(new FluidStack(Fluids.WATER, 250)));
 		recipes.add(new ChemRecipe(88, "LUBRICANT", 20)
 				.inputFluids(
 						new FluidStack(Fluids.HEATINGOIL, 500),
@@ -366,9 +320,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new OreDictStack(ANY_PLASTIC.ingot(), 1))
 				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
 				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
-		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
-				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
-				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
 
 		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
@@ -389,27 +340,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.inputItems(new ComparableStack(ModBlocks.deco_steel, 8))
 			.inputFluids(new FluidStack(Fluids.WATER, 1000))
 			.outputItems(new ItemStack(ModBlocks.deco_rusty_steel, 8)));
-	}
-
-	public static void registerOtherOil() {
-		recipes.add(new ChemRecipe(31, "BP_BIOGAS", 60)
-				.inputItems(new ComparableStack(ModItems.biomass, 16)) //if we assume 1B BF = 500k and translate that to 2B BG = 500k, then each biomass is worth ~31k or roughly 1.5 furnace operations
-				.inputFluids(new FluidStack(Fluids.AIR, 4000))
-				.outputFluids(new FluidStack(2000, Fluids.BIOGAS)));
-		recipes.add(new ChemRecipe(32, "BP_BIOFUEL", 60)
-				.inputFluids(new FluidStack(1500, Fluids.BIOGAS), new FluidStack(250, Fluids.ETHANOL))
-				.outputFluids(new FluidStack(1000, Fluids.BIOFUEL)));
-		recipes.add(new ChemRecipe(33, "LPG", 100)
-				.inputFluids(new FluidStack(2000, Fluids.PETROLEUM))
-				.outputFluids(new FluidStack(1000, Fluids.LPG)));
-		recipes.add(new ChemRecipe(34, "OIL_SAND", 200)
-				.inputItems(new ComparableStack(ModBlocks.ore_oil_sand, 16), new OreDictStack(ANY_TAR.any(), 1))
-				.outputItems(new ItemStack(Blocks.sand, 16))
-				.outputFluids(new FluidStack(1000, Fluids.BITUMEN)));
-		recipes.add(new ChemRecipe(35, "ASPHALT", 100)
-				.inputItems(new ComparableStack(Blocks.gravel, 2), new ComparableStack(Blocks.sand, 6))
-				.inputFluids(new FluidStack(1000, Fluids.BITUMEN))
-				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 	}
 
 	@Deprecated public static class ChemRecipe {

@@ -155,11 +155,6 @@ public class HbmWorldGen implements IWorldGenerator {
 					WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
 					BedrockOreDefinition def = item.get();
 
-					if(GeneralConfig.enable528 && GeneralConfig.enable528BedrockReplacement) {
-						BedrockOreDefinition replacement = BedrockOre.replacements.get(def.id);
-						if(replacement != null) def = replacement;
-					}
-
 					int randPosX = i + rand.nextInt(2) + 8;
 					int randPosZ = j + rand.nextInt(2) + 8;
 					BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
@@ -174,15 +169,6 @@ public class HbmWorldGen implements IWorldGenerator {
 			int colX = (int) (colRand.nextGaussian() * 1500);
 			int colZ = (int) (colRand.nextGaussian() * 1500);
 			int colRange = 750;
-
-			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) == 0) {
-				int x = i + rand.nextInt(16) + 8;
-				int z = j + rand.nextInt(16) + 8;
-
-				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
-					BedrockOre.generate(world, x, z, new ItemStack(ModItems.fragment_coltan), null, 0xA78D7A, 1);
-				}
-			}
 
 			if(GeneralConfig.enable528ColtanDeposit) {
 				for(int k = 0; k < 2; k++) {
@@ -350,7 +336,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(GeneralConfig.enable528 && GeneralConfig.enable528BosniaSimulator && rand.nextInt(16) == 0) {
+			if(GeneralConfig.enable528BosniaSimulator && rand.nextInt(16) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);

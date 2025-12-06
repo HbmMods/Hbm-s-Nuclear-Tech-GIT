@@ -1,7 +1,6 @@
 package com.hbm.world.feature;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockEnums.EnumStoneType;
@@ -27,8 +26,6 @@ public class BedrockOre {
 	public static List<WeightedRandomGeneric<BedrockOreDefinition>> weightedOres = new ArrayList();
 	public static List<WeightedRandomGeneric<BedrockOreDefinition>> weightedOresNether = new ArrayList();
 	
-	public static HashMap<String, BedrockOreDefinition> replacements = new HashMap();
-	
 	public static void init() {
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.IRON,													1),													WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.COPPER,												1),													WorldConfig.bedrockCopperSpawn);
@@ -53,9 +50,6 @@ public class BedrockOre {
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.glowstone_dust, 4),		1,	0xF9FF4D),							WorldConfig.bedrockGlowstoneSpawn);
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(ModItems.powder_fire, 4),		1,	0xD7341F),							WorldConfig.bedrockPhosphorusSpawn);
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.quartz, 4),				1,	0xF0EFDD),							WorldConfig.bedrockQuartzSpawn);
-
-		replacements.put("ore" + EnumBedrockOre.IRON.oreName, new BedrockOreDefinition(EnumBedrockOre.HEMATITE, 1));
-		replacements.put("ore" + EnumBedrockOre.COPPER.oreName, new BedrockOreDefinition(EnumBedrockOre.MALACHITE, 1));
 	}
 	
 	public static void registerBedrockOre(List list, BedrockOreDefinition def, int weight) {

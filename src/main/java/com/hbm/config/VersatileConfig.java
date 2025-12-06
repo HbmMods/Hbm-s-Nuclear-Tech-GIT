@@ -12,28 +12,18 @@ import net.minecraft.potion.PotionEffect;
 public class VersatileConfig {
 	
 	public static Item getTransmutatorItem() {
-		
-		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMFullSchrab)
-			return ModItems.ingot_schrabidium;
-
+		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMFullSchrab) return ModItems.ingot_schrabidium;
 		return ModItems.ingot_schraranium;
 	}
 	
 	public static int getSchrabOreChance() {
-		
-		if(GeneralConfig.enableLBSM)
-			return GeneralConfig.schrabRate;
-		
+		if(GeneralConfig.enableLBSM) return GeneralConfig.schrabRate;
 		return 100;
 	}
 
 	public static void applyPotionSickness(EntityLivingBase entity, int duration) {
-		
-		if(PotionConfig.potionSickness == 0)
-			return;
-		
-		if(PotionConfig.potionSickness == 2)
-			duration *= 12;
+		if(PotionConfig.potionSickness == 0) return;
+		if(PotionConfig.potionSickness == 2) duration *= 12;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.potionsickness.id, duration * 20);
 		eff.setCurativeItems(new ArrayList());
