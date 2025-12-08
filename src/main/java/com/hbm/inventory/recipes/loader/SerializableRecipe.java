@@ -86,6 +86,7 @@ public abstract class SerializableRecipe {
 		//AFTER Assembler
 		recipeHandlers.add(new AnvilRecipes());
 		recipeHandlers.add(new PedestalRecipes());
+		recipeHandlers.add(new AnnihilatorRecipes());
 		
 		//GENERIC
 		recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);

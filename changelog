@@ -1,5 +1,6 @@
 ## Added
 * Precision assembler
+* Annihilator
 
 ## Changed
 * New fusion reactor and particle accelerator parts now have OpenComputers compat
@@ -27,6 +28,7 @@
 * Bedrock coltan is no longer a dedicated bedrock ore type
 * Alt fire is now available for 10ga double barrel shotguns, allowing only a single barrel to be fired at once
 * The custom mapping function on RoR torches now supports up to 32 characters instead of 15
+* Drainage pipes, flare stacks and the annihilator now have the default fluid priority of LOW, meaning that excess removal using those no longer requires flow control pumps
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled

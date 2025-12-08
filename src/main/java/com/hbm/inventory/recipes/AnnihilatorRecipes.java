@@ -1,0 +1,206 @@
+package com.hbm.inventory.recipes;
+
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.util.ItemStackUtil;
+import com.hbm.util.Tuple.Pair;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+public class AnnihilatorRecipes extends SerializableRecipe {
+	
+	public static HashMap<Object, AnnihilatorRecipe> recipes = new HashMap();
+
+	@Override
+	public void registerDefaults() {
+		
+		recipes.put(Items.iron_ingot, new AnnihilatorRecipe(
+				new Pair(new BigInteger("128"), new ItemStack(Items.gold_ingot)),
+				new Pair(new BigInteger("256"), new ItemStack(Items.gold_ingot, 3)),
+				new Pair(new BigInteger("512"), new ItemStack(Items.gold_ingot, 5))
+				));
+	}
+
+	@Override public String getFileName() { return "hbmAnnihilator.json"; }
+	@Override public Object getRecipeObject() { return recipes; }
+	@Override public void deleteRecipes() { recipes.clear(); }
+	
+	/**
+	 * If prevAmount is null, a payout is guaranteed if the currentAmount matches or exceeds the requirement.
+	 * Otherwise, the prevAmount needs to be smaller than the requirement to count.
+	 * @param stack
+	 * @param prevAmount
+	 * @param currentAmount
+	 * @return
+	 */
+	public static ItemStack getHighestPayoutFromKey(Object key, BigInteger prevAmount, BigInteger currentAmount) {
+		AnnihilatorRecipe recipe = recipes.get(key);
+		if(recipe != null) {
+			ItemStack payout = getHighestPayoutFromRecipe(recipe, prevAmount, currentAmount);
+			if(payout != null) return payout;
+		}
+		return null;
+	}
+	
+	public static ItemStack getHighestPayoutFromStack(ItemStack stack, BigInteger prevAmount, BigInteger currentAmount) {
+		
+		if(stack.getItem() instanceof IItemFluidIdentifier) {
+			IItemFluidIdentifier id = (IItemFluidIdentifier) stack.getItem();
+			return getHighestPayoutFromFluid(id.getType(null, 0, 0, 0, stack), prevAmount, currentAmount);
+		}
+		
+		List<String> dictKeys = ItemStackUtil.getOreDictNames(stack);
+		
+		AnnihilatorRecipe recipe;
+		
+		for(String key : dictKeys) {
+			recipe = recipes.get(key);
+			if(recipe != null) {
+				ItemStack payout = getHighestPayoutFromRecipe(recipe, prevAmount, currentAmount);
+				if(payout != null) return payout;
+			}
+		}
+		
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		recipe = recipes.get(comp);
+		if(recipe != null) {
+			ItemStack payout = getHighestPayoutFromRecipe(recipe, prevAmount, currentAmount);
+			if(payout != null) return payout;
+		}
+		
+		recipe = recipes.get(stack.getItem());
+		if(recipe != null) {
+			ItemStack payout = getHighestPayoutFromRecipe(recipe, prevAmount, currentAmount);
+			if(payout != null) return payout;
+		}
+		
+		return null;
+	}
+	
+	public static ItemStack getHighestPayoutFromFluid(FluidType fluid, BigInteger prevAmount, BigInteger currentAmount) {
+		
+		AnnihilatorRecipe recipe = recipes.get(fluid);
+		if(recipe != null) {
+			ItemStack payout = getHighestPayoutFromRecipe(recipe, prevAmount, currentAmount);
+			if(payout != null) return payout;
+		}
+		
+		return null;
+	}
+	
+	public static ItemStack getHighestPayoutFromRecipe(AnnihilatorRecipe recipe, BigInteger prevAmount, BigInteger currentAmount) {
+		
+		BigInteger highestYet = BigInteger.ZERO;
+		ItemStack highestPayout = null;
+		for(Pair<BigInteger, ItemStack> milestone : recipe.milestones) {
+			if(prevAmount != null && prevAmount.compareTo(milestone.getKey()) != -1) continue; // if prevAmount is set and GEQUAL the requirement, skip
+			if(currentAmount.compareTo(highestYet) != 1) continue; // if currentAmount is GEQUAL to the largest already existing step, skip
+			if(currentAmount.compareTo(milestone.getKey()) != -1) { // if currentAmount is GEQUAL to the milestone, accept it
+				highestYet = milestone.getKey();
+				highestPayout = milestone.getValue();
+			}
+		}
+		
+		return highestPayout != null ? highestPayout.copy() : null;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		
+		JsonObject key = obj.get("key").getAsJsonObject();
+		Object keyObject = null;
+		String keyType = key.get("type").getAsString();
+
+		if("item".equals(keyType)) {
+			keyObject = Item.itemRegistry.getObject(key.get("item").getAsString());
+		}
+		if("comp".equals(keyType)) {
+			keyObject = new ComparableStack((Item) Item.itemRegistry.getObject(key.get("item").getAsString()), 1, key.get("meta").getAsInt());
+		}
+		if("fluid".equals(keyType)) {
+			keyObject = Fluids.fromName(key.get("fluid").getAsString());
+		}
+		if("dict".equals(keyType)) {
+			keyObject = key.get("dict").getAsString();
+		}
+		
+		JsonArray milestones = obj.get("milestones").getAsJsonArray();
+		List<Pair<BigInteger, ItemStack>> milestoneList = new ArrayList();
+		
+		for(JsonElement e : milestones) {
+			JsonObject milestone = e.getAsJsonObject();
+			milestoneList.add(new Pair(milestone.get("amount").getAsBigInteger(), this.readItemStack(milestone.get("payout").getAsJsonArray())));
+		}
+		
+		if(keyObject != null) {
+			AnnihilatorRecipe newRecipe = new AnnihilatorRecipe();
+			newRecipe.milestones.addAll(milestoneList);
+			this.recipes.put(keyObject, newRecipe);
+		}
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<Object, AnnihilatorRecipe> rec = (Entry<Object, AnnihilatorRecipe>) recipe;
+		
+		writer.name("key").beginObject();
+		if(rec.getKey() instanceof Item) {
+			Item item = (Item) rec.getKey();
+			writer.name("type").value("item");
+			writer.name("item").value(Item.itemRegistry.getNameForObject(item));
+		}
+		if(rec.getKey() instanceof ComparableStack) {
+			ComparableStack comp = (ComparableStack) rec.getKey();
+			writer.name("type").value("comp");
+			writer.name("item").value(Item.itemRegistry.getNameForObject(comp.item));
+			writer.name("meta").value(comp.meta);
+		}
+		if(rec.getKey() instanceof FluidType) {
+			FluidType fluid = (FluidType) rec.getKey();
+			writer.name("type").value("fluid");
+			writer.name("fluid").value(fluid.getUnlocalizedName());
+		}
+		if(rec.getKey() instanceof String) {
+			writer.name("type").value("dict");
+			writer.name("dict").value((String) rec.getKey());
+		}
+		writer.endObject();
+		
+		writer.name("milestones").beginArray();
+		
+		for(Pair<BigInteger, ItemStack> milestone : rec.getValue().milestones) {
+			writer.beginObject();
+			writer.name("amount").value(milestone.getKey());
+			writer.name("payout");
+			this.writeItemStack(milestone.getValue(), writer);
+			writer.endObject();
+		}
+		writer.endArray();
+	}
+	
+	public static class AnnihilatorRecipe {
+		
+		public List<Pair<BigInteger, ItemStack>> milestones = new ArrayList();
+		
+		public AnnihilatorRecipe(Pair<BigInteger, ItemStack>... milestones) {
+			for(Pair<BigInteger, ItemStack> milestone : milestones) this.milestones.add(milestone);
+		}
+	}
+}

@@ -7,13 +7,13 @@ import java.util.Map.Entry;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.AnnihilatorRecipes;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagByteArray;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -42,30 +42,11 @@ public class AnnihilatorSavedData extends WorldSavedData {
 			
 			String poolName = poolCompound.getString("poolname");
 			AnnihilatorPool pool = new AnnihilatorPool();
-			pool.deserialize(poolCompound.getTagList("pool", 7));
+			pool.deserialize(poolCompound.getTagList("pool", 10));
 			
 			this.pools.put(poolName, pool);
 		}
 	}
-	
-	/*
-	 * woah nelly!
-	 * 
-	 * ROOT NBT
-	 *  \
-	 *   POOLS LIST(COMPOUND) - all pools
-	 *    \
-	 *     POOL COMPOUND - pool + name association
-	 *      \
-	 *       POOLNAME STRING
-	 *       POOL LIST(LIST) - all item entries in a pool
-	 *        \
-	 *         PER-ITEM LIST(BYTEARRAY) - all data associated with one item
-	 *          \
-	 *           KEY ID
-	 *           KEY BYTES
-	 *           POOL SIZE BYTES
-	 */
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -104,25 +85,32 @@ public class AnnihilatorSavedData extends WorldSavedData {
 	}
 	
 	/** For fluids */
-	public void pushToPool(String pool, FluidType type, long amount) {
+	public ItemStack pushToPool(String pool, FluidType type, long amount, boolean alwaysPayOut) {
 		AnnihilatorPool poolInstance = grabPool(pool);
-		poolInstance.increment(type, amount);
+		ItemStack payout = poolInstance.increment(type, amount, alwaysPayOut);
 		this.markDirty();
+		return payout;
 	}
 	
 	/** For items (type + meta as well as only type), also handles ore dict */
-	public void pushToPool(String pool, ItemStack stack) {
+	public ItemStack pushToPool(String pool, ItemStack stack, boolean alwaysPayOut) {
 		AnnihilatorPool poolInstance = grabPool(pool);
 
-		poolInstance.increment(stack.getItem(), stack.stackSize);
-		poolInstance.increment(new ComparableStack(stack).makeSingular(), stack.stackSize);
+		ItemStack itemPayout = poolInstance.increment(stack.getItem(), stack.stackSize, alwaysPayOut);
+		ItemStack compPayout = poolInstance.increment(new ComparableStack(stack).makeSingular(), stack.stackSize, alwaysPayOut);
+		ItemStack dictPayout = null;
 		
 		List<String> oreDict = ItemStackUtil.getOreDictNames(stack);
-		for(String name : oreDict) if(name != null && !name.isEmpty()) poolInstance.increment(name, stack.stackSize); // because some assholes pollute the ore dict with crap values
+		for(String name : oreDict) if(name != null && !name.isEmpty()) {
+			ItemStack payout = poolInstance.increment(name, stack.stackSize, alwaysPayOut); // because some assholes pollute the ore dict with crap values
+			if(payout != null) dictPayout = payout;
+		}
 		
 		// originally a lookup for fluid containers was considered, but no one would use the annihilator like that, and it adds unnecessary overhead
 		
 		this.markDirty();
+		
+		return dictPayout != null ? dictPayout : compPayout != null ? compPayout : itemPayout;
 	}
 	
 	public static class AnnihilatorPool {
@@ -139,32 +127,36 @@ public class AnnihilatorSavedData extends WorldSavedData {
 		 */
 		public HashMap<Object, BigInteger> items = new HashMap();
 		
-		public void increment(Object type, long amount) {
+		public ItemStack increment(Object type, long amount, boolean alwaysPayOut) {
+			ItemStack payout = null;
 			BigInteger counter = items.get(type);
 			if(counter == null) {
 				counter = BigInteger.valueOf(amount);
+				payout = AnnihilatorRecipes.getHighestPayoutFromKey(type, BigInteger.ZERO, counter);
 			} else {
+				BigInteger prev = counter;
 				counter = counter.add(BigInteger.valueOf(amount));
+				payout = AnnihilatorRecipes.getHighestPayoutFromKey(type, alwaysPayOut ? null : prev, counter);
 			}
 			items.put(type, counter);
+			return payout;
 		}
 		
 		public void serialize(NBTTagList nbt) {
 			for(Entry<Object, BigInteger> entry : items.entrySet()) {
-				NBTTagList list = new NBTTagList();
-				serializeKey(list, entry.getKey());
-				list.appendTag(new NBTTagByteArray(entry.getValue().toByteArray()));
-				nbt.appendTag(list);
+				NBTTagCompound compound = new NBTTagCompound();
+				serializeKey(compound, entry.getKey());
+				compound.setByteArray("amount", entry.getValue().toByteArray());
+				nbt.appendTag(compound);
 			}
 		}
 		
 		public void deserialize(NBTTagList nbt) {
 			try {
 				for(int i = 0; i < nbt.tagCount(); i++) {
-					NBTTagList list = (NBTTagList) nbt.tagList.get(i);
-					Object key = deserializeKey(list);
-					NBTTagByteArray ntba = (NBTTagByteArray) list.tagList.get(list.tagList.size() - 1);
-					if(key != null) this.items.put(key, new BigInteger(ntba.func_150292_c()));
+					NBTTagCompound compound = (NBTTagCompound) nbt.tagList.get(i);
+					Object key = deserializeKey(compound);
+					if(key != null) this.items.put(key, new BigInteger(compound.getByteArray("amount")));
 				}
 			} catch(Throwable ex) { } // because world data can be dented to all fucking hell and back
 		}
@@ -173,67 +165,47 @@ public class AnnihilatorSavedData extends WorldSavedData {
 		 * So what do? Shrimple, we use NBTTagLists. However, Mojang never expected lists to use different types, even though
 		 * implementing a list like that would be really easy, so we just break down absolutely all information we have into
 		 * byte arrays because the NBTTagList can handle those. God I hate this. */
-		public void serializeKey(NBTTagList list, Object key) {
+		public void serializeKey(NBTTagCompound nbt, Object key) {
 			if(key instanceof Item) { // 0
 				Item item = (Item) key;
-				list.appendTag(new NBTTagByteArray(new byte[] {0}));
-				list.appendTag(new NBTTagByteArray(Item.itemRegistry.getNameForObject(item).getBytes()));
+				nbt.setByte("key", (byte) 0);
+				nbt.setString("item", Item.itemRegistry.getNameForObject(item));
 			}
 			
 			if(key instanceof ComparableStack) { // 1
-				ComparableStack item = (ComparableStack) key;
-				list.appendTag(new NBTTagByteArray(new byte[] {1}));
-				list.appendTag(new NBTTagByteArray(Item.itemRegistry.getNameForObject(item.item).getBytes()));
-				short meta = (short) item.meta;
-				list.appendTag(new NBTTagByteArray(new byte[] {
-						(byte) ((meta & 0xFF00) << 8),
-						(byte) (meta & 0x00FF)
-						})); // HSB and LSB may not be split "fairly" due to sign bit, but we do not care, we just want to store bits
+				ComparableStack comp = (ComparableStack) key;
+				nbt.setByte("key", (byte) 1);
+				nbt.setString("item", Item.itemRegistry.getNameForObject(comp.item));
+				nbt.setShort("meta", (short) comp.meta);
 			}
 			
 			if(key instanceof FluidType) { // 2
-				FluidType item = (FluidType) key;
-				list.appendTag(new NBTTagByteArray(new byte[] {2}));
-				list.appendTag(new NBTTagByteArray(item.getUnlocalizedName().getBytes()));
+				FluidType type = (FluidType) key;
+				nbt.setByte("key", (byte) 2);
+				nbt.setString("fluid", type.getUnlocalizedName());
 			}
 			
 			if(key instanceof String) { // 3
-				String item = (String) key;
-				list.appendTag(new NBTTagByteArray(new byte[] {3}));
-				list.appendTag(new NBTTagByteArray(item.getBytes()));
+				nbt.setByte("key", (byte) 3);
+				nbt.setString("dict", (String) key);
 			}
 		}
 		
-		public Object deserializeKey(NBTTagList list) {
+		public Object deserializeKey(NBTTagCompound nbt) {
 			try {
-				int size = list.tagCount();
-				if(size <= 0) return null;
-				byte key = ((NBTTagByteArray) list.tagList.get(0)).func_150292_c()[0]; // i am pissing myself from all these assumptions
+				byte key = nbt.getByte("key");
 				
 				if(key == 0) { // item
-					byte[] bytes = ((NBTTagByteArray) list.tagList.get(1)).func_150292_c();
-					Item item = (Item) Item.itemRegistry.getObject(new String(bytes)); // not specifying a charset is probably dangerous for multiple 
-					// reasons but given that i don't really think the charset should change serverside, i *think* this should work
-					return item;
+					return Item.itemRegistry.getObject(nbt.getString("item"));
 				}
 				if(key == 1) { // comparablestack
-					byte[] itembytes = ((NBTTagByteArray) list.tagList.get(1)).func_150292_c();
-					byte[] metabytes = ((NBTTagByteArray) list.tagList.get(2)).func_150292_c();
-					Item item = (Item) Item.itemRegistry.getObject(new String(itembytes));
-					//short hsb = (short) (((short) metabytes[0]) << 8);
-					//short lsb = (short) metabytes[1];
-					short meta = (short) ((metabytes[0]  << 8) | (metabytes[1] & 0xFF));
-					return new ComparableStack(item, 1, meta);
+					return new ComparableStack((Item) Item.itemRegistry.getObject(nbt.getString("item")), 1, nbt.getShort("meta"));
 				}
 				if(key == 2) { // fluidtype
-					byte[] bytes = ((NBTTagByteArray) list.tagList.get(1)).func_150292_c();
-					FluidType type = Fluids.fromName(new String(bytes));
-					return type;
+					return Fluids.fromName(nbt.getString("fluid"));
 				}
 				if(key == 3) {
-					byte[] bytes = ((NBTTagByteArray) list.tagList.get(1)).func_150292_c();
-					String type = new String(bytes);
-					return type;
+					return nbt.getString("dict");
 				}
 				// i feel filthy
 				
