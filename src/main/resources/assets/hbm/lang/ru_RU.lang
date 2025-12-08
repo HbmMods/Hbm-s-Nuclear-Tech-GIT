@@ -1522,7 +1522,7 @@ hbmfluid.coalgas=Угольный газ
 hbmfluid.coalgas_leaded=Этилированный угольный газ
 hbmfluid.coaloil=Фотоген
 hbmfluid.colloid=Коллоидный раствор
-hbmfluid.concrete=Жидкий бетон
+hbmfluid.concrete=Цементный раствор
 hbmfluid.coolant=Хладагент
 hbmfluid.coolant_hot=Горячий хладагент
 hbmfluid.crackoil=Крекированная нефть
@@ -6787,6 +6787,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
