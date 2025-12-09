@@ -23,17 +23,15 @@ public class BlockAbsorber extends BlockEnumMulti implements IBlockMulti {
     // Enum for tiers they are in order of meta data, 0, 1, 2, 3 for Base, Red, Green, Pink
     public static enum EnumAbsorberTier {
         
-        BASE("Radiation Absorber", 2.5F, "absorber"),
-        RED("Enhanced Radiation Absorber", 10F, "absorber_red"),
-        GREEN("Advanced Radiation Absorber", 100F, "absorber_green"),
-        PINK("Elite Radiation Absorber", 10000F, "absorber_pink");
+        BASE(2.5F, "absorber"),
+        RED(10F, "absorber_red"),
+        GREEN(100F, "absorber_green"),
+        PINK(10000F, "absorber_pink");
         
-        public final String displayName;
         public final float absorbAmount;
         public final String textureName;
 
-        private EnumAbsorberTier(String name, float absorb, String texture) {
-            this.displayName = name;
+        private EnumAbsorberTier(float absorb, String texture) {
             this.absorbAmount = absorb;
             this.textureName = texture;
         }
