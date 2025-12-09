@@ -156,6 +156,10 @@ public class GeneralConfig {
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 
+		/// ! ! ! ///
+		enable528 = true;
+		/// ! ! ! ///
+		
 		if(enable528) enableLBSM = false;
 		
 		if(!enable528) {

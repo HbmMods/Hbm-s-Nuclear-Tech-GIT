@@ -101,8 +101,8 @@ public class AnnihilatorSavedData extends WorldSavedData {
 		ItemStack dictPayout = null;
 		
 		List<String> oreDict = ItemStackUtil.getOreDictNames(stack);
-		for(String name : oreDict) if(name != null && !name.isEmpty()) {
-			ItemStack payout = poolInstance.increment(name, stack.stackSize, alwaysPayOut); // because some assholes pollute the ore dict with crap values
+		for(String name : oreDict) if(name != null && !name.isEmpty()) { // because some assholes pollute the ore dict with crap values
+			ItemStack payout = poolInstance.increment(name, stack.stackSize, alwaysPayOut);
 			if(payout != null) dictPayout = payout;
 		}
 		
@@ -161,10 +161,8 @@ public class AnnihilatorSavedData extends WorldSavedData {
 			} catch(Throwable ex) { } // because world data can be dented to all fucking hell and back
 		}
 		
-		/** So we want to avoid NBTTagCompounds because the keys are basically useless here and Strings are heavy as shit.
-		 * So what do? Shrimple, we use NBTTagLists. However, Mojang never expected lists to use different types, even though
-		 * implementing a list like that would be really easy, so we just break down absolutely all information we have into
-		 * byte arrays because the NBTTagList can handle those. God I hate this. */
+		/** Originally this uses NBTTagLists which broke down everything into byte arrays. It probably worked, but my stupid ass
+		 * defined some NBT crap in the upper levels wrong so nothing worked, and this got rewritten too. Well at least now it does. */
 		public void serializeKey(NBTTagCompound nbt, Object key) {
 			if(key instanceof Item) { // 0
 				Item item = (Item) key;
@@ -204,7 +202,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 				if(key == 2) { // fluidtype
 					return Fluids.fromName(nbt.getString("fluid"));
 				}
-				if(key == 3) {
+				if(key == 3) { // strong
 					return nbt.getString("dict");
 				}
 				// i feel filthy

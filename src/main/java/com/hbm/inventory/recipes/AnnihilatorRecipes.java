@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import static com.hbm.inventory.OreDictManager.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,12 +16,14 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -29,12 +33,15 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
-		
-		recipes.put(Items.iron_ingot, new AnnihilatorRecipe(
-				new Pair(new BigInteger("128"), new ItemStack(Items.gold_ingot)),
-				new Pair(new BigInteger("256"), new ItemStack(Items.gold_ingot, 3)),
-				new Pair(new BigInteger("512"), new ItemStack(Items.gold_ingot, 5))
-				));
+
+		recipes.put(SI.billet(),				new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip"))));
+		recipes.put(BI.nugget(),				new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_bismoid"))));
+		recipes.put(ModItems.pellet_charged,	new AnnihilatorRecipe(new Pair(new BigInteger("1025"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_quantum"))));
+
+		recipes.put(U.billet(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "gascent"))));
+		recipes.put(RUBBER.ingot(),				new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "fracker"))));
+		recipes.put(FERRO.ingot(),				new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"))));
+		recipes.put(ANY_HARDPLASTIC.ingot(),	new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "hardplastic"))));
 	}
 
 	@Override public String getFileName() { return "hbmAnnihilator.json"; }
