@@ -68,7 +68,9 @@ public class BlockAbsorber extends BlockEnumMulti implements IBlockMulti {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         EnumAbsorberTier tier = getTier(stack.getItemDamage());
-        return "tile.rad_absorber." + tier.name().toLowerCase();
+        String tierName = net.minecraft.util.StatCollector.translateToLocal("tile.rad_absorber." + tier.name().toLowerCase() + ".name");
+        return tierName;
+
     }
 
     @Override
