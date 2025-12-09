@@ -4873,6 +4873,11 @@ stat.ntmBullets=Випущено набоїв
 stat.ntmLegendary=Створено легендарних предметів
 stat.ntmMines=Підривів на мінах
 
+tile.absorber.name=Поглинач радіації OLD
+tile.absorber_green.name=Удосконалений поглинач радіації OLD
+tile.absorber_pink.name=Елітний поглинач радіації OLD
+tile.absorber_red.name=Покращений поглинач радіації OLD
+
 tile.rad_absorber.base.name=Поглинач радіації
 tile.rad_absorber.red.name=Удосконалений поглинач радіації
 tile.rad_absorber.green.name=Елітний поглинач радіації
