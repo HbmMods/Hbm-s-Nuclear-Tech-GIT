@@ -3,23 +3,31 @@ package com.hbm.inventory.gui;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineAnnihilator;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineAnnihilator;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineAnnihilator extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_annihilator.png");
 	private TileEntityMachineAnnihilator annihilator;
+	
+	protected GuiTextField pool;
 
 	public GUIMachineAnnihilator(InventoryPlayer invPlayer, TileEntityMachineAnnihilator tedf) {
 		super(new ContainerMachineAnnihilator(invPlayer, tedf));
@@ -27,6 +35,26 @@ public class GUIMachineAnnihilator extends GuiInfoContainer {
 
 		this.xSize = 176;
 		this.ySize = 208;
+	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
+
+		Keyboard.enableRepeatEvents(true);
+
+		this.pool = new GuiTextField(this.fontRendererObj, guiLeft + 31, guiTop + 85, 80, 8);
+		this.pool.setTextColor(0x00ff00);
+		this.pool.setDisabledTextColour(0x00ff00);
+		this.pool.setEnableBackgroundDrawing(false);
+		this.pool.setMaxStringLength(20);
+		this.pool.setText("" + annihilator.pool);
+	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+		this.pool.mouseClicked(x, y, i);
 	}
 	
 	@Override
@@ -57,5 +85,26 @@ public class GUIMachineAnnihilator extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		this.pool.drawTextBox();
+	}
+
+	@Override
+	protected void keyTyped(char c, int i) {
+		if(this.pool.textboxKeyTyped(c, i)) {
+			String text = this.pool.getText();
+			int num = NumberUtils.toInt(this.pool.getText());
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("threshold", num);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, annihilator.xCoord, annihilator.yCoord, annihilator.zCoord));
+			return;
+		}
+		super.keyTyped(c, i);
+	}
+
+	@Override
+	public void onGuiClosed() {
+		super.onGuiClosed();
+		Keyboard.enableRepeatEvents(false);
 	}
 }

@@ -21,6 +21,8 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemBlueprints;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
@@ -30,18 +32,44 @@ import net.minecraft.item.ItemStack;
 public class AnnihilatorRecipes extends SerializableRecipe {
 	
 	public static HashMap<Object, AnnihilatorRecipe> recipes = new HashMap();
+	
+	/*
+	 * MILESTONES
+	 * STEEL -> DERRICK (ASSEM)
+	 * SILICON -> CHIPS (PRECASS)
+	 * PLASTIC -> CRACKER, COKER (ASSEM)
+	 * RUBBER -> FRACKER (ASSEM)
+	 * URANIUM -> GASCENT (ASSEM)
+	 * FERRO -> RBMK (ASSEM)
+	 * BISMUTH -> BIS CHIPS (PRECASS)
+	 * HARDPLASTIC -> OIL 3.5 (ASSEM)
+	 * TCALLOY -> FUSION, WATZ (ASSEM)
+	 * IONS -> Q CHIPS (PRECASS) PA (ASSEM)
+	 * CHLOROPHYTE -> MHDT, ICF (ASSEM)
+	 * 50BMG -> TURRETS (ASSEM)
+	 * ARTY -> ARTY (ASSEM)
+	 * CONTROLLER -> NUKES (ASSEM)
+	 */
 
 	@Override
 	public void registerDefaults() {
 
-		recipes.put(SI.billet(),				new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip"))));
-		recipes.put(BI.nugget(),				new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_bismoid"))));
-		recipes.put(ModItems.pellet_charged,	new AnnihilatorRecipe(new Pair(new BigInteger("1025"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_quantum"))));
+		recipes.put(STEEL.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "steel"))));
+		recipes.put(SI.billet(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip"))));
+		recipes.put(BI.nugget(),					new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_bismoid"))));
+		recipes.put(ModItems.pellet_charged,		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_quantum"))));
 
-		recipes.put(U.billet(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "gascent"))));
-		recipes.put(RUBBER.ingot(),				new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "fracker"))));
-		recipes.put(FERRO.ingot(),				new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"))));
-		recipes.put(ANY_HARDPLASTIC.ingot(),	new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "hardplastic"))));
+		recipes.put(U.billet(),						new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "gascent"))));
+		recipes.put(ANY_PLASTIC.ingot(),			new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "plastic"))));
+		recipes.put(RUBBER.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "rubber"))));
+		recipes.put(FERRO.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"))));
+		recipes.put(ANY_HARDPLASTIC.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "hardplastic"))));
+		recipes.put(ANY_RESISTANTALLOY.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "tcalloy"))));
+		recipes.put(ModItems.powder_chlorophyte,	new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"))));
+		
+		recipes.put(new ComparableStack(ModItems.ammo_standard, 1, EnumAmmo.BMG50_FMJ),		new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "bmg"))));
+		recipes.put(new ComparableStack(ModItems.ammo_arty, 1, 0),							new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "arty"))));
+		recipes.put(new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER),	new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "controller"))));
 	}
 
 	@Override public String getFileName() { return "hbmAnnihilator.json"; }

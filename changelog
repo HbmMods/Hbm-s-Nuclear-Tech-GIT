@@ -1,6 +1,12 @@
 ## Added
 * Precision assembler
+  * Can create blueprint folders
+  * Used extensively in 528 mode
+    * Replaces recipes for micro chips, controllers and upgrades
+    * All recipes only have a chance to be completed, broken items yielded otherwise need to be recycled
 * Annihilator
+  * Destroys items and fluids and keeps track of how much has been destroyed
+  * In 528 mode, destroying quantities of certain items yield unique progression relevant blueprints
 
 ## Changed
 * New fusion reactor and particle accelerator parts now have OpenComputers compat
@@ -33,8 +39,11 @@
 * Changed cracking tower recipe to use desh instead of polymer, as well as a little bit more niobium in favor of all the clay catalysts it used to have
 * Iron and corroded barrels have been deprecated and are no longer obtainable
 * Steel barrels and 256k tanks no longer use tar in their recipes (except in expensive mode)
+* Solidifying biogas into compressed biomass now yields 4x more, making the biogas route twice as efficient as simply compressing biomass
+* Finally removed the long deprecated ambience radiation generator and geothermal generator
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled
 * Fixed panzerschreck equip animation not speeding up with the sawed off mod
 * Fixed FENSU not keeping its charge when broken
+* Removed skeletonizer reloading from `/ntmreload` as it wasn't usable for end users and just caused error messages on servers
