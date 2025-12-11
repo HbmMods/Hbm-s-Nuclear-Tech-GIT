@@ -3,7 +3,6 @@ package com.hbm.inventory.gui;
 import java.util.Arrays;
 import java.util.Locale;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -93,9 +92,8 @@ public class GUIMachineAnnihilator extends GuiInfoContainer {
 	protected void keyTyped(char c, int i) {
 		if(this.pool.textboxKeyTyped(c, i)) {
 			String text = this.pool.getText();
-			int num = NumberUtils.toInt(this.pool.getText());
 			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("threshold", num);
+			data.setString("pool", text);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, annihilator.xCoord, annihilator.yCoord, annihilator.zCoord));
 			return;
 		}

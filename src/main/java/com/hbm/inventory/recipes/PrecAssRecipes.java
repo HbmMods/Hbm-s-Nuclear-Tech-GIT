@@ -120,7 +120,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 							new OreDictStack(BIGMT.ingot(), 16),
 							new ComparableStack(ModItems.ingot_cft, 8),
 							new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD)),
-					new ItemStack(ModItems.upgrade_overdrive_1), 10, GeneralConfig.enableExpensiveMode ? 10 : 50);
+					new ItemStack(ModItems.upgrade_overdrive_2), 10, GeneralConfig.enableExpensiveMode ? 10 : 50);
 			registerPair(new GenericRecipe("precass.upgrade_overdive_iii").setup(1_200, 100_000)
 					.inputItems(new ComparableStack(ModItems.upgrade_overdrive_2, 1),
 							new ComparableStack(ModItems.upgrade_speed_3, 1),
@@ -128,14 +128,7 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 							new OreDictStack(ANY_BISMOIDBRONZE.ingot(), 16),
 							new ComparableStack(ModItems.ingot_cft, 16),
 							new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID)),
-					new ItemStack(ModItems.upgrade_overdrive_1), 5, GeneralConfig.enableExpensiveMode ? 10 : 50);
-
-			this.register(new GenericRecipe("ass.overdrive1").setup(200, 100).outputItems(new ItemStack(ModItems.upgrade_overdrive_1, 1))
-					.inputItems(new ComparableStack(ModItems.upgrade_speed_3, 1), new ComparableStack(ModItems.upgrade_effect_3, 1), new OreDictStack(BIGMT.ingot(), 16), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.ADVANCED)));
-			this.register(new GenericRecipe("ass.overdrive2").setup(600, 100).outputItems(new ItemStack(ModItems.upgrade_overdrive_2, 1))
-					.inputItems(new ComparableStack(ModItems.upgrade_overdrive_1, 1), new ComparableStack(ModItems.upgrade_speed_3, 1), new ComparableStack(ModItems.upgrade_effect_3, 1), new OreDictStack(BIGMT.ingot(), 16), new ComparableStack(ModItems.ingot_cft, 8), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD)));
-			this.register(new GenericRecipe("ass.overdrive3").setup(1_200, 100).outputItems(new ItemStack(ModItems.upgrade_overdrive_3, 1))
-					.inputItems(new ComparableStack(ModItems.upgrade_overdrive_2, 1), new ComparableStack(ModItems.upgrade_speed_3, 1), new ComparableStack(ModItems.upgrade_effect_3, 1), new OreDictStack(ANY_BISMOIDBRONZE.ingot(), 16), new ComparableStack(ModItems.ingot_cft, 16), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID)));
+					new ItemStack(ModItems.upgrade_overdrive_3), 5, GeneralConfig.enableExpensiveMode ? 10 : 50);
 		}
 		
 		int min = 1_200;

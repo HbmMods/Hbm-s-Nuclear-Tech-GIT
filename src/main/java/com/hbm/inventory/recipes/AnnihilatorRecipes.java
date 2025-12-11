@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -14,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
@@ -21,6 +23,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemBlueprints;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.util.ItemStackUtil;
@@ -28,6 +31,7 @@ import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class AnnihilatorRecipes extends SerializableRecipe {
 	
@@ -75,6 +79,38 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 	@Override public String getFileName() { return "hbmAnnihilator.json"; }
 	@Override public Object getRecipeObject() { return recipes; }
 	@Override public void deleteRecipes() { recipes.clear(); }
+
+	public static HashMap getRecipes() {
+
+		HashMap<Object, Object> recipes = new HashMap();
+		
+		for(Entry<Object, AnnihilatorRecipe> entry : AnnihilatorRecipes.recipes.entrySet()) {
+			for(Pair<BigInteger, ItemStack> milestone : entry.getValue().milestones) {
+				
+				Object input = new ItemStack[1];
+	
+				if(entry.getKey() instanceof Item) input = new ItemStack((Item) entry.getKey());
+				if(entry.getKey() instanceof ComparableStack) input = ((ComparableStack) entry.getKey()).toStack();
+				if(entry.getKey() instanceof FluidType) input = ItemFluidIcon.make((FluidType) entry.getKey(), 0);
+				if(entry.getKey() instanceof String) input = new OreDictStack((String) entry.getKey()).extractForNEI();
+				
+				if(input == null) continue;
+				
+				if(input instanceof ItemStack) {
+					ItemStackUtil.addTooltipToStack((ItemStack) input, EnumChatFormatting.RED + String.format(Locale.US, "%,d", milestone.getKey()));
+				}
+				if(input instanceof List) {
+					List<ItemStack> list = (List<ItemStack>) input;
+					for(ItemStack stack : list) ItemStackUtil.addTooltipToStack(stack, EnumChatFormatting.RED + String.format(Locale.US, "%,d", milestone.getKey()));
+					input = list.toArray(new ItemStack[0]);
+				}
+				
+				recipes.put(input, milestone.getValue());
+			}
+		}
+		
+		return recipes;
+	}
 	
 	/**
 	 * If prevAmount is null, a payout is guaranteed if the currentAmount matches or exceeds the requirement.

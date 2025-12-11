@@ -4,11 +4,21 @@
   * Used extensively in 528 mode
     * Replaces recipes for micro chips, controllers and upgrades
     * All recipes only have a chance to be completed, broken items yielded otherwise need to be recycled
+  * Can do precise recipes, but it very unreliable. Many recipes have a high chance of outputting a broken version of the made item
+  * Broken items can be recycled in the precision assembler, returning some of the ingredients
 * Annihilator
   * Destroys items and fluids and keeps track of how much has been destroyed
   * In 528 mode, destroying quantities of certain items yield unique progression relevant blueprints
 
 ## Changed
+* Changed the way 528 mode works
+  * May of the old tantalium requirements no longer exist since the assembler rework
+  * Some important recipes have been moved to the precision assembler
+  * Many key "milestone" recipes now require 528 mode exclusive blueprints
+  * 528 exclusive blueprints are obtained from annihilating large quantities of certain items
+  * AE2 blocks, by default, will detonate when interacted with
+  * Synergizes with expensive mode, many recycling probabilities of the precision assembler are massively lowered with expensive mode enabled, increasing effective cost massively
+  * :)
 * New fusion reactor and particle accelerator parts now have OpenComputers compat
 * Irradiation recipe config now has the `fusionOnly` flag, preventing the recipe from being done in the RBMK irradiation channel
 * Removed legacy fusion reactor parts from the creative inventory
@@ -41,6 +51,7 @@
 * Steel barrels and 256k tanks no longer use tar in their recipes (except in expensive mode)
 * Solidifying biogas into compressed biomass now yields 4x more, making the biogas route twice as efficient as simply compressing biomass
 * Finally removed the long deprecated ambience radiation generator and geothermal generator
+* Nerfed the ballistic jackets, as they are comically cheap and made some zombies impossible to kill in early game
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.math.BigInteger;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerMachineAnnihilator;
 import com.hbm.inventory.fluid.FluidType;
@@ -30,7 +31,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAnnihilator extends TileEntityMachineBase implements IFluidStandardReceiverMK2, IGUIProvider {
+public class TileEntityMachineAnnihilator extends TileEntityMachineBase implements IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider {
 	
 	public String pool = "Recycling";
 	public int timer;
@@ -214,6 +215,22 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineAnnihilator(player.inventory, this); }
 	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineAnnihilator(player.inventory, this); }
 
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("pool")) {
+			String pool = data.getString("pool");
+			if(pool != null && !pool.isEmpty()) {
+				this.pool = pool;
+				this.markChanged();
+			}
+		}
+	}
+	
 	AxisAlignedBB bb = null;
 
 	@Override
