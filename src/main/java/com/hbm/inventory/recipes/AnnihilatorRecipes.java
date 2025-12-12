@@ -102,10 +102,10 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 				if(input instanceof List) {
 					List<ItemStack> list = (List<ItemStack>) input;
 					for(ItemStack stack : list) ItemStackUtil.addTooltipToStack(stack, EnumChatFormatting.RED + String.format(Locale.US, "%,d", milestone.getKey()));
-					input = list.toArray(new ItemStack[0]);
+					input = new ItemStack[][] { list.toArray(new ItemStack[0]) };
 				}
 				
-				recipes.put(input, milestone.getValue());
+				recipes.put(input, milestone.getValue().copy());
 			}
 		}
 		

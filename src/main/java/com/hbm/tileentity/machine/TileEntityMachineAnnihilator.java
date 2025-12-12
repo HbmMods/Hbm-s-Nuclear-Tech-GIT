@@ -133,6 +133,8 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 		if(pool != null) {
 			this.monitorBigInt = pool.items.get(type);
 			if(this.monitorBigInt == null) this.monitorBigInt = BigInteger.ZERO;
+		} else {
+			this.monitorBigInt = BigInteger.ZERO;
 		}
 	}
 	
