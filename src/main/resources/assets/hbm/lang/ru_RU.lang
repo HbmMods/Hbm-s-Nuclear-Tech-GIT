@@ -2299,7 +2299,7 @@ item.bedrock_ore.type.light.name=Лёгкая металлическая
 item.bedrock_ore.type.nonmetal.name=Неметаллическая
 item.bedrock_ore.type.rare.name=Редкоземельная
 item.bedrock_ore_base.name=Необработанная бедроковая руда
-item.bedrock_ore_fragment.name=Фрагмент руды (%s)
+item.bedrock_ore_fragment.name=Фрагмент (%s)
 item.beta.name=БЕТА-ФУНКЦИИ
 item.big_sword.name=Большой меч
 item.billet_actinium.name=Заготовка актиния-227
@@ -6786,6 +6786,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
