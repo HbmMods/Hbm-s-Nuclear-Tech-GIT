@@ -11,6 +11,7 @@
   * In 528 mode, destroying quantities of certain items yield unique progression relevant blueprints
 
 ## Changed
+* Updated chinese localization
 * Changed the way 528 mode works
   * May of the old tantalium requirements no longer exist since the assembler rework
   * Some important recipes have been moved to the precision assembler
@@ -52,9 +53,13 @@
 * Solidifying biogas into compressed biomass now yields 4x more, making the biogas route twice as efficient as simply compressing biomass
 * Finally removed the long deprecated ambience radiation generator and geothermal generator
 * Nerfed the ballistic jackets, as they are comically cheap and made some zombies impossible to kill in early game
+* RBMK fuel rod items can now be inserted directly into fuel rods via right click, instead of having to open the GUI
+* Containment boxes now use ferrouranium instead of raw U-238
+* Added missing recipes to two legendary weapons
 
 ## Fixed
 * Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled
 * Fixed panzerschreck equip animation not speeding up with the sawed off mod
 * Fixed FENSU not keeping its charge when broken
 * Removed skeletonizer reloading from `/ntmreload` as it wasn't usable for end users and just caused error messages on servers
+* Added more null checks to world generation, hopefully preventing weird one-off crashes

@@ -148,6 +148,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 				serializeKey(compound, entry.getKey());
 				compound.setByteArray("amount", entry.getValue().toByteArray());
 				nbt.appendTag(compound);
+				System.out.println("Serializing " + entry.getValue().toString() + " of " + entry.getKey());
 			}
 		}
 		
@@ -157,6 +158,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 					NBTTagCompound compound = (NBTTagCompound) nbt.tagList.get(i);
 					Object key = deserializeKey(compound);
 					if(key != null) this.items.put(key, new BigInteger(compound.getByteArray("amount")));
+					System.out.println("Deserializing " + new BigInteger(compound.getByteArray("amount")).toString() + " of " + key);
 				}
 			} catch(Throwable ex) { } // because world data can be dented to all fucking hell and back
 		}
@@ -180,7 +182,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 			if(key instanceof FluidType) { // 2
 				FluidType type = (FluidType) key;
 				nbt.setByte("key", (byte) 2);
-				nbt.setString("fluid", type.getUnlocalizedName());
+				nbt.setString("fluid", type.getName());
 			}
 			
 			if(key instanceof String) { // 3
