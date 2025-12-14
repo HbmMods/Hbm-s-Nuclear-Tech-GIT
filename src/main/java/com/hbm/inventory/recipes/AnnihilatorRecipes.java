@@ -5,41 +5,112 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
+
+import static com.hbm.inventory.OreDictManager.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemBlueprints;
+import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class AnnihilatorRecipes extends SerializableRecipe {
 	
 	public static HashMap<Object, AnnihilatorRecipe> recipes = new HashMap();
+	
+	/*
+	 * MILESTONES
+	 * STEEL -> DERRICK (ASSEM)
+	 * SILICON -> CHIPS (PRECASS)
+	 * PLASTIC -> CRACKER, COKER (ASSEM)
+	 * RUBBER -> FRACKER (ASSEM)
+	 * URANIUM -> GASCENT (ASSEM)
+	 * FERRO -> RBMK (ASSEM)
+	 * BISMUTH -> BIS CHIPS (PRECASS)
+	 * HARDPLASTIC -> OIL 3.5 (ASSEM)
+	 * TCALLOY -> FUSION, WATZ (ASSEM)
+	 * IONS -> Q CHIPS (PRECASS) PA (ASSEM)
+	 * CHLOROPHYTE -> MHDT, ICF (ASSEM)
+	 * 50BMG -> TURRETS (ASSEM)
+	 * ARTY -> ARTY (ASSEM)
+	 * CONTROLLER -> NUKES (ASSEM)
+	 */
 
 	@Override
 	public void registerDefaults() {
+
+		recipes.put(STEEL.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "steel"))));
+		recipes.put(SI.billet(),					new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip"))));
+		recipes.put(BI.nugget(),					new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_bismoid"))));
+		recipes.put(ModItems.pellet_charged,		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chip_quantum"))));
+
+		recipes.put(U.billet(),						new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "gascent"))));
+		recipes.put(ANY_PLASTIC.ingot(),			new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "plastic"))));
+		recipes.put(RUBBER.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "rubber"))));
+		recipes.put(FERRO.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"))));
+		recipes.put(ANY_HARDPLASTIC.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "hardplastic"))));
+		recipes.put(ANY_RESISTANTALLOY.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "tcalloy"))));
+		recipes.put(ModItems.powder_chlorophyte,	new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"))));
 		
-		recipes.put(Items.iron_ingot, new AnnihilatorRecipe(
-				new Pair(new BigInteger("128"), new ItemStack(Items.gold_ingot)),
-				new Pair(new BigInteger("256"), new ItemStack(Items.gold_ingot, 3)),
-				new Pair(new BigInteger("512"), new ItemStack(Items.gold_ingot, 5))
-				));
+		recipes.put(new ComparableStack(ModItems.ammo_standard, 1, EnumAmmo.BMG50_FMJ),		new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "bmg"))));
+		recipes.put(new ComparableStack(ModItems.ammo_arty, 1, 0),							new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "arty"))));
+		recipes.put(new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER),	new AnnihilatorRecipe(new Pair(new BigInteger("128"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "controller"))));
 	}
 
 	@Override public String getFileName() { return "hbmAnnihilator.json"; }
 	@Override public Object getRecipeObject() { return recipes; }
 	@Override public void deleteRecipes() { recipes.clear(); }
+
+	public static HashMap getRecipes() {
+
+		HashMap<Object, Object> recipes = new HashMap();
+		
+		for(Entry<Object, AnnihilatorRecipe> entry : AnnihilatorRecipes.recipes.entrySet()) {
+			for(Pair<BigInteger, ItemStack> milestone : entry.getValue().milestones) {
+				
+				Object input = new ItemStack[1];
+	
+				if(entry.getKey() instanceof Item) input = new ItemStack((Item) entry.getKey());
+				if(entry.getKey() instanceof ComparableStack) input = ((ComparableStack) entry.getKey()).toStack();
+				if(entry.getKey() instanceof FluidType) input = ItemFluidIcon.make((FluidType) entry.getKey(), 0);
+				if(entry.getKey() instanceof String) input = new OreDictStack((String) entry.getKey()).extractForNEI();
+				
+				if(input == null) continue;
+				
+				if(input instanceof ItemStack) {
+					ItemStackUtil.addTooltipToStack((ItemStack) input, EnumChatFormatting.RED + String.format(Locale.US, "%,d", milestone.getKey()));
+				}
+				if(input instanceof List) {
+					List<ItemStack> list = (List<ItemStack>) input;
+					for(ItemStack stack : list) ItemStackUtil.addTooltipToStack(stack, EnumChatFormatting.RED + String.format(Locale.US, "%,d", milestone.getKey()));
+					input = new ItemStack[][] { list.toArray(new ItemStack[0]) };
+				}
+				
+				recipes.put(input, milestone.getValue().copy());
+			}
+		}
+		
+		return recipes;
+	}
 	
 	/**
 	 * If prevAmount is null, a payout is guaranteed if the currentAmount matches or exceeds the requirement.

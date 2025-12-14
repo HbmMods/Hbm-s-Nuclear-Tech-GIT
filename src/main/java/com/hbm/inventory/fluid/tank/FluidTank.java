@@ -39,10 +39,10 @@ public class FluidTank implements Cloneable {
 		loadingHandlers.add(new FluidLoaderInfinite());
 	}
 	
-	FluidType type;
-	int fluid;
-	int maxFluid;
-	int pressure = 0;
+	protected FluidType type;
+	protected int fluid;
+	protected int maxFluid;
+	protected int pressure = 0;
 	
 	public FluidTank(FluidType type, int maxFluid) {
 		this.type = type;

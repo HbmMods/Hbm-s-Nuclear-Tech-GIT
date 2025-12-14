@@ -51,6 +51,7 @@ public class ItemFluidIcon extends Item {
 	}
 
 	public static ItemStack addQuantity(ItemStack stack, int i) {
+		if(i <= 0) return stack;
 		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 		stack.getTagCompound().setInteger("fill", i);
 		return stack;

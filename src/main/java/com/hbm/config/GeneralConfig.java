@@ -50,6 +50,7 @@ public class GeneralConfig {
 	public static boolean enable528BosniaSimulator = true;
 	public static boolean enable528NetherBurn = true;
 	public static boolean enable528PressurizedRecipes = true;
+	public static boolean enable528ExplosiveEnergistics = true;
 	public static int coltanRate = 2;
 
 	public static boolean enableLBSM = false;
@@ -132,6 +133,7 @@ public class GeneralConfig {
 		enable528BosniaSimulator = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableBosniaSimulator", "Enables anti tank mines spawning all over the world.", true);
 		enable528NetherBurn = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528NetherBurn", "Whether players burn in the nether", true);
 		enable528PressurizedRecipes = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528PressurizedRecipes", "Sets some recipes to require pressurized input fluid", true);
+		enable528ExplosiveEnergistics = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528ExplosiveEnergistics", "Renders AE2 unusable.", true);
 		coltanRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_oreColtanFrequency", "Determines how many coltan ore veins are to be expected in a chunk. These values do not affect the frequency in deposits, and only apply if random coltan spanwing is enabled.", 2);
 
 		final String CATEGORY_LBSM = CommonConfig.CATEGORY_LBSM;
@@ -155,7 +157,7 @@ public class GeneralConfig {
 		enableLBSMSafeCrates = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeCrates", "When enabled, prevents crates from becoming radioactive", true);
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
-
+		
 		if(enable528) enableLBSM = false;
 		
 		if(!enable528) {
@@ -163,6 +165,7 @@ public class GeneralConfig {
 			enable528BosniaSimulator = false;
 			enable528NetherBurn = false;
 			enable528PressurizedRecipes = false;
+			enable528ExplosiveEnergistics = false;
 		}
 	}
 }

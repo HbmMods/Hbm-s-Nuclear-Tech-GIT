@@ -101,8 +101,8 @@ public class AnnihilatorSavedData extends WorldSavedData {
 		ItemStack dictPayout = null;
 		
 		List<String> oreDict = ItemStackUtil.getOreDictNames(stack);
-		for(String name : oreDict) if(name != null && !name.isEmpty()) {
-			ItemStack payout = poolInstance.increment(name, stack.stackSize, alwaysPayOut); // because some assholes pollute the ore dict with crap values
+		for(String name : oreDict) if(name != null && !name.isEmpty()) { // because some assholes pollute the ore dict with crap values
+			ItemStack payout = poolInstance.increment(name, stack.stackSize, alwaysPayOut);
 			if(payout != null) dictPayout = payout;
 		}
 		
@@ -148,6 +148,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 				serializeKey(compound, entry.getKey());
 				compound.setByteArray("amount", entry.getValue().toByteArray());
 				nbt.appendTag(compound);
+				System.out.println("Serializing " + entry.getValue().toString() + " of " + entry.getKey());
 			}
 		}
 		
@@ -157,14 +158,13 @@ public class AnnihilatorSavedData extends WorldSavedData {
 					NBTTagCompound compound = (NBTTagCompound) nbt.tagList.get(i);
 					Object key = deserializeKey(compound);
 					if(key != null) this.items.put(key, new BigInteger(compound.getByteArray("amount")));
+					System.out.println("Deserializing " + new BigInteger(compound.getByteArray("amount")).toString() + " of " + key);
 				}
 			} catch(Throwable ex) { } // because world data can be dented to all fucking hell and back
 		}
 		
-		/** So we want to avoid NBTTagCompounds because the keys are basically useless here and Strings are heavy as shit.
-		 * So what do? Shrimple, we use NBTTagLists. However, Mojang never expected lists to use different types, even though
-		 * implementing a list like that would be really easy, so we just break down absolutely all information we have into
-		 * byte arrays because the NBTTagList can handle those. God I hate this. */
+		/** Originally this uses NBTTagLists which broke down everything into byte arrays. It probably worked, but my stupid ass
+		 * defined some NBT crap in the upper levels wrong so nothing worked, and this got rewritten too. Well at least now it does. */
 		public void serializeKey(NBTTagCompound nbt, Object key) {
 			if(key instanceof Item) { // 0
 				Item item = (Item) key;
@@ -182,7 +182,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 			if(key instanceof FluidType) { // 2
 				FluidType type = (FluidType) key;
 				nbt.setByte("key", (byte) 2);
-				nbt.setString("fluid", type.getUnlocalizedName());
+				nbt.setString("fluid", type.getName());
 			}
 			
 			if(key instanceof String) { // 3
@@ -204,7 +204,7 @@ public class AnnihilatorSavedData extends WorldSavedData {
 				if(key == 2) { // fluidtype
 					return Fluids.fromName(nbt.getString("fluid"));
 				}
-				if(key == 3) {
+				if(key == 3) { // strong
 					return nbt.getString("dict");
 				}
 				// i feel filthy
