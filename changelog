@@ -1,5 +1,10 @@
 ## Changed
+* Updated russian localization
 * Changed the recipe change button on the mixer to be bright red with arrows on it (since the "C" looked too much like it meant "clear")
+* The refinery and the vacuum refinery now have working recipe configs
+* Recipe autogen for foundry casting now deprioritizes fragments, preventing them from being casted when nuggets of that material are available
 
 ## Fixed
 * Fixed atomic clock precision assembler recipe not working
+* Fixed ICF parts using 528 mode templates in normal mode
+* Fixed arc furnace queue slots inserting too many items, causing the output to exceed max stack size
