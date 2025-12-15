@@ -45,6 +45,7 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 	 * RUBBER -> FRACKER (ASSEM)
 	 * URANIUM -> GASCENT (ASSEM)
 	 * FERRO -> RBMK (ASSEM)
+	 * STRONTIUM -> ATOMIC CLOCK (PRECASS)
 	 * BISMUTH -> BIS CHIPS (PRECASS)
 	 * HARDPLASTIC -> OIL 3.5 (ASSEM)
 	 * TCALLOY -> FUSION, WATZ (ASSEM)
@@ -67,6 +68,7 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 		recipes.put(ANY_PLASTIC.ingot(),			new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "plastic"))));
 		recipes.put(RUBBER.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("512"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "rubber"))));
 		recipes.put(FERRO.ingot(),					new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"))));
+		recipes.put(SR.dust(),						new AnnihilatorRecipe(new Pair(new BigInteger("256"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "strontium"))));
 		recipes.put(ANY_HARDPLASTIC.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "hardplastic"))));
 		recipes.put(ANY_RESISTANTALLOY.ingot(),		new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "tcalloy"))));
 		recipes.put(ModItems.powder_chlorophyte,	new AnnihilatorRecipe(new Pair(new BigInteger("1024"), ItemBlueprints.make(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"))));

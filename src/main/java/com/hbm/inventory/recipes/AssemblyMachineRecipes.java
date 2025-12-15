@@ -602,50 +602,50 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.icfcell").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new ComparableStack(ModBlocks.glass_quartz, 16))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 2, EnumExpensiveType.BRONZE_TUBES), new ComparableStack(ModItems.ingot_cft, 8), new ComparableStack(ModBlocks.glass_quartz, 16))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfemitter").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.EMITTER.ordinal()))
 				.inputItems(new OreDictStack(W.plateWelded(), 4), new OreDictStack(MAGTUNG.wireDense(), 16))
 				.inputItemsEx(new OreDictStack(W.plateWelded(), 8), new OreDictStack(MAGTUNG.wireDense(), 16))
 				.inputFluids(new FluidStack(Fluids.XENON, 16_000))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfcapacitor").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CAPACITOR.ordinal()))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 1), new OreDictStack(ND.wireDense(), 16), new OreDictStack(SBD.wireDense(), 2))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 3, EnumExpensiveType.FERRO_PLATING), new OreDictStack(ND.wireDense(), 16), new OreDictStack(SBD.wireDense(), 2))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfturbo").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.TURBO.ordinal()))
 				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 2), new OreDictStack(DNT.wireDense(), 4), new OreDictStack(SBD.wireDense(), 4))
 				.inputItemsEx(new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 8), new OreDictStack(DNT.wireDense(), 8), new OreDictStack(SBD.wireDense(), 4))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfcasing").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CASING.ordinal()))
 				.inputItems(new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(BIGMT.plateCast(), 4), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(BIGMT.plateCast(), 4), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfport").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.PORT.ordinal()))
 				.inputItems(new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new OreDictStack(ND.wireDense(), 16))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new OreDictStack(ND.wireDense(), 16))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfcontroller").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_controller, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 16), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.BRONZE_TUBES), new ComparableStack(ModItems.ingot_cft, 16), new OreDictStack(ANY_HARDPLASTIC.ingot(), 16), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.COMPUTER))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfscaffold").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_component, 1, 0))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 4), new OreDictStack(TI.plateWelded(), 2))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 8, EnumExpensiveType.STEEL_PLATING))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfvessel").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_component, 1, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 1), new OreDictStack(CMB.plateCast(), 1), new OreDictStack(W.plateWelded(), 2))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfstructural").setup(200, 100).outputItems(new ItemStack(ModBlocks.icf_component, 1, 3))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 2), new OreDictStack(CU.plateWelded(), 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 1))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(STEEL.plateWelded(), 8))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfcore").setup(1_200, 100).outputItems(new ItemStack(ModBlocks.struct_icf_core, 1))
 				.inputItems(new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.QUANTUM))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.QUANTUM), new ComparableStack(ModItems.item_expensive, 16, EnumExpensiveType.COMPUTER))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register(new GenericRecipe("ass.icfpress").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_icf_press, 1))
 				.inputItems(new OreDictStack(GOLD.plateCast(), 8), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BISMOID))
-				.setPools(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
+				.setPools528(GenericRecipes.POOL_PREFIX_528 + "chlorophyte"));
 
 		// upgrades
 		if(no528) {
