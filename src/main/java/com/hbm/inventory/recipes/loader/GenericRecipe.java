@@ -63,7 +63,7 @@ public class GenericRecipe {
 	public GenericRecipe setPools(String... pools) { 
 		this.blueprintPools = pools;
 		for(String pool : pools) {
-			if(pool.startsWith(GenericRecipes.POOL_PREFIX_528)) throw new IllegalArgumentException("Tried initializing a recipe's default blueprint pool with a 528 blueprint - this is not allowed.");
+			if(!GeneralConfig.enable528 && pool.startsWith(GenericRecipes.POOL_PREFIX_528)) throw new IllegalArgumentException("Tried initializing a recipe's default blueprint pool with a 528 blueprint - this is not allowed.");
 			GenericRecipes.addToPool(pool, this);
 		}
 		return this;
