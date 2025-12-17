@@ -1,10 +1,10 @@
 ## Changed
-* For consistency with the crucible material, all tantalium *items* now go by "tantalum"
+* After not being part of worldgen for a long time, oily coal is finally being removed
+* The rare metal blocks that had been unobtainable and unused for the longest time have been removed
+* The schrabidium transmutator's grace period is over, it is finally being destroyed
+* Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
+  * The block ID economy is looking better than ever
 
 ## Fixed
-* Fixed MHD turbines requiring a 528 blueprint in normal mode
-  * The game will now crash when the default pool list has a 528 blueprint entry, preventing this from happening again
-  * Configured recipes do not have this check, you can use 528 mode templates in normal mode if you really want for some reason
-* Fixed ancient misspelling of "ketamine" on the splash screens
-* Fixed tantalum fragments not using autogen correctly, becoming unusable
-* Fixed 528 mode cracking tower requiring rubber instead of plasic for the blueprint, rendering it unobtainable
+* Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
+* Fixed 528 coltan deposit config misspelling

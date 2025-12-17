@@ -1457,6 +1457,17 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.struct_plasma_core");
 		ignoreMappings.add("hbm:tile.machine_amgen");
 		ignoreMappings.add("hbm:tile.machine_geo");
+		ignoreMappings.add("hbm:tile.ore_coal_oil");
+		ignoreMappings.add("hbm:tile.ore_coal_oil_burning");
+		ignoreMappings.add("hbm:tile.block_weidanium");
+		ignoreMappings.add("hbm:tile.block_reiium");
+		ignoreMappings.add("hbm:tile.block_unobtainium");
+		ignoreMappings.add("hbm:tile.block_daffergon");
+		ignoreMappings.add("hbm:tile.block_verticium");
+		ignoreMappings.add("hbm:tile.machine_schrabidium_transmutator");
+		ignoreMappings.add("hbm:tile.fusion_conductor");
+		ignoreMappings.add("hbm:tile.fusion_center");
+		ignoreMappings.add("hbm:tile.fusion_motor");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

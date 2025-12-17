@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class Spaceship2
 {
 	Block Block1 = ModBlocks.deco_tungsten;
-	Block Block2 = ModBlocks.fusion_conductor;
+	Block Block2 = ModBlocks.hadron_coil_alloy;
 	Block Block3 = ModBlocks.deco_steel;
 	Block Block4 = ModBlocks.fusion_heater;
 	Block Block5 = ModBlocks.block_meteor;
