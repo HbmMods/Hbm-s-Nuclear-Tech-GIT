@@ -6289,6 +6289,7 @@ tile.pink_log.name=Розовое дерево
 tile.pink_planks.name=Розовые доски
 tile.pink_slab.name=Плита из розового дерева
 tile.pink_stairs.name=Ступеньки из розового дерева
+tile.pipe_anchor.name=Трубный якорь
 tile.piston_inserter.name=Вставщик
 tile.piston_inserter.desc=Может принимать один предмет$Если подан сигнал редстоуна, то вставит предмет в просверлённый графит$Все предметы в просверлённом графите в цепочке будут сдвинуты на один блок$Требуется один блок воздуха между графитом
 tile.plant_dead.name=Мёртвое растение
@@ -6786,6 +6787,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
