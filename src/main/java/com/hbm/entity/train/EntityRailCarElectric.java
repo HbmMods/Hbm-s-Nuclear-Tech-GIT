@@ -52,7 +52,7 @@ public abstract class EntityRailCarElectric extends EntityRailCarRidable {
 				if(stack != null && stack.getItem() instanceof IBatteryItem) {
 					IBatteryItem battery = (IBatteryItem) stack.getItem();
 					int powerNeeded = this.getMaxPower() - this.getPower();
-					long powerProvided = Math.min(battery.getDischargeRate(), battery.getCharge(stack));
+					long powerProvided = Math.min(battery.getDischargeRate(stack), battery.getCharge(stack));
 					int powerTransfered = (int) Math.min(powerNeeded, powerProvided);
 					
 					if(powerTransfered > 0) {

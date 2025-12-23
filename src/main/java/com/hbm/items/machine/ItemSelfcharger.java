@@ -43,12 +43,12 @@ public class ItemSelfcharger extends Item implements IBatteryItem {
 	}
 
 	@Override
-	public long getChargeRate() {
+	public long getChargeRate(ItemStack stack) {
 		return 0;
 	}
 
 	@Override
-	public long getDischargeRate() {
+	public long getDischargeRate(ItemStack stack) {
 		return charge;
 	}
 

@@ -421,7 +421,6 @@ public class ExplosionNukeGeneric {
 	public static void emp(World world, int x, int y, int z) {
 		if (!world.isRemote) {
 			
-			Block b = world.getBlock(x,y,z);
 			TileEntity te = world.getTileEntity(x, y, z);
 			
 			if (te != null && te instanceof IEnergyHandlerMK2) {

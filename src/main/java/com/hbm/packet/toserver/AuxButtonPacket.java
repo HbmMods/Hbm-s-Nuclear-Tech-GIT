@@ -2,6 +2,7 @@ package com.hbm.packet.toserver;
 
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityTickingBase;
@@ -25,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
+@NotableComments
 @Deprecated //use the NBT control packet instead
 public class AuxButtonPacket implements IMessage {
 
@@ -34,13 +36,9 @@ public class AuxButtonPacket implements IMessage {
 	int value;
 	int id;
 
-	public AuxButtonPacket()
-	{
-		
-	}
+	public AuxButtonPacket() { }
 
-	public AuxButtonPacket(int x, int y, int z, int value, int id)
-	{
+	public AuxButtonPacket(int x, int y, int z, int value, int id) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -77,58 +75,45 @@ public class AuxButtonPacket implements IMessage {
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 				
-				if (te instanceof TileEntityForceField) {
+				if(te instanceof TileEntityForceField) {
 					TileEntityForceField field = (TileEntityForceField)te;
-					
 					field.isOn = !field.isOn;
 				}
 				
-				if (te instanceof TileEntityMachineMissileAssembly) {
+				if(te instanceof TileEntityMachineMissileAssembly) {
 					TileEntityMachineMissileAssembly assembly = (TileEntityMachineMissileAssembly)te;
-					
 					assembly.construct();
 				}
 				
-				if (te instanceof TileEntityLaunchTable) {
+				if(te instanceof TileEntityLaunchTable) {
 					TileEntityLaunchTable launcher = (TileEntityLaunchTable)te;
-					
 					launcher.padSize = PartSize.values()[m.value];
 				}
 				
-				if (te instanceof TileEntityCoreEmitter) {
+				if(te instanceof TileEntityCoreEmitter) {
 					TileEntityCoreEmitter core = (TileEntityCoreEmitter)te;
-
-					if(m.id == 0) {
-						core.watts = m.value;
-					}
-					if(m.id == 1) {
-						core.isOn = !core.isOn;
-					}
+					if(m.id == 0) core.watts = m.value;
+					if(m.id == 1) core.isOn = !core.isOn;
 				}
 				
-				if (te instanceof TileEntityCoreStabilizer) {
+				if(te instanceof TileEntityCoreStabilizer) {
 					TileEntityCoreStabilizer core = (TileEntityCoreStabilizer)te;
-
-					if(m.id == 0) {
-						core.watts = m.value;
-					}
+					if(m.id == 0) core.watts = m.value;
 				}
 				
-				if (te instanceof TileEntityBarrel) {
+				if(te instanceof TileEntityBarrel) {
 					TileEntityBarrel barrel = (TileEntityBarrel)te;
-
 					barrel.mode = (short) ((barrel.mode + 1) % barrel.modes);
 					barrel.markDirty();
 				}
 				
-				if (te instanceof TileEntityMachineBattery) {
+				if(te instanceof TileEntityMachineBattery) {
 					TileEntityMachineBattery bat = (TileEntityMachineBattery)te;
 
 					if(m.id == 0) {
 						bat.redLow = (short) ((bat.redLow + 1) % 4);
 						bat.markDirty();
 					}
-
 					if(m.id == 1) {
 						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
 						bat.markDirty();
@@ -136,26 +121,22 @@ public class AuxButtonPacket implements IMessage {
 
 					if(m.id == 2) {
 						switch(bat.priority) {
-						case LOW: bat.priority = ConnectionPriority.NORMAL; break;
-						case NORMAL: bat.priority = ConnectionPriority.HIGH; break;
-						case HIGH: bat.priority = ConnectionPriority.LOW; break;
+							case LOW: bat.priority = ConnectionPriority.NORMAL; break;
+							case NORMAL: bat.priority = ConnectionPriority.HIGH; break;
+							case HIGH: bat.priority = ConnectionPriority.LOW; break;
 						}
 						bat.markDirty();
 					}
 				}
 				
-				if (te instanceof TileEntitySoyuzLauncher) {
+				if(te instanceof TileEntitySoyuzLauncher) {
 					TileEntitySoyuzLauncher launcher = (TileEntitySoyuzLauncher)te;
-
-					if(m.id == 0)
-						launcher.mode = (byte) m.value;
-					if(m.id == 1)
-						launcher.startCountdown();
+					if(m.id == 0) launcher.mode = (byte) m.value;
+					if(m.id == 1) launcher.startCountdown();
 				}
 				
-				if (te instanceof TileEntityMachineMiningLaser) {
+				if(te instanceof TileEntityMachineMiningLaser) {
 					TileEntityMachineMiningLaser laser = (TileEntityMachineMiningLaser)te;
-
 					laser.isOn = !laser.isOn;
 				}
 				
