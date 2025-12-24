@@ -555,6 +555,8 @@ public class MainRegistry {
 		GasCentrifugeRecipes.register();
 
 		CustomMachineConfigJSON.initialize();
+		proxy.registerCustomMachineModels();
+		proxy.registerCustomMachineSounds();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();

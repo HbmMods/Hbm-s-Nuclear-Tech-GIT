@@ -14,6 +14,7 @@ import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.EntityMinecartCrate;
 import com.hbm.entity.cart.EntityMinecartNTM;
@@ -872,6 +873,14 @@ public class ClientProxy extends ServerProxy {
 		}
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
+	}
+	@Override
+	public void registerCustomMachineModels() {
+		CustomMachineConfigJSON.registerCustomModels();
+	}
+	@Override
+	public void registerCustomMachineSounds() {
+		CustomMachineConfigJSON.doesSoundExist();
 	}
 
 	//mk3, only use this one
