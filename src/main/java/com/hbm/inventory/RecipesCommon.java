@@ -63,6 +63,8 @@ public class RecipesCommon {
 		 */
 		public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
 
+        public abstract int matchesRecipe(ItemStack stack); // for doing a recipe multiple times in one tick
+
 		public abstract AStack copy();
 		public abstract AStack copy(int stacksize);
 		
@@ -267,7 +269,16 @@ public class RecipesCommon {
 			return true;
 		}
 
-		@Override
+        @Override
+        public int matchesRecipe(ItemStack stack) {
+            if(stack == null) return 0;
+            if(stack.getItem() != this.item) return 0;
+            if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta) return 0;
+
+            return stack.stackSize / this.stacksize;
+        }
+
+        @Override
 		public List<ItemStack> extractForNEI() {
 			return Arrays.asList(new ItemStack[] {this.toStack()});
 		}
@@ -334,6 +345,26 @@ public class RecipesCommon {
 			
 			return true;
 		}
+
+        @Override
+        public int matchesRecipe(ItemStack stack) {
+
+            if(stack == null) return 0;
+            if(stack.getItem() != this.item) return 0;
+            if(this.meta != OreDictionary.WILDCARD_VALUE && stack.getItemDamage() != this.meta) return 0;
+            if(this.nbt != null && !this.nbt.hasNoTags() && stack.stackTagCompound == null) return 0;
+
+            if(this.nbt != null && stack.stackTagCompound != null) {
+                Set<String> neededKeys = this.nbt.func_150296_c();
+                for(String key : neededKeys) {
+                    NBTBase tag = stack.stackTagCompound.getTag(key);
+                    if(tag == null) return 0;
+                    if(!this.nbt.getTag(key).equals(tag)) return 0;
+                }
+            }
+
+            return stack.stackSize / this.stacksize;
+        }
 
 		@Override
 		public NBTStack copy() {
@@ -421,27 +452,49 @@ public class RecipesCommon {
 
 		@Override
 		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
-			
+
 			if(stack == null)
 				return false;
-			
+
 			if(!ignoreSize && stack.stackSize < this.stacksize)
 				return false;
-			
+
 			int[] ids = OreDictionary.getOreIDs(stack);
-			
+
 			if(ids == null || ids.length == 0)
 				return false;
-			
+
 			for(int i = 0; i < ids.length; i++) {
 				if(this.name.equals(OreDictionary.getOreName(ids[i])))
 					return true;
 			}
-			
+
 			return false;
 		}
 
-		@Override
+        @Override
+        public int matchesRecipe(ItemStack stack) {
+            if(stack == null)
+                return 0;
+
+            int[] ids = OreDictionary.getOreIDs(stack);
+
+            if(ids.length == 0)
+                return 0;
+
+            boolean match = false;
+            for (int id : ids) {
+                if (this.name.equals(OreDictionary.getOreName(id)))
+                    match = true;
+            }
+
+            if(match)
+                return stack.stackSize / this.stacksize;
+
+            return 0;
+        }
+
+        @Override
 		public List<ItemStack> extractForNEI() {
 			
 			List<ItemStack> fromDict = OreDictionary.getOres(name);
