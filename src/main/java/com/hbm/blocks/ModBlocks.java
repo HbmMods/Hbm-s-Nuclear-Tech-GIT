@@ -743,7 +743,7 @@ public class ModBlocks {
 	public static Block machine_microwave;
 
 	public static Block machine_battery_socket;
-	
+
 	@Deprecated public static Block machine_battery_potato;
 	@Deprecated public static Block machine_battery;
 	@Deprecated public static Block machine_lithium_battery;
@@ -787,6 +787,7 @@ public class ModBlocks {
 	public static Block pipe_anchor;
 	public static Block fluid_valve;
 	public static Block fluid_switch;
+	public static Block fluid_counter_valve;
 	public static Block fluid_pump;
 	public static Block machine_drain;
 	public static Block radio_torch_sender;
@@ -1920,6 +1921,7 @@ public class ModBlocks {
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_switch = new FluidSwitch(Material.iron).setBlockName("fluid_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		fluid_counter_valve = new FluidCounterValve(Material.iron).setBlockName("fluid_counter_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_pump = new FluidPump(Material.iron).setBlockName("fluid_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drain = new MachineDrain(Material.iron).setBlockName("machine_drain").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3205,6 +3207,7 @@ public class ModBlocks {
 		register(pipe_anchor);
 		register(fluid_duct_gauge);
 		register(fluid_valve);
+		register(fluid_counter_valve);
 		register(fluid_switch);
 		register(fluid_pump);
 		register(machine_drain);
