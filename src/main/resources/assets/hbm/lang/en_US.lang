@@ -308,7 +308,7 @@ book.starter.page15=Finally, you can create your first §oreal§r source of ener
 book.starter.title16=Conclusion
 book.starter.page16=If you've reached this far, you're on track to helping rebuild civilization. You've successfully recreated the advanced machinery of the pre-apocalypse - with nuclear power, petrochemicals, and more. I cannot know §ohow§r you will use these new-found advantages, but it's my personal hope you use them for the good of yourself and others - or at the very least, in self-defense. Au revoir!
 book.starter.title18=About the Author
-book.starter.page18=vær is just a guy who has been trapped in the grey void featured in the Talking Head's §oOnce In A Lifetime§r for too long. He once found a studio door, but to his dismay found out it was a cardboard cut-out.
+book.starter.page18=vær is just a guy who has been trapped in the grey void featured in the Talking Heads' §oOnce In A Lifetime§r for too long. He once found a studio door, but to his dismay found out it was a cardboard cut-out.
 
 #book.rbmk.cover=HOW 2 RBMK:$The Basics$of Reactor$Construction
 #book.rbmk.title1=Introduction
@@ -339,7 +339,7 @@ book.starter.page18=vær is just a guy who has been trapped in the grey void fea
 #book.rbmk.page13=Clicking on the parts will select and deselect them. Using the colored buttons, you can quickly select all control rods of that color group. Button 'A' will select all control rods, 'X' will deselect all.
 #book.rbmk.page14=Entering a number 0-100 in the green box and then hitting the button next to it will set all selected control rods to this position. Button 'AZ-5' will cause all control rods to fully insert.
 #book.rbmk.title15=Fuel
-#book.rbmk.page15=The §lfuel§r's reactivity is based on multiple factors. The main ones are the §lenrichment§r, §lxenon poison§r and the amount of incoming §lneutrons§r. Xenon builds up when the fuel receives few neutrons and burns away during normal operation. The effectivity of neutrons depends on the type, most fuels §lsplit best with slow neutrons§r.
+#book.rbmk.page15=The §lfuel§r's reactivity is based on multiple factors. The main ones are the §lenrichment§r, §lxenon poison§r and the amount of incoming §lneutrons§r. Xenon builds up when the fuel receives few neutrons and burns away during normal operation. The effectiveness of neutrons depends on the type, most fuels §lsplit best with slow neutrons§r.
 #book.rbmk.title16=Meltdown
 #book.rbmk.page16=§4§lAvoid.
 
