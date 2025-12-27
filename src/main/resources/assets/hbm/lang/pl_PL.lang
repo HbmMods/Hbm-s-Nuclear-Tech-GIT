@@ -4308,10 +4308,15 @@ shape.wire=Wire
 
 soundCategory.ntmMachines=NTM Machines
 
-tile.absorber.name=Radiation Absorber
-tile.absorber_green.name=Advanced Radiation Absorber
-tile.absorber_pink.name=Elite Radiation Absorber
-tile.absorber_red.name=Enhanced Radiation Absorber
+tile.absorber.name=Radiation Absorber OLD
+tile.absorber_green.name=Advanced Radiation Absorber OLD
+tile.absorber_pink.name=Elite Radiation Absorber OLD
+tile.absorber_red.name=Enhanced Radiation Absorber OLD
+
+tile.rad_absorber.base.name=Radiation Absorber
+tile.rad_absorber.red.name=Enhanced Radiation Absorber
+tile.rad_absorber.green.name=Advanced Radiation Absorber
+tile.rad_absorber.pink.name=Elite Radiation Absorber
 tile.acid_block.name=Acid
 tile.ams_base.name=AMS Base (Dekoracja)
 tile.ams_emitter.name=AMS Emitter (Dekoracja)
