@@ -122,9 +122,9 @@ public class DamageResistanceHandler {
 		entityStats.put(EntityCreeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
 
 		itemStats.put(ModItems.jackt, new ResistanceStats()
-				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F));
+				.addCategory(CATEGORY_PHYSICAL, 1F, 0.25F));
 		itemStats.put(ModItems.jackt2, new ResistanceStats()
-				.addCategory(CATEGORY_PHYSICAL, 5F, 0.5F));
+				.addCategory(CATEGORY_PHYSICAL, 3F, 0.35F));
 
 		registerSet(ModItems.steel_helmet, ModItems.steel_plate, ModItems.steel_legs, ModItems.steel_boots, new ResistanceStats());
 		registerSet(ModItems.titanium_helmet, ModItems.titanium_plate, ModItems.titanium_legs, ModItems.titanium_boots, new ResistanceStats());

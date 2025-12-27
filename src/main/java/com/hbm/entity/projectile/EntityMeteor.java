@@ -30,8 +30,6 @@ public class EntityMeteor extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.setSize(4F, 4F);
-		if(worldObj.isRemote)
-			this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 1F, 200F, 0.9F + this.rand.nextFloat() * 0.2F, 0);
 	}
 
 	public List<BlockPos> getBlocksInRadius(World world, int x, int y, int z, int radius) {
@@ -144,12 +142,14 @@ public class EntityMeteor extends Entity {
 				if(this.audioFly != null) this.audioFly.stopSound();
 				
 			} else {
+				
+				if(this.audioFly == null) this.audioFly = MainRegistry.proxy.getLoopedSound("hbm:entity.meteoriteFallingLoop", 0, 0, 0, 1F, 200F, 0.9F + this.rand.nextFloat() * 0.2F, 10);
 	
 				if(this.audioFly.isPlaying()) {
 					// Update sound
 					this.audioFly.keepAlive();
 					this.audioFly.updateVolume(1F);
-					this.audioFly.updatePosition((int) this.posX, (int) this.posY, (int) this.posZ);
+					this.audioFly.updatePosition((float) this.posX, (float) (this.posY + this.height / 2), (float) this.posZ);
 				} else {
 					// Start playing the sound
 					EntityPlayer player = MainRegistry.proxy.me();

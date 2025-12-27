@@ -81,6 +81,7 @@ public class TileMappings {
 		put(TileEntityDecoPoleTop.class, "tileentity_poletop");
 		put(TileEntityDecoPoleSatelliteReceiver.class, "tileentity_satellitereceicer");
 		put(TileEntityMachineBattery.class, "tileentity_battery");
+		put(TileEntityBatterySocket.class, "tileentity_battery_socket");
 		put(TileEntityCapacitor.class, "tileentity_capacitor");
 		put(TileEntityMachineWoodBurner.class, "tileentity_wood_burner");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
@@ -95,7 +96,6 @@ public class TileMappings {
 		put(TileEntityCrashedBomb.class, "tileentity_crashed_balefire");
 		put(TileEntityConverterHeRf.class, "tileentity_converter_herf");
 		put(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
-		put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		put(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
 		put(TileEntityMachineShredder.class, "tileentity_machine_shredder");
 		put(TileEntityMachineTeleporter.class, "tileentity_teleblock");
@@ -154,7 +154,6 @@ public class TileMappings {
 		put(TileEntityCoreInjector.class, "tileentity_v0_injector");
 		put(TileEntityCoreStabilizer.class, "tileentity_v0_stabilizer");
 		put(TileEntityCore.class, "tileentity_v0");
-		put(TileEntityMachineAmgen.class, "tileentity_amgen");
 		put(TileEntityMachineHephaestus.class, "tileentity_hephaestus");
 		put(TileEntityGeysir.class, "tileentity_geysir");
 		put(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");

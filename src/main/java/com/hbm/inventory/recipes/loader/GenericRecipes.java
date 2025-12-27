@@ -118,7 +118,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		
 		if(obj.has("icon")) recipe.setIcon(this.readItemStack(obj.get("icon").getAsJsonArray()));
 		if(obj.has("named") && obj.get("named").getAsBoolean()) recipe.setNamed();
-		if(obj.has("blueprintpool")) recipe.setPools(obj.get("blueprintpool").getAsString().split(":"));
+		if(obj.has("blueprintpool")) recipe.setPoolsAllow528(obj.get("blueprintpool").getAsString().split(":"));
 		if(obj.has("nameWrapper")) recipe.setNameWrapper(obj.get("nameWrapper").getAsString());
 		if(obj.has("autoSwitchGroup")) recipe.setGroup(obj.get("autoSwitchGroup").getAsString(), this);
 		

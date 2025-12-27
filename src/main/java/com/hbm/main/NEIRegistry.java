@@ -15,6 +15,7 @@ public class NEIRegistry {
 
 		if(!handlers.isEmpty()) return handlers;
 
+		handlers.add(new AnnihilatorHandler());
 		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new PressRecipeHandler());

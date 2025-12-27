@@ -245,10 +245,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		}
 	}
 
-	public void onNodeDestroyedCallback() {
-		this.node = null;
-	}
-
 	@Override
 	public void invalidate() {
 		super.invalidate();

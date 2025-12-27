@@ -36,7 +36,7 @@ public class CompatEnergyControl {
 	/** Standardized discharge for IBatteryItem, returns the amount that was removed */
 	public static double dischargeItem(ItemStack stack, double needed) {
 		IBatteryItem battery = (IBatteryItem) stack.getItem();
-		long toDischarge = Math.min(battery.getDischargeRate(), Math.min(battery.getCharge(stack), (long) needed));
+		long toDischarge = Math.min(battery.getDischargeRate(stack), Math.min(battery.getCharge(stack), (long) needed));
 		battery.dischargeBattery(stack, toDischarge);
 		return toDischarge;
 	}

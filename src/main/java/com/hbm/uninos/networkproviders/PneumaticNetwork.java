@@ -31,7 +31,6 @@ public class PneumaticNetwork extends NodeNet {
 	public static final byte RECEIVE_RANDOM = 1;
 	
 	public Random rand = new Random();
-	public int nextReceiver = 0;
 
 	protected static final int timeout = 1_000;
 	public static final int ITEMS_PER_TRANSFER = 64;
@@ -53,7 +52,7 @@ public class PneumaticNetwork extends NodeNet {
 		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getY() > timeout) || NodeNet.isBadLink(x.getKey()); });
 	}
 	
-	public boolean send(IInventory source, TileEntityPneumoTube tube, ForgeDirection accessDir, int sendOrder, int receiveOrder, int maxRange) {
+	public boolean send(IInventory source, TileEntityPneumoTube tube, ForgeDirection accessDir, int sendOrder, int receiveOrder, int maxRange, int nextReceiver) {
 
 		// turns out there may be a short time window where the cleanup hasn't happened yet, but chunkloading has already caused tiles to go invalid
 		// so we just run it again here, just to be sure.
@@ -76,7 +75,6 @@ public class PneumaticNetwork extends NodeNet {
 		
 		int index = nextReceiver % receivers.size();
 		Entry<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> chosenReceiverEntry = null;
-		nextReceiver++;
 
 		if(receiveOrder == RECEIVE_ROBIN) chosenReceiverEntry = receiverList.get(index);
 		if(receiveOrder == RECEIVE_RANDOM) chosenReceiverEntry = receiverList.get(rand.nextInt(receiverList.size()));

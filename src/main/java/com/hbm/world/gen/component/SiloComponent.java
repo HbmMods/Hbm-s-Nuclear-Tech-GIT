@@ -412,7 +412,7 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, Blocks.heavy_weighted_pressure_plate, 0, 34, 22, 18, box);
 		placeBlockAtCurrentPosition(world, ModBlocks.capacitor_copper, decoE, 36, 21, 16, box);
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 36, 21, 17, box);
-		placeBlockAtCurrentPosition(world, ModBlocks.fusion_conductor, 0, 36, 21, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.hadron_coil_alloy, 0, 36, 21, 19, box);
 		fillWithMetadataBlocks(world, box, 36, 22, 16, 36, 23, 16, ModBlocks.tape_recorder, decoE);
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelW, 36, 22, 17, box);
 		fillWithMetadataBlocks(world, box, 36, 21, 18, 36, 23, 18, ModBlocks.tape_recorder, decoE);

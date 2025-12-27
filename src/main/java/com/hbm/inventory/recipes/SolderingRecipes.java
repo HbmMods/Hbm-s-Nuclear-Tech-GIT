@@ -32,6 +32,7 @@ public class SolderingRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 		
 		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
+		boolean no528 = !GeneralConfig.enable528;
 		
 		/*
 		 * CIRCUITS
@@ -108,7 +109,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		 * COMPUTERS
 		 */
 
-		if(!GeneralConfig.enable528) {
+		if(no528) {
 			recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER.ordinal()), 400, 15_000,
 					new FluidStack(Fluids.PERFLUOROMETHYL, 1_000),
 					new AStack[] {
@@ -187,16 +188,18 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {}
 		));
 		
-		addFirstUpgrade(ModItems.upgrade_speed_1, ModItems.upgrade_speed_2);
-		addSecondUpgrade(ModItems.upgrade_speed_2, ModItems.upgrade_speed_3);
-		addFirstUpgrade(ModItems.upgrade_effect_1, ModItems.upgrade_effect_2);
-		addSecondUpgrade(ModItems.upgrade_effect_2, ModItems.upgrade_effect_3);
-		addFirstUpgrade(ModItems.upgrade_power_1, ModItems.upgrade_power_2);
-		addSecondUpgrade(ModItems.upgrade_power_2, ModItems.upgrade_power_3);
-		addFirstUpgrade(ModItems.upgrade_fortune_1, ModItems.upgrade_fortune_2);
-		addSecondUpgrade(ModItems.upgrade_fortune_2, ModItems.upgrade_fortune_3);
-		addFirstUpgrade(ModItems.upgrade_afterburn_1, ModItems.upgrade_afterburn_2);
-		addSecondUpgrade(ModItems.upgrade_afterburn_2, ModItems.upgrade_afterburn_3);
+		if(no528) {
+			addFirstUpgrade(ModItems.upgrade_speed_1, ModItems.upgrade_speed_2);
+			addSecondUpgrade(ModItems.upgrade_speed_2, ModItems.upgrade_speed_3);
+			addFirstUpgrade(ModItems.upgrade_effect_1, ModItems.upgrade_effect_2);
+			addSecondUpgrade(ModItems.upgrade_effect_2, ModItems.upgrade_effect_3);
+			addFirstUpgrade(ModItems.upgrade_power_1, ModItems.upgrade_power_2);
+			addSecondUpgrade(ModItems.upgrade_power_2, ModItems.upgrade_power_3);
+			addFirstUpgrade(ModItems.upgrade_fortune_1, ModItems.upgrade_fortune_2);
+			addSecondUpgrade(ModItems.upgrade_fortune_2, ModItems.upgrade_fortune_3);
+			addFirstUpgrade(ModItems.upgrade_afterburn_1, ModItems.upgrade_afterburn_2);
+			addSecondUpgrade(ModItems.upgrade_afterburn_2, ModItems.upgrade_afterburn_3);
+		}
 	}
 	
 	public static void addFirstUpgrade(Item lower, Item higher) {

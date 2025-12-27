@@ -1,36 +1,10 @@
-## Added
-* Precision assembler
-* Annihilator
-
 ## Changed
-* New fusion reactor and particle accelerator parts now have OpenComputers compat
-* Irradiation recipe config now has the `fusionOnly` flag, preventing the recipe from being done in the RBMK irradiation channel
-* Removed legacy fusion reactor parts from the creative inventory
-* Removed the legacy fusion reactor core components
-* If a legacy fusion reactor explodes, it is now destroyed forever and cannot be reassembled
-* Legacy fusion reactors no longer disassemble when being mined, rather they drop as one block
-* Legacy templates are no longer listed in the creative tab
-* Removed the old meltdown achievement
-* Eating canned fists now hurts
-* Due to repeated incidents regarding canned black holes, the mechanics have changed
-  * Vortices spawned now have a flag set that prevents them from breaking blocks entirely
-  * Vortices decay 4x faster than those spawned by singularity items, it should last about 2.5 seconds in total
-  * It will still very much kill you instantly and destroy your items
-* Storage crates can no longer be placed into containment boxes
-* Expensive mode now has a new microcrafting item, being made from multiple types of plastic
-* Fusion reactor parts now have expensive mode recipes
-* Both types of blueprint booklets are now obtainable via precision assembler
-  * The recipes are lengthy, require a lot of power and have a low chance of succeeding
-  * Recipes require the divine pufferfish, driver of all innovation
-  * Where can you get this much pufferfish? Go figure it out
-* Chance output stacks no longer do an RNG call to determine if the whole stack is provided or none, rather, each single item of the stack has its own RNG call
-* Hiperf bedrock ore processing of heavy metals now yields tantalium
-* Bedrock coltan is no longer a dedicated bedrock ore type
-* Alt fire is now available for 10ga double barrel shotguns, allowing only a single barrel to be fired at once
-* The custom mapping function on RoR torches now supports up to 32 characters instead of 15
-* Drainage pipes, flare stacks and the annihilator now have the default fluid priority of LOW, meaning that excess removal using those no longer requires flow control pumps
+* After not being part of worldgen for a long time, oily coal is finally being removed
+* The rare metal blocks that had been unobtainable and unused for the longest time have been removed
+* The schrabidium transmutator's grace period is over, it is finally being destroyed
+* Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
+  * The block ID economy is looking better than ever
 
 ## Fixed
-* Fixed gamebreaking issue causing crashes and world corruption where the multi detonator had its tooltip misspelled
-* Fixed panzerschreck equip animation not speeding up with the sawed off mod
-* Fixed FENSU not keeping its charge when broken
+* Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
+* Fixed 528 coltan deposit config misspelling

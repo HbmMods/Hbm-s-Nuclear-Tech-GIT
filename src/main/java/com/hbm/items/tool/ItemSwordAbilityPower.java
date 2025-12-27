@@ -111,12 +111,12 @@ public class ItemSwordAbilityPower extends ItemSwordAbility implements IBatteryI
     }
 
 	@Override
-    public long getChargeRate() {
+    public long getChargeRate(ItemStack stack) {
     	return chargeRate;
     }
 
 	@Override
-	public long getDischargeRate() {
+	public long getDischargeRate(ItemStack stack) {
 		return 0;
 	}
 

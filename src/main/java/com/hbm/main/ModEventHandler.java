@@ -13,6 +13,10 @@ import com.hbm.entity.mob.*;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.train.EntityRailCarBase;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -1177,12 +1181,30 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onClickSign(PlayerInteractEvent event) {
+	public void onClickBlock(PlayerInteractEvent event) {
 
 		int x = event.x;
-		int y = event.z;
-		int z = event.y;
+		int y = event.y;
+		int z = event.z;
 		World world = event.world;
+		
+		if(GeneralConfig.enable528ExplosiveEnergistics && !world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK) {
+			Block b = world.getBlock(x, y, z);
+			String name = Block.blockRegistry.getNameForObject(b);
+			if(name != null && name.startsWith("appliedenergistics2")) {
+				world.func_147480_a(x, y, z, false);
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 5, null);
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 20).setupPiercing(5, 0.2F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+				vnt.explode();
+				event.setCanceled(true);
+			}
+		}
+
+		x = event.x;
+		y = event.z;
+		z = event.y;
 
 		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getTileEntity(x, y, z) instanceof TileEntitySign) {
 

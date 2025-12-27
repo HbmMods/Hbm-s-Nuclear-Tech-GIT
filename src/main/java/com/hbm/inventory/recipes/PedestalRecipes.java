@@ -56,6 +56,16 @@ public class PedestalRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.scrap_nuclear),	new ComparableStack(ModItems.gun_heavy_revolver),	new ComparableStack(ModItems.scrap_nuclear),
 				new ComparableStack(ModBlocks.chain, 16),		new OreDictStack(CINNABAR.gem()),					new ComparableStack(ModBlocks.chain, 16)));
 
+		register(new PedestalRecipe(new ItemStack(ModItems.gun_amat_subtlety),
+				new OreDictStack(STAR.ingot()),		new OreDictStack(AL.plateCast()),		new OreDictStack(STAR.ingot()),
+				new OreDictStack(AL.plateCast()),	new ComparableStack(ModItems.gun_amat),	new OreDictStack(AL.plateCast()),
+				new OreDictStack(STAR.ingot()),		new OreDictStack(AL.plateCast()),		new OreDictStack(STAR.ingot())));
+
+		register(new PedestalRecipe(new ItemStack(ModItems.gun_amat_penance),
+				new OreDictStack(STAR.ingot()),													new OreDictStack(DURA.plateCast()),		new OreDictStack(STAR.ingot()),
+				new ComparableStack(ModItems.weapon_mod_special, 1, EnumModSpecial.SILENCER),	new ComparableStack(ModItems.gun_amat),	new ComparableStack(ModItems.weapon_mod_special, 1, EnumModSpecial.FURNITURE_BLACK),
+				new OreDictStack(STAR.ingot()),													new OreDictStack(DURA.plateCast()),		new OreDictStack(STAR.ingot())));
+
 		register(new PedestalRecipe(new ItemStack(ModItems.gun_flamer_daybreaker),
 				new OreDictStack(GOLD.plateCast()),	new ComparableStack(ModItems.canned_conserve, 1, EnumFoodType.JIZZ),	new OreDictStack(GOLD.plateCast()),
 				new OreDictStack(P_WHITE.ingot()),	new ComparableStack(ModItems.gun_flamer),								new OreDictStack(P_WHITE.ingot()),
