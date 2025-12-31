@@ -22,7 +22,7 @@ public class ItemRenderBatteryPack extends ItemRenderBase {
 		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, item.getItemDamage());
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(pack.texture);
-		ResourceManager.battery_socket.renderPart("Battery");
+		ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }

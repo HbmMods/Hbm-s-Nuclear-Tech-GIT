@@ -78,6 +78,7 @@ public class UniNodespace {
 
 		for(NodeNet net : activeNodeNets) net.resetTrackers(); //reset has to be done before everything else
 		for(NodeNet net : activeNodeNets) net.update();
+		activeNodeNets.removeIf((net) -> { return net.links.size() <= 0; }); // reap empty networks
 	}
 
 	/** Goes over each connection point of the given node, tries to find neighbor nodes and to join networks with them */
