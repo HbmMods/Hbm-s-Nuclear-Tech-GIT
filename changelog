@@ -8,3 +8,7 @@
 ## Fixed
 * Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
 * Fixed 528 coltan deposit config misspelling
+* Potentially fixed a performance issue caused by transmission networks not being deleted when they have no active links
+* Fixed multi output recipe objects not deserializing right, causing the precision assembler config to not load
+* Fixed pedestal recipes not using the correct register option, making custom config files wipe all clay tablets
+* Fixed custom fluids breaking when using the `/ntmreload` command

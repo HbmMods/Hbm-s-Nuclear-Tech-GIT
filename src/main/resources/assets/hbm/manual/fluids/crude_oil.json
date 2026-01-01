@@ -1,0 +1,15 @@
+{
+	"name": "Crude Oil",
+	"icon": ["hbm:item.fluid_icon", 1, 10],
+	"trigger": [],
+	"title": {
+		"en_US": "Crude Oil",
+		"ru_RU": "сырая нефть",
+		"zh_CN": "原油"
+	},
+	"content": {
+  		"en_US": "Fluid obtained after extracting [[oil deposits|Oil Collection]]. Used as the base material for all oil products, it must first be [[heated|Boiler]] and [[processed|Oil Refinery]] to obtain products such as: <br>[[Heavy Oil]] <br>[[Naphtha]] <br>[[Light Oil]] <br>[[Petroleum Gas]] <br><br>It is also used to obtain [[Cracked Oil]] and related byproducts through processing with a [[cracking tower|Catalytic Cracking Tower]]. Other methods of processing include [[vacuum refining|Vacuum Refinery]], [[radiolysis|Radiolysis]], [[hydrotreating|Hydrotreater]] and [[solidification|Solidification]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+  		"ru_RU": "Жидкость, получаемая после добычи [[нефтяных месторождений|Oil Collection]]. Используется в качестве базового сырья для всех нефтепродуктов и перед применением должна быть [[нагретой|Boiler]] и [[переработанной|Oil Refinery]] для получения таких продуктов, как:<br>[[Тяжёлая нефть|Heavy Oil]]<br>[[Нафта|Naphtha]]<br>[[Лёгкая нефть|Light Oil]]<br>[[Нефтяной газ|Petroleum Gas]]<br><br>Также используется для получения [[крекированной нефти|Cracked Oil]] и связанных побочных продуктов при переработке в [[установке крекинга|Catalytic Cracking Tower]]. Другие методы переработки включают [[вакуумную переработку|Vacuum Refinery]], [[радиолиз|Radiolysis]], [[гидроочистку|Hydrotreater]] и [[твёрдофазную обработку|Solidification]].<br><br>См. также:<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]",
+  		"zh_CN": "从[[油田开采|Oil Collection]]中获得的流体。作为所有石油产品的基础原料，在使用前必须先经过[[加热|Boiler]]和[[精炼|Oil Refinery]]，以获得以下产品：<br>[[重油|Heavy Oil]]<br>[[石脑油|Naphtha]]<br>[[轻油|Light Oil]]<br>[[石油气|Petroleum Gas]]<br><br>还可以通过[[裂化塔|Catalytic Cracking Tower]]的处理获得[[裂化油|Cracked Oil]]及其相关副产品。其他处理方式包括[[真空精炼|Vacuum Refinery]]、[[辐解|Radiolysis]]、[[加氢处理|Hydrotreater]]以及[[固化|Solidification]]。<br><br>另见：<br>[[基础石油处理|Basic Oil Processing]]<br>[[高级石油处理|Advanced Oil Processing]]<br>[[真空石油处理|Vacuum Oil Processing]]"
+	}
+}
