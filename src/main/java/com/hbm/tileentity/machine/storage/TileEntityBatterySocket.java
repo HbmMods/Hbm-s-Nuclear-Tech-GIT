@@ -17,11 +17,14 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -275,5 +278,30 @@ public class TileEntityBatterySocket extends TileEntityMachineBase implements IE
 			if(ordinal > ConnectionPriority.HIGH.ordinal()) ordinal = ConnectionPriority.LOW.ordinal();
 			this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, ordinal);
 		}
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 2,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }
