@@ -3372,7 +3372,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(absorber_red, absorber_red.getUnlocalizedName());
 		GameRegistry.registerBlock(absorber_green, absorber_green.getUnlocalizedName());
 		GameRegistry.registerBlock(absorber_pink, absorber_pink.getUnlocalizedName());
-		GameRegistry.registerBlock(rad_absorber, ItemBlockAbsorber.class, rad_absorber.getUnlocalizedName());
+		GameRegistry.registerBlock(rad_absorber, ItemBlockBase.class, rad_absorber.getUnlocalizedName());
 		GameRegistry.registerBlock(decon, decon.getUnlocalizedName());
 
 		//Solar Tower Blocks
