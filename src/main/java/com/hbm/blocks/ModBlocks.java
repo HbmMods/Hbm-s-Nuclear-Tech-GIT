@@ -2333,10 +2333,10 @@ public class ModBlocks {
 		vacuum = new BlockVacuum().setBlockName("vacuum").setResistance(1000000F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vacuum");
 
 		// OLD ABSORBERS
-		absorber = new BlockAbsorberOLD(Material.iron, 2.5F).setBlockName("absorber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber");
-		absorber_red = new BlockAbsorberOLD(Material.iron, 10F).setBlockName("absorber_red").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_red");
-		absorber_green = new BlockAbsorberOLD(Material.iron, 100F).setBlockName("absorber_green").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_green");
-		absorber_pink = new BlockAbsorberOLD(Material.iron, 10000F).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
+		absorber = new BlockAbsorberOLD(Material.iron).setBlockName("absorber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber");
+		absorber_red = new BlockAbsorberOLD(Material.iron).setBlockName("absorber_red").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_red");
+		absorber_green = new BlockAbsorberOLD(Material.iron).setBlockName("absorber_green").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_green");
+		absorber_pink = new BlockAbsorberOLD(Material.iron).setBlockName("absorber_pink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":absorber_pink");
 
 		//NEW ABSORBER
 		rad_absorber = new BlockAbsorber(Material.iron).setBlockName("rad_absorber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
