@@ -7,6 +7,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
@@ -191,8 +192,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_pylon, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_battery, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_lithium_battery, 2));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_battery_socket, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_pack, 4, EnumBatteryPack.BATTERY_LEAD.ordinal()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_converter_he_rf, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_converter_rf_he, 1));
 		}

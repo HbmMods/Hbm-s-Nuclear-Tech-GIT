@@ -386,6 +386,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if(nullifier && bad.contains(item.getEntityItem().getItem())) {
 				item.setDead();
+				item.delayBeforeCanPickup = 60;
 				continue;
 			}
 
@@ -398,15 +399,18 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 					tank.setFill(tank.getMaxFill());
 
 				item.setDead();
+				item.delayBeforeCanPickup = 60;
 				continue;
 			}
 
 			ItemStack stack = InventoryUtil.tryAddItemToInventory(slots, 9, 29, item.getEntityItem().copy());
 
-			if(stack == null)
+			if(stack == null) {
 				item.setDead();
-			else
+				item.delayBeforeCanPickup = 60;
+			} else {
 				item.setEntityItemStack(stack.copy()); //copy is not necessary but i'm paranoid due to the kerfuffle of the old drill
+			}
 		}
 
 		List<EntityLivingBase> mobs = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(
