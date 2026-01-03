@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
@@ -67,6 +68,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		}
 		
 		public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal(); }
+		public ItemStack stack() { return new ItemStack(ModItems.battery_pack, 1, this.ordinal()); }
 	}
 
 	@Override
@@ -95,7 +97,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", this.getMaxCharge(stack) - i);
+			stack.stackTagCompound.setLong("charge", 0);
 		}
 	}
 
@@ -105,7 +107,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			return stack.stackTagCompound.getLong("charge");
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", getMaxCharge(stack));
+			stack.stackTagCompound.setLong("charge", 0);
 			return stack.stackTagCompound.getLong("charge");
 		}
 	}

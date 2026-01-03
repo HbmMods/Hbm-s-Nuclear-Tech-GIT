@@ -1631,8 +1631,6 @@ public class ModItems {
 	@Deprecated public static Item battery_advanced;
 	@Deprecated public static Item battery_lithium;
 	@Deprecated public static Item battery_schrabidium;
-	@Deprecated public static Item battery_spark;
-	@Deprecated public static Item battery_trixite;
 	@Deprecated public static Item battery_red_cell;
 	@Deprecated public static Item battery_red_cell_6;
 	@Deprecated public static Item battery_red_cell_24;
@@ -1656,6 +1654,8 @@ public class ModItems {
 	public static Item battery_pack;
 	public static Item battery_creative;
 	public static Item cube_power;
+	@Deprecated public static Item battery_spark;
+	@Deprecated public static Item battery_trixite;
 
 	public static Item battery_sc_uranium;
 	public static Item battery_sc_technetium;
@@ -3873,8 +3873,8 @@ public class ModItems {
 		battery_advanced = new ItemBattery(20000, 500, 500).setUnlocalizedName("battery_advanced").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_advanced_new");
 		battery_lithium = new ItemBattery(250000, 1000, 1000).setUnlocalizedName("battery_lithium").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_lithium");
 		battery_schrabidium = new ItemBattery(1000000, 5000, 5000).setUnlocalizedName("battery_schrabidium").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_schrabidium_new");
-		battery_spark = new ItemBattery(100000000, 2000000, 2000000).setUnlocalizedName("battery_spark").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_spark");
-		battery_trixite = new ItemBattery(5000000, 40000, 200000).setUnlocalizedName("battery_trixite").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_trixite");
+		battery_spark = new Item().setUnlocalizedName("battery_spark").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":battery_spark");
+		battery_trixite = new Item().setUnlocalizedName("battery_trixite").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":battery_trixite");
 		battery_red_cell = new ItemBattery(15000, 100, 100).setUnlocalizedName("battery_red_cell").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_red_cell");
 		battery_red_cell_6 = new ItemBattery(15000 * 6, 100, 100).setUnlocalizedName("battery_red_cell_6").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_red_cell_6");
 		battery_red_cell_24 = new ItemBattery(15000 * 24, 100, 100).setUnlocalizedName("battery_red_cell_24").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":battery_red_cell_24");

@@ -6,7 +6,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
-import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -30,7 +29,7 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 
 	public default void tryProvide(FluidType type, int pressure, World world, int x, int y, int z, ForgeDirection dir) {
 
-		TileEntity te = Compat.getTileStandard(world, x, y, z);
+		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
 
 		if(te instanceof IFluidConnectorMK2) {

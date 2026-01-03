@@ -1,9 +1,20 @@
+## Added
+* New battery system
+  * Energy storage blocks, capacitors and battery items are now deprecated, but can still be used
+  * There is now new types of battery items, as well as capacitor items
+  * Instead of energy storage blocks, there is now a battery socket, which allows those new items to be connected to the power grid
+  * Battery sockets act like cables, they will connect power grids when two cables are plugged into them in different directions
+  * Self-chargers and creative batteries are still around, as well as spark batteries which are needed for the balefire bomb
+
 ## Changed
+* Updated italian localization
 * After not being part of worldgen for a long time, oily coal is finally being removed
 * The rare metal blocks that had been unobtainable and unused for the longest time have been removed
 * The schrabidium transmutator's grace period is over, it is finally being destroyed
 * Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
   * The block ID economy is looking better than ever
+* Infinite water barrels can now be crafted with any water container and not just buckets
+* OpenComputers integration for the PWR can now also read the heat capacity stats
 
 ## Fixed
 * Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases

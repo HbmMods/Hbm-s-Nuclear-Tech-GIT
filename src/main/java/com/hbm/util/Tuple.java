@@ -194,6 +194,17 @@ public class Tuple {
 		public Z getZ() {
 			return this.z;
 		}
+		
+		/// flavor town ///
+		public void mangle(W w, X x, Y y, Z z) {
+			this.w = w;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+		public Quartet<W,X,Y,Z> clone() {
+			return new Quartet(w, x, y, z);
+		}
 	}
 
 	public static class Quintet<V,W,X,Y,Z> {
