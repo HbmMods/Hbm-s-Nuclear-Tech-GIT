@@ -128,7 +128,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		return pack.dischargeRate;
 	}
 
-	@Override public boolean showDurabilityBar(ItemStack stack) { return true; }
+	@Override public boolean showDurabilityBar(ItemStack stack) { return getDurabilityForDisplay(stack) != 0; }
 	@Override public double getDurabilityForDisplay(ItemStack stack) { return 1D - (double) getCharge(stack) / (double) getMaxCharge(stack); }
 
 	@Override

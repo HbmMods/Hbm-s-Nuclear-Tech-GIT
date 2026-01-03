@@ -48,7 +48,7 @@ public class DesertAtom003
 	Block Block25 = ModBlocks.red_wire_coated;
 	Block Block26 = ModBlocks.block_uranium;
 	Block Block27 = ModBlocks.pole_top;
-	Block Block28 = ModBlocks.machine_battery;
+	Block Block28 = ModBlocks.capacitor_copper;
 	Block Block29 = ModBlocks.machine_electric_furnace_off;
 	
 	public boolean generate_r00(World world, Random rand, int x, int y, int z)
@@ -1424,10 +1424,10 @@ public class DesertAtom003
 		world.setBlock(x + 19, y + 8, z + 9, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 23, y + 8, z + 9, Block25, 0, 3);
 		world.setBlock(x + 24, y + 8, z + 9, Block25, 0, 3);
-		world.setBlock(x + 25, y + 8, z + 9, Block28, 3, 3);
+		world.setBlock(x + 25, y + 8, z + 9, Block28, 0, 3);
 		world.setBlock(x + 26, y + 8, z + 9, Block25, 0, 3);
 		world.setBlock(x + 27, y + 8, z + 9, Block25, 0, 3);
-		world.setBlock(x + 28, y + 8, z + 9, Block28, 3, 3);
+		world.setBlock(x + 28, y + 8, z + 9, Block28, 0, 3);
 		world.setBlock(x + 29, y + 8, z + 9, Block25, 0, 3);
 		world.setBlock(x + 30, y + 8, z + 9, Block25, 0, 3);
 		world.setBlock(x + 31, y + 8, z + 9, Block29, 3, 3);
