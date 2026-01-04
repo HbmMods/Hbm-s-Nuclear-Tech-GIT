@@ -724,7 +724,7 @@ container.autocrafter=Автоматический верстак
 container.barrel=Бочка
 container.bat9000=Охереть-большая цистерна 9000
 container.battery=Энергохранилище
-container.batterySocket=Battery Socket
+container.batterySocket=Аккумуляторный массив
 container.bombMulti=Многоцелевая бомба
 container.casingBag=Сумка для гильз
 container.catalyticReformer=Каталитический реформер
@@ -2233,15 +2233,15 @@ item.battery_lithium_cell_6.name=Сшестерённая литий-ионна�
 item.battery_pack.battery_lead.name=Свинцово-серная батарея
 item.battery_pack.battery_lithium.name=Литий-ионная батарея
 item.battery_pack.battery_quantum.name=Квантовая батарея
-item.battery_pack.battery_redstone.name=Редстоун батарея
+item.battery_pack.battery_redstone.name=Краснокаменная батарея
 item.battery_pack.battery_schrabidium.name=Шрабидиевая батарея
-item.battery_pack.battery_sodium.name=Натрий-железная батарея
-item.battery_pack.capacitor_bismuth.name=Конденсатор (Висмут)
-item.battery_pack.capacitor_copper.name=Конденсатор (Медь)
-item.battery_pack.capacitor_gold.name=Конденсатор (Золото)
-item.battery_pack.capacitor_niobium.name=Конденсатор (Ниобий)
-item.battery_pack.capacitor_spark.name=Конденсатор (Спарк)
-item.battery_pack.capacitor_tantalum.name=Конденсатор (Тантал)
+item.battery_pack.battery_sodium.name=Натриево-железная батарея
+item.battery_pack.capacitor_bismuth.name=Висмутовый конденсатор
+item.battery_pack.capacitor_copper.name=Медный конденсатор
+item.battery_pack.capacitor_gold.name=Золотой конденсатор
+item.battery_pack.capacitor_niobium.name=Ниобиевый конденсатор
+item.battery_pack.capacitor_spark.name=Спарк-конденсатор
+item.battery_pack.capacitor_tantalum.name=Танталовый конденсатор
 item.battery_potato.name=Картофельная батарейка
 item.battery_potatos.name=КартошкОС
 item.battery_red_cell.name=Энергоячейка из красной пыли
@@ -6002,7 +6002,7 @@ tile.machine_autosaw.suspended=Приостановлена
 tile.machine_bat9000.name=Охереть-большая цистерна 9000
 tile.machine_battery.name=Энергохранилище
 tile.machine_battery_potato.name=Картофельная батарея
-tile.machine_battery_socket.name=Battery Socket
+tile.machine_battery_socket.name=Аккумуляторный массив
 tile.machine_boiler.name=Бойлер
 tile.machine_boiler.desc=Большой бойлер для кипячения воды или нагрева нефти.$Требует внешний источник тепла.$Скорость передачи тепла: ΔT*0.01 TU/t
 tile.machine_boiler_electric_off.name=Электрический нагреватель нефти 
@@ -6801,6 +6801,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
