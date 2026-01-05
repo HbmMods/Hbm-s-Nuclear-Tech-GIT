@@ -63,6 +63,8 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		this.muffled = buf.readBoolean();
 	}
 
+	private int lastBufHash;
+
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
 	public void networkPackNT(int range) {
 		if(worldObj.isRemote) return;
@@ -78,9 +80,10 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		// In my testing, this can be reliably reproduced with a full fluid barrel, for instance.
 		// I think it might be fixable by doing something with getDescriptionPacket() and onDataPacket(),
 		// but this sidesteps the problem for the mean time.
-		if(preBuf.equals(lastPackedBuf) && this.worldObj.getTotalWorldTime() % 20 != 0) return;
+		int hash;
+		if(((hash = preBuf.hashCode()) == lastBufHash) && this.worldObj.getTotalWorldTime() % 20 != 0) return;
 
-		this.lastPackedBuf = preBuf.copy();
+		this.lastBufHash = hash;
 
 		PacketThreading.createAllAroundThreadedPacket(packet, new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
