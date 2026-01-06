@@ -6,6 +6,7 @@ import com.hbm.util.ChatBuilder;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CommandReapNetworks extends CommandBase {
@@ -33,6 +34,8 @@ public class CommandReapNetworks extends CommandBase {
 			});
 			UniNodespace.activeNodeNets.clear();
 			UniNodespace.worlds.clear();
+
+			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Nodespace cleared :)"));
 			
 		} catch(Exception ex) {
 			sender.addChatMessage(ChatBuilder.start("----------------------------------").color(EnumChatFormatting.GRAY).flush());

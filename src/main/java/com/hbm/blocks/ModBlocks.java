@@ -743,13 +743,14 @@ public class ModBlocks {
 	public static Block machine_microwave;
 
 	public static Block machine_battery_socket;
+	public static Block machine_battery_redd;
 	
 	@Deprecated public static Block machine_battery_potato;
 	@Deprecated public static Block machine_battery;
 	@Deprecated public static Block machine_lithium_battery;
 	@Deprecated public static Block machine_schrabidium_battery;
 	@Deprecated public static Block machine_dineutronium_battery;
-	public static Block machine_fensu;
+	@Deprecated public static Block machine_fensu;
 
 	@Deprecated public static Block capacitor_bus;
 	public static Block capacitor_copper; // neat for structures
@@ -1863,6 +1864,8 @@ public class ModBlocks {
 		machine_microwave = new MachineMicrowave(Material.iron).setBlockName("machine_microwave").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_microwave");
 
 		machine_battery_socket = new MachineBatterySocket().setBlockName("machine_battery_socket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_battery_redd = new MachineBatteryREDD().setBlockName("machine_battery_redd").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		
 		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3261,6 +3264,7 @@ public class ModBlocks {
 		register(barrel_tcalloy);
 		register(barrel_antimatter);
 		register(machine_battery_socket);
+		register(machine_battery_redd);
 		register(machine_battery_potato);
 		register(machine_battery);
 		register(machine_lithium_battery);

@@ -9,6 +9,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class BeamPronter {
+	
+	public static Random rand = new Random();
 
 	public static enum EnumWaveType {
 		RANDOM, SPIRAL
@@ -51,7 +53,7 @@ public class BeamPronter {
 		Tessellator tessellator = Tessellator.instance;
 
 		Vec3 unit = Vec3.createVectorHelper(0, 1, 0);
-		Random rand = new Random(start);
+		rand.setSeed(start);
 		double length = skeleton.lengthVector();
 		double segLength = length / segments;
 		double lastX = 0;

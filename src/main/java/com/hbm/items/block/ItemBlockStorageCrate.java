@@ -133,6 +133,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		public boolean hasCustomInventoryName() {
 			return target.hasDisplayName();
 		}
+		
+		@Override
+		public boolean isUseableByPlayer(EntityPlayer player) {
+			return player.getHeldItem() == this.target;
+		}
 
 		@Override
 		public void markDirty() { // You have been blessed by the unfuck
