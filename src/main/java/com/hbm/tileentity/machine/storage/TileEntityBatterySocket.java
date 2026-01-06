@@ -3,19 +3,25 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.inventory.container.ContainerBatterySocket;
 import com.hbm.inventory.gui.GUIBatterySocket;
 import com.hbm.items.ModItems;
+import com.hbm.util.CompatEnergyControl;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IBatteryItem;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.tile.IInfoProviderEC;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBatterySocket extends TileEntityBatteryBase {
+public class TileEntityBatterySocket extends TileEntityBatteryBase implements IRORValueProvider, IRORInteractive, IInfoProviderEC {
 
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -158,5 +164,77 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase {
 		}
 		
 		return bb;
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "fill",
+				PREFIX_VALUE + "fillpercent",
+				PREFIX_VALUE + "delta",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
+				PREFIX_FUNCTION + "setpriority" + NAME_SEPARATOR + "priority",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "fill").equals(name))		return "" + this.getPower();
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.getPower() * 100 / (Math.min(this.getMaxPower(), 1));
+		if((PREFIX_VALUE + "delta").equals(name))		return "" + delta;
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length > 0) {
+			int mode = IRORInteractive.parseInt(params[0], 0, 3);
+			
+			if(mode != this.redLow) {
+				this.redLow = (short) mode;
+				this.markChanged();
+				return null;
+			} else if(params.length > 1) {
+				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
+				this.redLow = (short) altmode;
+				this.markChanged();
+				return null;
+			}
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "setredmode").equals(name) && params.length > 0) {
+			int mode = IRORInteractive.parseInt(params[0], 0, 3);
+			
+			if(mode != this.redHigh) {
+				this.redHigh = (short) mode;
+				this.markChanged();
+				return null;
+			} else if(params.length > 1) {
+				int altmode = IRORInteractive.parseInt(params[1], 0, 3);
+				this.redHigh = (short) altmode;
+				this.markChanged();
+				return null;
+			}
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "setpriority").equals(name) && params.length > 0) {
+			int priority = IRORInteractive.parseInt(params[0], 0, 2) + 1;
+			ConnectionPriority p = EnumUtil.grabEnumSafely(ConnectionPriority.class, priority);
+			this.priority = p;
+			this.markChanged();
+			return null;
+		}
+		return null;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setLong(CompatEnergyControl.L_DIFF_HE, (log[0] - log[19]) / 20L);
 	}
 }

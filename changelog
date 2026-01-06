@@ -9,6 +9,10 @@
 * `/ntmreapnetworks`
   * Deletes all active nodespace instances
   * Mainly useful for server owners, in case nodespace builds up too much garbage data that isn't cleared correctly
+* Fluid valve with counter
+  * Reads total fluid movement within a network
+  * Value can be read or reset with OC or RoR
+  * Allows for very precise portioning and fluid control
 
 ## Changed
 * Updated italian localization
@@ -21,6 +25,7 @@
 * OpenComputers integration for the PWR can now also read the heat capacity stats
 * Removed the restriction that demands that cluster ores need to be mined by hand
 * Laser beams from energy weapons are now a lot more narrow
+* All steam turbines now have a passive drain on unused power in their buffers
 
 ## Fixed
 * Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
@@ -32,3 +37,5 @@
 * Fixed power not saving for mining lasers
 * Fixed the annihilator producing blank 528 mode blueprints when 528 mode isn't even enabled
 * Fixed black fire not using the skeletonizer on death
+* Fixed arc furnace electrodes not being able to be plugged into the arc furnace unless the lid is fully open
+* Fixed broken keybind localization

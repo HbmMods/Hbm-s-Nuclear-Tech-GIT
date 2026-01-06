@@ -96,6 +96,8 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.power *= 0.95;
 
 			this.info = new double[3];
 

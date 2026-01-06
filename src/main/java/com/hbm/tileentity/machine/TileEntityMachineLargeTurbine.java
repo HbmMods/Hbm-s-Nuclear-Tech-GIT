@@ -120,6 +120,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
+			
+			this.power *= 0.95;
 
 			FluidType in = tanks[0].getTankType();
 			boolean valid = false;

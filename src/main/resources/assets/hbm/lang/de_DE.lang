@@ -757,6 +757,7 @@ hbm.key.dash=Schub
 hbm.key.gunPrimary=Primärfeuer
 hbm.key.gunSecondary=Sekundärfeuer
 hbm.key.gunTertitary=Zielvisier
+hbm.key.qmaw=Schnellhandbuch öffnen
 hbm.key.toggleBack=Jetpack umschalten
 hbm.key.toggleHUD=HUD umschalten
 hbm.key.toggleMagnet=Magnet umschalten
