@@ -7,6 +7,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
@@ -180,10 +181,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_full, 16, Fluids.DIESEL.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_full, 16, Fluids.BIOFUEL.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_potato, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.screwdriver, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_excavator, 1));
@@ -191,8 +188,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_pylon, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_battery, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_lithium_battery, 2));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_battery_socket, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_pack, 4, EnumBatteryPack.BATTERY_LEAD.ordinal()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_converter_he_rf, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_converter_rf_he, 1));
 		}
@@ -382,7 +379,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator_range, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator_manual, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_generic, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_strong, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_burst, 1));

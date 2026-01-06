@@ -1,5 +1,6 @@
 package api.hbm.block;
 
+@Deprecated
 public interface IMiningDrill {
 	
 	/**

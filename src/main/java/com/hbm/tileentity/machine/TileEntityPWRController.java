@@ -582,7 +582,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
-		return new Object[] {coreHeat, hullHeat};
+		return new Object[] {coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacityBase};
 	}
 
 	@Callback(direct = true)
@@ -612,7 +612,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {coreHeat, hullHeat, flux, rodTarget, rodLevel, amountLoaded, progress, processTime, tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+		return new Object[] {coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacityBase, flux, rodTarget, rodLevel, amountLoaded, progress, processTime, tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
 
 	@Callback(direct = true, limit = 4)

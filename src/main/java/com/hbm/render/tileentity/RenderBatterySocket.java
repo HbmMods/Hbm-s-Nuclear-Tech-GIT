@@ -41,7 +41,7 @@ public class RenderBatterySocket extends TileEntitySpecialRenderer implements II
 		if(socket.renderPack >= 0) {
 			EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, socket.renderPack);
 			bindTexture(pack.texture);
-			ResourceManager.battery_socket.renderPart("Battery");
+			ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
 		}
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

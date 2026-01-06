@@ -99,6 +99,12 @@ public class GUIBatterySocket extends GuiInfoContainer {
 			IBatteryItem item = (IBatteryItem) battery.slots[0].getItem();
 			long power = item.getCharge(battery.slots[0]);
 			long maxPower = item.getMaxCharge(battery.slots[0]);
+			
+			if(power > Long.MAX_VALUE / 100) {
+				power /= 100;
+				maxPower /= 100;
+			}
+			if(maxPower <= 1) maxPower = 1;
 			int p = (int) (power * 52 / maxPower); // won't work then flying too close to the sun (the limits of the LONG data type)
 			drawTexturedModalRect(guiLeft + 62, guiTop + 69 - p, 176, 52 - p, 34, p);
 		}

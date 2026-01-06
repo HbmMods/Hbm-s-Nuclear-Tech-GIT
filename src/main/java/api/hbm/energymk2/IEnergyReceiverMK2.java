@@ -3,7 +3,6 @@ package api.hbm.energymk2;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
@@ -39,7 +38,7 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
-		TileEntity te = Compat.getTileStandard(world, x, y, z);
+		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
 
 		if(te instanceof IEnergyConductorMK2) {

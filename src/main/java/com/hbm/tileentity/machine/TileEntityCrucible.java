@@ -122,6 +122,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 								if(stack.stackSize == 1) {
 									slots[i] = stack.copy();
 									item.setDead();
+									item.delayBeforeCanPickup = 60;
 									break;
 								} else {
 									slots[i] = stack.copy();

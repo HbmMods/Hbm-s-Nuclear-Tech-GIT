@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
@@ -29,20 +30,34 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 	}
 	
 	public static enum EnumBatteryPack {
-		REDSTONE	("battery_redstone",	      100L),
-		LEAD		("battery_lead",		    1_000L),
-		LITHIUM		("battery_lithium",		   10_000L),
-		SODIUM		("battery_sodium",		   50_000L),
-		SCHRABIDIUM	("battery_schrabidium",	  250_000L),
-		QUANTUM		("battery_quantum",		1_000_000L);
+		BATTERY_REDSTONE	("battery_redstone",	      100L, false),
+		BATTERY_LEAD		("battery_lead",		    1_000L, false),
+		BATTERY_LITHIUM		("battery_lithium",		   10_000L, false),
+		BATTERY_SODIUM		("battery_sodium",		   50_000L, false),
+		BATTERY_SCHRABIDIUM	("battery_schrabidium",	  250_000L, false),
+		BATTERY_QUANTUM		("battery_quantum",		1_000_000L, 20 * 60 * 60),
+
+		CAPACITOR_COPPER	("capacitor_copper",	     1_000L, true),
+		CAPACITOR_GOLD		("capacitor_gold",		    10_000L, true),
+		CAPACITOR_NIOBIUM	("capacitor_niobium",	   100_000L, true),
+		CAPACITOR_TANTALUM	("capacitor_tantalum",	   500_000L, true),
+		CAPACITOR_BISMUTH	("capacitor_bismuth",	 2_500_000L, true),
+		CAPACITOR_SPARK		("capacitor_spark",		10_000_000L, true);
 		
 		public ResourceLocation texture;
 		public long capacity;
 		public long chargeRate;
 		public long dischargeRate;
 		
-		private EnumBatteryPack(String tex, long dischargeRate) {
-			this(tex, dischargeRate * 20 * 60 * 15, dischargeRate * 10, dischargeRate);
+		private EnumBatteryPack(String tex, long dischargeRate, boolean capacitor) {
+			this(tex,
+					capacitor ? (dischargeRate * 20 * 30) : (dischargeRate * 20 * 60 * 15),
+					capacitor ? dischargeRate : dischargeRate * 10,
+					dischargeRate);
+		}
+		
+		private EnumBatteryPack(String tex, long dischargeRate, long duration) {
+			this(tex, dischargeRate * duration, dischargeRate * 10, dischargeRate);
 		}
 		
 		private EnumBatteryPack(String tex, long capacity, long chargeRate, long dischargeRate) {
@@ -51,6 +66,9 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			this.chargeRate = chargeRate;
 			this.dischargeRate = dischargeRate;
 		}
+		
+		public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal(); }
+		public ItemStack stack() { return new ItemStack(ModItems.battery_pack, 1, this.ordinal()); }
 	}
 
 	@Override
@@ -79,7 +97,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", this.getMaxCharge(stack) - i);
+			stack.stackTagCompound.setLong("charge", 0);
 		}
 	}
 
@@ -89,7 +107,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			return stack.stackTagCompound.getLong("charge");
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", getMaxCharge(stack));
+			stack.stackTagCompound.setLong("charge", 0);
 			return stack.stackTagCompound.getLong("charge");
 		}
 	}
@@ -112,7 +130,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		return pack.dischargeRate;
 	}
 
-	@Override public boolean showDurabilityBar(ItemStack stack) { return true; }
+	@Override public boolean showDurabilityBar(ItemStack stack) { return getDurabilityForDisplay(stack) != 0; }
 	@Override public double getDurabilityForDisplay(ItemStack stack) { return 1D - (double) getCharge(stack) / (double) getMaxCharge(stack); }
 
 	@Override
@@ -124,7 +142,7 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		
 		if(itemstack.hasTagCompound()) charge = getCharge(itemstack);
 
-		list.add(EnumChatFormatting.GREEN + "Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
+		list.add(EnumChatFormatting.GREEN + "Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE (" + (charge * 1000 / maxCharge / 10D) + "%)");
 		list.add(EnumChatFormatting.YELLOW + "Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
 		list.add(EnumChatFormatting.YELLOW + "Discharge rate: " + BobMathUtil.getShortNumber(dischargeRate) + "HE/t");
 		list.add(EnumChatFormatting.GOLD + "Time for full charge: " + (maxCharge / chargeRate / 20 / 60D) + "min");

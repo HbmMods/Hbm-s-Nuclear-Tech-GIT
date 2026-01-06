@@ -3,6 +3,7 @@ package api.hbm.block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+@Deprecated
 public interface IDrillInteraction {
 
 	/**

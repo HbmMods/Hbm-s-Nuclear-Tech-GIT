@@ -327,6 +327,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 		@Override
 		public void deserialize(JsonArray array) {
 			for(JsonElement element : array) {
+				if(element.isJsonPrimitive()) continue; // the array we get includes the "multi" tag, which is also the only primitive
 				ChanceOutput output = new ChanceOutput();
 				output.deserialize(element.getAsJsonArray());
 				pool.add(output);

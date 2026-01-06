@@ -22,7 +22,12 @@ local mt = {
 }
 setmetatable(const, mt)
 
-const.fullCoreHeatMAX = 9000000
+for address, _ in component.list("ntm_pwr_control") do
+    pwrController = address
+end
+
+_, _, const.coreHeatCapacity = call(pwrController, "getHeat")
+const.fullCoreHeatMAX = const.coreHeatCapacity * 0.9
 const.coldCoolantLevelMIN = 10000
 const.hotCoolantLevelMAX = 0.5
 
@@ -87,10 +92,6 @@ buttons[8] = newButton(94, 6, 12, 2, 0x00FF00, 0x00AA00, function() coreHeatESTO
 buttons[9] = newButton(94, 9, 12, 2, 0x00FF00, 0x00AA00, function() coolantLossESTOP = not coolantLossESTOP if coolantLossESTOP == true then buttons[9].colorUp = 0x00FF00 buttons[9].colorDown = 0x00AA00 else buttons[9].colorUp = 0xFF0000 buttons[9].colorDown = 0xAA0000 end  end)
 
 buttons[10] = newButton(107, 8, 5, 3, 0xFF0000, 0xAA0000, function() runSig = false end)
-
-for address, _ in component.list("ntm_pwr_control") do
-    pwrController = address
-end
 
 gpu.setForeground(0xAAAAAA)
 
@@ -203,7 +204,7 @@ while (runSig == true) do
     rodLevel = call(pwrController, "getLevel")
 
     coreHeat, _ = call(pwrController, "getHeat")
-    coreHeat = coreHeat//1000000
+    coreHeat = coreHeat // (const.coreHeatCapacity / 10)
 
     for _, b in pairs(buttons) do
         drawButton(b, b.colorUp)
@@ -243,7 +244,7 @@ while (runSig == true) do
 
     fullCoreHeat, fullHullHeat = call(pwrController, "getHeat")
     coldCoolantLevel, _, hotCoolantLevel, maxHotCoolantLevel = call(pwrController, "getCoolantInfo")
-    
+
     coldCoolantOutflow = coldCoolantLevel - prevCoolantFlow
     hotCoolantOutflow = hotCoolantLevel - prevHotCoolantFlow
 
