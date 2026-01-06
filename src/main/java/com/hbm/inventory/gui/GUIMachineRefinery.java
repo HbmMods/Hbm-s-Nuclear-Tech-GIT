@@ -1,11 +1,9 @@
 package com.hbm.inventory.gui;
 
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
-import com.hbm.util.Tuple;
+import com.hbm.inventory.recipes.RefineryRecipes.RefineryRecipe;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineRefinery;
@@ -83,7 +81,7 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 
 		// pipes
 
-		Tuple.Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> recipe = RefineryRecipes.getRefinery(inputOil.getTankType());
+		RefineryRecipe recipe = RefineryRecipes.getRefinery(inputOil.getTankType());
 
 		if(recipe == null) {
 			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
@@ -93,27 +91,27 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		} else {
 
 			// Heavy Oil Products
-			Color color = new Color(recipe.getV().type.getColor());
+			Color color = new Color(recipe.outputs[0].type.getColor());
 
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
 
 			// Naphtha Oil Products
-			color = new Color(recipe.getW().type.getColor());
+			color = new Color(recipe.outputs[1].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 32, 247, 50, 66, 52, 350, 256);
 
 			// Light Oil Products
-			color = new Color(recipe.getX().type.getColor());
+			color = new Color(recipe.outputs[2].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 24, 247, 145, 86, 35, 350, 256);
 
 			// Gaseous Products
-			color = new Color(recipe.getY().type.getColor());
+			color = new Color(recipe.outputs[3].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 36, guiTop + 16, 211, 119, 122, 25, 350, 256);
-      
+			
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glColor4f(1F, 1F, 1F, 1F);
 		}

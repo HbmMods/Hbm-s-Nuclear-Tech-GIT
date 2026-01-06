@@ -107,12 +107,12 @@ public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryIte
 	}
 
 	@Override
-	public long getChargeRate() {
+	public long getChargeRate(ItemStack stack) {
 		return chargeRate;
 	}
 
 	@Override
-	public long getDischargeRate() {
+	public long getDischargeRate(ItemStack stack) {
 		return 0;
 	}
 

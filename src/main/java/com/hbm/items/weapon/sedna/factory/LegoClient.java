@@ -443,7 +443,7 @@ public class LegoClient {
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
 		int colorInner = ((int)(r * age) << 16) | ((int)(g * age) << 8) | (int) (b * age);
-		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), 0F, 8, 0.0625F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), 0F, 4, 0.025F);
 		GL11.glPopMatrix();
 		RenderArcFurnace.fullbright(false);
 	}

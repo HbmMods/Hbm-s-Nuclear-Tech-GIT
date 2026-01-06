@@ -59,7 +59,17 @@ public class GenericRecipe {
 	public GenericRecipe setIcon(Item item) { return this.setIcon(new ItemStack(item)); }
 	public GenericRecipe setIcon(Block block) { return this.setIcon(new ItemStack(block)); }
 	public GenericRecipe setNamed() { this.customLocalization = true; return this; }
-	public GenericRecipe setPools(String... pools) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); return this; }
+	
+	public GenericRecipe setPools(String... pools) { 
+		this.blueprintPools = pools;
+		for(String pool : pools) {
+			if(!GeneralConfig.enable528 && pool.startsWith(GenericRecipes.POOL_PREFIX_528)) throw new IllegalArgumentException("Tried initializing a recipe's default blueprint pool with a 528 blueprint - this is not allowed.");
+			GenericRecipes.addToPool(pool, this);
+		}
+		return this;
+	}
+	/** Only for recipe configs - same as regular except the anti 528 check doesn't exist */
+	public GenericRecipe setPoolsAllow528(String... pools) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); return this; }
 	public GenericRecipe setPools528(String... pools) { if(GeneralConfig.enable528) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); } return this; }
 	public GenericRecipe setGroup(String autoSwitch, GenericRecipes set) { this.autoSwitchGroup = autoSwitch; set.addToGroup(autoSwitch, this); return this; }
 

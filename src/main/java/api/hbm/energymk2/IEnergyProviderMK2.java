@@ -2,7 +2,6 @@ package api.hbm.energymk2;
 
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.util.Compat;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -25,7 +24,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
 	public default void tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 
-		TileEntity te = Compat.getTileStandard(world, x, y, z);
+		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
 
 		if(te instanceof IEnergyConductorMK2) {
@@ -43,7 +42,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
 		if(te instanceof IEnergyReceiverMK2 && te != this) {
 			IEnergyReceiverMK2 rec = (IEnergyReceiverMK2) te;
-			if(rec.canConnect(dir.getOpposite())) {
+			if(rec.canConnect(dir.getOpposite()) && rec.allowDirectProvision()) {
 				long provides = Math.min(this.getPower(), this.getProviderSpeed());
 				long receives = Math.min(rec.getMaxPower() - rec.getPower(), rec.getReceiverSpeed());
 				long toTransfer = Math.min(provides, receives);

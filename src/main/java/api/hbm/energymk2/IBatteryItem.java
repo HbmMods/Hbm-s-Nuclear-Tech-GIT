@@ -11,8 +11,8 @@ public interface IBatteryItem {
 	public void dischargeBattery(ItemStack stack, long i);
 	public long getCharge(ItemStack stack);
 	public long getMaxCharge(ItemStack stack);
-	public long getChargeRate();
-	public long getDischargeRate();
+	public long getChargeRate(ItemStack stack);
+	public long getDischargeRate(ItemStack stack);
 	
 	/** Returns a string for the NBT tag name of the long storing power */
 	public default String getChargeTagName() {

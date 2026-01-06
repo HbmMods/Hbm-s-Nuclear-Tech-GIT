@@ -65,6 +65,13 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 					.inputFluids(new FluidStack(Fluids.HELIUM4, 4_000)).setPools(POOL_PREFIX_528 + "chip_quantum"),
 					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_QUANTUM), 50, GeneralConfig.enableExpensiveMode ? 10 : 50);
 			
+			registerPair(new GenericRecipe("precass.atomic_clock").setup(200, 2_000L)
+					.inputItems(new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CHIP),
+							new OreDictStack(ANY_PLASTIC.ingot(), 4),
+							new OreDictStack(ZR.wireFine(), 8),
+							new OreDictStack(SR.dust(), 1)).setPools(POOL_PREFIX_528 + "strontium"),
+					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK), 50, GeneralConfig.enableExpensiveMode ? 10 : 50);
+			
 			registerPair(new GenericRecipe("precass.controller").setup(400, 15_000L)
 					.inputItems(new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),
 							new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR),

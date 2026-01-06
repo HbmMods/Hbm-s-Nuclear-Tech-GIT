@@ -133,6 +133,6 @@ public class ItemGunDrill extends ItemGunBaseNT implements IFillableItem, IBatte
 		return 0;
 	}
 	
-	@Override public long getChargeRate() { return 50_000; }
-	@Override public long getDischargeRate() { return 0; }
+	@Override public long getChargeRate(ItemStack stack) { return 50_000; }
+	@Override public long getDischargeRate(ItemStack stack) { return 0; }
 }

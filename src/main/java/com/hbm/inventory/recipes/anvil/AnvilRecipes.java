@@ -740,8 +740,6 @@ public class AnvilRecipes extends SerializableRecipe {
 					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
 					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 1)),
 					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
-					new AnvilOutput(new ItemStack(ModItems.battery_generic, 1), 0.25F),
-					new AnvilOutput(new ItemStack(ModItems.battery_advanced, 1), 0.1F),
 					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.01F)
 
 				}
@@ -753,7 +751,6 @@ public class AnvilRecipes extends SerializableRecipe {
 					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
 					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 2)),
 					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
-					new AnvilOutput(new ItemStack(ModItems.battery_lithium, 1), 0.25F),
 					new AnvilOutput(new ItemStack(ModItems.battery_sc_uranium, 1), 0.1F),
 					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.05F)
 

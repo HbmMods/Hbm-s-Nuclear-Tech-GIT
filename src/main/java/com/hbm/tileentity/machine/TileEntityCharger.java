@@ -46,7 +46,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 
 					if(stack != null && stack.getItem() instanceof IBatteryItem) {
 						IBatteryItem battery = (IBatteryItem) stack.getItem();
-						charge += Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate());
+						charge += Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate(stack));
 					}
 				}
 			}
@@ -129,7 +129,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 				if(stack != null && stack.getItem() instanceof IBatteryItem) {
 					IBatteryItem battery = (IBatteryItem) stack.getItem();
 
-					long toCharge = Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate());
+					long toCharge = Math.min(battery.getMaxCharge(stack) - battery.getCharge(stack), battery.getChargeRate(null));
 					toCharge = Math.min(toCharge, Math.max(power / 5, 1));
 					battery.chargeBattery(stack, toCharge);
 					power -= toCharge;

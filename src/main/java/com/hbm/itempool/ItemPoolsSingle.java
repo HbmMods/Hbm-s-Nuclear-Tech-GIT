@@ -42,7 +42,6 @@ public class ItemPoolsSingle {
 		new ItemPool(POOL_VAULT_STANDARD) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.ingot_desh, 0, 2, 6, 1),
-					weighted(ModItems.battery_advanced_cell_4, 0, 1, 1, 1),
 					weighted(ModItems.powder_desh_mix, 0, 1, 5, 1),
 					weighted(Items.diamond, 0, 3, 6, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD.ordinal(), 1, 1, 1),
@@ -59,7 +58,6 @@ public class ItemPoolsSingle {
 		new ItemPool(POOL_VAULT_REINFORCED) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.ingot_desh, 0, 6, 16, 1),
-					weighted(ModItems.battery_lithium, 0, 1, 1, 1),
 					weighted(ModItems.powder_power, 0, 1, 5, 1),
 					weighted(ModItems.sat_chip, 0, 1, 1, 1),
 					weighted(Items.diamond, 0, 5, 9, 1),
@@ -81,7 +79,6 @@ public class ItemPoolsSingle {
 					weighted(ModItems.gun_carbine, 0, 1, 1, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.R762_DU.ordinal(), 16, 32, 1),
 					weighted(ModItems.gun_congolake, 0, 1, 1, 1),
-					weighted(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.ADVANCED.ordinal(), 6, 12, 1)
 			};
 		}};

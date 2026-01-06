@@ -20,13 +20,13 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.inventory.recipes.RefineryRecipes;
+import com.hbm.inventory.recipes.RefineryRecipes.RefineryRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.*;
 import com.hbm.util.ParticleUtil;
-import com.hbm.util.Tuple.Quintet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -266,13 +266,13 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 	
 	private void refine() {
-		Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> refinery = RefineryRecipes.getRefinery(tanks[0].getTankType());
+		RefineryRecipe refinery = RefineryRecipes.getRefinery(tanks[0].getTankType());
 		if(refinery == null) {
 			for(int i = 1; i < 5; i++) tanks[i].setTankType(Fluids.NONE);
 			return;
 		}
 		
-		FluidStack[] stacks = new FluidStack[] {refinery.getV(), refinery.getW(), refinery.getX(), refinery.getY()};
+		FluidStack[] stacks = refinery.outputs;
 		
 		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setTankType(stacks[i].type);
 		
@@ -294,7 +294,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		if(this.sulfur >= maxSulfur) {
 			this.sulfur -= maxSulfur;
 			
-			ItemStack out = refinery.getZ();
+			ItemStack out = refinery.solid;
 			
 			if(out != null) {
 				

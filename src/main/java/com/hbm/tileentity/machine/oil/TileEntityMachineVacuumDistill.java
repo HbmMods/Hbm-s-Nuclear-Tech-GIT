@@ -6,7 +6,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineVacuumDistill;
-import com.hbm.inventory.recipes.RefineryRecipes;
+import com.hbm.inventory.recipes.VacuumRefineryRecipes;
+import com.hbm.inventory.recipes.VacuumRefineryRecipes.VacuumRefineryRecipe;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -14,7 +15,6 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -155,13 +155,13 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	}
 	
 	private void refine() {
-		Quartet<FluidStack, FluidStack, FluidStack, FluidStack> refinery = RefineryRecipes.getVacuum(tanks[0].getTankType());
+		VacuumRefineryRecipe refinery = VacuumRefineryRecipes.getVacuum(tanks[0].getTankType());
 		if(refinery == null) {
 			for(int i = 1; i < 5; i++) tanks[i].setTankType(Fluids.NONE);
 			return;
 		}
 		
-		FluidStack[] stacks = new FluidStack[] {refinery.getW(), refinery.getX(), refinery.getY(), refinery.getZ()};
+		FluidStack[] stacks = refinery.outputs;
 		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setTankType(stacks[i].type);
 		
 		if(power < 10_000) return;

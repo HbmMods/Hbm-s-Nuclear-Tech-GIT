@@ -6,6 +6,7 @@ import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
+import api.hbm.energymk2.IEnergyConductorMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidConnectorMK2;
 import api.hbm.fluidmk2.IFluidReceiverMK2;
@@ -31,11 +32,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IEnergyConductorMK2, ISidedInventory, IFluidReceiverMK2, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent, IRORValueProvider, IRORInteractive {
 	
 	TileEntity tile;
 	boolean inventory;
 	boolean power;
+	boolean conductor;
 	boolean fluid;
 	boolean heat;
 	public boolean moltenMetal;
@@ -56,9 +58,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = true;
 		return this;
 	}
-	
+
 	public TileEntityProxyCombo power() {
 		this.power = true;
+		return this;
+	}
+	public TileEntityProxyCombo conductor() {
+		this.conductor = true;
 		return this;
 	}
 	public TileEntityProxyCombo moltenMetal() {
@@ -141,13 +147,21 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		
-		if(!power)
-			return false;
-		
-		if(getCoreObject() instanceof IEnergyReceiverMK2) {
+		if(power && getCoreObject() instanceof IEnergyReceiverMK2) {
 			return ((IEnergyReceiverMK2)getCoreObject()).canConnect(dir);
 		}
 		
+		if(conductor && getCoreObject() instanceof IEnergyConductorMK2) {
+			return ((IEnergyConductorMK2)getCoreObject()).canConnect(dir);
+		}
+		
+		return true;
+	}
+
+	@Override
+	public boolean allowDirectProvision() {
+		if(!power) return false;
+		if(getCoreObject() instanceof IEnergyReceiverMK2) return ((IEnergyReceiverMK2)getCoreObject()).allowDirectProvision();
 		return true;
 	}
 
@@ -402,6 +416,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 		this.inventory = nbt.getBoolean("inv");
 		this.power = nbt.getBoolean("power");
+		this.conductor = nbt.getBoolean("conductor");
 		this.fluid = nbt.getBoolean("fluid");
 		this.moltenMetal = nbt.getBoolean("metal");
 		this.heat = nbt.getBoolean("heat");
@@ -416,6 +431,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 		nbt.setBoolean("inv", inventory);
 		nbt.setBoolean("power", power);
+		nbt.setBoolean("conductor", conductor);
 		nbt.setBoolean("fluid", fluid);
 		nbt.setBoolean("metal", moltenMetal);
 		nbt.setBoolean("heat", heat);

@@ -1408,7 +1408,7 @@ public class ModEventHandlerClient {
 			case 2: main.splashText = "All answers are popbob!"; break;
 			case 3: main.splashText = "None may enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
-			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
+			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on ketamine agagagagaga"; break;
 			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
 			case 7: main.splashText = "Nice toes, now hand them over."; break;
 			case 8: main.splashText = "I smell burnt toast!"; break;

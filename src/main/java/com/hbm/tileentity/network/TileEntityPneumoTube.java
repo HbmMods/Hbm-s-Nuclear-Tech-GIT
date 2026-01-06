@@ -47,6 +47,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public byte sendOrder = 0;
 	public byte receiveOrder = 0;
 	public int soundDelay = 0;
+	public int sendCounter = 0;
 	
 	public FluidTank compair;
 	
@@ -113,7 +114,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 					if(sendFrom instanceof IInventory) {
 						PneumaticNetwork net = node.net;
 						
-						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()))) {
+						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()), sendCounter)) {
 							this.compair.setFill(this.compair.getFill() - 50);
 							
 							if(this.soundDelay <= 0 && !this.muffled) {
@@ -121,6 +122,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 								this.soundDelay = 20;
 							}
 						}
+						
+						this.sendCounter++;
 					}
 				}
 			}
@@ -229,6 +232,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 		this.sendOrder = nbt.getByte("sendOrder");
 		this.receiveOrder = nbt.getByte("receiveOrder");
+		this.sendCounter = nbt.getInteger("sendCounter");
 		
 		this.whitelist = nbt.getBoolean("whitelist");
 		this.redstone = nbt.getBoolean("redstone");
@@ -244,6 +248,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 		nbt.setByte("sendOrder", sendOrder);
 		nbt.setByte("receiveOrder", receiveOrder);
+		nbt.setInteger("sendCounter", sendCounter);
 
 		nbt.setBoolean("whitelist", whitelist);
 		nbt.setBoolean("redstone", redstone);
