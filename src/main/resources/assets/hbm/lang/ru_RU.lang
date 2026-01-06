@@ -1491,6 +1491,7 @@ hbm.key.dash=Рывок
 hbm.key.gunPrimary=Основной огонь
 hbm.key.gunSecondary=Альтернативный огонь
 hbm.key.gunTertitary=Переключить прицел
+hbm.key.qmaw=Открыть краткое руководство
 hbm.key.toggleMagnet=Вкл/выкл магнит
 hbm.key.toggleBack=Включить ранец
 hbm.key.toggleHUD=Включить HUD
@@ -6805,6 +6806,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
