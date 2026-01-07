@@ -522,12 +522,12 @@ public class HbmWorldGen implements IWorldGenerator {
 	
 	private static void genBlueprintChest(World world, Random rand, int i, int j, int boundsX, int boundsZ) {
 		if(Math.abs(i) < 100 && Math.abs(j) < 100) return;
-		if(rand.nextBoolean()) return;
+		if(rand.nextInt(20) < 10) return; // nextBoolean would have weird periodicity to it, hoping that a larger int range has more variance
 
 		int cX = Math.abs(i) % boundsX;
 		int cZ = Math.abs(j) % boundsZ;
 		
-		if(cX <= 0 && cX + 16 >= 0 && cZ <= 0 && cZ + 16 >= 0) {
+		if(cX >= 0 && cX < 16 && cZ >= 0 && cZ < 16) {
 			int x = i + 8;
 			int z = j + 8;
 			int y = world.getHeightValue(x, z) - rand.nextInt(2);

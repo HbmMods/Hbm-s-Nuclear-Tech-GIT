@@ -5738,6 +5738,7 @@ tile.machine_battery.name=Energy Storage Block (LEGACY)
 tile.machine_battery_potato.name=Potato Battery Block (LEGACY)
 tile.machine_battery_redd.name=FEnSU
 tile.machine_battery_socket.name=Battery Socket
+tile.machine_battery_socket.desc=Allows battery items to be connected$to the power grid directly.$Acts as a cable, all ports are connected$to the same netowrk.
 tile.machine_boiler.name=Boiler
 tile.machine_boiler.desc=Large boiler that can boil water or heat up oil.$Requires external heat source.$Heat transfer rate: ΔT*0.01 TU/t
 tile.machine_boiler_electric_off.name=Electric Oil Heater

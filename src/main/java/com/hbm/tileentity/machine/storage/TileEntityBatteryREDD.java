@@ -71,11 +71,13 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase {
 			
 			float pitch = 0.5F + this.getSpeed() / 15F * 1.5F;
 
-			if(this.prevRotation != this.rotation && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 5.5, zCoord + 0.5) < 50 * 50) {
+			if(this.prevRotation != this.rotation && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 5.5, zCoord + 0.5) < 30 * 30) {
 				if(this.audio == null || !this.audio.isPlaying()) {
 					this.audio = MainRegistry.proxy.getLoopedSound("hbm:block.fensuHum", xCoord, yCoord, zCoord, this.getVolume(1.5F), 25F, pitch, 5);
 					this.audio.startSound();
 				}
+				
+				this.audio.updateVolume(this.getVolume(1.5F));
 				this.audio.updatePitch(pitch);
 				this.audio.keepAlive();
 				

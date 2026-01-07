@@ -110,7 +110,7 @@ public class ExplosionTom {
 				
 				if(y <= craterFloor) {
 
-					if(worldObj.rand.nextInt(499) < 1) {
+					if(worldObj.rand.nextInt(200) == 0) {
 						worldObj.setBlock(pX, y, pZ, ModBlocks.ore_tektite_osmiridium, 0, 2);
 					} else {
 						worldObj.setBlock(pX, y, pZ, ModBlocks.tektite, 0, 2);

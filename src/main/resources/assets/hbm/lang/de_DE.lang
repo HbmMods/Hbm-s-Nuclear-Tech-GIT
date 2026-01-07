@@ -4475,6 +4475,7 @@ tile.machine_battery.name=Energiespeicherblock (LEGACY)
 tile.machine_battery_potato.name=Kartoffelbatterieblock (LEGACY)
 tile.machine_battery_redd.name=FEnSU
 tile.machine_battery_socket.name=Batteriesockel
+tile.machine_battery_socket.desc=Erlaubt es, Batterien direkt mit$dem Stromnetz zu verbinden.$Verhält sich wie ein Kabel, alle$Verbindungen sind im selben Netzwek.
 tile.machine_boiler.name=Boiler
 tile.machine_boiler.desc=Großer Boiler zum Verdampfen von Wasser oder$Erhitzen von Öl. Benötigt externe Hitzequelle.$Wärmestransferrate: ΔT*0.01 TU/t
 tile.machine_boiler_electric_off.name=Elektrischer Ölwärmer
