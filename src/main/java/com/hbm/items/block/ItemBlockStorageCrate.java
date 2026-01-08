@@ -20,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 import javax.annotation.Nonnull;
 
 public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider {
@@ -89,6 +91,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	}
 
 	public static class InventoryCrate extends ItemInventory {
+		
+		public static Random rand = new Random();
 
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 			this.player = player;
@@ -145,6 +149,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			// Preserve existing NBT so we keep lock data and piders
 			NBTTagCompound nbt = target.stackTagCompound != null ? target.stackTagCompound : new NBTTagCompound();
 			int invSize = this.getSizeInventory();
+			
+			nbt.removeTag("stacklock");
 
 			for(int i = 0; i < invSize; i++) {
 
@@ -159,8 +165,10 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				nbt.setTag("slot" + i, slot);
 			}
 
-			if (nbt.hasNoTags()) {
+			if(nbt.hasNoTags()) {
 				nbt = null;
+			} else {
+				nbt.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
 			}
 
 			target.setTagCompound(nbt);
