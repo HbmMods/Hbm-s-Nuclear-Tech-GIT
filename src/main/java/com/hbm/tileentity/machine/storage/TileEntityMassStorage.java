@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter, IRORValueProvider, IRORInteractive {
 
@@ -92,7 +93,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 				}
 			}
 
-			networkPackNT(15);
+			networkPackNT(64); // TE render distance
 		}
 	}
 
@@ -129,7 +130,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	}
 
 	// Note: the following three methods are used for AE2 integration, and aren't meant to be called in any other context by default
-	
+
 	public int getTotalStockpile() {
 		ItemStack type = getType();
 		if(type == null) return 0;
@@ -174,7 +175,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			}
 			amount -= depositStockpile;
 		}
-		
+
 		int inputAvail = 0;
 		ItemStack inStack = slots[0];
 		if(inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
@@ -197,7 +198,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			}
 			amount -= depositInput;
 		}
-		
+
 		int outputAvail = 0;
 		ItemStack outStack = slots[2];
 		if(outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
@@ -224,7 +225,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		if(actually) {
 			this.markDirty();
 		}
-		
+
 		return amount;
 	}
 
@@ -256,6 +257,10 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	public void setStockpile(int stack) {
 		this.stack = stack;
+	}
+
+	public ForgeDirection getDirection() {
+		return ForgeDirection.NORTH;
 	}
 
 	@Override
@@ -389,12 +394,12 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
+
 		if((PREFIX_FUNCTION + "toggleoutput").equals(name)) {
 			this.output = !this.output;
 			this.markDirty();
 		}
-		
+
 		return null;
 	}
 }
