@@ -158,7 +158,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 			this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
 			float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
-			EntityTrackerEntry tracker = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+			EntityTrackerEntry tracker = ((EntityTrackerEntry) ((WorldServer) worldObj).getEntityTracker().trackedEntityIDs.lookup(this.getEntityId()));
 			if(tracker != null) tracker.lastYaw += 100; //coax the tracker into sending smother updates
 			
 			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
