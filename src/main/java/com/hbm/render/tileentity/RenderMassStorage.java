@@ -30,6 +30,9 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 		Minecraft mc = Minecraft.getMinecraft();
 		int dir = storage.getBlockMetadata() / 4;
 
+		// fuck this shit, push pop the whole ass lighting state then for all I fucken care
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_COLOR_BUFFER_BIT);
+
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
 		GL11.glPushMatrix();
@@ -111,10 +114,10 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 
-			RenderHelper.enableStandardItemLighting();
-
 		}
 		GL11.glPopMatrix();
+
+		GL11.glPopAttrib();
 	}
 
 	private String getTextForCount(int stackSize, boolean isUnicode) {
