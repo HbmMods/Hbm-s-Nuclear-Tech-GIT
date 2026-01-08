@@ -66,8 +66,6 @@ import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-
-import api.hbm.fluidmk2.IFillableItem;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
@@ -404,12 +402,14 @@ public class ModEventHandlerClient {
 
 		if(stack.getItem() instanceof ArmorFSBPowered && ArmorFSBPowered.hasFSBArmorIgnoreCharge(player)) {
 			float charge = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
+
 			bars.add(new Tuple.Pair<Float, Integer>(charge, 0x00FF00));
 		}
 
 		if(stack.getItem() instanceof JetpackFueledBase) {
 			JetpackFueledBase jetpack = (JetpackFueledBase) stack.getItem();
 			float fuel = (float) JetpackFueledBase.getFuel(stack) / jetpack.maxFuel;
+
 			bars.add(new Tuple.Pair<Float, Integer>(fuel, jetpack.fuel.getColor()));
 		}
 
@@ -425,10 +425,13 @@ public class ModEventHandlerClient {
 		Tessellator tess = Tessellator.instance;
 
 		if(event.type == event.type.ARMOR) {
+
 			List<List<Tuple.Pair<Float, Integer>>> barsList = new ArrayList<>();
 
 			for (int i = 0; i < 4; i++) {
+
 				barsList.add(new ArrayList<>());
+
 				ItemStack stack = player.inventory.armorInventory[i];
 
 				if(stack == null)
@@ -441,6 +444,7 @@ public class ModEventHandlerClient {
 
 				for (ItemStack mod : ArmorModHandler.pryMods(stack)) {
 					if (mod == null) continue;
+
 					barsList.get(i).addAll(getBars(mod, player));
 				}
 			}
@@ -457,14 +461,15 @@ public class ModEventHandlerClient {
 			int left = width / 2 - 91;
 
 			for (List<Tuple.Pair<Float, Integer>> bars : barsList) {
+
 				if (bars.isEmpty())
 					continue;
 
 				int top = height - GuiIngameForge.left_height + 7;
 
 				for (int i = 0; i < bars.size(); i++) {
-					float val = bars.get(i).key;
 
+					float val = bars.get(i).key;
 					int hstart, hend;
 
 					if (i == 0) {
@@ -475,10 +480,9 @@ public class ModEventHandlerClient {
 						// :(
 						hstart = left + 41 + bl * (i - 1);
 						hend = i == bars.size() - 1 ? left + 81 : hstart + bl;
+
 						if (i != 1) hstart += 1;
 					}
-
-					int color = bars.get(i).value;
 
 					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
 					tess.addVertex(hstart, top - 1, 0);
@@ -488,6 +492,7 @@ public class ModEventHandlerClient {
 
 					float valx = hstart + (hend - hstart - 1) * val;
 
+					int color = bars.get(i).value;
 					float r = ((color >> 16) & 0xFF) / 255F;
 					float g = ((color >> 8) & 0xFF) / 255F;
 					float b = (color & 0xFF) / 255F;
@@ -501,6 +506,7 @@ public class ModEventHandlerClient {
 
 				GuiIngameForge.left_height += 4;
 			}
+
 			tess.draw();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
