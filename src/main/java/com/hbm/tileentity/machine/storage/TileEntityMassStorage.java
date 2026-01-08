@@ -91,7 +91,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IContr
 				}
 			}
 
-			networkPackNT(64); // TE render distance
+			networkPackNT(32); // TE render distance
 		}
 	}
 
@@ -292,6 +292,11 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IContr
 		nbt.setBoolean("output", output);
 		nbt.setInteger("capacity", capacity);
 		nbt.setByte("redstone", (byte) redstone);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 1024.0D; // only render mass storage info 32 blocks away, for performance
 	}
 
 	@Override

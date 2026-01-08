@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -55,13 +56,12 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 			GL11.glPushMatrix();
 			{
 
-				GL11.glTranslatef(4, 3, 0); // adjust up one pixel
+				GL11.glTranslatef(4.0F, 2.5F, 0); // adjust to centered location
 				GL11.glScalef(8.0F / 16.0F, 8.0F / 16.0F, 1); // scale to 8 pixels across
 
 				RenderHelper.disableStandardItemLighting();
 
 				itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, storage.type, 0, 0, true);
-				itemRenderer.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, storage.type, 0, 0);
 
 			}
 			GL11.glPopMatrix();
@@ -71,7 +71,7 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 			String text = getTextForCount(storage.getStockpile(), mc.fontRenderer.getUnicodeFlag());
 
 			int textX = 32 - mc.fontRenderer.getStringWidth(text) / 2;
-			int textY = 46;
+			int textY = 44;
 
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glPushMatrix();
@@ -81,15 +81,37 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 
 				int fontColor = 0x00FF00;
 
+				// funky text shadow rendering with no z-fighting and alpha testing still enabled
 				mc.fontRenderer.drawString(text, textX + 1, textY + 1, (fontColor & 16579836) >> 2 | fontColor & -16777216);
-
 				GL11.glTranslatef(0, 0, 1);
-
 				mc.fontRenderer.drawString(text, textX, textY, 0x00FF00);
 
 			}
 			GL11.glPopMatrix();
+
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+			double fraction = (double) storage.getStockpile() / (double) storage.getCapacity();
+
+			GL11.glColor3d(1.0 - fraction, fraction, 0.0);
+
+			double bMinX = 2;
+			double bMaxX = 2 + fraction * 12;
+			double bMinY = 13.5;
+			double bMaxY = 14;
+
+			Tessellator tessellator = Tessellator.instance;
+			tessellator.startDrawingQuads();
+			tessellator.addVertex(bMinX, bMaxY, 0);
+			tessellator.addVertex(bMaxX, bMaxY, 0);
+			tessellator.addVertex(bMaxX, bMinY, 0);
+			tessellator.addVertex(bMinX, bMinY, 0);
+			tessellator.draw();
+
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_LIGHTING);
+
+			RenderHelper.enableStandardItemLighting();
 
 		}
 		GL11.glPopMatrix();
