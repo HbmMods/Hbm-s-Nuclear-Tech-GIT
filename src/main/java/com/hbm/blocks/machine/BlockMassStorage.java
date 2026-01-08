@@ -130,7 +130,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 
 		if(!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
 
-			ItemStack drop = new ItemStack(this, 1, world.getBlockMetadata(x, y, z));
+			ItemStack drop = new ItemStack(this, 1, rectify(world.getBlockMetadata(x, y, z)));
 			ISidedInventory inv = (ISidedInventory)world.getTileEntity(x, y, z);
 
 			NBTTagCompound nbt = new NBTTagCompound();
