@@ -6,3 +6,6 @@
 * Fixed missing battery socket tooltip
 * Potentially fixed an issue in regards to some hidden structures spawning
 * Fixed FEnSU not immediately applying the muffler effect when used
+* Fixed fluid counter valve not having a recipe
+* Fixed issue where `/ntmreload` would break registered fluids from addons
+* Fixed yet another issue regarding crates
