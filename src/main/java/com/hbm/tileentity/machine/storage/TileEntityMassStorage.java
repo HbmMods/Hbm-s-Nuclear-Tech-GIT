@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.inventory.container.ContainerMassStorage;
 import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 
 import com.hbm.util.BufferUtil;
@@ -20,9 +19,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter, IRORValueProvider, IRORInteractive {
+public class TileEntityMassStorage extends TileEntityCrateBase implements IControlReceiverFilter, IRORValueProvider, IRORInteractive {
 
 	private int stack = 0;
 	public boolean output = false;
@@ -257,10 +255,6 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	public void setStockpile(int stack) {
 		this.stack = stack;
-	}
-
-	public ForgeDirection getDirection() {
-		return ForgeDirection.NORTH;
 	}
 
 	@Override
