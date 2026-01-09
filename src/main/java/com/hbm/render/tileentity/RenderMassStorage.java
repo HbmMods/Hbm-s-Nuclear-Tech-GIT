@@ -1,6 +1,7 @@
 package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.render.util.RenderDecoItem;
 import com.hbm.tileentity.machine.storage.TileEntityMassStorage;
@@ -9,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -31,7 +31,9 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 		int dir = storage.getBlockMetadata() / 4;
 
 		// fuck this shit, push pop the whole ass lighting state then for all I fucken care
-		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_COLOR_BUFFER_BIT);
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_TRANSFORM_BIT);
+
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
@@ -62,9 +64,11 @@ public class RenderMassStorage extends TileEntitySpecialRenderer {
 				GL11.glTranslatef(4.0F, 2.5F, 0); // adjust to centered location
 				GL11.glScalef(8.0F / 16.0F, 8.0F / 16.0F, 1); // scale to 8 pixels across
 
-				RenderHelper.disableStandardItemLighting();
-
-				itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, storage.type, 0, 0, true);
+				if(mc.gameSettings.fancyGraphics) {
+					itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, storage.type, 0, 0);
+				} else {
+					itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, storage.type, 0, 0, true);
+				}
 
 			}
 			GL11.glPopMatrix();
