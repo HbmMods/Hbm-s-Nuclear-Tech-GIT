@@ -13,6 +13,7 @@ import com.hbm.blocks.machine.fusion.MachineFusionBreeder;
 import com.hbm.blocks.machine.fusion.MachineFusionCollector;
 import com.hbm.blocks.machine.fusion.MachineFusionCoupler;
 import com.hbm.blocks.machine.fusion.MachineFusionKlystron;
+import com.hbm.blocks.machine.fusion.MachineFusionKlystronCreative;
 import com.hbm.blocks.machine.fusion.MachineFusionMHDT;
 import com.hbm.blocks.machine.fusion.MachineFusionTorus;
 import com.hbm.blocks.machine.pile.*;
@@ -901,6 +902,7 @@ public class ModBlocks {
 	public static Block fusion_component;
 	public static Block fusion_torus;
 	public static Block fusion_klystron;
+	public static Block fusion_klystron_creative;
 	public static Block fusion_breeder;
 	public static Block fusion_collector;
 	public static Block fusion_boiler;
@@ -2039,6 +2041,7 @@ public class ModBlocks {
 		fusion_component = new BlockFusionComponent().setBlockName("fusion_component").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_component");
 		fusion_torus = new MachineFusionTorus().setBlockName("fusion_torus").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_klystron = new MachineFusionKlystron().setBlockName("fusion_klystron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_klystron_creative = new MachineFusionKlystronCreative().setBlockName("fusion_klystron_creative").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_breeder = new MachineFusionBreeder().setBlockName("fusion_breeder").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_collector = new MachineFusionCollector().setBlockName("fusion_collector").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3419,6 +3422,7 @@ public class ModBlocks {
 		register(fusion_component);
 		register(fusion_torus);
 		register(fusion_klystron);
+		register(fusion_klystron_creative);
 		register(fusion_breeder);
 		register(fusion_collector);
 		register(fusion_boiler);

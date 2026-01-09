@@ -3,12 +3,16 @@ package com.hbm.items.special;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 
 import api.hbm.fluidmk2.IFillableItem;
@@ -336,6 +340,9 @@ public class ItemSyringe extends Item {
 				HbmLivingProps.setContagion(entity, 3 * 60 * 60 * 20);
 				world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 				stack.stackSize--;
+				
+				if(GeneralConfig.enableExtendedLogging)
+					MainRegistry.logger.log(Level.INFO, "[MKU] " + entityPlayer.getCommandSenderName() + " used an MKU syringe!");
 			}
 		}
 

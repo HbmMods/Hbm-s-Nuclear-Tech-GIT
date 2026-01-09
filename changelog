@@ -1,6 +1,12 @@
+## Added
+* Creative klystron
+  * Always outputs as much KyU as the most demanding existing recipe needs
+
 ## Changed
 * Updated chinese and russian localization
 * Increased density of osmiridium ores in tom craters considerably (from 1:500 to 1:200)
+* Added a new server setting called `ENABLE_MKU` to toggle contageon effects, spread and save (part of `/ntmserver`)
+* Extended logging now logs uses of MKU
 
 ## Fixed
 * Fixed missing battery socket tooltip
@@ -9,3 +15,4 @@
 * Fixed fluid counter valve not having a recipe
 * Fixed issue where `/ntmreload` would break registered fluids from addons
 * Fixed yet another issue regarding crates
+* Fixed RBMK fluid heaters losing their tank types when unable to boil anything
