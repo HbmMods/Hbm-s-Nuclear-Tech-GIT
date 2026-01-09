@@ -7,6 +7,8 @@
 * Increased density of osmiridium ores in tom craters considerably (from 1:500 to 1:200)
 * Added a new server setting called `ENABLE_MKU` to toggle contageon effects, spread and save (part of `/ntmserver`)
 * Extended logging now logs uses of MKU
+* Mass storage units now display their held item on a display
+* Improved HUD gauges, electric chestplates with jetpacks installed now two gauges side by side
 
 ## Fixed
 * Fixed missing battery socket tooltip
