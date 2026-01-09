@@ -59,6 +59,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.util.*;
+import com.hbm.util.Tuple;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.i18n.I18nUtil;
 import com.hbm.wiaj.GuiWorldInAJar;
@@ -230,7 +231,7 @@ public class ModEventHandlerClient {
 						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
 					}
 				}
-				
+
 				GL11.glColor4f(1F, 1F, 1F, 1F);
 			}
 
@@ -395,6 +396,26 @@ public class ModEventHandlerClient {
 		}
 	}
 
+	private List<Tuple.Pair<Float, Integer>> getBars(ItemStack stack, EntityPlayer player) {
+
+		List<Tuple.Pair<Float, Integer>> bars = new ArrayList<>();
+
+		if(stack.getItem() instanceof ArmorFSBPowered && ArmorFSBPowered.hasFSBArmorIgnoreCharge(player)) {
+			float charge = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
+
+			bars.add(new Tuple.Pair<Float, Integer>(charge, 0x00FF00));
+		}
+
+		if(stack.getItem() instanceof JetpackFueledBase) {
+			JetpackFueledBase jetpack = (JetpackFueledBase) stack.getItem();
+			float fuel = (float) JetpackFueledBase.getFuel(stack) / jetpack.maxFuel;
+
+			bars.add(new Tuple.Pair<Float, Integer>(fuel, jetpack.fuel.getColor()));
+		}
+
+		return bars;
+	}
+
 	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.LOW)
 	public void onHUDRenderBar(RenderGameOverlayEvent.Post event) {
 
@@ -405,6 +426,32 @@ public class ModEventHandlerClient {
 
 		if(event.type == event.type.ARMOR) {
 
+			List<List<Tuple.Pair<Float, Integer>>> barsList = new ArrayList<>();
+
+			for (int i = 0; i < 4; i++) {
+
+				barsList.add(new ArrayList<>());
+
+				ItemStack stack = player.inventory.armorInventory[i];
+
+				if(stack == null)
+					continue;
+
+				barsList.get(i).addAll(getBars(stack, player));
+
+				if (!(ArmorModHandler.hasMods(stack)))
+					continue;
+
+				for (ItemStack mod : ArmorModHandler.pryMods(stack)) {
+					if (mod == null) continue;
+
+					barsList.get(i).addAll(getBars(mod, player));
+				}
+			}
+
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			tess.startDrawingQuads();
+
 			if(ForgeHooks.getTotalArmorValue(player) == 0) {
 				GuiIngameForge.left_height -= 10;
 			}
@@ -413,69 +460,55 @@ public class ModEventHandlerClient {
 			int height = event.resolution.getScaledHeight();
 			int left = width / 2 - 91;
 
-			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
-				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
-				boolean noHelmet = chestplate.noHelmet;
+			for (List<Tuple.Pair<Float, Integer>> bars : barsList) {
 
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				tess.startDrawingQuads();
+				if (bars.isEmpty())
+					continue;
 
-				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
+				int top = height - GuiIngameForge.left_height + 7;
 
-					int top = height - GuiIngameForge.left_height + 7;
+				for (int i = 0; i < bars.size(); i++) {
 
-					ItemStack stack = player.inventory.armorInventory[i];
+					float val = bars.get(i).key;
+					int hstart, hend;
 
-					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
-						break;
+					if (i == 0) {
+						hstart = left;
+						hend = hstart + (bars.size() == 1 ? 81 : 40);
+					} else {
+						int bl = (int) Math.ceil(40F / (bars.size() - 1));
+						// :(
+						hstart = left + 41 + bl * (i - 1);
+						hend = i == bars.size() - 1 ? left + 81 : hstart + bl;
 
-					float tot = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
+						if (i != 1) hstart += 1;
+					}
 
 					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-					tess.addVertex(left - 0.5, top - 0.5, 0);
-					tess.addVertex(left - 0.5, top + 1.5, 0);
-					tess.addVertex(left + 81.5, top + 1.5, 0);
-					tess.addVertex(left + 81.5, top - 0.5, 0);
+					tess.addVertex(hstart, top - 1, 0);
+					tess.addVertex(hstart, top + 2, 0);
+					tess.addVertex(hend, top + 2, 0);
+					tess.addVertex(hend, top - 1, 0);
 
-					tess.setColorOpaque_F(1F - tot, tot, 0F);
-					tess.addVertex(left, top, 0);
-					tess.addVertex(left, top + 1, 0);
-					tess.addVertex(left + 81 * tot, top + 1, 0);
-					tess.addVertex(left + 81 * tot, top, 0);
+					float valx = hstart + (hend - hstart - 1) * val;
 
-					GuiIngameForge.left_height += 3;
+					int color = bars.get(i).value;
+					float r = ((color >> 16) & 0xFF) / 255F;
+					float g = ((color >> 8) & 0xFF) / 255F;
+					float b = (color & 0xFF) / 255F;
+
+					tess.setColorOpaque_F(r, g, b);
+					tess.addVertex(hstart+1, top, 0);
+					tess.addVertex(hstart+1, top + 1, 0);
+					tess.addVertex(valx, top + 1, 0);
+					tess.addVertex(valx, top, 0);
 				}
 
-				tess.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackFueledBase) {
-
-				ItemStack stack = player.inventory.armorInventory[2];
-
-				float tot = (float) ((JetpackFueledBase) stack.getItem()).getFuel(stack) / (float) ((JetpackFueledBase) stack.getItem()).getMaxFill(stack);
-
-				int top = height - GuiIngameForge.left_height + 3;
-
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				tess.startDrawingQuads();
-				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-				tess.addVertex(left - 0.5, top - 0.5, 0);
-				tess.addVertex(left - 0.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top - 0.5, 0);
-
-				tess.setColorOpaque_F(1F - tot, tot, 0F);
-				tess.addVertex(left, top, 0);
-				tess.addVertex(left, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top, 0);
-				tess.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
+				GuiIngameForge.left_height += 4;
 			}
+
+			tess.draw();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 	}
 
@@ -955,7 +988,7 @@ public class ModEventHandlerClient {
 					ItemDepletedFuel.class,
 					ItemFluidDuct.class
 				);
-				
+
 				String prefix = "Gun ";
 				//int gunScale = 16;
 				//int defaultScale = 1;
@@ -1069,11 +1102,11 @@ public class ModEventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
-		
+
 		Minecraft mc = Minecraft.getMinecraft();
 		long millis = Clock.get_ms();
 		if(millis == 0) millis = System.currentTimeMillis();
-		
+
 		if(GeneralConfig.enableLoadScreenReplacement && loadingScreenReplacementRetry < 25 && !(mc.loadingScreen instanceof LoadingScreenRendererNT) && millis > lastLoadScreenReplacement + 5_000) {
 			mc.loadingScreen = new LoadingScreenRendererNT(mc);
 			lastLoadScreenReplacement = millis;
@@ -1171,7 +1204,7 @@ public class ModEventHandlerClient {
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		Clock.update();
-		
+
 		BlockRebar.renderRebar(Minecraft.getMinecraft().theWorld.loadedTileEntityList, event.partialTicks);
 
 		GL11.glPushMatrix();
@@ -1262,7 +1295,7 @@ public class ModEventHandlerClient {
 
 				if(chestplate.thermal) thermalSights = true;
 			}
-			
+
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == 1) {
 				ItemGunBaseNT gun = (ItemGunBaseNT) player.getHeldItem().getItem();
 				for(int i = 0; i < gun.getConfigCount(); i++) if(gun.getConfig(player.getHeldItem(), i).hasThermalSights(player.getHeldItem())) thermalSights = true;
