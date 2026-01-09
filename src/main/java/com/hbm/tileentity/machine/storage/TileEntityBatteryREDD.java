@@ -233,7 +233,7 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase {
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {this.power.doubleValue(), this.delta.longValue(), redLow, redHigh, getPriority().ordinal()};
+		return new Object[] {this.power.doubleValue(), this.delta.longValue(), redLow, redHigh, getPriority().ordinal()-1};
 	}
 
 	@Override

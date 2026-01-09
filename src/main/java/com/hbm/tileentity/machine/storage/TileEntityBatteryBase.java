@@ -205,7 +205,7 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getModeInfo(Context context, Arguments args) {
-		return new Object[] {redLow, redHigh, getPriority().ordinal()};
+		return new Object[] {redLow, redHigh, getPriority().ordinal()-1};
 	}
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
@@ -244,6 +244,6 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {getPower(), getMaxPower(), redLow, redHigh, getPriority().ordinal()};
+		return new Object[] {getPower(), getMaxPower(), redLow, redHigh, getPriority().ordinal()-1};
 	}
 }
