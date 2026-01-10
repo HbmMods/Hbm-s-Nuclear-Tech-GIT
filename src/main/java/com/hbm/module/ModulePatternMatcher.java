@@ -178,18 +178,21 @@ public class ModulePatternMatcher {
 
 	public void serialize(ByteBuf buf) {
 		int hash = Arrays.hashCode(modes);
-		if (hash == cacheHash) {
-			buf.writeBytes(cache, 0, cache.writerIndex());
-			return;
+		if (cache != null) {
+			if (hash == cacheHash) {
+				buf.writeBytes(cache, 0, cache.writerIndex());
+				return;
+			}
+			cache.release();
 		}
-		cache.release();
 		cache = PooledByteBufAllocator.DEFAULT.heapBuffer();
-		for (int i = 0; i < modes.length; i++) {
-			BufferUtil.writeString(cache, modes[i]);
+		for (String mode : modes) {
+			BufferUtil.writeString(cache, mode);
 		}
 		cacheHash = hash;
+		buf.writeBytes(cache, 0, cache.writerIndex());
 	}
-	
+
 	public void deserialize(ByteBuf buf) {
 		for(int i = 0; i < modes.length; i++) {
 			modes[i] = BufferUtil.readString(buf);
