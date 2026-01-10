@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.inventory.container.ContainerMassStorage;
 import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 
 import com.hbm.util.BufferUtil;
@@ -21,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter, IRORValueProvider, IRORInteractive {
+public class TileEntityMassStorage extends TileEntityCrateBase implements IControlReceiverFilter, IRORValueProvider, IRORInteractive {
 
 	private int stack = 0;
 	public boolean output = false;
@@ -92,7 +91,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 				}
 			}
 
-			networkPackNT(15);
+			networkPackNT(32); // TE render distance
 		}
 	}
 
@@ -129,7 +128,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	}
 
 	// Note: the following three methods are used for AE2 integration, and aren't meant to be called in any other context by default
-	
+
 	public int getTotalStockpile() {
 		ItemStack type = getType();
 		if(type == null) return 0;
@@ -174,7 +173,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			}
 			amount -= depositStockpile;
 		}
-		
+
 		int inputAvail = 0;
 		ItemStack inStack = slots[0];
 		if(inStack != null && ItemStackUtil.areStacksCompatible(type, inStack)) {
@@ -197,7 +196,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			}
 			amount -= depositInput;
 		}
-		
+
 		int outputAvail = 0;
 		ItemStack outStack = slots[2];
 		if(outStack != null && ItemStackUtil.areStacksCompatible(type, outStack)) {
@@ -224,7 +223,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		if(actually) {
 			this.markDirty();
 		}
-		
+
 		return amount;
 	}
 
@@ -293,6 +292,11 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		nbt.setBoolean("output", output);
 		nbt.setInteger("capacity", capacity);
 		nbt.setByte("redstone", (byte) redstone);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 1024.0D; // only render mass storage info 32 blocks away, for performance
 	}
 
 	@Override
@@ -389,12 +393,12 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
+
 		if((PREFIX_FUNCTION + "toggleoutput").equals(name)) {
 			this.output = !this.output;
 			this.markDirty();
 		}
-		
+
 		return null;
 	}
 }

@@ -884,7 +884,7 @@ public class Fluids {
 		}
 	}
 	
-	private static HashMap<String, FluidType> fluidMigration = new HashMap(); // since reloading would create new fluid instances, and those break existing machines
+	public static HashMap<String, FluidType> fluidMigration = new HashMap(); // since reloading would create new fluid instances, and those break existing machines
 
 	public static void reloadFluids(){
 		File folder = MainRegistry.configHbmDir;
@@ -901,6 +901,7 @@ public class Fluids {
 		customFluids.clear();
 
 		for(FluidType type : foreignFluids) {
+			fluidMigration.put(type.getName(), type);
 			idMapping.remove(type.getID());
 			registerOrder.remove(type);
 			nameMapping.remove(type.getName());

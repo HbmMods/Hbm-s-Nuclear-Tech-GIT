@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 public class FusionRecipes extends GenericRecipes<FusionRecipe> {
 
 	public static final FusionRecipes INSTANCE = new FusionRecipes();
+	public long maxInput;
 
 	@Override public int inputItemLimit() { return 0; }
 	@Override public int inputFluidLimit() { return 3; }
@@ -118,6 +119,18 @@ public class FusionRecipes extends GenericRecipes<FusionRecipe> {
 				.setPower(solenoid).setDuration(100)
 				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 10))
 				.outputItems(new ItemStack(ModItems.powder_gold))); // eough
+	}
+
+	@Override
+	public void registerPost() {
+		super.registerPost();
+		
+		this.maxInput = 0;
+		
+		// set max value for creative klystron
+		for(FusionRecipe recipe : this.recipeOrderedList) {
+			if(recipe.ignitionTemp > this.maxInput) this.maxInput = recipe.ignitionTemp;
+		}
 	}
 
 	// foresight! yeah!

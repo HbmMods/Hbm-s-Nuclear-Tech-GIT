@@ -33,15 +33,8 @@ public class MachineFusionKlystron extends BlockDummyable implements ITooltipPro
 		return super.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
-	@Override
-	public int[] getDimensions() {
-		return new int[] { 3, 0, 4, 3, 2, 2 };
-	}
-
-	@Override
-	public int getOffset() {
-		return 3;
-	}
+	@Override public int[] getDimensions() { return new int[] { 3, 0, 4, 3, 2, 2 }; }
+	@Override public int getOffset() { return 3; }
 
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

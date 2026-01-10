@@ -1,14 +1,20 @@
+## Added
+* Creative klystron
+  * Always outputs as much KyU as the most demanding existing recipe needs
+
 ## Changed
-* After not being part of worldgen for a long time, oily coal is finally being removed
-* The rare metal blocks that had been unobtainable and unused for the longest time have been removed
-* The schrabidium transmutator's grace period is over, it is finally being destroyed
-* Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
-  * The block ID economy is looking better than ever
+* Updated chinese and russian localization
+* Increased density of osmiridium ores in tom craters considerably (from 1:500 to 1:200)
+* Added a new server setting called `ENABLE_MKU` to toggle contageon effects, spread and save (part of `/ntmserver`)
+* Extended logging now logs uses of MKU
+* Mass storage units now display their held item on a display
+* Improved HUD gauges, electric chestplates with jetpacks installed now two gauges side by side
 
 ## Fixed
-* Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
-* Fixed 528 coltan deposit config misspelling
-* Potentially fixed a performance issue caused by transmission networks not being deleted when they have no active links
-* Fixed multi output recipe objects not deserializing right, causing the precision assembler config to not load
-* Fixed pedestal recipes not using the correct register option, making custom config files wipe all clay tablets
-* Fixed custom fluids breaking when using the `/ntmreload` command
+* Fixed missing battery socket tooltip
+* Potentially fixed an issue in regards to some hidden structures spawning
+* Fixed FEnSU not immediately applying the muffler effect when used
+* Fixed fluid counter valve not having a recipe
+* Fixed issue where `/ntmreload` would break registered fluids from addons
+* Fixed yet another issue regarding crates
+* Fixed RBMK fluid heaters losing their tank types when unable to boil anything

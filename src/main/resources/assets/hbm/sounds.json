@@ -54,6 +54,7 @@
     "block.largeTurbineRunning": {"category": "block", "sounds": [{"name": "block/largeTurbine", "stream": false}]},
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
     "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
+    "block.fensuHum": {"category": "block", "sounds": [{"name": "block/fensuHum", "stream": false}]},
     "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
     "block.hornNearSingle": {"category": "block", "sounds": [{"name": "block/hornNearSingle", "stream": false}]},
     "block.hornNearDual": {"category": "block", "sounds": [{"name": "block/hornNearDual", "stream": false}]},

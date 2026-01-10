@@ -5,7 +5,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
-import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
@@ -28,7 +27,7 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 	
 	public default void trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
 
-		TileEntity te = Compat.getTileStandard(world, x, y, z);
+		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
 		
 		if(te instanceof IFluidConnectorMK2) {

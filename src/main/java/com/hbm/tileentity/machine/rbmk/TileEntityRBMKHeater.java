@@ -70,7 +70,13 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 					this.heat -= (step.heatReq * ops / TU_PER_DEGREE) * trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				}
 				
+				if(eff <= 0) {
+					feed.setTankType(Fluids.NONE);
+					steam.setTankType(Fluids.NONE);
+				}
+				
 			} else {
+				feed.setTankType(Fluids.NONE);
 				steam.setTankType(Fluids.NONE);
 			}
 			

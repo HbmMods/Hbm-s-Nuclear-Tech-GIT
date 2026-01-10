@@ -35,6 +35,7 @@ public class MachineBatterySocket extends BlockDummyable implements ITooltipProv
 	@Override public int[] getDimensions() { return new int[] {1, 0, 1, 0, 1, 0}; }
 	@Override public int getOffset() { return 0; }
 	
+	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 		
