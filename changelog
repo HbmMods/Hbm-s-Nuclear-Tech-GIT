@@ -18,3 +18,5 @@
 * Fixed issue where `/ntmreload` would break registered fluids from addons
 * Fixed yet another issue regarding crates
 * Fixed RBMK fluid heaters losing their tank types when unable to boil anything
+* Fixed the FEnSU, cyclotron and reliant robin missile being uncraftable due to stacksize limitations
+  * The system for detecting impossible recipe has been improved, instead of a fixed 64 item limit, it now uses the actual limit of the item (or 64 for ore dictionary inputs)
