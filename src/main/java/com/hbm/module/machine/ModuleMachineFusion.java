@@ -64,7 +64,7 @@ public class ModuleMachineFusion extends ModuleMachineBase {
 		// fusion reactor is the only machine as of now that consumes input while not having finished the output
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
-				inputTanks[i].setFill(inputTanks[i].getFill() - (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed));
+				inputTanks[i].setFill(Math.max(inputTanks[i].getFill() - (int) Math.ceil(recipe.inputFluid[i].fill * processSpeed), 0));
 			}
 		}
 		

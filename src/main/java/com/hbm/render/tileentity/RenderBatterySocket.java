@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -11,6 +12,7 @@ import com.hbm.util.EnumUtil;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -38,10 +40,14 @@ public class RenderBatterySocket extends TileEntitySpecialRenderer implements II
 		bindTexture(ResourceManager.battery_socket_tex);
 		ResourceManager.battery_socket.renderPart("Socket");
 		
-		if(socket.renderPack >= 0) {
-			EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, socket.renderPack);
-			bindTexture(pack.texture);
-			ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
+		ItemStack render = socket.syncStack;
+		if(render != null) {
+			
+			if(render.getItem() == ModItems.battery_pack) {
+				EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, render.getItemDamage());
+				bindTexture(pack.texture);
+				ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
+			}
 		}
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

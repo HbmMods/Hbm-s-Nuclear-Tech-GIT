@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.inventory.container.ContainerBatterySocket;
 import com.hbm.inventory.gui.GUIBatterySocket;
-import com.hbm.items.ModItems;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -26,7 +26,7 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	public long[] log = new long[20];
 	public long delta = 0;
 	
-	public int renderPack = -1;
+	public ItemStack syncStack;
 	
 	public TileEntityBatterySocket() {
 		super(1);
@@ -56,20 +56,15 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		
-		int renderPack = -1;
-		if(slots[0] != null && slots[0].getItem() == ModItems.battery_pack) {
-			renderPack = slots[0].getItemDamage();
-		}
-		buf.writeInt(renderPack);
 		buf.writeLong(delta);
+		BufferUtil.writeItemStack(buf, this.slots[0]);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		renderPack = buf.readInt();
 		delta = buf.readLong();
+		this.syncStack = BufferUtil.readItemStack(buf);
 	}
 
 	@Override
@@ -83,22 +78,23 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {0}; }
 
-	@Override
-	public long getPower() {
-		if(slots[0] == null || !(slots[0].getItem() instanceof IBatteryItem)) return 0;
-		return ((IBatteryItem) slots[0].getItem()).getCharge(slots[0]);
-	}
+	@Override public long getPower() { return powerFromStack(slots[0]); }
+	@Override public long getMaxPower() { return maxPowerFromStack(slots[0]); }
 	
 	@Override
 	public void setPower(long power) {
 		if(slots[0] == null || !(slots[0].getItem() instanceof IBatteryItem)) return;
 		((IBatteryItem) slots[0].getItem()).setCharge(slots[0], power);
 	}
-
-	@Override
-	public long getMaxPower() {
-		if(slots[0] == null || !(slots[0].getItem() instanceof IBatteryItem)) return 0;
-		return ((IBatteryItem) slots[0].getItem()).getMaxCharge(slots[0]);
+	
+	public static long powerFromStack(ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof IBatteryItem)) return 0;
+		return ((IBatteryItem) stack.getItem()).getCharge(stack);
+	}
+	
+	public static long maxPowerFromStack(ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof IBatteryItem)) return 0;
+		return ((IBatteryItem) stack.getItem()).getMaxCharge(stack);
 	}
 
 	@Override public long getProviderSpeed() {

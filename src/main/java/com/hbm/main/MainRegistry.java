@@ -1469,6 +1469,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.fusion_conductor");
 		ignoreMappings.add("hbm:tile.fusion_center");
 		ignoreMappings.add("hbm:tile.fusion_motor");
+		ignoreMappings.add("hbm:tile.machine_spp_bottom");
+		ignoreMappings.add("hbm:tile.machine_spp_top");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
