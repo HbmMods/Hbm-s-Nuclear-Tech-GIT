@@ -1,4 +1,4 @@
-achievement.acidizer.desc=уфф ай моя кожа
+chievement.acidizer.desc=уфф ай моя кожа
 achievement.acidizer=Кислюка
 achievement.assembly.desc=Погоди-ка, уже час ночи?
 achievement.assembly=Завод расширяется
@@ -2263,7 +2263,7 @@ item.battery_schrabidium.name=Шрабидиевая батарея (LEGACY)
 item.battery_schrabidium_cell.name=Шрабидиевая энергоячейка (LEGACY)
 item.battery_schrabidium_cell_2.name=Сдвоенная шрабидиевая энергоячейка (LEGACY)
 item.battery_schrabidium_cell_4.name=Счетверённая шрабидиевая энергоячейка (LEGACY)
-item.battery_spark.name=Спарк-батарея (LEGACY)
+item.battery_spark.name=Спарк-батарея
 item.battery_spark_cell_100.name=Спарк-Магический массив хранения энергии (LEGACY)
 item.battery_spark_cell_1000.name=Спарк-Магическая масс-энергетическая пустота (LEGACY)
 item.battery_spark_cell_10000.name=Устойчивый пространственно-временной спарк-кристалл (LEGACY)
@@ -6813,6 +6813,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
 
 
 
