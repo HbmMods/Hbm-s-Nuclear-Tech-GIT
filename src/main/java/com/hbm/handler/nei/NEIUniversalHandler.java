@@ -23,7 +23,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-@Deprecated
+@Deprecated // an experiment that i had to staple more and more features to until it ended up a bloated decaying corpse
 public abstract class NEIUniversalHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();

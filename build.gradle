@@ -6,6 +6,7 @@ import java.nio.file.StandardCopyOption
 
 buildscript {
 	repositories {
+		maven { url = 'https://maven.ntmr.dev/proxy/' }
 		maven { url = 'https://maven.minecraftforge.net/' }
 		maven { url = 'https://plugins.gradle.org/m2' }
 		mavenCentral()
@@ -67,6 +68,10 @@ eclipse.classpath.file.whenMerged { cp ->
 }
 
 repositories {
+	maven {
+		name = 'Blerg'
+		url = 'https://maven.ntmr.dev/proxy/'
+	}
 	maven {
 		name = 'ModMaven'
 		url = 'https://modmaven.dev'

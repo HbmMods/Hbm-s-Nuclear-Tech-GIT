@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.MainRegistry;
@@ -27,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor {
+public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor, ITooltipProvider {
 
 	public MachineCrucible() {
 		super(Material.rock);
@@ -181,4 +182,9 @@ public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor
 
 	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return null; }
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
+	}
 }

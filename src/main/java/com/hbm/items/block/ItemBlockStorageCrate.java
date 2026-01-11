@@ -164,12 +164,9 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
 			}
-
-			if(nbt.hasNoTags()) {
-				nbt = null;
-			} else {
-				nbt.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
-			}
+			
+			// never, ever fucking ever remove the tag compound here, lack of tack compound makes the crate stackable
+			nbt.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
 
 			target.setTagCompound(nbt);
 		}
@@ -181,6 +178,16 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			// Check for 6kb item vomit
 			target.setTagCompound(checkNBT(target.getTagCompound()));
 			player.inventoryContainer.detectAndSendChanges();
+			
+			if(target.stackTagCompound != null) {
+				target.stackTagCompound.removeTag("stacklock");
+				
+				if(target.stackTagCompound.hasNoTags()) {
+					target.setTagCompound(null); // if there's no tags left, clear compound to make the crate stackable again
+				} else {
+					target.stackTagCompound.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
+				}
+			}
 		}
 	}
 }
