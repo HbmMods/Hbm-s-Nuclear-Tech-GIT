@@ -5857,6 +5857,8 @@ tile.fusion_collector.name=Улавливающая камера (термояд
 tile.fusion_collector.desc=Собирает дополнительное количество продуктов$при подключении к основной камере.
 tile.fusion_klystron.name=Клистрон (термоядерный реактор)
 tile.fusion_klystron.desc=Зажигает термоядерный реактор.$Требует охлаждения сжатым воздухом.
+tile.fusion_klystron_creative.name=Творческий клистрон (термоядерный реактор)
+tile.fusion_klystron_creative.desc=Обеспечивает бесконечную энергию клистрона.
 tile.fusion_mhdt.name=МГД-турбина (термоядерный реактор)
 tile.fusion_mhdt.desc=Извлекает электроэнергию из плазмы напрямую,$что позволяет достичь меньших потерь.$Требуется охлаждение!
 tile.fusion_torus.name=Основная камера (термоядерный реактор)
@@ -6013,6 +6015,7 @@ tile.machine_battery.name=Энергохранилище (LEGACY)
 tile.machine_battery_potato.name=Картофельная батарея (LEGACY)
 tile.machine_battery_redd.name=ЭМЭХ
 tile.machine_battery_socket.name=Аккумуляторный массив
+tile.machine_battery_socket.desc=Позволяет подключать аккумуляторы$напрямую к энергосети.$Выступает в качестве кабеля, все порты$подключены к одной сети.
 tile.machine_boiler.name=Бойлер
 tile.machine_boiler.desc=Большой бойлер для кипячения воды или нагрева нефти.$Требует внешний источник тепла.$Скорость передачи тепла: ΔT*0.01 TU/t
 tile.machine_boiler_electric_off.name=Электрический нагреватель нефти 
@@ -6811,6 +6814,8 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 29.11.2025 by Rayzer //
+
+
 
 
 

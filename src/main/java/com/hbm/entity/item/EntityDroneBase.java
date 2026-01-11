@@ -24,7 +24,7 @@ public abstract class EntityDroneBase extends Entity {
 
 	public EntityDroneBase(World world) {
 		super(world);
-		this.setSize(1.5F, 2.0F);
+		this.setSize(0.75F, 0.75F);
 	}
 
 	public void setTarget(double x, double y, double z) {
