@@ -4,6 +4,14 @@
 * Drone hitboxes are now way smaller, which should cause them to get stuck when flying less
 * The new FENSU now keeps its charge and installed muffler when broken
 * Battery sockets are now compatible with comparator output
+* Battery sockets now have a tooltip when a battery pack is installed
+* Sef-charging batteries have been reworked
+  * They are now a new item with metadata (legacy ones still work)
+  * The base form is an empty selfcharger which is filled with two billets of material, i.e. no more upgrade recipes
+  * There are a few new variants like cobalt-60 and gold-198
+  * New selfchargers have a model when plugged into a battery socket
+  * Selfchargers are a fair bit weaker than their old counterparts, but substantially cheaper too
+* Old batteries now have the "LEGACY" tag
 
 ## Fixed
 * Fixed the FEnSU, cyclotron and reliant robin missile being uncraftable due to stacksize limitations
@@ -16,3 +24,5 @@
   * Most power armors are intended to not be enchantable at all
 * Fixed crash caused by the balefire bomb
 * Fixed JSON gun reload animations becoming faster and faster with the trenchmaster set
+* Fixed heat transfer rate labels on the boilers and coker unit being off by a magnitude of 10
+* Fixed crucible not having a heat transfer rate tooltip

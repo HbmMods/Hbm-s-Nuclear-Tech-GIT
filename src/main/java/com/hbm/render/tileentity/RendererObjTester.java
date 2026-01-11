@@ -6,81 +6,30 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.HorsePronter;
-import com.hbm.wiaj.WorldInAJar;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 
-	private static RenderBlocks renderer;
-	private static WorldInAJar world;
-	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png");
+	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/sunburst.png");
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y + 1, z + 0.5);
+		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		
-		if(world == null) {
-			world = new WorldInAJar(5, 3, 5);
-			for(int i = 0; i < 25; i++) world.setBlock(i / 5, 1, i % 5, Blocks.brick_block, 0);
-			for(int i = 0; i < 9; i++) world.setBlock(1 + i / 3, 0, 1 + i % 3, Blocks.brick_block, 0);
-		}
-		
-		if(renderer == null) {
-			renderer = new RenderBlocks(world);
-		}
-		renderer.enableAO = true;
-		world.lightlevel = tileEntity.getWorldObj().getLightBrightnessForSkyBlocks(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, 0);
-
-		RenderHelper.disableStandardItemLighting();
-		
-		GL11.glPushMatrix();
-		GL11.glRotated(15, 0, 0, 1);
-		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
-		GL11.glTranslated(-2.5, 0, -2.5);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Tessellator.instance.startDrawingQuads();
-		
-		for(int ix = 0; ix < world.sizeX; ix++) {
-			for(int iy = 0; iy < world.sizeY; iy++) {
-				for(int iz = 0; iz < world.sizeZ; iz++) {
-					try { renderer.renderBlockByRenderType(world.getBlock(ix, iy, iz), ix, iy, iz); } catch(Exception ex) { }
-				}
-			}
-		}
-		
-		Tessellator.instance.draw();
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glPopMatrix();
 
 		RenderHelper.enableStandardItemLighting();
-
-		GL11.glRotated(15, 0, 0, 1);
-		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
-		
-		GL11.glTranslated(0, 2.1, 0.5);
 		
 		this.bindTexture(extra);
 		HorsePronter.reset();
-		double r = 60;
+		/*double r = 60;
 		HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
 		HorsePronter.pose(HorsePronter.id_tail, 0, 45, 90);
 		HorsePronter.pose(HorsePronter.id_lbl, 0, -90 + r, 35);
@@ -88,19 +37,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		HorsePronter.pose(HorsePronter.id_lfl, 0, r - 10, 5);
 		HorsePronter.pose(HorsePronter.id_rfl, 0, r - 10, -5);
 		HorsePronter.pose(HorsePronter.id_head, 0, r, 0);
+		HorsePronter.enableWings();*/
 		HorsePronter.enableHorn();
-		HorsePronter.enableWings();
 		HorsePronter.pront();
-		
-		ItemStack stack = new ItemStack(ModItems.cigarette);
-		double scale = 0.25;
-		GL11.glTranslated(0.02, 1.13, -0.42);
-		GL11.glScaled(scale, scale, scale);
-		GL11.glRotated(90, 0, -1, 0);
-		GL11.glRotated(60, 0, 0, -1);
-		bindTexture(TextureMap.locationItemsTexture);
-		IIcon icon = stack.getIconIndex();
-		ItemRenderer.renderItemIn2D(Tessellator.instance, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 		
 		GL11.glPopMatrix();
 	}

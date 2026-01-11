@@ -26,6 +26,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
+import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.util.Tuple.Pair;
 
@@ -751,7 +752,7 @@ public class AnvilRecipes extends SerializableRecipe {
 					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
 					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 2)),
 					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
-					new AnvilOutput(new ItemStack(ModItems.battery_sc_uranium, 1), 0.1F),
+					new AnvilOutput(new ItemStack(ModItems.battery_sc, 1, EnumBatterySC.RA226.ordinal()), 0.1F),
 					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.05F)
 
 				}
