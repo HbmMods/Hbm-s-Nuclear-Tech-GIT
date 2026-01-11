@@ -7,6 +7,7 @@
 
 # Yes this is a mostly untouched Github actions template
 
+
 name: Java CI with Gradle
 
 on:
@@ -16,18 +17,35 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 8
       uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin' # Temurin because it's default :P
+
+    # Calculate days since 10/10/10
+    - name: Calculate days since 10/10/10
+      id: calculate_days
+      run: |
+        start_date="2010-10-10"
+        current_date=$(date +%Y-%m-%d)
+        days_since=$(( ($(date -d "$current_date" +%s) - $(date -d "$start_date" +%s)) / 86400 ))
+        echo "days=$days_since" >> $GITHUB_OUTPUT
+
+    # Update version files with proper sed syntax
+    - name: Update version files
+      run: |
+        days=${{ steps.calculate_days.outputs.days }}
+        # Use proper sed syntax for Linux runners
+        sed -i "s/public static final String VERSION = \".*\";/public static final String VERSION = \"1.0.27 BETA ($days)\";/" src/main/java/com/hbm/lib/RefStrings.java
+        sed -i "s/mod_build_number=.*/mod_build_number=$days/" gradle.properties
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
@@ -42,5 +60,3 @@ jobs:
       with:
         # A file, directory or wildcard pattern that describes what to upload
         path: ./build/libs
-          
-    
