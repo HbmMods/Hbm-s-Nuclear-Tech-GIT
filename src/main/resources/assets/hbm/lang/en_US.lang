@@ -5069,10 +5069,15 @@ stat.ntmBullets=Rounds Fired
 stat.ntmLegendary=Legendary Items Created
 stat.ntmMines=Mines Stepped on
 
-tile.absorber.name=Radiation Absorber
-tile.absorber_green.name=Advanced Radiation Absorber
-tile.absorber_pink.name=Elite Radiation Absorber
-tile.absorber_red.name=Enhanced Radiation Absorber
+tile.absorber.name=Radiation Absorber (LEGACY)
+tile.absorber_green.name=Advanced Radiation Absorber (LEGACY)
+tile.absorber_pink.name=Elite Radiation Absorber (LEGACY)
+tile.absorber_red.name=Enhanced Radiation Absorber (LEGACY)
+
+tile.rad_absorber.base.name=Radiation Absorber
+tile.rad_absorber.green.name=Advanced Radiation Absorber
+tile.rad_absorber.pink.name=Elite Radiation Absorber
+tile.rad_absorber.red.name=Enhanced Radiation Absorber
 tile.acid_block.name=Acid
 tile.ams_base.name=AMS Base (Deco)
 tile.ams_emitter.name=AMS Emitter (Deco)
