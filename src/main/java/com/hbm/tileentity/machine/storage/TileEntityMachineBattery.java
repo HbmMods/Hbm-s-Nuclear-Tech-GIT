@@ -129,7 +129,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		nbt.setShort("redHigh", redHigh);
 		nbt.setByte("lastRedstone", lastRedstone);
 		nbt.setByte("priority", (byte)this.priority.ordinal());
-		
+
 		if (customName != null) {
 			nbt.setString("name", customName);
 		}
@@ -320,7 +320,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
-		return "ntm_energy_storage"; //ok if someone else can figure out how to do this that'd be nice (change the component name based on the type of storage block)
+		return "ntm_energy_storage_legacy";
 	}
 
 	@Callback(direct = true)
@@ -396,10 +396,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
+
 		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length > 0) {
 			int mode = IRORInteractive.parseInt(params[0], 0, 3);
-			
+
 			if(mode != this.redLow) {
 				this.redLow = (short) mode;
 				this.markChanged();
@@ -412,10 +412,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 			return null;
 		}
-		
+
 		if((PREFIX_FUNCTION + "setredmode").equals(name) && params.length > 0) {
 			int mode = IRORInteractive.parseInt(params[0], 0, 3);
-			
+
 			if(mode != this.redHigh) {
 				this.redHigh = (short) mode;
 				this.markChanged();
@@ -428,7 +428,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 			return null;
 		}
-		
+
 		if((PREFIX_FUNCTION + "setpriority").equals(name) && params.length > 0) {
 			int priority = IRORInteractive.parseInt(params[0], 0, 2) + 1;
 			ConnectionPriority p = EnumUtil.grabEnumSafely(ConnectionPriority.class, priority);

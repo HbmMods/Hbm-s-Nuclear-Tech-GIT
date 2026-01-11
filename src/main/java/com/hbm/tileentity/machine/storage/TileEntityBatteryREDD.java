@@ -11,7 +11,11 @@ import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,28 +30,28 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 
 	public BigInteger[] log = new BigInteger[20];
 	public BigInteger delta = BigInteger.valueOf(0);
-	
+
 	public BigInteger power = BigInteger.valueOf(0);
-	
+
 	private AudioWrapper audio;
 
 	public TileEntityBatteryREDD() {
 		super(2);
 	}
-	
+
 	@Override public String getName() { return "container.batteryREDD"; }
 
 	@Override
 	public void updateEntity() {
 		BigInteger prevPower = new BigInteger(power.toByteArray());
-		
+
 		super.updateEntity();
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			long toAdd = Library.chargeTEFromItems(slots, 0, 0, this.getMaxPower());
 			if(toAdd > 0) this.power = this.power.add(BigInteger.valueOf(toAdd));
-			
+
 			long toRemove = this.getPower() - Library.chargeItemsFromTE(slots, 1, this.getPower(), this.getMaxPower());
 			if(toRemove > 0)this.power = this.power.subtract(BigInteger.valueOf(toRemove));
 
@@ -60,16 +64,16 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 			}
 
 			this.log[19] = avg;
-			
+
 		} else  {
 			this.prevRotation = this.rotation;
 			this.rotation += this.getSpeed();
-			
+
 			if(rotation >= 360) {
 				rotation -= 360;
 				prevRotation -= 360;
 			}
-			
+
 			float pitch = 0.5F + this.getSpeed() / 15F * 1.5F;
 
 			if(this.prevRotation != this.rotation && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 5.5, zCoord + 0.5) < 30 * 30) {
@@ -77,11 +81,11 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 					this.audio = MainRegistry.proxy.getLoopedSound("hbm:block.fensuHum", xCoord, yCoord, zCoord, this.getVolume(1.5F), 25F, pitch, 5);
 					this.audio.startSound();
 				}
-				
+
 				this.audio.updateVolume(this.getVolume(1.5F));
 				this.audio.updatePitch(pitch);
 				this.audio.keepAlive();
-				
+
 			} else {
 				if(this.audio != null) {
 					this.audio.stopSound();
@@ -90,7 +94,7 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 			}
 		}
 	}
-	
+
 	public float getSpeed() {
 		return (float) Math.min(Math.pow(Math.log(this.power.doubleValue() * 0.05 + 1) * 0.05F, 5), 15F);
 	}
@@ -142,7 +146,7 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.power = new BigInteger(nbt.getByteArray("power"));
 
 	}
@@ -150,7 +154,7 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setByteArray("power", this.power.toByteArray());
 	}
 
@@ -186,7 +190,7 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 	public void usePower(long power) {
 		this.power = this.power.subtract(BigInteger.valueOf(power));
 	}
-	
+
 	@Override
 	public long transferPower(long power) {
 		this.power = this.power.add(BigInteger.valueOf(power));
@@ -199,12 +203,12 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerBatteryREDD(player.inventory, this); }
 	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIBatteryREDD(player.inventory, this); }
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 4,
@@ -215,10 +219,50 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 					zCoord + 5
 					);
 		}
-		
+
 		return bb;
 	}
 
+	// do some opencomputer stuff
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {this.power.doubleValue(), this.delta.longValue()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {this.power.doubleValue(), this.delta.longValue(), redLow, redHigh, getPriority().ordinal()-1};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getEnergyInfo",
+			"getModeInfo",
+			"setModeLow",
+			"setModeHigh",
+			"setPriority",
+			"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getEnergyInfo": return getEnergyInfo(context, args);
+			case "getModeInfo": return getModeInfo(context, args);
+			case "setModeLow": return setModeLow(context, args);
+			case "setModeHigh": return setModeHigh(context, args);
+			case "setPriority": return setPriority(context, args);
+			case "getInfo": return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
+  }
+  
 	@Override
 	public void writeNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = new NBTTagCompound();
