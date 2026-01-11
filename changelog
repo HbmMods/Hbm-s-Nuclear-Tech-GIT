@@ -26,3 +26,4 @@
 * Fixed JSON gun reload animations becoming faster and faster with the trenchmaster set
 * Fixed heat transfer rate labels on the boilers and coker unit being off by a magnitude of 10
 * Fixed crucible not having a heat transfer rate tooltip
+* Fixed certain heliostat mirror rotations not showing the mirror

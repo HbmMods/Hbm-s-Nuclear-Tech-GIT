@@ -66,17 +66,15 @@ public class RenderMirror implements ISimpleBlockRenderingHandler {
 		GroupObject go = null;
 
 		for(GroupObject obj : ((WavefrontObject)ResourceManager.solar_mirror).groupObjects) {
-			if(obj.name.equals("Mirror"))
-				go = obj;
+			if(obj.name.equals("Mirror")) go = obj;
 		}
 
-		if(go == null)
-			return;
+		if(go == null) return;
 		
 		Tessellator tes = Tessellator.instance;
 
 		double dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-		double pitch = -Math.asin((dy + 0.5) / dist) + Math.PI / 2D;
+		double pitch = -Math.asin(dy / dist) + Math.PI / 2D;
 		double yaw = -Math.atan2(dz, dx) - Math.PI / 2D;
 
 		for(Face f : go.faces) {
