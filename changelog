@@ -12,6 +12,9 @@
   * New selfchargers have a model when plugged into a battery socket
   * Selfchargers are a fair bit weaker than their old counterparts, but substantially cheaper too
 * Old batteries now have the "LEGACY" tag
+* Pneumatic pipe networks with multiple outputs, especially filtered ones, should now have much better throughput due to not constantly failing to send items in round robin mode
+* The [N] calculator window now shows a history of previous operations
+* Simplified the cyclotron recipe
 
 ## Fixed
 * Fixed the FEnSU, cyclotron and reliant robin missile being uncraftable due to stacksize limitations
@@ -27,3 +30,4 @@
 * Fixed heat transfer rate labels on the boilers and coker unit being off by a magnitude of 10
 * Fixed crucible not having a heat transfer rate tooltip
 * Fixed certain heliostat mirror rotations not showing the mirror
+* Fixed chopper recipe creating eight choppers instead of one
