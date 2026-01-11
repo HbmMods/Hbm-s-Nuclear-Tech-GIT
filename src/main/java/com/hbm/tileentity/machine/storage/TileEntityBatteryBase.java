@@ -5,6 +5,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.UniNodespace;
+import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -26,6 +27,7 @@ import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
@@ -74,7 +76,13 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 			}
 
 			byte comp = this.getComparatorPower();
-			if(comp != this.lastRedstone) this.markDirty();
+			if(comp != this.lastRedstone) {
+				System.out.println(comp);
+				for(BlockPos port : this.getPortPos()) {
+					TileEntity tile = Compat.getTileStandard(worldObj, port.getX(), port.getY(), port.getZ());
+					if(tile != null) tile.markDirty();
+				}
+			}
 			this.lastRedstone = comp;
 
 			prevPowerState = this.getPower();
@@ -84,8 +92,8 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 	}
 
 	public byte getComparatorPower() {
-		double frac = (double) this.getPower() / (double) this.getMaxPower() * 15D;
-		return (byte) (MathHelper.clamp_int((int) frac + 1, 0, 15)); //to combat eventual rounding errors with the FEnSU's stupid maxPower
+		double frac = (double) this.getPower() / (double) Math.max(this.getMaxPower(), 1) * 15D;
+		return (byte) (MathHelper.clamp_int((int) Math.round(frac), 0, 15)); //to combat eventual rounding errors with the FEnSU's stupid maxPower
 	}
 
 	@Override

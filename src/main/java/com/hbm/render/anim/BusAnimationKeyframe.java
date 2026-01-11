@@ -58,6 +58,7 @@ public class BusAnimationKeyframe {
 	public double value;
 	public IType interpolationType;
 	public EType easingType;
+	public int originalDuration;
 	public int duration;
 
 	// bezier handles
@@ -78,7 +79,7 @@ public class BusAnimationKeyframe {
 	// this one can be used for "reset" type keyframes
 	public BusAnimationKeyframe() {
 		this.value = 0;
-		this.duration = 1;
+		this.originalDuration = this.duration = 1;
 		this.interpolationType = IType.LINEAR;
 		this.easingType = EType.AUTO;
 	}
@@ -86,7 +87,7 @@ public class BusAnimationKeyframe {
 	public BusAnimationKeyframe(double value, int duration) {
 		this();
 		this.value = value;
-		this.duration = (int) (duration / Math.max(0.001D, ClientConfig.GUN_ANIMATION_SPEED.get()));
+		this.originalDuration = this.duration = (int) (duration / Math.max(0.001D, ClientConfig.GUN_ANIMATION_SPEED.get()));
 	}
 
 	public BusAnimationKeyframe(double value, int duration, IType interpolation) {

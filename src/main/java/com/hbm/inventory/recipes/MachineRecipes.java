@@ -7,6 +7,7 @@ import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
+import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
 import com.hbm.util.Tuple.Triplet;
 
 import net.minecraft.init.Blocks;
@@ -52,14 +53,8 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.fusion_core));
 		fuels.add(new ItemStack(ModItems.energy_core));
 		for(EnumBatteryPack num : EnumBatteryPack.values()) fuels.add(new ItemStack(ModItems.battery_pack, 1, num.ordinal()));
+		for(EnumBatterySC num : EnumBatterySC.values()) fuels.add(new ItemStack(ModItems.battery_sc, 1, num.ordinal()));
 		fuels.add(new ItemStack(ModItems.battery_creative));
-		fuels.add(new ItemStack(ModItems.battery_sc_uranium));
-		fuels.add(new ItemStack(ModItems.battery_sc_technetium));
-		fuels.add(new ItemStack(ModItems.battery_sc_plutonium));
-		fuels.add(new ItemStack(ModItems.battery_sc_polonium));
-		fuels.add(new ItemStack(ModItems.battery_sc_gold));
-		fuels.add(new ItemStack(ModItems.battery_sc_lead));
-		fuels.add(new ItemStack(ModItems.battery_sc_americium));
 		return fuels;
 	}
 

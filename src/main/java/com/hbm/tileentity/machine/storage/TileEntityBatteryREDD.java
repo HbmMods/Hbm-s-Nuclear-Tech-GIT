@@ -7,6 +7,7 @@ import com.hbm.inventory.gui.GUIBatteryREDD;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -22,7 +23,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBatteryREDD extends TileEntityBatteryBase {
+public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPersistentNBT {
 
 	public float prevRotation = 0F;
 	public float rotation = 0F;
@@ -155,7 +156,6 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase {
 		super.writeToNBT(nbt);
 
 		nbt.setByteArray("power", this.power.toByteArray());
-
 	}
 
 	@Override
@@ -261,5 +261,20 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase {
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+  }
+  
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setByteArray("power", this.power.toByteArray());
+		data.setBoolean("muffled", muffled);
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
+		this.power = new BigInteger(data.getByteArray("power"));
+		this.muffled = data.getBoolean("muffled");
 	}
 }

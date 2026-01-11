@@ -1,20 +1,24 @@
 package com.hbm.blocks.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.storage.TileEntityBatterySocket;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineBatterySocket extends BlockDummyable implements ITooltipProvider {
+public class MachineBatterySocket extends BlockDummyable implements ITooltipProvider, ILookOverlay {
 
 	public MachineBatterySocket() {
 		super(Material.iron);
@@ -48,5 +52,44 @@ public class MachineBatterySocket extends BlockDummyable implements ITooltipProv
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		addStandardInfo(stack, player, list, ext);
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		if(world.getBlockMetadata(x, y, z) < 6) return 0;
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return 0;
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityBatterySocket)) return 0;
+		
+		TileEntityBatterySocket battery = (TileEntityBatterySocket) te;
+		return battery.getComparatorPower();
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return;
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityBatterySocket)) return;
+		TileEntityBatterySocket socket = (TileEntityBatterySocket) te;
+		if(socket.syncStack == null) return;
+		
+		List<String> text = new ArrayList();
+		text.add(BobMathUtil.getShortNumber(socket.powerFromStack(socket.syncStack)) + " / " + BobMathUtil.getShortNumber(socket.maxPowerFromStack(socket.syncStack)) + "HE");
+		
+		double percent = (double) socket.powerFromStack(socket.syncStack) / (double) socket.maxPowerFromStack(socket.syncStack);
+		int charge = (int) Math.floor(percent * 10_000D);
+		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
+		
+		text.add("&[" + color + "&]" + (charge / 100D) + "%");
+		
+		ILookOverlay.printGeneric(event, socket.syncStack.getDisplayName(), 0xffff00, 0x404000, text);
 	}
 }
