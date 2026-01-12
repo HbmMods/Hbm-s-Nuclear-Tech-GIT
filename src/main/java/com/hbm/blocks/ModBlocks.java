@@ -2342,7 +2342,7 @@ public class ModBlocks {
 		rad_absorber = new BlockAbsorber(Material.iron).setBlockName("rad_absorber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		decon = new BlockDecon(Material.iron).setBlockName("decon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":decon_side");
 
-		if (Loader.isModLoaded("OpenComputers")) {
+		if(Loader.isModLoaded("OpenComputers")) {
 			oc_cable_paintable = new BlockOpenComputersCablePaintable().setBlockName("oc_cable_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		}
 
@@ -3612,15 +3612,15 @@ public class ModBlocks {
 	}
 
 	// Is this block a special structure handling block, so we can ignore it for blacklist selection, etc.
-    public static boolean isStructureBlock(Block block, boolean includeAir) {
-        if(block == null) return false;
-        if(block == wand_air) return includeAir;
+	public static boolean isStructureBlock(Block block, boolean includeAir) {
+		if(block == null) return false;
+		if(block == wand_air) return includeAir;
 		if(block == wand_structure) return true;
-        if(block == wand_jigsaw) return true;
-        if(block == wand_logic) return true;
-        if(block == wand_tandem) return true;
-        if(block == wand_loot) return true;
-        return false;
-    }
+		if(block == wand_jigsaw) return true;
+		if(block == wand_logic) return true;
+		if(block == wand_tandem) return true;
+		if(block == wand_loot) return true;
+		return false;
+	}
 
 }

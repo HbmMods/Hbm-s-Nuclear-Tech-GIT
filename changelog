@@ -1,33 +1,4 @@
 ## Changed
-* Material autogen now creates redstone in ingot form, allowing smaller than block quantities to be cast
-* Removed the ancient ZPE blocks
-* Drone hitboxes are now way smaller, which should cause them to get stuck when flying less
-* The new FENSU now keeps its charge and installed muffler when broken
-* Battery sockets are now compatible with comparator output
-* Battery sockets now have a tooltip when a battery pack is installed
-* Sef-charging batteries have been reworked
-  * They are now a new item with metadata (legacy ones still work)
-  * The base form is an empty selfcharger which is filled with two billets of material, i.e. no more upgrade recipes
-  * There are a few new variants like cobalt-60 and gold-198
-  * New selfchargers have a model when plugged into a battery socket
-  * Selfchargers are a fair bit weaker than their old counterparts, but substantially cheaper too
-* Old batteries now have the "LEGACY" tag
-* Pneumatic pipe networks with multiple outputs, especially filtered ones, should now have much better throughput due to not constantly failing to send items in round robin mode
-* The [N] calculator window now shows a history of previous operations
-* Simplified the cyclotron recipe
-
-## Fixed
-* Fixed the FEnSU, cyclotron and reliant robin missile being uncraftable due to stacksize limitations
-  * The system for detecting impossible recipe has been improved, instead of a fixed 64 item limit, it now uses the actual limit of the item (or 64 for ore dictionary inputs)
-* Fixed yet another issue regarding addon fluids breaking on recipe reload
-* Fixed YET ANOTHER issue regarding crates, AGAIN
-* Fixed a rare issue where the fusion reactor could have negative fuel
-* Fixed battery socket priority tooltip offset
-* Fixed enchantability on many armor sets being incorrect
-  * Most power armors are intended to not be enchantable at all
-* Fixed crash caused by the balefire bomb
-* Fixed JSON gun reload animations becoming faster and faster with the trenchmaster set
-* Fixed heat transfer rate labels on the boilers and coker unit being off by a magnitude of 10
-* Fixed crucible not having a heat transfer rate tooltip
-* Fixed certain heliostat mirror rotations not showing the mirror
-* Fixed chopper recipe creating eight choppers instead of one
+* Rad absorbers now use metadata, existing blocks will be converted automatically
+* Fissure bombs that go off in crater biomes now create fissures with metadata 1 which creates radioactive volcanic lava
+  * If a crater biome is created on top of an existing fissue, it will keep producing normal volcanic lava
