@@ -3858,10 +3858,15 @@ stat.ntmBullets=Schüsse gefeuert
 stat.ntmLegendary=Legendäre Gegenstände hergestellt
 stat.ntmMines=Auf Minen getreten
 
-tile.absorber.name=Strahlungs-Absorber
-tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
-tile.absorber_pink.name=Elite Strahlungs-Absorber
-tile.absorber_red.name=Verbesserter Strahlungs-Absorber
+tile.absorber.name=Strahlungs-Absorber OLD
+tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber OLD
+tile.absorber_pink.name=Elite Strahlungs-Absorber OLD
+tile.absorber_red.name=Verbesserter Strahlungs-Absorber OLD
+
+tile.rad_absorber.base.name=Strahlungs-Absorber
+tile.rad_absorber.red.name=Fortgeschrittener Strahlungs-Absorber
+tile.rad_absorber.green.name=Elite Strahlungs-Absorber
+tile.rad_absorber.pink.name=Verbesserter Strahlungs-Absorber
 tile.acid_block.name=Säure
 tile.ams_base.name=AMS-Basis (Deko)
 tile.ams_emitter.name=AMS-Emitter (Deko)

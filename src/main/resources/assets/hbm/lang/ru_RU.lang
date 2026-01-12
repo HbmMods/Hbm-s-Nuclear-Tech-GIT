@@ -5334,10 +5334,15 @@ stat.ntmBullets=Сделано выстрелов
 stat.ntmLegendary=Создано легендарных предметов
 stat.ntmMines=Подрывов на минах
 
-tile.absorber.name=Поглотитель радиации
-tile.absorber_green.name=Усовершенствованный поглотитель радиации
-tile.absorber_pink.name=Элитный поглотитель радиации
-tile.absorber_red.name=Продвинутый поглотитель радиации
+tile.absorber.name=Поглотитель радиации OLD
+tile.absorber_green.name=Усовершенствованный поглотитель радиации OLD
+tile.absorber_pink.name=Элитный поглотитель радиации OLD
+tile.absorber_red.name=Продвинутый поглотитель радиации OLD
+
+tile.rad_absorber.base.name=Поглотитель радиации
+tile.rad_absorber.red.name=Усовершенствованный поглотитель радиации
+tile.rad_absorber.green.name=Элитный поглотитель радиации
+tile.rad_absorber.pink.name=Продвинутый поглотитель радиации
 tile.acid_block.name=Кислота
 tile.ams_base.name=Основание АМС [Декор]
 tile.ams_emitter.name=Излучатель АМС [Декор]
