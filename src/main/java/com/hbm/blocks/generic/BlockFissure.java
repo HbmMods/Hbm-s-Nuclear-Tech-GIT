@@ -55,7 +55,8 @@ public class BlockFissure extends BlockContainer implements IBlockMultiPass {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z)) world.setBlock(x, y + 1, z, ModBlocks.volcanic_lava_block);
+		boolean crater = world.getBlockMetadata(x, y, z) != 0;
+		if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z)) world.setBlock(x, y + 1, z, crater ? ModBlocks.rad_lava_block : ModBlocks.volcanic_lava_block);
 	}
 	
 	@Override

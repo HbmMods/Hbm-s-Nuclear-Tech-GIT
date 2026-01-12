@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,6 +17,8 @@ public class BlockFissureBomb extends BlockTNTBase {
 		
 		int range = 5;
 		
+		boolean crater = world.getBiomeGenForCoords((int) Math.floor(x), (int) Math.floor(z)) instanceof BiomeGenCraterBase;
+		
 		for(int i = -range; i <= range; i++) {
 			for(int j = -range; j <= range; j++) {
 				for(int k = -range; k <= range; k++) {
@@ -27,7 +30,7 @@ public class BlockFissureBomb extends BlockTNTBase {
 					Block block = world.getBlock(a, b, c);
 					
 					if(block == ModBlocks.ore_bedrock) {
-						world.setBlock(a, b, c, ModBlocks.ore_volcano);
+						world.setBlock(a, b, c, ModBlocks.ore_volcano, crater ? 1 : 0, 3);
 					} else if(block == ModBlocks.ore_bedrock_oil) {
 						world.setBlock(a, b, c, Blocks.bedrock);
 					}
