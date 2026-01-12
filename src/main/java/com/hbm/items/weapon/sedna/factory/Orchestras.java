@@ -14,7 +14,9 @@ import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.MuzzleFlashPacket;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.helper.CasingCreator;
 import com.hbm.render.anim.HbmAnimations;
@@ -200,6 +202,7 @@ public class Orchestras {
 			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.openLatch", 1F, 1F);
 		}
 		if(type == GunAnimation.CYCLE) {
+			if(timer == 0) PacketDispatcher.wrapper.sendToAllAround(new MuzzleFlashPacket(entity), new TargetPoint(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 100));
 			if(timer == 2) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.55, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, -7.5F + (float)entity.getRNG().nextGaussian() * 5F, 12F + (float)entity.getRNG().nextGaussian() * 5F, casing.getName());
@@ -752,6 +755,7 @@ public class Orchestras {
 			if(timer == 0) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.5, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, (float)entity.getRNG().nextGaussian() * 5F, 12.5F + (float)entity.getRNG().nextFloat() * 5F, casing.getName());
+				PacketDispatcher.wrapper.sendToAllAround(new MuzzleFlashPacket(entity), new TargetPoint(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 100));
 			}
 		}
 		if(type == GunAnimation.CYCLE_DRY) {

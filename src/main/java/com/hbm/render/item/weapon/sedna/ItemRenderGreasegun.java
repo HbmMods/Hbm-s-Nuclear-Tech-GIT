@@ -143,13 +143,25 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(isRefurbished(stack) ? ResourceManager.greasegun_clean_tex : ResourceManager.greasegun_tex);
 		ResourceManager.greasegun.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0, 8);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean isRefurbished(ItemStack stack) {

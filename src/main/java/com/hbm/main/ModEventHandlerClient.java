@@ -1425,6 +1425,14 @@ public class ModEventHandlerClient {
 
 		if(event.phase == event.phase.END) {
 			ItemCustomLore.updateSystem();
+			
+			//prune other entities' muzzle flashes
+			long millis = System.currentTimeMillis();
+			if(event.world.getTotalWorldTime() % 30 == 0) {
+				Iterator itr = ItemRenderWeaponBase.flashMap.keySet().iterator();
+				//dead entities may have later insertion order than actively firing ones, so we be safe
+				ItemRenderWeaponBase.flashMap.values().removeIf(entry -> entry.longValue() - millis >= 100);
+			}
 		}
 	}
 

@@ -209,7 +209,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderEquipped(ItemStack stack) {
+	public void renderEquipped(ItemStack stack, Object... data) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.eott_tex);
@@ -268,7 +268,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
