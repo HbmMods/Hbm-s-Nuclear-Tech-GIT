@@ -49,13 +49,6 @@ public class BlockEnums {
 		GOLD,
 		SCHRABIDIUM
 	}
-
-	public static enum EnumAbsorberTier {
-		BASE,
-		RED,
-		GREEN,
-		PINK;
-	}
 	
 	/** DECO / STRUCTURE ENUMS */
 	//i apologize in advance

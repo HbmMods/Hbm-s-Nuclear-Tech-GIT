@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.blocks.BlockEnums.DecoCabinetEnum;
 import com.hbm.blocks.BlockEnums.LightstoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockAbsorber.EnumAbsorberTier;
 import com.hbm.blocks.generic.BlockConcreteColoredExt.EnumConcreteType;
 import com.hbm.blocks.generic.BlockGenericStairs;
 import com.hbm.blocks.generic.BlockMultiSlab;
@@ -643,11 +644,11 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.ammo_bag, 1), new Object[] { "LLL", "MGM", "LLL", 'L', Items.leather, 'G', WEAPONSTEEL.plate(), 'M', WEAPONSTEEL.mechanism() });
 		addRecipeAuto(new ItemStack(ModItems.ammo_bag, 1), new Object[] { "LLL", "MGM", "LLL", 'L', ANY_RUBBER.ingot(), 'G', WEAPONSTEEL.plate(), 'M', WEAPONSTEEL.mechanism() });
 
-		addRecipeAuto(new ItemStack(ModBlocks.absorber, 1), new Object[] { "ICI", "CPC", "ICI", 'I', CU.ingot(), 'C', COAL.dust(), 'P', PB.dust() });
-		addRecipeAuto(new ItemStack(ModBlocks.absorber_red, 1), new Object[] { "ICI", "CPC", "ICI", 'I', TI.ingot(), 'C', COAL.dust(), 'P', ModBlocks.absorber });
-		addRecipeAuto(new ItemStack(ModBlocks.absorber_green, 1), new Object[] { "ICI", "CPC", "ICI", 'I', ANY_PLASTIC.ingot(), 'C', ModItems.powder_desh_mix, 'P', ModBlocks.absorber_red });
-		addRecipeAuto(new ItemStack(ModBlocks.absorber_pink, 1), new Object[] { "ICI", "CPC", "ICI", 'I', BIGMT.ingot(), 'C', ModItems.powder_nitan_mix, 'P', ModBlocks.absorber_green });
-		addRecipeAuto(new ItemStack(ModBlocks.decon, 1), new Object[] { "BGB", "SAS", "BSB", 'B', BE.ingot(), 'G', Blocks.iron_bars, 'S', STEEL.ingot(), 'A', ModBlocks.absorber });
+		addRecipeAuto(new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.BASE.ordinal()),new Object[] { "ICI", "CPC", "ICI", 'I', CU.ingot(), 'C', COAL.dust(), 'P', PB.dust() });
+		addRecipeAuto(new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.RED.ordinal()),new Object[] { "ICI", "CPC", "ICI", 'I', TI.ingot(), 'C', COAL.dust(),'P', new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.BASE.ordinal()) });
+		addRecipeAuto(new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.GREEN.ordinal()),new Object[] { "ICI", "CPC", "ICI", 'I', ANY_PLASTIC.ingot(), 'C', ModItems.powder_desh_mix,'P', new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.RED.ordinal()) });
+		addRecipeAuto(new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.PINK.ordinal()), new Object[] { "ICI", "CPC", "ICI", 'I', BIGMT.ingot(), 'C', ModItems.powder_nitan_mix,'P', new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.GREEN.ordinal()) });
+		addRecipeAuto(new ItemStack(ModBlocks.decon, 1), new Object[] { "BGB", "SAS", "BSB", 'B', BE.ingot(), 'G', Blocks.iron_bars, 'S', STEEL.ingot(), 'A', new ItemStack(ModBlocks.rad_absorber, 1, EnumAbsorberTier.BASE.ordinal()) });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_minirtg, 1), new Object[] { "LLL", "PPP", "TRT", 'L', PB.plate(), 'P', PU238.billet(), 'T', ModItems.thermo_element, 'R', ModItems.rtg_unit });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_powerrtg, 1), new Object[] { "SRS", "PTP", "SRS", 'S', STAR.ingot(), 'R', ModItems.rtg_unit, 'P', PO210.billet(), 'T', TS.dust() });
 
