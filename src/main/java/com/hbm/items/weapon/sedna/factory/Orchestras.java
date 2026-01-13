@@ -826,7 +826,7 @@ public class Orchestras {
 				//stop sound due to timeout
 				if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
 			}
-			return; //TODO check if this fucks anything
+			return;
 		}
 		if(type == GunAnimation.CYCLE) {
 			if(timer == 0) PacketDispatcher.wrapper.sendToAllAround(new MuzzleFlashPacket(entity), new TargetPoint(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 100));
