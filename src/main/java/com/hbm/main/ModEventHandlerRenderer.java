@@ -279,10 +279,10 @@ public class ModEventHandlerRenderer {
 				if(renderWeapon.isLeftHanded()) {
 					GL11.glTranslatef(0.1875F, 0F, 0.0F);
 					renderWeapon.setupThirdPerson(held);
-					renderWeapon.renderEquippedAkimbo(held);
+					renderWeapon.renderEquippedAkimbo(held, player);
 				} else {
 					renderWeapon.setupThirdPersonAkimbo(held);
-					renderWeapon.renderEquippedAkimbo(held);
+					renderWeapon.renderEquippedAkimbo(held, player);
 				}
 				GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 				GL11.glPopMatrix();

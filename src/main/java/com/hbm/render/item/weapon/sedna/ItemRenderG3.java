@@ -9,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -180,7 +181,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		boolean silenced = hasSilencer(stack);
@@ -209,6 +210,28 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 			if(isScoped) ResourceManager.g3.renderPart("Scope");
 		}
 		GL11.glShadeModel(GL11.GL_FLAT);
+		//third-person muzzle flashes
+		if(type == ItemRenderType.EQUIPPED && !silenced) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0, 12);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(-25 + shotRand * 10, 1, 0, 0);
+			GL11.glScaled(0.75, 0.75, 0.75);
+			this.renderMuzzleFlash(shot, 75, 10);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean hasStock(ItemStack stack) {
