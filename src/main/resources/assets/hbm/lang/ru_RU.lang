@@ -1,4 +1,4 @@
-chievement.acidizer.desc=уфф ай моя кожа
+achievement.acidizer.desc=уфф ай моя кожа
 achievement.acidizer=Кислюка
 achievement.assembly.desc=Погоди-ка, уже час ночи?
 achievement.assembly=Завод расширяется
@@ -6818,6 +6818,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
