@@ -932,7 +932,7 @@ public class ModEventHandlerClient {
 				Iterator itr = ItemRenderWeaponBase.flashMap.keySet().iterator();
 				long millis = System.currentTimeMillis();
 				//dead entities may have later insertion order than actively firing ones, so we be safe
-				ItemRenderWeaponBase.flashMap.values().removeIf(entry -> millis - entry.longValue() >= 100);
+				ItemRenderWeaponBase.flashMap.values().removeIf(entry -> millis - entry.longValue() >= 150);
 			}
 		}
 
