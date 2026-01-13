@@ -65,7 +65,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	}
 	//entitylivingbase is second Object passed
 	public void renderEquipped(ItemStack stack, Object... data) { renderOther(stack, ItemRenderType.EQUIPPED, data); }
-	public void renderEquippedAkimbo(ItemStack stack) { renderOther(stack, ItemRenderType.EQUIPPED); }
+	public void renderEquippedAkimbo(ItemStack stack, EntityLivingBase entity) { renderOther(stack, ItemRenderType.EQUIPPED); }
 	public void renderInv(ItemStack stack) { renderOther(stack, ItemRenderType.INVENTORY); }
 	public void renderEntity(ItemStack stack) { renderOther(stack, ItemRenderType.ENTITY); }
 
@@ -399,6 +399,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		if(System.currentTimeMillis() - lastShot < flash) {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glPushMatrix();
 			
 			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
@@ -437,6 +438,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			tess.draw();
 			GL11.glPopMatrix();
 			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glEnable(GL11.GL_CULL_FACE);
 		}
 	}
 	
@@ -447,6 +449,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			GL11.glDepthMask(false);
+			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glPushMatrix();
 			
 			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
@@ -469,6 +472,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			GL11.glPopMatrix();
 			GL11.glDepthMask(true);
 			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glEnable(GL11.GL_CULL_FACE);
 		}
 	}
 }
