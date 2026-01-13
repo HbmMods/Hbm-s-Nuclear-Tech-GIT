@@ -725,7 +725,7 @@ container.barrel=Бочка
 container.bat9000=Охереть-большая цистерна 9000
 container.battery=Энергохранилище
 container.batteryREDD=ЭМЭХ
-container.batterySocket=Аккумуляторный массив
+container.batterySocket=Блок батарей
 container.bombMulti=Многоцелевая бомба
 container.casingBag=Сумка для гильз
 container.catalyticReformer=Каталитический реформер
@@ -2249,21 +2249,21 @@ item.battery_potatos.name=КартошкОС
 item.battery_red_cell.name=Энергоячейка из красной пыли (LEGACY)
 item.battery_red_cell_24.name=Двадцатичетырёхкратный массив из краснопыльных энергоячеек (LEGACY)
 item.battery_red_cell_6.name=Сшестёренная энергоячейка из красной пыли (LEGACY)
-item.battery_sc.am241.name=Самозаряжающаяся батарея Америций-241
-item.battery_sc.au198.name=Самозаряжающаяся батарея Золото-198
-item.battery_sc.co60.name=Самозаряжающаяся батарея Кобальт-60
-item.battery_sc.pb209.name=Самозаряжающаяся батарея Свинец-209
-item.battery_sc.po210.name=Самозаряжающаяся батарея Полоний-210
-item.battery_sc.pu238.name=Самозаряжающаяся батарея Плутоний-238
-item.battery_sc.ra226.name=Самозаряжающаяся батарея Радий-226
-item.battery_sc.tc99.name=Самозаряжающаяся батарея Технеций-99
-item.battery_sc.empty.name=Самозаряжающаяся батарея пустая
-item.battery_sc.waste.name=Самозаряжающаяся батарея отработаного топлива
+item.battery_sc.am241.name=Самозаряжающаяся батарея (Америций-241)
+item.battery_sc.au198.name=Самозаряжающаяся батарея (Золото-198)
+item.battery_sc.co60.name=Самозаряжающаяся батарея (Кобальт-60)
+item.battery_sc.pb209.name=Самозаряжающаяся батарея (Свинец-209)
+item.battery_sc.po210.name=Самозаряжающаяся батарея (Полоний-210)
+item.battery_sc.pu238.name=Самозаряжающаяся батарея (Плутоний-238)
+item.battery_sc.ra226.name=Самозаряжающаяся батарея (Радий-226)
+item.battery_sc.tc99.name=Самозаряжающаяся батарея (Технеций-99)
+item.battery_sc.empty.name=Самозаряжающаяся батарея (Пустая)
+item.battery_sc.waste.name=Самозаряжающаяся батарея (Отработанное топливо)
 item.battery_schrabidium.name=Шрабидиевая батарея (LEGACY)
 item.battery_schrabidium_cell.name=Шрабидиевая энергоячейка (LEGACY)
 item.battery_schrabidium_cell_2.name=Сдвоенная шрабидиевая энергоячейка (LEGACY)
 item.battery_schrabidium_cell_4.name=Счетверённая шрабидиевая энергоячейка (LEGACY)
-item.battery_spark.name=Спарк-батарея (LEGACY)
+item.battery_spark.name=Спарк-батарея
 item.battery_spark_cell_100.name=Спарк-Магический массив хранения энергии (LEGACY)
 item.battery_spark_cell_1000.name=Спарк-Магическая масс-энергетическая пустота (LEGACY)
 item.battery_spark_cell_10000.name=Устойчивый пространственно-временной спарк-кристалл (LEGACY)
@@ -6017,7 +6017,7 @@ tile.machine_bat9000.name=Охереть-большая цистерна 9000
 tile.machine_battery.name=Энергохранилище (LEGACY)
 tile.machine_battery_potato.name=Картофельная батарея (LEGACY)
 tile.machine_battery_redd.name=ЭМЭХ
-tile.machine_battery_socket.name=Аккумуляторный массив
+tile.machine_battery_socket.name=Блок батарей
 tile.machine_battery_socket.desc=Позволяет подключать аккумуляторы$напрямую к энергосети.$Выступает в качестве кабеля, все порты$подключены к одной сети.
 tile.machine_boiler.name=Бойлер
 tile.machine_boiler.desc=Большой бойлер для кипячения воды или нагрева нефти.$Требует внешний источник тепла.$Скорость передачи тепла: ΔT*0.1 TU/t
@@ -6817,7 +6817,10 @@ desc.gui.upgrade.overdrive= * §7Перегруз§r: Стакается до 3-
 desc.gui.upgrade.power= * §1Энергосбережение§r: Стакается до 3-х уровней
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
-// Last updated 29.11.2025 by Rayzer //
+// Last updated 12.01.2026 by RayzerHan //
+
+
+
 
 
 
