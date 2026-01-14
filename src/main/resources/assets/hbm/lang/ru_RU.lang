@@ -837,7 +837,6 @@ container.nukeBoy=Малыш
 container.nukeCustom=Кастомная бомба
 container.nukeFleija=Ф.Л.Е.Я
 container.nukeFstbmb=Жар-бомба
-container.nukeFurnace=Ядерная печь
 container.nukeGadget=Гаджет
 container.nukeMan=Толстяк
 container.nukeMike=Иви Майк
@@ -6018,8 +6017,6 @@ tile.machine_mining_laser.name=Шахтёрский лазер
 tile.machine_minirtg.name=Радиоизотопная ячейка
 tile.machine_missile_assembly.name=Ракетосборочная станция
 tile.machine_mixer.name=Промышленный смеситель
-tile.machine_nuke_furnace_off.name=Ядерная печь
-tile.machine_nuke_furnace_on.name=Ядерная печь
 tile.machine_orbus.name=Тяжёлый магнитный контейнер для антиматерии
 tile.machine_ore_slopper.name=Переработчик бедроковой руды
 tile.machine_powerrtg.name=ПТ-изотопная ячейка
@@ -6041,8 +6038,6 @@ tile.machine_reix_mainframe.name=Мэйнфрейм Rei-X (WIP)
 tile.machine_rotary_furnace.name=Роторная печь
 tile.machine_rtg_blue.name=Конвекционный генератор
 tile.machine_rtg_cyan.name=Генератор Шрабидиевого распада (WIP)
-tile.machine_rtg_furnace_off.name=РИТЭГ-печь
-tile.machine_rtg_furnace_on.name=РИТЭГ-печь
 tile.machine_rtg_green.name=Вертициевый генератор богатства
 tile.machine_rtg_grey.name=РИТЭГ-генератор
 tile.machine_rtg_orange.name=Сильный RT генератор
@@ -6733,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
