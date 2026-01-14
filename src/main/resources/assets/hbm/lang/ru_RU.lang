@@ -2258,7 +2258,7 @@ item.battery_sc.po210.name=Самозарядный аккумулятор (По
 item.battery_sc.pu238.name=Самозарядный аккумулятор (Плутоний-238)
 item.battery_sc.ra226.name=Самозарядный аккумулятор (Радий-226)
 item.battery_sc.tc99.name=Самозарядный аккумулятор (Технеций-99)
-item.battery_sc.waste.name=Самозарядный аккумулятор (Отработанное топливо)
+item.battery_sc.waste.name=Самозарядный аккумулятор (Ядерные отходы)
 item.battery_schrabidium.name=Шрабидиевая батарея (LEGACY)
 item.battery_schrabidium_cell.name=Шрабидиевая энергоячейка (LEGACY)
 item.battery_schrabidium_cell_2.name=Сдвоенная шрабидиевая энергоячейка (LEGACY)
@@ -6818,6 +6818,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
