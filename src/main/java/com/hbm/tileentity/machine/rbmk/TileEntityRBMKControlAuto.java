@@ -182,8 +182,8 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		if(nbt.hasKey("levelLower")) levelLower = nbt.getDouble("levelLower");
 		if(nbt.hasKey("levelUpper")) levelLower = nbt.getDouble("levelUpper");
-		if(nbt.hasKey("heatLower")) levelLower = nbt.getDouble("heatLower");
-		if(nbt.hasKey("heatUpper")) levelLower = nbt.getDouble("heatUpper");
+		if(nbt.hasKey("heatLower")) heatLower = nbt.getDouble("heatLower");
+		if(nbt.hasKey("heatUpper")) heatUpper = nbt.getDouble("heatUpper");
 		if(nbt.hasKey("function")) function = EnumUtil.grabEnumSafely(RBMKFunction.class, nbt.getInteger("function"));
 	}
 }
