@@ -3079,7 +3079,7 @@ item.grenade_if_spark.name=IF - С.-Граната
 item.grenade_if_sticky.name=IF - Липкая граната
 item.grenade_if_toxic.name=IF - Токсичная граната
 item.grenade_kit.name=Комплект гранат
-item.grenade_kyiv.name=Киев спешиал
+item.grenade_kyiv.name=Киевский Коктейль
 item.grenade_lemon.name=Зажигательный лимон
 item.grenade_mirv.name=МИРВ-граната
 item.grenade_mk2.name=Граната МК 2 "Посол Ананас"
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
