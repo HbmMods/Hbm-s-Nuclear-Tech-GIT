@@ -6,13 +6,12 @@ import com.hbm.inventory.container.ContainerCrateSteel;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class GUICrateSteel extends GuiContainer {
+public class GUICrateSteel extends GuiCrateBase {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_steel.png");
 	private IInventory crate;
