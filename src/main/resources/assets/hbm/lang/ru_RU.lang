@@ -715,7 +715,7 @@ commands.satellite.should_be_run_as_player=Команда должна быть 
 
 container.ammoBag=Сумка для боеприпасов
 container.anvil=Наковальня %s уровня
-container.annihilator=Переработчик
+container.annihilator=Утилизатор
 container.arcFurnace=Дуговая печь
 container.armorTable=Стол модификации брони
 container.ashpit=Зольник
@@ -5921,7 +5921,7 @@ tile.lightstone_bricks_stairs.name=Ступеньки из светлокаме�
 tile.lox_barrel.name=Бочка с жидким кислородом
 tile.machine_amgen.name=Генератор на фоновой радиации
 tile.machine_ammo_press.name=Пресс для патронов
-tile.machine_annihilator.name=Переработчик
+tile.machine_annihilator.name=Утилизатор
 tile.machine_arc_furnace.name=Электрическая дуговая печь
 tile.machine_arc_furnace_off.name=Дуговая печь
 tile.machine_arc_furnace_on.name=Дуговая печь
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
