@@ -5443,7 +5443,7 @@ tile.brick_concrete_stairs.name=Ступеньки из бетонных кир�
 tile.brick_concrete_broken.name=Сломанные бетонные кирпичи
 tile.brick_concrete_broken_stairs.name=Ступеньки из сломанных бетонных кирпичей
 tile.brick_concrete_cracked.name=Потресканные бетонные кирпичи
-tile.brick_concrete_cracked_stairs.name=Ступеньки из разрушенных бетонных кирпичей
+tile.brick_concrete_cracked_stairs.name=Ступеньки из потресканных бетонных кирпичей
 tile.brick_concrete_marked.name=Обозначенные бетонные кирпичи
 tile.brick_concrete_mossy.name=Замшелые бетонные кирпичи
 tile.brick_concrete_mossy_stairs.name=Cтупени из замшелых бетонных кирпичей
@@ -5538,7 +5538,7 @@ tile.concrete.name=Бетонная плитка
 tile.concrete_asbestos.name=Асбестобетон
 tile.concrete_asbestos_stairs.name=Ступеньки из асбестовых кирпичей
 tile.concrete_brick_slab.brick_concrete.name=Плита из бетонных кирпичей
-tile.concrete_brick_slab.brick_concrete_broken.name=Плита из разрушившихся бетонных кирпичей
+tile.concrete_brick_slab.brick_concrete_broken.name=Плита из сломанных бетонных кирпичей
 tile.concrete_brick_slab.brick_concrete_cracked.name=Плита из потресканных бетонных кирпичей
 tile.concrete_brick_slab.brick_concrete_mossy.name=Плита из замшелых бетонных кирпичей
 tile.concrete_brick_slab.brick_ducrete.name=Плита из дюкретовых кирпичей
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
