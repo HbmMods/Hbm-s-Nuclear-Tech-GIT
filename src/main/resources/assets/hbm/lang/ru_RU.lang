@@ -5465,14 +5465,14 @@ tile.brick_jungle_mystic.name=Магические энаргитовые кир
 tile.brick_jungle_ooze.name=Радиоактивные энаргитовые кирпичи
 tile.brick_jungle_trap.name=Энаргитовые кирпичи-ловушка
 tile.brick_light.name=Лёгкие кирпичи
-tile.brick_light_stairs.name=Ступеньки из светлых кирпичей
+tile.brick_light_stairs.name=Ступеньки из лёгких кирпичей
 tile.brick_obsidian.name=Обсидиановые кирпичи
 tile.brick_obsidian_stairs.name=Ступеньки из обсидиановых кирпичей
 tile.brick_red.name=Кирпичи красной комнаты
 tile.brick_slab.brick_asbestos.name=Плита из асбестовых кирпичей
 tile.brick_slab.brick_compound.name=Плита из композитной сетки
 tile.brick_slab.brick_fire.name=Плита из шамотных кирпичей
-tile.brick_slab.brick_light.name=Плита из светлых кирпичей
+tile.brick_slab.brick_light.name=Плита из лёгких кирпичей
 tile.brick_slab.brick_obsidian.name=Плита из обсидиановых кирпичей
 tile.brick_slab.reinforced_brick.name=Плита из усиленного бетона
 tile.brick_slab.reinforced_stone.name=Плита из уплотнённого камня
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
