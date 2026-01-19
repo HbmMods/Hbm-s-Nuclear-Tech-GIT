@@ -5436,7 +5436,7 @@ tile.book_guide.name=Книга знаний
 tile.boxcar.name=Грузовой вагон
 tile.brick_asbestos.name=Асбестовые кирпичи
 tile.brick_asbestos_stairs.name=Ступеньки из асбестовых кирпичей
-tile.brick_compound.name=Сетка из соединения
+tile.brick_compound.name=Компонзитная сетка
 tile.brick_compound_stairs.name=Ступеньки из композитной сетки
 tile.brick_concrete.name=Бетонные кирпичи
 tile.brick_concrete_stairs.name=Ступеньки из бетонных кирпичей
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
