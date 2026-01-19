@@ -31,9 +31,11 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 
 	public static final IModelCustom yomiModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/yomi.obj"), false).asVBO();
 	public static final IModelCustom hundunModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/hundun.obj"), false).asVBO();
+	public static final IModelCustom dergModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/derg.obj"), false).asVBO();
 	public static final ResourceLocation yomiTex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/yomi.png");
 	public static final ResourceLocation numbernineTex = new ResourceLocation(RefStrings.MODID, "textures/models/horse/numbernine.png");
 	public static final ResourceLocation hundunTex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/hundun.png");
+	public static final ResourceLocation dergTex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/derg.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -54,13 +56,14 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 		case YOMI: GL11.glScaled(0.5, 0.5, 0.5); break;
 		case NUMBERNINE: GL11.glScaled(0.75, 0.75, 0.75); break;
 		case HUNDUN: GL11.glScaled(1, 1, 1); break;
+		case DERG: break;
 		}
-		renderPlushie(te.type);
+		renderPlushie(te.type, te.squishTimer > 0);
 		
 		GL11.glPopMatrix();
 	}
 	
-	public static void renderPlushie(PlushieType type) {
+	public static void renderPlushie(PlushieType type, boolean squish) {
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
@@ -114,6 +117,11 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 			Minecraft.getMinecraft().getTextureManager().bindTexture(hundunTex);
 			hundunModel.renderPart("goober_posed");
 			break;
+		case DERG:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(dergTex);
+			dergModel.renderPart("Derg");
+			dergModel.renderPart(squish ? "Blep" : "ColonThree");
+			break;
 		}
 	}
 
@@ -139,8 +147,9 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 				case YOMI: GL11.glScaled(1.25, 1.25, 1.25); break;
 				case NUMBERNINE: GL11.glTranslated(0, 0.25, 0.25); GL11.glScaled(1.25, 1.25, 1.25); break;
 				case HUNDUN: GL11.glTranslated(0.5, 0.5, 0); GL11.glScaled(1.25, 1.25, 1.25); break;
+				case DERG: GL11.glScaled(1.5, 1.5, 1.5); break;
 				}
-				renderPlushie(type);
+				renderPlushie(type, false);
 			}};
 	}
 }

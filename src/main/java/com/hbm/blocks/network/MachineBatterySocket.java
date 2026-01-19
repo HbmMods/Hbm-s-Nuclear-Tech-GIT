@@ -82,9 +82,9 @@ public class MachineBatterySocket extends BlockDummyable implements ITooltipProv
 		if(socket.syncStack == null) return;
 		
 		List<String> text = new ArrayList();
-		text.add(BobMathUtil.getShortNumber(socket.powerFromStack(socket.syncStack)) + " / " + BobMathUtil.getShortNumber(socket.maxPowerFromStack(socket.syncStack)) + "HE");
+		text.add(BobMathUtil.getShortNumber(socket.syncPower) + " / " + BobMathUtil.getShortNumber(socket.syncMaxPower) + "HE");
 		
-		double percent = (double) socket.powerFromStack(socket.syncStack) / (double) socket.maxPowerFromStack(socket.syncStack);
+		double percent = (double) socket.syncPower / socket.syncMaxPower;
 		int charge = (int) Math.floor(percent * 10_000D);
 		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
 		

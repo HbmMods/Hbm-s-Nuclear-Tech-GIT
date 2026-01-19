@@ -2,6 +2,8 @@
 * Rad absorbers now use metadata, existing blocks will be converted automatically
 * Fissure bombs that go off in crater biomes now create fissures with metadata 1 which creates radioactive volcanic lava
   * If a crater biome is created on top of an existing fissue, it will keep producing normal volcanic lava
+* Simplified the battery socket's client packets, reducing CPU load
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
+* Fixed battery socket `fillpercent` RoR function always assuming a max power of 1

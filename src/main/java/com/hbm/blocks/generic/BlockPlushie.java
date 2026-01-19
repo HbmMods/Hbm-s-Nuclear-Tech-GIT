@@ -159,7 +159,8 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 		NONE(		"NONE",				null),
 		YOMI(		"Yomi",				"Hi! Can I be your rabbit friend?"),
 		NUMBERNINE(	"Number Nine",		"None of y'all deserve coal."),
-		HUNDUN(		"Hundun",			"混沌");
+		HUNDUN(		"Hundun",			"混沌"),
+		DERG(		"Dragon",			"Squeeze him.");
 
 		public String label;
 		public String inscription;

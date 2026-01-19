@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.inventory.container.ContainerBatterySocket;
 import com.hbm.inventory.gui.GUIBatterySocket;
-import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -19,6 +18,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -29,7 +29,9 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 
 	public long[] log = new long[20];
 	public long delta = 0;
-	
+
+	public long syncPower = 0;
+	public long syncMaxPower = 0;
 	public ItemStack syncStack;
 	
 	public TileEntityBatterySocket() {
@@ -61,14 +63,22 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeLong(delta);
-		BufferUtil.writeItemStack(buf, this.slots[0]);
+		buf.writeLong(this.getPower());
+		buf.writeLong(this.getMaxPower());
+		if(this.slots[0] != null) {
+			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
+			buf.writeShort(slots[0].getItemDamage());
+		}
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		delta = buf.readLong();
-		this.syncStack = BufferUtil.readItemStack(buf);
+		syncPower = buf.readLong();
+		syncMaxPower = buf.readLong();
+		int itemId = buf.readInt();
+		if(itemId != -1) this.syncStack = new ItemStack(Item.getItemById(itemId), 1, buf.readShort());
 	}
 
 	@Override
@@ -183,7 +193,7 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	@Override
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "fill").equals(name))		return "" + this.getPower();
-		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.getPower() * 100 / (Math.min(this.getMaxPower(), 1));
+		if((PREFIX_VALUE + "fillpercent").equals(name))	return "" + this.getPower() * 100 / (Math.max(this.getMaxPower(), 1));
 		if((PREFIX_VALUE + "delta").equals(name))		return "" + delta;
 		return null;
 	}
