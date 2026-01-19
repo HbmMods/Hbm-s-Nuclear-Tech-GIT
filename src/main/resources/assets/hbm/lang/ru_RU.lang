@@ -5474,7 +5474,7 @@ tile.brick_slab.brick_compound.name=Плита из композитной се�
 tile.brick_slab.brick_fire.name=Плита из шамотных кирпичей
 tile.brick_slab.brick_light.name=Плита из светлых кирпичей
 tile.brick_slab.brick_obsidian.name=Плита из обсидиановых кирпичей
-tile.brick_slab.reinforced_brick.name=Плита из укреплённого камня
+tile.brick_slab.reinforced_brick.name=Плита из усиленного бетона
 tile.brick_slab.reinforced_stone.name=Плита из уплотнённого камня
 tile.broadcaster_pc.name=Повреждённый передатчик
 tile.burning_earth.name=Горящая трава
@@ -6411,7 +6411,7 @@ tile.red_pylon_medium_wood_transformer.name=Средний деревянный 
 tile.red_wire_coated.name=Медный кабель с покрытием
 tile.refueler.name=Заправочная станция
 tile.reinforced_brick.name=Усиленный бетон
-tile.reinforced_brick_stairs.name=Ступеньки из укреплённого камня
+tile.reinforced_brick_stairs.name=Ступеньки из усиленного бетона
 tile.reinforced_ducrete.name=Усиленный дюкрет
 tile.reinforced_glass.name=Усиленное стекло
 tile.reinforced_glass_pane.name=Усиленная стеклянная панель
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
