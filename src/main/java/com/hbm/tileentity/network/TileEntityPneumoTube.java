@@ -116,7 +116,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 						
 						if(net.send((IInventory) sendFrom, this, this.insertionDir.getOpposite(), sendOrder, receiveOrder, getRangeFromPressure(compair.getPressure()), sendCounter)) {
 							this.compair.setFill(this.compair.getFill() - 50);
-							
+
+							this.dataUpdated();
 							if(this.soundDelay <= 0 && !this.muffled) {
 								worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.reload.tubeFwoomp", 0.25F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
 								this.soundDelay = 20;
@@ -175,6 +176,11 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	
 	public boolean isCompressor() { return this.insertionDir != ForgeDirection.UNKNOWN; }
 	public boolean isEndpoint() { return this.ejectionDir != ForgeDirection.UNKNOWN; }
+
+	@Override
+	public void dataSent() {
+		hasDataChanged = false;
+	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
@@ -236,6 +242,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		
 		this.whitelist = nbt.getBoolean("whitelist");
 		this.redstone = nbt.getBoolean("redstone");
+
+		this.dataUpdated();
 	}
 
 	@Override
@@ -289,7 +297,8 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		if(data.hasKey("slot")){
 			setFilterContents(data);
 		}
-		
+
+		this.dataUpdated();
 		this.markDirty();
 	}
 

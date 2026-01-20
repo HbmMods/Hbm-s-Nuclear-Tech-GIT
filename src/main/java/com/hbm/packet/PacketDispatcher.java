@@ -65,6 +65,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(BiomeSyncPacket.Handler.class, BiomeSyncPacket.class, i++, Side.CLIENT);
 		//The not-so-convenient but not laggy one
 		wrapper.registerMessage(BufPacket.Handler.class, BufPacket.class, i++, Side.CLIENT);
+		//Packet for clients to tell the server that they need all the (NTM) TE data for a chunk
+		wrapper.registerMessage(TEDataRequestPacket.Handler.class, TEDataRequestPacket.class, i++, Side.SERVER);
 		//Syncs server recipe configs to the client
 		wrapper.registerMessage(SerializableRecipePacket.Handler.class, SerializableRecipePacket.class, i++, Side.CLIENT);
 		//Syncing of NBT for guns
