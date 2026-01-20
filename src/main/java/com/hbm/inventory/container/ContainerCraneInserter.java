@@ -2,9 +2,12 @@ package com.hbm.inventory.container;
 
 import com.hbm.tileentity.network.TileEntityCraneInserter;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -64,5 +67,21 @@ public class ContainerCraneInserter extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return inserter.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for(int i = 0; i < this.crafters.size(); i++) {
+			((ICrafting)this.crafters.get(i)).sendProgressBarUpdate(this, 0, inserter.destroyer ? 1 : 0);
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int target, int value) {
+		switch(target) {
+			case 0: inserter.destroyer = value != 0; break;
+		}
 	}
 }
