@@ -1,9 +1,14 @@
 ## Changed
+* Updated russian localization
 * Rad absorbers now use metadata, existing blocks will be converted automatically
 * Fissure bombs that go off in crater biomes now create fissures with metadata 1 which creates radioactive volcanic lava
   * If a crater biome is created on top of an existing fissue, it will keep producing normal volcanic lava
 * Simplified the battery socket's client packets, reducing CPU load
+* Muzzle flashes on guns now work in third person mode, including on other players and on NPCs, making it more apparent when you're being fired at
+  * This includes non-standard special effects like the .44 gap flash and the .35-800 ejector plume
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
 * Fixed battery socket `fillpercent` RoR function always assuming a max power of 1
+* Fixed issue where multiblock ports would generate many OpenComputers component entries
+* Fixed RBMK automatic control rods having incorrect settings when using the copy tool

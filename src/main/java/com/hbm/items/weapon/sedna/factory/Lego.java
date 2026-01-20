@@ -175,6 +175,7 @@ public class Lego {
 
 	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire. */
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0; };
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_SECOND_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[1].getMagazine(stack).getAmount(stack, ctx.inventory) > 0; };
 
 	/** Returns true if the mag has ammo in it, and the gun is in the locked on state */
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_LOCKON_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0 && ItemGunBaseNT.getIsLockedOn(stack); };
@@ -187,26 +188,29 @@ public class Lego {
 
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, GunAnimation.CYCLE, true);
+		doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, true);
+	};
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SECOND_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, GunAnimation.CYCLE, 1, true);
 	};
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, ignores wear */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_NOWEAR_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, GunAnimation.CYCLE, false);
+		doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, false);
 	};
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, then resets lockon progress */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_LOCKON_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, GunAnimation.CYCLE, true);
+		doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, true);
 		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
 
-	public static void doStandardFire(ItemStack stack, LambdaContext ctx, GunAnimation anim, boolean calcWear) {
+	public static void doStandardFire(ItemStack stack, LambdaContext ctx, GunAnimation anim, int receiver, boolean calcWear) {
 		EntityLivingBase entity = ctx.entity;
 		EntityPlayer player = ctx.getPlayer();
 		int index = ctx.configIndex;
 		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 
 		boolean aim = ItemGunBaseNT.getIsAiming(stack);
-		Receiver primary = ctx.config.getReceivers(stack)[0];
+		Receiver primary = ctx.config.getReceivers(stack)[receiver];
 		IMagazine mag = primary.getMagazine(stack);
 		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
 

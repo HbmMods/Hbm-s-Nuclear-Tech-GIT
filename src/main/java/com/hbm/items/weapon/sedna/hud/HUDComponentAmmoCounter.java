@@ -41,7 +41,7 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 
 	@Override
 	public int getComponentHeight(EntityPlayer player, ItemStack stack){
-		return 24;
+		return 19;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		int pX = resolution.getScaledWidth() / 2 + (mirrored ? -(62 + 36 + 52) : (62 + 36)) + (noCounter ? 14 : 0);
-		int pZ = resolution.getScaledHeight() - bottomOffset - 23;
+		int pZ = resolution.getScaledHeight() - bottomOffset - 18;
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		IMagazine mag = gun.getConfig(stack, gunIndex).getReceivers(stack)[this.receiver].getMagazine(stack);
 		
