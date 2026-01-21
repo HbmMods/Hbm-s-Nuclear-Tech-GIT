@@ -68,6 +68,8 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 		if(this.slots[0] != null) {
 			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
 			buf.writeShort(slots[0].getItemDamage());
+		} else {
+			buf.writeInt(-1);
 		}
 	}
 
@@ -79,6 +81,7 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 		syncMaxPower = buf.readLong();
 		int itemId = buf.readInt();
 		if(itemId != -1) this.syncStack = new ItemStack(Item.getItemById(itemId), 1, buf.readShort());
+		else this.syncStack = null;
 	}
 
 	@Override

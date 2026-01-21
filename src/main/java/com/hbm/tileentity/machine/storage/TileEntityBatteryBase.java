@@ -77,7 +77,6 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 
 			byte comp = this.getComparatorPower();
 			if(comp != this.lastRedstone) {
-				System.out.println(comp);
 				for(BlockPos port : this.getPortPos()) {
 					TileEntity tile = Compat.getTileStandard(worldObj, port.getX(), port.getY(), port.getZ());
 					if(tile != null) tile.markDirty();

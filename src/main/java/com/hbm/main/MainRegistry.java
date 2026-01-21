@@ -1471,6 +1471,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.fusion_motor");
 		ignoreMappings.add("hbm:tile.machine_spp_bottom");
 		ignoreMappings.add("hbm:tile.machine_spp_top");
+		ignoreMappings.add("hbm:tile.sat_mapper");
+		ignoreMappings.add("hbm:tile.sat_radar");
+		ignoreMappings.add("hbm:tile.sat_scanner");
+		ignoreMappings.add("hbm:tile.sat_laser");
+		ignoreMappings.add("hbm:tile.sat_foeq");
+		ignoreMappings.add("hbm:tile.sat_resonator");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
