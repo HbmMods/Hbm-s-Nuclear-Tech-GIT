@@ -5,6 +5,7 @@ import com.hbm.animloader.Animation;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.IModelCustomNamed;
+import com.hbm.render.tileentity.door.IRenderDoors;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -1209,4 +1210,8 @@ public abstract class DoorDecl {
 		f[2] = z;
 		return f;
 	}
+	
+	// keyframe animation system sneakily stitched into the door decl
+	public IRenderDoors getSEDNARenderer() { return null; }
+	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state) { return null; }
 }
