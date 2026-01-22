@@ -30,6 +30,8 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.machine.storage.TileEntityFileCabinet;
+import com.hbm.util.Compat;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -615,15 +617,7 @@ public class ModBlocks {
 
 	public static Block tesla;
 
-	public static Block sat_mapper;
-	public static Block sat_scanner;
-	public static Block sat_radar;
-	public static Block sat_laser;
-	public static Block sat_foeq;
-	public static Block sat_resonator;
-
 	public static Block sat_dock;
-
 	public static Block soyuz_capsule;
 	public static Block crate_supply;
 
@@ -2122,13 +2116,6 @@ public class ModBlocks {
 		launch_table = new LaunchTable(Material.iron).setBlockName("launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_table");
 		soyuz_launcher = new SoyuzLauncher(Material.iron).setBlockName("soyuz_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":soyuz_launcher");
 
-		sat_mapper = new DecoBlock(Material.iron).setBlockName("sat_mapper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_mapper");
-		sat_radar = new DecoBlock(Material.iron).setBlockName("sat_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_radar");
-		sat_scanner = new DecoBlock(Material.iron).setBlockName("sat_scanner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_scanner");
-		sat_laser = new DecoBlock(Material.iron).setBlockName("sat_laser").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_laser");
-		sat_foeq = new DecoBlock(Material.iron).setBlockName("sat_foeq").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_foeq");
-		sat_resonator = new DecoBlock(Material.iron).setBlockName("sat_resonator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sat_resonator");
-
 		sat_dock = new MachineSatDock(Material.iron).setBlockName("sat_dock").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":sat_dock");
 		soyuz_capsule = new SoyuzCapsule(Material.iron).setBlockName("soyuz_capsule").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":soyuz_capsule");
 		crate_supply = new BlockSupplyCrate(Material.wood).setBlockName("crate_supply").setStepSound(Block.soundTypeWood).setHardness(1.0F).setResistance(2.5F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":crate_can");
@@ -3470,14 +3457,6 @@ public class ModBlocks {
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());
 
-		//Sat Blocks
-		GameRegistry.registerBlock(sat_mapper, sat_mapper.getUnlocalizedName());
-		GameRegistry.registerBlock(sat_scanner, sat_scanner.getUnlocalizedName());
-		GameRegistry.registerBlock(sat_radar, sat_radar.getUnlocalizedName());
-		GameRegistry.registerBlock(sat_laser, sat_laser.getUnlocalizedName());
-		GameRegistry.registerBlock(sat_foeq, sat_foeq.getUnlocalizedName());
-		GameRegistry.registerBlock(sat_resonator, sat_resonator.getUnlocalizedName());
-
 		//Rails
 		GameRegistry.registerBlock(rail_wood, ItemBlockBase.class, rail_wood.getUnlocalizedName());
 		GameRegistry.registerBlock(rail_narrow, ItemBlockBase.class, rail_narrow.getUnlocalizedName());
@@ -3547,7 +3526,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
 
 		// OC Compat Items
-		if (Loader.isModLoaded("OpenComputers")) {
+		if(Loader.isModLoaded(Compat.MOD_OC)) {
 			register(oc_cable_paintable);
 		}
 

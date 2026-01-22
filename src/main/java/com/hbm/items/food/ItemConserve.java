@@ -113,7 +113,7 @@ public class ItemConserve extends ItemEnumMulti {
 		MYSTERY(6, 0.5F),
 		PASHTET(4, 0.5F),
 		CHEESE(3, 1F),
-		JIZZ(15, 5F), // :3
+		SLIME(15, 5F),
 		MILK(5, 0.25F),
 		ASS(6, 0.75F), // :3
 		PIZZA(8, 075F),

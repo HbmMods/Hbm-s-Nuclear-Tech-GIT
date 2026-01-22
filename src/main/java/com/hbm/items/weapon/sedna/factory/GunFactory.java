@@ -1,5 +1,7 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.function.BiConsumer;
+
 import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
@@ -8,6 +10,8 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
@@ -16,10 +20,12 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class GunFactory {
 
 	public static BulletConfig ammo_debug;
+	public static BulletConfig ammo_debug_shot;
 	
 	public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setColor(SpentCasing.COLOR_CASE_44);
 
@@ -32,6 +38,7 @@ public class GunFactory {
 
 		/// BULLLET CFGS ///
 		ammo_debug = new BulletConfig().setItem(ModItems.ammo_debug).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
+		ammo_debug_shot = new BulletConfig().setItem(ModItems.ammo_debug).setSpread(0.05F).setProjectiles(6).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG1"));
 
 		/// GUNS ///
 		ModItems.gun_debug = new ItemGunBaseNT(WeaponQuality.DEBUG, new GunConfig()
@@ -40,9 +47,15 @@ public class GunFactory {
 						.dmg(10F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug))
 						.offset(0.75, -0.0625, -0.3125D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
-				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
-				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE),
+						new Receiver(1)
+						.dmg(5F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(1, 12).addConfigs(ammo_debug_shot))
+						.offset(0.75, -0.0625, -0.3125D)
+						.canFire(Lego.LAMBDA_SECOND_CAN_FIRE).fire(Lego.LAMBDA_SECOND_FIRE))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).ps((stack, ctx) -> { Lego.clickReceiver(stack, ctx, 1); })
+				.pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
+				.decider(LAMBDA_DEBUG_DECIDER)
 				.anim(Lego.LAMBDA_DEBUG_ANIMS)
 				).setUnlocalizedName("gun_debug");
 		
@@ -78,6 +91,17 @@ public class GunFactory {
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_DEBUG_DECIDER = (stack, ctx) -> {
+		int index = ctx.configIndex;
+		GunState lastState = ItemGunBaseNT.getState(stack, index);
+		GunStateDecider.deciderStandardFinishDraw(stack, lastState, index);
+		GunStateDecider.deciderStandardClearJam(stack, lastState, index);
+		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
+		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 1, index);
+		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getPrimary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 1, index, () -> { return ItemGunBaseNT.getSecondary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+	};
 	
 	public static enum EnumAmmo implements IOrderedEnum {
 		STONE, STONE_AP, STONE_IRON, STONE_SHOT,
