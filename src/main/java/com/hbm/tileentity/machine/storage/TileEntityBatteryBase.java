@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.uninos.UniNodespace;
@@ -29,9 +30,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public abstract class TileEntityBatteryBase extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public abstract class TileEntityBatteryBase extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, ICopiable {
 
 	public byte lastRedstone = 0;
 	public long prevPowerState = 0;
@@ -252,5 +254,21 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower(), redLow, redHigh, getPriority().ordinal()-1};
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setShort("redLow", redLow);
+		data.setShort("redHigh", redHigh);
+		data.setByte("priority", (byte) this.priority.ordinal());
+		return data;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		if(nbt.hasKey("redLow")) this.redLow = nbt.getShort("redLow");
+		if(nbt.hasKey("redHigh")) this.redHigh = nbt.getShort("redHigh");
+		if(nbt.hasKey("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, nbt.getByte("priority"));
 	}
 }

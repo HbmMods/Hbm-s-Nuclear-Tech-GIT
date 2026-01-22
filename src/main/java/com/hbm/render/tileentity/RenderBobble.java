@@ -446,20 +446,28 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			break;
 		case BOB:
 			GL11.glShadeModel(GL11.GL_SMOOTH);
-			this.bindTexture(ResourceManager.mini_nuke_tex);
-			GL11.glScaled(0.5, 0.5, 0.5);
 			GL11.glPushMatrix();
-			GL11.glTranslated(0.75, 1, 0.9);
-			for(int i = 0; i < 3; i++) {
-				ResourceManager.projectiles.renderPart("MiniNuke");
-				GL11.glTranslated(-0.75, 0, 0);
+			GL11.glTranslatef(0, 0.6875F, 0.625F);
+			GL11.glRotated(-90, 1, 0, 0);
+			GL11.glScaled(0.125, 0.125, 0.125);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.fatman_mininuke_tex);
+			GL11.glTranslatef(-6, 0, 0);
+			for(int i = -1; i <= 1; i++) {
+				GL11.glTranslatef(3, 0, 0);
+				ResourceManager.fatman.renderPart("MiniNuke");
 			}
 			GL11.glPopMatrix();
-			this.bindTexture(ResourceManager.mini_mirv_tex);
-			GL11.glTranslated(0, 0.75, -0.9);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0.25F, 0.3125F, -0.5F);
+			GL11.glRotated(-90, 1, 0, 0);
 			GL11.glRotated(90, 0, 1, 0);
-			GL11.glRotated(90, 1, 0, 0);
-			ResourceManager.projectiles.renderPart("MiniMIRV");
+			GL11.glScaled(0.1, 0.1, 0.1);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.double_barrel_sacred_dragon_tex);
+			ResourceManager.double_barrel.renderPart("Stock");
+			ResourceManager.double_barrel.renderPart("BarrelShort");
+			ResourceManager.double_barrel.renderPart("Buckle");
+			ResourceManager.double_barrel.renderPart("Lever");
+			GL11.glPopMatrix();
 			GL11.glShadeModel(GL11.GL_FLAT);
 			break;
 		case VAER:
