@@ -504,10 +504,10 @@ public class ModEventHandler {
 
 		ItemStack[] prevArmor = event.entityLiving.previousEquipment;
 
-		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && event.entityLiving.getHeldItem() != null
+		if(event.entityLiving instanceof EntityPlayerMP && prevArmor != null && event.entityLiving.getHeldItem() != null
 				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())
 				&& event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
-
+			
 			((IEquipReceiver)event.entityLiving.getHeldItem().getItem()).onEquip((EntityPlayer) event.entityLiving, event.entityLiving.getHeldItem());
 		}
 

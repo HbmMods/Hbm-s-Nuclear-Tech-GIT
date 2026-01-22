@@ -13,6 +13,7 @@
   * DLs have been long phased out in favor of VBOs anyway
 * Rebranded canned horse slime
   * Now with extra bone marrow
+* Updated the deuterium tower's model
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
@@ -22,3 +23,4 @@
 * Fixed battery sockets producing junk debug data in the logs
 * Fixed an issue where the charging station would crash when trying to charge certain items
 * Fixed the DFC's core component not dropping its contents when mined
+* Fixed audio problems with guns
