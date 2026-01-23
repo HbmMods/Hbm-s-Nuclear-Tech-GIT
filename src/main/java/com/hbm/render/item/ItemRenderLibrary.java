@@ -615,6 +615,20 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.fire_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.pheo_fire_door_tex);
+				GL11.glRotated(90, 0, 1, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.pheo_fire_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.large_vehicle_door), new ItemRenderBase(){
 			public void renderInventory() {
@@ -706,13 +720,13 @@ public class ItemRenderLibrary {
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.round_airlock_door), new ItemRenderBase(){
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
+				GL11.glTranslated(0, -3.75, 0);
 				GL11.glScaled(3, 3, 3);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.round_airlock_door_tex);
+				bindTexture(ResourceManager.pheo_airlock_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.round_airlock_door.renderAll();
+				ResourceManager.pheo_airlock_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});

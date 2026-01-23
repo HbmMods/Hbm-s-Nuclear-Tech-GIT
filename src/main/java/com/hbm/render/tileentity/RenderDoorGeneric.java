@@ -37,7 +37,7 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 		DoorDecl door = te.getDoorType();
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y, z+0.5);
+		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		
 		switch(te.getBlockMetadata() - BlockDummyable.offset) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -50,6 +50,7 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 		
 		if(sednaRenderer != null) {
 			
+			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			sednaRenderer.render(te, buf);
 			GL11.glShadeModel(GL11.GL_FLAT);
