@@ -16,7 +16,7 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
-import com.hbm.handler.PacketOptimizationHandler;
+import com.hbm.handler.packet.PacketOptimizationHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;

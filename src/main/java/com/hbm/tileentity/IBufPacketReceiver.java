@@ -1,23 +1,19 @@
 package com.hbm.tileentity;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public interface IBufPacketReceiver {
 
 	public void serialize(ByteBuf buf);
 	public void deserialize(ByteBuf buf);
 
-	// Quick and simple way for TEs to check if their data has even been updated.
-	// Why do *anything* with the packets if the data we're planning to send wouldn't change anything?
-	// This is a default method that needs to be overriden because it would be obtuse to implement in
-	// some TEs.
-	// Anything that's simple and doesn't change very often should use these functions.
-	default void dataUpdated() {}
-
-	// Clears the dataUpdated boolean. Done whenever the tile has sucessfully sent its changes to clients.
-	default void dataSent() {}
-
-	default boolean hasDataUpdated() {
-		return true;
+	/**
+	 * Called when a player needs data from this source.
+	 * @implNote The default implementation does nothing.
+	 * @implSpec The logic for this function is very implementation-dependent, however
+	 * it should end up sending the player the TE's data on the current or next tick.
+ 	 */
+	default void playerNeedsData(EntityPlayerMP player) {
 	}
 }
