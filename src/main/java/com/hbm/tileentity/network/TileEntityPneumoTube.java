@@ -41,7 +41,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	public ModulePatternMatcher pattern = new ModulePatternMatcher(15);
 	public ForgeDirection insertionDir = ForgeDirection.UNKNOWN;
 	public ForgeDirection ejectionDir = ForgeDirection.UNKNOWN;
-	
+
+	public boolean isIndirectlyPowered;
+
 	public boolean whitelist = false;
 	public boolean redstone = false;
 	public byte sendOrder = 0;
@@ -97,9 +99,9 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 					UniNodespace.createNode(worldObj, this.node);
 				}
 			}
-			
-			if(this.isCompressor() && (!this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ this.redstone)) {
-				
+
+			if(this.isCompressor() && (!isIndirectlyPowered ^ this.redstone)) {
+
 				int randTime = Math.abs((int) (worldObj.getTotalWorldTime() + this.getIdentifier(xCoord, yCoord, zCoord)));
 				
 				if(worldObj.getTotalWorldTime() % 10 == 0) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -237,6 +239,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 		
 		this.whitelist = nbt.getBoolean("whitelist");
 		this.redstone = nbt.getBoolean("redstone");
+		this.isIndirectlyPowered = nbt.getBoolean("redstoneIndirectlyPowered");
 
 		this.dataChanged();
 	}
@@ -255,6 +258,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 
 		nbt.setBoolean("whitelist", whitelist);
 		nbt.setBoolean("redstone", redstone);
+		nbt.setBoolean("redstoneIndirectlyPowered", isIndirectlyPowered);
 	}
 
 	@Override

@@ -36,6 +36,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public ModulePatternMatcher matcher;
 	public long lastGrabbedTick = 0;
 
+	public boolean isIndirectlyPowered;
+
 	public TileEntityCraneGrabber() {
 		super(11);
 		this.matcher = new ModulePatternMatcher(9);
@@ -66,7 +68,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 				}
 			}
 
-			if(worldObj.getTotalWorldTime() >= lastGrabbedTick + delay && !this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			if(worldObj.getTotalWorldTime() >= lastGrabbedTick + delay && !isIndirectlyPowered) {
 				int amount = 1;
 
 				if(slots[9] != null && slots[9].getItem() == ModItems.upgrade_stack) {
@@ -222,6 +224,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
 		this.matcher.readFromNBT(nbt);
 		this.lastGrabbedTick = nbt.getLong("lastGrabbedTick");
+		this.isIndirectlyPowered = nbt.getBoolean("redstone");
 	}
 
 	@Override
@@ -230,6 +233,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		nbt.setBoolean("isWhitelist", this.isWhitelist);
 		this.matcher.writeToNBT(nbt);
 		nbt.setLong("lastGrabbedTick", lastGrabbedTick);
+		nbt.setBoolean("redstone", this.isIndirectlyPowered);
 	}
 
 	@Override
