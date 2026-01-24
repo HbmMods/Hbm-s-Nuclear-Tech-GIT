@@ -3152,7 +3152,7 @@ item.gun_flamer_daybreaker.name=Дейбрейкер
 item.gun_flamer_topaz.name=Мистер Топаз
 item.gun_flaregun.name=Сигнальный пистолет
 item.gun_flechette.name=Игольчатая винтовка
-item.gun_folly.name=Прототип Дигамма "Причуда"
+item.gun_folly.name=Глупость
 item.gun_g3.name=Штурмовая винтовка
 item.gun_g3_a3.name=G3A3
 item.gun_g3_infiltrator.name=Инфильтратор
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
