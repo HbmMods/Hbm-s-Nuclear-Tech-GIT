@@ -135,7 +135,7 @@ public class BusAnimationSequence {
 				continue;
 			}
 
-			if(millis >= endTime) {
+			if(millis >= endTime || currentFrame.duration == 0) {
 				transform[i] = currentFrame.value;
 				continue;
 			}

@@ -337,7 +337,12 @@ public class ResourceManager {
 	//Doors
 	public static AnimatedModel transition_seal = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"), true);
 	public static Animation transition_seal_anim = ColladaLoader.loadAnim(24040, new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"));
-	public static final IModelCustomNamed fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/fire_door.obj")).asVBO();
+	
+	//PheoDoors
+	public static final ResourceLocation pheo_fire_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door.png");
+	public static IModelCustomNamed pheo_fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/fire_door.obj")).asVBO();
+	public static final ResourceLocation pheo_airlock_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/airlock_door.png");
+	public static IModelCustomNamed pheo_airlock_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/airlock_door.obj")).asVBO();
 
 	//Secure Access Door
 	public static final ResourceLocation secure_access_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/secure_access_door.png");
@@ -814,7 +819,6 @@ public class ResourceManager {
 
 	//Doors
 	public static final ResourceLocation transition_seal_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/transition_seal.png");
-	public static final ResourceLocation fire_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/fire_door.png");
 
 	//Skeleton
 	public static final ResourceLocation skeleton_holder_tex = new ResourceLocation(RefStrings.MODID, "textures/particle/skeleton.png");

@@ -4,8 +4,12 @@ import com.hbm.animloader.AnimatedModel;
 import com.hbm.animloader.Animation;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.loader.IModelCustomNamed;
 import com.hbm.render.tileentity.door.IRenderDoors;
+import com.hbm.render.tileentity.door.RenderAirlockDoor;
+import com.hbm.render.tileentity.door.RenderFireDoor;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -99,26 +103,24 @@ public abstract class DoorDecl {
 
 	public static final DoorDecl FIRE_DOOR = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.wghStop"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.wghStart"; }
+		@Override public String getSoundLoop2() { return "hbm:door.alarm6"; }
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.wghStop";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderFireDoor.INSTANCE;
+		}
+		
+		@Override
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
 
-		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.wghStart";
-		}
-
-		@Override
-		public String getSoundLoop2() {
-			return "hbm:door.alarm6";
-		}
-
-		@Override
-		public float getSoundVolume() {
-			return 2;
-		}
-
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
@@ -129,12 +131,14 @@ public abstract class DoorDecl {
 			}
 		}
 
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void doOffsetTransform() {
 			GL11.glTranslated(0, 0, 0.5);
 		}
 
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
 		public double[][] getClippingPlanes() {
@@ -173,17 +177,14 @@ public abstract class DoorDecl {
 			}
 		}
 
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.fire_door_tex;
-		}
-
+		public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.fire_door;
-		}
+		public IModelCustomNamed getModel() { return null; }
 	};
 
 	public static final DoorDecl SLIDE_DOOR = new DoorDecl() {
@@ -467,18 +468,20 @@ public abstract class DoorDecl {
 
 	public static final DoorDecl ROUND_AIRLOCK_DOOR = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; }
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.garage_stop";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderAirlockDoor.INSTANCE;
 		}
-
+		
 		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.garage_move";
-		}
-
-		public float getSoundVolume() {
-			return 2;
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
 
 		@Override
@@ -536,22 +539,19 @@ public abstract class DoorDecl {
 			return new int[] { 3, 0, 0, 0, 2, 1 };
 		};
 
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.round_airlock_door_tex;
-		}
+		public ResourceLocation getTextureForPart(String partName) { return null; }
 
+		@Deprecated
 		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.round_airlock_door_tex;
-		}
+		public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
 
+		@Deprecated
 		@Override
 		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.round_airlock_door;
-		}
+		public IModelCustomNamed getModel() { return null; }
 	};
 
 	public static final DoorDecl QE_SLIDING = new DoorDecl() {
@@ -1213,5 +1213,11 @@ public abstract class DoorDecl {
 	
 	// keyframe animation system sneakily stitched into the door decl
 	public IRenderDoors getSEDNARenderer() { return null; }
-	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state) { return null; }
+	public BusAnimation getBusAnimation(byte state) { return null; }
+	
+	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state) {
+		BusAnimation anim = this.getBusAnimation(state);
+		if(anim != null) return new com.hbm.render.anim.HbmAnimations.Animation("DOOR_ANIM", System.currentTimeMillis(), anim);
+		return null;
+	}
 }
