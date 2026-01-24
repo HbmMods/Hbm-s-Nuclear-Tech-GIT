@@ -311,6 +311,9 @@ public class WeaponRecipes {
 		
 		//Nuke parts
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.n2_charge, 1), new Object[] { " D ", "ERE", " D ", 'D', ModItems.ducttape, 'E', ModBlocks.det_charge, 'R', REDSTONE.block() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.battery_spark, 1), new Object[] { " W ", "DSD", "DSD", 'W', MAGTUNG.wireDense(), 'D', ModItems.plate_dineutronium, 'S', ModItems.powder_spark_mix });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.battery_trixite, 1), new Object[] { " W ", "DSD", "DTD", 'W', MAGTUNG.wireDense(), 'D', BIGMT.plateCast(), 'S', ModItems.powder_power, 'T', ModItems.crystal_trixite });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.battery_trixite, 1), new Object[] { " W ", "DTD", "DSD", 'W', MAGTUNG.wireDense(), 'D', BIGMT.plateCast(), 'S', ModItems.powder_power, 'T', ModItems.crystal_trixite });
 
 		//Custom nuke rods
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.custom_tnt, 1), new Object[] { " C ", "TIT", "TIT", 'C', CU.plate(), 'I', IRON.plate(), 'T', ANY_HIGHEXPLOSIVE.ingot() });

@@ -274,9 +274,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 	public static void playAnimation(EntityPlayer player, ItemStack stack, GunAnimation type, int index) {
 		if(player instanceof EntityPlayerMP) {
 			PacketDispatcher.wrapper.sendTo(new HbmAnimationPacket(type.ordinal(), 0, index), (EntityPlayerMP) player);
-			setLastAnim(stack, index, type);
-			setAnimTimer(stack, index, 0);
 		}
+		
+		setLastAnim(stack, index, type);
+		setAnimTimer(stack, index, 0);
 	}
 
 	@Override
@@ -458,9 +459,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IItemHUD, I
 
 		for(int i = 0; i < confNo; i++) {
 			IHUDComponent[] components = gun.getConfig(stack, i).getHUDComponents(stack);
+			int bottomOffset = 0;
 
 			if(components != null) for(IHUDComponent component : components) {
-				int bottomOffset = 0;
 				component.renderHUDComponent(event, type, player, stack, bottomOffset, i);
 				bottomOffset += component.getComponentHeight(player, stack);
 			}

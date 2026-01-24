@@ -8,6 +8,7 @@ import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderEOTT extends ItemRenderWeaponBase {
@@ -209,7 +210,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderEquipped(ItemStack stack) {
+	public void renderEquipped(ItemStack stack, Object... data) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.eott_tex);
@@ -219,10 +220,36 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 		ResourceManager.aberrator.renderPart("Slide");
 		ResourceManager.aberrator.renderPart("Sight");
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		EntityLivingBase ent = (EntityLivingBase) data[1];
+		long shot;
+		double shotRand = 0;
+		if(ent == Minecraft.getMinecraft().thePlayer) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			shot = gun.lastShot[1];
+			shotRand = gun.shotRand;
+		} else {
+			shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+			if(shot < 0) return;
+		}
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, 4);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glRotated(90 * shotRand, 1, 0, 0);
+		GL11.glScaled(0.75, 0.75, 0.75);
+		this.renderMuzzleFlash(shot, 75, 7.5);
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, -1.5);
+		GL11.glScaled(0.5, 0.5, 0.5);
+		this.renderFireball(shot);
+		GL11.glPopMatrix();
 	}
 
 	@Override
-	public void renderEquippedAkimbo(ItemStack stack) {
+	public void renderEquippedAkimbo(ItemStack stack, EntityLivingBase ent) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.eott_tex);
@@ -232,6 +259,31 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 		ResourceManager.aberrator.renderPart("Slide");
 		ResourceManager.aberrator.renderPart("Sight");
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		long shot;
+		double shotRand = 0;
+		if(ent == Minecraft.getMinecraft().thePlayer) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			shot = gun.lastShot[0];
+			shotRand = gun.shotRand;
+		} else {
+			shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+			if(shot < 0) return;
+		}
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, 4);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glRotated(90 * shotRand, 1, 0, 0);
+		GL11.glScaled(0.75, 0.75, 0.75);
+		this.renderMuzzleFlash(shot, 75, 7.5);
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, -1.5);
+		GL11.glScaled(0.5, 0.5, 0.5);
+		this.renderFireball(shot);
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -268,7 +320,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
@@ -292,6 +344,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 		if(System.currentTimeMillis() - lastShot < flash) {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glDisable(GL11.GL_CULL_FACE);
 			GL11.glPushMatrix();
 			
 			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
@@ -318,6 +371,7 @@ public class ItemRenderEOTT extends ItemRenderWeaponBase {
 			tess.draw();
 			GL11.glPopMatrix();
 			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glEnable(GL11.GL_CULL_FACE);
 		}
 	}
 }

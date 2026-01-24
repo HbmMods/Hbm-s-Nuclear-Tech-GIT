@@ -9,6 +9,7 @@ import com.hbm.render.anim.HbmAnimations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderStinger extends ItemRenderWeaponBase {
@@ -127,7 +128,7 @@ public class ItemRenderStinger extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -135,5 +136,27 @@ public class ItemRenderStinger extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.stinger_tex);
 		ResourceManager.stinger.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 3.5, -10.3795);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			GL11.glScaled(0.75, 0.75, 0.75);
+			this.renderMuzzleFlash(shot, 150, 10);
+			GL11.glPopMatrix();
+		}
 	}
 }

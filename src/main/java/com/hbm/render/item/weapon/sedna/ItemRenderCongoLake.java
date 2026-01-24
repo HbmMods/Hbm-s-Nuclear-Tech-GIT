@@ -13,6 +13,7 @@ import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderCongoLake extends ItemRenderWeaponBase {
@@ -168,12 +169,34 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.congolake_tex);
 		ResourceManager.congolake.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 1.75, 4.25);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			GL11.glScaled(0.5, 0.5, 0.5);
+			this.renderMuzzleFlash(shot, 150, 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 }

@@ -82,6 +82,7 @@ public class TileMappings {
 		put(TileEntityDecoPoleSatelliteReceiver.class, "tileentity_satellitereceicer");
 		put(TileEntityMachineBattery.class, "tileentity_battery");
 		put(TileEntityBatterySocket.class, "tileentity_battery_socket");
+		put(TileEntityBatteryREDD.class, "tileentity_battery_redd");
 		put(TileEntityCapacitor.class, "tileentity_capacitor");
 		put(TileEntityMachineWoodBurner.class, "tileentity_wood_burner");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
@@ -122,7 +123,6 @@ public class TileMappings {
 		put(TileEntityMachinePress.class, "tileentity_press");
 		put(TileEntityMachineAmmoPress.class, "tileentity_ammo_press");
 		put(TileEntityMachineSiren.class, "tileentity_siren");
-		put(TileEntityMachineSPP.class, "tileentity_spp");
 		put(TileEntityMachineRadGen.class, "tileentity_radgen");
 		put(TileEntityMachineRadarNT.class, "tileentity_radar");
 		put(TileEntityMachineRadarLarge.class, "tileentity_radar_large");
@@ -417,6 +417,7 @@ public class TileMappings {
 		put(TileEntityFusionTorusStruct.class, "tileentity_fusion_torus_struct");
 		put(TileEntityFusionTorus.class, "tileentity_fusion_torus");
 		put(TileEntityFusionKlystron.class, "tileentity_fusion_klystron");
+		put(TileEntityFusionKlystronCreative.class, "tileentity_fusion_klystron_creative");
 		put(TileEntityFusionBreeder.class, "tileentity_fusion_breeder");
 		put(TileEntityFusionCollector.class, "tileentity_fusion_collector");
 		put(TileEntityFusionBoiler.class, "tileentity_fusion_boiler");
@@ -443,6 +444,7 @@ public class TileMappings {
 		put(TileEntityPipeExhaust.class, "tileentity_pipe_exhaust");
 		put(TileEntityPipeExhaustPaintable.class, "tileentity_pipe_exhaust_paintable");
 		put(TileEntityFluidValve.class, "tileentity_pipe_valve");
+		put(TileEntityFluidCounterValve.class, "tileentity_pipe_counter_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
 		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");

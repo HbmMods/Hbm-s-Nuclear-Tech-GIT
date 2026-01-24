@@ -8,6 +8,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderUzi extends ItemRenderWeaponBase {
@@ -154,7 +155,7 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		boolean silenced = hasSilencer(stack, 0);
@@ -174,6 +175,27 @@ public class ItemRenderUzi extends ItemRenderWeaponBase {
 		ResourceManager.uzi.renderPart("Magazine");
 		if(silenced) ResourceManager.uzi.renderPart("Silencer");
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED && !silenced) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0.75, 8.5);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			this.renderMuzzleFlash(shot, 75, 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean hasSilencer(ItemStack stack, int cfg) {

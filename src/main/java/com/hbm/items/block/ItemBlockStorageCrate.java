@@ -20,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 import javax.annotation.Nonnull;
 
 public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider {
@@ -89,6 +91,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	}
 
 	public static class InventoryCrate extends ItemInventory {
+		
+		public static Random rand = new Random();
 
 		public InventoryCrate(EntityPlayer player, ItemStack crate) {
 			this.player = player;
@@ -133,6 +137,11 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		public boolean hasCustomInventoryName() {
 			return target.hasDisplayName();
 		}
+		
+		@Override
+		public boolean isUseableByPlayer(EntityPlayer player) {
+			return player.getHeldItem() == this.target;
+		}
 
 		@Override
 		public void markDirty() { // You have been blessed by the unfuck
@@ -140,6 +149,8 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			// Preserve existing NBT so we keep lock data and piders
 			NBTTagCompound nbt = target.stackTagCompound != null ? target.stackTagCompound : new NBTTagCompound();
 			int invSize = this.getSizeInventory();
+			
+			nbt.removeTag("stacklock");
 
 			for(int i = 0; i < invSize; i++) {
 
@@ -153,10 +164,9 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 				stack.writeToNBT(slot);
 				nbt.setTag("slot" + i, slot);
 			}
-
-			if (nbt.hasNoTags()) {
-				nbt = null;
-			}
+			
+			// never, ever fucking ever remove the tag compound here, lack of tack compound makes the crate stackable
+			nbt.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
 
 			target.setTagCompound(nbt);
 		}
@@ -168,6 +178,16 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			// Check for 6kb item vomit
 			target.setTagCompound(checkNBT(target.getTagCompound()));
 			player.inventoryContainer.detectAndSendChanges();
+			
+			if(target.stackTagCompound != null) {
+				target.stackTagCompound.removeTag("stacklock");
+				
+				if(target.stackTagCompound.hasNoTags()) {
+					target.setTagCompound(null); // if there's no tags left, clear compound to make the crate stackable again
+				} else {
+					target.stackTagCompound.setLong("stacklock", rand.nextLong()); // add shit that prevents crates from stacking
+				}
+			}
 		}
 	}
 }

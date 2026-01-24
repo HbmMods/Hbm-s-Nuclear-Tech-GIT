@@ -34,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -102,36 +103,8 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 
 			if(output < outputTarget / 50) output = 0;
 
-			if(klystronNode == null || klystronNode.expired) {
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
-				klystronNode = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, KlystronNetworkProvider.THE_PROVIDER);
-
-				if(klystronNode == null) {
-					klystronNode = new GenNode(KlystronNetworkProvider.THE_PROVIDER,
-							new BlockPos(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4))
-							.setConnections(new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir));
-
-					UniNodespace.createNode(worldObj, klystronNode);
-				}
-			}
-
-			if(klystronNode.net != null) klystronNode.net.addProvider(this);
-
-			if(klystronNode != null && klystronNode.net != null) {
-				KlystronNetwork net = (KlystronNetwork) klystronNode.net;
-
-				for(Object o : net.receiverEntries.entrySet()) {
-					Entry e = (Entry) o;
-					if(e.getKey() instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
-						TileEntityFusionTorus torus = (TileEntityFusionTorus) e.getKey();
-
-						if(torus.isLoaded() && !torus.isInvalid()) { // check against zombie network members
-							torus.klystronEnergy += this.output;
-							break; // we only do one anyway
-						}
-					}
-				}
-			}
+			this.klystronNode = handleKNode(klystronNode, this);
+			provideKyU(klystronNode, this.output);
 
 			this.networkPackNT(100);
 
@@ -172,6 +145,56 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 				}
 			}
 		}
+	}
+	
+	/** Ensures the k-node exists, is loaded, and the klystron is a provider in the k-net. Returns a new klystron node if none existed, or the previous one. */
+	public static GenNode handleKNode(GenNode klystronNode, TileEntity that) {
+		
+		World worldObj = that.getWorldObj();
+		int xCoord = that.xCoord;
+		int yCoord = that.yCoord;
+		int zCoord = that.zCoord;
+
+		if(klystronNode == null || klystronNode.expired) {
+			ForgeDirection dir = ForgeDirection.getOrientation(that.getBlockMetadata() - 10).getOpposite();
+			klystronNode = UniNodespace.getNode(worldObj, xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4, KlystronNetworkProvider.THE_PROVIDER);
+
+			if(klystronNode == null) {
+				klystronNode = new GenNode(KlystronNetworkProvider.THE_PROVIDER,
+						new BlockPos(xCoord + dir.offsetX * 4, yCoord + 2, zCoord + dir.offsetZ * 4))
+						.setConnections(new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir));
+
+				UniNodespace.createNode(worldObj, klystronNode);
+			}
+		}
+
+		if(klystronNode.net != null) klystronNode.net.addProvider(that);
+		
+		return klystronNode;
+	}
+	
+	/** Provides klystron energy to the k-net of the supplied k-node, returns true is a connection is established */
+	public static boolean provideKyU(GenNode klystronNode, long output) {
+		boolean connected = false;
+
+		if(klystronNode != null && klystronNode.net != null) {
+			KlystronNetwork net = (KlystronNetwork) klystronNode.net;
+
+			for(Object o : net.receiverEntries.entrySet()) {
+				Entry e = (Entry) o;
+				if(e.getKey() instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
+					TileEntityFusionTorus torus = (TileEntityFusionTorus) e.getKey();
+
+					if(torus.isLoaded() && !torus.isInvalid()) { // check against zombie network members
+						torus.klystronEnergy += output;
+						connected = true;
+						break; // we only do one anyway
+					}
+				}
+			}
+		}
+		
+		return connected;
 	}
 
 	public DirPos[] getConPos() {

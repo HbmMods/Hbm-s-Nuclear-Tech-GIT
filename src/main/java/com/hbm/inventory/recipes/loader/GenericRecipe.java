@@ -7,6 +7,7 @@ import java.util.Locale;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutput;
 import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutputMulti;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
@@ -73,12 +74,18 @@ public class GenericRecipe {
 	public GenericRecipe setPools528(String... pools) { if(GeneralConfig.enable528) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); } return this; }
 	public GenericRecipe setGroup(String autoSwitch, GenericRecipes set) { this.autoSwitchGroup = autoSwitch; set.addToGroup(autoSwitch, this); return this; }
 
-	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) if(stack.stacksize > 64) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
-	public GenericRecipe inputItemsEx(AStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputItem = input; for(AStack stack : this.inputItem) if(stack.stacksize > 64) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
+	public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) if(exceedsStackLimit(stack)) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
+	public GenericRecipe inputItemsEx(AStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputItem = input; for(AStack stack : this.inputItem) if(exceedsStackLimit(stack)) throw new IllegalArgumentException("AStack in " + this.name + " exceeds stack limit!"); return this; }
 	public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
 	public GenericRecipe inputFluidsEx(FluidStack... input) { if(!GeneralConfig.enableExpensiveMode) return this; this.inputFluid = input; return this; }
 	public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
+	
+	private boolean exceedsStackLimit(AStack stack) {
+		if(stack instanceof ComparableStack && stack.stacksize > ((ComparableStack) stack).item.getItemStackLimit(((ComparableStack) stack).toStack())) return true;
+		if(stack.stacksize > 64) return true;
+		return false;
+	}
 
 	public GenericRecipe outputItems(ItemStack... output) {
 		this.outputItem = new IOutput[output.length];

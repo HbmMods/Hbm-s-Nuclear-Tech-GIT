@@ -18,6 +18,7 @@ public class HbmAnimations {
 	//animation is playing, though this will cancel the animation entirely.
 	public static final Animation[][] hotbar = new Animation[9][8]; //now with 8 parallel rails per slot! time to get railed!
 
+	/** Keyframe-based animation system primarily used for guns, not to be confused with Drillgon's animloader system. */
 	public static class Animation {
 
 		//the "name" of the animation slot. if the item has a different key than

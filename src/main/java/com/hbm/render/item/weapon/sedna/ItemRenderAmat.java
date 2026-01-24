@@ -9,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -181,7 +182,7 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -194,7 +195,9 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 		ResourceManager.amat.renderPart("BipodRight");
 		ResourceManager.amat.renderPart("BipodHingeRight");
 		if(isScoped(stack)) ResourceManager.amat.renderPart("Scope");
-		if(isSilenced(stack)) {
+		
+		boolean silenced = isSilenced(stack);
+		if(silenced) {
 			GL11.glTranslated(0, 0.625, -4.3125);
 			GL11.glScaled(1.25, 1.25, 1.25);
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.g3_attachments);
@@ -203,6 +206,25 @@ public class ItemRenderAmat extends ItemRenderWeaponBase {
 			ResourceManager.amat.renderPart("MuzzleBrake");
 		}
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED && !silenced) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0.5, 11);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glScaled(0.75, 0.75, 0.75);
+			this.renderGapFlash(shot);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean isScoped(ItemStack stack) {

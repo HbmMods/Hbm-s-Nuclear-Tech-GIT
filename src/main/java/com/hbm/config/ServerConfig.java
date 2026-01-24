@@ -20,6 +20,7 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> CRATE_OPEN_HELD =				new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> CRATE_KEEP_CONTENTS =			new ConfigWrapper(true);
 	public static ConfigWrapper<Integer> ITEM_HAZARD_DROP_TICKRATE =	new ConfigWrapper(2);
+	public static ConfigWrapper<Boolean> ENABLE_MKU =					new ConfigWrapper(true);
 
 	private static void initDefaults() {
 		configMap.put("DAMAGE_COMPATIBILITY_MODE", DAMAGE_COMPATIBILITY_MODE);
@@ -32,6 +33,7 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("CRATE_OPEN_HELD", CRATE_OPEN_HELD);
 		configMap.put("CRATE_KEEP_CONTENTS", CRATE_KEEP_CONTENTS);
 		configMap.put("ITEM_HAZARD_DROP_TICKRATE", ITEM_HAZARD_DROP_TICKRATE);
+		configMap.put("ENABLE_MKU", ENABLE_MKU);
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */

@@ -11,6 +11,7 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
@@ -131,7 +132,7 @@ public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glRotated(180, 0, 1, 0);
@@ -140,5 +141,26 @@ public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
 		ResourceManager.spas_12.renderPart("MainBody");
 		ResourceManager.spas_12.renderPart("PumpGrip");
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 1.5, -11);
+			GL11.glRotated(-90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			this.renderMuzzleFlash(shot, 75, 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 }

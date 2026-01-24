@@ -1,25 +1,27 @@
-## Added
-* New battery system
-  * Energy storage blocks, capacitors and battery items are now deprecated, but can still be used
-  * There is now new types of battery items, as well as capacitor items
-  * Instead of energy storage blocks, there is now a battery socket, which allows those new items to be connected to the power grid
-  * Battery sockets act like cables, they will connect power grids when two cables are plugged into them in different directions
-  * Self-chargers and creative batteries are still around, as well as spark batteries which are needed for the balefire bomb
-
 ## Changed
-* Updated italian localization
-* After not being part of worldgen for a long time, oily coal is finally being removed
-* The rare metal blocks that had been unobtainable and unused for the longest time have been removed
-* The schrabidium transmutator's grace period is over, it is finally being destroyed
-* Most of the legacy fusion reactor components, which were unobtainable and unusable, have been removed
-  * The block ID economy is looking better than ever
-* Infinite water barrels can now be crafted with any water container and not just buckets
-* OpenComputers integration for the PWR can now also read the heat capacity stats
+* Updated russian localization
+* Rad absorbers now use metadata, existing blocks will be converted automatically
+* Fissure bombs that go off in crater biomes now create fissures with metadata 1 which creates radioactive volcanic lava
+  * If a crater biome is created on top of an existing fissure, it will keep producing normal volcanic lava
+* Simplified the battery socket's client packets, reducing CPU load
+* Muzzle flashes on guns now work in third person mode, including on other players and on NPCs, making it more apparent when you're being fired at
+  * This includes non-standard special effects like the .44 gap flash and the .35-800 ejector plume
+* Removed the old unused satelite deco blocks, freeing up 6 block IDs
+* Crucibles that smelt metal with no template set will no place the metal in the recipe stack instead of the waste stack, this should make it easier to get a recipe to work in the many, many cases where people add the template after smelting the material
+* Battery sockets and the FENSU now support the copy tool
+* Removed unused displaylist support from the model loader
+  * DLs have been long phased out in favor of VBOs anyway
+* Rebranded canned horse slime
+  * Now with extra bone marrow
+* Updated the deuterium tower's model
+* Increased the energy requirement for welding osmiridium
 
-## Fixed
-* Fixed meteors using a nonexistant keepalive timer, causing potential audio flickering in certain cases
-* Fixed 528 coltan deposit config misspelling
-* Potentially fixed a performance issue caused by transmission networks not being deleted when they have no active links
-* Fixed multi output recipe objects not deserializing right, causing the precision assembler config to not load
-* Fixed pedestal recipes not using the correct register option, making custom config files wipe all clay tablets
-* Fixed custom fluids breaking when using the `/ntmreload` command
+# Fixed
+* Potentially fixed yet another issue regarding crates
+* Fixed battery socket `fillpercent` RoR function always assuming a max power of 1
+* Fixed issue where multiblock ports would generate many OpenComputers component entries
+* Fixed RBMK automatic control rods having incorrect settings when using the copy tool
+* Fixed battery sockets producing junk debug data in the logs
+* Fixed an issue where the charging station would crash when trying to charge certain items
+* Fixed the DFC's core component not dropping its contents when mined
+* Fixed audio problems with guns

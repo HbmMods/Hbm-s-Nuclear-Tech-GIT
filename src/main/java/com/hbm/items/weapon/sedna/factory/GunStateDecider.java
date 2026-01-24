@@ -20,7 +20,8 @@ public class GunStateDecider {
 	/**
 	 * The meat and bones of the gun system's state machine.
 	 * This standard decider can handle guns with an automatic primary receiver, as well as one receiver's reloading state.
-	 * It supports draw delays as well as semi and auto fire
+	 * It supports draw delays as well as semi and auto fire with a standard left click refire check.
+	 * Only handles single receiver weapons!
 	 */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_DECIDER = (stack, ctx) -> {
 		int index = ctx.configIndex;

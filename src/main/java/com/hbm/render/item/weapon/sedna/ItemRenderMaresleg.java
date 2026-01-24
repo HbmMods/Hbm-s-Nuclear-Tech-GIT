@@ -9,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -155,7 +156,7 @@ public class ItemRenderMaresleg extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		
@@ -163,11 +164,33 @@ public class ItemRenderMaresleg extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.maresleg.renderPart("Gun");
 		ResourceManager.maresleg.renderPart("Lever");
-		if(!getShort(stack)) {
+		boolean shortened = getShort(stack);
+		if(!shortened) {
 			ResourceManager.maresleg.renderPart("Stock");
 			ResourceManager.maresleg.renderPart("Barrel");
 		}
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 1, shortened ? 3.75 : 8);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			this.renderMuzzleFlash(shot, 75, 5);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean getShort(ItemStack stack) {

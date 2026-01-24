@@ -120,7 +120,7 @@ public class ItemRenderFlaregun extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);

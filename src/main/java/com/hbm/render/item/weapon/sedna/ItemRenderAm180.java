@@ -9,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderAm180 extends ItemRenderWeaponBase {
@@ -147,7 +148,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -159,6 +160,30 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		ResourceManager.am180.renderPart("Mag");
 		ResourceManager.am180.renderPart("MagPlate");
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(type == ItemRenderType.EQUIPPED) {
+			EntityLivingBase ent = (EntityLivingBase) data[1];
+			long shot;
+			double shotRand = 0;
+			if(ent == Minecraft.getMinecraft().thePlayer) {
+				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+				shot = gun.lastShot[0];
+				shotRand = gun.shotRand;
+			} else {
+				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+				if(shot < 0) return;
+			}
+			boolean silenced = this.hasSilencer(stack);
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 1.875, silenced ? 16.75 : 12);
+			GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(90 * shotRand, 1, 0, 0);
+			double flashScale = silenced ? 0.5 : 0.75;
+			GL11.glScaled(flashScale, flashScale, flashScale);
+			this.renderMuzzleFlash(shot, silenced ? 75 : 50, silenced ? 5 : 7.5);
+			GL11.glPopMatrix();
+		}
 	}
 	
 	public boolean hasSilencer(ItemStack stack) {

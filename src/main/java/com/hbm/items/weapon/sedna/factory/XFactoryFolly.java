@@ -124,7 +124,7 @@ public class XFactoryFolly {
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE = (stack, ctx) -> {
-		Lego.doStandardFire(stack, ctx, GunAnimation.CYCLE, false);
+		Lego.doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, false);
 	};
 
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> {

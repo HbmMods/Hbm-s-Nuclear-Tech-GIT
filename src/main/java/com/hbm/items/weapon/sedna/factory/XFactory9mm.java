@@ -154,7 +154,7 @@ public class XFactory9mm {
 			ItemGunBaseNT.setTimer(stack, index, primary.getDelayAfterFire(stack));
 			EntityDamageUtil.attackEntityFromNT(player, BulletConfig.getDamage(player, player, DamageClass.PHYSICAL), 1_000F, true, false, 1D, 5F, 0F);
 		} else {
-			Lego.doStandardFire(stack, ctx, GunAnimation.CYCLE, true);
+			Lego.doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, true);
 		}
 	};
 

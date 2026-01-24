@@ -103,6 +103,10 @@ public class FluidType {
 	
 	/** For CompatFluidRegistry */
 	public FluidType(String name, int id, int color, int p, int f, int r, EnumSymbol symbol, ResourceLocation texture) {
+		setupForeign(name, id, color, p, f, r, symbol, texture);
+	}
+	
+	public FluidType setupForeign(String name, int id, int color, int p, int f, int r, EnumSymbol symbol, ResourceLocation texture) {
 		this.stringId = name;
 		this.color = color;
 		this.unlocalized = "hbmfluid." + name.toLowerCase(Locale.US);
@@ -114,8 +118,9 @@ public class FluidType {
 		this.renderWithTint = true;
 
 		this.id = id;
-		Fluids.register(this, id);
 		Fluids.foreignFluids.add(this);
+		Fluids.register(this, id);
+		return this;
 	}
 	
 	public FluidType setTemp(int temperature) {

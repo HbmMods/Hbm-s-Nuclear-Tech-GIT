@@ -7,6 +7,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderDANI extends ItemRenderWeaponBase {
@@ -167,21 +168,54 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderEquipped(ItemStack stack) {
+	public void renderEquipped(ItemStack stack, Object... data) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_lunar_tex);
 		ResourceManager.bio_revolver.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		//Stopgap: at the moment, the flashMap is gun agnostic and does not care about index.
+		EntityLivingBase ent = (EntityLivingBase) data[1]; //Entity is second obj. passed 
+		long shot;
+		if(ent == Minecraft.getMinecraft().thePlayer) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			shot = gun.lastShot[1];
+		} else {
+			shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+			if(shot < 0) return;
+		}
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 1.5, 9.25);
+		GL11.glRotated(90, 0, 1, 0);
+		this.renderMuzzleFlash(shot, 75, 7.5);
+		GL11.glPopMatrix();
 	}
 
 	@Override
-	public void renderEquippedAkimbo(ItemStack stack) {
+	public void renderEquippedAkimbo(ItemStack stack, EntityLivingBase ent) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);
 		ResourceManager.bio_revolver.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		//EntityPlayer is first & only object passed
+		long shot;
+		if(ent == Minecraft.getMinecraft().thePlayer) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			shot = gun.lastShot[0];
+		} else {
+			shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
+			if(shot < 0) return;
+		}
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 1.5, 9.25);
+		GL11.glRotated(90, 0, 1, 0);
+		this.renderMuzzleFlash(shot, 75, 7.5);
+		GL11.glPopMatrix();
 	}
 
 	@Override
@@ -216,7 +250,7 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) {
+	public void renderOther(ItemStack stack, ItemRenderType type, Object... data) {
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);

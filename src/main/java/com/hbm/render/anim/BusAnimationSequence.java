@@ -90,7 +90,9 @@ public class BusAnimationSequence {
 		
 		for(Dimension dim : Dimension.values()) {
 			List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dim.ordinal());
-			for(BusAnimationKeyframe keyframe : keyframes) keyframe.duration *= mult;
+			for(BusAnimationKeyframe keyframe : keyframes) {
+				keyframe.duration = (int) (keyframe.originalDuration * mult);
+			}
 		}
 		return this;
 	}
@@ -133,7 +135,7 @@ public class BusAnimationSequence {
 				continue;
 			}
 
-			if(millis >= endTime) {
+			if(millis >= endTime || currentFrame.duration == 0) {
 				transform[i] = currentFrame.value;
 				continue;
 			}

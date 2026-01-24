@@ -495,8 +495,4 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	public WavefrontObjVBO asVBO() {
 		return new WavefrontObjVBO(this);
 	}
-	
-	public WavefrontObjDisplayList asDisplayList() {
-		return new WavefrontObjDisplayList(this);
-	}
 }

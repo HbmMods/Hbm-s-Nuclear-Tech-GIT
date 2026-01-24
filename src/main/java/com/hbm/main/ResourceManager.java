@@ -271,6 +271,7 @@ public class ResourceManager {
 
 	//FENSU
 	public static final IModelCustom battery_socket = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/battery.obj")).asVBO();
+	public static final IModelCustom battery_redd = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/fensu2.obj")).asVBO();
 	public static final IModelCustom fensu = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/fensu.obj")).asVBO();
 
 	//Radar
@@ -300,13 +301,6 @@ public class ResourceManager {
 	public static final IModelCustom dud_salted = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/dud_salted.obj")).asVBO();
 
 	//Satellites
-	public static final IModelCustom sat_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_base.obj"));
-	public static final IModelCustom sat_radar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_radar.obj"));
-	public static final IModelCustom sat_resonator = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_resonator.obj"));
-	public static final IModelCustom sat_scanner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_scanner.obj"));
-	public static final IModelCustom sat_mapper = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_mapper.obj"));
-	public static final IModelCustom sat_laser = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_laser.obj"));
-	public static final IModelCustom sat_foeq = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_foeq.obj"));
 	public static final IModelCustom sat_foeq_burning = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_foeq_burning.obj"));
 	public static final IModelCustom sat_foeq_fire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_foeq_fire.obj"));
 
@@ -343,7 +337,12 @@ public class ResourceManager {
 	//Doors
 	public static AnimatedModel transition_seal = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"), true);
 	public static Animation transition_seal_anim = ColladaLoader.loadAnim(24040, new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"));
-	public static final IModelCustomNamed fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/fire_door.obj")).asVBO();
+	
+	//PheoDoors
+	public static final ResourceLocation pheo_fire_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door.png");
+	public static IModelCustomNamed pheo_fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/fire_door.obj")).asVBO();
+	public static final ResourceLocation pheo_airlock_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/airlock_door.png");
+	public static IModelCustomNamed pheo_airlock_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/airlock_door.obj")).asVBO();
 
 	//Secure Access Door
 	public static final ResourceLocation secure_access_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/secure_access_door.png");
@@ -719,6 +718,7 @@ public class ResourceManager {
 	public static final ResourceLocation fusion_plasma_glow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma_glow.png");
 	public static final ResourceLocation fusion_plasma_sparkle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma_sparkle.png");
 	public static final ResourceLocation fusion_klystron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/klystron.png");
+	public static final ResourceLocation fusion_klystron_creative_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/klystron_creative.png");
 	public static final ResourceLocation fusion_breeder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/breeder.png");
 	public static final ResourceLocation fusion_collector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/collector.png");
 	public static final ResourceLocation fusion_boiler_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/boiler.png");
@@ -739,6 +739,8 @@ public class ResourceManager {
 
 	//FENSU
 	public static final ResourceLocation battery_socket_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/battery_socket.png");
+	public static final ResourceLocation battery_sc_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/battery_sc.png");
+	public static final ResourceLocation battery_redd_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fensu2.png");
 	public static final ResourceLocation fensu_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fensu.png");
 
 	//Radar
@@ -817,7 +819,6 @@ public class ResourceManager {
 
 	//Doors
 	public static final ResourceLocation transition_seal_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/transition_seal.png");
-	public static final ResourceLocation fire_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/fire_door.png");
 
 	//Skeleton
 	public static final ResourceLocation skeleton_holder_tex = new ResourceLocation(RefStrings.MODID, "textures/particle/skeleton.png");

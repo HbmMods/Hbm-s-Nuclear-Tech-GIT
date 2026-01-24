@@ -10,8 +10,9 @@ public class CompatFluidRegistry {
 
 	/** Registers a fluid with a custom ID. */
 	public static FluidType registerFluid(String name, int id, int color, int p, int f, int r, EnumSymbol symbol, ResourceLocation texture) {
-		FluidType type = new FluidType(name, id, color, p, f, r, symbol, texture);
-		Fluids.metaOrder.add(type);
+		FluidType type = Fluids.fluidMigration.get(name);
+		if(type == null) type = new FluidType(name, id, color, p, f, r, symbol, texture);
+		else type.setupForeign(name, id, color, p, f, r, symbol, texture);
 		return type;
 	}
 }
