@@ -5973,8 +5973,8 @@ tile.machine_crucible.desc=Скорость передачи тепла: ΔT*0,2
 tile.machine_crystallizer.name=Рудный окислитель
 tile.machine_cyclotron.name=Циклотрон
 tile.machine_detector.name=Детектор мощности
-tile.machine_deuterium_extractor.name=Экстрактор тяжёлой воды
-tile.machine_deuterium_tower.name=Колонна очистки дейтерия сульфидным процессом Гирдлера
+tile.machine_deuterium_extractor.name=Экстрактор дейтерия
+tile.machine_deuterium_tower.name=Колонна экстракции дейтерия
 tile.machine_diesel.name=Дизельный генератор
 tile.machine_difurnace_extension.name=Расширитель доменной печи
 tile.machine_difurnace_off.name=Доменная печь
@@ -6728,6 +6728,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
