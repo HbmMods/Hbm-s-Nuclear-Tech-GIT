@@ -1,12 +1,10 @@
 package com.hbm.tileentity;
 
-import com.hbm.main.NetworkHandler;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 
 import api.hbm.tile.ILoadedTile;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -94,7 +92,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 		boolean forceSend = playersNeedingData != null && !playersNeedingData.isEmpty();
 
-		boolean hasNoNormalReceivers = getPlayersToSendTo(range).isEmpty();
+		Set<EntityPlayerMP> toSendTo = getPlayersToSendTo(range);
+
+		boolean hasNoNormalReceivers = toSendTo.isEmpty();
 
 		// skip compiling the packet at all in the event it won't be sent to anyone
 		if (hasNoNormalReceivers && !forceSend) return;
@@ -118,17 +118,17 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		this.lastBufHash = hash;
 
 		//MainRegistry.logger.info("UPDATE: Sent TE data in chunk ({}, {})", this.xCoord >> 4, this.zCoord >> 4);
-		PacketDispatcher.wrapper.sendToAllAround(packet, new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+		sendToPlayers(packet, toSendTo);
 	}
 
 	/**
 	 * Sends a sync packet that uses ByteBuf for efficient information-cramming, employing optimization tricks along the way.
 	 * <p>
-	 * This should be used instead of `networkPackNT()` if this tile supports the Data-Change optimization (see docs).
+	 * This should be used instead of `networkPackNT()` if this tile supports the Data-Change optimization (see docs at {@link com.hbm.handler.packet}).
 	 * If this is used when the tile does not support the aforementioned optimization, data may not be sent to clients correctly.
 	 */
-	public boolean networkPackMK2(int range) {
-		if(worldObj.isRemote) return false;
+	public void networkPackMK2(int range) {
+		if(worldObj.isRemote) return;
 
 		boolean forceSend = playersNeedingData != null && !playersNeedingData.isEmpty();
 
@@ -140,7 +140,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		boolean hasNoNormalReceivers = toSendTo == null || toSendTo.isEmpty();
 
 		// skip compiling the packet at all in the event it won't be sent to anyone
-		if (hasNoNormalReceivers && !forceSend) return false;
+		if (hasNoNormalReceivers && !forceSend) return;
 
 		BufPacket packet = new BufPacket(xCoord, yCoord, zCoord, this);
 
@@ -159,12 +159,11 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 
 		// skip sending the packet if there are no receivers (already sent to anyone who needs it with forceSend).
-		if (hasNoNormalReceivers) return true;
+		if (hasNoNormalReceivers) return;
 
 		//MainRegistry.logger.info("UPDATE: Sent TE data in chunk ({}, {})", this.xCoord >> 4, this.zCoord >> 4);
-		PacketDispatcher.wrapper.sendToAllAround(packet, new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+		sendToPlayers(packet, toSendTo);
 		hasDataChanged = false;
-		return true;
 	}
 
 	private Set<EntityPlayerMP> getPlayersToSendTo(int range) {
