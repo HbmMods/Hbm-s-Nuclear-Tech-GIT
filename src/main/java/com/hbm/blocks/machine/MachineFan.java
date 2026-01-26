@@ -80,12 +80,14 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		public float prevSpin;
 		public boolean falloff = true;
 
+		private boolean isIndirectlyPowered;
+
 		@Override
 		public void updateEntity() {
 			
 			this.prevSpin = this.spin;
-			
-			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+
+			if(isIndirectlyPowered) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				
 				int range = 10;
@@ -154,12 +156,14 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			this.falloff = nbt.getBoolean("falloff");
+			this.isIndirectlyPowered = nbt.getBoolean("redstone");
 		}
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
 			nbt.setBoolean("falloff", falloff);
+			nbt.setBoolean("redstone", isIndirectlyPowered);
 		}
 
 		@Override
@@ -206,6 +210,12 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		}
 
 		return false;
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityFan fan = (TileEntityFan) world.getTileEntity(x, y, z);
+		fan.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
 	}
 
 	@Override

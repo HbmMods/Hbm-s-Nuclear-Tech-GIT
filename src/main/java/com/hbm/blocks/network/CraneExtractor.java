@@ -81,6 +81,12 @@ public class CraneExtractor extends BlockCraneBase {
 	}
 
 	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityCraneExtractor crane = (TileEntityCraneExtractor) world.getTileEntity(x, y, z);
+		crane.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
+	}
+
+	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		this.dropContents(world, x, y, z, block, meta, 9, 20);
 		super.breakBlock(world, x, y, z, block, meta);

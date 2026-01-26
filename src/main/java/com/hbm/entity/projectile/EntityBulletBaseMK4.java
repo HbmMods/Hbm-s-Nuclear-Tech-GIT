@@ -149,7 +149,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp implements IEntit
 			this.motionX = newVec.xCoord;
 			this.motionY = newVec.yCoord;
 			this.motionZ = newVec.zCoord;
-			EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+			EntityTrackerEntry entry = ((EntityTrackerEntry) ((WorldServer) worldObj).getEntityTracker().trackedEntityIDs.lookup(this.getEntityId()));
 			entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
 		}
 		

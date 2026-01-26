@@ -188,6 +188,12 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		}
 	}
 
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityCraneInserter crane = (TileEntityCraneInserter) world.getTileEntity(x, y, z);
+		crane.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
+	}
+
 	@Override public boolean hasComparatorInputOverride() { return true; }
 
 	@Override

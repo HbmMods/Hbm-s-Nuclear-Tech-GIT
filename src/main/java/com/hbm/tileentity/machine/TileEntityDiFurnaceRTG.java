@@ -59,20 +59,35 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		
 		if(worldObj.isRemote)
 			return;
-		
+
+		boolean markDirty = false;
+
 		if(canProcess() && hasPower()) {
 			progress += processSpeed;
 			if(progress >= timeRequired) {
 				processItem();
+				markDirty = true;
 				progress = 0;
 			}
 		} else {
 			progress = 0;
 		}
-		
-		MachineDiFurnaceRTG.updateBlockState(isProcessing() || (canProcess() && hasPower()), getWorldObj(), xCoord, yCoord, zCoord);
+
+		boolean trigger = true;
+
+		if (hasPower() && canProcess() && this.progress == 0) {
+			markDirty = true;
+			trigger = false;
+		}
+
+		if(trigger)
+			MachineDiFurnaceRTG.updateBlockState(this.progress > 0, getWorldObj(), xCoord, yCoord, zCoord);
 
 		networkPackNT(10);
+
+		if(markDirty) {
+			this.markDirty();
+		}
 	}
 
 	@Override
@@ -111,7 +126,6 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 				if(slots[i].stackSize <= 0)
 					slots[i] = null;
 			}
-			markDirty();
 		}
 	}
 

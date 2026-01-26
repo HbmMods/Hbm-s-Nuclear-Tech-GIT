@@ -34,6 +34,8 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public boolean maxEject = false;
 	public ModulePatternMatcher matcher;
 
+	public boolean isIndirectlyPowered;
+
 	public TileEntityCraneExtractor() {
 		super(20);
 		this.matcher = new ModulePatternMatcher(9);
@@ -70,8 +72,8 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 				case 2: delay = 2; break;
 				}
 			}
-			
-			if(worldObj.getTotalWorldTime() % delay == 0 && !this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+
+			if(worldObj.getTotalWorldTime() % delay == 0 && !isIndirectlyPowered) {
 				int amount = 1;
 				
 				if(slots[18] != null && slots[18].getItem() == ModItems.upgrade_stack) {
@@ -259,6 +261,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		super.readFromNBT(nbt);
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
 		this.maxEject = nbt.getBoolean("maxEject");
+		this.isIndirectlyPowered = nbt.getBoolean("redstone");
 		this.matcher.readFromNBT(nbt);
 	}
 	
@@ -267,6 +270,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isWhitelist", this.isWhitelist);
 		nbt.setBoolean("maxEject", this.maxEject);
+		nbt.setBoolean("redstone", this.isIndirectlyPowered);
 		this.matcher.writeToNBT(nbt);
 	}
 

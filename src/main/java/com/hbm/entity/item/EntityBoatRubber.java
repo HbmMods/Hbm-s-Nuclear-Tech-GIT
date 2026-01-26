@@ -85,7 +85,7 @@ public class EntityBoatRubber extends Entity {
 	public double getMountedYOffset() {
 		return (double) this.height * 0.0D - 0.3D;
 	}
-	
+
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if(this.isEntityInvulnerable()) {
@@ -114,7 +114,7 @@ public class EntityBoatRubber extends Entity {
 			return true;
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void performHurtAnimation() {
@@ -122,12 +122,12 @@ public class EntityBoatRubber extends Entity {
 		this.setTimeSinceHit(10);
 		this.setDamageTaken(this.getDamageTaken() * 11.0F);
 	}
-	
+
 	@Override
 	public boolean canBeCollidedWith() {
 		return !this.isDead;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int interp) {
@@ -155,7 +155,7 @@ public class EntityBoatRubber extends Entity {
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void setVelocity(double x, double y, double z) {
@@ -163,7 +163,7 @@ public class EntityBoatRubber extends Entity {
 		this.velocityY = this.motionY = y;
 		this.velocityZ = this.motionZ = z;
 	}
-	
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -179,7 +179,7 @@ public class EntityBoatRubber extends Entity {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
-		
+
 		byte b0 = 5;
 		double d0 = 0.0D;
 
@@ -203,7 +203,7 @@ public class EntityBoatRubber extends Entity {
 				this.rotationPitch = (float) ((double) this.rotationPitch + (this.boatPitch - (double) this.rotationPitch) / (double) this.boatPosRotationIncrements);
 				--this.boatPosRotationIncrements;
 				this.setPosition(x, y, z);
-				
+
 			} else {
 				double x = this.posX + this.motionX;
 				double y = this.posY + this.motionY;
@@ -215,7 +215,7 @@ public class EntityBoatRubber extends Entity {
 					this.motionY *= 0.5D;
 					this.motionZ *= 0.5D;
 				}
-				
+
 				this.passiveDeccelerate();
 			}
 		} else {
@@ -229,31 +229,31 @@ public class EntityBoatRubber extends Entity {
 
 				this.motionY += 0.007000000216066837D;
 			}
-			
+
 			double prevSpeedSq = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-			
+
 			this.isAirBorne = false;
 
 			if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase) {
 				EntityLivingBase entitylivingbase = (EntityLivingBase) this.riddenByEntity;
-				
+
 				if(entitylivingbase.moveForward != 0 || entitylivingbase.moveStrafing != 0) {
-					
+
 					Vec3 dir = Vec3.createVectorHelper(0, 0, 1);
 					dir.rotateAroundY((float) -((this.rotationYaw + 90) * Math.PI / 180D));
 					this.motionX += dir.xCoord * this.speedMultiplier * entitylivingbase.moveForward * 0.05D;
 					this.motionZ += dir.zCoord * this.speedMultiplier * entitylivingbase.moveForward * 0.05D;
-					
+
 					float prevYaw = this.rotationYaw;
 					this.rotationYaw -= entitylivingbase.moveStrafing * 3;
-					
+
 					Vec3 newMotion = Vec3.createVectorHelper(motionX, 0, motionZ);
 					newMotion.rotateAroundY((float) (-(this.rotationYaw - prevYaw) * Math.PI / 180D));
 					this.motionX = newMotion.xCoord;
 					this.motionZ = newMotion.zCoord;
-					
+
 					//HOLY HELL! if we don't shit ourselves over packets and send them at proper intervals, entities are suddenly smooth! who would have thought! mojang certainly didn't!
-					EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+					EntityTrackerEntry entry = ((EntityTrackerEntry) ((WorldServer) worldObj).getEntityTracker().trackedEntityIDs.lookup(this.getEntityId()));
 					entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
 				}
 			} else {
@@ -315,35 +315,35 @@ public class EntityBoatRubber extends Entity {
 				this.motionX *= 0.25D;
 				this.motionY *= 0.25D;
 				this.motionZ *= 0.25D;
-				
+
 			} else {
 				this.passiveDeccelerate();
 			}
 
 			this.rotationPitch = 0.0F;
-			
+
 			if(!(this.riddenByEntity instanceof EntityLivingBase)) {
 				double yaw = (double) this.rotationYaw;
 				double deltaX = this.prevPosX - this.posX;
 				double deltaZ = this.prevPosZ - this.posZ;
-	
+
 				if(deltaX * deltaX + deltaZ * deltaZ > 0.001D) {
 					yaw = (double) ((float) (Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI));
 				}
-	
+
 				double rotationSpeed = MathHelper.wrapAngleTo180_double(yaw - (double) this.rotationYaw);
-	
+
 				if(rotationSpeed > 20.0D) {
 					rotationSpeed = 20.0D;
 				}
-	
+
 				if(rotationSpeed < -20.0D) {
 					rotationSpeed = -20.0D;
 				}
-	
+
 				this.rotationYaw = (float) ((double) this.rotationYaw + rotationSpeed);
 			}
-			
+
 			this.setRotation(this.rotationYaw, this.rotationPitch);
 
 			if(!this.worldObj.isRemote) {
@@ -391,36 +391,36 @@ public class EntityBoatRubber extends Entity {
 			}
 		}
 	}
-	
+
 	protected void passiveDeccelerate() {
 		this.motionX *= 0.99D;
 		this.motionY *= 0.95D;
 		this.motionZ *= 0.99D;
 	}
-	
+
 	@Override
 	public void updateRiderPosition() {
 		if(this.riddenByEntity != null) {
 			double offX = Math.cos((double) this.rotationYaw * Math.PI / 180.0D) * 0.4D;
 			double offZ = Math.sin((double) this.rotationYaw * Math.PI / 180.0D) * 0.4D;
 			this.riddenByEntity.setPosition(this.posX + offX, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + offZ);
-			
+
 			if(this.riddenByEntity instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) this.riddenByEntity;
 				player.renderYawOffset = MathHelper.wrapAngleTo180_float(this.rotationYaw + 90F);
 			}
 		}
 	}
-	
+
 	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_) { }
 	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_) { }
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getShadowSize() {
 		return 0.0F;
 	}
-	
+
 	@Override
 	public boolean interactFirst(EntityPlayer player) {
 		if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != player) {
@@ -433,7 +433,7 @@ public class EntityBoatRubber extends Entity {
 			return true;
 		}
 	}
-	
+
 	@Override
 	protected void updateFallState(double fall, boolean onGround) {
 		int x = MathHelper.floor_double(this.posX);
@@ -455,11 +455,11 @@ public class EntityBoatRubber extends Entity {
 			this.fallDistance = (float) ((double) this.fallDistance - fall);
 		}
 	}
-	
+
 	public void dropBoat() {
 		this.func_145778_a(ModItems.boat_rubber, 1, 0.0F);
 	}
-	
+
 	public void setDamageTaken(float amount) {
 		this.dataWatcher.updateObject(19, Float.valueOf(amount));
 	}

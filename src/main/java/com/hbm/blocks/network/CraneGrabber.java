@@ -47,4 +47,10 @@ public class CraneGrabber extends BlockCraneBase {
 		this.dropContents(world, x, y, z, block, meta, 9, 11);
 		super.breakBlock(world, x, y, z, block, meta);
 	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityCraneGrabber crane = (TileEntityCraneGrabber) world.getTileEntity(x, y, z);
+		crane.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
+	}
 }

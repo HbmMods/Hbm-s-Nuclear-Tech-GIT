@@ -279,6 +279,12 @@ public class MachineBattery extends BlockContainer implements ILookOverlay, IPer
 	}
 
 	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityMachineBattery battery = (TileEntityMachineBattery) world.getTileEntity(x, y, z);
+		battery.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
 		list.add(EnumChatFormatting.GOLD + "Stores up to "+ BobMathUtil.getShortNumber(this.maxPower) + "HE");
 		list.add(EnumChatFormatting.GOLD + "Charge speed: "+ BobMathUtil.getShortNumber(this.maxPower / 200) + "HE");

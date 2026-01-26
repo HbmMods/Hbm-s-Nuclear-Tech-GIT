@@ -28,4 +28,16 @@ public abstract class ThreadedPacket implements IMessage {
 			this.compile();
 		return compiledBuffer;
 	}
+
+	/**
+	 * Writes directly to the compiled buffer.
+	 * This is a potentially dangerous operation, as it can push any data (including potentially invalid data)
+	 * into the packet. Use sparingly!
+	 */
+	public void writeToCompiledBuffer(ByteBuf buf) {
+		if(compiledBuffer != null)
+			compiledBuffer.release();
+		compiledBuffer = Unpooled.buffer();
+		compiledBuffer.writeBytes(buf);
+	}
 }

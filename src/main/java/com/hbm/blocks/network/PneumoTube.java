@@ -16,6 +16,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -220,6 +221,12 @@ public class PneumoTube extends BlockContainer implements IToolable, ITooltipPro
 		TileEntity tile = world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 		if(tile instanceof TileEntityPneumoTube) return false;
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.AIR);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		TileEntityPneumoTube tube = (TileEntityPneumoTube) world.getTileEntity(x, y, z);
+		tube.isIndirectlyPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
 	}
 
 	@Override
