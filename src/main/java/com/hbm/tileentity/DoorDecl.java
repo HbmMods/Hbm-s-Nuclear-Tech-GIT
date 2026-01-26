@@ -5,11 +5,10 @@ import com.hbm.animloader.Animation;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.loader.IModelCustomNamed;
-import com.hbm.render.tileentity.door.IRenderDoors;
-import com.hbm.render.tileentity.door.RenderAirlockDoor;
-import com.hbm.render.tileentity.door.RenderFireDoor;
+import com.hbm.render.tileentity.door.*;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -120,45 +119,9 @@ public abstract class DoorDecl {
 			return null;
 		}
 
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if(!partName.equals("frame")) {
-				set(trans, 0, 3 * getNormTime(openTicks), 0);
-			} else {
-				super.getTranslation(partName, openTicks, child, trans);
-			}
-		}
-
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0, 0, 0.5);
-		}
-
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0, -1, 0, 3.0001 } };
-		}
-
-		@Override
-		public int timeToOpen() {
-			return 160;
-		}
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { -1, 0, 0, 3, 4, 1 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 2, 0, 0, 0, 2, 1 };
-		}
+		@Override public int timeToOpen() { return 160; }
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 4, 1 } }; }
+		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 2, 1 }; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -189,57 +152,31 @@ public abstract class DoorDecl {
 
 	public static final DoorDecl SLIDE_DOOR = new DoorDecl() {
 		
+		@Override public String getOpenSoundEnd() { return "hbm:door.sliding_door_opened"; }
+		@Override public String getCloseSoundEnd() { return "hbm:door.sliding_door_shut"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.sliding_door_opening"; }
+		@Override public String getSoundLoop2() { return "hbm:door.sliding_door_opening"; }
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.sliding_door_opened";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderSlidingBlastDoor.INSTANCE;
+		}
+		
+		@Override
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
+					.addBus("LOCK", new BusAnimationSequence().setPos(0, 0, 0).addPos(1, 0, 0, 200))
+					.addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 0, 350).addPos(0, 0.05, 0, 200).addPos(0, 1, 0, 650, IType.SIN_UP));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation()
+					.addBus("LOCK", new BusAnimationSequence().setPos(1, 0, 0).addPos(1, 0, 0, 1000).addPos(0, 0, 0, 200))
+					.addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0.05, 0, 650, IType.SIN_UP).addPos(0, 0, 0, 200));
+			return null;
 		}
 
-		@Override
-		public String getCloseSoundEnd() {
-			return "hbm:door.sliding_door_shut";
-		}
-
-		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.sliding_door_opening";
-		}
-
-		@Override
-		public String getSoundLoop2() {
-			return "hbm:door.sliding_door_opening";
-		}
-
-		@Override
-		public float getSoundVolume() {
-			return 2;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glRotated(-90, 0, 1, 0);
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { -1, 0, 0, 3.50001 }, { 1, 0, 0, 3.50001 } };
-		}
-
-		@Override
-		public int timeToOpen() {
-			return 24;
-		}
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { -2, 0, 0, 4, 5, 1 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 3, 0, 0, 0, 3, 3 };
-		}
+		@Override public int timeToOpen() { return 24; }
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -2, 0, 0, 4, 5, 1 } }; }
+		@Override public int[] getDimensions() { return new int[] { 3, 0, 0, 0, 3, 3 }; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -253,80 +190,28 @@ public abstract class DoorDecl {
 			return super.getBlockBound(x, y, z, open, forCollision);
 		}
 
-		@Override
-		public boolean hasSkins() {
-			return true;
-		}
-
-		@Override
-		public int getSkinCount() {
-			return 3;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return new ResourceLocation[] { ResourceManager.sliding_blast_door_tex, ResourceManager.sliding_blast_door_variant1_tex, ResourceManager.sliding_blast_door_variant2_tex }[skinIndex];
-		}
-
-		@Override
-		public IModelCustomNamed getModel() {
-			return null;
-		}
-
-		@Override
-		public Animation getAnim() {
-			return ResourceManager.sliding_blast_door_anim;
-		}
-
-		@Override
-		public AnimatedModel getAnimatedModel() {
-			return ResourceManager.sliding_blast_door;
-		}
+		@Override public int getSkinCount() { return 3; }
 	};
 
 	public static final DoorDecl SLIDING_SEAL_DOOR = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.sliding_seal_stop"; }
+		@Override public String getOpenSoundStart() { return "hbm:door.sliding_seal_open"; }
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.sliding_seal_stop";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderSealDoor.INSTANCE;
+		}
+		
+		@Override
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
 
-		@Override
-		public String getOpenSoundStart() {
-			return "hbm:door.sliding_seal_open";
-		}
-
-		public float getSoundVolume() {
-			return 2;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if(partName.startsWith("door")) {
-				set(trans, 0, 0, Library.smoothstep(getNormTime(openTicks), 0, 1));
-			} else {
-				set(trans, 0, 0, 0);
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0, 0, -1, 0.5001 } };
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0.375, 0, 0);
-		};
-
-		@Override
-		public int timeToOpen() {
-			return 20;
-		};
+		@Override public int timeToOpen() { return 20; };
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -337,97 +222,33 @@ public abstract class DoorDecl {
 			}
 		};
 
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { 0, 0, 0, 1, 2, 2 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 1, 0, 0, 0, 0, 0 };
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.sliding_seal_door_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.sliding_seal_door_tex;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.sliding_seal_door;
-		}
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 0, 0, 0, 1, 2, 2 } }; }
+		@Override public int[] getDimensions() { return new int[] { 1, 0, 0, 0, 0, 0 }; }
 	};
 
 	public static final DoorDecl SECURE_ACCESS_DOOR = new DoorDecl() {
 
+		@Override public String getCloseSoundLoop() { return "hbm:door.garage_move"; }
+		@Override public String getCloseSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; }
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getCloseSoundLoop() {
-			return "hbm:door.garage_move";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderSecureDoor.INSTANCE;
+		}
+		
+		@Override
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
 
-		@Override
-		public String getCloseSoundEnd() {
-			return "hbm:door.garage_stop";
-		}
-
-		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.garage_stop";
-		}
-
-		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.garage_move";
-		}
-
-		@Override
-		public float getSoundVolume() {
-			return 2;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if(!partName.equals("base")) {
-				set(trans, 0, 3.5F * getNormTime(openTicks), 0);
-			} else {
-				super.getTranslation(partName, openTicks, child, trans);
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glRotated(90, 0, 1, 0);
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0, -1, 0, 5 } };
-		};
-
-		@Override
-		public int timeToOpen() {
-			return 120;
-		};
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { -2, 1, 0, 4, 5, 1 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 4, 0, 0, 0, 2, 2 };
-		}
+		@Override public int timeToOpen() { return 120; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -2, 1, 0, 4, 5, 1 } }; }
+		@Override public int[] getDimensions() { return new int[] { 4, 0, 0, 0, 2, 2 }; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -446,23 +267,6 @@ public abstract class DoorDecl {
 			}else {
 				return super.getBlockBound(x, y, z, open, forCollision);
 			}
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.secure_access_door_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.secure_access_door_tex;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.secure_access_door;
 		}
 	};
 
@@ -485,30 +289,6 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if("doorLeft".equals(partName)) {
-				set(trans, 0, 0, 1.5F * getNormTime(openTicks));
-			} else if("doorRight".equals(partName)) {
-				set(trans, 0, 0, -1.5F * getNormTime(openTicks));
-			} else {
-				super.getTranslation(partName, openTicks, child, trans);
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0, 0, 0.5);
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0.0, 0.0, 1.0, 2.0001 }, { 0.0, 0.0, -1.0, 2.0001 } };
-		};
-
-		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
 				return super.getBlockBound(x, y, z, open, forCollision);
@@ -524,77 +304,30 @@ public abstract class DoorDecl {
 			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
-		@Override
-		public int timeToOpen() {
-			return 60;
-		};
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { 0, 0, 0, -2, 4, 2 }, { 0, 0, 0, 3, 4, 2 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 3, 0, 0, 0, 2, 1 };
-		};
-
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) { return null; }
-
-		@Deprecated
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
-
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() { return null; }
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 0, 0, 0, -2, 4, 2 }, { 0, 0, 0, 3, 4, 2 } }; }
+		@Override public int[] getDimensions() { return new int[] { 3, 0, 0, 0, 2, 1 }; };
 	};
 
 	public static final DoorDecl QE_SLIDING = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.qe_sliding_opened"; };
+		@Override public String getCloseSoundEnd() { return "hbm:door.qe_sliding_shut"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.qe_sliding_opening"; };
+		@Override public float getSoundVolume() { return 2; }
+		@Override public int timeToOpen() { return 10; };
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.qe_sliding_opened";
-		};
-
-		@Override
-		public String getCloseSoundEnd() {
-			return "hbm:door.qe_sliding_shut";
-		};
-
-		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.qe_sliding_opening";
-		};
-
-		public float getSoundVolume() {
-			return 2;
+		public IRenderDoors getSEDNARenderer() {
+			return RenderSlidingDoor.INSTANCE;
 		}
-
+		
 		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if(partName.startsWith("left")) {
-				set(trans, 0, 0, 0.99F * getNormTime(openTicks));
-			} else {
-				set(trans, 0, 0, -0.99F * getNormTime(openTicks));
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0.40625, 0, 0.5);
-		};
-
-		@Override
-		public int timeToOpen() {
-			return 10;
-		};
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
+		}
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -609,151 +342,69 @@ public abstract class DoorDecl {
 			}
 		};
 
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { 0, 0, 0, 2, 2, 2 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 1, 0, 0, 0, 1, 0 };
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.qe_sliding_door_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return getTextureForPart(partName);
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.qe_sliding_door;
-		}
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 0, 0, 0, 2, 2, 2 } }; }
+		@Override public int[] getDimensions() { return new int[] { 1, 0, 0, 0, 1, 0 }; }
 
 	};
 
 	public static final DoorDecl QE_CONTAINMENT = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_stop"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_start"; };
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.wgh_stop";
-		};
-
+		public IRenderDoors getSEDNARenderer() {
+			return RenderContainmentDoor.INSTANCE;
+		}
+		
 		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.wgh_start";
-		};
-
-		@Override
-		public float getSoundVolume() {
-			return 2;
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if(!partName.equals("frame")) {
-				set(trans, 0, 3 * getNormTime(openTicks), 0);
-			} else {
-				super.getTranslation(partName, openTicks, child, trans);
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0.25, 0, 0);
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0, -1, 0, 3.0001 } };
-		};
-
-		@Override
-		public int timeToOpen() {
-			return 160;
-		};
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { -1, 0, 0, 3, 3, 1 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 2, 0, 0, 0, 1, 1 };
-		}
+		@Override public int timeToOpen() { return 160; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 3, 1 } }; }
+		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 1, 1 }; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open)
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, 1, 1);
 			if(y > 1)
-				return AxisAlignedBB.getBoundingBox(0, 0.5, 0.5, 1, 1, 1);
+				return AxisAlignedBB.getBoundingBox(0, 0.25, 0.5, 1, 1, 1);
 			else if(y == 0)
-				return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, forCollision ? 0 : 0.1, 1);
+				return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, forCollision ? 0 : 0.125, 1);
 			return super.getBlockBound(x, y, z, open, forCollision);
 		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			if(partName.equals("decal"))
-				return ResourceManager.qe_containment_decal;
-			return ResourceManager.qe_containment_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return getTextureForPart(partName);
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.qe_containment;
-		}
 
 	};
 
 	public static final DoorDecl WATER_DOOR = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_big_start"; };
+		@Override public String getOpenSoundStart() { return "hbm:door.lever"; };
+		@Override public String getCloseSoundStart() { return null; };
+		@Override public String getCloseSoundEnd() { return "hbm:door.lever"; };
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.wgh_big_stop";
-		};
-
+		public IRenderDoors getSEDNARenderer() {
+			return RenderWaterDoor.INSTANCE;
+		}
+		
 		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.wgh_big_start";
-		};
-
-		@Override
-		public String getOpenSoundStart() {
-			return "hbm:door.lever";
-		};
-
-		@Override
-		public String getCloseSoundStart() {
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
+					.addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 0, 1500).addPos(0, 1, 0, 1500, IType.SIN_FULL))
+					.addBus("BOLT", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 1, 1500, IType.SIN_FULL));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation()
+					.addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, 1500, IType.SIN_FULL))
+					.addBus("BOLT", new BusAnimationSequence().setPos(0, 0, 1).addPos(0, 0, 1, 1200).addPos(0, 0, 0, 1500, IType.SIN_FULL));
 			return null;
-		};
-
-		@Override
-		public String getCloseSoundEnd() {
-			return "hbm:door.lever";
-		};
-
-		@Override
-		public float getSoundVolume() {
-			return 2;
 		}
 
 		@Override
@@ -765,12 +416,6 @@ public abstract class DoorDecl {
 				set(trans, 0, 0, 0);
 			}
 		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void doOffsetTransform() {
-			GL11.glTranslated(0.375, 0, 0);
-		}
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -802,20 +447,6 @@ public abstract class DoorDecl {
 		};
 
 		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean doesRender(String partName, boolean child) {
-			return child || !partName.startsWith("spinny");
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public String[] getChildren(String partName) {
-			if("door".equals(partName))
-				return new String[] { "spinny_lower", "spinny_upper" };
-			return super.getChildren(partName);
-		};
-
-		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.75, 1, 1, 1);
@@ -827,42 +458,10 @@ public abstract class DoorDecl {
 			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
-		@Override
-		public int timeToOpen() {
-			return 60;
-		};
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { 1, 0, 0, -3, 3, 2 } };
-		}
-
-		public float getDoorRangeOpenTime(int ticks, int idx) {
-			return getNormTime(ticks, 35, 40);
-		};
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 2, 0, 0, 0, 1, 1 };
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.water_door_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.water_door_tex;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.water_door;
-		}
-
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 1, 0, 0, -3, 3, 2 } }; }
+		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 35, 40); };
+		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 1, 1 }; }
 	};
 
 	public static final DoorDecl SILO_HATCH = new DoorDecl() {
@@ -987,37 +586,21 @@ public abstract class DoorDecl {
 
 	public static final DoorDecl LARGE_VEHICLE_DOOR = new DoorDecl() {
 
+		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; };
+		@Override public float getSoundVolume() { return 2; }
+		
 		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if("doorLeft".equals(partName)) {
-				set(trans, 0, 0, 3 * getNormTime(openTicks));
-			} else if("doorRight".equals(partName)) {
-				set(trans, 0, 0, -3 * getNormTime(openTicks));
-			} else {
-				super.getTranslation(partName, openTicks, child, trans);
-			}
-		};
-
-		@Override
-		public String getOpenSoundEnd() {
-			return "hbm:door.garage_stop";
+		public IRenderDoors getSEDNARenderer() {
+			return RenderVehicleDoor.INSTANCE;
 		}
-
+		
 		@Override
-		public String getOpenSoundLoop() {
-			return "hbm:door.garage_move";
-		};
-
-		public float getSoundVolume() {
-			return 2;
+		public BusAnimation getBusAnimation(byte state) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
+			return null;
 		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public double[][] getClippingPlanes() {
-			return new double[][] { { 0.0, 0.0, 1.0, 3.50001 }, { 0.0, 0.0, -1.0, 3.50001 } };
-		};
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -1033,37 +616,9 @@ public abstract class DoorDecl {
 			return super.getBlockBound(x, y, z, open, forCollision);
 		};
 
-		@Override
-		public int timeToOpen() {
-			return 60;
-		};
-
-		@Override
-		public int[][] getDoorOpenRanges() {
-			return new int[][] { { 0, 0, 0, -4, 6, 2 }, { 0, 0, 0, 4, 6, 2 } };
-		}
-
-		@Override
-		public int[] getDimensions() {
-			return new int[] { 5, 0, 0, 0, 3, 3 };
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(String partName) {
-			return ResourceManager.large_vehicle_door_tex;
-		}
-
-		@Override
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) {
-			return ResourceManager.large_vehicle_door_tex;
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() {
-			return ResourceManager.large_vehicle_door;
-		}
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 0, 0, 0, -4, 6, 2 }, { 0, 0, 0, 4, 6, 2 } }; }
+		@Override public int[] getDimensions() { return new int[] { 5, 0, 0, 0, 3, 3 }; };
 
 	};
 
@@ -1099,7 +654,7 @@ public abstract class DoorDecl {
 	}
 
 	public boolean hasSkins() {
-		return false;
+		return getSkinCount() > 0;
 	}
 
 	public int getSkinCount() {
@@ -1111,21 +666,10 @@ public abstract class DoorDecl {
 		return getTextureForPart(0, partName);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public abstract ResourceLocation getTextureForPart(int skinIndex, String partName);
-
-	@SideOnly(Side.CLIENT)
-	public abstract IModelCustomNamed getModel();
-
-	@SideOnly(Side.CLIENT)
-	public AnimatedModel getAnimatedModel() {
-		return null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public Animation getAnim() {
-		return null;
-	}
+	@SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
+	@SideOnly(Side.CLIENT) public IModelCustomNamed getModel() { return null; }
+	@SideOnly(Side.CLIENT) public AnimatedModel getAnimatedModel() { return null; }
+	@SideOnly(Side.CLIENT) public Animation getAnim() { return null; }
 
 	@SideOnly(Side.CLIENT)
 	public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
@@ -1160,8 +704,7 @@ public abstract class DoorDecl {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void doOffsetTransform() {
-	}
+	public void doOffsetTransform() { }
 
 	public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 		return open ? AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0) : AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);

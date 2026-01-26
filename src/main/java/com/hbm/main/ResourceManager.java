@@ -326,14 +326,6 @@ public class ResourceManager {
 	public static final IModelCustom blast_door_slider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_slider.obj"));
 	public static final IModelCustom blast_door_block = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_block.obj"));
 
-	//Sliding Blast Door
-	public static final ResourceLocation sliding_blast_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door.png");
-	public static final ResourceLocation sliding_blast_door_variant1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door_variant1.png");
-	public static final ResourceLocation sliding_blast_door_variant2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door_variant2.png");
-
-	public static AnimatedModel sliding_blast_door = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/sliding_blast_door.dae"));
-	public static Animation sliding_blast_door_anim = ColladaLoader.loadAnim(1200, new ResourceLocation(RefStrings.MODID, "models/doors/sliding_blast_door.dae"));
-
 	//Doors
 	public static AnimatedModel transition_seal = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"), true);
 	public static Animation transition_seal_anim = ColladaLoader.loadAnim(24040, new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"));
@@ -343,35 +335,26 @@ public class ResourceManager {
 	public static IModelCustomNamed pheo_fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/fire_door.obj")).asVBO();
 	public static final ResourceLocation pheo_airlock_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/airlock_door.png");
 	public static IModelCustomNamed pheo_airlock_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/airlock_door.obj")).asVBO();
+	public static final ResourceLocation pheo_blast_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/blast_door.png");
+	public static IModelCustomNamed pheo_blast_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/blast_door.obj")).asVBO();
+	public static final ResourceLocation pheo_containment_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door.png");
+	public static IModelCustomNamed pheo_containment_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/containment_door.obj")).asVBO();
+	public static final ResourceLocation pheo_seal_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/seal_door.png");
+	public static IModelCustomNamed pheo_seal_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/seal_door.obj")).asVBO();
+	public static final ResourceLocation pheo_secure_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/secure_door.png");
+	public static IModelCustomNamed pheo_secure_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/secure_door.obj")).asVBO();
+	public static final ResourceLocation pheo_sliding_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door.png");
+	public static IModelCustomNamed pheo_sliding_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/sliding_door.obj")).asVBO();
+	public static final ResourceLocation pheo_vehicle_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vehicle_door.png");
+	public static IModelCustomNamed pheo_vehicle_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/vehicle_door.obj")).asVBO();
+	public static final ResourceLocation pheo_water_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/water_door.png");
+	public static IModelCustomNamed pheo_water_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/water_door.obj")).asVBO();
 
-	//Secure Access Door
-	public static final ResourceLocation secure_access_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/secure_access_door.png");
-	public static IModelCustomNamed secure_access_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/secure_access_door.obj")).asVBO();
-
-	public static final ResourceLocation water_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/water_door.png");
-	public static IModelCustomNamed water_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/water_door.obj")).asVBO();
-
-	public static final ResourceLocation sliding_seal_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_seal_door.png");
-	public static IModelCustomNamed sliding_seal_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/sliding_seal_door.obj")).asVBO();
-
-	public static final ResourceLocation round_airlock_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/round_airlock_door.png");
-	public static IModelCustomNamed round_airlock_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/round_airlock_door.obj")).asVBO();
-
-	public static final ResourceLocation qe_sliding_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/qe_sliding_door.png");
-	public static IModelCustomNamed qe_sliding_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/qe_sliding_door.obj")).asVBO();
-
-	public static final ResourceLocation qe_containment_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/qe_containment.png");
-	public static IModelCustomNamed qe_containment = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/qe_containment.obj")).asVBO();
-
-	public static final ResourceLocation large_vehicle_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/large_vehicle_door.png");
-	public static IModelCustomNamed large_vehicle_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/large_vehicle_door.obj")).asVBO();
-	public static final ResourceLocation qe_containment_decal = new ResourceLocation(RefStrings.MODID, "textures/models/doors/qe_containment_decal.png");
-
+	//Doors
 	public static final ResourceLocation silo_hatch_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/silo_hatch.png");
 	public static IModelCustomNamed silo_hatch = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/silo_hatch.obj")).asVBO();
 	public static final ResourceLocation silo_hatch_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/silo_hatch_large.png");
 	public static IModelCustomNamed silo_hatch_large = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/doors/silo_hatch_large.obj")).asVBO();
-
 
 	//Skeleton
 	public static final IModelCustom skeleton_holder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/skeleton_holder.obj"),false).asVBO();
