@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Console",
+	"icon": ["hbm:tile.rbmk_console", 1, 0],
+	"trigger": [["hbm:tile.rbmk_console"]],
+	"title": {
+		"en_US": "RBMK Console"
+	},
+	"content": {
+		"en_US": "The RBMK console allows monitoring and control over an [[RBMK]] over a 15x15 block area. While technically optional, it is usually an important part in most successful RBMKs. To use the console, shift-click the central position of the RBMK with an RBMK linker, then shift-click the console.<br><br>The console has a display that shows fuel status and component heat as part of its model, this alone allows the reactor's status to be determined easily from afar, even without using the GUI. In addition, the console has six displays which can be configured to show various infos. To configure, open the GUI, select the columns that should be monitored, click the \"Assign selected columns\" button, and then click on the monitor type button until it shows the desired info.<br><br>On the bottom, the console's GUI also shows a graph of the total neutron flux that is being detected by the [[fuel channels|RBMK Fuel Channel]], making it easy to detect changes such as a drop in reaction due to fuel depletion or hazardous reaction spikes.<br><br>In the center, there are colored buttons which can quickly select all [[control rods|RBMK Control Rods]] in that color group with left click, or assign all selected control rods a color group with right click. In addition, there is a small text field that can set the control rod extraction level of all selected control rods. Finally, the small white/red gradient button allows to cycle between the compression settions on selected [[steam channels|RBMK Steam Channel]]."
+	}
+}

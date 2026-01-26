@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Fluid Heater",
+	"icon": ["hbm:tile.rbmk_heater", 1, 0],
+	"trigger": [["hbm:tile.rbmk_heater"]],
+	"title": {
+		"en_US": "RBMK Fluid Heater"
+	},
+	"content": {
+		"en_US": "The RBMK fluid heater provides an alternate way of cooling the [[RBMK]] compared to the [[RBMK steam channel|RBMK Steam Channel]]. Instead of boiling water into turbine-usable steam, it heats up a type of coolant which may be used in different ways. Hot coolant can be used in a [[heat exchanging heater|Heat Exchanging Heater]] to either power certain machines directly, or to boil water in a [[boiler|Boiler]], creating a secondary loop. Do note that the used coolant needs to be heat exchanger compatible, [[PWR]]-exclusive coolants like liquid sodium will not work in an RBMK.<br><br>Just like in a steam channel, the cold coolant normally enters the bottom and the hot coolant exits from the top. Both connections can be on the bottom when using an [[RBMK steam connector|RBMK Steam Connector]]."
+	}
+}

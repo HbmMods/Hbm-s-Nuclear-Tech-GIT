@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Autoloader",
+	"icon": ["hbm:tile.rbmk_autoloader", 1, 0],
+	"trigger": [["hbm:tile.rbmk_autoloader"]],
+	"title": {
+		"en_US": "RBMK Autoloader"
+	},
+	"content": {
+		"en_US": "The autoloader is an advanced component of an [[RBMK]] that can be placed on top of [[fuel channels|RBMK Fuel Channel]]. The autoloader has two inventory grids, one for fresh fuel, and one for spent fuel, as well as a selector for the fuel depletion percentage which can be changed in 5% increments. If the [[fuel rod's|RBMK Fuel Rod]] depletion of the connected fuel channel exceeds the configured percentage, the autoloader will drop down, remove the spent fuel and insert a new fuel rod. The autoloader can be automated using hoppers or conveyors, the item access ports are on the very top."
+	}
+}

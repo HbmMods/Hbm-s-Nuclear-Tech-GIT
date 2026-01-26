@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Crane Console",
+	"icon": ["hbm:tile.rbmk_crane_console", 1, 0],
+	"trigger": [["hbm:tile.rbmk_crane_console"]],
+	"title": {
+		"en_US": "RBMK Crane Console"
+	},
+	"content": {
+		"en_US": "The RBMK crane console allows fuel rods to be extracted, transported and inserted safely from a distance. Linking to an [[RBMK]] works similarly as it does with a [[RBMK console|RBMK Console]] using the RBMK linker tool. Once linked, the console spawns the crane over the RBMK. the crane can be controlled when standing in front of the console, using arrow keys by default to move it, and the enter key to load or unload a fuel rod. The crane's loading capabilities are compatible with all variants of the [[fuel channel|RBMK Fuel Channel]] and the [[storage column|RBMK Storage Column]]."
+	}
+}

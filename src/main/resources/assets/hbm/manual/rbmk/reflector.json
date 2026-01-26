@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Tungsten Carbide Neutron Reflector",
+	"icon": ["hbm:tile.rbmk_reflector", 1, 0],
+	"trigger": [["hbm:tile.rbmk_reflector"]],
+	"title": {
+		"en_US": "RBMK Tungsten Carbide Neutron Reflector"
+	},
+	"content": {
+		"en_US": "The reflector can be used to utilize neutrons that would otherwise leave the [[RBMK]]. Path simulation for neutrons that hit the reflector is skipped, rather, neutrons will simply \"teleport\" directly back to their source fuel channel."
+	}
+}

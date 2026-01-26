@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Cooler",
+	"icon": ["hbm:tile.rbmk_cooler", 1, 0],
+	"trigger": [["hbm:tile.rbmk_cooler"]],
+	"title": {
+		"en_US": "RBMK Cooler"
+	},
+	"content": {
+		"en_US": "The cooler is an optional component that can be used to cool an [[RBMK]], however unlike the [[steam channel|RBMK Steam Channel]], the cooler does not allow the heat to be extracted and used. The RBMK cooler simply \"eats\" cryogel to remove heat. Coolers are rarely useful for power producing reactors, however they are sometimes found in high-heat breeding reactor setups or as backup cooling."
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Storage Column",
+	"icon": ["hbm:tile.rbmk_storage", 1, 0],
+	"trigger": [["hbm:tile.rbmk_storage"]],
+	"title": {
+		"en_US": "RBMK Storage Column"
+	},
+	"content": {
+		"en_US": "The storage column is mainly used in conjunction with the [[RBMK crane|RBMK Crane Console]] as a means to provide fuel rods to be picked up and placed in [[fuel channels|RBMK Fuel Channel]]. The storage column can hold multiple fuel rods which form a queue, the first rod in the queue is the one that can be picked up by the crane. Rods that are dropped into the storage column by the crane will be placed at the end of the queue."
+	}
+}

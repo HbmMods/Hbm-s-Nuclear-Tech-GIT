@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Control Rods",
+	"icon": ["hbm:tile.rbmk_control", 1, 0],
+	"trigger": [["hbm:tile.rbmk_control"], ["hbm:tile.rbmk_control_mod"]],
+	"title": {
+		"en_US": "RBMK Control Rods"
+	},
+	"content": {
+		"en_US": "The RBMK control rods can be used to throttle or even turn off an [[RBMK]]. Neutrons that pass throguh the control rod will be reduced proportional to the rod's insertion, a 100% inserted control rod will block off all incoming neutrons, a 50% inserted control rod will only block half. Control rods can also be controlled remotely via the [[RBMK console|RBMK Console]].<br><br>Moderated control rods function in much the same manner, except that they convert fast neutrons into slow neutrons, much like how a [[moderator|RBMK Graphite Moderator]] would.<br><br>[[Automatic control rods|RBMK Automatic Control Rods]] have a similar purpose, except that they will automatically adjust their level based on the reactor's temperature.<br><br>Due to minor complications in their design, control rods may cause reaction spikes when being inserted a far distance at once, practice caution when using the AZ-5."
+	}
+}

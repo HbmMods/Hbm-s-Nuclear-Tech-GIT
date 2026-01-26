@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Fuel Channel",
+	"icon": ["hbm:tile.rbmk_rod", 1, 0],
+	"trigger": [["hbm:tile.rbmk_rod"], ["hbm:tile.rbmk_rod_mod"]],
+	"title": {
+		"en_US": "RBMK Fuel Channel"
+	},
+	"content": {
+		"en_US": "The RBMK fuel channel is the most important part of the [[RBMK]] since it holds the [[fuel|RBMK Fuel Rod]], allowing the reaction to happen. Neutron flux created by the fuel will be emitted in four cardinal directions, with a maximum range of five blocks.<br><br>Moderated fuel channels are almost identical to the standard version, except that incoming fast flux will be converted into slow flux, similar to how [[moderators|RBMK Graphite Moderator]] work, although outgoing flux is not affected.<br><br>The [[ReaSim fuel channel|RBMK Fuel Channel (ReaSim)]] is an alternate version of the RBMK fuel channel with different neutron spread mechanics."
+	}
+}

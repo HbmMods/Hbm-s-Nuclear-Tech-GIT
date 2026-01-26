@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Boron Neutron Absorber",
+	"icon": ["hbm:tile.rbmk_absorber", 1, 0],
+	"trigger": [["hbm:tile.rbmk_absorber"]],
+	"title": {
+		"en_US": "RBMK Boron Neutron Absorber"
+	},
+	"content": {
+		"en_US": "The absorber simply blocks neutrons from passing. Neutrons that leave the [[RBMK]] will cause radiation to leak out, while this can be prevented by simply blocking off the entire side with solid blocks, the absorber has the small advantage of being able to transfer heat. While it's rarely useful to use an absorber instead of a [[reflector|RBMK Tungsten Carbide Neutron Reflector]], some high-heat reactor designs with linear or exponential fuels may benefit from using absorbers to separate incompatible fuel rods."
+	}
+}
