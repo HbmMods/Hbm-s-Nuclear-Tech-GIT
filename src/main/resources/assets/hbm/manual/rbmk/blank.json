@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Structural Column",
+	"icon": ["hbm:tile.rbmk_blank", 1, 0],
+	"trigger": [["hbm:tile.rbmk_blank"]],
+	"title": {
+		"en_US": "RBMK Structural Column"
+	},
+	"content": {
+		"en_US": "RBMK structural columns, often called \"blanks\", are components of the [[RBMK]] that allow neutrons to pass and which conduct heat, but otherwise do not serve any added function. They are commonly used as filler in setups that are not very dense, and for making reactors more aesthetically pleasing."
+	}
+}

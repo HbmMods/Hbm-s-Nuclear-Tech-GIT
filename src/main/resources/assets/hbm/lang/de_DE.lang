@@ -4870,7 +4870,6 @@ tile.rbmk_control_auto.name=RBMK Automatische Steuerstäbe
 tile.rbmk_control_mod.name=RBMK Moderierte Steuerstäbe
 tile.rbmk_crane_console.name=RBMK Kransteuerung
 tile.rbmk_heater.name=RBMK-Heizer
-tile.rbmk_heatex.name=RBMK-Wärmetauscher
 tile.rbmk_loader.name=RBMK-Dampfadapter
 tile.rbmk_moderator.name=RBMK Graphitmoderator
 tile.rbmk_outgasser.name=RBMK Bestrahlungskanal

@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Automatic Control Rods",
+	"icon": ["hbm:tile.rbmk_control_auto", 1, 0],
+	"trigger": [["hbm:tile.rbmk_control_auto"]],
+	"title": {
+		"en_US": "RBMK Automatic Control Rods"
+	},
+	"content": {
+		"en_US": "Automatic control rods, unlike the standard [[RBMK control rods|RBMK Control Rods]], cannot be controlled manually, instead they can be configured to adjust their insertion level based on their own component heat. A minimum and maximum heat, along with a minimum and maximum level which correspond to those values can be set, as well as a curve which defines the behavior between those levels.<br><br>It is possible, but not recommended, to have a reactor that runs solely on automatic control rods. They do see occasional use for smoothing out reaction spikes and for controlling the neutron sources on subcritical reactors."
+	}
+}

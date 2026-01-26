@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Steam Channel",
+	"icon": ["hbm:tile.rbmk_boiler", 1, 0],
+	"trigger": [["hbm:tile.rbmk_boiler"]],
+	"title": {
+		"en_US": "RBMK Steam Channel"
+	},
+	"content": {
+		"en_US": "The RBMK steam channel is the primary way for the [[RBMK]] to be cooled, and to extract energy from it. The steam channel will use as much water as it can at once to cool itself down to the target temperature, i.e. the temperature of the steam type that is configured in the compressor. Since [[fuel channels|RBMK Fuel Channel]] are the only parts in the RBMK that actively heat up, it's recommended to put the steam channels as close as possible to them. Like most RBMK components, the steam channels do not block neutrons, so they can be connected cardinally to fuel channels.<br><br>The compressor settings allow higher density steam to be output, however, higher density steam is hotter, which means that the steam channel's ability to cool is limited. Despite this, higher density steam means that more water can flow through the channel, increasing the amount of cooling that can be done. In practice, most reactors will work fine with regular uncompressed steam. The compressor can be configured remotely via the [[console|RBMK Console]].<br><br>The steam channel only accepts water from the bottom and outputs steam at the top. Using an [[RBMK steam connector|RBMK Steam Connector]], both fluids can be handled from the bottom."
+	}
+}

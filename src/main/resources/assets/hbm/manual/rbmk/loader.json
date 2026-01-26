@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Steam Connector",
+	"icon": ["hbm:tile.rbmk_loader", 1, 0],
+	"trigger": [["hbm:tile.rbmk_loader"]],
+	"title": {
+		"en_US": "RBMK Steam Connector"
+	},
+	"content": {
+		"en_US": "The RBMK steam connector allows both the input and output pipes of [[steam channels|RBMK Steam Channel]] and [[fluid heaters|RBMK Fluid Heater]] to be connected from the bottom, instead of having one at the top.<br><br>The placement of the connector is important: Directly below the component, place one pipe set to the type of the input fluid (e.g. water). Below it, place the steam connector. Then, place a pipe with the output fluid below that (e.g. steam). Finally, connect the previously placed pipes to the input and output lines of your setup. Failure to comply can cause the reactor to not receive cooling at all, or for steam to clog and slowly eat away the water supply, which will inevitably destroy the reactor."
+	}
+}

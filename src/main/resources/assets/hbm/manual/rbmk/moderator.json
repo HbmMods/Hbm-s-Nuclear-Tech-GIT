@@ -1,0 +1,11 @@
+{
+	"name": "RBMK Graphite Moderator",
+	"icon": ["hbm:tile.rbmk_moderator", 1, 0],
+	"trigger": [["hbm:tile.rbmk_moderator"]],
+	"title": {
+		"en_US": "RBMK Graphite Moderator"
+	},
+	"content": {
+		"en_US": "The graphite moderator converts all passing neutrons into slow neutrons. Most [[RBMK fuels|RBMK Fuel Rod]] split more effectively with slow neutrons, meaning that most [[RBMK]] designs either require dedicated graphite moderators between the [[fuel channels|RBMK Fuel Channel]], or moderated fuel channels directly."
+	}
+}
