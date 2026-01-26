@@ -23,8 +23,7 @@ public class SpentCasing implements Cloneable {
 	public enum CasingType {
 		STRAIGHT("Straight"),
 		BOTTLENECK("Bottleneck"),
-		SHOTGUN("Shotgun", "ShotgunCase"), //plastic shell, brass case
-		AR2("AR2", "AR2Highlight"); //plug, back detailing
+		SHOTGUN("Shotgun", "ShotgunCase"); //plastic shell, brass case
 		
 		public final String[] partNames;
 
@@ -43,9 +42,19 @@ public class SpentCasing implements Cloneable {
 	private float bounceYaw = 1F;
 	private float bouncePitch = 1F;
 	private int maxAge = 240;
+
+	public static final String PLINK_SHELL = "hbm:weapon.casing.shell";
+	public static final String PLINK_SMALL = "hbm:weapon.casing.small";
+	public static final String PLINK_MEDIUM = "hbm:weapon.casing.medium";
 	
 	public SpentCasing(CasingType type) {
 		this.type = type;
+		
+		if(type == CasingType.SHOTGUN) {
+			this.setSound(PLINK_SHELL);
+		} else {
+			this.setSound(PLINK_SMALL);
+		}
 	}
 	
 	/** Separated from the ctor to allow for easy creation of new casings from templates that don't need to be registered */
@@ -56,16 +65,14 @@ public class SpentCasing implements Cloneable {
 	}
 	
 	public SpentCasing setScale(float scale) {
-		this.scaleX = scale;
-		this.scaleY = scale;
-		this.scaleZ = scale;
-		return this;
+		return setScale(scale, scale, scale);
 	}
 	
 	public SpentCasing setScale(float x, float y, float z) {
 		this.scaleX = x;
 		this.scaleY = y;
 		this.scaleZ = z;
+		if(x * y * z >= 3 && this.type != CasingType.SHOTGUN) this.setSound(PLINK_MEDIUM);
 		return this;
 	}
 	

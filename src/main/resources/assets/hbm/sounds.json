@@ -294,6 +294,10 @@
     "weapon.reload.screw": {"category": "player", "sounds": ["weapon/reload/screw"]},
 
     "weapon.foley.gunWhack": {"category": "player", "sounds": ["weapon/foley/gunWhack", "weapon/foley/gunWhack2"]},
+    
+    "weapon.casing.small": {"category": "player", "sounds": ["weapon/casing/small1", "weapon/casing/small2", "weapon/casing/small3"]},
+    "weapon.casing.medium": {"category": "player", "sounds": ["weapon/casing/medium1", "weapon/casing/medium2", "weapon/casing/medium3"]},
+    "weapon.casing.shell": {"category": "player", "sounds": ["weapon/casing/shell1", "weapon/casing/shell2", "weapon/casing/shell3"]},
 
     "turret.chekhov_fire": {"category": "block", "sounds": [{"name": "turret/chekhov_fire", "stream": false}]},
     "turret.jeremy_fire": {"category": "block", "sounds": ["turret/jeremy_fire1", "turret/jeremy_fire2", "turret/jeremy_fire3", "turret/jeremy_fire4", "turret/jeremy_fire5"]},

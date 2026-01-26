@@ -8,6 +8,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
@@ -213,6 +214,10 @@ public class ParticleSpentCasing extends EntityFX {
 				momentumYaw *= -0.75F;
 			else
 				momentumYaw = (float) rand.nextGaussian() * 10F * this.config.getBounceYaw();
+		}
+		
+		if(this.config.getSound() != null && isCollidedVertically && Math.abs(initMoY) >= 0.2) {
+			MainRegistry.proxy.playSoundClient(posX, posY, posZ, this.config.getSound(), 0.5F, 1F + this.rand.nextFloat() * 0.2F);
 		}
 		
 		this.worldObj.theProfiler.endSection();

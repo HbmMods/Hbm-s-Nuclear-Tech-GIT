@@ -50,8 +50,6 @@ public class MuzzleFlashPacket implements IMessage {
 			if(stack == null) return null;
 			
 			if(stack.getItem() instanceof ItemGunBaseNT) {
-				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-				
 				ItemRenderWeaponBase.flashMap.put(entity, System.currentTimeMillis());
 			}
 			

@@ -15,6 +15,11 @@
   * Now with extra bone marrow
 * Updated the deuterium tower's model
 * Increased the energy requirement for welding osmiridium
+* Updated most blast door visuals
+* RBMKs now have QMAW pages
+* Updated the model on the heavy magnetic storage container
+* Increased the power draw on the osmiridium welding recipe
+* Bullet casings now make sounds when falling to the ground
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
