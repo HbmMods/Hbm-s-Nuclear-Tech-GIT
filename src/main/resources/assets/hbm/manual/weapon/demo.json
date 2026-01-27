@@ -1,0 +1,15 @@
+{
+	"name": "Demolition Explosives",
+	"icon": ["hbm:item.ammo_standard", 1, 60],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 55],
+		["hbm:item.ammo_standard", 1, 60],
+		["hbm:item.ammo_standard", 1, 74]
+	],
+	"title": {
+		"en_US": "Demolition Explosives"
+	},
+	"content": {
+		"en_US": "Demolition explosives are similar to regular high-explosives, however they have a larger splash radius, slightly lower damage, and they break blocks. Not recommended for home defense."
+	}
+}

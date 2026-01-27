@@ -11,8 +11,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIMachineShredder;
-import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -175,9 +175,18 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler implements ICom
 	public TemplateRecipeHandler newInstance() {
 		if(fuels == null || fuels.isEmpty())
 			fuels = new ArrayList<Fuel>();
-		for(ItemStack i : MachineRecipes.instance().getBlades()) {
+		for(ItemStack i : getBlades()) {
 			fuels.add(new Fuel(i));
 		}
 		return super.newInstance();
+	}
+
+	public static ArrayList<ItemStack> getBlades() {
+		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.blades_advanced_alloy));
+		fuels.add(new ItemStack(ModItems.blades_steel));
+		fuels.add(new ItemStack(ModItems.blades_titanium));
+		fuels.add(new ItemStack(ModItems.blades_desh));
+		return fuels;
 	}
 }

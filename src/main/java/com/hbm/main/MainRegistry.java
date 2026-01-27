@@ -1477,6 +1477,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sat_laser");
 		ignoreMappings.add("hbm:tile.sat_foeq");
 		ignoreMappings.add("hbm:tile.sat_resonator");
+		ignoreMappings.add("hbm:item.sliding_blast_door_skin");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

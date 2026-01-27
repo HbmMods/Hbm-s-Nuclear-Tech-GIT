@@ -1,0 +1,15 @@
+{
+	"name": "Slug",
+	"icon": ["hbm:item.ammo_standard", 1, 45],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 43],
+		["hbm:item.ammo_standard", 1, 45],
+		["hbm:item.ammo_standard", 1, 81]
+	],
+	"title": {
+		"en_US": "Slug"
+	},
+	"content": {
+		"en_US": "A shell type that only holds a single large projectile. Unlike shot, slugs do not have inherent spread, deal the gun's full damage on hit, and have some armor-piercing properties."
+	}
+}

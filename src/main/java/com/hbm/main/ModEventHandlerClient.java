@@ -929,7 +929,6 @@ public class ModEventHandlerClient {
 			
 			//prune other entities' muzzle flashes
 			if(mc.theWorld.getTotalWorldTime() % 30 == 0) {
-				Iterator itr = ItemRenderWeaponBase.flashMap.keySet().iterator();
 				long millis = System.currentTimeMillis();
 				//dead entities may have later insertion order than actively firing ones, so we be safe
 				ItemRenderWeaponBase.flashMap.values().removeIf(entry -> millis - entry.longValue() >= 150);

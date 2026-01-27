@@ -1,0 +1,15 @@
+{
+	"name": "Black Powder Ammunition",
+	"icon": ["hbm:item.ammo_standard", 1, 10],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 4],
+		["hbm:item.ammo_standard", 1, 10],
+		["hbm:item.ammo_standard", 1, 41]
+	],
+	"title": {
+		"en_US": "Black Powder Ammunition"
+	},
+	"content": {
+		"en_US": "The earliest available type of cartridge, black powder ammo is available for revolver calibers and 12 gauge shells. For revolver calibers, black powder bullets are a variant of soft point bullets. Black powder shells however are available in buckshot, magnum shot and slug variants. Black powder ammo is very cheap, but deals significantly less damage and causes a large cloud of smoke on every shot."
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Magnum Buckshot",
+	"icon": ["hbm:item.ammo_standard", 1, 47],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 42],
+		["hbm:item.ammo_standard", 1, 47]
+	],
+	"title": {
+		"en_US": "Magnum Buckshot"
+	},
+	"content": {
+		"en_US": "Buckshot, but with fewer larger pellets which deal more damage. While black powder magnum shells don't perform that much better compared to buckshot, smokeless powder ones are noticably more powerful. Additionally, magnum buckshot shells have roughly half as much spread as standard buckshot."
+	}
+}

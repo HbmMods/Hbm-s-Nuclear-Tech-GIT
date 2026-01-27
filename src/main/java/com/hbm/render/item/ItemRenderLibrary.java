@@ -605,13 +605,14 @@ public class ItemRenderLibrary {
 			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.secure_access_door), new ItemRenderBase(){
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
+				GL11.glTranslated(0, -3.75, 0);
 				GL11.glScaled(2.4, 2.4, 2.4);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.secure_access_door_tex);
+				GL11.glTranslated(0, 1, 0);
+				bindTexture(ResourceManager.pheo_secure_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.secure_access_door.renderAll();
+				ResourceManager.pheo_secure_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
@@ -629,6 +630,19 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.sliding_blast_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.75, 0);
+				GL11.glScaled(2.5, 2.5, 2.5);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.pheo_blast_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.pheo_blast_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.large_vehicle_door), new ItemRenderBase(){
 			public void renderInventory() {
@@ -636,9 +650,10 @@ public class ItemRenderLibrary {
 				GL11.glScaled(1.8, 1.8, 1.8);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.large_vehicle_door_tex);
+				GL11.glRotated(90, 0, 1, 0);
+				bindTexture(ResourceManager.pheo_vehicle_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.large_vehicle_door.renderAll();
+				ResourceManager.pheo_vehicle_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
@@ -648,9 +663,10 @@ public class ItemRenderLibrary {
 				GL11.glScaled(4, 4, 4);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.water_door_tex);
+				GL11.glRotated(90, 0, 1, 0);
+				bindTexture(ResourceManager.pheo_water_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.water_door.renderAll();
+				ResourceManager.pheo_water_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
@@ -697,23 +713,21 @@ public class ItemRenderLibrary {
 				GL11.glScaled(3.8, 3.8, 3.8);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.qe_containment_tex);
+				bindTexture(ResourceManager.pheo_containment_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.qe_containment.renderAllExcept("decal");
-				bindTexture(ResourceManager.qe_containment_decal);
-				ResourceManager.qe_containment.renderPart("decal");
+				ResourceManager.pheo_containment_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
 		renderers.put(Item.getItemFromBlock(ModBlocks.qe_sliding_door), new ItemRenderBase(){
 			public void renderInventory() {
-				GL11.glTranslated(0, -3.5, 0);
-				GL11.glScaled(6, 6, 6);
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(5, 5, 5);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.qe_sliding_door_tex);
+				bindTexture(ResourceManager.pheo_sliding_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.qe_sliding_door.renderAll();
+				ResourceManager.pheo_sliding_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
@@ -737,9 +751,9 @@ public class ItemRenderLibrary {
 				GL11.glScaled(7, 7, 7);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.sliding_seal_door_tex);
+				bindTexture(ResourceManager.pheo_seal_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.sliding_seal_door.renderAll();
+				ResourceManager.pheo_seal_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});

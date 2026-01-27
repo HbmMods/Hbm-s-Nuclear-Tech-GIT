@@ -6,7 +6,7 @@
 * Simplified the battery socket's client packets, reducing CPU load
 * Muzzle flashes on guns now work in third person mode, including on other players and on NPCs, making it more apparent when you're being fired at
   * This includes non-standard special effects like the .44 gap flash and the .35-800 ejector plume
-* Removed the old unused satelite deco blocks, freeing up 6 block IDs
+* Removed the old unused satellite deco blocks, freeing up 6 block IDs
 * Crucibles that smelt metal with no template set will no place the metal in the recipe stack instead of the waste stack, this should make it easier to get a recipe to work in the many, many cases where people add the template after smelting the material
 * Battery sockets and the FENSU now support the copy tool
 * Removed unused displaylist support from the model loader
@@ -14,7 +14,12 @@
 * Rebranded canned horse slime
   * Now with extra bone marrow
 * Updated the deuterium tower's model
-* Increased the energy requirement for welding osmiridium
+* Updated most blast door visuals
+* RBMKs now have QMAW pages
+* Updated the model on the heavy magnetic storage container
+* Increased the power draw on the osmiridium welding recipe
+* Bullet casings now make sounds when falling to the ground
+* Most ammo types now have QMAW pages, including information on whether or not they are a war crime
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
@@ -25,3 +30,7 @@
 * Fixed an issue where the charging station would crash when trying to charge certain items
 * Fixed the DFC's core component not dropping its contents when mined
 * Fixed audio problems with guns
+* Fixed third person muzzleflash on the miniguns clipping the barrel
+* Fixed arc furnace IO slots stacking items with incompatible NBT
+* Fixed a bounding box issue with casing particles, causing them to slide sideways on the first tick, making trajectories weird
+* Fixed some turrets not using the more modern casing spawner system which allows casings to have a smoke trail

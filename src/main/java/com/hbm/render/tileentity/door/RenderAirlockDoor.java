@@ -52,5 +52,4 @@ public class RenderAirlockDoor implements IRenderDoors {
 		GL11.glDisable(GL11.GL_CLIP_PLANE0);
 		GL11.glDisable(GL11.GL_CLIP_PLANE1);
 	}
-
 }

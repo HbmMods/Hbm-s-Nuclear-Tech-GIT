@@ -134,7 +134,7 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 		}
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 12);
+		GL11.glTranslated(0, 0, 12.25);
 		GL11.glRotated(90, 0, 1, 0);
 		
 		GL11.glRotated(shotRand * 90, 1, 0, 0);
@@ -164,7 +164,7 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 		}
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 12);
+		GL11.glTranslated(0, 0, 12.25);
 		GL11.glRotated(90, 0, 1, 0);
 		
 		GL11.glRotated(shotRand * 90, 1, 0, 0);

@@ -209,7 +209,7 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 
 	@Override
 	protected CasingEjector getEjector() {
-		return ejector.setMotion(0.3, 0.6, 0);
+		return ejector.setMotion(0.2, 0.2, 0);
 	}
 
 	@Override

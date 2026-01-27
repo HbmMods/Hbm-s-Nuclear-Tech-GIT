@@ -32,6 +32,34 @@ public class CasingCreator implements IParticleCreator {
 		composeEffect(world, player, frontOffset, heightOffset, sideOffset, frontMotion, heightMotion, sideMotion, motionVariance, 5F, 10F, casing, false, 0, 0, 0);
 	}
 
+	public static void composeEffect(World world, double x, double y, double z, float yaw, float pitch, double frontMotion, double heightMotion, double sideMotion, double motionVariance, float mPitch, float mYaw, String casing, boolean smoking, int smokeLife, double smokeLift, int nodeLife) {
+		
+		Vec3 motion = Vec3.createVectorHelper(sideMotion, heightMotion, frontMotion);
+		motion.rotateAroundX(-pitch / 180F * (float) Math.PI);
+		motion.rotateAroundY(-yaw / 180F * (float) Math.PI);
+
+		double mX = motion.xCoord + world.rand.nextGaussian() * motionVariance;
+		double mY = motion.yCoord + world.rand.nextGaussian() * motionVariance;
+		double mZ = motion.zCoord + world.rand.nextGaussian() * motionVariance;
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casingNT");
+		data.setDouble("mX", mX);
+		data.setDouble("mY", mY);
+		data.setDouble("mZ", mZ);
+		data.setFloat("yaw", yaw);
+		data.setFloat("pitch", pitch);
+		data.setFloat("mPitch", mPitch);
+		data.setFloat("mYaw", mYaw);
+		data.setString("name", casing);
+		data.setBoolean("smoking", smoking);
+		data.setInteger("smokeLife", smokeLife);
+		data.setDouble("smokeLift", smokeLift);
+		data.setInteger("nodeLife", nodeLife);
+		
+		IParticleCreator.sendPacket(world, x, y, z, 50, data);
+	}
+
 	public static void composeEffect(World world, EntityLivingBase player, double frontOffset, double heightOffset, double sideOffset, double frontMotion, double heightMotion, double sideMotion, double motionVariance, float mPitch, float mYaw, String casing, boolean smoking, int smokeLife, double smokeLift, int nodeLife) {
 		
 		if(player.isSneaking()) heightOffset -= 0.075F;

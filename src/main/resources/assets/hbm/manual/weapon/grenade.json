@@ -1,0 +1,14 @@
+{
+	"name": "High-Explosives",
+	"icon": ["hbm:item.ammo_standard", 1, 58],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 53],
+		["hbm:item.ammo_standard", 1, 58]
+	],
+	"title": {
+		"en_US": "High-Explosives"
+	},
+	"content": {
+		"en_US": "Standard ammunition for grenade and rocket launchers. Deals splash damage in a moderate area."
+	}
+}
