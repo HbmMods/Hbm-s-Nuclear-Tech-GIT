@@ -1,0 +1,20 @@
+{
+	"name": "Jacketed Hollow Point Bullet",
+	"icon": ["hbm:item.ammo_standard", 1, 30],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 7],
+		["hbm:item.ammo_standard", 1, 13],
+		["hbm:item.ammo_standard", 1, 18],
+		["hbm:item.ammo_standard", 1, 22],
+		["hbm:item.ammo_standard", 1, 87],
+		["hbm:item.ammo_standard", 1, 26],
+		["hbm:item.ammo_standard", 1, 30],
+		["hbm:item.ammo_standard", 1, 35]
+	],
+	"title": {
+		"en_US": "Jacketed Hollow Point Bullet"
+	},
+	"content": {
+		"en_US": "JHPs are deforming bullets that cause more damage to soft targets compared to soft point bullets, at the cost of faring worse against armored targets. JHPs also have a higher bonus on headshots.<br><br>Due to being expanding projectiles, jacketed hollow points are prohibited for use in warfare under the Hague Conventions of 1899."
+	}
+}

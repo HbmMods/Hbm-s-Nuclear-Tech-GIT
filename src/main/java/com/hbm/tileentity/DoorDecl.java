@@ -113,7 +113,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -164,7 +164,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
 					.addBus("LOCK", new BusAnimationSequence().setPos(0, 0, 0).addPos(1, 0, 0, 200))
 					.addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 0, 350).addPos(0, 0.05, 0, 200).addPos(0, 1, 0, 650, IType.SIN_UP));
@@ -205,7 +205,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -240,7 +240,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -268,6 +268,11 @@ public abstract class DoorDecl {
 				return super.getBlockBound(x, y, z, open, forCollision);
 			}
 		}
+
+		@Override
+		public int getSkinCount() {
+			return 2;
+		}
 	};
 
 	public static final DoorDecl ROUND_AIRLOCK_DOOR = new DoorDecl() {
@@ -282,7 +287,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -323,7 +328,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -359,7 +364,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -397,7 +402,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
 					.addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 0, 1500).addPos(0, 1, 0, 1500, IType.SIN_FULL))
 					.addBus("BOLT", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 1, 1500, IType.SIN_FULL));
@@ -596,7 +601,7 @@ public abstract class DoorDecl {
 		}
 		
 		@Override
-		public BusAnimation getBusAnimation(byte state) {
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
 			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, this.timeToOpen() * 50));
 			return null;
@@ -629,21 +634,14 @@ public abstract class DoorDecl {
 
 	public abstract int[] getDimensions();
 	
-	public int getBlockOffset() {
-		return 0;
-	}
-
-	public boolean remoteControllable() {
-		return false;
-	}
+	public int getBlockOffset() { return 0; }
+	public boolean remoteControllable() { return false; }
 
 	public float getDoorRangeOpenTime(int ticks, int idx) {
 		return getNormTime(ticks);
 	}
 
-	public int timeToOpen() {
-		return 20;
-	}
+	public int timeToOpen() { return 20; }
 
 	public float getNormTime(float time) {
 		return getNormTime(time, 0, timeToOpen());
@@ -653,13 +651,8 @@ public abstract class DoorDecl {
 		return BobMathUtil.remap01_clamp(time, min, max);
 	}
 
-	public boolean hasSkins() {
-		return getSkinCount() > 0;
-	}
-
-	public int getSkinCount() {
-		return 0;
-	}
+	public boolean hasSkins() { return getSkinCount() > 0; }
+	public int getSkinCount() { return 0; }
 
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getTextureForPart(String partName) {
@@ -672,37 +665,20 @@ public abstract class DoorDecl {
 	@SideOnly(Side.CLIENT) public Animation getAnim() { return null; }
 
 	@SideOnly(Side.CLIENT)
-	public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-		set(trans, 0, 0, 0);
-	}
-
+	public void getTranslation(String partName, float openTicks, boolean child, float[] trans) { set(trans, 0, 0, 0); }
 	@SideOnly(Side.CLIENT)
-	public void getRotation(String partName, float openTicks, float[] rot) {
-		set(rot, 0, 0, 0);
-	}
-
+	public void getRotation(String partName, float openTicks, float[] rot) { set(rot, 0, 0, 0); }
 	@SideOnly(Side.CLIENT)
-	public void getOrigin(String partName, float[] orig) {
-		set(orig, 0, 0, 0);
-	}
-
+	public void getOrigin(String partName, float[] orig) { set(orig, 0, 0, 0); }
 	@SideOnly(Side.CLIENT)
-	public boolean doesRender(String partName, boolean child) {
-		return true;
-	}
+	public boolean doesRender(String partName, boolean child) { return true; }
 
 	private static final String[] nothing = new String[] {};
 
 	@SideOnly(Side.CLIENT)
-	public String[] getChildren(String partName) {
-		return nothing;
-	}
-
+	public String[] getChildren(String partName) { return nothing; }
 	@SideOnly(Side.CLIENT)
-	public double[][] getClippingPlanes() {
-		return new double[][] {};
-	}
-
+	public double[][] getClippingPlanes() { return new double[][] {}; }
 	@SideOnly(Side.CLIENT)
 	public void doOffsetTransform() { }
 
@@ -710,42 +686,18 @@ public abstract class DoorDecl {
 		return open ? AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0) : AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
-	public boolean isLadder(boolean open) {
-		return false;
-	}
-
-	public String getOpenSoundLoop() {
-		return null;
-	}
+	public boolean isLadder(boolean open) { return false; }
+	public String getOpenSoundLoop() { return null; }
 
 	// Hack
-	public String getSoundLoop2() {
-		return null;
-	}
+	public String getSoundLoop2() { return null; }
+	public String getCloseSoundLoop() { return getOpenSoundLoop(); }
+	public String getOpenSoundStart() { return null; }
+	public String getCloseSoundStart() { return getOpenSoundStart(); }
+	public String getOpenSoundEnd() { return null; }
+	public String getCloseSoundEnd() { return getOpenSoundEnd(); }
 
-	public String getCloseSoundLoop() {
-		return getOpenSoundLoop();
-	}
-
-	public String getOpenSoundStart() {
-		return null;
-	}
-
-	public String getCloseSoundStart() {
-		return getOpenSoundStart();
-	}
-
-	public String getOpenSoundEnd() {
-		return null;
-	}
-
-	public String getCloseSoundEnd() {
-		return getOpenSoundEnd();
-	}
-
-	public float getSoundVolume() {
-		return 1;
-	}
+	public float getSoundVolume() { return 1; }
 
 	public float[] set(float[] f, float x, float y, float z) {
 		f[0] = x;
@@ -756,10 +708,10 @@ public abstract class DoorDecl {
 	
 	// keyframe animation system sneakily stitched into the door decl
 	public IRenderDoors getSEDNARenderer() { return null; }
-	public BusAnimation getBusAnimation(byte state) { return null; }
+	public BusAnimation getBusAnimation(byte state, byte skinIndex) { return null; }
 	
-	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state) {
-		BusAnimation anim = this.getBusAnimation(state);
+	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state, byte skinIndex) {
+		BusAnimation anim = this.getBusAnimation(state, skinIndex);
 		if(anim != null) return new com.hbm.render.anim.HbmAnimations.Animation("DOOR_ANIM", System.currentTimeMillis(), anim);
 		return null;
 	}

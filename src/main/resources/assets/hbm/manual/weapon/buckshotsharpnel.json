@@ -1,0 +1,13 @@
+{
+	"name": "Shrapnel Buckshot",
+	"icon": ["hbm:item.ammo_standard", 1, 79],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 79]
+	],
+	"title": {
+		"en_US": "Shrapnel Buckshot"
+	},
+	"content": {
+		"en_US": "A more devious version of standard buckshot, identical in most ways except that the pellets are incredibly bouncy, ricocheting off of most surfaces multiple times. May be hazardous to the user when used in enclosed spaces."
+	}
+}

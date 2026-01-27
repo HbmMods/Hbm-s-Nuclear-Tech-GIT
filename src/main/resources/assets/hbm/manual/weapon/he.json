@@ -1,0 +1,17 @@
+{
+	"name": "High-Explosive Ammunition",
+	"icon": ["hbm:item.ammo_standard", 1, 82],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 82],
+		["hbm:item.ammo_standard", 1, 83],
+		["hbm:item.ammo_standard", 1, 84],
+		["hbm:item.ammo_standard", 1, 48],
+		["hbm:item.ammo_standard", 1, 73]
+	],
+	"title": {
+		"en_US": "High-Explosive Ammunition"
+	},
+	"content": {
+		"en_US": "As one would expect, explosive ammunition deals explosive damage to its target, and the surroundings in a small radius. The resulting damage is noticably higher than the gun's base damage, at the cost of causing the gun to wear down significantly faster.<br><br>Use of explosive projectiles with a weight of less than 400 grams is prohibited by the Saint Petersburg Declaration of 1868."
+	}
+}

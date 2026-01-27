@@ -1,0 +1,14 @@
+{
+	"name": "Shaped Charges",
+	"icon": ["hbm:item.ammo_standard", 1, 59],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 54],
+		["hbm:item.ammo_standard", 1, 59]
+	],
+	"title": {
+		"en_US": "Shaped Charges"
+	},
+	"content": {
+		"en_US": "Special type of explosive munition with weaker splash damage compared to high-explosives, which deals massive extra damage on direct hit."
+	}
+}

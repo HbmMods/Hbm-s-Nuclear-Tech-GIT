@@ -1,0 +1,14 @@
+{
+	"name": "Buckshot",
+	"icon": ["hbm:item.ammo_standard", 1, 44],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 44],
+		["hbm:item.ammo_standard", 1, 78]
+	],
+	"title": {
+		"en_US": "Buckshot"
+	},
+	"content": {
+		"en_US": "Standard shot, creates many low-damage pellets with considerable spread. Sometimes it's hard to beat the classics."
+	}
+}

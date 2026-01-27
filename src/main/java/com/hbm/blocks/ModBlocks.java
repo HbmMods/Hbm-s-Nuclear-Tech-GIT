@@ -1192,17 +1192,8 @@ public class ModBlocks {
 	public static Block corium_block;
 	public static Fluid corium_fluid;
 	public static final Material fluidcorium = (new MaterialLiquid(MapColor.brownColor) {
-
-		@Override
-		public boolean blocksMovement() {
-			return true;
-		}
-
-		@Override
-		public Material setImmovableMobility() { //override access modifier
-			return super.setImmovableMobility();
-		}
-
+		@Override public boolean blocksMovement() { return true; }
+		@Override public Material setImmovableMobility() { return super.setImmovableMobility(); } //override access modifier
 	}.setImmovableMobility());
 
 	public static Block volcanic_lava_block;

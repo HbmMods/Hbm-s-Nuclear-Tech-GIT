@@ -1,0 +1,13 @@
+{
+	"name": "High Yield Mini Nuke",
+	"icon": ["hbm:item.ammo_standard", 1, 75],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 75]
+	],
+	"title": {
+		"en_US": "High Yield Mini Nuke"
+	},
+	"content": {
+		"en_US": "nuclear bobm<br>"
+	}
+}

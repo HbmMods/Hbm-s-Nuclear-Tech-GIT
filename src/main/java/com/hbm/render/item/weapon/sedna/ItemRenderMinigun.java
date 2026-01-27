@@ -145,7 +145,7 @@ public class ItemRenderMinigun extends ItemRenderWeaponBase {
 			}
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(0, 0, 12);
+			GL11.glTranslated(0, 0, 12.25);
 			GL11.glRotated(90, 0, 1, 0);
 			
 			if(stack.getItem() == ModItems.gun_minigun_lacunae) {

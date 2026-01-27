@@ -1,0 +1,13 @@
+{
+	"name": "Flechettes",
+	"icon": ["hbm:item.ammo_standard", 1, 46],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 46]
+	],
+	"title": {
+		"en_US": "Flechettes"
+	},
+	"content": {
+		"en_US": "Flechettes are small fin-stabilized projectiles, contrary to buckshot's round pellets. Flechette shells have less spread and better armor-piercing compared to standard buckshot."
+	}
+}

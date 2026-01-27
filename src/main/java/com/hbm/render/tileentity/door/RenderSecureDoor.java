@@ -17,7 +17,10 @@ public class RenderSecureDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_secure_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(
+				door.getSkinIndex() == 1 ?
+				ResourceManager.pheo_secure_door_grey_tex :
+				ResourceManager.pheo_secure_door_tex);
 		
 		double maxRaise = 3.5;
 		double raise = 0;

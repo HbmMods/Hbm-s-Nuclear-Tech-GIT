@@ -1,0 +1,20 @@
+{
+	"name": "Armor Piercing Bullet",
+	"icon": ["hbm:item.ammo_standard", 1, 31],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 8],
+		["hbm:item.ammo_standard", 1, 14],
+		["hbm:item.ammo_standard", 1, 19],
+		["hbm:item.ammo_standard", 1, 23],
+		["hbm:item.ammo_standard", 1, 88],
+		["hbm:item.ammo_standard", 1, 27],
+		["hbm:item.ammo_standard", 1, 31],
+		["hbm:item.ammo_standard", 1, 36]
+	],
+	"title": {
+		"en_US": "Armor Piercing Bullet"
+	},
+	"content": {
+		"en_US": "AP rounds are similar to FMJ rounds, but using hardened steel jackets and significantly higher powder load. Not only do APs deal more damage and pierce through armor more effectively, but they can also penetrate their target."
+	}
+}

@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IBomb;
-import com.hbm.items.special.ItemDoorSkin;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.Rotation;
 
+import api.hbm.block.IToolable;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockDoorGeneric extends BlockDummyable implements IBomb {
+public class BlockDoorGeneric extends BlockDummyable implements IBomb, IToolable {
 
 	public DoorDecl type;
 	
@@ -69,19 +69,28 @@ public class BlockDoorGeneric extends BlockDummyable implements IBomb {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer playerIn, int side, float hitX, float hitY, float hitZ){
 		if(!world.isRemote && !playerIn.isSneaking()) {
 			int[] pos1 = findCore(world, x, y, z);
-			if(pos1 == null)
-				return false;
+			if(pos1 == null) return false;
 			TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
 
 			if(door != null) {
-				if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ItemDoorSkin) {
-					return door.setSkinIndex((byte) playerIn.getHeldItem().getItemDamage());
-				} else {
-					return door.tryToggle(playerIn);
-				}
+				return door.tryToggle(playerIn);
 			}
 		}
 		return !playerIn.isSneaking();
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		if(tool != ToolType.SCREWDRIVER || !player.isSneaking()) return false;
+		
+		int[] pos1 = findCore(world, x, y, z);
+		if(pos1 == null) return false;
+		TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
+		
+		if(door == null || !door.getDoorType().hasSkins()) return false;
+		if(world.isRemote) return true;
+		door.cycleSkinIndex();
+		return true;
 	}
 	
 	@Override

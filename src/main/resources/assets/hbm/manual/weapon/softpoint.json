@@ -1,0 +1,20 @@
+{
+	"name": "Soft Point Bullet",
+	"icon": ["hbm:item.ammo_standard", 1, 28],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 5],
+		["hbm:item.ammo_standard", 1, 11],
+		["hbm:item.ammo_standard", 1, 16],
+		["hbm:item.ammo_standard", 1, 20],
+		["hbm:item.ammo_standard", 1, 85],
+		["hbm:item.ammo_standard", 1, 24],
+		["hbm:item.ammo_standard", 1, 28],
+		["hbm:item.ammo_standard", 1, 33]
+	],
+	"title": {
+		"en_US": "Soft Point Bullet"
+	},
+	"content": {
+		"en_US": "The \"default\" ammunition type for most guns. Soft point bullets do not change the gun's base damage, and don't have any armor-piercing properties.<br><br>Due to being expanding projectiles, soft points are prohibited for use in warfare under the Hague Conventions of 1899."
+	}
+}

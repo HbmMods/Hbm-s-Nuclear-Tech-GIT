@@ -1,0 +1,16 @@
+{
+	"name": "Depleted Uranium Bullet",
+	"icon": ["hbm:item.ammo_standard", 1, 32],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 89],
+		["hbm:item.ammo_standard", 1, 32],
+		["hbm:item.ammo_standard", 1, 37],
+		["hbm:item.ammo_standard", 1, 80]
+	],
+	"title": {
+		"en_US": "Depleted Uranium Bullet"
+	},
+	"content": {
+		"en_US": "Ammunition with depleted uranium in its core. The increased density and higher powder load causes this ammo type to have even better armor-piercing properties than AP ammo. The added punch causes the projectiles to penetrate.<br><br>Due to their intended effect being kinetic energy, rather than being poisonous, depleted uranium ammunition is not subject to the Hague Conventions of 1899 regarding use of poisonous projectiles in warfare."
+	}
+}

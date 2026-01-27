@@ -1,0 +1,14 @@
+{
+	"name": "Incendiary Munitions",
+	"icon": ["hbm:item.ammo_standard", 1, 61],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 56],
+		["hbm:item.ammo_standard", 1, 61]
+	],
+	"title": {
+		"en_US": "Incendiary Munitions"
+	},
+	"content": {
+		"en_US": "Incendiary explosives leave behind lingering fire, which can ignite targets. The afterburn does not last very long, and can be extinguished with water.<br><br>Use of incendiary weapons against or near civilians is forbidden by the Geneva Conventions."
+	}
+}

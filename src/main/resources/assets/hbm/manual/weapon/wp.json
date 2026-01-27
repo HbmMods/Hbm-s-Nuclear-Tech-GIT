@@ -1,0 +1,15 @@
+{
+	"name": "White Phosphorus Munitions",
+	"icon": ["hbm:item.ammo_standard", 1, 62],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 49],
+		["hbm:item.ammo_standard", 1, 57],
+		["hbm:item.ammo_standard", 1, 62]
+	],
+	"title": {
+		"en_US": "White Phosphorus Munitions"
+	},
+	"content": {
+		"en_US": "White phosphorus ignites easily and is very hard to extinguish, causing significant afterburn damage which cannot be permanently extinguished by water. Lingering fire caused by WP explosions lasts longer than by conventinal incendiary explosives.<br><br>Use of incendiary weapons against or near civilians is forbidden by the Geneva Conventions."
+	}
+}

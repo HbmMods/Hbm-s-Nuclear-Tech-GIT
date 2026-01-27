@@ -1,0 +1,13 @@
+{
+	"name": "Starmetal Bullet",
+	"icon": ["hbm:item.ammo_standard", 1, 94],
+	"trigger": [
+		["hbm:item.ammo_standard", 1, 94]
+	],
+	"title": {
+		"en_US": "Starmetal Bullet"
+	},
+	"content": {
+		"en_US": "Cartridge with extra high powder load using a starmetal projectile. The density and stability of starmetal ensures that this projectile can punch through most armors, at the cost of the gun wearing ten times faster. Can only be used in anti-materiel rifles, as the chamber pressure is so high, it would blow automatic weapons apart."
+	}
+}
