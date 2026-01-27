@@ -46,6 +46,7 @@ public class SpentCasing implements Cloneable {
 	public static final String PLINK_SHELL = "hbm:weapon.casing.shell";
 	public static final String PLINK_SMALL = "hbm:weapon.casing.small";
 	public static final String PLINK_MEDIUM = "hbm:weapon.casing.medium";
+	public static final String PLINK_LARGE = "hbm:weapon.casing.large";
 	
 	public SpentCasing(CasingType type) {
 		this.type = type;
@@ -73,6 +74,7 @@ public class SpentCasing implements Cloneable {
 		this.scaleY = y;
 		this.scaleZ = z;
 		if(x * y * z >= 3 && this.type != CasingType.SHOTGUN) this.setSound(PLINK_MEDIUM);
+		if(x * y * z >= 100 && this.type != CasingType.SHOTGUN) this.setSound(PLINK_LARGE);
 		return this;
 	}
 	

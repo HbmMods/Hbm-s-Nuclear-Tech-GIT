@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityArtilleryShell;
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
@@ -13,6 +12,7 @@ import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.particle.helper.CasingCreator;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.Optional;
@@ -380,13 +380,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		}
 	}
 
-	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 0.6, -1).setAngleRange(0.1F, 0.1F);
-
-	@Override
-	protected CasingEjector getEjector() {
-		return ejector;
-	}
-
 	@Override
 	protected Vec3 getCasingSpawnPos() {
 		return this.getTurretPos();
@@ -439,18 +432,19 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	protected void spawnCasing() {
 
 		if(cachedCasingConfig == null) return;
-		CasingEjector ej = getEjector();
 
 		Vec3 spawn = this.getCasingSpawnPos();
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "casing");
-		data.setFloat("pitch", (float) 0);
-		data.setFloat("yaw", (float) rotationYaw);
-		data.setBoolean("crouched", false);
-		data.setString("name", cachedCasingConfig.getName());
-		if(ej != null) data.setInteger("ej", ej.getId());
-		PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-
+		float yaw = (float) Math.toDegrees(rotationYaw);
+		float pitch = (float) -Math.toDegrees(this.rotationPitch);
+		
+		CasingCreator.composeEffect(worldObj,
+				spawn.xCoord, spawn.yCoord, spawn.zCoord,
+				yaw, pitch,
+				-0.6, 0.3, 0,
+				0.01, worldObj.rand.nextFloat() * 20F - 10F, 0,
+				cachedCasingConfig.getName(),
+				true, 200, 1, 20);
+		
 		cachedCasingConfig = null;
 	}
 

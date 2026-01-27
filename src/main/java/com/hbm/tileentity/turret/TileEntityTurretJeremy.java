@@ -3,12 +3,12 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretJeremy;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.particle.helper.CasingCreator;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -112,6 +112,26 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 	}
 
 	@Override
+	protected void spawnCasing() {
+
+		if(cachedCasingConfig == null) return;
+
+		Vec3 spawn = this.getCasingSpawnPos();
+		float yaw = (float) Math.toDegrees(rotationYaw);
+		float pitch = (float) -Math.toDegrees(this.rotationPitch);
+		
+		CasingCreator.composeEffect(worldObj,
+				spawn.xCoord, spawn.yCoord, spawn.zCoord,
+				yaw, pitch,
+				-0.2, -0.2, 0,
+				0.01, -5, 0,
+				cachedCasingConfig.getName(),
+				true, 100, 0.5, 20);
+		
+		cachedCasingConfig = null;
+	}
+
+	@Override
 	protected Vec3 getCasingSpawnPos() {
 
 		Vec3 pos = this.getTurretPos();
@@ -120,13 +140,6 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
 		return Vec3.createVectorHelper(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord);
-	}
-
-	protected static CasingEjector ejector = new CasingEjector().setAngleRange(0.01F, 0.01F).setMotion(0, 0, -0.2);
-
-	@Override
-	protected CasingEjector getEjector() {
-		return ejector;
 	}
 
 	@Override

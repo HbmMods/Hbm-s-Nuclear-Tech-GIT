@@ -32,3 +32,5 @@
 * Fixed audio problems with guns
 * Fixed third person muzzleflash on the miniguns clipping the barrel
 * Fixed arc furnace IO slots stacking items with incompatible NBT
+* Fixed a bounding box issue with casing particles, causing them to slide sideways on the first tick, making trajectories weird
+* Fixed some turrets not using the more modern casing spawner system which allows casings to have a smoke trail

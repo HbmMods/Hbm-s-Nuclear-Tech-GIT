@@ -69,6 +69,9 @@ public class ParticleSpentCasing extends EntityFX {
 		this.motionX = mx;
 		this.motionY = my;
 		this.motionZ = mz;
+		
+		// i am at a loss for words as to what the fuck is going on here, but this is needed, stop asking, fuck you
+		this.setPosition(x, y, z);
 
 		particleGravity = 1F;
 	}
@@ -129,16 +132,26 @@ public class ParticleSpentCasing extends EntityFX {
 		
 		rotationPitch += momentumPitch;
 		rotationYaw += momentumYaw;
+		
+		if(Math.abs(prevRotationPitch - rotationPitch) > 180) {
+			if(prevRotationPitch < rotationPitch) prevRotationPitch += 360;
+			if(prevRotationPitch > rotationPitch) prevRotationPitch -= 360;
+		}
+		
+		if(Math.abs(prevRotationYaw - rotationYaw) > 180) {
+			if(prevRotationYaw < rotationYaw) prevRotationYaw += 360;
+			if(prevRotationYaw > rotationYaw) prevRotationYaw -= 360;
+		}
 	}
 	
 	public void moveEntity(double motionX, double motionY, double motionZ) {
 		this.worldObj.theProfiler.startSection("move");
 		this.ySize *= 0.4F;
 		
-		if (this.isInWeb) {
+		if(this.isInWeb) {
 			this.isInWeb = false;
 			motionX *= 0.25D;
-			motionY *= 0.05000000074505806D;
+			motionY *= 0.05D;
 			motionZ *= 0.25D;
 			this.motionX = 0.0D;
 			this.motionY = 0.0D;
@@ -152,7 +165,7 @@ public class ParticleSpentCasing extends EntityFX {
 		
 		List list = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(motionX, motionY, motionZ));
 		
-		for (int i = 0; i < list.size(); ++i) {
+		for(int i = 0; i < list.size(); ++i) {
 			motionY = ((AxisAlignedBB)list.get(i)).calculateYOffset(this.boundingBox, motionY);
 		}
 		
@@ -160,13 +173,13 @@ public class ParticleSpentCasing extends EntityFX {
 		
 		int j;
 		
-		for (j = 0; j < list.size(); ++j) {
+		for(j = 0; j < list.size(); ++j) {
 			motionX = ((AxisAlignedBB)list.get(j)).calculateXOffset(this.boundingBox, motionX);
 		}
 		
 		this.boundingBox.offset(motionX, 0.0D, 0.0D);
 		
-		for (j = 0; j < list.size(); ++j) {
+		for(j = 0; j < list.size(); ++j) {
 			motionZ = ((AxisAlignedBB)list.get(j)).calculateZOffset(this.boundingBox, motionZ);
 		}
 		
@@ -217,7 +230,7 @@ public class ParticleSpentCasing extends EntityFX {
 		}
 		
 		if(this.config.getSound() != null && isCollidedVertically && Math.abs(initMoY) >= 0.2) {
-			MainRegistry.proxy.playSoundClient(posX, posY, posZ, this.config.getSound(), 0.5F, 1F + this.rand.nextFloat() * 0.2F);
+			MainRegistry.proxy.playSoundClient(posX, posY, posZ, this.config.getSound(), this.config.PLINK_LARGE.equals(this.config.getSound()) ? 1F : 0.5F, 1F + this.rand.nextFloat() * 0.2F);
 		}
 		
 		this.worldObj.theProfiler.endSection();
@@ -267,8 +280,8 @@ public class ParticleSpentCasing extends EntityFX {
 
 		GL11.glScalef(dScale, dScale, dScale);
 
-		GL11.glRotatef(180 - rotationYaw, 0, 1, 0);
-		GL11.glRotatef(-rotationPitch, 1, 0, 0);
+		GL11.glRotatef(180 - (float) BobMathUtil.interp(prevRotationYaw, rotationYaw, interp), 0, 1, 0);
+		GL11.glRotatef((float) -BobMathUtil.interp(prevRotationPitch, rotationPitch, interp), 1, 0, 0);
 
 		GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
