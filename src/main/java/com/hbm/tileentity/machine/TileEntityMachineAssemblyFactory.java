@@ -21,6 +21,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineAssembler;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -45,7 +46,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 // TODO: make a base class because 90% of this is just copy pasted from the chemfac
 @NotableComments
-public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider {
+public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
@@ -120,6 +121,26 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
 				47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59
 		}; // ho boy, a big fucking array of hand-written values, surely this isn't gonna bite me in the ass some day
+	}
+
+	/// CONDITIONAL ACCESS ///
+	@Override public boolean isItemValidForSlot(int x, int y, int z, int slot, ItemStack stack) { return this.isItemValidForSlot(slot, stack); }
+	@Override public boolean canInsertItem(int x, int y, int z, int slot, ItemStack stack, int side) { return this.canInsertItem(slot, stack, side); }
+	@Override public boolean canExtractItem(int x, int y, int z, int slot, ItemStack stack, int side) { return this.canExtractItem(slot, stack, side); }
+
+	@Override public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side) {
+		DirPos[] io = getIOPos();
+		for(int i = 0; i < io.length; i++) {
+			if(io[i].compare(x + io[i].getDir().offsetX, y, z + io[i].getDir().offsetZ)) {
+				return new int[] {
+						5 + i * 14, 6 + i * 14, 7 + i * 14, 8 + i * 14,
+						9 + i * 14, 10 + i * 14, 11 + i * 14, 12 + i * 14,
+						13 + i * 14, 14 + i * 14, 15 + i * 14, 16 + i * 14,
+						17, 31, 45, 59 // entering flavor town...
+				};
+			}
+		}
+		return this.getAccessibleSlotsFromSide(side);
 	}
 
 	@Override
@@ -252,7 +273,6 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
 		};
 	}
-
 	
 	public DirPos[] getCoolPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -263,6 +283,18 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord - rot.offsetX + dir.offsetX * 3, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 3, dir),
 				new DirPos(xCoord + rot.offsetX - dir.offsetX * 3, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
 				new DirPos(xCoord - rot.offsetX - dir.offsetX * 3, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
+		};
+	}
+	
+	public DirPos[] getIOPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
+				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
 		};
 	}
 
@@ -368,7 +400,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemical_factory));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembly_factory));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_SPEED, "+" + (level * 100 / 3) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 50) + "%"));

@@ -1,5 +1,6 @@
 package com.hbm.render.anim;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.util.Clock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
+@NotableComments
 public class HbmAnimations {
 
 	//in flans mod and afaik also MW, there's an issue that there is only one

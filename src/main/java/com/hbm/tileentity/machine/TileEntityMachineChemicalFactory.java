@@ -19,6 +19,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineChemplant;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -41,7 +42,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider {
+public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
@@ -119,6 +120,27 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				19, 20, 21, 22, 23, 24,
 				26, 27, 28, 29, 30, 31
 		};
+	}
+
+	/// CONDITIONAL ACCESS ///
+	@Override public boolean isItemValidForSlot(int x, int y, int z, int slot, ItemStack stack) { return this.isItemValidForSlot(slot, stack); }
+	@Override public boolean canInsertItem(int x, int y, int z, int slot, ItemStack stack, int side) { return this.canInsertItem(slot, stack, side); }
+	@Override public boolean canExtractItem(int x, int y, int z, int slot, ItemStack stack, int side) { return this.canExtractItem(slot, stack, side); }
+
+	@Override public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side) {
+		DirPos[] io = getIOPos();
+		for(int i = 0; i < io.length; i++) {
+			if(io[i].compare(x + io[i].getDir().offsetX, y, z + io[i].getDir().offsetZ)) {
+				return new int[] {
+						5 + i * 7, 6 + i * 7, 7 + i * 7,
+						8, 9, 10,
+						15, 16, 17,
+						22, 23, 24,
+						29, 30, 31
+				};
+			}
+		}
+		return this.getAccessibleSlotsFromSide(side);
 	}
 
 	@Override
@@ -286,6 +308,18 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				new DirPos(xCoord - rot.offsetX + dir.offsetX * 3, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 3, dir),
 				new DirPos(xCoord + rot.offsetX - dir.offsetX * 3, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
 				new DirPos(xCoord - rot.offsetX - dir.offsetX * 3, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
+		};
+	}
+	
+	public DirPos[] getIOPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
+				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
 		};
 	}
 

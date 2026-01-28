@@ -139,15 +139,6 @@ public abstract class DoorDecl {
 				return super.getBlockBound(x, y, z, open, forCollision);
 			}
 		}
-
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
-		@Deprecated
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IModelCustomNamed getModel() { return null; }
 	};
 
 	public static final DoorDecl SLIDE_DOOR = new DoorDecl() {
@@ -413,45 +404,6 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		@SideOnly(Side.CLIENT)
-		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
-			if("bolt".equals(partName)) {
-				set(trans, 0, 0, 0.4F * Library.smoothstep(getNormTime(openTicks, 0, 30), 0, 1));
-			} else {
-				set(trans, 0, 0, 0);
-			}
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getOrigin(String partName, float[] orig) {
-			if("door".equals(partName) || "bolt".equals(partName)) {
-				set(orig, 0.125F, 1.5F, 1.18F);
-				return;
-			} else if("spinny_upper".equals(partName)) {
-				set(orig, 0.041499F, 2.43569F, -0.587849F);
-				return;
-			} else if("spinny_lower".equals(partName)) {
-				set(orig, 0.041499F, 0.571054F, -0.587849F);
-				return;
-			}
-			super.getOrigin(partName, orig);
-		};
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void getRotation(String partName, float openTicks, float[] rot) {
-			if(partName.startsWith("spinny")) {
-				set(rot, Library.smoothstep(getNormTime(openTicks, 0, 30), 0, 1) * 360, 0, 0);
-				return;
-			} else if("door".equals(partName) || "bolt".equals(partName)) {
-				set(rot, 0, Library.smoothstep(getNormTime(openTicks, 30, 60), 0, 1) * -134, 0);
-				return;
-			}
-			super.getRotation(partName, openTicks, rot);
-		};
-
-		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 			if(!open) {
 				return AxisAlignedBB.getBoundingBox(0, 0, 0.75, 1, 1, 1);
@@ -510,12 +462,6 @@ public abstract class DoorDecl {
 			super.getRotation(partName, openTicks, rot);
 		};
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean doesRender(String partName, boolean child) {
-			return true;
-		};
-
 		@Override public int timeToOpen() { return 60; };
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 1, 0, 1, -3, 3, 0 }, { 0, 0, 1, -3, 3, 0 }, { -1, 0, 1, -3, 3, 0 } }; }
 		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
@@ -570,12 +516,6 @@ public abstract class DoorDecl {
 			super.getRotation(partName, openTicks, rot);
 		};
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean doesRender(String partName, boolean child) {
-			return true;
-		};
-
 		@Override public int timeToOpen() { return 60; };
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 2, 0, 1, -3, 3, 0 }, { 1, 0, 2, -5, 3, 0 }, { 0, 0, 2, -5, 3, 0 }, { -1, 0, 2, -5, 3, 0 }, { -2, 0, 1, -3, 3, 0 } }; }
 		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
@@ -627,11 +567,10 @@ public abstract class DoorDecl {
 
 	};
 
-	// Format: x, y, z, tangent amount 1 (how long the door would be if it moved
-	// up), tangent amount 2 (door places blocks in this direction), axis (0-x,
-	// 1-y, 2-z)
+	/** Format: x, y, z, tangent amount 1 (how long the door would be if it moved
+		up), tangent amount 2 (door places blocks in this direction), axis (0-x,
+		1-y, 2-z) */
 	public abstract int[][] getDoorOpenRanges();
-
 	public abstract int[] getDimensions();
 	
 	public int getBlockOffset() { return 0; }
@@ -664,23 +603,16 @@ public abstract class DoorDecl {
 	@SideOnly(Side.CLIENT) public AnimatedModel getAnimatedModel() { return null; }
 	@SideOnly(Side.CLIENT) public Animation getAnim() { return null; }
 
-	@SideOnly(Side.CLIENT)
-	public void getTranslation(String partName, float openTicks, boolean child, float[] trans) { set(trans, 0, 0, 0); }
-	@SideOnly(Side.CLIENT)
-	public void getRotation(String partName, float openTicks, float[] rot) { set(rot, 0, 0, 0); }
-	@SideOnly(Side.CLIENT)
-	public void getOrigin(String partName, float[] orig) { set(orig, 0, 0, 0); }
-	@SideOnly(Side.CLIENT)
-	public boolean doesRender(String partName, boolean child) { return true; }
+	@SideOnly(Side.CLIENT) public void getTranslation(String partName, float openTicks, boolean child, float[] trans) { set(trans, 0, 0, 0); }
+	@SideOnly(Side.CLIENT) public void getRotation(String partName, float openTicks, float[] rot) { set(rot, 0, 0, 0); }
+	@SideOnly(Side.CLIENT) public void getOrigin(String partName, float[] orig) { set(orig, 0, 0, 0); }
+	@SideOnly(Side.CLIENT) public boolean doesRender(String partName, boolean child) { return true; }
 
 	private static final String[] nothing = new String[] {};
 
-	@SideOnly(Side.CLIENT)
-	public String[] getChildren(String partName) { return nothing; }
-	@SideOnly(Side.CLIENT)
-	public double[][] getClippingPlanes() { return new double[][] {}; }
-	@SideOnly(Side.CLIENT)
-	public void doOffsetTransform() { }
+	@SideOnly(Side.CLIENT) public String[] getChildren(String partName) { return nothing; }
+	@SideOnly(Side.CLIENT) public double[][] getClippingPlanes() { return new double[][] {}; }
+	@SideOnly(Side.CLIENT) public void doOffsetTransform() { }
 
 	public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
 		return open ? AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0) : AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);

@@ -20,6 +20,7 @@
 * Increased the power draw on the osmiridium welding recipe
 * Bullet casings now make sounds when falling to the ground
 * Most ammo types now have QMAW pages, including information on whether or not they are a war crime
+* Both assembly and chemical factories now have four special ports that only allow items inserted to go into one recipe group
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
@@ -34,3 +35,4 @@
 * Fixed arc furnace IO slots stacking items with incompatible NBT
 * Fixed a bounding box issue with casing particles, causing them to slide sideways on the first tick, making trajectories weird
 * Fixed some turrets not using the more modern casing spawner system which allows casings to have a smoke trail
+* Fixed incorrect tooltip on the upgrade stat screen for assembly factories
