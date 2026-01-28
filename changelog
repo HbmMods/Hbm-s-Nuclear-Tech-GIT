@@ -36,3 +36,4 @@
 * Fixed a bounding box issue with casing particles, causing them to slide sideways on the first tick, making trajectories weird
 * Fixed some turrets not using the more modern casing spawner system which allows casings to have a smoke trail
 * Fixed incorrect tooltip on the upgrade stat screen for assembly factories
+* Fixed crash caused by RBMK overpressure meltdown mechanic
