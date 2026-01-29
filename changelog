@@ -21,6 +21,7 @@
 * Bullet casings now make sounds when falling to the ground
 * Most ammo types now have QMAW pages, including information on whether or not they are a war crime
 * Both assembly and chemical factories now have four special ports that only allow items inserted to go into one recipe group
+* All models using the HFR wavefront loader can now be hot-swapped via resource reload (F3 + T)
 
 # Fixed
 * Potentially fixed yet another issue regarding crates

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.*;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
-public class WavefrontObjVBO implements IModelCustomNamed {
+public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
 	class VBOBufferData {
 
@@ -27,7 +27,11 @@ public class WavefrontObjVBO implements IModelCustomNamed {
 	static int VERTEX_SIZE = 3;
 	static int UV_SIZE = 3;
 	
-	public WavefrontObjVBO(HFRWavefrontObject obj) {
+	public HFRWavefrontObjectVBO(HFRWavefrontObject obj) {
+		load(obj);
+	}
+	
+	public void load(HFRWavefrontObject obj) {
 		for(S_GroupObject g : obj.groupObjects) {
 			VBOBufferData data = new VBOBufferData();
 			data.name = g.name;
@@ -73,6 +77,19 @@ public class WavefrontObjVBO implements IModelCustomNamed {
 
 			groups.add(data);
 		}
+	}
+	
+	// truth be told, i have no fucking idea what i'm doing
+	// i know the VBO sends data to the GPU to be saved there directly which is where the optimization comes from in the first place
+	// so logically, if we want to get rid of this, we need to blow the data up
+	// documentation on GL15 functions seems nonexistant so fuck it we ball i guess
+	public void destroy() {
+		for(VBOBufferData data : groups) {
+			GL15.glDeleteBuffers(data.vertexHandle);
+			GL15.glDeleteBuffers(data.uvHandle);
+			GL15.glDeleteBuffers(data.normalHandle);
+		}
+		groups.clear();
 	}
 
 	@Override
