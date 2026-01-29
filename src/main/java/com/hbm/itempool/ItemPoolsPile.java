@@ -27,6 +27,8 @@ public class ItemPoolsPile {
 	public static final String POOL_PILE_MAKESHIFT_WIRE = "POOL_PILE_MAKESHIFT_WIRE";
 	public static final String POOL_PILE_NUKE_STORAGE = "POOL_PILE_NUKE_STORAGE";
 	public static final String POOL_PILE_OF_GARBAGE = "POOL_PILE_OF_GARBAGE";
+	public static final String POOL_PILE_MECHANICAL = "POOL_PILE_MECHANICAL";
+
 
 	public static void init() {
 
@@ -139,6 +141,20 @@ public class ItemPoolsPile {
 				weighted(ModItems.pipe_lead, 0, 0, 1, 5),
 				weighted(ModItems.motor, 0, 0, 1, 5),
 				weighted(ModItems.canned_conserve, 2, 0, 1, 5),
+			};
+		}};
+
+		new ItemPool(POOL_PILE_MECHANICAL) {{
+			this.pool = new WeightedRandomChestContent[] {
+				weighted(ModItems.defuser, 0, 1, 1, 5),
+				weighted(ModItems.screwdriver, 0, 1, 1, 30),
+				weighted(ModItems.wire_fine, Mats.MAT_COPPER.id, 8, 12, 120),
+				weighted(ModItems.plate_steel, 0, 3, 8, 40),
+				weighted(ModItems.plate_copper, 0, 2, 5, 40),
+				weighted(ModItems.coil_copper, 0, 2, 5, 40),
+				weighted(ModItems.coil_tungsten, 0, 2, 5, 40),
+				weighted(ModItems.ammo_standard, EnumAmmo.NUKE_TOTS.ordinal(), 1, 1, 10),
+
 			};
 		}};
 	}

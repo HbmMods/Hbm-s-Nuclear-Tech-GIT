@@ -29,6 +29,11 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		markDirty();
 	}
 
+	public void unlock() {
+		isLocked = false;
+		markDirty();
+	}
+
 	public void setPins(int pins) { lock = pins; markDirty(); }
 	public int getPins() { return lock; }
 	public void setMod(double mod) { lockMod = mod; markDirty(); }

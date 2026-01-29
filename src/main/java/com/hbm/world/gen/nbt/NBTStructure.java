@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Predicate;
 
+import com.hbm.config.ServerConfig;
 import org.apache.commons.io.IOUtils;
 
 import com.hbm.blocks.ModBlocks;
@@ -80,7 +81,7 @@ public class NBTStructure {
 	private Map<String, List<JigsawConnection>> toTopConnections;
 	private Map<String, List<JigsawConnection>> toBottomConnections;
 	private Map<String, List<JigsawConnection>> toHorizontalConnections;
-	
+
 	// incredibly shitty system for translating legacy block definitions to new ones
 	@Untested // i can't find a god damn factory
 	private static Map<String, String> substitutions = new HashMap() {{
@@ -328,7 +329,7 @@ public class NBTStructure {
 
 				String blockName = p.getString("Name");
 				NBTTagCompound prop = p.getCompoundTag("Properties");
-				
+
 				/// BOB PATCH ///
 				if(substitutions.containsKey(blockName)) blockName = substitutions.get(blockName);
 				/// BOB PATCH ///
@@ -343,7 +344,7 @@ public class NBTStructure {
 
 				palette[i] = new BlockDefinition(blockName, meta);
 
-				if(StructureConfig.debugStructures && palette[i].block == Blocks.air) {
+				if(ServerConfig.STRUCTURE_DEBUG.get() && palette[i].block == Blocks.air) {
 					palette[i] = new BlockDefinition(ModBlocks.wand_air, meta);
 				}
 			}
@@ -416,7 +417,7 @@ public class NBTStructure {
 						List<JigsawConnection> namedConnections = toConnections.computeIfAbsent(ourName, name -> new ArrayList<>());
 						namedConnections.add(connection);
 
-						if(!StructureConfig.debugStructures) {
+						if(!ServerConfig.STRUCTURE_DEBUG.get()) {
 							blockState = new BlockState(new BlockDefinition(replaceBlock, replaceMeta));
 						}
 					}

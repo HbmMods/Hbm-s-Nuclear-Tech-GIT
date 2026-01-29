@@ -5,6 +5,7 @@ import com.hbm.blocks.generic.BlockPedestal;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 
 public class LogicBlockConditions {
 
-	public static LinkedHashMap<String, Function<LogicBlock.TileEntityLogicBlock, Boolean>> conditions = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Function<LogicBlock.TileEntityLogicBlock, Boolean>> conditions;
 
 	/**For use with interactions, for having them handle all conditional tasks*/
 	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> EMPTY = (tile) -> false;
@@ -96,18 +97,26 @@ public class LogicBlockConditions {
 			&& ((BlockPedestal.TileEntityPedestal) pedestal).item.getItem() == ModItems.big_sword;
 	};
 
+
 	public static List<String> getConditionNames(){
 		return new ArrayList<>(conditions.keySet());
 	}
 
 	//register new conditions here
 	static {
-		//example conditions
+		initialize();
+	}
+
+	public static void initialize() {
+		conditions = new LinkedHashMap<>();
+
 		conditions.put("EMPTY", EMPTY);
-		conditions.put("ABERRATOR", ABERRATOR);
 		conditions.put("PLAYER_CUBE_3", PLAYER_CUBE_3);
 		conditions.put("PLAYER_CUBE_5", PLAYER_CUBE_5);
 		conditions.put("PLAYER_CUBE_25", PLAYER_CUBE_25);
+
+		//example conditions
+		conditions.put("ABERRATOR", ABERRATOR);
 		conditions.put("REDSTONE", REDSTONE);
 		conditions.put("PUZZLE_TEST", PUZZLE_TEST);
 	}

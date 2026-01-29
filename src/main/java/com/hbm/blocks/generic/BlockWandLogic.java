@@ -5,6 +5,7 @@ import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.ICopiable;
@@ -265,7 +266,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 
 		@Override
 		public void transformTE(World world, int coordBaseMode) {
-			triggerReplace = !StructureConfig.debugStructures;
+			triggerReplace = !ServerConfig.STRUCTURE_DEBUG.get();
 		}
 
 		@Override

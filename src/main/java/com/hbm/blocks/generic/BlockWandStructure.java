@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hbm.config.ServerConfig;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.blocks.IBlockMulti;
@@ -228,8 +229,8 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 			File structureFile = new File(structureDirectory, name + ".nbt");
 
-			boolean previousDebug = StructureConfig.debugStructures;
-			StructureConfig.debugStructures = true;
+			boolean previousDebug = ServerConfig.STRUCTURE_DEBUG.get();
+			ServerConfig.STRUCTURE_DEBUG.set(true);
 
 			try {
 				NBTStructure structure = new NBTStructure(structureFile);
@@ -247,7 +248,7 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			} catch (FileNotFoundException ex) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load: file not found"));
 			} finally {
-				StructureConfig.debugStructures = previousDebug;
+				ServerConfig.STRUCTURE_DEBUG.set(previousDebug);
 			}
 		}
 

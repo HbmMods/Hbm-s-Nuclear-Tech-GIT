@@ -10,6 +10,8 @@ import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityDoorGeneric;
+import com.hbm.tileentity.bomb.TileEntityCharge;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.MobUtil;
@@ -20,6 +22,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -33,7 +36,7 @@ import java.util.function.Consumer;
 
 public class LogicBlockActions {
 
-	public static LinkedHashMap<String, Consumer<LogicBlock.TileEntityLogicBlock>> actions = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Consumer<LogicBlock.TileEntityLogicBlock>> actions;
 
 	public static Consumer<LogicBlock.TileEntityLogicBlock> PHASE_ABERRATOR = (tile) -> {
 		World world = tile.getWorldObj();
@@ -169,81 +172,91 @@ public class LogicBlockActions {
 		}
 	};
 
-	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETON_GUN_TIER_1 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETONS_GUN_TIER_1 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			EntitySkeleton mob = new EntitySkeleton(world);
-			mob.setPositionAndRotation(x, y, z, 0, 0);
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier1, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolRanged, new Random());
-			world.spawnEntityInWorld(mob);
-			world.setBlock(x, y, z, Blocks.air);
+			for (int i = 0; i < 3; i++) {
+				EntitySkeleton mob = new EntitySkeleton(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier1, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolRanged, new Random());
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
 		}
 	};
 
-	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETON_GUN_TIER_2 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETONS_GUN_TIER_2 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			EntitySkeleton mob = new EntitySkeleton(world);
-			mob.setPositionAndRotation(x, y, z, 0, 0);
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier2, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
-			world.spawnEntityInWorld(mob);
-			world.setBlock(x, y, z, Blocks.air);
+			for (int i = 0; i < 3; i++) {
+				EntitySkeleton mob = new EntitySkeleton(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier2, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
 		}
 	};
 
-	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETON_GUN_TIER_3 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> SKELETONS_GUN_TIER_3 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			EntitySkeleton mob = new EntitySkeleton(world);
-			mob.setPositionAndRotation(x, y, z, 0, 0);
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier3, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdvRanged, new Random());
-			world.spawnEntityInWorld(mob);
-			world.setBlock(x, y, z, Blocks.air);
+			for (int i = 0; i < 3; i++) {
+				EntitySkeleton mob = new EntitySkeleton(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier3, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdvRanged, new Random());
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
 		}
 	};
 
-	public static Consumer<LogicBlock.TileEntityLogicBlock> ZOMBIE_TIER_1 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> ZOMBIES_TIER_1 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			EntityZombie mob = new EntityZombie(world);
-			mob.setPositionAndRotation(x, y, z, 0, 0);
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
-			world.spawnEntityInWorld(mob);
-			world.setBlock(x, y, z, Blocks.air);
+			for (int i = 0; i < 3; i++) {
+				EntityZombie mob = new EntityZombie(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
 		}
 	};
 
-	public static Consumer<LogicBlock.TileEntityLogicBlock> ZOMBIE_TIER_2 = (tile) -> {
+	public static Consumer<LogicBlock.TileEntityLogicBlock> ZOMBIES_TIER_2 = (tile) -> {
 		World world = tile.getWorldObj();
 		int x = tile.xCoord;
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 		if (tile.phase == 1) {
-			EntityZombie mob = new EntityZombie(world);
-			mob.setPositionAndRotation(x, y, z, 0, 0);
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
-			MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
-			world.spawnEntityInWorld(mob);
-			world.setBlock(x, y, z, Blocks.air);
+			for (int i = 0; i < 3; i++) {
+				EntityZombie mob = new EntityZombie(world);
+				mob.setPositionAndRotation(x, y, z, 0, 0);
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
+				world.spawnEntityInWorld(mob);
+				world.setBlock(x, y, z, Blocks.air);
+			}
 		}
 	};
 
@@ -361,28 +374,109 @@ public class LogicBlockActions {
 		}
 	};
 
+	public static Consumer<LogicBlock.TileEntityLogicBlock> POWER_LOCK = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		ForgeDirection parallel = tile.direction.getRotation(ForgeDirection.UP);
+
+		if(tile.phase == 0 && !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(3, 3, 3)).isEmpty()){
+			world.getClosestPlayer(x,y,z, 300).addChatMessage(new ChatComponentText(
+				EnumChatFormatting.LIGHT_PURPLE + "[POWER LOCK]" +
+					EnumChatFormatting.RESET + " Low Power Warning! Locking Safe"));
+			tile.phase++;
+
+			TileEntityLockableBase safe = null;
+			if(world.getTileEntity(x - parallel.offsetX,y,z) instanceof TileEntityLockableBase)
+				safe = (TileEntityLockableBase) world.getTileEntity(x,y,z - parallel.offsetX);
+			if(safe != null){
+				safe.setPins(world.rand.nextInt(999));
+			}
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> BOMB_TRAP = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		ForgeDirection direction = tile.direction.getOpposite();
+
+		if(tile.phase == 1){
+			world.setBlock(x,y,z + direction.offsetZ, ModBlocks.charge_c4, 2, 3);
+
+			TileEntity te = world.getTileEntity(x,y,z + direction.offsetZ);
+			if(te instanceof TileEntityCharge){
+				TileEntityCharge bomb = (TileEntityCharge) te;
+				bomb.timer = 2400;
+				bomb.started = true;
+			}
+
+			world.setBlock(x,y,z, tile.disguise != null ? tile.disguise : Blocks.air);
+		}
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> BOMB_CRANE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		ForgeDirection direction = tile.direction.getOpposite();
+
+		if(tile.phase == 1){
+			world.setBlock(x,y,z + direction.offsetZ, ModBlocks.charge_c4, 2, 3);
+
+			TileEntity te = world.getTileEntity(x,y,z + direction.offsetZ);
+			if(te instanceof TileEntityCharge){
+				TileEntityCharge bomb = (TileEntityCharge) te;
+				bomb.timer = 2400;
+				bomb.started = true;
+			}
+
+			world.setBlock(x,y,z, ModBlocks.crate_steel);
+			TileEntityCrateBase crate = (TileEntityCrateBase) world.getTileEntity(x,y,z);
+			crate.setPins(world.rand.nextInt(999));
+			crate.lock();
+			((IInventory)crate).setInventorySlotContents(15, new ItemStack(ModItems.launch_key));
+		}
+	};
+
 	public static List<String> getActionNames(){
 		return new ArrayList<>(actions.keySet());
 	}
 
 	//register new actions here
 	static{
-		//example actions
+		initialize();
+	}
+
+	public static void initialize(){
+		actions = new LinkedHashMap<>();
+		//logic actions
 		actions.put("FODDER_WAVE", FODDER_WAVE);
-		actions.put("ABERRATOR", PHASE_ABERRATOR);
+		actions.put("POWER_LOCK", POWER_LOCK);
 		actions.put("COLLAPSE_ROOF_RAD_5", COLLAPSE_ROOF_RAD_5);
 		actions.put("COLLAPSE_ROOF_RAD_10", COLLAPSE_ROOF_RAD_10);
+		actions.put("BOMB_TRAP", BOMB_TRAP);
+		actions.put("BOMB_CRANE", BOMB_CRANE);
+
+		//Mob Block Actions
+		actions.put("SKELETON_GUN_TIER_1", SKELETONS_GUN_TIER_1);
+		actions.put("SKELETON_GUN_TIER_2", SKELETONS_GUN_TIER_2);
+		actions.put("SKELETON_GUN_TIER_3", SKELETONS_GUN_TIER_3);
+
+		actions.put("ZOMBIE_TIER_1", ZOMBIES_TIER_1);
+		actions.put("ZOMBIE_TIER_2", ZOMBIES_TIER_2);
+
+		//example actions
+		actions.put("ABERRATOR", PHASE_ABERRATOR);
 		actions.put("PUZZLE_TEST", PUZZLE_TEST);
 		actions.put("MISSILE_STRIKE", MISSILE_STRIKE);
 		actions.put("IRRADIATE_ENTITIES_AOE", RAD_CONTAINMENT_SYSTEM);
-
-		//Mob Block Actions
-		actions.put("SKELETON_GUN_TIER_1", SKELETON_GUN_TIER_1);
-		actions.put("SKELETON_GUN_TIER_2", SKELETON_GUN_TIER_2);
-		actions.put("SKELETON_GUN_TIER_3", SKELETON_GUN_TIER_3);
-
-		actions.put("ZOMBIE_TIER_1", ZOMBIE_TIER_1);
-		actions.put("ZOMBIE_TIER_2", ZOMBIE_TIER_2);
 	}
 
 }

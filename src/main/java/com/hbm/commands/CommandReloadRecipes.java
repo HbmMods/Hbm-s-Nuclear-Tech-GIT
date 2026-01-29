@@ -7,6 +7,9 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.DamageResistanceHandler;
 
+import com.hbm.world.gen.util.LogicBlockActions;
+import com.hbm.world.gen.util.LogicBlockConditions;
+import com.hbm.world.gen.util.LogicBlockInteractions;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -33,6 +36,11 @@ public class CommandReloadRecipes extends CommandBase {
 			SerializableRecipe.initialize();
 			ItemPoolConfigJSON.initialize();
 			DamageResistanceHandler.init();
+
+			LogicBlockActions.initialize();
+			LogicBlockConditions.initialize();
+			LogicBlockInteractions.initialize();
+
 
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Reload complete :)"));
 		} catch(Exception ex) {

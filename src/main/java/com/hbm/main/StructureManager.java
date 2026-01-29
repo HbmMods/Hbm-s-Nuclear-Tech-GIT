@@ -87,6 +87,9 @@ public class StructureManager {
 	public static final NBTStructure crane = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/crane.nbt"));
 	public static final NBTStructure broadcasting_tower = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/broadcasting_tower.nbt"));
 
+	public static final NBTStructure excavator = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/excavator.nbt"));
+	public static final NBTStructure repeater_radio = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/repeater_radio.nbt"));
+
 	public static final NBTStructure spire = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/spire.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
