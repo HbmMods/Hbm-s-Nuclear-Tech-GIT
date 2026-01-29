@@ -119,6 +119,8 @@ public abstract class DoorDecl {
 			return null;
 		}
 
+		@Override public int getSkinCount() { return 3; }
+
 		@Override public int timeToOpen() { return 160; }
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 4, 1 } }; }
 		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 2, 1 }; }

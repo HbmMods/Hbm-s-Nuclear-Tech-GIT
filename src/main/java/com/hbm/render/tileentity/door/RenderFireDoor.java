@@ -17,7 +17,10 @@ public class RenderFireDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_fire_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(
+				door.getSkinIndex() == 2 ? ResourceManager.pheo_fire_door_orange_tex :
+				door.getSkinIndex() == 1 ? ResourceManager.pheo_fire_door_black_tex :
+					ResourceManager.pheo_fire_door_tex);
 		
 		double maxRaise = 2.75;
 		double raise = 0;

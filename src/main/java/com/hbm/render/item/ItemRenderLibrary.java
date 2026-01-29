@@ -12,6 +12,7 @@ import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -623,7 +624,11 @@ public class ItemRenderLibrary {
 				GL11.glScaled(3.5, 3.5, 3.5);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_fire_door_tex);
+				int index = (int) ((Clock.get_ms() % 3000) / 1000);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(
+						index == 2 ? ResourceManager.pheo_fire_door_orange_tex :
+						index == 1 ? ResourceManager.pheo_fire_door_black_tex :
+						ResourceManager.pheo_fire_door_tex);
 				GL11.glRotated(90, 0, 1, 0);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_fire_door.renderAll();
