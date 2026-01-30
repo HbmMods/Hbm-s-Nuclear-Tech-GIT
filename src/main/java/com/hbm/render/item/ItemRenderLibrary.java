@@ -12,7 +12,6 @@ import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.tileentity.RenderBobble;
 import com.hbm.render.tileentity.RenderDemonLamp;
-import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -26,6 +25,7 @@ public class ItemRenderLibrary {
 	public static HashMap<Item, ItemRenderBase> renderers = new HashMap();
 
 	public static void init() {
+		ItemRenderLibraryDoors.init();
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.obj_tester), new ItemRenderBase() {
 			public void renderInventory() {
@@ -593,186 +593,6 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glRotated(90, 0, -1, 0);
 		        bindTexture(ResourceManager.satdock_tex); ResourceManager.satDock.renderAll();
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.vault_door), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-		        bindTexture(ResourceManager.vault_cog_tex); ResourceManager.vault_cog.renderAll();
-		        bindTexture(ResourceManager.vault_label_101_tex); ResourceManager.vault_label.renderAll();
-			}});
-		renderers.put(Item.getItemFromBlock(ModBlocks.secure_access_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -3.75, 0);
-				GL11.glScaled(2.4, 2.4, 2.4);
-			}
-			public void renderCommon() {
-				GL11.glTranslated(0, 1, 0);
-				bindTexture(ResourceManager.pheo_secure_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_secure_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.fire_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(3.5, 3.5, 3.5);
-			}
-			public void renderCommon() {
-				int index = (int) ((Clock.get_ms() % 3000) / 1000);
-				Minecraft.getMinecraft().getTextureManager().bindTexture(
-						index == 2 ? ResourceManager.pheo_fire_door_orange_tex :
-						index == 1 ? ResourceManager.pheo_fire_door_black_tex :
-						ResourceManager.pheo_fire_door_tex);
-				GL11.glRotated(90, 0, 1, 0);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_fire_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.sliding_blast_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -2.75, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_blast_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_blast_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.large_vehicle_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(1.8, 1.8, 1.8);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-				bindTexture(ResourceManager.pheo_vehicle_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_vehicle_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		renderers.put(Item.getItemFromBlock(ModBlocks.water_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4, 4, 4);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-				bindTexture(ResourceManager.pheo_water_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_water_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		renderers.put(Item.getItemFromBlock(ModBlocks.silo_hatch), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(2, 2, 2);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.silo_hatch_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				GL11.glRotated(90, 0, 1, 0);
-				ResourceManager.silo_hatch.renderPart("Frame");
-				GL11.glTranslated(0, 0.875, -1.875);
-				GL11.glRotated(-120, 1, 0, 0);
-				GL11.glTranslated(0, -0.875, 1.875);
-				GL11.glTranslated(0, 0.25, 0);
-				ResourceManager.silo_hatch.renderPart("Hatch");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		renderers.put(Item.getItemFromBlock(ModBlocks.silo_hatch_large), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(1.5, 1.5, 1.5);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.silo_hatch_large_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				GL11.glTranslated(1, 0, 0);
-				GL11.glRotated(90, 0, 1, 0);
-				ResourceManager.silo_hatch_large.renderPart("Frame");
-				GL11.glTranslated(0, 0.875, -2.875);
-				GL11.glRotated(-120, 1, 0, 0);
-				GL11.glTranslated(0, -0.875, 2.875);
-				GL11.glTranslated(0, 0.25, 0);
-				ResourceManager.silo_hatch_large.renderPart("Hatch");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		renderers.put(Item.getItemFromBlock(ModBlocks.qe_containment), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -3.5, 0);
-				GL11.glScaled(3.8, 3.8, 3.8);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_containment_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_containment_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-		renderers.put(Item.getItemFromBlock(ModBlocks.qe_sliding_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(5, 5, 5);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_sliding_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_sliding_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.round_airlock_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -3.75, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_airlock_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_airlock_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.sliding_seal_door), new ItemRenderBase(){
-			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(7, 7, 7);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_seal_door_tex);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				ResourceManager.pheo_seal_door.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.blast_door), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-		        bindTexture(ResourceManager.blast_door_base_tex); ResourceManager.blast_door_base.renderAll();
-		        bindTexture(ResourceManager.blast_door_tooth_tex); ResourceManager.blast_door_tooth.renderAll();
-		        bindTexture(ResourceManager.blast_door_slider_tex); ResourceManager.blast_door_slider.renderAll();
-		        bindTexture(ResourceManager.blast_door_block_tex); ResourceManager.blast_door_block.renderAll();
 			}});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_microwave), new ItemRenderBase() {
