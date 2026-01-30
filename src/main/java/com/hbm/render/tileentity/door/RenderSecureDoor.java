@@ -5,6 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 
 import net.minecraft.client.Minecraft;
@@ -17,10 +18,7 @@ public class RenderSecureDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(
-				door.getSkinIndex() == 1 ?
-				ResourceManager.pheo_secure_door_grey_tex :
-				ResourceManager.pheo_secure_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.SECURE_ACCESS_DOOR.getSkinFromIndex(door.getSkinIndex()));
 		
 		double maxRaise = 3.5;
 		double raise = 0;

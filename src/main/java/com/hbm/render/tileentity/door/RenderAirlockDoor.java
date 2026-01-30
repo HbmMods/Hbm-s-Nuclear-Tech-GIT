@@ -5,6 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ public class RenderAirlockDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_airlock_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.ROUND_AIRLOCK_DOOR.getSkinFromIndex(door.getSkinIndex()));
 		
 		double maxOpen = 1.5;
 		double open = 0;
