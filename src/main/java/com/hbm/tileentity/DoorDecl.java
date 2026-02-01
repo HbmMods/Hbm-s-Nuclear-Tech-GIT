@@ -17,6 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.function.Consumer;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class DoorDecl {
@@ -102,6 +104,55 @@ public abstract class DoorDecl {
 		}
 	};
 
+	public static final DoorDecl VAULT_DOOR = new DoorDecl() {
+		
+		@Override
+		public IRenderDoors getSEDNARenderer() {
+			return RenderVaultDoor.INSTANCE;
+		}
+		
+		@Override
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
+					.addBus("PULL", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 1, 2_000, IType.SIN_FULL))
+					.addBus("SLIDE", new BusAnimationSequence().addPos(0, 0, 0, 2000).addPos(1, 0, 0, 4_000));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation()
+					.addBus("PULL", new BusAnimationSequence().setPos(0, 0, 1).addPos(0, 0, 1, 4_000).addPos(0, 0, 0, 2_000, IType.SIN_FULL))
+					.addBus("SLIDE", new BusAnimationSequence().setPos(1, 0, 0).addPos(0, 0, 0, 4_000));
+			return null;
+		}
+		
+		@Override public int getSkinCount() { return 7; }
+
+		@Override public int timeToOpen() { return 120; }
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { {-1, 1, 0, 3, 3, 2} }; }
+		@Override public int[] getDimensions() { return new int[] { 4, 0, 0, 0, 2, 2 }; }
+		
+		@Override public int[][] getExtraDimensions() { return new int[][] { {0, 0, 1, -1, 2, 2} }; };
+
+		@Override
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
+			if(!open || y == 0) return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+			else return super.getBlockBound(x, y, z, open, forCollision);
+		}
+		
+		public Consumer<TileEntityDoorGeneric> onUpdate = (door) -> {
+			if(door.getWorldObj().isRemote) return;
+			
+			if(door.state == door.STATE_OPENING) {
+				if(door.openTicks == 0) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
+				for(int i = 45; i <= 115; i += 10)
+					if(door.openTicks == i) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+			} else if(door.state == door.STATE_CLOSING) {
+				if(door.openTicks == 30) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
+				for(int i = 45; i <= 115; i += 10)
+					if(door.openTicks == i) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+			}
+		};
+		
+		@Override public Consumer<TileEntityDoorGeneric> onDoorUpdate() { return onUpdate; }
+	};
+	
 	public static final DoorDecl FIRE_DOOR = new DoorDecl() {
 
 		@Override public String getOpenSoundEnd() { return "hbm:door.wghStop"; }
@@ -546,11 +597,13 @@ public abstract class DoorDecl {
 
 	};
 
+	// TODO: bash drillgon to death for making this method like that, and for fucking up the documentation, like genuinely what the fuck is this
 	/** Format: x, y, z, tangent amount 1 (how long the door would be if it moved
 		up), tangent amount 2 (door places blocks in this direction), axis (0-x,
 		1-y, 2-z) */
 	public abstract int[][] getDoorOpenRanges();
 	public abstract int[] getDimensions();
+	public int[][] getExtraDimensions() { return null; };
 	
 	public int getBlockOffset() { return 0; }
 	public boolean remoteControllable() { return false; }
@@ -643,4 +696,6 @@ public abstract class DoorDecl {
 		if(anim != null) return new com.hbm.render.anim.HbmAnimations.Animation("DOOR_ANIM", System.currentTimeMillis(), anim);
 		return null;
 	}
+	
+	public Consumer<TileEntityDoorGeneric> onDoorUpdate() { return null; }
 }

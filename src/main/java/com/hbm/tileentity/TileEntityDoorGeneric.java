@@ -47,6 +47,11 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 
 	@Override
 	public void updateEntity() {
+		
+		if(getDoorType().onDoorUpdate() != null) {
+			getDoorType().onDoorUpdate().accept(this);
+		}
+		
 		if(state == STATE_OPENING) {
 			openTicks++;
 			if(openTicks >= getDoorType().timeToOpen()) openTicks = getDoorType().timeToOpen();

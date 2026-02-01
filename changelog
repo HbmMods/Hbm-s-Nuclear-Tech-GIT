@@ -22,6 +22,11 @@
 * Most ammo types now have QMAW pages, including information on whether or not they are a war crime
 * Both assembly and chemical factories now have four special ports that only allow items inserted to go into one recipe group
 * All models using the HFR wavefront loader can now be hot-swapped via resource reload (F3 + T)
+* Updated most door models
+  * Door skins are no longer a dedicated item, the skin can be changed using a screwdriver
+  * Available skins are cycled through in the item preview
+  * Fire doors and secure access doors no longer use clipping planes (i.e. making the doors not render outside of their frames)
+  * Vault doors have been ported to the current door system, the blocks should convert automatically
 
 # Fixed
 * Potentially fixed yet another issue regarding crates
@@ -38,3 +43,7 @@
 * Fixed some turrets not using the more modern casing spawner system which allows casings to have a smoke trail
 * Fixed incorrect tooltip on the upgrade stat screen for assembly factories
 * Fixed crash caused by RBMK overpressure meltdown mechanic
+* Fixed a crash causing by the charging station in combination with the new battery packs
+* Fixed a broken and originally unintended feature where the flamethrower turret would be loadable using regular item tanks
+  * Most ammo slots now work for loading, the empty canisters are returned via the fluid ID slot
+* Fixed a dupe regarding conveyors

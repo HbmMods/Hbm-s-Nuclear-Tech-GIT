@@ -128,7 +128,10 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 
 		if(!worldObj.isRemote) {
 			tank.setType(9, 9, slots);
-			tank.loadTank(0, 1, slots);
+			
+			for(int i = 1; i < 9; i++) {
+				tank.loadTank(i, 9, slots);
+			}
 
 			for(int i = 1; i < 10; i++) {
 
