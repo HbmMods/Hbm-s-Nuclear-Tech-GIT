@@ -48,14 +48,14 @@ public class RenderVaultDoor implements IRenderDoors {
 		double roll = 360D * slide / circumference;
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(doorTex);
-		ResourceManager.pheo_fire_door.renderPart("Frame");
+		ResourceManager.pheo_vault_door.renderPart("Frame");
 		GL11.glTranslated(-pull, 0, 0);
 		GL11.glTranslated(0, 0, slide);
 		GL11.glTranslated(0, 2.5, 0);
 		GL11.glRotated(roll, 1, 0, 0);
 		GL11.glTranslated(0, -2.5, 0);
-		ResourceManager.pheo_fire_door.renderPart("Door");
+		ResourceManager.pheo_vault_door.renderPart("Door");
 		Minecraft.getMinecraft().getTextureManager().bindTexture(labelTex);
-		ResourceManager.pheo_fire_door.renderPart("Label");
+		ResourceManager.pheo_vault_door.renderPart("Label");
 	}
 }

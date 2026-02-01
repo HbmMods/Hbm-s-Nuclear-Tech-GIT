@@ -44,9 +44,9 @@ public class ItemRenderLibraryDoors {
 				}
 				
 				bindTexture(doorTex);
-				ResourceManager.pheo_fire_door.renderPart("Door");
+				ResourceManager.pheo_vault_door.renderPart("Door");
 				bindTexture(labelTex);
-				ResourceManager.pheo_fire_door.renderPart("Label");
+				ResourceManager.pheo_vault_door.renderPart("Label");
 			}
 		});
 		
