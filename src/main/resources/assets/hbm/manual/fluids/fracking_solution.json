@@ -1,0 +1,11 @@
+{
+    "name": "Fracking Solution",
+    "icon": ["hbm:item.fluid_icon", 1, 49],
+    "trigger": [["hbm:item.fluid_icon", 1, 49]],
+    "title": {
+        "en_US": "Fracking Solution"
+    },
+    "content": {
+        "en_US": "Also known as fracking fluid, is required to run [[hydraulic fracking towers|Hydraulic Fracking Tower]]. Made in the [[mixer|Industrial Mixer]] by mixing [[sulfuric acid|Sulfuric Acid]] and [[petroleum gas|Petroleum Gas]]."
+    }
+}

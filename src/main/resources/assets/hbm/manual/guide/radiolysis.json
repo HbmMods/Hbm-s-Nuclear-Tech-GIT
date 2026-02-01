@@ -1,0 +1,11 @@
+{
+    "name": "Radiolysis",
+    "icon": ["hbm:tile.machine_radiolysis", 1, 0],
+    "trigger": [[]],
+    "title": {
+        "en_US": "Radiolysis"
+    },
+    "content": {
+        "en_US": "Process of cracking liquids into their components, similar to the [[catalytic cracking tower|Catalytic Cracking Tower]], in the [[radiolysis chamber|RTG and Radiolysis Chamber]]. Fluids must be supplied from outside, similar to the cracking tower. Process can be faster with strong RTG pellets.<br><br>Additionally, water can be radiolysed to produce [[hydrogen|Liquid Hydrogen]] and [[hydrogen peroxide|Hydrogen Peroxide]]."
+    }
+}

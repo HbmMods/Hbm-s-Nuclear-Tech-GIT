@@ -1,0 +1,11 @@
+{
+    "name": "Hydrotreating",
+    "icon": ["hbm:tile.machine_hydrotreater", 1, 0],
+    "trigger": [[]],
+    "title": {
+        "en_US": "Hydrotreating"
+    },
+    "content": {
+        "en_US": "Process of removing sulfur from fluids in the [[hydrotreater|Hydrotreater]] . [[Sour gas|Sour Gas]] is created as a byproduct of all hydrotreating recipes. [[Crude oil|Crude Oil]] and [[cracked oil|Cracked Oil]] are hydrotreated into [[desulfurized crude oil|Desulfurized Crude Oil]] and [[desulfurized cracked oil|Desulfurized Cracked Oil]]. [[Natural gas|Natural Gas]] can be hydrotreated into [[petroleum gas|Petroleum Gas]].<br><br>It also allows some fuels to be converted into higher-energy fuels, such as coal gasoline."
+    }
+}

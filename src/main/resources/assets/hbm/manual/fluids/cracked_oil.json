@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 61],
+    "trigger": [["hbm:item.fluid_icon", 1, 61]],
+    "title": {
+        "en_US": "Cracked Oil"
+    },
+    "content": {
+        "en_US": "Obtained by cracking [[crude oil|Crude Oil]] in a [[catalytic cracking tower|Catalytic Cracking Tower]]. It is then heated and [[refined|Oil Refinery]], similar to crude oil. The process of refining cracked oil is called [[advanced oil processing|Advanced Oil Processing]] (\"Oil 2\"), and it enables the creation of new materials with the production of [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]].<br><br>Alternatively, it can be treated in the [[hydrotreater|Hydrotreater]] to produce desulfurized cracked oil (\"Oil 3.5\")."
+    }
+}

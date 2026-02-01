@@ -1,0 +1,11 @@
+{
+    "name": "Heavy Heating Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 95],
+    "trigger": [["hbm:item.fluid_icon", 1, 95]],
+    "title": {
+        "en_US": "Heavy Heating Oil"
+    },
+    "content": {
+        "en_US": "Obtained by [[fractioning|Fractioning Tower]] of [[vacuum heavy oil|Vacuum Heavy Oil]]. It is higher in energy density than normal [[heavy oil|Heavy Oil]]. It is [[cracked|Catalytic Cracking Tower]] to produce [[heavy oil|Heavy Oil]] and [[reformate gas|Reformate Gas]]."
+    }
+}

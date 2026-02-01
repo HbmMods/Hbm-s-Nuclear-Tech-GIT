@@ -1,0 +1,11 @@
+{
+    "name": "Aromatic Hydrocarbons",
+    "icon": ["hbm:item.fluid_icon", 1, 67],
+    "trigger": [["hbm:item.fluid_icon", 1, 67]],
+    "title": {
+        "en_US": "Aromatic Hydrocarbons"
+    },
+    "content": {
+        "en_US": "A useful liquid that is obtained in an [[oil refinery|Oil Refinery]] during the [[advanced oil processing|Advanced Oil Processing]]. It allows the production of [[bakelite|Bakelite]] when mixed with petroleum gas in the [[chemical plant|Chemical Plant]] and [[solvent|Solvent]] when mixed with all forms of [[naphtha|Naphtha]] in the [[industrial mixer|Industrial Mixer]]. It is also used in the production of Kevlar, a high-strength material for crafting armor, and [[TNT|TNT]].<br><br>Aromatic hydrocarbons are also obtained mainly by [[fractioning|Fractioning Tower]] of [[reformate|Reformate]], [[cracking|Catalytic Cracking Tower]] of [[bitumen|Bitumen]] and [[BTX|BTX]], and [[reforming|Reforming]] of [[light oil|Light Oil]]."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Vacuum Heavy Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 90],
+    "trigger": [["hbm:item.fluid_icon", 1, 90]],
+    "title": {
+        "en_US": "Vacuum Heavy Oil"
+    },
+    "content": {
+        "en_US": "Largest and heaviest fraction obtained during [[vacuum oil processing|Vacuum Oil Processing]]. It can be further fractionated into [[industrial oil|Industrial Oil]] and [[heavy heating oil|Heavy Heating Oil]] or converted into [[reformate|Reformate]] in the [[coker unit|Coker Unit]]."
+    }
+}

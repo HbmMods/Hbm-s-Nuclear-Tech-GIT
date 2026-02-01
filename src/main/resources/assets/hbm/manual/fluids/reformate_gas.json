@@ -1,0 +1,11 @@
+{
+    "name": "Reformate Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 99],
+    "trigger": [["hbm:item.fluid_icon", 1, 99]],
+    "title": {
+        "en_US": "Reformate Gas"
+    },
+    "content": {
+        "en_US": "Gasous fraction of the [[vacuum oil processing|Vacuum Oil Processing]] using [[desulfurized crude oil|Hydrotreating]] (\"Oil 3.5\"). It is also obtained by cracking [[reformate|Reformate]] and [[heavy heating oil|Heavy Heating Oil]]. Reformate gas is also a byproduct of the [[reforming|Reforming]] process in some recipes.<br><br>It is used in the production of [[high-performance solvent|High-Performance Solvent]], [[saturnite|Saturnite]], and other end-game recipes."
+    }
+}

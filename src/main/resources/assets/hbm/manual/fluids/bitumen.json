@@ -1,0 +1,11 @@
+{
+    "name": "Bitumen",
+    "icon": ["hbm:item.fluid_icon", 1, 13],
+    "trigger": [["hbm:item.fluid_icon", 1, 13]],
+    "title": {
+        "en_US": "Bitumen"
+    },
+    "content": {
+        "en_US": "The heaviest fraction as a result of [[oil processing|Basic Oil Processing]] bitumen cannot be used as fuel. It is mainly obtained by fractioning heavy oil, and its main use is the production of asphalt in the [[chemical plant|Chemical Plant]].<br><br>Alternatively, it can be [[cracked|Catalytic Cracking Tower]] into [[crude oil|Crude Oil]]."
+    }
+}

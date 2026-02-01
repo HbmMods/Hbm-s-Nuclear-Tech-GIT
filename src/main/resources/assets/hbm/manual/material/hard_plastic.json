@@ -1,0 +1,11 @@
+{
+    "name": "Hard Plastic",
+    "icon": ["hbm:item.ingot_pc", 1, 0],
+    "trigger": [["hbm:item.ingot_pc"]],
+    "title": {
+        "en_US": "Hard Plastic"
+    },
+    "content": {
+        "en_US": "Post-[[bismuth|Bismuth]] crafting material used in various late-game recipes. It is produced in the chemical plant by combining [[phosgene|Phosgene]] and [[BTX|BTX]].<br><br>Can be substituted for [[PVC|PVC]] in all recipes."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Heavy Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 12],
+    "trigger": [["hbm:item.fluid_icon", 1, 12]],
+    "title": {
+        "en_US": "Heavy Oil"
+    },
+    "content": {
+        "en_US": "The heaviest fraction that is obtained from the [[oil refinery|Oil Refinery]] after processing [[crude oil|Crude Oil]] or [[desulfurized oil|Hydrotreating]]. It can also be obtained by [[pyrolyzing|Pyrolysis Oven]] coal with [[hydrogen|Liquid Hydrogen]]. It is further separated into [[bitumen|Bitumen]] and [[industrial oil|Industrial Oil]] using a [[fractioning tower|Fractioning Tower]].<br><br>It is also solidified into oil tar or converted into coal gasoline (powerful engine fuel) using a pyrolysis oven with coal."
+    }
+}

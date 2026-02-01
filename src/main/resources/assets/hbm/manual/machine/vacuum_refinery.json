@@ -1,0 +1,11 @@
+{
+    "name": "Vacuum Refinery",
+    "icon": ["hbm:tile.machine_vacuum_distill", 1, 0],
+    "trigger": [["hbm:tile.machine_vacuum_distill"]],
+    "title": {
+        "en_US": "Vacuum Refinery"
+    },
+    "content": {
+        "en_US": "Used for [[processing|Vacuum Oil Processing]] either [[crude oil|Crude Oil]] or [[desulfurized crude oil|Desulfurized Crude Oil]]. Processing of oil requires it to be pressured to 2 PU using [[compressors|Compressor]]. Unlike the [[refinery|Oil Refinery]], oil does not need to be heated. Has four fluid outputs.<br><br>The inclusion of [[bismuth|Bismuth]] in its recipe requires the [[RBMK]] to be built first."
+    }
+}

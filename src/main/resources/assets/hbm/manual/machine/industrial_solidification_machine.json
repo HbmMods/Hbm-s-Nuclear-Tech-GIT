@@ -1,0 +1,11 @@
+{
+    "name": "Industrial Solidification Machine",
+    "icon": ["hbm:tile.machine_solidifier", 1, 0],
+    "trigger": [["hbm:tile.machine_solidifier"]],
+    "title": {
+        "en_US": "Industrial Solidification Machine"
+    },
+    "content": {
+        "en_US": "Solidifies liquids into their solid counterparts, with the primary purpose of solidifying petrochemicals into [[solid fuel|Solid Fuel]], based on their energy density. It can also be used to produce oil tar, paraffin wax, ice, and obsidian. It is the opposite of the [[industrial liquefaction machine|Industrial Liquefaction Machine]]."
+    }
+}

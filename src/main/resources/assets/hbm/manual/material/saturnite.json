@@ -1,0 +1,11 @@
+{
+    "name": "Saturnite",
+    "icon": ["hbm:item.ingot_saturnite", 1, 0],
+    "trigger": [["hbm:item.ingot_saturnite"]],
+    "title": {
+        "en_US": "Saturnite"
+    },
+    "content": {
+        "en_US": "Durable alloy that is used in various recipes such as antimatter barrels, advanced weapons, and [[Watz powerplant|Watz Powerplant]]. Produced in the rotary furnace by combining [[reformate gas|Reformate Gas]], [[copper|Copper]] and [[high-speed steel|High-Speed Steel]]."
+    }
+}

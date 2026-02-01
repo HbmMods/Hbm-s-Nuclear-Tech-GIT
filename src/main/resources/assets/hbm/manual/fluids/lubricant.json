@@ -1,0 +1,11 @@
+{
+    "name": "Engine Lubricant",
+    "icon": ["hbm:item.fluid_icon", 1, 18],
+    "trigger": [["hbm:item.fluid_icon", 1, 18]],
+    "title": {
+        "en_US": "Engine Lubricant"
+    },
+    "content": {
+        "en_US": "Mostly used for the production of paraffin wax and [[petroil|Petroil]]. Other uses include the hydraulic piston, which is required for the [[electric press|Press]], and the [[high-power steam condenser|Condenser]]."
+    }
+}

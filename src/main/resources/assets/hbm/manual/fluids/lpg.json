@@ -1,0 +1,11 @@
+{
+    "name": "LPG",
+    "icon": ["hbm:item.fluid_icon", 1, 25],
+    "trigger": [["hbm:item.fluid_icon", 1, 25]],
+    "title": {
+        "en_US": "LPG"
+    },
+    "content": {
+        "en_US": "Pressurized form of [[petroleum gas|Petroleum Gas]]. Petroleum gas must be processed through two [[compressors|Compressor]] to achieve 2 PU, which will convert it into LPG."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Low-Pressure Steam",
+    "icon": ["hbm:item.fluid_icon", 1, 48],
+    "trigger": [["hbm:item.fluid_icon", 1, 48]],
+    "title": {
+        "en_US": "Low-Pressure Steam"
+    },
+    "content": {
+        "en_US": "The output product of standard [[steam|Steam]] when fed to a [[turbine|Turbine]]. This steam cannot be used to generate power and must be [[vented|Drainage Pipe]] or condensed back to water using a [[condenser|Condenser]]."
+    }
+}

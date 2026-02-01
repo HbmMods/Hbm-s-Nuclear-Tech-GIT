@@ -1,0 +1,11 @@
+{
+    "name": "TNT",
+    "icon": ["hbm:item.ball_tnt", 1, 0],
+    "trigger": [["hbm:item.ball_tnt"]],
+    "title": {
+        "en_US": "TNT"
+    },
+    "content": {
+        "en_US": "Explosive material obtained by combining [[aromatic hydrocarbons|Aromatic Hydrocarbons]] with niter, using the crafting table or the [[chemical plant|Chemical Plant]]. It is used to produce ammunition, missiles, warheads, artilery and other explosives.<br><br>It is a precursor to [[TATB|TATB]]."
+    }
+}

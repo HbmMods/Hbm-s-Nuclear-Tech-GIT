@@ -1,0 +1,11 @@
+{
+    "name": "Kerosene",
+    "icon": ["hbm:item.fluid_icon", 1, 22],
+    "trigger": [["hbm:item.fluid_icon", 1, 22]],
+    "title": {
+        "en_US": "Kerosene"
+    },
+    "content": {
+        "en_US": "Aviation-tier fuel that is useful throughout the mod. It is obtained by [[fractioning|Fractioning Tower]] [[light oil|Light Oil]] or [[cracking|Catalytic Cracking Tower]] [[diesel|Diesel]], and it can be further cracked into [[petroleum gas|Petroleum Gas]]. Main use of kerosene is to power jetpacks, missiles, fuselages, thrusters, and rockets.<br><br>It is mixed in the [[industrial mixer|Industrial Mixer]] to obtain jet fuel or NITAN 100 octane super fuel. In the assembly plant, kerosene fluid barrels are used to craft [[satellites|Satellites]].<br><br>Kerosene is used in [[PUREX|PUREX]] to purify spent fuel."
+    }
+}

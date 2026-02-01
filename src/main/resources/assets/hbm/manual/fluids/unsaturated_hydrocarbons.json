@@ -1,0 +1,11 @@
+{
+    "name": "Unsaturated Hydrocarbons",
+    "icon": ["hbm:item.fluid_icon", 1, 68],
+    "trigger": [["hbm:item.fluid_icon", 1, 68]],
+    "title": {
+        "en_US": "Unsaturated Hydrocarbons"
+    },
+    "content": {
+        "en_US": "A useful liquid that is obtained in an [[oil refinery|Oil Refinery]] during the [[advanced oil processing|Advanced Oil Processing]]. It allows the production of [[rubber|Rubber]], [[PVC|PVC]], and [[C4|Composition C-4]] in the [[chemical plant|Chemical Plant]]. It is used in the industrial mixer to obtain [[lubricant|Engine Lubricant]], [[perfluoromethyl|Perfluoromethyl]], and [[phosgene|Phosgene]].<br><br>Alternate ways to obtain unsaturated hydrocarbons include [[cracking|Catalytic Cracking Tower]] [[reformate|Reformate]] and [[reforming|Reforming]] [[petroleum gas|Petroleum Gas]], both of which require [[vacuum refinery|Vacuum Refinery]]."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "RTG and Radiolysis Chamber",
+    "icon": ["hbm:tile.machine_radiolysis", 1, 0],
+    "trigger": [["hbm:tile.machine_radiolysis"]],
+    "title": {
+        "en_US": "RTG and Radiolysis Chamber"
+    },
+    "content": {
+        "en_US": "One of the most efficient RT generators and a [[radiolysis chamber|Radiolysis]] combined into one compact machine. RTG pellets are inserted into the chamber to generate electricity and process liquids by radiolysis. It can do the same cracking recipes as the catalytic cracking tower, but it is much smaller."
+    }
+}

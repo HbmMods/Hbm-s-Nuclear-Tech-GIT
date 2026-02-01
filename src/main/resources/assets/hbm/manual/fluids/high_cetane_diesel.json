@@ -1,0 +1,11 @@
+{
+    "name": "High-Cetane Diesel",
+    "icon": ["hbm:item.fluid_icon", 1, 96],
+    "trigger": [["hbm:item.fluid_icon", 1, 96]],
+    "title": {
+        "en_US": "High-Cetane Diesel"
+    },
+    "content": {
+        "en_US": "Better burning version of diesel achieved by mixing [[diesel|Diesel]] with [[reformate|Reformate]]."
+    }
+}

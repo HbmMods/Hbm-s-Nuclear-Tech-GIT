@@ -1,0 +1,11 @@
+{
+    "name": "Reformate",
+    "icon": ["hbm:item.fluid_icon", 1, 91],
+    "trigger": [["hbm:item.fluid_icon", 1, 91]],
+    "title": {
+        "en_US": "Reformate"
+    },
+    "content": {
+        "en_US": "An important petrochemical product that is obtained by the [[reforming|Reforming]] of [[naphtha|Naphtha]] in the [[catalytic reformer|Catalytic Reformer]]. Mainly produced during the [[vacuum oil processing|Vacuum Oil Processing]] using [[crude oil|Crude Oil]] in the [[vacuum refinery|Vacuum Refinery]].<br><br>It is [[fractionated|Fractioning Tower]] into [[BTX|BTX]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]] or [[cracked|Catalytic Cracking Tower]] into [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]] and [[reformate gas|Reformate Gas]]. It can be used to [[improve|High-Cetane Diesel]] [[diesel|Diesel]] fuels or made into [[jet fuel|Jet Fuel]]."
+    }
+}

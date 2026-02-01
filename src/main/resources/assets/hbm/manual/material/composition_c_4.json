@@ -1,0 +1,11 @@
+{
+    "name": "Composition C-4",
+    "icon": ["hbm:item.ingot_c4", 1, 0],
+    "trigger": [["hbm:item.ingot_c4"]],
+    "title": {
+        "en_US": "Composition C-4"
+    },
+    "content": {
+        "en_US": "Plastic explosive obtained by combining [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]] with niter, using the crafting table or the [[chemical plant|Chemical Plant]]. It is used to produce advanced explosives, artillery shells, and artillery pods.<br><br>Can be substituted for [[Semtex|Semtex]] in many recipes."
+    }
+}

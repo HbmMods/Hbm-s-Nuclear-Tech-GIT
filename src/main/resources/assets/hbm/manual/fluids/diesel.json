@@ -1,0 +1,11 @@
+{
+    "name": "Diesel",
+    "icon": ["hbm:item.fluid_icon", 1, 20],
+    "trigger": [["hbm:item.fluid_icon", 1, 20]],
+    "title": {
+        "en_US": "Diesel"
+    },
+    "content": {
+        "en_US": "A great source of power in the early game. It is produced by the [[fractioning|Fractioning Tower]] of [[naphtha|Naphtha]] and [[light oil|Light Oil]]. After [[advanced oil processing|Advanced Oil Processing]], diesel can be [[cracked|Catalytic Cracking Tower]] into [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]]."
+    }
+}

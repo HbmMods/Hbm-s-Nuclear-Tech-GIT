@@ -1,0 +1,11 @@
+{
+    "name": "TATB",
+    "icon": ["hbm:item.ball_tatb", 1, 0],
+    "trigger": [["hbm:item.ball_tatb"]],
+    "title": {
+        "en_US": "TATB"
+    },
+    "content": {
+        "en_US": "A very powerful explosive used in nuclear bombs. It is made in the chemical plant by combining [[TNT|TNT]], [[sour gas|Sour Gas]] and [[nitric acid|Nitric Acid]]."
+    }
+}

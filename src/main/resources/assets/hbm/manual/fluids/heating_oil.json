@@ -1,0 +1,11 @@
+{
+    "name": "Heating Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 15],
+    "trigger": [["hbm:item.fluid_icon", 1, 15]],
+    "title": {
+        "en_US": "Heating Oil"
+    },
+    "content": {
+        "en_US": "Obtained by the [[fractioning|Fractioning Tower]] of heavier petrochemicals such as [[naphtha|Naphtha]] and [[industrial oil|Industrial Oil]]. It is used in the industrial mixer to obtain [[engine lubricant|Engine Lubricant]] or as a low-grade fuel."
+    }
+}

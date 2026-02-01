@@ -1,0 +1,11 @@
+{
+    "name": "Industrial Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 14],
+    "trigger": [["hbm:item.fluid_icon", 1, 14]],
+    "title": {
+        "en_US": "Industrial Oil"
+    },
+    "content": {
+        "en_US": "Obtained by the [[fractioning|Fractioning Tower]] of [[heavy oil|Heavy Oil]], it can be further fractionated into [[heating oil|Heating Oil]] and [[lubricant|Engine Lubricant]]. It is used for producing petroil.<br><br>Alternatively, it is [[cracked|Catalytic Cracking Tower]] to produce [[naphtha|Naphtha]] and [[petroleum gas|Petroleum Gas]]."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Naphtha",
+    "icon": ["hbm:item.fluid_icon", 1, 64],
+    "trigger": [["hbm:item.fluid_icon", 1, 64]],
+    "title": {
+        "en_US": "Cracked Naphtha"
+    },
+    "content": {
+        "en_US": "Cracked version of [[naphtha|Naphtha]], obtained from [[cracked oil|Cracked Oil]] in advanced oil processing. It is used to produce [[solvent|Solvent]]. It can also be [[fractionated|Fractioning Tower]] or [[reformed|Reformer]] similarly to naphtha."
+    }
+}

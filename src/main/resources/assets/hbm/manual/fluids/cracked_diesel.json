@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Diesel",
+    "icon": ["hbm:item.fluid_icon", 1, 66],
+    "trigger": [["hbm:item.fluid_icon", 1, 66]],
+    "title": {
+        "en_US": "Cracked Diesel"
+    },
+    "content": {
+        "en_US": "[[Fraction|Fractioning Tower]] of [[cracked naphtha|Cracked Naphtha]]. Similarly to diesel, it is [[cracked|Catalytic Cracking Tower]] or [[mixed|Industrial Mixer]] with [[reformate|Reformate]] to obtain cracked high-cetane diesel. Cracked Diesel and cracked high-cetane diesel are hydrotreated to obtain [[diesel|Diesel]] and [[high-cetane diesel|High-Cetane Diesel]]."
+    }
+}

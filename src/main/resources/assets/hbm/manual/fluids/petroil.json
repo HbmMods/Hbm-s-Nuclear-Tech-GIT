@@ -1,0 +1,11 @@
+{
+    "name": "Petroil",
+    "icon": ["hbm:item.fluid_icon", 1, 17],
+    "trigger": [["hbm:item.fluid_icon", 1, 17]],
+    "title": {
+        "en_US": "Petroil"
+    },
+    "content": {
+        "en_US": "A low-energy-density medium-grade fuel made from [[industrial oil|Industrial Oil]]. Industrial oil is processed in the [[chemical plant|Chemical Plant]] to produce reclaimed industrial oil. Then the reclaimed oil is mixed with lubricant in the [[industrial mixer|Industrial Mixer]] to produce petroil.<br><br>Petroil can be further mixed with [[tetraethyllead|Tetraethyllead]] to produce leaded petroil."
+    }
+}

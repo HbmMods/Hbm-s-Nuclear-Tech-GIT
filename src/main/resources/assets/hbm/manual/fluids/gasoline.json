@@ -1,0 +1,11 @@
+{
+    "name": "Gasoline",
+    "icon": ["hbm:item.fluid_icon", 1, 46],
+    "trigger": [["hbm:item.fluid_icon", 1, 46]],
+    "title": {
+        "en_US": "Gasoline"
+    },
+    "content": {
+        "en_US": "A high-tier fuel made from naphtha in the chemical plant. [[Tetraethyllead|Tetraethyllead]] is added to obtain leaded gasoline, which is only used for energy production.<br><br>Other than energy production, a canister of gasoline can be used to produce Napalm B with a slimeball in a blast furnace."
+    }
+}

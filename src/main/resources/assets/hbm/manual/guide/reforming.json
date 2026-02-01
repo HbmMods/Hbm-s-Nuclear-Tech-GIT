@@ -1,0 +1,11 @@
+{
+    "name": "Reforming",
+    "icon": ["hbm:tile.machine_catalytic_reformer", 1, 0],
+    "trigger": [["hbm:tile.machine_catalytic_reformer"]],
+    "title": {
+        "en_US": "Reforming"
+    },
+    "content": {
+        "en_US": "The process of converting low-value petroleum products into more useful ones in a [[catalytic reformer|Catalytic Reformer]] using a catalytic converter. Mainly, it is used to convert [[naphtha|Naphtha]] into [[reformate|Reformate]] and [[petroleum gas|Petroleum Gas]]. [[Reformate gas|Reformate Gas]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]] are obtained by the reforming of [[light oil|Light Oil]]. Reforming of petroleum gas yields reformate gas and [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]].<br><br>Additionally, [[sour gas|Sour Gas]] can be reformed to obtain [[sulfuric acid|Sulfuric Acid]]."
+    }
+}

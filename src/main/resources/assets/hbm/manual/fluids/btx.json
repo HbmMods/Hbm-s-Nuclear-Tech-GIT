@@ -1,0 +1,11 @@
+{
+    "name": "BTX",
+    "icon": ["hbm:item.fluid_icon", 1, 94],
+    "trigger": [["hbm:item.fluid_icon", 1, 94]],
+    "title": {
+        "en_US": "BTX"
+    },
+    "content": {
+        "en_US": "Important progression fluid which allows the production of [[hard plastic|Hard Plastic]] and [[fullerene|Fullerene]]. Obtained in the [[fractioning tower|Fractioning Tower]] from [[reformate|Reformate]] or [[desulfurized napthta|Desulfurized Napthta]]. BTX can be [[cracked|Cracked]] to obtain [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[petroleum gas|Petroleum Gas]]."
+    }
+}

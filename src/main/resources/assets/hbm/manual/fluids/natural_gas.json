@@ -1,0 +1,11 @@
+{
+    "name": "Natural Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 23],
+    "trigger": [["hbm:item.fluid_icon", 1, 23]],
+    "title": {
+        "en_US": "Natural Gas"
+    },
+    "content": {
+        "en_US": "Byproduct fluid obtained with [[crude oil|Crude Oil]] while extracting [[oil deposits|Oil Deposits]]. It is used to produce [[carbon dioxide|Carbon Dioxide]] or [[cordite|Cordite]] in the [[chemical plant|Chemical Plant]].<br><br>It is also [[cracked|Catalytic Cracking Tower]] into [[petroleum gas|Petroleum Gas]] and [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]] or [[hydrotreated|Hydrotreating]] into [[petroleum gas|Petroleum Gas]] and [[sour gas|Sour Gas]]."
+    }
+}

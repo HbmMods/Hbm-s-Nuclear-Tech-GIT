@@ -1,0 +1,11 @@
+{
+    "name": "Petroleum Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 24],
+    "trigger": [["hbm:item.fluid_icon", 1, 24]],
+    "title": {
+        "en_US": "Petroleum Gas"
+    },
+    "content": {
+        "en_US": "Gas mainly obtained from the [[oil refinery|Oil Refinery]] after processing [[crude oil|Crude Oil]]. However, it is also obtained by [[cracking|Catalytic Cracking Tower]], [[reforming|Reforming]], [[hydrotreating|Hydrotreating]], [[fractioning|Fractioning Tower]], or mining gas shales.<br><br>Petroleum gas is used for the production of [[perfluoromethyl|Perfluoromethyl]], [[polymer bars|Polymer]], [[bakelite bars|Bakelite]], [[rocket propellant|Rocket Fuel]], and lenses for FEL in the [[chemical plant|Chemical Plant]]. In the [[industrial mixer|Industrial Mixer]], it is used to obtain [[fracking solution|Fracking Solution]] or [[nitroglycerin|Nitroglycerin]].<br><br>It can be compressed using a [[compressor|Compressor]] to obtain [[LPG|LPG]]."
+    }
+}

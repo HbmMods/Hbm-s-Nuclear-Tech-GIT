@@ -1,0 +1,11 @@
+{
+    "name": "Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 21],
+    "trigger": [["hbm:item.fluid_icon", 1, 21]],
+    "title": {
+        "en_US": "Light Oil"
+    },
+    "content": {
+        "en_US": "Is a versatile liquid obtained from the [[oil refinery|Oil Refinery]] after processing [[crude oil|Crude Oil]]. It is further separated into [[diesel|Diesel]] and [[kerosene|Kerosene]] using a [[fractioning tower|Fractioning Tower]] or [[reformed|Reforming]] into [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[reformate gas|Reformate Gas]].<br><br>It is used to produce [[desh|Desh]] in the [[chemical plant|Chemical Plant]] and the [[rotary furnace|Rotary Furnace]].<br><br>In the [[fusion reactor breeding chamber|Fusion Reactor Breeding Chamber]], light oil is used to obtain reformate gas."
+    }
+}

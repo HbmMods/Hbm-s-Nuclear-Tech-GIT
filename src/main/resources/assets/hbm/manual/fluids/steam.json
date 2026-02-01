@@ -1,0 +1,11 @@
+{
+    "name": "Steam",
+    "icon": ["hbm:item.fluid_icon", 1, 2],
+    "trigger": [["hbm:item.fluid_icon", 1, 2]],
+    "title": {
+        "en_US": "Steam"
+    },
+    "content": {
+        "en_US": "Obtained by boiling water. It is used by [[steam engines|Steam Engine]], [[steam turbines|Steam Turbine]], and the [[catalytic cracking tower|Catalytic Cracking Tower]]. Steam can be further heated up to be [[dense steam|Dense Steam]], [[super dense steam|Super Dense Steam]], and [[ultra dense steam|Ultra Dense Steam]].<br><br>Steam is critical to power generation and is generated from [[boilers|Boiler]], [[ZIRNOX|ZIRNOX]], and [[RMBK steam channels|RBMK Steam Channel]]. Generated steam is fed to the steam engine or turbines to generate electricity. Steam is converted into [[low-pressure steam|Low-Pressure Steam]] after being used in a turbine, which then can be [[condensed|Condenser]] back to water."
+    }
+}

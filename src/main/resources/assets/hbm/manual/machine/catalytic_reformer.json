@@ -1,0 +1,11 @@
+{
+    "name": "Catalytic Reformer",
+    "icon": ["hbm:tile.machine_catalytic_reformer", 1, 0],
+    "trigger": [["hbm:tile.machine_catalytic_reformer"]],
+    "title": {
+        "en_US": "Catalytic Reformer"
+    },
+    "content": {
+        "en_US": "It converts certain petroleum products into more valuable ones, such as [[reformate|Reformate]] and [[reformate gas|Reformate Gas]], during the process of [[catalytic reforming|Reforming]]. Requires [[bismuth|Bismuth]] or [[arsenic|Arsenic]], thus making it post-[[RBMK|RBMK]]. It requires a catalytic converter to function."
+    }
+}

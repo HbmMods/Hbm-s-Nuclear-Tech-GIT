@@ -1,0 +1,11 @@
+{
+    "name": "Naphtha",
+    "icon": ["hbm:item.fluid_icon", 1, 19],
+    "trigger": [["hbm:item.fluid_icon", 1, 19]],
+    "title": {
+        "en_US": "Naphtha"
+    },
+    "content": {
+        "en_US": "The second heaviest fraction obtained from the [[oil refinery|Oil Refinery]] after processing [[crude oil|Crude Oil]]. It is also obtained by [[cracking|Catalytic Cracking Tower]] [[industrial oil|Industrial Oil]] or [[reforming|Reforming]] [[heating oil|Heating Oil]].<br><br>Naphtha is used to produce [[gasoline|Gasoline]] in the [[chemical plant|Chemical Plant]] or mixed with aromatic hydrocarbons to produce [[solvent|Solvent]].<br><br>Alternatively, it can be [[reformed|Reforming]] to produce [[reformate|Reformate]]."
+    }
+}

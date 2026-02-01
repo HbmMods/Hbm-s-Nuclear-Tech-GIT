@@ -1,0 +1,11 @@
+{
+    "name": "Liquid Hydrogen",
+    "icon": ["hbm:item.fluid_icon", 1, 38],
+    "trigger": [["hbm:item.fluid_icon", 1, 38]],
+    "title": {
+        "en_US": "Liquid Hydrogen"
+    },
+    "content": {
+        "en_US": "Fluid used in the [[processing of bedrock ore|Bedrock Ore]] and the [[hydrotreater|Hydrotreater]]. Mainly produced in the [[electrolysis machine|Electrolysis Machine]] by the [[electrolysis|Electrolysis]] of water. It can also be obtained by [[radiolysis|Radiolysis]] or as a byproduct in the [[catalytic reformer|Catalytic Reformer]].<br><br>Also used in the processing of [[coltan|Coltan]], the production of [[ionic gel|Ionic Gel]] and obtaining [[heavy oil|Heavy Oil]] from coal in the [[pyrolysis oven|Pyrolysis Oven]]."
+    }
+}

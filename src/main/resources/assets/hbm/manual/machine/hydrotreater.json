@@ -1,0 +1,11 @@
+{
+    "name": "Hydrotreater",
+    "icon": ["hbm:tile.machine_hydrotreater", 1, 0],
+    "trigger": [["hbm:tile.machine_hydrotreater"]],
+    "title": {
+        "en_US": "Hydrotreater"
+    },
+    "content": {
+        "en_US": "A late-game machine requiring [[advanced oil processing|Advanced Oil Processing]] that removes [[sulfur|Sulfur]] from fluids in the form of [[sour gas|Sour Gas]], and produces [[desulfurized|Hydrotreating]] products. It requires a catalytic converter to function."
+    }
+}

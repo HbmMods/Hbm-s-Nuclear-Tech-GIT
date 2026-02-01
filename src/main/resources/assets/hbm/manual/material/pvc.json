@@ -1,0 +1,11 @@
+{
+    "name": "PVC",
+    "icon": ["hbm:item.ingot_pvc", 1, 0],
+    "trigger": [["hbm:item.ingot_pvc"]],
+    "title": {
+        "en_US": "PVC"
+    },
+    "content": {
+        "en_US": "Post-[[bismuth|Bismuth]] crafting material used in various late-game recipes. It is produced in the chemical plant by combining [[unsaturated hydrocarbons|Unsaturated Hydrocarbons]] [[chlorine gas|Chlorine Gas]], and [[cadmium|Cadmium]].<br><br>Can be substituted for [[hard plastic|Hard Plastic]] in all recipes."
+    }
+}

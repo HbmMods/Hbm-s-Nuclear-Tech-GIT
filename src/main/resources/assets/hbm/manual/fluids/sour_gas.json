@@ -1,0 +1,11 @@
+{
+    "name": "Sour Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 93],
+    "trigger": [["hbm:item.fluid_icon", 1, 93]],
+    "title": {
+        "en_US": "Sour Gas"
+    },
+    "content": {
+        "en_US": "A byproduct of [[vacuum oil processing|Vacuum Oil Processing]] and rich in sulfur, mainly used for producing [[sulfuric acid|Sulfuric Acid]] in large quantities. It is also the byproduct of all [[hydrotreating|Hydrotreating]] recipes.<br><br>Also used in the production of [[TATB|TATB]]."
+    }
+}
