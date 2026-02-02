@@ -354,6 +354,17 @@ public class ResourceManager {
 	public static IModelCustomNamed pheo_vehicle_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/vehicle_door.obj")).asVBO();
 	public static final ResourceLocation pheo_water_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/water_door.png");
 	public static IModelCustomNamed pheo_water_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/water_door.obj")).asVBO();
+	public static final ResourceLocation pheo_vault_door_3 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_3.png");
+	public static final ResourceLocation pheo_vault_door_4 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_4.png");
+	public static final ResourceLocation pheo_vault_door_s = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_s.png");
+	public static final ResourceLocation pheo_label_2 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_2.png");
+	public static final ResourceLocation pheo_label_81 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_81.png");
+	public static final ResourceLocation pheo_label_87 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_87.png");
+	public static final ResourceLocation pheo_label_99 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_99.png");
+	public static final ResourceLocation pheo_label_101 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_101.png");
+	public static final ResourceLocation pheo_label_106 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_106.png");
+	public static final ResourceLocation pheo_label_111 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/label_111.png");
+	public static IModelCustomNamed pheo_vault_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/vault_door.obj")).asVBO();
 
 	//Doors
 	public static final ResourceLocation silo_hatch_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/silo_hatch.png");

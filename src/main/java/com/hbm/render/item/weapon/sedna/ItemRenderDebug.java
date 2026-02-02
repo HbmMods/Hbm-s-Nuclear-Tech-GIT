@@ -141,11 +141,9 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		if(type == ItemRenderType.EQUIPPED) {
 			EntityLivingBase ent = (EntityLivingBase) data[1];
 			long shot;
-			double shotRand = 0;
 			if(ent == Minecraft.getMinecraft().thePlayer) {
 				ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 				shot = gun.lastShot[0];
-				shotRand = gun.shotRand;
 			} else {
 				shot = ItemRenderWeaponBase.flashMap.getOrDefault(ent, (long) -1);
 				if(shot < 0) return;

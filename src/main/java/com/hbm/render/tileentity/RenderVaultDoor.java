@@ -1,10 +1,5 @@
 package com.hbm.render.tileentity;
 
-import org.lwjgl.opengl.GL11;
-
-import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.TileEntityVaultDoor;
-
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -13,10 +8,10 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
-    	renderDoor((TileEntityVaultDoor)tileEntity, x, y, z, f);
+    	//renderDoor((TileEntityVaultDoor)tileEntity, x, y, z, f);
     }
 
-	public void renderDoor(TileEntityVaultDoor tileEntity, double x, double y, double z, float f)
+	/*public void renderDoor(TileEntityVaultDoor tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
@@ -120,5 +115,5 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
     	double roll = z / circumference * 360;
     	
     	return new double[] { x + 0.0005D, z, roll };
-    }
+    }*/
 }

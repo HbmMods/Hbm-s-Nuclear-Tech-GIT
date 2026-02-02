@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -34,8 +35,7 @@ public class BlockDoorGeneric extends BlockDummyable implements IBomb, IToolable
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta){
-		if(meta >= 12)
-			return new TileEntityDoorGeneric();
+		if(meta >= 12) return new TileEntityDoorGeneric();
 		return null;
 	}
 
@@ -168,7 +168,6 @@ public class BlockDoorGeneric extends BlockDummyable implements IBomb, IToolable
 	@Override
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		return getBoundingBox(world, x, y, z, false);
-		//return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
 	}
 	
 	public AxisAlignedBB getBoundingBox(World world, int x, int y, int z, boolean forCollision) {
@@ -191,5 +190,25 @@ public class BlockDoorGeneric extends BlockDummyable implements IBomb, IToolable
 		case 5: return AxisAlignedBB.getBoundingBox(x + box.minZ, y + box.minY, z + 1 - box.maxX, x + box.maxZ, y + box.maxY, z + 1 - box.minX);
 		}
 		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
+	}
+
+	@Override
+	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) return false;
+		
+		if(type.getExtraDimensions() != null) for(int[] dims : type.getExtraDimensions()) {
+			if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, dims, x, y, z, dir)) return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
+		
+		if(type.getExtraDimensions() != null) for(int[] dims : type.getExtraDimensions()) {
+			MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, dims, this, dir);
+		}
 	}
 }

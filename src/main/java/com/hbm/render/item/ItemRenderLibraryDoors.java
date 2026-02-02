@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.DoorDecl;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -23,12 +24,29 @@ public class ItemRenderLibraryDoors {
 
 		ItemRenderLibrary.renderers.put(Item.getItemFromBlock(ModBlocks.vault_door), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(3, 3, 3);
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.vault_cog_tex); ResourceManager.vault_cog.renderAll();
-				bindTexture(ResourceManager.vault_label_101_tex); ResourceManager.vault_label.renderAll();
+				GL11.glTranslated(0, -1, 0);
+				int index = (int) ((Clock.get_ms() % (DoorDecl.VAULT_DOOR.getSkinCount() * 1000)) / 1000);
+
+				ResourceLocation doorTex = ResourceManager.pheo_vault_door_3;
+				ResourceLocation labelTex = ResourceManager.pheo_label_101;
+				
+				switch(index) {
+				case 1: labelTex = ResourceManager.pheo_label_87; break;
+				case 2: labelTex = ResourceManager.pheo_label_106; break;
+				case 3: doorTex = ResourceManager.pheo_vault_door_4; labelTex = ResourceManager.pheo_label_81; break;
+				case 4: doorTex = ResourceManager.pheo_vault_door_4; labelTex = ResourceManager.pheo_label_111; break;
+				case 5: doorTex = ResourceManager.pheo_vault_door_s; labelTex = ResourceManager.pheo_label_2; break;
+				case 6: doorTex = ResourceManager.pheo_vault_door_s; labelTex = ResourceManager.pheo_label_99; break;
+				}
+				
+				bindTexture(doorTex);
+				ResourceManager.pheo_vault_door.renderPart("Door");
+				bindTexture(labelTex);
+				ResourceManager.pheo_vault_door.renderPart("Label");
 			}
 		});
 		

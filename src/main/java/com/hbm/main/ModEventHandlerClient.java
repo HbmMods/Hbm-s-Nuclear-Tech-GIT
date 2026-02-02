@@ -223,6 +223,15 @@ public class ModEventHandlerClient {
 					/*List<String> text = new ArrayList();
 					text.add("Meta: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ));
 					ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
+					
+					if(ClientConfig.SHOW_BLOCK_META_OVERLAY.get()) {
+						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+						int i = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+						List<String> text = new ArrayList();
+						text.add(b.getUnlocalizedName());
+						text.add("Meta: " + i);
+						ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
+					}
 
 				} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 					Entity entity = mop.entityHit;
