@@ -26,7 +26,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiverMK2, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public FluidTank[] tanks;
 	public long coreHeat;
@@ -190,7 +190,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						BlockPos portPos = pos.offset(dir);
 
-						if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+						if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 						if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 					}
 				}
@@ -634,33 +634,49 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		return new GUIPWR(player.inventory, this);
 	}
 
-	@Override
-	public FluidTank[] getAllTanks() {
-		return tanks;
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { tanks[1] };
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] { tanks[0] };
-	}
+	@Override public FluidTank[] getAllTanks() { return tanks; }
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] { tanks[1] }; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tanks[0] }; }
 
 	@Override
 	public String[] getFunctionInfo() {
-		return new String[0]; //TODO
-	}
-
-	@Override
-	public String runRORFunction(String name, String[] params) {
-		return "";
+		return new String[] {
+				PREFIX_VALUE + "coreheat",
+				PREFIX_VALUE + "hullheat",
+				PREFIX_VALUE + "flux",
+				PREFIX_VALUE + "depletion",
+				PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "jettison",
+		};
 	}
 
 	@Override
 	public String provideRORValue(String name) {
-		return "";
+		if((PREFIX_VALUE + "coreheat").equals(name))	return "" + this.coreHeat;
+		if((PREFIX_VALUE + "hullheat").equals(name))	return "" + this.hullHeat;
+		if((PREFIX_VALUE + "flux").equals(name))		return "" + (int) this.flux;
+		if((PREFIX_VALUE + "depletion").equals(name))	return "" + (int) (this.progress * 100 / this.processTime);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+
+		if((PREFIX_FUNCTION + "setrods").equals(name) && params.length > 0) {
+			int percent = IRORInteractive.parseInt(params[0], 0, 100);
+			this.rodTarget = percent;
+			this.markChanged();
+			return null;
+		}
+
+		if((PREFIX_FUNCTION + "jettison").equals(name)) {
+			this.typeLoaded = -1;
+			this.amountLoaded = 0;
+			this.progress = 0;
+			this.markChanged();
+			return null;
+		}
+
+		return null;
 	}
 }
