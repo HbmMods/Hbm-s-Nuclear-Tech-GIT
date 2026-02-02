@@ -814,7 +814,7 @@ container.machineLiquefactor=Разжижитель
 container.machineMixer=Промышленный смеситель
 container.machinePUREX=Пьюрекс
 container.machineOreSlopper=П.Б.Р.
-container.machinePrecAss=Прецизионная машина
+container.machinePrecAss=Высокоточный сборщик
 container.machinePyroOven=Пиролизная печь
 container.machineRefinery=Нефтеперерабатывающий завод
 container.machineRotaryFurnace=Роторная печь
@@ -6020,7 +6020,7 @@ tile.machine_mixer.name=Промышленный смеситель
 tile.machine_orbus.name=Тяжёлый магнитный контейнер для антиматерии
 tile.machine_ore_slopper.name=Переработчик бедроковой руды
 tile.machine_powerrtg.name=ПТ-изотопная ячейка
-tile.machine_precass.name=Прецизионная сборочная машина
+tile.machine_precass.name=Высокоточный сборщик
 tile.machine_press.name=Пресс
 tile.machine_puf6_tank.name=Бочка гексафторида плутония
 tile.machine_pumpjack.name=Станок-качалка
@@ -6727,6 +6727,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
