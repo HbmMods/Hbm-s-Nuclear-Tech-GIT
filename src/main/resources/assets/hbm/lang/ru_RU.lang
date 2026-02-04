@@ -3468,7 +3468,7 @@ item.item_expensive.steel_plating.name=Стальная обшивка с бол
 item.item_secret.aberrator.name=Часть Аберратора
 item.item_secret.canister.name=Композит SB-26
 item.item_secret.controller.name=Проприетарный блок управления
-item.item_secret.folly.name=Фрагмент Причуды
+item.item_secret.folly.name=Фрагмент Глупости
 item.item_secret.selenium_steel.name=Слиток селениевой стали
 item.iv_blood.name=Пакет с кровью
 item.iv_empty.name=Пакет для внутривенного введения
@@ -6330,9 +6330,9 @@ tile.rbmk_moderator.name=Графитовый замедлитель РБМК
 tile.rbmk_outgasser.name=Стержень облучения РБМК
 tile.rbmk_reflector.name=Карбид-вольфрамовый отражатель нейтронов РБМК
 tile.rbmk_rod.name=Топливный канал РБМК
-tile.rbmk_rod_mod.name=Замедляющие топливные канал РБМК
-tile.rbmk_rod_reasim.name=Топливные канал РБМК (РеаСим)
-tile.rbmk_rod_reasim_mod.name=Замедляющие топливные канал РБМК (РеаСим)
+tile.rbmk_rod_mod.name=Замедляющий топливный канал РБМК
+tile.rbmk_rod_reasim.name=Топливный канал РБМК (РеаСим)
+tile.rbmk_rod_reasim_mod.name=Замедляющий топливный канал РБМК (РеаСим)
 tile.rbmk_steam_inlet.name=Порт ввода воды РБМК РеаСим
 tile.rbmk_steam_inlet.desc=Подает воду в колонны RBMK, если включены ReaSim бойлеры$Подключается к колоннам RBMK сбоку
 tile.rbmk_steam_outlet.name=Порт вывода пара РБМК РеаСим
@@ -6727,6 +6727,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
