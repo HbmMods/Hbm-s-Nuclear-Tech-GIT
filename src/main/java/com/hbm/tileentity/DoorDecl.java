@@ -172,13 +172,18 @@ public abstract class DoorDecl {
 			return null;
 		}
 
-		public final ResourceLocation[] skins = new ResourceLocation[] {
-				ResourceManager.pheo_fire_door_tex,
-				ResourceManager.pheo_fire_door_black_tex,
-				ResourceManager.pheo_fire_door_orange_tex,
-		};
+		public ResourceLocation[] skins;
 		
-		@Override public ResourceLocation[] getSEDNASkins() { return skins; }
+		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+					ResourceManager.pheo_fire_door_tex,
+					ResourceManager.pheo_fire_door_black_tex,
+					ResourceManager.pheo_fire_door_orange_tex,
+			};
+			return skins;
+		}
+		
+		public int getSkinCount() { return 3; }
 
 		@Override public int timeToOpen() { return 160; }
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 4, 1 } }; }
@@ -301,12 +306,17 @@ public abstract class DoorDecl {
 			else return super.getBlockBound(x, y, z, open, forCollision);
 		}
 
-		public final ResourceLocation[] skins = new ResourceLocation[] {
-				ResourceManager.pheo_secure_door_tex,
-				ResourceManager.pheo_secure_door_grey_tex
-		};
+		public ResourceLocation[] skins;
 		
-		@Override public ResourceLocation[] getSEDNASkins() { return skins; }
+		@Override public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+					ResourceManager.pheo_secure_door_tex,
+					ResourceManager.pheo_secure_door_grey_tex
+			};
+			return skins;
+		}
+		
+		public int getSkinCount() { return 2; }
 	};
 
 	public static final DoorDecl ROUND_AIRLOCK_DOOR = new DoorDecl() {
@@ -327,13 +337,18 @@ public abstract class DoorDecl {
 			return null;
 		}
 
-		public final ResourceLocation[] skins = new ResourceLocation[] {
-				ResourceManager.pheo_airlock_door_tex,
-				ResourceManager.pheo_airlock_door_clean_tex,
-				ResourceManager.pheo_airlock_door_green_tex
-		};
+		public ResourceLocation[] skins;
 		
-		@Override public ResourceLocation[] getSEDNASkins() { return skins; }
+		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+					ResourceManager.pheo_airlock_door_tex,
+					ResourceManager.pheo_airlock_door_clean_tex,
+					ResourceManager.pheo_airlock_door_green_tex
+			};
+			return skins;
+		}
+		
+		public int getSkinCount() { return 3; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -670,11 +685,7 @@ public abstract class DoorDecl {
 	public ResourceLocation[] getSEDNASkins() { return null; }
 	public boolean hasSkins() { return getSkinCount() > 0; }
 	
-	public int getSkinCount() {
-		ResourceLocation[] skins = this.getSEDNASkins();
-		if(skins == null || skins.length <= 1) return 0;
-		return skins.length;
-	}
+	public int getSkinCount() { return 0; }
 	
 	public ResourceLocation getCyclingSkins() {
 		ResourceLocation[] skins = this.getSEDNASkins();
