@@ -3,13 +3,11 @@ package com.hbm.hrist;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.world.World;
+import com.hbm.util.fauxpointtwelve.DimPos;
 
+/// ROBUR PER UNITATEM ///
 public class ConduitSpace {
-
-	public static Map<World, ConduitWorld> worlds = new HashMap();
 	
-	public static class ConduitWorld {
-		
-	}
+	/** Maps conduit core pos to the actual conduit piece logical unit */
+	public static Map<DimPos, ConduitPiece> pieces = new HashMap();
 }

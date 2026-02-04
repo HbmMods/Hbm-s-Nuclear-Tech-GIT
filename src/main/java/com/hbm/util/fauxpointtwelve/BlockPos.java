@@ -9,9 +9,10 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class BlockPos implements Cloneable {
 
-	private int x;
-	private int y;
-	private int z;
+	public static final int HASH_PRIME = 27644437;
+	protected int x;
+	protected int y;
+	protected int z;
 
 	public BlockPos(int x, int y, int z) {
 		this.x = x;
@@ -25,6 +26,13 @@ public class BlockPos implements Cloneable {
 	
 	public BlockPos(double x, double y, double z) {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
+	}
+	
+	public double distanceTo(BlockPos pos) {
+		int dX = pos.x - x;
+		int dY = pos.y - y;
+		int dZ = pos.z - z;
+		return Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 	}
 	
 	/** Basically a setter for the coords. Violates the "muh unmutability" horseshit I don't care about and
@@ -89,7 +97,7 @@ public class BlockPos implements Cloneable {
 	}
 	
 	public static int getIdentity(int x, int y, int z) {
-		return (y + z * 27644437) * 27644437 + x;
+		return (y + z * HASH_PRIME) * HASH_PRIME + x;
 	}
 
 	@Override
