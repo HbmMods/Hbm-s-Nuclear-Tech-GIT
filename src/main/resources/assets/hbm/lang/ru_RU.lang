@@ -1958,7 +1958,6 @@ item.ammo_fireext.name=Бак с водой для огнетушителя
 item.ammo_fireext_foam.name=Бак с пеной для огнетушителя
 item.ammo_fireext_sand.name=Бак с песком для огнетушителя
 item.ammo_folly.name=Серебряная пуля
-item.ammo_folly_du.name=Серебряная пуля (ДУ, Не взрывающаяся)
 item.ammo_folly_nuclear.name=Серебряная пуля (Атомная)
 item.ammo_fuel.name=Бак с дизелем
 item.ammo_fuel_gas.name=Бак с газом
@@ -3152,7 +3151,7 @@ item.gun_flamer_daybreaker.name=Дейбрейкер
 item.gun_flamer_topaz.name=Мистер Топаз
 item.gun_flaregun.name=Сигнальный пистолет
 item.gun_flechette.name=Игольчатая винтовка
-item.gun_folly.name=Глупость
+item.gun_folly.name=Безумие
 item.gun_g3.name=Штурмовая винтовка
 item.gun_g3_a3.name=G3A3
 item.gun_g3_infiltrator.name=Инфильтратор
@@ -3468,7 +3467,7 @@ item.item_expensive.steel_plating.name=Стальная обшивка с бол
 item.item_secret.aberrator.name=Часть Аберратора
 item.item_secret.canister.name=Композит SB-26
 item.item_secret.controller.name=Проприетарный блок управления
-item.item_secret.folly.name=Фрагмент Глупости
+item.item_secret.folly.name=Фрагмент Безумия
 item.item_secret.selenium_steel.name=Слиток селениевой стали
 item.iv_blood.name=Пакет с кровью
 item.iv_empty.name=Пакет для внутривенного введения
@@ -6727,6 +6726,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 12.01.2026 by RayzerHan //
+
 
 
 
