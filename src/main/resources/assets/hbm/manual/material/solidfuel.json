@@ -4,10 +4,13 @@
 	"trigger": [["hbm:item.solid_fuel"]],
 	"title": {
 		"en_US": "Solid Fuel",
-		"zh_CN": "固体燃料"
+		"zh_CN": "固体燃料",
+		"ru_RU": "Твёрдое топливо"
 	},
 	"content": {
 		"en_US": "Oil in a solid, conveniently cuboid form. Burns twice as long as coal and way hotter. Commonly made in a [[solidifier|Solidifier]] or [[pyrolysis oven|Pyrolysis Oven]]. Used in solid rocket propellant.",
-		"zh_CN": "方便处理的方块状固体油。具有煤炭两倍的燃烧时间，而且温度更高。通常在[[工业固化机|Solidifier]]或[[热解炉|Pyrolysis Oven]]中制作。"
+		"zh_CN": "方便处理的方块状固体油。具有煤炭两倍的燃烧时间，而且温度更高。通常在[[工业固化机|Solidifier]]或[[热解炉|Pyrolysis Oven]]中制作。",
+		"ru_RU": "Топливо в твёрдой, удобной кубической форме. Горит вдвое дольше угля и гораздо жарче. Обычно изготавливается в [[отвердителе|Solidifier]] или в [[пиролизной печи|Pyrolysis Oven]]. Используется для получения твёрдого ракетного топлива."
 	}
 }
+
