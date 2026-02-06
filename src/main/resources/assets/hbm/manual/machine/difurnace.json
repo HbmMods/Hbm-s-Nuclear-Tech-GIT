@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_difurnace_off"], ["hbm:tile.machine_difurnace_extension"]],
 	"title": {
 		"en_US": "Blast Furnace",
-		"ru_RU": "Доменная печь"
+		"ru_RU": "Доменная печь",
+		"zh_CN": "高炉"
 	},
 	"content": {
 		"en_US": "Simple furnace that can combine two items into one output, usually in the form of an alloy. Needed early on as the first source of [[steel|Steel]], [[red copper|Minecraft Grade Copper]] and [[advanced alloy|Advanced Alloy]]. Does not accept all furnace fuels, only works with hot burning ones like coal, coke or lava buckets. Can be accelerated by placing a blast furnace extension on top, which also makes it more efficient.",
-		"ru_RU": "Простая печь, которая может объединять два элемента в один продукт, обычно в виде сплава. На раннем этапе необходима в качестве первого источника [[стали|Steel]], [[красной меди|Minecraft Grade Copper]] и [[продвинутого сплава|Advanced Alloy]]. Подходят не все виды печного топлива, а только с высокой температурой горения, такие как уголь, кокс или ведро лавы. Можно ускорить процесс, установив расширитель над доменной печью, что бонусом повысит и эффективность."
+		"ru_RU": "Простая печь, которая может объединять два элемента в один продукт, обычно в виде сплава. На раннем этапе необходима в качестве первого источника [[стали|Steel]], [[красной меди|Minecraft Grade Copper]] и [[продвинутого сплава|Advanced Alloy]]. Подходят не все виды печного топлива, а только с высокой температурой горения, такие как уголь, кокс или ведро лавы. Можно ускорить процесс, установив расширитель над доменной печью, что бонусом повысит и эффективность.",
+		"zh_CN": "一种能将两种物品结合为一种产物的简单熔炉，产物通常为一种合金。 是游戏前期必需的机器，也是[[钢|Steel]]、[[紫铜|Minecraft Grade Copper]]和[[高级合金|Advanced Alloy]]的最初来源。高炉并不能接受所有熔炉燃料，只接受煤炭、焦炭和岩浆桶等高温 燃料。可以通过在顶部放置高炉烟道来加速，同时提升其效率。"
 	}
 }

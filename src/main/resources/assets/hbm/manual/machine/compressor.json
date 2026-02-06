@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.machine_compressor"], ["hbm:tile.machine_compressor_compact"]],
 	"title": {
 		"en_US": "Compressor",
-        "ru_RU": "Компрессор"		
+        "ru_RU": "Компрессор",
+        "zh_CN": "压缩机"
 	},
 	"content": {
 		"en_US": "Compresses fluids, i.e. increases the \"PU\" number of a fluid. Certain fluids change when compressed, for example [[perfluoromethyl|Perfluoromethyl]] turns into cold PFM when compressed to 2 PU. Each compressor can only do a single PU increase. Compressed fluids can use the same pipes as uncompressed fluids (and in fact share the exact same network, as there is no pressure identification), but they cannot be stored in tanks.",
-		"ru_RU": "Повышает давление жидкости (PU). Некоторые жидкости могут измениться при сжатии, например, [[перфторметан|Perfluoromethyl]] становится холодным при переходе с 1 до 2 PU. Единственный компрессор может поднять PU лишь на одну единицу за раз. Жидкости одного типа под разным давлением можно перемещать по одной трубе, но их нельзя хранить в резервуарах."
+		"ru_RU": "Повышает давление жидкости (PU). Некоторые жидкости могут измениться при сжатии, например, [[перфторметан|Perfluoromethyl]] становится холодным при переходе с 1 до 2 PU. Единственный компрессор может поднять PU лишь на одну единицу за раз. Жидкости одного типа под разным давлением можно перемещать по одной трубе, но их нельзя хранить в резервуарах.",
+        "zh_CN": "用于压缩流体，即提高流体的“PU”值。某些流体经过压缩后会改变类型， 例如[[四氟甲烷|Perfluoromethyl]]被压缩至2PU后会转变为冷四氟甲烷。每台压缩机只能将PU提升 一个等级。经过压缩的流体与未压缩的流体使用相同的管道，而且由于流体网 络不区分PU，二者还可以共享同一个流体网络；然而，经过压缩的流体不能 存储在储罐内。"
 	}
 }
