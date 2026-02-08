@@ -12,9 +12,11 @@
 		["hbm:item.ammo_standard", 1, 35]
 	],
 	"title": {
-		"en_US": "Jacketed Hollow Point Bullet"
+		"en_US": "Jacketed Hollow Point Bullet",
+		"zh_CN": "被甲空尖弹"
 	},
 	"content": {
-		"en_US": "JHPs are deforming bullets that cause more damage to soft targets compared to soft point bullets, at the cost of faring worse against armored targets. JHPs also have a higher bonus on headshots.<br><br>Due to being expanding projectiles, jacketed hollow points are prohibited for use in warfare under the Hague Conventions of 1899."
+		"en_US": "JHPs are deforming bullets that cause more damage to soft targets compared to soft point bullets, at the cost of faring worse against armored targets. JHPs also have a higher bonus on headshots.<br><br>Due to being expanding projectiles, jacketed hollow points are prohibited for use in warfare under the Hague Conventions of 1899.",
+		"zh_CN": "被甲空尖弹（JHP）是一种扩张型弹药，相较于软尖弹，其能对较软目标造 成更多伤害，代价是对装甲目标效果极差。被甲空尖弹也具有较高的爆头 伤害加成。<br><br>由于属于扩张型弹药，1889年的海牙公约禁止在战争中使用被甲空尖弹。"
 	}
 }

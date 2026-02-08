@@ -6,9 +6,11 @@
 		["hbm:item.ammo_standard", 1, 58]
 	],
 	"title": {
-		"en_US": "High-Explosives"
+		"en_US": "High-Explosives",
+		"zh_CN": "高爆"
 	},
 	"content": {
-		"en_US": "Standard ammunition for grenade and rocket launchers. Deals splash damage in a moderate area."
+		"en_US": "Standard ammunition for grenade and rocket launchers. Deals splash damage in a moderate area.",
+		"zh_CN": "榴弹和火箭弹的标准类型，在中等范围内造成爆炸伤害。"
 	}
 }

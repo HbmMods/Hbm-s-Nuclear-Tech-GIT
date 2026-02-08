@@ -8,9 +8,11 @@
 		["hbm:item.ammo_standard", 1, 80]
 	],
 	"title": {
-		"en_US": "Depleted Uranium Bullet"
+		"en_US": "Depleted Uranium Bullet",
+		"zh_CN": "贫铀弹"
 	},
 	"content": {
-		"en_US": "Ammunition with depleted uranium in its core. The increased density and higher powder load causes this ammo type to have even better armor-piercing properties than AP ammo. The added punch causes the projectiles to penetrate.<br><br>Due to their intended effect being kinetic energy, rather than being poisonous, depleted uranium ammunition is not subject to the Hague Conventions of 1899 regarding use of poisonous projectiles in warfare."
+		"en_US": "Ammunition with depleted uranium in its core. The increased density and higher powder load causes this ammo type to have even better armor-piercing properties than AP ammo. The added punch causes the projectiles to penetrate.<br><br>Due to their intended effect being kinetic energy, rather than being poisonous, depleted uranium ammunition is not subject to the Hague Conventions of 1899 regarding use of poisonous projectiles in warfare.",
+		"zh_CN": "核心部分含有贫化铀的弹药，其更高的密度和装药量使得其具有较穿甲弹更强 的穿甲能力，加强的冲击力也使得其能够穿透目标。<br><br>由于贫铀弹被设计为利用其动能而非毒性，其不受1899年海牙公约关于在 战争中使用毒性弹药的条款的约束。"
 	}
 }
