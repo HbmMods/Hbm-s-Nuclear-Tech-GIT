@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_storage", 1, 0],
 	"trigger": [["hbm:tile.rbmk_storage"]],
 	"title": {
-		"en_US": "RBMK Storage Column"
+		"en_US": "RBMK Storage Column",
+		"zh_CN": "RBMK燃料棒存储棒"
 	},
 	"content": {
-		"en_US": "The storage column is mainly used in conjunction with the [[RBMK crane|RBMK Crane Console]] as a means to provide fuel rods to be picked up and placed in [[fuel channels|RBMK Fuel Channel]]. The storage column can hold multiple fuel rods which form a queue, the first rod in the queue is the one that can be picked up by the crane. Rods that are dropped into the storage column by the crane will be placed at the end of the queue."
+		"en_US": "The storage column is mainly used in conjunction with the [[RBMK crane|RBMK Crane Console]] as a means to provide fuel rods to be picked up and placed in [[fuel channels|RBMK Fuel Channel]]. The storage column can hold multiple fuel rods which form a queue, the first rod in the queue is the one that can be picked up by the crane. Rods that are dropped into the storage column by the crane will be placed at the end of the queue.",
+		"zh_CN": "燃料棒存储棒一般与[[RBMK起重机|RBMK Crane Console]]共同使用，通常用于提供插入[[燃料通道|RBMK Fuel Channel]]的新燃料棒。 燃料棒存储棒可以存储多个燃料棒并形成队列，其中第一个燃料棒是可以被起 重机取出的燃料棒。被插入燃料棒存储棒的燃料棒会被放在队列最后。"
 	}
 }

@@ -5,7 +5,7 @@
 		["hbm:item.ammo_standard", 1, 79]
 	],
 	"title": {
-		"en_US": "Shrapnel Buckshot"
+		"en_US": "Shrapnel Buckshot",
 		"zh_CN": "易跳弹"
 	},
 	"content": {
