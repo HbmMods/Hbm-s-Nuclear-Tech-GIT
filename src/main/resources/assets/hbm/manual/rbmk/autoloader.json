@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_autoloader", 1, 0],
 	"trigger": [["hbm:tile.rbmk_autoloader"]],
 	"title": {
-		"en_US": "RBMK Autoloader"
+		"en_US": "RBMK Autoloader",
+		"zh_CN": "RBMK燃料自动装填机"
 	},
 	"content": {
-		"en_US": "The autoloader is an advanced component of an [[RBMK]] that can be placed on top of [[fuel channels|RBMK Fuel Channel]]. The autoloader has two inventory grids, one for fresh fuel, and one for spent fuel, as well as a selector for the fuel depletion percentage which can be changed in 5% increments. If the [[fuel rod's|RBMK Fuel Rod]] depletion of the connected fuel channel exceeds the configured percentage, the autoloader will drop down, remove the spent fuel and insert a new fuel rod. The autoloader can be automated using hoppers or conveyors, the item access ports are on the very top."
+		"en_US": "The autoloader is an advanced component of an [[RBMK]] that can be placed on top of [[fuel channels|RBMK Fuel Channel]]. The autoloader has two inventory grids, one for fresh fuel, and one for spent fuel, as well as a selector for the fuel depletion percentage which can be changed in 5% increments. If the [[fuel rod's|RBMK Fuel Rod]] depletion of the connected fuel channel exceeds the configured percentage, the autoloader will drop down, remove the spent fuel and insert a new fuel rod. The autoloader can be automated using hoppers or conveyors, the item access ports are on the very top.",
+		"zh_CN": "RBMK燃料自动装填机是一种高级的[[RBMK]]部件， 需要放置在[[燃料通道|RBMK Fuel Channel]]的顶部。燃料自动装填机的物品栏内有两组格子， 一组用于储存新燃料，另一组用于储存使用过的燃料；其GUI中还有一个用 于设定燃料消耗程度的框，分度值为5%。若下方[[燃料棒|RBMK Fuel Rod]]的消耗 程度超过了设定的比例，燃料自动装填机就会下降并拔出使用过的燃料棒，同 时插入新燃料棒。燃料自动装填机可通过漏斗或传送带自动化，其物品接口位 于最顶部。"
 	}
 }
