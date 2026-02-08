@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_rod", 1, 0],
 	"trigger": [["hbm:tile.rbmk_rod"], ["hbm:tile.rbmk_rod_mod"]],
 	"title": {
-		"en_US": "RBMK Fuel Channel"
+		"en_US": "RBMK Fuel Channel",
+		"zh_CN": "RBMK燃料通道"
 	},
 	"content": {
-		"en_US": "The RBMK fuel channel is the most important part of the [[RBMK]] since it holds the [[fuel|RBMK Fuel Rod]], allowing the reaction to happen. Neutron flux created by the fuel will be emitted in four cardinal directions, with a maximum range of five blocks.<br><br>Moderated fuel channels are almost identical to the standard version, except that incoming fast flux will be converted into slow flux, similar to how [[moderators|RBMK Graphite Moderator]] work, although outgoing flux is not affected.<br><br>The [[ReaSim fuel channel|RBMK Fuel Channel (ReaSim)]] is an alternate version of the RBMK fuel channel with different neutron spread mechanics."
+		"en_US": "The RBMK fuel channel is the most important part of the [[RBMK]] since it holds the [[fuel|RBMK Fuel Rod]], allowing the reaction to happen. Neutron flux created by the fuel will be emitted in four cardinal directions, with a maximum range of five blocks.<br><br>Moderated fuel channels are almost identical to the standard version, except that incoming fast flux will be converted into slow flux, similar to how [[moderators|RBMK Graphite Moderator]] work, although outgoing flux is not affected.<br><br>The [[ReaSim fuel channel|RBMK Fuel Channel (ReaSim)]] is an alternate version of the RBMK fuel channel with different neutron spread mechanics.",
+		"zh_CN": "RBMK燃料通道中可以放置[[燃料棒|RBMK Fuel Rod]]，从而引发反应，因此其是[[RBMK]] 中最重要的部件。由燃料产生的中子通量会向四个坐标轴方向发射，最大传播 距离为5格。<br><br>慢化燃料通道与普通燃料通道大体一致，但其会将输入的快中子全部转化为慢 中子，类似[[石墨慢化剂|RBMK Graphite Moderator]]，不过其不会影响发射的中子。<br><br>[[ReaSim燃料通道|RBMK Fuel Channel (ReaSim)]]是另一种具有不同中子传播机制的燃料通道。"
 	}
 }

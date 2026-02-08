@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_cooler", 1, 0],
 	"trigger": [["hbm:tile.rbmk_cooler"]],
 	"title": {
-		"en_US": "RBMK Cooler"
+		"en_US": "RBMK Cooler",
+		"zh_CN": "RBMK冷却器"
 	},
 	"content": {
-		"en_US": "The cooler is an optional component that can be used to cool an [[RBMK]], however unlike the [[steam channel|RBMK Steam Channel]], the cooler does not allow the heat to be extracted and used. The RBMK cooler simply \"eats\" cryogel to remove heat. Coolers are rarely useful for power producing reactors, however they are sometimes found in high-heat breeding reactor setups or as backup cooling."
+		"en_US": "The cooler is an optional component that can be used to cool an [[RBMK]], however unlike the [[steam channel|RBMK Steam Channel]], the cooler does not allow the heat to be extracted and used. The RBMK cooler simply \"eats\" cryogel to remove heat. Coolers are rarely useful for power producing reactors, however they are sometimes found in high-heat breeding reactor setups or as backup cooling.",
+		"zh_CN": "冷却器是用于冷却[[RBMK]]的可选部件，但其与[[蒸汽管道|RBMK Steam Channel]] 不同，冷却器并不能将热量提取出来并用在其他地方。RBMK冷却器只会 “吞掉”冷凝胶，并将其用于移除热量。在发电用的反应堆中冷却器通常派不 上用场，但其有时会用于高热量的增殖用反应堆，或是用作备用冷却系统。"
 	}
 }

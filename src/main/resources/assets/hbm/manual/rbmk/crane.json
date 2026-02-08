@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_crane_console", 1, 0],
 	"trigger": [["hbm:tile.rbmk_crane_console"]],
 	"title": {
-		"en_US": "RBMK Crane Console"
+		"en_US": "RBMK Crane Console",
+		"zh_CN": "RBMK起重机控制台"
 	},
 	"content": {
-		"en_US": "The RBMK crane console allows fuel rods to be extracted, transported and inserted safely from a distance. Linking to an [[RBMK]] works similarly as it does with a [[RBMK console|RBMK Console]] using the RBMK linker tool. Once linked, the console spawns the crane over the RBMK. the crane can be controlled when standing in front of the console, using arrow keys by default to move it, and the enter key to load or unload a fuel rod. The crane's loading capabilities are compatible with all variants of the [[fuel channel|RBMK Fuel Channel]] and the [[storage column|RBMK Storage Column]]."
+		"en_US": "The RBMK crane console allows fuel rods to be extracted, transported and inserted safely from a distance. Linking to an [[RBMK]] works similarly as it does with a [[RBMK console|RBMK Console]] using the RBMK linker tool. Once linked, the console spawns the crane over the RBMK. the crane can be controlled when standing in front of the console, using arrow keys by default to move it, and the enter key to load or unload a fuel rod. The crane's loading capabilities are compatible with all variants of the [[fuel channel|RBMK Fuel Channel]] and the [[storage column|RBMK Storage Column]].",
+		"zh_CN": "RBMK起重机控制台用于在远距离安全提取、移动和插入燃料棒。用RBMK 连接装置将其连接至[[RBMK]]的方法与连接[[RBMK控制台|RBMK Console]]的方法相同。 一旦连接成功，控制台就会在反应堆上方生成起重机。操作起重机需要站在起 重机控制台前，默认使用方向键移动吊臂，按回车键装载或卸载燃料棒。起重 机的装卸能力与所有种类的[[燃料通道|RBMK Fuel Channel]]和[[燃料棒存储棒|RBMK Storage Column]]兼容。"
 	}
 }
