@@ -41,7 +41,7 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 
 	@Override
 	public int getComponentHeight(EntityPlayer player, ItemStack stack){
-		return 19;
+		return 17;
 	}
 
 	@Override
