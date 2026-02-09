@@ -28,6 +28,10 @@ public class ParticleUtil {
 	}
 
 	public static void spawnDroneLine(World world, double x, double y, double z, double x0, double y0, double z0, int color) {
+		spawnDroneLine(world, x, y, z, x0, y0, z0, color, false);
+	}
+
+	public static void spawnDroneLine(World world, double x, double y, double z, double x0, double y0, double z0, int color, boolean showalways) {
 
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "debugdrone");
@@ -35,6 +39,7 @@ public class ParticleUtil {
 		data.setDouble("mY", y0);
 		data.setDouble("mZ", z0);
 		data.setInteger("color", color);
+		if(showalways) data.setBoolean("showalways", showalways);
 		if(world.isRemote) {
 			data.setDouble("posX", x);
 			data.setDouble("posY", y);

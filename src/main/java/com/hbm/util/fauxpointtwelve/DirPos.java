@@ -33,7 +33,6 @@ public class DirPos extends BlockPos {
 		}
 	}
 	
-	public ForgeDirection getDir() {
-		return this.dir;
-	}
+	public ForgeDirection getDir() { return this.dir; }
+	public BlockPos toPos() { return new BlockPos(x, y, z); }
 }

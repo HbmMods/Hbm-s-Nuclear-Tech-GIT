@@ -1,6 +1,6 @@
 package com.hbm.hrist;
 
-import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 // like a tile entity but without all the useless crap
 public class ConduitPiece {
@@ -29,14 +29,14 @@ public class ConduitPiece {
 	public static class ConnectionDefinition {
 		
 		public ConduitPiece parent;
-		public BlockPos[] connectors = new BlockPos[2];
+		public DirPos[] connectors = new DirPos[2];
 		double distance;
 		
-		public ConnectionDefinition(BlockPos start, BlockPos end) {
+		public ConnectionDefinition(DirPos start, DirPos end) {
 			this(start, end, start.distanceTo(end));
 		}
 		
-		public ConnectionDefinition(BlockPos start, BlockPos end, double distance) {
+		public ConnectionDefinition(DirPos start, DirPos end, double distance) {
 			this.connectors[0] = start;
 			this.connectors[1] = end;
 			this.distance = distance;

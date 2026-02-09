@@ -1868,7 +1868,7 @@ public class ClientProxy extends ServerProxy {
 		if("debugdrone".equals(type)) {
 			Item held = player.getHeldItem() == null ? null : player.getHeldItem().getItem();
 
-			if(held == ModItems.drone ||
+			if(data.getBoolean("showalways") || held == ModItems.drone ||
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_provider) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_requester) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_dock) ||
