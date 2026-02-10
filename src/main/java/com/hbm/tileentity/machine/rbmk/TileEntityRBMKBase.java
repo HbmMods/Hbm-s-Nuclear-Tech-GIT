@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluidmk2.FluidNetMK2;
 
+import api.hbm.fluidmk2.FluidNode;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
@@ -41,12 +43,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-import java.util.List;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Base class for all RBMK components, active or passive. Handles heat and the explosion sequence
@@ -502,8 +499,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 		/* Hanlde overpressure event */
 		if(RBMKDials.getOverpressure(worldObj) && !pipes.isEmpty()) {
-			HashSet pipeBlocks = new HashSet<>();
-			HashSet pipeReceivers = new HashSet<>();
+			HashSet<FluidNode> pipeBlocks = new HashSet<>();
+			HashSet<Map.Entry<IFluidReceiverMK2, Long>> pipeReceivers = new HashSet<>();
 
 			//unify all parts into single sets to prevent redundancy
 			pipes.forEach(x -> {
@@ -513,20 +510,23 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 			int count = 0;
 			int max = Math.min(pipeBlocks.size() / 5, 100);
-			Iterator itPipes = pipeBlocks.iterator();
-			Iterator itReceivers = pipeReceivers.iterator();
+			Iterator<FluidNode> itPipes = pipeBlocks.iterator();
+			Iterator<Map.Entry<IFluidReceiverMK2, Long>> itReceivers = pipeReceivers.iterator();
 
 			while(itPipes.hasNext() && count < max) {
-				Object pipe = itPipes.next();
-				if(pipe instanceof TileEntity) {
-					TileEntity tile = (TileEntity) pipe;
-					worldObj.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, Blocks.air);
+				FluidNode node = itPipes.next();
+				for (BlockPos pos : node.positions) {
+					int x = pos.getX(), y = pos.getY(), z = pos.getZ();
+					if (worldObj.getTileEntity(x, y ,z) != null) {
+						worldObj.setBlock(x, y, z, Blocks.air);
+					}
 				}
 				count++;
 			}
 
 			while(itReceivers.hasNext()) {
-				Object con = itReceivers.next();
+				Map.Entry<IFluidReceiverMK2, Long> e = itReceivers.next();
+				IFluidReceiverMK2 con = e.getKey();
 				if(con instanceof TileEntity) {
 					TileEntity tile = (TileEntity) con;
 					if(con instanceof IOverpressurable) {
@@ -568,6 +568,9 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 		RBMKBase.dropLids = true;
 		RBMKBase.digamma = false;
+
+		columns.clear();
+		pipes.clear();
 	}
 
 	private void getFF(int x, int y, int z) {
