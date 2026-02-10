@@ -22,7 +22,8 @@ import com.hbm.blocks.network.*;
 import com.hbm.blocks.rail.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
-import com.hbm.hrist.BlockConduit;
+import com.hbm.hrist.BlockConduitBend;
+import com.hbm.hrist.BlockConduitStraight;
 import com.hbm.items.block.*;
 import com.hbm.items.bomb.ItemPrototypeBlock;
 import com.hbm.items.special.ItemOreBlock;
@@ -1238,6 +1239,7 @@ public class ModBlocks {
 	public static Material materialGas = new MaterialGas();
 	
 	public static Block conduit_straight;
+	public static Block conduit_bend;
 
 	private static void initializeBlock() {
 
@@ -2390,7 +2392,8 @@ public class ModBlocks {
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
 
-		conduit_straight = new BlockConduit().setBlockName("conduit_straight").setBlockTextureName(RefStrings.MODID + ":block_steel");
+		conduit_straight = new BlockConduitStraight().setBlockName("conduit_straight").setBlockTextureName(RefStrings.MODID + ":block_steel");
+		conduit_bend = new BlockConduitBend().setBlockName("conduit_bend").setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -3546,6 +3549,7 @@ public class ModBlocks {
 		register(logic_block);
 
 		register(conduit_straight);
+		register(conduit_bend);
 	}
 
 	private static void register(Block b) {

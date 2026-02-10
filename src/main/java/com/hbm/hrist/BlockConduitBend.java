@@ -12,15 +12,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 // you can think of it like a pipeline
-public class BlockConduit extends BlockDummyable {
+public class BlockConduitBend extends BlockDummyable {
 
-	public BlockConduit() {
+	public BlockConduitBend() {
 		super(Material.ground);
 	}
 
 	@Override public TileEntity createNewTileEntity(World world, int meta) { return null; }
-	@Override public int[] getDimensions() { return new int[] {0, 0, 2, 2, 1, 0}; }
-	@Override public int getOffset() { return 2; }
+	@Override public int[] getDimensions() { return new int[] {0, 0, 4, 0, 4, 0}; }
+	@Override public int getOffset() { return 0; }
 
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
@@ -46,11 +46,11 @@ public class BlockConduit extends BlockDummyable {
 		ForgeDirection dir = ForgeDirection.getOrientation(meta - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		DirPos d0 = new DirPos(
-				x + 0.5 + rot.offsetX * 0.5 + dir.offsetX * 2.5, y,
-				z + 0.5 + rot.offsetZ * 0.5 + dir.offsetZ * 2.5, dir);
+				x + 0.5 + rot.offsetX * 0.5 + dir.offsetX * 0.5, y,
+				z + 0.5 + rot.offsetZ * 0.5 + dir.offsetZ * 0.5, dir);
 		DirPos d1 = new DirPos(
-				x + 0.5 + rot.offsetX * 0.5 - dir.offsetX * 2.5, y,
-				z + 0.5 + rot.offsetZ * 0.5 - dir.offsetZ * 2.5, dir.getOpposite());
+				x + 0.5 + rot.offsetX * 4.5 - dir.offsetX * 3.5, y,
+				z + 0.5 + rot.offsetZ * 4.5 - dir.offsetZ * 3.5, rot);
 		return new ConduitPiece(new ConnectionDefinition(d0, d1));
 	}
 }

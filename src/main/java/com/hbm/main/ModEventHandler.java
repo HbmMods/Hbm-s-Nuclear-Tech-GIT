@@ -25,6 +25,7 @@ import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.hrist.ConDbg;
+import com.hbm.hrist.ConduitSpace;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -611,9 +612,11 @@ public class ModEventHandler {
 				}
 
 				EntityRailCarBase.updateMotion(event.world);
-				
+
+				// Connecton Update
+				ConduitSpace.updateWorld(event.world);
 				// Connection Debug Tools
-				ConDbg.debugVisualsWorld(event.world);
+				ConDbg.debugUpdateWorld(event.world);
 			}
 		}
 

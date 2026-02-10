@@ -33,6 +33,41 @@ public class DirPos extends BlockPos {
 		}
 	}
 	
+	public DirPos flip() {
+		return new DirPos(this.getX(), this.getY(), this.getZ(), this.getDir().getOpposite());
+	}
+	
+	/** Useful for the opposing piece of a connector */
+	public DirPos flipWithOffset() {
+		ForgeDirection dir = this.getDir();
+		return new DirPos(this.getX() + dir.offsetX, this.getY() + dir.offsetY, this.getZ() + dir.offsetZ, dir.getOpposite());
+	}
+	
 	public ForgeDirection getDir() { return this.dir; }
 	public BlockPos toPos() { return new BlockPos(x, y, z); }
+	
+	@Override
+	public int hashCode() {
+		return DimPos.getIdentity(this.getX(), this.getY(), this.getZ(), this.getDir().ordinal());
+	}
+
+	@Override
+	public boolean equals(Object toCompare) {
+		if(this == toCompare) {
+			return true;
+		} else if(!(toCompare instanceof BlockPos)) {
+			return false;
+		} else {
+			DirPos pos = (DirPos) toCompare;
+			if(this.getX() != pos.getX()) {
+				return false;
+			} else if(this.getY() != pos.getY()) {
+				return false;
+			} else if(this.getZ() != pos.getZ()) {
+				return false;
+			} else {
+				return this.getDir() == pos.getDir();
+			}
+		}
+	}
 }
