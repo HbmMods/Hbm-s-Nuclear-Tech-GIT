@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.radio_torch_counter"]],
 	"title": {
 		"en_US": "Redstone-over-Radio Transmitter",
-		"ru_RU": "Редстоун-по-радио счётчик предметов"
+		"ru_RU": "Редстоун-по-радио счётчик предметов",
+		"zh_CN": "无线红石物品计数器"
 	},
 	"content": {
 		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can broadcast to up to three frequencies at once. When connected to an inventory (e.g. a chest), it will count items that match the specified filters, and output the resulting values as a radio signals.",
-		"ru_RU": "Продвинутое [[редстоун-по-радио|Redstone over Radio]] передающее устройство, способное вещать одновременно на трёх частотах. При подключении к инвентарю хранилища (например, сундука), он подсчитывает те предметы, что указаны в настройках фильтров, и выводит полученные значения в виде радиосигналов."
+		"ru_RU": "Продвинутое [[редстоун-по-радио|Redstone over Radio]] передающее устройство, способное вещать одновременно на трёх частотах. При подключении к инвентарю хранилища (например, сундука), он подсчитывает те предметы, что указаны в настройках фильтров, и выводит полученные значения в виде радиосигналов.",
+		"zh_CN": "高级的[[无线红石信号|Redstone over Radio]]发射装置，最多可同时向三个频率广播。当连接至 箱子等容器时，其会统计符合特定过滤器的物品数量，并将结果数值作为无线 红石信号输出。"
 	}
 }
