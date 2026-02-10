@@ -66,6 +66,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_akimbo,					new ItemRenderUziAkimbo());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12,						new ItemRenderSPAS12());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_panzerschreck,				new ItemRenderPanzerschreck());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_star_f,						new ItemRenderStarF());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3,							new ItemRenderG3(ResourceManager.g3_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3_zebra,					new ItemRenderG3(ResourceManager.g3_zebra_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_stinger,						new ItemRenderStinger());
@@ -263,6 +264,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_uzi)							.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_spas12)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_panzerschreck)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_star_f)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_g3)							.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_g3_zebra)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_stinger)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

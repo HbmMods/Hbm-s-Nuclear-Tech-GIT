@@ -263,6 +263,7 @@
     "weapon.fire.stab": {"category": "player", "sounds": ["weapon/fire/stab1", "weapon/fire/stab2"]},
     "weapon.fire.grenade": {"category": "player", "sounds": ["weapon/fire/grenade"]},
     "weapon.fire.amat": {"category": "player", "sounds": ["weapon/fire/amat"]},
+    "weapon.fire.pistolLight": {"category": "player", "sounds": ["weapon/fire/pistolLight"]},
 
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

@@ -913,6 +913,7 @@ public class ResourceManager {
 	public static final IModelCustom uzi = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/uzi.obj")).asVBO();
 	public static final IModelCustom spas_12 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/spas-12.obj")).asVBO();
 	public static final IModelCustom panzerschreck = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/panzerschreck.obj")).asVBO();
+	public static final IModelCustom star_f = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/star_f.obj")).asVBO();
 	public static final IModelCustom g3 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/g3.obj")).asVBO();
 	public static final IModelCustom stinger = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/stinger.obj")).asVBO();
 	public static final IModelCustom chemthrower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/chemthrower.obj")).asVBO();
@@ -1037,6 +1038,7 @@ public class ResourceManager {
 	public static final ResourceLocation uzi_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/uzi.png");
 	public static final ResourceLocation uzi_saturnite_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/uzi_saturnite.png");
 	public static final ResourceLocation panzerschreck_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/panzerschreck.png");
+	public static final ResourceLocation star_f_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/star_f.png");
 	public static final ResourceLocation g3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3.png");
 	public static final ResourceLocation g3_zebra_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_zebra.png");
 	public static final ResourceLocation g3_green_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_green.png");
