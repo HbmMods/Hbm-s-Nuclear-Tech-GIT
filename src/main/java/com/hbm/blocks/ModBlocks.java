@@ -968,7 +968,14 @@ public class ModBlocks {
 
 	public static Block machine_steam_engine;
 	public static Block machine_turbine;
-	public static Block machine_large_turbine;
+	@Deprecated public static Block machine_large_turbine;
+	public static Block machine_industrial_turbine;
+	public static Block machine_chungus;
+
+	public static Block machine_condenser;
+	public static Block machine_tower_small;
+	public static Block machine_tower_large;
+	public static Block machine_condenser_powered;
 
 	public static Block machine_deuterium_extractor;
 	public static Block machine_deuterium_tower;
@@ -978,12 +985,6 @@ public class ModBlocks {
 	public static Block machine_intake;
 	public static Block machine_compressor;
 	public static Block machine_compressor_compact;
-
-	public static Block machine_chungus;
-	public static Block machine_condenser;
-	public static Block machine_tower_small;
-	public static Block machine_tower_large;
-	public static Block machine_condenser_powered;
 
 	public static Block machine_electrolyser;
 
@@ -2244,7 +2245,8 @@ public class ModBlocks {
 		machine_steam_engine = new MachineSteamEngine().setBlockName("machine_steam_engine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_turbine = new MachineTurbine(Material.iron).setBlockName("machine_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_turbine");
 		machine_large_turbine = new MachineLargeTurbine(Material.iron).setBlockName("machine_large_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_large_turbine");
-		machine_chungus = new MachineChungus(Material.iron).setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_chungus");
+		machine_industrial_turbine = new MachineIndustrialTurbine().setBlockName("machine_industrial_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_chungus = new MachineChungus().setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_condenser = new MachineCondenser(Material.iron).setBlockName("machine_condenser").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":condenser");
 		machine_tower_small = new MachineTowerSmall(Material.iron).setBlockName("machine_tower_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
 		machine_tower_large = new MachineTowerLarge(Material.iron).setBlockName("machine_tower_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
@@ -3282,6 +3284,7 @@ public class ModBlocks {
 		register(machine_steam_engine);
 		register(machine_turbine);
 		register(machine_large_turbine);
+		register(machine_industrial_turbine);
 		register(machine_chungus);
 		GameRegistry.registerBlock(machine_condenser, machine_condenser.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tower_small, machine_tower_small.getUnlocalizedName());
@@ -3289,8 +3292,8 @@ public class ModBlocks {
 		register(machine_condenser_powered);
 		GameRegistry.registerBlock(machine_deuterium_extractor, machine_deuterium_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deuterium_tower, machine_deuterium_tower.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_liquefactor, ItemBlockBase.class, machine_liquefactor.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_solidifier, ItemBlockBase.class, machine_solidifier.getUnlocalizedName());
+		register(machine_liquefactor);
+		register(machine_solidifier);
 		register(machine_intake);
 		register(machine_compressor);
 		register(machine_compressor_compact);

@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
 import api.hbm.energymk2.IEnergyConductorMK2;
+import api.hbm.energymk2.IEnergyConnectorMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidConnectorMK2;
 import api.hbm.fluidmk2.IFluidReceiverMK2;
@@ -148,15 +149,15 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 
-		if(power && getCoreObject() instanceof IEnergyReceiverMK2) {
-			return ((IEnergyReceiverMK2)getCoreObject()).canConnect(dir);
+		if(power && getCoreObject() instanceof IEnergyConnectorMK2) {
+			return ((IEnergyConnectorMK2)getCoreObject()).canConnect(dir);
 		}
 
 		if(conductor && getCoreObject() instanceof IEnergyConductorMK2) {
 			return ((IEnergyConductorMK2)getCoreObject()).canConnect(dir);
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override

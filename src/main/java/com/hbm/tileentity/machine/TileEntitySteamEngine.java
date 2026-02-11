@@ -70,7 +70,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 		writer.name("D:efficiency").value(efficiency);
 	}
 
-	ByteBuf buf;
+	protected ByteBuf buf;
 
 	@Override
 	public void updateEntity() {

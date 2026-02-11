@@ -20,8 +20,7 @@ public class FurnaceCombination extends BlockDummyable implements ITooltipProvid
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		if(meta >= 12)
-			return new TileEntityFurnaceCombination();
+		if(meta >= 12) return new TileEntityFurnaceCombination();
 		return new TileEntityProxyCombo().inventory().fluid();
 	}
 

@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.lib.RefStrings;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -50,6 +52,15 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	public ResourceLocation resource;
 	private String fileName;
 	private boolean smoothing = true;
+
+	public HFRWavefrontObject(String name) throws ModelFormatException {
+		this(new ResourceLocation(RefStrings.MODID, name));
+	}
+	
+	public HFRWavefrontObject noSmooth() {
+		this.smoothing = false;
+		return this;
+	}
 
 	public HFRWavefrontObject(ResourceLocation resource) throws ModelFormatException {
 		this.resource = resource;
