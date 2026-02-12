@@ -89,6 +89,8 @@ public class MachineIndustrialTurbine extends BlockDummyable implements ITooltip
 		this.addStandardInfo(stack, player, list, ext);
 	}
 	
+	private static String[] blocks = new String[] {"▖ ", "▘ ", " ▘", " ▖"}; // right hand side quarter blocks break the renderer so we cheat a little
+	
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		int[] pos = this.findCore(world, x, y, z);
@@ -110,9 +112,13 @@ public class MachineIndustrialTurbine extends BlockDummyable implements ITooltip
 			outputType = inputType.getTrait(FT_Coolable.class).coolsTo;
 		}
 		
+		int color = ((int) (0xFF - 0xFF * chungus.spin)) << 16 | ((int)(0xFF * chungus.spin) << 8);
+		int time = (int) ((world.getTotalWorldTime() / 4) % 4);
+		
 		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + inputType.getLocalizedName() + ": " + String.format(Locale.US, "%,d", tankInput.getFill()) + "/" + String.format(Locale.US, "%,d", tankInput.getMaxFill()) + "mB");
 		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + outputType.getLocalizedName() + ": " + String.format(Locale.US, "%,d", tankOutput.getFill()) + "/" + String.format(Locale.US, "%,d", tankOutput.getMaxFill()) + "mB");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(chungus.powerBuffer) + "HE (" + (int)(chungus.spin * 100) + "%)");
+		text.add("&[" + color + "&]" + EnumChatFormatting.RED + "<- " + EnumChatFormatting.WHITE + BobMathUtil.getShortNumber(chungus.powerBuffer) + "HE (" +
+				EnumChatFormatting.RESET + blocks[time] + (int) Math.round(chungus.spin * 100) + "%" + EnumChatFormatting.WHITE + ")");
 		
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

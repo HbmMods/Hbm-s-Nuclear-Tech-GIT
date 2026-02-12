@@ -18,9 +18,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase implements IConfigurableMachine {
-	
-	public static int inputTankSize = 1_000_000_000;
-	public static int outputTankSize = 1_000_000_000;
+
+	public static int inputTankSize = 512_000;
+	public static int outputTankSize = 10_240_000;
 	public static double efficiency = 1D;
 
 	public float rotor;
@@ -114,6 +114,7 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	
 	@Override public double consumptionPercent() { return 0.2D; }
 	@Override public double getEfficiency() { return efficiency; }
+	@Override public boolean doesResizeCompressor() { return true; }
 
 	@Override
 	public void serialize(ByteBuf buf) {
