@@ -35,7 +35,7 @@ public class ConDbg {
 				
 				int color = line.hashCode() & 0xFFFFFF;
 				
-				ParticleUtil.spawnDroneLine(world, x, y, z, dx, dy, dz, color, true);
+				ParticleUtil.spawnDroneLine(world, x, y, z, dx, dy, dz, !line.valid ? 0xff0000 : color, true);
 			}
 		}
 	}

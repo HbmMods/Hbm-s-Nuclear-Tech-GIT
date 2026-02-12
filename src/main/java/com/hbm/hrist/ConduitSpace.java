@@ -20,7 +20,7 @@ public class ConduitSpace {
 	public static void pushPiece(World world, ConduitPiece piece, BlockPos core) {
 		ConduitWorld cWorld = worlds.get(world);
 		if(cWorld == null) {
-			cWorld = new ConduitWorld();
+			cWorld = new ConduitWorld(world);
 			worlds.put(world, cWorld);
 		}
 		cWorld.push(piece, core);
@@ -40,6 +40,8 @@ public class ConduitSpace {
 	
 	public static class ConduitWorld {
 		
+		public World world;
+		
 		/** Maps conduit core pos to the actual conduit piece logical unit, for access of the conduit blocks */
 		public Map<BlockPos, ConduitPiece> pieces = new HashMap();
 		/** Maps a connection pos to a conduit piece, used for calculating connections.
@@ -47,6 +49,10 @@ public class ConduitSpace {
 		public Map<DirPos, ConduitPiece> connections = new HashMap();
 		/** Set of all definitions not yet part of a line */
 		public Set<ConnectionDefinition> orphans = new LinkedHashSet();
+		
+		public ConduitWorld(World world) {
+			this.world = world;
+		}
 		
 		public void push(ConduitPiece piece, BlockPos core) {
 			pieces.put(core, piece);
@@ -97,9 +103,10 @@ public class ConduitSpace {
 						
 						line = orphan.getLine();
 						// if the current line is null
-						if(line == null) {
+						if(line == null || !line.valid) {
 							if(connectedDef.connectors[0].equals(connection) || connectedDef.connectors[1].equals(connection)) {
 								orphan.setLine(connectedLine);
+								connectedLine.constructedFrom.add(orphan);
 							}
 						// if not, merge
 						} else {
@@ -119,7 +126,7 @@ public class ConduitSpace {
 				}
 				
 				if(orphan.getLine() == null) {
-					ConduitLine newLine = new ConduitLine();
+					ConduitLine newLine = new ConduitLine(world);
 					orphan.setLine(newLine);
 					newLine.constructedFrom.add(orphan);
 					newLine.setChanged();

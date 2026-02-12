@@ -6,25 +6,20 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 public class ConduitPiece {
 
 	protected boolean valid = true;
-	
-	// definitions and lines are always 1:1, definition of index 0 is associated with line of index 0
-	// could have probably solved this with a new class, now that i think of it
 	public ConnectionDefinition[] definitions;
-	public ConduitLine[] liveConnections;
 	
 	public ConduitPiece(ConnectionDefinition... defs) {
 		definitions = defs;
 		for(ConnectionDefinition def : defs) def.withParent(this);
-		liveConnections = new ConduitLine[defs.length];
 	}
 	
 	public boolean isValid() { return this.valid; }
 	
-	// if a piece goes offline, the entire connection dies with it ad has to be recalculated out of the surviving pieces
+	// if a piece goes offline, the entire connection dies with it and has to be recalculated out of the surviving pieces
 	public void invalidate() {
 		this.valid = false;
-		for(ConduitLine con : this.liveConnections) {
-			if(con != null) con.destroy();
+		for(ConnectionDefinition def : this.definitions) {
+			if(def.liveConnection != null) def.liveConnection.destroy();
 		}
 	}
 	
@@ -45,6 +40,7 @@ public class ConduitPiece {
 		public ConduitPiece parent;
 		public final DirPos[] connectors = new DirPos[2];
 		public final double distance;
+		public ConduitLine liveConnection;
 		
 		public ConnectionDefinition(DirPos start, DirPos end) {
 			this(start, end, start.distanceTo(end));
@@ -62,18 +58,11 @@ public class ConduitPiece {
 		}
 		
 		public ConduitLine getLine() {
-			if(parent == null) throw new IllegalStateException("Connection def has been initialized with no parent!"); // never happens
-			for(int i = 0; i < parent.definitions.length; i++) {
-				if(parent.definitions[i] == this) return parent.liveConnections[i];
-			}
-			return null;
+			return liveConnection;
 		}
 		
 		public void setLine(ConduitLine line) {
-			if(parent == null) throw new IllegalStateException("Connection def has been initialized with no parent!"); // never happens
-			for(int i = 0; i < parent.definitions.length; i++) {
-				if(parent.definitions[i] == this) this.parent.liveConnections[i] = line;
-			}
+			this.liveConnection = line;
 		}
 	}
 }
