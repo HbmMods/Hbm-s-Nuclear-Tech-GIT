@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.pa_beamline"]],
 	"title": {
 		"en_US": "Beamline",
-		"ru_RU": "Канал пучка"
+		"ru_RU": "Канал пучка",
+		"zh_CN": "束流管"
 	},
 	"content": {
 		"en_US": "Passive component of the [[particle accelerator|Particle Accelerator]]. Does not need cooling or electricity, simply allows the particle to travel. mainly used for cosmetic reasons, or to fulfill the side length requirement of higher [[coil tiers|Large Coil]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
-		"ru_RU": "Пассивный компонент [[ускорителя частиц|Particle Accelerator]], который лишь позволяет частицам перемещаться. Не нуждается в охлаждении или электричестве. В большинстве своём необходим для косметических целей, но можно использовать и для удовлетворения требований к длине стороны, предъявляемых к более высоким [[уровням катушек|Large Coil]].<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
+		"ru_RU": "Пассивный компонент [[ускорителя частиц|Particle Accelerator]], который лишь позволяет частицам перемещаться. Не нуждается в охлаждении или электричестве. В большинстве своём необходим для косметических целей, но можно использовать и для удовлетворения требований к длине стороны, предъявляемых к более высоким [[уровням катушек|Large Coil]].<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок.",
+		"zh_CN": "[[粒子加速器|Particle Accelerator]]的被动部件。其不需要冷却和电力，只作为粒子的通路。主要 用于装饰，或满足[[高等级线圈|Large Coil]]的边长需求。<br><br>此部件只允许粒子单向通过，请确保粒子运行方向与红色箭头方向一致！"
 	}
 }

@@ -4,11 +4,13 @@
 	"trigger": [["hbm:tile.pa_rfc"]],
 	"title": {
 		"en_US": "RF Cavity",
-		"ru_RU": "Радиочастотный резонатор"
+		"ru_RU": "Радиочастотный резонатор",
+		"zh_CN": "射频腔"
 
 	},
 	"content": {
 		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Accelerates particles by 100 points of momentum each pass, but also adds 100 points of defocus. Particles exceeding 1000 points of defocus will crash, so refocussing using [[quadrupole magnets|Quadrupole Magnets]] is necessary.<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
-		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Ускоряет частицы на 100 единиц импульса за каждый проход, при этом добавляя 100 единиц расфокусировки. Частицы, чей расфокус превышает 1000 единиц, разрушаются, поэтому необходима повторная фокусировка с использованием [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
+		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Ускоряет частицы на 100 единиц импульса за каждый проход, при этом добавляя 100 единиц расфокусировки. Частицы, чей расфокус превышает 1000 единиц, разрушаются, поэтому необходима повторная фокусировка с использованием [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок.",
+		"zh_CN": "[[粒子加速器|Particle Accelerator]]的工作部件，粒子每次从中通过时会增加100点动量，同时 增加100点失焦。粒子失焦超过100点时会坠毁，因此使用[[四极磁铁|Quadrupole Magnets]] 重新聚焦粒子是必要的。<br><br>此部件需要[[冷四氟甲烷|Perfluoromethyl]]冷却，返还的普通四氟甲烷可以用[[压缩机|Compressor]] 重新冷却。<br><br>此部件只允许粒子单向通过，请确保粒子运行方向与红色箭头方向一致！"
 	}
 }

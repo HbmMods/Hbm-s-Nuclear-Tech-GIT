@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.pa_detector"]],
 	"title": {
 		"en_US": "Particle Detector",
-		"ru_RU": "Детектор частиц"
+		"ru_RU": "Детектор частиц",
+		"zh_CN": "粒子探测器"
 	},
 	"content": {
 		"en_US": "Final component of the [[particle accelerator|Particle Accelerator]], ends the simulation and tries to perform the recipe. Requires empty capsules to catch the resulting particles, inputs are simply voided if the particle cannot be collected. Particle detection requires a defocus of 0, ensure that the accelerator has sufficient [[quadrupoles|Quadrupole Magnets]].<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].",
-		"ru_RU": "Конечный компонент [[ускорителя частиц|Particle Accelerator]], который завершает процесс и выполняет рецепт. Для сбора полученных частиц требуются пустые капсулы. Если частицу не удастся получить, содержимое вводимых капсул пропадёт. Для обнаружения частиц требуется нулевой расфокус, поэтому убедитесь, что ускоритель имеет достаточно [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно."
+		"ru_RU": "Конечный компонент [[ускорителя частиц|Particle Accelerator]], который завершает процесс и выполняет рецепт. Для сбора полученных частиц требуются пустые капсулы. Если частицу не удастся получить, содержимое вводимых капсул пропадёт. Для обнаружения частиц требуется нулевой расфокус, поэтому убедитесь, что ускоритель имеет достаточно [[квадрупольных магнитов|Quadrupole Magnets]].<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.",
+		"zh_CN": "[[粒子加速器|Particle Accelerator]]的最终部件，结束模拟并尝试处理配方。需要空粒子胶囊才能 收集产物，无法收集产物时输出会被直接浪费掉。粒子检测器需要粒子失焦值 为0才能处理配方，因此需要确保加速器中含有足够的[[四极磁铁|Quadrupole Magnets]]。<br><br>此部件需要[[冷四氟甲烷|Perfluoromethyl]]冷却，返还的普通四氟甲烷可以用[[压缩机|Compressor]] 重新冷却。"
 	}
 }
