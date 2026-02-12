@@ -1041,6 +1041,7 @@ public class ResourceManager {
 	public static final ResourceLocation uzi_saturnite_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/uzi_saturnite.png");
 	public static final ResourceLocation panzerschreck_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/panzerschreck.png");
 	public static final ResourceLocation star_f_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/star_f.png");
+	public static final ResourceLocation star_f_elite_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/star_f_elite.png");
 	public static final ResourceLocation g3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3.png");
 	public static final ResourceLocation g3_zebra_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_zebra.png");
 	public static final ResourceLocation g3_green_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/g3_polymer_green.png");

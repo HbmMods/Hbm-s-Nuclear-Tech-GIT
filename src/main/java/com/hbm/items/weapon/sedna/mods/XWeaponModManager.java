@@ -91,7 +91,7 @@ public class XWeaponModManager {
 				ModItems.gun_spas12,
 				ModItems.gun_panzerschreck };
 		Item[] wsteelGuns = new Item[] {
-				ModItems.gun_star_f,
+				ModItems.gun_star_f, ModItems.gun_star_f_akimbo,
 				ModItems.gun_g3, ModItems.gun_g3_zebra,
 				ModItems.gun_stinger,
 				ModItems.gun_chemthrower };
@@ -131,7 +131,7 @@ public class XWeaponModManager {
 		new WeaponModDefinition(EnumModGeneric.BRONZE_DURA).addMod(bronzeGuns, new WeaponModGenericDurability(117));
 
 		new WeaponModDefinition(EnumModSpecial.SPEEDLOADER).addMod(ModItems.gun_liberator, new WeaponModLiberatorSpeedloader(200));
-		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_star_f, ModItems.gun_g3, ModItems.gun_amat}, new WeaponModSilencer(ID_SILENCER));
+		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_star_f, ModItems.gun_star_f_akimbo, ModItems.gun_g3, ModItems.gun_amat}, new WeaponModSilencer(ID_SILENCER));
 		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_g3, ModItems.gun_mas36, ModItems.gun_charge_thrower}, new WeaponModScope(ID_SCOPE));
 		new WeaponModDefinition(EnumModSpecial.SAW)
 			.addMod(new Item[] {ModItems.gun_maresleg, ModItems.gun_double_barrel}, new WeaponModSawedOff(ID_SAWED_OFF))
@@ -178,7 +178,8 @@ public class XWeaponModManager {
 		BulletConfig[] bmg50 = new BulletConfig[] {XFactory50.bmg50_sp, XFactory50.bmg50_fmj, XFactory50.bmg50_jhp, XFactory50.bmg50_ap, XFactory50.bmg50_du, XFactory50.bmg50_he};
 		new WeaponModDefinition(EnumModCaliber.P9)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(300, 28, 10F, p9))
-			.addMod(ModItems.gun_star_f, new WeaponModCaliber(301, 12, 15F, p9));
+			.addMod(ModItems.gun_star_f, new WeaponModCaliber(301, 12, 15F, p9))
+			.addMod(ModItems.gun_star_f_akimbo, new WeaponModCaliber(302, 12, 15F, p9));
 		new WeaponModDefinition(EnumModCaliber.P45)
 			.addMod(ModItems.gun_henry, new WeaponModCaliber(310, 28, 10F, p45))
 			.addMod(ModItems.gun_greasegun, new WeaponModCaliber(311, 24, 3F, p45))

@@ -1407,6 +1407,7 @@ public class ModItems {
 	public static Item gun_spas12;
 	public static Item gun_panzerschreck;
 	public static Item gun_star_f;
+	public static Item gun_star_f_akimbo;
 	public static Item gun_g3;
 	public static Item gun_g3_zebra;
 	public static Item gun_stinger;
@@ -6285,6 +6286,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
 		GameRegistry.registerItem(gun_star_f, gun_star_f.getUnlocalizedName());
+		GameRegistry.registerItem(gun_star_f_akimbo, gun_star_f_akimbo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_g3, gun_g3.getUnlocalizedName());
 		GameRegistry.registerItem(gun_g3_zebra, gun_g3_zebra.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());

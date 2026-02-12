@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
+import java.util.Random;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
@@ -10,6 +11,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -30,6 +33,9 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	public double spin = 0;
 	public static double ACCELERATION = 1D / 400D;
 	public long lastPowerTarget = 0;
+
+	private AudioWrapper audio;
+	private float audioDesync;
 
 	@Override
 	public String getConfigName() {
@@ -55,6 +61,9 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, inputTankSize);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, outputTankSize);
+
+		Random rand = new Random();
+		audioDesync = rand.nextFloat() * 0.05F;
 	}
 
 	// sets the power target so we know how much this steam type can theoretically make, and increments the spin based on actual throughput
@@ -98,6 +107,28 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 			this.lastRotor -= 360;
 			this.rotor -= 360;
 		}
+		
+		if(this.spin > 0 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 35) {
+
+			float spinNum = (float) Math.min(1F, spin * 2);
+			float volume = this.getVolume(0.25F + spinNum * 0.75F);
+			float pitch = 0.5F + spinNum * 0.5F + this.audioDesync;
+
+			if(audio == null) {
+				audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, volume, 20F, pitch, 20);
+				audio.startSound();
+			}
+			
+			audio.keepAlive();
+			audio.updatePitch(pitch);
+			audio.updateVolume(volume);
+			
+		} else {
+			if(audio != null) {
+				audio.stopSound();
+				audio = null;
+			}
+		}
 	}
 	
 	@Override
@@ -116,6 +147,26 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	@Override public double consumptionPercent() { return 0.2D; }
 	@Override public double getEfficiency() { return efficiency; }
 	@Override public boolean doesResizeCompressor() { return true; }
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
 
 	@Override
 	public void serialize(ByteBuf buf) {

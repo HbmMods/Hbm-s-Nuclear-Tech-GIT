@@ -141,18 +141,7 @@ public class ItemRenderStarF extends ItemRenderWeaponBase {
 	public void renderModTable(ItemStack stack, int index) {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.star_f_tex);
-		ResourceManager.star_f.renderPart("Gun");
-		ResourceManager.star_f.renderPart("Slide");
-		ResourceManager.star_f.renderPart("Mag");
-		ResourceManager.star_f.renderPart("Hammer");
-		if(hasSilencer(stack)) {
-			GL11.glTranslated(0, 2.375, -0.25);
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
-			ResourceManager.uzi.renderPart("Silencer");
-		}
-		GL11.glShadeModel(GL11.GL_FLAT);
+		renderStandardGun(stack);
 	}
 
 	@Override
@@ -167,18 +156,7 @@ public class ItemRenderStarF extends ItemRenderWeaponBase {
 			GL11.glTranslated(0, 0, -6);
 		}
 		
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.star_f_tex);
-		ResourceManager.star_f.renderPart("Gun");
-		ResourceManager.star_f.renderPart("Slide");
-		ResourceManager.star_f.renderPart("Mag");
-		ResourceManager.star_f.renderPart("Hammer");
-		if(silenced) {
-			GL11.glTranslated(0, 2.375, -0.25);
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
-			ResourceManager.uzi.renderPart("Silencer");
-		}
-		GL11.glShadeModel(GL11.GL_FLAT);
+		renderStandardGun(stack);
 		
 		if(type == ItemRenderType.EQUIPPED && !silenced) {
 			EntityLivingBase ent = (EntityLivingBase) data[1];
@@ -205,5 +183,22 @@ public class ItemRenderStarF extends ItemRenderWeaponBase {
 	
 	public boolean hasSilencer(ItemStack stack) {
 		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SILENCER);
+	}
+	
+	public void renderStandardGun(ItemStack stack) {
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.star_f_tex);
+		ResourceManager.star_f.renderPart("Gun");
+		ResourceManager.star_f.renderPart("Slide");
+		ResourceManager.star_f.renderPart("Mag");
+		ResourceManager.star_f.renderPart("Hammer");
+		boolean silenced = hasSilencer(stack);
+		if(silenced) {
+			GL11.glTranslated(0, 2.375, -0.25);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.uzi_tex);
+			ResourceManager.uzi.renderPart("Silencer");
+		}
+		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }

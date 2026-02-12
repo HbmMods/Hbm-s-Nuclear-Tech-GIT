@@ -69,6 +69,27 @@ public class XFactory22lr {
 				.anim(LAMBDA_STAR_F_ANIMS).orchestra(Orchestras.ORCHESTRA_STAR_F)
 				).setDefaultAmmo(EnumAmmo.P22_SP, 15).setNameMutator(LAMBDA_NAME_SILENCED)
 				.setUnlocalizedName("gun_star_f");
+		
+		ModItems.gun_star_f_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
+				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound("hbm:weapon.fire.pistolLight", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
+						.offset(1, -0.0625 * 1.5, 0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_STAR_F_ANIMS).orchestra(Orchestras.ORCHESTRA_STAR_F_AKIMBO),
+				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound("hbm:weapon.fire.pistolLight", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(1, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
+						.offset(1, -0.0625 * 1.5, -0.25D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
+				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_STAR_F_ANIMS).orchestra(Orchestras.ORCHESTRA_STAR_F_AKIMBO)
+				).setDefaultAmmo(EnumAmmo.P9_SP, 30).setUnlocalizedName("gun_star_f_akimbo");
 	}
 
 	public static Function<ItemStack, String> LAMBDA_NAME_SILENCED = (stack) -> {
@@ -77,7 +98,7 @@ public class XFactory22lr {
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
-		Lego.handleStandardSmoke(ctx.entity, stack, 3000, 0.05D, 1.1D, 0);
+		Lego.handleStandardSmoke(ctx.entity, stack, 3000, 0.05D, 1.1D, ctx.configIndex);
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_AM180 = (stack, ctx) -> {
