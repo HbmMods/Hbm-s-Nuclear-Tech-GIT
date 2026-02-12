@@ -107,23 +107,18 @@ public abstract class TileEntityTurbineBase extends TileEntityLoadedBase impleme
 		
 		if(type == Fluids.STEAM) {
 			tanks[0].setTankType(Fluids.HOTSTEAM); tanks[1].setTankType(Fluids.STEAM);
-			tanks[0].setFill(tanks[0].getFill() / 10); tanks[1].setFill(0);
 			if(resize) { tanks[0].changeTankSize(tanks[0].getMaxFill() / 10); tanks[1].changeTankSize(tanks[1].getMaxFill() / 10); }
 		} else if(type == Fluids.HOTSTEAM) {
 			tanks[0].setTankType(Fluids.SUPERHOTSTEAM); tanks[1].setTankType(Fluids.HOTSTEAM);
-			tanks[0].setFill(tanks[0].getFill() / 10); tanks[1].setFill(0);
 			if(resize) { tanks[0].changeTankSize(tanks[0].getMaxFill() / 10); tanks[1].changeTankSize(tanks[1].getMaxFill() / 10); }
 		} else if(type == Fluids.SUPERHOTSTEAM) {
 			tanks[0].setTankType(Fluids.ULTRAHOTSTEAM); tanks[1].setTankType(Fluids.SUPERHOTSTEAM);
-			tanks[0].setFill(tanks[0].getFill() / 10); tanks[1].setFill(0);
 			if(resize) { tanks[0].changeTankSize(tanks[0].getMaxFill() / 10); tanks[1].changeTankSize(tanks[1].getMaxFill() / 10); }
 		} else if(type == Fluids.ULTRAHOTSTEAM) {
 			tanks[0].setTankType(Fluids.STEAM); tanks[1].setTankType(Fluids.SPENTSTEAM);
-			tanks[0].setFill(Math.min(tanks[0].getFill() * 1000, tanks[0].getMaxFill())); tanks[1].setFill(0);
 			if(resize) { tanks[0].changeTankSize(tanks[0].getMaxFill() * 1000); tanks[1].changeTankSize(tanks[1].getMaxFill() * 1000); }
 		} else {
 			tanks[0].setTankType(Fluids.STEAM); tanks[1].setTankType(Fluids.SPENTSTEAM);
-			tanks[0].setFill(Math.min(tanks[0].getFill() * 1000, tanks[0].getMaxFill())); tanks[1].setFill(0);
 		}
 		
 		markDirty();

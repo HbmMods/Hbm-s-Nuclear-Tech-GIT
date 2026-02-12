@@ -1,4 +1,20 @@
+## Added
+* Target pistol
+  * Weapon steel tier pistol that holds 15 rounds and shoots .22 LR
+  * Accepts silencers
+
 ## Changed
+* Reworked the industrial turbine
+  * New model and texture
+  * Removed the GUI, it now uses the same in-world compressor toggle as the leviathan turbine
+  * No longer has a volatile power buffer, power isn't buffered at all anymore, similar to steam engines and MHD turbines
+  * Steam capacity changes based on compression level, the ratio for turbine cascades is now 1:1:1:1
+  * Comes with a flywheel, energy output slowly ramps up as steam is supplied and slowly goes down as steam cuts out
+* Leviathan turbines no longer have a power buffer
+* Updated russian and chinese localization
 * The PWR can now be controlled via RoR
   * The RoR value reader can read core and hull heat as well as fuel depletion in percent
   * The RoR controller can set the control rod level in percent as well as jetison all loaded fuel
+
+# Fixed
+* Fixed proxy tiles that do not use electricity at all visually connecting to cables

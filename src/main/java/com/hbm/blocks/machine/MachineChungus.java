@@ -21,6 +21,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -61,10 +62,14 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider, 
 				int iZ2 = entity.zCoord + dir.offsetZ * 2 + turn.offsetZ * 2;
 				
 				if((x == iX || x == iX2) && (z == iZ || z == iZ2) && y < entity.yCoord + 2) {
-					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.chungusLever", 1.5F, 1.0F);
 					
 					if(!world.isRemote) {
-						entity.onLeverPull();
+						if(!entity.operational) {
+							world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.chungusLever", 1.5F, 1.0F);
+							entity.onLeverPull();
+						} else {
+							player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Cannot change compressor setting while operational!"));
+						}
 					}
 					
 					return true;

@@ -15,12 +15,13 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase implements IConfigurableMachine {
 
 	public static int inputTankSize = 512_000;
-	public static int outputTankSize = 10_240_000;
+	public static int outputTankSize = 2_048_000;
 	public static double efficiency = 1D;
 
 	public float rotor;
@@ -132,12 +133,14 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		lastPowerTarget = nbt.getLong("lastPowerTarget");
+		spin = nbt.getDouble("spin");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("lastPowerTarget", lastPowerTarget);
+		nbt.setDouble("spin", spin);
 	}
 
 	@Override
@@ -160,5 +163,24 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 		return new DirPos[] {
 				new DirPos(xCoord - dir.offsetX * 4, yCoord + 1, zCoord - dir.offsetZ * 4, dir.getOpposite())
 		};
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 3,
+					yCoord,
+					zCoord - 3,
+					xCoord + 4,
+					yCoord + 3,
+					zCoord + 4
+					);
+		}
+		
+		return bb;
 	}
 }
