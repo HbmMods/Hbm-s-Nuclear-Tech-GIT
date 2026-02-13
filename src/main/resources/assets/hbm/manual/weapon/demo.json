@@ -7,9 +7,11 @@
 		["hbm:item.ammo_standard", 1, 74]
 	],
 	"title": {
-		"en_US": "Demolition Explosives"
+		"en_US": "Demolition Explosives",
+		"zh_CN": "破坏者弹药"
 	},
 	"content": {
-		"en_US": "Demolition explosives are similar to regular high-explosives, however they have a larger splash radius, slightly lower damage, and they break blocks. Not recommended for home defense."
+		"en_US": "Demolition explosives are similar to regular high-explosives, however they have a larger splash radius, slightly lower damage, and they break blocks. Not recommended for home defense.",
+		"zh_CN": "破坏者弹药与普通的高爆弹药相似，但爆炸半径更大且伤害略低，并且会破坏 方块。不建议用于守卫基地。"
 	}
 }

@@ -5,9 +5,11 @@
 		["hbm:item.ammo_standard", 1, 79]
 	],
 	"title": {
-		"en_US": "Shrapnel Buckshot"
+		"en_US": "Shrapnel Buckshot",
+		"zh_CN": "易跳弹"
 	},
 	"content": {
-		"en_US": "A more devious version of standard buckshot, identical in most ways except that the pellets are incredibly bouncy, ricocheting off of most surfaces multiple times. May be hazardous to the user when used in enclosed spaces."
+		"en_US": "A more devious version of standard buckshot, identical in most ways except that the pellets are incredibly bouncy, ricocheting off of most surfaces multiple times. May be hazardous to the user when used in enclosed spaces.",
+		"zh_CN": "一种更加有弹性的鹿弹，大多数方面与普通鹿弹完全相同，但是弹性极强，能 在绝大多数表面反弹多次。在狭窄区域使用时可能会误伤使用者。"
 	}
 }

@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.radio_torch_receiver"]],
 	"title": {
 		"en_US": "Redstone-over-Radio Receiver",
-		"ru_RU": "Редстоун-по-радио приёмник"
+		"ru_RU": "Редстоун-по-радио приёмник",
+		"zh_CN": "无线红石信号接收器"
 	},
 	"content": {
 		"en_US": "Basic [[redstone over radio|Redstone over Radio]] receiving device, reads the configured radio signal and outputs a redstone signal based on that. By default, it is set to \"Redstone Passthrough\" which means it will simply try to interpret the signal as a number and produce a matching redstone signal. If set to \"Custom Mapping\", it will instead translate the received value to a redstone signal level. Received signals must match the configured mapping exactly in order to be interpreted, for less precise comparisons, a [[logic receiver|Redstone-over-Radio Logic Receiver]] is required.",
-		"ru_RU": "Базовое [[редстуон-по-радио|Redstone over Radio]] принимающее устройство, считывающее радиосигнал и выдающее его уже в виде редстоун-сигнала соответствующей силы. По умолчанию для него установлено значение \"Redstone Passthrough\", а это значит, что он интерпретирует сигнал как число и выдаёт соответствующий редстоун-сигнал. Если установлено значение \"Custom Mapping\", то он преобразует любое полученное значение в соответствующий уровень редстоун-сигнала. Для корректной интерпретации принимаемые сигналы должны точно соответствовать настраиваемому отображению, а для менее точных сравнений требуется [[РпР логический приёмник|Redstone-over-Radio Logic Receiver]]."
+		"ru_RU": "Базовое [[редстуон-по-радио|Redstone over Radio]] принимающее устройство, считывающее радиосигнал и выдающее его уже в виде редстоун-сигнала соответствующей силы. По умолчанию для него установлено значение \"Redstone Passthrough\", а это значит, что он интерпретирует сигнал как число и выдаёт соответствующий редстоун-сигнал. Если установлено значение \"Custom Mapping\", то он преобразует любое полученное значение в соответствующий уровень редстоун-сигнала. Для корректной интерпретации принимаемые сигналы должны точно соответствовать настраиваемому отображению, а для менее точных сравнений требуется [[РпР логический приёмник|Redstone-over-Radio Logic Receiver]].",
+		"zh_CN": "基础的[[无线红石信号|Redstone over Radio]]接收器，可以从设置的频率读取信号 并基于收到的信号输出红石信号。默认情况下其设定为“信号直传”模式，即 简单地将收到的信号解释为数值并输出强度与之对应的红石信号。若设定为 “自定义映射”，则其会将收到的信号根据映射表转换为对应强度的红石信号。 接收到的信号必须与映射表中的完全一致才能被转换，如果需要较模糊的匹配， 则需要使用[[无线红石逻辑接收器|Redstone-over-Radio Logic Receiver]]。"
 	}
 }

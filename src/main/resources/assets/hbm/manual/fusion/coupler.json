@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.fusion_coupler"]],
 	"title": {
 		"en_US": "Fusion Reactor Coupler",
-		"ru_RU": "Спариватель"
+		"ru_RU": "Спариватель",
+		"zh_CN": "聚变反应堆耦合器"
 	},
 	"content": {
 		"en_US": "Small and unassuming, yet the most powerful part of a [[fusion reactor|Fusion Reactor]] setup, the coupler turns outgoing plasma energy from a [[torus|Fusion Reactor Vessel]] into usable klystron energy which can be used as the power source for another torus. Some fuel combinations require this, as the minimum klystron energy needed to ignite the plasma exceeds what four [[klystrons|Klystron]] could deliver.<br><br>Affected by port sharing rules, keep in mind that the coupler's output will be affected when using [[boilers|Fusion Reactor Boiler]] or [[MHDTs|MHD Turbine]] on the torus it draws power from.",
-		"ru_RU": "Является самой важной частью схемы [[термоядерного реактора|Fusion Reactor]]. Механизм преобразует выходную энергию плазмы от [[одного тора|Fusion Reactor Vessel]] в энергию клистрона, чтобы ею можно было запустить другой тор. Спариватель совершенно необходим в тех случаях, когда минимум энергии для воспламенения плазмы превышает количество, которое смогли бы обеспечить 4 [[клистрона|Klystron]] на максимальной мощности.<br><br>Подвержен действию правила совместного использования портов, так что мощность спаривателя может снизиться при совместном использовании с [[МГД-турбинами|MHD Turbine]] или [[бойлерами|Fusion Reactor Boiler]]."
+		"ru_RU": "Является самой важной частью схемы [[термоядерного реактора|Fusion Reactor]]. Механизм преобразует выходную энергию плазмы от [[одного тора|Fusion Reactor Vessel]] в энергию клистрона, чтобы ею можно было запустить другой тор. Спариватель совершенно необходим в тех случаях, когда минимум энергии для воспламенения плазмы превышает количество, которое смогли бы обеспечить 4 [[клистрона|Klystron]] на максимальной мощности.<br><br>Подвержен действию правила совместного использования портов, так что мощность спаривателя может снизиться при совместном использовании с [[МГД-турбинами|MHD Turbine]] или [[бойлерами|Fusion Reactor Boiler]].",
+		"zh_CN": "[[聚变反应堆|Fusion Reactor]]系统中最小，最不起眼却最强大的部件，可以将[[环形容器|Fusion Reactor Vessel]] 中等离子体的能量转换为调速管能量，并用作另一台聚变反应堆的能量源。 有些燃料组合需求的启动能量超过了四台[[速调管|Klystron]]所能提供能量的上限，因此需要 耦合器才能点火。<br><br>耦合器会受端口分配机制的影响，因此需要注意，当与[[锅炉|Fusion Reactor Boiler]]或[[磁流体涡轮|MHD Turbine]] 在同一个聚变反应堆上使用时，其输出的能量会受到影响。"
 	}
 }

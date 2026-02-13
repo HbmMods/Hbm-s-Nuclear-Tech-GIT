@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_heater", 1, 0],
 	"trigger": [["hbm:tile.rbmk_heater"]],
 	"title": {
-		"en_US": "RBMK Fluid Heater"
+		"en_US": "RBMK Fluid Heater",
+		"zh_CN": "RBMK流体加热器"
 	},
 	"content": {
-		"en_US": "The RBMK fluid heater provides an alternate way of cooling the [[RBMK]] compared to the [[RBMK steam channel|RBMK Steam Channel]]. Instead of boiling water into turbine-usable steam, it heats up a type of coolant which may be used in different ways. Hot coolant can be used in a [[heat exchanging heater|Heat Exchanging Heater]] to either power certain machines directly, or to boil water in a [[boiler|Boiler]], creating a secondary loop. Do note that the used coolant needs to be heat exchanger compatible, [[PWR]]-exclusive coolants like liquid sodium will not work in an RBMK.<br><br>Just like in a steam channel, the cold coolant normally enters the bottom and the hot coolant exits from the top. Both connections can be on the bottom when using an [[RBMK steam connector|RBMK Steam Connector]]."
+		"en_US": "The RBMK fluid heater provides an alternate way of cooling the [[RBMK]] compared to the [[RBMK steam channel|RBMK Steam Channel]]. Instead of boiling water into turbine-usable steam, it heats up a type of coolant which may be used in different ways. Hot coolant can be used in a [[heat exchanging heater|Heat Exchanging Heater]] to either power certain machines directly, or to boil water in a [[boiler|Boiler]], creating a secondary loop. Do note that the used coolant needs to be heat exchanger compatible, [[PWR]]-exclusive coolants like liquid sodium will not work in an RBMK.<br><br>Just like in a steam channel, the cold coolant normally enters the bottom and the hot coolant exits from the top. Both connections can be on the bottom when using an [[RBMK steam connector|RBMK Steam Connector]].",
+		"zh_CN": "RBMK流体加热器提供了使用[[RBMK蒸汽管道|RBMK Steam Channel]]以外冷却[[RBMK]] 的另一种方法。其并不直接将水加热为可用于涡轮的蒸汽，而是加热冷却剂， 被加热的冷却剂可以有多种用途。热冷却剂可以在[[换热加热器|Heat Exchanging Heater]]中放出热量， 以直接驱动部分机器，或者在 [[锅炉|Boiler]]中加热水，进而形成二级循环。需要注意的是，使用的冷却液必须可用于流体加热 器，[[PWR]]独占的冷却剂不能在RBMK中使用。<br><br>与蒸汽管道相同，冷却剂通常从底部进入，热冷却剂从顶部输出。使用 [[RBMK蒸汽导出器|RBMK Steam Connector]]时两种流体都可从底部输入输出。"
 	}
 }

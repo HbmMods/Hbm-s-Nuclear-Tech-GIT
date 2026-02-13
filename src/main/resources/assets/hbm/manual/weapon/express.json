@@ -6,9 +6,11 @@
 		["hbm:item.ammo_standard", 1, 15]
 	],
 	"title": {
-		"en_US": "FMJ Express Bullet"
+		"en_US": "FMJ Express Bullet",
+		"zh_CN": "额外装药FMJ"
 	},
 	"content": {
-		"en_US": "FMJ Express is a special type of full metal jacket ammo for revolver calibers. Express ammo has the same armor-piercing effects in addition to increased damage. Express projectiles can penetrate their targets, but unlike AP rounds, Express projectiles become weaker on every penetration. Due to the higher powder load in combination with the basic gunmetal casing, Express ammo causes the gun to wear faster."
+		"en_US": "FMJ Express is a special type of full metal jacket ammo for revolver calibers. Express ammo has the same armor-piercing effects in addition to increased damage. Express projectiles can penetrate their targets, but unlike AP rounds, Express projectiles become weaker on every penetration. Due to the higher powder load in combination with the basic gunmetal casing, Express ammo causes the gun to wear faster.",
+		"zh_CN": "额外装药FMJ是一种用于转轮手枪弹匣的特殊全金属被甲弹。这种子弹伤害 较高，且具有与全金属被甲弹相同的穿甲效果。这种子弹还可以穿透敌人，但 与穿甲弹不同的是，每穿透一个敌人，子弹的伤害就会降低一些。由于这种子 弹装药量较高，且仍然使用普通炮铜弹壳，其会导致枪械磨损速度加快。"
 	}
 }

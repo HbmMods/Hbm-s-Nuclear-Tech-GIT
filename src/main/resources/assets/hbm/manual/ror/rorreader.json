@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.radio_torch_reader"]],
 	"title": {
 		"en_US": "Redstone-over-Radio Reader",
-		"ru_RU": "Редстоун-по-радио считыватель"
+		"ru_RU": "Редстоун-по-радио считыватель",
+		"zh_CN": "无线红石信号读取器"
 	},
 	"content": {
 		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] transmitting device, can be connected to certain machines and configured to read up to eight different values and transmit them over separate fequencies. Supported values are listed when hovering over the [V] icon. Comparators, and therefore [[RoR transmitters|Redstone-over-Radio Transmitter]] are limited to interpreting single values as numbers 0 - 15, while the reader can send multiple values with exact precision. For example, connecting the reader to a barrel and reading the \"fill\" value will cause it to send the exact amount of millibuckets in that barrel.",
-		"ru_RU": "Продвинутое передающее [[редстоун-по-радио|Redstone over Radio]] устройство, которое подключается к определённым устройствам и настраивается для считывания до восьми различных значений и передачи их на разных частотах. Поддерживаемые значения (команды) отображаются при наведении курсора мыши на значок [V]. Компараторы и, следовательно, [[РпР передатчики|Redstone-over-Radio Transmitter]] могут преобразовывать значения только в редстоун-сигналы с силой в диапазоне от 0 до 15, в то время как считыватель может передавать несколько значений с высокой точностью. Например, он может определить точный объём содержимого бочки в mB с помощью значения \"fill\" и отправить это значение."
+		"ru_RU": "Продвинутое передающее [[редстоун-по-радио|Redstone over Radio]] устройство, которое подключается к определённым устройствам и настраивается для считывания до восьми различных значений и передачи их на разных частотах. Поддерживаемые значения (команды) отображаются при наведении курсора мыши на значок [V]. Компараторы и, следовательно, [[РпР передатчики|Redstone-over-Radio Transmitter]] могут преобразовывать значения только в редстоун-сигналы с силой в диапазоне от 0 до 15, в то время как считыватель может передавать несколько значений с высокой точностью. Например, он может определить точный объём содержимого бочки в mB с помощью значения \"fill\" и отправить это значение.",
+		"zh_CN": "高级的[[无线红石信号|Redstone over Radio]]发射装置，可以连接至特定的机器并配置为读取 至多8项数值，并将每项数值发送至单独的频率。将鼠标指针放置在[V]图标 上可以查看支持的数值的列表。红石比较器以及[[无线红石信号发射器|Redstone-over-Radio Transmitter]]  只能检测单个数值，且输出会被限制在0~15，而读取器可以同时发送多个 完全精确的数值。例如，将读取器连接至流体桶并读取其“fill”值，即 可使读取器发送此流体桶中流体mB数的精确值。"
 	}
 }

@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_loader", 1, 0],
 	"trigger": [["hbm:tile.rbmk_loader"]],
 	"title": {
-		"en_US": "RBMK Steam Connector"
+		"en_US": "RBMK Steam Connector",
+		"zh_CN": "RBMK反应堆蒸汽导出器"
 	},
 	"content": {
-		"en_US": "The RBMK steam connector allows both the input and output pipes of [[steam channels|RBMK Steam Channel]] and [[fluid heaters|RBMK Fluid Heater]] to be connected from the bottom, instead of having one at the top.<br><br>The placement of the connector is important: Directly below the component, place one pipe set to the type of the input fluid (e.g. water). Below it, place the steam connector. Then, place a pipe with the output fluid below that (e.g. steam). Finally, connect the previously placed pipes to the input and output lines of your setup. Failure to comply can cause the reactor to not receive cooling at all, or for steam to clog and slowly eat away the water supply, which will inevitably destroy the reactor."
+		"en_US": "The RBMK steam connector allows both the input and output pipes of [[steam channels|RBMK Steam Channel]] and [[fluid heaters|RBMK Fluid Heater]] to be connected from the bottom, instead of having one at the top.<br><br>The placement of the connector is important: Directly below the component, place one pipe set to the type of the input fluid (e.g. water). Below it, place the steam connector. Then, place a pipe with the output fluid below that (e.g. steam). Finally, connect the previously placed pipes to the input and output lines of your setup. Failure to comply can cause the reactor to not receive cooling at all, or for steam to clog and slowly eat away the water supply, which will inevitably destroy the reactor.",
+		"zh_CN": "RBMK蒸汽导出器使得[[蒸汽管道|RBMK Steam Channel]]和[[流体加热器|RBMK Fluid Heater]]的输入输出管道均可 直接从底部连接，而不再需要上下都连接管道。<br><br>蒸汽导出器的放置位置很重要：首先在蒸汽管道或流体加热器正下方放置一个 设定为输入流体（如水）的管道，再在下方放置一个蒸汽导出器，然后在蒸汽 导出器下方放置设定为输出流体（如蒸汽）的管道，最后在将前面放置的管道 连接至冷却剂的管道系统。不按照上述说明放置可能会导致反应堆接收不到冷 却剂，或是热冷却剂堵塞并持续消耗冷却剂供应，两种情况都必定导致反应 堆熔毁。"
 	}
 }

@@ -12,9 +12,11 @@
 		["hbm:item.ammo_standard", 1, 33]
 	],
 	"title": {
-		"en_US": "Soft Point Bullet"
+		"en_US": "Soft Point Bullet",
+		"zh_CN": "软尖弹"
 	},
 	"content": {
-		"en_US": "The \"default\" ammunition type for most guns. Soft point bullets do not change the gun's base damage, and don't have any armor-piercing properties.<br><br>Due to being expanding projectiles, soft points are prohibited for use in warfare under the Hague Conventions of 1899."
+		"en_US": "The \"default\" ammunition type for most guns. Soft point bullets do not change the gun's base damage, and don't have any armor-piercing properties.<br><br>Due to being expanding projectiles, soft points are prohibited for use in warfare under the Hague Conventions of 1899.",
+		"zh_CN": "“默认”的弹药类型。软尖弹不影响枪械的基础伤害，也不具有穿甲特性。<br><br>由于属于扩张型弹药，1889年的海牙公约禁止在战争中使用软尖弹。"
 	}
 }

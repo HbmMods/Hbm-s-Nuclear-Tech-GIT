@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_absorber", 1, 0],
 	"trigger": [["hbm:tile.rbmk_absorber"]],
 	"title": {
-		"en_US": "RBMK Boron Neutron Absorber"
+		"en_US": "RBMK Boron Neutron Absorber",
+		"zh_CN": "RBMK硼中子吸收器"
 	},
 	"content": {
-		"en_US": "The absorber simply blocks neutrons from passing. Neutrons that leave the [[RBMK]] will cause radiation to leak out, while this can be prevented by simply blocking off the entire side with solid blocks, the absorber has the small advantage of being able to transfer heat. While it's rarely useful to use an absorber instead of a [[reflector|RBMK Tungsten Carbide Neutron Reflector]], some high-heat reactor designs with linear or exponential fuels may benefit from using absorbers to separate incompatible fuel rods."
+		"en_US": "The absorber simply blocks neutrons from passing. Neutrons that leave the [[RBMK]] will cause radiation to leak out, while this can be prevented by simply blocking off the entire side with solid blocks, the absorber has the small advantage of being able to transfer heat. While it's rarely useful to use an absorber instead of a [[reflector|RBMK Tungsten Carbide Neutron Reflector]], some high-heat reactor designs with linear or exponential fuels may benefit from using absorbers to separate incompatible fuel rods.",
+		"zh_CN": "中子吸收器会直接阻止中子通过。离开[[RBMK]]的中子会造成 辐射，虽然用固体方块把整个反应堆的边缘包住就可以挡住辐射，但中子吸收 器有一个小优点——可以传递热量。虽然很多情况下[[中子反射器|RBMK Tungsten Carbide Neutron Reflector]]比中子吸 收器更有用，但在某些含有线性或指数型燃料棒的高热量反应堆设计中，用中 子吸收器分隔不能相邻的燃料棒也不失为一种选择。"
 	}
 }

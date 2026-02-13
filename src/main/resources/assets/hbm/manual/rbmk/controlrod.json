@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_control", 1, 0],
 	"trigger": [["hbm:tile.rbmk_control"], ["hbm:tile.rbmk_control_mod"]],
 	"title": {
-		"en_US": "RBMK Control Rods"
+		"en_US": "RBMK Control Rods",
+		"zh_CN": "RBMK反应堆控制棒"
 	},
 	"content": {
-		"en_US": "The RBMK control rods can be used to throttle or even turn off an [[RBMK]]. Neutrons that pass throguh the control rod will be reduced proportional to the rod's insertion, a 100% inserted control rod will block off all incoming neutrons, a 50% inserted control rod will only block half. Control rods can also be controlled remotely via the [[RBMK console|RBMK Console]].<br><br>Moderated control rods function in much the same manner, except that they convert fast neutrons into slow neutrons, much like how a [[moderator|RBMK Graphite Moderator]] would.<br><br>[[Automatic control rods|RBMK Automatic Control Rods]] have a similar purpose, except that they will automatically adjust their level based on the reactor's temperature.<br><br>Due to minor complications in their design, control rods may cause reaction spikes when being inserted a far distance at once, practice caution when using the AZ-5."
+		"en_US": "The RBMK control rods can be used to throttle or even turn off an [[RBMK]]. Neutrons that pass throguh the control rod will be reduced proportional to the rod's insertion, a 100% inserted control rod will block off all incoming neutrons, a 50% inserted control rod will only block half. Control rods can also be controlled remotely via the [[RBMK console|RBMK Console]].<br><br>Moderated control rods function in much the same manner, except that they convert fast neutrons into slow neutrons, much like how a [[moderator|RBMK Graphite Moderator]] would.<br><br>[[Automatic control rods|RBMK Automatic Control Rods]] have a similar purpose, except that they will automatically adjust their level based on the reactor's temperature.<br><br>Due to minor complications in their design, control rods may cause reaction spikes when being inserted a far distance at once, practice caution when using the AZ-5.",
+		"zh_CN": "控制棒可用于限制[[RBMK]]反应堆的功率，或者直接关停反应堆。 通过控制棒的中子会按照控制棒的插入比例减少，100%插入的控制棒会阻 挡所有进入的中子，而50%插入的控制棒只会阻挡一半中子。控制棒也可通过 [[RBMK控制台|RBMK Console]]远程控制。<br><br>慢化控制棒的工作方式与普通控制棒大体相同，但其会把快中子转换为慢中子， 类似[[慢化剂|RBMK Graphite Moderator]]。<br><br>[[自动控制棒|RBMK Automatic Control Rods]]的目的相同，但其会根据反应堆的温度自行调整插入比例。<br><br>由于尖端设计有一定缺陷，控制棒在从高处一次性插到底时可能会引起中子通 量尖峰，在使用AZ-5按钮时尤其需要注意。"
 	}
 }

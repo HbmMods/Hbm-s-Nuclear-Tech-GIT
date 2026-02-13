@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.fusion_klystron"]],
 	"title": {
 		"en_US": "Klystron",
-		"ru_RU": "Клистрон"
+		"ru_RU": "Клистрон",
+		"zh_CN": "速调管"
 	},
 	"content": {
 		"en_US": "Main power source of a [[fusion reactor|Fusion Reactor]], uses electricity and [[compressed air|Compressed Air]] to generate input energy (klystron energy or KyU) for the connected [[torus|Fusion Reactor Vessel]]. The output target needs to be defined in the GUI. Will throttle if either the buffered electricity or compressed air falls below 50%. If the klystron's output falls below the connected torus' required input level, it will not throttle, rather the plasma will immediately extinguish.",
-		"ru_RU": "Источник энергии для [[термоядерного реактора|Fusion Reactor]]. Использует электричество и [[сжатый воздух|Compressed Air]] для генерации первичной энергии (энергия клистрона), от которой запускается подключенный [[тор|Fusion Reactor Vessel]]. Значение выводимой энергии задаётся в графическом интерфейсе клистрона. Начнёт работать хуже, если количество энергии в буфере или запас топлива будут ниже 50%. Плазма гаснет, если энергии от клистрона недостаточно."
+		"ru_RU": "Источник энергии для [[термоядерного реактора|Fusion Reactor]]. Использует электричество и [[сжатый воздух|Compressed Air]] для генерации первичной энергии (энергия клистрона), от которой запускается подключенный [[тор|Fusion Reactor Vessel]]. Значение выводимой энергии задаётся в графическом интерфейсе клистрона. Начнёт работать хуже, если количество энергии в буфере или запас топлива будут ниже 50%. Плазма гаснет, если энергии от клистрона недостаточно.",
+		"zh_CN": "[[聚变反应堆|Fusion Reactor]]的主要能量源，使用电能和[[压缩空气|Compressed Air]]向相连接的[[环形容器|Fusion Reactor Vessel]]输入能量（称作速调管能量或KyU）。 需要在GUI中设定输出的能量数值。当内部电力或压缩空气低于50%时， 能量输出会受限。如果速调管的能量输出下降至相连环形容器需求的启动能量 以下，那么速调管输出不会被限制，同时聚变反应会立即停止。"
 	}
 }

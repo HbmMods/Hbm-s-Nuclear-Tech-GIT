@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_moderator", 1, 0],
 	"trigger": [["hbm:tile.rbmk_moderator"]],
 	"title": {
-		"en_US": "RBMK Graphite Moderator"
+		"en_US": "RBMK Graphite Moderator",
+		"zh_CN": "RBMK反应堆石墨慢化剂"
 	},
 	"content": {
-		"en_US": "The graphite moderator converts all passing neutrons into slow neutrons. Most [[RBMK fuels|RBMK Fuel Rod]] split more effectively with slow neutrons, meaning that most [[RBMK]] designs either require dedicated graphite moderators between the [[fuel channels|RBMK Fuel Channel]], or moderated fuel channels directly."
+		"en_US": "The graphite moderator converts all passing neutrons into slow neutrons. Most [[RBMK fuels|RBMK Fuel Rod]] split more effectively with slow neutrons, meaning that most [[RBMK]] designs either require dedicated graphite moderators between the [[fuel channels|RBMK Fuel Channel]], or moderated fuel channels directly.",
+		"zh_CN": "石墨慢化剂会将所有通过的中子转化为慢中子。大多数[[RBMK燃料|RBMK Fuel Rod]] 在受到慢中子轰击时更容易裂变，这意味着大多数[[RBMK]]设计都需要在 [[燃料通道|RBMK Fuel Channel]]之间放置专门的慢化剂，或是直接使用慢化燃料通道。"
 	}
 }

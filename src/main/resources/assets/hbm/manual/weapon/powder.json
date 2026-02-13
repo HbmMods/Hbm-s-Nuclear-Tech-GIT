@@ -7,9 +7,11 @@
 		["hbm:item.ammo_standard", 1, 41]
 	],
 	"title": {
-		"en_US": "Black Powder Ammunition"
+		"en_US": "Black Powder Ammunition",
+		"zh_CN": "黑火药弹"
 	},
 	"content": {
-		"en_US": "The earliest available type of cartridge, black powder ammo is available for revolver calibers and 12 gauge shells. For revolver calibers, black powder bullets are a variant of soft point bullets. Black powder shells however are available in buckshot, magnum shot and slug variants. Black powder ammo is very cheap, but deals significantly less damage and causes a large cloud of smoke on every shot."
+		"en_US": "The earliest available type of cartridge, black powder ammo is available for revolver calibers and 12 gauge shells. For revolver calibers, black powder bullets are a variant of soft point bullets. Black powder shells however are available in buckshot, magnum shot and slug variants. Black powder ammo is very cheap, but deals significantly less damage and causes a large cloud of smoke on every shot.",
+		"zh_CN": "黑火药弹是最早可获取的弹药类型，可用于手枪口径的子弹和12号鹿弹。 对于手枪弹，黑火药弹属于软尖弹的一种；除此之外，鹿弹、马格南子弹和独 头弹也有黑火药变种。黑火药弹成本极低，但造成的伤害也有所降低，并且每 次发射时都会产生大量黑烟。"
 	}
 }

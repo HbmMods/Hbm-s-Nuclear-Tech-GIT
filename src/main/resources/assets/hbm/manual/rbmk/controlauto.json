@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_control_auto", 1, 0],
 	"trigger": [["hbm:tile.rbmk_control_auto"]],
 	"title": {
-		"en_US": "RBMK Automatic Control Rods"
+		"en_US": "RBMK Automatic Control Rods",
+		"zh_CN": "RBMK反应堆自动控制棒"
 	},
 	"content": {
-		"en_US": "Automatic control rods, unlike the standard [[RBMK control rods|RBMK Control Rods]], cannot be controlled manually, instead they can be configured to adjust their insertion level based on their own component heat. A minimum and maximum heat, along with a minimum and maximum level which correspond to those values can be set, as well as a curve which defines the behavior between those levels.<br><br>It is possible, but not recommended, to have a reactor that runs solely on automatic control rods. They do see occasional use for smoothing out reaction spikes and for controlling the neutron sources on subcritical reactors."
+		"en_US": "Automatic control rods, unlike the standard [[RBMK control rods|RBMK Control Rods]], cannot be controlled manually, instead they can be configured to adjust their insertion level based on their own component heat. A minimum and maximum heat, along with a minimum and maximum level which correspond to those values can be set, as well as a curve which defines the behavior between those levels.<br><br>It is possible, but not recommended, to have a reactor that runs solely on automatic control rods. They do see occasional use for smoothing out reaction spikes and for controlling the neutron sources on subcritical reactors.",
+		"zh_CN": "自动升降的控制棒，与[[RBMK反应堆控制棒|RBMK Control Rods]]不同，其不能手动控制， 而是需要进行设定，设定后即可根据自身温度调整控制棒插入程度。可以设定 的项目有最低温度和最高温度、对应的控制棒最低和最高插入程度，以及定义 其在两个极值之间行为的曲线。<br><br>尽管有可能搭建出一个只使用自动控制棒的反应堆，但不建议这么做。自动控 制棒偶尔会用于抹平中子通量尖峰和在亚临界反应堆中控制中子源。"
 	}
 }

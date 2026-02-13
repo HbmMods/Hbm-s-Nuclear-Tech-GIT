@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.radio_torch_logic"]],
 	"title": {
 		"en_US": "Redstone-over-Radio Logic Receiver",
-		"ru_RU": "Редстоун-по-радио логический приёмник"
+		"ru_RU": "Редстоун-по-радио логический приёмник",
+		"zh_CN": "无限红石逻辑接收器"
 	},
 	"content": {
 		"en_US": "Advanced [[redstone over radio|Redstone over Radio]] receiving device, reads a radio signal and tries to interpret it as a redstone signal using the supplied rules. Can compare numbers as well as text (\"Strings\"), and will evaluate the signal in ascending or descending order, depending on how it is configured. The first condition that matches will determine the resulting redstone signal strength. If no condition matches, the resulting redstone output is 0.<br><br>Most commonly used along with the [[item counter|Redstone-over-Radio Item Counter]], since it's capable of comparing quantities of items that surpass the limitations of regular redstone signals with exact precision.",
-		"ru_RU": "Продвинутое принимающее [[редстуон-по-радио|Redstone over Radio]] устройство, которое считывает радиосигнал и интерпретирует его как редстоун-сигнал, используя имеющиеся правила. Может сравнивать числа и текст (\"Strings\"), а также оценивать сигналы в порядке возрастания или убывания в зависимости от настроек. Первое условие, удовлетворяющее правилу, определит итоговое значение силы редстоун-сигнала. Если же ни одно условие не выполняется, результирующее значение редстоун-сигнала будет равно 0.<br><br>Чаще всего используется вместе со [[считывателем предметов|Redstone-over-Radio Item Counter]], поскольку он способен с высокой точностью сравнивать количества предметов, которые превышают допустимый диапазон значений силы редстоун-сигналов."
+		"ru_RU": "Продвинутое принимающее [[редстуон-по-радио|Redstone over Radio]] устройство, которое считывает радиосигнал и интерпретирует его как редстоун-сигнал, используя имеющиеся правила. Может сравнивать числа и текст (\"Strings\"), а также оценивать сигналы в порядке возрастания или убывания в зависимости от настроек. Первое условие, удовлетворяющее правилу, определит итоговое значение силы редстоун-сигнала. Если же ни одно условие не выполняется, результирующее значение редстоун-сигнала будет равно 0.<br><br>Чаще всего используется вместе со [[считывателем предметов|Redstone-over-Radio Item Counter]], поскольку он способен с высокой точностью сравнивать количества предметов, которые превышают допустимый диапазон значений силы редстоун-сигналов.",
+		"zh_CN": "高级的[[无线红石信号|Redstone over Radio]]接收装置，可以读取无线红石信号并利用支持的 规则将其转换为红石信号。可以比较数值和文本（“字符串”），也可根据配 置，按照强度升序或降序对判断条件进行检查。第一个满足的条件会决定输出 的红石信号强度，如果所有条件均不满足，那么输出信号强度为0。<br><br>由于[[物品计数器|Redstone-over-Radio Item Counter]]可以以普通红石更高的精度检测数量超出普通红石能 处理的上限的的物品，逻辑接收器一般与物品计数器一同使用。"
 	}
 }

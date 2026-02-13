@@ -5,9 +5,11 @@
 		["hbm:item.ammo_standard", 1, 75]
 	],
 	"title": {
-		"en_US": "High Yield Mini Nuke"
+		"en_US": "High Yield Mini Nuke",
+		"zh_CN": "高当量迷你核弹"
 	},
 	"content": {
-		"en_US": "nuclear bobm<br>"
+		"en_US": "nuclear bobm<br>",
+		"zh_CN": "熊孩子福利（误）<br>"
 	}
 }

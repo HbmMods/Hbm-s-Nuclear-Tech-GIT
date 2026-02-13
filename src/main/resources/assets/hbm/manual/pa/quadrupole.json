@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.pa_quadrupole"]],
 	"title": {
 		"en_US": "Quadrupole Magnets",
-		"ru_RU": "Квадрупольный магнит"
+		"ru_RU": "Квадрупольный магнит",
+		"zh_CN": "四极磁铁"
 	},
 	"content": {
 		"en_US": "Active component of the [[particle accelerator|Particle Accelerator]]. Removes 100 points of defocus per pass, which accumulates by passing [[RF cavities|RF Cavity]].<br><br>This component uses [[large coils|Large Coil]], keep coil restrictions in mind when building the accelerator!<br><br>This component requires cooling through [[cold perfluoromethyl|Perfluoromethyl]]. The returned room temperature fluid can be cooled again using [[compressors|Compressor]].<br><br>This component is one-way only, make sure the particle follows the red arrows!",
-		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Снижает расфокусировку частицы на 100 единиц за проход, которая накапливается при прохождении [[радиочастотных резонаторов|RF Cavity]].<br><br>В этом компоненте используются [[большие катушки|Large Coil]], учитывайте их ограничения при сборке ускорителя!<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок."
+		"ru_RU": "Активный компонент [[ускорителя частиц|Particle Accelerator]]. Снижает расфокусировку частицы на 100 единиц за проход, которая накапливается при прохождении [[радиочастотных резонаторов|RF Cavity]].<br><br>В этом компоненте используются [[большие катушки|Large Coil]], учитывайте их ограничения при сборке ускорителя!<br><br>Этот компонент требует охлаждения [[холодным перфторметаном|Perfluoromethyl]]. Отработанную нагретую жидкость можно охладить с помощью [[компрессоров|Compressor]] и использовать повторно.<br><br>Пропускает частицы лишь в одну сторону, ввиду чего необходимо учитывать направление красных стрелок.",
+		"zh_CN": "[[粒子加速器|Particle Accelerator]]的工作部件。粒子通过[[射频腔|RF Cavity]]时失焦会增加，而通过四极 磁铁时失焦会降低100点。<br><br>此部件使用[[大型线圈|Large Coil]]，建造加速器时请注意线圈限制！<br><br>此部件需要[[冷四氟甲烷|Perfluoromethyl]]冷却，返还的普通四氟甲烷可以用[[压缩机|Compressor]] 重新冷却。<br><br>此部件只允许粒子单向通过，请确保粒子运行方向与红色箭头方向一致！"
 	}
 }
