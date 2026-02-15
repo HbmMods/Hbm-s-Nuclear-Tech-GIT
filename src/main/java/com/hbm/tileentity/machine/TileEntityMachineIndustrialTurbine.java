@@ -101,7 +101,8 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	public void onClientTick() {
 		
 		this.lastRotor = this.rotor;
-		this.rotor += this.spin * 30;
+		float speed = this.spin >= 0.5 ? 30 : (float) (Math.pow(this.spin * 2, 0.5) * 30);
+		this.rotor += speed;
 		
 		if(this.rotor >= 360) {
 			this.lastRotor -= 360;
