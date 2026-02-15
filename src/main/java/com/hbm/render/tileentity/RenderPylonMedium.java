@@ -28,20 +28,23 @@ public class RenderPylonMedium extends RenderPylonBase implements IItemRendererP
 		case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
-		
+
 		TileEntityPylonMedium pyl = (TileEntityPylonMedium)tile;
 
 		
 		if(tile.getBlockType() == ModBlocks.red_pylon_medium_steel || tile.getBlockType() == ModBlocks.red_pylon_medium_steel_transformer)
+		if(tile.getBlockType() == ModBlocks.red_pylon_medium_steel || tile.getBlockType() == ModBlocks.red_pylon_medium_steel_transformer || tile.getBlockType() == ModBlocks.red_pylon_medium_steel_connector)
 			bindTexture(ResourceManager.pylon_medium_steel_tex);
 		else
 			bindTexture(ResourceManager.pylon_medium_tex);
-		
+
 		ResourceManager.pylon_medium.renderPart("Pylon");
 		if(pyl.hasTransformer()) ResourceManager.pylon_medium.renderPart("Transformer");
-		
+		if(pyl.isConnector()) ResourceManager.pylon_medium.renderPart("Connector");
+		if(pyl.isConnector()) ResourceManager.pylon_medium.renderPart("Connector2");
+
 		GL11.glPopMatrix();
-		
+
 		GL11.glPushMatrix();
 		this.renderLinesGeneric(pyl, x, y, z);
 		GL11.glPopMatrix();
@@ -52,8 +55,11 @@ public class RenderPylonMedium extends RenderPylonBase implements IItemRendererP
 		return new Item[] {
 				Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood),
 				Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood_transformer),
+				Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood_connector),
 				Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel),
 				Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer)
+				Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer),
+				Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_connector)
 		};
 	}
 
@@ -63,6 +69,7 @@ public class RenderPylonMedium extends RenderPylonBase implements IItemRendererP
 	@Override
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase( ) {
+		return new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(1, -5, 0);
 				GL11.glScaled(4.5, 4.5, 4.5);
@@ -71,16 +78,24 @@ public class RenderPylonMedium extends RenderPylonBase implements IItemRendererP
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glTranslated(0.75, 0, 0);
-				
+
 				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel) || stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer))
+				Item item = stack.getItem();
+				
+				if(item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel) || item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer) || item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_connector))
 					bindTexture(ResourceManager.pylon_medium_steel_tex);
 				else
 					bindTexture(ResourceManager.pylon_medium_tex);
-				
+
 				ResourceManager.pylon_medium.renderPart("Pylon");
-				
+
 				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood_transformer) || stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer))
+				if(item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood_transformer) || item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_transformer))
 					ResourceManager.pylon_medium.renderPart("Transformer");
+				
+				if(item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_wood_connector) || item == Item.getItemFromBlock(ModBlocks.red_pylon_medium_steel_connector))
+					ResourceManager.pylon_medium.renderPart("Connector");
+					ResourceManager.pylon_medium.renderPart("Connector2");
 			}
 		};
 	}

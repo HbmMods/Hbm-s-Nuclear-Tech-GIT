@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.config.ClientConfig;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.network.TileEntityPylonBase;
+import com.hbm.tileentity.network.TileEntityPylonBase.ConnectionType;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -59,6 +60,16 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 					}
 
 					Vec3 second = m2[secondIndex];
+					
+					if(pyl.getConnectionType() == ConnectionType.TRIPLE && pylon.getConnectionType() == ConnectionType.SINGLE) {
+						Vec3 tap = pyl.getExtraMountPos();
+						first = Vec3.createVectorHelper(tap.xCoord - pyl.xCoord, tap.yCoord - pyl.yCoord, tap.zCoord - pyl.zCoord);
+					}
+					
+					if(pyl.getConnectionType() == ConnectionType.SINGLE && pylon.getConnectionType() == ConnectionType.TRIPLE) {
+						Vec3 tap = pylon.getExtraMountPos();
+						second = Vec3.createVectorHelper(tap.xCoord - pylon.xCoord, tap.yCoord - pylon.yCoord, tap.zCoord - pylon.zCoord);
+					}
 
 					double sX = second.xCoord + pylon.xCoord - pyl.xCoord;
 					double sY = second.yCoord + pylon.yCoord - pyl.yCoord;
