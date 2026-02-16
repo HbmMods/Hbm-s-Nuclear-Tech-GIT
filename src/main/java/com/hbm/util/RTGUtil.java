@@ -1,7 +1,7 @@
 package com.hbm.util;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.interfaces.ICustomWarhead.SaltedFuel.HalfLifeType;
+import com.hbm.interfaces.HalfLifeType;
 import com.hbm.items.machine.ItemRTGPellet;
 import net.minecraft.item.ItemStack;
 
