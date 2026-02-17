@@ -68,6 +68,10 @@ public class MobConfig {
 	public static double rampantSmokeStackOverride = 0.4;
 	public static double pollutionMult = 3;
 	
+	public static boolean trueRam() {
+		return rampantMode && rampantNaturalScoutSpawn && rampantScoutSpawnThresh <= 0.1 && rampantExtendedTargetting && rampantDig && rampantGlyphidGuidance;
+	}
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;

@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.config.ClientConfig;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.MobConfig;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
@@ -66,24 +68,13 @@ public class RenderScreenOverlay {
 		gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
 		gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
 
-		if(radiation >= 25) {
-			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
+		if(radiation >= 25) gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
+		else if(radiation >= 10) gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
+		else if(radiation >= 2.5) gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
 
-		} else if(radiation >= 10) {
-			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
-
-		} else if(radiation >= 2.5) {
-			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
-
-		}
-
-		if(radiation > 1000) {
-			Minecraft.getMinecraft().fontRenderer.drawString(">1000 RAD/s", posX, posY - 8, 0xFF0000);
-		} else if(radiation >= 1) {
-			Minecraft.getMinecraft().fontRenderer.drawString(((int) Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
-		} else if(radiation > 0) {
-			Minecraft.getMinecraft().fontRenderer.drawString("<1 RAD/s", posX, posY - 8, 0xFF0000);
-		}
+		if(radiation > 1000) Minecraft.getMinecraft().fontRenderer.drawString(">1000 RAD/s", posX, posY - 8, 0xFF0000);
+		else if(radiation >= 1) Minecraft.getMinecraft().fontRenderer.drawString(((int) Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
+		else if(radiation > 0) Minecraft.getMinecraft().fontRenderer.drawString("<1 RAD/s", posX, posY - 8, 0xFF0000);
 
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
@@ -92,7 +83,6 @@ public class RenderScreenOverlay {
 	}
 	
 	private static int getScaled(double cur, double max, double scale) {
-		
 		return (int) Math.min(cur / max * scale, scale);
 	}
 
@@ -185,22 +175,20 @@ public class RenderScreenOverlay {
 	
 	@Spaghetti ("like a fella once said, aint that a kick in the head")
 	public static void renderDashBar(ScaledResolution resolution, Gui gui, HbmPlayerProps props) {
-		
-		
+
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		int width = 30;
-		
-		int posX = 16;//(int)(resolution.getScaledWidth()/2 - ((props.getDashCount()*(width+2))/2));
+		int posX = 16;
 		int posY = resolution.getScaledHeight() - 40 - 2;
 		
 		mc.renderEngine.bindTexture(misc);
@@ -208,12 +196,7 @@ public class RenderScreenOverlay {
 		gui.drawTexturedModalRect(posX-10, posY, 107, 18, 7, 10); 
 		
 		int stamina = props.getStamina();
-		
 		int dashes = props.getDashCount();
-		
-		//int count = props.getDashCount();
-		//int x3count = count / 3;
-		
 		int rows = dashes / 3;
 		int finalColumns = dashes % 3;
 		
@@ -231,9 +214,8 @@ public class RenderScreenOverlay {
 					barStatus = 3;
 				} else if(staminaDiv == barID) {
 					barStatus = 2;
-					barSize = (int)((float)(stamina % 30) * (width/30F) );
-					if(barID == 0)
-						barStatus = 0;
+					barSize = (int) ((float) (stamina % 30) * (width/30F));
+					if(barID == 0) barStatus = 0;
 				}
 				gui.drawTexturedModalRect(posX + (width+2)*x, posY - 12*y, 76, 18+(10*barStatus), barSize, 10);
 				
@@ -243,10 +225,9 @@ public class RenderScreenOverlay {
 				if(fadeOut > 0 && staminaDiv-1 == barID) {
 					GL11.glColor4f(1F, 1F, 1F, fadeOut);
 					int bar = barID;
-					if(stamina % 30 >= 25) 
-						bar++;
-					if(bar / 3 != y)
-						y++;
+					if(stamina % 30 >= 25) bar++;
+					if(bar / 3 != y) y++;
+					
 					bar = bar % 3;
 					gui.drawTexturedModalRect(posX + (width + 2) * bar, posY - 12 * y, 76, 58, width, 10);
 					fadeOut -= 0.04F;
@@ -255,45 +236,10 @@ public class RenderScreenOverlay {
 			}
 		}
 		
-		/*for(int x = 0; x < props.getDashCount(); x++) {
-			int status = 3;
-			gui.drawTexturedModalRect(posX + (24)*x, posY, 76, 48, 24, 10);
-			int staminaDiv = stamina / 60;
-			if(staminaDiv > x) {
-				status = 1;
-			} else if(staminaDiv == x) {
-				width = (int)( (float)(stamina % 60) * (width/60F) );
-				status = 2;
-				if(staminaDiv == 0)
-					status = 0;
-			}
-			/*if(staminaDiv-1 == x && (stamina % 60 < 20 && stamina % 60 != 0)) {
-				status = 4;
-			}
-			/*if(((staminaDiv == x && stamina % 60 >= 55) || (staminaDiv-1 == x && stamina % 60 <= 5)) && !(stamina == props.totalDashCount * 60)) {
-				status = 4;
-			}
-			gui.drawTexturedModalRect(posX + (24)*x, posY, 76, 18+(10*status), width, 10); 
-			
-			if(staminaDiv == x && stamina % 60 >= 57) {
-				fadeOut = 1F;
-			}
-			if(fadeOut > 0 && staminaDiv-1 == x) {
-				GL11.glColor4f(1F, 1F, 1F, fadeOut);
-				int bar = x;
-				if(stamina % 60 >= 50)
-					bar++;
-				System.out.println(bar);
-				gui.drawTexturedModalRect(posX + 24*bar, posY, 76, 58, width, 10);
-				fadeOut -= 0.04F;
-				GL11.glColor4f(1F, 1F, 1F, 1F);
-			}
-		}*/
-		
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glPopMatrix();
+		GL11.glDepthMask(true);
+		GL11.glPopMatrix();
 		mc.renderEngine.bindTexture(Gui.icons);
 	}
 	
@@ -330,8 +276,6 @@ public class RenderScreenOverlay {
 	public static void renderScope(ScaledResolution res, ResourceLocation tex) {
 
 		GL11.glEnable(GL11.GL_BLEND);
-		//GL11.glDisable(GL11.GL_DEPTH_TEST);
-		//GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -366,5 +310,43 @@ public class RenderScreenOverlay {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+	
+	public static void renderBadges(ScaledResolution res, Gui gui) {
+		
+		GL11.glPushMatrix();
+		
+		Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
+		
+		int offsetX = 2;
+		int offsetY = 2;
+		int width = 26;
+		
+		boolean true528 = GeneralConfig.true528();
+		boolean trueExp = GeneralConfig.trueExp();
+		boolean trueRam = MobConfig.trueRam();
+		boolean true328 = true528 && trueExp && trueRam;
+		
+		if(true528) { gui.drawTexturedModalRect(offsetX, offsetY, 0, 218, 24, 8); offsetX += width; }
+		if(trueExp) { gui.drawTexturedModalRect(offsetX, offsetY, 0, 226, 24, 8); offsetX += width; }
+		if(trueRam) { gui.drawTexturedModalRect(offsetX, offsetY, 0, 234, 24, 8); offsetX += width; }
+		if(true328) { gui.drawTexturedModalRect(offsetX, offsetY, 0, 242, 24, 8); offsetX += width; }
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
 	}
 }

@@ -1,6 +1,8 @@
 package com.hbm.config;
 
 import net.minecraftforge.common.config.Configuration;
+
+import com.hbm.inventory.recipes.PrecAssRecipes;
 import com.hbm.lib.RefStrings;
 public class GeneralConfig {
 
@@ -42,6 +44,10 @@ public class GeneralConfig {
 	public static int normalSoundChannels = 200;
 
 	public static boolean enableExpensiveMode = false;
+	
+	public static boolean trueExp() {
+		return enableExpensiveMode && !PrecAssRecipes.INSTANCE.modified;
+	}
 
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -52,6 +58,11 @@ public class GeneralConfig {
 	public static boolean enable528PressurizedRecipes = true;
 	public static boolean enable528ExplosiveEnergistics = true;
 	public static int coltanRate = 2;
+	
+	public static boolean true528() {
+		return enable528 && enable528ReasimBoilers && !enable528ColtanSpawn && enable528BosniaSimulator &&
+				enable528NetherBurn && enable528PressurizedRecipes && enable528ExplosiveEnergistics && coltanRate <= 2;
+	}
 
 	public static boolean enableLBSM = false;
 	public static boolean enableLBSMFullSchrab = true;

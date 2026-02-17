@@ -15,6 +15,12 @@
 * The PWR can now be controlled via RoR
   * The RoR value reader can read core and hull heat as well as fuel depletion in percent
   * The RoR controller can set the control rod level in percent as well as jetison all loaded fuel
+* Having 528, expensive or rampant mode enabled now displays a badge in the top left corner, showing that it is enabled
+  * Badges can be disabled with the `BADGES_HUD` value of `/ntmclient`
+  * The badge only shows up if the "true" configuration is used, 528 requires default settings, expensive requires the precision assembler config to not be modified and rampant needs most of the default settings enabled
+  * If all three modes are enabled, the "328 mode" badge also appears
 
 # Fixed
 * Fixed proxy tiles that do not use electricity at all visually connecting to cables
+* Fixed missing texture for canned horse slime
+* Fixed incorrect ore dictionary key used by enriched naquadah watz pellet recipe
