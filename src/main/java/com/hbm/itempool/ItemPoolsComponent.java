@@ -122,10 +122,10 @@ public class ItemPoolsComponent {
 					weighted(Items.map, 0, 1, 1, 50),
 					weighted(Items.writable_book, 0, 1, 1, 30),
 					weighted(ModItems.cigarette, 0, 1, 16, 20),
-					weighted(ModItems.toothpicks, 0, 1, 16, 10),
 					weighted(ModItems.dust, 0, 1, 1, 40),
 					weighted(ModItems.dust_tiny, 0, 1, 3, 75),
 					weighted(ModItems.ink, 0, 1, 1, 1),
+					weighted(ModItems.screwdriver, 0, 1, 1, 10),
 					weighted(ModItems.blueprint_folder, 0, 1, 1, 5)
 			};
 		}};

@@ -1479,6 +1479,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sat_resonator");
 		ignoreMappings.add("hbm:item.sliding_blast_door_skin");
 		ignoreMappings.add("hbm:tile.dummy_block_vault");
+		ignoreMappings.add("hbm:item.toothpicks");
+		ignoreMappings.add("hbm:item.ams_focus_blank");
+		ignoreMappings.add("hbm:item.ams_focus_limiter");
+		ignoreMappings.add("hbm:item.ams_focus_booster");
+		ignoreMappings.add("hbm:item.ams_muzzle");
+		ignoreMappings.add("hbm:tile.machine_transformer_dnt");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -587,7 +587,7 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void onRenderHand(RenderHandEvent event) {
 
-		//can't use plaxer.getHeldItem() here because the item rendering persists for a few frames after hitting the switch key
+		//can't use player.getHeldItem() here because the item rendering persists for a few frames after hitting the switch key
 		ItemStack toRender = Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender;
 
 		if(toRender != null) {

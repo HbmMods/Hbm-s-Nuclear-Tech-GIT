@@ -54,21 +54,24 @@ public class BlockCrashedBomb extends BlockEnumMulti implements ITileEntityProvi
 			
 			EnumDudType type = EnumUtil.grabEnumSafely(EnumDudType.class, world.getBlockMetadata(x, y, z));
 
-			//TODO: make this less scummy
 			if(type == type.BALEFIRE) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.egg_balefire_shard)));
+				dropItems(world, x, y, z,
+						new ItemStack(ModItems.egg_balefire_shard));
 			}
 			if(type == type.CONVENTIONAL) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ball_tnt, 16)));
+				dropItems(world, x, y, z,
+						new ItemStack(ModItems.ball_tnt, 16));
 			}
 			if(type == type.NUKE) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ball_tnt, 8)));
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.billet_plutonium, 4)));
+				dropItems(world, x, y, z,
+						new ItemStack(ModItems.ball_tnt, 8),
+						new ItemStack(ModItems.billet_plutonium, 4));
 			}
 			if(type == type.SALTED) {
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ball_tnt, 8)));
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.billet_plutonium, 2)));
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.ingot_cobalt, 12)));
+				dropItems(world, x, y, z,
+						new ItemStack(ModItems.ball_tnt, 8),
+						new ItemStack(ModItems.billet_plutonium, 2),
+						new ItemStack(ModItems.ingot_cobalt, 12));
 			}
 			
 			world.func_147480_a(x, y, z, false);
@@ -76,6 +79,10 @@ public class BlockCrashedBomb extends BlockEnumMulti implements ITileEntityProvi
 		}
 
 		return false;
+	}
+	
+	public static void dropItems(World world, int x, int y, int z, ItemStack... drops) {
+		for(ItemStack drop : drops) world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, drop));
 	}
 
 	@Override

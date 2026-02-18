@@ -19,8 +19,11 @@
   * Badges can be disabled with the `BADGES_HUD` value of `/ntmclient`
   * The badge only shows up if the "true" configuration is used, 528 requires default settings, expensive requires the precision assembler config to not be modified and rampant needs most of the default settings enabled
   * If all three modes are enabled, the "328 mode" badge also appears
+* Removed toothpicks, as they haven't been used in recipes for well over a year
+* Cleaned up a ton of unused assets
 
 # Fixed
 * Fixed proxy tiles that do not use electricity at all visually connecting to cables
 * Fixed missing texture for canned horse slime
 * Fixed incorrect ore dictionary key used by enriched naquadah watz pellet recipe
+* Fixed out of bounds light level for the RTG blast furnace

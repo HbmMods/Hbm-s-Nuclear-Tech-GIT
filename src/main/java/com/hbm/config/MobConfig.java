@@ -69,7 +69,7 @@ public class MobConfig {
 	public static double pollutionMult = 3;
 	
 	public static boolean trueRam() {
-		return rampantMode && rampantNaturalScoutSpawn && rampantScoutSpawnThresh <= 0.1 && rampantExtendedTargetting && rampantDig && rampantGlyphidGuidance;
+		return rampantMode && rampantNaturalScoutSpawn && scoutThreshold <= 0.1 && rampantExtendedTargetting && rampantDig && rampantGlyphidGuidance;
 	}
 	
 	public static void loadFromConfig(Configuration config) {

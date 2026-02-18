@@ -14,7 +14,7 @@ public class MachineTransformer extends Block {
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
-	public MachineTransformer(Material p_i45394_1_, long b, int d) {
+	public MachineTransformer(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
 
@@ -25,10 +25,6 @@ public class MachineTransformer extends Block {
 		if(this == ModBlocks.machine_transformer) {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top_iron");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_iron");
-		}
-		if(this == ModBlocks.machine_transformer_dnt) {
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer");
 		}
 	}
 
