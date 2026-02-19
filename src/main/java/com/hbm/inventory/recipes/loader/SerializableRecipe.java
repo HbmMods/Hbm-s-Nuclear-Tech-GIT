@@ -24,6 +24,7 @@ import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
 
@@ -89,7 +90,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new AnvilRecipes());
 		recipeHandlers.add(new PedestalRecipes());
 		recipeHandlers.add(new AnnihilatorRecipes());
-		
+
 		//GENERIC
 		recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
 		recipeHandlers.add(ChemicalPlantRecipes.INSTANCE);
@@ -118,7 +119,7 @@ public abstract class SerializableRecipe {
 		MainRegistry.logger.info("Starting recipe init!");
 
 		GenericRecipes.clearPools();
-		
+
 		for(SerializableRecipe recipe : recipeHandlers) {
 
 			recipe.deleteRecipes();
@@ -362,6 +363,21 @@ public abstract class SerializableRecipe {
 		return new Pair[0];
 	}
 
+	public static ItemStack readBlueprintItemStack(JsonArray array) {
+		try {
+			Item item = (Item) Item.itemRegistry.getObject(array.get(0).getAsString());
+			String pool = array.size() > 1 ?  array.get(1).getAsString() : null ;
+			if(item instanceof ItemBlueprints) {
+				if(pool != null){
+					return ItemBlueprints.make(pool);
+				}
+				 else return new ItemStack(item);
+			}
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading stack array " + array.toString() + " - defaulting to NOTHING item!");
+		return new ItemStack(ModItems.nothing);
+	}
+
 	public static void writeItemStack(ItemStack stack, JsonWriter writer) throws IOException {
 		writer.beginArray();
 		writer.setIndent("");
@@ -379,6 +395,14 @@ public abstract class SerializableRecipe {
 		if(stack.getKey().stackSize != 1 || stack.getKey().getItemDamage() != 0) writer.value(stack.getKey().stackSize);	//stack size
 		if(stack.getKey().getItemDamage() != 0) writer.value(stack.getKey().getItemDamage());								//metadata
 		writer.value(stack.value);																							//chance
+		writer.endArray();
+		writer.setIndent("  ");
+	}
+	public static void writeBlueprintItemStack(ItemStack stack, JsonWriter writer) throws IOException {
+		writer.beginArray();
+		writer.setIndent("");
+		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));						//item name
+		writer.value(ItemBlueprints.grabPool(stack));	//pool name
 		writer.endArray();
 		writer.setIndent("  ");
 	}
