@@ -4,6 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -233,5 +236,17 @@ public class ItemStackUtil {
 	
 	public static boolean areStacksCompatible(ItemStack sta1, ItemStack sta2) {
 		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage() && ItemStack.areItemStackTagsEqual(sta1, sta2);
+	}
+	
+	/** I can never remember where this fucking util crap is, so I just write my own wrapper */
+	public static void addNBTFromString(ItemStack stack, String nbt) {
+		
+		try {
+			NBTBase compound = JsonToNBT.func_150315_a(nbt);
+			if(compound instanceof NBTTagCompound) {
+				stack.stackTagCompound = (NBTTagCompound) compound;
+			}
+			
+		} catch(NBTException e) { }
 	}
 }

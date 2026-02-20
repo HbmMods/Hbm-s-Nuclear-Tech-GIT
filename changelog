@@ -27,3 +27,4 @@
 * Fixed missing texture for canned horse slime
 * Fixed incorrect ore dictionary key used by enriched naquadah watz pellet recipe
 * Fixed out of bounds light level for the RTG blast furnace
+* Fixed the recipe configs now allowing NBT data for output items, rendering the precision assembler and annihilator configs useless
