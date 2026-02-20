@@ -1778,6 +1778,10 @@ public class ModItems {
 	public static Item rpa_plate;
 	public static Item rpa_legs;
 	public static Item rpa_boots;
+	public static Item ncrpa_helmet;
+	public static Item ncrpa_plate;
+	public static Item ncrpa_legs;
+	public static Item ncrpa_boots;
 	public static Item bismuth_helmet;
 	public static Item bismuth_plate;
 	public static Item bismuth_legs;
@@ -4253,6 +4257,20 @@ public class ModItems {
 		rpa_plate = new ArmorRPA(aMatAJR, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("rpa_plate").setTextureName(RefStrings.MODID + ":rpa_plate");
 		rpa_legs = new ArmorRPA(aMatAJR, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("rpa_legs").setTextureName(RefStrings.MODID + ":rpa_legs");
 		rpa_boots = new ArmorRPA(aMatAJR, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("rpa_boots").setTextureName(RefStrings.MODID + ":rpa_boots");
+
+		ncrpa_helmet = new ArmorNCRPA(aMatAJR, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25)
+				.enableVATS(true)
+				.setHasGeigerSound(true)
+				.setHasHardLanding(true)
+				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 3))
+				.setStep("hbm:step.powered")
+				.setJump("hbm:step.powered")
+				.setFall("hbm:step.powered")
+				.hides(EnumPlayerPart.HAT)
+				.setUnlocalizedName("ncrpa_helmet").setTextureName(RefStrings.MODID + ":rpa_helmet");
+		ncrpa_plate = new ArmorNCRPA(aMatAJR, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("ncrpa_plate").setTextureName(RefStrings.MODID + ":rpa_plate");
+		ncrpa_legs = new ArmorNCRPA(aMatAJR, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("ncrpa_legs").setTextureName(RefStrings.MODID + ":rpa_legs");
+		ncrpa_boots = new ArmorNCRPA(aMatAJR, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) rpa_helmet).setUnlocalizedName("ncrpa_boots").setTextureName(RefStrings.MODID + ":rpa_boots");
 
 		ArmorMaterial aMatBJ = EnumHelper.addArmorMaterial("HBM_BLACKJACK", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatBJ.customCraftingMaterial = ModItems.plate_armor_lunar;
@@ -6807,6 +6825,10 @@ public class ModItems {
 		GameRegistry.registerItem(rpa_plate, rpa_plate.getUnlocalizedName());
 		GameRegistry.registerItem(rpa_legs, rpa_legs.getUnlocalizedName());
 		GameRegistry.registerItem(rpa_boots, rpa_boots.getUnlocalizedName());
+		GameRegistry.registerItem(ncrpa_helmet, ncrpa_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(ncrpa_plate, ncrpa_plate.getUnlocalizedName());
+		GameRegistry.registerItem(ncrpa_legs, ncrpa_legs.getUnlocalizedName());
+		GameRegistry.registerItem(ncrpa_boots, ncrpa_boots.getUnlocalizedName());
 		GameRegistry.registerItem(bj_helmet, bj_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate, bj_plate.getUnlocalizedName());
 		GameRegistry.registerItem(bj_plate_jetpack, bj_plate_jetpack.getUnlocalizedName());

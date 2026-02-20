@@ -26,12 +26,12 @@ public class S_GroupObject {
 		if (this.faces.size() > 0) {
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawing(this.glDrawingMode);
-			render(tessellator);
+			tessellate(tessellator);
 			tessellator.draw();
 		}
 	}
 
-	public void render(Tessellator tessellator) {
+	public void tessellate(Tessellator tessellator) {
 		if (this.faces.size() > 0) {
 			for (S_Face face : this.faces) {
 				face.addFaceForRender(tessellator);
