@@ -53,6 +53,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	public int heat;
 	public static final int maxHeat = 100000;
+	public boolean redstonePowered = false;
 	public int pressure;
 	public static final int maxPressure = 100000;
 	public boolean isOn = false;
@@ -84,6 +85,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 8000);
 		carbonDioxide = new FluidTank(Fluids.CARBONDIOXIDE, 16000);
 		water = new FluidTank(Fluids.WATER, 32000);
+	}
+	public void setRedstonePowered(boolean powered) {
+		this.redstonePowered = powered;
+		if (!powered) {
+			isOn = false;
+		}
 	}
 
 	@Override
@@ -176,7 +183,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
+			if (redstonePowered) {
+				isOn = true;
+			}
 			this.output = 0;
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
@@ -429,7 +438,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		if(data.hasKey("control")) {
+		if(data.hasKey("control") && !redstonePowered) {
 			this.isOn = !this.isOn;
 		}
 
