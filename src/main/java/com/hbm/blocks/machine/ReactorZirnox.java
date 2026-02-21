@@ -91,28 +91,20 @@ public class ReactorZirnox extends BlockDummyable {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
 		if (world.isRemote) return;
-
-		// 1. Trova il controller
 		int[] core = this.findCore(world, x, y, z);
 		if (core == null) return;
-
 		int cx = core[0];
 		int cy = core[1];
 		int cz = core[2];
-
 		TileEntity te = world.getTileEntity(cx, cy, cz);
 		if (!(te instanceof TileEntityReactorZirnox)) return;
-
 		TileEntityReactorZirnox reactor = (TileEntityReactorZirnox) te;
-
 		boolean powered = false;
-
-		// 2. Scansiona la superficie del multiblock 5x5x5
+		// 2. Scan multiblock
 		for (int dx = -2; dx <= 2 && !powered; dx++) {
 			for (int dy = 0; dy <= 4 && !powered; dy++) {
 				for (int dz = -2; dz <= 2 && !powered; dz++) {
-
-					// Solo superficie
+					// Get only surface blocks
 					if (dx == -2 || dx == 2 ||
 						dy == 0  || dy == 4 ||
 						dz == -2 || dz == 2) {
@@ -131,8 +123,6 @@ public class ReactorZirnox extends BlockDummyable {
 				}
 			}
 		}
-
-		// 3. Aggiorna la TileEntity
 		reactor.setRedstonePowered(powered);
 	}
 
