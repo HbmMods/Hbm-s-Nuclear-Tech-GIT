@@ -66,7 +66,7 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 2), new Object[] { new ItemStack(ModItems.rod_dual, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.cell_tritium, 4), new Object[] { new ItemStack(ModItems.rod_quad, 1, BreedingRodType.TRITIUM.ordinal()), ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty, ModItems.cell_empty });
 
-		addBreedingRod(CO, ModItems.billet_cobalt, BreedingRodType.CO);
+        addBreedingRod(CO, ModItems.billet_cobalt, BreedingRodType.CO);
 		addBreedingRod(CO60, ModItems.billet_co60, BreedingRodType.CO60);
 		addBreedingRod(RA226, ModItems.billet_ra226, BreedingRodType.RA226);
 		addBreedingRod(AC227, ModItems.billet_actinium, BreedingRodType.AC227);
@@ -77,7 +77,21 @@ public class RodRecipes {
 		addBreedingRod(U238, ModItems.billet_u238, BreedingRodType.U238);
 		addBreedingRod(PU238, ModItems.billet_pu238, BreedingRodType.PU238);
 		addBreedingRod(PU239, ModItems.billet_pu239, BreedingRodType.PU239);
+		addBreedingRod(PU240, ModItems.billet_pu240, BreedingRodType.PU240);
+		addBreedingRod(PU241, ModItems.billet_pu241, BreedingRodType.PU241);
+		addBreedingRod(AM241, ModItems.billet_am241, BreedingRodType.AM241);
+		addBreedingRod(AM242, ModItems.billet_am242, BreedingRodType.AM242);
+		addBreedingRod(CM242, ModItems.billet_cm242, BreedingRodType.CM242);
+		addBreedingRod(CM243, ModItems.billet_cm243, BreedingRodType.CM243);
+		addBreedingRod(CM244, ModItems.billet_cm244, BreedingRodType.CM244);
+		addBreedingRod(CM245, ModItems.billet_cm245, BreedingRodType.CM245);
+		addBreedingRod(CF249, ModItems.billet_cf249, BreedingRodType.CF249);
+		addBreedingRod(CF250, ModItems.billet_cf250, BreedingRodType.CF250);
+		addBreedingRod(CF251, ModItems.billet_cf251, BreedingRodType.CF251);
+		addBreedingRod(CF252, ModItems.billet_cf252, BreedingRodType.CF252);
 		addBreedingRod(ModItems.billet_pu_mix, BreedingRodType.RGP);
+		addBreedingRod(ModItems.billet_am_mix, BreedingRodType.RGA);
+		addBreedingRod(ModItems.billet_cm_mix, BreedingRodType.RGC);
 		addBreedingRod(ModItems.billet_nuclear_waste, BreedingRodType.WASTE);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod, 1, BreedingRodType.LEAD.ordinal()), new Object[] { ModItems.rod_empty, PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 6), new Object[] { new ItemStack(ModItems.rod, 1, BreedingRodType.LEAD.ordinal()) });
@@ -95,7 +109,7 @@ public class RodRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pile_rod_lithium, 1), new Object[] { ModItems.cell_empty, LI.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pile_rod_detector, 1), new Object[] { " B ", "CM ", " B ", 'B', B.ingot(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE), 'M', ModItems.motor });
 		
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', ZR.ingot(), 'R', ModItems.rod_quad_empty });
+	    CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_fuel_empty, 1), new Object[] { "ZRZ", "Z Z", "ZRZ", 'Z', ZR.ingot(), 'R', ModItems.rod_quad_empty });
 		addRBMKRod(U, ModItems.rbmk_fuel_ueu);
 		addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
 		addRBMKRod(U233, ModItems.rbmk_fuel_heu233);
@@ -110,11 +124,16 @@ public class RodRecipes {
 		addRBMKRod(AMRG, ModItems.rbmk_fuel_mea);
 		addRBMKRod(AM241, ModItems.rbmk_fuel_hea241);
 		addRBMKRod(AM242, ModItems.rbmk_fuel_hea242);
+		addRBMKRod(CMF, ModItems.billet_cm_fuel, ModItems.rbmk_fuel_lec);
+		addRBMKRod(CMRG, ModItems.rbmk_fuel_mec);
+		addRBMKRod(CM245, ModItems.rbmk_fuel_hec245);
+		addRBMKRod(CM247, ModItems.rbmk_fuel_hec247);
 		addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
 		addRBMKRod(NP237, ModItems.rbmk_fuel_hen);
 		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
 		addRBMKRod(ModItems.billet_ra226be, ModItems.rbmk_fuel_ra226be);
 		addRBMKRod(ModItems.billet_pu238be, ModItems.rbmk_fuel_pu238be);
+		addRBMKRod(ModItems.billet_cm242be, ModItems.rbmk_fuel_cm242be);
 		addRBMKRod(ModItems.billet_australium_lesser, ModItems.rbmk_fuel_leaus);
 		addRBMKRod(ModItems.billet_australium_greater, ModItems.rbmk_fuel_heaus);
 		addRBMKRod(ModItems.egg_balefire_shard, ModItems.rbmk_fuel_balefire);
@@ -126,12 +145,19 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_zfb_bismuth, ModItems.rbmk_fuel_zfb_bismuth);
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
+		addRBMKRod(ModItems.billet_zfb_cm_mix, ModItems.rbmk_fuel_zfb_cm_mix);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
 
 		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
 		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
 		addPellet(ModItems.ingot_schrabidium_fuel,	EnumWatzType.MES);
 		addPellet(ModItems.ingot_les,				EnumWatzType.LES);
+		addPellet(AMF,	                            EnumWatzType.LEA);
+		addPellet(AMRG,			                    EnumWatzType.MEA);
+		addPellet(AM241,			                EnumWatzType.HEA);
+		addPellet(CMF,			                    EnumWatzType.LEC);
+		addPellet(CMRG,			                    EnumWatzType.MEC);
+		addPellet(CM247,			                EnumWatzType.HEC);
 		addPellet(NP237,							EnumWatzType.HEN);
 		addPellet(ModItems.ingot_uranium_fuel,		EnumWatzType.MEU);
 		addPellet(ModItems.ingot_pu_mix,			EnumWatzType.MEP);
@@ -151,10 +177,14 @@ public class RodRecipes {
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEP241), new Object[] { "F", "I", "F", 'F', PU241.billet(), 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEA), new Object[] { "F", "I", "F", 'F', ModItems.billet_am_mix, 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEA242), new Object[] { "F", "I", "F", 'F', AM242.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.MEC), new Object[] { "F", "I", "F", 'F', ModItems.billet_cm_mix, 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEC245), new Object[] { "F", "I", "F", 'F', CM245.billet(), 'I', ModItems.plate_polymer });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HEC247), new Object[] { "F", "I", "F", 'F', CM247.billet(), 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HES326), new Object[] { "F", "I", "F", 'F', SA326.billet(), 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.HES327), new Object[] { "F", "I", "F", 'F', SA327.billet(), 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_AM_MIX), new Object[] { "NFN", "NIN", "NBN", 'F', ModItems.billet_am_mix, 'I', ModItems.plate_polymer, 'B', BI.billet(), 'N', ModItems.nugget_plutonium_fuel });
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_PU241), new Object[] { "NFN", "NIN", "NBN", 'F', PU241.billet(), 'I', ModItems.plate_polymer, 'B', BI.billet(), 'N', ModItems.nugget_uranium_fuel });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.pwr_fuel, EnumPWRFuel.BFB_CM_MIX), new Object[] { "NFN", "NIN", "NBN", 'F',ModItems.billet_cm_mix, 'I', ModItems.plate_polymer, 'B', BI.billet(), 'N', ModItems.nugget_uranium_fuel });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.icf_pellet_empty), new Object[] { "ZLZ", "L L", "ZLZ", 'Z', ZR.wireFine(), 'L', PB.wireFine() });
 	}
