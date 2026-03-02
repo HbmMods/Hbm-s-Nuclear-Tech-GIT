@@ -31,9 +31,20 @@ public class BreederRecipes extends SerializableRecipe {
 		setRecipe(BreedingRodType.U235, BreedingRodType.NP237, 300);
 		setRecipe(BreedingRodType.NP237, BreedingRodType.PU238, 200);
 		setRecipe(BreedingRodType.PU238, BreedingRodType.PU239, 1000);
+		setRecipe(BreedingRodType.PU239, BreedingRodType.PU240, 600);
+		setRecipe(BreedingRodType.PU240, BreedingRodType.PU241, 900);
+		setRecipe(BreedingRodType.AM241, BreedingRodType.AM242, 700);
+		setRecipe(BreedingRodType.AM242, BreedingRodType.AM243, 200);
+		setRecipe(BreedingRodType.CM242, BreedingRodType.CM243, 900);
+		setRecipe(BreedingRodType.CM243, BreedingRodType.CM244, 700);
+		setRecipe(BreedingRodType.CM244, BreedingRodType.CM245, 900);
+		setRecipe(BreedingRodType.CF249, BreedingRodType.CF250, 700);
+		setRecipe(BreedingRodType.CF250, BreedingRodType.CF251, 600);
+		setRecipe(BreedingRodType.CF251, BreedingRodType.CF252, 300);
 		setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 300);
 		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
-		setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
+		setRecipe(BreedingRodType.RGP, BreedingRodType.RGA, 400);
+		setRecipe(BreedingRodType.RGA, BreedingRodType.RGC, 600);
 		
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
 	}
