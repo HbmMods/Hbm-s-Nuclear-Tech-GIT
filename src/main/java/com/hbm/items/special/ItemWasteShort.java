@@ -50,7 +50,14 @@ public class ItemWasteShort extends Item {
 		PLUTONIUM239("Plutonium-239", 250, 1000),	//funny fission fragments + pu240 and 241 / u238 (actually u236 but fuck you)
 		PLUTONIUM240("Plutonium-240", 350, 1000),	//funny fission fragments + pu241 / u238  + lead
 		PLUTONIUM241("Plutonium-241", 500, 1000),	//funny fission fragments + am241 / 242 / np237 + bismuth
-		AMERICIUM242("Americium-242", 750, 1000),	//funny fission fragments + californium / np237 + pu241
+		AMERICIUM241("Americium-241", 700, 1000),	//funny fission fragments / np237 / pu241 / am242 / cm242
+		AMERICIUM242("Americium-242", 750, 1000),	//funny fission fragments / pu238 + cm243
+		AMERICIUM243("Americium-243", 450, 1000),	//funny fission fragments / pu238 + cm244
+		CURIUM242("Curium-242", 800, 1000),	//funny fission fragments / curium 243,244,245
+		CURIUM243("Curium-243", 400, 1000),	//funny fission fragments / curium 244,245,246 
+		CURIUM244("Curium-244", 450, 1000),	//funny fission fragments / curium 245, 246, 247, 
+		CURIUM245("Curium-245", 500, 1000),	//funny fission fragments / curium 246, 247, berkelium 249 
+		CURIUM247("Curium-247", 350, 1000),	//funny fission fragments / berkelium 249 + californium 249, 250, 251
 		SCHRABIDIUM("Schrabidium-326", 1000, 1000); //funniest fission fragments
 		
 		public String name;
