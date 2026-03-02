@@ -1,10 +1,14 @@
 package com.hbm.hrist;
 
+import java.util.Random;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.hrist.ConduitPiece.ConnectionDefinition;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -52,5 +56,11 @@ public class BlockConduitStraight extends BlockDummyable {
 				x + 0.5 + rot.offsetX * 0.5 - dir.offsetX * 2.5, y,
 				z + 0.5 + rot.offsetZ * 0.5 - dir.offsetZ * 2.5, dir.getOpposite());
 		return new ConduitPiece(new ConnectionDefinition(d0, d1));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		world.spawnParticle("smoke", x + rand.nextFloat(), y + 1, z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 	}
 }

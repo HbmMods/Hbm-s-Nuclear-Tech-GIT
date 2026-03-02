@@ -24,6 +24,7 @@ import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
 import com.hbm.hrist.BlockConduitBend;
 import com.hbm.hrist.BlockConduitStraight;
+import com.hbm.hrist.BlockConduitSwitch;
 import com.hbm.items.block.*;
 import com.hbm.items.bomb.ItemPrototypeBlock;
 import com.hbm.items.special.ItemOreBlock;
@@ -1240,6 +1241,7 @@ public class ModBlocks {
 	
 	public static Block conduit_straight;
 	public static Block conduit_bend;
+	public static Block conduit_switch;
 
 	private static void initializeBlock() {
 
@@ -2394,6 +2396,7 @@ public class ModBlocks {
 
 		conduit_straight = new BlockConduitStraight().setBlockName("conduit_straight").setBlockTextureName(RefStrings.MODID + ":block_steel");
 		conduit_bend = new BlockConduitBend().setBlockName("conduit_bend").setBlockTextureName(RefStrings.MODID + ":block_steel");
+		conduit_switch = new BlockConduitSwitch().setBlockName("conduit_switch").setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -3550,6 +3553,7 @@ public class ModBlocks {
 
 		register(conduit_straight);
 		register(conduit_bend);
+		register(conduit_switch);
 	}
 
 	private static void register(Block b) {

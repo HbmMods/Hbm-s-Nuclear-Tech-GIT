@@ -63,6 +63,7 @@ public class ConduitPiece {
 		
 		public void setLine(ConduitLine line) {
 			this.liveConnection = line;
+			if(line != null) line.join(this);
 		}
 	}
 }

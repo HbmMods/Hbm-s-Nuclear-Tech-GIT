@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hbm.hrist.ConduitPiece.ConnectionDefinition;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.world.World;
 
 /// ROBUR PER UNITATEM ///
+@NotableComments
 public class ConduitSpace {
 	
 	public static Map<World, ConduitWorld> worlds = new HashMap();
@@ -64,8 +66,6 @@ public class ConduitSpace {
 				connections.put(def.connectors[1], piece);
 				orphans.add(def);
 			}
-			
-			for(ConnectionDefinition con : piece.definitions) orphans.add(con);
 		}
 		
 		public void pop(ConduitPiece piece, BlockPos core) {
@@ -96,40 +96,32 @@ public class ConduitSpace {
 					if(connectedPiece == null) continue; // if no piece is actually connected, skip
 					if(connectedPiece == orphan.parent) continue; // no self-fellating
 					if(connectedPiece.hasMultipleConnections(connection)) continue; // if this connection leads to a switch, skip
+					if(orphan.parent.hasMultipleConnections(pos)) continue; // if this connection leads to a switch, skip
 					
 					for(ConnectionDefinition connectedDef : connectedPiece.definitions) {
 						ConduitLine connectedLine = connectedDef.getLine();
 						if(connectedLine == null) continue;
+						if(connectedDef == orphan) continue;
 						
 						line = orphan.getLine();
 						// if the current line is null
 						if(line == null || !line.valid) {
 							if(connectedDef.connectors[0].equals(connection) || connectedDef.connectors[1].equals(connection)) {
 								orphan.setLine(connectedLine);
-								connectedLine.constructedFrom.add(orphan);
+								break;
 							}
 						// if not, merge
 						} else {
 							// larger one eats the smaller one for performance
-							ConduitLine larger = line.constructedFrom.size() > connectedLine.constructedFrom.size() ? line : connectedLine;
-							ConduitLine smaller = line.constructedFrom.size() > connectedLine.constructedFrom.size() ? connectedLine : line;
-							
-							larger.constructedFrom.addAll(smaller.constructedFrom);
-							for(ConnectionDefinition smallerDef : smaller.constructedFrom) {
-								smallerDef.setLine(larger);
-							}
-							smaller.constructedFrom.clear();
-							larger.setChanged();
-							smaller.invalidate();
+							ConduitLine larger = line.getDefCount() > connectedLine.getDefCount() ? line : connectedLine;
+							ConduitLine smaller = larger == connectedLine ? line : connectedLine;
+							larger.absorb(smaller);
 						}
 					}
 				}
 				
 				if(orphan.getLine() == null) {
-					ConduitLine newLine = new ConduitLine(world);
-					orphan.setLine(newLine);
-					newLine.constructedFrom.add(orphan);
-					newLine.setChanged();
+					orphan.setLine(new ConduitLine(world));
 				}
 			}
 			

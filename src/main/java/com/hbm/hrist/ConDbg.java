@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import com.hbm.hrist.ConduitPiece.ConnectionDefinition;
 import com.hbm.hrist.ConduitSpace.ConduitWorld;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -35,7 +36,7 @@ public class ConDbg {
 				
 				int color = line.hashCode() & 0xFFFFFF;
 				
-				ParticleUtil.spawnDroneLine(world, x, y, z, dx, dy, dz, !line.valid ? 0xff0000 : color, true);
+				ParticleUtil.spawnDroneLine(world, x, y, z, dx, dy, dz, !line.valid ? (BobMathUtil.getBlink() ? 0xff0000 : 0xff8000) : color, true);
 			}
 		}
 	}

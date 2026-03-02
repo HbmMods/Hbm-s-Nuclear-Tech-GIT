@@ -15,15 +15,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-// you can think of it like a pipeline
-public class BlockConduitBend extends BlockDummyable {
+public class BlockConduitSwitch extends BlockDummyable {
 
-	public BlockConduitBend() {
+	public BlockConduitSwitch() {
 		super(Material.ground);
 	}
 
 	@Override public TileEntity createNewTileEntity(World world, int meta) { return null; }
-	@Override public int[] getDimensions() { return new int[] {0, 0, 4, 0, 4, 0}; }
+	@Override public int[] getDimensions() { return new int[] {0, 0, 4, 0, 4, 3}; }
 	@Override public int getOffset() { return 0; }
 
 	@Override
@@ -55,7 +54,13 @@ public class BlockConduitBend extends BlockDummyable {
 		DirPos d1 = new DirPos(
 				x + 0.5 + rot.offsetX * 4.5 - dir.offsetX * 3.5, y,
 				z + 0.5 + rot.offsetZ * 4.5 - dir.offsetZ * 3.5, rot);
-		return new ConduitPiece(new ConnectionDefinition(d0, d1));
+		DirPos d2 = new DirPos(
+				x + 0.5 + rot.offsetX * 0.5 + dir.offsetX * 0.5, y,
+				z + 0.5 + rot.offsetZ * 0.5 + dir.offsetZ * 0.5, dir);
+		DirPos d3 = new DirPos(
+				x + 0.5 - rot.offsetX * 3.5 - dir.offsetX * 3.5, y,
+				z + 0.5 - rot.offsetZ * 3.5 - dir.offsetZ * 3.5, rot.getOpposite());
+		return new ConduitPiece(new ConnectionDefinition(d0, d1), new ConnectionDefinition(d2, d3));
 	}
 	
 	@Override

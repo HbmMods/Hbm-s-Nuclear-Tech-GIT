@@ -14,7 +14,7 @@ public class ConduitLine {
 	public World world;
 	protected boolean valid = true;
 	public LineEndpoint[] connectedTo = new LineEndpoint[2]; // a sausage always has two ends
-	public Set<ConnectionDefinition> constructedFrom = new HashSet();
+	private Set<ConnectionDefinition> constructedFrom = new HashSet();
 	public ConnectionStatus state = ConnectionStatus.ONLINE;
 	
 	public double cachedDistance = 0;
@@ -22,6 +22,23 @@ public class ConduitLine {
 	
 	public ConduitLine(World world) {
 		this.world = world;
+	}
+	
+	public int getDefCount() {
+		return this.constructedFrom.size();
+	}
+	
+	public void join(ConnectionDefinition def) {
+		this.constructedFrom.add(def);
+		this.setChanged();
+	}
+	
+	public void absorb(ConduitLine smallerLine) {
+		for(ConnectionDefinition smallerDef : smallerLine.constructedFrom) {
+			smallerDef.setLine(this);
+		}
+		smallerLine.constructedFrom.clear();
+		smallerLine.invalidate();
 	}
 	
 	public void setChanged() { this.hasChanged = true; }
