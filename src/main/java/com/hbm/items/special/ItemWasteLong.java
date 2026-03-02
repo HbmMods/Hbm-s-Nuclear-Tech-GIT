@@ -48,6 +48,9 @@ public class ItemWasteLong extends ItemNuclearWaste {
 		URANIUM233("Uranium-233", 0, 50),	//uranium 235, plutonium 239, neptunium 237 / -
 		NEPTUNIUM("Neptunium-237", 0, 100),	//plutonium 239 and uranium 238 / -
 		THORIUM("Thorium-232", 0, 0),		//uranium 233 and uranium 235 / -
+		AMERICIUM241("Americium-241", 0, 100), //neptunium 237, uranium 238,curium 243 / -
+		AMERICIUM242("Americium-242", 0, 110), //plutonium 239, 240,curium 244 / -
+		AMERICIUM243("Americium-243", 0, 120), //neptunium 237, plutonium 240, curium 245, 246, 247 / -
 		SCHRABIDIUM("Schrabidium-326", 0, 250); //tantalum, neodymium, solinium, euphemium, ghiorsium-336 / -
 		
 		public String name;
