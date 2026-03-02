@@ -32,6 +32,8 @@ public class ItemBatterySC extends ItemEnumMulti implements IBatteryItem {
 		AU198(	1_500),
 		PB209(	2_000),
 		AM241(	2_500);
+		CM242(	5_500);
+		BK247 (	8_000);
 
 		public long power;
 		
