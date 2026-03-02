@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -19,7 +20,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRenderBlock {
@@ -124,7 +124,7 @@ public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRen
 	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
 		GL11.glTranslated(0, -0.0625, 0);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, 0, false);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, 0, false);
 		tessellator.draw();
 	}
 
@@ -134,7 +134,7 @@ public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRen
 		float rotation = 0;
 		if(meta == 2 || meta == 3 || meta == 12 || meta == 13) rotation = 90F / 180F * (float) Math.PI;
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, rotation, true);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, rotation, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }

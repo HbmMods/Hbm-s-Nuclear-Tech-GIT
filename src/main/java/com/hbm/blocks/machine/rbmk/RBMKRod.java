@@ -4,12 +4,16 @@ import com.hbm.handler.BossSpawnHandler;
 import com.hbm.items.machine.ItemRBMKLid;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityProxyInventory;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class RBMKRod extends RBMKBase {
@@ -21,16 +25,25 @@ public class RBMKRod extends RBMKBase {
 		this.moderated = moderated;
 	}
 
+	public IIcon inner;
+	public IIcon fuel;
+
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
-		if(meta >= this.offset)
-			return new TileEntityRBMKRod();
-		
-		if(hasExtra(meta))
-			return new TileEntityProxyInventory();
-		
+		if(meta >= this.offset) return new TileEntityRBMKRod();
+		if(hasExtra(meta)) return new TileEntityProxyCombo().inventory();
 		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg) {
+		super.registerBlockIcons(reg);
+		this.inner = reg.registerIcon(this.getTextureName() + "_inner");
+		this.fuel = reg.registerIcon(this.getTextureName() + "_fuel");
 	}
 	
 	@Override

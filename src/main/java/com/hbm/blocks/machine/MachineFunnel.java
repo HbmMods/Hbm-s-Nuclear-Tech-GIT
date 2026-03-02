@@ -10,6 +10,7 @@ import com.hbm.blocks.rail.IRenderBlock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.machine.TileEntityMachineFunnel;
 
@@ -30,7 +31,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class MachineFunnel extends BlockContainer implements ITooltipProvider, IRenderBlock {
 
@@ -120,9 +120,9 @@ public class MachineFunnel extends BlockContainer implements ITooltipProvider, I
 	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
 		GL11.glTranslatef(0F, -0.5F, 0F);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Top", block.getIcon(1, 0), tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Bottom", block.getIcon(0, 0), tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Side", block.getIcon(2, 0), tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Top", block.getIcon(1, 0), tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Bottom", block.getIcon(0, 0), tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Side", block.getIcon(2, 0), tessellator, 0, false);
 		tessellator.draw();
 	}
 
@@ -130,9 +130,9 @@ public class MachineFunnel extends BlockContainer implements ITooltipProvider, I
 	@SideOnly(Side.CLIENT)
 	public void renderWorld(Tessellator tessellator, Block block, int meta, IBlockAccess world, int x, int y, int z) {
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Top", block.getIcon(1, 0), tessellator, 0, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Bottom", block.getIcon(0, 0), tessellator, 0, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.funnel, "Side", block.getIcon(2, 0), tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Top", block.getIcon(1, 0), tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Bottom", block.getIcon(0, 0), tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.funnel, "Side", block.getIcon(2, 0), tessellator, 0, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }

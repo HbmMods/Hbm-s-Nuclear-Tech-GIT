@@ -2,12 +2,8 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKHeater;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -17,26 +13,18 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
-	private ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_blank.png");
-	private ResourceLocation texture_glass = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_blank_glass.png");
-	private static final ResourceLocation texture_rods = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element.png");
+	private static final ResourceLocation texture_rods = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element_fuel.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float i) {
 
-		TileEntityRBMKBase control = (TileEntityRBMKBase)te;
 		boolean hasRod = false;
 		boolean cherenkov = false;
 
 		if(te instanceof TileEntityRBMKRod) {
-
 			TileEntityRBMKRod rod = (TileEntityRBMKRod) te;
-
-			if(rod.hasRod)
-				hasRod = true;
-
-			if(rod.fluxQuantity > 5)
-				cherenkov = true;
+			if(rod.hasRod) hasRod = true;
+			if(rod.fluxQuantity > 5) cherenkov = true;
 		}
 
 		GL11.glPushMatrix();
@@ -48,11 +36,8 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 
 			if(te.getWorldObj().getBlock(te.xCoord, te.yCoord + o, te.zCoord) == te.getBlockType()) {
 				offset = o;
-
 				int meta = te.getWorldObj().getBlockMetadata(te.xCoord, te.yCoord + o, te.zCoord);
-
-				if(meta > 5 && meta < 12)
-					break;
+				if(meta > 5 && meta < 12) break;
 
 			} else {
 				break;
@@ -62,39 +47,12 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 
-		if(control.hasLid()) {
-			GL11.glPushMatrix();
-			GL11.glTranslated(0, offset, 0);
-
-			int meta = control.getBlockMetadata() - RBMKBase.offset;
-
-			if(meta == RBMKBase.DIR_GLASS_LID.ordinal()) {
-				bindTexture(texture_glass);
-			} else {
-				if(control.getBlockType() instanceof RBMKBase) {
-					bindTexture(((RBMKBase)control.getBlockType()).coverTexture);
-				} else {
-					bindTexture(texture);
-				}
-
-				cherenkov = false;
-			}
-
-			if((control instanceof TileEntityRBMKBoiler || control instanceof TileEntityRBMKHeater) && meta != RBMKBase.DIR_GLASS_LID.ordinal()) {
-				ResourceManager.rbmk_rods_vbo.renderPart("Lid");
-			} else {
-				ResourceManager.rbmk_element_vbo.renderPart("Lid");
-			}
-
-			GL11.glPopMatrix();
-		}
-
 		if(hasRod) {
 			GL11.glPushMatrix();
 			bindTexture(texture_rods);
 
 			for(int j = 0; j <= offset; j++) {
-				ResourceManager.rbmk_element_vbo.renderPart("Rods");
+				ResourceManager.rbmk_element_rods_vbo.renderPart("Rods");
 				GL11.glTranslated(0, 1, 0);
 			}
 

@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
@@ -17,7 +18,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 
@@ -37,17 +37,17 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 		GL11.glRotated(180, 0, 1, 0);
 		GL11.glScaled(1.25D, 1.25D, 1.25D);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pX", iicon, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nX", iicon, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pZ", iicon, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nZ", iicon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "pX", iicon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "nX", iicon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "pZ", iicon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "nZ", iicon, tessellator, 0, false);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		ObjUtil.setColor(Fluids.NONE.getColor());
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pX", overlay, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nX", overlay, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pZ", overlay, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nZ", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "pX", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "nX", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "pZ", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, "nZ", overlay, tessellator, 0, false);
 		ObjUtil.clearColor();
 		tessellator.draw();
 
@@ -133,9 +133,9 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 	}
 	
 	private void renderDuct(IIcon iicon, IIcon overlay, int color, Tessellator tessellator, String part) {
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, part, iicon, tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, part, iicon, tessellator, 0, true);
 		ObjUtil.setColor(color);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, part, overlay, tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.pipe_neo, part, overlay, tessellator, 0, true);
 		ObjUtil.clearColor();
 	}
 

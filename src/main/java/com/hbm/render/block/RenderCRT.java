@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockDecoCRT;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderCRT implements ISimpleBlockRenderingHandler {
 
@@ -30,7 +30,7 @@ public class RenderCRT implements ISimpleBlockRenderingHandler {
 
 		GL11.glTranslated(0, -0.5, 0);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.crt, iicon, tessellator, (float) Math.PI * -0.5F, false);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.crt, iicon, tessellator, (float) Math.PI * -0.5F, false);
 		tessellator.draw();
 
 		GL11.glPopMatrix();
@@ -62,9 +62,9 @@ public class RenderCRT implements ISimpleBlockRenderingHandler {
 		}
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crt, "Monitor", iicon, tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crt, "Monitor", iicon, tessellator, rotation, true);
 		if(metaOrig >= 8) tessellator.setBrightness(240);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crt, "Screen", iicon, tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crt, "Screen", iicon, tessellator, rotation, true);
 		tessellator.setBrightness(brightness);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 

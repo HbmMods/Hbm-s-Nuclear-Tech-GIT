@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class RBMKBoiler extends RBMKBase {
+public class RBMKBoiler extends RBMKPipedBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -24,10 +24,5 @@ public class RBMKBoiler extends RBMKBase {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return openInv(world, x, y, z, player);
-	}
-	
-	@Override
-	public int getRenderType(){
-		return this.renderIDControl;
 	}
 }

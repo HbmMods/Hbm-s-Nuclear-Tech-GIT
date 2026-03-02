@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.network.CranePartitioner;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -11,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderPartitioner implements ISimpleBlockRenderingHandler {
 
@@ -60,12 +60,12 @@ public class RenderPartitioner implements ISimpleBlockRenderingHandler {
 	
 	private static void drawPartitioner(Tessellator tessellator, Block block, float rotation, boolean shadeNormals) {
 		CranePartitioner partitioner = (CranePartitioner) block;
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "Side", partitioner.getIcon(0, 0), tessellator, rotation, shadeNormals);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "Back", partitioner.iconBack, tessellator, rotation, shadeNormals);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "Top_Top.001", partitioner.iconTop, tessellator, rotation, shadeNormals);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "Inner", partitioner.iconInner, tessellator, rotation, shadeNormals);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "InnerSide", partitioner.iconInnerSide, tessellator, rotation, shadeNormals);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.crane_buffer, "Belt", partitioner.iconBelt, tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "Side", partitioner.getIcon(0, 0), tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "Back", partitioner.iconBack, tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "Top_Top.001", partitioner.iconTop, tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "Inner", partitioner.iconInner, tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "InnerSide", partitioner.iconInnerSide, tessellator, rotation, shadeNormals);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.crane_buffer, "Belt", partitioner.iconBelt, tessellator, rotation, shadeNormals);
 	}
 
 	@Override

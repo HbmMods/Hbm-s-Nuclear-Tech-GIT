@@ -2,6 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.main.ResourceManager;
@@ -13,7 +14,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 
@@ -34,16 +35,46 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 		
 		for(int i = 0; i < 4; i++) {
 			tessellator.startDrawingQuads();
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Column", iicon, tessellator, 0, false);
+			tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.UP.ordinal(), 0));
+			tessellator.setNormal(0F, -1F, 0F);	renderer.renderFaceYNeg(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.DOWN.ordinal(), 0));
+			tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.NORTH.ordinal(), 0));
+			tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.SOUTH.ordinal(), 0));
+			tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.EAST.ordinal(), 0));
+			tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 0, -0.5, block.getIcon(ForgeDirection.WEST.ordinal(), 0));
 			tessellator.draw();
-			
-			if(i < 3)
-				GL11.glTranslated(0, 1, 0);
+			if(i < 3) GL11.glTranslated(0, 1, 0);
 		}
 
-		if(block != ModBlocks.rbmk_boiler) {
+		tessellator.startDrawingQuads();
+		renderer.setRenderBounds(0.0625, 0, 0.0625, 0.4375, 0.125, 0.4375);
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.UP.ordinal(), 0));
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.NORTH.ordinal(), 0));
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.SOUTH.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.EAST.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.WEST.ordinal(), 0));
+		renderer.setRenderBounds(0.0625, 0, 0.5625, 0.4375, 0.125, 0.9375);
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.UP.ordinal(), 0));
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.NORTH.ordinal(), 0));
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.SOUTH.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.EAST.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.WEST.ordinal(), 0));
+		renderer.setRenderBounds(0.5625, 0, 0.5625, 0.9375, 0.125, 0.9375);
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.UP.ordinal(), 0));
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.NORTH.ordinal(), 0));
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.SOUTH.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.EAST.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.WEST.ordinal(), 0));
+		renderer.setRenderBounds(0.5625, 0, 0.0625, 0.9375, 0.125, 0.4375);
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.UP.ordinal(), 0));
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.NORTH.ordinal(), 0));
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.SOUTH.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.EAST.ordinal(), 0));
+		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 1, -0.5, block.getIcon(ForgeDirection.WEST.ordinal(), 0));
+		tessellator.draw();
+
+		if(block != ModBlocks.rbmk_boiler && block != ModBlocks.rbmk_heater) {
 			tessellator.startDrawingQuads();
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
+			ObjUtil.renderPartWithIcon(ResourceManager.rbmk_rods, "Lid", iicon, tessellator, 0, true);
 			tessellator.draw();
 		}
 
@@ -54,19 +85,47 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
 		Tessellator tessellator = Tessellator.instance;
-		IIcon iicon = block.getIcon(0, world.getBlockMetadata(x, y, z));
+		int meta = world.getBlockMetadata(x, y, z);
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
-
-		if(renderer.hasOverrideBlockTexture()) {
-			iicon = renderer.overrideBlockTexture;
-		}
-
-		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rbmk_rods, "Column", iicon, tessellator, 0, true);
+		renderer.renderStandardBlock(block, x, y, z);
 		
-		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
+		if(meta >= 6 && meta < 12) {
+			
+			boolean hasLid = false;
+			if(block == ModBlocks.rbmk_boiler || block == ModBlocks.rbmk_heater) {
+				
+				int[] pos = ((BlockDummyable) block).findCore(world, x, y, z);
+				if(pos != null) {
+					int coreMeta = world.getBlockMetadata(pos[0], pos[1], pos[2]);
+					
+					if(coreMeta - 10 == RBMKBase.DIR_NORMAL_LID.ordinal()) {
+						tessellator.addTranslation(0, 1, 0);
+						renderer.setRenderBounds(0, 0, 0, 1, 0.25, 1);
+						RBMKBase.renderLid = true;
+						renderer.renderStandardBlock(block, x, y, z);
+						RBMKBase.renderLid = false;
+						tessellator.addTranslation(0, -1, 0);
+						hasLid = true;
+					}
+				}
+			}
+			
+			if(!hasLid) {
+				tessellator.addTranslation(0, 1, 0);
+				renderer.setRenderBounds(0.0625, 0, 0.0625, 0.4375, 0.125, 0.4375);
+				renderer.renderStandardBlock(block, x, y, z);
+				renderer.setRenderBounds(0.0625, 0, 0.5625, 0.4375, 0.125, 0.9375);
+				renderer.renderStandardBlock(block, x, y, z);
+				renderer.setRenderBounds(0.5625, 0, 0.5625, 0.9375, 0.125, 0.9375);
+				renderer.renderStandardBlock(block, x, y, z);
+				renderer.setRenderBounds(0.5625, 0, 0.0625, 0.9375, 0.125, 0.4375);
+				renderer.renderStandardBlock(block, x, y, z);
+				tessellator.addTranslation(0, -1, 0);
+			}
+		} else {
+		}
 
 		return true;
 	}
