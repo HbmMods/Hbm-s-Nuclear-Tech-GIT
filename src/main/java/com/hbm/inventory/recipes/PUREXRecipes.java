@@ -161,6 +161,15 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 						new ItemStack(ModItems.powder_coal_tiny, 2),
 						new ItemStack(ModItems.nugget_lead, 2))
 				.setIconToFirstIngredient());
+		
+		this.register(new GenericRecipe("purex.platecm242be").setup(100, platePower).setNameWrapper("purex.recycle").setGroup(autoPlate, this)
+				.inputItems(new ComparableStack(ModItems.waste_plate_cm242be))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_beryllium, 1),
+						new ItemStack(ModItems.nugget_cm242, 1),
+						new ItemStack(ModItems.nuclear_waste_tiny, 4),
+						new ItemStack(ModItems.nugget_pu238, 2))
+				.setIconToFirstIngredient());
 
 		this.register(new GenericRecipe("purex.platepu239").setup(100, platePower).setNameWrapper("purex.recycle").setGroup(autoPlate, this)
 				.inputItems(new ComparableStack(ModItems.waste_plate_pu239))
@@ -294,7 +303,7 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEA))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
 				.outputItems(new ItemStack(ModItems.nugget_lead, 3),
-						new ItemStack(ModItems.nugget_zirconium, 2),
+						new ItemStack(ModItems.nugget_curium, 2),
 						new ItemStack(ModItems.nugget_technetium, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 6))
 				.setIconToFirstIngredient());
@@ -306,6 +315,34 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 						new ItemStack(ModItems.nugget_zirconium, 2),
 						new ItemStack(ModItems.nugget_technetium, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 6))
+				.setIconToFirstIngredient());
+		
+		this.register(new GenericRecipe("purex.pwrmec").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
+				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEC))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_lead, 3),
+						new ItemStack(ModItems.nugget_pu239, 2),
+						new ItemStack(ModItems.nugget_pu240, 4),
+						new ItemStack(ModItems.nugget_curium, 2),
+						new ItemStack(ModItems.nuclear_waste_tiny, 6))
+				.setIconToFirstIngredient());
+		
+		this.register(new GenericRecipe("purex.pwrhec245").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
+				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.HEC245))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_lead, 2),
+						new ItemStack(ModItems.nugget_pu241, 3),
+						new ItemStack(ModItems.nugget_am241, 4),
+						new ItemStack(ModItems.nuclear_waste_tiny, 3))
+				.setIconToFirstIngredient());
+		
+		this.register(new GenericRecipe("purex.pwrhec247").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
+				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.HEC247))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_lead, 3),
+						new ItemStack(ModItems.nugget_bk249, 3),
+						new ItemStack(ModItems.nugget_cf250_tiny, 1),
+						new ItemStack(ModItems.nuclear_waste_tiny, 5))
 				.setIconToFirstIngredient());
 
 		this.register(new GenericRecipe("purex.pwrhes326").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
@@ -334,6 +371,15 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 						new ItemStack(ModItems.nugget_bismuth, 6),
 						new ItemStack(ModItems.nuclear_waste_tiny, 1))
 				.setIconToFirstIngredient());
+				
+		this.register(new GenericRecipe("purex.pwrbfbcm").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
+				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.BFB_CM_MIX))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_cm_mix, 9),
+						new ItemStack(ModItems.nugget_am_mix, 3),
+						new ItemStack(ModItems.nugget_bismuth, 4),
+						new ItemStack(ModItems.nuclear_waste_tiny, 2))
+				.setIconToFirstIngredient());
 
 		this.register(new GenericRecipe("purex.pwrbfpu241").setup(100, pwrPower).setNameWrapper("purex.recycle").setGroup(autoPWR, this)
 				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.BFB_PU241))
@@ -353,6 +399,13 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 						new ChanceOutput(new ItemStack(ModItems.nugget_u233, 1), 0.5F),
 						new ChanceOutput(new ItemStack(ModItems.nuclear_waste_tiny, 1), 0.25F)));
 		
+		this.register(new GenericRecipe("purex.curiumsalt").setup(20, 10_000).setIcon(ModItems.fluid_icon, Fluids.CURIUM_SALT.getID())
+				.inputFluids(new FluidStack(Fluids.CURIUM_SALT_DEPLETED, 16_000))
+				.inputItems(new OreDictStack(CM.nugget(), 2))
+				.outputFluids(new FluidStack(Fluids.CURIUM_SALT, 16_000))
+				.outputItems(
+						new ChanceOutput(new ItemStack(ModItems.nugget_cm_mix, 1), 0.3F),
+						new ChanceOutput(new ItemStack(ModItems.nuclear_waste_tiny, 1), 0.15F)));
 		// Watz
 		String autoWatz = "autoswitch.watz";
 		this.register(new GenericRecipe("purex.watzschrab").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
@@ -372,7 +425,7 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 						new ItemStack(ModItems.nuclear_waste, 2))
 				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
 				.setIconToFirstIngredient());
-
+				
 		this.register(new GenericRecipe("purex.watzmes").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
 				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.MES))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
@@ -387,6 +440,60 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
 				.outputItems(new ItemStack(ModItems.nugget_solinium, 9),
 						new ItemStack(ModItems.nugget_tantalium, 9),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+				
+		this.register(new GenericRecipe("purex.watzlea").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.LEA))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_pu239, 13),
+						new ItemStack(ModItems.nugget_curium, 5),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+				
+		this.register(new GenericRecipe("purex.watzmea").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.LEA))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_curium, 14),
+						new ItemStack(ModItems.nugget_bismuth, 4),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+
+		this.register(new GenericRecipe("purex.watzhea").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.HEA))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_curium, 16),
+						new ItemStack(ModItems.nugget_bismuth, 2),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+				
+		this.register(new GenericRecipe("purex.watzlec").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.LEA))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_cm_mix, 12,
+						new ItemStack(ModItems.nugget_bismuth, 6),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+				
+		this.register(new GenericRecipe("purex.watzmec").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.MEC))
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_bk247, 8,
+						new ItemStack(ModItems.nugget_bismuth, 12),
+						new ItemStack(ModItems.nuclear_waste, 2))
+				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+				.setIconToFirstIngredient());
+		
+		this.register(new GenericRecipe("purex.watzhec").setup(60, watzPower).setNameWrapper("purex.recycle").setGroup(autoWatz, this)
+				.inputItems(new ComparableStack(ModItems.watz_pellet_depleted, 1, EnumWatzType.HEC)) // <--- spent nuclear fuel based on highly enriched curium-247 captures a lot of neutrons, being enriched with berkeleum and californium
+				.inputFluids(new FluidStack(Fluids.KEROSENE, 500), new FluidStack(Fluids.NITRIC_ACID, 250))
+				.outputItems(new ItemStack(ModItems.nugget_bk249, 15,
+						new ItemStack(ModItems.nugget_cf249, 3),
 						new ItemStack(ModItems.nuclear_waste, 2))
 				.outputFluids(new FluidStack(Fluids.WATZ, 1_000))
 				.setIconToFirstIngredient());
@@ -520,6 +627,13 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 				.setIconToFirstIngredient());
 		this.register(new GenericRecipe("purex.schrabmen").setup(200, 50_000).setNameWrapper("purex.schrab").setGroup(autoSchrab, this)
 				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEN))
+				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 250))
+				.outputItems(new ItemStack(ModItems.powder_schrabidium, 1),
+						new ItemStack(ModItems.nugget_technetium, 3),
+						new ItemStack(ModItems.nuclear_waste_tiny, 4))
+				.setIconToFirstIngredient());
+		this.register(new GenericRecipe("purex.schrabmec").setup(200, 50_000).setNameWrapper("purex.schrab").setGroup(autoSchrab, this)
+				.inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, EnumPWRFuel.MEC))
 				.inputFluids(new FluidStack(Fluids.SOLVENT, 4_000), new FluidStack(Fluids.SCHRABIDIC, 250))
 				.outputItems(new ItemStack(ModItems.powder_schrabidium, 1),
 						new ItemStack(ModItems.nugget_technetium, 3),
