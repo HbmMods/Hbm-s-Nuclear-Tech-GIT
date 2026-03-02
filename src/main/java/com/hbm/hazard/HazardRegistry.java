@@ -102,6 +102,21 @@ public class HazardRegistry {
 	public static final float am242 = 9.5F;
 	public static final float amrg = 9.0F;
 	public static final float amf = 4.75F;
+	public static final float cm = 30.0F;
+	public static final float cm242 = 65.5F;
+	public static final float cm243 = 32.7F;
+	public static final float cm244 = 35.5F;
+	public static final float cm245 = 15.5F;
+	public static final float cm246 = 7.1F;
+	public static final float cm247 = 1.3F;
+	public static final float cmrg = 49.1F;
+	public static final float bk247 = 21.0F;
+	public static final float bk248 = 28.00F;
+	public static final float bk249 = 120.00F;
+	public static final float cf249 = 1200.0F;
+	public static final float cf250 = 630.0F;
+	public static final float cf251 = 480.0F;
+	public static final float cf252 = 1600.0F;
 	public static final float mox = 2.5F;
 	public static final float sa326 = 15.0F;
 	public static final float sa327 = 17.5F;
@@ -113,9 +128,11 @@ public class HazardRegistry {
 	public static final float pobe = po210 * radsource_mult;
 	public static final float rabe = ra226 * radsource_mult;
 	public static final float pube = pu238 * radsource_mult;
+	public static final float cmbe = cm242 * radsource_mult;
 	public static final float zfb_bi = u235 * 0.35F;
 	public static final float zfb_pu241 = pu241 * 0.5F;
 	public static final float zfb_am_mix = amrg * 0.5F;
+	public static final float zfb_cm_mix = cmrg * 0.5F;
 	public static final float bf = 300_000.0F;
 	public static final float bfb = 500_000.0F;
 
@@ -129,6 +146,7 @@ public class HazardRegistry {
 	public static final float fo = 10F;
 
 	public static final float nugget = 0.1F;
+	public static final float nugget_tiny = 0.01F;
 	public static final float ingot = 1.0F;
 	public static final float gem = 1.0F;
 	public static final float plate = ingot;
@@ -267,6 +285,7 @@ public class HazardRegistry {
 		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, wst * ingot * 10F, true);
 		registerOtherFuel(plate_fuel_ra226be, rabe * billet, pobe * nugget * 3, false);
 		registerOtherFuel(plate_fuel_pu238be, pube * billet, pube * nugget * 1, false);
+		registerOtherFuel(plate_fuel_cm242be, cmbe * billet, cmbe * nugget * 4, false);
 		
 		registerOtherWaste(waste_plate_u233, wst * ingot * 13F);
 		registerOtherWaste(waste_plate_u235, wst * ingot * 10F);
@@ -275,6 +294,7 @@ public class HazardRegistry {
 		registerOtherWaste(waste_plate_sa326, wst * ingot * 10F);
 		registerRadSourceWaste(waste_plate_ra226be, pobe * nugget * 3);
 		registerRadSourceWaste(waste_plate_pu238be, pube * nugget * 1);
+		registerRadSourceWaste(waste_plate_cm242be, pube * nugget * 4);
 		
 		HazardSystem.register(debris_graphite, makeData().addEntry(RADIATION, 70F).addEntry(HOT, 5F));
 		HazardSystem.register(debris_metal, makeData(RADIATION, 5F));
@@ -312,6 +332,10 @@ public class HazardRegistry {
 		HazardSystem.register(billet_americium_fuel, makeData(RADIATION, amf * billet));
 		HazardSystem.register(ingot_americium_fuel, makeData(RADIATION, amf * ingot));
 		
+		HazardSystem.register(nugget_curium_fuel, makeData(RADIATION, cmf * nugget));
+		HazardSystem.register(billet_curium_fuel, makeData(RADIATION, cmf * billet));
+		HazardSystem.register(ingot_curium_fuel, makeData(RADIATION, cmf * ingot));
+		
 		HazardSystem.register(nugget_schrabidium_fuel, makeData().addEntry(RADIATION, saf * nugget).addEntry(BLINDING, 5F * nugget));
 		HazardSystem.register(billet_schrabidium_fuel, makeData().addEntry(RADIATION, saf * billet).addEntry(BLINDING, 5F * billet));
 		HazardSystem.register(ingot_schrabidium_fuel, makeData().addEntry(RADIATION, saf * ingot).addEntry(BLINDING, 5F * ingot));
@@ -330,6 +354,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_po210be, makeData(RADIATION, pobe * billet));
 		HazardSystem.register(billet_ra226be, makeData(RADIATION, rabe * billet));
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
+		HazardSystem.register(billet_cm242be, makeData(RADIATION, cmbe * billet));
 		
 		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
@@ -341,7 +366,11 @@ public class HazardRegistry {
 		registerRTGPellet(pellet_rtg_lead, pb209 * rtg, 0, 7F, 50F);
 		registerRTGPellet(pellet_rtg_gold, au198 * rtg, 0, 5F);
 		registerRTGPellet(pellet_rtg_americium, am241 * rtg, 0);
+		registerRTGPellet(pellet_rtg_curium, (cm242 + (u238 * 2)) * rtg, 0, 3F);
+		registerRTGPellet(pellet_rtg_berkelium, bk248 * rtg, 0, 1F);
 		HazardSystem.register(new ItemStack(pellet_rtg_depleted, 1, DepletedRTGMaterial.NEPTUNIUM.ordinal()), makeData(RADIATION, np237 * rtg));
+		HazardSystem.register(new ItemStack(pellet_rtg_depleted, 1, DepletedRTGMaterial.PLUTONIUM.ordinal()), makeData(RADIATION, pu238 * rtg)); //Curium emits alpha particles, gradually turning into plutonium-238. You would love how curium glows with a pinkish glow in the dark :)
+		HazardSystem.register(new ItemStack(pellet_rtg_depleted, 1, DepletedRTGMaterial.CURIUM.ordinal()), makeData(RADIATION, cm244 * rtg)); //Berkelium-248 decays into americium-244 emitting alpha particles, which in turn decays into curium-244, this is elementary, right?
 		
 		HazardSystem.register(pile_rod_uranium, makeData(RADIATION, u * billet * 3));
 		HazardSystem.register(pile_rod_pu239, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet + pu239 * billet + u * billet : purg * billet + pu239 * billet + wst * billet));
@@ -359,11 +388,25 @@ public class HazardRegistry {
 		registerBreedingRodRadiation(BreedingRodType.U238, u238);
 		registerBreedingRodRadiation(BreedingRodType.PU238, pu238); //it's in a container :)
 		registerBreedingRodRadiation(BreedingRodType.PU239, pu239);
+		registerBreedingRodRadiation(BreedingRodType.PU240, pu240);
+		registerBreedingRodRadiation(BreedingRodType.PU241, pu241);
+		registerBreedingRodRadiation(BreedingRodType.AM241, am241);
+		registerBreedingRodRadiation(BreedingRodType.AM242, am242);
+		registerBreedingRodRadiation(BreedingRodType.CM244, cm244);
+		registerBreedingRodRadiation(BreedingRodType.CM245, cm245);
+		registerBreedingRodRadiation(BreedingRodType.CM246, cm246);
+		registerBreedingRodRadiation(BreedingRodType.CM247, cm247);
+		registerBreedingRodRadiation(BreedingRodType.CF249, cf249);
+		registerBreedingRodRadiation(BreedingRodType.CF250, cf250);
+		registerBreedingRodRadiation(BreedingRodType.CF251, cf251);
+		registerBreedingRodRadiation(BreedingRodType.CF252, cf252);
 		registerBreedingRodRadiation(BreedingRodType.RGP, purg);
+		registerBreedingRodRadiation(BreedingRodType.RGA, amrg);
+		registerBreedingRodRadiation(BreedingRodType.RGC, cmrg);
 		registerBreedingRodRadiation(BreedingRodType.WASTE, wst);
 		registerBreedingRodRadiation(BreedingRodType.URANIUM, u);
 
-		registerRBMKRod(rbmk_fuel_ueu, u * rod_rbmk, wst * rod_rbmk * 20F);
+        registerRBMKRod(rbmk_fuel_ueu, u * rod_rbmk, wst * rod_rbmk * 20F);
 		registerRBMKRod(rbmk_fuel_meu, uf * rod_rbmk, wst * rod_rbmk * 21.5F);
 		registerRBMKRod(rbmk_fuel_heu233, u233 * rod_rbmk, wst * rod_rbmk * 31F);
 		registerRBMKRod(rbmk_fuel_heu235, u235 * rod_rbmk, wst * rod_rbmk * 30F);
@@ -376,6 +419,10 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_mea, amrg * rod_rbmk, wst * rod_rbmk * 30.5F);
 		registerRBMKRod(rbmk_fuel_hea241, am241 * rod_rbmk, wst * rod_rbmk * 33.5F);
 		registerRBMKRod(rbmk_fuel_hea242, am242 * rod_rbmk, wst * rod_rbmk * 34F);
+		registerRBMKRod(rbmk_fuel_lec, cmf * rod_rbmk, wst * rod_rbmk * 25.5F);
+		registerRBMKRod(rbmk_fuel_mec, cmrg * rod_rbmk, wst * rod_rbmk * 45.5F);
+		registerRBMKRod(rbmk_fuel_hec245, cm245 * rod_rbmk, wst * rod_rbmk * 49.0F);
+		registerRBMKRod(rbmk_fuel_hec247, cm247 * rod_rbmk, wst * rod_rbmk * 25.5F);
 		registerRBMKRod(rbmk_fuel_men, npf * rod_rbmk, wst * rod_rbmk * 22.5F);
 		registerRBMKRod(rbmk_fuel_hen, np237 * rod_rbmk, wst * rod_rbmk * 30F);
 		registerRBMKRod(rbmk_fuel_mox, mox * rod_rbmk, wst * rod_rbmk * 25.5F);
@@ -387,12 +434,14 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_po210be, pobe * rod_rbmk, pobe * rod_rbmk * 0.1F, true);
 		registerRBMKRod(rbmk_fuel_ra226be, rabe * rod_rbmk, rabe * rod_rbmk * 0.4F, true);
 		registerRBMKRod(rbmk_fuel_pu238be, pube * rod_rbmk, wst * rod_rbmk * 2.5F);
+		registerRBMKRod(rbmk_fuel_cm242be, cmbe * rod_rbmk, wst * rod_rbmk * 3.1F);
 		registerRBMKRod(rbmk_fuel_balefire_gold, au198 * rod_rbmk, bf * rod_rbmk * 0.5F, true);
 		registerRBMKRod(rbmk_fuel_flashlead, pb209 * 1.25F * rod_rbmk, pb209 * nugget * 0.05F * rod_rbmk, true);
 		registerRBMKRod(rbmk_fuel_balefire, bf * rod_rbmk, bf * rod_rbmk * 100F, true);
 		registerRBMKRod(rbmk_fuel_zfb_bismuth, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 5F);
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
+		registerRBMKRod(rbmk_fuel_zfb_cm_mix, cm245 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
 		//registerRBMKRod(rbmk_fuel_curve, saf * rod_rbmk * np237 * rod_rbmk, wst * rod_rbmk * 35F);
 		
@@ -409,6 +458,9 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_mea, amrg * billet, wst * billet * 30.5F);
 		registerRBMKPellet(rbmk_pellet_hea241, am241 * billet, wst * billet * 33.5F);
 		registerRBMKPellet(rbmk_pellet_hea242, am242 * billet, wst * billet * 34F);
+		registerRBMKPellet(rbmk_pellet_mec, cmrg * billet, wst * billet * 45.5F);
+		registerRBMKPellet(rbmk_pellet_hec244, cm244 * billet, wst * billet * 48.5F);
+		registerRBMKPellet(rbmk_pellet_hec245, cm245 * billet, wst * billet * 49.0F);
 		registerRBMKPellet(rbmk_pellet_men, npf * billet, wst * billet * 22.5F);
 		registerRBMKPellet(rbmk_pellet_hen, np237 * billet, wst * billet * 30F);
 		registerRBMKPellet(rbmk_pellet_mox, mox * billet, wst * billet * 25.5F);
@@ -420,6 +472,7 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_po210be, pobe * billet, pobe * billet * 0.1F, true);
 		registerRBMKPellet(rbmk_pellet_ra226be, rabe * billet, rabe * billet * 0.4F, true);
 		registerRBMKPellet(rbmk_pellet_pu238be, pube * billet, wst * 1.5F);
+		registerRBMKPellet(rbmk_pellet_cm242be, cmbe * billet, wst * 3.1F);
 		registerRBMKPellet(rbmk_pellet_balefire_gold, au198 * billet, bf * billet * 0.5F, true);
 		registerRBMKPellet(rbmk_pellet_flashlead, pb209 * 1.25F * billet, pb209 * nugget * 0.05F, true);
 		registerRBMKPellet(rbmk_pellet_balefire, bf * billet, bf * billet * 100F, true);
@@ -449,11 +502,14 @@ public class HazardRegistry {
 		registerPWRFuel(EnumPWRFuel.HEP239, pu239 * billet * 2);
 		registerPWRFuel(EnumPWRFuel.HEP241, pu241 * billet * 2);
 		registerPWRFuel(EnumPWRFuel.MEA, amrg * billet * 2);
+		registerPWRFuel(EnumPWRFuel.MEC, cmrg * billet * 2);
 		registerPWRFuel(EnumPWRFuel.HEA242, am242 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEC245, cm245 * billet * 2);
 		registerPWRFuel(EnumPWRFuel.HES326, sa326 * billet * 2);
 		registerPWRFuel(EnumPWRFuel.HES327, sa327 * billet * 2);
 		registerPWRFuel(EnumPWRFuel.BFB_AM_MIX, amrg * billet);
 		registerPWRFuel(EnumPWRFuel.BFB_PU241, pu241 * billet);
+		registerPWRFuel(EnumPWRFuel.BFB_CM_MIX, cmrg * billet)
 		
 		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
 		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));
