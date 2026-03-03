@@ -1,51 +1,20 @@
 package com.hbm.hrist;
 
-import java.util.Random;
-
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.hrist.ConduitPiece.ConnectionDefinition;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-// you can think of it like a pipeline
-public class BlockConduitStraight extends BlockDummyable {
-
-	public BlockConduitStraight() {
-		super(Material.ground);
-	}
-
-	@Override public TileEntity createNewTileEntity(World world, int meta) { return null; }
+public class BlockConduitStraight extends BlockConduitBase {
+	
 	@Override public int[] getDimensions() { return new int[] {0, 0, 2, 2, 1, 0}; }
 	@Override public int getOffset() { return 2; }
-
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		int meta = world.getBlockMetadata(x, y, z);
-		
-		if(meta >= 12) {
-			ConduitPiece piece = this.getPiece(world, x, y, z, meta);
-			ConduitSpace.pushPiece(world, piece, new BlockPos(x, y, z));
-		}
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block b, int meta) {
-		super.breakBlock(world, x, y, z, b, meta);
-		
-		if(meta >= 12) {
-			ConduitSpace.popPiece(world, new BlockPos(x, y, z));
-		}
-	}
 	
+	@Override
 	public ConduitPiece getPiece(World world, int x, int y, int z, int meta) {
 		ForgeDirection dir = ForgeDirection.getOrientation(meta - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -56,11 +25,30 @@ public class BlockConduitStraight extends BlockDummyable {
 				x + 0.5 + rot.offsetX * 0.5 - dir.offsetX * 2.5, y,
 				z + 0.5 + rot.offsetZ * 0.5 - dir.offsetZ * 2.5, dir.getOpposite());
 		return new ConduitPiece(new ConnectionDefinition(d0, d1));
-	}
+	} 
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		world.spawnParticle("smoke", x + rand.nextFloat(), y + 1, z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, Object renderBlocks) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if(meta >= 12) {
+			double angle = 0;
+			ForgeDirection dir = ForgeDirection.getOrientation(meta - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			if(dir == ForgeDirection.NORTH) angle += 0;
+			if(dir == ForgeDirection.WEST) angle += 90;
+			if(dir == ForgeDirection.SOUTH) angle += 180;
+			if(dir == ForgeDirection.EAST) angle += 270;
+			
+			for(int i = -2; i <= 2; i++)
+				ConduitRenderUtil.renderSupport(Tessellator.instance, blockIcon, x + 0.5 + dir.offsetX * i + rot.offsetX * 0.5, y, z + 0.5 + dir.offsetZ * i + rot.offsetZ * 0.5, angle);
+
+			ConduitRenderUtil.renderSteel(Tessellator.instance, blockIcon,
+					x + 0.5 - dir.offsetX * 2.5 - rot.offsetX * 0.28125, y, z + 0.5 - dir.offsetZ * 2.5 - rot.offsetZ * 0.28125, angle,
+					x + 0.5 + dir.offsetX * 2.5 - rot.offsetX * 0.28125, y, z + 0.5 + dir.offsetZ * 2.5 - rot.offsetZ * 0.28125, angle);
+			ConduitRenderUtil.renderSteel(Tessellator.instance, blockIcon,
+					x + 0.5 - dir.offsetX * 2.5 - rot.offsetX * -1.21875, y, z + 0.5 - dir.offsetZ * 2.5 - rot.offsetZ * -1.21875, angle,
+					x + 0.5 + dir.offsetX * 2.5 - rot.offsetX * -1.21875, y, z + 0.5 + dir.offsetZ * 2.5 - rot.offsetZ * -1.21875, angle);
+		}
+		return false;
 	}
 }

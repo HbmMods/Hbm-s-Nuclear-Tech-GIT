@@ -64,6 +64,18 @@ public class Vec3NT extends Vec3 {
 		this.zCoord = z;
 		return this;
 	}
+	
+	/** Sets components, then rotates around the Y axis (in degrees) */
+	public Vec3NT setTurn(double x, double y, double z, double rot) {
+		return this.setComponents(x, y, z).rotateAroundYDeg(rot);
+	}
+	
+	/** Does what it says, i.e. requires a double array with a length of at least 3 and copies the components into the first three fields */
+	public void copyToArray(double[] array) {
+		array[0] = this.xCoord;
+		array[1] = this.yCoord;
+		array[2] = this.zCoord;
+	}
 
 	public Vec3NT rotateAroundXRad(double alpha) {
 		double cos = Math.cos(alpha);

@@ -2394,9 +2394,9 @@ public class ModBlocks {
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
 
-		conduit_straight = new BlockConduitStraight().setBlockName("conduit_straight").setBlockTextureName(RefStrings.MODID + ":block_steel");
-		conduit_bend = new BlockConduitBend().setBlockName("conduit_bend").setBlockTextureName(RefStrings.MODID + ":block_steel");
-		conduit_switch = new BlockConduitSwitch().setBlockName("conduit_switch").setBlockTextureName(RefStrings.MODID + ":block_steel");
+		conduit_straight = new BlockConduitStraight().setBlockName("conduit_straight").setBlockTextureName(RefStrings.MODID + ":rail_standard");
+		conduit_bend = new BlockConduitBend().setBlockName("conduit_bend").setBlockTextureName(RefStrings.MODID + ":rail_standard");
+		conduit_switch = new BlockConduitSwitch().setBlockName("conduit_switch").setBlockTextureName(RefStrings.MODID + ":rail_standard");
 	}
 
 	private static void registerBlock() {
