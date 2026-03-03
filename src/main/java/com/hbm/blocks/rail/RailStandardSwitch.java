@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -25,7 +26,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class RailStandardSwitch extends BlockRailWaypointSystem implements IRenderBlock {
@@ -205,7 +205,7 @@ public class RailStandardSwitch extends BlockRailWaypointSystem implements IRend
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glScaled(0.1, 0.1, 0.1);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rail_standard_switch, "Rail", this.blockIcon, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rail_standard_switch, "Rail", this.blockIcon, tessellator, 0, false);
 		tessellator.draw();
 	}
 
@@ -222,13 +222,13 @@ public class RailStandardSwitch extends BlockRailWaypointSystem implements IRend
 		if(meta == 14) tessellator.addTranslation(0F, 0F, -0.5F);
 		if(meta == 15) tessellator.addTranslation(0F, 0F, 0.5F);
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rail_standard_switch, "Rail", this.blockIcon, tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rail_standard_switch, "Rail", this.blockIcon, tessellator, rotation, true);
 		
 		TileEntity tile = world.getTileEntity(x, y, z);
 		
 		if(tile instanceof TileEntityRailSwitch) {
 			TileEntityRailSwitch sw = (TileEntityRailSwitch) tile;
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rail_standard_switch, sw.isSwitched ? "SignTurn" : "SignStraight", this.iconSign, tessellator, rotation, true);
+			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rail_standard_switch, sw.isSwitched ? "SignTurn" : "SignStraight", this.iconSign, tessellator, rotation, true);
 		}
 		
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);

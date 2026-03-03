@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.CableDiode;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderDiode implements ISimpleBlockRenderingHandler {
 
@@ -73,11 +73,11 @@ public class RenderDiode implements ISimpleBlockRenderingHandler {
 		GL11.glRotated(180, 0, 1, 0);
 		
 		tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "posX", iconCable, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negX", iconCable, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negY", iconCable, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "posZ", iconCable, tessellator, 0, false);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negZ", iconCable, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "posX", iconCable, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negX", iconCable, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negY", iconCable, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "posZ", iconCable, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negZ", iconCable, tessellator, 0, false);
 		tessellator.draw();
 		
 		renderer.clearOverrideBlockTexture();
@@ -132,12 +132,12 @@ public class RenderDiode implements ISimpleBlockRenderingHandler {
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
 		
 		//ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "Core", iconCable, tessellator, 0, true);
-		if(pX) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "posX", iconCable, tessellator, 0, true);
-		if(nX) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negX", iconCable, tessellator, 0, true);
-		if(pY) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "posY", iconCable, tessellator, 0, true);
-		if(nY) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negY", iconCable, tessellator, 0, true);
-		if(nZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "posZ", iconCable, tessellator, 0, true);
-		if(pZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.cable_neo, "negZ", iconCable, tessellator, 0, true);
+		if(pX) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "posX", iconCable, tessellator, 0, true);
+		if(nX) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negX", iconCable, tessellator, 0, true);
+		if(pY) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "posY", iconCable, tessellator, 0, true);
+		if(nY) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negY", iconCable, tessellator, 0, true);
+		if(nZ) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "posZ", iconCable, tessellator, 0, true);
+		if(pZ) ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.cable_neo, "negZ", iconCable, tessellator, 0, true);
 		
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);
 

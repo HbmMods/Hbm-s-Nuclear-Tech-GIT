@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -19,7 +20,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class RailStandardCurveBase extends BlockDummyable implements IRailNTM, IRenderBlock {
@@ -215,7 +215,7 @@ public class RailStandardCurveBase extends BlockDummyable implements IRailNTM, I
 		GL11.glRotated(60, 1, 0, 0);
 		GL11.glTranslated(2, 0, 2);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, 0, false);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, 0, false);
 		tessellator.draw();
 	}
 
@@ -228,7 +228,7 @@ public class RailStandardCurveBase extends BlockDummyable implements IRailNTM, I
 		if(meta == 12) rotation = 180F / 180F * (float) Math.PI;
 		if(meta == 14) rotation = 270F / 180F * (float) Math.PI;
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, rotation, true);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, rotation, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }

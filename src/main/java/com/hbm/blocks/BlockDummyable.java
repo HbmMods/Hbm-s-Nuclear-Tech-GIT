@@ -131,14 +131,14 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		world.setBlockMetadataWithNotify(x, y, z, offset + world.getBlockMetadata(x, y, z), 3);
 	}
 
-	public int[] findCore(World world, int x, int y, int z) {
+	public int[] findCore(IBlockAccess world, int x, int y, int z) {
 		positions.clear();
 		return findCoreRec(world, x, y, z);
 	}
 
 	List<ThreeInts> positions = new ArrayList<>();
 
-	public int[] findCoreRec(World world, int x, int y, int z) {
+	public int[] findCoreRec(IBlockAccess world, int x, int y, int z) {
 
 		ThreeInts pos = new ThreeInts(x, y, z);
 

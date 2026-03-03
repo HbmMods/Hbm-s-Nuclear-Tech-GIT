@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockDecoToaster;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderToaster implements ISimpleBlockRenderingHandler {
 
@@ -30,7 +30,7 @@ public class RenderToaster implements ISimpleBlockRenderingHandler {
 
 		GL11.glTranslated(0, -0.25, 0);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.toaster, iicon, tessellator, (float) Math.PI * -0.5F, false);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.toaster, iicon, tessellator, (float) Math.PI * -0.5F, false);
 		tessellator.draw();
 
 		GL11.glPopMatrix();
@@ -62,7 +62,7 @@ public class RenderToaster implements ISimpleBlockRenderingHandler {
 		}
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.toaster, iicon, tessellator, rotation, true);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.toaster, iicon, tessellator, rotation, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 
 		return true;

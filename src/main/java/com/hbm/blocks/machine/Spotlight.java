@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnums.LightType;
 import com.hbm.blocks.ISpotlight;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -23,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class Spotlight extends Block implements ISpotlight, INBTBlockTransformable {
@@ -61,11 +61,11 @@ public class Spotlight extends Block implements ISpotlight, INBTBlockTransformab
 		return renderID;
 	}
 
-	public WavefrontObject getModel() {
+	public HFRWavefrontObject getModel() {
 		switch(type) {
-		case FLUORESCENT: return (WavefrontObject) ResourceManager.fluorescent_lamp;
-		case HALOGEN: return (WavefrontObject) ResourceManager.flood_lamp;
-		default: return (WavefrontObject) ResourceManager.cage_lamp;
+		case FLUORESCENT: return (HFRWavefrontObject) ResourceManager.fluorescent_lamp;
+		case HALOGEN: return (HFRWavefrontObject) ResourceManager.flood_lamp;
+		default: return (HFRWavefrontObject) ResourceManager.cage_lamp;
 		}
 	}
 

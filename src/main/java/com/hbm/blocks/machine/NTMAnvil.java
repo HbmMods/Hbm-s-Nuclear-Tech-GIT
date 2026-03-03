@@ -13,6 +13,7 @@ import com.hbm.inventory.gui.GUIAnvil;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.IGUIProvider;
 
@@ -35,7 +36,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class NTMAnvil extends BlockFallingNT implements ITooltipProvider, IGUIProvider {
 
@@ -211,12 +211,12 @@ public class NTMAnvil extends BlockFallingNT implements ITooltipProvider, IGUIPr
 		if(falling.getMeta() == 4) rotation = 180F / 180F * (float)Math.PI;
 
 		tessellator.addTranslation(0F, -0.5F, 0F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Top", getIcon(1, 0), tessellator, rotation, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Bottom", getIcon(0, 0), tessellator, rotation, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Front", getIcon(0, 0), tessellator, rotation, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Back", getIcon(0, 0), tessellator, rotation, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Left", getIcon(0, 0), tessellator, rotation, true);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Right", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Top", getIcon(1, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Bottom", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Front", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Back", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Left", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.anvil, "Right", getIcon(0, 0), tessellator, rotation, true);
 		tessellator.addTranslation(0F, 0.5F, 0F);
 	}
 }

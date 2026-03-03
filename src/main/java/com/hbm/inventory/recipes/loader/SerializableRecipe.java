@@ -263,7 +263,6 @@ public abstract class SerializableRecipe {
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
 			if("nbt".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
-				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
 				NBTBase nbt = array.size() > 4 ? JsonToNBT.func_150315_a(array.get(4).getAsString()) : null;
 				return new NBTStack(item, stacksize, 0).withNBT(nbt instanceof NBTTagCompound ? (NBTTagCompound) nbt : null);
 			}
