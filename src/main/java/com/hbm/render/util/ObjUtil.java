@@ -1,29 +1,30 @@
 package com.hbm.render.util;
 
+import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.S_Face;
+import com.hbm.render.loader.S_GroupObject;
+
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.obj.Face;
-import net.minecraftforge.client.model.obj.GroupObject;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ObjUtil {
 
-	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, boolean shadow) {
+	public static void renderWithIcon(HFRWavefrontObject model, IIcon icon, Tessellator tes, float rot, boolean shadow) {
 		renderWithIcon(model, icon, tes, rot, 0, 0, shadow);
 	}
 
-	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
+	public static void renderWithIcon(HFRWavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
 		renderWithIcon(model, icon, tes, rot, pitch, 0, shadow);
 	}
 
-	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
-		for(GroupObject go : model.groupObjects) {
+	public static void renderWithIcon(HFRWavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
+		for(S_GroupObject go : model.groupObjects) {
 			
-			for(Face f : go.faces) {
+			for(S_Face f : go.faces) {
 
 				Vertex n = f.faceNormal;
 
@@ -66,19 +67,19 @@ public class ObjUtil {
 		}
 	}
 
-	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, boolean shadow) {
+	public static void renderPartWithIcon(HFRWavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, boolean shadow) {
 		renderPartWithIcon(model, name, icon, tes, rot, 0, 0, shadow);
 	}
 
-	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
+	public static void renderPartWithIcon(HFRWavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
 		renderPartWithIcon(model, name, icon, tes, rot, pitch, 0, shadow);
 	}
 
-	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
+	public static void renderPartWithIcon(HFRWavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
 
-		GroupObject go = null;
+		S_GroupObject go = null;
 
-		for(GroupObject obj : model.groupObjects) {
+		for(S_GroupObject obj : model.groupObjects) {
 			if(obj.name.equals(name))
 				go = obj;
 		}
@@ -86,7 +87,7 @@ public class ObjUtil {
 		if(go == null)
 			return;
 
-		for(Face f : go.faces) {
+		for(S_Face f : go.faces) {
 
 			Vertex n = f.faceNormal;
 

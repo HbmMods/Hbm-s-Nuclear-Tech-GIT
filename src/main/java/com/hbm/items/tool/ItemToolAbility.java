@@ -33,6 +33,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.item.IDepthRockTool;
@@ -63,6 +64,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -563,6 +565,29 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 
 			World world = player.worldObj;
 			if(!canOperate(stack)) return;
+			
+			EntityPlayerMP playerMP = (EntityPlayerMP) player;
+			MovingObjectPosition mop = EntityDamageUtil.getMouseOver(playerMP, playerMP.theItemInWorldManager.getBlockReachDistance());
+			
+			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				// this is horrifying and won't always produce the correct results, but it beats not having anything
+				// simply put, we check if we are aiming at a block, and if we do, we compare that block's onBlockActivated
+				// method to the one from Block.class. If the declaring class doesn't match, it's overridden, and we
+				// assume that something is going to happen, which it might not, but either way we cancel the ability switch.
+				Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+				// IDE
+				try {
+					Method m0 = b.getClass().getMethod("onBlockActivated", World.class, int.class, int.class, int.class, EntityPlayer.class, int.class, float.class, float.class, float.class);
+					Method m1 = Block.class.getMethod("onBlockActivated", World.class, int.class, int.class, int.class, EntityPlayer.class, int.class, float.class, float.class, float.class);
+					if(m0.getDeclaringClass() != m1.getDeclaringClass()) return;
+				} catch(Throwable e) { }
+				// COMP
+				try {
+					Method m0 = b.getClass().getMethod("func_149727_a", World.class, int.class, int.class, int.class, EntityPlayer.class, int.class, float.class, float.class, float.class);
+					Method m1 = Block.class.getMethod("func_149727_a", World.class, int.class, int.class, int.class, EntityPlayer.class, int.class, float.class, float.class, float.class);
+					if(m0.getDeclaringClass() != m1.getDeclaringClass()) return;
+				} catch(Throwable e) { }
+			}
 
 			Configuration config = getConfiguration(stack);
 			if(config.presets.size() < 2 || world.isRemote) return;
@@ -574,7 +599,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			}
 
 			setConfiguration(stack, config);
-			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), (EntityPlayerMP) player);
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(config.getActivePreset().getMessage(), MainRegistry.proxy.ID_TOOLABILITY), playerMP);
 			world.playSoundAtEntity(player, "random.orb", 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
 		}
 	}

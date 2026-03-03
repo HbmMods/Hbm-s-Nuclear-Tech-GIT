@@ -7,7 +7,6 @@ import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKLid;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
@@ -20,12 +19,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -34,7 +35,13 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
-	public ResourceLocation coverTexture;
+	
+	public static boolean renderLid = false;
+	public static boolean overrideOnlyRenderSides = false;
+
+	public IIcon coverTextureTop;
+	public IIcon coverTextureSide;
+	public IIcon textureTop;
 
 	protected RBMKBase() {
 		super(Material.iron);
@@ -42,11 +49,30 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 		this.setResistance(30F);
 	}
 
+	@Override public boolean isOpaqueCube() { return true; }
+	@Override public boolean renderAsNormalBlock() { return true; }
+	
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+		if(overrideOnlyRenderSides && side < 2) return false;
+		if(renderLid && side > 1) return true;
+		return super.shouldSideBeRendered(world, x, y, z, side);
+	}
+
 	@Override
-	public Block setBlockTextureName(String texture) {
-		this.textureName = texture;
-		this.coverTexture = new ResourceLocation(RefStrings.MODID + ":textures/blocks/" + (texture.split(":")[1]) + ".png");
-		return this;
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg) {
+		this.blockIcon = reg.registerIcon(this.getTextureName() + "_side");
+		this.textureTop = reg.registerIcon(this.getTextureName() + "_top");
+		this.coverTextureTop = reg.registerIcon(this.getTextureName() + "_cover_top");
+		this.coverTextureSide = reg.registerIcon(this.getTextureName() + "_cover_side");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		if(renderLid) return side == 0 || side == 1 ? coverTextureTop : coverTextureSide;
+		return side == 0 || side == 1 ? textureTop : blockIcon;
 	}
 
 	@Override

@@ -1,14 +1,11 @@
 ## Changed
-* Removed the legacy assemblers and chemical plants
-* Removed all legacy templates
-* Removed legacy particle collider blocks with the exception of the coils
-* Removed the unused anti proton and positron capsules
-* Removed some ancient test blocks
-* Removed the T-45 power armor completely
-* Removed the old redcoil items
-* Nuclear creepers now have an innate resistance to explosion damage (5/35%)
-* Reduced the resistance stats on the ballistic jackets
-* U233 and Pu241 are now custom nuke usable
+* Improved buzzsaw tree detection
+  * Instead of just clearing a pillar, it now tries to detect branches
+  * The max size of trees that can be successfully harvested is now way bigger
+  * This means that things like 2x2 jungle trees can now be automated
 
 ## Fixed
-* Fixed size 15 boxcar not being craftable
+* Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
+* Fixed precision assembler not being listed in the creative inventory
+* Fixed OpenComputers integration for the CCGT
+* Fixed tool abilities switching when clicking on a block with a special interaction

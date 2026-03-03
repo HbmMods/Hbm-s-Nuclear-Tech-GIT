@@ -263,9 +263,8 @@ public abstract class SerializableRecipe {
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
 			if("nbt".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
-				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
-				NBTBase nbt = JsonToNBT.func_150315_a(array.get(array.size() - 1).getAsString());
-				return new NBTStack(item, stacksize, meta).withNBT(nbt instanceof NBTTagCompound ? (NBTTagCompound) nbt : null);
+				NBTBase nbt = array.size() > 4 ? JsonToNBT.func_150315_a(array.get(4).getAsString()) : null;
+				return new NBTStack(item, stacksize, 0).withNBT(nbt instanceof NBTTagCompound ? (NBTTagCompound) nbt : null);
 			}
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
@@ -296,11 +295,11 @@ public abstract class SerializableRecipe {
 		writer.setIndent("");
 		if(astack instanceof NBTStack) {
 			NBTStack comp = (NBTStack) astack;
-			writer.value(comp.nbt != null ? "nbt" : "item");							//NBT  identifier
-			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));	//item name
-			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);		//stack size
-			if(comp.meta > 0 || comp.nbt != null) writer.value(comp.meta);				//metadata
-			if(comp.nbt != null) writer.value(comp.nbt.toString());						//NBT
+			writer.value(comp.nbt != null ? "nbt" : "item");											//NBT  identifier
+			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));					//item name
+			if(comp.stacksize != 1 || comp.meta > 0 || comp.nbt != null) writer.value(comp.stacksize);	//stack size
+			if(comp.meta > 0 || comp.nbt != null) writer.value(comp.meta);								//metadata
+			if(comp.nbt != null) writer.value(comp.nbt.toString());										//NBT
 		} else if(astack instanceof ComparableStack) {
 			ComparableStack comp = (ComparableStack) astack;
 			writer.value("item");														//ITEM  identifier

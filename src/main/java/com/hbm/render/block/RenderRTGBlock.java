@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.machine.MachineRTG;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderRTGBlock implements ISimpleBlockRenderingHandler {
 
@@ -20,21 +20,20 @@ public class RenderRTGBlock implements ISimpleBlockRenderingHandler {
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 
 		GL11.glPushMatrix();
-        Tessellator tessellator = Tessellator.instance;
-        IIcon iicon = block.getIcon(0, 0);
+		Tessellator tessellator = Tessellator.instance;
+		IIcon iicon = block.getIcon(0, 0);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-        if (renderer.hasOverrideBlockTexture())
-        {
-            iicon = renderer.overrideBlockTexture;
-        }
-        
-        GL11.glTranslated(0, -0.5, 0);
-        tessellator.startDrawingQuads();
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.rtg, "Gen", iicon, tessellator, 0, false);
+		if(renderer.hasOverrideBlockTexture()) {
+			iicon = renderer.overrideBlockTexture;
+		}
+
+		GL11.glTranslated(0, -0.5, 0);
+		tessellator.startDrawingQuads();
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rtg, "Gen", iicon, tessellator, 0, false);
 		tessellator.draw();
-		
-        GL11.glPopMatrix();
+
+		GL11.glPopMatrix();
 	}
 
 	@Override

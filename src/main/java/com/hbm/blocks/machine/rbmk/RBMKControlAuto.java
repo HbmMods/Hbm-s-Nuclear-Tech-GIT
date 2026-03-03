@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class RBMKControlAuto extends RBMKBase {
+public class RBMKControlAuto extends RBMKPipedBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -25,10 +25,5 @@ public class RBMKControlAuto extends RBMKBase {
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-	}
-	
-	@Override
-	public int getRenderType(){
-		return this.renderIDControl;
 	}
 }

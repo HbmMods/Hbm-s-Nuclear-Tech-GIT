@@ -2,6 +2,9 @@ package com.hbm.render.block;
 
 import com.hbm.blocks.machine.SolarMirror;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.S_Face;
+import com.hbm.render.loader.S_GroupObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.machine.TileEntitySolarMirror;
 
@@ -13,11 +16,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.Face;
-import net.minecraftforge.client.model.obj.GroupObject;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class RenderMirror implements ISimpleBlockRenderingHandler {
 
@@ -49,10 +49,10 @@ public class RenderMirror implements ISimpleBlockRenderingHandler {
 		int dz = mirror.tZ - mirror.zCoord;
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.solar_mirror, "Base", iicon, tessellator, 0, true);
+		ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.solar_mirror, "Base", iicon, tessellator, 0, true);
 		
 		if(mirror.tY <= mirror.yCoord)
-			ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.solar_mirror, "Mirror", iicon, tessellator, 0, true);
+			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.solar_mirror, "Mirror", iicon, tessellator, 0, true);
 		else
 			printMirror(iicon, dx, dy, dz);
 		
@@ -63,9 +63,9 @@ public class RenderMirror implements ISimpleBlockRenderingHandler {
 	
 	private void printMirror(IIcon icon, int dx, int dy, int dz) {
 
-		GroupObject go = null;
+		S_GroupObject go = null;
 
-		for(GroupObject obj : ((WavefrontObject)ResourceManager.solar_mirror).groupObjects) {
+		for(S_GroupObject obj : ((HFRWavefrontObject) ResourceManager.solar_mirror).groupObjects) {
 			if(obj.name.equals("Mirror")) go = obj;
 		}
 
@@ -77,7 +77,7 @@ public class RenderMirror implements ISimpleBlockRenderingHandler {
 		double pitch = -Math.asin(dy / dist) + Math.PI / 2D;
 		double yaw = -Math.atan2(dz, dx) - Math.PI / 2D;
 
-		for(Face f : go.faces) {
+		for(S_Face f : go.faces) {
 
 			Vertex n = f.faceNormal;
 			

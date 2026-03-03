@@ -3,6 +3,7 @@ package com.hbm.render.block;
 import com.hbm.blocks.network.RadioTorchBase;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 import com.hbm.tileentity.network.TileEntityRadioTorchLogic;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 @NotableComments
 public class RenderRTTY implements ISimpleBlockRenderingHandler {
@@ -72,7 +72,7 @@ public class RenderRTTY implements ISimpleBlockRenderingHandler {
 		//using OBJ here because vanilla's block renderer is so broken it's not even funny anymore
 		//mojang genuinely doesn't know how on earth UVs work
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rtty, icon, tessellator, rotation, flip, false);
+		ObjUtil.renderWithIcon((HFRWavefrontObject) ResourceManager.rtty, icon, tessellator, rotation, flip, false);
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);
 		
 		return true;

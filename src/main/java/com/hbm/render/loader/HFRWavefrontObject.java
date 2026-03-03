@@ -55,7 +55,11 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	private boolean allowMixedMode = false;
 
 	public HFRWavefrontObject(String name) throws ModelFormatException {
-		this(new ResourceLocation(RefStrings.MODID, name));
+		this(new ResourceLocation(RefStrings.MODID, name), false);
+	}
+
+	public HFRWavefrontObject(String name, boolean mixedMode) throws ModelFormatException {
+		this(new ResourceLocation(RefStrings.MODID, name), mixedMode);
 	}
 	
 	public HFRWavefrontObject noSmooth() {
@@ -65,12 +69,15 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	
 	/** Provides a way for a model to have both tris and quads, however this means it can't be rendered directly.
 	 * Useful for ISBRHs which access vertices manually, allowing the quad to tri trick without forcing the entire model to be redundant tris. */
-	public HFRWavefrontObject mixedMode() {
-		this.allowMixedMode = true;
-		return this;
-	}
+	public void mixedMode() { this.allowMixedMode = true; }
 
 	public HFRWavefrontObject(ResourceLocation resource) throws ModelFormatException {
+		this(resource, false);
+	}
+
+	public HFRWavefrontObject(ResourceLocation resource, boolean mixedMode) throws ModelFormatException {
+		if(mixedMode) this.mixedMode();
+		
 		this.resource = resource;
 		this.fileName = resource.toString();
 
@@ -82,11 +89,6 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 		}
 		
 		this.allModels.add(this);
-	}
-
-	public HFRWavefrontObject(ResourceLocation resource, boolean smoothing) throws ModelFormatException {
-		this(resource);
-		this.smoothing = smoothing;
 	}
 
 	public void destroy() {
