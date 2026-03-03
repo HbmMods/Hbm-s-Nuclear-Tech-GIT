@@ -46,8 +46,8 @@ public class BlockConduitStraight extends BlockConduitBase {
 					x + 0.5 - dir.offsetX * 2.5 - rot.offsetX * 0.28125, y, z + 0.5 - dir.offsetZ * 2.5 - rot.offsetZ * 0.28125, angle,
 					x + 0.5 + dir.offsetX * 2.5 - rot.offsetX * 0.28125, y, z + 0.5 + dir.offsetZ * 2.5 - rot.offsetZ * 0.28125, angle);
 			ConduitRenderUtil.renderSteel(Tessellator.instance, blockIcon,
-					x + 0.5 - dir.offsetX * 2.5 - rot.offsetX * -1.21875, y, z + 0.5 - dir.offsetZ * 2.5 - rot.offsetZ * -1.21875, angle,
-					x + 0.5 + dir.offsetX * 2.5 - rot.offsetX * -1.21875, y, z + 0.5 + dir.offsetZ * 2.5 - rot.offsetZ * -1.21875, angle);
+					x + 0.5 - dir.offsetX * 2.5 - rot.offsetX * -1.28125, y, z + 0.5 - dir.offsetZ * 2.5 - rot.offsetZ * -1.28125, angle,
+					x + 0.5 + dir.offsetX * 2.5 - rot.offsetX * -1.28125, y, z + 0.5 + dir.offsetZ * 2.5 - rot.offsetZ * -1.28125, angle);
 		}
 		return false;
 	}

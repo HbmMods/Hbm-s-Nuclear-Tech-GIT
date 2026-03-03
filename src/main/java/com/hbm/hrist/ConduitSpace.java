@@ -105,13 +105,13 @@ public class ConduitSpace {
 						
 						line = orphan.getLine();
 						// if the current line is null
-						if(line == null || !line.valid) {
+						if(line == null || !line.isValid()) {
 							if(connectedDef.connectors[0].equals(connection) || connectedDef.connectors[1].equals(connection)) {
 								orphan.setLine(connectedLine);
 								break;
 							}
 						// if not, merge
-						} else {
+						} else if(line.isValid()) {
 							// larger one eats the smaller one for performance
 							ConduitLine larger = line.getDefCount() > connectedLine.getDefCount() ? line : connectedLine;
 							ConduitLine smaller = larger == connectedLine ? line : connectedLine;
@@ -120,7 +120,7 @@ public class ConduitSpace {
 					}
 				}
 				
-				if(orphan.getLine() == null) {
+				if(orphan.getLine() == null || !orphan.getLine().isValid()) {
 					orphan.setLine(new ConduitLine(world));
 				}
 			}
