@@ -866,7 +866,7 @@ container.rbmkBoiler=Паровой канал РБМК
 container.rbmkControl=Регулирующие стержни РБМК
 container.rbmkControlAuto=Автоматические регулирующие стержни РБМК
 container.rbmkHeater=Жидкостный нагреватель РБМК
-container.rbmkOutgasser=Стержень облучения РБМК
+container.rbmkOutgasser=Колонна облучение РБМК
 container.rbmkReaSim=Топливные стержни РБМК (РеаСим)
 container.rbmkRod=Топливные стержни РБМК
 container.rbmkStorage=Колонна-хранилище РБМК
@@ -6648,6 +6648,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 15.02.2026 by RayzerHan //
+
 
 
 
