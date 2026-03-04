@@ -117,16 +117,17 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		buf.writeDouble(this.startingLevel);
 		if(this.color != null)
 			buf.writeInt(this.color.ordinal());
+		else
+			buf.writeInt(-1);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.startingLevel = buf.readDouble();
-		if(buf.isReadable(1)) {
-			int color = buf.readInt();
-			this.color = RBMKColor.values()[MathHelper.clamp_int(color, 0, RBMKColor.values().length)];
-		}
+		int color = buf.readInt();
+		this.color = RBMKColor.values()[MathHelper.clamp_int(color, 0, RBMKColor.values().length)];
+		if(color == -1) this.color = null;
 	}
 	
 	public static enum RBMKColor {

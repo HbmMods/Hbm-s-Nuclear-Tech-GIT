@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderRBMKLid extends TileEntitySpecialRenderer {
+public class RenderRBMKFuelChannel extends TileEntitySpecialRenderer {
 
 	private static final ResourceLocation texture_rods = new ResourceLocation(RefStrings.MODID + ":textures/blocks/rbmk/rbmk_element_fuel.png");
 

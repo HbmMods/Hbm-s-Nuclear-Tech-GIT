@@ -1,11 +1,22 @@
 ## Changed
+* Updated RBMK visuals
+  * The indentations on most RBMK passive elements have been removed, heavily reducing tri count and allowing face culling, making RBMKs render much more efficiently
+  * The caps no longer render as part of the TESR and instead use much more performant ISBRH rendering
+  * Due to most passive elements no longer needing TESRs for their caps, most parts no longer use any TESRs at all
+  * This should fix various issues regarding lower-end hardware (especially Pojav) as well as issues with TESRs getting skipped due to the sheer number of things to render
+  * Control rods now show their set color as part of the model
 * Improved buzzsaw tree detection
   * Instead of just clearing a pillar, it now tries to detect branches
   * The max size of trees that can be successfully harvested is now way bigger
   * This means that things like 2x2 jungle trees can now be automated
+* Annihilating radioactive items now creates that item's radiation value x5 as chunk radiation
+  * The maximum per tick is a 1000 RAD/s increase to prevent world-destroying radiation levels from annihilating demon cores
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
 * Fixed precision assembler not being listed in the creative inventory
 * Fixed OpenComputers integration for the CCGT
 * Fixed tool abilities switching when clicking on a block with a special interaction
+* Fixed outdated info on the QMAW pages involving AA and BSCCO due to the fusion reactor update
+* Fixed ammo container giving 9mm instead of .22 for the akimbo target pistols
+* Fixed RBMK control rods incorrectly showing up in the red group when no group is set

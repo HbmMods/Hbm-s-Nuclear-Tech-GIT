@@ -89,7 +89,7 @@ public class XFactory22lr {
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_STAR_F_ANIMS).orchestra(Orchestras.ORCHESTRA_STAR_F_AKIMBO)
-				).setDefaultAmmo(EnumAmmo.P9_SP, 30).setUnlocalizedName("gun_star_f_akimbo");
+				).setDefaultAmmo(EnumAmmo.P22_SP, 30).setUnlocalizedName("gun_star_f_akimbo");
 	}
 
 	public static Function<ItemStack, String> LAMBDA_NAME_SILENCED = (stack) -> {

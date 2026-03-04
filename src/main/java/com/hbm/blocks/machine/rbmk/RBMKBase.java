@@ -2,6 +2,7 @@ package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
@@ -35,12 +36,17 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 
 	public static boolean dropLids = true;
 	public static boolean digamma = false;
-	
-	public static boolean renderLid = false;
+
+	public static final int LID_NONE = 0;
+	public static final int LID_STANDARD = 1;
+	public static final int LID_GLASS = 2;
+	public static int renderLid = LID_NONE;
 	public static boolean overrideOnlyRenderSides = false;
 
 	public IIcon coverTextureTop;
 	public IIcon coverTextureSide;
+	public IIcon glassTextureTop;
+	public IIcon glassTextureSide;
 	public IIcon textureTop;
 
 	protected RBMKBase() {
@@ -55,7 +61,7 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
 		if(overrideOnlyRenderSides && side < 2) return false;
-		if(renderLid && side > 1) return true;
+		if(renderLid != LID_NONE && side > 1) return true;
 		return super.shouldSideBeRendered(world, x, y, z, side);
 	}
 
@@ -64,14 +70,18 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(this.getTextureName() + "_side");
 		this.textureTop = reg.registerIcon(this.getTextureName() + "_top");
+		if(this == ModBlocks.rbmk_control || this == ModBlocks.rbmk_control_auto || this == ModBlocks.rbmk_control_mod) return;
 		this.coverTextureTop = reg.registerIcon(this.getTextureName() + "_cover_top");
 		this.coverTextureSide = reg.registerIcon(this.getTextureName() + "_cover_side");
+		this.glassTextureTop = reg.registerIcon(this.getTextureName() + "_glass_top");
+		this.glassTextureSide = reg.registerIcon(this.getTextureName() + "_glass_side");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		if(renderLid) return side == 0 || side == 1 ? coverTextureTop : coverTextureSide;
+		if(renderLid == LID_STANDARD) return side == 0 || side == 1 ? coverTextureTop : coverTextureSide;
+		if(renderLid == LID_GLASS) return side == 0 || side == 1 ? glassTextureTop : glassTextureSide;
 		return side == 0 || side == 1 ? textureTop : blockIcon;
 	}
 
@@ -150,6 +160,12 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	public static final ForgeDirection DIR_NO_LID = ForgeDirection.NORTH;
 	public static final ForgeDirection DIR_NORMAL_LID = ForgeDirection.EAST;
 	public static final ForgeDirection DIR_GLASS_LID = ForgeDirection.SOUTH;
+	
+	public static int metaToLid(int meta) {
+		if(meta - 10 == DIR_NORMAL_LID.ordinal()) return LID_STANDARD;
+		if(meta - 10 == DIR_GLASS_LID.ordinal()) return LID_GLASS;
+		return LID_NONE;
+	}
 
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {

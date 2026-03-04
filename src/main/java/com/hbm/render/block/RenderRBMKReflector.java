@@ -19,6 +19,7 @@ public class RenderRBMKReflector implements ISimpleBlockRenderingHandler {
 
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
+		RBMKBase.renderLid = RBMKBase.LID_NONE;
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		GL11.glTranslated(0, -0.675, 0);
@@ -55,14 +56,13 @@ public class RenderRBMKReflector implements ISimpleBlockRenderingHandler {
 			int[] pos = ((BlockDummyable) block).findCore(world, x, y, z);
 			if(pos != null) {
 				int coreMeta = world.getBlockMetadata(pos[0], pos[1], pos[2]);
-				
-				if(coreMeta - 10 == RBMKBase.DIR_NORMAL_LID.ordinal()) {
-					tessellator.addTranslation(0, 1, 0);
+				int lid = RBMKBase.metaToLid(coreMeta);
+
+				if(lid != RBMKBase.LID_NONE) {
 					renderer.setRenderBounds(0, 0, 0, 1, 0.25, 1);
-					RBMKBase.renderLid = true;
-					renderer.renderStandardBlock(block, x, y, z);
-					RBMKBase.renderLid = false;
-					tessellator.addTranslation(0, -1, 0);
+					RBMKBase.renderLid = lid;
+					renderer.renderStandardBlock(block, x, y + 1, z);
+					RBMKBase.renderLid = RBMKBase.LID_NONE;
 				}
 			}
 		}
@@ -70,13 +70,6 @@ public class RenderRBMKReflector implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 
-	@Override
-	public boolean shouldRender3DInInventory(int modelId) {
-		return true;
-	}
-
-	@Override
-	public int getRenderId() {
-		return RBMKBase.renderIDPassive;
-	}
+	@Override public boolean shouldRender3DInInventory(int modelId) { return true; }
+	@Override public int getRenderId() { return RBMKBase.renderIDPassive; }
 }

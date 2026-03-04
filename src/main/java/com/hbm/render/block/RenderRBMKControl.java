@@ -23,6 +23,7 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
+		RBMKBase.renderLid = RBMKBase.LID_NONE;
 		IIcon iicon = block.getIcon(0, 0);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
@@ -99,30 +100,27 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 				int[] pos = ((BlockDummyable) block).findCore(world, x, y, z);
 				if(pos != null) {
 					int coreMeta = world.getBlockMetadata(pos[0], pos[1], pos[2]);
-					
-					if(coreMeta - 10 == RBMKBase.DIR_NORMAL_LID.ordinal()) {
-						tessellator.addTranslation(0, 1, 0);
+					int lid = RBMKBase.metaToLid(coreMeta);
+
+					if(lid != RBMKBase.LID_NONE) {
 						renderer.setRenderBounds(0, 0, 0, 1, 0.25, 1);
-						RBMKBase.renderLid = true;
-						renderer.renderStandardBlock(block, x, y, z);
-						RBMKBase.renderLid = false;
-						tessellator.addTranslation(0, -1, 0);
+						RBMKBase.renderLid = lid;
+						renderer.renderStandardBlock(block, x, y + 1, z);
+						RBMKBase.renderLid = RBMKBase.LID_NONE;
 						hasLid = true;
 					}
 				}
 			}
 			
 			if(!hasLid) {
-				tessellator.addTranslation(0, 1, 0);
 				renderer.setRenderBounds(0.0625, 0, 0.0625, 0.4375, 0.125, 0.4375);
-				renderer.renderStandardBlock(block, x, y, z);
+				renderer.renderStandardBlock(block, x, y + 1, z);
 				renderer.setRenderBounds(0.0625, 0, 0.5625, 0.4375, 0.125, 0.9375);
-				renderer.renderStandardBlock(block, x, y, z);
+				renderer.renderStandardBlock(block, x, y + 1, z);
 				renderer.setRenderBounds(0.5625, 0, 0.5625, 0.9375, 0.125, 0.9375);
-				renderer.renderStandardBlock(block, x, y, z);
+				renderer.renderStandardBlock(block, x, y + 1, z);
 				renderer.setRenderBounds(0.5625, 0, 0.0625, 0.9375, 0.125, 0.4375);
-				renderer.renderStandardBlock(block, x, y, z);
-				tessellator.addTranslation(0, -1, 0);
+				renderer.renderStandardBlock(block, x, y + 1, z);
 			}
 		} else {
 		}
@@ -130,13 +128,6 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 		return true;
 	}
 
-	@Override
-	public boolean shouldRender3DInInventory(int modelId) {
-		return true;
-	}
-
-	@Override
-	public int getRenderId() {
-		return RBMKBase.renderIDControl;
-	}
+	@Override public boolean shouldRender3DInInventory(int modelId) { return true; }
+	@Override public int getRenderId() { return RBMKBase.renderIDControl; }
 }

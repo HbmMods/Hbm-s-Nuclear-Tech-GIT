@@ -36,25 +36,18 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	public void updateEntity() {
 
 		if(worldObj.isRemote) {
-
 			this.lastLevel = this.level;
 
 		} else {
 
 			if(level < targetLevel) {
-
 				level += speed * RBMKDials.getControlSpeed(worldObj);
-
-				if(level > targetLevel)
-					level = targetLevel;
+				if(level > targetLevel) level = targetLevel;
 			}
 
 			if(level > targetLevel) {
-
 				level -= speed * RBMKDials.getControlSpeed(worldObj);
-
-				if(level < targetLevel)
-					level = targetLevel;
+				if(level < targetLevel) level = targetLevel;
 			}
 		}
 
