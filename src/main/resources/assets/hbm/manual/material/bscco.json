@@ -11,7 +11,8 @@
 	"content": {
 		"en_US": "Powerful superconductor, used in high tier circuits and coils for the [[particle accelerator|Particle Accelerator]] as well as the [[fusion reactor|Fusion Reactor Vessel]]. Requires [[bismuth|Bismuth]], and is therefore only obtainable after building an [[RBMK]].",
 		"uk_UA": "Потужний надпровідник, що використовується у високоякісних платах та котушках для [[прискорювача часток|Particle Accelerator]]. Потребує [[вісмут|Bismuth]], і тому доступний лише після побудови [[РБМК|RBMK]].",
-		"ru_RU": "Мощный сверхпроводник, используемый в высокоуровневых цепях и катушках для [[ускорителя частиц|Particle Accelerator]]. Требует [[висмут|Bismuth]], и поэтому доступен только после постройки [[РБМК|RBMK]].",
+		"ru_RU": "Мощный сверхпроводник, используемый в высокоуровневых процессорах и катушках для [[ускорителя частиц|Particle Accelerator]], а также для [[термоядерного реактора|Fusion Reactor Vessel]]. Требует [[висмут|Bismuth]], и поэтому доступен только после постройки [[РБМК|RBMK]].",
 		"zh_CN": "强力的超导体，用于制作高等级的电路及用于[[粒子加速器|Particle Accelerator]]的线圈。需要[[铋|Bismuth]]制作，因此只能在建造[[RBMK]]后获得。"
 	}
 }
+
