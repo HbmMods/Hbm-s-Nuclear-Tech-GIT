@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.albion.TileEntityPABeamline;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -29,9 +30,25 @@ public class RenderPABeamline extends TileEntitySpecialRenderer implements IItem
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
 		
+		TileEntityPABeamline beamline = (TileEntityPABeamline) tile;
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.pa_beamline_tex);
-		ResourceManager.pa_beamline.renderAll();
+		
+		if(!beamline.window) {
+			ResourceManager.pa_beamline.renderPart("Beamline");
+		} else {
+			ResourceManager.pa_beamline.renderPart("BeamlineWindow");
+			
+			float flash = beamline.prevLight + (beamline.light - beamline.prevLight) * f;
+			GL11.glColor3f(0.9F * flash, 0.9F * flash, 1.0F * flash);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			RenderArcFurnace.fullbright(true);
+			ResourceManager.pa_beamline.renderPart("BeamlineGlass");
+			RenderArcFurnace.fullbright(false);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(1F, 1F, 1F);
+		}
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPopMatrix();
@@ -53,7 +70,7 @@ public class RenderPABeamline extends TileEntitySpecialRenderer implements IItem
 				GL11.glRotated(90, 0, 1, 0);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.pa_beamline_tex);
-				ResourceManager.pa_beamline.renderAll();
+				ResourceManager.pa_beamline.renderPart("Beamline");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}

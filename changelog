@@ -20,6 +20,11 @@
   * The maximum per tick is a 1000 RAD/s increase to prevent world-destroying radiation levels from annihilating demon cores
 * The water door now has a skin that isn't rusted with less contrast
 * The containment door now has a lead-colored skin with a trefoil on it
+* Using a screwdriver on a beamline now toggles a window which flashes if a particle passes
+* Particles now start slowly and accelerate, instead of passing a fixed 10 components per tick, particles only do 1 component per tick, which increases by 1 every 1,000 momentum
+* RBMK absorber columns now heat up when exposed to neutrons
+  * The type of neutron does not matter, only the quantity
+  * 20 flux equals 1°C heatup
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
