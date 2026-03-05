@@ -1,10 +1,13 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPillar;
 import com.hbm.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -38,5 +41,12 @@ public class BlockForgottenLock extends BlockPillar {
 	
 	public static void generate(World world, int x, int y, int z, int meta, ForgeDirection dir) {
 		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		int len = 15;
+		for(int w = -2; w <= 2; w++) for(int h = -2; h <= 2; h++) for(int d = 0; d < len; d++) {
+			Block b = (w == -2 || w == 2 || h == -2 || h == 2 || d == len - 1) ? ModBlocks.brick_forgotten : Blocks.air;
+			world.setBlock(x - dir.offsetX * d + rot.offsetX * w, y + h, z - dir.offsetZ * d + rot.offsetZ * w, b);
+		}
 	}
 }

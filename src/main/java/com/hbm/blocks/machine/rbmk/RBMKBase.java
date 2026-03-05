@@ -64,13 +64,18 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 		if(renderLid != LID_NONE && side > 1) return true;
 		return super.shouldSideBeRendered(world, x, y, z, side);
 	}
+	
+	public boolean hasOwnLid() {
+		return this == ModBlocks.rbmk_control || this == ModBlocks.rbmk_control_auto || this == ModBlocks.rbmk_control_mod ||
+				this == ModBlocks.rbmk_control_reasim || this == ModBlocks.rbmk_control_reasim_auto;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(this.getTextureName() + "_side");
 		this.textureTop = reg.registerIcon(this.getTextureName() + "_top");
-		if(this == ModBlocks.rbmk_control || this == ModBlocks.rbmk_control_auto || this == ModBlocks.rbmk_control_mod) return;
+		if(hasOwnLid()) return;
 		this.coverTextureTop = reg.registerIcon(this.getTextureName() + "_cover_top");
 		this.coverTextureSide = reg.registerIcon(this.getTextureName() + "_cover_side");
 		this.glassTextureTop = reg.registerIcon(this.getTextureName() + "_glass_top");
@@ -80,8 +85,10 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		if(renderLid == LID_STANDARD) return side == 0 || side == 1 ? coverTextureTop : coverTextureSide;
-		if(renderLid == LID_GLASS) return side == 0 || side == 1 ? glassTextureTop : glassTextureSide;
+		if(!hasOwnLid()) {
+			if(renderLid == LID_STANDARD) return side == 0 || side == 1 ? coverTextureTop : coverTextureSide;
+			if(renderLid == LID_GLASS) return side == 0 || side == 1 ? glassTextureTop : glassTextureSide;
+		}
 		return side == 0 || side == 1 ? textureTop : blockIcon;
 	}
 
@@ -97,34 +104,24 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 
 	public boolean openInv(World world, int x, int y, int z, EntityPlayer player) {
 
-		if(world.isRemote) {
-			return true;
-		}
+		if(world.isRemote) return true;
 
 		int[] pos = this.findCore(world, x, y, z);
-
-		if(pos == null)
-			return false;
+		if(pos == null) return false;
 
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-
-		if(!(te instanceof TileEntityRBMKBase))
-			return false;
+		if(!(te instanceof TileEntityRBMKBase)) return false;
 
 		TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
 
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemRBMKLid) {
-
-			if(!rbmk.hasLid())
-				return false;
+			if(!rbmk.hasLid()) return false;
 		}
 
-		if(!player.isSneaking()) {
+		if(!player.isSneaking())
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return true;
-		}
+		
+		return true;
 	}
 
 	@Override

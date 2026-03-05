@@ -1083,6 +1083,8 @@ public class ModBlocks {
 	public static Block rbmk_control;
 	public static Block rbmk_control_mod;
 	public static Block rbmk_control_auto;
+	public static Block rbmk_control_reasim;
+	public static Block rbmk_control_reasim_auto;
 	public static Block rbmk_blank;
 	public static Block rbmk_boiler;
 	public static Block rbmk_reflector;
@@ -2100,6 +2102,8 @@ public class ModBlocks {
 		rbmk_control = new RBMKControl(false).setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
 		rbmk_control_mod = new RBMKControl(true).setBlockName("rbmk_control_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_mod");
 		rbmk_control_auto = new RBMKControlAuto().setBlockName("rbmk_control_auto").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_auto");
+		rbmk_control_reasim = new RBMKControl(false).setBlockName("rbmk_control_reasim").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_reasim");
+		rbmk_control_reasim_auto = new RBMKControlAuto().setBlockName("rbmk_control_reasim_auto").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_reasim_auto");
 		rbmk_blank = new RBMKBlank().setBlockName("rbmk_blank").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_blank");
 		rbmk_boiler = new RBMKBoiler().setBlockName("rbmk_boiler").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_boiler");
 		rbmk_reflector = new RBMKReflector().setBlockName("rbmk_reflector").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_reflector");
@@ -3089,6 +3093,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_control, rbmk_control.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control_mod, rbmk_control_mod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_control_auto, rbmk_control_auto.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_control_reasim, rbmk_control_reasim.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_control_reasim_auto, rbmk_control_reasim_auto.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_blank, rbmk_blank.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_boiler, rbmk_boiler.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_reflector, rbmk_reflector.getUnlocalizedName());

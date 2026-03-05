@@ -5,6 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 
 import net.minecraft.client.Minecraft;
@@ -15,8 +16,8 @@ public class RenderWaterDoor implements IRenderDoors {
 
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_water_door_tex);
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.WATER_DOOR.getSkinFromIndex(door.getSkinIndex()));
 
 		double maxRot = 120;
 		double rot = 0;

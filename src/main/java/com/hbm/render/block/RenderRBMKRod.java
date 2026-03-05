@@ -40,11 +40,14 @@ public class RenderRBMKRod implements ISimpleBlockRenderingHandler {
 			tessellator.startDrawingQuads();
 			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rbmk_element, "Inner", rod.inner, tessellator, 0, false);
 			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rbmk_element, "Cap", iicon, tessellator, 0, false);
-			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rbmk_element_rods, "Rods", rod.fuel, tessellator, 0, false);
 			tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, -0.5, 0, -0.5, sideIcon);
 			tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, -0.5, 0, -0.5, sideIcon);
 			tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, -0.5, 0, -0.5, sideIcon);
 			tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, -0.5, 0, -0.5, sideIcon);
+			tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.setColorOpaque_I(0x304825);
+			ObjUtil.renderPartWithIcon((HFRWavefrontObject) ResourceManager.rbmk_element_rods, "Rods", rod.fuel, tessellator, 0, false);
 			tessellator.draw();
 			GL11.glTranslated(0, 1, 0);
 		}

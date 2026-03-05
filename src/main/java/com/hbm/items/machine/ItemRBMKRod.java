@@ -36,6 +36,7 @@ public class ItemRBMKRod extends Item {
 	public double diffusion = 0.02D;		//the speed at which the core heats the hull
 	public NType nType = NType.SLOW;		//neutronType, the most efficient neutron type for fission
 	public NType rType = NType.FAST;		//releaseType, the type of neutrons released by this fuel
+	public int colorTint = 0x304825;
 
 	/*   _____
 	 * ,I I I I,
@@ -72,6 +73,11 @@ public class ItemRBMKRod extends Item {
 		this.setContainerItem(ModItems.rbmk_fuel_empty);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(MainRegistry.controlTab);
+	}
+	
+	public ItemRBMKRod setTint(int tint) {
+		this.colorTint = tint;
+		return this;
 	}
 
 	public ItemRBMKRod setYield(double yield) {

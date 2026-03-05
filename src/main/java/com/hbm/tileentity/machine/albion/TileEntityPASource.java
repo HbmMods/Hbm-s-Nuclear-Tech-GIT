@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -78,7 +79,10 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 
-			for(int i = 0; i < 10; i++) {
+			int steps = 1;
+			if(this.particle != null) steps = 1 + MathHelper.clamp_int(this.particle.momentum / 1_000, 0, 9);
+			
+			for(int i = 0; i < steps; i++) {
 				if(particle != null) {
 					this.state = PAState.RUNNING;
 					steppy();

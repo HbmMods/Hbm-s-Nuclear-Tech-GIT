@@ -1,3 +1,10 @@
+## Added
+* Reasim RBMK control rods
+  * Come in manual and auto variants, but not moderated
+  * The same as standard control rods, except they need 5kHE/t
+  * Have only a single cable connection at the bottom
+  * Replace standard RBMK control rods when 528 mode is enabled
+
 ## Changed
 * Updated RBMK visuals
   * The indentations on most RBMK passive elements have been removed, heavily reducing tri count and allowing face culling, making RBMKs render much more efficiently
@@ -11,6 +18,13 @@
   * This means that things like 2x2 jungle trees can now be automated
 * Annihilating radioactive items now creates that item's radiation value x5 as chunk radiation
   * The maximum per tick is a 1000 RAD/s increase to prevent world-destroying radiation levels from annihilating demon cores
+* The water door now has a skin that isn't rusted with less contrast
+* The containment door now has a lead-colored skin with a trefoil on it
+* Using a screwdriver on a beamline now toggles a window which flashes if a particle passes
+* Particles now start slowly and accelerate, instead of passing a fixed 10 components per tick, particles only do 1 component per tick, which increases by 1 every 1,000 momentum
+* RBMK absorber columns now heat up when exposed to neutrons
+  * The type of neutron does not matter, only the quantity
+  * 20 flux equals 1°C heatup
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
@@ -20,3 +34,4 @@
 * Fixed outdated info on the QMAW pages involving AA and BSCCO due to the fusion reactor update
 * Fixed ammo container giving 9mm instead of .22 for the akimbo target pistols
 * Fixed RBMK control rods incorrectly showing up in the red group when no group is set
+* Fixed fluid output direction being incorrect on boilers, causing them to break with pipe anchors
