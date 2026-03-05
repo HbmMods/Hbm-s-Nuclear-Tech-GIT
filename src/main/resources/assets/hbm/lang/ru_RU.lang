@@ -2223,7 +2223,7 @@ item.battery_creative.name=Бесконечная батарейка
 item.battery_pack.battery_lead.name=Свинцово-серная батарея
 item.battery_pack.battery_lithium.name=Литий-ионная батарея
 item.battery_pack.battery_quantum.name=Квантовая батарея
-item.battery_pack.battery_redstone.name=Краснокаменная батарея
+item.battery_pack.battery_redstone.name=Редстоуновая батарея
 item.battery_pack.battery_schrabidium.name=Шрабидиевая батарея
 item.battery_pack.battery_sodium.name=Натриево-железная батарея
 item.battery_pack.capacitor_bismuth.name=Висмутовый конденсатор
@@ -6648,6 +6648,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 15.02.2026 by RayzerHan //
+
 
 
 
