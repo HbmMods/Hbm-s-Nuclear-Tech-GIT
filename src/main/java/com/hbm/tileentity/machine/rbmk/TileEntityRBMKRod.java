@@ -53,6 +53,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public double lastFluxRatio;
 
 	public boolean hasRod;
+	public int rodColor = 0;
 
 	// Fuel rod item data client sync
 	private String fuelYield;
@@ -95,6 +96,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
+				this.rodColor = rod.colorTint;
 
 				double fluxRatioOut;
 				double fluxQuantityOut;
@@ -260,6 +262,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		buf.writeDouble(this.lastFluxQuantity);
 		buf.writeDouble(this.lastFluxRatio);
 		buf.writeBoolean(this.hasRod);
+		buf.writeInt(this.rodColor);
 		if(this.hasRod) {
 			ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 			BufferUtil.writeString(buf, ItemRBMKRod.getYield(slots[0]) + " / " + rod.yield + " (" + (ItemRBMKRod.getEnrichment(slots[0]) * 100) + "%)");
@@ -276,6 +279,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		this.fluxQuantity = buf.readDouble();
 		this.fluxFastRatio = buf.readDouble();
 		this.hasRod = buf.readBoolean();
+		this.rodColor = buf.readInt();
 		if(this.hasRod) {
 			fuelYield = BufferUtil.readString(buf);
 			fuelXenon = BufferUtil.readString(buf);

@@ -418,6 +418,18 @@ public abstract class DoorDecl {
 			return null;
 		}
 
+		public ResourceLocation[] skins;
+		
+		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+					ResourceManager.pheo_containment_door_tex,
+					ResourceManager.pheo_containment_door_trefoil_tex
+			};
+			return skins;
+		}
+		
+		@Override public int getSkinCount() { return 2; }
+
 		@Override public int timeToOpen() { return 160; };
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 3, 1 } }; }
 		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 1, 1 }; }
@@ -456,6 +468,18 @@ public abstract class DoorDecl {
 					.addBus("BOLT", new BusAnimationSequence().setPos(0, 0, 1).addPos(0, 0, 1, 1200).addPos(0, 0, 0, 1500, IType.SIN_FULL));
 			return null;
 		}
+
+		public ResourceLocation[] skins;
+		
+		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+					ResourceManager.pheo_water_door_tex,
+					ResourceManager.pheo_water_door_clean_tex
+			};
+			return skins;
+		}
+		
+		@Override public int getSkinCount() { return 2; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {

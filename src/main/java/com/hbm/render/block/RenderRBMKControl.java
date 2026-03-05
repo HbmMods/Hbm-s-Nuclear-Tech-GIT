@@ -24,7 +24,7 @@ public class RenderRBMKControl implements ISimpleBlockRenderingHandler {
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
 		RBMKBase.renderLid = RBMKBase.LID_NONE;
-		IIcon iicon = block.getIcon(0, 0);
+		IIcon iicon = block.getIcon(1, 0);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		if(renderer.hasOverrideBlockTexture()) {

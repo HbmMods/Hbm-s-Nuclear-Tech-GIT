@@ -9,6 +9,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -63,6 +64,10 @@ public class GUIRBMKControlAuto extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 124, guiTop + 29, 16, 56, mouseX, mouseY, new String[]{ (int)(rod.level * 100) + "%" } );
+		
+		if(rod.isPowered()) {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 136, guiTop + 21, 16, 16, mouseX, mouseY, new String[]{ BobMathUtil.getShortNumber(rod.power) + " / " + BobMathUtil.getShortNumber(rod.maxPower) + "HE" } );
+		}
 		
 		String func = "Function: ";
 		
@@ -154,6 +159,10 @@ public class GUIRBMKControlAuto extends GuiInfoContainer {
 		
 		int f = rod.function.ordinal();
 		drawTexturedModalRect(guiLeft + 59, guiTop + 27, 184, f * 19, 26, 19);
+		
+		if(rod.isPowered()) {
+			drawTexturedModalRect(guiLeft + 136, guiTop + 21, 210, rod.hasPower ? 16 : 0, 16, 16);
+		}
 		
 		for(int i = 0; i < 4; i++) {
 			this.fields[i].drawTextBox();

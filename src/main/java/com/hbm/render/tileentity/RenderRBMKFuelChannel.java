@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
+import com.hbm.util.ColorUtil;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -20,11 +21,13 @@ public class RenderRBMKFuelChannel extends TileEntitySpecialRenderer {
 
 		boolean hasRod = false;
 		boolean cherenkov = false;
+		int color = 0;
 
 		if(te instanceof TileEntityRBMKRod) {
 			TileEntityRBMKRod rod = (TileEntityRBMKRod) te;
 			if(rod.hasRod) hasRod = true;
 			if(rod.fluxQuantity > 5) cherenkov = true;
+			color = rod.rodColor;
 		}
 
 		GL11.glPushMatrix();
@@ -50,12 +53,14 @@ public class RenderRBMKFuelChannel extends TileEntitySpecialRenderer {
 		if(hasRod) {
 			GL11.glPushMatrix();
 			bindTexture(texture_rods);
+			GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
 
 			for(int j = 0; j <= offset; j++) {
 				ResourceManager.rbmk_element_rods_vbo.renderPart("Rods");
 				GL11.glTranslated(0, 1, 0);
 			}
-
+			
+			GL11.glColor3f(1F, 1F, 1F);
 			GL11.glPopMatrix();
 		}
 

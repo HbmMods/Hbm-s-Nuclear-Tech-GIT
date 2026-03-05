@@ -112,7 +112,7 @@ public class ItemRenderLibraryDoors {
 			}
 			public void renderCommon() {
 				GL11.glRotated(90, 0, 1, 0);
-				bindTexture(ResourceManager.pheo_water_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.WATER_DOOR.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_water_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
@@ -164,7 +164,7 @@ public class ItemRenderLibraryDoors {
 				GL11.glScaled(3.8, 3.8, 3.8);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.pheo_containment_door_tex);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.QE_CONTAINMENT.getCyclingSkins());
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				ResourceManager.pheo_containment_door.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
