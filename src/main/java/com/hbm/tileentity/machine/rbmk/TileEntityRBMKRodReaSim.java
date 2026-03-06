@@ -4,9 +4,8 @@ import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
-
+import com.hbm.util.Vec3NT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import net.minecraft.util.Vec3;
 
 import static com.hbm.handler.neutron.RBMKNeutronHandler.*;
 
@@ -26,8 +25,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	@Override
 	public void spreadFlux(double flux, double ratio) {
 
-		if(pos == null)
-			pos = new BlockPos(this);
+		if(pos == null) pos = new BlockPos(this);
 
 		if(flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
@@ -43,15 +41,11 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 			streamWorld.addNode(node);
 		}
 
-		int count = RBMKDials.getReaSimCount(worldObj);
-
-		for(int i = 0; i < count; i++) {
-			Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
-
-			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
-
-			new RBMKNeutronHandler.RBMKNeutronStream(makeNode(streamWorld, this), neutronVector, flux, ratio);
-			// Create new neutron streams
+		Vec3NT vec = new Vec3NT(1, 0, 0);
+		vec.rotateAroundYDeg(worldObj.rand.nextInt(4) * 9D);
+		for(int i = 0; i < 8; i++) {
+			new RBMKNeutronHandler.RBMKNeutronStream(node, vec, flux * 0.5, ratio);
+			vec.rotateAroundYDeg(45D);
 		}
 	}
 

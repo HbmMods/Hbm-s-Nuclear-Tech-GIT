@@ -42,6 +42,10 @@
   * In a 5x5 square around the cooler, all components are cooled down by 200°C per tick, down to a minimum of 20°C
   * This renders that section of the reactor unsuitable for boiling water, however it means very high heat fuels can be used
   * Cold PFM is used up at a steady rate, even if the reactor is already cold
+* The RBMK structural column recipe now uses only half as many metal plates, and rubber instead of insulator
+* Changed the way reasim RBMK fuel channels work
+  * Instead of six randomized neutron streams, reasim rods now use eight half strength streams in an even star pattern
+  * The pattern is rotated in a random multiple of 9° (i.e. four possible angle variations)
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
@@ -53,3 +57,4 @@
 * Fixed RBMK control rods incorrectly showing up in the red group when no group is set
 * Fixed fluid output direction being incorrect on boilers, causing them to break with pipe anchors
 * Fixed an issue where the industrial turbine's tendency to round up the possible operation counter would cause it to use up steam it doesn't actually have
+* Fixed yet another issue with the settings tool when copying automatic control rod settings
