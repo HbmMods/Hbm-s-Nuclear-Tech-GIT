@@ -30,8 +30,6 @@ public class RBMKDials {
 		KEY_SURGE_MOD("dialControlSurgeMod", 1.0),
 		KEY_FLUX_RANGE("dialFluxRange", 5),
 		KEY_REASIM_RANGE("dialReasimRange", 10),
-		KEY_REASIM_COUNT("dialReasimCount", 6),
-		KEY_REASIM_MOD("dialReasimOutputMod", 1.0),
 		KEY_REASIM_BOILERS("dialReasimBoilers", false),
 		KEY_REASIM_BOILER_SPEED("dialReasimBoilerSpeed", 0.05),
 		KEY_DISABLE_MELTDOWNS("dialDisableMeltdowns", false),
@@ -104,8 +102,6 @@ public class RBMKDials {
 		gameRules.get(RBMKKeys.KEY_SURGE_MOD).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_SURGE_MOD, 0.0D)));
 		gameRules.get(RBMKKeys.KEY_FLUX_RANGE).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedInt(world, RBMKKeys.KEY_FLUX_RANGE, 1, 100)));
 		gameRules.get(RBMKKeys.KEY_REASIM_RANGE).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedInt(world, RBMKKeys.KEY_REASIM_RANGE, 1, 100)));
-		gameRules.get(RBMKKeys.KEY_REASIM_COUNT).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedInt(world, RBMKKeys.KEY_REASIM_COUNT, 1, 24)));
-		gameRules.get(RBMKKeys.KEY_REASIM_MOD).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_REASIM_MOD, 0.0D)));
 		gameRules.get(RBMKKeys.KEY_REASIM_BOILERS).add(new Tuple.Pair<>(world, world.getGameRules().getGameRuleBooleanValue(RBMKKeys.KEY_REASIM_BOILERS.keyString) || GeneralConfig.enable528ReasimBoilers));
 		gameRules.get(RBMKKeys.KEY_REASIM_BOILER_SPEED).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_REASIM_BOILER_SPEED, 0.0D, 1.0D)));
 		gameRules.get(RBMKKeys.KEY_DISABLE_MELTDOWNS).add(new Tuple.Pair<>(world, world.getGameRules().getGameRuleBooleanValue(RBMKKeys.KEY_DISABLE_MELTDOWNS.keyString)));
@@ -285,24 +281,6 @@ public class RBMKDials {
 	 */
 	public static int getReaSimRange(World world) {
 		return (int) getGameRule(world, RBMKKeys.KEY_REASIM_RANGE);
-	}
-
-	/**
-	 * Simple integer that decides how many neutrons are created from ReaSim fuel rods.
-	 * @param world
-	 * @return [1;24]
-	 */
-	public static int getReaSimCount(World world) {
-		return (int) getGameRule(world, RBMKKeys.KEY_REASIM_COUNT);
-	}
-
-	/**
-	 * Returns a modifier for the outgoing flux of individual streams from the ReaSim fuel rod to compensate for the potentially increased stream count.
-	 * @param world
-	 * @return >0
-	 */
-	public static double getReaSimOutputMod(World world) {
-		return (double) getGameRule(world, RBMKKeys.KEY_REASIM_MOD);
 	}
 
 	/**
