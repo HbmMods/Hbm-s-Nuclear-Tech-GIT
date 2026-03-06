@@ -4313,7 +4313,7 @@ item.rbmk_fuel_pu238be.name=Плутоний-238-Бериллевый источ
 item.rbmk_fuel_ra226be.name=Радий-226-Бериллевый источник нейтронов РБМК
 item.rbmk_fuel_thmeu.name=Ториево-урановый среднеобогащённый топливный стержень РБМК
 item.rbmk_fuel_ueu.name=Необогащённый урановый топливный стержень РБМК
-item.rbmk_fuel_uzh.name=Уран-циркониевый гидрид топлинвый стержень РБМК 
+item.rbmk_fuel_uzh.name=Уран-циркониевый гидрид топливный стержень РБМК 
 item.rbmk_fuel_zfb_am_mix.name=Америций реакторного качества ЦБР стержень РБМК
 item.rbmk_fuel_zfb_bismuth.name=Висмутовый ЦБР стержень РБМК
 item.rbmk_fuel_zfb_pu241.name=Плутоний-241 ЦБР стержень РБМК
@@ -6651,6 +6651,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 15.02.2026 by RayzerHan //
+
 
 
 
