@@ -1715,7 +1715,6 @@ item.ammo_arty_phosphorus.name=Фосфорный 16-дюймовый артил
 item.ammo_bag.name=Сумка для боеприпасов
 item.ammo_bag_infinite.name=Бесконечная сумка для боеприпасов
 item.ammo_arty_phosphorus_multi.name=Фосфорный 16-дюймовый мульти-снаряд
-item.ammo_cell.name=Энерго-патроны
 item.ammo_container.name=Контейнер с боеприпасами
 item.ammo_container.desc=Выдаёт патроны не более чем для трёх оружий с хотбара.
 item.ammo_container.1.desc=Выдаёт патроны не более чем для трёх оружий с хотбара.$Это не распространяется на мини-ядерные заряды и прочие высокоуровневые боеприпасы.
@@ -1736,10 +1735,10 @@ item.ammo_himars_standard_tb.name=227-мм управляемый артилле
 item.ammo_himars_standard_wp.name=227-мм управляемый артиллерийский ракетный снаряд (БФ)
 item.ammo_himars_single.name=610-мм управляемый артиллерийский ракетный снаряд
 item.ammo_himars_single_tb.name=610-мм управляемый артиллерийский ракетный снаряд (Термобарический)
-item.ammo_secret.bmg50_equestrian.name=Патрон калибра .50 BMG (Разрушитель)
+item.ammo_secret.bmg50_equestrian.name=Патрон .50 BMG (Разрушитель)
 item.ammo_secret.folly_nuke.name=Серебрянная пуля (Ядерная)
 item.ammo_secret.folly_sm.name=Серебрянная пуля
-item.ammo_secret.g12_equestrian.name=12-й калибр (Железнодорожная гвоздь)
+item.ammo_secret.g12_equestrian.name=Картечь 12-го калибра (Железнодорожная гвоздь)
 item.ammo_secret.m44_equestrian.name=Патрон .44 магнум (Разрыватель голов)
 item.ammo_secret.p35_800.name=Патрон .35-800 V9
 item.ammo_secret.p35_800_bl.name=Патрон .35-800 V9 (Чёрная Молния)
@@ -1747,13 +1746,13 @@ item.ammo_secret.bmg50_black.name=Патрон .50 BMG (Простреливаю
 item.ammo_standard.b75.name=.75 болт
 item.ammo_standard.b75_exp.name=.75 болт (Взрывной)
 item.ammo_standard.b75_inc.name=.75 болт (Зажигательный)
-item.ammo_standard.bmg50_ap.name=.50 BMG патрон (Бронебойный)
-item.ammo_standard.bmg50_he.name=.50 BMG патрон (Разрывной)
-item.ammo_standard.bmg50_du.name=.50 BMG патрон (Обеднённый уран)
-item.ammo_standard.bmg50_fmj.name=.50 BMG патрон (Цельнометаллическая оболочка)
-item.ammo_standard.bmg50_sm.name=.50 BMG патрон (Звёздный Металл)
-item.ammo_standard.bmg50_jhp.name=.50 BMG патрон (Экспансивный+)
-item.ammo_standard.bmg50_sp.name=.50 BMG патрон (Экспансивный)
+item.ammo_standard.bmg50_ap.name=Патрон .50 BMG (Бронебойный)
+item.ammo_standard.bmg50_he.name=Патрон .50 BMG (Разрывной)
+item.ammo_standard.bmg50_du.name=Патрон .50 BMG (Обеднённый уран)
+item.ammo_standard.bmg50_fmj.name=Патрон .50 BMG (Цельнометаллическая оболочка)
+item.ammo_standard.bmg50_sm.name=Патрон .50 BMG (Звёздный Металл)
+item.ammo_standard.bmg50_jhp.name=Патрон .50 BMG (Экспансивный+)
+item.ammo_standard.bmg50_sp.name=Патрон .50 BMG (Экспансивный)
 item.ammo_standard.capacitor.name=Оружейный конденсатор (Стандартный)
 item.ammo_standard.capacitor_ir.name=Оружейный конденсатор (Коротковолновой)
 item.ammo_standard.capacitor_overcharge.name=Оружейный конденсатор (Перегруженный)
@@ -6370,23 +6369,4 @@ desc.gui.upgrade.overdrive= * §7Перегруз§r: Стакается до 3-
 desc.gui.upgrade.power= * §1Энергосбережение§r: Стакается до 3-х уровней
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
-// Last updated 15.02.2026 by RayzerHan //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Last updated 06.03.2026 by RayzerHan //
