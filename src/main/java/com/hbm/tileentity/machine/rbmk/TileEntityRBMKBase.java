@@ -14,7 +14,6 @@ import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
@@ -37,7 +36,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -81,11 +79,14 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	}
 
 	/**
-	 * Around the same for every component except boilers which do not have passive cooling
+	 * Around the same for every component except boilers which do not have passive cooling.
+	 * Requires the amount of connected neighbors to scale cooling
 	 * @return
 	 */
-	public double passiveCooling() {
-		return RBMKDials.getPassiveCooling(worldObj); //default: 1.0D
+	public double passiveCooling(int members) {
+		double min = RBMKDials.getPassiveCoolingInner(worldObj); //default: 0.1D
+		double max = RBMKDials.getPassiveCooling(worldObj); //default: 1.0D
+		return min + (max - min) * ((4 - members) / 4D);
 	}
 
 	//necessary checks to figure out whether players are close enough to ensure that the reactor can be safely used
@@ -109,10 +110,6 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 				this.worldObj.theProfiler.endStartSection("rbmkBase_reasim_boilers");
 				boilWater();
 			}
-
-			this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
-			coolPassively();
-			this.worldObj.theProfiler.endSection();
 
 			this.networkPackNT(trackingRange());
 		}
@@ -223,6 +220,10 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 
 			this.markDirty();
 		}
+
+		this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
+		coolPassively(members);
+		this.worldObj.theProfiler.endSection();
 	}
 
 	@Override
@@ -245,16 +246,9 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		}
 	}
 
-	protected void coolPassively() {
+	protected void coolPassively(int members) {
 
-		if(TomSaveData.forWorld(worldObj).fire > 1e-5) {
-			double light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord) / 15D;
-			if(heat < 20 + (480 * light)) {
-				this.heat += this.passiveCooling() * 2;
-			}
-		}
-
-		this.heat -= this.passiveCooling();
+		this.heat -= this.passiveCooling(members);
 
 		if(heat < 20)
 			heat = 20D;

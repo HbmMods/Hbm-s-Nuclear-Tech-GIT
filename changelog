@@ -4,6 +4,12 @@
   * The same as standard control rods, except they need 5kHE/t
   * Have only a single cable connection at the bottom
   * Replace standard RBMK control rods when 528 mode is enabled
+* New RBMK fuels
+  * UZrH
+    * Made from MEU, zirconium and hydrogen in the PUREX
+    * More efficient than MEU but with less durability
+    * Has a new thermal coefficient mechanic, once the core heat exceeds 1000°C, reactivity drops down
+    * Very high diffusion, meaning the core is considerably colder than on most fuels
 
 ## Changed
 * Updated RBMK visuals
@@ -25,6 +31,12 @@
 * RBMK absorber columns now heat up when exposed to neutrons
   * The type of neutron does not matter, only the quantity
   * 20 flux equals 1°C heatup
+* RBMK passive cooling has changed
+  * The default value is now 2.5°C/t instead of 1
+  * This value only applies to rods that have exposed sides, i.e. the edges of a reactor
+  * There is now a second passive cooling variable used for rods on the inside (`dialPassiveCoolingInner`, 0.1°C/t by default)
+  * The effective passive cooling value is scaled smoothly depending on how many sides are exposed, using `dialPassiveCoolingInner` with no exposed sides and `dialPassiveCooling` for rods with four exposed sides
+  * Simply put, spindly RBMKs are now way less desirable, structural columns no longer just debuff the reactor and reactors that actually look like reactors are now more powerful
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)

@@ -16,7 +16,8 @@ public class RBMKDials {
 
 	public enum RBMKKeys {
 		KEY_SAVE_DIALS("dialSaveDials", true),
-		KEY_PASSIVE_COOLING("dialPassiveCooling", 1.0),
+		KEY_PASSIVE_COOLING("dialPassiveCooling", 2.5),
+		KEY_PASSIVE_COOLING_INNER("dialPassiveCoolingInner", 0.1),
 		KEY_COLUMN_HEAT_FLOW("dialColumnHeatFlow", 0.2),
 		KEY_FUEL_DIFFUSION_MOD("dialDiffusionMod", 1.0),
 		KEY_HEAT_PROVISION("dialHeatProvision", 0.2),
@@ -90,6 +91,7 @@ public class RBMKDials {
 		}
 
 		gameRules.get(RBMKKeys.KEY_PASSIVE_COOLING).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_PASSIVE_COOLING, 0.0D)));
+		gameRules.get(RBMKKeys.KEY_PASSIVE_COOLING_INNER).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_PASSIVE_COOLING_INNER, 0.0D)));
 		gameRules.get(RBMKKeys.KEY_COLUMN_HEAT_FLOW).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_COLUMN_HEAT_FLOW, 0.0D, 1.0D)));
 		gameRules.get(RBMKKeys.KEY_FUEL_DIFFUSION_MOD).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_FUEL_DIFFUSION_MOD, 0.0D)));
 		gameRules.get(RBMKKeys.KEY_HEAT_PROVISION).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_HEAT_PROVISION, 0.0D, 1.0D)));
@@ -157,12 +159,21 @@ public class RBMKDials {
 	}
 
 	/**
-	 * Returns the amount of heat per tick removed from components passively
+	 * Returns the amount of heat per tick removed from components passively, when at an edge
 	 * @param world
 	 * @return >0
 	 */
 	public static double getPassiveCooling(World world) {
 		return (double) getGameRule(world, RBMKKeys.KEY_PASSIVE_COOLING);
+	}
+
+	/**
+	 * Returns the amount of heat per tick removed from components passively, when surrounded by other components
+	 * @param world
+	 * @return >0
+	 */
+	public static double getPassiveCoolingInner(World world) {
+		return (double) getGameRule(world, RBMKKeys.KEY_PASSIVE_COOLING_INNER);
 	}
 
 	/**
