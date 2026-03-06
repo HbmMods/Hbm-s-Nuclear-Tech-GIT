@@ -6422,7 +6422,7 @@ tile.stones_slab.lightstone.1.name=Плита из светлокаменной 
 tile.stones_slab.lightstone.2.name=Плита из светлокаменного кирпича
 tile.struct_icf_core.name=Ядро инерциального термоядерного реактора (ICF)
 tile.struct_iter_core.name=Ядро термоядерного реактора 
-tile.struct_torus_core.name=Ядро основной камеры
+tile.struct_torus_core.name=Ядро основной камеры (термоядерный реактор)
 tile.struct_launcher.name=Блок-компонент пусковой площадки
 tile.struct_launcher_core.name=Ядро компактной пусковой площадки
 tile.struct_launcher_core_large.name=Ядро большой пусковой площадки
@@ -6651,6 +6651,7 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 15.02.2026 by RayzerHan //
+
 
 
 
