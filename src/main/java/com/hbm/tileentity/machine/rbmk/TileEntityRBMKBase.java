@@ -83,10 +83,10 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	 * Requires the amount of connected neighbors to scale cooling
 	 * @return
 	 */
-	public double passiveCooling(int members) {
+	public double passiveCooling(int neighbors) {
 		double min = RBMKDials.getPassiveCoolingInner(worldObj); //default: 0.1D
 		double max = RBMKDials.getPassiveCooling(worldObj); //default: 1.0D
-		return min + (max - min) * ((4 - members) / 4D);
+		return min + (max - min) * ((4 - MathHelper.clamp_int(neighbors, 0, 4)) / 4D);
 	}
 
 	//necessary checks to figure out whether players are close enough to ensure that the reactor can be safely used
@@ -222,7 +222,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		}
 
 		this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
-		coolPassively(members);
+		coolPassively(members - 1);
 		this.worldObj.theProfiler.endSection();
 	}
 
@@ -246,12 +246,9 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		}
 	}
 
-	protected void coolPassively(int members) {
-
-		this.heat -= this.passiveCooling(members);
-
-		if(heat < 20)
-			heat = 20D;
+	protected void coolPassively(int neighbors) {
+		this.heat -= this.passiveCooling(neighbors);
+		if(heat < 20) heat = 20D;
 	}
 
 	public RBMKType getRBMKType() {

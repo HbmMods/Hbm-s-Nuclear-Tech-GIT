@@ -37,6 +37,11 @@
   * There is now a second passive cooling variable used for rods on the inside (`dialPassiveCoolingInner`, 0.1°C/t by default)
   * The effective passive cooling value is scaled smoothly depending on how many sides are exposed, using `dialPassiveCoolingInner` with no exposed sides and `dialPassiveCooling` for rods with four exposed sides
   * Simply put, spindly RBMKs are now way less desirable, structural columns no longer just debuff the reactor and reactors that actually look like reactors are now more powerful
+* Chanced the way RBMK coolers work
+  * Instead of using cryogel, coolers use 50mB of cold PFM per tick and return an equal amount of warm PFM
+  * In a 5x5 square around the cooler, all components are cooled down by 200°C per tick, down to a minimum of 20°C
+  * This renders that section of the reactor unsuitable for boiling water, however it means very high heat fuels can be used
+  * Cold PFM is used up at a steady rate, even if the reactor is already cold
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
@@ -47,3 +52,4 @@
 * Fixed ammo container giving 9mm instead of .22 for the akimbo target pistols
 * Fixed RBMK control rods incorrectly showing up in the red group when no group is set
 * Fixed fluid output direction being incorrect on boilers, causing them to break with pipe anchors
+* Fixed an issue where the industrial turbine's tendency to round up the possible operation counter would cause it to use up steam it doesn't actually have

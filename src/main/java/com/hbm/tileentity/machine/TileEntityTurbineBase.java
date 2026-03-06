@@ -59,7 +59,7 @@ public abstract class TileEntityTurbineBase extends TileEntityLoadedBase impleme
 				double eff = trait.getEfficiency(CoolingType.TURBINE) * getEfficiency();
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
-					int inputOps = (int) Math.ceil((tanks[0].getFill() * consumptionPercent()) / trait.amountReq);
+					int inputOps = (int) (Math.min(Math.ceil(tanks[0].getFill() * consumptionPercent()), tanks[0].getFill()) / trait.amountReq);
 					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
 					int ops = Math.min(inputOps, outputOps);
 					if(ops > 0) {
