@@ -41,6 +41,12 @@ public class PUREXRecipes extends GenericRecipes<GenericRecipe> {
 		long watzPower = 10_000;
 		long vitrification = 1_000;
 		
+		this.register(new GenericRecipe("purex.uzh").setup(600, 1_000)
+				.inputItems(new ComparableStack(ModItems.billet_uranium_fuel),
+						new OreDictStack(ZR.billet(), 3))
+				.inputFluids(new FluidStack(Fluids.NITRIC_ACID, 1000), new FluidStack(Fluids.HYDROGEN, 4000))
+				.outputItems(new ItemStack(ModItems.billet_uzh, 4)));
+		
 		//CP-1
 		String autoPile = "autoswitch.pile";
 		this.register(new GenericRecipe("purex.pilepu").setup(40, pilePower).setNameWrapper("purex.recycle").setGroup(autoPile, this)

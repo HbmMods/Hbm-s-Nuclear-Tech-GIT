@@ -100,6 +100,7 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_uranium_fuel, ModItems.rbmk_fuel_meu);
 		addRBMKRod(U233, ModItems.rbmk_fuel_heu233);
 		addRBMKRod(U235, ModItems.rbmk_fuel_heu235);
+		addRBMKRod(ModItems.billet_uzh, ModItems.rbmk_fuel_uzh);
 		addRBMKRod(ModItems.billet_thorium_fuel, ModItems.rbmk_fuel_thmeu);
 		addRBMKRod(ModItems.billet_mox_fuel, ModItems.rbmk_fuel_mox);
 		addRBMKRod(ModItems.billet_plutonium_fuel, ModItems.rbmk_fuel_lep);
