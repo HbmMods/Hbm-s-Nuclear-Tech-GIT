@@ -336,7 +336,7 @@ public class ResourceManager {
 	public static IModelCustomNamed pheo_blast_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/blast_door.obj")).asVBO();
 	public static final ResourceLocation pheo_containment_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door.png");
 	public static final ResourceLocation pheo_containment_door_trefoil_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door_trefoil.png");
-	public static final ResourceLocation pheo_containment_door_trefoil_yellow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_yoor_trefoil_yellow.png");
+	public static final ResourceLocation pheo_containment_door_trefoil_yellow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door_trefoil_yellow.png");
 	public static IModelCustomNamed pheo_containment_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/containment_door.obj")).asVBO();
 	public static final ResourceLocation pheo_seal_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/seal_door.png");
 	public static IModelCustomNamed pheo_seal_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/seal_door.obj")).asVBO();
