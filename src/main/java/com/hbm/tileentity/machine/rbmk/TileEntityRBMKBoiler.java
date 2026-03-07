@@ -7,6 +7,7 @@ import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
@@ -14,11 +15,14 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -39,6 +43,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public FluidTank steam;
 	protected int consumption;
 	protected int output;
+	protected int ventDelay;
 	
 	public TileEntityRBMKBoiler() {
 		super(0);
@@ -59,6 +64,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 
 			this.consumption = 0;
 			this.output = 0;
+			if(this.ventDelay > 0) this.ventDelay--;
 			
 			double heatCap = this.getHeatFromSteam(steam.getTankType());
 			double heatProvided = this.heat - heatCap;
@@ -89,8 +95,17 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 				feed.setFill(feed.getFill() - waterUsed);
 				steam.setFill(steam.getFill() + steamProduced);
 				
-				if(steam.getFill() > steam.getMaxFill())
+				if(steam.getFill() > steam.getMaxFill()) {
 					steam.setFill(steam.getMaxFill());
+					
+					if(ventDelay <= 0) {
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "rbmksteam");
+						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.25 + worldObj.rand.nextInt(2) * 0.5, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord + 0.25 + worldObj.rand.nextInt(2) * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 100));
+						MainRegistry.proxy.effectNT(data);
+						this.ventDelay = 20;
+					}
+				}
 				
 				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}

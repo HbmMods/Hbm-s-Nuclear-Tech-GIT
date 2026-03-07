@@ -46,6 +46,11 @@
 * Changed the way reasim RBMK fuel channels work
   * Instead of six randomized neutron streams, reasim rods now use eight half strength streams in an even star pattern
   * The pattern is rotated in a random multiple of 9° (i.e. four possible angle variations)
+* RBMK steam channels now spawn steam particles if water is voided due to the steam buffer not being emptied in time
+* Rebalanced 528 mode
+  * Increased the chance for most precision assembler recipes to succeed
+  * Increased the chance for items to be salvaged by recycling
+    * In expensive mode, the chances have been increased drastically compared to the old values
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)

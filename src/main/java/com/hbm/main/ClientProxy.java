@@ -1729,6 +1729,10 @@ public class ClientProxy extends ServerProxy {
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKFlame(man, world, x, y, z, maxAge));
 		}
 
+		if("rbmksteam".equals(type)) {
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKSteam(man, world, x, y, z));
+		}
+
 		if("rbmkmush".equals(type)) {
 			float scale = data.getFloat("scale");
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, scale));

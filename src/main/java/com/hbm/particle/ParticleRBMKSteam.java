@@ -6,25 +6,28 @@ import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
-public class ParticleRBMKFlame extends EntityFX {
+public class ParticleRBMKSteam extends EntityFX {
 
-	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/rbmk_fire.png");
+	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/rbmk_jet_steam.png");
 	private TextureManager theRenderEngine;
 
-	public ParticleRBMKFlame(TextureManager texman, World world, double x, double y, double z, int maxAge) {
+	public ParticleRBMKSteam(TextureManager texman, World world, double x, double y, double z) {
 		super(world, x, y, z);
 		this.theRenderEngine = texman;
-		this.particleMaxAge = maxAge;
-		this.particleScale = rand.nextFloat() + 1F;
+		this.particleMaxAge = 30;
+		this.particleAlpha = 0.25F;
+		this.particleScale = 4F;
 	}
 
 	@Override
@@ -50,10 +53,10 @@ public class ParticleRBMKFlame extends EntityFX {
 		if(this.particleAge > this.particleMaxAge)
 			this.particleAge = this.particleMaxAge;
 		
-		int texIndex = this.particleAge * 5 % 14;
-		float f0 = 1F / 14F;
+		int texIndex = (int) (((double) this.particleAge / (double) this.particleMaxAge) * 20) % 20 - 1;
+		float f0 = 1F / 20F;
 
-		float uMin = texIndex % 5 * f0;
+		float uMin = texIndex * f0;
 		float uMax = uMin + f0;
 		float vMin = 0;
 		float vMax = 1;
@@ -62,32 +65,25 @@ public class ParticleRBMKFlame extends EntityFX {
 		
 		tess.setNormal(0.0F, 1.0F, 0.0F);
 		tess.setBrightness(240);
-
-		this.particleAlpha = 1F;
-		
-		if(this.particleAge < 20) {
-			this.particleAlpha = this.particleAge / 20F;
-		}
-		
-		if(this.particleAge > this.particleMaxAge - 20) {
-			this.particleAlpha = (this.particleMaxAge - this.particleAge) / 20F;
-		}
-
-		this.particleAlpha *= 0.5F;
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)interp;
+		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
+		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 
-		float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) interp - interpPosX);
-		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY);
-		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
+		float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) interp - dX);
+		float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - dY);
+		float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - dZ);
 		
 		GL11.glTranslatef(pX + x, pY + y, pZ + z);
 		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 
-		tess.addVertexWithUV((double) (-this.particleScale - 1), (double) (-this.particleScale * 2), (double) (0), uMax, vMax);
-		tess.addVertexWithUV((double) (-this.particleScale - 1), (double) (this.particleScale * 2), (double) 0, uMax, vMin);
-		tess.addVertexWithUV((double) (this.particleScale - 1), (double) (this.particleScale * 2), (double) (0), uMin, vMin);
-		tess.addVertexWithUV((double) (this.particleScale - 1), (double) (-this.particleScale * 2), (double) (0), uMin, vMax);
+		tess.addVertexWithUV(this.particleScale * -0.25 - 1, -0.25, 0, uMax, vMax);
+		tess.addVertexWithUV(this.particleScale * -0.25 - 1, this.particleScale - 0.25, 0, uMax, vMin);
+		tess.addVertexWithUV(this.particleScale * 0.25 - 1, this.particleScale - 0.25, 0, uMin, vMin);
+		tess.addVertexWithUV(this.particleScale * 0.25 - 1, -0.25, 0, uMin, vMax);
 		
 		tess.draw();
 		
