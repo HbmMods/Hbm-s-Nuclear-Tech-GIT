@@ -10,6 +10,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -36,6 +37,20 @@ public class RBMKRod extends RBMKBase {
 		if(meta >= this.offset) return new TileEntityRBMKRod();
 		if(hasExtra(meta)) return new TileEntityProxyCombo().inventory();
 		return null;
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		if(meta >= this.offset) {
+			TileEntityRBMKRod tile = (TileEntityRBMKRod) world.getTileEntity(x, y, z);
+			if(tile != null) {
+				if(tile.slots[0] != null && tile.slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getHullHeat(tile.slots[0]) >= 1500) {
+					tile.meltdown();
+				}
+			}
+		}
+		super.breakBlock(world, x, y, z, block, meta);
+		world.removeTileEntity(x, y, z);
 	}
 
 	@Override

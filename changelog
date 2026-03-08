@@ -10,6 +10,10 @@
     * More efficient than MEU but with less durability
     * Has a new thermal coefficient mechanic, once the core heat exceeds 1000°C, reactivity drops down
     * Very high diffusion, meaning the core is considerably colder than on most fuels
+* RBMK Display panel
+  * Single block that shows a 7x7 view of a linked RBMK
+  * Doesn't have a GUI or tooltips or anything, only acts as a monitor
+  * Ideal for >15x15 reactor monitoring, since the displays are tileable
 
 ## Changed
 * Updated RBMK visuals
@@ -44,13 +48,22 @@
   * Cold PFM is used up at a steady rate, even if the reactor is already cold
 * The RBMK structural column recipe now uses only half as many metal plates, and rubber instead of insulator
 * Changed the way reasim RBMK fuel channels work
-  * Instead of six randomized neutron streams, reasim rods now use eight half strength streams in an even star pattern
+  * Instead of six randomized neutron streams, reasim rods now use eight 75% strength streams in an even star pattern
   * The pattern is rotated in a random multiple of 9° (i.e. four possible angle variations)
 * RBMK steam channels now spawn steam particles if water is voided due to the steam buffer not being emptied in time
 * Rebalanced 528 mode
   * Increased the chance for most precision assembler recipes to succeed
   * Increased the chance for items to be salvaged by recycling
     * In expensive mode, the chances have been increased drastically compared to the old values
+* Added RoR functionality to some RBMK columns
+  * Manual control rods can have their target height set, allowing them to be remote controlled without a console
+  * All fuel channels can now provide values such as column heat, fuel skin heat, depletion and xenon poison
+* RBMK consoles and displays no longer show the temperature value of control rods as a red gradient, instead they show the control rods' color grouping
+* RBMK fuel rods can no longer be removed by hand if the skin temp exceeds 200°C
+* RBMK fuel rods can no longer be cycled via autoloader if the skin temp exceeds 1,000°C
+  * For fully automated high powered reactors, it may now be necessary to read the depletion via RoR and then throttle the reactor with control rods
+  * RBMK cranes can still remove any fuel, no matter how hot it is
+* RBMK fuel channels will now undergo meltdown if it is broken when a fuel rod is still loaded with a heat temperature of at least 1,500°C
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
@@ -63,3 +76,5 @@
 * Fixed fluid output direction being incorrect on boilers, causing them to break with pipe anchors
 * Fixed an issue where the industrial turbine's tendency to round up the possible operation counter would cause it to use up steam it doesn't actually have
 * Fixed yet another issue with the settings tool when copying automatic control rod settings
+* Fixed quad rocket launcher steering not working right
+* Fixed standard and industrial boilers not respecting the heating efficiency value of the fluid trait

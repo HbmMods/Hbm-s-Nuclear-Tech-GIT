@@ -215,15 +215,16 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 			if(trait.getEfficiency(HeatingType.BOILER) > 0) {
 
 				HeatingStep entry = trait.getFirstStep();
+				int heatReq = (int) Math.max(entry.heatReq / trait.getEfficiency(HeatingType.BOILER), 1);
 				int inputOps = this.tanks[0].getFill() / entry.amountReq;
 				int outputOps = (this.tanks[1].getMaxFill() - this.tanks[1].getFill()) / entry.amountProduced;
-				int heatOps = this.heat / entry.heatReq;
+				int heatOps = this.heat / heatReq;
 
 				int ops = Math.min(inputOps, Math.min(outputOps, heatOps));
 
 				this.tanks[0].setFill(this.tanks[0].getFill() - entry.amountReq * ops);
 				this.tanks[1].setFill(this.tanks[1].getFill() + entry.amountProduced * ops);
-				this.heat -= entry.heatReq * ops;
+				this.heat -= heatReq * ops;
 
 				if(ops > 0 && worldObj.rand.nextInt(400) == 0) {
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 0.5F, 1.0F);

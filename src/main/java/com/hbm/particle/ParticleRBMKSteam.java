@@ -25,7 +25,7 @@ public class ParticleRBMKSteam extends EntityFX {
 	public ParticleRBMKSteam(TextureManager texman, World world, double x, double y, double z) {
 		super(world, x, y, z);
 		this.theRenderEngine = texman;
-		this.particleMaxAge = 30;
+		this.particleMaxAge = 10;
 		this.particleAlpha = 0.25F;
 		this.particleScale = 4F;
 	}
@@ -80,10 +80,10 @@ public class ParticleRBMKSteam extends EntityFX {
 		GL11.glTranslatef(pX + x, pY + y, pZ + z);
 		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 
-		tess.addVertexWithUV(this.particleScale * -0.25 - 1, -0.25, 0, uMax, vMax);
-		tess.addVertexWithUV(this.particleScale * -0.25 - 1, this.particleScale - 0.25, 0, uMax, vMin);
-		tess.addVertexWithUV(this.particleScale * 0.25 - 1, this.particleScale - 0.25, 0, uMin, vMin);
-		tess.addVertexWithUV(this.particleScale * 0.25 - 1, -0.25, 0, uMin, vMax);
+		tess.addVertexWithUV(this.particleScale * -0.25 - 0.9375, -0.25, 0, uMax, vMax);
+		tess.addVertexWithUV(this.particleScale * -0.25 - 0.9375, this.particleScale - 0.25, 0, uMax, vMin);
+		tess.addVertexWithUV(this.particleScale * 0.25 - 0.9375, this.particleScale - 0.25, 0, uMin, vMin);
+		tess.addVertexWithUV(this.particleScale * 0.25 - 0.9375, -0.25, 0, uMin, vMax);
 		
 		tess.draw();
 		

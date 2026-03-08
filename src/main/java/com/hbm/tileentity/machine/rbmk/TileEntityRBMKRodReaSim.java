@@ -44,7 +44,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 		Vec3NT vec = new Vec3NT(1, 0, 0);
 		vec.rotateAroundYDeg(worldObj.rand.nextInt(4) * 9D);
 		for(int i = 0; i < 8; i++) {
-			new RBMKNeutronHandler.RBMKNeutronStream(node, vec, flux * 0.5, ratio);
+			new RBMKNeutronHandler.RBMKNeutronStream(node, new Vec3NT(vec), flux * 0.75, ratio);
 			vec.rotateAroundYDeg(45D);
 		}
 	}

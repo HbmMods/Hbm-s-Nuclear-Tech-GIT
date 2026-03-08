@@ -72,8 +72,10 @@ public class TileEntityRBMKAutoloader extends TileEntityMachineBase implements I
 					TileEntity tile = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 					if(tile instanceof TileEntityRBMKRod) {
 						TileEntityRBMKRod rod = (TileEntityRBMKRod) tile;
-						if(rod.slots[0] == null || (rod.slots[0] != null && rod.slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getEnrichment(rod.slots[0]) * 100 < cycle)) {
-							this.isRetracting = false;
+						if(rod.coldEnoughForAutoloader()) {
+							if(rod.slots[0] == null || (rod.slots[0] != null && rod.slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getEnrichment(rod.slots[0]) * 100 < cycle)) {
+								this.isRetracting = false;
+							}
 						}
 					}
 				}

@@ -1,48 +1,36 @@
 package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-import com.hbm.blocks.BlockDummyable;
-import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKDisplay;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKScreen;
-import com.hbm.util.i18n.I18nUtil;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderRBMKConsole extends TileEntitySpecialRenderer {
+public class RenderRBMKDisplay extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
 
 		GL11.glPushMatrix();
-		
-		GL11.glTranslatef((float)x + 0.5F, (float)y, (float)z + 0.5F);
-		
+		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
-		switch(te.getBlockMetadata() - BlockDummyable.offset) {
+		switch(te.getBlockMetadata()) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 		
-		GL11.glTranslated(0.5, 0, 0);
-
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		bindTexture(ResourceManager.rbmk_console_tex);
-		ResourceManager.rbmk_console.renderAll();
-		GL11.glShadeModel(GL11.GL_FLAT);
+		TileEntityRBMKDisplay display = (TileEntityRBMKDisplay) te;
 		
-		TileEntityRBMKConsole console = (TileEntityRBMKConsole) te;
+		GL11.glTranslated(0, 0.5, 0);
+		GL11.glScaled(1, 8D / 7D, 8D / 7D);
+		GL11.glTranslated(0, -0.5, 0);
 		
 		Tessellator tess = Tessellator.instance;
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -50,16 +38,15 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		tess.setBrightness(240);
 		tess.setNormal(1, 0, 0);
 		
-		for(int i = 0; i < console.columns.length; i++) {
+		for(int i = 0; i < display.columns.length; i++) {
 			
-			RBMKColumn col = console.columns[i];
+			RBMKColumn col = display.columns[i];
 			
-			if(col == null)
-				continue;
+			if(col == null) continue;
 
-			double kx = -0.3725D;
-			double ky = -(i / 15) * 0.125 + 3.625;
-			double kz = -(i % 15) * 0.125 + 0.125D * 7;
+			double kx = 0.28125D;
+			double ky = -(i / 7) * 0.125 + 0.875;
+			double kz = -(i % 7) * 0.125 + 0.125D * 3;
 
 			if(col.data.hasKey("color") && col.data.getByte("color") >= 0) {
 				byte color = col.data.getByte("color");
@@ -74,7 +61,7 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 				tess.setColorOpaque_F((float) (color + ((1 - color) * heat)), (float) color, (float) color);
 			}
 			
-			drawColumn(tess, kx, ky, kz, 0, 0);
+			drawColumn(tess, kx, ky, kz);
 			
 			switch(col.type) {
 			case FUEL:
@@ -87,52 +74,11 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 		
 		tess.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-		GL11.glTranslatef(-0.42F, 3.5F, 1.75F);
-		GL11.glDepthMask(false);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
-		for(int i = 0; i < console.screens.length; i++) {
-			
-			GL11.glPushMatrix();
-			
-			if(i % 2 == 1)
-				GL11.glTranslatef(0, 0, 1.75F * -2);
-			
-			GL11.glTranslatef(0, -0.75F * (i / 2), 0);
-			
-			RBMKScreen screen = console.screens[i];
-			String text = screen.display;
-			
-			if(text != null && ! text.isEmpty()) {
-				
-				String[] parts = text.split("=");
-				
-				if(parts.length == 2) {
-					text = I18nUtil.resolveKey(parts[0], parts[1]);
-				}
-
-				int width = font.getStringWidth(text);
-				int height = font.FONT_HEIGHT;
-				
-				float f3 = Math.min(0.03F, 0.8F / Math.max(width, 1));
-				GL11.glScalef(f3, -f3, f3);
-				GL11.glNormal3f(0.0F, 0.0F, -1.0F);
-				GL11.glRotatef(90, 0, 1, 0);
-				
-				font.drawString(text, - width / 2, - height / 2, 0x00ff00);
-			}
-			GL11.glPopMatrix();
-		}
-		
-		GL11.glDepthMask(true);
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-
 		GL11.glPopMatrix();
 	}
 	
-	private void drawColumn(Tessellator tess, double x, double y, double z, float color, double heat) {
+	private void drawColumn(Tessellator tess, double x, double y, double z) {
 		
 		double width = 0.0625D * 0.75;
 		

@@ -103,7 +103,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 						data.setString("type", "rbmksteam");
 						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, xCoord + 0.25 + worldObj.rand.nextInt(2) * 0.5, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord + 0.25 + worldObj.rand.nextInt(2) * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 100));
 						MainRegistry.proxy.effectNT(data);
-						this.ventDelay = 20;
+						this.ventDelay = 20 + worldObj.rand.nextInt(10);
+						this.worldObj.playSoundEffect(xCoord, yCoord + RBMKDials.getColumnHeight(worldObj), zCoord, "hbm:block.steamEngineOperate", 2F, 1F + worldObj.rand.nextFloat() * 0.25F);
 					}
 				}
 				
@@ -112,7 +113,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
-				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.steam.getFill() > 0) this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 		

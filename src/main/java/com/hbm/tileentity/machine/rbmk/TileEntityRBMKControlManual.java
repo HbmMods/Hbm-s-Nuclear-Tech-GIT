@@ -8,6 +8,7 @@ import com.hbm.inventory.gui.GUIRBMKControl;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.EnumUtil;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver, ICopiable {
+public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver, ICopiable, IRORInteractive {
 
 	public RBMKColor color;
 	public double startingLevel;
@@ -192,5 +193,25 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Override
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		if(nbt.hasKey("color")) color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent"
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+
+		if((PREFIX_FUNCTION + "setrods").equals(name) && params.length > 0) {
+			int percent = IRORInteractive.parseInt(params[0], 0, 100);
+			this.targetLevel = percent / 100D;
+			this.markDirty();
+			return null;
+		}
+
+		return null;
 	}
 }

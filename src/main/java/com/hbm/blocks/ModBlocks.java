@@ -1096,6 +1096,7 @@ public class ModBlocks {
 	public static Block rbmk_heater;
 	public static Block rbmk_console;
 	public static Block rbmk_crane_console;
+	public static Block rbmk_display;
 	public static Block rbmk_autoloader;
 	public static Block rbmk_loader;
 	public static Block rbmk_steam_inlet;
@@ -1433,8 +1434,8 @@ public class ModBlocks {
 		deco_lead = new BlockDecoCT(Material.iron).noFortune().setBlockName("deco_lead").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_lead");
 		deco_beryllium = new BlockDecoCT(Material.iron).noFortune().setBlockName("deco_beryllium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_beryllium");
 		deco_asbestos = new BlockOutgas(Material.cloth, true, 5, true).noFortune().setBlockName("deco_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_asbestos");
-		deco_rbmk = new BlockGeneric(Material.iron).setBlockName("deco_rbmk").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_side");
-		deco_rbmk_smooth = new BlockGeneric(Material.iron).setBlockName("deco_rbmk_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_top");
+		deco_rbmk = new BlockGeneric(Material.iron).setBlockName("deco_rbmk").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_top");
+		deco_rbmk_smooth = new BlockGeneric(Material.iron).setBlockName("deco_rbmk_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_blank_top");
 
 		deco_emitter = new BlockEmitter().setBlockName("deco_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":emitter");
 		part_emitter = new PartEmitter().setBlockName("part_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":part_top");
@@ -2115,6 +2116,7 @@ public class ModBlocks {
 		rbmk_heater = new RBMKHeater().setBlockName("rbmk_heater").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_heater");
 		rbmk_console = new RBMKConsole().setBlockName("rbmk_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_console");
 		rbmk_crane_console = new RBMKCraneConsole().setBlockName("rbmk_crane_console").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_crane_console");
+		rbmk_display = new RBMKDisplay().setBlockName("rbmk_display").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_display");
 		rbmk_autoloader = new RBMKAutoloader().setBlockName("rbmk_autoloader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_autoloader");
 		rbmk_loader = new RBMKLoader(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		rbmk_steam_inlet = new RBMKInlet(Material.iron).setBlockName("rbmk_steam_inlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_inlet");
@@ -3106,6 +3108,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rbmk_heater, rbmk_heater.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_crane_console, rbmk_crane_console.getUnlocalizedName());
+		register(rbmk_display);
 		register(rbmk_autoloader);
 		register(rbmk_loader);
 		register(rbmk_steam_inlet);

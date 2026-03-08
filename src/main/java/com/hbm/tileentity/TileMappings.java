@@ -402,6 +402,7 @@ public class TileMappings {
 		put(TileEntityRBMKStorage.class, "tileentity_rbmk_storage");
 		put(TileEntityCraneConsole.class, "tileentity_rbmk_crane_console");
 		put(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
+		put(TileEntityRBMKDisplay.class, "tileentity_rbmk_display");
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
 		put(TileEntityRBMKAutoloader.class, "tileentity_rbmk_autoloader");
