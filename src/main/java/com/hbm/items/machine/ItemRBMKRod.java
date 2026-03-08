@@ -168,16 +168,18 @@ public class ItemRBMKRod extends Item {
 			setPoison(stack, xenon);
 		}
 
-		double outFlux = reactivityFunc(inFlux, getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
+		double mult = 1D;
 		double coreHeat = this.getCoreHeat(stack);
 		
 		if(this.heatCoeffStart != 0) {
 			if(coreHeat >= this.heatCoeffStart) {
 				double prog = (coreHeat - this.heatCoeffStart) / this.heatCoeffLength;
 				if(prog > 1) prog = 1;
-				double mult = Math.sin((prog * Math.PI + Math.PI) / 2);
+				mult = Math.sin((prog * Math.PI + Math.PI) / 2);
 			}
 		}
+		
+		double outFlux = reactivityFunc(inFlux, getEnrichment(stack) * mult) * RBMKDials.getReactivityMod(world);
 
 		//if depletion is enabled
 		if(RBMKDials.getDepletion(world)) {

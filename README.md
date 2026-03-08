@@ -10,11 +10,15 @@
 
 **This is for 1.7.10!** For 1.12, check out these projects:
 
-* NTM Community Edition (WarFactory): https://github.com/MisterNorwood/Hbm-s-Nuclear-Tech-CE
+* NTM Community Edition (WarFactory): https://github.com/MisterNorwood/Hbm-s-Nuclear-Tech-CE/releases
 * NTM Extended Edition (Alcater): https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
 * NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
 
-For 1.18, try Martin's remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+For further ports, try:
+
+* NTM Remake on 1.18.2: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+* HBM Modernized on 1.20.1: https://github.com/Raptor324/HBM-Modernized/releases
+* NTM Neo on 1.21.1: https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases
 
 ## Downloading pre-compiled versions from GitHub
 

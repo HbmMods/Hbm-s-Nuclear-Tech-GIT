@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual;
 
 import cpw.mods.fml.relauncher.Side;
@@ -40,6 +41,7 @@ public class RBMKControl extends RBMKPipedBase {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= this.offset) return new TileEntityRBMKControlManual();
+		if(meta >= this.extra) return new TileEntityProxyCombo();
 		return null;
 	}
 	

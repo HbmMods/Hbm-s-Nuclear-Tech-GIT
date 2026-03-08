@@ -8,6 +8,6 @@ public interface ISBRHUniversal {
 	
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
-	public void renderInventoryBlock(Block block, int metadata, int modelId, Object renderBlocks);
+	public void renderInventoryBlock(Block block, int meta, int modelId, Object renderBlocks);
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, Object renderBlocks);
 }

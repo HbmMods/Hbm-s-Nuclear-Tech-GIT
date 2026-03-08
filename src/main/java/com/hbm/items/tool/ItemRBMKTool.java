@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKDisplay;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.block.Block;
@@ -48,6 +49,7 @@ public class ItemRBMKTool extends Item {
 			return true;
 		}
 		
+		//TODO: at this point just add a fucking interface
 		if(b == ModBlocks.rbmk_console && stack.hasTagCompound()) {
 			
 			if(!world.isRemote) {
@@ -72,6 +74,21 @@ public class ItemRBMKTool extends Item {
 				int[] pos = ((BlockDummyable)b).findCore(world, x, y, z);
 				
 				TileEntityCraneConsole console = (TileEntityCraneConsole)world.getTileEntity(pos[0], pos[1], pos[2]);
+				int tx = stack.stackTagCompound.getInteger("posX");
+				int ty = stack.stackTagCompound.getInteger("posY");
+				int tz = stack.stackTagCompound.getInteger("posZ");
+				console.setTarget(tx, ty, tz);
+				player.addChatComponentMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".set").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+			}
+			
+			return true;
+		}
+		
+		if(b == ModBlocks.rbmk_display && stack.hasTagCompound()) {
+			
+			if(!world.isRemote) {
+				
+				TileEntityRBMKDisplay console = (TileEntityRBMKDisplay) world.getTileEntity(x, y, z);
 				int tx = stack.stackTagCompound.getInteger("posX");
 				int ty = stack.stackTagCompound.getInteger("posY");
 				int tz = stack.stackTagCompound.getInteger("posZ");

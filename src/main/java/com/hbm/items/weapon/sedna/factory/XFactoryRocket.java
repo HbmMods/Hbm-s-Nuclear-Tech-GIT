@@ -60,7 +60,7 @@ public class XFactoryRocket {
 	};
 	public static Consumer<Entity> LAMBDA_STEERING_ACCELERATE = (entity) -> {
 		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
-		if(!(entity instanceof EntityPlayer)) {
+		if(!(bullet.getThrower() instanceof EntityPlayer)) {
 			if(bullet.accel < 7) bullet.accel += 0.4D;
 			return;
 		}

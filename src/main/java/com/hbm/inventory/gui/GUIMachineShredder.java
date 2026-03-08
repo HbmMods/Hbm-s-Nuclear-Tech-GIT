@@ -32,11 +32,8 @@ public class GUIMachineShredder extends GuiInfoContainer {
 		
 		boolean flag = false;
 
-		if(diFurnace.getGearLeft() == 0 || diFurnace.getGearLeft() == 3)
-			flag = true;
-		
-		if(diFurnace.getGearRight() == 0 || diFurnace.getGearRight() == 3)
-			flag = true;
+		if(diFurnace.getGearLeft() == 0 || diFurnace.getGearLeft() == 3) flag = true;
+		if(diFurnace.getGearRight() == 0 || diFurnace.getGearRight() == 3) flag = true;
 		
 		if(flag) {
 			String[] text = new String[] { "Error: Shredder blades are broken or missing!" };
