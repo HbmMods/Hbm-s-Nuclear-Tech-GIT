@@ -64,6 +64,9 @@
   * For fully automated high powered reactors, it may now be necessary to read the depletion via RoR and then throttle the reactor with control rods
   * RBMK cranes can still remove any fuel, no matter how hot it is
 * RBMK fuel channels will now undergo meltdown if it is broken when a fuel rod is still loaded with a heat temperature of at least 1,500°C
+* The annihilator now creates pollution when destroying fluids, with a 200% pollution modifier
+* MOX fuel now uses plutonium-239 instead of RGP, and more uranium-238
+  * This makes it a decent option for pu239 from the chicago pile without having to use HEP239
 
 ## Fixed
 * Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
@@ -78,3 +81,4 @@
 * Fixed yet another issue with the settings tool when copying automatic control rod settings
 * Fixed quad rocket launcher steering not working right
 * Fixed standard and industrial boilers not respecting the heating efficiency value of the fluid trait
+* Fixed copy tool integration for RBMK automatic control rods (again)
