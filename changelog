@@ -1,84 +1,11 @@
-## Added
-* Reasim RBMK control rods
-  * Come in manual and auto variants, but not moderated
-  * The same as standard control rods, except they need 5kHE/t
-  * Have only a single cable connection at the bottom
-  * Replace standard RBMK control rods when 528 mode is enabled
-* New RBMK fuels
-  * UZrH
-    * Made from MEU, zirconium and hydrogen in the PUREX
-    * More efficient than MEU but with less durability
-    * Has a new thermal coefficient mechanic, once the core heat exceeds 1000°C, reactivity drops down
-    * Very high diffusion, meaning the core is considerably colder than on most fuels
-* RBMK Display panel
-  * Single block that shows a 7x7 view of a linked RBMK
-  * Doesn't have a GUI or tooltips or anything, only acts as a monitor
-  * Ideal for >15x15 reactor monitoring, since the displays are tileable
-
 ## Changed
-* Updated RBMK visuals
-  * The indentations on most RBMK passive elements have been removed, heavily reducing tri count and allowing face culling, making RBMKs render much more efficiently
-  * The caps no longer render as part of the TESR and instead use much more performant ISBRH rendering
-  * Due to most passive elements no longer needing TESRs for their caps, most parts no longer use any TESRs at all
-  * This should fix various issues regarding lower-end hardware (especially Pojav) as well as issues with TESRs getting skipped due to the sheer number of things to render
-  * Control rods now show their set color as part of the model
-* Improved buzzsaw tree detection
-  * Instead of just clearing a pillar, it now tries to detect branches
-  * The max size of trees that can be successfully harvested is now way bigger
-  * This means that things like 2x2 jungle trees can now be automated
-* Annihilating radioactive items now creates that item's radiation value x5 as chunk radiation
-  * The maximum per tick is a 1000 RAD/s increase to prevent world-destroying radiation levels from annihilating demon cores
-* The water door now has a skin that isn't rusted with less contrast
-* The containment door now has a lead-colored skin with a trefoil on it
-* Using a screwdriver on a beamline now toggles a window which flashes if a particle passes
-* Particles now start slowly and accelerate, instead of passing a fixed 10 components per tick, particles only do 1 component per tick, which increases by 1 every 1,000 momentum
-* RBMK absorber columns now heat up when exposed to neutrons
-  * The type of neutron does not matter, only the quantity
-  * 20 flux equals 1°C heatup
-* RBMK passive cooling has changed
-  * The default value is now 2.5°C/t instead of 1
-  * This value only applies to rods that have exposed sides, i.e. the edges of a reactor
-  * There is now a second passive cooling variable used for rods on the inside (`dialPassiveCoolingInner`, 0.1°C/t by default)
-  * The effective passive cooling value is scaled smoothly depending on how many sides are exposed, using `dialPassiveCoolingInner` with no exposed sides and `dialPassiveCooling` for rods with four exposed sides
-  * Simply put, spindly RBMKs are now way less desirable, structural columns no longer just debuff the reactor and reactors that actually look like reactors are now more powerful
-* Chanced the way RBMK coolers work
-  * Instead of using cryogel, coolers use 50mB of cold PFM per tick and return an equal amount of warm PFM
-  * In a 5x5 square around the cooler, all components are cooled down by 200°C per tick, down to a minimum of 20°C
-  * This renders that section of the reactor unsuitable for boiling water, however it means very high heat fuels can be used
-  * Cold PFM is used up at a steady rate, even if the reactor is already cold
-* The RBMK structural column recipe now uses only half as many metal plates, and rubber instead of insulator
-* Changed the way reasim RBMK fuel channels work
-  * Instead of six randomized neutron streams, reasim rods now use eight 75% strength streams in an even star pattern
-  * The pattern is rotated in a random multiple of 9° (i.e. four possible angle variations)
-* RBMK steam channels now spawn steam particles if water is voided due to the steam buffer not being emptied in time
-* Rebalanced 528 mode
-  * Increased the chance for most precision assembler recipes to succeed
-  * Increased the chance for items to be salvaged by recycling
-    * In expensive mode, the chances have been increased drastically compared to the old values
-* Added RoR functionality to some RBMK columns
-  * Manual control rods can have their target height set, allowing them to be remote controlled without a console
-  * All fuel channels can now provide values such as column heat, fuel skin heat, depletion and xenon poison
-* RBMK consoles and displays no longer show the temperature value of control rods as a red gradient, instead they show the control rods' color grouping
-* RBMK fuel rods can no longer be removed by hand if the skin temp exceeds 200°C
-* RBMK fuel rods can no longer be cycled via autoloader if the skin temp exceeds 1,000°C
-  * For fully automated high powered reactors, it may now be necessary to read the depletion via RoR and then throttle the reactor with control rods
-  * RBMK cranes can still remove any fuel, no matter how hot it is
-* RBMK fuel channels will now undergo meltdown if it is broken when a fuel rod is still loaded with a heat temperature of at least 1,500°C
-* The annihilator now creates pollution when destroying fluids, with a 200% pollution modifier
-* MOX fuel now uses plutonium-239 instead of RGP, and more uranium-238
-  * This makes it a decent option for pu239 from the chicago pile without having to use HEP239
+* Updated russian localization
+* Safes now properly use the inventorytweaks API, allowing slot sorting via GUI
+* The meltdown disabling dial now also affects meldown caused by breaking fuel channels while hot
+* The dots on the grpahite moderator columns are now a lot darker to tell them apart from fuel channels much more easily
 
 ## Fixed
-* Fixed NBTStack serialization omitting the stack size most of the time, preventing deserialization (mainly in the precision assembler config)
-* Fixed precision assembler not being listed in the creative inventory
-* Fixed OpenComputers integration for the CCGT
-* Fixed tool abilities switching when clicking on a block with a special interaction
-* Fixed outdated info on the QMAW pages involving AA and BSCCO due to the fusion reactor update
-* Fixed ammo container giving 9mm instead of .22 for the akimbo target pistols
-* Fixed RBMK control rods incorrectly showing up in the red group when no group is set
-* Fixed fluid output direction being incorrect on boilers, causing them to break with pipe anchors
-* Fixed an issue where the industrial turbine's tendency to round up the possible operation counter would cause it to use up steam it doesn't actually have
-* Fixed yet another issue with the settings tool when copying automatic control rod settings
-* Fixed quad rocket launcher steering not working right
-* Fixed standard and industrial boilers not respecting the heating efficiency value of the fluid trait
-* Fixed copy tool integration for RBMK automatic control rods (again)
+* Fixed RBMK fuel channel RoR not being properly parseable due to not being integers
+* Potentially fixed a dupe regarding safes
+* Moved the flow control pump's GUI code out of the block class which should hopefully fix an issue where spigot servers crash instantly when placed down
+* Fixed RBMKs melting down when removing the covers from fuel channels with hot fuel in them

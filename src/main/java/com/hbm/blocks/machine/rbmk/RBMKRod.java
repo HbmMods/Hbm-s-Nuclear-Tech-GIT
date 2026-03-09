@@ -5,6 +5,7 @@ import com.hbm.items.machine.ItemRBMKLid;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -41,9 +42,9 @@ public class RBMKRod extends RBMKBase {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		if(meta >= this.offset) {
+		if(meta >= this.offset && !RBMKDials.getMeltdownsDisabled(world)) {
 			TileEntityRBMKRod tile = (TileEntityRBMKRod) world.getTileEntity(x, y, z);
-			if(tile != null) {
+			if(tile != null && tile.explodeOnBroken) {
 				if(tile.slots[0] != null && tile.slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getHullHeat(tile.slots[0]) >= 1500) {
 					tile.meltdown();
 				}

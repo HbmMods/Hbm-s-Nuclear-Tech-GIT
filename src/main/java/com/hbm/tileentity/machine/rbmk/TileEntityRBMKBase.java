@@ -56,6 +56,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	public static final int maxWater = 16000;
 	public int reasimSteam;
 	public static final int maxSteam = 16000;
+	
+	public static boolean explodeOnBroken = true;
 
 	public boolean hasLid() {
 
