@@ -1,11 +1,10 @@
 ## Changed
-* Updated russian localization
-* Safes now properly use the inventorytweaks API, allowing slot sorting via GUI
-* The meltdown disabling dial now also affects meldown caused by breaking fuel channels while hot
-* The dots on the grpahite moderator columns are now a lot darker to tell them apart from fuel channels much more easily
+* Updated textures for some nuclear bomb GUIs
+* RBMK fuel rods too hot to be taken out manually can now be removed by players in creative mode
+* Updated the SILEX recycling recipe for MOX fuel to reflect the recent recipe change
+  * High-xenon MOX pellets now yield xenon-135 again
+* Improved logging for incorrectly configured machine recipes
 
 ## Fixed
-* Fixed RBMK fuel channel RoR not being properly parseable due to not being integers
-* Potentially fixed a dupe regarding safes
-* Moved the flow control pump's GUI code out of the block class which should hopefully fix an issue where spigot servers crash instantly when placed down
-* Fixed RBMKs melting down when removing the covers from fuel channels with hot fuel in them
+* Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
+* Fixed RoR components not being able to be attached to the top of reasim fuel rods
