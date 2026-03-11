@@ -1,3 +1,13 @@
+## Added
+* Key pad
+  * Fits visually with the RBMK display block
+  * Allows up to four buttons to be configured with a screwdriver (shhift click!)
+  * Buttons will send RoR signals when pressed, with a configured value on the configured frequencies
+  * Can be set to polling, which will resend the command until the button is pressed again
+  * Single push buttons and buttons set to polling which are enabled will glow in the dark
+  * Each button can be assigned a label with glow in the dark paint
+  * Allows RBMK control rods to be fully remote controllable with no console
+
 ## Changed
 * Updated textures for some nuclear bomb GUIs
 * RBMK fuel rods too hot to be taken out manually can now be removed by players in creative mode
@@ -8,3 +18,4 @@
 ## Fixed
 * Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
 * Fixed RoR components not being able to be attached to the top of reasim fuel rods
+* Fixed a crash in multiplayer regarding RBMK control rods

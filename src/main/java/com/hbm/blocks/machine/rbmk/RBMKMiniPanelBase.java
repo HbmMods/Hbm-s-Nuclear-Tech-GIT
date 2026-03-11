@@ -2,6 +2,7 @@ package com.hbm.blocks.machine.rbmk;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.lib.Library;
 import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 
@@ -32,6 +33,18 @@ public abstract class RBMKMiniPanelBase extends BlockContainer implements ISBRHU
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
 		return true;
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+
+		int meta = world.getBlockMetadata(x, y, z);
+		setBlockBounds(0, 0, 0, 1, 1, 1);
+		
+		if(meta == Library.POS_X.ordinal()) setBlockBounds(0, 0, 0, 0.75F, 1, 1);
+		if(meta == Library.POS_Z.ordinal()) setBlockBounds(0, 0, 0, 1, 1, 0.75F);
+		if(meta == Library.NEG_X.ordinal()) setBlockBounds(0.25F, 0, 0, 1, 1, 1);
+		if(meta == Library.NEG_Z.ordinal()) setBlockBounds(0, 0, 0.25F, 1, 1, 1);
 	}
 
 	@Override
