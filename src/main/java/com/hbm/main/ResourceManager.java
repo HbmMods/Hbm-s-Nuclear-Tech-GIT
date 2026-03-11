@@ -136,7 +136,7 @@ public class ResourceManager {
 	public static final IModelCustom epress_head = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/epress_head.obj"));
 	public static final IModelCustom conveyor_press = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/conveyor_press.obj"));
 	public static final IModelCustom ammo_press = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/ammo_press.obj")).asVBO();
-	
+
 	//Annihilator
 	public static final IModelCustom annihilator = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/annihilator.obj")).asVBO();
 
@@ -320,11 +320,13 @@ public class ResourceManager {
 	//Doors
 	public static AnimatedModel transition_seal = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"), true);
 	public static Animation transition_seal_anim = ColladaLoader.loadAnim(24040, new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"));
-	
+
 	//PheoDoors
 	public static final ResourceLocation pheo_fire_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door.png");
 	public static final ResourceLocation pheo_fire_door_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door_black.png");
 	public static final ResourceLocation pheo_fire_door_orange_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door_orange.png");
+	public static final ResourceLocation pheo_fire_door_yellow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door_yellow.png");
+	public static final ResourceLocation pheo_fire_door_trefoil_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/fire_door_trefoil.png");
 	public static IModelCustomNamed pheo_fire_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/fire_door.obj")).asVBO();
 	public static final ResourceLocation pheo_airlock_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/airlock_door.png");
 	public static final ResourceLocation pheo_airlock_door_clean_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/airlock_door_clean.png");
@@ -334,11 +336,14 @@ public class ResourceManager {
 	public static IModelCustomNamed pheo_blast_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/blast_door.obj")).asVBO();
 	public static final ResourceLocation pheo_containment_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door.png");
 	public static final ResourceLocation pheo_containment_door_trefoil_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door_trefoil.png");
+	public static final ResourceLocation pheo_containment_door_trefoil_yellow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/containment_door_trefoil_yellow.png");
 	public static IModelCustomNamed pheo_containment_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/containment_door.obj")).asVBO();
 	public static final ResourceLocation pheo_seal_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/seal_door.png");
 	public static IModelCustomNamed pheo_seal_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/seal_door.obj")).asVBO();
 	public static final ResourceLocation pheo_secure_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/secure_door.png");
 	public static final ResourceLocation pheo_secure_door_grey_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/secure_door_grey.png");
+	public static final ResourceLocation pheo_secure_door_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/secure_door_black.png");
+	public static final ResourceLocation pheo_secure_door_yellow_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/secure_door_yellow.png");
 	public static IModelCustomNamed pheo_secure_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/secure_door.obj")).asVBO();
 	public static final ResourceLocation pheo_sliding_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door.png");
 	public static IModelCustomNamed pheo_sliding_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/sliding_door.obj")).asVBO();
@@ -573,7 +578,7 @@ public class ResourceManager {
 	public static final ResourceLocation conveyor_press_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_press.png");
 	public static final ResourceLocation conveyor_press_belt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/conveyor_press_belt.png");
 	public static final ResourceLocation ammo_press_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/ammo_press.png");
-	
+
 	//Annihilator
 	public static final ResourceLocation annihilator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/annihilator.png");
 	public static final ResourceLocation annihilator_belt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/annihilator_belt.png");
@@ -852,7 +857,7 @@ public class ResourceManager {
 	public static final ResourceLocation substation_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/substation.png");
 	public static final ResourceLocation wire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/wire.png");
 	public static final ResourceLocation wire_greyscale_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/wire_greyscale.png");
-	
+
 	//Pipes
 	public static final ResourceLocation pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor.png");
 	public static final ResourceLocation fluid_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/fluid_diode.png");

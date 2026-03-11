@@ -105,12 +105,12 @@ public abstract class DoorDecl {
 	};
 
 	public static final DoorDecl VAULT_DOOR = new DoorDecl() {
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderVaultDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
@@ -121,13 +121,13 @@ public abstract class DoorDecl {
 					.addBus("SLIDE", new BusAnimationSequence().setPos(1, 0, 0).addPos(0, 0, 0, 4_000));
 			return null;
 		}
-		
+
 		@Override public int getSkinCount() { return 7; }
 
 		@Override public int timeToOpen() { return 120; }
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { {-1, 1, 0, 3, 3, 2} }; }
 		@Override public int[] getDimensions() { return new int[] { 4, 0, 0, 0, 2, 2 }; }
-		
+
 		@Override public int[][] getExtraDimensions() { return new int[][] { {0, 0, 1, -1, 2, 2} }; };
 
 		@Override
@@ -135,10 +135,10 @@ public abstract class DoorDecl {
 			if(!open || y == 0) return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 			else return super.getBlockBound(x, y, z, open, forCollision);
 		}
-		
+
 		public Consumer<TileEntityDoorGeneric> onUpdate = (door) -> {
 			if(door.getWorldObj().isRemote) return;
-			
+
 			if(door.state == door.STATE_OPENING) {
 				if(door.openTicks == 0) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
 				for(int i = 45; i <= 115; i += 10)
@@ -149,22 +149,22 @@ public abstract class DoorDecl {
 					if(door.openTicks == i) door.getWorldObj().playSoundEffect(door.xCoord, door.yCoord, door.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 			}
 		};
-		
+
 		@Override public Consumer<TileEntityDoorGeneric> onDoorUpdate() { return onUpdate; }
 	};
-	
+
 	public static final DoorDecl FIRE_DOOR = new DoorDecl() {
 
 		@Override public String getOpenSoundEnd() { return "hbm:door.wghStop"; }
 		@Override public String getOpenSoundLoop() { return "hbm:door.wghStart"; }
 		@Override public String getSoundLoop2() { return "hbm:door.alarm6"; }
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderFireDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -173,17 +173,19 @@ public abstract class DoorDecl {
 		}
 
 		public ResourceLocation[] skins;
-		
+
 		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_fire_door_tex,
 					ResourceManager.pheo_fire_door_black_tex,
 					ResourceManager.pheo_fire_door_orange_tex,
+					ResourceManager.pheo_fire_door_yellow_tex,
+					ResourceManager.pheo_fire_door_trefoil_tex
 			};
 			return skins;
 		}
-		
-		public int getSkinCount() { return 3; }
+
+		public int getSkinCount() { return 5; }
 
 		@Override public int timeToOpen() { return 160; }
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 4, 1 } }; }
@@ -201,18 +203,18 @@ public abstract class DoorDecl {
 	};
 
 	public static final DoorDecl SLIDE_DOOR = new DoorDecl() {
-		
+
 		@Override public String getOpenSoundEnd() { return "hbm:door.sliding_door_opened"; }
 		@Override public String getCloseSoundEnd() { return "hbm:door.sliding_door_shut"; }
 		@Override public String getOpenSoundLoop() { return "hbm:door.sliding_door_opening"; }
 		@Override public String getSoundLoop2() { return "hbm:door.sliding_door_opening"; }
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderSlidingBlastDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
@@ -245,12 +247,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundEnd() { return "hbm:door.sliding_seal_stop"; }
 		@Override public String getOpenSoundStart() { return "hbm:door.sliding_seal_open"; }
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderSealDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -277,12 +279,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
 		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; }
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderSecureDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -307,16 +309,18 @@ public abstract class DoorDecl {
 		}
 
 		public ResourceLocation[] skins;
-		
+
 		@Override public ResourceLocation[] getSEDNASkins() {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_secure_door_tex,
-					ResourceManager.pheo_secure_door_grey_tex
+					ResourceManager.pheo_secure_door_grey_tex,
+					ResourceManager.pheo_secure_door_black_tex,
+					ResourceManager.pheo_secure_door_yellow_tex
 			};
 			return skins;
 		}
-		
-		public int getSkinCount() { return 2; }
+
+		public int getSkinCount() { return 4; }
 	};
 
 	public static final DoorDecl ROUND_AIRLOCK_DOOR = new DoorDecl() {
@@ -324,12 +328,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
 		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; }
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderAirlockDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -338,7 +342,7 @@ public abstract class DoorDecl {
 		}
 
 		public ResourceLocation[] skins;
-		
+
 		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_airlock_door_tex,
@@ -347,7 +351,7 @@ public abstract class DoorDecl {
 			};
 			return skins;
 		}
-		
+
 		public int getSkinCount() { return 3; }
 
 		@Override
@@ -372,12 +376,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundLoop() { return "hbm:door.qe_sliding_opening"; };
 		@Override public float getSoundVolume() { return 2; }
 		@Override public int timeToOpen() { return 10; };
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderSlidingDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -405,12 +409,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_stop"; };
 		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_start"; };
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderContainmentDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -419,16 +423,17 @@ public abstract class DoorDecl {
 		}
 
 		public ResourceLocation[] skins;
-		
+
 		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_containment_door_tex,
-					ResourceManager.pheo_containment_door_trefoil_tex
+					ResourceManager.pheo_containment_door_trefoil_tex,
+					ResourceManager.pheo_containment_door_trefoil_yellow_tex
 			};
 			return skins;
 		}
-		
-		@Override public int getSkinCount() { return 2; }
+
+		@Override public int getSkinCount() { return 3; }
 
 		@Override public int timeToOpen() { return 160; };
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, 0, 0, 3, 3, 1 } }; }
@@ -452,12 +457,12 @@ public abstract class DoorDecl {
 		@Override public String getCloseSoundStart() { return null; };
 		@Override public String getCloseSoundEnd() { return "hbm:door.lever"; };
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderWaterDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
@@ -470,7 +475,7 @@ public abstract class DoorDecl {
 		}
 
 		public ResourceLocation[] skins;
-		
+
 		@SideOnly(Side.CLIENT) @Override public ResourceLocation[] getSEDNASkins() {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_water_door_tex,
@@ -478,7 +483,7 @@ public abstract class DoorDecl {
 			};
 			return skins;
 		}
-		
+
 		@Override public int getSkinCount() { return 2; }
 
 		@Override
@@ -540,7 +545,7 @@ public abstract class DoorDecl {
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 1, 0, 1, -3, 3, 0 }, { 0, 0, 1, -3, 3, 0 }, { -1, 0, 1, -3, 3, 0 } }; }
 		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
 
-		
+
 		@Override public int getBlockOffset() { return 2; }
 		@Override public int[] getDimensions() { return new int[] { 0, 0, 2, 2, 2, 2 }; }
 		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_tex; }
@@ -594,7 +599,7 @@ public abstract class DoorDecl {
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 2, 0, 1, -3, 3, 0 }, { 1, 0, 2, -5, 3, 0 }, { 0, 0, 2, -5, 3, 0 }, { -1, 0, 2, -5, 3, 0 }, { -2, 0, 1, -3, 3, 0 } }; }
 		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
 
-		
+
 		@Override public int getBlockOffset() { return 3; }
 		@Override public int[] getDimensions() { return new int[] { 0, 0, 3, 3, 3, 3 }; }
 		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_large_tex; }
@@ -608,12 +613,12 @@ public abstract class DoorDecl {
 		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
 		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; };
 		@Override public float getSoundVolume() { return 2; }
-		
+
 		@Override
 		public IRenderDoors getSEDNARenderer() {
 			return RenderVehicleDoor.INSTANCE;
 		}
-		
+
 		@Override
 		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
 			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation().addBus("DOOR", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, this.timeToOpen() * 50));
@@ -643,7 +648,7 @@ public abstract class DoorDecl {
 	public abstract int[][] getDoorOpenRanges();
 	public abstract int[] getDimensions();
 	public int[][] getExtraDimensions() { return null; };
-	
+
 	public int getBlockOffset() { return 0; }
 	public boolean remoteControllable() { return false; }
 
@@ -708,29 +713,29 @@ public abstract class DoorDecl {
 
 	public ResourceLocation[] getSEDNASkins() { return null; }
 	public boolean hasSkins() { return getSkinCount() > 0; }
-	
+
 	public int getSkinCount() { return 0; }
-	
+
 	public ResourceLocation getCyclingSkins() {
 		ResourceLocation[] skins = this.getSEDNASkins();
 		int index = (int) ((Clock.get_ms() % (skins.length * 1000)) / 1000);
 		return skins[index];
 	}
-	
+
 	public ResourceLocation getSkinFromIndex(int index) {
 		ResourceLocation[] skins = this.getSEDNASkins();
 		return skins[Math.abs(index) % skins.length];
 	}
-	
+
 	// keyframe animation system sneakily stitched into the door decl
 	public IRenderDoors getSEDNARenderer() { return null; }
 	public BusAnimation getBusAnimation(byte state, byte skinIndex) { return null; }
-	
+
 	public com.hbm.render.anim.HbmAnimations.Animation getSEDNAAnim(byte state, byte skinIndex) {
 		BusAnimation anim = this.getBusAnimation(state, skinIndex);
 		if(anim != null) return new com.hbm.render.anim.HbmAnimations.Animation("DOOR_ANIM", System.currentTimeMillis(), anim);
 		return null;
 	}
-	
+
 	public Consumer<TileEntityDoorGeneric> onDoorUpdate() { return null; }
 }
