@@ -15,9 +15,12 @@
   * High-xenon MOX pellets now yield xenon-135 again
 * Improved logging for incorrectly configured machine recipes
 * Removed the legacy toolbox item
+* Due to complaints, the MOX recipe was now made more expensive
+* Manual control rods now have the `extendrods` command, which allows the target setting to be adjusted without using an abolute value
 
 ## Fixed
 * Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
 * Fixed RoR components not being able to be attached to the top of reasim fuel rods
 * Fixed a crash in multiplayer regarding RBMK control rods
 * Fixed incorrect QMAW description of the autoloader, talking about fuel depletion instead of fuel enrichment
+* Fixed log spam when placing down a RoR controller
