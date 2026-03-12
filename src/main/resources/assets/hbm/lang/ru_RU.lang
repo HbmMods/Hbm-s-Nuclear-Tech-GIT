@@ -866,6 +866,7 @@ container.rbmkBoiler=Паровой канал РБМК
 container.rbmkControl=Регулирующие стержни РБМК
 container.rbmkControlAuto=Автоматические регулирующие стержни РБМК
 container.rbmkHeater=Жидкостный нагреватель РБМК
+container.rbmkKeyPad=Редстоун-по-радио клавиатура
 container.rbmkOutgasser=Колонна облучения РБМК
 container.rbmkReaSim=Топливные стержни РБМК (РеаСим)
 container.rbmkRod=Топливные стержни РБМК
@@ -5969,6 +5970,7 @@ tile.rbmk_control_reasim_auto.name=Автоматические регулиру
 tile.rbmk_crane_console.name=Консоль крана РБМК
 tile.rbmk_display.name=Дисплей-панель РБМК
 tile.rbmk_heater.name=Жидкостный нагреватель РБМК
+tile.rbmk_key_pad.name=Редстоун-по-радио клавиатура
 tile.rbmk_loader.name=Паровой проводник РБМК
 tile.rbmk_loader.desc=Позволяет РБМК иметь внизу соединения для воды и пара$Поместите одну водную трубу под колонной РБМК, затем проводник,$потом подключите паропровод к проводнику.
 tile.rbmk_moderator.name=Графитовый замедлитель РБМК
@@ -6381,4 +6383,5 @@ desc.gui.upgrade.power= * §1Энергосбережение§r: Стакает
 desc.gui.upgrade.speed= * §4Скорость§r: Стакается до 3-х уровней
 
 // Last updated 08.03.2026 by RayzerHan //
+
 
