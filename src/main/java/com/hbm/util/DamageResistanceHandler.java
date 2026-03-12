@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
@@ -427,7 +428,7 @@ public class DamageResistanceHandler {
 	@SubscribeEvent
 	public void onEntityAttacked(LivingAttackEvent event) {
 		if(event.source.isDamageAbsolute()) return;
-		
+
 		EntityLivingBase e = event.entityLiving;
 		float amount = event.ammount;
 		
@@ -443,6 +444,7 @@ public class DamageResistanceHandler {
 	
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
+		
 		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
 		if(event.entityLiving instanceof IResistanceProvider) {
 			IResistanceProvider irp = (IResistanceProvider) event.entityLiving;
@@ -454,10 +456,10 @@ public class DamageResistanceHandler {
 		if(source.isExplosion()) return CATEGORY_EXPLOSION;
 		if(source.isFireDamage()) return CATEGORY_FIRE;
 		if(source.isProjectile()) return CATEGORY_PHYSICAL;
-		if(source.damageType.equals(DamageClass.LASER.name())) return CATEGORY_ENERGY;
-		if(source.damageType.equals(DamageClass.MICROWAVE.name())) return CATEGORY_ENERGY;
-		if(source.damageType.equals(DamageClass.SUBATOMIC.name())) return CATEGORY_ENERGY;
-		if(source.damageType.equals(DamageClass.ELECTRIC.name())) return CATEGORY_ENERGY;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.LASER.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.MICROWAVE.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.SUBATOMIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source == DamageSource.cactus) return CATEGORY_PHYSICAL;
 		if(source instanceof EntityDamageSource) return CATEGORY_PHYSICAL;
 		return source.damageType;
@@ -546,7 +548,7 @@ public class DamageResistanceHandler {
 			return source.isUnblockable() ? null : otherResistance;
 		}
 
-		public ResistanceStats addExact(String type, float threshold, float resistance) { exactResistances.put(type, new Resistance(threshold, resistance)); return this; }
+		public ResistanceStats addExact(String type, float threshold, float resistance) { exactResistances.put(type.toLowerCase(Locale.US), new Resistance(threshold, resistance)); return this; }
 		public ResistanceStats addCategory(String type, float threshold, float resistance) { categoryResistances.put(type, new Resistance(threshold, resistance)); return this; }
 		public ResistanceStats setOther(float threshold, float resistance) { otherResistance = new Resistance(threshold, resistance); return this; }
 		

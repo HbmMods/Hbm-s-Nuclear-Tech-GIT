@@ -54,7 +54,9 @@ public class ItemRBMKLid extends Item {
 				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, ModBlocks.concrete_smooth.stepSound.func_150496_b(), (ModBlocks.concrete_smooth.stepSound.getVolume() + 1.0F) / 2.0F, ModBlocks.concrete_smooth.stepSound.getPitch() * 0.8F);
 			}
 
+			tile.explodeOnBroken = false;
 			world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], meta + RBMKBase.offset, 3);
+			tile.explodeOnBroken = true;
 			stack.stackSize--;
 
 			return true;

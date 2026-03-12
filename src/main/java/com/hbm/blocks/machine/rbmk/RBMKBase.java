@@ -225,7 +225,9 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 							world.spawnEntityInWorld(new EntityItem(world, pos[0] + 0.5, pos[1] + 0.5 + RBMKDials.getColumnHeight(world), pos[2] + 0.5, new ItemStack(ModItems.rbmk_lid_glass)));
 						}
 
+						rbmk.explodeOnBroken = false;
 						world.setBlockMetadataWithNotify(pos[0], pos[1], pos[2], DIR_NO_LID.ordinal() + offset, 3);
+						rbmk.explodeOnBroken = true;
 					}
 
 					return true;

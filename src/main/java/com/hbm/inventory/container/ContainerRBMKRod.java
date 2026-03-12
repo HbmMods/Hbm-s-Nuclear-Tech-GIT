@@ -31,7 +31,7 @@ public class ContainerRBMKRod extends Container {
 	@Override
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 
-		if(index == 0) {
+		if(index == 0 && !player.capabilities.isCreativeMode) {
 			
 			if(rbmk.coldEnoughForManual()) {
 				return super.slotClick(index, button, mode, player);

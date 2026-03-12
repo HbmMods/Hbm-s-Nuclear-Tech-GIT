@@ -71,7 +71,6 @@ public class GUIScreenRadioTorchController extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
-
 	private void drawGuiContainerForegroundLayer(int x, int y) {
 		String name = I18nUtil.resolveKey("container.rttyController");
 		this.fontRendererObj.drawString(name, this.guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, this.guiTop + 6, 4210752);

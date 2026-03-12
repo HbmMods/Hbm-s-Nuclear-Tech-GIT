@@ -1516,6 +1516,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.tritium_deuterium_cake");
 		ignoreMappings.add("hbm:item.redcoil_capacitor");
 		ignoreMappings.add("hbm:item.euphemium_capacitor");
+		ignoreMappings.add("hbm:item.toolbox_legacy");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
@@ -1523,7 +1524,6 @@ public class MainRegistry {
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		remapItems.put("hbm:item.antiknock", ModItems.fuel_additive);
 		remapItems.put("hbm:item.kit_toolbox_empty", ModItems.toolbox);
-		remapItems.put("hbm:item.kit_toolbox", ModItems.legacy_toolbox);
 
 		for(MissingMapping mapping : event.get()) {
 
