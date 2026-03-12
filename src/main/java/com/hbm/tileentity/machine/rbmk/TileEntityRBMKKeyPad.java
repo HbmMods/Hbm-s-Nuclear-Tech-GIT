@@ -55,6 +55,20 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 		for(int i = 0; i < 4; i++) this.keys[i].deserialize(buf);
 	}
 
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		for(int i = 0; i < 4; i++) this.keys[i].readFromNBT(nbt, i);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		for(int i = 0; i < 4; i++) this.keys[i].writeToNBT(nbt, i);
+	}
+
 	public class KeyUnit {
 		
 		/** If the output should be per tick, allows the "is pressed" state */
@@ -64,13 +78,15 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 		/** Color of the button as rendered on the panel */
 		public int color;
 		/** Label on the button as rendered on the panel */
-		public String label;
+		public String label = "";
 		/** What channel to send the command over */
-		public String rtty;
+		public String rtty = "";
 		/** What to send when pressed */
-		public String command;
+		public String command = "";
 		/** Whether this button is enabled and can be pressed */
 		public boolean active;
+		/** For non-polling buttons, the time until the button visually upresses */
+		public int clickTimer;
 		
 		public KeyUnit(int initialIndex) {
 			if(initialIndex == 0) color = 0xff0000;
@@ -85,6 +101,8 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 			
 			if(!polling) {
 				if(canSend()) RTTYSystem.broadcast(worldObj, rtty, command);
+				this.isPressed = true;
+				this.clickTimer = 10;
 			} else {
 				this.isPressed = !this.isPressed;
 				TileEntityRBMKKeyPad.this.markDirty();
@@ -97,6 +115,10 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 			if(polling && isPressed) {
 				if(canSend()) RTTYSystem.broadcast(worldObj, rtty, command);
 			}
+			
+			if(!polling && isPressed) {
+				if(this.clickTimer-- <= 0) this.isPressed = false;
+			}
 		}
 		
 		public boolean canSend() {
@@ -106,7 +128,7 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 		public void serialize(ByteBuf buf) {
 			buf.writeBoolean(active);
 			buf.writeBoolean(polling);
-			if(polling) buf.writeBoolean(isPressed);
+			buf.writeBoolean(isPressed);
 			buf.writeInt(color);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
@@ -116,11 +138,31 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 		public void deserialize(ByteBuf buf) {
 			active = buf.readBoolean();
 			polling = buf.readBoolean();
-			if(polling) isPressed = buf.readBoolean();
+			isPressed = buf.readBoolean();
 			color = buf.readInt();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
 			command = BufferUtil.readString(buf);
+		}
+
+		public void readFromNBT(NBTTagCompound nbt, int index) {
+			this.active = nbt.getBoolean("active" + index);
+			this.polling = nbt.getBoolean("polling" + index);
+			this.isPressed = nbt.getBoolean("isPressed" + index);
+			this.color = nbt.getInteger("color" + index);
+			this.label = nbt.getString("label" + index);
+			this.rtty = nbt.getString("rtty" + index);
+			this.command = nbt.getString("command" + index);
+		}
+
+		public void writeToNBT(NBTTagCompound nbt, int index) {
+			nbt.setBoolean("active" + index, active);
+			nbt.setBoolean("polling" + index, polling);
+			nbt.setBoolean("isPressed" + index, isPressed);
+			nbt.setInteger("color" + index, color);
+			nbt.setString("label" + index, label);
+			nbt.setString("rtty" + index, rtty);
+			nbt.setString("command" + index, command);
 		}
 	}
 

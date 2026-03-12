@@ -35,25 +35,27 @@ public class RenderRBMKKeyPad extends TileEntitySpecialRenderer {
 			KeyUnit key = keypad.keys[i];
 			if(!key.active) continue;
 			
-			boolean glow = !(key.polling && !key.isPressed);
-			float mult = glow ? 1F : 0.5F;
+			boolean glow = key.isPressed;
+			float mult = glow ? 1F : 0.65F;
 			
 			GL11.glPushMatrix();
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glTranslated(0.25, (i / 2) * -0.5 + 0.25, (i % 2) * -0.5 + 0.25);
-			
-			GL11.glColor3f(0.5F, 0.5F, 0.5F);
+
+			GL11.glColor3f(1F, 1F, 1F);
+			this.bindTexture(ResourceManager.rbmk_keypad_tex);
 			ResourceManager.rbmk_button.renderPart("Socket");
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated((key.polling && key.isPressed) ? -0.03125 : 0, 0, 0);
+			GL11.glTranslated(key.isPressed ? -0.03125 : 0, 0, 0);
 			GL11.glColor3f(ColorUtil.fr(key.color) * mult, ColorUtil.fg(key.color) * mult, ColorUtil.fb(key.color) * mult);
 			
-			if(glow) RenderArcFurnace.fullbright(true);
+			if(glow) {
+				RenderArcFurnace.fullbright(true);
+				GL11.glEnable(GL11.GL_LIGHTING); // we want a glow, but normal lighting should still apply
+			}
 			ResourceManager.rbmk_button.renderPart("Button");
 			if(glow) RenderArcFurnace.fullbright(false);
 			
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glPopMatrix();
 
 			FontRenderer font = Minecraft.getMinecraft().fontRenderer;

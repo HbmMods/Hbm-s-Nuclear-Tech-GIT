@@ -1624,6 +1624,7 @@ public class ResourceManager {
 	public static final ResourceLocation rbmk_crane_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_crane.png");
 	public static final ResourceLocation rbmk_autoloader_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_autoloader.png");
 	public static final ResourceLocation rbmk_console_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_control.png");
+	public static final ResourceLocation rbmk_keypad_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/keypad.png");
 	public static final HFRWavefrontObject hev_battery = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/battery.obj")).noSmooth();
 	public static final HFRWavefrontObject anvil = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/anvil.obj")).noSmooth();
 	public static final HFRWavefrontObject crystal_power = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_power.obj")).noSmooth();

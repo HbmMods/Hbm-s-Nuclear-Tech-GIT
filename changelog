@@ -14,8 +14,10 @@
 * Updated the SILEX recycling recipe for MOX fuel to reflect the recent recipe change
   * High-xenon MOX pellets now yield xenon-135 again
 * Improved logging for incorrectly configured machine recipes
+* Removed the legacy toolbox item
 
 ## Fixed
 * Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
 * Fixed RoR components not being able to be attached to the top of reasim fuel rods
 * Fixed a crash in multiplayer regarding RBMK control rods
+* Fixed incorrect QMAW description of the autoloader, talking about fuel depletion instead of fuel enrichment
