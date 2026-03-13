@@ -20,7 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRadioTorchController extends TileEntityLoadedBase implements IControlReceiver {
 
-	public String channel;
+	public String channel = "";
 	public String prev;
 	public boolean polling = false;
 

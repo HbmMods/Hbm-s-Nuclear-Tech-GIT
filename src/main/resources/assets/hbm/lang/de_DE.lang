@@ -4889,6 +4889,7 @@ tile.rbmk_control_reasim.name=RBMK Steuerstäbe (ReaSim)
 tile.rbmk_control_reasim_auto.name=RBMK Automatische Steuerstäbe (ReaSim)
 tile.rbmk_crane_console.name=RBMK Kransteuerung
 tile.rbmk_display.name=RBMK Anzeigepanel
+tile.rbmk_gauge.name=Redstone-over-Radio Meter
 tile.rbmk_heater.name=RBMK-Heizer
 tile.rbmk_key_pad.name=Redstone-over-Radio Tastenfeld
 tile.rbmk_loader.name=RBMK-Dampfadapter
