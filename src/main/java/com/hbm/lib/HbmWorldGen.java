@@ -247,18 +247,6 @@ public class HbmWorldGen implements IWorldGenerator {
 				new LibraryDungeon().generate(world, rand, x, y, z);
 			}
 
-			if(biome.temperature == 0.5F || biome.temperature == 2.0F) {
-				if(WorldConfig.relayStructure > 0 && rand.nextInt(WorldConfig.relayStructure) == 0) {
-					for(int a = 0; a < 1; a++) {
-						int x = i + rand.nextInt(16);
-						int z = j + rand.nextInt(16);
-						int y = world.getHeightValue(x, z);
-
-						new Relay().generate(world, rand, x, y, z);
-					}
-				}
-			}
-
 			if(WorldConfig.dudStructure > 0 && rand.nextInt(WorldConfig.dudStructure) == 0) {
 				int x = i + 8 + rand.nextInt(16);
 				int z = j + 8 + rand.nextInt(16);
@@ -398,11 +386,14 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
-
-				if(world.getBlock(x, y, z) == Blocks.stone)
-						world.setBlock(x, y, z, ModBlocks.geysir_vapor);
-				else if(world.getBlock(x, y - 1, z) == Blocks.stone)
-					world.setBlock(x, y - 1, z, ModBlocks.geysir_vapor);
+				
+				for(int k = 1; k >= -1; k--) {
+					if(world.getBlock(x, y + k, z) == Blocks.stone) {
+						world.setBlock(x, y + k, z, ModBlocks.geysir_vapor);
+						MainRegistry.logger.info("[Debug] Successfully spawned vapor geyser at " + x + " " + z);
+						break;
+					}
+				}
 			}
 
 			if (rand.nextInt(1000) == 0) {

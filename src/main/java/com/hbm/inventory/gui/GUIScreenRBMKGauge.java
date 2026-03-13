@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKKeyPad;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKGauge;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
@@ -16,10 +16,10 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIScreenRBMKKeyPad extends GuiScreen {
+public class GUIScreenRBMKGauge extends GuiScreen {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rbmk_keypad.png");
-	public TileEntityRBMKKeyPad keypad;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rbmk_gauge.png");
+	public TileEntityRBMKGauge keypad;
 	protected int xSize = 256;
 	protected int ySize = 204;
 	protected int guiLeft;
@@ -28,23 +28,16 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 	protected GuiTextField[] color = new GuiTextField[4];
 	protected GuiTextField[] label = new GuiTextField[4];
 	protected GuiTextField[] rtty = new GuiTextField[4];
-	protected GuiTextField[] cmd = new GuiTextField[4];
+	protected GuiTextField[] min = new GuiTextField[4];
+	protected GuiTextField[] max = new GuiTextField[4];
 	protected boolean[] active = new boolean[4];
 	protected boolean[] polling = new boolean[4];
 	
-	public GUIScreenRBMKKeyPad(TileEntityRBMKKeyPad keypad) {
+	public GUIScreenRBMKGauge(TileEntityRBMKGauge keypad) {
 		this.keypad = keypad;
 
 		this.xSize = 256;
 		this.ySize = 204;
-	}
-	
-	public static void setupTextFieldStandard(GuiTextField field, int length, String def) {
-		field.setTextColor(0x00ff00);
-		field.setDisabledTextColour(0x00ff00);
-		field.setEnableBackgroundDrawing(false);
-		field.setMaxStringLength(length);
-		field.setText(def != null ? def : "");
 	}
 
 	@Override
@@ -59,19 +52,21 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 		int oY = 4;
 		
 		for(int i = 0; i < 4; i++) {
-			String col = Integer.toHexString(keypad.keys[i].color);
+			String col = Integer.toHexString(keypad.gauges[i].color);
 			while(col.length() < 6) col = "0" + col;
 			color[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 36, 72 - oX * 2, 14);
-			setupTextFieldStandard(color[i], 6, col);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(color[i], 6, col);
 			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 36, 72 - oX * 2, 14);
-			setupTextFieldStandard(label[i], 15, keypad.keys[i].label);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 15, keypad.gauges[i].label);
 			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 73 + oY + i * 36, 72 - oX * 2, 14);
-			setupTextFieldStandard(rtty[i], 10, keypad.keys[i].rtty);
-			cmd[i] = new GuiTextField(this.fontRendererObj, guiLeft + 121 + oX, guiTop + 73 + oY + i * 36, 126 - oX * 2, 14);
-			setupTextFieldStandard(cmd[i], 32, keypad.keys[i].command);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, keypad.gauges[i].rtty);
+			min[i] = new GuiTextField(this.fontRendererObj, guiLeft + 121 + oX, guiTop + 73 + oY + i * 36, 52 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(min[i], 32, keypad.gauges[i].min + "");
+			max[i] = new GuiTextField(this.fontRendererObj, guiLeft + 195 + oX, guiTop + 73 + oY + i * 36, 52 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(max[i], 32, keypad.gauges[i].max + "");
 
-			active[i] = keypad.keys[i].active;
-			polling[i] = keypad.keys[i].polling;
+			active[i] = keypad.gauges[i].active;
+			polling[i] = keypad.gauges[i].polling;
 		}
 	}
 
@@ -85,7 +80,7 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 	}
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
-		String name = I18nUtil.resolveKey("container.rbmkKeyPad");
+		String name = I18nUtil.resolveKey("container.rbmkGauge");
 		this.fontRendererObj.drawString(name, this.guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, this.guiTop + 6, 4210752);
 	}
 
@@ -103,7 +98,8 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 			this.color[i].drawTextBox();
 			this.label[i].drawTextBox();
 			this.rtty[i].drawTextBox();
-			this.cmd[i].drawTextBox();
+			this.min[i].drawTextBox();
+			this.max[i].drawTextBox();
 		}
 	}
 
@@ -141,7 +137,8 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 				try { data.setInteger("color" + i, Integer.parseInt(this.color[i].getText(), 16)); } catch(Exception ex) { }
 				data.setString("label" + i, this.label[i].getText());
 				data.setString("rtty" + i, this.rtty[i].getText());
-				data.setString("cmd" + i, this.cmd[i].getText());
+				try { data.setInteger("min" + i, Integer.parseInt(this.min[i].getText())); } catch(Exception ex) { }
+				try { data.setInteger("max" + i, Integer.parseInt(this.max[i].getText())); } catch(Exception ex) { }
 			}
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, keypad.xCoord, keypad.yCoord, keypad.zCoord));
 			return;
@@ -151,7 +148,8 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 			this.color[i].mouseClicked(x, y, b);
 			this.label[i].mouseClicked(x, y, b);
 			this.rtty[i].mouseClicked(x, y, b);
-			this.cmd[i].mouseClicked(x, y, b);
+			this.min[i].mouseClicked(x, y, b);
+			this.max[i].mouseClicked(x, y, b);
 		}
 	}
 
@@ -162,7 +160,8 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 			if(this.color[i].textboxKeyTyped(c, b)) return;
 			if(this.label[i].textboxKeyTyped(c, b)) return;
 			if(this.rtty[i].textboxKeyTyped(c, b)) return;
-			if(this.cmd[i].textboxKeyTyped(c, b)) return;
+			if(this.min[i].textboxKeyTyped(c, b)) return;
+			if(this.max[i].textboxKeyTyped(c, b)) return;
 		}
 		
 		if(b == 1 || b == this.mc.gameSettings.keyBindInventory.getKeyCode()) {

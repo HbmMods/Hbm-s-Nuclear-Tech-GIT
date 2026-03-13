@@ -1,26 +1,35 @@
 ## Added
 * Key pad
   * Fits visually with the RBMK display block
-  * Allows up to four buttons to be configured with a screwdriver (shhift click!)
+  * Allows up to four buttons to be configured with a screwdriver (shift click!)
   * Buttons will send RoR signals when pressed, with a configured value on the configured frequencies
-  * Can be set to polling, which will resend the command until the button is pressed again
+  * Can be set to polling, which will re-send the command until the button is pressed again
   * Single push buttons and buttons set to polling which are enabled will glow in the dark
   * Each button can be assigned a label with glow in the dark paint
   * Allows RBMK control rods to be fully remote controllable with no console
+* Gauge
+  * Allows up to four gauges to be configured with a screwdriver
+  * Gauges can read RoR signals and display numeric values on a specified range
+  * Minimum and maximum values can be defined, the gauge also has a red area for when the value exceeds the maximum
+  * If the minimum value is larger than the maximum, the needle will start at the top and run backwards
+  * Also has glow in the dark paint labels
 
 ## Changed
+* Updated chinese and ukrainian localization
 * Updated textures for some nuclear bomb GUIs
+* Updated textures for steel tools
 * RBMK fuel rods too hot to be taken out manually can now be removed by players in creative mode
 * Updated the SILEX recycling recipe for MOX fuel to reflect the recent recipe change
   * High-xenon MOX pellets now yield xenon-135 again
 * Improved logging for incorrectly configured machine recipes
 * Removed the legacy toolbox item
 * Due to complaints, the MOX recipe was now made more expensive
-* Manual control rods now have the `extendrods` command, which allows the target setting to be adjusted without using an abolute value
+* Manual control rods now have the `extendrods` command, which allows the target setting to be adjusted without using an absolute value
+* Removed the legacy relay structure
 
 ## Fixed
 * Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
 * Fixed RoR components not being able to be attached to the top of reasim fuel rods
 * Fixed a crash in multiplayer regarding RBMK control rods
-* Fixed incorrect QMAW description of the autoloader, talking about fuel depletion instead of fuel enrichment
+* Fixed outdated QMAW description of some RBMK parts
 * Fixed log spam when placing down a RoR controller

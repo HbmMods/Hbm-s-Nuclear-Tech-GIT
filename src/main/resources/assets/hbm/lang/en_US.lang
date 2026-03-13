@@ -6168,6 +6168,7 @@ tile.rbmk_control_reasim.name=RBMK Control Rods (ReaSim)
 tile.rbmk_control_reasim_auto.name=RBMK Automatic Control Rods (ReaSim)
 tile.rbmk_crane_console.name=RBMK Crane Console
 tile.rbmk_display.name=RBMK Display Panel
+tile.rbmk_gauge.name=Redstone-over-Radio Gauge
 tile.rbmk_heater.name=RBMK Fluid Heater
 tile.rbmk_key_pad.name=Redstone-over-Radio Keypad
 tile.rbmk_loader.name=RBMK Steam Connector
