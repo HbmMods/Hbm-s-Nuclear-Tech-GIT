@@ -100,6 +100,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				columns[index] = new RBMKColumn(rbmk.getConsoleType(), rbmk.getNBTForConsole());
 				columns[index].data.setDouble("heat", rbmk.heat);
 				columns[index].data.setDouble("maxHeat", rbmk.maxHeat());
+				columns[index].data.setByte("indicator", (byte) rbmk.craneIndicator);
 				if(rbmk.isModerated()) columns[index].data.setBoolean("moderated", true); //false is the default anyway and not setting it when we don't need to reduces cruft
 
 				if(te instanceof TileEntityRBMKRod) {
@@ -136,8 +137,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 				RBMKColumn col = this.columns[i];
 
-				if(col == null)
-					continue;
+				if(col == null) continue;
 
 				switch(screen.type) {
 				case COL_TEMP:

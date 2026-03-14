@@ -58,7 +58,7 @@ public class ContainerRBMKRod extends Container {
 			var3 = var5.copy();
 
 			if(par2 <= rbmk.getSizeInventory() - 1) {
-				if(!rbmk.coldEnoughForManual()) return null;
+				if(!rbmk.coldEnoughForManual() && !player.capabilities.isCreativeMode) return null;
 				if(!this.mergeItemStack(var5, rbmk.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}

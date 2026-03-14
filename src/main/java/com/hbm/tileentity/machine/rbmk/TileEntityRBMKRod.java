@@ -562,7 +562,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			if((PREFIX_VALUE + "rodheat").equals(name))		return "" + (int) ItemRBMKRod.getHullHeat(slots[0]);
 			if((PREFIX_VALUE + "depletion").equals(name))	return "" + (int) (100 - ItemRBMKRod.getEnrichment(slots[0]) * 100);
-			if((PREFIX_VALUE + "xenon").equals(name))		return "" + (int) (ItemRBMKRod.getPoison(slots[0]) * 100);
+			if((PREFIX_VALUE + "xenon").equals(name))		return "" + (int) (ItemRBMKRod.getPoison(slots[0]));
 		}
 		return null;
 	}

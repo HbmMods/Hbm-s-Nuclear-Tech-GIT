@@ -46,11 +46,12 @@ public class RenderRBMKGauge extends TileEntitySpecialRenderer {
 			GL11.glPushMatrix();
 			GL11.glColor3f(ColorUtil.fr(unit.color), ColorUtil.fg(unit.color), ColorUtil.fb(unit.color));
 
+			double value = unit.lastRenderValue + (unit.renderValue - unit.lastRenderValue) * interp;
 			int lower = Math.min(unit.min, unit.max);
 			int upper = Math.max(unit.min, unit.max);
 			if(lower == upper) upper += 1;
 			int range = upper - lower;
-			double angle = (double) (unit.value - lower) / (double) range * 50D;
+			double angle = (double) (value - lower) / (double) range * 50D;
 			if(unit.min > unit.max) angle = 50 - angle;
 			
 			angle = MathHelper.clamp_double(angle, 0, 80);

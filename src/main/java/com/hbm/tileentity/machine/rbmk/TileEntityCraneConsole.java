@@ -52,16 +52,21 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 	public double lastPosLeft = 0;
 	public double posFront = 0;
 	public double posLeft = 0;
+	public double syncFront = 0;
+	public double syncLeft = 0;
 	private static final double speed = 0.05D;
 
 	private boolean goesDown = false;
 	public double lastProgress = 1D;
 	public double progress = 1D;
+	public double syncProgress = 1D;
 
 	private ItemStack loadedItem;
 	private boolean hasLoaded = false;
 	public double loadedHeat;
 	public double loadedEnrichment;
+	
+	private int turnProgress;
 
 	@Override
 	public void updateEntity() {
@@ -69,38 +74,58 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 		if(worldObj.isRemote) {
 			lastTiltFront = tiltFront;
 			lastTiltLeft = tiltLeft;
-		}
+			
+			lastPosFront = posFront;
+			lastPosLeft = posLeft;
+			lastProgress = progress;
 
-		if(goesDown) {
-
-			if(progress > 0) {
-				progress -= 0.04D;
+			if(this.turnProgress > 0) {
+				this.posFront = this.posFront + ((this.syncFront - this.posFront) / (double) this.turnProgress);
+				this.posLeft = this.posLeft + ((this.syncLeft - this.posLeft) / (double) this.turnProgress);
+				this.progress = this.progress + ((this.syncProgress - this.progress) / (double) this.turnProgress);
+				--this.turnProgress;
 			} else {
-				progress = 0;
-				goesDown = false;
-
-				if(!worldObj.isRemote && this.canTargetInteract()) {
-					IRBMKLoadable column = getColumnAtPos();
-					if(column != null) { // canTargetInteract already assumes this, but there seems to be some freak race conditions that cause the column to be null anyway
-						if(this.loadedItem != null) {
-							column.load(this.loadedItem);
-							this.loadedItem = null;
-						} else {
-							this.loadedItem = column.provideNext();
-							column.unload();
-						}
-
-						this.markDirty();
-					}
-				}
-
+				this.posFront = this.syncFront;
+				this.posLeft = this.syncLeft;
+				this.progress = this.syncProgress;
 			}
-		} else if(progress != 1) {
+		}
+		
+		if(!worldObj.isRemote) {
+			TileEntityRBMKBase aboveColumn = this.getColumnAtPos();
+			if(aboveColumn != null) aboveColumn.craneIndicator = 10;
+	
+			if(goesDown) {
+	
+				if(progress > 0) {
+					progress -= 0.04D;
+				} else {
+					progress = 0;
+					goesDown = false;
+					
+					if(aboveColumn instanceof IRBMKLoadable && this.canTargetInteract((IRBMKLoadable) aboveColumn)) {
+						IRBMKLoadable column = (IRBMKLoadable) aboveColumn;
+						if(column != null) { // canTargetInteract already assumes this, but there seems to be some freak race  conditions that cause the  column to be null anyway
+							if(this.loadedItem != null) {
+								column.load(this.loadedItem);
+								this.loadedItem = null;
+							} else {
+								this.loadedItem = column.provideNext();
+								column.unload();
+							}
 
-			progress += 0.04D;
-
-			if(progress > 1D) {
-				progress = 1D;
+							this.markDirty();
+						}
+					}
+	
+				}
+			} else if(progress != 1) {
+	
+				progress += 0.04D;
+	
+				if(progress > 1D) {
+					progress = 1D;
+				}
 			}
 		}
 
@@ -181,12 +206,10 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 	}
 
 	public boolean isAboveValidTarget() {
-		return getColumnAtPos() != null;
+		return getLoadableAtPos() != null;
 	}
 
-	public boolean canTargetInteract() {
-
-		IRBMKLoadable column = getColumnAtPos();
+	public boolean canTargetInteract(IRBMKLoadable column) {
 
 		if(column == null)
 			return false;
@@ -198,7 +221,7 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 		}
 	}
 
-	public IRBMKLoadable getColumnAtPos() {
+	public TileEntityRBMKBase getColumnAtPos() {
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
@@ -214,12 +237,16 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 			int[] pos = ((BlockDummyable)b).findCore(worldObj, x, y, z);
 			if(pos != null) {
 				TileEntityRBMKBase column = (TileEntityRBMKBase)worldObj.getTileEntity(pos[0], pos[1], pos[2]);
-				if(column instanceof IRBMKLoadable) {
-					return (IRBMKLoadable) column;
-				}
+				return column;
 			}
 		}
 
+		return null;
+	}
+
+	public IRBMKLoadable getLoadableAtPos() {
+		TileEntityRBMKBase column = this.getColumnAtPos();
+		if(column instanceof IRBMKLoadable) return (IRBMKLoadable) column;
 		return null;
 	}
 
@@ -239,6 +266,7 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 			buf.writeInt(this.height);
 			buf.writeDouble(this.posFront);
 			buf.writeDouble(this.posLeft);
+			buf.writeDouble(this.progress);
 			buf.writeBoolean(this.hasItemLoaded());
 			buf.writeDouble(this.loadedHeat);
 			buf.writeDouble(this.loadedEnrichment);
@@ -247,10 +275,6 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		lastPosFront = posFront;
-		lastPosLeft = posLeft;
-		lastProgress = progress;
-
 		this.setUpCrane = buf.readBoolean();
 		if (this.setUpCrane) {
 			this.craneRotationOffset = buf.readInt();
@@ -262,8 +286,9 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 			this.spanL = buf.readInt();
 			this.spanR = buf.readInt();
 			this.height = buf.readInt();
-			this.posFront = buf.readDouble();
-			this.posLeft = buf.readDouble();
+			this.syncFront = buf.readDouble();
+			this.syncLeft = buf.readDouble();
+			this.syncProgress = buf.readDouble();
 			this.hasLoaded = buf.readBoolean();
 			this.loadedHeat = buf.readDouble();
 			this.loadedEnrichment = buf.readDouble();
