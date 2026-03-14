@@ -56,6 +56,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	public static final int maxWater = 16000;
 	public int reasimSteam;
 	public static final int maxSteam = 16000;
+	public int craneIndicator;
 	
 	public static boolean explodeOnBroken = true;
 
@@ -105,6 +106,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			if(this.craneIndicator > 0) this.craneIndicator--;
 
 			this.worldObj.theProfiler.startSection("rbmkBase_heat_movement");
 			moveHeat();
@@ -288,6 +291,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		buf.writeDouble(this.heat);
 		buf.writeInt(this.reasimWater);
 		buf.writeInt(this.reasimSteam);
+		buf.writeByte((byte) this.craneIndicator);
 	}
 
 	@Override
@@ -295,6 +299,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		this.heat = buf.readDouble();
 		this.reasimWater = buf.readInt();
 		this.reasimSteam = buf.readInt();
+		this.craneIndicator = buf.readByte();
 	}
 
 	public void getDiagData(NBTTagCompound nbt) {

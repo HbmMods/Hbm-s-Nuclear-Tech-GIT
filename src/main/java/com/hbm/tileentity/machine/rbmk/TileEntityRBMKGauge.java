@@ -41,6 +41,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			for(int i = 0; i < 4; i++) this.gauges[i].update();
 			
 			this.networkPackNT(50);
+		} else {
+
+			for(int i = 0; i < 4; i++) this.gauges[i].updateClient();
 		}
 	}
 
@@ -86,6 +89,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 		public int max = 100;
 		/** The current read value of the gauge, i.e. the needle position */
 		public int value;
+		/** For smoothig */
+		public double renderValue;
+		public double lastRenderValue;
 		/** Whether this gauge is visible on the panel */
 		public boolean active;
 		
@@ -95,6 +101,12 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			if(initialIndex == 2) color = 0x808000;
 			if(initialIndex == 3) color = 0x000080;
 			label = "Gauge " + (initialIndex + 1);
+		}
+		
+		public void updateClient() {
+			this.lastRenderValue = this.renderValue;
+			double delta = value - renderValue;
+			this.renderValue += delta * 0.1D;
 		}
 		
 		public void update() {

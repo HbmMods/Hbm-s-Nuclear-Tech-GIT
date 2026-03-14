@@ -76,11 +76,12 @@ public class TileEntityRBMKDisplay extends TileEntityLoadedBase {
 
 			if(te instanceof TileEntityRBMKBase) {
 
-				TileEntityRBMKBase rbmk = (TileEntityRBMKBase)te;
+				TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
 
 				columns[index] = new RBMKColumn(rbmk.getConsoleType(), rbmk.getNBTForConsole());
 				columns[index].data.setDouble("heat", rbmk.heat);
 				columns[index].data.setDouble("maxHeat", rbmk.maxHeat());
+				columns[index].data.setByte("indicator", (byte) rbmk.craneIndicator);
 				
 				if(te instanceof TileEntityRBMKControlManual) {
 					TileEntityRBMKControlManual control = (TileEntityRBMKControlManual) te;

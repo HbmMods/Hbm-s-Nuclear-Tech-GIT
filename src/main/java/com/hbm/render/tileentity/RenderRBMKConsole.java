@@ -73,6 +73,8 @@ public class RenderRBMKConsole extends TileEntitySpecialRenderer {
 				double color = 0.65D + (i % 2) * 0.05D;
 				tess.setColorOpaque_F((float) (color + ((1 - color) * heat)), (float) color, (float) color);
 			}
+
+			if(col.data.getByte("indicator") > 0) tess.setColorOpaque_F(1F, 1F, 0F);
 			
 			drawColumn(tess, kx, ky, kz, 0, 0);
 			

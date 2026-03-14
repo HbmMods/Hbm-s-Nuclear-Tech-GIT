@@ -82,7 +82,7 @@ public class RBMKRod extends RBMKBase {
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemRBMKRod && rbmk.slots[0] == null) {
 			rbmk.slots[0] = player.getHeldItem().copy();
 			rbmk.slots[0].stackSize = 1;
-			player.getHeldItem().stackSize--;
+			if(!player.capabilities.isCreativeMode) player.getHeldItem().stackSize--;
 			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
 			return false;
 		}

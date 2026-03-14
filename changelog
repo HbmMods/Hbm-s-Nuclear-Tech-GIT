@@ -26,6 +26,7 @@
 * Due to complaints, the MOX recipe was now made more expensive
 * Manual control rods now have the `extendrods` command, which allows the target setting to be adjusted without using an absolute value
 * Removed the legacy relay structure
+* Placing RBMK fuel rods in the fuel channels by right click no longer consumes the item in creative mode
 
 ## Fixed
 * Fixed some damage categories not applying correctly, causing things like general energy resistance to not work against lasers
@@ -33,3 +34,5 @@
 * Fixed a crash in multiplayer regarding RBMK control rods
 * Fixed outdated QMAW description of some RBMK parts
 * Fixed log spam when placing down a RoR controller
+* Fixed the RBMK fuel crane being all jittery and awful
+* Fixed RoR reader sending the xenon value on RBMK fuel rods that's 100x the intended value
