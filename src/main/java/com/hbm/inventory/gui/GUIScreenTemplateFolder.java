@@ -56,17 +56,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 		this.isJournal = item != ModItems.template_folder;
 
-		if(!this.isJournal) {
-			// Stamps
-			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE)) allStacks.add(i.copy());
-			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE)) allStacks.add(i.copy());
-			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT)) allStacks.add(i.copy());
-			
-			// Tracks
-			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {
-				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
-			}
-		}
+
 
 		if(!this.isJournal) {
 			
