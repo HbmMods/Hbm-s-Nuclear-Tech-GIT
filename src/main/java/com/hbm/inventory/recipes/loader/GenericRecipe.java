@@ -82,7 +82,6 @@ public class GenericRecipe {
 	public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
 	
 	private void checkStackLimit(AStack stack) {
-		boolean exceeds = false;
 		int max = 64;
 		if(stack instanceof ComparableStack) {
 			ComparableStack comp = (ComparableStack) stack;

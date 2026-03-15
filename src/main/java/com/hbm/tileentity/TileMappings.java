@@ -420,6 +420,7 @@ public class TileMappings {
 		put(TileEntityFusionBoiler.class, "tileentity_fusion_boiler");
 		put(TileEntityFusionMHDT.class, "tileentity_fusion_mhdt");
 		put(TileEntityFusionCoupler.class, "tileentity_fusion_coupler");
+		put(TileEntityFusionPlasmaForge.class, "tileentity_fusion_plasma_forge");
 	}
 
 	private static void putNetwork() {
