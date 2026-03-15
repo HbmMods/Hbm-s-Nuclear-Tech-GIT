@@ -37,6 +37,16 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 	}
 
 	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+		// If crates can be opened from hand, prioritize this and require sneaking to place them
+		if (ServerConfig.CRATE_OPEN_HELD.get() && !player.isSneaking() && Block.getBlockFromItem(stack.getItem()) != ModBlocks.mass_storage) {
+			return false;
+		}
+
+		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+	}
+
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		if(!ServerConfig.CRATE_OPEN_HELD.get()) return stack;
 
