@@ -1,6 +1,8 @@
 ## Changed
 * Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
 * Hoppers and buckets can now be made out of steel
+* RoR gauges now show the lowest and highest configured value on the actual gauge
 
 ## Fixed
 * Fixed size 15 dual kerosene thruster not rendering at all
+* Fixed HUD/jetpack toggle popup not working at all on multiplayer servers
