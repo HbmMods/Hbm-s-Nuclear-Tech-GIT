@@ -1154,7 +1154,6 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 								new ComparableStack(ModItems.motor_bismuth, 3)));
 			}
 		}
-
 	}
 
 	public static HashMap getRecipes() {
