@@ -8,14 +8,7 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.machine.albion.*;
-import com.hbm.blocks.machine.fusion.MachineFusionBoiler;
-import com.hbm.blocks.machine.fusion.MachineFusionBreeder;
-import com.hbm.blocks.machine.fusion.MachineFusionCollector;
-import com.hbm.blocks.machine.fusion.MachineFusionCoupler;
-import com.hbm.blocks.machine.fusion.MachineFusionKlystron;
-import com.hbm.blocks.machine.fusion.MachineFusionKlystronCreative;
-import com.hbm.blocks.machine.fusion.MachineFusionMHDT;
-import com.hbm.blocks.machine.fusion.MachineFusionTorus;
+import com.hbm.blocks.machine.fusion.*;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
@@ -887,6 +880,7 @@ public class ModBlocks {
 	public static Block fusion_boiler;
 	public static Block fusion_mhdt;
 	public static Block fusion_coupler;
+	public static Block fusion_plasma_forge;
 
 	public static Block machine_icf_press;
 	public static Block icf_component;
@@ -2003,6 +1997,7 @@ public class ModBlocks {
 		fusion_boiler = new MachineFusionBoiler().setBlockName("fusion_boiler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_mhdt = new MachineFusionMHDT().setBlockName("fusion_mhdt").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fusion_coupler = new MachineFusionCoupler().setBlockName("fusion_coupler").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		fusion_plasma_forge = new MachineFusionPlasmaForge().setBlockName("fusion_plasma_forge").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3364,6 +3359,7 @@ public class ModBlocks {
 		register(fusion_boiler);
 		register(fusion_mhdt);
 		register(fusion_coupler);
+		register(fusion_plasma_forge);
 
 		register(watz_element);
 		register(watz_cooler);

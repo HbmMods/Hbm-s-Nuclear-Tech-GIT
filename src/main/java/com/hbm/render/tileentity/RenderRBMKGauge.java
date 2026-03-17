@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKGauge;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKGauge.GaugeUnit;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ColorUtil;
 
 import net.minecraft.client.Minecraft;
@@ -71,6 +72,25 @@ public class RenderRBMKGauge extends TileEntitySpecialRenderer {
 
 			FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 			int height = font.FONT_HEIGHT;
+			
+			double lineScale = 0.0025D;
+			String lineLower = unit.min <= 10_000 ? unit.min + "" : BobMathUtil.getShortNumber(unit.min);
+			String lineUpper = unit.max <= 10_000 ? unit.max + "" : BobMathUtil.getShortNumber(unit.max);
+			
+			for(int j = 0; j < 2; j++) {
+				GL11.glPushMatrix();
+				GL11.glTranslated(0, 0.4375, -0.125);
+				GL11.glRotated(10 + j * 50, -1, 0, 0);
+				GL11.glTranslated(0, -0.4375, 0.125);
+	
+				GL11.glTranslated(0.032, 0.4375, 0.125);
+				GL11.glScaled(lineScale, -lineScale, lineScale);
+				GL11.glNormal3f(0.0F, 0.0F, -1.0F);
+				GL11.glRotatef(90, 0, 1, 0);
+				font.drawString(j == 0 ? lineLower : lineUpper, 0, -height / 2, 0x000000);
+				GL11.glPopMatrix();
+			}
+			
 			if(unit.label != null && !unit.label.isEmpty()) {
 
 				GL11.glTranslated(0.01, 0.3125, 0);

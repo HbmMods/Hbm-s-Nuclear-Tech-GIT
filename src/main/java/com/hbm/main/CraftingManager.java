@@ -293,6 +293,8 @@ public class CraftingManager {
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_autocrafter, 1), new Object[] { "SCS", "MWM", "SCS", 'S', STEEL.plate(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE), 'M', ModItems.motor, 'W', Blocks.crafting_table });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_funnel, 1), new Object[] { "S S", "SRS", " S ", 'S', STEEL.ingot(), 'R', REDSTONE.dust() });
+		addRecipeAuto(new ItemStack(Blocks.hopper, 1), new Object[] { "S S", "S S", " S ", 'S', STEEL.ingot() });
+		addRecipeAuto(new ItemStack(Items.bucket, 1), new Object[] { "S S", " S ", 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_waste_drum, 1), new Object[] { "LRL", "BRB", "LRL", 'L', PB.ingot(), 'B', Blocks.iron_bars, 'R', ModItems.rod_quad_empty });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_press, 1), new Object[] { "IRI", "IPI", "IBI", 'I', IRON.ingot(), 'R', Blocks.furnace, 'B', IRON.block(), 'P', Blocks.piston });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_ammo_press, 1), new Object[] { "IPI", "C C", "SSS", 'I', IRON.ingot(), 'P', Blocks.piston, 'C', CU.ingot(), 'S', Blocks.stone });
