@@ -1,10 +1,17 @@
+## Added
+* Plasma forge
+  * Plasma-powered assembly machine
+  * Used to produce lategame items that until now were regular assembler recipes
+
 ## Changed
 * Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
 * Hoppers and buckets can now be made out of steel
 * RoR gauges now show the lowest and highest configured value on the actual gauge
 * The steel sword now looks like a medival broad sword with the appropriate scale
 * All remaining items have been removed from the template folder, siren tracks and plate stamps are now made in th 
+* Gerald assembly now requires stellar flux
 
 ## Fixed
 * Fixed size 15 dual kerosene thruster not rendering at all
 * Fixed HUD/jetpack toggle popup not working at all on multiplayer servers
+* Fixed assembly machine NEI handler not being able to handle all thirteen inputs at once

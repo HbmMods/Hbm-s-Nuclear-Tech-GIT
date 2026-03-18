@@ -1102,12 +1102,13 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.thruster_small, 1),
 						new ComparableStack(ModItems.photo_panel, 12),
 						new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LITHIUM)));
-		this.register(new GenericRecipe("ass.gerald").setup(6_000, 100).outputItems(new ItemStack(ModItems.sat_gerald, 1))
+		this.register(new GenericRecipe("ass.gerald").setup(6_000, 100).outputItems(new ItemStack(ModItems.sat_gerald, 1)).inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 16_000))
 				.inputItems(new OreDictStack(SBD.plateCast(), 64),
 						new OreDictStack(SBD.plateCast(), 64),
 						new OreDictStack(BSCCO.wireDense(), 64),
 						new OreDictStack(BSCCO.wireDense(), 64),
 						new ComparableStack(ModBlocks.det_nuke, 64),
+						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),
 						new ComparableStack(ModItems.part_generic, 64, EnumPartType.HDE),

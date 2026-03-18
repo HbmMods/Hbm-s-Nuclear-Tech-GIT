@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine.fusion;
 
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerMachinePlasmaForge;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIMachinePlasmaForge;
 import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
@@ -17,12 +19,14 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider {
 
@@ -30,6 +34,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	
 	public long power;
 	public long maxPower = 10_000_000;
+	public boolean didProcess;
 
 	public ModuleMachinePlasma plasmaModule;
 	
@@ -63,13 +68,73 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				this.trySubscribe(worldObj, pos);
 				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
 			}
+
+			double speed = 1D;
+			double pow = 1D;
+			
+			this.plasmaModule.update(speed, pow, true, slots[1]);
+			this.didProcess = this.plasmaModule.didProcess;
+			if(this.plasmaModule.markDirty) this.markDirty();
+			
+			this.networkPackNT(100);
 		}
 	}
 	
 	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
 		return new DirPos[] {
-				
+				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ * 2, dir),
+				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ * 1, dir),
+				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 0, dir),
+				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 1, dir),
+				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ * 1, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 0, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 0, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 1, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ * 2, dir.getOpposite()),
 		};
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.inputTank.serialize(buf);
+		buf.writeLong(power);
+		buf.writeLong(maxPower);
+		buf.writeBoolean(didProcess);
+		this.plasmaModule.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		boolean wasProcessing = this.didProcess;
+		this.inputTank.deserialize(buf);
+		this.power = buf.readLong();
+		this.maxPower = buf.readLong();
+		this.didProcess = buf.readBoolean();
+		this.plasmaModule.deserialize(buf);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.inputTank.readFromNBT(nbt, "i");
+		this.power = nbt.getLong("power");
+		this.maxPower = nbt.getLong("maxPower");
+		this.plasmaModule.readFromNBT(nbt);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		this.inputTank.writeToNBT(nbt, "i");
+		nbt.setLong("power", power);
+		nbt.setLong("maxPower", maxPower);
+		this.plasmaModule.writeToNBT(nbt);
 	}
 
 	@Override
@@ -102,7 +167,14 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+		if(data.hasKey("index") && data.hasKey("selection")) {
+			int index = data.getInteger("index");
+			String selection = data.getString("selection");
+			if(index == 0) {
+				this.plasmaModule.recipe = selection;
+				this.markChanged();
+			}
+		}
 	}
 	
 	AxisAlignedBB bb = null;
@@ -119,13 +191,6 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		return 65536.0D;
 	}
 
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
-
-	@Override
-	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachinePlasmaForge(player.inventory, this); }
+	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachinePlasmaForge(player.inventory, this); }
 }

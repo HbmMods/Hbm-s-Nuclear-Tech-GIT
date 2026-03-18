@@ -12,9 +12,6 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemCassette;
-import com.hbm.items.machine.ItemStamp;
-import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
