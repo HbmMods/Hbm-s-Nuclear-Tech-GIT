@@ -87,7 +87,7 @@ public class TileEntityFusionBoiler extends TileEntityLoadedBase implements IFlu
 	@Override public boolean receivesFusionPower() { return true; }
 
 	@Override
-	public void receiveFusionPower(long fusionPower, double neutronPower) {
+	public void receiveFusionPower(long fusionPower, double neutronPower, float r, float g, float b) {
 		this.plasmaEnergy = fusionPower;
 
 		int waterCycles = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
