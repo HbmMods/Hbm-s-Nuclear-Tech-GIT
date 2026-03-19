@@ -75,12 +75,12 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			this.updateConnections();
 
 			int moldsToCast = maxProcessable();
-		
+
 			// Makes it flush the buffers after 10 seconds of inactivity, or when they're full
-			if (moldsToCast > 0 && (moldsToCast >= 9 || worldObj.getWorldTime() >= lastProgressTick + 200)) {
+			if (moldsToCast > 0 && (moldsToCast >= 1 || worldObj.getWorldTime() >= lastProgressTick + 200)) {
 
 				ItemMold.Mold mold = this.getInstalledMold();
-				
+
 				this.amount -= moldsToCast * mold.getCost();
 
 				ItemStack out = mold.getOutput(type);
