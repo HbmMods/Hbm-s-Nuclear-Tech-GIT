@@ -36,6 +36,7 @@ import com.hbm.util.DamageResistanceHandler.DamageClass;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -128,9 +129,11 @@ public class XFactoryFolly {
 	};
 
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> {
-		if(!ItemGunBaseNT.getIsAiming(stack)) return false;
-		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != GunAnimation.SPINUP) return false;
-		if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
+		if(ctx.entity instanceof EntityPlayer) {
+			if(!ItemGunBaseNT.getIsAiming(stack)) return false;
+			if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != GunAnimation.SPINUP) return false;
+			if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
+		}
 		return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0;
 	};
 
