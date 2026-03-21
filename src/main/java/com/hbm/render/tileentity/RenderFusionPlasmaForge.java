@@ -6,6 +6,9 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.fusion.TileEntityFusionPlasmaForge;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.Clock;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -29,6 +32,8 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
+		
+		TileEntityFusionPlasmaForge forge = (TileEntityFusionPlasmaForge) tile;
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.fusion_plasma_forge_tex);
@@ -85,11 +90,64 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glColor3f(0F, 0F, 0F);
-		ResourceManager.fusion_plasma_forge.renderPart("Plasma");
+		if(forge.plasmaEnergySync <= 0) {
+			GL11.glColor3f(0F, 0F, 0F);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			ResourceManager.fusion_plasma_forge.renderPart("Plasma");
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(1F, 1F, 1F);
+		} else {
+			RenderArcFurnace.fullbright(true);
+			long time = Clock.get_ms() + forge.timeOffset;
+			float alpha = 0.5F + (float) (Math.sin(time / 500D) * 0.25F);
+			double mainOsc = BobMathUtil.sps(time / 750D) % 1D;
+			double glowOsc = Math.sin(time / 1000D) % 1D;
+			double glowExtra = time / 10000D % 1D;
+			
+			GL11.glColor3f(forge.plasmaRed * alpha, forge.plasmaGreen * alpha, forge.plasmaBlue * alpha);
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			bindTexture(ResourceManager.fusion_plasma_tex);
+			GL11.glTranslated(0, mainOsc, 0);
+			ResourceManager.fusion_plasma_forge.renderPart("Plasma");
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+			GL11.glDisable(GL11.GL_ALPHA_TEST);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glDepthMask(false);
+
+			GL11.glColor3f(forge.plasmaRed * 2, forge.plasmaGreen * 2, forge.plasmaBlue * 2);
+			
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			bindTexture(ResourceManager.fusion_plasma_glow_tex);
+			GL11.glTranslated(0, glowOsc + glowExtra, 0);
+			ResourceManager.fusion_plasma_forge.renderPart("Plasma");
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+			glowOsc = Math.sin(time / 600D + 2) % 1D;
+			glowExtra = time / 5000D % 1D;
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			bindTexture(ResourceManager.fusion_plasma_glow_tex);
+			GL11.glTranslated(0, glowOsc + glowExtra, 0);
+			ResourceManager.fusion_plasma_forge.renderPart("Plasma");
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glDepthMask(true);
+			
+			RenderArcFurnace.fullbright(false);
+		}
 		GL11.glColor3f(1F, 1F, 1F);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

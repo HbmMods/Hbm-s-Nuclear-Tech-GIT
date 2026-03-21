@@ -140,7 +140,7 @@ public class Mats {
 	public static final NTMMaterial MAT_ALLOY		= makeSmeltable(_AS + 2,	ALLOY,			0xFF8330, 0x700000, 0xFF7318).setAutogen(WIRE, DUST, DENSEWIRE, PLATE, CASTPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_DURA		= makeSmeltable(_AS + 3,	DURA,			0x82A59C, 0x06281E, 0x42665C).setAutogen(BOLT, DUST, PLATE, CASTPLATE, PIPE, BLOCK, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER, GRIP).m();
 	public static final NTMMaterial MAT_DESH		= makeSmeltable(_AS + 12,	DESH,			0xFF6D6D, 0x720000, 0xF22929).setAutogen(DUST, CASTPLATE, BLOCK, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, STOCK, GRIP).m();
-	public static final NTMMaterial MAT_STAR		= makeSmeltable(_AS + 5,	STAR,			0xCCCCEA, 0x11111A, 0xA5A5D3).setAutogen(DUST, DENSEWIRE, BLOCK).m();
+	public static final NTMMaterial MAT_STAR		= makeSmeltable(_AS + 5,	STAR,			0xCCCCEA, 0x11111A, 0xA5A5D3).setAutogen(DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_FERRO		= makeSmeltable(_AS + 7,	FERRO,			0xB7B7C9, 0x101022, 0x6B6B8B).setAutogen(CASTPLATE, HEAVYBARREL, HEAVYRECEIVER).m();
 	public static final NTMMaterial MAT_TCALLOY		= makeSmeltable(_AS + 6,	TCALLOY,		0xD4D6D6, 0x323D3D, 0x9CA6A6).setAutogen(DUST, CASTPLATE, WELDEDPLATE, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER).m();
 	public static final NTMMaterial MAT_CDALLOY		= makeSmeltable(_AS + 13,	CDALLOY,		0xF7DF8F, 0x604308, 0xFBD368).setAutogen(CASTPLATE, WELDEDPLATE, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER).m();

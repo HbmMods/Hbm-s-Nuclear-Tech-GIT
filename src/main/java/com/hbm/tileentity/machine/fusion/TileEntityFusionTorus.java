@@ -169,6 +169,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 			boolean ignition = recipe != null ? recipe.ignitionTemp <= this.klystronEnergy : true;
 
+			float r = 0F;
+			float g = 0F;
+			float b = 0F;
 			this.plasmaEnergy = 0;
 			this.fuelConsumption = 0;
 			this.fusionModule.preUpdate(factor, collectors * 0.5D);
@@ -178,6 +181,9 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			if(didProcess && recipe != null) {
 				this.plasmaEnergy = (long) Math.ceil(recipe.outputTemp * factor);
 				this.fuelConsumption = factor;
+				r = recipe.r;
+				g = recipe.g;
+				b = recipe.b;
 			}
 
 			double outputIntensity = this.getOuputIntensity(receiverCount);
@@ -192,7 +198,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 						if(entry.getKey() instanceof IFusionPowerReceiver) {
 							long powerReceived = (long) Math.ceil(this.plasmaEnergy * outputIntensity);
-							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux);
+							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux, r, g, b);
 						}
 					}
 				}

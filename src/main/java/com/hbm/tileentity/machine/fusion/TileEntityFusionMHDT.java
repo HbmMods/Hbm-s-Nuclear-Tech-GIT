@@ -159,7 +159,7 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 	}
 
 	@Override public boolean receivesFusionPower() { return true; }
-	@Override public void receiveFusionPower(long fusionPower, double neutronPower) { this.plasmaEnergy = fusionPower; }
+	@Override public void receiveFusionPower(long fusionPower, double neutronPower, float r, float g, float b) { this.plasmaEnergy = fusionPower; }
 
 	@Override
 	public void serialize(ByteBuf buf) {

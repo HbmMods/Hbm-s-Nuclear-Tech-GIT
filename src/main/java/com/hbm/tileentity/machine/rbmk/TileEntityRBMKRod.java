@@ -106,7 +106,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void invalidate() {
 		super.invalidate();
 		
-		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getHullHeat(slots[0]) >= 150) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod && ItemRBMKRod.getHullHeat(slots[0]) >= 150 && !RBMKDials.getMeltdownsDisabled(worldObj)) {
 			this.meltdown();
 		}
 	}
