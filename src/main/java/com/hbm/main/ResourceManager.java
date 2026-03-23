@@ -865,10 +865,10 @@ public class ResourceManager {
 	public static final ResourceLocation fluid_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/fluid_diode.png");
 	
 	//Barrels
-	public static ResourceLocation barrel_plastic_tex  = new ResourceLocation("hbm:textures/blocks/barrel_plastic.png");
-	public static ResourceLocation barrel_steel_tex    = new ResourceLocation("hbm:textures/blocks/barrel_steel.png");
-	public static ResourceLocation barrel_tcalloy_tex  = new ResourceLocation("hbm:textures/blocks/barrel_tcalloy.png");
-	public static ResourceLocation barrel_antimatter_tex = new ResourceLocation("hbm:textures/blocks/barrel_antimatter.png");
+	public static ResourceLocation barrel_plastic_tex  = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_plastic.png");
+	public static ResourceLocation barrel_steel_tex    = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_steel.png");
+	public static ResourceLocation barrel_tcalloy_tex  = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_tcalloy.png");
+	public static ResourceLocation barrel_antimatter_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_antimatter.png");
 
 	//Radiolysis
 	public static final ResourceLocation radiolysis_tex = new ResourceLocation(RefStrings.MODID, "textures/models/radiolysis.png");
