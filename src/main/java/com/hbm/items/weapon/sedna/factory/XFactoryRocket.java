@@ -26,6 +26,7 @@ import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -185,7 +186,7 @@ public class XFactoryRocket {
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
+						.dmg(25F).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -196,7 +197,7 @@ public class XFactoryRocket {
 		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
+						.dmg(35F).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupLockonFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -207,7 +208,7 @@ public class XFactoryRocket {
 		ModItems.gun_quadro = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(40F).spreadHipfire(0F).delay(10).reload(55).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
+						.dmg(40F).spreadHipfire(0F).delay(10).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -218,7 +219,7 @@ public class XFactoryRocket {
 		ModItems.gun_missile_launcher = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(500).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(50F).spreadHipfire(0F).delay(5).reload(48).jam(33).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
+						.dmg(50F).spreadHipfire(0F).delay(5).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))

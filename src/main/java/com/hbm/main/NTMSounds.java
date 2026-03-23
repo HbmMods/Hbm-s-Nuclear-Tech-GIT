@@ -1,0 +1,112 @@
+package com.hbm.main;
+
+/** Because having to remember or look up sound names is getting on my nerves. Who has time for this shit. */
+public class NTMSounds {
+
+	/// RELOADING ///
+	public static final String GUN_REVOLVER_COCK = "hbm:weapon.reload.revolverCock";
+	public static final String GUN_REVOLVER_CLOSE = "hbm:weapon.reload.revolverClose";
+	public static final String GUN_REVOLVER_SPIN = "hbm:weapon.reload.revolverSpin";
+	public static final String GUN_PISTOL_COCK = "hbm:weapon.reload.pistolCock";
+	public static final String GUN_MAG_SMALL_REMOVE = "hbm:weapon.reload.magSmallRemove";
+	public static final String GUN_MAG_SMALL_INSERT = "hbm:weapon.reload.magSmallInsert";
+	public static final String GUN_MAG_REMOVE = "hbm:weapon.reload.magRemove";
+	public static final String GUN_MAG_INSERT = "hbm:weapon.reload.magInsert";
+	public static final String GUN_CANISTER_INSERT = "hbm:weapon.reload.insertCanister";
+	public static final String GUN_ROCKET_INSERT = "hbm:weapon.reload.insertRocket";
+	public static final String GUN_BOLT_OPEN = "hbm:weapon.reload.boltOpen";
+	public static final String GUN_BOLT_CLOSE = "hbm:weapon.reload.boltClose";
+	public static final String GUN_RIFLE_COCK = "hbm:weapon.reload.rifleCock";
+	public static final String GUN_LEVER_COCK = "hbm:weapon.reload.leverCock";
+	public static final String GUN_SHOTGUN_LOAD = "hbm:weapon.reload.shotgunReload";
+	public static final String GUN_SHOTGUN_OPEN = "hbm:weapon.reload.shotgunCockOpen";
+	public static final String GUN_SHOTGUN_CLOSE = "hbm:weapon.reload.shotgunCockClose";
+	public static final String GUN_SHOTGUN_COCK = "hbm:weapon.reload.shotgunCock";
+	public static final String GUN_GRENADE_RELOAD = "hbm:weapon.glReload";
+	public static final String GUN_GRENADE_OPEN = "hbm:weapon.glOpen";
+	public static final String GUN_GRENADE_CLOSE = "hbm:weapon.glClose";
+	public static final String GUN_SCREW = "hbm:weapon.reload.screw";
+	public static final String GUN_COIL_RELOAD = "hbm:weapon.coilgunReload";
+	public static final String GUN_IMPACT = "hbm:weapon.reload.impact"; // when hitting the weapon or dropping a magazine
+	public static final String GUN_LATCH_OPEN = "hbm:weapon.reload.openLatch";
+	public static final String GUN_VALVE = "hbm:weapon.reload.pressureValve";
+	public static final String GUN_FATMAN_RELOAD = "hbm:weapon.reload.fatmanFull";
+	
+	/// FOLEY ///
+	public static final String GUN_WHACK = "hbm:weapon.foley.gunWhack";
+	
+	/// FIRING ///
+	public static final String GUN_LOCKON = "hbm:weapon.fire.lockon";
+	public static final String GUN_SMACK = "hbm:weapon.fire.smack"; // hitting people with the butt of the gun
+	public static final String GUN_STAB_A_FUCKER = "hbm:weapon.fire.stab"; // stabbing people with a bayonet
+	public static final String GUN_SHREDDER_CYCLE = "hbm:weapon.fire.shredderCycle";
+	public static final String GUN_DRY_FIRE = "hbm:weapon.reload.dryFireClick";
+	public static final String GUN_POWDER_FIRE = "hbm:weapon.fire.blackPowder";
+	public static final String GUN_RIFLE_FIRE = "hbm:weapon.fire.rifle";
+	public static final String GUN_RIFLE_SILENCER = "hbm:weapon.fire.silenced";
+	public static final String GUN_HEAVY_RIFLE_FIRE = "hbm:weapon.fire.rifleHeavy";
+	public static final String GUN_ASSAULT_FIRE = "hbm:weapon.fire.assault";
+	public static final String GUN_HEAVY_REVOLVER_FIRE = "hbm:weapon.44Shoot";
+	public static final String GUN_AMAT_FIRE = "hbm:weapon.fire.amat";
+	public static final String GUN_AMAT_SILENCER = "hbm:weapon.silencerShoot";
+	public static final String GUN_SHOTGUN_FIRE = "hbm:weapon.fire.shotgun";
+	public static final String GUN_SPAS_FIRE = "hbm:weapon.shotgunShoot";
+	public static final String GUN_LIBERATOR_FIRE = "hbm:weapon.fire.shotgunAlt";
+	public static final String GUN_SHREDDER_FIRE = "hbm:weapon.fire.shotgunAuto";
+	public static final String GUN_GREASEGUN_FIRE = "hbm:weapon.fire.greaseGun";
+	public static final String GUN_STARF_FIRE = "hbm:weapon.fire.pistolLight";
+	public static final String GUN_PISTOL_FIRE = "hbm:weapon.fire.pistol";
+	public static final String GUN_UZI_FIRE = "hbm:weapon.fire.uzi";
+	public static final String GUN_ABERRATOR_FIRE = "hbm:weapon.fire.aberrator";
+	public static final String GUN_UNDERBARREL_FIRE = "hbm:weapon.hkShoot";
+	public static final String GUN_CONGO_FIRE = "hbm:weapon.glShoot";
+	public static final String GUN_CHARGE_FIRE = "hbm:weapon.fire.grenade";
+	public static final String GUN_FLAMER_LOOP = "hbm:weapon.fire.flameLoop";
+	public static final String GUN_FATMAN_FIRE = "hbm:weapon.fire.fatman";
+	public static final String GUN_MINIGUN_FIRE = "hbm:weapon.calShoot";
+	public static final String GUN_LASER_GATLING_FIRE = "hbm:weapon.fire.laserGatling";
+	public static final String GUN_LASER_PISTOL_FIRE = "hbm:weapon.fire.laserPistol";
+	public static final String GUN_LASER_RIFLE_FIRE = "hbm:weapon.fire.laser";
+	public static final String GUN_COIL_FIRE = "hbm:weapon.coilgunShoot";
+	public static final String GUN_TAU_FIRE = "hbm:weapon.fire.tau";
+	public static final String GUN_TAU_STOPFIRE = "hbm:weapon.fire.tauRelease"; // spark sound when tau cannon fire stops
+	public static final String GUN_TAU_LOOP = "hbm:weapon.fire.tauLoop";
+	public static final String GUN_TESLA_FIRE = "hbm:weapon.fire.tesla";
+	public static final String GUN_TESLA_BLAST = "hbm:entity.ufoBlast"; // electric crackle sound explosion
+	public static final String GUN_ROCKET_FIRE = "hbm:weapon.rpgShoot";
+	public static final String GUN_EXTINGUISHER_FIRE = "hbm:weapon.extinguisher";
+	public static final String GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS = "hbm:weapon.fire.loudestNoiseOnEarth"; // folly fires
+	public static final String GUN_VYLET_PONY_CUTIEMARKS_AND_THE_THINGS_THAT_BIND_US_INTRO_JINGLE = "hbm:weapon.fire.vstar"; // you know how we do it
+	
+	/// WEAPON SPECIAL EFFECTS ///
+	public static final String GUN_GO_GO_GADGET_FUCK_EVERYTHING_IN_THIS_GENERAL_DIRECTION = "hbm:alarm.trainHorn";
+	public static final String GUN_SOLDIER_TF2_BOAT_EXE_WAV_MP3 = "hbm:weapon.boat";
+	public static final String GUN_MINI_NUKE_EXPLOSION = "hbm:weapon.mukeExplosion";
+	
+	/// TURRETS ///
+	public static final String TURRET_50BMG = "hbm:turret.chekhov_fire";
+	public static final String TURRET_CIWS_RELOAD = "hbm:turret.howard_reload";
+	
+	/// PEEP NOISES ///
+	public static final String PLAYER_GULP = "hbm:player.gulp";
+	public static final String PLAYER_GROAN = "hbm:player.groan";
+	
+	/// BLOCKS ///
+	public static final String BLOCK_PLUSHY = "hbm:block.squeakyToy"; // squee
+	public static final String BLOCK_HUNDUNS_MAGNIFICENT_HOWL = "hbm:block.hunduns_magnificent_howl"; // tragic yuri
+	public static final String BLOCK_FALLOUT_3_POPUP = "hbm:block.bobble";
+	
+	/// MACHINE SOUND LOOPS ///
+	public static final String ELECTRIC_ENGINE_LOOP = "hbm:block.engine";
+	public static final String TURBINE_LARGE_LOOP = "hbm:block.largeTurbineRunning";
+	
+	/// MISC ///
+	public static final String TECH_BOOP = "hbm:item.techBoop";
+	public static final String TECH_BLEEP = "hbm:item.techBleep";
+	
+	/// VANILLA CRAP I CANNOT BE ASSED TO REMEMBER ///
+	public static final String VANILLA_ORB = "random.orb"; // xp orb ping
+	public static final String VANILLA_PLINK = "random.break"; // item breaks
+	public static final String VANILLA_FIREWORKS_BANG = "fireworks.blast";
+	public static final String VANILLA_HISS = "random.fizz"; // fire extinguishes
+}

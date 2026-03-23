@@ -20,6 +20,7 @@ import com.hbm.items.weapon.sedna.impl.ItemGunChemthrower;
 import com.hbm.items.weapon.sedna.mags.MagazineFluid;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.helper.FlameCreator;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
@@ -160,7 +161,7 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer_daybreaker = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(25F).spreadHipfire(0F).delay(10).auto(true).reload(90).jam(17).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(25F).spreadHipfire(0F).delay(10).auto(true).reload(90).jam(17).sound(NTMSounds.GUN_POWDER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 50).addConfigs(flame_daybreaker_diesel, flame_daybreaker_gas, flame_daybreaker_napalm, flame_daybreaker_balefire))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())

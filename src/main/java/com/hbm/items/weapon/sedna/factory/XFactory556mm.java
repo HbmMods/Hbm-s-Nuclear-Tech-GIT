@@ -22,6 +22,7 @@ import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -75,7 +76,7 @@ public class XFactory556mm {
 		ModItems.gun_g3 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(2).auto(true).dry(15).reload(50).jam(47).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
+						.dmg(5F).delay(2).auto(true).dry(15).reload(50).jam(47).sound(NTMSounds.GUN_ASSAULT_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_G3))
@@ -85,7 +86,7 @@ public class XFactory556mm {
 		ModItems.gun_g3_zebra = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(6_000).draw(10).inspect(33).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE).scopeTexture(scope)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(2).auto(true).dry(15).spreadHipfire(0.01F).reload(50).jam(47).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
+						.dmg(7.5F).delay(2).auto(true).dry(15).spreadHipfire(0.01F).reload(50).jam(47).sound(NTMSounds.GUN_RIFLE_SILENCER, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_inc_sp, r556_inc_fmj, r556_inc_jhp, r556_inc_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ZEBRA))
@@ -96,7 +97,7 @@ public class XFactory556mm {
 		ModItems.gun_stg77 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(125).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(2).dry(15).auto(true).reload(46).jam(0).sound("hbm:weapon.fire.assault", 1.0F, 1.0F)
+						.dmg(10F).delay(2).dry(15).auto(true).reload(46).jam(0).sound(NTMSounds.GUN_ASSAULT_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(r556_sp, r556_fmj, r556_jhp, r556_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STG))

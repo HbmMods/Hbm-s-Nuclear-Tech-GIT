@@ -24,6 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+/** Power-armor conditional weapons (melee controller and ranged attack remote) */
 public class XFactoryPA {
 
 	public static void init() {
