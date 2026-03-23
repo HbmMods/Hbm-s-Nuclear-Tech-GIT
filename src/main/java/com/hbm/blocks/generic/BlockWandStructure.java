@@ -229,8 +229,9 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 			File structureFile = new File(structureDirectory, name + ".nbt");
 
+			boolean debug = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 			boolean previousDebug = ServerConfig.STRUCTURE_DEBUG.get();
-			ServerConfig.STRUCTURE_DEBUG.set(true);
+			ServerConfig.STRUCTURE_DEBUG.set(debug);
 
 			try {
 				NBTStructure structure = new NBTStructure(structureFile);

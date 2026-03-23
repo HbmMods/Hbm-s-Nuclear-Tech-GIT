@@ -117,6 +117,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 					return true;
 				}
 			}
+
 		}
 		return super.onBlockActivated(world, x, y, z, player, side, fX, fY, fZ);
 	}
@@ -221,6 +222,8 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 		Block disguise;
 		int disguiseMeta = -1;
 
+		boolean invisible = false;
+
 		public String actionID = "FODDER_WAVE";
 		public String conditionID = "PLAYER_CUBE_5";
 		public String interactionID;
@@ -242,7 +245,8 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
 				return;
 			}
-			worldObj.setBlock(xCoord,yCoord,zCoord, ModBlocks.logic_block);
+
+			worldObj.setBlock(xCoord,yCoord,zCoord, disguise == null ? ModBlocks.logic_block_invis : ModBlocks.logic_block);
 
 			TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
 
@@ -324,6 +328,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			nbt.setString("conditionID", conditionID);
 			if(interactionID != null)
 				nbt.setString("interactionID", interactionID);
+			nbt.setInteger("rotation", placedRotation);
 			if(disguise != null){
 				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
 				nbt.setInteger("disguiseMeta", disguiseMeta);
@@ -337,6 +342,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
 			interactionID = nbt.getString("interactionID");
+			placedRotation = nbt.getInteger("disguiseMeta");
 			if(nbt.hasKey("disguise")){
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));
 				disguiseMeta = nbt.getInteger("disguiseMeta");

@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.world.gen.util.LogicBlockActions;
 import com.hbm.world.gen.util.LogicBlockConditions;
 import com.hbm.world.gen.util.LogicBlockInteractions;
@@ -48,6 +49,11 @@ public class LogicBlock extends BlockContainer {
 		}
 
 		return super.getIcon(world, x, y, z, side);
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return this != ModBlocks.logic_block_invis;
 	}
 
 	@Override

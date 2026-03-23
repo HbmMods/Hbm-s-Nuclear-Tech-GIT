@@ -2,11 +2,13 @@ package com.hbm.world.gen.util;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockChargeBase;
 import com.hbm.blocks.generic.BlockSkeletonHolder;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.missile.EntityMissileTier2;
 import com.hbm.entity.mob.EntityUndeadSoldier;
+import com.hbm.entity.mob.ai.EntityAIFireGun;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityDoorGeneric;
@@ -200,8 +202,7 @@ public class LogicBlockActions {
 				EntitySkeleton mob = new EntitySkeleton(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier2, new Random());
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolRanged, new Random());
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
@@ -217,8 +218,14 @@ public class LogicBlockActions {
 			for (int i = 0; i < 3; i++) {
 				EntitySkeleton mob = new EntitySkeleton(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
+				EntityAIFireGun gunTask = new EntityAIFireGun(mob);
+				gunTask.minWait = 4;
+				gunTask.maxWait = 5;
+				gunTask.burstTime = 6;
+				gunTask.inaccuracy = 5F;
+				gunTask.randomBurst = false;
+				MobUtil.addFireTask(mob, gunTask);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier3, new Random());
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMasks, new Random());
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdvRanged, new Random());
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
@@ -235,8 +242,7 @@ public class LogicBlockActions {
 			for (int i = 0; i < 3; i++) {
 				EntityZombie mob = new EntityZombie(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolCommon, new Random());
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
@@ -252,8 +258,7 @@ public class LogicBlockActions {
 			for (int i = 0; i < 3; i++) {
 				EntityZombie mob = new EntityZombie(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolTierArmor, new Random());
-				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolMelee, new Random());
+				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolAdv, new Random());
 				world.spawnEntityInWorld(mob);
 				world.setBlock(x, y, z, Blocks.air);
 			}
@@ -425,23 +430,47 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 
-		ForgeDirection direction = tile.direction.getOpposite();
+		if(tile.phase == 0) {
+			world.setBlock(x, y + 1, z, ModBlocks.charge_c4, ForgeDirection.UP.ordinal(), 3);
 
-		if(tile.phase == 1){
-			world.setBlock(x,y,z + direction.offsetZ, ModBlocks.charge_c4, 2, 3);
-
-			TileEntity te = world.getTileEntity(x,y,z + direction.offsetZ);
-			if(te instanceof TileEntityCharge){
+			TileEntity te = world.getTileEntity(x, y + 1, z);
+			if (te instanceof TileEntityCharge) {
 				TileEntityCharge bomb = (TileEntityCharge) te;
-				bomb.timer = 2400;
+				bomb.timer = 200;
+			}
+		}
+
+		if(tile.phase >= 1) {
+			TileEntity te = world.getTileEntity(x, y + 1, z);
+			if (te instanceof TileEntityCharge) {
+				TileEntityCharge bomb = (TileEntityCharge) te;
 				bomb.started = true;
 			}
+		}
 
-			world.setBlock(x,y,z, ModBlocks.crate_steel);
-			TileEntityCrateBase crate = (TileEntityCrateBase) world.getTileEntity(x,y,z);
-			crate.setPins(world.rand.nextInt(999));
-			crate.lock();
-			((IInventory)crate).setInventorySlotContents(15, new ItemStack(ModItems.launch_key));
+
+	};
+
+	public static Consumer<LogicBlock.TileEntityLogicBlock> DEAD_GUY_CRANE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+		if(tile.phase == 1) {
+			world.setBlock(x, y, z, ModBlocks.skeleton_holder);
+			TileEntity te = world.getTileEntity(x, y, z);
+			EntityPlayer player = (EntityPlayer) world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(25, 25, 25)).get(0);
+
+			if (te instanceof BlockSkeletonHolder.TileEntitySkeletonHolder) {
+				BlockSkeletonHolder.TileEntitySkeletonHolder skeleton = (BlockSkeletonHolder.TileEntitySkeletonHolder) te;
+				if (player != null && player.inventory.hasItem(ModItems.gun_hangman)) {
+					skeleton.item = new ItemStack(ModItems.clay_tablet, 1, 0);
+				} else {
+					skeleton.item = new ItemStack(ModItems.gun_hangman);
+				}
+				skeleton.markDirty();
+				world.markBlockForUpdate(x, y, z);
+			}
 		}
 	};
 
@@ -463,6 +492,7 @@ public class LogicBlockActions {
 		actions.put("COLLAPSE_ROOF_RAD_10", COLLAPSE_ROOF_RAD_10);
 		actions.put("BOMB_TRAP", BOMB_TRAP);
 		actions.put("BOMB_CRANE", BOMB_CRANE);
+		actions.put("DEAD_GUY_CRANE", DEAD_GUY_CRANE);
 
 		//Mob Block Actions
 		actions.put("SKELETON_GUN_TIER_1", SKELETONS_GUN_TIER_1);

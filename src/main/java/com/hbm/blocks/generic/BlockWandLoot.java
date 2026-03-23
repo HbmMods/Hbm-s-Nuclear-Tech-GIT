@@ -11,6 +11,8 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.config.StructureConfig;
+import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.itempool.ItemPool;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -48,7 +50,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
-public class BlockWandLoot extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation {
+public class BlockWandLoot extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation, IBomb {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
@@ -213,11 +215,22 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 	}
 
 	@Override
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof BlockWandLoot.TileEntityWandLoot)) return null;
+
+		((BlockWandLoot.TileEntityWandLoot) te).triggerReplace = true;
+
+		return BombReturnCode.TRIGGERED;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWandLoot();
 	}
 
-	public static class TileEntityWandLoot extends TileEntityLoadedBase implements INBTTileEntityTransformable {
+	public static class TileEntityWandLoot extends TileEntityLoadedBase implements INBTTileEntityTransformable, ICopiable {
 
 		private boolean triggerReplace;
 
@@ -355,6 +368,29 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			poolName = BufferUtil.readString(buf);
 		}
 
+		@Override
+		public NBTTagCompound getSettings(World world, int x, int y, int z) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			Block block = replaceBlock != null ? replaceBlock : ModBlocks.deco_loot;
+
+			nbt.setInteger("replaceBlock", Block.getIdFromBlock(block));
+			nbt.setInteger("replaceMeta", replaceMeta);
+			nbt.setInteger("minItems", minItems);
+			nbt.setInteger("maxItems", maxItems);
+			nbt.setString("poolName", poolName);
+
+			return nbt;
+		}
+
+		@Override
+		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+			replaceBlock =  Block.getBlockById(nbt.getInteger("replaceBlock"));
+			replaceMeta = nbt.getInteger("replaceMeta");
+			minItems = nbt.getInteger("minItems");
+			maxItems = nbt.getInteger("maxItems");
+			poolName = nbt.getString("poolName");
+
+		}
 	}
 
 }
