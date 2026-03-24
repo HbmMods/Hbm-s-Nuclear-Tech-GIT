@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.fusion;
 
 import com.hbm.inventory.recipes.FusionRecipes;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.uninos.GenNode;
@@ -56,7 +57,7 @@ public class TileEntityFusionKlystronCreative extends TileEntityLoadedBase {
 				float speed = this.fanSpeed / 5F;
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fel", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 15F, speed, 20);
+					audio = MainRegistry.proxy.getLoopedSound(NTMSounds.FEL_LOOP, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 15F, speed, 20);
 					audio.startSound();
 				} else {
 					audio.updateVolume(getVolume(speed));

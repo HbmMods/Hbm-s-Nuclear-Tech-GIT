@@ -9,6 +9,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
@@ -110,7 +111,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 			if(this.rotor >= 360D) {
 				this.rotor -= 360D;
 
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", getVolume(1.0F), 0.5F + (acceleration / 80F));
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.STEAM_ENGINE_HIT, getVolume(1.0F), 0.5F + (acceleration / 80F));
 			}
 
 			buf.writeLong(this.powerBuffer);

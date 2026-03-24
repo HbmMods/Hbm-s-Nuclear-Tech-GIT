@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
@@ -116,7 +117,7 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.boiler", xCoord, yCoord, zCoord, 0.125F, 10F, 1.0F, 20);
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.BOILER_LOOP, xCoord, yCoord, zCoord, 0.125F, 10F, 1.0F, 20);
 	}
 
 	@Override
@@ -213,7 +214,7 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 				this.heat -= heatReq * ops;
 
 				if(ops > 0 && worldObj.rand.nextInt(400) == 0) {
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 0.5F, 1.0F);
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, NTMSounds.BOILER_GROAN, 0.5F, 1.0F);
 				}
 
 				if(ops > 0) {

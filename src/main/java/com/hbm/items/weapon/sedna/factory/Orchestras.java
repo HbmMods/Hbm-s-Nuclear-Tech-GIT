@@ -1674,7 +1674,7 @@ public class Orchestras {
 				//start sound
 				if(runningAudio == null || !runningAudio.isPlaying()) {
 					boolean electric = XWeaponModManager.hasUpgrade(stack, ctx.configIndex, XWeaponModManager.ID_ENGINE_ELECTRIC);
-					AudioWrapper audio = MainRegistry.proxy.getLoopedSound(electric ? NTMSounds.TURBINE_LARGE_LOOP : NTMSounds.ELECTRIC_ENGINE_LOOP, (float) entity.posX, (float) entity.posY, (float) entity.posZ, (float) speed, 15F, (float) speed, 25);
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound(electric ? NTMSounds.TURBINE_LARGE_LOOP : NTMSounds.ENGINE_LOOP, (float) entity.posX, (float) entity.posY, (float) entity.posZ, (float) speed, 15F, (float) speed, 25);
 					ItemGunBaseNT.loopedSounds.put(entity, audio);
 					audio.startSound();
 					audio.attachTo(entity);

@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine.fusion;
 
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.function.Consumer;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachinePlasmaForge;
@@ -55,12 +57,24 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 
 	public ModuleMachinePlasma plasmaModule;
 	
+	// animation crap
+	public double prevRing;
+	public double ring;
+	public double ringSpeed;
+	public double ringTarget;
+	public int ringDelay;
+	public ForgeArm armStriker;
+	public ForgeArm armJet;
+	
 	public TileEntityFusionPlasmaForge() {
 		super(16);
 		this.inputTank = new FluidTank(Fluids.NONE, 16_000);
 		
 		this.plasmaModule = new ModuleMachinePlasma(0, this, slots)
 				.itemInput(3).itemOutput(15).fluidInput(inputTank);
+
+		this.armStriker = new ForgeArm(ForgeArmType.STRIKER);
+		this.armJet = new ForgeArm(ForgeArmType.JET);
 	}
 
 	@Override
@@ -129,6 +143,36 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		} else {
 
 			if(timeOffset == -1) this.timeOffset = worldObj.rand.nextInt(30_000);
+			
+			didProcess = true;
+
+			this.armStriker.updateArm();
+			this.armJet.updateArm();
+			
+			this.prevRing = this.ring;
+			
+			if(didProcess) {
+				if(this.ring != this.ringTarget) {
+					double ringDelta = Math.abs(this.ringTarget - this.ring);
+					if(ringDelta <= this.ringSpeed) this.ring = this.ringTarget;
+					if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
+					if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
+					if(this.ringTarget == this.ring) {
+						double sub = ringTarget >= 360 ? -360D : 360D;
+						this.ringTarget += sub;
+						this.ring += sub;
+						this.prevRing += sub;
+						this.ringDelay = 100 + worldObj.rand.nextInt(41);
+					}
+				} else {
+					if(this.ringDelay > 0) this.ringDelay--;
+					if(this.ringDelay <= 0) {
+						this.ringTarget += (worldObj.rand.nextDouble() + 1) * 60 * (worldObj.rand.nextBoolean() ? - 1 : 1);
+						this.ringSpeed = 2.5D;
+						//if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
+					}
+				}
+			}
 		}
 	}
 
@@ -265,4 +309,193 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachinePlasmaForge(player.inventory, this); }
 	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachinePlasmaForge(player.inventory, this); }
+	
+	public class ForgeArm {
+
+		public ForgeArmType type;
+		public ForgeArmState state = ForgeArmState.RETIRE;
+		public double[] angles;
+		public double[] prevAngles;
+		public double[] targetAngles;
+		public double[] speed;
+		public int actionDelay = 0;
+		
+		public ForgeArm(ForgeArmType type) {
+			this.type = type;
+			this.angles =		new double[type.angleCount];
+			this.prevAngles =	new double[type.angleCount];
+			this.targetAngles =	new double[type.angleCount];
+			this.speed =		new double[type.angleCount];
+			
+			for(int i = 0; i < speed.length; i++) {
+				if(i < 3 || i == 4) speed[i] = 15;
+				if(i == 3) speed[i] = 15;
+				if(i > 4) speed[i] = 0.5;
+			}
+		}
+		
+		public void updateArm() {
+			for(int i = 0; i < angles.length; i++) prevAngles[i] = angles[i];
+			
+			if(this.actionDelay > 0) {
+				this.actionDelay--;
+				return;
+			}
+			
+			this.type.stateMachine.accept(this);
+		}
+		
+		public boolean didProcess() { return didProcess; }
+		
+		public boolean move() {
+			boolean didMove = false;
+
+			for(int i = 0; i < angles.length; i++) {
+				if(angles[i] == targetAngles[i]) continue;
+				didMove = true;
+
+				double angle = angles[i];
+				double target = targetAngles[i];
+				double turn = speed[i];
+				double delta = Math.abs(angle - target);
+
+				if(delta <= turn) {
+					angles[i] = targetAngles[i];
+					continue;
+				}
+				if(angle < target) angles[i] += turn;
+				else angles[i] -= turn;
+			}
+
+			return !didMove;
+		}
+		
+		public double[] getPositions(float interp) {
+			double[] pos = new double[this.angles.length];
+			for(int i = 0; i < pos.length; i++) {
+				pos[i] = BobMathUtil.interp(this.prevAngles[i], this.angles[i], interp);
+			}
+			return pos;
+		}
+	}
+	
+	public static enum ForgeArmType {
+		STRIKER(STRIKER_STATE_MACHINE, 6), // pivot to lower arm, lower arm to upper arm, upper arm to mount, mount to strikers, striker 1, striker 2
+		JET(JET_STATE_MACHINE, 4); // pivot to lower arm, lower arm to upper arm, upper arm to jet, jet
+		
+		protected final int angleCount;
+		protected final Consumer<ForgeArm> stateMachine;
+		
+		private ForgeArmType(Consumer<ForgeArm> stateMachine, int angleCount) {
+			this.stateMachine = stateMachine;
+			this.angleCount = angleCount;
+		}
+	}
+	
+	public static enum ForgeArmState {
+		REPOSITION,
+		EXTEND1,
+		EXTEND2,
+		RETRACT1,
+		RETRACT2,
+		RETIRE
+	}
+	
+	public static Random rand = new Random();
+	
+	public static double[][] strikerPositions = new double[][] {
+			{20, -30, -20, 30},
+			{45, -80, 15, 30},
+			{30, -45, -10, 30},
+			{15, -20, -30, 30},
+			{0, 10, -55, 30}
+	};
+	
+	public static double[][] jetPositions = new double[][] {
+			{10, 45, -120},
+			{20, 45, -140},
+			{0, 30, -80},
+			{0, 40, -100},
+			{30, 50, -160}
+	};
+	
+	public static Consumer<ForgeArm> STRIKER_STATE_MACHINE = (arm) -> {
+		
+		if(!arm.didProcess()) arm.state = ForgeArmState.RETIRE;
+		
+		switch(arm.state) {
+		case REPOSITION: {
+			if(arm.move()) {
+				arm.actionDelay = 5;
+				arm.state = ForgeArmState.EXTEND1;
+				arm.targetAngles[4] = 0.5D;
+			}
+		} break;
+		case EXTEND1: {
+			if(arm.move()) {
+				arm.actionDelay = 0;
+				arm.state = ForgeArmState.RETRACT1;
+				arm.targetAngles[4] = 0D;
+			}
+		} break;
+		case RETRACT1: {
+			if(arm.move()) {
+				arm.actionDelay = 0;
+				arm.state = ForgeArmState.EXTEND2;
+				arm.targetAngles[5] = 0.5D;
+			}
+		} break;
+		case EXTEND2: {
+			if(arm.move()) {
+				arm.actionDelay = 0;
+				arm.state = ForgeArmState.RETRACT2;
+				arm.targetAngles[5] = 0D;
+			}
+		} break;
+		case RETRACT2: {
+			if(arm.move()) {
+				arm.actionDelay = 10;
+				arm.state = ForgeArmState.REPOSITION;
+				choosePosition(arm, strikerPositions);
+			}
+		} break;
+		case RETIRE: {
+			for(int i = 0; i < arm.targetAngles.length; i++) arm.targetAngles[i] = 0;
+			if(arm.move()) {
+				arm.actionDelay = 10;
+				arm.state = ForgeArmState.REPOSITION;
+				choosePosition(arm, strikerPositions);
+			}
+		} break;
+		}
+	};
+
+	@SuppressWarnings("incomplete-switch") // shut up
+	public static Consumer<ForgeArm> JET_STATE_MACHINE = (arm) -> {
+		
+		if(!arm.didProcess()) arm.state = ForgeArmState.RETIRE;
+		
+		switch(arm.state) {
+		case REPOSITION: {
+			if(arm.move()) {
+				arm.actionDelay = 40;
+				arm.state = ForgeArmState.REPOSITION;
+				choosePosition(arm, jetPositions);
+			}
+		} break;
+		case RETIRE: {
+			for(int i = 0; i < arm.targetAngles.length; i++) arm.targetAngles[i] = 0;
+			if(arm.move()) {
+				arm.actionDelay = 10;
+				arm.state = ForgeArmState.REPOSITION;
+				choosePosition(arm, jetPositions);
+			}
+		} break;
+		}
+	};
+	
+	public static void choosePosition(ForgeArm arm, double[][] positions) {
+		double[] newPos = positions[rand.nextInt(positions.length)];
+		for(int i = 0; i < newPos.length; i++) arm.targetAngles[i] = newPos[i];
+	}
 }

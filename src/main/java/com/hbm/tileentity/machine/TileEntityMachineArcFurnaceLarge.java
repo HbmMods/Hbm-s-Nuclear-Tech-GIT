@@ -23,6 +23,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
@@ -97,7 +98,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		super.setInventorySlotContents(i, stack);
 
 		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i == 4) {
-			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.UPGRADE_PLUG, 1.0F, 1.0F);
 		}
 	}
 
@@ -212,7 +213,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 			if(this.isProgressing) {
 				if(this.audioProgress == null || !this.audioProgress.isPlaying()) {
-					this.audioProgress = MainRegistry.proxy.getLoopedSound("hbm:block.electricHum", xCoord, yCoord, zCoord, this.getVolume(1.5F), 15F, 0.75F, 5);
+					this.audioProgress = MainRegistry.proxy.getLoopedSound(NTMSounds.ELECTRIC_HUM_LOOP, xCoord, yCoord, zCoord, this.getVolume(1.5F), 15F, 0.75F, 5);
 					this.audioProgress.startSound();
 				}
 				this.audioProgress.updatePitch(0.75F);

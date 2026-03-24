@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -116,7 +117,7 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 			float pitch = 0.5F + spinNum * 0.5F + this.audioDesync;
 
 			if(audio == null) {
-				audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, volume, 20F, pitch, 20);
+				audio = MainRegistry.proxy.getLoopedSound(NTMSounds.TURBINE_LARGE_LOOP, xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, volume, 20F, pitch, 20);
 				audio.startSound();
 			}
 			

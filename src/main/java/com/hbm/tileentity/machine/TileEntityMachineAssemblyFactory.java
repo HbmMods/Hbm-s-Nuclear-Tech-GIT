@@ -19,6 +19,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.module.machine.ModuleMachineAssembler;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConditionalInvAccess;
@@ -234,7 +235,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 	}
 
 	@Override public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.motor", xCoord, yCoord, zCoord, 0.5F, 15F, 0.75F, 20);
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.ELECTRIC_MOTOR_LOOP, xCoord, yCoord, zCoord, 0.5F, 15F, 0.75F, 20);
 	}
 
 	@Override public void onChunkUnload() {
@@ -493,7 +494,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				if(striker.state == ArmState.WAIT && saw.state == ArmState.WAIT) { // only progress as soon as both arms are done moving
 					state = YuriState.SLIDING;
 					direction = !direction;
-					if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStart", getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
+					if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 				}
 			} break;
 			case SLIDING: {
@@ -590,11 +591,11 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 						if(saw) {
 							state = ArmState.CUT;
 							targetAngles[2] = -targetAngles[2];
-							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerCut", getVolume(0.5F), 1F + rand.nextFloat() * 0.25F);
+							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_CUT, getVolume(0.5F), 1F + rand.nextFloat() * 0.25F);
 						} else {
 							state = ArmState.RETRACT;
 							targetAngles[3] = 0D;
-							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.assemblerStrike", getVolume(0.5F), 1F);
+							if(!muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_STRIKE, getVolume(0.5F), 1F);
 						}
 					}
 					break;

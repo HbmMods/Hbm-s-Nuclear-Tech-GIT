@@ -1,6 +1,9 @@
 package com.hbm.main;
 
+import com.hbm.interfaces.NotableComments;
+
 /** Because having to remember or look up sound names is getting on my nerves. Who has time for this shit. */
+@NotableComments
 public class NTMSounds {
 
 	/// RELOADING ///
@@ -96,17 +99,39 @@ public class NTMSounds {
 	public static final String BLOCK_HUNDUNS_MAGNIFICENT_HOWL = "hbm:block.hunduns_magnificent_howl"; // tragic yuri
 	public static final String BLOCK_FALLOUT_3_POPUP = "hbm:block.bobble";
 	
-	/// MACHINE SOUND LOOPS ///
-	public static final String ELECTRIC_ENGINE_LOOP = "hbm:block.engine";
+	/// MACHINE SOUNDS, MOSTLY LOOPS ///
+	public static final String ELECTRIC_MOTOR_LOOP = "hbm:block.motor";
+	public static final String ENGINE_LOOP = "hbm:block.engine"; // diesel engine
 	public static final String TURBINE_LARGE_LOOP = "hbm:block.largeTurbineRunning";
+	public static final String TURBINE_LEVI_LOOP = "hbm:block.chungusTurbineRunning"; // big chungus
+	public static final String FEL_LOOP = "hbm:block.fel";
+	public static final String ELECTRIC_HUM_LOOP = "hbm:block.electricHum";
+	public static final String FUSION_REACTOR_LOOP = "hbm:block.fusionReactorRunning";
+	public static final String BOILER_LOOP = "hbm:block.boiler";
+	public static final String BOILER_GROAN = "hbm:block.boilerGroan";
+	public static final String CENTRIFUGE_LOOP = "hbm:block.centrifugeOperate";
+	public static final String TURBOFAN_LOOP = "hbm:block.turbofanOperate";
+	public static final String TURBOFAN_DAMAGE = "hbm:block.damage";
+	public static final String ASSEMBLER_STRIKE = "hbm:block.assemblerStrike";
+	public static final String ASSEMBLER_CUT = "hbm:block.assemblerCut";
+	public static final String ASSEMBLER_START = "hbm:block.assemblerStart";
+	public static final String ASSEMBLER_STOP = "hbm:block.assemblerStop";
+	public static final String CHEMPLANT_LOOP = "hbm:block.chemicalPlant";
+	public static final String HEPHAESTUS_LOOP = "hbm:block.hephaestusRunning";
+	public static final String STEAM_ENGINE_HIT = "hbm:block.steamEngineOperate";
+	public static final String REACTOR_GEIGER_LOOP = "hbm:block.reactorLoop";
 	
 	/// MISC ///
-	public static final String TECH_BOOP = "hbm:item.techBoop";
-	public static final String TECH_BLEEP = "hbm:item.techBleep";
+	public static final String TECH_BOOP = "hbm:item.techBoop"; // boop
+	public static final String TECH_BLEEP = "hbm:item.techBleep"; // blee-boo-bee-boop
+	public static final String UPGRADE_PLUG = "hbm:item.upgradePlug"; // plok
 	
 	/// VANILLA CRAP I CANNOT BE ASSED TO REMEMBER ///
 	public static final String VANILLA_ORB = "random.orb"; // xp orb ping
 	public static final String VANILLA_PLINK = "random.break"; // item breaks
 	public static final String VANILLA_FIREWORKS_BANG = "fireworks.blast";
 	public static final String VANILLA_HISS = "random.fizz"; // fire extinguishes
+	public static final String VANILLA_FIRE = "fire.fire"; // fire crackles
+	public static final String VANILLA_MINECART = "minecart.base"; // minecart rolling loop
+	public static final String VANILLA_GIB = "mob.zombie.woodbreak"; // zombie breaks door down
 }

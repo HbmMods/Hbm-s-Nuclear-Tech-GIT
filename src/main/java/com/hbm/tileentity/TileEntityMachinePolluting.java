@@ -10,6 +10,8 @@ import api.hbm.fluid.IFluidStandardSender;
 
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait;
+import com.hbm.main.NTMSounds;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -40,7 +42,7 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 			tank.setFill(tank.getMaxFill());
 			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
 			
-			if(worldObj.rand.nextInt(3) == 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.fizz", 0.1F, 1.5F);
+			if(worldObj.rand.nextInt(3) == 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.VANILLA_HISS, 0.1F, 1.5F);
 		}
 	}
 	public void pollute(FluidType type, FluidTrait.FluidReleaseType release, float amount) {
@@ -52,19 +54,7 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 		HashMap<PollutionType, Float> map = release == FluidTrait.FluidReleaseType.BURN ? trait.burnMap : trait.releaseMap;
 
 		for(Map.Entry<PollutionType, Float> entry : map.entrySet()) {
-
-			tank = entry.getKey() == PollutionType.SOOT ? smoke : entry.getKey() == PollutionType.HEAVYMETAL ? smoke_leaded : smoke_poison;
-			int fluidAmount = (int) Math.ceil(entry.getValue() * amount * 100);
-			tank.setFill(tank.getFill() + fluidAmount);
-
-			if (tank.getFill() > tank.getMaxFill()) {
-				int overflow = tank.getFill() - tank.getMaxFill();
-				tank.setFill(tank.getMaxFill());
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, entry.getKey(), overflow / 100F);
-
-				if (worldObj.rand.nextInt(3) == 0)
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.fizz", 0.1F, 1.5F);
-			}
+			pollute(entry.getKey(), entry.getValue());
 		}
 	}
 	
