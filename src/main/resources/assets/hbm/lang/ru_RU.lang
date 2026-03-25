@@ -191,6 +191,7 @@ autoswitch.plates=Металические пластины
 autoswitch.pwr=Переработка стержней ВВЭР
 autoswitch.schrab=Экстракция Шрабидия
 autoswitch.watz=Переработка Ватцз-пеллет
+autoswitch.weldPlates=Сварные пластины
 autoswitch.zirnox=Переработка стержней Цирнокс
 
 battery.mode.buffer=Буферный режим
