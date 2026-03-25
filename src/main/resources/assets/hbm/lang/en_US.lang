@@ -5313,6 +5313,7 @@ tile.capacitor.desc=Input: Top$Output: Bottom, via Capacitor Bus
 tile.charge_c4.name=Demolition Charge
 tile.charge_dynamite.name=Time Bomb
 tile.charge_miner.name=Timed Mining Charge
+tile.charge_leveler.name=Timed Leveling Charge
 tile.charge_semtex.name=Semtex Mining Charge
 tile.charger.name=Charging Station
 tile.cheater_virus.name=Gelid Euphemium
