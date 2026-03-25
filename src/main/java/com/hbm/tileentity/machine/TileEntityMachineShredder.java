@@ -5,6 +5,7 @@ import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
@@ -252,7 +253,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 					flag1 = true;
 				}
 				if(soundCycle == 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", getVolume(1.0F), 0.75F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, NTMSounds.VANILLA_MINECART, getVolume(1.0F), 0.75F);
 				soundCycle++;
 
 				if(soundCycle >= 50)

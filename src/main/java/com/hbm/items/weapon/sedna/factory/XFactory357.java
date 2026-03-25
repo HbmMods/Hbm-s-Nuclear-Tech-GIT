@@ -14,6 +14,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
@@ -41,7 +42,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
+						.dmg(7.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
@@ -51,7 +52,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver_atlas = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12.5F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
+						.dmg(12.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
@@ -61,7 +62,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver_dani = new ItemGunBaseNT(WeaponQuality.LEGENDARY,
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.1F)
+						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.1F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
@@ -70,7 +71,7 @@ public class XFactory357 {
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 0.9F)
+						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 0.9F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))

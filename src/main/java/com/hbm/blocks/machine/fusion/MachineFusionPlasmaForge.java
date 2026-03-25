@@ -28,7 +28,7 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
-	@Override public int[] getDimensions() { return new int[] { 4, 0, 5, 5, 5, 5 }; }
+	@Override public int[] getDimensions() { return new int[] { 0, 0, 5, 5, 5, 5 }; }
 	@Override public int getOffset() { return 5; }
 
 	@Override

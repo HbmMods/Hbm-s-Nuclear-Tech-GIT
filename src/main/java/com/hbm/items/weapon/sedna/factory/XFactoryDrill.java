@@ -17,6 +17,7 @@ import com.hbm.items.weapon.sedna.impl.ItemGunDrill;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineLiquidEngine;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
@@ -89,6 +90,8 @@ public class XFactoryDrill {
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
 					breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 				}
+				
+				didPlink = false;
 			}
 		}
 
@@ -97,6 +100,8 @@ public class XFactoryDrill {
 		mag.useUpAmmo(stack, ctx.inventory, ammoToUse);
 		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index), ctx.config.getDurability(stack)));
 	}
+	
+	public static boolean didPlink = false;
 
 	public static void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 		if(world.isAirBlock(x, y, z)) return;
@@ -107,8 +112,12 @@ public class XFactoryDrill {
 		int meta = world.getBlockMetadata(x, y, z);
 		
 		if(!block.canHarvestBlock(player, meta) || (block.getBlockHardness(world, x, y, z) == -1.0F && block.getPlayerRelativeBlockHardness(player, world, x, y, z) == 0.0F) || block == ModBlocks.stone_keyhole) {
-			world.playSoundAtEntity(player, "random.break", 0.5F, 0.8F + world.rand.nextFloat() * 0.6F);
+			if(!didPlink) {
+				world.playSoundAtEntity(player, NTMSounds.VANILLA_PLINK, 0.5F, 0.8F + world.rand.nextFloat() * 0.6F);
+				didPlink = true;
+			}
 			return;
+			
 		}
 		
 		// we are serverside and tryHarvestBlock already invokes the 2001 packet for every player except the user, so we manually send it for the user as well

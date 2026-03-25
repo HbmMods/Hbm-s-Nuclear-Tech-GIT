@@ -20,6 +20,7 @@ import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineInfinite;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -121,7 +122,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(400).draw(5).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
+						.dmg(35F).delay(5).reload(20).jam(33).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(coil_tungsten, coil_ferrouranium))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_COILGUN))
@@ -132,7 +133,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_n_i_4_n_i = new ItemGunNI4NI(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(0).draw(5).inspect(39).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(10).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
+						.dmg(35F).delay(10).sound(NTMSounds.GUN_COIL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineInfinite(ni4ni_arc))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().fire(Lego.LAMBDA_NOWEAR_FIRE))
@@ -144,7 +145,7 @@ public class XFactoryAccelerator {
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_PRIMARY_RELEASE = (stack, ctx) -> {
 		if(ctx.getPlayer() == null || ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != GunAnimation.CYCLE) return;
-		ctx.getPlayer().worldObj.playSoundEffect(ctx.getPlayer().posX, ctx.getPlayer().posY, ctx.getPlayer().posZ, "hbm:weapon.fire.tauRelease", 1F, 1F);
+		ctx.getPlayer().worldObj.playSoundEffect(ctx.getPlayer().posX, ctx.getPlayer().posY, ctx.getPlayer().posZ, NTMSounds.GUN_TAU_STOPFIRE, 1F, 1F);
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_SECONDARY_PRESS = (stack, ctx) -> {
@@ -200,7 +201,7 @@ public class XFactoryAccelerator {
 			coin.setThrower(player);
 			player.worldObj.spawnEntityInWorld(coin);
 
-			player.worldObj.playSoundAtEntity(player, "random.orb", 1.0F, 1F + player.getRNG().nextFloat() * 0.25F);
+			player.worldObj.playSoundAtEntity(player, NTMSounds.VANILLA_ORB, 1.0F, 1F + player.getRNG().nextFloat() * 0.25F);
 
 			ItemGunNI4NI.setCoinCount(stack, ItemGunNI4NI.getCoinCount(stack) - 1);
 		}

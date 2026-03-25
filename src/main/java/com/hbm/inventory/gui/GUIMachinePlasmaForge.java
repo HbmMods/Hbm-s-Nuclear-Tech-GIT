@@ -54,7 +54,7 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 		PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(forge.plasmaModule.recipe);
 		
 		if(recipe != null) {
-			drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(forge.plasmaEnergySync) + "KyU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "KyU");
+			drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(forge.plasmaEnergySync) + "TU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "TU");
 		} else {
 			drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 115, 18, 18, mouseX, mouseY, "0TU / 0TU");
 		}

@@ -20,6 +20,7 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
@@ -222,7 +223,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 					}*/
 
 					if(this.afterburner > 90 && worldObj.rand.nextInt(30) == 0) {
-						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:block.damage", 3.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, NTMSounds.TURBOFAN_DAMAGE, 3.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 					}
 
 					if(this.afterburner > 90) {
@@ -285,7 +286,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 						vdat.setInteger("cDiv", 5);
 						PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
 
-						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, NTMSounds.VANILLA_GIB, 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 
 						blood.setFill(blood.getFill() + 50);
 						if(blood.getFill() > blood.getMaxFill()) {
@@ -417,7 +418,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	}
 
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 1.0F, 50F, 1.0F, 20);
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.TURBOFAN_LOOP, xCoord, yCoord, zCoord, 1.0F, 50F, 1.0F, 20);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.hbm.inventory.recipes.FusionRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.module.machine.ModuleMachineFusion;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
@@ -231,7 +232,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				float speed = this.magnetSpeed / 30F;
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 30F, speed, 20);
+					audio = MainRegistry.proxy.getLoopedSound(NTMSounds.FUSION_REACTOR_LOOP, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getVolume(speed), 30F, speed, 20);
 					audio.startSound();
 				} else {
 					audio.updateVolume(getVolume(speed));

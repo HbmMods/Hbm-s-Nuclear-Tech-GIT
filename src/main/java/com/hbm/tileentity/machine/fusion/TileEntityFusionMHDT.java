@@ -8,6 +8,7 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -125,7 +126,7 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 				float speed = this.rotorSpeed / 15F;
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, getVolume(speed), 20F, speed, 20);
+					audio = MainRegistry.proxy.getLoopedSound(NTMSounds.TURBINE_LARGE_LOOP, xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, getVolume(speed), 20F, speed, 20);
 					audio.startSound();
 				} else {
 					audio.updateVolume(getVolume(speed));

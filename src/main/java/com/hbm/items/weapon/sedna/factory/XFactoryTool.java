@@ -28,6 +28,7 @@ import com.hbm.items.weapon.sedna.impl.ItemGunChargeThrower;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
@@ -77,7 +78,7 @@ public class XFactoryTool {
 			}
 			TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
 			if(core instanceof IRepairable) ((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.WATER);
-			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, NTMSounds.VANILLA_HISS, 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
 			bullet.setDead();
 		}
 	};
@@ -133,7 +134,7 @@ public class XFactoryTool {
 					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.block_foam);
 				}
 			}
-			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+			if(fizz) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, NTMSounds.VANILLA_HISS, 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
 		}
 	};
 
@@ -171,7 +172,7 @@ public class XFactoryTool {
 					if(meta < 6) bullet.worldObj.setBlockMetadataWithNotify(ix, iy, iz, meta + 1, 3);
 					else bullet.worldObj.setBlock(ix, iy, iz, ModBlocks.sand_mix, EnumSandType.BORON.ordinal(), 3);
 				}
-				if(b.getMaterial() == Material.fire) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "random.fizz", 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
+				if(b.getMaterial() == Material.fire) bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, NTMSounds.VANILLA_HISS, 1.0F, 1.5F + bullet.worldObj.rand.nextFloat() * 0.5F);
 			}
 		}
 	};
@@ -259,7 +260,7 @@ public class XFactoryTool {
 		ModItems.gun_fireext = new ItemGunBaseNT(WeaponQuality.UTILITY, new GunConfig()
 				.dura(5_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(0F).delay(1).dry(0).auto(true).spread(0F).spreadHipfire(0F).reload(20).jam(0).sound("hbm:weapon.extinguisher", 1.0F, 1.0F)
+						.dmg(0F).delay(1).dry(0).auto(true).spread(0F).spreadHipfire(0F).reload(20).jam(0).sound(NTMSounds.GUN_EXTINGUISHER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 300).addConfigs(fext_water, fext_foam, fext_sand))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire())
@@ -270,7 +271,7 @@ public class XFactoryTool {
 		ModItems.gun_charge_thrower = new ItemGunChargeThrower(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(10).inspect(55).reloadChangeType(true).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(4).dry(10).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(0).sound("hbm:weapon.fire.grenade", 1.0F, 1.0F)
+						.dmg(10F).delay(4).dry(10).auto(true).spread(0F).spreadHipfire(0F).reload(60).jam(0).sound(NTMSounds.GUN_CHARGE_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 1).addConfigs(ct_hook, ct_mortar, ct_mortar_charge))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CT))

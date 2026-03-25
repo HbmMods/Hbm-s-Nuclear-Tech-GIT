@@ -21,6 +21,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
@@ -107,7 +108,7 @@ public class XFactoryFolly {
 		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.SECRET, new GunConfig()
 				.dura(0).draw(40).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0)
-						.dmg(1_000F).delay(26).dryfire(false).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)
+						.dmg(1_000F).delay(26).dryfire(false).reload(160).jam(0).sound(NTMSounds.GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS, 100.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm, folly_nuke))
 						.offset(0.75, -0.0625, -0.1875D).offsetScoped(0.75, -0.0625, -0.125D)
 						.canFire(LAMBDA_CAN_FIRE).fire(LAMBDA_FIRE).recoil(LAMBDA_RECOIL_FOLLY))

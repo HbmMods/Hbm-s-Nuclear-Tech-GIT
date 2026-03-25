@@ -9,6 +9,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
@@ -105,7 +106,7 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 				}
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.hephaestusRunning", xCoord, yCoord + 5F, zCoord, 0.75F, 10F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound(NTMSounds.HEPHAESTUS_LOOP, xCoord, yCoord + 5F, zCoord, 0.75F, 10F, 1.0F);
 					audio.startSound();
 				}
 			} else {

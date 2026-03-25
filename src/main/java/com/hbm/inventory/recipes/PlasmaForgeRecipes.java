@@ -13,10 +13,12 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockICFLaserComponent.EnumICFPart;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
@@ -43,12 +45,60 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 	@Override
 	public void registerDefaults() {
 		
+		String autoPlate = "autoswitch.weldPlates";
+		
 		// Plates
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.plateeuphemium").setInputEnergy(1_000_000).setup(600, 10_000_000).outputItems(new ItemStack(ModItems.plate_euphemium, 1))
 				.inputItems(new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 3), new OreDictStack(BI.dust(), 1), new OreDictStack(VOLCANIC.gem(), 1), new OreDictStack(OSMIRIDIUM.ingot())));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.platednt").setInputEnergy(1_000_000).setup(600, 10_000_000).outputItems(new ItemStack(ModItems.plate_dineutronium, 4))
 				.inputItems(new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack(DESH.ingot(), 1)));
 
+		// Components
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.hde").setInputEnergy(10_000_000).setup(600, 25_000_000L)
+				.outputItems(DictFrame.fromOne(ModItems.part_generic, EnumPartType.HDE))
+				.inputItems(new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 2), new OreDictStack(CMB.plateWelded(), 1), new ComparableStack(ModItems.ingot_cft))
+				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000)).setGroup(autoPlate, this));
+		
+		// Welded Plates
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldiron").setInputEnergy(500_000).setup(50, 100L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_IRON.id))
+				.inputItems(new OreDictStack(IRON.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldsteel").setInputEnergy(500_000).setup(50, 500L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_STEEL.id))
+				.inputItems(new OreDictStack(STEEL.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldcopper").setInputEnergy(500_000).setup(50, 1_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_COPPER.id))
+				.inputItems(new OreDictStack(CU.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldtitanium").setInputEnergy(500_000).setup(300, 50_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TITANIUM.id))
+				.inputItems(new OreDictStack(TI.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldzirconium").setInputEnergy(500_000).setup(300, 10_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_ZIRCONIUM.id))
+				.inputItems(new OreDictStack(ZR.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldaluminium").setInputEnergy(500_000).setup(150, 10_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_ALUMINIUM.id))
+				.inputItems(new OreDictStack(AL.plateCast(), 2)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldtcalloy").setInputEnergy(500_000).setup(600, 1_000_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TCALLOY.id))
+				.inputItems(new OreDictStack(TCALLOY.plateCast(), 2))
+				.inputFluids(new FluidStack(Fluids.OXYGEN, 1_000)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldcdalloy").setInputEnergy(500_000).setup(600, 1_000_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_CDALLOY.id))
+				.inputItems(new OreDictStack(CDALLOY.plateCast(), 2))
+				.inputFluids(new FluidStack(Fluids.OXYGEN, 1_000)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldtungsten").setInputEnergy(500_000).setup(600, 250_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TUNGSTEN.id))
+				.inputItems(new OreDictStack(W.plateCast(), 2))
+				.inputFluids(new FluidStack(Fluids.OXYGEN, 1_000)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldcmb").setInputEnergy(500_000).setup(600, 10_000_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_CMB.id))
+				.inputItems(new OreDictStack(CMB.plateCast(), 2))
+				.inputFluids(new FluidStack(Fluids.REFORMGAS, 1_000)).setGroup(autoPlate, this));
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldosmiridium").setInputEnergy(500_000).setup(3_000, 50_000_000L)
+				.outputItems(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_OSMIRIDIUM.id))
+				.inputItems(new OreDictStack(OSMIRIDIUM.plateCast(), 2))
+				.inputFluids(new FluidStack(Fluids.REFORMGAS, 16_000)).setGroup(autoPlate, this));
+		
 		// ICF
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfcell").setInputEnergy(1_000_000).setup(200, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()))
 				.inputItems(new ComparableStack(ModItems.ingot_cft, 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4), new ComparableStack(ModBlocks.glass_quartz, 16))

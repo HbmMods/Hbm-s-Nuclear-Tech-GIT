@@ -6,6 +6,7 @@ import com.hbm.items.ICustomizable;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.ChatBuilder;
 
 import cpw.mods.fml.relauncher.Side;
@@ -42,7 +43,7 @@ public class ItemGunNI4NI extends ItemGunBaseNT implements ICustomizable {
 					this.setCoinCount(stack, newCount);
 					
 					if(isHeld) {
-						world.playSoundAtEntity(entity, "hbm:item.techBoop", 1.0F, 1F + newCount / (float) maxCoin);
+						world.playSoundAtEntity(entity, NTMSounds.TECH_BOOP, 1.0F, 1F + newCount / (float) maxCoin);
 					}
 				}
 			}

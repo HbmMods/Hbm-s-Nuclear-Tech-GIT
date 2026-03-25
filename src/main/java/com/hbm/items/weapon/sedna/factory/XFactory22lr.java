@@ -18,6 +18,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -49,7 +50,7 @@ public class XFactory22lr {
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(2F).delay(1).dry(10).auto(true).spread(0.01F).reload(66).jam(30).sound("hbm:weapon.fire.greaseGun", 1.0F, 1.0F)
+						.dmg(2F).delay(1).dry(10).auto(true).spread(0.01F).reload(66).jam(30).sound(NTMSounds.GUN_GREASEGUN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AM180))
@@ -61,7 +62,7 @@ public class XFactory22lr {
 		ModItems.gun_star_f = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound("hbm:weapon.fire.pistolLight", 1.0F, 1.0F)
+						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
@@ -73,7 +74,7 @@ public class XFactory22lr {
 		ModItems.gun_star_f_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound("hbm:weapon.fire.pistolLight", 1.0F, 1.0F)
+						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, 0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))
@@ -82,7 +83,7 @@ public class XFactory22lr {
 				.anim(LAMBDA_STAR_F_ANIMS).orchestra(Orchestras.ORCHESTRA_STAR_F_AKIMBO),
 				new GunConfig().dura(15 * 25).draw(15).inspect(38).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound("hbm:weapon.fire.pistolLight", 1.0F, 1.0F)
+						.dmg(12.5F).delay(5).dry(17).spread(0.01F).reload(40).jam(32).sound(NTMSounds.GUN_STARF_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(1, 15).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_STAR_F))

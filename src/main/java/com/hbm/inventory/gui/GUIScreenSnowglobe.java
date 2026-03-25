@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -23,7 +24,7 @@ public class GUIScreenSnowglobe extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.bobble"), 1.0F));
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(NTMSounds.BLOCK_FALLOUT_3_POPUP), 1.0F));
 	}
 
 	@Override

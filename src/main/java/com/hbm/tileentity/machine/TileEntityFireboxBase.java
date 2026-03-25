@@ -8,6 +8,7 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.main.NTMSounds;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
@@ -111,7 +112,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				this.wasOn = true;
 				
 				if(worldObj.rand.nextInt(15) == 0 && !this.muffled) {
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, NTMSounds.VANILLA_FIRE, 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
 				}
 			}
 			

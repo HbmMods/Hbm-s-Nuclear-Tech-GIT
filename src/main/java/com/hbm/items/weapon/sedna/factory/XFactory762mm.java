@@ -18,6 +18,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
@@ -69,7 +70,7 @@ public class XFactory762mm {
 		ModItems.gun_carbine = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(5).dry(15).spread(0.0F).reload(30, 0, 15, 0).jam(60).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(15F).delay(5).dry(15).spread(0.0F).reload(30, 0, 15, 0).jam(60).sound(NTMSounds.GUN_POWDER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 14).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))
@@ -80,7 +81,7 @@ public class XFactory762mm {
 		ModItems.gun_minigun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound(NTMSounds.GUN_MINIGUN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
@@ -90,7 +91,7 @@ public class XFactory762mm {
 		ModItems.gun_minigun_lacunae = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(1).auto(true).dry(15).reload(15).spread(0.01F).sound("hbm:weapon.fire.laserGatling", 1.0F, 1.0F)
+						.dmg(12F).delay(1).auto(true).dry(15).reload(15).spread(0.01F).sound(NTMSounds.GUN_LASER_GATLING_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 200).addConfigs(energy_lacunae, energy_lacunae_overcharge, energy_lacunae_ir))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_LACUNAE))
@@ -101,7 +102,7 @@ public class XFactory762mm {
 				new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound(NTMSounds.GUN_MINIGUN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, 0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
@@ -111,7 +112,7 @@ public class XFactory762mm {
 				new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound(NTMSounds.GUN_MINIGUN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))
@@ -123,7 +124,7 @@ public class XFactory762mm {
 		ModItems.gun_mas36 = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(30F).delay(25).dry(25).spread(0.0F).reload(43).jam(43).sound("hbm:weapon.fire.rifleHeavy", 1.0F, 1.0F)
+						.dmg(30F).delay(25).dry(25).spread(0.0F).reload(43).jam(43).sound(NTMSounds.GUN_HEAVY_RIFLE_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 7).addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du, r762_he))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_CARBINE))

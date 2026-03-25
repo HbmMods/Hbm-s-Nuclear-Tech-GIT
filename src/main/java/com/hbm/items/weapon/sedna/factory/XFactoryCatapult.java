@@ -27,6 +27,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
@@ -100,7 +101,7 @@ public class XFactoryCatapult {
 
 		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1.5F);
 
-		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "muke");
 		data.setBoolean("balefire", true);
@@ -117,7 +118,7 @@ public class XFactoryCatapult {
 	}
 
 	public static void spawnMush(EntityBulletBaseMK4 bullet, MovingObjectPosition mop) {
-		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "muke");
 		data.setBoolean("balefire", MainRegistry.polaroidID == 11 || bullet.worldObj.rand.nextInt(100) == 0);
@@ -135,7 +136,7 @@ public class XFactoryCatapult {
 		vnt.explode();
 
 		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.25F);
-		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "tinytot");
 		data.setBoolean("balefire", MainRegistry.polaroidID == 11 || bullet.worldObj.rand.nextInt(100) == 0);
@@ -165,7 +166,7 @@ public class XFactoryCatapult {
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
+						.dmg(100F).spreadHipfire(0F).delay(10).reload(57).jam(40).sound(NTMSounds.GUN_FATMAN_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive, nuke_balefire))
 						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))

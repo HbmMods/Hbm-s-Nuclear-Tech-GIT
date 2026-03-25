@@ -10,6 +10,7 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -123,7 +124,7 @@ public class TileEntityChungus extends TileEntityTurbineBase implements SimpleCo
 			}
 
 			if(audio == null) {
-				audio = MainRegistry.proxy.getLoopedSound("hbm:block.chungusTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F, 20);
+				audio = MainRegistry.proxy.getLoopedSound(NTMSounds.TURBINE_LEVI_LOOP, xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F, 20);
 				audio.startSound();
 			}
 

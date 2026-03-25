@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.main.NTMSounds;
 import com.hbm.world.gen.nbt.INBTTileEntityTransformable;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
@@ -102,9 +103,9 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 			return true;
 		} else {
 			if(plushie.type == PlushieType.HUNDUN) {
-				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.hunduns_magnificent_howl", 100F, 1F);
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.BLOCK_HUNDUNS_MAGNIFICENT_HOWL, 100F, 1F);
 			} else {
-				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:block.squeakyToy", 0.25F, 1F);
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.BLOCK_PLUSHY, 0.25F, 1F);
 			}
 			return true;
 		}
@@ -160,7 +161,7 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 		YOMI(		"Yomi",				"Hi! Can I be your rabbit friend?"),
 		NUMBERNINE(	"Number Nine",		"None of y'all deserve coal."),
 		HUNDUN(		"Hundun",			"混沌"),
-		DERG(		"Dragon",			"Squeeze him.");
+		DERG(		"Dragon",			"Squeeze him."); // blerg
 
 		public String label;
 		public String inscription;

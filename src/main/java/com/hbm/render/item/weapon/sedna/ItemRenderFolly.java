@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.util.EntityDamageUtil;
@@ -104,7 +105,7 @@ public class ItemRenderFolly extends ItemRenderWeaponBase {
 			String splash = getBootSplash();
 			
 			if(!jingle && !splash.isEmpty()) {
-				MainRegistry.proxy.playSoundClient(player.posX, player.posY, player.posZ, "hbm:weapon.fire.vstar", 0.5F, 1F);
+				MainRegistry.proxy.playSoundClient(player.posX, player.posY, player.posZ, NTMSounds.GUN_VYLET_PONY_CUTIEMARKS_AND_THE_THINGS_THAT_BIND_US_INTRO_JINGLE, 0.5F, 1F);
 				jingle = true;
 			}
 	

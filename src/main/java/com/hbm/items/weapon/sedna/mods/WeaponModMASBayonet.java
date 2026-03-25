@@ -9,6 +9,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.Orchestras;
 import com.hbm.items.weapon.sedna.factory.XFactory44;
 import com.hbm.items.weapon.sedna.factory.XFactory762mm;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -53,7 +54,7 @@ public class WeaponModMASBayonet extends WeaponModBase {
 						mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(ctx.getPlayer()), damage);
 						mop.entityHit.motionX *= 2;
 						mop.entityHit.motionZ *= 2;
-						entity.worldObj.playSoundAtEntity(mop.entityHit, "hbm:weapon.fire.stab", 1F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
+						entity.worldObj.playSoundAtEntity(mop.entityHit, NTMSounds.GUN_STAB_A_FUCKER, 1F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
 					}
 					if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 						Block b = entity.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);

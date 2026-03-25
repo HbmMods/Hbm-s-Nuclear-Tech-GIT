@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -26,7 +27,7 @@ public class GUIScreenBobble extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.bobble"), 1.0F));
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(NTMSounds.BLOCK_FALLOUT_3_POPUP), 1.0F));
 	}
 
 	@Override

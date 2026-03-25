@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
+import com.hbm.main.NTMSounds;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.Vec3NT;
 
@@ -58,7 +59,7 @@ public class ItemGunStinger extends ItemGunBaseNT {
 						progressLockon(world, stack);
 						
 						if(this.getLockonProgress(stack) >= 60 && !this.getIsLockedOn(stack)) {
-							player.worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1F, 1F);
+							player.worldObj.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1F, 1F);
 							this.setIsLockedOn(stack, true);
 						}
 					}
