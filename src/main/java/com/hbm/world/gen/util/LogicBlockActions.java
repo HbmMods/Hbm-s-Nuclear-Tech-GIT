@@ -2,7 +2,6 @@ package com.hbm.world.gen.util;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BlockChargeBase;
 import com.hbm.blocks.generic.BlockSkeletonHolder;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.item.EntityFallingBlockNT;
@@ -201,6 +200,14 @@ public class LogicBlockActions {
 			for (int i = 0; i < 3; i++) {
 				EntitySkeleton mob = new EntitySkeleton(world);
 				mob.setPositionAndRotation(x, y, z, 0, 0);
+				EntityAIFireGun gunTask = new EntityAIFireGun(mob);
+				gunTask.minWait = 4;
+				gunTask.maxWait = 5;
+				gunTask.maxRange = 50;
+				gunTask.burstTime = 6;
+				gunTask.inaccuracy = 5F;
+				gunTask.randomBurst = false;
+				MobUtil.addFireTask(mob, gunTask);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier2, new Random());
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolRanged, new Random());
 				world.spawnEntityInWorld(mob);
@@ -221,8 +228,9 @@ public class LogicBlockActions {
 				EntityAIFireGun gunTask = new EntityAIFireGun(mob);
 				gunTask.minWait = 4;
 				gunTask.maxWait = 5;
+				gunTask.maxRange = 100;
 				gunTask.burstTime = 6;
-				gunTask.inaccuracy = 5F;
+				gunTask.inaccuracy = 1F;
 				gunTask.randomBurst = false;
 				MobUtil.addFireTask(mob, gunTask);
 				MobUtil.assignItemsToEntity(mob, MobUtil.slotPoolGunsTier3, new Random());
@@ -436,7 +444,7 @@ public class LogicBlockActions {
 			TileEntity te = world.getTileEntity(x, y + 1, z);
 			if (te instanceof TileEntityCharge) {
 				TileEntityCharge bomb = (TileEntityCharge) te;
-				bomb.timer = 200;
+				bomb.timer = 1200;
 			}
 		}
 
@@ -446,6 +454,7 @@ public class LogicBlockActions {
 				TileEntityCharge bomb = (TileEntityCharge) te;
 				bomb.started = true;
 			}
+			world.setBlock(x, y, z, ModBlocks.block_steel);
 		}
 
 

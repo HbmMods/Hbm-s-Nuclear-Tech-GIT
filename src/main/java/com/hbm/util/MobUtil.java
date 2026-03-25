@@ -14,7 +14,11 @@ import java.util.*;
 
 public class MobUtil {
 
+	//for soot mobs
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolCommonS = new HashMap<>();
+	public static Map<Integer, List<WeightedRandomObject>> slotPoolRangedS = new HashMap<>();
 
+	//for gob block
 	public static Map<Integer, List<WeightedRandomObject>> slotPoolCommon = new HashMap<>();
 	public static Map<Integer, List<WeightedRandomObject>> slotPoolRanged = new HashMap<>();
 
@@ -33,25 +37,73 @@ public class MobUtil {
 	public static Map<Integer, List<WeightedRandomObject>> slotPoolMelee = new HashMap<>();
 
 	public static void intializeMobPools(){
-		slotPoolCommon.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
+		//soot mobs
+		slotPoolCommonS.put(4, createSlotPool(8000, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
 			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
 			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
 			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
 			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
 		}));
-		slotPoolCommon.put(3, createSlotPool(7000, new Object[][]{
+		slotPoolCommonS.put(3, createSlotPool(7000, new Object[][]{
 			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
 			{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
 			{ModItems.steel_plate, 2}
 		}));
-		slotPoolCommon.put(2, createSlotPool(7000, new Object[][]{
+		slotPoolCommonS.put(2, createSlotPool(7000, new Object[][]{
 			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
 			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
 		}));
-		slotPoolCommon.put(1, createSlotPool(7000, new Object[][]{
+		slotPoolCommonS.put(1, createSlotPool(7000, new Object[][]{
 			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
 		}));
-		slotPoolCommon.put(0, createSlotPool(10000, new Object[][]{
+		slotPoolCommonS.put(0, createSlotPool(10000, new Object[][]{
+			{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
+			{ModItems.reer_graar, 16}, {ModItems.steel_pickaxe, 12}, {ModItems.stopsign, 10},
+			{ModItems.sopsign, 8}, {ModItems.chernobylsign, 6}, {ModItems.steel_sword, 15},
+			{ModItems.titanium_sword, 8}, {ModItems.lead_gavel, 4}, {ModItems.wrench_flipped, 2},
+			{ModItems.wrench, 20}
+		}));
+
+		slotPoolRangedS.put(4, createSlotPool(8000, new Object[][]{
+			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+			{ModItems.rag_piss, 1}, {ModItems.goggles, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+		}));
+		slotPoolRangedS.put(3, createSlotPool(7000, new Object[][]{
+			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.alloy_plate, 2}, //sadly they cant wear jackets bc it breaks it
+			{ModItems.steel_plate, 8}, {ModItems.titanium_plate, 4}
+		}));
+		slotPoolRangedS.put(2, createSlotPool(7000, new Object[][]{
+			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2},
+		}));
+		slotPoolRangedS.put(1, createSlotPool(10000, new Object[][]{
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2},
+			{ModItems.titanium_boots, 6}
+		}));
+
+		//gob block
+		//soot mobs
+		slotPoolCommon.put(4, createSlotPool(0, new Object[][]{ //new slots, smooth, brushed, no wrinkles // old slots, wrinkled, rusty, not smooth
+			{ModItems.gas_mask_m65, 16}, {ModItems.gas_mask_olde, 12}, {ModItems.mask_of_infamy, 8},
+			{ModItems.gas_mask_mono, 8}, {ModItems.robes_helmet, 32}, {ModItems.no9, 16},
+			{ModItems.cobalt_helmet, 2}, {ModItems.rag_piss, 1}, {ModItems.hat, 1}, {ModItems.alloy_helmet, 2},
+			{ModItems.titanium_helmet, 4}, {ModItems.steel_helmet, 8}
+		}));
+		slotPoolCommon.put(3, createSlotPool(10, new Object[][]{
+			{ModItems.starmetal_plate, 1}, {ModItems.cobalt_plate, 2}, {ModItems.robes_plate, 32},
+			{ModItems.jackt, 32}, {ModItems.jackt2, 32}, {ModItems.alloy_plate, 2},
+			{ModItems.steel_plate, 2}
+		}));
+		slotPoolCommon.put(2, createSlotPool(20, new Object[][]{
+			{ModItems.zirconium_legs, 1}, {ModItems.cobalt_legs, 2}, {ModItems.steel_legs, 16},
+			{ModItems.titanium_legs, 8}, {ModItems.robes_legs, 32}, {ModItems.alloy_legs, 2}
+		}));
+		slotPoolCommon.put(1, createSlotPool(10, new Object[][]{
+			{ModItems.robes_boots, 32}, {ModItems.steel_boots, 16}, {ModItems.cobalt_boots, 2}, {ModItems.alloy_boots, 2}
+		}));
+		slotPoolCommon.put(0, createSlotPool(1000, new Object[][]{
 			{ModItems.pipe_lead, 30}, {ModItems.crowbar, 25}, {ModItems.geiger_counter, 20},
 			{ModItems.reer_graar, 16}, {ModItems.steel_pickaxe, 12}, {ModItems.stopsign, 10},
 			{ModItems.sopsign, 8}, {ModItems.chernobylsign, 6}, {ModItems.steel_sword, 15},
@@ -78,6 +130,7 @@ public class MobUtil {
 			{ModItems.titanium_boots, 6}
 		}));
 
+		//soot guns
 		slotPoolGuns.put(0.3, createSlotPool(new Object[][]{
 			{ModItems.gun_light_revolver, 16}, {ModItems.gun_greasegun, 8}, {ModItems.gun_maresleg, 2}
 		}));
@@ -111,9 +164,9 @@ public class MobUtil {
 			{ModItems.t51_boots, 4}, {ModItems.hazmat_boots, 6},
 			{ModItems.robes_boots, 8}
 		}));
-		slotPoolAdv.put(0, createSlotPool(new Object[][]{
-			{ModItems.pipe_lead, 20}, {ModItems.crowbar, 30}, {ModItems.geiger_counter, 20},
-			{ModItems.reer_graar, 20}, {ModItems.wrench_flipped, 12}, {ModItems.stopsign, 16},
+		slotPoolAdv.put(0, createSlotPool(500,new Object[][]{
+			{ModItems.pipe_lead, 20}, {ModItems.crowbar, 10}, {ModItems.geiger_counter, 10},
+			{ModItems.reer_graar, 20}, {ModItems.wrench_flipped, 20}, {ModItems.stopsign, 16},
 			{ModItems.sopsign, 4}, {ModItems.chernobylsign, 16},
 			{ModItems.titanium_sword, 18}, {ModItems.lead_gavel, 8},
 			{ModItems.wrench, 20}

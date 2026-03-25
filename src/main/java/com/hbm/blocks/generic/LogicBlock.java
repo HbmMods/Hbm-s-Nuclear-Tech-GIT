@@ -57,6 +57,11 @@ public class LogicBlock extends BlockContainer {
 	}
 
 	@Override
+	public int getRenderType() {
+		return this == ModBlocks.logic_block_invis ? -1 : 0;
+	}
+
+	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
 		TileEntity te = worldIn.getTileEntity(x, y, z);
 		if(te instanceof LogicBlock.TileEntityLogicBlock && ((LogicBlock.TileEntityLogicBlock) te).interaction != null) {
