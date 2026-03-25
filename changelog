@@ -2,6 +2,10 @@
 * Plasma forge
   * Plasma-powered assembly machine
   * Used to produce lategame items that until now were regular assembler recipes
+  * Can pass on plasma, 25% of the plasma energy that passes through a plasma forge is consumed
+  * This allows plasma forges to be chained, or unused residue energy to be used in turbines
+  * Parts that interact with the fusion reactor directly, like the collector chambers, are not compatible
+  * Like all assembler-type machines, features custom animations (i spent a lot of time on those, please look at them for prolonged periods of time, ideally without blinking)
 
 ## Changed
 * Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
@@ -12,7 +16,7 @@
 * Gerald assembly now requires stellar flux
 * The DFC parts are now made in the plasma forge, with the recipes being more expensive
 * The restrictions for firing Folly (using the scope, waiting for the startup) no longer apply to NPCs (which can never fulfill them anyway), allowing them to actually use it
-* The plinking sound played when a drill cannot break a block now only plays once for the entire AoE instead of once for every single block that couldnt be broken
+* The plinking sound played when a drill cannot break a block now only plays once for the entire AoE instead of once for every single block that couldn't be broken
 
 ## Fixed
 * Fixed size 15 dual kerosene thruster not rendering at all

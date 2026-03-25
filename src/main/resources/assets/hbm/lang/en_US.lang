@@ -191,6 +191,7 @@ autoswitch.plates=Metal Plates
 autoswitch.pwr=Reprocessing PWR Fuel
 autoswitch.schrab=Schrabidium Extraction
 autoswitch.watz=Reprocessing Watz Pellet
+autoswitch.weldPlates=Welded Plates
 autoswitch.zirnox=Reprocessing ZIRNOX Fuel
 
 battery.mode.buffer=Input/Output Mode

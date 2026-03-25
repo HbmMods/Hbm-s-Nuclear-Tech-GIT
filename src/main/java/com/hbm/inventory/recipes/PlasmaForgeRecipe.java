@@ -22,6 +22,7 @@ public class PlasmaForgeRecipe extends GenericRecipe {
 		List<String> list = new ArrayList();
 		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
+		autoSwitch(list);
 		duration(list);
 		power(list);
 		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("gui.recipe.fusionIn") + ": " + BobMathUtil.getShortNumber(ignitionTemp) + "TU/t");

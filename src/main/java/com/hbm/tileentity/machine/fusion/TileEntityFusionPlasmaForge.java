@@ -50,6 +50,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public float plasmaBlue;
 	public long plasmaEnergy;
 	public long plasmaEnergySync;
+	public double neutronEnergy;
 	protected GenNode receiverNode;
 	protected GenNode providerNode;
 	
@@ -85,6 +86,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	@Override public boolean receivesFusionPower() { return true; }
 	@Override public void receiveFusionPower(long fusionPower, double neutronPower, float r, float g, float b) {
 		this.plasmaEnergy = fusionPower;
+		this.neutronEnergy = neutronPower;
 		this.plasmaRed = r;
 		this.plasmaGreen = g;
 		this.plasmaBlue = b;
@@ -127,25 +129,25 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			this.didProcess = this.plasmaModule.didProcess;
 			if(this.plasmaModule.markDirty) this.markDirty();
 
-			if(providerNode != null && providerNode.hasValidNet()) {
+			long powerReceived = (long) Math.ceil(this.plasmaEnergySync * 0.75);
+			if(powerReceived > 0 && providerNode != null && providerNode.hasValidNet()) {
 
 				for(Object o : providerNode.net.receiverEntries.entrySet()) {
 					Entry<Object, Long> entry = (Entry<Object, Long>) o;
 
 					if(entry.getKey() instanceof IFusionPowerReceiver) {
-						long powerReceived = (long) Math.ceil(this.plasmaEnergySync * 0.75);
-						((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, 0, plasmaRed, plasmaGreen, plasmaBlue);
+						((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
 					}
 				}
 			}
+			
+			this.neutronEnergy = 0D;
 			
 			this.networkPackNT(100);
 		} else {
 
 			if(timeOffset == -1) this.timeOffset = worldObj.rand.nextInt(30_000);
 			
-			didProcess = true;
-
 			this.armStriker.updateArm();
 			this.armJet.updateArm();
 			
@@ -454,9 +456,15 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		} break;
 		case RETRACT2: {
 			if(arm.move()) {
-				arm.actionDelay = 10;
-				arm.state = ForgeArmState.REPOSITION;
-				choosePosition(arm, strikerPositions);
+				if(rand.nextInt(3) == 0) {
+					arm.actionDelay = 10;
+					arm.state = ForgeArmState.REPOSITION;
+					choosePosition(arm, strikerPositions);
+				} else {
+					arm.actionDelay = 5;
+					arm.state = ForgeArmState.EXTEND1;
+					arm.targetAngles[4] = 0.5D;
+				}
 			}
 		} break;
 		case RETIRE: {
@@ -468,6 +476,12 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			}
 		} break;
 		}
+		
+		/*if(arm.state == ForgeArmState.REPOSITION || arm.state == ForgeArmState.RETIRE) {
+			arm.targetAngles[3] = 0;
+		} else {
+			arm.targetAngles[3] = 30;
+		}*/
 	};
 
 	@SuppressWarnings("incomplete-switch") // shut up
@@ -478,7 +492,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		switch(arm.state) {
 		case REPOSITION: {
 			if(arm.move()) {
-				arm.actionDelay = 40;
+				arm.actionDelay = 20;
 				arm.state = ForgeArmState.REPOSITION;
 				choosePosition(arm, jetPositions);
 			}
