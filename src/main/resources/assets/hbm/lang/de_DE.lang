@@ -411,6 +411,7 @@ container.machineLargeTurbine=Industrielle Dampfturbine
 container.machineLiquefactor=Verflüssiger
 container.machineMixer=Industrieller Mixer
 container.machineOreSlopper=B.E.M.
+container.machinePlasmaForge=Plasmaschmiede
 container.machinePrecAss=Präzisions-Montagemaschine
 container.machinePUREX=PUREX
 container.machinePyroOven=Pyrolyseofen
@@ -699,6 +700,19 @@ geiger.playerRad=Spieler-Kontaminierung:
 geiger.playerRes=Strahlungsresistenz:
 geiger.title=GEIGERZÄHLER
 geiger.title.dosimeter=DOSIMETER
+
+general.na=N/A
+
+gui.recipe.duration=Dauer
+gui.recipe.consumption=Verbrauch
+gui.recipe.fusionFlux=Produzierter Neutronenflux
+gui.recipe.fusionIn=Benötigte Klystronenergie
+gui.recipe.fusionOut=Erzeugte Plasmaenergie
+gui.recipe.input=Input
+gui.recipe.output=Output
+gui.recipe.plasmaIn=Benötigte Plasmaenergie
+gui.recipe.atPressure=bei
+gui.recipe.setRecipe=Klicken um Rezept zu ändern
 
 hadron.analysis=Analysiere...
 hadron.buttonOn=Analysekammer (falls vorhanden) ist AN
@@ -4366,6 +4380,7 @@ tile.fusion_klystron_creative.desc=Erzeugt unendlich viel Klystron-Energie.
 tile.fusion_mhdt.name=MHD-Turbine
 tile.fusion_mhdt.desc=Wandelt Plasmaenergie in verwendbare$elektrische Energie um. Effizienter als ein$konventioneller Boiler.$Benötigt Kühlung!
 tile.fusion_motor.name=Magnetmotorstück
+tile.fusion_plasma_forge.name=Plasmaschmiede
 tile.fusion_torus.name=Fusionsreaktor-Plasmagefäß
 tile.fusion_torus.desc=Hauptkomponente des Reaktors.$Benötigt Energie von einem Klystron zur Zündung,$erzeugt Plasmaenergie und Neutronenflux.$Benötigt Kühlung!
 tile.fwatz_computer.name=Watzwerkrechenmatrix

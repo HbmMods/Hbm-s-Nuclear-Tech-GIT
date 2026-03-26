@@ -50,6 +50,15 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 		TileEntityFusionPlasmaForge forge = (TileEntityFusionPlasmaForge) tile;
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		if(forge.connected) {
+			GL11.glPushMatrix();
+			GL11.glTranslated(-2, 0, 0);
+			bindTexture(ResourceManager.fusion_torus_tex);
+			ResourceManager.fusion_torus.renderPart("Bolts1");
+			GL11.glPopMatrix();
+		}
+		
 		bindTexture(ResourceManager.fusion_plasma_forge_tex);
 		ResourceManager.fusion_plasma_forge.renderPart("Body");
 
@@ -113,7 +122,8 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 				GL11.glRotated(jet[2], 0, 0, 1);
 				GL11.glTranslated(-1.5, -3.75, 0);
 				ResourceManager.fusion_plasma_forge.renderPart("Jet");
-				if(forge.didProcess && forge.armJet.angles[2] == forge.armJet.prevAngles[2]) renderJet(forge);
+				// the forge needs to be active and the jet arm needs to not move and not be in base position
+				if(forge.didProcess && forge.armJet.angles[2] == forge.armJet.prevAngles[2] && forge.armJet.angles[2] != 0) renderJet(forge);
 			} GL11.glPopMatrix();
 		} GL11.glPopMatrix();
 		
