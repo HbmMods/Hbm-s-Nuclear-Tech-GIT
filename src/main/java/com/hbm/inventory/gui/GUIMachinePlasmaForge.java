@@ -78,6 +78,8 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 				list.set(cycle, selected);
 			}
 			
+			lines.add(new Object[] {"Booster Isotope:"});
+			
 			if(list.size() < 10) {
 				lines.add(list.toArray());
 			} else if(list.size() < 24) {
@@ -117,7 +119,7 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int p = (int) (forge.power * 61 / forge.maxPower);
+		int p = (int) (forge.power * 62 / forge.maxPower);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 80 - p, 176, 62 - p, 16, p);
 
 		if(forge.plasmaModule.progress > 0) {

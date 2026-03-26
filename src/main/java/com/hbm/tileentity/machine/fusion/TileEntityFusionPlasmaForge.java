@@ -19,6 +19,7 @@ import com.hbm.inventory.recipes.PlasmaForgeRecipe;
 import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachinePlasma;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -60,6 +61,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public double neutronEnergy;
 	protected GenNode receiverNode;
 	protected GenNode providerNode;
+	public boolean connected;
 	
 	public int booster;
 	public int maxBooster;
@@ -175,13 +177,17 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			if(this.plasmaModule.markDirty) this.markDirty();
 
 			long powerReceived = (long) Math.ceil(this.plasmaEnergySync * 0.75);
-			if(powerReceived > 0 && providerNode != null && providerNode.hasValidNet()) {
+			
+			this.connected = false;
+			if(providerNode != null && providerNode.hasValidNet() && !providerNode.net.receiverEntries.isEmpty()) connected = true;
+			
+			if(providerNode != null && providerNode.hasValidNet()) {
 
 				for(Object o : providerNode.net.receiverEntries.entrySet()) {
 					Entry<Object, Long> entry = (Entry<Object, Long>) o;
 
 					if(entry.getKey() instanceof IFusionPowerReceiver) {
-						((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
+						if(powerReceived > 0) ((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
 					}
 				}
 			}
@@ -217,7 +223,6 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 					if(this.ringDelay <= 0) {
 						this.ringTarget += (worldObj.rand.nextDouble() + 1) * 60 * (worldObj.rand.nextBoolean() ? - 1 : 1);
 						this.ringSpeed = 2.5D;
-						//if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
 					}
 				}
 			}
@@ -235,6 +240,16 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		UniNodespace.createNode(worldObj, node);
 
 		return node;
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(!worldObj.isRemote) {
+			if(receiverNode != null) UniNodespace.destroyNode(worldObj, receiverNode);
+			if(providerNode != null) UniNodespace.destroyNode(worldObj, providerNode);
+		}
 	}
 	
 	public DirPos[] getConPos() {
@@ -266,6 +281,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		buf.writeLong(power);
 		buf.writeLong(maxPower);
 		buf.writeBoolean(didProcess);
+		buf.writeBoolean(connected);
 		buf.writeInt(booster);
 		buf.writeInt(maxBooster);
 		this.plasmaModule.serialize(buf);
@@ -282,6 +298,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
 		this.didProcess = buf.readBoolean();
+		this.connected = buf.readBoolean();
 		this.booster = buf.readInt();
 		this.maxBooster = buf.readInt();
 		this.plasmaModule.deserialize(buf);
@@ -433,6 +450,10 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			return !didMove;
 		}
 		
+		public void playStrikerSound() {
+			MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:item.boltgun", getVolume(0.25F), 1.25F);
+		}
+		
 		public double[] getPositions(float interp) {
 			double[] pos = new double[this.angles.length];
 			for(int i = 0; i < pos.length; i++) {
@@ -497,6 +518,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				arm.actionDelay = 0;
 				arm.state = ForgeArmState.RETRACT1;
 				arm.targetAngles[4] = 0D;
+				arm.playStrikerSound();
 			}
 		} break;
 		case RETRACT1: {
@@ -511,6 +533,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				arm.actionDelay = 0;
 				arm.state = ForgeArmState.RETRACT2;
 				arm.targetAngles[5] = 0D;
+				arm.playStrikerSound();
 			}
 		} break;
 		case RETRACT2: {

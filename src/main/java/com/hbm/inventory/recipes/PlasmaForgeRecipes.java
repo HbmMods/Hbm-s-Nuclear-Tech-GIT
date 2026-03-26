@@ -57,7 +57,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.hde").setInputEnergy(10_000_000).setup(600, 25_000_000L)
 				.outputItems(DictFrame.fromOne(ModItems.part_generic, EnumPartType.HDE))
 				.inputItems(new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 2), new OreDictStack(CMB.plateWelded(), 1), new ComparableStack(ModItems.ingot_cft))
-				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000)).setGroup(autoPlate, this));
+				.inputFluids(new FluidStack(Fluids.STELLAR_FLUX, 4_000)));
 		
 		// Welded Plates
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.weldiron").setInputEnergy(500_000).setup(50, 100L)
@@ -112,7 +112,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 						new ComparableStack(ModBlocks.fusion_component, 64, 3),
 						new ComparableStack(ModBlocks.fusion_component, 64, 2),
 						new ComparableStack(ModBlocks.fusion_component, 64, 2),
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_QUANTUM))
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.QUANTUM))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		
 		// ICF

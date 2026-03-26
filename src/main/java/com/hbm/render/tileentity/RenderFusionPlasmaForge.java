@@ -50,6 +50,15 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 		TileEntityFusionPlasmaForge forge = (TileEntityFusionPlasmaForge) tile;
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		if(forge.connected) {
+			GL11.glPushMatrix();
+			GL11.glTranslated(-2, 0, 0);
+			bindTexture(ResourceManager.fusion_torus_tex);
+			ResourceManager.fusion_torus.renderPart("Bolts1");
+			GL11.glPopMatrix();
+		}
+		
 		bindTexture(ResourceManager.fusion_plasma_forge_tex);
 		ResourceManager.fusion_plasma_forge.renderPart("Body");
 
