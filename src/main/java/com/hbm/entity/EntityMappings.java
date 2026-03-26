@@ -181,10 +181,8 @@ public class EntityMappings {
 		addEntity(EntityGrenadeBouncyGeneric.class, "entity_grenade_bouncy_generic", 250);
 		addEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 250);
 		addEntity(EntityMinecartCrate.class, "entity_ntm_cart_crate", 250, false);
-		addEntity(EntityMinecartDestroyer.class, "entity_ntm_cart_crate", 250, false);
+		addEntity(EntityMinecartDestroyer.class, "entity_ntm_cart_destroyer", 250, false);
 		addEntity(EntityMinecartOre.class, "entity_ntm_cart_ore", 250, false);
-		addEntity(EntityMinecartBogie.class, "entity_ntm_cart_bogie", 250, false);
-		addEntity(EntityMagnusCartus.class, "entity_ntm_cart_chungoid", 250, false);
 		addEntity(EntityMinecartPowder.class, "entity_ntm_cart_powder", 250, false);
 		addEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 250, false);
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);

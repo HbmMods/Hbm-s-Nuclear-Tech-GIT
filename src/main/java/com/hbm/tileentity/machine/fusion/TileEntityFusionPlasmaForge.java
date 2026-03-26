@@ -396,6 +396,9 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		
 		public void updateArm() {
 			for(int i = 0; i < angles.length; i++) prevAngles[i] = angles[i];
+
+			if(!didProcess()) this.state = ForgeArmState.RETIRE;
+			if(this.state == ForgeArmState.RETIRE) this.actionDelay = 0;
 			
 			if(this.actionDelay > 0) {
 				this.actionDelay--;
@@ -481,11 +484,6 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	
 	public static Consumer<ForgeArm> STRIKER_STATE_MACHINE = (arm) -> {
 		
-		if(!arm.didProcess()) {
-			arm.state = ForgeArmState.RETIRE;
-			arm.actionDelay = 0;
-		}
-		
 		switch(arm.state) {
 		case REPOSITION: {
 			if(arm.move()) {
@@ -548,11 +546,6 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 
 	@SuppressWarnings("incomplete-switch") // shut up
 	public static Consumer<ForgeArm> JET_STATE_MACHINE = (arm) -> {
-
-		if(!arm.didProcess()) {
-			arm.state = ForgeArmState.RETIRE;
-			arm.actionDelay = 0;
-		}
 		
 		switch(arm.state) {
 		case REPOSITION: {

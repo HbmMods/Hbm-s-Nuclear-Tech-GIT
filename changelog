@@ -27,3 +27,5 @@
 * Fixed HUD/jetpack toggle popup not working at all on multiplayer servers
 * Fixed assembly machine NEI handler not being able to handle all thirteen inputs at once
 * Fixed RBMK fuel channels playing the meltdown sound when broken while hot with meltdowns disabled
+* Fixed destroyer and crate minecarts having the same entity IDs, causing them to turn into each other when loading a save
+* Fixed GL state leak for ICF lasers

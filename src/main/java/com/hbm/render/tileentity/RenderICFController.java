@@ -38,6 +38,7 @@ public class RenderICFController extends TileEntitySpecialRenderer {
 			BeamPronter.prontBeam(Vec3.createVectorHelper(controller.laserLength, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x202020, 0x100000, 0, 1, 0F, 10, 0.125F);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopAttrib();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			
 			GL11.glPopMatrix();
 		}

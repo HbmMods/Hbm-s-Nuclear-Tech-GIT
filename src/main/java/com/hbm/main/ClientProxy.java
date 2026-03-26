@@ -728,7 +728,6 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrate.class, new RenderMinecart());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartNTM.class, new RenderNeoCart());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMagnusCartus.class, new RenderMagnusCartus());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBoatRubber.class, new RenderBoatRubber());
 		//trains
 		RenderingRegistry.registerEntityRenderingHandler(SeatDummyEntity.class, new RenderEmpty());
