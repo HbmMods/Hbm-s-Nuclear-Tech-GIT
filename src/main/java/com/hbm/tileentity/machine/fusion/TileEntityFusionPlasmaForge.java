@@ -1,10 +1,16 @@
 package com.hbm.tileentity.machine.fusion;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import static com.hbm.inventory.OreDictManager.*;
+
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerMachinePlasmaForge;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -21,6 +27,7 @@ import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PlasmaNetworkProvider;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -54,6 +61,9 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	protected GenNode receiverNode;
 	protected GenNode providerNode;
 	
+	public int booster;
+	public int maxBooster;
+	
 	public int timeOffset = -1;
 
 	public ModuleMachinePlasma plasmaModule;
@@ -66,6 +76,31 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public int ringDelay;
 	public ForgeArm armStriker;
 	public ForgeArm armJet;
+	
+	public static List<Pair<AStack, Integer>> boosters = new ArrayList();
+	
+	static {
+		boosters.add(new Pair(new OreDictStack(CO60.nugget()),		20));
+		boosters.add(new Pair(new OreDictStack(CO60.billet()),		120));
+		boosters.add(new Pair(new OreDictStack(CO60.ingot()),		200));
+		boosters.add(new Pair(new OreDictStack(CO60.dust()),		200));
+		boosters.add(new Pair(new OreDictStack(SR90.nugget()),		40));
+		boosters.add(new Pair(new OreDictStack(SR90.dustTiny()),	40));
+		boosters.add(new Pair(new OreDictStack(SR90.billet()),		240));
+		boosters.add(new Pair(new OreDictStack(SR90.ingot()),		400));
+		boosters.add(new Pair(new OreDictStack(SR90.dust()),		400));
+		boosters.add(new Pair(new OreDictStack(AU198.nugget()),		60));
+		boosters.add(new Pair(new OreDictStack(AU198.billet()), 	360));
+		boosters.add(new Pair(new OreDictStack(AU198.ingot()),		600));
+		boosters.add(new Pair(new OreDictStack(AU198.dust()),		600));
+		boosters.add(new Pair(new OreDictStack(I131.dustTiny()),	60));
+		boosters.add(new Pair(new OreDictStack(I131.dust()),		600));
+		boosters.add(new Pair(new OreDictStack(XE135.dustTiny()),	60));
+		boosters.add(new Pair(new OreDictStack(XE135.dust()),		600));
+		boosters.add(new Pair(new OreDictStack(CS137.dustTiny()),	50));
+		boosters.add(new Pair(new OreDictStack(CS137.dust()),		500));
+		boosters.add(new Pair(new OreDictStack(AT209.dust()),		1_200));
+	}
 	
 	public TileEntityFusionPlasmaForge() {
 		super(16);
@@ -102,6 +137,16 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			this.plasmaEnergySync = this.plasmaEnergy;
 			this.plasmaEnergy = 0;
 			
+			if(booster <= 0 && slots[2] != null) {
+				for(Pair<AStack, Integer> booster : boosters) {
+					if(booster.getKey().matchesRecipe(slots[2], true)) {
+						this.maxBooster = this.booster = booster.getValue();
+						this.decrStackSize(2, 1);
+						break;
+					}
+				}
+			}
+			
 			ForgeDirection rot = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 			if(receiverNode == null || receiverNode.expired) receiverNode = this.createNode(PlasmaNetworkProvider.THE_PROVIDER, rot);
 			if(providerNode == null || providerNode.expired) providerNode = this.createNode(PlasmaNetworkProvider.THE_PROVIDER, rot.getOpposite());
@@ -120,7 +165,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
 			}
 
-			double speed = 1D;
+			double speed = booster > 0 ? 4D : 1D;
 			double pow = 1D;
 
 			boolean ignition = recipe != null ? recipe.ignitionTemp <= this.plasmaEnergySync : true;
@@ -141,6 +186,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				}
 			}
 			
+			if(this.didProcess && this.booster > 0) this.booster--;
 			this.neutronEnergy = 0D;
 			
 			this.networkPackNT(100);
@@ -220,6 +266,8 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		buf.writeLong(power);
 		buf.writeLong(maxPower);
 		buf.writeBoolean(didProcess);
+		buf.writeInt(booster);
+		buf.writeInt(maxBooster);
 		this.plasmaModule.serialize(buf);
 	}
 
@@ -234,6 +282,8 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		this.power = buf.readLong();
 		this.maxPower = buf.readLong();
 		this.didProcess = buf.readBoolean();
+		this.booster = buf.readInt();
+		this.maxBooster = buf.readInt();
 		this.plasmaModule.deserialize(buf);
 	}
 	
@@ -243,6 +293,8 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		this.inputTank.readFromNBT(nbt, "i");
 		this.power = nbt.getLong("power");
 		this.maxPower = nbt.getLong("maxPower");
+		this.booster = nbt.getInteger("booster");
+		this.maxBooster = nbt.getInteger("maxBooster");
 		this.plasmaModule.readFromNBT(nbt);
 	}
 	
@@ -252,6 +304,8 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		this.inputTank.writeToNBT(nbt, "i");
 		nbt.setLong("power", power);
 		nbt.setLong("maxPower", maxPower);
+		nbt.setInteger("booster", booster);
+		nbt.setInteger("maxBooster", maxBooster);
 		this.plasmaModule.writeToNBT(nbt);
 	}
 
@@ -259,8 +313,12 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot == 0) return true; // battery
 		if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
-		// TODO booster material
 		if(this.plasmaModule.isItemValid(slot, stack)) return true; // recipe input crap
+		if(slot == 2) {
+			for(Pair<AStack, Integer> booster : boosters) { // booster isotopes
+				if(booster.getKey().matchesRecipe(stack, true)) return true;
+			}
+		}
 		return false;
 	}
 
@@ -383,7 +441,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	
 	public static enum ForgeArmType {
 		STRIKER(STRIKER_STATE_MACHINE, 6), // pivot to lower arm, lower arm to upper arm, upper arm to mount, mount to strikers, striker 1, striker 2
-		JET(JET_STATE_MACHINE, 4); // pivot to lower arm, lower arm to upper arm, upper arm to jet, jet
+		JET(JET_STATE_MACHINE, 4); // pivot to lower arm, lower arm to upper arm, upper arm to jet, jet (unused, actual jet is handled via other conditions)
 		
 		protected final int angleCount;
 		protected final Consumer<ForgeArm> stateMachine;
@@ -423,7 +481,10 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	
 	public static Consumer<ForgeArm> STRIKER_STATE_MACHINE = (arm) -> {
 		
-		if(!arm.didProcess()) arm.state = ForgeArmState.RETIRE;
+		if(!arm.didProcess()) {
+			arm.state = ForgeArmState.RETIRE;
+			arm.actionDelay = 0;
+		}
 		
 		switch(arm.state) {
 		case REPOSITION: {
@@ -477,6 +538,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		} break;
 		}
 		
+		// experimental bit to make the dual pivots reset between repositions for more movement, looked way too janky
 		/*if(arm.state == ForgeArmState.REPOSITION || arm.state == ForgeArmState.RETIRE) {
 			arm.targetAngles[3] = 0;
 		} else {
@@ -486,13 +548,16 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 
 	@SuppressWarnings("incomplete-switch") // shut up
 	public static Consumer<ForgeArm> JET_STATE_MACHINE = (arm) -> {
-		
-		if(!arm.didProcess()) arm.state = ForgeArmState.RETIRE;
+
+		if(!arm.didProcess()) {
+			arm.state = ForgeArmState.RETIRE;
+			arm.actionDelay = 0;
+		}
 		
 		switch(arm.state) {
 		case REPOSITION: {
 			if(arm.move()) {
-				arm.actionDelay = 20;
+				arm.actionDelay = 20 + rand.nextInt(3) * 10;
 				arm.state = ForgeArmState.REPOSITION;
 				choosePosition(arm, jetPositions);
 			}

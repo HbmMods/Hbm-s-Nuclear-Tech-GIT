@@ -113,7 +113,8 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 				GL11.glRotated(jet[2], 0, 0, 1);
 				GL11.glTranslated(-1.5, -3.75, 0);
 				ResourceManager.fusion_plasma_forge.renderPart("Jet");
-				if(forge.didProcess && forge.armJet.angles[2] == forge.armJet.prevAngles[2]) renderJet(forge);
+				// the forge needs to be active and the jet arm needs to not move and not be in base position
+				if(forge.didProcess && forge.armJet.angles[2] == forge.armJet.prevAngles[2] && forge.armJet.angles[2] != 0) renderJet(forge);
 			} GL11.glPopMatrix();
 		} GL11.glPopMatrix();
 		
