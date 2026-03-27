@@ -15,14 +15,20 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class RBMKMiniPanelBase extends BlockContainer implements ISBRHUniversal {
+public class RBMKMiniPanelBase extends BlockContainer implements ISBRHUniversal {
 
 	public RBMKMiniPanelBase() {
 		super(Material.iron);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		return null;
 	}
 
 	@Override public int getRenderType() { return renderID; }

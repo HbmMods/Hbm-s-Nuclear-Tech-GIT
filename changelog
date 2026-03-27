@@ -9,6 +9,12 @@
   * Base production rates for plasma forge exclusive recipes are very slow
   * Does not accept upgrades, however, can use up otherwise useless fission fragments and unstable isotopes to gain a temporary x4 speed bonus with no penalty
   * Can also assemble fusion reactor vessels, which are cheaper but need quantum circuits
+* Blank Redstone-over-Radio Panel
+  * A cheap way of extending the size of RoR control consoles without needing unconfigured button or gauge panels
+  * Now used to craft the other RoR panel variants
+* Redstone-over-Radio numeric display
+  * Shows integer RoR values as numbers
+  * Can have up to two display panels per block
 
 ## Changed
 * Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
@@ -21,6 +27,7 @@
 * The restrictions for firing Folly (using the scope, waiting for the startup) no longer apply to NPCs (which can never fulfill them anyway), allowing them to actually use it
 * The plinking sound played when a drill cannot break a block now only plays once for the entire AoE instead of once for every single block that couldn't be broken
 * Fluid barrels now have a sideways connector when hooked up to pipes, bridging the two pixel gap
+* Redstone over radio panels now render with their unique parts in the inventory, making the items easier to tell apart
 
 ## Fixed
 * Fixed size 15 dual kerosene thruster not rendering at all
