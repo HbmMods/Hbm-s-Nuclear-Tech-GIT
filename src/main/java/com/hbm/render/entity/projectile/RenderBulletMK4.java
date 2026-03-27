@@ -1,5 +1,5 @@
 package com.hbm.render.entity.projectile;
-
+import com.hbm.render.tileentity.RenderArcFurnace;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
@@ -19,7 +19,7 @@ public class RenderBulletMK4 extends Render {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
-		
+		RenderArcFurnace.fullbright(true);
 		if(bullet.config.renderRotations) {
 			GL11.glRotatef(bullet.prevRotationYaw + (bullet.rotationYaw - bullet.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(bullet.prevRotationPitch + (bullet.rotationPitch - bullet.prevRotationPitch) * interp + 180, 0.0F, 0.0F, 1.0F);
@@ -28,7 +28,7 @@ public class RenderBulletMK4 extends Render {
 		if(bullet.config.renderer != null) {
 			bullet.config.renderer.accept(bullet, interp);
 		}
-		
+		RenderArcFurnace.fullbright(false);
 		GL11.glPopMatrix();
 	}
 
