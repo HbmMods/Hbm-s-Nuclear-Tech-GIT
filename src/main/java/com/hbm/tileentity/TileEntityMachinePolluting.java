@@ -46,7 +46,7 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 		}
 	}
 	public void pollute(FluidType type, FluidTrait.FluidReleaseType release, float amount) {
-		FluidTank tank;
+		
 		FT_Polluting trait = type.getTrait(FT_Polluting.class);
 		if(trait == null) return;
 		if(release == FluidTrait.FluidReleaseType.VOID) return;

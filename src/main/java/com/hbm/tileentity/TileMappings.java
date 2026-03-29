@@ -406,6 +406,7 @@ public class TileMappings {
 		put(TileEntityRBMKKeyPad.class, "tileentity_rbmk_keypad");
 		put(TileEntityRBMKGauge.class, "tileentity_rbmk_gauge");
 		put(TileEntityRBMKNumitron.class, "tileentity_rbmk_numitron");
+		put(TileEntityRBMKGraph.class, "tileentity_rbmk_graph");
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
 		put(TileEntityRBMKAutoloader.class, "tileentity_rbmk_autoloader");

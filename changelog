@@ -15,6 +15,8 @@
 * Redstone-over-Radio numeric display
   * Shows integer RoR values as numbers
   * Can have up to two display panels per block
+* Redstone-over-Radio Graph
+  * Similar to the numerical display, but instead of showing the number, it logs it every half second and displays it on a graph
 
 ## Changed
 * Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
@@ -36,3 +38,5 @@
 * Fixed RBMK fuel channels playing the meltdown sound when broken while hot with meltdowns disabled
 * Fixed destroyer and crate minecarts having the same entity IDs, causing them to turn into each other when loading a save
 * Fixed GL state leak for ICF lasers
+* Fixed broken localization on some armor resistances
+* Fixed afterburn resistance on HEV not working
