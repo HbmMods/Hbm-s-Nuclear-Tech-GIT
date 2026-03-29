@@ -956,7 +956,7 @@ damage.category.FIRE=Огню
 damage.category.PHYS=Физическому
 damage.exact.drown=Утоплению
 damage.exact.fall=Падению
-ddamage.exact.laser=Лазерам
+damage.exact.laser=Лазерам
 damage.exact.onfire=Горение
 damage.other=Прочему
 
