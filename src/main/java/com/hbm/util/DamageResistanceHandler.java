@@ -541,7 +541,7 @@ public class DamageResistanceHandler {
 		public Resistance otherResistance;
 		
 		public Resistance getResistance(DamageSource source) {
-			Resistance exact = exactResistances.get(source.damageType);
+			Resistance exact = exactResistances.get(source.damageType.toLowerCase());
 			if(exact != null) return exact;
 			Resistance category = categoryResistances.get(typeToCategory(source));
 			if(category != null) return category;

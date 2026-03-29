@@ -198,6 +198,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
+				PREFIX_VALUE + "extraction",
 				PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
 				PREFIX_FUNCTION + "extendrods" + NAME_SEPARATOR + "percent"
 		};

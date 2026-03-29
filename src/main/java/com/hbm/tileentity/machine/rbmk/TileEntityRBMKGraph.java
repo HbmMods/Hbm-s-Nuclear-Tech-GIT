@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.gui.GUIScreenRBMKDisplay;
+import com.hbm.inventory.gui.GUIScreenRBMKGraph;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
@@ -14,7 +14,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
+public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
 	
 	/*    __________
 	 *   /         /|
@@ -26,10 +26,10 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 	 * |_________|/
 	 */
 	
-	public DisplayUnit[] displays = new DisplayUnit[2];
+	public GraphUnit[] graphs = new GraphUnit[2];
 	
-	public TileEntityRBMKNumitron() {
-		for(int i = 0; i < 2; i++) this.displays[i] = new DisplayUnit(i);
+	public TileEntityRBMKGraph() {
+		for(int i = 0; i < 2; i++) this.graphs[i] = new GraphUnit(i);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		
 		if(!worldObj.isRemote) {
 			
-			for(int i = 0; i < 2; i++) this.displays[i].update();
+			if(worldObj.getTotalWorldTime() % 10 == 0) for(int i = 0; i < 2; i++) this.graphs[i].update();
 			
 			this.networkPackNT(50);
 		}
@@ -46,44 +46,44 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		for(int i = 0; i < 2; i++) this.displays[i].serialize(buf);
+		for(int i = 0; i < 2; i++) this.graphs[i].serialize(buf);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		for(int i = 0; i < 2; i++) this.displays[i].deserialize(buf);
+		for(int i = 0; i < 2; i++) this.graphs[i].deserialize(buf);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		for(int i = 0; i < 2; i++) this.displays[i].readFromNBT(nbt, i);
+		for(int i = 0; i < 2; i++) this.graphs[i].readFromNBT(nbt, i);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		for(int i = 0; i < 2; i++) this.displays[i].writeToNBT(nbt, i);
+		for(int i = 0; i < 2; i++) this.graphs[i].writeToNBT(nbt, i);
 	}
 
-	public class DisplayUnit {
+	public class GraphUnit {
 
 		/** If the value should be pulled from the RTTY system every tick, otherwise only on state change */
 		public boolean polling;
-		/** Label on the display as rendered on the panel */
+		/** Label on the graph as rendered on the panel */
 		public String label = "";
 		/** What channel to read values from */
 		public String rtty = "";
 		/** The current read value on the display */
-		public int value;
-		/** Whether this display is visible on the panel */
+		public int[] values = new int[30]; // 2 values/s for 15 seconds
+		/** Whether this graph is visible on the panel */
 		public boolean active;
 		
-		public DisplayUnit(int initialIndex) {
-			label = "Display " + (initialIndex + 1);
+		public GraphUnit(int initialIndex) {
+			label = "Graph " + (initialIndex + 1);
 		}
 		
 		public void update() {
@@ -98,11 +98,19 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			// always accept new signals
 			if(chan != null && chan.signal != null) {
 				try { sigVal = Integer.parseInt(chan.signal.toString()); } catch(Exception ex) { }
-				this.value = sigVal;
+				pushValue(sigVal);
 			} else {
 				// if there's no new signal and we're polling, set to 0
-				if(polling) this.value = 0;
+				if(polling) pushValue(0);
 			}
+		}
+		
+		public void pushValue(int value) {
+			
+			for(int i = 1; i < values.length; i++) {
+				values[i - 1] = values[i];
+			}
+			values[values.length - 1] = value;
 		}
 
 		public void serialize(ByteBuf buf) {
@@ -110,7 +118,10 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			buf.writeBoolean(polling);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
-			buf.writeInt(value);
+			// original idea had the system send the min value, max value, and all values
+			// crunched down to single bytes because the graph simply doesn't need this much resolution
+			if(active) for(int i = 0; i < values.length; i++) buf.writeInt(values[i]);
+			// was overkill though
 		}
 
 		public void deserialize(ByteBuf buf) {
@@ -118,7 +129,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			value = buf.readInt();
+			if(active) for(int i = 0; i < values.length; i++) values[i] = buf.readInt();
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
@@ -126,7 +137,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.value = nbt.getInteger("value" + index);
+			this.values = nbt.getIntArray("value" + index);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
@@ -134,12 +145,12 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setInteger("value" + index, value);
+			nbt.setIntArray("value" + index, values);
 		}
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
-	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIScreenRBMKDisplay(this); }
+	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIScreenRBMKGraph(this); }
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -152,14 +163,14 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int active = data.getByte("active");
 		int polling = data.getByte("polling");
 		for(int i = 0; i < 2; i++) {
-			this.displays[i].active = (active & (1 << i)) != 0;
-			this.displays[i].polling = (polling & (1 << i)) != 0;
+			this.graphs[i].active = (active & (1 << i)) != 0;
+			this.graphs[i].polling = (polling & (1 << i)) != 0;
 		}
 		
 		for(int i = 0; i < 2; i++) {
-			DisplayUnit display = this.displays[i];
-			display.label = data.getString("label" + i);
-			display.rtty = data.getString("rtty" + i);
+			GraphUnit graph = this.graphs[i];
+			graph.label = data.getString("label" + i);
+			graph.rtty = data.getString("rtty" + i);
 		}
 	}
 }
