@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.NTMSounds;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -43,8 +44,8 @@ public class ItemRepairKit extends Item {
 		}
 		
 		if(didSomething) {
-			if(this == ModItems.gun_kit_1) world.playSoundAtEntity(player, "hbm:item.spray", 1.0F, 1.0F);
-			if(this == ModItems.gun_kit_2) world.playSoundAtEntity(player, "hbm:item.repair", 1.0F, 1.0F);
+			if(this == ModItems.gun_kit_1) world.playSoundAtEntity(player, NTMSounds.SPRAY_CAN, 1.0F, 1.0F);
+			if(this == ModItems.gun_kit_2) world.playSoundAtEntity(player, NTMSounds.REPAIR, 1.0F, 1.0F);
 			
 			stack.damageItem(1, player);
 		}

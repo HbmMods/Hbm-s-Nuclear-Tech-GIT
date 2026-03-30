@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.machine.TileEntityMachineRadarScreen;
 import com.hbm.util.CompatExternal;
@@ -25,6 +26,6 @@ public class ItemRadarLinker extends ItemCoordinateBase {
 	
 	@Override
 	public void onTargetSet(World world, int x, int y, int z, EntityPlayer player) {
-		world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+		world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.BobMathUtil;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -43,7 +44,7 @@ public class ItemFusionCore extends Item {
 
 			stack.stackSize--;
 
-			world.playSoundAtEntity(player, "hbm:item.battery", 1.0F, 1.0F);
+			world.playSoundAtEntity(player, NTMSounds.SUIT_BATTERY, 1.0F, 1.0F);
 		}
 
 		return stack;

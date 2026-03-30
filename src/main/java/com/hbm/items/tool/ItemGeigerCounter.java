@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
@@ -44,9 +45,9 @@ public class ItemGeigerCounter extends Item {
 				int r = list.get(rand.nextInt(list.size()));
 				
 				if(r > 0)
-					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
+					world.playSoundAtEntity(entity, NTMSounds.GEIGER_PREFIX + r, 1.0F, 1.0F);
 			} else if(rand.nextInt(50) == 0) {
-				world.playSoundAtEntity(entity, "hbm:item.geiger"+ (1 + rand.nextInt(1)), 1.0F, 1.0F);
+				world.playSoundAtEntity(entity, NTMSounds.GEIGER_PREFIX + 1, 1.0F, 1.0F);
 			}
 		}
 	}

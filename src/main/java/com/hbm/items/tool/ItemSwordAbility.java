@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.handler.ability.AvailableAbilities;
 import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.items.ModItems;
+import com.hbm.main.NTMSounds;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,7 +54,7 @@ public class ItemSwordAbility extends ItemSword {
 
 			// hacky hacky hack
 			if(this == ModItems.mese_gavel)
-				attacker.worldObj.playSoundAtEntity(victim, "hbm:weapon.whack", 3.0F, 1.F);
+				attacker.worldObj.playSoundAtEntity(victim, NTMSounds.GAVEL, 3.0F, 1.F);
 
 			this.abilities.getWeaponAbilities().forEach((ability, level) -> {
 				ability.onHit(level, attacker.worldObj, (EntityPlayer) attacker, victim, this);

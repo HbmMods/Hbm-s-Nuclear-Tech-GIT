@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.util.CompatExternal;
 
@@ -32,7 +33,7 @@ public class ItemLock extends ItemKeyPin {
 				tile.lock();
 				tile.setMod(lockMod);
 
-				world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.PADLOCK, 1.0F, 1.0F);
 				stack.stackSize--;
 
 				return true;

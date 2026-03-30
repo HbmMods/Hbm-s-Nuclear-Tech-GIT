@@ -10,6 +10,7 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
@@ -61,7 +62,7 @@ public class WeaponSpecial extends ItemSword {
 			if(!world.isRemote) {
 				entity.setHealth(0.0F);
 			}
-			world.playSoundAtEntity(entity, "hbm:weapon.bonk", 3.0F, 1.0F);
+			world.playSoundAtEntity(entity, NTMSounds.BONK, 3.0F, 1.0F);
 		}
 
 		if(this == ModItems.bottle_opener) {
@@ -76,7 +77,7 @@ public class WeaponSpecial extends ItemSword {
 				if(i == 3)
 					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 1 * 60 * 20, 0));
 			}
-			world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 1.F);
+			world.playSoundAtEntity(entity, NTMSounds.VANILLA_ANVIL, 3.0F, 1.F);
 		}
 
 		if(this == ModItems.ullapool_caber) {
@@ -96,31 +97,28 @@ public class WeaponSpecial extends ItemSword {
 			entity.motionX += dX;
 			entity.motionY += dY;
 			entity.motionZ += dZ;
-			world.playSoundAtEntity(entity, "hbm:weapon.bang", 3.0F, 1.F);
+			world.playSoundAtEntity(entity, NTMSounds.BANG, 3.0F, 1.F);
 		}
 
 		if(this == ModItems.shimmer_axe) {
 			entity.setHealth(entity.getHealth() / 2);
 
-			world.playSoundAtEntity(entity, "hbm:weapon.slice", 3.0F, 1.F);
+			world.playSoundAtEntity(entity, NTMSounds.SLICE, 3.0F, 1.F);
 		}
 
 		if(this == ModItems.wood_gavel) {
-			world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+			world.playSoundAtEntity(entity, NTMSounds.GAVEL, 3.0F, 1.F);
 		}
 
 		if(this == ModItems.lead_gavel) {
-			world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
-
+			world.playSoundAtEntity(entity, NTMSounds.GAVEL, 3.0F, 1.F);
 			entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 15 * 20, 4));
 		}
 
 		if(this == ModItems.diamond_gavel) {
-
 			float ded = entity.getMaxHealth() / 3;
 			entity.setHealth(entity.getHealth() - ded);
-
-			world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+			world.playSoundAtEntity(entity, NTMSounds.GAVEL, 3.0F, 1.F);
 		}
 
 		if(this == ModItems.wrench) {
@@ -134,7 +132,7 @@ public class WeaponSpecial extends ItemSword {
 			entity.motionX += dX;
 			entity.motionY += dY;
 			entity.motionZ += dZ;
-			world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.75F);
+			world.playSoundAtEntity(entity, NTMSounds.VANILLA_ANVIL, 3.0F, 0.75F);
 		}
 
 		if(this == ModItems.memespoon && !world.isRemote) {
@@ -143,7 +141,7 @@ public class WeaponSpecial extends ItemSword {
 				return false;
 
 			if(entityPlayer.fallDistance >= 2) {
-				world.playSoundAtEntity(entity, "hbm:weapon.bang", 3.0F, 0.75F);
+				world.playSoundAtEntity(entity, NTMSounds.BANG, 3.0F, 0.75F);
 				entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityPlayer), 50F);
 			}
 
@@ -157,7 +155,7 @@ public class WeaponSpecial extends ItemSword {
 		}
 
 		if(this == ModItems.stopsign || this == ModItems.sopsign)
-			world.playSoundAtEntity(entity, "hbm:weapon.stop", 1.0F, 1.0F);
+			world.playSoundAtEntity(entity, NTMSounds.STOP, 1.0F, 1.0F);
 
 		return false;
 	}
@@ -183,7 +181,7 @@ public class WeaponSpecial extends ItemSword {
 				rubble.motionX += dX;
 				rubble.motionY += dY;
 				rubble.motionZ += dZ;
-				world.playSoundAtEntity(rubble, "hbm:weapon.bang", 3.0F, 1.0F);
+				world.playSoundAtEntity(rubble, NTMSounds.BANG, 3.0F, 1.0F);
 
 				if(!world.isRemote) {
 
@@ -196,7 +194,7 @@ public class WeaponSpecial extends ItemSword {
 
 		if(this == ModItems.shimmer_axe) {
 
-			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.kapeng", 3.0F, 1.0F);
+			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.KAPENG, 3.0F, 1.0F);
 
 			if(!world.isRemote) {
 				if(world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z).getExplosionResistance(null) < 6000) {

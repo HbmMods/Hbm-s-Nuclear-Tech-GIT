@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
+import com.hbm.main.NTMSounds;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -29,11 +30,11 @@ public class ItemDiscord extends Item {
 
 				ForgeDirection dir = ForgeDirection.getOrientation(pos.sideHit);
 
-				world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+				world.playSoundEffect(player.posX, player.posY, player.posZ, NTMSounds.VANILLA_TELEPORT, 1.0F, 1.0F);
 
 				player.setPositionAndUpdate(pos.hitVec.xCoord + dir.offsetX, pos.hitVec.yCoord + dir.offsetY - 1, pos.hitVec.zCoord + dir.offsetZ);
 
-				world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+				world.playSoundEffect(player.posX, player.posY, player.posZ, NTMSounds.VANILLA_TELEPORT, 1.0F, 1.0F);
 				player.fallDistance = 0.0F;
 			}
 

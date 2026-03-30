@@ -11,6 +11,7 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
@@ -46,11 +47,11 @@ public class ItemLaserDetonator extends Item implements IHoldableWeapon {
 				if(GeneralConfig.enableExtendedLogging)
 					MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
 				
-				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(ret.wasSuccessful() ? EnumChatFormatting.YELLOW : EnumChatFormatting.RED).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 				
 			} else {
-				world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.TECH_BOOP, 1.0F, 1.0F);
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).color(EnumChatFormatting.RED).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 			}
 		} else {

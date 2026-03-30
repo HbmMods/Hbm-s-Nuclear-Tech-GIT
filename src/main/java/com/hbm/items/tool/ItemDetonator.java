@@ -8,6 +8,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,7 +49,7 @@ public class ItemDetonator extends Item {
 						.next("Position set!").color(EnumChatFormatting.GREEN).flush());
 			}
 
-			world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
+			world.playSoundAtEntity(player, NTMSounds.TECH_BOOP, 2.0F, 1.0F);
 
 			return true;
 		}
@@ -72,7 +73,7 @@ public class ItemDetonator extends Item {
 			int z = stack.stackTagCompound.getInteger("z");
 
 			if(world.getBlock(x, y, z) instanceof IBomb) {
-				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 				if(!world.isRemote) {
 					BombReturnCode ret = ((IBomb) world.getBlock(x, y, z)).explode(world, x, y, z);
 

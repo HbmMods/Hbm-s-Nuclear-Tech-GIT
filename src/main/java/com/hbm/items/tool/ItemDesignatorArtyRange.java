@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.turret.TileEntityTurretBaseArtillery;
 
 import net.minecraft.block.Block;
@@ -56,7 +57,7 @@ public class ItemDesignatorArtyRange extends Item {
 				stack.stackTagCompound.setInteger("x", pos[0]);
 				stack.stackTagCompound.setInteger("y", pos[1]);
 				stack.stackTagCompound.setInteger("z", pos[2]);
-				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 				return true;
 			}
 		}
@@ -81,7 +82,7 @@ public class ItemDesignatorArtyRange extends Item {
 			if(te instanceof TileEntityTurretBaseArtillery) {
 				TileEntityTurretBaseArtillery arty = (TileEntityTurretBaseArtillery) te;
 				arty.enqueueTarget(x + 0.5, y + 0.5, z + 0.5);
-				world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, NTMSounds.TECH_BOOP, 1.0F, 1.0F);
 			}
 		}
 		

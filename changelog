@@ -1,42 +1,5 @@
-## Added
-* Plasma forge
-  * Plasma-powered assembly machine
-  * Used to produce lategame items that until now were regular assembler recipes
-  * Can pass on plasma, 25% of the plasma energy that passes through a plasma forge is consumed
-  * This allows plasma forges to be chained, or unused residue energy to be used in turbines
-  * Parts that interact with the fusion reactor directly, like the collector chambers, are not compatible
-  * Like all assembler-type machines, features custom animations (i spent a lot of time on those, please look at them for prolonged periods of time, ideally without blinking)
-  * Base production rates for plasma forge exclusive recipes are very slow
-  * Does not accept upgrades, however, can use up otherwise useless fission fragments and unstable isotopes to gain a temporary x4 speed bonus with no penalty
-  * Can also assemble fusion reactor vessels, which are cheaper but need quantum circuits
-* Blank Redstone-over-Radio Panel
-  * A cheap way of extending the size of RoR control consoles without needing unconfigured button or gauge panels
-  * Now used to craft the other RoR panel variants
-* Redstone-over-Radio numeric display
-  * Shows integer RoR values as numbers
-  * Can have up to two display panels per block
-* Redstone-over-Radio Graph
-  * Similar to the numerical display, but instead of showing the number, it logs it every half second and displays it on a graph
-
 ## Changed
-* Doubled bismuth and tantalum yields from high-performance solvent bedrock ore processing
-* Hoppers and buckets can now be made out of steel
-* RoR gauges now show the lowest and highest configured value on the actual gauge
-* The steel sword now looks like a medieval broad sword with the appropriate scale
-* All remaining items have been removed from the template folder, siren tracks and plate stamps are now made in the anvil
-* Gerald assembly now requires stellar flux
-* The DFC parts are now made in the plasma forge, with the recipes being more expensive
-* The restrictions for firing Folly (using the scope, waiting for the startup) no longer apply to NPCs (which can never fulfill them anyway), allowing them to actually use it
-* The plinking sound played when a drill cannot break a block now only plays once for the entire AoE instead of once for every single block that couldn't be broken
-* Fluid barrels now have a sideways connector when hooked up to pipes, bridging the two pixel gap
-* Redstone over radio panels now render with their unique parts in the inventory, making the items easier to tell apart
+* Removed the euphemium and DNT compound plate recipes from the anvil, they are now plasma forge exclusive
 
 ## Fixed
-* Fixed size 15 dual kerosene thruster not rendering at all
-* Fixed HUD/jetpack toggle popup not working at all on multiplayer servers
-* Fixed assembly machine NEI handler not being able to handle all thirteen inputs at once
-* Fixed RBMK fuel channels playing the meltdown sound when broken while hot with meltdowns disabled
-* Fixed destroyer and crate minecarts having the same entity IDs, causing them to turn into each other when loading a save
-* Fixed GL state leak for ICF lasers
-* Fixed broken localization on some armor resistances
-* Fixed afterburn resistance on HEV not working
+* Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge

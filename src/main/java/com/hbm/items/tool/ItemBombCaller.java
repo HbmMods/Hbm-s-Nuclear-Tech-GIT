@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.lib.Library;
+import com.hbm.main.NTMSounds;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,8 +25,7 @@ public class ItemBombCaller extends Item {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add("Aim & click to call an airstrike!");
 
 		switch (stack.getItemDamage()) {
@@ -48,8 +48,7 @@ public class ItemBombCaller extends Item {
 		int y = pos.blockY;
 		int z = pos.blockZ;
 
-		if(!world.isRemote)
-		{
+		if(!world.isRemote) {
 			EntityBomber bomber;
 			switch(stack.getItemDamage()) {
 
@@ -65,7 +64,7 @@ public class ItemBombCaller extends Item {
 			}
 			WorldUtil.loadAndSpawnEntityInWorld(bomber);
 			player.addChatMessage(new ChatComponentText("Called in airstrike!"));
-			world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+			world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 
 		}
 
@@ -76,19 +75,17 @@ public class ItemBombCaller extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
-	{
-		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 0));
-		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 1));
-		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 2));
-		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 3));
-		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 4));
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
+		list.add(new ItemStack(item, 1, 2));
+		list.add(new ItemStack(item, 1, 3));
+		list.add(new ItemStack(item, 1, 4));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack p_77636_1_)
-	{
-		return p_77636_1_.getItemDamage() >= 4;
+	public boolean hasEffect(ItemStack stack) {
+		return stack.getItemDamage() >= 4;
 	}
 }

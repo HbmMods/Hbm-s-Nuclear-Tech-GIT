@@ -48,7 +48,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 		String autoPlate = "autoswitch.weldPlates";
 		
 		// Plates
-		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.plateeuphemium").setInputEnergy(1_000_000).setup(600, 10_000_000).outputItems(new ItemStack(ModItems.plate_euphemium, 1))
+		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.plateeuphemium").setInputEnergy(1_000_000).setup(600, 10_000_000).outputItems(new ItemStack(ModItems.plate_euphemium, 4))
 				.inputItems(new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 3), new OreDictStack(BI.dust(), 1), new OreDictStack(VOLCANIC.gem(), 1), new OreDictStack(OSMIRIDIUM.ingot())));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.platednt").setInputEnergy(1_000_000).setup(600, 10_000_000).outputItems(new ItemStack(ModItems.plate_dineutronium, 4))
 				.inputItems(new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack(DESH.ingot(), 1)));

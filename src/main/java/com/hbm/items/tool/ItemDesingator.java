@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.bomb.LaunchPad;
+import com.hbm.main.NTMSounds;
 
 import api.hbm.item.IDesignatorItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +42,7 @@ public class ItemDesingator extends Item implements IDesignatorItem {
 				player.addChatMessage(new ChatComponentText("Position set!"));
 			}
 
-			world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+			world.playSoundAtEntity(player, NTMSounds.TECH_BLEEP, 1.0F, 1.0F);
 
 			return true;
 		}

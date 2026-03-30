@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -77,7 +78,7 @@ public class ItemAmmoContainer extends Item {
 			if(remainder != null && remainder.stackSize > 0) player.dropPlayerItemWithRandomChoice(remainder, false);
 		}
 
-		world.playSoundAtEntity(player, "hbm:item.unpack", 1.0F, 1.0F);
+		world.playSoundAtEntity(player, NTMSounds.UNPACK, 1.0F, 1.0F);
 		player.inventoryContainer.detectAndSendChanges();
 		stack.stackSize--;
 		

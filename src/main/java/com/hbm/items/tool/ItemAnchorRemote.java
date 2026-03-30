@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,12 +64,12 @@ public class ItemAnchorRemote extends ItemBattery {
 		}
 
 		if(!stack.hasTagCompound()) {
-			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
+			world.playSoundAtEntity(player, NTMSounds.VANILLA_ORB, 0.25F, 0.75F);
 			return stack;
 		}
 		
 		if(this.getCharge(stack) < 10_000) {
-			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
+			world.playSoundAtEntity(player, NTMSounds.VANILLA_ORB, 0.25F, 0.75F);
 			return stack;
 		}
 
@@ -85,7 +86,7 @@ public class ItemAnchorRemote extends ItemBattery {
 			}
 
 			world.newExplosion(player, x + 0.5, y + 1 + player.height / 2, z + 0.5, 2F, false, false);
-			world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+			world.playSoundEffect(player.posX, player.posY, player.posZ, NTMSounds.VANILLA_TELEPORT, 1.0F, 1.0F);
 			player.setPositionAndUpdate(x + 0.5, y + 1, z + 0.5);
 			//world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 			player.fallDistance = 0.0F;
@@ -97,7 +98,7 @@ public class ItemAnchorRemote extends ItemBattery {
 			this.dischargeBattery(stack, 10_000);
 			
 		} else {
-			world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
+			world.playSoundAtEntity(player, NTMSounds.VANILLA_ORB, 0.25F, 0.75F);
 		}
 
 		return stack;

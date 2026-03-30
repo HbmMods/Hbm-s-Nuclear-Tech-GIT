@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.util.ArmorUtil;
 
 import api.hbm.item.IGasMask;
@@ -65,7 +66,7 @@ public class ItemFilter extends Item {
 		
 		ArmorUtil.installGasMaskFilter(helmet, copy);
 		
-		world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);
+		world.playSoundAtEntity(player, NTMSounds.FILTER_SCREW, 1.0F, 1.0F);
 		
 		return filter;
 	}

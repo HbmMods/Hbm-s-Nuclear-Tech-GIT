@@ -11,11 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class ItemCounterfitKeys extends Item {
+public class ItemCounterfeitKeys extends Item {
 	
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int b, float f0, float f1, float f2)
-    {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int b, float f0, float f1, float f2) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		
 		if(te instanceof TileEntityLockableBase) {
@@ -41,11 +40,10 @@ public class ItemCounterfitKeys extends Item {
 		}
 		
 		return false;
-    }
-	
+	}
+
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add("Use on a locked container to create two counterfeit keys!");
 	}
 

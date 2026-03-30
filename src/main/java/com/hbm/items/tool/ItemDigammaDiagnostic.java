@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import com.hbm.main.NTMSounds;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +14,7 @@ public class ItemDigammaDiagnostic extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
 		if(!world.isRemote) {
-			world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+			world.playSoundAtEntity(player, NTMSounds.TECH_BOOP, 1.0F, 1.0F);
 			ContaminationUtil.printDiagnosticData(player);
 		}
 
