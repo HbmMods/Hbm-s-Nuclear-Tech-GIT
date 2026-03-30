@@ -257,4 +257,17 @@ public class TileEntityChungus extends TileEntityTurbineBase implements SimpleCo
 		}
 		throw new NoSuchMethodException();
 	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "output"
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "output").equals(name)) return "" + (int) this.powerBuffer;
+		return null;
+	}
 }

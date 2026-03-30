@@ -26,6 +26,7 @@ import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -44,7 +45,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider {
 
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -726,5 +727,22 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.instantPowerOutput);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.waterToBoil);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, this.waterToBoil * 10);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "turbinepercent",
+				PREFIX_VALUE + "turbinespeed",
+				PREFIX_VALUE + "output"
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "turbinepercent").equals(name))	return	"" + (int) (this.powerSliderPos * 100D / 60D);
+		if((PREFIX_VALUE + "turbinespeed").equals(name))	return	"" + this.rpm;
+		if((PREFIX_VALUE + "output").equals(name))			return	"" + (int) this.instantPowerOutput;
+		return null;
 	}
 }

@@ -27,6 +27,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider {
 
 	public boolean didProcess = false;
 
@@ -572,5 +573,20 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "plasma",
+				PREFIX_VALUE + "consumption"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "plasma").equals(name))		return "" + this.plasmaEnergy;
+		if((PREFIX_VALUE + "consumption").equals(name))	return "" + (int) (this.fuelConsumption * 100);
+		return null;
 	}
 }

@@ -642,6 +642,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
+				PREFIX_VALUE + "rods",
 				PREFIX_VALUE + "coreheat",
 				PREFIX_VALUE + "hullheat",
 				PREFIX_VALUE + "flux",
@@ -653,6 +654,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	@Override
 	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "rods").equals(name))		return "" + (int) this.rodLevel;
 		if((PREFIX_VALUE + "coreheat").equals(name))	return "" + this.coreHeat;
 		if((PREFIX_VALUE + "hullheat").equals(name))	return "" + this.hullHeat;
 		if((PREFIX_VALUE + "flux").equals(name))		return "" + (int) this.flux;

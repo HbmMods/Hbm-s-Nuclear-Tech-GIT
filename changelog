@@ -1,5 +1,12 @@
 ## Changed
 * Removed the euphemium and DNT compound plate recipes from the anvil, they are now plasma forge exclusive
+* More RoR integration
+  * PWRs can now output the control rod position
+  * Industrial turbines and leviathans can now output their current energy production
+  * Industrial turbines can output their current flywheel speed in %
+  * The ZIRNOX now outputs its heat and pressure
+  * The CCGT can output the turbine setting in percent, the turbine's RPM and the produced energy
+  * The fusion reactor plasma vessel can output its output plasma energy and fuel consumption in percent
 
 ## Fixed
 * Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge
