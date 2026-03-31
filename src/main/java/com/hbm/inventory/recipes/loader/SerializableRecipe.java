@@ -135,10 +135,6 @@ public abstract class SerializableRecipe {
 				} catch(Throwable ex) {
 					MainRegistry.logger.error("Failed to reset synced recipe stream", ex);
 				}
-			} else if(recFile.exists() && recFile.isFile()) {
-				MainRegistry.logger.info("Reading recipe file " + recFile.getName());
-				recipe.readRecipeFile(recFile);
-				recipe.modified = true;
 			} else {
 				MainRegistry.logger.info("No recipe file found, registering defaults for " + recipe.getFileName());
 				recipe.registerDefaults();

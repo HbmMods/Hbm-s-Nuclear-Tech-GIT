@@ -22,6 +22,7 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.inventory.gui.GUIScreenJohnathan;
 import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.inventory.gui.GUIScreenWikiRender;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
@@ -1441,7 +1442,13 @@ public class ModEventHandlerClient {
 
 	@SubscribeEvent
 	public void onOpenGUI(GuiOpenEvent event) {
-
+		
+		if(event.gui instanceof GuiMainMenu && areWeRunningAnIllegalMod()) {
+			Minecraft.getMinecraft().currentScreen = new GUIScreenJohnathan();
+			event.setCanceled(true);
+			return;
+		}
+		
 		if(event.gui instanceof GuiMainMenu && ClientConfig.MAIN_MENU_WACKY_SPLASHES.get()) {
 			GuiMainMenu main = (GuiMainMenu) event.gui;
 			int rand = (int)(Math.random() * 150);
@@ -1467,4 +1474,36 @@ public class ModEventHandlerClient {
 			if(d < 0.1) main.splashText = "Redditors aren't people!";
 		}
 	}
+	
+	public static boolean areWeRunningAnIllegalMod() {
+		
+		for(String illegal : ILLEGAL_MODS_VERY_BAD) {
+			if(Loader.isModLoaded(illegal)) return true;
+		}
+		
+		return false;
+	}
+	
+	public static final String[] ILLEGAL_MODS_VERY_BAD = new String[] {
+		"appliedenergistics2",
+		"Mekanism",
+		"Thaumcraft",
+		"witchery",
+		"ThermalExpansion",
+		"ImmersiveEngineering",
+		"mo",
+		"EnderIO",
+		"BigReactors",
+		"DraconicEvolution",
+		"Avaritia",
+		"GalacticraftCore",
+		"advancedRocketry",
+		"TConstruct",
+		"ProjectE",
+		"Botania",
+		"IC2",
+		Compat.MOD_TOR,
+		"rftools",
+		"mw"
+	};
 }

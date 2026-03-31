@@ -679,22 +679,6 @@ public class MainRegistry {
 
 	private void loadConfig(FMLPreInitializationEvent event) {
 
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		config.load();
-
-		GeneralConfig.loadFromConfig(config);
-		WorldConfig.loadFromConfig(config);
-		MachineConfig.loadFromConfig(config);
-		BombConfig.loadFromConfig(config);
-		RadiationConfig.loadFromConfig(config);
-		PotionConfig.loadFromConfig(config);
-		ToolConfig.loadFromConfig(config);
-		WeaponConfig.loadFromConfig(config);
-		MobConfig.loadFromConfig(config);
-		StructureConfig.loadFromConfig(config);
-
-		config.save();
-
 		try {
 			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.ThermosClassTransformer") != null) {
 				throw new IllegalStateException("The mod tried to start on a Thermos or its fork server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
