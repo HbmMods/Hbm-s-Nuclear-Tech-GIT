@@ -56,7 +56,6 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new SolderingRecipes());
 		recipeHandlers.add(new CombinationRecipes());
-		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
 		recipeHandlers.add(new CrystallizerRecipes());
 		recipeHandlers.add(new RefineryRecipes());
@@ -89,6 +88,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new AnnihilatorRecipes());
 		
 		//GENERIC
+		recipeHandlers.add(CrucibleRecipes.INSTANCE);
 		recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
 		recipeHandlers.add(ChemicalPlantRecipes.INSTANCE);
 		recipeHandlers.add(PUREXRecipes.INSTANCE);

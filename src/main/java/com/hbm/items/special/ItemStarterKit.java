@@ -68,7 +68,6 @@ public class ItemStarterKit extends Item {
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.powder_yellowcake, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_difurnace_off, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 1));
@@ -154,7 +153,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.barrel_steel, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_iron, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(Items.dye, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_flush, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.iv_blood, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 8));

@@ -1152,8 +1152,6 @@ public class ModItems {
 
 	public static Item blueprints;
 	public static Item blueprint_folder;
-	public static Item template_folder;
-	public static Item crucible_template;
 	public static Item fluid_identifier_multi;
 	public static Item fluid_icon;
 	public static Item siren_track;
@@ -2164,6 +2162,7 @@ public class ModItems {
 	public static Item orange7;
 	public static Item orange8;
 
+	public static Item template_folder;
 	public static Item nothing;
 	public static Item broken_item;
 
@@ -4017,8 +4016,6 @@ public class ModItems {
 
 		blueprints = new ItemBlueprints().setUnlocalizedName("blueprints").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":blueprints");
 		blueprint_folder = new ItemBlueprintFolder().setUnlocalizedName("blueprint_folder").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":blueprint_folder");
-		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":template_folder");
-		crucible_template = new ItemCrucibleTemplate().setUnlocalizedName("crucible_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":crucible_template");
 		fluid_identifier_multi = new ItemFluidIDMulti().setUnlocalizedName("fluid_identifier_multi").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":fluid_identifier_multi");
 		fluid_icon = new ItemFluidIcon().setUnlocalizedName("fluid_icon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":fluid_icon");
 		fluid_tank_empty = new Item().setUnlocalizedName("fluid_tank_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_tank");
@@ -4567,6 +4564,7 @@ public class ModItems {
 		orange7 = new Item().setUnlocalizedName("orange7").setTextureName(RefStrings.MODID + ":orange7");
 		orange8 = new Item().setUnlocalizedName("orange8").setTextureName(RefStrings.MODID + ":orange8");
 		
+		template_folder = new Item().setUnlocalizedName("template_folder").setTextureName(RefStrings.MODID + ":template_folder");
 		nothing = new Item().setUnlocalizedName("nothing").setTextureName(RefStrings.MODID + ":nothing");
 		broken_item = new BrokenItem().setUnlocalizedName("broken_item").setTextureName(RefStrings.MODID + ":broken_item");
 
@@ -5360,7 +5358,6 @@ public class ModItems {
 		//Folders
 		GameRegistry.registerItem(blueprints, blueprints.getUnlocalizedName());
 		GameRegistry.registerItem(blueprint_folder, blueprint_folder.getUnlocalizedName());
-		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon, bobmazon.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_hidden, bobmazon_hidden.getUnlocalizedName());
 
@@ -5444,7 +5441,6 @@ public class ModItems {
 		GameRegistry.registerItem(fluid_identifier_multi, fluid_identifier_multi.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_icon, fluid_icon.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_duct, fluid_duct.getUnlocalizedName());
-		GameRegistry.registerItem(crucible_template, crucible_template.getUnlocalizedName());
 
 		//Machine Items
 		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());
@@ -6741,6 +6737,7 @@ public class ModItems {
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 		GameRegistry.registerItem(conveyor_wand, conveyor_wand.getUnlocalizedName());
 		
+		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
 		GameRegistry.registerItem(broken_item, broken_item.getUnlocalizedName());
 	}

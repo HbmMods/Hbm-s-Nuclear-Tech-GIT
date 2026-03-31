@@ -16,8 +16,8 @@ public class TemplateTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.crucible_template != null) {
-			return ModItems.crucible_template;
+		if(ModItems.blueprints != null) {
+			return ModItems.blueprints;
 		}
 		
 		return Items.iron_pickaxe;

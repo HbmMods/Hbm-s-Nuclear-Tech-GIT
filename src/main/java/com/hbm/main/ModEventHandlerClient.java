@@ -989,7 +989,6 @@ public class ModEventHandlerClient {
 				MainRegistry.logger.info("Taking a screenshot of ALL items, if you did this by mistake: fucking lmao get rekt nerd");
 
 				List<Item> ignoredItems = Arrays.asList(
-					ModItems.crucible_template,
 					ModItems.achievement_icon,
 					Items.spawn_egg,
 					Item.getItemFromBlock(Blocks.mob_spawner)

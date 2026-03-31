@@ -15,3 +15,4 @@
 * Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge
 * Fixed NTM rare item drops ignoring the mob loot gamerule
 * Fixed flamethrowers not properly igniting entities on direct hit, only via lingering fire
+* Fixed PWR RoR components not properly showing the possible values/functions when connected to ports

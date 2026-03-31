@@ -17,9 +17,6 @@ public class ContainerCrucible extends Container {
 	public ContainerCrucible(InventoryPlayer invPlayer, TileEntityCrucible crucible) {
 		this.crucible = crucible;
 		
-		//template
-		this.addSlotToContainer(new SlotNonRetarded(crucible, 0, 107, 81));
-		
 		//input
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
@@ -53,14 +50,14 @@ public class ContainerCrucible extends Container {
 			ItemStack originalStack = slot.getStack();
 			stack = originalStack.copy();
 
-			if(index <= 9) {
-				if(!this.mergeItemStack(originalStack, 10, this.inventorySlots.size(), true)) {
+			if(index <= 8) {
+				if(!this.mergeItemStack(originalStack, 9, this.inventorySlots.size(), true)) {
 					return null;
 				}
 				
 				slot.onSlotChange(originalStack, stack);
 				
-			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 10, false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 9, false)) {
 				return null;
 			}
 

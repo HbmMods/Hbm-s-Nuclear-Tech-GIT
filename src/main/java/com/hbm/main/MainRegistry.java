@@ -1516,6 +1516,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.redcoil_capacitor");
 		ignoreMappings.add("hbm:item.euphemium_capacitor");
 		ignoreMappings.add("hbm:item.toolbox_legacy");
+		ignoreMappings.add("hbm:item.crucible_template");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

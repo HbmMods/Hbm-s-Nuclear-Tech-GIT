@@ -12,7 +12,6 @@ import com.hbm.inventory.recipes.AmmoPressRecipes.AmmoPressRecipe;
 import com.hbm.inventory.recipes.ArcFurnaceRecipes.ArcFurnaceRecipe;
 import com.hbm.inventory.recipes.ArcWelderRecipes.ArcWelderRecipe;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
-import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.inventory.recipes.ElectrolyserFluidRecipes.ElectrolysisRecipe;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
@@ -103,10 +102,10 @@ public class CompatRecipeRegistry {
 		CombinationRecipes.recipes.put(o, new Pair(output, fluid));
 	}
 
-	/** Crucible recipes need unique IDs, game will crash when an ID collision is detected! */
+	/** Numeric IDs are now unused, names need to be unique! */
 	public static void registerCrucible(int index, String name, int frequency, ItemStack icon, MaterialStack[] input, MaterialStack[] output) {
-		CrucibleRecipe recipe = new CrucibleRecipe(index, name, frequency, icon).inputs(input).outputs(output);
-		CrucibleRecipes.recipes.add(recipe);
+		CrucibleRecipe recipe = new CrucibleRecipe(name).setup(frequency, icon).inputs(input).outputs(output);
+		CrucibleRecipes.INSTANCE.register(recipe);
 	}
 
 	public static void registerCentrifuge(AStack input, ItemStack[] outputs) {

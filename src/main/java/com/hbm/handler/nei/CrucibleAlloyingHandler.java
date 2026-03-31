@@ -10,8 +10,8 @@ import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.recipes.CrucibleRecipe;
 import com.hbm.inventory.recipes.CrucibleRecipes;
-import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.lib.RefStrings;
@@ -38,17 +38,16 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements IC
 	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
 
 		List<PositionedStack> inputs = new ArrayList();
-		PositionedStack template;
 		PositionedStack crucible;
 		List<PositionedStack> outputs = new ArrayList();
 		
 		public RecipeSet(CrucibleRecipe recipe) {
+			
 			List<ItemStack> inputs = new ArrayList();
 			List<ItemStack> outputs = new ArrayList();
 			for(MaterialStack stack : recipe.input) inputs.add(ItemScraps.create(stack, true));
 			for(MaterialStack stack : recipe.output) outputs.add(ItemScraps.create(stack, true));
 			
-			this.template = new PositionedStack(new ItemStack(ModItems.crucible_template, 1, recipe.getId()), 75, 6);
 			this.crucible = new PositionedStack(new ItemStack(ModBlocks.machine_crucible), 75, 42);
 			
 			for(int i = 0; i < inputs.size(); i++) {
@@ -77,7 +76,6 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements IC
 			List<PositionedStack> other = new ArrayList();
 			other.addAll(inputs);
 			other.add(crucible);
-			other.add(template);
 			other.addAll(outputs);
 			return getCycledIngredients(cycleticks / 20, other);
 		}
@@ -98,7 +96,7 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements IC
 		
 		if(outputId.equals("ntmCrucibleAlloying")) {
 
-			for(CrucibleRecipe recipe : CrucibleRecipes.recipes) {
+			for(CrucibleRecipe recipe : CrucibleRecipes.INSTANCE.recipeOrderedList) {
 				this.arecipes.add(new RecipeSet(recipe));
 			}
 		} else {
@@ -114,7 +112,7 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements IC
 		
 		NTMMaterial material = Mats.matById.get(result.getItemDamage());
 
-		for(CrucibleRecipe recipe : CrucibleRecipes.recipes) {
+		for(CrucibleRecipe recipe : CrucibleRecipes.INSTANCE.recipeOrderedList) {
 			
 			for(MaterialStack stack : recipe.output) {
 				if(stack.material == material) {
@@ -143,7 +141,7 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements IC
 		
 		NTMMaterial material = Mats.matById.get(ingredient.getItemDamage());
 
-		for(CrucibleRecipe recipe : CrucibleRecipes.recipes) {
+		for(CrucibleRecipe recipe : CrucibleRecipes.INSTANCE.recipeOrderedList) {
 			
 			for(MaterialStack stack : recipe.input) {
 				if(stack.material == material) {

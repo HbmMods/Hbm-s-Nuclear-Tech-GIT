@@ -11,15 +11,15 @@ import com.hbm.config.ServerConfig;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCrucible;
 import com.hbm.inventory.gui.GUICrucible;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.recipes.CrucibleRecipe;
 import com.hbm.inventory.recipes.CrucibleRecipes;
-import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -31,6 +31,7 @@ import com.hbm.util.CrucibleUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,10 +49,12 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine, IMetalCopiable {
+public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine, IMetalCopiable, IControlReceiver {
 
 	public int heat;
 	public int progress;
+	
+	public String recipe = "null";
 
 	public List<MaterialStack> recipeStack = new ArrayList();
 	public List<MaterialStack> wasteStack = new ArrayList();
@@ -253,6 +256,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		super.serialize(buf);
 		buf.writeInt(progress);
 		buf.writeInt(heat);
+		
+		ByteBufUtils.writeUTF8String(buf, recipe);
 
 		buf.writeShort(recipeStack.size());
 		for(MaterialStack sta : recipeStack) {
@@ -278,6 +283,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		super.deserialize(buf);
 		progress = buf.readInt();
 		heat = buf.readInt();
+		
+		recipe = ByteBufUtils.readUTF8String(buf);
 
 		recipeStack.clear();
 		wasteStack.clear();
@@ -302,6 +309,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		
+		this.recipe = nbt.getString("recipe");
 
 		int[] rec = nbt.getIntArray("rec");
 		for(int i = 0; i < rec.length / 2; i++) {
@@ -320,6 +329,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
+		nbt.setString("recipe", this.recipe);
 
 		int[] rec = new int[recipeStack.size() * 2];
 		int[] was = new int[wasteStack.size() * 2];
@@ -439,11 +450,6 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-
-		if(i == 0) {
-			return stack.getItem() == ModItems.crucible_template;
-		}
-
 		return isItemSmeltable(stack);
 	}
 
@@ -515,12 +521,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 
 	public CrucibleRecipe getLoadedRecipe() {
-
-		if(slots[0] != null && slots[0].getItem() == ModItems.crucible_template) {
-			return CrucibleRecipes.indexMapping.get(slots[0].getItemDamage());
-		}
-
-		return null;
+		return CrucibleRecipes.INSTANCE.recipeNameMap.get(recipe);
 	}
 
 	/* "Arrays and Lists don't have a common ancestor" my fucking ass */
@@ -654,4 +655,20 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		return BobMathUtil.intCollectionToArray(types);
 	}
 
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("index") && data.hasKey("selection")) {
+			int index = data.getInteger("index");
+			String selection = data.getString("selection");
+			if(index == 0) {
+				this.recipe = selection;
+				this.markChanged();
+			}
+		}
+	}
 }
