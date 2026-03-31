@@ -100,6 +100,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		smithingRecipes.add(new AnvilSmithingMold(2, new OreDictStack(IRON.ingot()),  new OreDictStack("ingot")));
 		smithingRecipes.add(new AnvilSmithingMold(3, new OreDictStack(IRON.plate()),  new OreDictStack("plate")));
 		smithingRecipes.add(new AnvilSmithingMold(19, new OreDictStack(IRON.plateCast()),  new OreDictStack("plateTriple")));
+		smithingRecipes.add(new AnvilSmithingMold(13, new OreDictStack(IRON.plateCast(), 3), new OreDictStack("plateTriple", 3)));
 		smithingRecipes.add(new AnvilSmithingMold(4, new OreDictStack(CU.wireFine()),  new OreDictStack("wireFine")));
 		smithingRecipes.add(new AnvilSmithingMold(5, new ComparableStack(ModItems.blade_titanium), new ItemStack[] {
 				new ItemStack(ModItems.blade_titanium),

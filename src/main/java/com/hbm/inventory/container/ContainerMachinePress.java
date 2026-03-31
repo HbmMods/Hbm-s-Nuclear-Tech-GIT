@@ -26,15 +26,19 @@ public class ContainerMachinePress extends Container {
 		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
 		// Output
 		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 140, 35));
+		// Extra Storage
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(tedf, 4 + i, 8 + i * 18, 84));
+		}
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 120 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 178));
 		}
 	}
 
@@ -47,23 +51,29 @@ public class ContainerMachinePress extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 3) {
-				if(!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
+			if(par2 <= 12) {
+				if(!this.mergeItemStack(var5, 13, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				
 				if(TileEntityFurnace.isItemFuel(var3)) {
 					if(!this.mergeItemStack(var5, 0, 1, false)) {
-						return null;
+						if(!this.mergeItemStack(var5, 4, 13, false)) {
+							return null;
+						}
 					}
 				} else if(var3.getItem() instanceof ItemStamp) {
 					if(!this.mergeItemStack(var5, 1, 2, false)) {
-						return null;
+						if(!this.mergeItemStack(var5, 4, 13, false)) {
+							return null;
+						}
 					}
 				} else {
 					if(!this.mergeItemStack(var5, 2, 3, false)) {
-						return null;
+						if(!this.mergeItemStack(var5, 4, 13, false)) {
+							return null;
+						}
 					}
 				}
 			}

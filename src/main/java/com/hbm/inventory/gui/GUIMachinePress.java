@@ -22,7 +22,7 @@ public class GUIMachinePress extends GuiInfoContainer {
 		press = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 202;
 	}
 	
 	@Override
@@ -48,11 +48,11 @@ public class GUIMachinePress extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(press.burnTime >= 20) {
-			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 176, 0, 14, 14);
+			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 0, 202, 14, 14);
 		}
 		
 		int k = (int) (press.renderPress * 16 / press.maxPress);
-		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 194, 0, 18, k);
+		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 14, 202, 18, k);
 		
 		double i = (double) press.speed / (double) press.maxSpeed;
 		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 25, this.zLevel, i, 5, 2, 1, 0x7f0000);

@@ -7,6 +7,11 @@
   * The ZIRNOX now outputs its heat and pressure
   * The CCGT can output the turbine setting in percent, the turbine's RPM and the produced energy
   * The fusion reactor plasma vessel can output its output plasma energy and fuel consumption in percent
+* Cast plate foundry molds now have a triple variant
+* Zombies now have a chance to drop copper, aluminium and titanium ingots (1:200 each)
+* The burner press now has nine additional storage slots for things like stamps and reserve fuel
 
 ## Fixed
 * Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge
+* Fixed NTM rare item drops ignoring the mob loot gamerule
+* Fixed flamethrowers not properly igniting entities on direct hit, only via lingering fire
