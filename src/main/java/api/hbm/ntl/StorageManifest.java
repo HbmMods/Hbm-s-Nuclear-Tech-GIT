@@ -1,7 +1,8 @@
 package api.hbm.ntl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -11,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class StorageManifest {
 
-	public HashMap<Integer, MetaNode> itemMeta = new HashMap();
+	public LinkedHashMap<Integer, MetaNode> itemMeta = new LinkedHashMap();
 	
 	public void writeStack(ItemStack stack) {
 		int id = Item.getIdFromItem(stack.getItem());
@@ -38,7 +39,7 @@ public class StorageManifest {
 		nbt.nbtAmount.put(compound, amount);
 	}
 	
-	public List<StorageStack> getStacks() {
+	public List<StorageStack> getStacks(boolean sorted) {
 		List<StorageStack> stacks = new ArrayList();
 		
 		for(Entry<Integer, MetaNode> itemNode : itemMeta.entrySet()) {
@@ -53,16 +54,16 @@ public class StorageManifest {
 			}
 		}
 		
+		if(sorted) Collections.sort(stacks);
+		
 		return stacks;
 	}
 	
 	public class MetaNode {
-		
-		public HashMap<Integer, NBTNode> metaNBT = new HashMap();
+		public LinkedHashMap<Integer, NBTNode> metaNBT = new LinkedHashMap();
 	}
 	
 	public class NBTNode {
-
-		public HashMap<NBTTagCompound, Long> nbtAmount = new HashMap();
+		public LinkedHashMap<NBTTagCompound, Long> nbtAmount = new LinkedHashMap();
 	}
 }

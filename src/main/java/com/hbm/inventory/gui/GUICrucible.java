@@ -87,7 +87,8 @@ public class GUICrucible extends GuiInfoContainer {
 
 		GenericRecipe recipe = CrucibleRecipes.INSTANCE.recipeNameMap.get(crucible.recipe);
 		this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 107, 81);
-
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		if(!crucible.recipeStack.isEmpty()) drawStack(crucible.recipeStack, crucible.recipeZCapacity, 62, 97);
 		if(!crucible.wasteStack.isEmpty()) drawStack(crucible.wasteStack, crucible.wasteZCapacity, 17, 97);
 	}
