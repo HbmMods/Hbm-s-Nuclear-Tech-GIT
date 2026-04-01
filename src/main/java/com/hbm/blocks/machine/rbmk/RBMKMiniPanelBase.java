@@ -24,6 +24,8 @@ public class RBMKMiniPanelBase extends BlockContainer implements ISBRHUniversal 
 
 	public RBMKMiniPanelBase() {
 		super(Material.iron);
+		this.setHardness(3F);
+		this.setResistance(30F);
 	}
 
 	@Override
