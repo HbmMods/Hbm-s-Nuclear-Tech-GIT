@@ -26,7 +26,7 @@ public class LoadingScreenRendererNT extends LoadingScreenRenderer {
 	private boolean doesProgress;
 	private ScaledResolution resolution;
 	private Framebuffer frameBuffer;
-	public String tipOfTheDay = "Tip of the day: " + chooseTip();
+	public String tipOfTheDay = "SUBMIT THE FLESH";
 
 	public LoadingScreenRendererNT(Minecraft mc) {
 		super(mc);
@@ -34,11 +34,6 @@ public class LoadingScreenRendererNT extends LoadingScreenRenderer {
 		this.resolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		this.frameBuffer = new Framebuffer(mc.displayWidth, mc.displayHeight, false);
 		this.frameBuffer.setFramebufferFilter(9728);
-	}
-	
-	private String chooseTip() {
-		if(HTTPHandler.tipOfTheDay.isEmpty()) return "Explore! There's tons of free stuff to find.";
-		return HTTPHandler.tipOfTheDay.get(new Random().nextInt(HTTPHandler.tipOfTheDay.size()));
 	}
 
 	@Override

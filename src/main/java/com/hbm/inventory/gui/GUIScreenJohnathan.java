@@ -146,9 +146,9 @@ public class GUIScreenJohnathan extends GuiScreen {
 		"Did you know that the developer's idea on how the game works is more important than the players' enjoyment?",
 		"It's true, look it up.",
 		"Enjoying things your way is wrong and you should feel ashamed of yourself for thinking otherwise.", // yeah that's skong
-		"I also removed all the configs for you.",
+		"I have also removed all the configs for you.",
 		"You should thank me, really.",
-		"I don't want you to have the burden of choice, there is few things out there that are worse.", // that's skong right there
+		"I don't want you to have the burden of choice, there are few things out there that are worse.", // that's skong right there
 		"After all, giving people choices means making it enjoyable for everyone-",
 		"-and that's how you get slop no one wants.", // have you considered eating my shit straight out of my ass?
 		"Anyways.",
