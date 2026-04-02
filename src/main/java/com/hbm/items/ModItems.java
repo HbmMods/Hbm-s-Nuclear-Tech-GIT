@@ -36,6 +36,10 @@ import com.hbm.items.weapon.ItemCustomMissilePart.*;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze;
+import com.hbm.items.weapon.grenade.ItemGrenadeShell;
+import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -1449,51 +1453,57 @@ public class ModItems {
 	public static Item stick_semtex;
 	public static Item stick_c4;
 
-	public static Item grenade_generic;
-	public static Item grenade_strong;
-	public static Item grenade_frag;
-	public static Item grenade_fire;
-	public static Item grenade_shrapnel;
-	public static Item grenade_cluster;
-	public static Item grenade_flare;
-	public static Item grenade_electric;
-	public static Item grenade_poison;
-	public static Item grenade_gas;
-	public static Item grenade_pulse;
-	public static Item grenade_plasma;
-	public static Item grenade_tau;
-	public static Item grenade_schrabidium;
-	public static Item grenade_lemon;
-	public static Item grenade_gascan;
-	public static Item grenade_kyiv;
-	public static Item grenade_mk2;
-	public static Item grenade_aschrab;
-	public static Item grenade_nuke;
-	public static Item grenade_nuclear;
-	public static Item grenade_zomg;
-	public static Item grenade_black_hole;
-	public static Item grenade_cloud;
-	public static Item grenade_pink_cloud;
+	public static Item grenade_shell;
+	public static Item grenade_filling;
+	public static Item grenade_fuze;
+	public static Item grenade_universal;
+	
+	@Deprecated public static Item grenade_generic;
+	@Deprecated public static Item grenade_strong;
+	@Deprecated public static Item grenade_frag;
+	@Deprecated public static Item grenade_fire;
+	@Deprecated public static Item grenade_shrapnel;
+	@Deprecated public static Item grenade_cluster;
+	@Deprecated public static Item grenade_flare;
+	@Deprecated public static Item grenade_electric;
+	@Deprecated public static Item grenade_poison;
+	@Deprecated public static Item grenade_gas;
+	@Deprecated public static Item grenade_pulse;
+	@Deprecated public static Item grenade_plasma;
+	@Deprecated public static Item grenade_tau;
+	@Deprecated public static Item grenade_schrabidium;
+	@Deprecated public static Item grenade_lemon;
+	@Deprecated public static Item grenade_gascan;
+	@Deprecated public static Item grenade_kyiv;
+	@Deprecated public static Item grenade_mk2;
+	@Deprecated public static Item grenade_aschrab;
+	@Deprecated public static Item grenade_nuke;
+	@Deprecated public static Item grenade_nuclear;
+	@Deprecated public static Item grenade_zomg;
+	@Deprecated public static Item grenade_black_hole;
+	@Deprecated public static Item grenade_cloud;
+	@Deprecated public static Item grenade_pink_cloud;
+	
 	public static Item ullapool_caber;
 
-	public static Item grenade_if_generic;
-	public static Item grenade_if_he;
-	public static Item grenade_if_bouncy;
-	public static Item grenade_if_sticky;
-	public static Item grenade_if_impact;
-	public static Item grenade_if_incendiary;
-	public static Item grenade_if_toxic;
-	public static Item grenade_if_concussion;
-	public static Item grenade_if_brimstone;
-	public static Item grenade_if_mystery;
-	public static Item grenade_if_spark;
-	public static Item grenade_if_hopwire;
-	public static Item grenade_if_null;
+	@Deprecated public static Item grenade_if_generic;
+	@Deprecated public static Item grenade_if_he;
+	@Deprecated public static Item grenade_if_bouncy;
+	@Deprecated public static Item grenade_if_sticky;
+	@Deprecated public static Item grenade_if_impact;
+	@Deprecated public static Item grenade_if_incendiary;
+	@Deprecated public static Item grenade_if_toxic;
+	@Deprecated public static Item grenade_if_concussion;
+	@Deprecated public static Item grenade_if_brimstone;
+	@Deprecated public static Item grenade_if_mystery;
+	@Deprecated public static Item grenade_if_spark;
+	@Deprecated public static Item grenade_if_hopwire;
+	@Deprecated public static Item grenade_if_null;
 
-	public static Item grenade_smart;
-	public static Item grenade_mirv;
-	public static Item grenade_breach;
-	public static Item grenade_burst;
+	@Deprecated public static Item grenade_smart;
+	@Deprecated public static Item grenade_mirv;
+	@Deprecated public static Item grenade_breach;
+	@Deprecated public static Item grenade_burst;
 
 	public static Item nuclear_waste_pearl;
 
@@ -3682,6 +3692,11 @@ public class ModItems {
 		stick_tnt = new Item().setUnlocalizedName("stick_tnt").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_tnt");
 		stick_semtex = new Item().setUnlocalizedName("stick_semtex").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_semtex");
 		stick_c4 = new Item().setUnlocalizedName("stick_c4").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_c4");
+
+		grenade_shell = new ItemGrenadeShell().setUnlocalizedName("grenade_shell").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_shell");
+		grenade_filling = new ItemGrenadeFilling().setUnlocalizedName("grenade_filling").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_filling");
+		grenade_fuze = new ItemGrenadeFuze().setUnlocalizedName("grenade_fuze").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_fuze");
+		grenade_universal = new ItemGrenadeUniversal().setUnlocalizedName("grenade_universal").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_universal");
 
 		grenade_generic = new ItemGrenade(4).setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_generic");
 		grenade_strong = new ItemGrenade(5).setUnlocalizedName("grenade_strong").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_strong");
@@ -6026,6 +6041,12 @@ public class ModItems {
 		GameRegistry.registerItem(stick_tnt, stick_tnt.getUnlocalizedName());
 		GameRegistry.registerItem(stick_semtex, stick_semtex.getUnlocalizedName());
 		GameRegistry.registerItem(stick_c4, stick_c4.getUnlocalizedName());
+
+		GameRegistry.registerItem(grenade_shell, grenade_shell.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_filling, grenade_filling.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_fuze, grenade_fuze.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_universal, grenade_universal.getUnlocalizedName());
+		
 		GameRegistry.registerItem(grenade_generic, grenade_generic.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_strong, grenade_strong.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_frag, grenade_frag.getUnlocalizedName());

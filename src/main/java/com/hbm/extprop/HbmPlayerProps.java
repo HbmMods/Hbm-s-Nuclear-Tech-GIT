@@ -52,6 +52,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public int reputation;
 
 	public boolean isOnLadder = false;
+	
+	public int grenadeDeployment;
 
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;

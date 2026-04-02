@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
+@Deprecated
 public class ItemGrenadeKyiv extends ItemGenericGrenade {
 
 	public ItemGrenadeKyiv(int fuse) {
