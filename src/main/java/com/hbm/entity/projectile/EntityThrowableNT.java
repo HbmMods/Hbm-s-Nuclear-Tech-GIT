@@ -35,7 +35,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	protected EntityLivingBase thrower;
 	private String throwerName;
 	public int ticksInGround;
-	private int ticksInAir;
+	public int ticksInAir;
 
 	public EntityThrowableNT(World world) {
 		super(world);

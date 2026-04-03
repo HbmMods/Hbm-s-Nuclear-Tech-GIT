@@ -55,6 +55,12 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0xFF6A00, 0xFFE28D, length, false);
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FRAGMENTATION = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		renderBulletStandard(Tessellator.instance, 0xFF6A00, 0xFFE28D, length, true);
+	};
+	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_EXPRESS_BULLET = (bullet, interp) -> {
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length <= 0) return;

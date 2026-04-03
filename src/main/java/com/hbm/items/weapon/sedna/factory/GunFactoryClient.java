@@ -28,6 +28,7 @@ import java.util.function.BiConsumer;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
@@ -242,6 +243,9 @@ public class GunFactoryClient {
 		ct_mortar_charge.setRenderer(LegoClient.RENDER_CT_MORTAR_CHARGE);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
+
+		ItemGrenadeFilling.fragmentation.setRenderer(LegoClient.RENDER_FRAGMENTATION);
+		ItemGrenadeFilling.pellets.setRenderer(LegoClient.RENDER_FRAGMENTATION);
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);
