@@ -226,6 +226,7 @@
     "weapon.explosionSmallFar": {"category": "block", "sounds": ["weapon/explosionSmallFar1", "weapon/explosionSmallFar2"]},
     "weapon.explosionTiny": {"category": "block", "sounds": ["weapon/explosionTiny1", "weapon/explosionTiny2"]},
     "weapon.hkShoot": {"category": "player", "sounds": [{"name": "weapon/hkShoot", "stream": false}]},
+    "weapon.grenadeBounce": {"category": "block", "sounds": ["weapon/grenadeBounce1", "weapon/grenadeBounce2", "weapon/grenadeBounce3"]},
 
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
