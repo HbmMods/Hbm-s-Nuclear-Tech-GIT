@@ -16,6 +16,7 @@ import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
+import static com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell.*;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.Lego;
 
@@ -33,22 +34,26 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	}
 	
 	public static enum EnumGrenadeFilling {
-		POWDER(EXPLODE_POWDER),	// gunpowder
-		HE(EXPLODE_HE),				// high explosive
-		FRAG(EXPLODE_FRAG),			// high explosive with fragmentation
-		DEMO(EXPLODE_DEMO),			// demolition
-		INC(null),					// incendiary
-		CLUSTER(EXPLODE_CLUSTER),	// explosive pellets
-		NUCLEAR(null);				// nuka grenade
+		POWDER(EXPLODE_POWDER,		0x424242, 0x939176, FRAG, STICK),	// gunpowder
+		HE(EXPLODE_HE,				0x595533, 0xA49D62, FRAG, STICK),	// high explosive
+		HE_FRAG(EXPLODE_FRAG,		0x595533, 0xE0BA29, FRAG, STICK),	// high explosive with fragmentation
+		DEMO(EXPLODE_DEMO,			0x595533, 0xDD4029, FRAG, STICK),	// demolition
+		INC(null,					0x5A5A5A, 0xFF5F21, FRAG, STICK),	// incendiary
+		CLUSTER(EXPLODE_CLUSTER,	0x5A5A5A, 0xFFC711, FRAG, STICK),	// explosive pellets
+		NUCLEAR(null, 0, 0, NUKE);				// nuka grenade
 		
 		// and more which i haven't decided. probably plasma, EMP, perhaps laser(?)
 
 		public Consumer<EntityGrenadeUniversal> explode;
 		public Set<EnumGrenadeShell> compatibleShells = new HashSet();
+		public int bodyColor;
+		public int labelColor;
 		
-		private EnumGrenadeFilling(Consumer<EntityGrenadeUniversal> explode, EnumGrenadeShell... compatibleShells) {
+		private EnumGrenadeFilling(Consumer<EntityGrenadeUniversal> explode, int bodyColor, int labelColor, EnumGrenadeShell... compatibleShells) {
 			this.explode = explode;
 			for(EnumGrenadeShell shell : compatibleShells) this.compatibleShells.add(shell);
+			this.bodyColor = bodyColor;
+			this.labelColor = labelColor;
 		}
 	}
 	

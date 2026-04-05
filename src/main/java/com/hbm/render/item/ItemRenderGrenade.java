@@ -1,15 +1,20 @@
 package com.hbm.render.item;
 
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
 
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.main.ResourceManager;
+import com.hbm.util.ColorUtil;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderGrenade implements IItemRenderer {
@@ -70,11 +75,11 @@ public class ItemRenderGrenade implements IItemRenderer {
 		
 		GL11.glScaled(0.125, 0.125, 0.125);
 		GL11.glTranslated(3, 1, -3);
-		GL11.glRotated(135, 0, -1, 0);
+		GL11.glRotated(180, 0, -1, 0);
 		
 		if(shell == EnumGrenadeShell.FRAG) {
+			renderFragBody(stack);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_frag_tex);
-			ResourceManager.grenades.renderPart("Frag");
 			ResourceManager.grenades.renderPart("FragSpoon");
 			ResourceManager.grenades.renderPart("FragRing");
 		}
@@ -110,9 +115,9 @@ public class ItemRenderGrenade implements IItemRenderer {
 			if(renderType == null) {
 				GL11.glTranslated(0, -2, 0);
 			}
-			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_frag_tex);
-			ResourceManager.grenades.renderPart("Frag");
+			renderFragBody(stack);
 			if(renderType != null) {
+				Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_frag_tex);
 				ResourceManager.grenades.renderPart("FragSpoon");
 				ResourceManager.grenades.renderPart("FragRing");
 			}
@@ -176,5 +181,36 @@ public class ItemRenderGrenade implements IItemRenderer {
 				ResourceManager.grenades.renderPart("NukaRing");
 			}
 		}
+	}
+	
+	public static void renderFragBody(ItemStack stack) {
+
+		EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+		EnumGrenadeFuze fuze = ItemGrenadeUniversal.getFuze(stack);
+		
+		bind(ResourceManager.grenade_frag_tex);
+		ResourceManager.grenades.renderPart("Frag");
+
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+		GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+		bind(ResourceManager.grenade_frag_body_tex);
+		ResourceManager.grenades.renderPart("Frag");
+
+		GL11.glColor3f(ColorUtil.fr(filling.labelColor), ColorUtil.fg(filling.labelColor), ColorUtil.fb(filling.labelColor));
+		bind(ResourceManager.grenade_frag_label_tex);
+		ResourceManager.grenades.renderPart("Frag");
+
+		GL11.glColor3f(ColorUtil.fr(fuze.bandColor), ColorUtil.fg(fuze.bandColor), ColorUtil.fb(fuze.bandColor));
+		bind(ResourceManager.grenade_frag_fuze_tex);
+		ResourceManager.grenades.renderPart("Frag");
+
+		GL11.glColor3f(1F, 1F, 1F);
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	public static void bind(ResourceLocation res) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(res);
 	}
 }

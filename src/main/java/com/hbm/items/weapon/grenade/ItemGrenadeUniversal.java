@@ -130,17 +130,10 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		// some demo crap
-		list.add(make(EnumGrenadeShell.STICK, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3));
-		list.add(make(EnumGrenadeShell.STICK, EnumGrenadeFilling.HE, EnumGrenadeFuze.IMPACT));
-		list.add(make(EnumGrenadeShell.STICK, EnumGrenadeFilling.DEMO, EnumGrenadeFuze.S7));
-		list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.POWDER, EnumGrenadeFuze.S3));
-		list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.FRAG, EnumGrenadeFuze.S3));
-		list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.FRAG, EnumGrenadeFuze.IMPACT));
-		list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.INC, EnumGrenadeFuze.S7));
-		list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.CLUSTER, EnumGrenadeFuze.S3));
-		list.add(make(EnumGrenadeShell.TECH, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S15));
-		list.add(make(EnumGrenadeShell.NUKE, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S15));
+		
+		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
+			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) list.add(make(shell, filling, fuze));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -21,6 +21,7 @@ public class RenderGrenadeUniversal extends Render {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		EntityGrenadeUniversal grenade = (EntityGrenadeUniversal) entity;
 		
@@ -39,6 +40,7 @@ public class RenderGrenadeUniversal extends Render {
 		ItemStack stack = grenade.getGrenadeItem();
 		ItemRenderGrenade.renderGrenade(stack, null);
 		
+		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 

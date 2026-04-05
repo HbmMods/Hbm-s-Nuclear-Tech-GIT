@@ -15,20 +15,22 @@ public class ItemGrenadeFuze extends ItemEnumMulti {
 	}
 
 	public static enum EnumGrenadeFuze {
-		S3(FUZE_3S),			// 3s timed
-		S7(FUZE_7S),			// 7s times
-		S15(FUZE_15S),			// 15s timed
-		IMPACT(FUZE_IMPACT),	// on block/entity impact, 0.5s safety
-		AIRBURST(null, null);	// still have to figure out the mechanics, whether it should be an arc angle or fixed height over the floor, 2s safety
+		S3(FUZE_3S,				0x000000),	// 3s timed
+		S7(FUZE_7S,				0x404040),	// 7s times
+		S15(FUZE_15S,			0x808080),	// 15s timed
+		IMPACT(FUZE_IMPACT,		0xE36C17),	// on block/entity impact, 0.5s safety
+		AIRBURST(null, null,	0xD11EB8);	// still have to figure out the mechanics, whether it should be an arc angle or fixed height over the floor, 2s safety
 
 		public Consumer<EntityGrenadeUniversal> updateTick;
 		public BiConsumer<EntityGrenadeUniversal, MovingObjectPosition> onImpact;
+		public int bandColor;
 		
-		private EnumGrenadeFuze(Consumer<EntityGrenadeUniversal> updateTick) { this(updateTick, null); }
-		private EnumGrenadeFuze(BiConsumer<EntityGrenadeUniversal, MovingObjectPosition> onImpact) { this(null, onImpact); }
-		private EnumGrenadeFuze(Consumer<EntityGrenadeUniversal> updateTick, BiConsumer<EntityGrenadeUniversal, MovingObjectPosition> onImpact) {
+		private EnumGrenadeFuze(Consumer<EntityGrenadeUniversal> updateTick, int color) { this(updateTick, null, color); }
+		private EnumGrenadeFuze(BiConsumer<EntityGrenadeUniversal, MovingObjectPosition> onImpact, int color) { this(null, onImpact, color); }
+		private EnumGrenadeFuze(Consumer<EntityGrenadeUniversal> updateTick, BiConsumer<EntityGrenadeUniversal, MovingObjectPosition> onImpact, int color) {
 			this.updateTick = updateTick;
 			this.onImpact = onImpact;
+			this.bandColor = color;
 		}
 	}
 
