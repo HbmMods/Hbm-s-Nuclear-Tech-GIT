@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -14,13 +15,22 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectTiny;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
 import static com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell.*;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.Lego;
+import com.hbm.main.NTMSounds;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemGrenadeFilling extends ItemEnumMulti {
 
@@ -38,8 +48,10 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		HE(EXPLODE_HE,				0x595533, 0xA49D62, FRAG, STICK),	// high explosive
 		HE_FRAG(EXPLODE_FRAG,		0x595533, 0xE0BA29, FRAG, STICK),	// high explosive with fragmentation
 		DEMO(EXPLODE_DEMO,			0x595533, 0xDD4029, FRAG, STICK),	// demolition
-		INC(null,					0x5A5A5A, 0xFF5F21, FRAG, STICK),	// incendiary
+		INC(EXPLODE_INC,			0x5A5A5A, 0xFF5F21, FRAG, STICK),	// incendiary
 		CLUSTER(EXPLODE_CLUSTER,	0x5A5A5A, 0xFFC711, FRAG, STICK),	// explosive pellets
+		EMP(EXPLODE_EMP,			0x93A1AC, 0x00FFFF, TECH),			// tesla
+		PLASMA(EXPLODE_PLASMA,		0x655B2C, 0x4CFF00, TECH),			// EMP but more oomph
 		NUCLEAR(null, 0, 0, NUKE);				// nuka grenade
 		
 		// and more which i haven't decided. probably plasma, EMP, perhaps laser(?)
@@ -57,13 +69,9 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		}
 	}
 	
-	public static Consumer<EntityGrenadeUniversal> EXPLODE_POWDER = (grenade) -> {
-		standardExplode(grenade, 5F, 10F, 5F, 0F);
-	};
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_POWDER = (grenade) -> { standardExplode(grenade, 5F, 10F, 5F, 0F); };
 	
-	public static Consumer<EntityGrenadeUniversal> EXPLODE_HE = (grenade) -> {
-		standardExplode(grenade, 7.5F, 25F, 10F, 0.1F);
-	};
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_HE = (grenade) -> { standardExplode(grenade, 7.5F, 25F, 10F, 0.1F); };
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_FRAG = (grenade) -> {
 		standardExplode(grenade, 7.5F, 15F, 10F, 0.1F);
@@ -99,6 +107,57 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();
 	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_INC = (grenade) -> {
+		World world = grenade.worldObj;
+		standardExplode(grenade, 3F, 10F);
+		EntityFireLingering fire = new EntityFireLingering(world).setArea(6, 2).setDuration(200).setType(EntityFireLingering.TYPE_DIESEL);
+		fire.setPosition(grenade.posX, grenade.posY, grenade.posZ);
+		world.spawnEntityInWorld(fire);
+		for(int dx = -2; dx <= 2; dx++) for(int dy = -2; dy <= 2; dy++) for(int dz = -2; dz <= 2; dz++) {
+			int x = (int) Math.floor(grenade.posX) + dx;
+			int y = (int) Math.floor(grenade.posY) + dy;
+			int z = (int) Math.floor(grenade.posZ) + dz;
+			if(world.getBlock(x, y, z).isAir(grenade.worldObj, x, y, z)) {
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+					if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isFlammable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
+						world.setBlock(x, y, z, Blocks.fire);
+						break;
+					}
+				}
+			}
+		}
+	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_EMP = (grenade) -> {
+		explodeStandardEnergy(grenade, 30F, 3F, DamageClass.ELECTRIC, 0.5F, 0.5F, 1F, 3F);
+	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_PLASMA = (grenade) -> {
+		explodeStandardEnergy(grenade, 50F, 5F, DamageClass.PLASMA, 0.5F, 1F, 0.5F, 4F);
+	};
+	
+	public static void explodeStandardEnergy(EntityGrenadeUniversal grenade, float damage, float range, DamageClass damageClass, float r, float g, float b, float scale) {
+		ExplosionVNT vnt = new ExplosionVNT(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, range, grenade.getThrower());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, damage).setDamageClass(damageClass));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.explode();
+		grenade.worldObj.playSoundEffect(grenade.posX, grenade.posY, grenade.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F + grenade.worldObj.rand.nextFloat() * 0.2F);
+		grenade.worldObj.playSoundEffect(grenade.posX, grenade.posY, grenade.posZ, NTMSounds.VANILLA_FIREWORKS_BANG, 5.0F, 0.5F);
+
+		float yaw = grenade.worldObj.rand.nextFloat() * 180F;
+		for(int i = 0; i < 3; i++) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "plasmablast");
+			data.setFloat("r", r);
+			data.setFloat("g", g);
+			data.setFloat("b", b);
+			data.setFloat("pitch", -60F + 60F * i);
+			data.setFloat("yaw", yaw);
+			data.setFloat("scale", scale);
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, grenade.posX, grenade.posY + 0.125, grenade.posZ), new TargetPoint(grenade.dimension, grenade.posX, grenade.posY, grenade.posZ, 100));
+		}
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TINY_EXPLODE = (bullet, mop) -> {
 		if(bullet.ticksExisted < 2) return;
@@ -118,7 +177,7 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	public static void tinyExplode(EntityGrenadeUniversal grenade, float range, float damage) { tinyExplode(grenade, range, damage, 0F, 0F); }
 	public static void tinyExplode(EntityGrenadeUniversal grenade, float range, float damage, float dt, float dr) {
 		ExplosionVNT vnt = new ExplosionVNT(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, range, grenade.getThrower());
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, damage).setupPiercing(dt, dr).setKnockback(0.25D));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, damage).setupPiercing(dt, dr).setKnockback(0.25D));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectTiny());
 		vnt.explode();

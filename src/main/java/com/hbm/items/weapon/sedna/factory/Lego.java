@@ -299,7 +299,7 @@ public class Lego {
 		double y = mop.hitVec.yCoord + dir.offsetY * 0.25D;
 		double z = mop.hitVec.zCoord + dir.offsetZ * 0.25D;
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, x, y, z, range, bullet.getThrower());
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod)
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, bullet.damage * damageMod)
 				.setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent).setKnockback(0.25D));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectTiny());

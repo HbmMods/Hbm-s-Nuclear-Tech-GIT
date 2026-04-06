@@ -1109,7 +1109,13 @@ public class ResourceManager {
 	public static final ResourceLocation grenade_frag_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/frag_label.png");
 	public static final ResourceLocation grenade_frag_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/frag_fuze.png");
 	public static final ResourceLocation grenade_stick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/stick.png");
+	public static final ResourceLocation grenade_stick_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/stick_body.png");
+	public static final ResourceLocation grenade_stick_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/stick_label.png");
+	public static final ResourceLocation grenade_stick_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/stick_fuze.png");
 	public static final ResourceLocation grenade_tech_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/tech.png");
+	public static final ResourceLocation grenade_tech_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/tech_body.png");
+	public static final ResourceLocation grenade_tech_lights_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/tech_lights.png");
+	public static final ResourceLocation grenade_tech_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/tech_fuze.png");
 	public static final ResourceLocation grenade_nuka_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/nuka.png");
 
 	public static final ResourceLocation bj_eyepatch = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_eyepatch.png");

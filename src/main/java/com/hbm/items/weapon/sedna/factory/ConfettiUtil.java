@@ -30,6 +30,7 @@ public class ConfettiUtil {
 		if(entity.isEntityAlive()) return;
 		if(source.damageType.equals(DamageClass.LASER.name().toLowerCase(Locale.US))) pulverize(entity);
 		if(source.damageType.equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) pulverize(entity);
+		if(source.damageType.equals(DamageClass.PLASMA.name().toLowerCase(Locale.US))) cremate(entity);
 		if(source.isExplosion()) gib(entity);
 		if(source.isFireDamage()) cremate(entity);
 	}

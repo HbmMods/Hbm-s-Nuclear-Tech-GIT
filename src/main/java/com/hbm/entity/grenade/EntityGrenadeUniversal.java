@@ -110,4 +110,5 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 	}
 	
 	@Override protected int groundDespawn() { return 0; }
+	@Override public boolean fullBlockCollisions() { return true; }
 }

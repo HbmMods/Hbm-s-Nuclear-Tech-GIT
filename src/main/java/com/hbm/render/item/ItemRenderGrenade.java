@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.util.ColorUtil;
 
 import net.minecraft.client.Minecraft;
@@ -85,14 +86,17 @@ public class ItemRenderGrenade implements IItemRenderer {
 		}
 		
 		if(shell == EnumGrenadeShell.STICK) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_stick_tex);
-			ResourceManager.grenades.renderPart("Stick");
+			renderStickBody(stack);
+			EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+			GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+			bind(ResourceManager.grenade_stick_body_tex);
 			ResourceManager.grenades.renderPart("StickCap");
+			GL11.glColor3f(1F, 1F, 1F);
 		}
 		
 		if(shell == EnumGrenadeShell.TECH) {
+			renderTechBody(stack);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tech_tex);
-			ResourceManager.grenades.renderPart("Tech");
 			ResourceManager.grenades.renderPart("TechRing");
 		}
 		
@@ -134,10 +138,13 @@ public class ItemRenderGrenade implements IItemRenderer {
 			if(renderType == null) {
 				GL11.glTranslated(0, -2, 0);
 			}
-			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_stick_tex);
-			ResourceManager.grenades.renderPart("Stick");
+			renderStickBody(stack);
 			if(renderType != null) {
+				EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+				GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+				bind(ResourceManager.grenade_stick_body_tex);
 				ResourceManager.grenades.renderPart("StickCap");
+				GL11.glColor3f(1F, 1F, 1F);
 			}
 		}
 		
@@ -154,9 +161,9 @@ public class ItemRenderGrenade implements IItemRenderer {
 				GL11.glScaled(1.5, 1.5, 1.5);
 				GL11.glTranslated(0, -1, 0);
 			}
-			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tech_tex);
-			ResourceManager.grenades.renderPart("Tech");
+			renderTechBody(stack);
 			if(renderType != null) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tech_tex);
 				ResourceManager.grenades.renderPart("TechRing");
 			}
 		}
@@ -205,6 +212,62 @@ public class ItemRenderGrenade implements IItemRenderer {
 		GL11.glColor3f(ColorUtil.fr(fuze.bandColor), ColorUtil.fg(fuze.bandColor), ColorUtil.fb(fuze.bandColor));
 		bind(ResourceManager.grenade_frag_fuze_tex);
 		ResourceManager.grenades.renderPart("Frag");
+
+		GL11.glColor3f(1F, 1F, 1F);
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	public static void renderStickBody(ItemStack stack) {
+
+		EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+		EnumGrenadeFuze fuze = ItemGrenadeUniversal.getFuze(stack);
+		
+		bind(ResourceManager.grenade_stick_tex);
+		ResourceManager.grenades.renderPart("Stick");
+
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+		GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+		bind(ResourceManager.grenade_stick_body_tex);
+		ResourceManager.grenades.renderPart("Stick");
+
+		GL11.glColor3f(ColorUtil.fr(filling.labelColor), ColorUtil.fg(filling.labelColor), ColorUtil.fb(filling.labelColor));
+		bind(ResourceManager.grenade_stick_label_tex);
+		ResourceManager.grenades.renderPart("Stick");
+
+		GL11.glColor3f(ColorUtil.fr(fuze.bandColor), ColorUtil.fg(fuze.bandColor), ColorUtil.fb(fuze.bandColor));
+		bind(ResourceManager.grenade_stick_fuze_tex);
+		ResourceManager.grenades.renderPart("Stick");
+
+		GL11.glColor3f(1F, 1F, 1F);
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+	
+	public static void renderTechBody(ItemStack stack) {
+
+		EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+		EnumGrenadeFuze fuze = ItemGrenadeUniversal.getFuze(stack);
+		
+		bind(ResourceManager.grenade_tech_tex);
+		ResourceManager.grenades.renderPart("Tech");
+
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+		GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+		bind(ResourceManager.grenade_tech_body_tex);
+		ResourceManager.grenades.renderPart("Tech");
+
+		GL11.glColor3f(ColorUtil.fr(fuze.bandColor), ColorUtil.fg(fuze.bandColor), ColorUtil.fb(fuze.bandColor));
+		bind(ResourceManager.grenade_tech_fuze_tex);
+		ResourceManager.grenades.renderPart("Tech");
+
+		RenderArcFurnace.fullbright(true);
+		GL11.glColor3f(ColorUtil.fr(filling.labelColor), ColorUtil.fg(filling.labelColor), ColorUtil.fb(filling.labelColor));
+		bind(ResourceManager.grenade_tech_lights_tex);
+		ResourceManager.grenades.renderPart("Tech");
+		RenderArcFurnace.fullbright(false);
 
 		GL11.glColor3f(1F, 1F, 1F);
 		GL11.glDisable(GL11.GL_BLEND);

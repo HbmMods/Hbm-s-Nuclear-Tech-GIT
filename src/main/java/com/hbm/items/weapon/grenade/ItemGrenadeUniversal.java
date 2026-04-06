@@ -134,6 +134,8 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
 			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) list.add(make(shell, filling, fuze));
 		}
+		
+		list.add(make(EnumGrenadeShell.TECH, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3));
 	}
 
 	@SideOnly(Side.CLIENT)

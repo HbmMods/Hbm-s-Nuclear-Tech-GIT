@@ -30,12 +30,10 @@ public class ItemGrenadeShell extends ItemEnumMulti {
 	}
 	
 	public static enum EnumGrenadeShell {
-		FRAG(4, 20, 0.5D),	// bonus fragmentation
-		STICK(4, 20, 0.25D),	// thrown father
-		TECH(2, 20, 0.5D),	// casing with electronics for EMP/plasma
-		NUKE(1, 20, 0.25D);	// nuka grenade casing for high yield grenades
-		/*                ^
-		 *               nice */
+		FRAG(4, 20, 0.5D),		// bonus fragmentation
+		STICK(4, 20, 0.25D),	// thrown farther
+		TECH(2, 20, 0.5D),		// casing with electronics for EMP/plasma
+		NUKE(1, 20, 0.25D);		// nuka grenade casing for high yield grenades
 		
 		private int stackLimit;
 		private int drawDuration;

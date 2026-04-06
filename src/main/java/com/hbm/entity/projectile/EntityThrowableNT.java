@@ -248,9 +248,13 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			float drag = this.getAirDrag();
 			double gravity = this.getGravityVelocity();
 	
-			this.posX += this.motionX * motionMult();
-			this.posY += this.motionY * motionMult();
-			this.posZ += this.motionZ * motionMult();
+			if(fullBlockCollisions()) {
+				this.moveEntity(this.motionX * motionMult(), this.motionY * motionMult(), this.motionZ * motionMult());
+			} else {
+				this.posX += this.motionX * motionMult();
+				this.posY += this.motionY * motionMult();
+				this.posZ += this.motionZ * motionMult();
+			}
 	
 			if(this.isInWater()) {
 				for(int i = 0; i < 4; ++i) {
@@ -267,6 +271,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			this.motionY -= gravity;
 			this.setPosition(this.posX, this.posY, this.posZ);
 		}
+	}
+	
+	public boolean fullBlockCollisions() {
+		return false;
 	}
 	
 	public boolean doesImpactEntities() {

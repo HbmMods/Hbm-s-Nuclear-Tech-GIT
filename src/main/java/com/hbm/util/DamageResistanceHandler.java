@@ -409,6 +409,7 @@ public class DamageResistanceHandler {
 		FIRE,
 		EXPLOSIVE,
 		ELECTRIC,
+		PLASMA,
 		LASER,
 		MICROWAVE,
 		SUBATOMIC,
@@ -457,6 +458,7 @@ public class DamageResistanceHandler {
 		if(source.isFireDamage()) return CATEGORY_FIRE;
 		if(source.isProjectile()) return CATEGORY_PHYSICAL;
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.LASER.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.PLASMA.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.MICROWAVE.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.SUBATOMIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
