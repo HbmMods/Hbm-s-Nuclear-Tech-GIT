@@ -294,6 +294,7 @@
     "weapon.reload.impact": {"category": "player", "sounds": ["weapon/reload/impact1", "weapon/reload/impact2", "weapon/reload/impact3"]},
     "weapon.reload.fatmanFull": {"category": "player", "sounds": ["weapon/reload/fatmanFull"]},
     "weapon.reload.screw": {"category": "player", "sounds": ["weapon/reload/screw"]},
+    "weapon.reload.grenadeTech": {"category": "player", "sounds": ["weapon/reload/grenadeTech"]},
 
     "weapon.foley.gunWhack": {"category": "player", "sounds": ["weapon/foley/gunWhack", "weapon/foley/gunWhack2"]},
     

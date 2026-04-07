@@ -45,7 +45,7 @@ public class ItemGrenadeFuze extends ItemEnumMulti {
 		};
 	};
 	public static Consumer<EntityGrenadeUniversal> FUZE_AIRBURST = (grenade) -> {
-		if(grenade.getTimer() >= 40) {
+		if(grenade.getTimer() >= 30) {
 			Vec3NT start = new Vec3NT(grenade);
 			Vec3NT end = new Vec3NT(grenade).add(0, -10, 0);
 			MovingObjectPosition mop = grenade.worldObj.func_147447_a(start, end, false, false, true);

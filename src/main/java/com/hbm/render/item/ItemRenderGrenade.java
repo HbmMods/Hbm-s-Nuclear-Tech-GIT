@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.util.ColorUtil;
 
@@ -79,25 +80,63 @@ public class ItemRenderGrenade implements IItemRenderer {
 		GL11.glRotated(180, 0, -1, 0);
 		
 		if(shell == EnumGrenadeShell.FRAG) {
+			double[] bodyMove = HbmAnimations.getRelevantTransformation("BODYMOVE");
+			double[] bodyTurn = HbmAnimations.getRelevantTransformation("BODYTURN");
+			double[] ringMove = HbmAnimations.getRelevantTransformation("RINGMOVE");
+			double[] ringTurn = HbmAnimations.getRelevantTransformation("RINGTURN");
+			double[] renderRing = HbmAnimations.getRelevantTransformation("RENDERRING");
+			GL11.glTranslated(bodyMove[0], bodyMove[1], bodyMove[2]);
+			GL11.glRotated(bodyTurn[2], 1, 0, 0);
 			renderFragBody(stack);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_frag_tex);
 			ResourceManager.grenades.renderPart("FragSpoon");
-			ResourceManager.grenades.renderPart("FragRing");
+			if(renderRing[0] != 0) {
+				GL11.glTranslated(ringMove[0], ringMove[1], ringMove[2]);
+				GL11.glRotated(ringTurn[2], 1, 0, 0);
+				ResourceManager.grenades.renderPart("FragRing");
+			}
 		}
 		
 		if(shell == EnumGrenadeShell.STICK) {
+			double[] bodyMove = HbmAnimations.getRelevantTransformation("BODYMOVE");
+			double[] bodyTurn = HbmAnimations.getRelevantTransformation("BODYTURN");
+			double[] capMove = HbmAnimations.getRelevantTransformation("CAPMOVE");
+			double[] capTurn = HbmAnimations.getRelevantTransformation("CAPTURN");
+			double[] renderCap = HbmAnimations.getRelevantTransformation("RENDERCAP");
+			GL11.glTranslated(bodyMove[0], bodyMove[1], bodyMove[2]);
+			GL11.glRotated(bodyTurn[2], 0, 0, 1);
 			renderStickBody(stack);
-			EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
-			GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
-			bind(ResourceManager.grenade_stick_body_tex);
-			ResourceManager.grenades.renderPart("StickCap");
-			GL11.glColor3f(1F, 1F, 1F);
+			if(renderCap[0] != 0) {
+				GL11.glTranslated(capMove[0], capMove[1], capMove[2]);
+				GL11.glRotated(capTurn[1], 0, 1, 0);
+				EnumGrenadeFilling filling = ItemGrenadeUniversal.getFilling(stack);
+				GL11.glEnable(GL11.GL_BLEND);
+				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+				bind(ResourceManager.grenade_stick_tex);
+				ResourceManager.grenades.renderPart("StickCap");
+				GL11.glColor3f(ColorUtil.fr(filling.bodyColor), ColorUtil.fg(filling.bodyColor), ColorUtil.fb(filling.bodyColor));
+				bind(ResourceManager.grenade_stick_body_tex);
+				ResourceManager.grenades.renderPart("StickCap");
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glDisable(GL11.GL_BLEND);
+			}
 		}
 		
 		if(shell == EnumGrenadeShell.TECH) {
+			double[] bodyMove = HbmAnimations.getRelevantTransformation("BODYMOVE");
+			double[] bodyTurn = HbmAnimations.getRelevantTransformation("BODYTURN");
+			double[] ringMove = HbmAnimations.getRelevantTransformation("RINGMOVE");
+			double[] ringTurn = HbmAnimations.getRelevantTransformation("RINGTURN");
+			double[] renderRing = HbmAnimations.getRelevantTransformation("RENDERRING");
+			GL11.glTranslated(bodyMove[0], bodyMove[1], bodyMove[2]);
+			GL11.glRotated(bodyTurn[2], 1, 0, 0);
 			renderTechBody(stack);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tech_tex);
-			ResourceManager.grenades.renderPart("TechRing");
+			if(renderRing[0] != 0) {
+				GL11.glTranslated(ringMove[0], ringMove[1], ringMove[2]);
+				GL11.glRotated(ringTurn[2], 1, 0, 0);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tech_tex);
+				ResourceManager.grenades.renderPart("TechRing");
+			}
 		}
 		
 		if(shell == EnumGrenadeShell.NUKE) {

@@ -56,9 +56,8 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 		
 		EnumGrenadeShell shell = ItemGrenadeUniversal.getShell(grenade);
 		
-		Vec3NT yeet = new Vec3NT(thrower.getLookVec()).normalizeSelf().multiply(shell.getYeetForce());
-		this.addVelocity(yeet.xCoord, yeet.yCoord, yeet.zCoord);
-		this.setThrowableHeading(yeet.xCoord, yeet.yCoord, yeet.zCoord, 1, 0);
+		Vec3NT yeet = new Vec3NT(thrower.getLookVec()).normalizeSelf();
+		this.setThrowableHeading(yeet.xCoord, yeet.yCoord, yeet.zCoord, (float) shell.getYeetForce(), 0);
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.items.IAnimatedItem;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
@@ -12,6 +13,13 @@ import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.NTMSounds;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.HbmAnimationPacket;
+import com.hbm.render.anim.AnimationEnums.GunAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,12 +28,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
+public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnimatedItem {
 	
 	/*
 	 *  __________
@@ -61,6 +70,10 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 	@Override
 	public void onEquip(EntityPlayer player, ItemStack stack) {
 		HbmPlayerProps.getData(player).grenadeDeployment = 0;
+		
+		if(player instanceof EntityPlayerMP) {
+			PacketDispatcher.wrapper.sendTo(new HbmAnimationPacket(GunAnimation.EQUIP.ordinal(), 0), (EntityPlayerMP) player);
+		}
 	}
 
 	@Override
@@ -72,7 +85,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 				EntityGrenadeUniversal grenade = new EntityGrenadeUniversal(world, player, stack);
 				world.spawnEntityInWorld(grenade);
 			}
-			stack.stackSize--;
+			if(!player.capabilities.isCreativeMode) stack.stackSize--;
 			if(stack.stackSize > 0) this.onEquip(player, stack);
 		}
 		
@@ -92,6 +105,18 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 				this.onEquip(player, stack);
 			} else if(isHeld) {
 				HbmPlayerProps.getData(player).grenadeDeployment++;
+				int deployment = HbmPlayerProps.getData(player).grenadeDeployment;
+				EnumGrenadeShell shell = this.getShell(stack);
+				if(shell == EnumGrenadeShell.FRAG && deployment == 18) {
+					world.playSoundAtEntity(player, NTMSounds.GUN_REVOLVER_COCK, 1F, 1F);
+				}
+				if(shell == EnumGrenadeShell.STICK) {
+					if(deployment == 16) world.playSoundAtEntity(player, NTMSounds.GUN_BOLT_OPEN, 1F, 1.25F);
+					if(deployment == 25) world.playSoundAtEntity(player, NTMSounds.GUN_BOLT_OPEN, 1F, 1.25F);
+				}
+				if(shell == EnumGrenadeShell.TECH && deployment == 18) {
+					world.playSoundAtEntity(player, NTMSounds.GRENADE_TECH, 1F, 1F);
+				}
 			}
 		}
 
@@ -156,4 +181,42 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 		EnumGrenadeExtra extra = this.getExtra(stack);
 		if(extra != null) list.add("item.grenade_universal.extra." + extra.name().toLowerCase(Locale.US));
 	}
+
+	@Override
+	public BusAnimation getAnimation(Enum type, ItemStack stack) {
+		if(type != GunAnimation.EQUIP) return null;
+		EnumGrenadeShell shell = this.getShell(stack);
+		
+		if(shell == EnumGrenadeShell.FRAG) {
+			return new BusAnimation()
+					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).addPos(0, -3, 0, 350).addPos(0, 0, 0, 350, IType.SIN_DOWN))
+					.addBus("BODYTURN", new BusAnimationSequence().addPos(0, 0, 45, 350).addPos(0, 0, -15, 350, IType.SIN_DOWN).hold(200).addPos(0, 0, -20, 100, IType.SIN_DOWN).addPos(0, 0, 0, 500, IType.SIN_FULL))
+					.addBus("RINGMOVE", new BusAnimationSequence().hold(900).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
+					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
+					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
+		}
+		
+		if(shell == EnumGrenadeShell.STICK) {
+			return new BusAnimation()
+					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -7, 0).addPos(0, 3, 0, 750, IType.SIN_DOWN).holdUntil(1900).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("BODYTURN", new BusAnimationSequence().setPos(0, 0, 90).addPos(0, 0, -45, 750, IType.SIN_DOWN).holdUntil(1900).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("CAPMOVE", new BusAnimationSequence().hold(800).addPos(0, -0.25, 0, 200, IType.SIN_FULL).hold(250).addPos(0, -0.5, 0, 200, IType.SIN_FULL).addPos(2, -5, 0, 350, IType.SIN_UP))
+					.addBus("CAPTURN", new BusAnimationSequence().hold(800).addPos(0, 360, 0, 200, IType.SIN_FULL).hold(250).addPos(0, 360 * 2, 0, 200, IType.SIN_FULL))
+					.addBus("RENDERCAP", new BusAnimationSequence().setPos(1, 1, 1).hold(2100).setPos(0, 0, 0));
+		}
+		
+		if(shell == EnumGrenadeShell.TECH) {
+			return new BusAnimation()
+					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).addPos(0, -3, 0, 350).addPos(0, 0, 0, 350, IType.SIN_DOWN))
+					.addBus("BODYTURN", new BusAnimationSequence().addPos(0, 0, 45, 350).addPos(0, 0, -15, 350, IType.SIN_DOWN).hold(200).addPos(0, 0, -20, 100, IType.SIN_DOWN).addPos(0, 0, 0, 500, IType.SIN_FULL))
+					.addBus("RINGMOVE", new BusAnimationSequence().hold(900).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
+					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
+					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
+		}
+		
+		return null;
+	}
+
+	@Override public boolean shouldPlayerModelAim(ItemStack stack) { return false; }
+	@Override public Class getEnum() { return GunAnimation.class; }
 }
