@@ -64,6 +64,7 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 		
 		for(int i = -2; i <= 2; i++) {
 			this.makeExtra(world, x + dir.offsetX * 5 + rot.offsetX * i, y, z + dir.offsetZ * 5 + rot.offsetZ * i);
+			this.makeExtra(world, x - dir.offsetX * 5 + rot.offsetX * i, y, z - dir.offsetZ * 5 + rot.offsetZ * i);
 		}
 	}
 }

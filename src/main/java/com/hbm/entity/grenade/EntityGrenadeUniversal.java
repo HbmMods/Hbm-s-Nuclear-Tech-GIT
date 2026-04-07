@@ -1,15 +1,18 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.entity.projectile.EntityThrowableInterp;
+import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
+import com.hbm.main.MainRegistry;
 import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.util.TrackerUtil;
 import com.hbm.util.Vec3NT;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -19,12 +22,22 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 
 	public static final int DW_GRENADE = 3;
 	public static final int DW_BOUNCES = 4;
+	public static final int DW_TRAIL = 5;
+	
+	public static final int TRAIL_TRIPLET = 1;
 
 	public double prevSpin;
 	public double spin;
 
 	public EntityGrenadeUniversal(World world) {
 		super(world);
+	}
+
+	public EntityGrenadeUniversal(World world, ItemStack grenade) {
+		super(world);
+		ItemStack copy = grenade.copy();
+		copy.stackSize = 1;
+		this.dataWatcher.updateObject(DW_GRENADE, copy);
 	}
 
 	public EntityGrenadeUniversal(World world, EntityPlayer thrower, ItemStack grenade) {
@@ -37,7 +50,9 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 		
 		this.setPosition(thrower.posX + offset.xCoord, thrower.posY + thrower.getEyeHeight() + offset.yCoord, thrower.posZ + offset.zCoord);
 		
-		Vec3NT yeet = new Vec3NT(thrower.getLookVec()).normalizeSelf().multiply(1D);
+		EnumGrenadeShell shell = ItemGrenadeUniversal.getShell(grenade);
+		
+		Vec3NT yeet = new Vec3NT(thrower.getLookVec()).normalizeSelf().multiply(shell.getYeetForce());
 		this.addVelocity(yeet.xCoord, yeet.yCoord, yeet.zCoord);
 		this.setThrowableHeading(yeet.xCoord, yeet.yCoord, yeet.zCoord, 1, 0);
 	}
@@ -47,21 +62,32 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 		super.entityInit();
 		this.dataWatcher.addObjectByDataType(DW_GRENADE, 5);
 		this.dataWatcher.addObject(DW_BOUNCES, new Integer(0));
+		this.dataWatcher.addObject(DW_TRAIL, new Integer(0));
+	}
+	
+	public EntityGrenadeUniversal setTrail(int trail) {
+		this.dataWatcher.updateObject(DW_TRAIL, trail);
+		return this;
 	}
 	
 	public ItemStack getGrenadeItem() { return this.dataWatcher.getWatchableObjectItemStack(DW_GRENADE); }
 	public int getBounces() { return this.dataWatcher.getWatchableObjectInt(DW_BOUNCES); }
+	public int getTrail() { return this.dataWatcher.getWatchableObjectInt(DW_TRAIL); }
 
 	public EnumGrenadeShell getShell() { return ItemGrenadeUniversal.getShell(getGrenadeItem()); }
 	public EnumGrenadeFilling getFilling() { return ItemGrenadeUniversal.getFilling(getGrenadeItem()); }
 	public EnumGrenadeFuze getFuze() { return ItemGrenadeUniversal.getFuze(getGrenadeItem()); }
+	public EnumGrenadeExtra getExtra() { return ItemGrenadeUniversal.getExtra(getGrenadeItem()); }
 	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
 		
 		EnumGrenadeFuze fuze = this.getFuze();
+		EnumGrenadeExtra extra = this.getExtra();
+		
 		if(fuze.updateTick != null) fuze.updateTick.accept(this);
+		if(extra != null && extra.updateTick != null) extra.updateTick.accept(this);
 		
 		if(worldObj.isRemote) {
 			this.prevSpin = this.spin;
@@ -76,14 +102,26 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 				this.prevSpin -= 360;
 				this.spin -= 360;
 			}
+			
+			if(this.getTrail() == TRAIL_TRIPLET) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setDouble("posX", posX);
+				data.setDouble("posY", posY);
+				data.setDouble("posZ", posZ);
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "flame");
+				MainRegistry.proxy.effectNT(data);
+			}
 		}
 	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		EnumGrenadeFuze fuze = this.getFuze();
+		EnumGrenadeExtra extra = this.getExtra();
 		
 		if(fuze.onImpact != null) fuze.onImpact.accept(this, mop);
+		if(extra != null && extra.onImpact != null) extra.onImpact.accept(this, mop);
 		
 		if(this.isDead) return; // we assume the grenade has gone off by this point
 		
@@ -107,7 +145,11 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 		this.setDead();
 		EnumGrenadeFilling filling = this.getFilling();
 		if(filling.explode != null) filling.explode.accept(this);
+		EnumGrenadeExtra extra = this.getExtra();
+		if(extra != null && extra.onExplode != null) extra.onExplode.accept(this);
 	}
+	
+	public int getTimer() { return this.ticksInAir + this.ticksInGround; }
 	
 	@Override protected int groundDespawn() { return 0; }
 	@Override public boolean fullBlockCollisions() { return true; }

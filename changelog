@@ -1,3 +1,11 @@
+## Added
+* New grenades
+  * Universal system where there's only one grenade item
+  * A grenade is composed of a shell, filling and fuze, which can be mixed and matched as needed
+  * Instead of having dedicated grenades with impact or long timers, the desired fuze can simply be put into any grenade configuration
+  * Comes with proper 3D models and animations
+  * Grenade max stacksize has been drastically reduced (and now depends on the shell used)
+
 ## Changed
 * Removed the euphemium and DNT compound plate recipes from the anvil, they are now plasma forge exclusive
 * More RoR integration
@@ -16,3 +24,6 @@
 * Fixed NTM rare item drops ignoring the mob loot gamerule
 * Fixed flamethrowers not properly igniting entities on direct hit, only via lingering fire
 * Fixed PWR RoR components not properly showing the possible values/functions when connected to ports
+* Fixed missing ports on the plasma forge
+* Fixed wrong texture being bound in the crucible for the molten metal gauge
+* Fixed RoR panels having no hardness at all

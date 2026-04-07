@@ -1451,6 +1451,7 @@ public class ModItems {
 	public static Item grenade_shell;
 	public static Item grenade_filling;
 	public static Item grenade_fuze;
+	public static Item grenade_extra;
 	public static Item grenade_universal;
 	
 	@Deprecated public static Item grenade_generic;
@@ -3691,6 +3692,7 @@ public class ModItems {
 		grenade_shell = new ItemGrenadeShell().setUnlocalizedName("grenade_shell").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_shell");
 		grenade_filling = new ItemGrenadeFilling().setUnlocalizedName("grenade_filling").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_filling");
 		grenade_fuze = new ItemGrenadeFuze().setUnlocalizedName("grenade_fuze").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_fuze");
+		grenade_extra = new ItemGrenadeExtra().setUnlocalizedName("grenade_extra").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_extra");
 		grenade_universal = new ItemGrenadeUniversal().setUnlocalizedName("grenade_universal").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_universal");
 
 		grenade_generic = new ItemGrenade(4).setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_generic");
@@ -6040,6 +6042,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_shell, grenade_shell.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_filling, grenade_filling.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_fuze, grenade_fuze.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_extra, grenade_extra.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_universal, grenade_universal.getUnlocalizedName());
 		
 		GameRegistry.registerItem(grenade_generic, grenade_generic.getUnlocalizedName());

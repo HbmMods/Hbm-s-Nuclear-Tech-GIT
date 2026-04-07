@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -12,6 +13,13 @@ public class Vec3NT extends Vec3 {
 	public Vec3NT(Vec3 vec) {
 		super(vec.xCoord, vec.yCoord, vec.zCoord);
 	}
+
+	public Vec3NT(Entity e) {
+		super(e.posX, e.posY, e.posZ);
+	}
+
+	public Vec3NT eyeHeight(Entity e) { return this.add(0, e.getEyeHeight(), 0); }
+	public Vec3NT halfHeight(Entity e) { return this.add(0, e.height / 2D, 0); }
 
 	public Vec3NT normalizeSelf() {
 		double len = MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);

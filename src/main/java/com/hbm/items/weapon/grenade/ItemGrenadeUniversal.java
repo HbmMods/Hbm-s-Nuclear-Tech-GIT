@@ -7,6 +7,7 @@ import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
 import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
@@ -50,6 +51,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 	public static final String KEY_SHELL = "shell";
 	public static final String KEY_FILLING = "filling";
 	public static final String KEY_FUZE = "fuze";
+	public static final String KEY_EXTRA = "extra";
 	
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
@@ -114,16 +116,22 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 		return EnumUtil.grabEnumSafely(EnumGrenadeFuze.class, i);
 	}
 	
-	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze) {
-		return make(shell, filling, fuze, 1);
+	public static EnumGrenadeExtra getExtra(ItemStack stack) {
+		if(stack == null || !stack.hasTagCompound() || !stack.stackTagCompound.hasKey(KEY_EXTRA)) return null;
+		int i = stack.stackTagCompound.getInteger(KEY_EXTRA);
+		return EnumUtil.grabEnumSafely(EnumGrenadeExtra.class, i);
 	}
 	
-	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, int amount) {
+	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze) { return make(shell, filling, fuze, null, 1); }
+	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra) { return make(shell, filling, fuze, extra, 1); }
+	
+	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra, int amount) {
 		ItemStack stack = new ItemStack(ModItems.grenade_universal, amount);
 		stack.stackTagCompound = new NBTTagCompound();
 		stack.stackTagCompound.setInteger(KEY_SHELL, shell.ordinal());
 		stack.stackTagCompound.setInteger(KEY_FILLING, filling.ordinal());
 		stack.stackTagCompound.setInteger(KEY_FUZE, fuze.ordinal());
+		if(extra != null) stack.stackTagCompound.setInteger(KEY_EXTRA, extra.ordinal());
 		return stack;
 	}
 
@@ -135,7 +143,9 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) list.add(make(shell, filling, fuze));
 		}
 		
-		list.add(make(EnumGrenadeShell.TECH, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3));
+		for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) {
+			list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.IMPACT, extra));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -143,5 +153,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 		list.add("item.grenade_universal.shell." + this.getShell(stack).name().toLowerCase(Locale.US));
 		list.add("item.grenade_universal.filling." + this.getFilling(stack).name().toLowerCase(Locale.US));
 		list.add("item.grenade_universal.fuze." + this.getFuze(stack).name().toLowerCase(Locale.US));
+		EnumGrenadeExtra extra = this.getExtra(stack);
+		if(extra != null) list.add("item.grenade_universal.extra." + extra.name().toLowerCase(Locale.US));
 	}
 }
