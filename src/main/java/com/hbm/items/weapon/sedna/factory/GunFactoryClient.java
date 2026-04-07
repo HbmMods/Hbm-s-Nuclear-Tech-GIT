@@ -246,6 +246,7 @@ public class GunFactoryClient {
 
 		ItemGrenadeFilling.fragmentation.setRenderer(LegoClient.RENDER_FRAGMENTATION);
 		ItemGrenadeFilling.pellets.setRenderer(LegoClient.RENDER_FRAGMENTATION);
+		ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);

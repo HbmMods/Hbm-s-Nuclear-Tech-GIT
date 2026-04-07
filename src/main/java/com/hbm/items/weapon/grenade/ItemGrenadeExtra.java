@@ -71,6 +71,7 @@ public class ItemGrenadeExtra extends ItemEnumMulti {
 		for(int i = 0; i < 3; i++) {
 			EntityGrenadeUniversal triplet = new EntityGrenadeUniversal(grenade.worldObj, frag).setTrail(EntityGrenadeUniversal.TRAIL_TRIPLET);
 			triplet.setPosition(grenade.posX, grenade.posY, grenade.posZ);
+			triplet.setThrower(grenade.getThrower());
 			triplet.motionX = vec.xCoord;
 			triplet.motionY = 0.75D;
 			triplet.motionZ = vec.zCoord;

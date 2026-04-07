@@ -1,6 +1,8 @@
 package com.hbm.items.weapon.grenade;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -8,6 +10,7 @@ import java.util.function.Consumer;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
@@ -30,9 +33,12 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -40,11 +46,13 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 
 	public static BulletConfig fragmentation;
 	public static BulletConfig pellets;
+	public static BulletConfig laser;
 
 	public ItemGrenadeFilling() {
 		super(EnumGrenadeFilling.class, true, true);
 		fragmentation = new BulletConfig().setLife(3).setThresholdNegation(5F).setRicochetAngle(90).setRicochetCount(2);
 		pellets = new BulletConfig().setLife(100).setGrav(0.04).setVel(1.5F).setOnImpact(LAMBDA_TINY_EXPLODE);
+		laser = new BulletConfig().setBeam().setupDamageClass(DamageClass.LASER).setLife(3).setRenderRotations(false).setThresholdNegation(10F).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 	}
 	
 	public static enum EnumGrenadeFilling {
@@ -55,6 +63,7 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		CLUSTER(EXPLODE_CLUSTER,		0x5A5A5A, 0xFFC711, FRAG, STICK, NUKE),	// explosive pellets
 		EMP(EXPLODE_EMP,				0x93A1AC, 0x00FFFF, TECH),				// tesla
 		PLASMA(EXPLODE_PLASMA,			0x655B2C, 0x4CFF00, TECH),				// EMP but more oomph
+		LASER(EXPLODE_LASER,			0x493A3A, 0xFF0000, TECH),				// pew pew pew
 		NUCLEAR(EXPLODE_NUKE,			0, 0xA49D62, NUKE),						// nuka grenade
 		NUCLEAR_DEMO(EXPLODE_NUKE_DEMO,	0, 0xDD4029, NUKE);						// demolition nuka grenade
 
@@ -126,6 +135,30 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_PLASMA = (grenade) -> {
 		explodeStandardEnergy(grenade, 50F, 5F, DamageClass.PLASMA, 0.5F, 1F, 0.5F, 4F); // TODO: unique effect because this sucks
+	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_LASER = (grenade) -> { // yeah this is good, we like this one
+		tinyExplode(grenade, 2, 5F);
+
+		double x = grenade.posX;
+		double y = grenade.posY + 0.125;
+		double z = grenade.posZ;
+
+		double range = 15;
+		List<EntityLivingBase> potentialTargets = grenade.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(range, range, range));
+		Collections.shuffle(potentialTargets);
+
+		for(EntityLivingBase target : potentialTargets) {
+			if(target == grenade.getThrower()) continue;
+
+			Vec3 delta = Vec3.createVectorHelper(target.posX - x, target.posY + target.height / 2 - y, target.posZ - z);
+			if(delta.lengthVector() > range) continue;
+			EntityBulletBeamBase sub = new EntityBulletBeamBase(grenade.getThrower(), laser, 30);
+			sub.setPosition(x, y, z);
+			sub.setRotationsFromVector(delta);
+			sub.performHitscanExternal(delta.lengthVector());
+			grenade.worldObj.spawnEntityInWorld(sub);
+		}
 	};
 
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_NUKE = (grenade) -> {

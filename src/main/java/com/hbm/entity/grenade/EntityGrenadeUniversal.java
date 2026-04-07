@@ -1,5 +1,8 @@
 package com.hbm.entity.grenade;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
 import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
@@ -42,6 +45,7 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 
 	public EntityGrenadeUniversal(World world, EntityPlayer thrower, ItemStack grenade) {
 		super(world);
+		this.setThrower(thrower);
 		ItemStack copy = grenade.copy();
 		copy.stackSize = 1;
 		this.dataWatcher.updateObject(DW_GRENADE, copy);
@@ -147,6 +151,12 @@ public class EntityGrenadeUniversal extends EntityThrowableInterp {
 		if(filling.explode != null) filling.explode.accept(this);
 		EnumGrenadeExtra extra = this.getExtra();
 		if(extra != null && extra.onExplode != null) extra.onExplode.accept(this);
+		
+		if(GeneralConfig.enableExtendedLogging) {
+			String s = "null";
+			if(getThrower() != null && getThrower() instanceof EntityPlayer) s = ((EntityPlayer) getThrower()).getDisplayName();
+			MainRegistry.logger.log(Level.INFO, "[GREN] Set off grenade at " + ((int) posX) + " / " + ((int) posY) + " / " + ((int) posZ) + " by " + s + "!");
+		}
 	}
 	
 	public int getTimer() { return this.ticksInAir + this.ticksInGround; }

@@ -40,7 +40,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver {
 	 *    | || |
 	 *    | || |
 	 *    | || |
-	 *    | || |
+	 *    | || | _________ EXTRA - optional bonus like additional fuzes, special explosion effects, glue for sticky bombs, et cetera
 	 *    | || |
 	 *    | || |
 	 *    / || \

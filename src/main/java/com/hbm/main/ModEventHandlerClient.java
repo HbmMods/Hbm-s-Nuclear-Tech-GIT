@@ -1464,7 +1464,7 @@ public class ModEventHandlerClient {
 			}
 
 			double d = Math.random();
-			if(d < 0.1) main.splashText = "Redditors aren't people!";
+			if(d < 0.025) main.splashText = "Redditors aren't people!";
 		}
 	}
 }
