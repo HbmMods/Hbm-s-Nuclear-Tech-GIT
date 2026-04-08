@@ -24,7 +24,6 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation vertice = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVertice_2.png");
 	private static ResourceLocation red = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRed.png");
 	private static ResourceLocation ayy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAyy.png");
-	private static ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia.png");
 	private static ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia2.png");
 	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSam.png");
 	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy_mk3.png");
@@ -76,7 +75,7 @@ public class RenderAccessoryUtility {
 			return ayy;
 		}
 		if(uuid.equals(ShadyUtil.Dr_Nostalgia)) {
-			return (MainRegistry.polaroidID == 11 ? nostalgia2 : nostalgia);
+			return nostalgia2;
 		}
 		if(uuid.equals(ShadyUtil.Samino2)) {
 			return sam;
