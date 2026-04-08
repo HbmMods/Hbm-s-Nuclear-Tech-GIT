@@ -31,3 +31,4 @@
   * This change however introduced yet another inconsistency with external pouring behavior that I simply cannot be assed to fix, so we are just rolling all that back
   * If you're still to dumb, old or irradiated to use the crucible correctly, please bother LITERALLY ANOYNE EXCEPT ME.
   * This basically fixes the aforementioned inconsistency
+* Fixed meteorite sword progression having some issues ever since the fusion reactor rework

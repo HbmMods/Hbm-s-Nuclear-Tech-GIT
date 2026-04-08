@@ -64,8 +64,8 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		EMP(EXPLODE_EMP,				0x93A1AC, 0x00FFFF, TECH),				// tesla
 		PLASMA(EXPLODE_PLASMA,			0x655B2C, 0x4CFF00, TECH),				// EMP but more oomph
 		LASER(EXPLODE_LASER,			0x493A3A, 0xFF0000, TECH),				// pew pew pew
-		NUCLEAR(EXPLODE_NUKE,			0, 0xA49D62, NUKE),						// nuka grenade
-		NUCLEAR_DEMO(EXPLODE_NUKE_DEMO,	0, 0xDD4029, NUKE);						// demolition nuka grenade
+		NUCLEAR(EXPLODE_NUKE,			0xDFD7A8, 0xA49D62, NUKE),						// nuka grenade
+		NUCLEAR_DEMO(EXPLODE_NUKE_DEMO,	0xDFD7A8, 0xDD4029, NUKE);						// demolition nuka grenade
 
 		public Consumer<EntityGrenadeUniversal> explode;
 		public Set<EnumGrenadeShell> compatibleShells = new HashSet();

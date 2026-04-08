@@ -106,7 +106,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 	public boolean canProcessSolid() {
 		if(slots[1] == null) return false;
 		
-		if(slots[1].getItem() == ModItems.meteorite_sword_bred && slots[2] == null) return true;
+		if(slots[1].getItem() == ModItems.meteorite_sword_irradiated && slots[2] == null) return true;
 
 		OutgasserRecipe output = OutgasserRecipes.getOutput(slots[1]);
 		if(output == null) return false;
@@ -142,7 +142,7 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 	private void processSolid() {
 		
-		if(slots[1].getItem() == ModItems.meteorite_sword_bred) {
+		if(slots[1].getItem() == ModItems.meteorite_sword_irradiated) {
 			this.decrStackSize(1, 1);
 			slots[2] = new ItemStack(ModItems.meteorite_sword_fused);
 			this.progress = 0;
