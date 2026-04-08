@@ -1,0 +1,15 @@
+{
+	"name": "Heavy Oil",
+	"icon": ["hbm:item.fluid_icon", 1, 12],
+	"trigger": [],
+	"title": {
+		"en_US": "Heavy Oil",
+		"ru_RU": "Тяжелая нефть",
+		"zh_CN": "重油"
+	},
+	"content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] crude oil. Heavy oil can be used in a variety of oil processing machines such as: <br>[[Chemical Plant]] <br>[[Solidification Machine]] <br>[[Coker Unit]] <br>[[Pyrolysis Oven]] <br>[[Fractioning Tower]]<br>These methods allow for the production of tar, lubricants, and other refined byproducts.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+        "ru_RU": "Получается после переработки нагретой сырой нефти в [[Нефтеперерабатывающий завод|Oil Refinery]] и [[Котёл|Boiler]]. Тяжёлая нефть может использоваться в различных установках переработки нефти, таких как: <br>[[Химический завод|Chemical Plant]] <br>[[Машина затвердевания|Solidification Machine]] <br>[[Коксовая установка|Coker Unit]] <br>[[Пиролизная печь|Pyrolysis Oven]] <br>[[Фракционная башня|Fractioning Tower]]<br>Эти методы позволяют получать смолу, смазочные материалы и другие переработанные продукты.<br><br>См. также:<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]",
+        "zh_CN": "通过在[[炼油厂|Oil Refinery]]和[[锅炉|Boiler]]中对原油加热并精炼获得。重油可用于多种石油处理设备，例如：<br>[[化工厂|Chemical Plant]] <br>[[固化机|Solidification Machine]] <br>[[焦化装置|Coker Unit]] <br>[[热解炉|Pyrolysis Oven]] <br>[[分馏塔|Fractioning Tower]]<br>这些方法可以生产焦油、润滑剂以及其他精炼副产品。<br><br>另见：<br>[[基础石油处理|Basic Oil Processing]]<br>[[高级石油处理|Advanced Oil Processing]]<br>[[真空石油处理|Vacuum Oil Processing]]"
+    }
+}
