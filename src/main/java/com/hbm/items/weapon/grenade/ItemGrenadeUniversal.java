@@ -165,11 +165,10 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
 		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
-			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) list.add(make(shell, filling, fuze));
-		}
-		
-		for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) {
-			list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.IMPACT, extra));
+			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) {
+				list.add(make(shell, filling, fuze));
+				for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) list.add(make(shell, filling, fuze, extra));
+			}
 		}
 	}
 
@@ -212,6 +211,15 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGMOVE", new BusAnimationSequence().hold(900).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
 					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
+		}
+		
+		if(shell == EnumGrenadeShell.NUKE) {
+			return new BusAnimation()
+					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).hold(250).addPos(0, 0, 0, 850, IType.SIN_DOWN))
+					.addBus("BODYTURN", new BusAnimationSequence().setPos(0, 0, 90).hold(250).addPos(0, 0, -25, 850, IType.SIN_DOWN).hold(200).addPos(0, 0, -30, 100, IType.SIN_DOWN).addPos(0, 0, 0, 750, IType.SIN_FULL))
+					.addBus("RINGMOVE", new BusAnimationSequence().hold(1300).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
+					.addBus("RINGTURN", new BusAnimationSequence().hold(1300).addPos(0, 0, 720, 500)) // SPEEN
+					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1750).setPos(0, 0, 0));
 		}
 		
 		return null;
