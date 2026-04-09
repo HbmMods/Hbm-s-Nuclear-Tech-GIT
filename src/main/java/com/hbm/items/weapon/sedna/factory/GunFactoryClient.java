@@ -244,8 +244,7 @@ public class GunFactoryClient {
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 
-		ItemGrenadeFilling.fragmentation.setRenderer(LegoClient.RENDER_FRAGMENTATION);
-		ItemGrenadeFilling.pellets.setRenderer(LegoClient.RENDER_FRAGMENTATION);
+		setRendererBulk(LegoClient.RENDER_FRAGMENTATION, ItemGrenadeFilling.fragmentation, ItemGrenadeFilling.pellets, ItemGrenadeFilling.pellets_heavy);
 		ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
 		
 		//HUDS

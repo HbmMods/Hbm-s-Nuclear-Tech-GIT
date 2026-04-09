@@ -35,6 +35,7 @@ public class NTMSounds {
 	public static final String GUN_VALVE = "hbm:weapon.reload.pressureValve";
 	public static final String GUN_FATMAN_RELOAD = "hbm:weapon.reload.fatmanFull";
 	public static final String GRENADE_TECH = "hbm:weapon.reload.grenadeTech";
+	public static final String GRENADE_NUKA = "hbm:weapon.reload.grenadeNuka";
 	
 	/// FOLEY ///
 	public static final String GUN_WHACK = "hbm:weapon.foley.gunWhack";

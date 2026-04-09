@@ -23,7 +23,6 @@ public class DispenserBehaviorHandler {
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_universal, new BehaviorDefaultDispenseItem() {
 			@Override protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 
-				IPosition iposition = BlockDispenser.func_149939_a(source);
 				EnumFacing enumfacing = BlockDispenser.func_149937_b(source.getBlockMetadata());
 				
 				EntityGrenadeUniversal grenade = new EntityGrenadeUniversal(source.getWorld(), stack);

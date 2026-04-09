@@ -117,6 +117,9 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 				if(shell == EnumGrenadeShell.TECH && deployment == 18) {
 					world.playSoundAtEntity(player, NTMSounds.GRENADE_TECH, 1F, 1F);
 				}
+				if(shell == EnumGrenadeShell.NUKE && deployment == 26) {
+					world.playSoundAtEntity(player, NTMSounds.GRENADE_NUKA, 1F, 1F);
+				}
 			}
 		}
 
