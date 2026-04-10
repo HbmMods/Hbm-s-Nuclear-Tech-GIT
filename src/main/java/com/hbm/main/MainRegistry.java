@@ -643,6 +643,10 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(neutronHandler);
 		FMLCommonHandler.instance().bus().register(neutronHandler);
 
+		BlockMigrations migrations = new BlockMigrations();
+		MinecraftForge.EVENT_BUS.register(migrations);
+		FMLCommonHandler.instance().bus().register(migrations);
+
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
 			HbmKeybinds keyHandler = new HbmKeybinds();

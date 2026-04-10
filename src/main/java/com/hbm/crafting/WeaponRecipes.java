@@ -16,11 +16,6 @@ import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunB92Cell;
-import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
-import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
-import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
-import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
-import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModGeneric;
@@ -336,23 +331,5 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.lamp_demon, 1), new Object[] { " D ", "S S", 'D', ModItems.demon_core_closed, 'S', STEEL.ingot() });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.crucible, 1, 3), new Object[] { "MEM", "YDY", "YCY", 'M', ModItems.ingot_meteorite_forged, 'E', EUPH.ingot(), 'Y', ModItems.billet_yharonite, 'D', ModItems.demon_core_closed, 'C', ModItems.ingot_chainsteel });
-		
-		// that's a few hundred recipes. is this a good idea? the recipe lookup is slow as molasses because this asshole iterates over every fucking recipe to find a match
-		// mayhaps we need to invest into a custom solution because right now this might end up badly
-		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
-			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) {
-				
-				CraftingManager.addShapelessAuto(ItemGrenadeUniversal.make(shell, filling, fuze), new Object[] {
-						new ItemStack(ModItems.grenade_shell, 1, shell.ordinal()),
-						new ItemStack(ModItems.grenade_filling, 1, filling.ordinal()),
-						new ItemStack(ModItems.grenade_fuze, 1, fuze.ordinal()) });
-				
-				for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) CraftingManager.addShapelessAuto(ItemGrenadeUniversal.make(shell, filling, fuze, extra), new Object[] {
-							new ItemStack(ModItems.grenade_shell, 1, shell.ordinal()),
-							new ItemStack(ModItems.grenade_filling, 1, filling.ordinal()),
-							new ItemStack(ModItems.grenade_fuze, 1, fuze.ordinal()),
-							new ItemStack(ModItems.grenade_extra, 1, extra.ordinal())});
-			}
-		}
 	}
 }

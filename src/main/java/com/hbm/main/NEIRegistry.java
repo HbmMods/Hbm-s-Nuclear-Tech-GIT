@@ -50,6 +50,7 @@ public class NEIRegistry {
 		handlers.add(new RBMKRodDisassemblyHandler());
 		handlers.add(new RBMKWasteDecayHandler());
 		handlers.add(new SatelliteHandler());
+		handlers.add(new GrenadeRecipeHandler());
 
 		//universal boyes
 		handlers.add(new ZirnoxRecipeHandler());
