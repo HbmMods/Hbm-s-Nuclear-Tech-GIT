@@ -18,6 +18,9 @@
 * Cast plate foundry molds now have a triple variant
 * Zombies now have a chance to drop copper, aluminium and titanium ingots (1:200 each)
 * The burner press now has nine additional storage slots for things like stamps and reserve fuel
+* Improved minigun muzzleflash
+  * The flash is now faster and larger
+  * Moved the origin up to be at the firing barrel instead of the center of the rotor
 
 ## Fixed
 * Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge

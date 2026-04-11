@@ -21,6 +21,7 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnimatedItem {
@@ -177,11 +179,11 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add("item.grenade_universal.shell." + this.getShell(stack).name().toLowerCase(Locale.US));
-		list.add("item.grenade_universal.filling." + this.getFilling(stack).name().toLowerCase(Locale.US));
-		list.add("item.grenade_universal.fuze." + this.getFuze(stack).name().toLowerCase(Locale.US));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_shell.getUnlocalizedName() + "." + this.getShell(stack).name().toLowerCase(Locale.US) + ".name"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_filling.getUnlocalizedName() + "." + this.getFilling(stack).name().toLowerCase(Locale.US) + ".name"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_fuze.getUnlocalizedName() + "." + this.getFuze(stack).name().toLowerCase(Locale.US) + ".name"));
 		EnumGrenadeExtra extra = this.getExtra(stack);
-		if(extra != null) list.add("item.grenade_universal.extra." + extra.name().toLowerCase(Locale.US));
+		if(extra != null) list.add(EnumChatFormatting.RED + I18nUtil.resolveKey(ModItems.grenade_extra.getUnlocalizedName() + "." + extra.name().toLowerCase(Locale.US) + ".name"));
 	}
 
 	@Override
