@@ -960,8 +960,6 @@ public class ResourceManager {
 
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
-	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
-	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
 	public static final IModelCustom grenades = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenades.obj"));
 
 	public static final IModelCustom armor_bj = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/BJ.obj")).asVBO();
@@ -1102,8 +1100,6 @@ public class ResourceManager {
 	public static final ResourceLocation ff_gun_dark = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gun_dark.png");
 	public static final ResourceLocation ff_gun_normal = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ff/gun_normal.png");
 
-	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
-	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");
 	public static final ResourceLocation grenade_frag_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/frag.png");
 	public static final ResourceLocation grenade_frag_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/frag_body.png");
 	public static final ResourceLocation grenade_frag_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/frag_label.png");

@@ -8,6 +8,11 @@ import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
+import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
+import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
+import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import static com.hbm.lib.HbmChestContents.*;
@@ -111,9 +116,9 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ammo_standard, EnumAmmo.ROCKET_HE.ordinal(), 1, 4, 5),
 					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_SUPPLY.ordinal(), 1, 1, 5),
 					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_WEAPON.ordinal(), 1, 1, 3),
-					weighted(ModItems.grenade_nuclear, 0, 1, 1, 2),
-					weighted(ModItems.grenade_smart, 0, 1, 3, 3),
-					weighted(ModItems.grenade_mirv, 0, 1, 1, 2),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.NUKE, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S7), 1, 1, 2),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.CLUSTER, EnumGrenadeFuze.S7), 1, 3, 3),
+					weighted(ModItems.grenade_extra, EnumGrenadeExtra.TRIPLEX.ordinal(), 1, 1, 1),
 					weighted(ModItems.stealth_boy, 0, 1, 1, 2),
 					weighted(ModItems.battery_pack, EnumBatteryPack.BATTERY_LITHIUM.ordinal(), 1, 1, 1),
 					weighted(ModItems.syringe_awesome, 0, 1, 1, 1),
@@ -202,7 +207,7 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.stealth_boy, 0, 1, 1, 7),
 					weighted(ModItems.gas_mask_m65, 0, 1, 1, 5),
 					weighted(ModItems.gas_mask_filter, 0, 1, 1, 5),
-					weighted(ModItems.grenade_nuclear, 0, 1, 2, 2),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.NUKE, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S7), 1, 2, 2),
 					weighted(ModItems.bomb_caller, 0, 1, 1, 1),
 					weighted(ModItems.bomb_caller, 1, 1, 1, 1),
 					weighted(ModItems.bomb_caller, 2, 1, 1, 2)

@@ -30,7 +30,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.hbm.blocks.bomb.BlockDetonatable;
-import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -40,6 +39,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+@Deprecated // ancient ass fucking bullet entity from pre ItemGunBase days
 public class EntityBullet extends Entity implements IProjectile {
 	private int tileX = -1;
 	private int tileY = -1;
@@ -189,31 +189,6 @@ public class EntityBullet extends Entity implements IProjectile {
 		this.setTau(isTau == "tauDay");
 		this.setChopper(isTau == "chopper");
 		this.setIsCritical(isTau != "chopper");
-	}
-	
-	//why the living shit did i make isTau a string? who knows, who cares.
-	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
-			boolean instakill, String isTau, EntityGrenadeTau grenade) {
-		super(p_i1756_1_);
-		this.renderDistanceWeight = 10.0D;
-		this.shootingEntity = p_i1756_2_;
-
-		this.setSize(0.5F, 0.5F);
-		this.setLocationAndAngles(grenade.posX, grenade.posY + grenade.getEyeHeight(), grenade.posZ,
-				grenade.rotationYaw, grenade.rotationPitch);
-		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
-		this.posY -= 0.10000000149011612D;
-		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
-		this.setPosition(this.posX, this.posY, this.posZ);
-		this.yOffset = 0.0F;
-		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
-		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
-		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
-		this.setTau(isTau == "tauDay");
-		this.setIsCritical(true);
 	}
 
 	public EntityBullet(World world, int x, int y, int z, double mx, double my, double mz, double grav) {

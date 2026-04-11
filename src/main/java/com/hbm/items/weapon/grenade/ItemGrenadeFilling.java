@@ -62,6 +62,7 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		HE(EXPLODE_HE,							0x595533, 0xA49D62, FRAG, STICK),	// high explosive
 		DEMO(EXPLODE_DEMO,						0x595533, 0xDD4029, FRAG, STICK),	// demolition
 		INC(EXPLODE_INC,						0x5A5A5A, 0xFF5F21, FRAG, STICK),	// incendiary
+		WP(EXPLODE_WP,							0xDCDCDC, 0xFF5F21, FRAG, STICK),	// white phosphorus
 		CLUSTER(EXPLODE_CLUSTER,				0x5A5A5A, 0xFFC711, FRAG, STICK),	// explosive pellets
 		EMP(EXPLODE_EMP,						0x93A1AC, 0x00FFFF, TECH),			// tesla
 		PLASMA(EXPLODE_PLASMA,					0x655B2C, 0x4CFF00, TECH),			// EMP but more oomph
@@ -131,17 +132,35 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		fire.setPosition(grenade.posX, grenade.posY, grenade.posZ);
 		world.spawnEntityInWorld(fire);
 		for(int dx = -2; dx <= 2; dx++) for(int dy = -2; dy <= 2; dy++) for(int dz = -2; dz <= 2; dz++) {
-			int x = (int) Math.floor(grenade.posX) + dx;
-			int y = (int) Math.floor(grenade.posY) + dy;
-			int z = (int) Math.floor(grenade.posZ) + dz;
-			if(world.getBlock(x, y, z).isAir(grenade.worldObj, x, y, z)) {
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isFlammable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
-						world.setBlock(x, y, z, Blocks.fire);
-						break;
-					}
+			int x = (int) Math.floor(grenade.posX) + dx; int y = (int) Math.floor(grenade.posY) + dy; int z = (int) Math.floor(grenade.posZ) + dz;
+			if(world.getBlock(x, y, z).isAir(grenade.worldObj, x, y, z)) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isFlammable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
+					world.setBlock(x, y, z, Blocks.fire);
+					break;
 				}
 			}
+		}
+	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_WP = (grenade) -> {
+		World world = grenade.worldObj;
+		standardExplode(grenade, 3F, 10F);
+		EntityFireLingering fire = new EntityFireLingering(world).setArea(6, 2).setDuration(600).setType(EntityFireLingering.TYPE_PHOSPHORUS);
+		fire.setPosition(grenade.posX, grenade.posY, grenade.posZ);
+		world.spawnEntityInWorld(fire);
+		for(int dx = -3; dx <= 3; dx++) for(int dy = -3; dy <= 3; dy++) for(int dz = -3; dz <= 3; dz++) {
+			int x = (int) Math.floor(grenade.posX) + dx; int y = (int) Math.floor(grenade.posY) + dy; int z = (int) Math.floor(grenade.posZ) + dz;
+			if(world.getBlock(x, y, z).isAir(grenade.worldObj, x, y, z)) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isFlammable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
+					world.setBlock(x, y, z, Blocks.fire);
+					break;
+				}
+			}
+		}
+		for(int i = 0; i < 3; i++) {
+			NBTTagCompound haze = new NBTTagCompound();
+			haze.setString("type", "haze");
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(haze, grenade.posX + grenade.worldObj.rand.nextGaussian() * 4, grenade.posY, grenade.posZ + grenade.worldObj.rand.nextGaussian() * 4), new TargetPoint(grenade.dimension, grenade.posX, grenade.posY, grenade.posZ, 150));
 		}
 	};
 	

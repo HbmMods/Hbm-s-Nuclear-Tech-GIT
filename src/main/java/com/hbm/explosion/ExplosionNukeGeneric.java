@@ -20,10 +20,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
-import com.hbm.entity.grenade.EntityGrenadeASchrab;
-import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
-import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.entity.projectile.EntityB92Beam;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -102,9 +100,7 @@ public class ExplosionNukeGeneric {
 	private static boolean isExplosionExempt(Entity e) {
 		
 		if (e instanceof EntityOcelot ||
-				e instanceof EntityGrenadeASchrab ||
-				e instanceof EntityGrenadeNuclear ||
-				e instanceof EntityExplosiveBeam ||
+				e instanceof EntityB92Beam ||
 				e instanceof EntityBulletBaseNT ||
 				e instanceof EntityPlayer &&
 				ArmorUtil.checkArmor((EntityPlayer) e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {

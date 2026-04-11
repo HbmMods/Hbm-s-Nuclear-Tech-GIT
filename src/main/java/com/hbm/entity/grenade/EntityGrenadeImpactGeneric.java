@@ -30,7 +30,7 @@ public class EntityGrenadeImpactGeneric extends EntityGrenadeBase implements IGe
 	@Override
 	public ItemGenericGrenade getGrenade() {
 		ItemGenericGrenade gren = (ItemGenericGrenade) Item.getItemById(this.dataWatcher.getWatchableObjectInt(12));
-		return gren != null ? gren : (ItemGenericGrenade) ModItems.grenade_kyiv;
+		return gren != null ? gren : (ItemGenericGrenade) ModItems.stick_dynamite;
 	}
 
 	@Override

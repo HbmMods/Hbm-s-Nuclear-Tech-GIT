@@ -4,13 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
@@ -26,7 +24,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
@@ -524,51 +521,6 @@ public class ExplosionChaos { //TODO: destroy this entire class
 				}
 			}
 		}
-	}
-
-	public static void tauMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
-			EntityGrenadeTau tau) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntityBullet fragment;
-
-		if (shooter != null && shooter instanceof EntityPlayer)
-			for (int i = 0; i < count; i++) {
-				d1 = rand.nextDouble();
-				d2 = rand.nextDouble();
-				d3 = rand.nextDouble();
-
-				if (rand.nextInt(2) == 0) {
-					d1 *= -1;
-				}
-
-				if (rand.nextInt(2) == 0) {
-					d2 *= -1;
-				}
-
-				if (rand.nextInt(2) == 0) {
-					d3 *= -1;
-				}
-
-				if (rand.nextInt(5) == 0) {
-					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "tauDay", tau);
-					fragment.setDamage(rand.nextInt(301) + 100);
-				} else {
-					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "eyyOk", tau);
-					fragment.setDamage(rand.nextInt(11) + 35);
-				}
-
-				fragment.motionX = d1 * 5;
-				fragment.motionY = d2 * 5;
-				fragment.motionZ = d3 * 5;
-				fragment.shootingEntity = shooter;
-
-				fragment.setIsCritical(true);
-
-				world.spawnEntityInWorld(fragment);
-			}
 	}
 
 	public static void levelDown(World world, int x, int y, int z, int radius) {

@@ -629,8 +629,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.jackt2), new Object[] { "S S", "LIL", "III", 'S', STEEL.plate(), 'L', Items.leather, 'I', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.vent_chlorine), new Object[] { "IGI", "ICI", "IDI", 'I', IRON.plate(), 'G', Blocks.iron_bars, 'C', ModItems.pellet_gas, 'D', Blocks.dispenser });
 		addRecipeAuto(new ItemStack(ModBlocks.vent_chlorine_seal), new Object[] { "ISI", "SCS", "ISI", 'I', BIGMT.ingot(), 'S', STAR.ingot(), 'C', ModItems.chlorine_pinwheel });
-		addRecipeAuto(new ItemStack(ModBlocks.vent_cloud), new Object[] { "IGI", "ICI", "IDI", 'I', IRON.plate(), 'G', Blocks.iron_bars, 'C', ModItems.grenade_cloud, 'D', Blocks.dispenser });
-		addRecipeAuto(new ItemStack(ModBlocks.vent_pink_cloud), new Object[] { "IGI", "ICI", "IDI", 'I', IRON.plate(), 'G', Blocks.iron_bars, 'C', ModItems.grenade_pink_cloud, 'D', Blocks.dispenser });
 		addRecipeAuto(new ItemStack(ModBlocks.spikes, 4), new Object[] { "BBB", "BBB", "TTT", 'B', STEEL.bolt(), 'T', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.custom_fall, 1), new Object[] { "IIP", "CHW", "IIP", 'I', ANY_RUBBER.ingot(), 'P', BIGMT.plate(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'H', STEEL.shell(), 'W', ModItems.coil_copper });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_controller, 1), new Object[] { "TDT", "DCD", "TDT", 'T', ANY_RESISTANTALLOY.ingot(), 'D', ModItems.crt_display, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });

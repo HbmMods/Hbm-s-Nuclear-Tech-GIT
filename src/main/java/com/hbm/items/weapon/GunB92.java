@@ -6,7 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.entity.projectile.EntityB92Beam;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
 
@@ -62,8 +62,8 @@ public class GunB92 extends Item {
 
 				if (!p_77615_2_.isRemote)
 					for(int i = 0; i < getPower(p_77615_1_); i++) {
-						EntityExplosiveBeam entityarrow1;
-						entityarrow1 = new EntityExplosiveBeam(p_77615_2_, p_77615_3_, 3.0F);
+						EntityB92Beam entityarrow1;
+						entityarrow1 = new EntityB92Beam(p_77615_2_, p_77615_3_, 3.0F);
 						
 						float divergence = i * 0.2F;
 						
