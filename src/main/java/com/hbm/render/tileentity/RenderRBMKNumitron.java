@@ -71,7 +71,8 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 				else if(c == 'M') {u = 0.1; v = 0.5;}
 				else if(c == 'G') {u = 0.2; v = 0.5;}
 				else if(c == 'T') {u = 0.3; v = 0.5;}
-				else if(c == 'P') {u = 0.4; v = 0.5;} // i would love to say this sucks, but this is actually surprisingly easy to read and probably the most performant way of doing it
+				else if(c == 'P') {u = 0.4; v = 0.5;}
+				else if(c == 'E') {u = 0.5; v = 0.5;} // i would love to say this sucks, but this is actually surprisingly easy to read and probably the most performant way of doing it
 				int charVal = c - '0'; // no string operations, no int parsing, no nothing, we just rawdog shit shit
 				if(charVal >= 0 && charVal <= 9) {u = 0.1 * charVal; v = 0.0;}
 				if(u == -1) {u = 0.8; v = 0.5;}

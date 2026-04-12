@@ -52,17 +52,17 @@ public class RenderRBMKGraph extends TileEntitySpecialRenderer {
 			FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 			int height = font.FONT_HEIGHT;
 
-			int lowest = BobMathUtil.min(unit.values);
-			int highest = BobMathUtil.max(unit.values);
+			long lowest = BobMathUtil.min(unit.values);
+			long highest = BobMathUtil.max(unit.values);
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawing(GL11.GL_LINES);
 			tess.setColorOpaque_I(0x00ff00);
-			int range = highest - lowest;
+			long range = highest - lowest;
 			for(int v = 0; v < unit.values.length - 1; v++) {
 				for(int j = 0; j < 2; j++) {
 					int k = v + j;
-					int flux = unit.values[k];
+					long flux = unit.values[k];
 					double dx = 0.03225;
 					double dy = 0.5 - 0.03125 + (flux - lowest) * 0.1875D / Math.max(range, 1);
 					double dz = 0.375 - k * 0.75 / (unit.values.length - 1);

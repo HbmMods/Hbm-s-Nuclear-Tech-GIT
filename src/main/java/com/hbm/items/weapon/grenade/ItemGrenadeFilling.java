@@ -7,8 +7,10 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.grenade.EntityGrenadeUniversal;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -69,7 +71,8 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 		LASER(EXPLODE_LASER,					0x493A3A, 0xFF0000, TECH),			// pew pew pew
 		CLUSTER_HEAVY(EXPLODE_CLUSTER_HEAVY,	0x5A5A5A, 0xFF5F21, NUKE),			// cluster but fat
 		NUCLEAR(EXPLODE_NUKE,					0xDFD7A8, 0xA49D62, NUKE),			// nuka grenade
-		NUCLEAR_DEMO(EXPLODE_NUKE_DEMO,			0xDFD7A8, 0xDD4029, NUKE);			// demolition nuka grenade
+		NUCLEAR_DEMO(EXPLODE_NUKE_DEMO,			0xDFD7A8, 0xDD4029, NUKE),			// demolition nuka grenade
+		SCHRAB(EXPLODE_SCHRAB,					0x00BDBD, 0x000000, NUKE);			// what used to be aschrab
 
 		public Consumer<EntityGrenadeUniversal> explode;
 		public Set<EnumGrenadeShell> compatibleShells = new HashSet();
@@ -216,6 +219,17 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 
 		XFactoryCatapult.incrementRad(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, 1.5F);
 		spawnMush(grenade);
+	};
+	
+	public static Consumer<EntityGrenadeUniversal> EXPLODE_SCHRAB = (grenade) -> {
+		EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, 50);
+		if(!ex.isDead) {
+			grenade.worldObj.playSoundEffect(grenade.posX, grenade.posY, grenade.posZ, "random.explode", 100.0F, grenade.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+			grenade.worldObj.spawnEntityInWorld(ex);
+			EntityCloudFleija cloud = new EntityCloudFleija(grenade.worldObj, 50);
+			cloud.setPosition(grenade.posX, grenade.posY, grenade.posZ);
+			grenade.worldObj.spawnEntityInWorld(cloud);
+		}
 	};
 
 	public static void incrementRad(World world, double posX, double posY, double posZ, float mult) {

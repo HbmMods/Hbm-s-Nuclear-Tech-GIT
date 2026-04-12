@@ -2973,6 +2973,7 @@ item.grenade_filling.nuclear.name=Nuclear Grenade Charge
 item.grenade_filling.nuclear_demo.name=Nuclear Demolition Grenade Charge
 item.grenade_filling.plasma.name=Plasma Grenade Charge
 item.grenade_filling.powder.name=Gunpowder Grenade Charge
+item.grenade_filling.schrab.name=Schrabidium Grenade Charge
 item.grenade_filling.wp.name=White Phosphorus Grenade Charge
 item.grenade_fuze.airburst.name=Airburst Grenade Fuze
 item.grenade_fuze.impact.name=Impact Grenade Fuze

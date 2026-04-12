@@ -2145,6 +2145,7 @@ item.grenade_filling.nuclear.name=Atomare Granatenladung
 item.grenade_filling.nuclear_demo.name=Atomare Abrissgranatenladung
 item.grenade_filling.plasma.name=Plasmagranatenladung
 item.grenade_filling.powder.name=Pulverladung
+item.grenade_filling.schrab.name=Schrabidiumgranatenladung
 item.grenade_filling.wp.name=Weiße Phosphorgranatenladung
 item.grenade_fuze.airburst.name=Luftdetonationszünder
 item.grenade_fuze.impact.name=Aufschlagzünder
