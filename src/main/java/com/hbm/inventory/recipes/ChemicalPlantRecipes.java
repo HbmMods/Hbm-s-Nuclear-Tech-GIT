@@ -196,8 +196,8 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.polymer").setup(100, 100)
 				.inputItems(new OreDictStack(COAL.dust(), 2), new OreDictStack(F.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
-				.outputItems(new ItemStack(ModItems.ingot_polymer)));
+				.inputFluids(new FluidStack(Fluids.PETROLEUM, 1_000, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
+				.outputItems(new ItemStack(ModItems.ingot_polymer, 4)));
 		
 		this.register(new GenericRecipe("chem.bakelite").setup(100, 100)
 				.inputFluids(new FluidStack(Fluids.AROMATICS, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0), new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))

@@ -78,7 +78,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		/** What channel to read values from */
 		public String rtty = "";
 		/** The current read value on the display */
-		public int value;
+		public long value;
 		/** Whether this display is visible on the panel */
 		public boolean active;
 		
@@ -91,13 +91,13 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			if(rtty == null || rtty.isEmpty()) return;
 			
 			RTTYChannel chan = RTTYSystem.listen(worldObj, rtty);
-			int sigVal = 0;
+			long sigVal = 0;
 			
 			if(chan != null && chan.timeStamp < worldObj.getTotalWorldTime() - 1) chan = null;
 			
 			// always accept new signals
 			if(chan != null && chan.signal != null) {
-				try { sigVal = Integer.parseInt(chan.signal.toString()); } catch(Exception ex) { }
+				try { sigVal = Long.parseLong(chan.signal.toString()); } catch(Exception ex) { }
 				this.value = sigVal;
 			} else {
 				// if there's no new signal and we're polling, set to 0
@@ -110,7 +110,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			buf.writeBoolean(polling);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
-			buf.writeInt(value);
+			buf.writeLong(value);
 		}
 
 		public void deserialize(ByteBuf buf) {
@@ -118,7 +118,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			value = buf.readInt();
+			value = buf.readLong();
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
@@ -126,7 +126,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.value = nbt.getInteger("value" + index);
+			this.value = nbt.getLong("value" + index);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
@@ -134,7 +134,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setInteger("value" + index, value);
+			nbt.setLong("value" + index, value);
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.hbm.tileentity;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -14,6 +15,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 	public boolean isLoaded = true;
 	public boolean muffled = false;
+	public boolean tilted = false;
+	public int tiltBlocksChecked = 0;
+	public int tiltBlocksValid = 0;
 
 	@Override
 	public boolean isLoaded() {
@@ -39,12 +43,14 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.muffled = nbt.getBoolean("muffled");
+		this.tilted = nbt.getBoolean("tilted");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("muffled", muffled);
+		nbt.setBoolean("tilted", tilted);
 	}
 
 	public float getVolume(float baseVolume) {
@@ -56,11 +62,13 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBoolean(muffled);
+		buf.writeBoolean(tilted);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.muffled = buf.readBoolean();
+		this.tilted = buf.readBoolean();
 	}
 
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
@@ -84,5 +92,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 		PacketThreading.createAllAroundThreadedPacket(packet, new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
-
+	
+	public void checkTilt(BlockPos[] floor, boolean extraHeavy) {
+		if(this.worldObj.getTotalWorldTime() % 20 != 0) return;
+		// TBI i need a break
+	}
 }

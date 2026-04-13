@@ -78,7 +78,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 		/** What channel to read values from */
 		public String rtty = "";
 		/** The current read value on the display */
-		public int[] values = new int[30]; // 2 values/s for 15 seconds
+		public long[] values = new long[30]; // 2 values/s for 15 seconds
 		/** Whether this graph is visible on the panel */
 		public boolean active;
 		
@@ -91,13 +91,13 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			if(rtty == null || rtty.isEmpty()) return;
 			
 			RTTYChannel chan = RTTYSystem.listen(worldObj, rtty);
-			int sigVal = 0;
+			long sigVal = 0;
 			
 			if(chan != null && chan.timeStamp < worldObj.getTotalWorldTime() - 1) chan = null;
 			
 			// always accept new signals
 			if(chan != null && chan.signal != null) {
-				try { sigVal = Integer.parseInt(chan.signal.toString()); } catch(Exception ex) { }
+				try { sigVal = Long.parseLong(chan.signal.toString()); } catch(Exception ex) { }
 				pushValue(sigVal);
 			} else {
 				// if there's no new signal and we're polling, set to 0
@@ -105,7 +105,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			}
 		}
 		
-		public void pushValue(int value) {
+		public void pushValue(long value) {
 			
 			for(int i = 1; i < values.length; i++) {
 				values[i - 1] = values[i];
@@ -120,7 +120,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			BufferUtil.writeString(buf, rtty);
 			// original idea had the system send the min value, max value, and all values
 			// crunched down to single bytes because the graph simply doesn't need this much resolution
-			if(active) for(int i = 0; i < values.length; i++) buf.writeInt(values[i]);
+			if(active) for(int i = 0; i < values.length; i++) buf.writeLong(values[i]);
 			// was overkill though
 		}
 
@@ -129,7 +129,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			if(active) for(int i = 0; i < values.length; i++) values[i] = buf.readInt();
+			if(active) for(int i = 0; i < values.length; i++) values[i] = buf.readLong();
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
@@ -137,7 +137,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.values = nbt.getIntArray("value" + index);
+			for(int i = 0; i < values.length; i++) this.values[i] = nbt.getLong("value" + index + "_" + i);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
@@ -145,7 +145,7 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setIntArray("value" + index, values);
+			for(int i = 0; i < values.length; i++) nbt.setLong("value" + index + "_" + i, values[i]);
 		}
 	}
 

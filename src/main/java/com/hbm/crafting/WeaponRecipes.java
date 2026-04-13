@@ -171,8 +171,8 @@ public class WeaponRecipes {
 		//Missiles
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_taint, 1), new Object[] { ModItems.missile_assembly, ModItems.bucket_mud, ModItems.powder_spark_mix, ModItems.powder_magic });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_micro, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH) });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_bhole, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.black_hole });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, ANY_HARDPLASTIC.ingot() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_bhole, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.black_hole, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.QUANTUM) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_emp, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.emp_bomb });
 		
 		//Missile fins
@@ -278,6 +278,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_filling, 4, EnumGrenadeFilling.LASER.ordinal()), new Object[] { " C ", "KWK", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK), 'K', ModItems.crystal_redstone, 'W', WEAPONSTEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_filling, 1, EnumGrenadeFilling.NUCLEAR.ordinal()), new Object[] { " T ", "CPC", " T ", 'T', ModItems.ball_tatb, 'C', WEAPONSTEEL.plate(), 'P', PU239.nugget() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_filling, 1, EnumGrenadeFilling.NUCLEAR_DEMO.ordinal()), new Object[] { "TPT", "CPC", "TPT", 'T', ModItems.ball_tatb, 'C', WEAPONSTEEL.plate(), 'P', PU239.nugget() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_filling, 1, EnumGrenadeFilling.SCHRAB.ordinal()), new Object[] { "BCB", "TST", "BCB", 'B', ANY_BISMOIDBRONZE.plateCast(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER), 'T', ModItems.ball_tatb, 'S', ModItems.cell_sas3 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_extra, 1, EnumGrenadeExtra.GLUE.ordinal()), new Object[] { " P ", "PSP", " P ", 'P', Items.paper, 'S', Items.slime_ball });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_extra, 1, EnumGrenadeExtra.PROXY_FUZE.ordinal()), new Object[] { "C", "F", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), 'F', ModItems.safety_fuse });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_extra, 1, EnumGrenadeExtra.FRAG_SLEEVE.ordinal()), new Object[] { "BBB", " T ", "BBB", 'B', STEEL.bolt(), 'T', ModItems.ducttape });

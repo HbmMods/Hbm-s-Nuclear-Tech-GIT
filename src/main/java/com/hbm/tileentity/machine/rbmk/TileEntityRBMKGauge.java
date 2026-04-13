@@ -84,11 +84,11 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 		/** What channel to read values from */
 		public String rtty = "";
 		/** The minium value handled by the gauge */
-		public int min = 0;
+		public long min = 0;
 		/** The maximum value of the gauge, i.e. where the red area begins */
-		public int max = 100;
+		public long max = 100;
 		/** The current read value of the gauge, i.e. the needle position */
-		public int value;
+		public long value;
 		/** For smoothig */
 		public double renderValue;
 		public double lastRenderValue;
@@ -134,9 +134,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			buf.writeInt(color);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
-			buf.writeInt(min);
-			buf.writeInt(max);
-			buf.writeInt(value);
+			buf.writeLong(min);
+			buf.writeLong(max);
+			buf.writeLong(value);
 		}
 
 		public void deserialize(ByteBuf buf) {
@@ -145,9 +145,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			color = buf.readInt();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			min = buf.readInt();
-			max = buf.readInt();
-			value = buf.readInt();
+			min = buf.readLong();
+			max = buf.readLong();
+			value = buf.readLong();
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
@@ -156,9 +156,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			this.color = nbt.getInteger("color" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.min = nbt.getInteger("min" + index);
-			this.max = nbt.getInteger("max" + index);
-			this.value = nbt.getInteger("value" + index);
+			this.min = nbt.getLong("min" + index);
+			this.max = nbt.getLong("max" + index);
+			this.value = nbt.getLong("value" + index);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
@@ -167,9 +167,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			nbt.setInteger("color" + index, color);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setInteger("min" + index, min);
-			nbt.setInteger("max" + index, max);
-			nbt.setInteger("value" + index, value);
+			nbt.setLong("min" + index, min);
+			nbt.setLong("max" + index, max);
+			nbt.setLong("value" + index, value);
 		}
 	}
 
