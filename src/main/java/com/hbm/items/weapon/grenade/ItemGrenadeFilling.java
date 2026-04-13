@@ -191,7 +191,8 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 
 			Vec3 delta = Vec3.createVectorHelper(target.posX - x, target.posY + target.height / 2 - y, target.posZ - z);
 			if(delta.lengthVector() > range) continue;
-			EntityBulletBeamBase sub = new EntityBulletBeamBase(grenade.getThrower(), laser, 30);
+			EntityBulletBeamBase sub = new EntityBulletBeamBase(grenade.worldObj, laser, 30);
+			sub.thrower = grenade.getThrower();
 			sub.setPosition(x, y, z);
 			sub.setRotationsFromVector(delta);
 			sub.performHitscanExternal(delta.lengthVector());
