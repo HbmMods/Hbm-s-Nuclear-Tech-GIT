@@ -13,6 +13,7 @@ import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
@@ -168,7 +169,8 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	};
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_EMP = (grenade) -> {
-		explodeStandardEnergy(grenade, 30F, 3F, DamageClass.ELECTRIC, 0.5F, 0.5F, 1F, 3F);
+		explodeStandardEnergy(grenade, 15F, 3F, DamageClass.ELECTRIC, 0.5F, 0.5F, 1F, 3F);
+		ExplosionNukeGeneric.empBlast(grenade.worldObj, (int) Math.floor(grenade.posX), (int) Math.floor(grenade.posY), (int) Math.floor(grenade.posZ), 5);
 	};
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_PLASMA = (grenade) -> {
