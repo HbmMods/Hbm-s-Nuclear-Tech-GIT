@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.i18n.I18nUtil;
@@ -446,10 +447,18 @@ public class DamageResistanceHandler {
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
-		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
+		DamageSource source = event.source;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) {
+			ItemStack chest = event.entityLiving.getEquipmentInSlot(3);
+			if(chest != null && chest.getItem() instanceof ArmorFSBPowered) {
+				event.ammount *= 5;
+			}
+		}
+			
+		event.ammount = calculateDamage(event.entityLiving, source, event.ammount, currentPDT, currentPDR);
 		if(event.entityLiving instanceof IResistanceProvider) {
 			IResistanceProvider irp = (IResistanceProvider) event.entityLiving;
-			irp.onDamageDealt(event.source, event.ammount);
+			irp.onDamageDealt(source, event.ammount);
 		}
 	}
 	

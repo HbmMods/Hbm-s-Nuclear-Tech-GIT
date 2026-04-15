@@ -1,3 +1,10 @@
+## Changed
+* All RoR panels now have basic item descriptions informing about the screwdriver requirement for configuration
+* EMP grenades now deal 5x damage against anything with powered armor
+  * Decreased base damage to compensate
+* EMP grenades now destroy machines in a small radius like an EMP missile would
+
 ## Fixed
 * Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos
 * Fixed dispenser fired laser grenades crashing the game
+* Fixed schrabidium grenade being obscenely powerful for no reason

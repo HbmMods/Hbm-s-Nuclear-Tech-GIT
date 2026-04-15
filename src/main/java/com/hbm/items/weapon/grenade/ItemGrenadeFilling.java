@@ -13,6 +13,7 @@ import com.hbm.entity.grenade.EntityGrenadeUniversal;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
@@ -168,7 +169,8 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	};
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_EMP = (grenade) -> {
-		explodeStandardEnergy(grenade, 30F, 3F, DamageClass.ELECTRIC, 0.5F, 0.5F, 1F, 3F);
+		explodeStandardEnergy(grenade, 15F, 3F, DamageClass.ELECTRIC, 0.5F, 0.5F, 1F, 3F);
+		ExplosionNukeGeneric.empBlast(grenade.worldObj, (int) Math.floor(grenade.posX), (int) Math.floor(grenade.posY), (int) Math.floor(grenade.posZ), 5);
 	};
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_PLASMA = (grenade) -> {
@@ -223,11 +225,11 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	};
 	
 	public static Consumer<EntityGrenadeUniversal> EXPLODE_SCHRAB = (grenade) -> {
-		EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, 50);
+		EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(grenade.worldObj, grenade.posX, grenade.posY, grenade.posZ, 20);
 		if(!ex.isDead) {
 			grenade.worldObj.playSoundEffect(grenade.posX, grenade.posY, grenade.posZ, "random.explode", 100.0F, grenade.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 			grenade.worldObj.spawnEntityInWorld(ex);
-			EntityCloudFleija cloud = new EntityCloudFleija(grenade.worldObj, 50);
+			EntityCloudFleija cloud = new EntityCloudFleija(grenade.worldObj, 20);
 			cloud.setPosition(grenade.posX, grenade.posY, grenade.posZ);
 			grenade.worldObj.spawnEntityInWorld(cloud);
 		}

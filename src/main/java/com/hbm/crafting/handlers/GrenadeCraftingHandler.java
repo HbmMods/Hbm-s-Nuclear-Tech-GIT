@@ -21,7 +21,7 @@ public class GrenadeCraftingHandler implements IRecipe {
 		if(hasForeignObject(inv)) return false; // can't be non-grenade items and can't be more than 4 items total
 		EnumGrenadeShell shell = getFirst(inv, ModItems.grenade_shell, EnumGrenadeShell.class); // only one shell, null otherwise
 		EnumGrenadeFilling filling = getFirst(inv, ModItems.grenade_filling, EnumGrenadeFilling.class); // only one filling, null otherwise
-		if(!filling.compatibleShells.contains(shell)) return false;
+		if(filling != null && shell != null && !filling.compatibleShells.contains(shell)) return false;
 		EnumGrenadeFuze fuze = getFirst(inv, ModItems.grenade_fuze, EnumGrenadeFuze.class); // only one fuze, null otherwise
 		// this leaves the extra unaccounted for, but the restrictions we put in place will allow exactly one without dedicated check
 		return shell != null && filling != null && fuze != null;
