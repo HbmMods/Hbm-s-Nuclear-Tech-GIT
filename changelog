@@ -1,10 +1,18 @@
+## Added
+* Redstone-over-radio lever
+  * Big breaker switches
+  * Up to two per module, side by side
+  * Can send different RoR values based on the lever's position
+
 ## Changed
 * All RoR panels now have basic item descriptions informing about the screwdriver requirement for configuration
 * EMP grenades now deal 5x damage against anything with powered armor
   * Decreased base damage to compensate
 * EMP grenades now destroy machines in a small radius like an EMP missile would
+* Grenades are no longer affected by nuclear blasts or other grenade explosions
 
 ## Fixed
 * Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos
 * Fixed dispenser fired laser grenades crashing the game
 * Fixed schrabidium grenade being obscenely powerful for no reason
+* Fixed annihilator recipe config throwing an error about the recipe list being empty, even though the recipe list should indeed be empty on purpose

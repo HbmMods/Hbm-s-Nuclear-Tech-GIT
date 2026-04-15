@@ -12,6 +12,7 @@ import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -23,7 +24,11 @@ public class GUIScreenRBMKLever extends GuiScreen {
 	protected int ySize;
 	protected int guiLeft;
 	protected int guiTop;
-	
+
+	protected GuiTextField[] label = new GuiTextField[4];
+	protected GuiTextField[] rtty = new GuiTextField[4];
+	protected GuiTextField[] cmdOn = new GuiTextField[4];
+	protected GuiTextField[] cmdOff = new GuiTextField[4];
 	protected boolean[] active = new boolean[2];
 	protected boolean[] polling = new boolean[2];
 	
@@ -46,6 +51,14 @@ public class GUIScreenRBMKLever extends GuiScreen {
 		int oY = 4;
 		
 		for(int i = 0; i < 2; i++) {
+			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 52, 72 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, lever.levers[i].rtty);
+			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 52, 72 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 15, lever.levers[i].label);
+			cmdOn[i] = new GuiTextField(this.fontRendererObj, guiLeft + 45 + oX, guiTop + 73 + oY + i * 52, 81 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(cmdOn[i], 32, lever.levers[i].commandOn);
+			cmdOff[i] = new GuiTextField(this.fontRendererObj, guiLeft + 166 + oX, guiTop + 73 + oY + i * 52, 81 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(cmdOff[i], 32, lever.levers[i].commandOff);
 
 			active[i] = lever.levers[i].active;
 			polling[i] = lever.levers[i].polling;
@@ -77,6 +90,10 @@ public class GUIScreenRBMKLever extends GuiScreen {
 		}
 		
 		for(int i = 0; i < 2; i++) {
+			this.label[i].drawTextBox();
+			this.rtty[i].drawTextBox();
+			this.cmdOn[i].drawTextBox();
+			this.cmdOff[i].drawTextBox();
 		}
 	}
 
@@ -111,12 +128,36 @@ public class GUIScreenRBMKLever extends GuiScreen {
 			data.setByte("polling", polling);
 			
 			for(int i = 0; i < 2; i++) {
-				/*data.setString("label" + i, this.label[i].getText());
+				data.setString("label" + i, this.label[i].getText());
 				data.setString("rtty" + i, this.rtty[i].getText());
-				data.setString("cmd" + i, this.cmd[i].getText());*/
+				data.setString("cmdOn" + i, this.cmdOn[i].getText());
+				data.setString("cmdOff" + i, this.cmdOff[i].getText());
 			}
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, lever.xCoord, lever.yCoord, lever.zCoord));
 			return;
+		}
+		
+		for(int i = 0; i < 2; i++) {
+			this.label[i].mouseClicked(x, y, b);
+			this.rtty[i].mouseClicked(x, y, b);
+			this.cmdOn[i].mouseClicked(x, y, b);
+			this.cmdOff[i].mouseClicked(x, y, b);
+		}
+	}
+
+	@Override
+	protected void keyTyped(char c, int b) {
+		
+		for(int i = 0; i < 2; i++) {
+			if(this.label[i].textboxKeyTyped(c, b)) return;
+			if(this.rtty[i].textboxKeyTyped(c, b)) return;
+			if(this.cmdOn[i].textboxKeyTyped(c, b)) return;
+			if(this.cmdOff[i].textboxKeyTyped(c, b)) return;
+		}
+		
+		if(b == 1 || b == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+			this.mc.thePlayer.closeScreen();
+			this.mc.setIngameFocus();
 		}
 	}
 

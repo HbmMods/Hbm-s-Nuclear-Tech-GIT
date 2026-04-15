@@ -467,6 +467,7 @@ container.rbmkGauge=Redstone-over-Radio Meter
 container.rbmkGraph=Redstone-over-Radio Graph
 container.rbmkHeater=RBMK Heizer
 container.rbmkKeyPad=Redstone-over-Radio Tastenfeld
+container.rbmkLever=Redstone-over-Radio Hebel
 container.rbmkNumitron=Redstone-over-Radio Ziffernanzeige
 container.rbmkOutgasser=RBMK Bestrahlungskanal
 container.rbmkReaSim=RBMK Brennstäbe (ReaSim)

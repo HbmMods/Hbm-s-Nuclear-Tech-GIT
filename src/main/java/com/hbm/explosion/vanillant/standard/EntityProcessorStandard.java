@@ -19,6 +19,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
+@Deprecated // an inferior version to the cross processors, so there is no actual reason to ever use this one
 public class EntityProcessorStandard implements IEntityProcessor {
 
 	protected IEntityRangeMutator range;

@@ -35,55 +35,39 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
 			for(int i = 0; i < 2; i++) this.levers[i].update();
-			
 			this.networkPackNT(50);
+		} else {
+			for(int i = 0; i < 2; i++) this.levers[i].updateClient();
 		}
 	}
 
-	@Override
-	public void serialize(ByteBuf buf) {
-		super.serialize(buf);
-		for(int i = 0; i < 2; i++) this.levers[i].serialize(buf);
-	}
-
-	@Override
-	public void deserialize(ByteBuf buf) {
-		super.deserialize(buf);
-		for(int i = 0; i < 2; i++) this.levers[i].deserialize(buf);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		
-		for(int i = 0; i < 2; i++) this.levers[i].readFromNBT(nbt, i);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		
-		for(int i = 0; i < 2; i++) this.levers[i].writeToNBT(nbt, i);
-	}
+	@Override public void serialize(ByteBuf buf) { super.serialize(buf); for(int i = 0; i < 2; i++) this.levers[i].serialize(buf); }
+	@Override public void deserialize(ByteBuf buf) { super.deserialize(buf); for(int i = 0; i < 2; i++) this.levers[i].deserialize(buf); }
+	@Override public void readFromNBT(NBTTagCompound nbt) { super.readFromNBT(nbt); for(int i = 0; i < 2; i++) this.levers[i].readFromNBT(nbt, i); }
+	@Override public void writeToNBT(NBTTagCompound nbt) { super.writeToNBT(nbt); for(int i = 0; i < 2; i++) this.levers[i].writeToNBT(nbt, i); }
 
 	public class LeverUnit {
 		
 		/** If the output should be per tick, allows the lever to lock in place */
 		public boolean polling;
-		/** If the lever is flipped, assuming polling is enabled */
-		public boolean isFlipped;
 		/** Label on the lever as rendered on the panel */
 		public String label = "";
 		/** What channel to send the command over */
 		public String rtty = "";
-		/** What to send when pressed */
-		public String command = "";
+		/** What to send when flipped */
+		public String commandOn = "";
+		/** What to send when not flipped */
+		public String commandOff = "";
 		/** Whether this lever is enabled and can be pressed */
 		public boolean active;
-		/** For non-polling levers, the time until the lever returns */
-		public int holdTimer;
+		/** If true, the lever tries to move down to the ON state, otherwise, tries to return to OFF */
+		public boolean isTurningOn = false;
+		public float flipProgress;
+		public float prevFlipProgress;
+		public float flipSync;
+		public int turnProgress;
+		public static final float FLIP_SPEED = 1F / 10F; // 0.5s
 		
 		public LeverUnit(int initialIndex) {
 			label = "Lever " + (initialIndex + 1);
@@ -92,70 +76,93 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 		public void click() {
 			if(!active) return;
 			
-			if(!polling) {
-				if(canSend()) RTTYSystem.broadcast(worldObj, rtty, command);
-				this.isFlipped = true;
-				this.holdTimer = 10;
-			} else {
-				this.isFlipped = !this.isFlipped;
-				TileEntityRBMKLever.this.markDirty();
-			}
-			
-			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.click", 1F, this.isFlipped ? 1F : 0.75F);
+			this.isTurningOn = !isTurningOn;
+			TileEntityRBMKLever.this.markDirty();
 		}
 		
 		public void update() {
 			if(!active) return;
 			
-			if(polling && isFlipped) {
-				if(canSend()) RTTYSystem.broadcast(worldObj, rtty, command);
+			if(polling) {
+				if(this.flipProgress >= 1F && canSend(commandOn)) RTTYSystem.broadcast(worldObj, rtty, commandOn);
+				if(this.flipProgress <= 0F && canSend(commandOff)) RTTYSystem.broadcast(worldObj, rtty, commandOff);
 			}
 			
-			if(!polling && isFlipped) {
-				if(this.holdTimer-- <= 0) {
-					this.isFlipped = false;
+			// turning on...
+			if(this.isTurningOn && this.flipProgress < 1F) {
+				this.flipProgress += FLIP_SPEED;
+				if(this.flipProgress >= 1F) {
+					this.flipProgress = 1F;
+					// for non-polling levers, send one message
+					if(!polling && canSend(commandOn)) RTTYSystem.broadcast(worldObj, rtty, commandOn);
+				}
+			
+			// turning off...
+			} else if(!this.isTurningOn && this.flipProgress > 0F) {
+				this.flipProgress -= FLIP_SPEED;
+				if(this.flipProgress <= 0F) {
+					this.flipProgress = 0F;
+					// for non-polling levers, send the off message once upon return
+					if(!polling && canSend(commandOff)) RTTYSystem.broadcast(worldObj, rtty, commandOff);
 				}
 			}
 		}
 		
-		public boolean canSend() {
-			return rtty != null && !rtty.isEmpty() && command != null && !command.isEmpty();
+		public void updateClient() {
+			this.prevFlipProgress = this.flipProgress;
+
+			// approach-based interp
+			if(this.turnProgress > 0) {
+				this.flipProgress = this.flipProgress + ((this.flipSync - this.flipProgress) / (float) this.turnProgress);
+				--this.turnProgress;
+			} else {
+				this.flipProgress = this.flipSync;
+			}
 		}
+
+		public boolean canSend(String command) { return rtty != null && !rtty.isEmpty() && command != null && !command.isEmpty(); }
 
 		public void serialize(ByteBuf buf) {
 			buf.writeBoolean(active);
 			buf.writeBoolean(polling);
-			buf.writeBoolean(isFlipped);
+			buf.writeFloat(flipProgress);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
-			BufferUtil.writeString(buf, command);
+			BufferUtil.writeString(buf, commandOn);
+			BufferUtil.writeString(buf, commandOff);
 		}
 
 		public void deserialize(ByteBuf buf) {
 			active = buf.readBoolean();
 			polling = buf.readBoolean();
-			isFlipped = buf.readBoolean();
+			flipSync = buf.readFloat();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			command = BufferUtil.readString(buf);
+			commandOn = BufferUtil.readString(buf);
+			commandOff = BufferUtil.readString(buf);
+			turnProgress = 3; // three-ply for extra smoothness
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
 			this.active = nbt.getBoolean("active" + index);
 			this.polling = nbt.getBoolean("polling" + index);
-			this.isFlipped = nbt.getBoolean("isFlipped" + index);
+			this.isTurningOn = nbt.getBoolean("isTurningOn" + index);
+			this.flipProgress = nbt.getFloat("flipProgress" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.command = nbt.getString("command" + index);
+			this.commandOn = nbt.getString("commandOn" + index);
+			this.commandOff = nbt.getString("commandOff" + index);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
 			nbt.setBoolean("active" + index, active);
 			nbt.setBoolean("polling" + index, polling);
-			nbt.setBoolean("isFlipped" + index, isFlipped);
+			nbt.setBoolean("isTurningOn" + index, isTurningOn);
+			nbt.setFloat("flipProgress" + index, flipProgress);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setString("command" + index, command);
+			nbt.setString("commandOn" + index, commandOn);
+			nbt.setString("commandOff" + index, commandOff);
 		}
 	}
 
@@ -181,7 +188,10 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 			LeverUnit lever = this.levers[i];
 			lever.label = data.getString("label" + i);
 			lever.rtty = data.getString("rtty" + i);
-			lever.command = data.getString("cmd" + i);
+			lever.commandOn = data.getString("cmdOn" + i);
+			lever.commandOff = data.getString("cmdOff" + i);
 		}
+		
+		this.markDirty();
 	}
 }
