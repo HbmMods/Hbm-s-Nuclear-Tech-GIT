@@ -213,7 +213,7 @@ public abstract class SerializableRecipe {
 				recipeList.addAll(((HashMap) recipeObject).entrySet());
 			}
 
-			if(recipeList.isEmpty())
+			if(recipeList.isEmpty() && !allowEmptyRecipeList())
 				throw new IllegalStateException("Error while writing recipes for " + this.getClass().getSimpleName() + ": Recipe list is either empty or in an unsupported format!");
 
 			JsonWriter writer = new JsonWriter(new FileWriter(template));
@@ -239,6 +239,8 @@ public abstract class SerializableRecipe {
 			ex.printStackTrace();
 		}
 	}
+	
+	public boolean allowEmptyRecipeList() { return false; }
 
 	public void readRecipeFile(File file) {
 		try {
