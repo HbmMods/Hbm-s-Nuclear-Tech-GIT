@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRBMKKeyPad;
 import com.hbm.tileentity.IGUIProvider;
@@ -7,14 +8,20 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/*    __________
 	 *   /         /|
@@ -195,5 +202,107 @@ public class TileEntityRBMKKeyPad extends TileEntityLoadedBase implements IGUIPr
 			key.rtty = data.getString("rtty" + i);
 			key.command = data.getString("cmd" + i);
 		}
+	}
+
+	// OpenComputers methods
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "rbmk_keypad";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getKeyInfo(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {null, "Invalid index (1-4)"};
+		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("active", keys[idx].active);
+		map.put("polling", keys[idx].polling);
+		map.put("pressed", keys[idx].isPressed);
+		map.put("color", keys[idx].color);
+		map.put("label", keys[idx].label);
+		map.put("channel", keys[idx].rtty);
+		map.put("command", keys[idx].command);
+		return new Object[] {map};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyActive(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].active = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyPolling(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].polling = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyColor(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].color = MathHelper.clamp_int(args.checkInteger(1), 0, 0xffffff);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyLabel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].label = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyChannel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].rtty = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setKeyCommand(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		keys[idx].command = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 1)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] pressKey(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		if(!keys[idx].active) return new Object[] {false, "Key is not active"};
+		keys[idx].click();
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getKeyPressed(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		return new Object[] {keys[idx].isPressed};
 	}
 }
