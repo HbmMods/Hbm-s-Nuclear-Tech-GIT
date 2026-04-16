@@ -1,17 +1,22 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRBMKLever;
+import com.hbm.main.NTMSounds;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
 	
@@ -49,6 +54,7 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 
 	public class LeverUnit {
 		
+		public int index;
 		/** If the output should be per tick, allows the lever to lock in place */
 		public boolean polling;
 		/** Label on the lever as rendered on the panel */
@@ -70,18 +76,25 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 		public static final float FLIP_SPEED = 1F / 10F; // 0.5s
 		
 		public LeverUnit(int initialIndex) {
+			this.index = initialIndex;
 			label = "Lever " + (initialIndex + 1);
 		}
 		
 		public void click() {
 			if(!active) return;
 			
+			if(this.flipProgress <= 0 || this.flipProgress >= 1)
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.LEVER_START, 1F, 1F);
+			
 			this.isTurningOn = !isTurningOn;
 			TileEntityRBMKLever.this.markDirty();
 		}
 		
 		public void update() {
+			this.prevFlipProgress = this.flipProgress;
 			if(!active) return;
+			
+			boolean arcFlash = false;
 			
 			if(polling) {
 				if(this.flipProgress >= 1F && canSend(commandOn)) RTTYSystem.broadcast(worldObj, rtty, commandOn);
@@ -95,15 +108,38 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 					this.flipProgress = 1F;
 					// for non-polling levers, send one message
 					if(!polling && canSend(commandOn)) RTTYSystem.broadcast(worldObj, rtty, commandOn);
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.LEVER_STOP, 0.5F, 1F);
+					arcFlash = true;
 				}
 			
 			// turning off...
 			} else if(!this.isTurningOn && this.flipProgress > 0F) {
+				if(this.prevFlipProgress >= 1) arcFlash = true;
 				this.flipProgress -= FLIP_SPEED;
 				if(this.flipProgress <= 0F) {
 					this.flipProgress = 0F;
 					// for non-polling levers, send the off message once upon return
 					if(!polling && canSend(commandOff)) RTTYSystem.broadcast(worldObj, rtty, commandOff);
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.LEVER_STOP, 0.5F, 1F);
+				}
+			}
+			
+			if(arcFlash) {
+
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.SPARK, 1F, 1F);
+				ForgeDirection dir = ForgeDirection.getOrientation(getBlockMetadata());
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				
+				for(int i = 0; i < 2; i++) {
+					double x = xCoord + 0.5 + dir.offsetX * 0.4 - rot.offsetX * (index - 0.5) * (i == 0 ? 0.375 : 0.625);
+					double y = yCoord + 0.4375 - 0.03125;
+					double z = zCoord + 0.5 + dir.offsetZ * 0.4 - rot.offsetZ * (index - 0.5) * (i == 0 ? 0.375 : 0.625);
+					
+					NBTTagCompound dPart = new NBTTagCompound();
+					dPart.setString("type", "tau");
+					dPart.setByte("count", (byte)5);
+					dPart.setBoolean("small", true);
+					PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, x, y, z), new TargetPoint(worldObj.provider.dimensionId, x, y, z, 25));
 				}
 			}
 		}

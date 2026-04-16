@@ -100,6 +100,9 @@ public class NTMSounds {
 	public static final String BLOCK_PLUSHY = "hbm:block.squeakyToy"; // squee
 	public static final String BLOCK_HUNDUNS_MAGNIFICENT_HOWL = "hbm:block.hunduns_magnificent_howl"; // tragic yuri
 	public static final String BLOCK_FALLOUT_3_POPUP = "hbm:block.bobble";
+	public static final String LEVER_START = "hbm:block.leverStart";
+	public static final String LEVER_STOP = "hbm:block.leverStop";
+	public static final String SPARK = "hbm:block.spark";
 	
 	/// MACHINE SOUNDS, MOSTLY LOOPS ///
 	public static final String ELECTRIC_MOTOR_LOOP = "hbm:block.motor";
