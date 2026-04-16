@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Keypad",
+	"icon": ["hbm:tile.rbmk_key_pad", 1, 0],
+	"trigger": [["hbm:tile.rbmk_key_pad"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Keypad"
+	},
+	"content": {
+		"en_US": "Interactive [[redstone over radio|Redstone over Radio]] transmitting device, needs to be configured with a scredriver first. Up to four buttons can be enabled using the red buttons, each button can transmit one value over its own RoR channel. This is useful for [RoR controllers|Redstone-over-Radio Controller], allowing things like RBMK settings to be adjusted with the push of a button.<br><br>The color setting accepts hexadecimal values, i.e. up to six characters with groups of two representing red, green and blue color components respectively. As a rule of thumb: FF is full color, 80 is half color and 00 is no color. FF8000 (full red, half green and no blue) is therefore orange.<br><br>The polling setting on the keypad turns the button into a locking one, the button remains pressed, sending the RoR signal each tick, until it is unpressed. State change buttons only send the command once when initially pressed.<br><br>See also:<br>[Redstone-over-Radio Gauge]<br>[Redstone-over-Radio Numeric Display]<br>[Redstone-over-Radio Graph]<br>[Redstone-over-Radio Lever]"
+	}
+}

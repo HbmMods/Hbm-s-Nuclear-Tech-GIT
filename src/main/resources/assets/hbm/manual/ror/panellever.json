@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Lever",
+	"icon": ["hbm:tile.rbmk_lever", 1, 0],
+	"trigger": [["hbm:tile.rbmk_lever"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Lever"
+	},
+	"content": {
+		"en_US": "Interactive [[redstone over radio|Redstone over Radio]] transmitting device, needs to be configured with a scredriver first. Up to two large breaker switches can be enabled using the red buttons, each button can transmit one value over its own RoR channel. Levers behave similar to keypad buttons, except that they can transmit different values depending on whether they have been turned on or off. With polling enabled, the switch will continuously send the signal corresponding to whichevever state it is in, except when the lever is currently being flipped. State change causes it to only send a single pulse after it has been flipped.<br><br>See also:<br>[Redstone-over-Radio Keypad]<br>[Redstone-over-Radio Gauge]<br>[Redstone-over-Radio Numeric Display]<br>[Redstone-over-Radio Graph]"
+	}
+}
