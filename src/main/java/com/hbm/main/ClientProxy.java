@@ -1758,10 +1758,12 @@ public class ClientProxy extends ServerProxy {
 		}
 
 		if("tau".equals(type)) {
+			boolean small = data.getBoolean("small");
 
-			for(int i = 0; i < data.getByte("count"); i++)
-				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
+			for(int i = 0; i < data.getByte("count"); i++) {
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05).makeSmall(small));
+			}
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z).makeSmall(small));
 		}
 
 		if("vanish".equals(type)) {

@@ -10,6 +10,8 @@
   * Decreased base damage to compensate
 * EMP grenades now destroy machines in a small radius like an EMP missile would
 * Grenades are no longer affected by nuclear blasts or other grenade explosions
+* Players no longer receive the starting guide book on first spawn since it's now very outdated
+* All redstone-over-radio panels now have QMAW integration
 
 ## Fixed
 * Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos

@@ -1,10 +1,15 @@
 package com.hbm.blocks.machine.rbmk;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKLever;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -45,5 +50,27 @@ public class RBMKLever extends RBMKMiniPanelBase implements IToolable {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void renderInventoryBlock(Block block, int meta, int modelId, Object renderBlocks) {
+		super.renderInventoryBlock(block, meta, modelId, renderBlocks);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, -0.5, 0);
+		GL11.glRotated(-90, 0, 1, 0);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.rbmk_lever_tex);
+		
+		for(int i = 0; i < 2; i++) {
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0.25, 0, i * -0.5 + 0.25);
+			ResourceManager.rbmk_lever.renderPart("Base");
+			ResourceManager.rbmk_lever.renderPart("Lever");
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glPopMatrix();
 	}
 }

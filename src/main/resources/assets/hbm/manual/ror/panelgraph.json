@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Graph",
+	"icon": ["hbm:tile.rbmk_graph", 1, 0],
+	"trigger": [["hbm:tile.rbmk_graph"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Graph"
+	},
+	"content": {
+		"en_US": "Aesthetic [[redstone over radio|Redstone over Radio]] receiving device, needs to be configured with a scredriver first. Can represent numeric RoR values over time using a line graph. Values are updated every half second, and the graph can log up to 15 seconds of input. Up to two graphs can be enabled using the red buttons, each graphs can receive one value over its own RoR channel. Useful for displaying values where the change over time is important, such as temperature curves.<br><br>See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Numeric Display]]<br>[[Redstone-over-Radio Lever]]"
+	}
+}

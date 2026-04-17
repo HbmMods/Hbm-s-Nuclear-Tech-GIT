@@ -25,10 +25,18 @@ public class ParticleHadron extends EntityFX {
 		super(world, x, y, z);
 		this.theRenderEngine = texman;
 		this.particleMaxAge = 10;
+		this.particleScale = 1F;
 	}
 
 	public int getFXLayer() {
 		return 3;
+	}
+	
+	public ParticleHadron makeSmall(boolean small) {
+		if(!small) return this;
+		this.particleScale = 0.5F;
+		this.particleMaxAge = 5;
+		return this;
 	}
 
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
@@ -49,7 +57,7 @@ public class ParticleHadron extends EntityFX {
 		tess.setBrightness(240);
 		
 		this.particleAlpha = 1 - (((float)this.particleAge + interp) / (float)this.particleMaxAge);
-		float scale = (this.particleAge + interp) * 0.15F;
+		float scale = (this.particleAge + interp) * 0.15F * this.particleScale;
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
 
