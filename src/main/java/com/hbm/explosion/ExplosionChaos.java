@@ -501,28 +501,6 @@ public class ExplosionChaos { //TODO: destroy this entire class
 		radius = (int) f;
 	}
 
-	public static void plasma(World world, int x, int y, int z, int radius) {
-		int r = radius;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22 + world.rand.nextInt(r22 / 2)) {
-						if(world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
-							world.setBlock(X, Y, Z, ModBlocks.plasma);
-					}
-				}
-			}
-		}
-	}
-
 	public static void levelDown(World world, int x, int y, int z, int radius) {
 
 		if(!world.isRemote)

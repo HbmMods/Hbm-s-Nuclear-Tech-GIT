@@ -1026,6 +1026,19 @@ public class AnvilRecipes extends SerializableRecipe {
 						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
 						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
 				}).setTier(1));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.fusion_heater), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_STEEL.id)),
+						new AnvilOutput(new ItemStack(ModItems.pipe, 2, Mats.MAT_COPPER.id)),
+						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 0.5F)
+				}).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.fusion_hatch), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_STEEL.id)),
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_COPPER.id)),
+						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 0.75F)
+				}).setTier(1));
 	}
 
 	public static List<AnvilSmithingRecipe> getSmithing() {

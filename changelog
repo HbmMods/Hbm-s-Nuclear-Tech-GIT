@@ -11,7 +11,11 @@
 * EMP grenades now destroy machines in a small radius like an EMP missile would
 * Grenades are no longer affected by nuclear blasts or other grenade explosions
 * Players no longer receive the starting guide book on first spawn since it's now very outdated
-* All redstone-over-radio panels now have QMAW integration
+* All RoR panels now have QMAW integration
+* Legacy plasma heater and plasma heater hatches which are still found in crashed space ships can now be dismantled into steel pipes, copper pipes and analog circuits
+* Removed legacy plasma block
+* RoR panels now have OpenComputers integration, allowing otherwise fixed parameters like gauge thresholds, channels, and button commands to be adjusted on the fly
+* Solinium blasts now use the new higher poly sphere model and frame interpolation, making the expansion smoother
 
 ## Fixed
 * Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos

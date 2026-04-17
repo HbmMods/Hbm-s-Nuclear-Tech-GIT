@@ -3,44 +3,52 @@ package com.hbm.render.entity.effect;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.effect.EntityCloudSolinium;
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
+import com.hbm.util.ColorUtil;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderCloudSolinium extends Render {
 
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/Sphere.obj");
-	private IModelCustom blastModel;
-    private ResourceLocation blastTexture;
-    public float scale = 0;
-    public float ring = 0;
-    
-    public RenderCloudSolinium() {
-    	blastModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-    	blastTexture = new ResourceLocation(RefStrings.MODID, "textures/models/BlastSolinium.png");
-    	scale = 0;
-    }
-
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-		render((EntityCloudSolinium)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
-	}
-	
-	public void render(EntityCloudSolinium cloud, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+	public void doRender(Entity entity, double x, double y, double z, float f0, float interp) {
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        
-        GL11.glScalef(cloud.age, cloud.age, cloud.age);
-        
-        bindTexture(blastTexture);
-        blastModel.renderAll();
-        GL11.glPopMatrix();
+		GL11.glTranslated(x, y, z);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
+		int color = 0x27FFDA;
+
+		EntityCloudSolinium cloud = (EntityCloudSolinium) entity;
+		float scale = cloud.age + interp;
+		GL11.glScalef(scale, scale, scale);
+
+		GL11.glColor3f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color));
+		ResourceManager.sphere_new.renderAll();
+		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glColor4f(ColorUtil.fr(color), ColorUtil.fg(color), ColorUtil.fb(color), 0.125F);
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		double outerScale = 1.025;
+		for(int i = 0; i < 3; i++) {
+			GL11.glScaled(outerScale, outerScale, outerScale);
+			ResourceManager.sphere_new.renderAll();
+		}
+		
+		GL11.glColor4f(1F, 1F, 1F, 1F);
+
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
 	}
 
 	@Override
