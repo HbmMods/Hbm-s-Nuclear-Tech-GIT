@@ -1,30 +1,4 @@
-## Added
-* Redstone-over-radio lever
-  * Big breaker switches
-  * Up to two per module, side by side
-  * Can send different RoR values based on the lever's position
-* Redstone-over-radio indicator lights
-  * Colored indicator light panels with labels on them
-  * Up to six lights per module
-  * Will light up when an RoR signal falls within the configured threshold
-
 ## Changed
-* All RoR panels now have basic item descriptions informing about the screwdriver requirement for configuration
-* EMP grenades now deal 5x damage against anything with powered armor
-  * Decreased base damage to compensate
-* EMP grenades now destroy machines in a small radius like an EMP missile would
-* Grenades are no longer affected by nuclear blasts or other grenade explosions
-* Players no longer receive the starting guide book on first spawn since it's now very outdated
-* All RoR panels now have QMAW integration
-* Legacy plasma heater and plasma heater hatches which are still found in crashed space ships can now be dismantled into steel pipes, copper pipes and analog circuits
-* Removed legacy plasma block
-* RoR panels now have OpenComputers integration, allowing otherwise fixed parameters like gauge thresholds, channels, and button commands to be adjusted on the fly
-* Solinium blasts now use the new higher poly sphere model and frame interpolation, making the expansion smoother
-* Using a defuser on paintable cables/pipes/tubes that already have a paint applied will toggle the overlay, makng the cable/pipe/tube blend in perfectly
-* Mufflers installed on force fields now disable the loud spark noise caused by impacts
-
-## Fixed
-* Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos
-* Fixed dispenser fired laser grenades crashing the game
-* Fixed schrabidium grenade being obscenely powerful for no reason
-* Fixed annihilator recipe config throwing an error about the recipe list being empty, even though the recipe list should indeed be empty on purpose
+* RoR readers can now read neutron flux from fuel channels and the fill state of boilers and heat exchangers
+* Canned recursion can now be crafted from canned recursion
+* Soldering recipes are now prioritized over anvil recipes in the NEI listing
