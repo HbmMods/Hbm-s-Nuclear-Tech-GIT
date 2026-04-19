@@ -3,6 +3,10 @@
   * Big breaker switches
   * Up to two per module, side by side
   * Can send different RoR values based on the lever's position
+* Redstone-over-radio indicator lights
+  * Colored indicator light panels with labels on them
+  * Up to six lights per module
+  * Will light up when an RoR signal falls within the configured threshold
 
 ## Changed
 * All RoR panels now have basic item descriptions informing about the screwdriver requirement for configuration
@@ -16,6 +20,8 @@
 * Removed legacy plasma block
 * RoR panels now have OpenComputers integration, allowing otherwise fixed parameters like gauge thresholds, channels, and button commands to be adjusted on the fly
 * Solinium blasts now use the new higher poly sphere model and frame interpolation, making the expansion smoother
+* Using a defuser on paintable cables/pipes/tubes that already have a paint applied will toggle the overlay, makng the cable/pipe/tube blend in perfectly
+* Mufflers installed on force fields now disable the loud spark noise caused by impacts
 
 ## Fixed
 * Fixed the grenade crafting handler not checking if a shell/filling combination is even valid, allowing weird combos

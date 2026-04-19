@@ -1,0 +1,11 @@
+{
+	"name": "Redstone-over-Radio Indicator Lights",
+	"icon": ["hbm:tile.rbmk_indicator", 1, 0],
+	"trigger": [["hbm:tile.rbmk_indicator"]],
+	"title": {
+		"en_US": "Redstone-over-Radio Indicator Lights"
+	},
+	"content": {
+		"en_US": "Aesthetic [[redstone over radio|Redstone over Radio]] receiving device, needs to be configured with a scredriver first. Indicator panels will light up, if a numeric RoR signal falls within the configured threshold (bounds are inclusive).If the minimum threshold is larger than the maximum, then the behavior is inverted, making the indicator light up outside of the configured threshold.<br><br>See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Numeric Display]]<br>[[Redstone-over-Radio Graph]]<br>[[Redstone-over-Radio Lever]]"
+	}
+}

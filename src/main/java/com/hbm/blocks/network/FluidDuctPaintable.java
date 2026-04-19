@@ -1,6 +1,7 @@
 package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
+
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.interfaces.ICopiable;
@@ -58,7 +59,7 @@ public class FluidDuctPaintable extends FluidDuctBase implements IToolable, IBlo
 			TileEntityPipePaintable pipe = (TileEntityPipePaintable) tile;
 
 			if(pipe.block != null) {
-				if(RenderBlockMultipass.currentPass == 1) {
+				if(RenderBlockMultipass.currentPass == 1 && pipe.getBlockMetadata() == 0) {
 					return this.overlay;
 				} else {
 					return pipe.block.getIcon(side, pipe.meta);
@@ -122,19 +123,26 @@ public class FluidDuctPaintable extends FluidDuctBase implements IToolable, IBlo
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
-		if(tool != ToolType.SCREWDRIVER) return false;
-
-		TileEntity tile = world.getTileEntity(x, y, z);
-
-		if(tile instanceof TileEntityPipePaintable) {
-			TileEntityPipePaintable pipe = (TileEntityPipePaintable) tile;
-
-			if(pipe.block != null) {
-				pipe.block = null;
-				world.markBlockForUpdate(x, y, z);
-				pipe.markDirty();
-				return true;
+		if(tool == ToolType.SCREWDRIVER) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+	
+			if(tile instanceof TileEntityPipePaintable) {
+				TileEntityPipePaintable pipe = (TileEntityPipePaintable) tile;
+	
+				if(pipe.block != null) {
+					pipe.block = null;
+					world.markBlockForUpdate(x, y, z);
+					pipe.markDirty();
+					return true;
+				}
 			}
+		}
+		
+		if(tool == ToolType.DEFUSER) {
+			int meta = world.getBlockMetadata(x, y, z);
+			if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+			else world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+			return true;
 		}
 
 		return false;

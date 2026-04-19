@@ -6,6 +6,6 @@
 		"en_US": "Redstone-over-Radio Numeric Display"
 	},
 	"content": {
-		"en_US": "Aesthetic [[redstone over radio|Redstone over Radio]] receiving device, needs to be configured with a scredriver first. Can represent numeric RoR values using a seven segment number display. Up to two displays can be enabled using the red buttons, each display can receive one value over its own RoR channel. Large values displayed will be shortened, using SI suffixes. Also useful for displaying item counts provided by an [[RoR item counter|Redstone-over-Radio Item Counter]].<br><br>See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Graph]]<br>[[Redstone-over-Radio Lever]]"
+		"en_US": "Aesthetic [[redstone over radio|Redstone over Radio]] receiving device, needs to be configured with a scredriver first. Can represent numeric RoR values using a seven segment number display. Up to two displays can be enabled using the red buttons, each display can receive one value over its own RoR channel. Large values displayed will be shortened, using SI suffixes. Also useful for displaying item counts provided by an [[RoR item counter|Redstone-over-Radio Item Counter]].<br><br>See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Indicator Lights]]<br>[[Redstone-over-Radio Graph]]<br>[[Redstone-over-Radio Lever]]"
 	}
 }
