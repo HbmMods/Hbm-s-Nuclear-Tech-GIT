@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.world.gen.util.LogicBlockActions;
 import com.hbm.world.gen.util.LogicBlockConditions;
@@ -51,15 +52,14 @@ public class LogicBlock extends BlockContainer {
 		return super.getIcon(world, x, y, z, side);
 	}
 
+	/*
 	@Override
 	public boolean isOpaqueCube() {
 		return this != ModBlocks.logic_block_invis;
-	}
+		 this == ModBlocks.logic_block_invis ? -1 :
+	}*/
 
-	@Override
-	public int getRenderType() {
-		return this == ModBlocks.logic_block_invis ? -1 : 0;
-	}
+
 
 	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
@@ -95,6 +95,9 @@ public class LogicBlock extends BlockContainer {
 		public EntityPlayer player;
 
 		public ForgeDirection direction = ForgeDirection.UNKNOWN;
+
+		boolean disguised = false;
+
 		@Override
 		public void updateEntity() {
 
@@ -121,7 +124,13 @@ public class LogicBlock extends BlockContainer {
 					timer++;
 				}
 			}
+			if(!disguised){
+				markDirty();
+				worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+				disguised = true;
+			}
 		}
+
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {

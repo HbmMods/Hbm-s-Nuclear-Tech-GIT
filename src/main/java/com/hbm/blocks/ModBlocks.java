@@ -2359,7 +2359,7 @@ public class ModBlocks {
 		wand_structure = new BlockWandStructure().setBlockName("wand_structure");
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
-		logic_block_invis = new LogicBlock().setBlockName("logic_block_invis").setBlockTextureName(RefStrings.MODID + ":logic_block");
+		logic_block_invis = new LogicBlockInvis().setBlockName("logic_block_invis").setBlockTextureName(RefStrings.MODID + ":logic_block");
 
 	}
 

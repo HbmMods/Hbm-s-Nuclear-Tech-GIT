@@ -220,9 +220,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 		public int placedRotation;
 
 		Block disguise;
-		int disguiseMeta = -1;
-
-		boolean invisible = false;
+		int disguiseMeta = 0;
 
 		public String actionID = "FODDER_WAVE";
 		public String conditionID = "PLAYER_CUBE_5";
@@ -241,29 +239,31 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 		}
 
 		private void replace() {
-			if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLogic)) {
-				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
-				return;
-			}
+			if(!worldObj.isRemote) {
+				if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLogic)) {
+					MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
+					return;
+				}
 
-			worldObj.setBlock(xCoord,yCoord,zCoord, disguise == null ? ModBlocks.logic_block_invis : ModBlocks.logic_block);
+				worldObj.setBlock(xCoord, yCoord, zCoord, disguise == null ? ModBlocks.logic_block_invis : ModBlocks.logic_block, 0, 3);
 
-			TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+				TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
 
-			if(te == null || te instanceof BlockWandLoot.TileEntityWandLoot) {
-				MainRegistry.logger.warn("TE for logic block set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
-				te = ModBlocks.wand_logic.createTileEntity(worldObj, 0);
-				worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
-			}
+				if (te == null || te instanceof BlockWandLoot.TileEntityWandLoot) {
+					MainRegistry.logger.warn("TE for logic block set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
+					te = ModBlocks.wand_logic.createTileEntity(worldObj, 0);
+					worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
+				}
 
-			if(te instanceof LogicBlock.TileEntityLogicBlock){
-				LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock)	te;
-				logic.actionID = actionID;
-				logic.conditionID = conditionID;
-				logic.interactionID = interactionID;
-				logic.direction = ForgeDirection.getOrientation(placedRotation);
-				logic.disguise = disguise;
-				logic.disguiseMeta = disguiseMeta;
+				if (te instanceof LogicBlock.TileEntityLogicBlock) {
+					LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock) te;
+					logic.actionID = actionID;
+					logic.conditionID = conditionID;
+					logic.interactionID = interactionID;
+					logic.direction = ForgeDirection.getOrientation(placedRotation);
+					logic.disguise = disguise;
+					logic.disguiseMeta = disguiseMeta;
+				}
 			}
 
 		}

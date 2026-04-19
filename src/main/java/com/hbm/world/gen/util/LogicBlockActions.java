@@ -393,8 +393,6 @@ public class LogicBlockActions {
 		int y = tile.yCoord;
 		int z = tile.zCoord;
 
-		ForgeDirection parallel = tile.direction.getRotation(ForgeDirection.UP);
-
 		if(tile.phase == 0 && !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(3, 3, 3)).isEmpty()){
 			world.getClosestPlayer(x,y,z, 300).addChatMessage(new ChatComponentText(
 				EnumChatFormatting.LIGHT_PURPLE + "[POWER LOCK]" +
@@ -402,11 +400,17 @@ public class LogicBlockActions {
 			tile.phase++;
 
 			TileEntityLockableBase safe = null;
-			if(world.getTileEntity(x - parallel.offsetX,y,z) instanceof TileEntityLockableBase)
-				safe = (TileEntityLockableBase) world.getTileEntity(x,y,z - parallel.offsetX);
-			if(safe != null){
+
+			for (int i1 = 0; i1 < 6; ++i1) {
+				if (world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]) instanceof TileEntityLockableBase) {
+					safe = (TileEntityLockableBase) world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]);
+					break;
+				}
+			}
+			if (safe != null) {
 				safe.setPins(world.rand.nextInt(999));
 			}
+
 		}
 	};
 

@@ -11,6 +11,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -70,8 +71,12 @@ public class LogicBlockInteractions {
 		IEnergyHandlerMK2 handler = null;
 		ForgeDirection parallel = logic.direction.getRotation(ForgeDirection.UP);
 
-		if(world.getTileEntity(x,y + 1,z) instanceof IEnergyHandlerMK2)
-			handler = (IEnergyHandlerMK2) world.getTileEntity(x,y + 1,z);
+		for (int i1 = 0; i1 < 6; ++i1) {
+			if(world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]) instanceof IEnergyHandlerMK2) {
+				handler = (IEnergyHandlerMK2) world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]);
+				break;
+			}
+		}
 
 		if(handler == null || !(handler.getPower() > 500_000))
 				player.addChatMessage(new ChatComponentText(
@@ -83,9 +88,12 @@ public class LogicBlockInteractions {
 					EnumChatFormatting.RESET + " Power Restorted! Safe Unlocked!"));
 
 			TileEntityLockableBase safe = null;
-			if(world.getTileEntity(x - parallel.offsetX,y,z) instanceof TileEntityLockableBase)
-				safe = (TileEntityLockableBase) world.getTileEntity(x - parallel.offsetX,y,z);
-
+			for (int i1 = 0; i1 < 6; ++i1) {
+				if (world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]) instanceof TileEntityLockableBase) {
+					safe = (TileEntityLockableBase) world.getTileEntity(x + Facing.offsetsXForSide[i1], y + Facing.offsetsYForSide[i1], z + Facing.offsetsZForSide[i1]);
+					break;
+				}
+			}
 			if(safe != null){
 				safe.unlock();
 				world.playSoundAtEntity(player, "hbm:block.lockOpen", 3.0F, 0.8F);
