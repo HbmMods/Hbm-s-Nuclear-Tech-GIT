@@ -229,6 +229,12 @@ public class BlockKeyhole extends BlockStone {
 	public static void spawnPedestalItem(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, ModBlocks.pedestal);
 		TileEntityPedestal pedestal = (TileEntityPedestal) world.getTileEntity(x, y, z);
+		
+		if(pedestal == null) {
+			pedestal = new TileEntityPedestal();
+			world.setTileEntity(x, y, z, pedestal);
+		}
+		
 		WeightedRandomChestContent content = (WeightedRandomChestContent) WeightedRandom.getRandomItem(world.rand, ItemPool.getPool(ItemPoolsRedRoom.POOL_RED_PEDESTAL));
 		pedestal.item = content.theItemId.copy();
 	}

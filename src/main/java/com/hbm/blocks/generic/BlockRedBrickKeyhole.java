@@ -156,6 +156,12 @@ public class BlockRedBrickKeyhole extends Block {
 	public static void spawnPedestalItem(World world, int x, int y, int z, WeightedRandomChestContent[] pool) {
 		world.setBlock(x, y, z, ModBlocks.pedestal);
 		TileEntityPedestal pedestal = (TileEntityPedestal) world.getTileEntity(x, y, z);
+		
+		if(pedestal == null) {
+			pedestal = new TileEntityPedestal();
+			world.setTileEntity(x, y, z, pedestal);
+		}
+		
 		pedestal.item = ItemPool.getStack(pool, world.rand).copy();
 	}
 }
