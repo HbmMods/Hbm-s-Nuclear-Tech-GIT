@@ -12,3 +12,7 @@
 * RoR readers can now read neutron flux from fuel channels and the fill state of boilers and heat exchangers
 * Canned recursion can now be crafted from canned recursion
 * Soldering recipes are now prioritized over anvil recipes in the NEI listing
+* Paintable blocks now have tooltips explaining all the tools that can be used
+
+## Fixed
+* Fixed barrel connectors appearing between barrels even though they have different fluid types

@@ -2,7 +2,10 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 
+import java.util.List;
+
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -31,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class PneumoTubePaintableBlock extends BlockContainer implements IToolable, IBlockMultiPass {
+public class PneumoTubePaintableBlock extends BlockContainer implements IToolable, IBlockMultiPass, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon overlay;
 	@SideOnly(Side.CLIENT) public IIcon overlayIn;
@@ -247,5 +250,10 @@ public class PneumoTubePaintableBlock extends BlockContainer implements IToolabl
 				this.meta = nbt.getInteger("paintmeta");
 			}
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

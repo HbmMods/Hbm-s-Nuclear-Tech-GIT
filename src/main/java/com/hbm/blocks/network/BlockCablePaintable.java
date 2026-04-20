@@ -1,7 +1,11 @@
 package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
+
+import java.util.List;
+
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
@@ -25,7 +29,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass {
+public class BlockCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
 
@@ -201,5 +205,10 @@ public class BlockCablePaintable extends BlockContainer implements IToolable, IB
 				this.meta = nbt.getInteger("paintmeta");
 			}
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

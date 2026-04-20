@@ -2,7 +2,10 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 
+import java.util.List;
+
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
@@ -36,7 +39,7 @@ import li.cil.oc.api.internal.Colored;
 import com.hbm.handler.CompatHandler.OCColors;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockOpenComputersCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass {
+public class BlockOpenComputersCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
 	@SideOnly(Side.CLIENT) protected IIcon overlayColor;
@@ -348,5 +351,10 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		public int getColor() {
 			return color.getColor();
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }
