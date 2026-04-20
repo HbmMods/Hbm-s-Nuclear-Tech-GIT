@@ -866,7 +866,6 @@ public class ModBlocks {
 
 	@Deprecated public static Block fusion_heater;
 	@Deprecated public static Block fusion_hatch;
-	@Deprecated public static Block plasma; // only actually used by the old plasma grenade, will die with the grenade rework
 
 	@Deprecated public static Block iter;
 	@Deprecated public static Block plasma_heater;
@@ -1097,6 +1096,7 @@ public class ModBlocks {
 	public static Block rbmk_numitron;
 	public static Block rbmk_graph;
 	public static Block rbmk_lever;
+	public static Block rbmk_indicator;
 	public static Block rbmk_autoloader;
 	public static Block rbmk_loader;
 	public static Block rbmk_steam_inlet;
@@ -1984,7 +1984,6 @@ public class ModBlocks {
 
 		fusion_heater = new BlockPillar(Material.iron, RefStrings.MODID + ":fusion_heater_top").setBlockName("fusion_heater").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fusion_heater_side");
 		fusion_hatch = new FusionHatch(Material.iron).setBlockName("fusion_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fusion_hatch");
-		plasma = new BlockPlasma(Material.iron).setBlockName("plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":plasma");
 		iter = new MachineITER().setBlockName("iter").setHardness(5.0F).setResistance(60.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":iter");
 		plasma_heater = new MachinePlasmaHeater().setBlockName("plasma_heater").setHardness(5.0F).setResistance(60.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":plasma_heater");
 
@@ -2120,6 +2119,7 @@ public class ModBlocks {
 		rbmk_numitron = new RBMKNumitron().setBlockName("rbmk_numitron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_display");
 		rbmk_graph = new RBMKGraph().setBlockName("rbmk_graph").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_display");
 		rbmk_lever = new RBMKLever().setBlockName("rbmk_lever").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_display");
+		rbmk_indicator = new RBMKIndicator().setBlockName("rbmk_indicator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_display");
 		rbmk_autoloader = new RBMKAutoloader().setBlockName("rbmk_autoloader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_autoloader");
 		rbmk_loader = new RBMKLoader(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		rbmk_steam_inlet = new RBMKInlet(Material.iron).setBlockName("rbmk_steam_inlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_inlet");
@@ -3111,6 +3111,7 @@ public class ModBlocks {
 		register(rbmk_key_pad);
 		register(rbmk_lever);
 		register(rbmk_gauge);
+		register(rbmk_indicator);
 		register(rbmk_numitron);
 		register(rbmk_graph);
 		register(rbmk_autoloader);
@@ -3345,7 +3346,6 @@ public class ModBlocks {
 		//Multiblock Generators
 		GameRegistry.registerBlock(fusion_heater, fusion_heater.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
-		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(iter, iter.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
 

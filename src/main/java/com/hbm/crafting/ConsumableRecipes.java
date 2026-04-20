@@ -10,6 +10,7 @@ import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.ItemEnums;
 import com.hbm.items.ModItems;
+import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.main.CraftingManager;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -63,6 +64,7 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_smore), new Object[] { Items.wheat, new ItemStack(ModItems.marshmallow, 1, 1), new ItemStack(Items.dye, 1, 3) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.marshmallow), new Object[] { Items.stick, Items.sugar, Items.wheat_seeds });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.quesadilla, 3), new Object[] { ModItems.cheese, ModItems.cheese, Items.bread });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.canned_conserve, 1, EnumFoodType.RECURSION.ordinal()), new Object[] { new ItemStack(ModItems.canned_conserve, 1, EnumFoodType.RECURSION.ordinal()) });
 		
 		//Peas
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.peas), new Object[] { " S ", "SNS", " S ", 'S', Items.wheat_seeds, 'N', GOLD.nugget() });

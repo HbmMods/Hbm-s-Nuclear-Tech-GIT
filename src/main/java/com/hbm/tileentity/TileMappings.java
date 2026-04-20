@@ -408,6 +408,7 @@ public class TileMappings {
 		put(TileEntityRBMKNumitron.class, "tileentity_rbmk_numitron");
 		put(TileEntityRBMKGraph.class, "tileentity_rbmk_graph");
 		put(TileEntityRBMKLever.class, "tileentity_rbmk_lever");
+		put(TileEntityRBMKIndicator.class, "tileentity_rbmk_indicator");
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
 		put(TileEntityRBMKAutoloader.class, "tileentity_rbmk_autoloader");

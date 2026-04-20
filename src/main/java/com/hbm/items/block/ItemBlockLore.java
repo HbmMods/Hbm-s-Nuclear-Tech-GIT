@@ -59,7 +59,7 @@ public class ItemBlockLore extends ItemBlockBase {
 		if(this.field_150939_a == ModBlocks.gravel_diamond)
 			return EnumRarity.rare;
 		
-		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster || this.field_150939_a == ModBlocks.plasma)
+		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster)
 			return EnumRarity.epic;
 
 		return EnumRarity.common;

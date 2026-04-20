@@ -18,6 +18,7 @@ public class NEIRegistry {
 		handlers.add(new ToolingHandler());
 		handlers.add(new ConstructionHandler());
 		handlers.add(new AnnihilatorHandler());
+		handlers.add(new SolderingStationHandler());
 		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new PressRecipeHandler());
@@ -72,7 +73,6 @@ public class NEIRegistry {
 		handlers.add(new ElectrolyserMetalHandler());
 		handlers.add(new AshpitHandler());
 		handlers.add(new ArcWelderHandler());
-		handlers.add(new SolderingStationHandler());
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());

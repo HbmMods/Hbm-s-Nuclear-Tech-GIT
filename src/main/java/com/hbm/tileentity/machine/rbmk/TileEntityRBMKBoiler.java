@@ -1,7 +1,8 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.fluidmk2.FluidNode;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.ModBlocks;
@@ -37,7 +38,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IControlReceiver, IFluidStandardTransceiverMK2, SimpleComponent, IInfoProviderEC, IRORValueProvider, CompatHandler.OCComponent {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -346,5 +347,22 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, output);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "feed",
+				PREFIX_VALUE + "steam",
+				PREFIX_VALUE + "consumption"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "feed").equals(name))		return "" + this.feed.getFill();
+		if((PREFIX_VALUE + "steam").equals(name))		return "" + this.steam.getFill();
+		if((PREFIX_VALUE + "consumption").equals(name))	return "" + this.consumption;
+		return null;
 	}
 }
