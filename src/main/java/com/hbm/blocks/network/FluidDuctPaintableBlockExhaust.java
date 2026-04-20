@@ -4,6 +4,7 @@ import api.hbm.block.IToolable;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
@@ -32,7 +33,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements IToolable, IBlockMultiPass, ILookOverlay {
+public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements IToolable, IBlockMultiPass, ILookOverlay, ITooltipProvider {
 	
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
 	
@@ -211,5 +212,10 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 				this.meta = nbt.getInteger("paintmeta");
 			}
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }
