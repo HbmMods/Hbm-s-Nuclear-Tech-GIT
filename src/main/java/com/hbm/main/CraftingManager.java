@@ -799,6 +799,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_lever, 1), new Object[] { "R", "C", "B", 'R', ModBlocks.radio_torch_sender, 'B', ModBlocks.rbmk_display_blank, 'C', CU.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_indicator, 1), new Object[] { "R", "C", "B", 'R', ModBlocks.radio_torch_receiver, 'B', ModBlocks.rbmk_display_blank, 'C', ModItems.coil_tungsten });
 
+		addRecipeAuto(new ItemStack(ModItems.rtty_pager, 1), new Object[] { "R", "C", "S", 'R', ModBlocks.radio_torch_receiver, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'S', STEEL.plate() });
+
 		addRecipeAuto(new ItemStack(ModBlocks.deco_rbmk, 8), new Object[] { "R", 'R', ModBlocks.rbmk_blank });
 		addRecipeAuto(new ItemStack(ModBlocks.deco_rbmk_smooth, 1), new Object[] { "R", 'R', ModBlocks.deco_rbmk });
 		addRecipeAuto(new ItemStack(ModBlocks.rbmk_blank, 1), new Object[] { "RRR", "R R", "RRR", 'R', ModBlocks.deco_rbmk });
