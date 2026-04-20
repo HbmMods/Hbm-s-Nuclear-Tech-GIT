@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRBMKLever;
@@ -10,15 +11,21 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/*    __________
 	 *   /         /|
@@ -229,5 +236,49 @@ public class TileEntityRBMKLever extends TileEntityLoadedBase implements IGUIPro
 		}
 		
 		this.markDirty();
+	}
+
+	// OpenComputers methods
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "rbmk_lever";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLeverInfo(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
+		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("active", levers[idx].active);
+		map.put("polling", levers[idx].polling);
+		map.put("state", levers[idx].flipProgress >= 1.0);
+		map.put("progress", levers[idx].flipProgress);
+		map.put("label", levers[idx].label);
+		map.put("channel", levers[idx].rtty);
+		map.put("commandOn", levers[idx].commandOn);
+		map.put("commandOff", levers[idx].commandOff);
+		return new Object[] {map};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLeverActive(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		levers[idx].active = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLeverLabel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		levers[idx].label = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
 	}
 }
