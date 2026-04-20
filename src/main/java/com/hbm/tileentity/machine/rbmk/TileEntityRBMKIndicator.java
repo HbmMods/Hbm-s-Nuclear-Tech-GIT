@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRBMKIndicator;
 import com.hbm.tileentity.IGUIProvider;
@@ -8,14 +9,20 @@ import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKIndicator extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKIndicator extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/*    __________
 	 *   /         /|
@@ -194,5 +201,82 @@ public class TileEntityRBMKIndicator extends TileEntityLoadedBase implements IGU
 			indicator.min = data.hasKey("min" + i) ? data.getInteger("min" + i) : Integer.MIN_VALUE;
 			indicator.max = data.hasKey("max" + i) ? data.getInteger("max" + i) : Integer.MAX_VALUE;
 		}
+	}
+
+	// OpenComputers methods
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "rbmk_indicator";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getIndicatorInfo(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {null, "Invalid index (1-6)"};
+		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("active", indicators[idx].active);
+		map.put("polling", indicators[idx].polling);
+		map.put("light", indicators[idx].light);
+		map.put("color", indicators[idx].color);
+		map.put("label", indicators[idx].label);
+		map.put("channel", indicators[idx].rtty);
+		map.put("min", indicators[idx].min);
+		map.put("max", indicators[idx].max);
+		return new Object[] {map};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIndicatorActive(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {false, "Invalid index (1-6)"};
+		indicators[idx].active = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIndicatorLight(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {false, "Invalid index (1-6)"};
+		indicators[idx].light = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIndicatorColor(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {false, "Invalid index (1-6)"};
+		indicators[idx].color = MathHelper.clamp_int(args.checkInteger(1), 0, 0xffffff);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIndicatorLabel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {false, "Invalid index (1-6)"};
+		indicators[idx].label = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIndicatorBounds(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 6) return new Object[] {false, "Invalid index (1-6)"};
+		long min = (long) args.checkInteger(1);
+		long max = (long) args.checkInteger(2);
+		indicators[idx].min = min;
+		indicators[idx].max = max;
+		markDirty();
+		return new Object[] {true};
 	}
 }
