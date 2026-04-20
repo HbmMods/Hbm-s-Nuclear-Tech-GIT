@@ -14,7 +14,7 @@ A simple way to explain this concept is as such: Pretend you are a new player, y
 # Conclusion
 A lot of people have short attention spans, so don't write an entire novel that no one's going to read. Keep the info short, but include everything that is *actually* relevant at the point when the player is expected to look that page up. And most importantly, double check if your info is correct - no information is better than wrong information.
 
-       _________     ___     ___     _____     ___     ___
+```       _________     ___     ___     _____     ___     ___
       //////// /    // /_  _// /    ////_/    // /    // /
      // /  // /    //// ///// /  // /  // /  // /    // /
     // /  // /    // ///_/// /  // /  // /  // /    // /
@@ -22,3 +22,4 @@ A lot of people have short attention spans, so don't write an entire novel that 
   // ///// /    // /    // /  // /  // /  // /// /// /
  // /  //_/_   // /    // /  // /  // /  ////_///// /
 //////////_/  //_/    //_/  //_/  //_/  //_/    //_/
+```
