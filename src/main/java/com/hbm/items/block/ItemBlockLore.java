@@ -28,11 +28,6 @@ public class ItemBlockLore extends ItemBlockBase {
 			list.add("Provides infinite charge to tesla coils");
 		}
 		
-		if(this.field_150939_a == ModBlocks.ore_oil) {
-			list.add("You weren't supposed to mine that.");
-			list.add("Come on, get a derrick you doofus.");
-		}
-		
 		if(this.field_150939_a == ModBlocks.gravel_diamond) {
 			list.add("There is some kind of joke here,");
 			list.add("but I can't quite tell what it is.");
