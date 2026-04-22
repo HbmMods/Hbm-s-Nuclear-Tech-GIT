@@ -5,6 +5,7 @@ import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import api.hbm.fluidmk2.IFluidUserMK2;
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
@@ -28,6 +29,13 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
+		
+		if(this instanceof IFluidUserMK2) markChanged();
+	}
+
+	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	public AudioWrapper createAudioLoop() { return null; }
@@ -44,6 +52,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		super.readFromNBT(nbt);
 		this.muffled = nbt.getBoolean("muffled");
 		this.tilted = nbt.getBoolean("tilted");
+		
+		// one more for good measure
+		if(this instanceof IFluidUserMK2) markChanged();
 	}
 
 	@Override

@@ -58,13 +58,8 @@ public class BlockDepthOre extends BlockDepth {
 	
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random rand) {
-		
-		int mult = rand.nextInt(fortune + 2) - 1;
-
-		if(mult < 0) {
-			mult = 0;
-		}
-
-		return this.quantityDropped(rand) * (mult + 1);
+		int quantity = this.quantityDropped(rand) * (Math.max(rand.nextInt(fortune + 2) - 1, 0) + 1);
+		if(this == ModBlocks.ore_alexandrite && quantity > 2) quantity = 2;
+		return quantity;
 	}
 }

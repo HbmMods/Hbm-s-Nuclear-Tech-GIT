@@ -1,0 +1,17 @@
+## Changed
+* Updated russian and chinese localization
+* Oil bubbles are now 3x more common in deserts (biomes with a temperature value of 2 and rainfall of 0)
+* Oil bubbles now have a 50% chance of spawning a surface indicator (similar to bedrock oil but still distinct)
+* Oil deposits will never drop themselves, they always produce tar when mined
+* Any tar type can now be turned into bitumen in a mixer (with worse efficiency compared to a liquefactor)
+* RoR levers and indicator lights now have OpenComputers integration
+* Alexandrite dropped with fortune is now capped at 2 gems per ore
+* Added a config option for decreasing the soot requirement for skeleton guns (or rather, for the calculation, this number is added to the actual soot value, simulating a higher value)
+* Radioisotope cells and PT cells are now deprecated, and can no longer be crafted
+  * Existing cells will continue to work for now
+* If two pipe anchors are connected, one having a type set and one still being "none", instead of erroring, the "none" pipe will assume the other one's type
+
+## Fixed
+* Fixed uncrafting of the nickel RTG pellet not respecting item metadata
+* Tile entities that use fluids should now force the chunk they are in to be written to disk when unloaded
+  * This should fix the issue where systems that constantly move fluids around may not properly save to disk

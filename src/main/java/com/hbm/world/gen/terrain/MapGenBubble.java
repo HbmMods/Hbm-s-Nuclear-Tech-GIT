@@ -7,7 +7,6 @@ import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
 import com.hbm.world.gen.MapGenBaseMeta;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -27,9 +26,6 @@ public class MapGenBubble extends MapGenBaseMeta {
 
 	public int minY = 0;
 	public int rangeY = 25;
-	
-	public int spotWidth = 10;
-	public int spotCount = 50;
 
 	public boolean fuzzy;
 
@@ -51,7 +47,13 @@ public class MapGenBubble extends MapGenBaseMeta {
 
 	@Override
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
-		if(rand.nextInt(frequency) == frequency - 1 && (canSpawn == null || canSpawn.test(world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16)))) {
+		
+		int effecFreq = frequency;
+		BiomeGenBase biome = world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16);
+		if(biome.temperature >= 2 && biome.rainfall < 0.1) effecFreq /= 3;
+		if(effecFreq <= 0) effecFreq = 1;
+		
+		if(rand.nextInt(effecFreq) == effecFreq - 1 && (canSpawn == null || canSpawn.test(biome))) {
 			int xCoord = (chunkX - offsetX) * 16 + rand.nextInt(16);
 			int zCoord = (chunkZ - offsetZ) * 16 + rand.nextInt(16);
 
@@ -82,7 +84,7 @@ public class MapGenBubble extends MapGenBaseMeta {
 				}
 			}
 			
-			if(rand.nextInt(2) == 0) {
+			if(rand.nextInt(1) == 0) {
 				addSurfaceSpot(xCoord, zCoord, blocks);
 			}
 		}
@@ -91,6 +93,8 @@ public class MapGenBubble extends MapGenBaseMeta {
 	protected void addSurfaceSpot(int xCoord, int zCoord, Block[] blocks) {
 
 		int deadMetaCount = EnumDeadPlantType.values().length;
+		int spotCount = 150;
+		int spotWidth = 7;
 
 		// Add oil spot damage
 		for(int i = 0; i < spotCount; i++) {
@@ -103,22 +107,13 @@ public class MapGenBubble extends MapGenBaseMeta {
 				// find ground level
 				for(int y = 127; y >= 0; y--) {
 					int index = (rx * 16 + rz) * 256 + y;
-					
-					if(blocks[index] != null) {
-						Material mat = blocks[index].getMaterial();
-						// clean up obstructions in forests
-						if(mat == Material.leaves || mat == Material.wood || mat == Material.cactus) {
-							blocks[index] = Blocks.air;
-							metas[index] = 0;
-						}
-					}
 
 					if(blocks[index] != null && blocks[index].isOpaqueCube()) {
 						for(int oy = 1; oy > -3; oy--) {
 							int subIndex = index + oy;
 							
 							int distSq = offX * offX + offZ * offZ;
-							boolean inner = distSq > (spotWidth / 3) * (spotWidth / 3);
+							boolean inner = distSq < (spotWidth / 2) * (spotWidth / 2);
 
 							if(blocks[subIndex] == Blocks.grass || blocks[subIndex] == Blocks.dirt) {
 								blocks[subIndex] = inner ? ModBlocks.dirt_oily : ModBlocks.dirt_dead;
@@ -153,8 +148,8 @@ public class MapGenBubble extends MapGenBaseMeta {
 		// and now for the hole(tm)
 		for(int i = 1; i < 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			int x = xCoord - dir.offsetX;
-			int z = zCoord - dir.offsetZ;
+			int x = dir.offsetX - xCoord;
+			int z = dir.offsetZ - zCoord;
 			
 			if(x >= 0 && x < 16 && z >= 0 && z < 16) {
 				int solids = 0;

@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -39,6 +40,12 @@ public class BlockOre extends Block {
 		super(mat);
 		this.setTickRandomly(true);
 		this.rad = rad;
+	}
+	
+	@Override
+	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		if(this == ModBlocks.ore_oil) return false;
+		return super.canSilkHarvest(world, player, x, y, z, meta);
 	}
 
 	@Spaghetti("*throws up*")

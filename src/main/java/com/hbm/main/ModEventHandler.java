@@ -426,8 +426,10 @@ public class ModEventHandler {
 	}
 
 	private static ItemStack getSkelegun(float soot, Random rand) {
-		if (!MobConfig.enableMobWeapons) return null;
-		if (rand.nextDouble() > Math.log(soot) * 0.25) return null;
+		if(!MobConfig.enableMobWeapons) return null;
+		
+		soot -= MobConfig.mobWeaponSootReduction;
+		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
 
 		ArrayList<WeightedRandomObject> pool = new ArrayList<>();
 
@@ -436,9 +438,9 @@ public class ModEventHandler {
 			pool.add(new WeightedRandomObject(null, 20));
 		} else if(soot > 0.3 && soot < 1) {
 			pool.addAll(MobUtil.slotPoolGuns.get(0.3));
-		} else if (soot < 3) {
+		} else if(soot < 3) {
 			pool.addAll(MobUtil.slotPoolGuns.get(1D));
-		} else if (soot < 5) {
+		} else if(soot < 5) {
 			pool.addAll(MobUtil.slotPoolGuns.get(3D));
 		} else {
 			pool.addAll(MobUtil.slotPoolGuns.get(5D));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -92,13 +93,18 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	 * 0: Connected<br>
 	 * 1: Connections are incompatible<br>
 	 * 2: Both parties are the same block<br>
-	 * 3: Connection length exceeds maximum
+	 * 3: Connection length exceeds maximum<br>
 	 * 4: Pipeline fluid types do not match
 	 */
 	public static int canConnect(TileEntityPipelineBase first, TileEntityPipelineBase second) {
 
 		if(first.getConnectionType() != second.getConnectionType()) return 1;
 		if(first == second) return 2;
+
+		// connect with NONE type anchors
+		if(first.type == Fluids.NONE && second.type != first.type) first.setType(second.type);
+		if(second.type == Fluids.NONE && first.type != second.type) second.setType(first.type);
+		
 		if(first.type != second.type) return 4;
 
 		double len = Math.min(first.getMaxPipeLength(), second.getMaxPipeLength());
