@@ -10,6 +10,8 @@
 * Radioisotope cells and PT cells are now deprecated, and can no longer be crafted
   * Existing cells will continue to work for now
 * If two pipe anchors are connected, one having a type set and one still being "none", instead of erroring, the "none" pipe will assume the other one's type
+* Self-chargers in battery sockets now produce unreliable power output which constantly fluctuates
+* Self-chargers in battery sockets now cause static discharges in regular intervals
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata

@@ -1,9 +1,24 @@
 package com.hbm.tileentity.machine.storage;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BiConsumer;
+
+import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.inventory.container.ContainerBatterySocket;
 import com.hbm.inventory.gui.GUIBatterySocket;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.Vec3NT;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -16,16 +31,46 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityBatterySocket extends TileEntityBatteryBase implements IRORValueProvider, IRORInteractive, IInfoProviderEC {
+	
+	public static BulletConfig discharge;
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> BEAM_DISCHARGE_HIT = (beam, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			beam.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
+			explodeDischarge(beam.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+		}
+
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			explodeDischarge(beam.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+		}
+	};
+	
+	public static void explodeDischarge(World world, double x, double y, double z) {
+		ExplosionVNT vnt = new ExplosionVNT(world, x, y, z, 5F);
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 20).setDamageClass(DamageClass.ELECTRIC));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectStandard());
+		vnt.explode();
+		world.playSoundEffect(x, y, z, "hbm:entity.ufoBlast", 5.0F, 0.9F + world.rand.nextFloat() * 0.2F);
+	}
+	
+	static {
+		discharge = new BulletConfig().setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(3).setThresholdNegation(20F).setArmorPiercing(0.5F).setRenderRotations(false).setDoesPenetrate(true)
+				.setOnBeamImpact(BEAM_DISCHARGE_HIT);
+	}
 
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -33,6 +78,9 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	public long syncPower = 0;
 	public long syncMaxPower = 0;
 	public ItemStack syncStack;
+	public int damageTimer;
+	public int damageTarget;
+	public double scPowerMult = 1D;
 	
 	public TileEntityBatterySocket() {
 		super(1);
@@ -47,6 +95,13 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 		super.updateEntity();
 
 		if(!worldObj.isRemote) {
+			
+			if(hasSCLoaded()) {
+				if(this.damageTarget == 0) pickNewSCTarget();
+				this.damageTimer++;
+				if(this.damageTimer >= this.damageTarget) discharge();
+				fluctuate();
+			}
 
 			long avg = (this.getPower() + prevPower) / 2;
 			this.delta = avg - this.log[0];
@@ -57,6 +112,56 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 
 			this.log[19] = avg;
 		}
+	}
+	
+	protected boolean hasSCLoaded() {
+		return slots[0] != null && slots[0].getItem() == ModItems.battery_sc && slots[0].getItemDamage() != EnumBatterySC.EMPTY.ordinal();
+	}
+	
+	protected void pickNewSCTarget() {
+		this.damageTimer = 0;
+		//this.damageTarget = 100;
+		this.damageTarget = 1200 + worldObj.rand.nextInt(2400); // 1-3 minutes;
+		this.markChanged();
+	}
+	
+	protected void discharge() {
+		pickNewSCTarget();
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		double x = xCoord + 0.5 - dir.offsetX * 0.5 + rot.offsetX * 0.5;
+		double y = yCoord + 1;
+		double z = zCoord + 0.5 - dir.offsetZ * 0.5 + rot.offsetX * 0.5;
+
+		double range = 15;
+		List<EntityLivingBase> potentialTargets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(range, range, range));
+		Collections.shuffle(potentialTargets);
+
+		for(EntityLivingBase target : potentialTargets) {
+
+			Vec3NT initialDelta = new Vec3NT(target.posX - x, target.posY + target.height / 2 - y, target.posZ - z);
+			if(initialDelta.lengthVector() > range) continue;
+			EntityBulletBeamBase sub = new EntityBulletBeamBase(worldObj, discharge, 50F);
+			initialDelta.normalizeSelf();
+			double dominantAxis = BobMathUtil.max(Math.abs(initialDelta.xCoord), Math.abs(initialDelta.yCoord), Math.abs(initialDelta.zCoord));
+			initialDelta.multiply(1.125D / dominantAxis); // move 1.125 blocks outwards
+			sub.setPosition(xCoord + initialDelta.xCoord, yCoord + initialDelta.yCoord, zCoord + initialDelta.zCoord);
+			Vec3NT actualDelta = new Vec3NT(target.posX - sub.posX, target.posY + target.height / 2 - sub.posY, target.posZ - sub.posZ);
+			
+			sub.setRotationsFromVector(actualDelta);
+			sub.performHitscanExternal(actualDelta.lengthVector());
+			worldObj.spawnEntityInWorld(sub);
+		}
+		
+		explodeDischarge(worldObj, x + worldObj.rand.nextGaussian() * 0.5, y + worldObj.rand.nextGaussian() * 0.5, z + worldObj.rand.nextGaussian() * 0.5);
+	}
+	
+	protected void fluctuate() {
+		double steppy = 1D / 100D;
+		this.scPowerMult += (steppy * (worldObj.rand.nextDouble() * 2 - 1));
+		this.scPowerMult = MathHelper.clamp_double(scPowerMult, 0.1D, 1D);
 	}
 
 	@Override
@@ -85,6 +190,24 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	}
 
 	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.damageTimer = nbt.getInteger("damageTimer");
+		this.damageTarget = nbt.getInteger("damageTarget");
+		this.scPowerMult = nbt.getDouble("scPowerMult");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setInteger("damageTimer", damageTimer);
+		nbt.setInteger("damageTarget", damageTarget);
+		nbt.setDouble("scPowerMult", scPowerMult);
+	}
+
+	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		if(stack.getItem() instanceof IBatteryItem) {
 			if(i == mode_input && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0) return true;
@@ -95,7 +218,11 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {0}; }
 
-	@Override public long getPower() { return powerFromStack(slots[0]); }
+	@Override public long getPower() {
+		long power = powerFromStack(slots[0]);
+		if(this.hasSCLoaded()) power *= this.scPowerMult;
+		return power;
+	}
 	@Override public long getMaxPower() { return maxPowerFromStack(slots[0]); }
 	
 	@Override
