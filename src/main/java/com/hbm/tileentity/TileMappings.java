@@ -44,6 +44,7 @@ import com.hbm.blocks.network.FluidDuctPaintableBlockExhaust.TileEntityPipeExhau
 import com.hbm.blocks.network.FluidPump.TileEntityFluidPump;
 import com.hbm.blocks.network.PneumoTubePaintableBlock.TileEntityPneumoTubePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
+import com.hbm.blocks.test.TestEventTester.TileEntityTestStorage;
 import com.hbm.blocks.network.BlockOpenComputersCablePaintable.TileEntityOpenComputersCablePaintable;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.deco.*;
@@ -68,6 +69,7 @@ public class TileMappings {
 
 	public static void writeMappings() {
 		put(TileEntityDiFurnace.class, "tilentity_diFurnace");
+		put(TileEntityTestStorage.class, "tilentity_test_storage");
 		put(TileEntityObjTester.class, "tilentity_objtester");
 		put(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");
 		put(TileEntityNukeMan.class, "tileentity_nukeman");

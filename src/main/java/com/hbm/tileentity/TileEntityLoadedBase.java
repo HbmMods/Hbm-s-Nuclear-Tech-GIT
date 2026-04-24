@@ -52,9 +52,6 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		super.readFromNBT(nbt);
 		this.muffled = nbt.getBoolean("muffled");
 		this.tilted = nbt.getBoolean("tilted");
-		
-		// one more for good measure
-		if(this instanceof IFluidUserMK2) markChanged();
 	}
 
 	@Override
