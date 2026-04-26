@@ -609,7 +609,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				PREFIX_VALUE + "steam",
 				PREFIX_VALUE + "co2",
 				PREFIX_VALUE + "state",
-				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active"
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active",
+				PREFIX_FUNCTION + "ventCO2"
 		};
 	}
 	
@@ -633,6 +634,13 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				this.isOn = (val == 1);
 				this.markDirty();
 			} catch(NumberFormatException e) {}
+			return null;
+		}
+		if ((PREFIX_FUNCTION + "ventCO2").equals(name)) {
+			int fill = this.carbonDioxide.getFill();
+			this.carbonDioxide.setFill(Math.max(fill - 1000, 0));
+			this.markDirty();
+			return null;
 		}
 		return null;
 	}
