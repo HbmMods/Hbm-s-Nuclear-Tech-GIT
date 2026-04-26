@@ -1,4 +1,4 @@
-package com.hbm.blocks.network;
+package com.hbm.blocks.network.pneumatic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,11 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.util.Compat;
 
 import api.hbm.block.IToolable;
+import api.hbm.ntl.IPneumaticConnector;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -207,7 +208,9 @@ public class PneumoTube extends BlockContainer implements IToolable, ITooltipPro
 
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		TileEntity tile = world instanceof World ? Compat.getTileStandard((World) world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) : world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-		return tile instanceof TileEntityPneumoTube;
+		if(tile instanceof TileEntityPneumoTube) return true;
+		if(tile instanceof IPneumaticConnector) return ((IPneumaticConnector) tile).canConnectPneumatic(dir.getOpposite());
+		return false;
 	}
 
 	public boolean canConnectToAir(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {

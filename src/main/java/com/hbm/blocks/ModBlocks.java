@@ -12,6 +12,11 @@ import com.hbm.blocks.machine.fusion.*;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
+import com.hbm.blocks.network.pneumatic.PneumoStorageAccess;
+import com.hbm.blocks.network.pneumatic.PneumoStorageClutter;
+import com.hbm.blocks.network.pneumatic.PneumoStorageMono;
+import com.hbm.blocks.network.pneumatic.PneumoTube;
+import com.hbm.blocks.network.pneumatic.PneumoTubePaintableBlock;
 import com.hbm.blocks.rail.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
@@ -798,6 +803,9 @@ public class ModBlocks {
 
 	public static Block pneumatic_tube;
 	public static Block pneumatic_tube_paintable;
+	public static Block pneumatic_storage_access;
+	public static Block pneumatic_storage_clutter;
+	public static Block pneumatic_storage_mono;
 
 	public static Block fan;
 	public static Block piston_inserter;
@@ -1914,6 +1922,9 @@ public class ModBlocks {
 
 		pneumatic_tube = new PneumoTube().setBlockName("pneumatic_tube").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_tube");
 		pneumatic_tube_paintable = new PneumoTubePaintableBlock().setBlockName("pneumatic_tube_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		pneumatic_storage_access = new PneumoStorageAccess().setBlockName("pneumatic_storage_access").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_access");
+		pneumatic_storage_clutter = new PneumoStorageClutter().setBlockName("pneumatic_storage_clutter").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_clutter");
+		pneumatic_storage_mono = new PneumoStorageMono().setBlockName("pneumatic_storage_mono").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_mono");
 
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -3185,6 +3196,9 @@ public class ModBlocks {
 		register(drone_crate_requester);
 		register(pneumatic_tube);
 		register(pneumatic_tube_paintable);
+		register(pneumatic_storage_access);
+		register(pneumatic_storage_clutter);
+		register(pneumatic_storage_mono);
 		register(fan);
 		register(piston_inserter);
 

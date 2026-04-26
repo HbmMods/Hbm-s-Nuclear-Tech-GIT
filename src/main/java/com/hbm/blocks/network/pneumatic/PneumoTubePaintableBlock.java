@@ -1,4 +1,4 @@
-package com.hbm.blocks.network;
+package com.hbm.blocks.network.pneumatic;
 
 import api.hbm.block.IToolable;
 
@@ -6,11 +6,12 @@ import java.util.List;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.network.BlockCablePaintable;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.block.RenderBlockMultipass;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.util.Compat;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

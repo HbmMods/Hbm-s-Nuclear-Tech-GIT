@@ -2,6 +2,7 @@ package api.hbm.ntl;
 
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public interface IStorageComponent {
 
 	/**

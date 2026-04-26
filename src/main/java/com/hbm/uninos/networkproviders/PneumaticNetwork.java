@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.uninos.NodeNet;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ItemStackUtil;

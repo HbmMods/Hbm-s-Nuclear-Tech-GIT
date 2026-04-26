@@ -1,4 +1,4 @@
-package com.hbm.tileentity.network;
+package com.hbm.tileentity.network.pneumatic;
 
 import com.hbm.inventory.container.ContainerPneumoTube;
 import com.hbm.inventory.fluid.FluidType;

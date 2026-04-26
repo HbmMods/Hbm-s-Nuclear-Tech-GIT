@@ -2,10 +2,10 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.network.PneumoTube;
+import com.hbm.blocks.network.pneumatic.PneumoTube;
 import com.hbm.lib.Library;
 import com.hbm.render.util.RenderBlocksNT;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;

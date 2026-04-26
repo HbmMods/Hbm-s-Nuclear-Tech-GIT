@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotPattern;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
