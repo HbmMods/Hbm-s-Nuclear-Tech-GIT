@@ -135,7 +135,6 @@ public class EntityMappings {
 		addEntity(EntitySiegeLaser.class, "entity_ntm_siege_laser", 1000);
 		addEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 1000);
 		addEntity(EntityGrenadeBouncyGeneric.class, "entity_grenade_bouncy_generic", 250);
-		addEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 250);
 		addEntity(EntityMinecartCrate.class, "entity_ntm_cart_crate", 250, false);
 		addEntity(EntityMinecartDestroyer.class, "entity_ntm_cart_destroyer", 250, false);
 		addEntity(EntityMinecartOre.class, "entity_ntm_cart_ore", 250, false);

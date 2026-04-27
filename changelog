@@ -17,8 +17,10 @@
 * Crates now open when right-clicked by default, holding shift is required to place them down
 * The automatic buzzsaw can now burn coal tar creosote
 * The old cluster type effect used by MPBs and cluster missiles now use the new generic projectile system with actual bomblet models
+* Removed the legacy fusion reactor entirely
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata
 * Tile entities that use fluids should now force the chunk they are in to be written to disk when unloaded
   * This should fix the issue where systems that constantly move fluids around may not properly save to disk
+* Fixed dispensed dynamites being considered impact grenades for some reason

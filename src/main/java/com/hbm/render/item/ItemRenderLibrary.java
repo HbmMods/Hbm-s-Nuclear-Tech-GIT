@@ -55,23 +55,6 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 
-		renderers.put(Item.getItemFromBlock(ModBlocks.iter), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -1, 0);
-				GL11.glScaled(4.5, 4.5, 4.5);
-			}
-			public void renderCommon() {
-				GL11.glScaled(0.25, 0.25, 0.25);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.iter_glass); ResourceManager.iter.renderPart("Windows");
-				bindTexture(ResourceManager.iter_motor); ResourceManager.iter.renderPart("Motors");
-				bindTexture(ResourceManager.iter_rails); ResourceManager.iter.renderPart("Rails");
-				bindTexture(ResourceManager.iter_toroidal); ResourceManager.iter.renderPart("Toroidal");
-				bindTexture(ResourceManager.iter_torus); ResourceManager.iter.renderPart("Torus");
-				bindTexture(ResourceManager.iter_solenoid); ResourceManager.iter.renderPart("Solenoid");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_press), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
@@ -257,20 +240,6 @@ public class ItemRenderLibrary {
 				GL11.glTranslated(0, -1, 0.75);
 				GL11.glRotated(90, 1, 0, 0);
 				bindTexture(ResourceManager.mining_laser_laser_tex); ResourceManager.mining_laser.renderPart("Laser");
-			}});
-
-		renderers.put(Item.getItemFromBlock(ModBlocks.plasma_heater), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -1, 0);
-				GL11.glRotated(90, 0, 1, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
-			}
-			public void renderCommon() {
-				GL11.glScaled(0.5, 0.5, 0.5);
-				GL11.glTranslatef(0, 0, 14);
-		        GL11.glShadeModel(GL11.GL_SMOOTH);
-		        bindTexture(ResourceManager.iter_microwave); ResourceManager.iter.renderPart("Microwave");
-		        GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.tesla), new ItemRenderBase() {
