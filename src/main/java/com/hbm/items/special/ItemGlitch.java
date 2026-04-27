@@ -99,7 +99,7 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				break;
 			case 14:
 				player.inventory.dropAllItems();
-				ExplosionChaos.burn(world, (int)player.posX, (int)player.posY, (int)player.posZ, 5);
+				ExplosionChaos.igniteAllBlocks(world, (int)player.posX, (int)player.posY, (int)player.posZ, 5);
 				break;
 			case 15:
 				for(int i = 0; i < 36; i++)

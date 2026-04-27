@@ -187,7 +187,7 @@ public class ItemAmmoHIMARS extends Item {
 				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
 				standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
-				ExplosionChaos.burn(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 20);
+				ExplosionChaos.igniteAllBlocks(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 20);
 				int radius = 30;
 				List<Entity> hit = rocket.worldObj.getEntitiesWithinAABBExcludingEntity(rocket, AxisAlignedBB.getBoundingBox(rocket.posX - radius, rocket.posY - radius, rocket.posZ - radius, rocket.posX + radius, rocket.posY + radius, rocket.posZ + radius));
 				for(Entity e : hit) {

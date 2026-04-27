@@ -1570,6 +1570,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.grenade_kit");
 		ignoreMappings.add("hbm:item.nuclear_waste_pearl");
 		ignoreMappings.add("hbm:tile.plasma");
+		ignoreMappings.add("hbm:tile.cheater_virus");
+		ignoreMappings.add("hbm:tile.cheater_virus_seed");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -41,9 +41,7 @@ public class EntityMappings {
 
 	public static void writeMappings() {
 
-		addEntity(EntityRocket.class, "entity_rocket", 250);
 		addEntity(EntityBullet.class, "entity_bullet", 250);
-		addEntity(EntitySchrab.class, "entity_schrabnel", 500);
 		addEntity(EntityMissileGeneric.class, "entity_missile_generic", 1000);
 		addEntity(EntityMissileDecoy.class, "entity_missile_decoy", 1000);
 		addEntity(EntityMissileStrong.class, "entity_missile_strong", 1000);
@@ -121,7 +119,6 @@ public class EntityMappings {
 		addEntity(EntityDeliveryDrone.class, "entity_delivery_drone", 250, false);
 		addEntity(EntityRequestDrone.class, "entity_request_drone", 250, false);
 		addEntity(EntityCloudTom.class, "entity_moonstone_blast", 1000);
-		addEntity(EntityBeamVortex.class, "entity_vortex_beam", 1000);
 		addEntity(EntityFireworks.class, "entity_firework_ball", 1000);
 		addEntity(EntityWastePearl.class, "entity_waste_pearl", 1000);
 		addEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron",  1000);

@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
-import com.hbm.entity.projectile.EntityRocket;
-import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.entity.projectile.EntitySchrab;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
@@ -24,7 +22,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -63,110 +60,7 @@ public class ExplosionChaos { //TODO: destroy this entire class
 		}
 	}
 
-	public static void spreadVirus(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						if (rand.nextInt(15) == 0 && world.getBlock(X, Y, Z) != Blocks.air)
-							world.setBlock(X, Y, Z, ModBlocks.cheater_virus_seed);
-					}
-				}
-			}
-		}
-	}
-
-	public static void pulse(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						
-						if(world.getBlock(X, Y, Z).getExplosionResistance(null) <= 70) {
-							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, X + 0.5, Y + 0.5, Z + 0.5, world.getBlock(X, Y, Z), world.getBlockMetadata(X, Y, Z));
-							world.spawnEntityInWorld(entityfallingblock);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public static void explodeZOMG(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						if (!(world.getBlock(X, Y, Z) == Blocks.bedrock && Y <= 0))
-							world.setBlock(X, Y, Z, Blocks.air);
-					}
-				}
-			}
-		}
-	}
-
-	public static void decon(World world, int x, int y, int z, int radius) {
-
-		int r = radius;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						decontaminate(world, X, Y, Z);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sets all flammable blocks on fire
-	 * 
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param bound
-	 */
-	public static void flameDeath(World world, int x, int y, int z, int bound) {
+	public static void igniteFlammableBlocks(World world, int x, int y, int z, int bound) {
 
 		int r = bound;
 		int r2 = r * r;
@@ -181,8 +75,7 @@ public class ExplosionChaos { //TODO: destroy this entire class
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
-						if (world.getBlock(X, Y, Z).isFlammable(world, XX, YY, ZZ, ForgeDirection.UP)
-								&& world.getBlock(X, Y + 1, Z) == Blocks.air) {
+						if (world.getBlock(X, Y, Z).isFlammable(world, XX, YY, ZZ, ForgeDirection.UP) && world.getBlock(X, Y + 1, Z) == Blocks.air) {
 							world.setBlock(X, Y + 1, Z, Blocks.fire);
 						}
 					}
@@ -192,16 +85,7 @@ public class ExplosionChaos { //TODO: destroy this entire class
 
 	}
 
-	/**
-	 * Sets all blocks on fire
-	 * 
-	 * @param world
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param bound
-	 */
-	public static void burn(World world, int x, int y, int z, int bound) {
+	public static void igniteAllBlocks(World world, int x, int y, int z, int bound) {
 
 		int r = bound;
 		int r2 = r * r;
@@ -216,16 +100,13 @@ public class ExplosionChaos { //TODO: destroy this entire class
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
-						if ((world.getBlock(X, Y + 1, Z) == Blocks.air
-								|| world.getBlock(X, Y + 1, Z) == Blocks.snow_layer)
-								&& world.getBlock(X, Y, Z) != Blocks.air) {
+						if ((world.getBlock(X, Y + 1, Z) == Blocks.air || world.getBlock(X, Y + 1, Z) == Blocks.snow_layer) && world.getBlock(X, Y, Z) != Blocks.air) {
 							world.setBlock(X, Y + 1, Z, Blocks.fire);
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	@Deprecated public static void spawnPoisonCloud(World world, double x, double y, double z, int count, double speed, int type) {
@@ -264,93 +145,15 @@ public class ExplosionChaos { //TODO: destroy this entire class
 		}
 	}
 
-	public static void cluster(World world, int x, int y, int z, int count, int gravity) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntityRocket fragment;
+	public static void cluster(World world, double x, double y, double z, int count, float yaw, float pitch, float yawRand, float pitchRand, float speed) {
 
 		for (int i = 0; i < count; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			fragment = new EntityRocket(world, x, y, z, d1, d2, d3, 0.0125D);
-
-			world.spawnEntityInWorld(fragment);
-		}
-	}
-
-	public static void schrab(World world, int x, int y, int z, int count, int gravity) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntitySchrab fragment;
-
-		for (int i = 0; i < count; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			fragment = new EntitySchrab(world, x, y, z, d1, d2, d3, 0.0125D);
-
-			world.spawnEntityInWorld(fragment);
-		}
-	}
-
-	public static void frag(World world, int x, int y, int z, int count, boolean flame, Entity shooter) {
-
-		double d1 = 0;
-		double d2 = 0;
-		double d3 = 0;
-		EntityArrow fragment;
-
-		for (int i = 0; i < count; i++) {
-			d1 = rand.nextDouble();
-			d2 = rand.nextDouble();
-			d3 = rand.nextDouble();
-
-			if (rand.nextInt(2) == 0) {
-				d1 *= -1;
-			}
-
-			if (rand.nextInt(2) == 0) {
-				d3 *= -1;
-			}
-
-			fragment = new EntityArrow(world, x, y, z);
-
-			fragment.motionX = d1;
-			fragment.motionY = d2;
-			fragment.motionZ = d3;
-			fragment.shootingEntity = shooter;
-
-			fragment.setIsCritical(true);
-			if (flame) {
-				fragment.setFire(1000);
-			}
-
-			fragment.setDamage(2.5);
-
-			world.spawnEntityInWorld(fragment);
+			EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(world, XFactoryCatapult.cluster_submunition, 50F, 0F, yaw + (float) (yawRand * world.rand.nextGaussian()), pitch + (float) (pitchRand * world.rand.nextGaussian()));
+			bullet.setPosition(x, y, z);
+			bullet.motionX *= speed;
+			bullet.motionY *= speed;
+			bullet.motionZ *= speed;
+			world.spawnEntityInWorld(bullet);
 		}
 	}
 
@@ -500,80 +303,4 @@ public class ExplosionChaos { //TODO: destroy this entire class
 
 		radius = (int) f;
 	}
-
-	public static void levelDown(World world, int x, int y, int z, int radius) {
-
-		if(!world.isRemote)
-		for (int i = x - radius; i <= x + radius; i++)
-			for (int j = z - radius; j <= z + radius; j++) {
-				
-				Block b = world.getBlock(i, y, j);
-				float k = b.getExplosionResistance(null);
-						
-				if(k < 6000 && b != Blocks.air) {
-					
-					EntityRubble rubble = new EntityRubble(world);
-					rubble.posX = i + 0.5F;
-					rubble.posY = y;
-					rubble.posZ = j + 0.5F;
-					
-					rubble.motionY = 0.025F * 10 + 0.15F;
-					rubble.setMetaBasedOnBlock(b, world.getBlockMetadata(i, y, j));
-					
-					world.spawnEntityInWorld(rubble);
-					
-					world.setBlock(i, y, j, Blocks.air);
-				}
-			}
-	}
-
-	public static void decontaminate(World world, int x, int y, int z) {
-		
-		Random random = new Random();
-
-		if (world.getBlock(x, y, z) == ModBlocks.waste_earth && random.nextInt(3) != 0) {
-			world.setBlock(x, y, z, Blocks.grass);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.waste_mycelium && random.nextInt(5) == 0) {
-			world.setBlock(x, y, z, Blocks.mycelium);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite && random.nextInt(3) == 0) {
-			world.setBlock(x, y, z, Blocks.sand);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite_red && random.nextInt(3) == 0) {
-			world.setBlock(x, y, z, Blocks.sand, 1, 2);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.waste_log && random.nextInt(3) != 0) {
-			world.setBlock(x, y, z, Blocks.log);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.waste_planks && random.nextInt(3) != 0) {
-			world.setBlock(x, y, z, Blocks.planks);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.block_trinitite && random.nextInt(10) == 0) {
-			world.setBlock(x, y, z, ModBlocks.block_lead);
-		}
-
-		else if (world.getBlock(x, y, z) == ModBlocks.block_waste && random.nextInt(10) == 0) {
-			world.setBlock(x, y, z, ModBlocks.block_lead);
-		}
-		
-		else if(world.getBlock(x, y, z) == ModBlocks.sellafield) {
-			int meta = world.getBlockMetadata(x, y, z);
-			
-			if(meta > 0) {
-				if(meta == 5 && random.nextInt(10) == 0)
-					world.setBlockMetadataWithNotify(x, y, z, 4, 3);
-				else if(random.nextInt(5) == 0)
-					world.setBlockMetadataWithNotify(meta, x, y, z, meta - 1);
-			} else if(random.nextInt(5) == 0)
-				world.setBlock(y, z, meta, ModBlocks.sellafield_slaked);
-		}
-	}
-
 }
