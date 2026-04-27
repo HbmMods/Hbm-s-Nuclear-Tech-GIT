@@ -496,7 +496,7 @@ public class LegoClient {
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_BOMB = (bullet, interp) -> {
 
 		GL11.glPushMatrix();
-		GL11.glScalef(0.03125F, 0.03125F, 0.03125F);
+		GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
 		GL11.glRotated(-90, 0, 1, 0);
 		GL11.glTranslatef(0, -1, 1F);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
