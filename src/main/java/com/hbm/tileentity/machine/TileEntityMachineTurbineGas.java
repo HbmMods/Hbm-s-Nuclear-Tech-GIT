@@ -27,6 +27,7 @@ import com.hbm.util.CompatEnergyControl;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -734,7 +735,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		return new String[] {
 				PREFIX_VALUE + "turbinepercent",
 				PREFIX_VALUE + "turbinespeed",
-				PREFIX_VALUE + "output"
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "autoMode",
+				PREFIX_VALUE + "temp",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fuel",
+				PREFIX_VALUE + "lubricant",
+				PREFIX_VALUE + "water",
+				PREFIX_VALUE + "steam",
+				PREFIX_FUNCTION + "setAuto" + NAME_SEPARATOR + "auto",
+				PREFIX_FUNCTION + "setThrottle" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "state"
 		};
 	}
 	
@@ -742,7 +754,50 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "turbinepercent").equals(name))	return	"" + (int) (this.powerSliderPos * 100D / 60D);
 		if((PREFIX_VALUE + "turbinespeed").equals(name))	return	"" + this.rpm;
-		if((PREFIX_VALUE + "output").equals(name))			return	"" + (int) this.instantPowerOutput;
+		if((PREFIX_VALUE + "output").equals(name))			return	"" + (int) (this.instantPowerOutput * 20);
+		if((PREFIX_VALUE + "state").equals(name))			return	"" + this.state;
+		if((PREFIX_VALUE + "autoMode").equals(name))		return	"" + (this.autoMode ? 1 : 0);
+		if((PREFIX_VALUE + "temp").equals(name))			return	"" + this.temp;
+		if((PREFIX_VALUE + "power").equals(name))			return	"" + this.power;
+		if((PREFIX_VALUE + "fuel").equals(name))			return	"" + tanks[0].getFill();
+		if((PREFIX_VALUE + "lubricant").equals(name))		return	"" + tanks[1].getFill();
+		if((PREFIX_VALUE + "water").equals(name))			return	"" + tanks[2].getFill();
+		if((PREFIX_VALUE + "steam").equals(name))			return	"" + tanks[3].getFill();
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setAuto").equals(name) && params.length > 0) {
+			try {
+				int val = Integer.parseInt(params[0]);
+				this.autoMode = (val == 1);
+				this.markDirty();
+			} catch(NumberFormatException e) {}
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setThrottle").equals(name) && params.length > 0) {
+			try {
+				int percent = Integer.parseInt(params[0]);
+				if(percent < 0) percent = 0;
+				if(percent > 100) percent = 100;
+				this.powerSliderPos = percent * 60 / 100;
+				this.markDirty();
+			} catch(NumberFormatException e) {}
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+			try {
+				int newState = Integer.parseInt(params[0]);
+				if(newState == 1) {
+					if(this.state == 0) this.state = -1; // startup
+				} else if(newState == 0) {
+					if(this.state == 1) this.state = 0; // shutdown
+				}
+				this.markDirty();
+			} catch(NumberFormatException e) {}
+			return null;
+		}
 		return null;
 	}
 }

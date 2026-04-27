@@ -30,6 +30,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -50,7 +51,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -603,14 +604,44 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public String[] getFunctionInfo() {
 		return new String[] {
 				PREFIX_VALUE + "heat",
-				PREFIX_VALUE + "pressure"
+				PREFIX_VALUE + "pressure",
+				PREFIX_VALUE + "water",
+				PREFIX_VALUE + "steam",
+				PREFIX_VALUE + "co2",
+				PREFIX_VALUE + "state",
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active",
+				PREFIX_FUNCTION + "ventCO2"
 		};
 	}
 	
 	@Override
 	public String provideRORValue(String name) {
-		if((PREFIX_VALUE + "heat").equals(name))		return	"" + (int) Math.round(heat * 1.0E-5D * 780.0D + 20.0D);
-		if((PREFIX_VALUE + "pressure").equals(name))	return	"" + (int) Math.round(pressure * 1.0E-5D * 30.0D);
+		if((PREFIX_VALUE + "heat").equals(name))			return	"" + (int) Math.round(heat * 1.0E-5D * 780.0D + 20.0D);
+		if((PREFIX_VALUE + "pressure").equals(name))		return	"" + (int) Math.round(pressure * 1.0E-5D * 30.0D);
+		if((PREFIX_VALUE + "water").equals(name))			return	"" + water.getFill();
+		if((PREFIX_VALUE + "steam").equals(name))			return	"" + steam.getFill();
+		if((PREFIX_VALUE + "co2").equals(name))				return	"" + carbonDioxide.getFill();
+		if((PREFIX_VALUE + "state").equals(name))			return	"" + (isOn ? 1 : 0);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+			if(redstonePowered) return null;
+			try {
+				int val = Integer.parseInt(params[0]);
+				this.isOn = (val == 1);
+				this.markDirty();
+			} catch(NumberFormatException e) {}
+			return null;
+		}
+		if ((PREFIX_FUNCTION + "ventCO2").equals(name)) {
+			int fill = this.carbonDioxide.getFill();
+			this.carbonDioxide.setFill(Math.max(fill - 1000, 0));
+			this.markDirty();
+			return null;
+		}
 		return null;
 	}
 }
