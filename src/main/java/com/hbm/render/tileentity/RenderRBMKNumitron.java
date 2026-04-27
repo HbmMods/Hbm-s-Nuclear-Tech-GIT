@@ -56,7 +56,8 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 			double yOffset = 0.5625D;
 			
 			String value = BobMathUtil.getShortNumber(unit.value);
-			while(value.length() < 7) value = "0" + value;
+			String fill_char = unit.no_leading_zeroes?" ":"0";
+			while(value.length() < 7) value = fill_char + value;
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
@@ -65,6 +66,7 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 				char c = value.charAt(j);
 				double u = -1;
 				double v = 0;
+				if(c == ' ') continue;
 				if(c == '.') {u = 0.9; v = 0.5;}
 				if(c == '-') {u = 0.8; v = 0.5;}
 				else if(c == 'k') {u = 0.0; v = 0.5;}

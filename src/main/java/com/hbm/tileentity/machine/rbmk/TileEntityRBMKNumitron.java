@@ -88,6 +88,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		public long value;
 		/** Whether this display is visible on the panel */
 		public boolean active;
+		/** If leading zeros should not be added */
+		public boolean no_leading_zeroes;
 		
 		public DisplayUnit(int initialIndex) {
 			label = "Display " + (initialIndex + 1);
@@ -113,6 +115,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void serialize(ByteBuf buf) {
+			buf.writeBoolean(no_leading_zeroes);
 			buf.writeBoolean(active);
 			buf.writeBoolean(polling);
 			BufferUtil.writeString(buf, label);
@@ -121,6 +124,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void deserialize(ByteBuf buf) {
+			no_leading_zeroes = buf.readBoolean();
 			active = buf.readBoolean();
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
@@ -129,6 +133,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
+			this.no_leading_zeroes = nbt.getBoolean("no_leading_zeroes" + index);
 			this.active = nbt.getBoolean("active" + index);
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
@@ -137,6 +142,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
+			nbt.setBoolean("no_leading_zeroes" + index, no_leading_zeroes);
 			nbt.setBoolean("active" + index, active);
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
@@ -183,6 +189,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("no_leading_zeroes", displays[idx].no_leading_zeroes);
 		map.put("active", displays[idx].active);
 		map.put("polling", displays[idx].polling);
 		map.put("label", displays[idx].label);
@@ -238,6 +245,16 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1);
 		displays[idx].value = val;
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayNoLeadingZeroes(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		displays[idx].no_leading_zeroes = args.checkBoolean(1);
 		markDirty();
 		return new Object[] {true};
 	}
