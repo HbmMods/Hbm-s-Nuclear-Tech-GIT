@@ -202,7 +202,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
-		map.put("display_mode", displays[idx].display_mode);
+		map.put("display_mode", displays[idx].display_mode + 1);
 		map.put("active_digits", displays[idx].active_digits);
 		map.put("no_leading_zeroes", displays[idx].no_leading_zeroes);
 		map.put("active", displays[idx].active);
@@ -280,6 +280,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1);
+		if(val < 0 || val >= 128) return new Object[] {false, "Invalid value (0-127)"};
 		displays[idx].active_digits = val;
 		markDirty();
 		return new Object[] {true};
@@ -290,7 +291,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 	public Object[] setDisplayMode(Context context, Arguments args) {
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
-		long val = (long) args.checkInteger(1);
+		long val = (long) args.checkInteger(1) - 1;
+		if(val < 0 || val >= 4) return new Object[] {false, "Invalid value (1-4)"};
 		displays[idx].display_mode = val;
 		markDirty();
 		return new Object[] {true};
