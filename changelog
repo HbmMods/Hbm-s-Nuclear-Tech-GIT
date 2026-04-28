@@ -18,9 +18,18 @@
 * The automatic buzzsaw can now burn coal tar creosote
 * The old cluster type effect used by MPBs and cluster missiles now use the new generic projectile system with actual bomblet models
 * Removed the legacy fusion reactor entirely
+* Changed neutron reflectors
+  * Reflectors can no longer be made in the blast furnace
+  * Rather, they are welded from HSS and tungsten carbide
+  * Tungsten carbide is made in the pyrolysis oven using syngas and tungsten powder
+  * Many recipes that used to use neutron reflectors now use alternative materials like HSS plates or weapon steel
+  * This effectively means that neutron reflectors are post oil 3
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata
 * Tile entities that use fluids should now force the chunk they are in to be written to disk when unloaded
   * This should fix the issue where systems that constantly move fluids around may not properly save to disk
 * Fixed dispensed dynamites being considered impact grenades for some reason
+* Fixed RBMK flux detection with RoR and OC not working
+* Moved the soyuz launcher core component recipe to the assembler, fixing an issue where the component recipe is not available in 528 mode
+* Fixed crash caused by using the copy tool on uncolored RBMK control rods

@@ -186,13 +186,18 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Override
 	public NBTTagCompound getSettings(World world, int x, int y, int z) {
 		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("color", color.ordinal());
+		if(color != null) data.setInteger("color", color.ordinal());
 		return data;
 	}
 
 	@Override
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
-		if(nbt.hasKey("color")) color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+		if(nbt.hasKey("color")) {
+			color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+		} else {
+			color = null;
+		}
+		this.markChanged();
 	}
 
 	@Override
