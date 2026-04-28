@@ -113,6 +113,7 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 			}
 
 			//** Fill up to 7 characters */
+			//** For negative numbers when zeroes are added: put the zeroes between the - and hte number */
 			if ((value.length() < 7) && (value.charAt(0) == '-') && (unit.no_leading_zeroes == false)) {
 				value = value.substring(1);
 				while(value.length() < 6) value = "0" + value;
