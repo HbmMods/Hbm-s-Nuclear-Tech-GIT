@@ -54,35 +54,109 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 			double w = 8D / scale;
 			double h = 13D / scale;
 			double yOffset = 0.5625D;
+			double line_height = 0.25D;
 			
-			String value = BobMathUtil.getShortNumber(unit.value);
-			String fill_char = unit.no_leading_zeroes?" ":"0";
-			while(value.length() < 7) value = fill_char + value;
+			String value = "";
+			switch((int)unit.display_mode) {
+				case 0:	// Normal
+					value = BobMathUtil.getShortNumber(unit.value);
+					break;
+				case 1:	// Integer display
+					// Overflow handling
+					if (unit.value > 9999999) {
+						value = "9999999";
+						break;
+					}
+					// Underflow handling
+					if (unit.value < -999999) {
+						value = "-999999";
+						break;
+					}
+					value = Long.toString(unit.value);
+					break;
+				case 2:	// Signed Hexadecimal display
+					// Overflow handling
+					if (unit.value > 0x7FFFFFF) {
+						value = "7ffffff";
+						break;
+					}
+					// Underflow handling
+					// Theoretically this value is equal to 0x8000000 in a 28bit signed integer, but it's a long so we have to adapt
+					if (unit.value < -134217728) {
+						value = "8000000";
+						break;
+					}
+					value = Long.toHexString(unit.value);
+					long length = value.length();
+
+					// A negative number will have many leading F's, so this needs to be accounted for
+					if(length > 7) {
+						value = value.substring((int)length-7);
+					}
+					break;
+				case 3:	// Unsigned Hexadecimal display
+					// Overflow handling
+					if (unit.value > 0xFFFFFFF) {
+						value = "fffffff";
+						break;
+					}
+					// Underflow handling
+					if (unit.value < 0) {
+						value = "-0";
+						break;
+					}
+					value = Long.toHexString(unit.value);
+					break;
+				default:
+					value = BobMathUtil.getShortNumber(unit.value);
+					break;
+			}
+
+			//** Fill up to 7 characters */
+			if ((value.length() < 7) && (value.charAt(0) == '-') && (unit.no_leading_zeroes == false)) {
+				value = value.substring(1);
+				while(value.length() < 6) value = "0" + value;
+				value = "-" + value;
+			} else {
+				String fill_char = unit.no_leading_zeroes?" ":"0";
+				while(value.length() < 7) value = fill_char + value;
+			}
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			for(int j = 0; j < 7; j++) {
+
+				//** Check if this digit is active */
+				//** 0x40 is the bit for the left-most digit, with which this starts */
+				if((unit.active_digits & (0x40L>>j)) == 0) continue;
+
 				double zOffset = (j - 3) * 0.1D;
 				char c = value.charAt(j);
 				double u = -1;
 				double v = 0;
 				if(c == ' ') continue;
-				if(c == '.') {u = 0.9; v = 0.5;}
-				if(c == '-') {u = 0.8; v = 0.5;}
-				else if(c == 'k') {u = 0.0; v = 0.5;}
-				else if(c == 'M') {u = 0.1; v = 0.5;}
-				else if(c == 'G') {u = 0.2; v = 0.5;}
-				else if(c == 'T') {u = 0.3; v = 0.5;}
-				else if(c == 'P') {u = 0.4; v = 0.5;}
-				else if(c == 'E') {u = 0.5; v = 0.5;} // i would love to say this sucks, but this is actually surprisingly easy to read and probably the most performant way of doing it
-				int charVal = c - '0'; // no string operations, no int parsing, no nothing, we just rawdog shit shit
+				if(c == '.') {u = 0.9; v = 1*line_height;}
+				if(c == '-') {u = 0.8; v = 1*line_height;}
+				else if(c == 'k') {u = 0.0; v = 1*line_height;}
+				else if(c == 'M') {u = 0.1; v = 1*line_height;}
+				else if(c == 'G') {u = 0.2; v = 1*line_height;}
+				else if(c == 'T') {u = 0.3; v = 1*line_height;}
+				else if(c == 'P') {u = 0.4; v = 1*line_height;}
+				else if(c == 'E') {u = 0.5; v = 1*line_height;}
+				else if(c == 'a') {u = 0.0; v = 2*line_height;}
+				else if(c == 'b') {u = 0.1; v = 2*line_height;}
+				else if(c == 'c') {u = 0.2; v = 2*line_height;}
+				else if(c == 'd') {u = 0.3; v = 2*line_height;}
+				else if(c == 'e') {u = 0.4; v = 2*line_height;}
+				else if(c == 'f') {u = 0.5; v = 2*line_height;} // i would love to say this sucks, but this is actually surprisingly easy to read and probably the most performant way of doing it
+				int charVal = c - '0'; // no string operations, no int parsing, no nothing, we just rawdog this shit
 				if(charVal >= 0 && charVal <= 9) {u = 0.1 * charVal; v = 0.0;}
-				if(u == -1) {u = 0.8; v = 0.5;}
+				if(u == -1) {u = 0.8; v = 1*line_height;}
 				tess.setNormal(0F, 1F, 0F);
-				tess.addVertexWithUV(0.03135, -h + yOffset, w - zOffset, u, v + 0.5);
+				tess.addVertexWithUV(0.03135, -h + yOffset, w - zOffset, u, v + line_height);
 				tess.addVertexWithUV(0.03135, h + yOffset, w - zOffset, u, v);
 				tess.addVertexWithUV(0.03135, h + yOffset, -w - zOffset, u + 0.1, v);
-				tess.addVertexWithUV(0.03135, -h + yOffset, -w - zOffset, u + 0.1, v + 0.5);
+				tess.addVertexWithUV(0.03135, -h + yOffset, -w - zOffset, u + 0.1, v + line_height);
 			}
 			tess.draw();
 			

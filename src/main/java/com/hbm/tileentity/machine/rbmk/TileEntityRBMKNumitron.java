@@ -90,9 +90,14 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		public boolean active;
 		/** If leading zeros should not be added */
 		public boolean no_leading_zeroes;
+		/** Which digits are activated (bit mask, msb ignored) */
+		public long active_digits;
+		/** Display mode 0=normal, 1=integer, 2=signed hexadecimal 3=unsigned hexadecimal */
+		public long display_mode;
 		
 		public DisplayUnit(int initialIndex) {
 			label = "Display " + (initialIndex + 1);
+			active_digits = 0b01111111;
 		}
 		
 		public void update() {
@@ -115,6 +120,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void serialize(ByteBuf buf) {
+			buf.writeLong(display_mode);
+			buf.writeLong(active_digits);
 			buf.writeBoolean(no_leading_zeroes);
 			buf.writeBoolean(active);
 			buf.writeBoolean(polling);
@@ -124,6 +131,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void deserialize(ByteBuf buf) {
+			display_mode = buf.readLong();
+			active_digits = buf.readLong();
 			no_leading_zeroes = buf.readBoolean();
 			active = buf.readBoolean();
 			polling = buf.readBoolean();
@@ -133,6 +142,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
+			this.display_mode = nbt.getLong("display_mode" + index);
+			this.active_digits = nbt.getLong("active_digits" + index);
 			this.no_leading_zeroes = nbt.getBoolean("no_leading_zeroes" + index);
 			this.active = nbt.getBoolean("active" + index);
 			this.polling = nbt.getBoolean("polling" + index);
@@ -142,6 +153,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
+			nbt.setLong("display_mode" + index, display_mode);
+			nbt.setLong("active_digits" + index, active_digits);
 			nbt.setBoolean("no_leading_zeroes" + index, no_leading_zeroes);
 			nbt.setBoolean("active" + index, active);
 			nbt.setBoolean("polling" + index, polling);
@@ -189,6 +202,8 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("display_mode", displays[idx].display_mode);
+		map.put("active_digits", displays[idx].active_digits);
 		map.put("no_leading_zeroes", displays[idx].no_leading_zeroes);
 		map.put("active", displays[idx].active);
 		map.put("polling", displays[idx].polling);
@@ -255,6 +270,28 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		displays[idx].no_leading_zeroes = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayActiveDigits(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		long val = (long) args.checkInteger(1);
+		displays[idx].active_digits = val;
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayMode(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		long val = (long) args.checkInteger(1);
+		displays[idx].display_mode = val;
 		markDirty();
 		return new Object[] {true};
 	}

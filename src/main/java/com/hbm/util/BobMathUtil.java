@@ -193,39 +193,45 @@ public class BobMathUtil {
 	}
 
 	public static String getShortNumber(long l) {
+		double res;
+		String magnitude_letter = "";
 
-		if(l >= Math.pow(10, 18)) {
-			double res = l / Math.pow(10, 18);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "E";
+		if(Math.abs(l) >= Math.pow(10, 18)) {
+			res = l / Math.pow(10, 18);
+			magnitude_letter = "E";
 		}
-		if(l >= Math.pow(10, 15)) {
-			double res = l / Math.pow(10, 15);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "P";
+		else if(Math.abs(l) >= Math.pow(10, 15)) {
+			res = l / Math.pow(10, 15);
+			magnitude_letter = "P";
 		}
-		if(l >= Math.pow(10, 12)) {
-			double res = l / Math.pow(10, 12);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "T";
+		else if(Math.abs(l) >= Math.pow(10, 12)) {
+			res = l / Math.pow(10, 12);
+			magnitude_letter = "T";
 		}
-		if(l >= Math.pow(10, 9)) {
-			double res = l / Math.pow(10, 9);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "G";
+		else if(Math.abs(l) >= Math.pow(10, 9)) {
+			res = l / Math.pow(10, 9);
+			magnitude_letter = "G";
 		}
-		if(l >= Math.pow(10, 6)) {
-			double res = l / Math.pow(10, 6);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "M";
+		else if(Math.abs(l) >= Math.pow(10, 6)) {
+			res = l / Math.pow(10, 6);
+			magnitude_letter = "M";
 		}
-		if(l >= Math.pow(10, 3)) {
-			double res = l / Math.pow(10, 3);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "k";
+		else if(Math.abs(l) >= Math.pow(10, 3)) {
+			res = l / Math.pow(10, 3);
+			magnitude_letter = "k";
+		}
+		else {
+			return Long.toString(l);
 		}
 
-		return Long.toString(l);
+		// Edgecase: a negative triple digit number would result in a 8 character long result so we will loose one decimal place
+		if (res <= -100.0) {
+			res = Math.round(res * 10.0) / 10.0;
+		} else {
+			res = Math.round(res * 100.0) / 100.0;
+		}
+
+		return res + magnitude_letter;
 	}
 
 	/**
