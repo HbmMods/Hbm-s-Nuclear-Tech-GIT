@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.container.ContainerPWR;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -21,7 +20,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemPWRPrinter;
 import com.hbm.main.MainRegistry;
-import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -48,7 +46,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@NotableComments
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiverMK2, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
@@ -58,6 +55,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public long coreHeatCapacity = 10_000_000;
 	public long hullHeat;
 	public static final long hullHeatCapacityBase = 10_000_000;
+	public long hullHeatCapacity = 10_000_000;
 	public double flux;
 
 	public double rodLevel = 100;
@@ -159,6 +157,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		//switching this to int64 because after 2127 heatsinks the capacity exceeds the int32 which is well within the 4000+ threshold we are working with. oops!
 		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * (this.coreHeatCapacityBase / 20);
+		this.hullHeatCapacity = this.hullHeatCapacityBase + this.heatsinkCount * (this.hullHeatCapacityBase / 20);
 	}
 
 	@Override
@@ -331,7 +330,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound(NTMSounds.REACTOR_GEIGER_LOOP, xCoord, yCoord, zCoord, 1F, 10F, 1.0F, 20);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.reactorLoop", xCoord, yCoord, zCoord, 1F, 10F, 1.0F, 20);
 	}
 
 	@Override
@@ -494,6 +493,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.processTime = nbt.getDouble("processTime");
 		this.coreHeatCapacity = Math.max(nbt.getInteger("coreHeatCapacity"), nbt.getLong("coreHeatCapacityL"));
 		if(this.coreHeatCapacity < this.coreHeatCapacityBase) this.coreHeatCapacity = this.coreHeatCapacityBase;
+		this.hullHeatCapacity = Math.max(nbt.getLong("hullHeatCapacityL"), this.hullHeatCapacityBase);
 
 		this.rodCount = nbt.getInteger("rodCount");
 		this.connections = nbt.getInteger("connections");
@@ -538,6 +538,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setDouble("progress", progress);
 		nbt.setDouble("processTime", processTime);
 		nbt.setLong("coreHeatCapacityL", coreHeatCapacity);
+		nbt.setLong("hullHeatCapacityL", hullHeatCapacity);
 
 		nbt.setInteger("rodCount", rodCount);
 		nbt.setInteger("connections", connections);
@@ -585,7 +586,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
-		return new Object[] {coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacityBase};
+		return new Object[] {coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacity};
 	}
 
 	@Callback(direct = true)
@@ -603,7 +604,18 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoolantInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+		// Return actual fill values regardless of fluid type
+		// Also return fluid type names so OC scripts know what coolant is used
+		String coldType = tanks[0].getTankType() != null ? tanks[0].getTankType().getName() : "empty";
+		String hotType  = tanks[1].getTankType() != null ? tanks[1].getTankType().getName() : "empty";
+		return new Object[] {
+			tanks[0].getFill(),
+			tanks[0].getMaxFill(),
+			tanks[1].getFill(),
+			tanks[1].getMaxFill(),
+			coldType,
+			hotType
+		};
 	}
 
 	@Callback(direct = true)
@@ -615,7 +627,16 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacityBase, flux, rodTarget, rodLevel, amountLoaded, progress, processTime, tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+		String coldType = tanks[0].getTankType() != null ? tanks[0].getTankType().getName() : "empty";
+		String hotType  = tanks[1].getTankType() != null ? tanks[1].getTankType().getName() : "empty";
+		return new Object[] {
+			coreHeat, hullHeat, coreHeatCapacity, hullHeatCapacity,
+			flux, rodTarget, rodLevel,
+			amountLoaded, progress, processTime,
+			tanks[0].getFill(), tanks[0].getMaxFill(),
+			tanks[1].getFill(), tanks[1].getMaxFill(),
+			coldType, hotType
+		};
 	}
 
 	@Callback(direct = true, limit = 4)
@@ -640,25 +661,21 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override public FluidTank[] getAllTanks() { return tanks; }
 	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] { tanks[1] }; }
 	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tanks[0] }; }
-	
-	public static final String[] ROR = new String[] { // not to be confused with RUR
-		PREFIX_VALUE + "rods",
-		PREFIX_VALUE + "coreheat",
-		PREFIX_VALUE + "hullheat",
-		PREFIX_VALUE + "flux",
-		PREFIX_VALUE + "depletion",
-		PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
-		PREFIX_FUNCTION + "jettison",
-	};
 
 	@Override
 	public String[] getFunctionInfo() {
-		return ROR;
+		return new String[] {
+				PREFIX_VALUE + "coreheat",
+				PREFIX_VALUE + "hullheat",
+				PREFIX_VALUE + "flux",
+				PREFIX_VALUE + "depletion",
+				PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "jettison",
+		};
 	}
 
 	@Override
 	public String provideRORValue(String name) {
-		if((PREFIX_VALUE + "rods").equals(name))		return "" + (int) (100 - this.rodLevel); // why the fuck did i invert this again?
 		if((PREFIX_VALUE + "coreheat").equals(name))	return "" + this.coreHeat;
 		if((PREFIX_VALUE + "hullheat").equals(name))	return "" + this.hullHeat;
 		if((PREFIX_VALUE + "flux").equals(name))		return "" + (int) this.flux;
