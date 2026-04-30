@@ -14,6 +14,8 @@ import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver, IFluidCopiable {
+public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver, IFluidCopiable, IRORValueProvider, IRORInteractive {
 	
 	public boolean isOn = false;
 	public FluidTank tank;
@@ -233,5 +235,48 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 		tank.setTankType(Fluids.fromID(id));
 		if(nbt.hasKey("isOn")) isOn = nbt.getBoolean("isOn");
 		if(nbt.hasKey("burnRate")) setting = nbt.getInteger("burnRate");
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "heat",
+				PREFIX_VALUE + "fuel",
+				PREFIX_VALUE + "burnRate",
+				PREFIX_VALUE + "state",
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active",
+				PREFIX_FUNCTION + "setBurnRate" + NAME_SEPARATOR + "rate"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "heat").equals(name))		return "" + heatEnergy;
+		if((PREFIX_VALUE + "fuel").equals(name))		return "" + tank.getFill();
+		if((PREFIX_VALUE + "burnRate").equals(name))	return "" + setting;
+		if((PREFIX_VALUE + "state").equals(name))		return isOn ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setState").equals(name)) {
+			this.isOn = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setBurnRate").equals(name)) {
+			try {
+				int rate = Integer.parseInt(params[0]);
+				if(rate < 1) rate = 1;
+				if(rate > 10) rate = 10;
+				this.setting = rate;
+				this.markChanged();
+				return null;
+			} catch (NumberFormatException e) {
+				return "Invalid number";
+			}
+		}
+		return null;
 	}
 }
