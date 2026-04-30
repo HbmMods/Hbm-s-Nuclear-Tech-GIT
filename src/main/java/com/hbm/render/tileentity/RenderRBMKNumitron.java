@@ -56,26 +56,20 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 			double yOffset = 0.5625D;
 			
 			String value = "";
-			switch((int)unit.display_mode) {
-				case 0:	// Normal
-					value = BobMathUtil.getShortNumber(unit.value);
+			if (unit.shorten_number) {
+				value = BobMathUtil.getShortNumber(unit.value);
+			} else {
+				// Overflow handling
+				if (unit.value > 9999999) {
+					value = "9999999";
 					break;
-				case 1:	// Integer display
-					// Overflow handling
-					if (unit.value > 9999999) {
-						value = "9999999";
-						break;
-					}
-					// Underflow handling
-					if (unit.value < -999999) {
-						value = "-999999";
-						break;
-					}
-					value = Long.toString(unit.value);
+				}
+				// Underflow handling
+				if (unit.value < -999999) {
+					value = "-999999";
 					break;
-				default:
-					value = BobMathUtil.getShortNumber(unit.value);
-					break;
+				}
+				value = Long.toString(unit.value);
 			}
 
 			//** Fill up to 7 characters */

@@ -93,11 +93,12 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		/** Which digits are activated (bit mask, msb ignored) */
 		public long active_digits;
 		/** Display mode 0=normal, 1=integer */
-		public long display_mode;
+		public boolean shorten_number;
 		
 		public DisplayUnit(int initialIndex) {
 			label = "Display " + (initialIndex + 1);
 			active_digits = 0b01111111;
+			shorten_number = true;
 		}
 		
 		public void update() {
@@ -120,7 +121,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void serialize(ByteBuf buf) {
-			buf.writeLong(display_mode);
+			buf.writeBoolean(shorten_number);
 			buf.writeLong(active_digits);
 			buf.writeBoolean(no_leading_zeroes);
 			buf.writeBoolean(active);
@@ -131,7 +132,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void deserialize(ByteBuf buf) {
-			display_mode = buf.readLong();
+			shorten_number = buf.readBoolean();
 			active_digits = buf.readLong();
 			no_leading_zeroes = buf.readBoolean();
 			active = buf.readBoolean();
@@ -142,7 +143,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
-			this.display_mode = nbt.getLong("display_mode" + index);
+			this.shorten_number = nbt.getBoolean("shorten_number" + index);
 			this.active_digits = nbt.getLong("active_digits" + index);
 			this.no_leading_zeroes = nbt.getBoolean("no_leading_zeroes" + index);
 			this.active = nbt.getBoolean("active" + index);
@@ -153,7 +154,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
-			nbt.setLong("display_mode" + index, display_mode);
+			nbt.setBoolean("shorten_number" + index, shorten_number);
 			nbt.setLong("active_digits" + index, active_digits);
 			nbt.setBoolean("no_leading_zeroes" + index, no_leading_zeroes);
 			nbt.setBoolean("active" + index, active);
@@ -202,7 +203,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
-		map.put("display_mode", displays[idx].display_mode + 1);
+		map.put("shorten_number", displays[idx].shorten_number);
 		map.put("active_digits", displays[idx].active_digits);
 		map.put("no_leading_zeroes", displays[idx].no_leading_zeroes);
 		map.put("active", displays[idx].active);
@@ -288,12 +289,10 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 
 	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] setDisplayMode(Context context, Arguments args) {
+	public Object[] setDisplayShortenNumber(Context context, Arguments args) {
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
-		long val = (long) args.checkInteger(1) - 1;
-		if(val < 0 || val >= 2) throw new IllegalArgumentException("Invalid value (1-2)");
-		displays[idx].display_mode = val;
+		displays[idx].shorten_number = args.checkBoolean(1);
 		markDirty();
 		return new Object[] {true};
 	}
