@@ -92,7 +92,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		public boolean no_leading_zeroes;
 		/** Which digits are activated (bit mask, msb ignored) */
 		public long active_digits;
-		/** Display mode 0=normal, 1=integer, 2=signed hexadecimal 3=unsigned hexadecimal */
+		/** Display mode 0=normal, 1=integer */
 		public long display_mode;
 		
 		public DisplayUnit(int initialIndex) {
@@ -292,7 +292,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1) - 1;
-		if(val < 0 || val >= 4) throw new IllegalArgumentException("Invalid value (1-4)");
+		if(val < 0 || val >= 2) throw new IllegalArgumentException("Invalid value (1-2)");
 		displays[idx].display_mode = val;
 		markDirty();
 		return new Object[] {true};
