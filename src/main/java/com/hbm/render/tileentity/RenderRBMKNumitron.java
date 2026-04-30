@@ -74,12 +74,12 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 
 			//** Fill up to 7 characters */
 			//** For negative numbers when zeroes are added: put the zeroes between the '-' and the number */
-			if ((value.length() < 7) && (value.charAt(0) == '-') && (unit.no_leading_zeroes == false)) {
+			if ((value.length() < 7) && (value.charAt(0) == '-') && unit.leading_zeroes) {
 				value = value.substring(1);
 				while(value.length() < 6) value = "0" + value;
 				value = "-" + value;
 			} else {
-				String fill_char = unit.no_leading_zeroes?" ":"0";
+				String fill_char = unit.leading_zeroes?"0":" ";
 				while(value.length() < 7) value = fill_char + value;
 			}
 			
