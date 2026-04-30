@@ -280,7 +280,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1);
-		if(val < 0 || val >= 128) return new Object[] {false, "Invalid value (0-127)"};
+		if(val < 0 || val >= 128) throw new IllegalArgumentException("Invalid value (0-127)");
 		displays[idx].active_digits = val;
 		markDirty();
 		return new Object[] {true};
@@ -292,7 +292,7 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1) - 1;
-		if(val < 0 || val >= 4) return new Object[] {false, "Invalid value (1-4)"};
+		if(val < 0 || val >= 4) throw new IllegalArgumentException("Invalid value (1-4)");
 		displays[idx].display_mode = val;
 		markDirty();
 		return new Object[] {true};
