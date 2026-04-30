@@ -24,6 +24,8 @@
   * Tungsten carbide is made in the pyrolysis oven using syngas and tungsten powder
   * Many recipes that used to use neutron reflectors now use alternative materials like HSS plates or weapon steel
   * This effectively means that neutron reflectors are post oil 3
+* Removed legacy battery items and selfchargers
+* Added more QMAW pages
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata

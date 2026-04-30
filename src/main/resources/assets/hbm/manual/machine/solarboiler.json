@@ -1,0 +1,11 @@
+{
+	"name": "Solar Tower Boiler",
+	"icon": ["hbm:tile.machine_solar_boiler", 1, 0],
+	"trigger": [["hbm:tile.machine_solar_boiler"], ["hbm:tile.solar_mirror"]],
+	"title": {
+		"en_US": "Solar Tower Boiler"
+	},
+	"content": {
+		"en_US": "The solar tower boiler is a simple machine that can turn water into steam. It requires focused sunlight to do so, coming from heliostat mirrors. Right-click the boiler to save its position, then click on the mirrors that should be pointed at this boiler. Mirrors cannot be tilted past 45°, so it is important to put the boiler at an elevated position (hence solar TOWER boiler). In other words: The horizontal distance between the mirrors and the boiler cannot exceed the vertical distance. Consequently, the higher up the boiler is, the more mirrors can be connected to it.<br><br>Due to the boiler running off of sunlight, it will not work during the night. But you already knew that. Sunlight is also not very powerful, so in order to bring water to a boil, about a dozen mirrors are required at minimum.<br><br>The boiler has no GUI, nor can water be inserted directly, it needs to be supplied via pipes. The resulting steam can then be used in a [[steam engine|Steam Engine]], yielding power and low-pressure steam, which can then be [[condensed|Condenser]] back into usable water."
+	}
+}

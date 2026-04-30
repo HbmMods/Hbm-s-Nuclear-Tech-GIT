@@ -227,6 +227,21 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					}
 
 					MainRegistry.proxy.effectNT(data);
+					
+					/*NBTTagCompound smokeData = new NBTTagCompound();
+					smokeData.setString("type", "tower");
+					smokeData.setFloat("lift", 2F);
+					smokeData.setFloat("base", 0.5F);
+					smokeData.setFloat("max", 2F);
+					smokeData.setFloat("strafe", 0.025F);
+					smokeData.setInteger("life", 150 + worldObj.rand.nextInt(20));
+					smokeData.setInteger("color", 0x202020);
+
+					smokeData.setDouble("posX", xCoord + 0.5);
+					smokeData.setDouble("posZ", zCoord + 0.5);
+					smokeData.setDouble("posY", yCoord + 11);
+
+					MainRegistry.proxy.effectNT(smokeData);*/
 				}
 			}
 		}

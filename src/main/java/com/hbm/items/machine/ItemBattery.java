@@ -47,10 +47,6 @@ public class ItemBattery extends Item implements IBatteryItem {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if(this == ModItems.battery_schrabidium) {
-			return EnumRarity.rare;
-		}
-
 		if(this == ModItems.fusion_core || this == ModItems.energy_core) {
 			return EnumRarity.uncommon;
 		}

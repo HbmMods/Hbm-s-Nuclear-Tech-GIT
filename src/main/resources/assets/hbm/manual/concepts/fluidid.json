@@ -1,0 +1,11 @@
+{
+	"name": "Fluid Identification",
+	"icon": ["hbm:item.fluid_identifier_multi", 1, 1],
+	"trigger": [["hbm:item.fluid_identifier_multi", 1, 32767]],
+	"title": {
+		"en_US": "Concept: Fluid Identification"
+	},
+	"content": {
+		"en_US": "An important concept in NTM that is not commonly seen in other mods is fluid identification. While many mods have pipes that allow any fluid to pass, and tanks that simply assume the first type of fluid that is inserted, in NTM, all pipes and tanks need their type defined before they can be used. This has the inherent advantage that there is never any ambiguity as to what fluid can be in a given pipeline or tank, and systems with many pipelines next to each other, or tanks with many passing pipes, will always be separated due to pipes of different types never connecting.<br><br>Fluid types are usually defined via a fluid identifier, shift-click will open the GUI which allows up to two types to be saved (with left and right click), and right click in the air will switch the primary and secondary saved type (only the primary type is used when identifying). Fluid containers, pipes and boilers can be identified with right click, and shift-click will identify all connected pipes of the same type (with a maximum distance of 64 blocks). Other machines may feature a fluid identifier slot instead, simply insert the fluid identifier item into the slot and the type of the connected fluid tank will change.<br><br>Some machines feature no slot at all, either their fluid types are static and cannot be changed due to restrictions of how the machine works, or the machine has a different way of changing types, like a recipe selector switch."
+	}
+}

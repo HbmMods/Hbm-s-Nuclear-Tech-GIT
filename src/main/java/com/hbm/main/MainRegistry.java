@@ -1574,6 +1574,36 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.cheater_virus_seed");
 		ignoreMappings.add("hbm:tile.iter");
 		ignoreMappings.add("hbm:tile.plasma_heater");
+		ignoreMappings.add("hbm:item.battery_generic");
+		ignoreMappings.add("hbm:item.battery_advanced");
+		ignoreMappings.add("hbm:item.battery_lithium");
+		ignoreMappings.add("hbm:item.battery_schrabidium");
+		ignoreMappings.add("hbm:item.battery_red_cell");
+		ignoreMappings.add("hbm:item.battery_red_cell_6");
+		ignoreMappings.add("hbm:item.battery_red_cell_24");
+		ignoreMappings.add("hbm:item.battery_advanced_cell");
+		ignoreMappings.add("hbm:item.battery_advanced_cell_4");
+		ignoreMappings.add("hbm:item.battery_advanced_cell_12");
+		ignoreMappings.add("hbm:item.battery_lithium_cell");
+		ignoreMappings.add("hbm:item.battery_lithium_cell_3");
+		ignoreMappings.add("hbm:item.battery_lithium_cell_6");
+		ignoreMappings.add("hbm:item.battery_schrabidium_cell");
+		ignoreMappings.add("hbm:item.battery_schrabidium_cell_2");
+		ignoreMappings.add("hbm:item.battery_schrabidium_cell_4");
+		ignoreMappings.add("hbm:item.battery_spark_cell_6");
+		ignoreMappings.add("hbm:item.battery_spark_cell_25");
+		ignoreMappings.add("hbm:item.battery_spark_cell_100");
+		ignoreMappings.add("hbm:item.battery_spark_cell_1000");
+		ignoreMappings.add("hbm:item.battery_spark_cell_2500");
+		ignoreMappings.add("hbm:item.battery_spark_cell_10000");
+		ignoreMappings.add("hbm:item.battery_spark_cell_power");
+		ignoreMappings.add("hbm:item.battery_sc_uranium");
+		ignoreMappings.add("hbm:item.battery_sc_technetium");
+		ignoreMappings.add("hbm:item.battery_sc_plutonium");
+		ignoreMappings.add("hbm:item.battery_sc_polonium");
+		ignoreMappings.add("hbm:item.battery_sc_gold");
+		ignoreMappings.add("hbm:item.battery_sc_lead");
+		ignoreMappings.add("hbm:item.battery_sc_americium");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
