@@ -2400,6 +2400,7 @@ item.ingot_th232.name=Thorium-232-Barren
 item.ingot_thorium_fuel.name=Thoriumkernbrennstoffbarren
 item.ingot_titanium.name=Titanbarren
 item.ingot_tungsten.name=Wolframbarren
+item.ingot_tungsten_carbide.name=Wolframcarbidbarren
 item.ingot_u233.name=Uran-233-Barren
 item.ingot_u235.name=Uran-235-Barren
 item.ingot_u238.name=Uran-238-Barren
