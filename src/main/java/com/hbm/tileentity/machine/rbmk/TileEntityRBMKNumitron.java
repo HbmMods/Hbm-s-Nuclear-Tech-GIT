@@ -179,9 +179,13 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		
 		int active = data.getByte("active");
 		int polling = data.getByte("polling");
+		int shorten_number = data.getByte("shorten_number");
+		int leading_zeroes = data.getByte("leading_zeroes");
 		for(int i = 0; i < 2; i++) {
 			this.displays[i].active = (active & (1 << i)) != 0;
 			this.displays[i].polling = (polling & (1 << i)) != 0;
+			this.displays[i].shorten_number = (shorten_number & (1 << i)) != 0;
+			this.displays[i].leading_zeroes = (leading_zeroes & (1 << i)) != 0;
 		}
 		
 		for(int i = 0; i < 2; i++) {
