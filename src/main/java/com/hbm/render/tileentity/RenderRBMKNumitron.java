@@ -62,14 +62,14 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 				// Overflow handling
 				if (unit.value > 9999999) {
 					value = "9999999";
-					break;
 				}
 				// Underflow handling
-				if (unit.value < -999999) {
+				else if (unit.value < -999999) {
 					value = "-999999";
-					break;
 				}
-				value = Long.toString(unit.value);
+				else {
+					value = Long.toString(unit.value);
+				}
 			}
 
 			//** Fill up to 7 characters */
