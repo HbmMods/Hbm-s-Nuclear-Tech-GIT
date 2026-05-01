@@ -437,7 +437,7 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getFuelInfo(Context context, Arguments args) {
+	public Object[] getRodInfo(Context context, Arguments args) {
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
 			map.put("coreSkinTemp", ItemRBMKRod.getHullHeat(loadedItem));
@@ -446,7 +446,7 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 			map.put("xenon", ItemRBMKRod.getPoisonLevel(loadedItem));
 			map.put("rodName", loadedItem.getItem().getUnlocalizedName());
 		} else {
-			return new Object[] {false, "No fuel loaded"};
+			return new Object[] {false, "No rod loaded"};
 		}
 		return new Object[] {map};
 	}
