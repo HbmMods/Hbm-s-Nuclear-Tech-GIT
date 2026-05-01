@@ -11,6 +11,7 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIRBMKConsole;
+import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
@@ -667,6 +668,21 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			if (te instanceof TileEntityRBMKCooler){
 				TileEntityRBMKCooler coolerChannel = (TileEntityRBMKCooler) te;
 				data_table.put("cryogel", coolerChannel.getAllTanks()[0].getFill());
+			}
+
+			if (te instanceof TileEntityRBMKStorage){
+				TileEntityRBMKStorage storageChannel = (TileEntityRBMKStorage) te;
+				ItemStack loadedItem;
+				for (int k = 0; k < 12; k++) {
+					loadedItem = storageChannel.slots[k];
+					if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+						data_table.put("slot" + k + "coreSkinTemp", ItemRBMKRod.getHullHeat(loadedItem));
+						data_table.put("slot" + k + "coreTemp", ItemRBMKRod.getCoreHeat(loadedItem));
+						data_table.put("slot" + k + "enrichment", ItemRBMKRod.getEnrichment(loadedItem));
+						data_table.put("slot" + k + "xenon", ItemRBMKRod.getPoisonLevel(loadedItem));
+						data_table.put("slot" + k + "rodName", loadedItem.getItem().getUnlocalizedName());
+					}
+				}
 			}
 
 			return new Object[] {data_table};
