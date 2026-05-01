@@ -452,6 +452,24 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 	}
 
 	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDepletion(Context context, Arguments args) {
+		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getEnrichment(loadedItem)};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getXenonPoison(Context context, Arguments args) {
+		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getPoison(loadedItem)};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers") //if this doesnt work im going to die
 	public Object[] getCranePos(Context context, Arguments args) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
