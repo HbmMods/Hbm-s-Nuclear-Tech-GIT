@@ -26,6 +26,7 @@
   * This effectively means that neutron reflectors are post oil 3
 * Removed legacy battery items and selfchargers
 * Added more QMAW pages
+* Expensive mode plastic sheets now only use rubber instead of rubber or latex
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata

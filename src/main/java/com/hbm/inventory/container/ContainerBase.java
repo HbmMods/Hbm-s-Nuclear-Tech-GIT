@@ -67,6 +67,11 @@ public class ContainerBase extends Container {
 		return slotOriginal;
 	}
 	
+	/** Standard player inventory with default hotbar and horizontal offsets */
+	public void playerInv(InventoryPlayer invPlayer, int playerInvY) {
+		playerInv(invPlayer, 8, playerInvY, playerInvY + 58);
+	}
+
 	/** Standard player inventory with default hotbar offset */
 	public void playerInv(InventoryPlayer invPlayer, int playerInvX, int playerInvY) {
 		playerInv(invPlayer, playerInvX, playerInvY, playerInvY + 58);
