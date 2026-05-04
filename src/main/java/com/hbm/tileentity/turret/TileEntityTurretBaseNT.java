@@ -30,6 +30,7 @@ import com.hbm.util.CompatExternal;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.entity.IRadarDetectableNT;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -66,7 +67,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  */
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, IRORInteractive, CompatHandler.OCComponent {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -1056,5 +1057,51 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return getPos(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setActive" + NAME_SEPARATOR + "active (0 or 1)",
+				PREFIX_FUNCTION + "targetPlayers" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetAnimals" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetMobs" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetMachines" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "addWhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "removeWhitelist" + NAME_SEPARATOR + "name",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setActive").equals(name) && params.length > 0) {
+			try { this.isOn = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
+		}
+		if((PREFIX_FUNCTION + "targetPlayers").equals(name) && params.length > 0) {
+			try { this.targetPlayers = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
+		}
+		if((PREFIX_FUNCTION + "targetAnimals").equals(name) && params.length > 0) {
+			try { this.targetAnimals = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
+		}
+		if((PREFIX_FUNCTION + "targetMobs").equals(name) && params.length > 0) {
+			try { this.targetMobs = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
+		}
+		if((PREFIX_FUNCTION + "targetMachines").equals(name) && params.length > 0) {
+			try { this.targetMachines = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
+		}
+		if((PREFIX_FUNCTION + "addWhitelist").equals(name) && params.length > 0) {
+			String playerName = params[0];
+			List<String> whitelist = this.getWhitelist();
+			if(!whitelist.contains(playerName)) this.addName(playerName);
+			this.markChanged();
+		}
+		if((PREFIX_FUNCTION + "removeWhitelist").equals(name) && params.length > 0) {
+			String playerName = params[0];
+			List<String> whitelist = this.getWhitelist();
+			if(whitelist.contains(playerName)) this.removeName(whitelist.indexOf(playerName));
+			this.markChanged();
+		}
+		
+		return null;
 	}
 }

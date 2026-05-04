@@ -146,7 +146,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					int randPosX = i + rand.nextInt(2) + 8;
 					int randPosZ = j + rand.nextInt(2) + 8;
 
-					BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.bedrock_ore_base), null, 0xD78A16, 1);
+					BedrockOre.generateAuto(world, randPosX, randPosZ);
 				}
 
 			} else {

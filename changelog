@@ -12,8 +12,13 @@
 * If two pipe anchors are connected, one having a type set and one still being "none", instead of erroring, the "none" pipe will assume the other one's type
 * Self-chargers in battery sockets now produce unreliable power output which constantly fluctuates
 * Self-chargers in battery sockets now cause static discharges in regular intervals
-* Added more RoR functionality to the boilers, industrial combustion engine, CCGT and ZIRNOX
+* Added more RoR functionality to the boilers, industrial combustion engine, heat exchangers, fluid burners, CCGT and ZIRNOX
+* Turrets can now be toggled and configured with RoR
+* Artillery turrets can now have targets enqueued with RoR
+* The RBMK numeric displays can now be controlled via OpenComputers, and come with built-in settings for shortening numbers and displaying leading zeroes
 * The industrial steam turbine now has OpenComputers integration
+* The RBMK fuel crane can now report stats for the loaded fuel rod to OpenComputers
+* The RBMK console can now detect and send all stored RBMK fuel rods in storage columns via OpenComputers
 * Crates now open when right-clicked by default, holding shift is required to place them down
 * The automatic buzzsaw can now burn coal tar creosote
 * The old cluster type effect used by MPBs and cluster missiles now use the new generic projectile system with actual bomblet models
@@ -24,9 +29,30 @@
   * Tungsten carbide is made in the pyrolysis oven using syngas and tungsten powder
   * Many recipes that used to use neutron reflectors now use alternative materials like HSS plates or weapon steel
   * This effectively means that neutron reflectors are post oil 3
+  * PWR neutron reflectors have an alternate recipe allowing them to be made with weaponsteel
 * Removed legacy battery items and selfchargers
 * Added more QMAW pages
 * Expensive mode plastic sheets now only use rubber instead of rubber or latex
+* Updated the texture on the fop thing
+* RoR info on tanks now displays the (0-3) value range of the mode setting
+* Spike, tesla and microwave damage have now been categorized as physical, energy and energy respectively, making armors resistant against them
+* Fau and DNT armor now have explicit physical resistances, making them harder to pierce
+* The rubber recipe now yields two rubber per sulfur used
+* Foundry scraps now show their material in the name instead of the description
+* Bedrock ore minimum tier and bore fluid is no longer fixed at (1/NONE), rather it scales with the quality of the bedrock ore at that spot
+  * The bedrock ore density scanner will try to predict the required tier and bore fluid at the current spot, and show it as part of the HUD
+  * This only applies to newly generated bedrock ore patches
+* Reduced industrial turbine cost from 3 titanium steam turbine blades to 2
+* Motors now have yet another alternate recipe in the arc welder, using steel plates but substituting the coils with a dense red copper wires
+* Dense red copper wires can now be welded
+* The old factory hull blocks have been deprecated
+* The singularity screwdriver, being with no purpose ever since the fwatz got removed, has been removed as well
+* Desh motors now use dense golden wires instead of golden ring coils
+* Added "desh from cracked oil" recipe
+  * Default recipe, doesn't need a blueprint
+  * Uses cracked light oil instead of regular light oil (500mB at 1 PU, or 2.5x more than the standard recipe, plus one compressor)
+  * Uses 100mB of mercury instead of 200mB
+* All standard coils now have alternate recipes, using a steel core instead of an iron one
 
 ## Fixed
 * Fixed uncrafting of the nickel RTG pellet not respecting item metadata
@@ -36,3 +62,6 @@
 * Fixed RBMK flux detection with RoR and OC not working
 * Moved the soyuz launcher core component recipe to the assembler, fixing an issue where the component recipe is not available in 528 mode
 * Fixed crash caused by using the copy tool on uncolored RBMK control rods
+* Fixed turbine blade smelting in the crucible only yielding 2 ingots worth of material
+* Fixed cluster missiles never properly splitting before impact
+  * The final splitting height depends on the trajectory's arc, cluster missiles are therefore not suitable for very long distances

@@ -609,7 +609,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				PREFIX_VALUE + "steam",
 				PREFIX_VALUE + "co2",
 				PREFIX_VALUE + "state",
-				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active",
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active (0 or 1)",
 				PREFIX_FUNCTION + "ventCO2"
 		};
 	}

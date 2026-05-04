@@ -1604,6 +1604,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.battery_sc_gold");
 		ignoreMappings.add("hbm:item.battery_sc_lead");
 		ignoreMappings.add("hbm:item.battery_sc_americium");
+		ignoreMappings.add("hbm:item.overfuse");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
