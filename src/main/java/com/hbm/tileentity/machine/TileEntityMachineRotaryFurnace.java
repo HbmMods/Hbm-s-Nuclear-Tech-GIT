@@ -28,7 +28,7 @@ import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +43,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable, IConditionalInvAccess, IConfigurableMachine {
+public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting implements IFluidStandardTransceiverMK2, IGUIProvider, IFluidCopiable, IConditionalInvAccess, IConfigurableMachine {
 
 	public FluidTank[] tanks;
 	public boolean isProgressing;
@@ -95,13 +95,13 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 			for(DirPos pos : getSteamPos()) {
 				this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			if(tanks[0].getTankType() != Fluids.NONE) for(DirPos pos : getFluidPos()) {
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			if(smoke.getFill() > 0) this.sendFluid(smoke, worldObj, xCoord + rot.offsetX, yCoord + 5, zCoord + rot.offsetZ, Library.POS_Y);
+			if(smoke.getFill() > 0) this.tryProvide(smoke, worldObj, xCoord + rot.offsetX, yCoord + 5, zCoord + rot.offsetZ, Library.POS_Y);
 
 			if(this.output != null) {
 
@@ -137,13 +137,14 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 					this.markChanged();
 				}
 
-				if(this.canProcess(recipe)) {
-					float speed = Math.max((float) burnHeat, 1);
-					this.progress += speed / recipe.duration;
+				float processSpeed = Math.max((float) burnHeat, 1);
+				float steamUseMult = (float)(10 * Math.log10(processSpeed) + 1);
+				
+				if(this.canProcess(recipe, steamUseMult)) {
+					this.progress += processSpeed / recipe.duration;
 
-					speed =  (float)(13 * Math.log10(speed) + 1);
-					tanks[1].setFill((int) (tanks[1].getFill() - recipe.steam * speed));
-					steamUsed += recipe.steam * speed;
+					tanks[1].setFill((int) (tanks[1].getFill() - recipe.steam * steamUseMult));
+					steamUsed += recipe.steam * steamUseMult;
 					this.isProgressing = true;
 
 					if(this.progress >= 1F) {
@@ -301,7 +302,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		};
 	}
 
-	public boolean canProcess(RotaryFurnaceRecipe recipe) {
+	public boolean canProcess(RotaryFurnaceRecipe recipe, float steamUseMult) {
 
 		if(this.burnTime <= 0) return false;
 
@@ -310,10 +311,8 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			if(this.tanks[0].getFill() < recipe.fluid.fill) return false;
 		}
 
-		float speed = Math.max((float) burnHeat, 1);
-		
-		if(tanks[1].getFill() < recipe.steam * speed) return false;
-		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam * speed / 100) return false;
+		if(tanks[1].getFill() < recipe.steam * steamUseMult) return false;
+		if(tanks[2].getMaxFill() - tanks[2].getFill() < recipe.steam * steamUseMult / 100) return false;
 		if(this.steamUsed > 100) return false;
 
 		if(this.output != null) {
