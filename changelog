@@ -1,3 +1,10 @@
+## Added
+* Freight elevator
+  * A 3x3 hydraulic platform
+  * Can be stacked
+  * Only supports two floors, the top and the bottom
+  * Hopefully not terribly janky
+
 ## Changed
 * Reduced steam demand of the rotary furnace's hotter fuels by a bit
 * The acidizer now has a sound loop (chemplant sound at 75% pitch)
