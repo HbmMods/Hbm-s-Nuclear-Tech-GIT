@@ -121,6 +121,7 @@ public class EntityMappings {
 		addEntity(EntityCloudTom.class, "entity_moonstone_blast", 1000);
 		addEntity(EntityFireworks.class, "entity_firework_ball", 1000);
 		addEntity(EntityWastePearl.class, "entity_waste_pearl", 1000);
+		addEntity(EntityFalloutball.class, "entity_falloutball", 250);
 		addEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron",  1000);
 		addEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 1000);
 		addEntity(EntityBlockSpider.class, "entity_taintcrawler", 1000);

@@ -106,6 +106,9 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_fallout, ModItems.fallout);
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.fallout, 2), new Object[] { "##", '#', ModItems.fallout });
 
+		GameRegistry.addRecipe(new ItemStack(ModItems.fallout, 1), new Object[] { "#", '#', ModItems.falloutball });
+		GameRegistry.addRecipe(new ItemStack(ModItems.falloutball, 1), new Object[] { "#", '#', ModItems.fallout });
+
 		addMineralSet(ModItems.nugget_pu_mix, ModItems.ingot_pu_mix, ModBlocks.block_pu_mix);
 		add1To9Pair(ModItems.ingot_neptunium_fuel, ModItems.nugget_neptunium_fuel);
 		
