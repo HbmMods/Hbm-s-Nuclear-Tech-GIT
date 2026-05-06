@@ -630,6 +630,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFireLingering.class, new RenderMist());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWaypoint.class, new RenderMist());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAcidBomb.class, new RenderSnowball(Items.slime_ball));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFalloutball.class, new RenderSnowball(ModItems.falloutball));
 		//grenades
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBouncyGeneric.class, new RenderGenericGrenade());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDisperserCanister.class, new RenderGenericGrenade());
