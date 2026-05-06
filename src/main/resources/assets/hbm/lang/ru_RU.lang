@@ -5020,6 +5020,7 @@ tile.cable_switch.name=Рубильник
 tile.capacitor_bus.desc=Выходной блок для конденсаторов$Может быть подключен по прямой линии
 tile.capacitor_copper.name=Старый конденсатор
 tile.capacitor.desc=Вход: Сверху$Выход: Снизу через шину
+tile.cargo_elevator.name=Грузовой лифт
 tile.charge_c4.name=Подрывной заряд
 tile.charge_dynamite.name=Бомба с таймером
 tile.charge_miner.name=Шахтёрский заряд с таймером
