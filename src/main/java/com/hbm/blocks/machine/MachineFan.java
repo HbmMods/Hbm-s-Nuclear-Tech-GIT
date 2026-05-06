@@ -210,7 +210,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 
 			return true;
 		}
-		if(tool == ToolType.WRENCH) {
+		if(tool == ToolType.DEFUSER) {
 			TileEntityFan tile = (TileEntityFan) world.getTileEntity(x, y, z);
 
 			if(tile != null) {
