@@ -52,6 +52,10 @@ public class BlockCargoElevator extends BlockDummyable {
 		int[] pos = ((BlockDummyable) ModBlocks.cargo_elevator).findCore(world, x, y, z);
 		if(pos != null) {
 			TileEntityCargoElevator elevator = (TileEntityCargoElevator) world.getTileEntity(pos[0], pos[1], pos[2]);
+
+			x = pos[0];
+			y = pos[1];
+			z = pos[2];
 			
 			// due to the collisions being really fucking weird, we have to add custom elevator extension too
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == Item.getItemFromBlock(this)) {
@@ -71,9 +75,9 @@ public class BlockCargoElevator extends BlockDummyable {
 					elevator.markDirty();
 					if(!player.capabilities.isCreativeMode) player.getHeldItem().stackSize--;
 				}
+			} else {
+				elevator.toggleElevator();
 			}
-			
-			elevator.toggleElevator();
 		}
 		return true;
 	}
