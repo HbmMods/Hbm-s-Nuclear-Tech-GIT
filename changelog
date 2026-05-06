@@ -9,7 +9,7 @@
 * Reduced steam demand of the rotary furnace's hotter fuels by a bit
 * The acidizer now has a sound loop (chemplant sound at 75% pitch)
 * Updated some bomb part recipes, mainly to make use of the new neutron reflectors and some more modern materials (why did ivy mike coolers still use iron?)
-* Updated the fat man igniter icon
+* Updated the fat man igniter and gadget wiring icons
 * The cape items, which haven't actually been used by anyone ever, are now deprecated. Existing capes will still work, but the items are now unobtainable
 * Some long deprecated melee weapons have now been properly removed
 

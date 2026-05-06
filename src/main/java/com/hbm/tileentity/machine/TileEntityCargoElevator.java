@@ -9,6 +9,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
@@ -115,6 +116,24 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 		if(this.syncExtension > 0 && this.syncExtension < this.height) {
 			this.sync = 3;
 		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.extension = nbt.getDouble("extension");
+		this.isExtending = nbt.getBoolean("isExtending");
+		this.height = nbt.getInteger("height");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setDouble("extension", extension);
+		nbt.setBoolean("isExtending", isExtending);
+		nbt.setInteger("height", height);
 	}
 	
 	AxisAlignedBB bb = null;
