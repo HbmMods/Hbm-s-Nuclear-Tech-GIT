@@ -94,7 +94,7 @@ public class ItemScraps extends ItemAutogen {
 			if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("liquid")) {
 				return I18nUtil.resolveKey(matName);
 			} else {
-				return ("" + StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", matName)).trim();
+				return ("" + StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", StatCollector.translateToLocal(matName))).trim();
 			}
 		}
 		
@@ -110,7 +110,6 @@ public class ItemScraps extends ItemAutogen {
 			list.add(Mats.formatAmount(contents.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 			
 			if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("liquid")) {
-				list.add(Mats.formatAmount(contents.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 				if(contents.material.smeltable == contents.material.smeltable.ADDITIVE) list.add(EnumChatFormatting.DARK_RED + "Additive, not castable!");
 			}
 		}

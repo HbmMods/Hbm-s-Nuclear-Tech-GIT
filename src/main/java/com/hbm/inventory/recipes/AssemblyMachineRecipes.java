@@ -645,11 +645,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
 		// bomb parts
 		this.register(new GenericRecipe("ass.explosivelenses1").setup(400, 100).outputItems(new ItemStack(ModItems.early_explosive_lenses, 1))
-				.inputItems(new OreDictStack(AL.plate(), 8), new OreDictStack(GOLD.wireFine(), 16), new ComparableStack(ModBlocks.det_cord, 8), new OreDictStack(CU.plate(), 2), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 20), new OreDictStack(ANY_PLASTIC.ingot(), 4)));
+				.inputItems(new OreDictStack(AL.plate(), 8), new ComparableStack(ModBlocks.det_cord, 8), new OreDictStack(BIGMT.plate(), 2), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 20), new OreDictStack(ANY_PLASTIC.ingot(), 4)));
 		this.register(new GenericRecipe("ass.explosivelenses2").setup(400, 100).outputItems(new ItemStack(ModItems.explosive_lenses, 1))
-				.inputItems(new OreDictStack(AL.plate(), 8), new OreDictStack(MINGRADE.wireFine(), 16), new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 4), new OreDictStack(CU.plate(), 2), new ComparableStack(ModItems.ball_tatb, 16), new OreDictStack(RUBBER.ingot(), 2)));
+				.inputItems(new OreDictStack(AL.plate(), 8), new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 4), new ComparableStack(ModItems.neutron_reflector, 2), new ComparableStack(ModItems.ball_tatb, 16), new OreDictStack(RUBBER.ingot(), 2)));
 		this.register(new GenericRecipe("ass.wiring").setup(200, 100).outputItems(new ItemStack(ModItems.gadget_wireing, 1))
-				.inputItems(new OreDictStack(IRON.plate(), 1), new OreDictStack(GOLD.wireFine(), 12)));
+				.inputItems(new OreDictStack(GOLD.wireFine(), 24)));
 		this.register(new GenericRecipe("ass.core1").setup(1_200, 100).outputItems(new ItemStack(ModItems.gadget_core, 1))
 				.inputItems(new OreDictStack(PU239.nugget(), 7), new OreDictStack(U238.nugget(), 3)));
 		this.register(new GenericRecipe("ass.boyshield").setup(200, 100).outputItems(new ItemStack(ModItems.boy_shielding, 1))
@@ -663,16 +663,16 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.boyigniter").setup(200, 100).outputItems(new ItemStack(ModItems.boy_igniter, 1))
 				.inputItems(new OreDictStack(AL.shell(), 3), new OreDictStack(DURA.plateCast(), 1), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), new OreDictStack(MINGRADE.wireFine(), 16)));
 		this.register(new GenericRecipe("ass.manigniter").setup(200, 100).outputItems(new ItemStack(ModItems.man_igniter, 1))
-				.inputItems(new OreDictStack(STEEL.plate(), 6), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), new OreDictStack(MINGRADE.wireFine(), 9)));
+				.inputItems(new ComparableStack(ModItems.circuit, 3, EnumCircuitType.ADVANCED.ordinal()), new OreDictStack(GOLD.wireFine(), 24)));
 		this.register(new GenericRecipe("ass.mancore").setup(1_200, 100).outputItems(new ItemStack(ModItems.man_core, 1))
 				.inputItems(new OreDictStack(PU239.nugget(), 8), new OreDictStack(BE.nugget(), 2)));
 		this.register(new GenericRecipe("ass.mikecore").setup(1_200, 100).outputItems(new ItemStack(ModItems.mike_core, 1))
-				.inputItems(new OreDictStack(U238.nugget(), 24), new OreDictStack(PB.ingot(), 6)));
+				.inputItems(new OreDictStack(U238.nugget(), 24), new OreDictStack(PB.plate(), 6)));
 		this.register(new GenericRecipe("ass.mikedeut").setup(600, 100).outputItems(new ItemStack(ModItems.mike_deut, 1))
-				.inputItems(new OreDictStack(IRON.plate(), 12), new OreDictStack(STEEL.plate(), 16))
+				.inputItems(new OreDictStack(WEAPONSTEEL.plate(), 16), new OreDictStack(TI.plate(), 16))
 				.inputFluids(new FluidStack(Fluids.DEUTERIUM, 10_000)));
 		this.register(new GenericRecipe("ass.mikecooler").setup(300, 100).outputItems(new ItemStack(ModItems.mike_cooling_unit, 1))
-				.inputItems(new OreDictStack(IRON.plate(), 8), new ComparableStack(ModItems.coil_copper, 5), new ComparableStack(ModItems.coil_tungsten, 5), new ComparableStack(ModItems.motor, 2)));
+				.inputItems(new OreDictStack(DURA.plate(), 8), new ComparableStack(ModItems.coil_copper, 5), new ComparableStack(ModItems.coil_tungsten, 5), new ComparableStack(ModItems.motor, 2)));
 		this.register(new GenericRecipe("ass.fleijaigniter").setup(200, 100).outputItems(new ItemStack(ModItems.fleija_igniter, 1))
 				.inputItems(new OreDictStack(TI.plate(), 6), new OreDictStack(SA326.wireFine(), 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal())));
 		this.register(new GenericRecipe("ass.fleijacore").setup(600, 100).outputItems(new ItemStack(ModItems.fleija_core, 1))

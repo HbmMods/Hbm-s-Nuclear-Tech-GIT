@@ -3997,6 +3997,7 @@ tile.capacitor_niobium.name=Niobkondensator (LEGACY)
 tile.capacitor_schrabidate.name=Schrabidatkondensator (LEGACY)
 tile.capacitor_tantalium.name=Tantalkondensator (LEGACY)
 tile.capacitor.desc=Input: Oben$Output: Unten, über Kondensator-Bus
+tile.cargo_elevator.name=Frachtenaufzug
 tile.charge_c4.name=Abrissladung
 tile.charge_dynamite.name=Zeitbombe
 tile.charge_miner.name=Bergbauladung mit Zeitzünder

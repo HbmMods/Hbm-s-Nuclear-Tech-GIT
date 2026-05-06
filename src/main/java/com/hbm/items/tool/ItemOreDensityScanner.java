@@ -41,12 +41,11 @@ public class ItemOreDensityScanner extends Item {
 		int tier = BedrockOre.getTier(totalLevel);
 		FluidStack boreFluid = BedrockOre.getBoreFluid(totalLevel);
 		
-		ChatBuilder builder = ChatBuilder.start("Tier " + tier);
+		ChatBuilder builder = ChatBuilder.start("Tier " + tier).color(EnumChatFormatting.YELLOW);
 		if(boreFluid != null) {
 			builder.next(" - " + boreFluid.fill + "mB ")
 			.nextTranslation(boreFluid.type.getUnlocalizedName());
 		}
-		builder.color(EnumChatFormatting.YELLOW);
 		
 		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(builder.flush(), 777 + BedrockOreType.values().length, 4000), player);
 	}
