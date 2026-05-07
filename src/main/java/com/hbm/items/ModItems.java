@@ -460,7 +460,7 @@ public class ModItems {
 	public static Item dust;
 	public static Item dust_tiny;
 	public static Item fallout;
-	public static Item falloutball;
+	public static Item falloball;
 	public static Item powder_power;
 
 	public static Item powder_thorium;
@@ -2861,7 +2861,7 @@ public class ModItems {
 		cigarette = new ItemCigarette().setUnlocalizedName("cigarette").setFull3D().setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cigarette");
 		crackpipe = new ItemCigarette().setUnlocalizedName("crackpipe").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":crackpipe");
 		bdcl = new ItemBDCL().setUnlocalizedName("bdcl").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bdcl");
-		falloutball = new ItemFalloutball().setUnlocalizedName("falloutball").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":falloutball");
+		falloball = new ItemFalloball().setUnlocalizedName("falloball").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":falloball");
 
 		attachment_mask = new ItemModGasmask().setUnlocalizedName("attachment_mask").setTextureName(RefStrings.MODID + ":attachment_mask");
 		attachment_mask_mono = new ItemModGasmask().setUnlocalizedName("attachment_mask_mono").setTextureName(RefStrings.MODID + ":attachment_mask_mono");
@@ -6108,7 +6108,7 @@ public class ModItems {
 		GameRegistry.registerItem(cigarette, cigarette.getUnlocalizedName());
 		GameRegistry.registerItem(crackpipe, crackpipe.getUnlocalizedName());
 		GameRegistry.registerItem(bdcl, bdcl.getUnlocalizedName());
-		GameRegistry.registerItem(falloutball, falloutball.getUnlocalizedName());
+		GameRegistry.registerItem(falloball, falloball.getUnlocalizedName());
 
 		//Armor mods
 		GameRegistry.registerItem(attachment_mask, attachment_mask.getUnlocalizedName());
