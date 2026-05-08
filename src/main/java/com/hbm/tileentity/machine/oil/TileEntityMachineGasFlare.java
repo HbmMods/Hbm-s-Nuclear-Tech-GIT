@@ -24,6 +24,7 @@ import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -104,6 +105,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.checkTilt(false);
 
 			this.fluidUsed = 0;
 			this.output = 0;
@@ -246,6 +248,9 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			}
 		}
 	}
+	
+	@Override public int getFloorCount() { return 2 * 2; }
+	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor3x3(index); }
 
 	public DirPos[] getConPos() {
 		return new DirPos[] {

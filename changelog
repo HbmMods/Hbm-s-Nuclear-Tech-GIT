@@ -1,12 +1,22 @@
 ## Added
 * Redstone-over-Radio Terminal
   * Allows commands to be sent manually, command line style
+  * Supports single commands and repeated ones (polling)
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
   * This should make it easier to accurately tell the difference/scale of values when they exist in an expected range (for example, RBMK temperatures)
 * RoR controllers now use polling by default, since state change is unable to actually perform a function unless the state changes, preventing repeated commands
+* HE/RF converters now have a tooltip showing their buffered energy
+* Updated the models of the cage lamp, fluorescent light and halogen lamp
+* 528 mode now has a new config for enabling gravity on machines
+  * Machines not on solid ground will tilt, causing them to break
+  * Still a work in progress, not all machines make use of it yet
+  * The ZIRNOX for example will continue to operate when tilted, however the pipes will disconnect, resulting in a fatal loss of cooling
+* Slightly adjusted the automatic buzzsaw's texture
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
 * Fixed polling option in RoR controllers reading dead signals
+* Fixed state change in RoR controllers not allowing repeat commands
+* Fixed blast furnace NEI handler not cycling through all valid material shapes

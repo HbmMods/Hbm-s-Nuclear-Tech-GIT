@@ -150,7 +150,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 					else {
 						in1.remove(nothing);
 						in1.addAll(stack.extractForNEI());
-						break;
+						continue;
 					}
 				}
 				if(in1.contains(nothing)) {
@@ -162,7 +162,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 					} else {
 						in2.remove(nothing);
 						in2.addAll(stack.extractForNEI());
-						break;
+						continue;
 					}
 				}
 				if(in2.contains(nothing)) {

@@ -27,6 +27,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.*;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -132,6 +133,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.checkTilt(false);
 			
 			this.isOn = false;
 			
@@ -219,6 +221,9 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			}
 		}
 	}
+	
+	@Override public int getFloorCount() { return 2 * 2; }
+	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor3x3(index); }
 	
 	@Override
 	public AudioWrapper createAudioLoop() {

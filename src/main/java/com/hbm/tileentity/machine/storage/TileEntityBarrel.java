@@ -296,20 +296,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		return fluid == tank.getTankType();
 	}
 
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
-	}
+	@Override public FluidTank[] getSendingTanks() { return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getReceivingTanks() { return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
 
 	@Override
 	public ConnectionPriority getFluidPriority() {

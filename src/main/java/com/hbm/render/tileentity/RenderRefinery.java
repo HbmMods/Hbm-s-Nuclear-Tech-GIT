@@ -22,6 +22,12 @@ public class RenderRefinery extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.refinery_tex);
 		
 		TileEntityMachineRefinery refinery = (TileEntityMachineRefinery) tileEntity;
+		
+		if(refinery.tilted) {
+			GL11.glTranslated(0, -0.25, 0);
+			GL11.glRotated(10, 0, 0, 1);
+			GL11.glRotated(5, 0, 1, 0);
+		}
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		

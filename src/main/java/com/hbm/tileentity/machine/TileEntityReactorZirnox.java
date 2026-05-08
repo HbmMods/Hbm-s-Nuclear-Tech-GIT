@@ -26,9 +26,10 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
@@ -51,7 +52,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IControlReceiver, IFluidStandardTransceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -187,12 +188,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.checkTilt(true);
+			
 			if (redstonePowered) {
 				isOn = true;
 			}
 			this.output = 0;
 
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
+			if(!tilted && worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
 
@@ -225,8 +228,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 			}
 
-			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(!this.tilted) for(DirPos pos : getConPos()) {
+				this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			checkIfMeltdown();
@@ -234,6 +237,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			this.networkPackNT(150);
 		}
 	}
+	
+	@Override public int getFloorCount() { return 3 * 3; }
+	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor5x5(index); }
 
 	@Override
 	public void serialize(ByteBuf buf) {
