@@ -26,11 +26,17 @@ import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
 public class HFRWavefrontObject implements IModelCustomNamed {
-	
+	private enum FaceFormat {
+		V_VT_VN,
+		V_VT,
+		V_VN,
+		V
+	}
+
 	/** For resource reloading */
 	public static LinkedHashSet<HFRWavefrontObject> allModels = new LinkedHashSet();
 	public static LinkedHashMap<HFRWavefrontObjectVBO, HFRWavefrontObject> allVBOs = new LinkedHashMap();
-	
+
 	private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
@@ -61,12 +67,12 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	public HFRWavefrontObject(String name, boolean mixedMode) throws ModelFormatException {
 		this(new ResourceLocation(RefStrings.MODID, name), mixedMode);
 	}
-	
+
 	public HFRWavefrontObject noSmooth() {
 		this.smoothing = false;
 		return this;
 	}
-	
+
 	/** Provides a way for a model to have both tris and quads, however this means it can't be rendered directly.
 	 * Useful for ISBRHs which access vertices manually, allowing the quad to tri trick without forcing the entire model to be redundant tris. */
 	public void mixedMode() { this.allowMixedMode = true; }
@@ -77,7 +83,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 
 	public HFRWavefrontObject(ResourceLocation resource, boolean mixedMode) throws ModelFormatException {
 		if(mixedMode) this.mixedMode();
-		
+
 		this.resource = resource;
 		this.fileName = resource.toString();
 
@@ -87,7 +93,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 		} catch(IOException e) {
 			throw new ModelFormatException("IO Exception reading model format", e);
 		}
-		
+
 		this.allModels.add(this);
 	}
 
@@ -135,10 +141,10 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 						currentGroupObject = new S_GroupObject("Default");
 					}
 
-					S_Face face = parseFace(currentLine, lineCount);
+					ArrayList<S_Face> faces = parseFace(currentLine, lineCount);
 
-					if(face != null) {
-						currentGroupObject.faces.add(face);
+					if(faces != null) {
+						currentGroupObject.faces.addAll(faces);
 					}
 				} else if(currentLine.startsWith("g ") | currentLine.startsWith("o ")) {
 					S_GroupObject group = parseGroupObject(currentLine, lineCount);
@@ -175,7 +181,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderAll() {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		Tessellator tessellator = Tessellator.instance;
 
 		if(currentGroupObject != null) {
@@ -199,7 +205,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderOnly(String... groupNames) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			for(String groupName : groupNames) {
 				if(groupName.equalsIgnoreCase(groupObject.name)) {
@@ -224,7 +230,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderPart(String partName) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			if(partName.equalsIgnoreCase(groupObject.name)) {
 				groupObject.render();
@@ -245,7 +251,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 	@SideOnly(Side.CLIENT)
 	public void renderAllExcept(String... excludedGroupNames) {
 		if(allowMixedMode) throw new UnsupportedOperationException("Rendering of mixed-mode model " + this.fileName + " is not supported!");
-		
+
 		for(S_GroupObject groupObject : groupObjects) {
 			boolean skipPart = false;
 			for(String excludedGroupName : excludedGroupNames) {
@@ -340,87 +346,45 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 		return textureCoordinate;
 	}
 
-	private S_Face parseFace(String line, int lineCount) throws ModelFormatException {
-		S_Face face = null;
+	private ArrayList<S_Face> parseFace(String line, int lineCount) throws ModelFormatException {
+		ArrayList<S_Face> faces = null;
 
 		if(isValidFaceLine(line)) {
-			face = new S_Face(this.smoothing);
+			faces = new ArrayList<S_Face>();
 
 			String trimmedLine = line.substring(line.indexOf(" ") + 1);
 			String[] tokens = trimmedLine.split(" ");
 			String[] subTokens = null;
 
-			if(!this.allowMixedMode) {
-				if(tokens.length == 3) {
-					if(currentGroupObject.glDrawingMode == -1) {
-						currentGroupObject.glDrawingMode = GL11.GL_TRIANGLES;
-					} else if(currentGroupObject.glDrawingMode != GL11.GL_TRIANGLES) {
-						throw new ModelFormatException("Error parsing entry ('" + line + "'" + ", line " + lineCount + ") in file '" + fileName
-								+ "' - Invalid number of points for face (expected 4, found " + tokens.length + ")");
-					}
-				} else if(tokens.length == 4) {
-					if(currentGroupObject.glDrawingMode == -1) {
-						currentGroupObject.glDrawingMode = GL11.GL_QUADS;
-					} else if(currentGroupObject.glDrawingMode != GL11.GL_QUADS) {
-						throw new ModelFormatException("Error parsing entry ('" + line + "'" + ", line " + lineCount + ") in file '" + fileName
-								+ "' - Invalid number of points for face (expected 3, found " + tokens.length + ")");
-					}
-				}
+			if(tokens.length < 3) {
+				throw new ModelFormatException("Error parsing entry ('" + line + "'" + ", line " + lineCount + ") in file '" + fileName + "' - Incorrect format");
 			}
+
+			currentGroupObject.glDrawingMode = GL11.GL_TRIANGLES;
 
 			// f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 ...
 			if(isValidFace_V_VT_VN_Line(line)) {
-				face.vertices = new Vertex[tokens.length];
-				face.textureCoordinates = new TextureCoordinate[tokens.length];
-				face.vertexNormals = new Vertex[tokens.length];
-
-				for(int i = 0; i < tokens.length; ++i) {
-					subTokens = tokens[i].split("/");
-
-					face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
-					face.textureCoordinates[i] = textureCoordinates.get(Integer.parseInt(subTokens[1]) - 1);
-					face.vertexNormals[i] = vertexNormals.get(Integer.parseInt(subTokens[2]) - 1);
+				for(int i = 1; i < tokens.length - 1; ++i) {
+					faces.add(createFace(tokens, 0, i, i + 1, FaceFormat.V_VT_VN));
 				}
-
-				face.faceNormal = face.calculateFaceNormal();
 			}
 			// f v1/vt1 v2/vt2 v3/vt3 ...
 			else if(isValidFace_V_VT_Line(line)) {
-				face.vertices = new Vertex[tokens.length];
-				face.textureCoordinates = new TextureCoordinate[tokens.length];
-
-				for(int i = 0; i < tokens.length; ++i) {
-					subTokens = tokens[i].split("/");
-
-					face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
-					face.textureCoordinates[i] = textureCoordinates.get(Integer.parseInt(subTokens[1]) - 1);
+				for(int i = 1; i < tokens.length - 1; ++i) {
+					faces.add(createFace(tokens, 0, i, i + 1, FaceFormat.V_VT));
 				}
-
-				face.faceNormal = face.calculateFaceNormal();
 			}
 			// f v1//vn1 v2//vn2 v3//vn3 ...
 			else if(isValidFace_V_VN_Line(line)) {
-				face.vertices = new Vertex[tokens.length];
-				face.vertexNormals = new Vertex[tokens.length];
-
-				for(int i = 0; i < tokens.length; ++i) {
-					subTokens = tokens[i].split("//");
-
-					face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
-					face.vertexNormals[i] = vertexNormals.get(Integer.parseInt(subTokens[1]) - 1);
+				for(int i = 1; i < tokens.length - 1; ++i) {
+					faces.add(createFace(tokens, 0, i, i + 1, FaceFormat.V_VN));
 				}
-
-				face.faceNormal = face.calculateFaceNormal();
 			}
 			// f v1 v2 v3 ...
 			else if(isValidFace_V_Line(line)) {
-				face.vertices = new Vertex[tokens.length];
-
-				for(int i = 0; i < tokens.length; ++i) {
-					face.vertices[i] = vertices.get(Integer.parseInt(tokens[i]) - 1);
+				for(int i = 1; i < tokens.length - 1; ++i) {
+					faces.add(createFace(tokens, 0, i, i + 1, FaceFormat.V));
 				}
-
-				face.faceNormal = face.calculateFaceNormal();
 			} else {
 				throw new ModelFormatException("Error parsing entry ('" + line + "'" + ", line " + lineCount + ") in file '" + fileName + "' - Incorrect format");
 			}
@@ -428,6 +392,52 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 			throw new ModelFormatException("Error parsing entry ('" + line + "'" + ", line " + lineCount + ") in file '" + fileName + "' - Incorrect format");
 		}
 
+		return faces;
+	}
+
+	private S_Face createFace(String[] tokens, int a, int b, int c, FaceFormat format) throws ModelFormatException {
+		S_Face face = new S_Face(this.smoothing);
+		String[] subTokens;
+
+		switch(format) {
+		case V_VT_VN:
+			face.vertices = new Vertex[3];
+			face.textureCoordinates = new TextureCoordinate[3];
+			face.vertexNormals = new Vertex[3];
+			for(int i = 0; i < 3; ++i) {
+				subTokens = tokens[i == 0 ? a : (i == 1 ? b : c)].split("/");
+				face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
+				face.textureCoordinates[i] = textureCoordinates.get(Integer.parseInt(subTokens[1]) - 1);
+				face.vertexNormals[i] = vertexNormals.get(Integer.parseInt(subTokens[2]) - 1);
+			}
+			break;
+		case V_VT:
+			face.vertices = new Vertex[3];
+			face.textureCoordinates = new TextureCoordinate[3];
+			for(int i = 0; i < 3; ++i) {
+				subTokens = tokens[i == 0 ? a : (i == 1 ? b : c)].split("/");
+				face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
+				face.textureCoordinates[i] = textureCoordinates.get(Integer.parseInt(subTokens[1]) - 1);
+			}
+			break;
+		case V_VN:
+			face.vertices = new Vertex[3];
+			face.vertexNormals = new Vertex[3];
+			for(int i = 0; i < 3; ++i) {
+				subTokens = tokens[i == 0 ? a : (i == 1 ? b : c)].split("//");
+				face.vertices[i] = vertices.get(Integer.parseInt(subTokens[0]) - 1);
+				face.vertexNormals[i] = vertexNormals.get(Integer.parseInt(subTokens[1]) - 1);
+			}
+			break;
+		case V:
+			face.vertices = new Vertex[3];
+			face.vertices[0] = vertices.get(Integer.parseInt(tokens[a]) - 1);
+			face.vertices[1] = vertices.get(Integer.parseInt(tokens[b]) - 1);
+			face.vertices[2] = vertices.get(Integer.parseInt(tokens[c]) - 1);
+			break;
+		}
+
+		face.faceNormal = face.calculateFaceNormal();
 		return face;
 	}
 

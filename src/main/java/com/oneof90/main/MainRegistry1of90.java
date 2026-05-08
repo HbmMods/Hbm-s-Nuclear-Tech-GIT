@@ -5,8 +5,8 @@ import com.oneof90.tileentity.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
-import com.hbm.render.item.ItemRenderNTMSteelBeam;
-import com.hbm.render.item.ItemRenderNTMSteelBeamVertical;
+import com.oneof90.render.item.ItemRenderNTMSteelBeam;
+import com.oneof90.render.item.ItemRenderNTMSteelBeamVertical;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

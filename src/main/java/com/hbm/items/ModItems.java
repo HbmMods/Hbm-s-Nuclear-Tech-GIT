@@ -37,6 +37,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.*;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
+import com.hbm.items.weapon.grenade.ItemGrenadeKyiv;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -74,7 +75,7 @@ public class ModItems {
 		initializeItem();
 		registerItem();
 	}
-	public static Block ncrpa_helmet;
+	public static Item ncrpa_helmet;
 	public static Item ncrpa_plate;
 	public static Item ncrpa_legs;
 	public static Item ncrpa_boots;
@@ -1484,9 +1485,23 @@ public class ModItems {
 	public static Item grenade_schrabidium;
 	public static Item grenade_lemon;
 	public static Item grenade_gascan;
+	public static Item grenade_universal;
+	public static Item grenade_shell;
+	public static Item grenade_filling;
+	public static Item grenade_fuze;
+	public static Item grenade_extra;
 	public static Item grenade_kyiv;
 	public static Item grenade_mk2;
 	public static Item grenade_aschrab;
+	public static Item chopper_head;
+	public static Item chopper_torso;
+	public static Item chopper_wing;
+	public static Item chopper_tail;
+	public static Item chopper_gun;
+	public static Item chopper_blades;
+	public static Item t45_kit;
+	public static Item rbmk_fuel_uzh;
+	public static Item rbmk_pellet_uzh;
 	public static Item grenade_nuke;
 	public static Item grenade_nuclear;
 	public static Item grenade_zomg;
@@ -1601,6 +1616,7 @@ public class ModItems {
 	public static Item battery_creative;
 	public static Item cube_power;
 	public static Item battery_spark;
+	public static Item fusion_core_infinite;
 	public static Item battery_trixite;
 	
 	public static Item battery_sc;

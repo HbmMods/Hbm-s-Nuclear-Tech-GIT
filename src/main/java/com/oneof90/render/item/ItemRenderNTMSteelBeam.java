@@ -1,4 +1,4 @@
-package com.hbm.render.item;
+package com.oneof90.render.item;
 
 import org.lwjgl.opengl.GL11;
 

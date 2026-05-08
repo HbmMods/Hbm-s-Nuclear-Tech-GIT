@@ -36,8 +36,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnimatedItem {
-	
+public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnimatedItem<GunAnimation> {
+
 	/*
 	 *  __________
 	 * | ________ | ______ SHELL - determines what filling can be used, various bonuses like throw distance and fragmentation, max stack size
@@ -63,7 +63,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	public static final String KEY_FILLING = "filling";
 	public static final String KEY_FUZE = "fuze";
 	public static final String KEY_EXTRA = "extra";
-	
+
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
 		return getShell(stack).getStackLimit();
@@ -72,7 +72,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	@Override
 	public void onEquip(EntityPlayer player, ItemStack stack) {
 		HbmPlayerProps.getData(player).grenadeDeployment = 0;
-		
+
 		if(player instanceof EntityPlayerMP) {
 			PacketDispatcher.wrapper.sendTo(new HbmAnimationPacket(GunAnimation.EQUIP.ordinal(), 0), (EntityPlayerMP) player);
 		}
@@ -80,7 +80,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
+
 		EnumGrenadeShell shell = getShell(stack);
 		if(HbmPlayerProps.getData(player).grenadeDeployment >= shell.getDrawDuration()) {
 			if(!world.isRemote) {
@@ -90,7 +90,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 			if(!player.capabilities.isCreativeMode) stack.stackSize--;
 			if(stack.stackSize > 0) this.onEquip(player, stack);
 		}
-		
+
 		return stack;
 	}
 
@@ -156,6 +156,8 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra) { return make(shell, filling, fuze, extra, 1); }
 	
 	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra, int amount) {
+		// DISABLED: grenade_universal not initialized
+		if (ModItems.grenade_universal == null) return new ItemStack(ModItems.grenade_plasma); // fallback to plasma grenade
 		ItemStack stack = new ItemStack(ModItems.grenade_universal, amount);
 		stack.stackTagCompound = new NBTTagCompound();
 		stack.stackTagCompound.setInteger(KEY_SHELL, shell.ordinal());
@@ -168,7 +170,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		
+
 		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
 			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) {
 				list.add(make(shell, filling, fuze));
@@ -179,14 +181,16 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		// DISABLED: grenade component items not initialized
+		/*
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_shell.getUnlocalizedName() + "." + this.getShell(stack).name().toLowerCase(Locale.US) + ".name"));
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_filling.getUnlocalizedName() + "." + this.getFilling(stack).name().toLowerCase(Locale.US) + ".name"));
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_fuze.getUnlocalizedName() + "." + this.getFuze(stack).name().toLowerCase(Locale.US) + ".name"));
 		EnumGrenadeExtra extra = this.getExtra(stack);
 		if(extra != null) list.add(EnumChatFormatting.RED + I18nUtil.resolveKey(ModItems.grenade_extra.getUnlocalizedName() + "." + extra.name().toLowerCase(Locale.US) + ".name"));
+		*/
 	}
 
-	@Override
 	public BusAnimation getAnimation(Enum type, ItemStack stack) {
 		if(type != GunAnimation.EQUIP) return null;
 		EnumGrenadeShell shell = this.getShell(stack);
@@ -199,7 +203,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
 		}
-		
+
 		if(shell == EnumGrenadeShell.STICK) {
 			return new BusAnimation()
 					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -7, 0).addPos(0, 3, 0, 750, IType.SIN_DOWN).holdUntil(1900).addPos(0, 0, 0, 250, IType.SIN_FULL))
@@ -208,7 +212,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGTURN", new BusAnimationSequence().hold(800).addPos(0, 360, 0, 200, IType.SIN_FULL).hold(250).addPos(0, 360 * 2, 0, 200, IType.SIN_FULL))
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(2100).setPos(0, 0, 0));
 		}
-		
+
 		if(shell == EnumGrenadeShell.TECH) {
 			return new BusAnimation()
 					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).addPos(0, -3, 0, 350).addPos(0, 0, 0, 350, IType.SIN_DOWN))
@@ -217,7 +221,7 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
 		}
-		
+
 		if(shell == EnumGrenadeShell.NUKE) {
 			return new BusAnimation()
 					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).hold(250).addPos(0, 0, 0, 850, IType.SIN_DOWN))
@@ -226,10 +230,15 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGTURN", new BusAnimationSequence().hold(1300).addPos(0, 0, 720, 500)) // SPEEN
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1750).setPos(0, 0, 0));
 		}
-		
+
 		return null;
 	}
 
+	@Override
+	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
+		return getAnimation(GunAnimation.EQUIP, stack);
+	}
+
 	@Override public boolean shouldPlayerModelAim(ItemStack stack) { return false; }
-	@Override public Class getEnum() { return GunAnimation.class; }
+	public Class getEnum() { return GunAnimation.class; }
 }

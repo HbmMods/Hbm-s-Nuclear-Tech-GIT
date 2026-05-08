@@ -45,7 +45,6 @@ public class MapGenBubble extends MapGenBaseMeta {
 		this.range = (maxSize / 8) + 1;
 	}
 
-	@Override
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
 		
 		int effecFreq = frequency;

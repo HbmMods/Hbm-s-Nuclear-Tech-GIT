@@ -105,8 +105,9 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_charge_thrower, 1), new Object[] { "MMM", "BBL", "GG ", 'M', GUNMETAL.mechanism(), 'B', STEEL.heavyBarrel(), 'G', STEEL.grip(), 'L', ANY_RUBBER.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_drill, 1), new Object[] { " GL", "IBP", " GL", 'G', GUNMETAL.ingot(), 'L', ANY_RUBBER.ingot(), 'I', TI.ingot(), 'B', STEEL.block(), 'P', ModItems.piston_selenium });
 
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_pa_melee, 1), new Object[] { " C ", "MWM", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'M', ModItems.motor, 'W', GOLD.wireDense() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_pa_ranged, 1), new Object[] { "C", "W", "P", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', ANY_PLASTIC.ingot(), 'W', GOLD.wireDense() });
+		// DISABLED: gun_pa_melee and gun_pa_ranged not found in ModItems
+		// CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_pa_melee, 1), new Object[] { " C ", "MWM", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'M', ModItems.motor, 'W', GOLD.wireDense() });
+		// CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_pa_ranged, 1), new Object[] { "C", "W", "P", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', ANY_PLASTIC.ingot(), 'W', GOLD.wireDense() });
 
 		//SEDNA Ammo
 		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.STONE, 6), new Object[] { "C", "P", "G", 'C', KEY_COBBLESTONE, 'P', Items.paper, 'G', Items.gunpowder });

@@ -1,0 +1,157 @@
+diff a/src/main/java/com/hbm/main/ResourceManager.java b/src/main/java/com/hbm/main/ResourceManager.java	(rejected hunks)
+@@ -140,22 +157,22 @@
+ 	public static final IModelCustom annihilator = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/annihilator.obj")).asVBO();
+ 
+ 	//Assembler
+-	public static final IModelCustom assembler_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_body.obj"));
+-	public static final IModelCustom assembler_cog = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_cog.obj"));
+-	public static final IModelCustom assembler_slider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_slider.obj"));
+-	public static final IModelCustom assembler_arm = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/assembler_new_arm.obj"));
++	public static final IModelCustom assembler_body = loadModelOrFallback("models/assembler_new_body.obj", "models/press_body.obj");
++	public static final IModelCustom assembler_cog = loadModelOrFallback("models/assembler_new_cog.obj", "models/press_head.obj");
++	public static final IModelCustom assembler_slider = loadModelOrFallback("models/assembler_new_slider.obj", "models/epress_body.obj");
++	public static final IModelCustom assembler_arm = loadModelOrFallback("models/assembler_new_arm.obj", "models/epress_head.obj");
+ 	public static final IModelCustom assembly_machine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assembly_machine.obj")).asVBO();
+-	public static final IModelCustom assemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assemfac.obj")).asVBO();
++	public static final IModelCustom assemfac = loadVboModelOrFallback("models/machines/assemfac.obj", "models/machines/assembly_factory.obj");
+ 	public static final IModelCustom assembly_factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/assembly_factory.obj")).asVBO();
+ 
+ 	//Chemplant
+-	public static final IModelCustom chemplant_body = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_body.obj")).asVBO();
+-	public static final IModelCustom chemplant_spinner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_spinner.obj"));
+-	public static final IModelCustom chemplant_piston = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_piston.obj"));
+-	public static final IModelCustom chemplant_fluid = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_fluid.hmf"));
+-	public static final IModelCustom chemplant_fluidcap = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/chemplant_new_fluidcap.hmf"));
++	public static final IModelCustom chemplant_body = loadVboModelOrFallback("models/chemplant_new_body.obj", "models/machines/chemical_plant.obj");
++	public static final IModelCustom chemplant_spinner = loadModelOrFallback("models/chemplant_new_spinner.obj", "models/press_head.obj");
++	public static final IModelCustom chemplant_piston = loadModelOrFallback("models/chemplant_new_piston.obj", "models/epress_head.obj");
++	public static final IModelCustom chemplant_fluid = loadModelOrFallback("models/chemplant_new_fluid.hmf", "models/epress_body.obj");
++	public static final IModelCustom chemplant_fluidcap = loadModelOrFallback("models/chemplant_new_fluidcap.hmf", "models/epress_body.obj");
+ 	public static final IModelCustom chemical_plant = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_plant.obj")).asVBO();
+-	public static final IModelCustom chemfac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemfac.obj")).asVBO();
++	public static final IModelCustom chemfac = loadVboModelOrFallback("models/machines/chemfac.obj", "models/machines/chemical_factory.obj");
+ 	public static final IModelCustom chemical_factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_factory.obj")).asVBO();
+ 	public static final IModelCustom purex = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/purex.obj")).asVBO();
+ 
+@@ -234,6 +251,7 @@
+ 	public static final IModelCustom sphere_ruv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_ruv.obj"));
+ 	public static final IModelCustom sphere_iuv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_iuv.obj"));
+ 	public static final IModelCustom sphere_uv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_uv.obj"));
++	public static final IModelCustom sphere_new = sphere_uv;
+ 
+ 	//Meteor
+ 	public static final IModelCustom meteor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/weapons/meteor.obj"));
+@@ -355,6 +373,13 @@
+ 	public static IModelCustomNamed pheo_vehicle_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/vehicle_door.obj")).asVBO();
+ 	public static final ResourceLocation pheo_water_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/water_door.png");
+ 	public static IModelCustomNamed pheo_water_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/water_door.obj")).asVBO();
++	public static final ResourceLocation pheo_fire_door_yellow_tex = pheo_fire_door_orange_tex;
++	public static final ResourceLocation pheo_fire_door_trefoil_tex = pheo_fire_door_tex;
++	public static final ResourceLocation pheo_secure_door_black_tex = pheo_secure_door_tex;
++	public static final ResourceLocation pheo_secure_door_yellow_tex = pheo_secure_door_grey_tex;
++	public static final ResourceLocation pheo_containment_door_trefoil_tex = pheo_containment_door_tex;
++	public static final ResourceLocation pheo_containment_door_trefoil_yellow_tex = pheo_containment_door_tex;
++	public static final ResourceLocation pheo_water_door_clean_tex = pheo_water_door_tex;
+ 	public static final ResourceLocation pheo_vault_door_3 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_3.png");
+ 	public static final ResourceLocation pheo_vault_door_4 = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_4.png");
+ 	public static final ResourceLocation pheo_vault_door_s = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vault/vault_door_s.png");
+@@ -896,9 +921,9 @@
+ 	public static final IModelCustom bolter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bolter.obj")).asVBO();
+ 	public static final IModelCustom detonator_laser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/detonator_laser.obj")).asVBO();
+ 	public static final IModelCustom fireext = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/fireext.obj")).asVBO();
+-	public static final IModelCustom ff_nightmare = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/nightmare.obj"));
++	public static final IModelCustom ff_nightmare = loadModelOrFallback("models/weapons/nightmare.obj", "models/weapons/coilgun.obj");
+ 	public static final IModelCustom coilgun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/coilgun.obj")).asVBO();
+-	public static final IModelCustom cryocannon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/cryo_cannon.obj")).asVBO();
++	public static final IModelCustom cryocannon = loadVboModelOrFallback("models/weapons/cryo_cannon.obj", "models/weapons/coilgun.obj");
+ 
+ 	public static final IModelCustom pepperbox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/pepperbox.obj")).asVBO();
+ 	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj")).asVBO();
+@@ -955,6 +980,7 @@
+ 
+ 	public static final IModelCustom grenade_frag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_frag.obj"));
+ 	public static final IModelCustom grenade_aschrab = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/grenade_aschrab.obj"));
++	public static final IModelCustom grenades = grenade_frag;
+ 
+ 	public static final IModelCustom armor_bj = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/BJ.obj")).asVBO();
+ 	public static final IModelCustom armor_hev = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/hev.obj")).asVBO();
+@@ -1095,6 +1121,22 @@
+ 
+ 	public static final ResourceLocation grenade_mk2 = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_mk2.png");
+ 	public static final ResourceLocation grenade_aschrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/grenade_aschrab.png");
++	public static final ResourceLocation grenade_frag_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_frag_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_frag_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_frag_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_stick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_stick_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_stick_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_stick_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/grenade.png");
++	public static final ResourceLocation grenade_tech_tex = grenade_mk2;
++	public static final ResourceLocation grenade_nuka_tex = grenade_mk2;
++	public static final ResourceLocation grenade_tech_body_tex = grenade_mk2;
++	public static final ResourceLocation grenade_tech_fuze_tex = grenade_mk2;
++	public static final ResourceLocation grenade_tech_lights_tex = grenade_mk2;
++	public static final ResourceLocation grenade_nuka_body_tex = grenade_mk2;
++	public static final ResourceLocation grenade_nuka_label_tex = grenade_mk2;
++	public static final ResourceLocation grenade_nuka_fuze_tex = grenade_mk2;
+ 
+ 	public static final ResourceLocation bj_eyepatch = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_eyepatch.png");
+ 	public static final ResourceLocation bj_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_leg.png");
+@@ -1153,6 +1195,11 @@
+ 	public static final ResourceLocation rpa_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_leg.png");
+ 	public static final ResourceLocation rpa_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_chest.png");
+ 	public static final ResourceLocation rpa_arm = new ResourceLocation(RefStrings.MODID, "textures/armor/rpa_arm.png");
++	public static final IModelCustom armor_ncr = armor_ajr;
++	public static final ResourceLocation ncrpa_helmet = rpa_helmet;
++	public static final ResourceLocation ncrpa_leg = rpa_leg;
++	public static final ResourceLocation ncrpa_chest = rpa_chest;
++	public static final ResourceLocation ncrpa_arm = rpa_arm;
+ 
+ 	public static final ResourceLocation taurun_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/taurun_helmet.png");
+ 	public static final ResourceLocation taurun_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/taurun_leg.png");
+@@ -1588,6 +1635,10 @@
+ 	public static final IModelCustom taperecorder = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/taperecorder.obj"));
+ 	public static final IModelCustom beam = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/beam.obj"));
+ 	public static final IModelCustom barrel = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/barrel.obj"));
++	public static final ResourceLocation barrel_plastic_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_plastic.png");
++	public static final ResourceLocation barrel_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_steel.png");
++	public static final ResourceLocation barrel_tcalloy_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_tcalloy.png");
++	public static final ResourceLocation barrel_antimatter_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_antimatter.png");
+ 	public static final IModelCustom pole = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pole.obj"));
+ 	public static final IModelCustom barbed_wire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/barbed_wire.obj"));
+ 	public static final IModelCustom spikes = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/spikes.obj"));
+@@ -1604,9 +1655,10 @@
+ 	public static final IModelCustom deco_computer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/puter.obj"));
+ 
+ 	// Some RBMK elements are loaded twice due to VBOs not supporting tessellation
+-	public static final IModelCustom rbmk_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element.obj"));
++	public static final IModelCustom rbmk_element = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element.obj"));
+ 	public static final IModelCustom rbmk_element_vbo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element.obj")).asVBO();
+-	public static final IModelCustom rbmk_reflector = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_reflector.obj"));
++	public static final IModelCustom rbmk_element_rods_vbo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element_rods.obj")).asVBO();
++	public static final IModelCustom rbmk_reflector = loadModelOrFallback("models/rbmk/rbmk_reflector.obj", "models/rbmk/rbmk_rods.obj");
+ 	public static final IModelCustom rbmk_rods = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_rods.obj"));
+ 	public static final IModelCustom rbmk_rods_vbo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_rods.obj")).asVBO();
+ 	public static final IModelCustom rbmk_crane_console = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/crane_console.obj")).asVBO();
+@@ -1618,6 +1670,20 @@
+ 	public static final ResourceLocation rbmk_crane_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_crane.png");
+ 	public static final ResourceLocation rbmk_autoloader_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_autoloader.png");
+ 	public static final ResourceLocation rbmk_console_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/rbmk_control.png");
++	public static final IModelCustom rbmk_gauge = rbmk_console;
++	public static final IModelCustom rbmk_numitron = rbmk_console;
++	public static final IModelCustom rbmk_button = rbmk_console;
++	public static final IModelCustom rbmk_lever = rbmk_console;
++	public static final IModelCustom rbmk_element_rods = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/rbmk/rbmk_element_rods.obj"));
++	public static final ResourceLocation rbmk_gauge_tex = rbmk_console_tex;
++	public static final ResourceLocation rbmk_numitron_tex = rbmk_console_tex;
++	public static final ResourceLocation rbmk_numitron_lights_tex = rbmk_console_tex;
++	public static final ResourceLocation rbmk_keypad_tex = rbmk_console_tex;
++	public static final ResourceLocation rbmk_lever_tex = rbmk_console_tex;
++	public static final IModelCustom connector_super = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/network/connector_super.obj"));
++	public static final ResourceLocation connector_super_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector_super.png");
++	public static final IModelCustom fusion_plasma_forge = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/fusion/plasma_forge.obj"));
++	public static final ResourceLocation fusion_plasma_forge_tex = new ResourceLocation(RefStrings.MODID, "textures/models/fusion/plasma_forge.png");
+ 	public static final IModelCustom hev_battery = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/battery.obj"));
+ 	public static final IModelCustom anvil = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/anvil.obj"));
+ 	public static final IModelCustom crystal_power = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crystals_power.obj"));

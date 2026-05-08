@@ -7,6 +7,7 @@ import com.hbm.render.loader.S_GroupObject;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,7 +24,7 @@ public class ObjUtil {
 
 	public static void renderWithIcon(HFRWavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
 		for(S_GroupObject go : model.groupObjects) {
-			
+
 			for(S_Face f : go.faces) {
 
 				Vertex n = f.faceNormal;
@@ -71,6 +72,12 @@ public class ObjUtil {
 		renderPartWithIcon(model, name, icon, tes, rot, 0, 0, shadow);
 	}
 
+	public static void renderPartWithIcon(IModelCustom model, String name, IIcon icon, Tessellator tes, float rot, boolean shadow) {
+		if(model instanceof HFRWavefrontObject) {
+			renderPartWithIcon((HFRWavefrontObject) model, name, icon, tes, rot, shadow);
+		}
+	}
+
 	public static void renderPartWithIcon(HFRWavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
 		renderPartWithIcon(model, name, icon, tes, rot, pitch, 0, shadow);
 	}
@@ -97,12 +104,12 @@ public class ObjUtil {
 			tes.setNormal((float)normal.xCoord, (float)normal.yCoord, (float)normal.zCoord);
 
 			if(shadow || hasColor) {
-				
+
 				float brightness = 1.0F;
-				
+
 				if(shadow) {
 					brightness = ((float)normal.yCoord * 0.3F + 0.7F) - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
-	
+
 					if(brightness < 0.45F)
 						brightness = 0.45F;
 				}
@@ -137,26 +144,26 @@ public class ObjUtil {
 			}
 		}
 	}
-	
+
 	private static int red;
 	private static int green;
 	private static int blue;
 	private static boolean hasColor = false;
-	
+
 	public static void setColor(int color) {
 		red = (color & 0xff0000) >> 16;
 		green = (color & 0x00ff00) >> 8;
 		blue = color & 0x0000ff;
 		hasColor = true;
 	}
-	
+
 	public static void setColor(int r, int g, int b) {
 		red = r;
 		green = g;
 		blue = b;
 		hasColor = true;
 	}
-	
+
 	public static void clearColor() {
 		hasColor = false;
 	}

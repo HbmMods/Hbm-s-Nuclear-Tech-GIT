@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class ModuleMachineBase {
-	
+
 	// setup
 	public int index;
 	public IEnergyHandlerMK2 battery;
@@ -35,18 +35,18 @@ public abstract class ModuleMachineBase {
 		this.battery = battery;
 		this.slots = slots;
 	}
-	
+
 	/** Chances tank type and pressure based on recipe */
 	public void setupTanks(GenericRecipe recipe) {
 		if(recipe == null) return;
 		for(int i = 0; i < inputTanks.length; i++) if(recipe.inputFluid != null && recipe.inputFluid.length > i) inputTanks[i].conform(recipe.inputFluid[i]); else inputTanks[i].resetTank();
 		for(int i = 0; i < outputTanks.length; i++) if(recipe.outputFluid != null && recipe.outputFluid.length > i) outputTanks[i].conform(recipe.outputFluid[i]); else outputTanks[i].resetTank();
 	}
-	
+
 	/** Expects the tanks to be set up correctly beforehand */
 	public boolean canProcess(GenericRecipe recipe, double speed, double power) {
 		if(recipe == null) return false;
-		
+
 		// auto switch functionality
 		if(recipe.autoSwitchGroup != null && inputSlots.length > 0 && slots[inputSlots[0]] != null) {
 			ItemStack itemToSwitchBy = slots[inputSlots[0]];
@@ -60,35 +60,35 @@ public abstract class ModuleMachineBase {
 				}
 			}
 		}
-		
+
 		if(power != 1 && battery.getPower() < recipe.power * power) return false; // only check with floating point numbers if mult is not 1
 		if(power == 1 && battery.getPower() < recipe.power) return false;
-		
+
 		if(!hasInput(recipe)) return false;
-		
+
 		return canFitOutput(recipe);
 	}
-	
+
 	protected boolean hasInput(GenericRecipe recipe) {
-		
+
 		if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
 				if(!recipe.inputItem[i].matchesRecipe(slots[inputSlots[i]], false)) return false;
 			}
 		}
-		
+
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
 				if(inputTanks[i].getFill() < recipe.inputFluid[i].fill) return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/** Whether the machine can hold the output produced by the recipe */
 	protected boolean canFitOutput(GenericRecipe recipe) {
-		
+
 		if(recipe.outputItem != null) {
 			for(int i = 0; i < Math.min(recipe.outputItem.length, outputSlots.length); i++) {
 				ItemStack stack = slots[outputSlots[i]];
@@ -102,51 +102,51 @@ public abstract class ModuleMachineBase {
 				if(stack.stackSize + single.stackSize > stack.getMaxStackSize()) return false;
 			}
 		}
-		
+
 		if(recipe.outputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.outputFluid.length, outputTanks.length); i++) {
 				if(recipe.outputFluid[i].fill + outputTanks[i].getFill() > outputTanks[i].getMaxFill()) return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public void process(GenericRecipe recipe, double speed, double power) {
-		
+
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
 		double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
 		this.progress += step;
-		
+
 		if(this.progress >= 1D) {
 			consumeInput(recipe);
 			produceItem(recipe);
-			
+
 			if(this.canProcess(recipe, speed, power))  this.progress -= 1D;
 			else this.progress = 0D;
 		}
 	}
-	
+
 	/** Part 1 of the process completion, uses up input */
 	protected void consumeInput(GenericRecipe recipe) {
-		
+
 		if(recipe.inputItem != null) {
 			for(int i = 0; i < Math.min(recipe.inputItem.length, inputSlots.length); i++) {
 				slots[inputSlots[i]].stackSize -= recipe.inputItem[i].stacksize;
 				if(slots[inputSlots[i]].stackSize <= 0) slots[inputSlots[i]] = null;
 			}
 		}
-		
+
 		if(recipe.inputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.inputFluid.length, inputTanks.length); i++) {
 				inputTanks[i].setFill(inputTanks[i].getFill() - recipe.inputFluid[i].fill);
 			}
 		}
 	}
-	
+
 	/** Part 2 of the process completion, generated output */
 	protected void produceItem(GenericRecipe recipe) {
-		
+
 		if(recipe.outputItem != null) {
 			for(int i = 0; i < Math.min(recipe.outputItem.length, outputSlots.length); i++) {
 				ItemStack collapse = recipe.outputItem[i].collapse();
@@ -157,29 +157,29 @@ public abstract class ModuleMachineBase {
 				}
 			}
 		}
-		
+
 		if(recipe.outputFluid != null) {
 			for(int i = 0; i < Math.min(recipe.outputFluid.length, outputTanks.length); i++) {
 				outputTanks[i].setFill(outputTanks[i].getFill() + recipe.outputFluid[i].fill);
 			}
 		}
-		
+
 		this.markDirty = true;
 	}
 
 	public GenericRecipe getRecipe() {
 		return (GenericRecipe) getRecipeSet().recipeNameMap.get(this.recipe);
 	}
-	
+
 	public abstract GenericRecipes getRecipeSet();
-	
+
 	public void update(double speed, double power, boolean extraCondition) {
 		GenericRecipe recipe = getRecipe();
 		this.setupTanks(recipe);
 
 		this.didProcess = false;
 		this.markDirty = false;
-		
+
 		if(extraCondition && this.canProcess(recipe, speed, power)) {
 			this.process(recipe, speed, power);
 			this.didProcess = true;
@@ -187,17 +187,27 @@ public abstract class ModuleMachineBase {
 			this.progress = 0F;
 		}
 	}
-	
+
+	/** Legacy overload: older callers pass an additional template stack. */
+	public void update(double speed, double power, boolean extraCondition, ItemStack ignoredTemplate) {
+		this.update(speed, power, extraCondition);
+	}
+
+	/** Legacy hook: old modules exposed a clogging check per output slot. */
+	public boolean isSlotClogged(int slot) {
+		return false;
+	}
+
 	/** For item IO, instead of the TE doing all the work it only has to handle non-recipe stuff, the module does the rest */
 	public boolean isItemValid(int slot, ItemStack stack) {
 		GenericRecipe recipe = getRecipe();
 		if(recipe == null) return false;
 		if(recipe.inputItem == null) return false;
-		
+
 		for(int i = 0; i < Math.min(inputSlots.length, recipe.inputItem.length); i++) {
 			if(inputSlots[i] == slot && recipe.inputItem[i].matchesRecipe(stack, true)) return true;
 		}
-		
+
 		if(recipe.autoSwitchGroup != null) {
 			List<GenericRecipe> recipes = (List<GenericRecipe>) this.getRecipeSet().autoSwitchGroups.get(recipe.autoSwitchGroup); // why the FUCK does this need a cast
 			if(recipes != null) for(GenericRecipe newRec : recipes) {
@@ -207,25 +217,25 @@ public abstract class ModuleMachineBase {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(progress);
 		ByteBufUtils.writeUTF8String(buf, recipe);
 	}
-	
+
 	public void deserialize(ByteBuf buf) {
 		this.progress = buf.readDouble();
 		this.recipe = ByteBufUtils.readUTF8String(buf);
 	}
-	
+
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.progress = nbt.getDouble("progress" + index);
 		this.recipe = nbt.getString("recipe" + index);
 	}
-	
+
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setDouble("progress" + index, progress);
 		nbt.setString("recipe" + index, recipe);

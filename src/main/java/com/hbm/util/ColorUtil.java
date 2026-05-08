@@ -19,6 +19,18 @@ import net.minecraft.util.ResourceLocation;
 
 public class ColorUtil {
 
+	public static float fr(int color) {
+		return ((color >> 16) & 0xFF) / 255F;
+	}
+
+	public static float fg(int color) {
+		return ((color >> 8) & 0xFF) / 255F;
+	}
+
+	public static float fb(int color) {
+		return (color & 0xFF) / 255F;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public static BufferedImage getImageFromStack(ItemStack stack) throws IOException {
 		String iconName = stack.getItem().getIconFromDamage(stack.getItemDamage()).getIconName();

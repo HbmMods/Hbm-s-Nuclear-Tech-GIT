@@ -1,0 +1,33 @@
+diff a/src/main/java/com/hbm/blocks/ModBlocks.java b/src/main/java/com/hbm/blocks/ModBlocks.java	(rejected hunks)
+@@ -764,6 +764,7 @@
+ 	public static Block red_cable_gauge;
+ 	public static Block red_cable_box;
+ 	public static Block red_connector;
++	public static Block red_connector_super;
+ 	public static Block red_pylon;
+ 	public static Block red_pylon_medium_wood;
+ 	public static Block red_pylon_medium_wood_transformer;
+@@ -793,7 +794,6 @@
+ 	public static Block radio_torch_logic;
+ 	public static Block radio_torch_reader;
+ 	public static Block radio_torch_controller;
+-	public static Block pipe_anchor;
+ 	public static Block radio_telex;
+ 	public static Block oc_cable_paintable;
+ 
+@@ -1103,6 +1104,15 @@
+ 	public static Block rbmk_control;
+ 	public static Block rbmk_control_mod;
+ 	public static Block rbmk_control_auto;
++	public static Block rbmk_control_reasim;
++	public static Block rbmk_control_reasim_auto;
++	public static Block rbmk_display_blank;
++	public static Block rbmk_display;
++	public static Block rbmk_key_pad;
++	public static Block rbmk_gauge;
++	public static Block rbmk_numitron;
++	public static Block rbmk_graph;
++	public static Block rbmk_lever;
+ 	public static Block rbmk_blank;
+ 	public static Block rbmk_boiler;
+ 	public static Block rbmk_reflector;

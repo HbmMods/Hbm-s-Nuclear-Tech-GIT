@@ -1,0 +1,56 @@
+diff a/src/main/java/com/hbm/items/weapon/grenade/ItemGrenadeUniversal.java b/src/main/java/com/hbm/items/weapon/grenade/ItemGrenadeUniversal.java	(rejected hunks)
+@@ -127,34 +127,34 @@
+ 
+ 		ItemGunBaseNT.setIsEquipped(stack, isHeld);
+ 	}
+-	
++
+ 	public static EnumGrenadeShell getShell(ItemStack stack) {
+ 		if(stack == null || !stack.hasTagCompound()) return EnumGrenadeShell.FRAG;
+ 		int i = stack.stackTagCompound.getInteger(KEY_SHELL);
+ 		return EnumUtil.grabEnumSafely(EnumGrenadeShell.class, i);
+ 	}
+-	
++
+ 	public static EnumGrenadeFilling getFilling(ItemStack stack) {
+ 		if(stack == null || !stack.hasTagCompound()) return EnumGrenadeFilling.HE;
+ 		int i = stack.stackTagCompound.getInteger(KEY_FILLING);
+ 		return EnumUtil.grabEnumSafely(EnumGrenadeFilling.class, i);
+ 	}
+-	
++
+ 	public static EnumGrenadeFuze getFuze(ItemStack stack) {
+ 		if(stack == null || !stack.hasTagCompound()) return EnumGrenadeFuze.S3;
+ 		int i = stack.stackTagCompound.getInteger(KEY_FUZE);
+ 		return EnumUtil.grabEnumSafely(EnumGrenadeFuze.class, i);
+ 	}
+-	
++
+ 	public static EnumGrenadeExtra getExtra(ItemStack stack) {
+ 		if(stack == null || !stack.hasTagCompound() || !stack.stackTagCompound.hasKey(KEY_EXTRA)) return null;
+ 		int i = stack.stackTagCompound.getInteger(KEY_EXTRA);
+ 		return EnumUtil.grabEnumSafely(EnumGrenadeExtra.class, i);
+ 	}
+-	
++
+ 	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze) { return make(shell, filling, fuze, null, 1); }
+ 	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra) { return make(shell, filling, fuze, extra, 1); }
+-	
++
+ 	public static ItemStack make(EnumGrenadeShell shell, EnumGrenadeFilling filling, EnumGrenadeFuze fuze, EnumGrenadeExtra extra, int amount) {
+ 		ItemStack stack = new ItemStack(ModItems.grenade_universal, amount);
+ 		stack.stackTagCompound = new NBTTagCompound();
+@@ -186,11 +186,11 @@
+ 		if(extra != null) list.add(EnumChatFormatting.RED + I18nUtil.resolveKey(ModItems.grenade_extra.getUnlocalizedName() + "." + extra.name().toLowerCase(Locale.US) + ".name"));
+ 	}
+ 
+-	@Override
++	// Legacy helper used by old render code paths.
+ 	public BusAnimation getAnimation(Enum type, ItemStack stack) {
+ 		if(type != GunAnimation.EQUIP) return null;
+ 		EnumGrenadeShell shell = this.getShell(stack);
+-		
++
+ 		if(shell == EnumGrenadeShell.FRAG) {
+ 			return new BusAnimation()
+ 					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).addPos(0, -3, 0, 350).addPos(0, 0, 0, 350, IType.SIN_DOWN))
