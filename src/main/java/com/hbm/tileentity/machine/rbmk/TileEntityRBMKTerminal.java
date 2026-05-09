@@ -31,8 +31,6 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	public String repeatCmd = "";
 	public boolean doesRepeat = false;
 	public boolean ocMode = false;
-	private String ocDisplay = "";
-	private String ocInputBuffer = "";
 	
 	@Override
 	public void updateEntity() {
@@ -55,7 +53,6 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 		
 		if(ocMode) {
 			push(cmd);
-			ocInputBuffer = cmd;
 			this.markChanged();
 			return;
 		}
@@ -131,30 +128,18 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 		history[0] = msg;
 	}
 
-	public void pushOC(String msg) {
-		if(ocMode) {
-			push(msg);
-			ocDisplay = msg;
-			this.markChanged();
-		}
-	}
-
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeBoolean(ocMode);
 		buf.writeBoolean(!this.repeatCmd.isEmpty());
 		for(int i = 0; i < history.length; i++) BufferUtil.writeString(buf, history[i]);
-		BufferUtil.writeString(buf, ocDisplay);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		ocMode = buf.readBoolean();
 		this.doesRepeat = buf.readBoolean();
 		for(int i = 0; i < history.length; i++) this.history[i] = BufferUtil.readString(buf);
-		ocDisplay = BufferUtil.readString(buf);
 	}
 
 	@Override
@@ -226,8 +211,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] write(Context context, Arguments args) {
 		if(!ocMode) return new Object[] {false, "OC mode not enabled"};
-		String text = args.checkString(0);
-		pushOC(text);
+		push(args.checkString(0));
 		return new Object[] {true};
 	}
 
@@ -235,14 +219,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] writeln(Context context, Arguments args) {
 		if(!ocMode) return new Object[] {false, "OC mode not enabled"};
-		String text = args.checkString(0);
-		pushOC(text);
-		return new Object[] {true};
-	}
-
-	@Callback(direct = true, limit = 3)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] setCursor(Context context, Arguments args) {
+		push(args.checkString(0));
 		return new Object[] {true};
 	}
 
@@ -250,29 +227,18 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] readInput(Context context, Arguments args) {
 		if(!ocMode) return new Object[] {"", "OC mode not enabled"};
-		String input = ocInputBuffer;
-		ocInputBuffer = "";
-		return new Object[] {input};
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] readHistory(Context context, Arguments args) {
-		if(!ocMode) return new Object[] {null, "OC mode not enabled"};
-		int index = args.optInteger(0, 0);
-		if(index < 0 || index >= history.length) return new Object[] {"", "Invalid index"};
-		return new Object[] {history[index] != null ? history[index] : ""};
+		return new Object[] {history[0] != null ? history[0] : ""};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getAllHistory(Context context, Arguments args) {
 		if(!ocMode) return new Object[] {null, "OC mode not enabled"};
-		java.util.LinkedHashMap<Integer, Object> map = new java.util.LinkedHashMap<>();
+		String[] copy = new String[history.length];
 		for(int i = 0; i < history.length; i++) {
-			map.put(i, history[i] != null ? history[i] : "");
+			copy[i] = history[i] != null ? history[i] : "";
 		}
-		return new Object[] {map};
+		return new Object[] {copy};
 	}
 
 	@Callback(direct = true, limit = 2)
@@ -280,15 +246,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	public Object[] clearScreen(Context context, Arguments args) {
 		if(!ocMode) return new Object[] {false, "OC mode not enabled"};
 		for(int i = 0; i < history.length; i++) history[i] = "";
-		ocDisplay = "";
 		markDirty();
 		return new Object[] {true};
-	}
-
-	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getDisplay(Context context, Arguments args) {
-		if(!ocMode) return new Object[] {"", "OC mode not enabled"};
-		return new Object[] {ocDisplay};
 	}
 }
