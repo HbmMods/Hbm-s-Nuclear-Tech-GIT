@@ -161,18 +161,23 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.channel = nbt.getString("channel");
+		if(this.channel != null && this.channel.equals(" ")) this.channel = "";
 		this.repeatCmd = nbt.getString("repeatCmd");
+		if(this.repeatCmd != null && this.repeatCmd.equals(" ")) this.repeatCmd = "";
 		this.ocMode = nbt.getBoolean("ocMode");
-		for(int i = 0; i < history.length; i++) this.history[i] = nbt.getString("history" + i);
+		for(int i = 0; i < history.length; i++) {
+			this.history[i] = nbt.getString("history" + i);
+			if(this.history[i] != null && this.history[i].equals(" ")) this.history[i] = "";
+		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setString("channel", channel);
-		nbt.setString("repeatCmd", repeatCmd);
+		nbt.setString("channel", channel.isEmpty() ? " " : channel);
+		nbt.setString("repeatCmd", repeatCmd.isEmpty() ? " " : repeatCmd);
 		nbt.setBoolean("ocMode", ocMode);
-		for(int i = 0; i < history.length; i++) nbt.setString("history" + i, history[i]);
+		for(int i = 0; i < history.length; i++) nbt.setString("history" + i, history[i] == null || history[i].isEmpty() ? " " : history[i]);
 	}
 	
 	@Override
