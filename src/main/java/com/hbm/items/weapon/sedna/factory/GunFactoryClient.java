@@ -246,7 +246,11 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 
 		setRendererBulk(LegoClient.RENDER_FRAGMENTATION, ItemGrenadeFilling.fragmentation, ItemGrenadeFilling.pellets, ItemGrenadeFilling.pellets_heavy);
-		ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
+		if(ItemGrenadeFilling.laser != null) {
+			ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
+		} else {
+			System.err.println("[HBM] WARNING: ItemGrenadeFilling.laser is null, skipping laser renderer registration.");
+		}
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);
@@ -324,6 +328,22 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_aberrator_eott)		.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_AMMO);
 	}
 	
-	public static void setRendererBulk(BiConsumer<EntityBulletBaseMK4, Float> renderer, BulletConfig... configs) { for(BulletConfig config : configs) config.setRenderer(renderer); }
-	public static void setRendererBulkBeam(BiConsumer<EntityBulletBeamBase, Float> renderer, BulletConfig... configs) { for(BulletConfig config : configs) config.setRendererBeam(renderer); }
+	public static void setRendererBulk(BiConsumer<EntityBulletBaseMK4, Float> renderer, BulletConfig... configs) {
+		for(BulletConfig config : configs) {
+			if(config == null) {
+				System.err.println("[HBM] WARNING: skipped null BulletConfig in setRendererBulk");
+				continue;
+			}
+			config.setRenderer(renderer);
+		}
+	}
+	public static void setRendererBulkBeam(BiConsumer<EntityBulletBeamBase, Float> renderer, BulletConfig... configs) {
+		for(BulletConfig config : configs) {
+			if(config == null) {
+				System.err.println("[HBM] WARNING: skipped null BulletConfig in setRendererBulkBeam");
+				continue;
+			}
+			config.setRendererBeam(renderer);
+		}
+	}
 }

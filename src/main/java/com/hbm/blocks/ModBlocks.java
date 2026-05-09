@@ -2418,8 +2418,12 @@ public class ModBlocks {
 		//Test
 		GameRegistry.registerBlock(event_tester, event_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(obj_tester, obj_tester.getUnlocalizedName());
-		GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
-		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
+		if (test_core != null) {
+			GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
+		}
+		if (test_charge != null) {
+			GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
+		}
 		GameRegistry.registerBlock(structure_anchor, structure_anchor.getUnlocalizedName());
 
 		//Ores
@@ -3188,13 +3192,10 @@ public class ModBlocks {
 		register(red_cable_paintable);
 		register(red_cable_gauge);
 		register(red_cable_box);
-		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
-		GameRegistry.registerBlock(red_connector, ItemBlockBase.class, red_connector.getUnlocalizedName());
-		GameRegistry.registerBlock(red_pylon, ItemBlockBase.class, red_pylon.getUnlocalizedName());
 		register(red_wire_coated);
 		register(red_connector);
-		register(red_connector_super);
 		register(red_pylon);
+		register(red_connector_super);
 		register(red_pylon_medium_wood);
 		register(red_pylon_medium_wood_transformer);
 		register(red_pylon_medium_steel);
@@ -3568,10 +3569,16 @@ public class ModBlocks {
 	}
 
 	private static void register(Block b) {
+		if (b == null) {
+			return;
+		}
 		GameRegistry.registerBlock(b, ItemBlockBase.class, b.getUnlocalizedName());
 	}
 
 	private static void register(Block b, Class<? extends ItemBlock> clazz) {
+		if (b == null) {
+			return;
+		}
 		GameRegistry.registerBlock(b, clazz, b.getUnlocalizedName());
 	}
 
