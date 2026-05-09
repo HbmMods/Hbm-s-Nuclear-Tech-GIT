@@ -5838,6 +5838,7 @@ tile.moon_turf.name=Moon Turf
 tile.mud_block.name=Poisonous Mud
 tile.muffler.name=Muffler
 tile.mush.name=Glowing Mushroom
+tile.nospawn=Mobs cannot spawn on this block!
 tile.ntm_dirt.name=Dirt
 tile.nuke_boy.name=Little Boy
 tile.nuke_custom.name=Custom Nuke

@@ -14,6 +14,8 @@
   * Still a work in progress, not all machines make use of it yet
   * The ZIRNOX for example will continue to operate when tilted, however the pipes will disconnect, resulting in a fatal loss of cooling
 * Slightly adjusted the automatic buzzsaw's texture
+* Mobs can no longer spawn on most versions of concrete
+  * Notable exceptions are mossy and cracked concrete bricks
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
