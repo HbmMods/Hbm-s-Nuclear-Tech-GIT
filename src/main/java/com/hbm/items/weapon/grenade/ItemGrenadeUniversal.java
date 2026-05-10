@@ -21,6 +21,7 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnimatedItem {
@@ -117,6 +119,9 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 				if(shell == EnumGrenadeShell.TECH && deployment == 18) {
 					world.playSoundAtEntity(player, NTMSounds.GRENADE_TECH, 1F, 1F);
 				}
+				if(shell == EnumGrenadeShell.NUKE && deployment == 26) {
+					world.playSoundAtEntity(player, NTMSounds.GRENADE_NUKA, 1F, 1F);
+				}
 			}
 		}
 
@@ -165,21 +170,20 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
 		for(EnumGrenadeShell shell : EnumGrenadeShell.values()) for(EnumGrenadeFilling filling : EnumGrenadeFilling.values()) {
-			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) list.add(make(shell, filling, fuze));
-		}
-		
-		for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) {
-			list.add(make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.IMPACT, extra));
+			if(filling.compatibleShells.contains(shell)) for(EnumGrenadeFuze fuze : EnumGrenadeFuze.values()) {
+				list.add(make(shell, filling, fuze));
+				for(EnumGrenadeExtra extra : EnumGrenadeExtra.values()) list.add(make(shell, filling, fuze, extra));
+			}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add("item.grenade_universal.shell." + this.getShell(stack).name().toLowerCase(Locale.US));
-		list.add("item.grenade_universal.filling." + this.getFilling(stack).name().toLowerCase(Locale.US));
-		list.add("item.grenade_universal.fuze." + this.getFuze(stack).name().toLowerCase(Locale.US));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_shell.getUnlocalizedName() + "." + this.getShell(stack).name().toLowerCase(Locale.US) + ".name"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_filling.getUnlocalizedName() + "." + this.getFilling(stack).name().toLowerCase(Locale.US) + ".name"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(ModItems.grenade_fuze.getUnlocalizedName() + "." + this.getFuze(stack).name().toLowerCase(Locale.US) + ".name"));
 		EnumGrenadeExtra extra = this.getExtra(stack);
-		if(extra != null) list.add("item.grenade_universal.extra." + extra.name().toLowerCase(Locale.US));
+		if(extra != null) list.add(EnumChatFormatting.RED + I18nUtil.resolveKey(ModItems.grenade_extra.getUnlocalizedName() + "." + extra.name().toLowerCase(Locale.US) + ".name"));
 	}
 
 	@Override
@@ -212,6 +216,15 @@ public class ItemGrenadeUniversal extends Item implements IEquipReceiver, IAnima
 					.addBus("RINGMOVE", new BusAnimationSequence().hold(900).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
 					.addBus("RINGTURN", new BusAnimationSequence().hold(900).addPos(0, 0, 45, 300))
 					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1350).setPos(0, 0, 0));
+		}
+		
+		if(shell == EnumGrenadeShell.NUKE) {
+			return new BusAnimation()
+					.addBus("BODYMOVE", new BusAnimationSequence().setPos(0, -5, 0).hold(250).addPos(0, 0, 0, 850, IType.SIN_DOWN))
+					.addBus("BODYTURN", new BusAnimationSequence().setPos(0, 0, 90).hold(250).addPos(0, 0, -25, 850, IType.SIN_DOWN).hold(200).addPos(0, 0, -30, 100, IType.SIN_DOWN).addPos(0, 0, 0, 750, IType.SIN_FULL))
+					.addBus("RINGMOVE", new BusAnimationSequence().hold(1300).addPos(0, 0, 1, 150).addPos(0, -3, 3, 300))
+					.addBus("RINGTURN", new BusAnimationSequence().hold(1300).addPos(0, 0, 720, 500)) // SPEEN
+					.addBus("RENDERRING", new BusAnimationSequence().setPos(1, 1, 1).hold(1750).setPos(0, 0, 0));
 		}
 		
 		return null;

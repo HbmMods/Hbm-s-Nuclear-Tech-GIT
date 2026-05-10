@@ -1,11 +1,10 @@
 package com.hbm.handler.nei;
 
-import java.util.Map.Entry;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.recipes.AnnihilatorRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.Tuple.Pair;
 
 import codechicken.nei.NEIServerUtils;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ public class AnnihilatorHandler extends NEIUniversalHandler {
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		
-		outer: for(Entry<Object, Object> recipe : recipes.entrySet()) {
+		outer: for(Pair<Object, Object> recipe : recipes) {
 			ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 			ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
 			

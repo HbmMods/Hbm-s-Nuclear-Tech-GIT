@@ -15,6 +15,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +29,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, IFluidStandardTransceiver, IGUIProvider, IControlReceiver, IFluidCopiable {
+public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, IFluidStandardTransceiver, IGUIProvider, IControlReceiver, IFluidCopiable, IRORValueProvider {
 
 	public FluidTank[] tanks;
 	public int amountToCool = 24_000;
@@ -266,5 +267,22 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 			tanks[0].setTankType(Fluids.fromID(id));
 		}
 		if(nbt.hasKey("toCool")) amountToCool = nbt.getInteger("toCool");
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "hotfluid",
+				PREFIX_VALUE + "coldfluid",
+				PREFIX_VALUE + "heat"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "hotfluid").equals(name))	return "" + tanks[0].getFill();
+		if((PREFIX_VALUE + "coldfluid").equals(name))	return "" + tanks[1].getFill();
+		if((PREFIX_VALUE + "heat").equals(name))		return "" + heatEnergy;
+		return null;
 	}
 }

@@ -4,6 +4,11 @@ import static com.hbm.lib.HbmChestContents.weighted;
 
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
+import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
+import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import net.minecraft.init.Items;
@@ -43,7 +48,8 @@ public class ItemPoolsPile {
 					//Weapons
 					weighted(ModItems.gun_maresleg, 0, 1, 1, 5),
 					weighted(ModItems.gun_light_revolver, 0, 1, 1, 1),
-					weighted(ModItems.grenade_if_generic, 0, 1, 2, 5),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3, EnumGrenadeExtra.FRAG_SLEEVE), 1, 2, 5),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.STICK, EnumGrenadeFilling.DEMO, EnumGrenadeFuze.IMPACT), 1, 2, 3),
 					weighted(ModItems.ammo_standard, EnumAmmo.G12.ordinal(), 4, 4, 10),
 					weighted(ModItems.ammo_standard, EnumAmmo.M357_SP.ordinal(), 6, 12, 10),
 					weighted(ModItems.ammo_standard, EnumAmmo.G40_HE.ordinal(), 1, 1, 2),

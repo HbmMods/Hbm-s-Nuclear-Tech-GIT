@@ -33,6 +33,8 @@ If you're planning on adding some new thing or doing a grand change, it's best t
 
 This ties together with the previous point - there's no guarantees that your PR gets merged no matter how hard or long you've worked on it. However, if you follow these guidelines, there's a good chance that your PR will be accepted.
 
+## If you dare send me clanker code, I will rip your limbs off
+
 ## I want to help but don't know where to start
 
 If you want to help the project, consider getting involved with the [wiki](https://nucleartech.wiki/) first. Writing an article is the easiest and quickest way of helping, and requires no programming knowledge. If you do know Java and want to help, consider these places first:

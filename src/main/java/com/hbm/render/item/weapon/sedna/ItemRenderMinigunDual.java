@@ -73,7 +73,7 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 			
 			GL11.glRotated(gun.shotRand * 90, 1, 0, 0);
 			GL11.glScaled(1.5, 1.5, 1.5);
-			this.renderMuzzleFlash(gun.lastShot[index], 75, 5);
+			this.renderMuzzleFlash(gun.lastShot[index], 50, 7.5);
 			GL11.glPopMatrix();
 			
 			GL11.glPopMatrix();
@@ -136,10 +136,11 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, 12.25);
 		GL11.glRotated(90, 0, 1, 0);
-		
+
+		GL11.glTranslated(0, 0.5, 0);
 		GL11.glRotated(shotRand * 90, 1, 0, 0);
 		GL11.glScaled(1.5, 1.5, 1.5);
-		this.renderMuzzleFlash(shot, 75, 5);
+		this.renderMuzzleFlash(shot, 50, 7.5);
 		GL11.glPopMatrix();
 	}
 
@@ -166,10 +167,11 @@ public class ItemRenderMinigunDual extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, 12.25);
 		GL11.glRotated(90, 0, 1, 0);
-		
+
+		GL11.glTranslated(0, 0.5, 0);
 		GL11.glRotated(shotRand * 90, 1, 0, 0);
 		GL11.glScaled(1.5, 1.5, 1.5);
-		this.renderMuzzleFlash(shot, 75, 5);
+		this.renderMuzzleFlash(shot, 50, 7.5);
 		GL11.glPopMatrix();
 	}
 

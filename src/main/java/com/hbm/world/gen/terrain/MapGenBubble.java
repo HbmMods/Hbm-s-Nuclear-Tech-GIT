@@ -2,14 +2,18 @@ package com.hbm.world.gen.terrain;
 
 import java.util.function.Predicate;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
+import com.hbm.world.gen.MapGenBaseMeta;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.MapGenBase;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class MapGenBubble extends MapGenBase {
+public class MapGenBubble extends MapGenBaseMeta {
 
 	/**
 	 * Generates oil bubbles, which are generally wider than a chunk, in a safe + cascadeless manner
@@ -43,7 +47,13 @@ public class MapGenBubble extends MapGenBase {
 
 	@Override
 	protected void func_151538_a(World world, int offsetX, int offsetZ, int chunkX, int chunkZ, Block[] blocks) {
-		if(rand.nextInt(frequency) == frequency - 1 && (canSpawn == null || canSpawn.test(world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16)))) {
+		
+		int effecFreq = frequency;
+		BiomeGenBase biome = world.getBiomeGenForCoords(offsetX * 16, offsetZ * 16);
+		if(biome.temperature >= 2 && biome.rainfall < 0.1) effecFreq /= 3;
+		if(effecFreq <= 0) effecFreq = 1;
+		
+		if(rand.nextInt(effecFreq) == effecFreq - 1 && (canSpawn == null || canSpawn.test(biome))) {
 			int xCoord = (chunkX - offsetX) * 16 + rand.nextInt(16);
 			int zCoord = (chunkZ - offsetZ) * 16 + rand.nextInt(16);
 
@@ -73,7 +83,99 @@ public class MapGenBubble extends MapGenBase {
 					}
 				}
 			}
+			
+			if(rand.nextInt(1) == 0) {
+				addSurfaceSpot(xCoord, zCoord, blocks);
+			}
 		}
 	}
+	
+	protected void addSurfaceSpot(int xCoord, int zCoord, Block[] blocks) {
 
+		int deadMetaCount = EnumDeadPlantType.values().length;
+		int spotCount = 150;
+		int spotWidth = 7;
+
+		// Add oil spot damage
+		for(int i = 0; i < spotCount; i++) {
+			int offX = (int)(rand.nextGaussian() * spotWidth);
+			int offZ = (int)(rand.nextGaussian() * spotWidth);
+			int rx = offX - xCoord;
+			int rz = offZ - zCoord;
+
+			if(rx >= 0 && rx < 16 && rz >= 0 && rz < 16) {
+				// find ground level
+				for(int y = 127; y >= 0; y--) {
+					int index = (rx * 16 + rz) * 256 + y;
+
+					if(blocks[index] != null && blocks[index].isOpaqueCube()) {
+						for(int oy = 1; oy > -3; oy--) {
+							int subIndex = index + oy;
+							
+							int distSq = offX * offX + offZ * offZ;
+							boolean inner = distSq < (spotWidth / 2) * (spotWidth / 2);
+
+							if(blocks[subIndex] == Blocks.grass || blocks[subIndex] == Blocks.dirt) {
+								blocks[subIndex] = inner ? ModBlocks.dirt_oily : ModBlocks.dirt_dead;
+
+								// this generation occurs BEFORE decoration, so we have no plants to modify
+								// so we'll instead just add some new ones right now
+								if(!inner && oy == 0 && rand.nextInt(20) == 0) {
+									blocks[subIndex + 1] = ModBlocks.plant_dead;
+									metas[subIndex + 1] = (byte)rand.nextInt(deadMetaCount);
+								}
+
+								break;
+							} else if(blocks[subIndex] == Blocks.sand || blocks[subIndex] == ModBlocks.ore_oil_sand) {
+								if(metas[subIndex] == 1) {
+									blocks[subIndex] = ModBlocks.sand_dirty_red;
+								} else {
+									blocks[subIndex] = ModBlocks.sand_dirty;
+								}
+								break;
+							} else if(blocks[subIndex] == Blocks.stone) {
+								blocks[subIndex] = ModBlocks.stone_cracked;
+								break;
+							}
+						}
+
+						break;
+					}
+				}
+			}
+		}
+		
+		// and now for the hole(tm)
+		for(int i = 1; i < 6; i++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			int x = dir.offsetX - xCoord;
+			int z = dir.offsetZ - zCoord;
+			
+			if(x >= 0 && x < 16 && z >= 0 && z < 16) {
+				int solids = 0;
+				
+				for(int y = 127; y >= 0; y--) {
+					int index = (x * 16 + z) * 256 + y;
+					if(blocks[index] == null) continue;
+					
+					if(blocks[index].getMaterial().isLiquid()) break; 
+					
+					if(blocks[index].isOpaqueCube()) {
+						solids++;
+						
+						// this approach might break a little when the surface has holes and uneveness but i don't care lmao
+						if(i > 1) {
+							blocks[index] = ModBlocks.stone_cracked;
+							if(solids >= 4) break;
+						} else {
+							if(solids < 3) blocks[index] = Blocks.air;
+							if(solids == 3) blocks[index] = ModBlocks.oil_spill;
+							if(solids > 3 && solids < 7) blocks[index] = ModBlocks.stone_cracked;
+							if(solids >= 7) break;
+						}
+					}
+				}
+			}
+		}
+	}
 }

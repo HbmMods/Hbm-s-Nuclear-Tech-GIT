@@ -5,6 +5,11 @@ import static com.hbm.lib.HbmChestContents.weighted;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.items.weapon.grenade.ItemGrenadeExtra.EnumGrenadeExtra;
+import com.hbm.items.weapon.grenade.ItemGrenadeFilling.EnumGrenadeFilling;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
+import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
+import com.hbm.items.weapon.grenade.ItemGrenadeUniversal;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import net.minecraft.init.Items;
@@ -33,8 +38,8 @@ public class ItemPoolsSingle {
 					weighted(ModItems.ammo_standard, EnumAmmo.P9_JHP.ordinal(), 48, 64, 2),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 3, 6, 1),
 					weighted(ModItems.gas_mask_m65, 0, 1, 1, 1),
-					weighted(ModItems.grenade_if_he, 0, 1, 1, 1),
-					weighted(ModItems.grenade_if_incendiary, 0, 1, 1, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3), 1, 1, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.INC, EnumGrenadeFuze.S3), 1, 1, 1),
 					weighted(Items.diamond, 0, 1, 2, 1)
 			};
 		}};
@@ -46,8 +51,8 @@ public class ItemPoolsSingle {
 					weighted(Items.diamond, 0, 3, 6, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD.ordinal(), 1, 1, 1),
 					weighted(ModItems.ammo_container, 0, 1, 1, 1),
-					weighted(ModItems.grenade_nuclear, 0, 1, 1, 1),
-					weighted(ModItems.grenade_smart, 0, 1, 6, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.NUKE, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S7), 1, 1, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.TECH, EnumGrenadeFilling.EMP, EnumGrenadeFuze.S3), 1, 6, 1),
 					weighted(ModItems.powder_yellowcake, 0, 16, 24, 1),
 					weighted(ModItems.gun_uzi, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 12, 16, 1),
@@ -63,8 +68,8 @@ public class ItemPoolsSingle {
 					weighted(Items.diamond, 0, 5, 9, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD.ordinal(), 1, 3, 1),
 					weighted(ModItems.ammo_container, 0, 1, 4, 1),
-					weighted(ModItems.grenade_nuclear, 0, 1, 2, 1),
-					weighted(ModItems.grenade_mirv, 0, 1, 1, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.NUKE, EnumGrenadeFilling.NUCLEAR, EnumGrenadeFuze.S7), 1, 2, 1),
+					weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.STICK, EnumGrenadeFilling.HE, EnumGrenadeFuze.IMPACT, EnumGrenadeExtra.TRIPLEX), 1, 1, 1),
 					weighted(ModItems.powder_yellowcake, 0, 26, 42, 1),
 					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 18, 32, 1),

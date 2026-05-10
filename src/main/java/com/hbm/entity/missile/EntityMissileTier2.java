@@ -54,7 +54,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			this.explodeStandard(30F, 32, true);
 			ExplosionCreator.composeEffectStandard(worldObj, posX, posY, posZ);
-			ExplosionChaos.flameDeath(this.worldObj, (int)((float)this.posX + 0.5F), (int)((float)this.posY + 0.5F), (int)((float)this.posZ + 0.5F), 25);
+			ExplosionChaos.igniteFlammableBlocks(this.worldObj, (int)((float)this.posX + 0.5F), (int)((float)this.posY + 0.5F), (int)((float)this.posZ + 0.5F), 25);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_medium); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_incendiary_strong); }
@@ -65,7 +65,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 		public EntityMissileClusterStrong(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); this.isCluster = true; }
 		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15F, true);
-			ExplosionChaos.cluster(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 50, 100);
+			ExplosionChaos.cluster(this.worldObj, this.posX, this.posY, this.posZ, 50, this.rotationYaw, this.rotationPitch, (float) Math.PI * 0.25F, (float) Math.PI * 0.25F, 1F);
 		}
 		@Override public void cluster() { this.onMissileImpact(null); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_cluster_medium); }

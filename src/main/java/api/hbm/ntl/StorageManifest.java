@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+@Deprecated
 public class StorageManifest {
 
 	public LinkedHashMap<Integer, MetaNode> itemMeta = new LinkedHashMap();

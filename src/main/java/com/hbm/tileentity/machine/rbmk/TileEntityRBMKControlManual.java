@@ -186,13 +186,18 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Override
 	public NBTTagCompound getSettings(World world, int x, int y, int z) {
 		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("color", color.ordinal());
+		if(color != null) data.setInteger("color", color.ordinal());
 		return data;
 	}
 
 	@Override
 	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
-		if(nbt.hasKey("color")) color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+		if(nbt.hasKey("color")) {
+			color = EnumUtil.grabEnumSafely(RBMKColor.class, nbt.getInteger("color"));
+		} else {
+			color = null;
+		}
+		this.markChanged();
 	}
 
 	@Override
@@ -209,14 +214,14 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 
 		if((PREFIX_FUNCTION + "setrods").equals(name) && params.length > 0) {
 			int percent = IRORInteractive.parseInt(params[0], 0, 100);
-			this.targetLevel = percent / 100D;
+			this.setTarget(percent / 100D);
 			this.markDirty();
 			return null;
 		}
 
 		if((PREFIX_FUNCTION + "extendrods").equals(name) && params.length > 0) {
 			int percent = IRORInteractive.parseInt(params[0], -100, 100);
-			this.targetLevel = MathHelper.clamp_double(this.targetLevel + percent / 100D, 0D, 1D);
+			this.setTarget(MathHelper.clamp_double(this.targetLevel + percent / 100D, 0D, 1D));
 			this.markDirty();
 			return null;
 		}

@@ -23,6 +23,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -474,4 +476,57 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 		throw new NoSuchMethodException();
 	}
 
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "throttle",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fuel",
+				PREFIX_VALUE + "efficiency",
+				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setThrottle" + NAME_SEPARATOR + "throttle"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if ((PREFIX_VALUE + "state").equals(name))			return "" + (isOn ? 1 : 0);
+		if ((PREFIX_VALUE + "throttle").equals(name))		return "" + setting;
+		if ((PREFIX_VALUE + "power").equals(name))			return "" + power;
+		if ((PREFIX_VALUE + "fuel").equals(name))			return "" + tank.getFill();
+		if ((PREFIX_VALUE + "efficiency").equals(name)) {
+			if (slots[2] != null && slots[2].getItem() == ModItems.piston_set && tank.getTankType().hasTrait(FT_Combustible.class)) {
+				EnumPistonType piston = EnumUtil.grabEnumSafely(EnumPistonType.class, slots[2].getItemDamage());
+				FT_Combustible trait = tank.getTankType().getTrait(FT_Combustible.class);
+				double eff = piston.eff[trait.getGrade().ordinal()];
+				return "" + (int) Math.round(eff * 100);
+			}
+			return "0";
+		}
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if ((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+			try {
+				int val = Integer.parseInt(params[0]);
+				this.isOn = (val == 1);
+				this.markDirty();
+			} catch (NumberFormatException e) {}
+			return null;
+		}
+		if ((PREFIX_FUNCTION + "setThrottle").equals(name) && params.length > 0) {
+			try {
+				int val = Integer.parseInt(params[0]);
+				if (val < 0) val = 0;
+				if (val > 30) val = 30;
+				this.setting = val;
+				this.markDirty();
+			} catch (NumberFormatException e) {}
+			return null;
+		}
+		return null;
+	}
 }

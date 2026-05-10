@@ -28,6 +28,12 @@ public class RenderFusionTorus extends TileEntitySpecialRenderer implements IIte
 		
 		TileEntityFusionTorus torus = (TileEntityFusionTorus) tile;
 		
+		if(torus.tilted) {
+			GL11.glTranslated(0, -1, 0);
+			GL11.glRotated(10, 0, 0, 1);
+			GL11.glRotated(5, 0, 1, 0);
+		}
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.fusion_torus_tex);
 		ResourceManager.fusion_torus.renderPart("Torus");

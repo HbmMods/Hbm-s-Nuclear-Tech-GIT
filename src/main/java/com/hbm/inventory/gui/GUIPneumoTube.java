@@ -10,7 +10,7 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.render.util.GaugeUtil;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.uninos.networkproviders.PneumaticNetwork;
 
 import net.minecraft.client.Minecraft;

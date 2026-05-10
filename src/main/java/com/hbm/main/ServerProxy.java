@@ -34,6 +34,7 @@ public class ServerProxy {
 	public static final int ID_TOOLABILITY = 11;
 	public static final int ID_GAS_HAZARD = 12;
 	public static final int ID_WRENCH = 13;
+	public static final int ID_PAGER_DYN = 1000;
 	
 	public ITranslate getI18n() { return I18N; }
 

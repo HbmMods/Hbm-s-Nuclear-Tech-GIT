@@ -116,7 +116,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 			bl.posZ = this.posZ;
 			this.worldObj.spawnEntityInWorld(bl);
 		}
-		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.grenade_black_hole, 1); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.black_hole, 1); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_bhole); }
 	}
 	

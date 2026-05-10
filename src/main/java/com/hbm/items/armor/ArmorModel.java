@@ -1,6 +1,5 @@
 package com.hbm.items.armor;
 
-import java.util.List;
 import java.util.stream.IntStream;
 
 import org.lwjgl.opengl.GL11;
@@ -90,8 +89,7 @@ public class ArmorModel extends ItemArmor {
 	@SideOnly(Side.CLIENT)
 	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY) {
 
-		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
-			return;
+		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey) return;
 		
 		if(gogglesBlurs == null) gogglesBlurs = IntStream.range(0, 6)
 				.mapToObj(i -> new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_" + i + ".png"))
@@ -122,12 +120,5 @@ public class ArmorModel extends ItemArmor {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glDisable(GL11.GL_BLEND);
-	}
-
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(this == ModItems.cape_radiation) list.add("Avalible for everyone");
-		if(this == ModItems.cape_gasmask) list.add("Avalible for everyone");
-		if(this == ModItems.cape_schrabidium) list.add("Avalible for everyone");
 	}
 }

@@ -33,6 +33,7 @@ import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.weapon.sedna.*;
+import com.hbm.tileentity.machine.storage.TileEntityBatterySocket;
 
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -219,9 +220,10 @@ public class GunFactoryClient {
 		nuke_tots.setRenderer(LegoClient.RENDER_GRENADE);
 		nuke_hive.setRenderer(LegoClient.RENDER_HIVE);
 		nuke_balefire.setRenderer(LegoClient.RENDER_NUKE_BALEFIRE);
+		cluster_submunition.setRenderer(LegoClient.RENDER_BOMB);
 
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING, energy_tesla, energy_tesla_overcharge, energy_tesla_ir);
-		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING_SUB, energy_tesla_ir_sub);
+		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING_SUB, energy_tesla_ir_sub, TileEntityBatterySocket.discharge);
 		setRendererBulkBeam(LegoClient.RENDER_TAU, tau_uranium);
 		setRendererBulkBeam(LegoClient.RENDER_TAU_CHARGE, tau_uranium_charge);
 		setRendererBulkBeam(LegoClient.RENDER_LASER_RED, energy_las, energy_las_overcharge, energy_las_ir);
@@ -244,8 +246,7 @@ public class GunFactoryClient {
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 
-		ItemGrenadeFilling.fragmentation.setRenderer(LegoClient.RENDER_FRAGMENTATION);
-		ItemGrenadeFilling.pellets.setRenderer(LegoClient.RENDER_FRAGMENTATION);
+		setRendererBulk(LegoClient.RENDER_FRAGMENTATION, ItemGrenadeFilling.fragmentation, ItemGrenadeFilling.pellets, ItemGrenadeFilling.pellets_heavy);
 		ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
 		
 		//HUDS

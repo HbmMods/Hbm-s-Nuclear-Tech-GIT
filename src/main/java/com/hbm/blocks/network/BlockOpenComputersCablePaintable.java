@@ -1,7 +1,11 @@
 package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
+
+import java.util.List;
+
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
@@ -35,7 +39,7 @@ import li.cil.oc.api.internal.Colored;
 import com.hbm.handler.CompatHandler.OCColors;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockOpenComputersCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass {
+public class BlockOpenComputersCablePaintable extends BlockContainer implements IToolable, IBlockMultiPass, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
 	@SideOnly(Side.CLIENT) protected IIcon overlayColor;
@@ -66,6 +70,7 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 			TileEntityOpenComputersCablePaintable pipe = (TileEntityOpenComputersCablePaintable) tile;
 
 			if(pipe.block != null) {
+				if(pipe.getBlockMetadata() != 0) pipe.block.getIcon(side, pipe.meta);
 				if(RenderBlockMultipass.currentPass == 1) {
 					return this.overlay;
 				} else if(RenderBlockMultipass.currentPass == 2) {
@@ -144,19 +149,25 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
-		if(tool != ToolType.SCREWDRIVER) return false;
-
-		TileEntity tile = world.getTileEntity(x, y, z);
-
-		if(tile instanceof TileEntityOpenComputersCablePaintable) {
-			TileEntityOpenComputersCablePaintable pipe = (TileEntityOpenComputersCablePaintable) tile;
-
-			if(pipe.block != null) {
-				pipe.block = null;
-				world.markBlockForUpdate(x, y, z);
-				pipe.markDirty();
-				return true;
+		if(tool == ToolType.SCREWDRIVER) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof TileEntityOpenComputersCablePaintable) {
+				TileEntityOpenComputersCablePaintable pipe = (TileEntityOpenComputersCablePaintable) tile;
+	
+				if(pipe.block != null) {
+					pipe.block = null;
+					world.markBlockForUpdate(x, y, z);
+					pipe.markDirty();
+					return true;
+				}
 			}
+		}
+		
+		if(tool == ToolType.DEFUSER) {
+			int meta = world.getBlockMetadata(x, y, z);
+			if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+			else world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+			return true;
 		}
 
 		return false;
@@ -340,5 +351,10 @@ public class BlockOpenComputersCablePaintable extends BlockContainer implements 
 		public int getColor() {
 			return color.getColor();
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

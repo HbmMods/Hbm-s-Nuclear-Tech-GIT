@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -39,6 +40,12 @@ public class BlockOre extends Block {
 		super(mat);
 		this.setTickRandomly(true);
 		this.rad = rad;
+	}
+	
+	@Override
+	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		if(this == ModBlocks.ore_oil) return false;
+		return super.canSilkHarvest(world, player, x, y, z, meta);
 	}
 
 	@Spaghetti("*throws up*")
@@ -95,33 +102,21 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.block_meteor_molten) {
 			return null;
 		}
+		if(this == ModBlocks.ore_oil) return ModItems.oil_tar;
 
 		return Item.getItemFromBlock(this);
 	}
 
 	@Override
 	public int quantityDropped(Random rand) {
-		if(this == ModBlocks.ore_fluorite) {
-			return 2 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.ore_niter) {
-			return 2 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur) {
-			return 2 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.block_meteor_broken) {
-			return 1 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.block_meteor_treasure) {
-			return 1 + rand.nextInt(3);
-		}
-		if(this == ModBlocks.ore_cobalt) {
-			return 4 + rand.nextInt(6);
-		}
-		if(this == ModBlocks.ore_nether_cobalt) {
-			return 5 + rand.nextInt(8);
-		}
+		if(this == ModBlocks.ore_fluorite) return 2 + rand.nextInt(3);
+		if(this == ModBlocks.ore_niter) return 2 + rand.nextInt(3);
+		if(this == ModBlocks.ore_sulfur ||
+				this == ModBlocks.ore_nether_sulfur) return 2 + rand.nextInt(3);
+		if(this == ModBlocks.block_meteor_broken) return 1 + rand.nextInt(3);
+		if(this == ModBlocks.block_meteor_treasure) return 1 + rand.nextInt(3);
+		if(this == ModBlocks.ore_cobalt) return 4 + rand.nextInt(6);
+		if(this == ModBlocks.ore_nether_cobalt) return 5 + rand.nextInt(8);
 
 		return 1;
 	}
@@ -138,12 +133,7 @@ public class BlockOre extends Block {
 		
 		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune) && allowFortune) {
 			int mult = rand.nextInt(fortune + 2) - 1;
-
-			if(mult < 0) {
-				mult = 0;
-			}
-
-			return this.quantityDropped(rand) * (mult + 1);
+			return this.quantityDropped(rand) * (Math.max(mult, 0) + 1);
 		} else {
 			return this.quantityDropped(rand);
 		}
@@ -156,24 +146,27 @@ public class BlockOre extends Block {
 	}
 
 	@Override
-	public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity entity) {
-		if(entity instanceof EntityLivingBase && this == ModBlocks.frozen_dirt) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.block_waste) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
-		}
-		if(entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red)) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.brick_jungle_ooze) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 9));
-		}
-		if(entity instanceof EntityLivingBase && this == ModBlocks.brick_jungle_mystic) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.taint.id, 15 * 20, 2));
+	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
+		if(entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) entity;
+			if(this == ModBlocks.frozen_dirt) {
+				living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
+			}
+			if(this == ModBlocks.block_trinitite) {
+				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
+			}
+			if(this == ModBlocks.block_waste) {
+				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
+			}
+			if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
+				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
+			}
+			if(this == ModBlocks.brick_jungle_ooze) {
+				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 9));
+			}
+			if(this == ModBlocks.brick_jungle_mystic) {
+				living.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 15 * 20, 2));
+			}
 		}
 
 		if(this == ModBlocks.block_meteor_molten)
@@ -182,11 +175,11 @@ public class BlockOre extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_) {
-		super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
 
 		if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red || this == ModBlocks.block_trinitite || this == ModBlocks.block_waste) {
-			p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat(), p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("townaura", x + rand.nextFloat(), y + 1.1F, z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 		}
 	}
 
@@ -201,9 +194,8 @@ public class BlockOre extends Block {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(this == ModBlocks.block_meteor_molten) {
-			if(!world.isRemote)
-				world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
-			world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+			if(!world.isRemote) world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
+			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 			return;
 		}
 

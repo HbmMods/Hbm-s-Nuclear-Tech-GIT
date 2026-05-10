@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -38,9 +39,18 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 
 		connected.add(new int[] {x, y, z});
 
-		FluidNode node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, this.type.getNetworkProvider());
-		node.recentlyChanged = true;
-		node.addConnection(new DirPos(x, y, z, ForgeDirection.UNKNOWN));
+		if(this.node == null || this.node.expired) {
+			if(this.shouldCreateNode()) {
+				this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, type.getNetworkProvider());
+				if(this.node == null || this.node.expired) {
+					this.node = this.createNode(type);
+					UniNodespace.createNode(worldObj, this.node);
+				}
+			}
+		}
+
+		this.node.recentlyChanged = true;
+		this.node.addConnection(new DirPos(x, y, z, ForgeDirection.UNKNOWN));
 
 		this.markDirty();
 
@@ -92,13 +102,18 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	 * 0: Connected<br>
 	 * 1: Connections are incompatible<br>
 	 * 2: Both parties are the same block<br>
-	 * 3: Connection length exceeds maximum
+	 * 3: Connection length exceeds maximum<br>
 	 * 4: Pipeline fluid types do not match
 	 */
 	public static int canConnect(TileEntityPipelineBase first, TileEntityPipelineBase second) {
 
 		if(first.getConnectionType() != second.getConnectionType()) return 1;
 		if(first == second) return 2;
+
+		// connect with NONE type anchors
+		if(first.type == Fluids.NONE && second.type != first.type) first.setType(second.type);
+		if(second.type == Fluids.NONE && first.type != second.type) second.setType(first.type);
+		
 		if(first.type != second.type) return 4;
 
 		double len = Math.min(first.getMaxPipeLength(), second.getMaxPipeLength());

@@ -21,6 +21,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +32,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiverMK2, IConfigurableMachine, IFluidCopiable {
+public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiverMK2, IConfigurableMachine, IFluidCopiable, IRORValueProvider {
 
 	public int heat;
 	public FluidTank[] tanks;
@@ -319,5 +320,20 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 	public void writeConfig(JsonWriter writer) throws IOException {
 		writer.name("I:maxHeat").value(maxHeat);
 		writer.name("D:diffusion").value(diffusion);
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "input",
+				PREFIX_VALUE + "output"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if ((PREFIX_VALUE + "input").equals(name))		return "" + tanks[0].getFill();
+		if ((PREFIX_VALUE + "output").equals(name))		return "" + tanks[1].getFill();
+		return null;
 	}
 }

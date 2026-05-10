@@ -18,6 +18,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSBPowered;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.i18n.I18nUtil;
@@ -221,12 +223,14 @@ public class DamageResistanceHandler {
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(2F, 0.25F));
 		registerSet(ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots, new ResistanceStats()
+				.addCategory(CATEGORY_PHYSICAL, 100F, 0.99F)
 				.addCategory(CATEGORY_EXPLOSION, 50F, 0.95F)
-				.addCategory(CATEGORY_FIRE, 0F, 1F)
+				.addCategory(CATEGORY_FIRE, 100F, 1F)
 				.addExact(DamageClass.LASER.name(), 25F, 0.95F)
 				.addExact(DamageSource.fall.damageType, 0F, 1F)
 				.setOther(100F, 0.99F));
 		registerSet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots, new ResistanceStats()
+				.addCategory(CATEGORY_PHYSICAL, 1000F, 1F)
 				.addCategory(CATEGORY_EXPLOSION, 100F, 0.99F)
 				.addCategory(CATEGORY_FIRE, 0F, 1F)
 				.setOther(1000F, 1F));
@@ -446,10 +450,18 @@ public class DamageResistanceHandler {
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
-		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
+		DamageSource source = event.source;
+		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) {
+			ItemStack chest = event.entityLiving.getEquipmentInSlot(3);
+			if(chest != null && chest.getItem() instanceof ArmorFSBPowered) {
+				event.ammount *= 5;
+			}
+		}
+			
+		event.ammount = calculateDamage(event.entityLiving, source, event.ammount, currentPDT, currentPDR);
 		if(event.entityLiving instanceof IResistanceProvider) {
 			IResistanceProvider irp = (IResistanceProvider) event.entityLiving;
-			irp.onDamageDealt(event.source, event.ammount);
+			irp.onDamageDealt(source, event.ammount);
 		}
 	}
 	
@@ -463,6 +475,9 @@ public class DamageResistanceHandler {
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.SUBATOMIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
 		if(source == DamageSource.cactus) return CATEGORY_PHYSICAL;
+		if(source == ModDamageSource.spikes) return CATEGORY_PHYSICAL;
+		if(source == ModDamageSource.electricity) return CATEGORY_ENERGY;
+		if(source == ModDamageSource.microwave) return CATEGORY_ENERGY;
 		if(source instanceof EntityDamageSource) return CATEGORY_PHYSICAL;
 		return source.damageType;
 	}

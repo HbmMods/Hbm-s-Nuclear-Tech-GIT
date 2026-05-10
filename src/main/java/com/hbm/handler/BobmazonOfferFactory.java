@@ -78,7 +78,6 @@ public class BobmazonOfferFactory {
 		special.add(new Offer(new ItemStack(ModItems.boy_kit), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.prototype_kit), Requirement.STEEL, 10));
 		special.add(new Offer(new ItemStack(ModItems.missile_kit), Requirement.STEEL, 5));
-		special.add(new Offer(new ItemStack(ModItems.grenade_kit), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.jetpack_vector), Requirement.STEEL, 2));
 		special.add(new Offer(new ItemStack(ModItems.jetpack_tank), Requirement.STEEL, 2));
 		special.add(new Offer(new ItemStack(ModItems.gun_kit_1, 1), Requirement.STEEL, 1));

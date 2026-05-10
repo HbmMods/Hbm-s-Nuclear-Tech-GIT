@@ -62,7 +62,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		public EntityMissileCluster(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); this.isCluster = true; }
 		@Override public void onMissileImpact(MovingObjectPosition mop) {
 			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
-			ExplosionChaos.cluster(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25, 100);
+			ExplosionChaos.cluster(this.worldObj, this.posX, this.posY, this.posZ, 25, this.rotationYaw, this.rotationPitch, (float) Math.PI * 0.25F, (float) Math.PI * 0.25F, 1F);
 		}
 		@Override public void cluster() { this.onMissileImpact(null); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_cluster_small); }

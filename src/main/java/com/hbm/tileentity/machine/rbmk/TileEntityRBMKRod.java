@@ -443,7 +443,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluxRatio(Context context, Arguments args) {
-		return new Object[] {fluxFastRatio};
+		return new Object[] {lastFluxRatio};
 	}
 
 	@Callback(direct = true)
@@ -507,7 +507,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		return new Object[] {
 			heat, returnValues.get(0), returnValues.get(1),
-			fluxQuantity, fluxFastRatio, returnValues.get(2), returnValues.get(3), returnValues.get(4),
+			lastFluxQuantity, lastFluxRatio, returnValues.get(2), returnValues.get(3), returnValues.get(4),
 			((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord
 		};
 	}
@@ -552,7 +552,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				PREFIX_VALUE + "columnheat",
 				PREFIX_VALUE + "rodheat",
 				PREFIX_VALUE + "depletion",
-				PREFIX_VALUE + "xenon"
+				PREFIX_VALUE + "xenon",
+				PREFIX_VALUE + "fastflux",
+				PREFIX_VALUE + "slowflux",
+				PREFIX_VALUE + "flux"
 		};
 	}
 
@@ -564,6 +567,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			if((PREFIX_VALUE + "depletion").equals(name))	return "" + (int) (100 - ItemRBMKRod.getEnrichment(slots[0]) * 100);
 			if((PREFIX_VALUE + "xenon").equals(name))		return "" + (int) (ItemRBMKRod.getPoison(slots[0]));
 		}
+		if((PREFIX_VALUE + "fastflux").equals(name))		return "" + (int) (lastFluxQuantity * lastFluxRatio);
+		if((PREFIX_VALUE + "slowflux").equals(name))		return "" + (int) (lastFluxQuantity * (1 - lastFluxRatio));
+		if((PREFIX_VALUE + "flux").equals(name))			return "" + ((int) (lastFluxQuantity * lastFluxRatio) + (int) (lastFluxQuantity * (1 - lastFluxRatio)));
 		return null;
 	}
 }

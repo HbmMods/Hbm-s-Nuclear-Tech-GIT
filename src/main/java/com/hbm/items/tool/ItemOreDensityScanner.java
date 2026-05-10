@@ -1,10 +1,12 @@
 package com.hbm.items.tool;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.items.special.ItemBedrockOreBase;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
+import com.hbm.world.feature.BedrockOre;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +24,8 @@ public class ItemOreDensityScanner extends Item {
 		
 		EntityPlayerMP player = (EntityPlayerMP) entity;
 		
+		double totalLevel = 0D;
+		
 		for(BedrockOreType type : BedrockOreType.values()) {
 			double level = ItemBedrockOreBase.getOreLevel((int) Math.floor(player.posX), (int) Math.floor(player.posZ), type);
 			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(
@@ -30,7 +34,20 @@ public class ItemOreDensityScanner extends Item {
 					.nextTranslation(translateDensity(level)).color(getColor(level))
 					.next(")").color(EnumChatFormatting.RESET).flush(),
 			777 + type.ordinal(), 4000), player);
+			totalLevel += level;
 		}
+		totalLevel /= BedrockOreType.values().length;
+		
+		int tier = BedrockOre.getTier(totalLevel);
+		FluidStack boreFluid = BedrockOre.getBoreFluid(totalLevel);
+		
+		ChatBuilder builder = ChatBuilder.start("Tier " + tier).color(EnumChatFormatting.YELLOW);
+		if(boreFluid != null) {
+			builder.next(" - " + boreFluid.fill + "mB ")
+			.nextTranslation(boreFluid.type.getUnlocalizedName());
+		}
+		
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(builder.flush(), 777 + BedrockOreType.values().length, 4000), player);
 	}
 	
 	public static String translateDensity(double density) {

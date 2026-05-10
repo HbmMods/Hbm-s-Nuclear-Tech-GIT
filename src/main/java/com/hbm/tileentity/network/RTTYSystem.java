@@ -30,8 +30,8 @@ public class RTTYSystem {
 			Object existing = newMessages.get(identifier);
 			if(NumberUtils.isNumber("" + existing)) {
 				try {
-					int first = Integer.parseInt("" + signal);
-					int second = Integer.parseInt("" + existing);
+					long first = Long.parseLong("" + signal);
+					long second = Long.parseLong("" + existing);
 					newMessages.put(identifier, "" + (first + second));
 					return;
 				} catch(Exception ex) { }

@@ -4,6 +4,7 @@ import api.hbm.block.IToolable;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
@@ -32,12 +33,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements IToolable, IBlockMultiPass, ILookOverlay {
+public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements IToolable, IBlockMultiPass, ILookOverlay, ITooltipProvider {
 	
 	@SideOnly(Side.CLIENT) protected IIcon overlay;
 	
 	public FluidDuctPaintableBlockExhaust() {
-        super(Material.iron);
+		super(Material.iron);
 	}
 	
 	@Override
@@ -61,7 +62,7 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 			TileEntityPipeExhaustPaintable pipe = (TileEntityPipeExhaustPaintable) tile;
 
 			if(pipe.block != null) {
-				if(RenderBlockMultipass.currentPass == 1) {
+				if(RenderBlockMultipass.currentPass == 1 && pipe.getBlockMetadata() == 0) {
 					return this.overlay;
 				} else {
 					return pipe.block.getIcon(side, pipe.meta);
@@ -75,19 +76,26 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
-		if(tool != ToolType.SCREWDRIVER) return false;
-
-		TileEntity tile = world.getTileEntity(x, y, z);
-
-		if(tile instanceof TileEntityPipeExhaustPaintable) {
-			TileEntityPipeExhaustPaintable pipe = (TileEntityPipeExhaustPaintable) tile;
-
-			if(pipe.block != null) {
-				pipe.block = null;
-				world.markBlockForUpdate(x, y, z);
-				pipe.markDirty();
-				return true;
+		if(tool == ToolType.SCREWDRIVER) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+	
+			if(tile instanceof TileEntityPipeExhaustPaintable) {
+				TileEntityPipeExhaustPaintable pipe = (TileEntityPipeExhaustPaintable) tile;
+	
+				if(pipe.block != null) {
+					pipe.block = null;
+					world.markBlockForUpdate(x, y, z);
+					pipe.markDirty();
+					return true;
+				}
 			}
+		}
+		
+		if(tool == ToolType.DEFUSER) {
+			int meta = world.getBlockMetadata(x, y, z);
+			if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+			else world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+			return true;
 		}
 
 		return false;
@@ -204,5 +212,10 @@ public class FluidDuctPaintableBlockExhaust extends FluidDuctBase implements ITo
 				this.meta = nbt.getInteger("paintmeta");
 			}
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

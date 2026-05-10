@@ -117,41 +117,39 @@ public class EntityNukeExplosionMK3 extends EntityExplosionChunkloading {
 		super(p_i1582_1_);
 	}
 
-    @Override
+	@Override
 	public void onUpdate() {
-        super.onUpdate();
+		super.onUpdate();
 
 		if(!worldObj.isRemote) loadChunk((int) Math.floor(posX / 16D), (int) Math.floor(posZ / 16D));
 
-        if(!this.did)
-        {
-        	for(Object player : this.worldObj.playerEntities)
-    			((EntityPlayer)player).triggerAchievement(MainRegistry.achManhattan);
+		if(!this.did) {
+			for(Object player : this.worldObj.playerEntities)
+				((EntityPlayer) player).triggerAchievement(MainRegistry.achManhattan);
 
-    		if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
-    			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized mk3 explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
+			if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
+				MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized mk3 explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
 
-        	if(this.waste)
-        	{
-            	exp = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, 0);
-        		wst = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 1.8), this.coefficient, 2);
-        		vap = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 2.5), this.coefficient, 1);
-        	} else {
-        		if(extType == 0)
-        			expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
-        		if(extType == 1)
-        			sol = new ExplosionSolinium((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
-        	}
+			if(this.waste) {
+				exp = new ExplosionNukeAdvanced((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, this.destructionRange, this.coefficient, 0);
+				wst = new ExplosionNukeAdvanced((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, (int) (this.destructionRange * 1.8), this.coefficient, 2);
+				vap = new ExplosionNukeAdvanced((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, (int) (this.destructionRange * 2.5), this.coefficient, 1);
+			} else {
+				if(extType == 0)
+					expl = new ExplosionFleija((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+				if(extType == 1)
+					sol = new ExplosionSolinium((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+			}
 
-        	this.did = true;
-        }
+			this.did = true;
+		}
 
-        speed += 1;	//increase speed to keep up with expansion
+		speed += 1; // increase speed to keep up with expansion
 
-        boolean flag = false;
-        boolean flag3 = false;
+		boolean flag = false;
+		boolean flag3 = false;
 
-		for(int i = 0; i < this.speed; i++) {
+		if(!worldObj.isRemote) for(int i = 0; i < this.speed; i++) {
 			if(waste) {
 				flag = exp.update();
 				wst.update();
@@ -177,26 +175,25 @@ public class EntityNukeExplosionMK3 extends EntityExplosionChunkloading {
 			}
 		}
 
-        if(!flag)
-        {
-        	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
+		if(!flag) {
+			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
 
-        	if(waste || extType != 1) {
-        		ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
-        	} else {
-        		ExplosionHurtUtil.doRadiation(worldObj, posX, posY, posZ, 15000, 250000, this.destructionRange);
-        	}
+			if(waste || extType != 1) {
+				ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
+			} else {
+				ExplosionHurtUtil.doRadiation(worldObj, posX, posY, posZ, 15000, 250000, this.destructionRange);
+			}
 
-        } else {
-			if (!did2 && waste) {
-				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.destructionRange * 1.8) * 10);
+		} else {
+			if(!did2 && waste) {
+				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int) (this.destructionRange * 1.8) * 10);
 				fallout.posX = this.posX;
 				fallout.posY = this.posY;
 				fallout.posZ = this.posZ;
-				fallout.setScale((int)(this.destructionRange * 1.8));
+				fallout.setScale((int) (this.destructionRange * 1.8));
 
 				this.worldObj.spawnEntityInWorld(fallout);
-				//this.worldObj.getWorldInfo().setRaining(true);
+				// this.worldObj.getWorldInfo().setRaining(true);
 
 				did2 = true;
 			}

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -17,12 +18,18 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase implements IConfigurableMachine {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase implements IConfigurableMachine, SimpleComponent, CompatHandler.OCComponent {
 
 	public static int inputTankSize = 750_000;
 	public static int outputTankSize = 3_000_000;
@@ -250,5 +257,82 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 		if((PREFIX_VALUE + "output").equals(name))		return "" + (int) this.powerBuffer;
 		if((PREFIX_VALUE + "flywheel").equals(name))	return "" + (int) (spin * 100);
 		return null;
+	}
+
+	// OpenComputers methods
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_turbine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(),
+			tanks[0].getMaxFill(),
+			tanks[1].getFill(),
+			tanks[1].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return CompatHandler.steamTypeToInt(tanks[0].getTankType());
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] { this.powerBuffer };
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFlywheel(Context context, Arguments args) {
+		return new Object[] { (int) (this.spin * 100) };
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(),
+			tanks[0].getMaxFill(),
+			tanks[1].getFill(),
+			tanks[1].getMaxFill(),
+			CompatHandler.steamTypeToInt(tanks[0].getTankType())[0],
+			this.powerBuffer,
+			(int) (this.spin * 100)
+		};
+	}
+
+	@Callback(direct = true)
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"getFluid",
+			"getType",
+			"getPower",
+			"getFlywheel",
+			"getInfo"
+		};
+	}
+
+	@Callback(direct = true)
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case "getFluid":    return getFluid(context, args);
+			case "getType":     return getType(context, args);
+			case "getPower":    return getPower(context, args);
+			case "getFlywheel": return getFlywheel(context, args);
+			case "getInfo":     return getInfo(context, args);
+			default: throw new NoSuchMethodException();
+		}
 	}
 }

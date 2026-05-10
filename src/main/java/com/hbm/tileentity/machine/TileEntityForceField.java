@@ -421,7 +421,7 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 						entity.posY -= entity.motionY;
 						entity.posZ -= entity.motionZ;
 
-			    		worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
+						if(!this.muffled) worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
 						outside.add(entity);
 
 						if(!worldObj.isRemote) {

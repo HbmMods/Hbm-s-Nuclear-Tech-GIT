@@ -98,6 +98,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.checkTilt(true);
 
 			for(int i = 0; i < 4; i++) {
 				if(klystronNodes[i] == null || klystronNodes[i].expired) klystronNodes[i] = createNode(KlystronNetworkProvider.THE_PROVIDER, ForgeDirection.getOrientation(i + 2));
@@ -177,7 +178,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 			this.plasmaEnergy = 0;
 			this.fuelConsumption = 0;
 			this.fusionModule.preUpdate(factor, collectors * 0.5D);
-			this.fusionModule.update(1D, 1D, this.isCool() && ignition, slots[1]);
+			this.fusionModule.update(1D, 1D, !this.tilted && this.isCool() && ignition, slots[1]);
 			this.didProcess = this.fusionModule.didProcess;
 			if(this.fusionModule.markDirty) this.markDirty();
 			if(didProcess && recipe != null) {
@@ -392,6 +393,15 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				new DirPos(xCoord - 2, yCoord - 1, zCoord - 6, Library.NEG_Y),
 				new DirPos(xCoord - 2, yCoord + 5, zCoord - 6, Library.POS_Y),
 		};
+	}
+	
+	@Override public int getFloorCount() { return 6 * 6; }
+	@Override public BlockPos getFloorPosFromIndex(int index) {
+		return new BlockPos(
+				xCoord - 5 + (index / 6) * 2,
+				yCoord - 1,
+				zCoord - 5 + (index % 6) * 2
+		);
 	}
 
 	@Override

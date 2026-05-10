@@ -46,7 +46,7 @@ public class ItemModNightVision extends ItemArmorMod {
 					armor.getTagCompound().setBoolean(NIGHT_VISION_ACTIVE_NBT_KEY, true); // Value does not matter, it's just a flag
 				}
 
-				if (entity.getRNG().nextInt(100) == 0) {
+				if (entity.getRNG().nextInt(200) == 0) {
 					armor.damageItem(1, entity);
 				}
 			} else if(armor.hasTagCompound() && armor.getTagCompound().hasKey(NIGHT_VISION_ACTIVE_NBT_KEY)) { // Disable night vision if it was the armor mod that applied it to avoid removing other night vision sources.

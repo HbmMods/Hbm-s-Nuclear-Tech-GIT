@@ -66,6 +66,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		acceptedFuels.add(Fluids.ETHANOL);
 		acceptedFuels.add(Fluids.FISHOIL);
 		acceptedFuels.add(Fluids.HEAVYOIL);
+		acceptedFuels.add(Fluids.COALCREOSOTE);
 	}
 
 	public FluidTank tank;

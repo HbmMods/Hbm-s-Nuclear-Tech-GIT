@@ -203,7 +203,7 @@ public class BlockKeyhole extends BlockStone {
 		int rand = world.rand.nextInt(20);
 		
 		if(rand == 0) {
-	 		world.setBlock(x, y + 1, z, ModBlocks.deco_loot);
+			world.setBlock(x, y + 1, z, ModBlocks.deco_loot);
 			TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y + 1, z);
 			
 			if(world.rand.nextInt(5) == 0) {

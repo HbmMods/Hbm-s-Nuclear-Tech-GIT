@@ -36,7 +36,6 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.*;
-import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.XFactory12ga;
@@ -157,7 +156,7 @@ public class ModEventHandler {
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 
 
-			if(GeneralConfig.enableGuideBook) {
+			/*if(GeneralConfig.enableGuideBook) {
 				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
 
 				if(!props.hasReceivedBook) {
@@ -165,7 +164,7 @@ public class ModEventHandler {
 					event.player.inventoryContainer.detectAndSendChanges();
 					props.hasReceivedBook = true;
 				}
-			}
+			}*/
 
 			if(GeneralConfig.enableServerRecipeSync && FMLCommonHandler.instance().getSide() == Side.SERVER && event.player instanceof EntityPlayerMP) {
 				File recDir = new File(MainRegistry.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
@@ -427,8 +426,10 @@ public class ModEventHandler {
 	}
 
 	private static ItemStack getSkelegun(float soot, Random rand) {
-		if (!MobConfig.enableMobWeapons) return null;
-		if (rand.nextDouble() > Math.log(soot) * 0.25) return null;
+		if(!MobConfig.enableMobWeapons) return null;
+		
+		soot -= MobConfig.mobWeaponSootReduction;
+		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
 
 		ArrayList<WeightedRandomObject> pool = new ArrayList<>();
 
@@ -437,9 +438,9 @@ public class ModEventHandler {
 			pool.add(new WeightedRandomObject(null, 20));
 		} else if(soot > 0.3 && soot < 1) {
 			pool.addAll(MobUtil.slotPoolGuns.get(0.3));
-		} else if (soot < 3) {
+		} else if(soot < 3) {
 			pool.addAll(MobUtil.slotPoolGuns.get(1D));
-		} else if (soot < 5) {
+		} else if(soot < 5) {
 			pool.addAll(MobUtil.slotPoolGuns.get(3D));
 		} else {
 			pool.addAll(MobUtil.slotPoolGuns.get(5D));

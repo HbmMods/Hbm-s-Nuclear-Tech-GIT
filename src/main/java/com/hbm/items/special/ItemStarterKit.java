@@ -293,38 +293,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_fall, 1));
 		}
 		
-		if(this == ModItems.grenade_kit)
-		{
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_generic, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_strong, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_frag, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_fire, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_shrapnel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_cluster, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_flare, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_electric, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_poison, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gas, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_cloud, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pink_cloud, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_smart, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mirv, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_breach, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_burst, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pulse, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_plasma, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_tau, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_schrabidium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lemon, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gascan, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mk2, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_aschrab, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuke, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuclear, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_zomg, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_black_hole, 16));
-		}
-		
 		if(this == ModItems.fleija_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_fleija), 1));
@@ -448,7 +416,6 @@ public class ItemStarterKit extends Item {
 				this == ModItems.prototype_kit ||
 				this == ModItems.fleija_kit ||
 				this == ModItems.solinium_kit ||
-				this == ModItems.grenade_kit ||
 				this == ModItems.missile_kit ||
 				this == ModItems.multi_kit) {
 			list.add("Please empty inventory before opening!");

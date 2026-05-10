@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRBMKGauge;
 import com.hbm.tileentity.IGUIProvider;
@@ -8,14 +9,20 @@ import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/*    __________
 	 *   /         /|
@@ -84,11 +91,11 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 		/** What channel to read values from */
 		public String rtty = "";
 		/** The minium value handled by the gauge */
-		public int min = 0;
+		public long min = 0;
 		/** The maximum value of the gauge, i.e. where the red area begins */
-		public int max = 100;
+		public long max = 100;
 		/** The current read value of the gauge, i.e. the needle position */
-		public int value;
+		public long value;
 		/** For smoothig */
 		public double renderValue;
 		public double lastRenderValue;
@@ -134,9 +141,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			buf.writeInt(color);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
-			buf.writeInt(min);
-			buf.writeInt(max);
-			buf.writeInt(value);
+			buf.writeLong(min);
+			buf.writeLong(max);
+			buf.writeLong(value);
 		}
 
 		public void deserialize(ByteBuf buf) {
@@ -145,9 +152,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			color = buf.readInt();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
-			min = buf.readInt();
-			max = buf.readInt();
-			value = buf.readInt();
+			min = buf.readLong();
+			max = buf.readLong();
+			value = buf.readLong();
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
@@ -156,9 +163,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			this.color = nbt.getInteger("color" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
-			this.min = nbt.getInteger("min" + index);
-			this.max = nbt.getInteger("max" + index);
-			this.value = nbt.getInteger("value" + index);
+			this.min = nbt.getLong("min" + index);
+			this.max = nbt.getLong("max" + index);
+			this.value = nbt.getLong("value" + index);
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
@@ -167,9 +174,9 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			nbt.setInteger("color" + index, color);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
-			nbt.setInteger("min" + index, min);
-			nbt.setInteger("max" + index, max);
-			nbt.setInteger("value" + index, value);
+			nbt.setLong("min" + index, min);
+			nbt.setLong("max" + index, max);
+			nbt.setLong("value" + index, value);
 		}
 	}
 
@@ -199,5 +206,109 @@ public class TileEntityRBMKGauge extends TileEntityLoadedBase implements IGUIPro
 			gauge.min = data.getInteger("min" + i);
 			gauge.max = data.getInteger("max" + i);
 		}
+	}
+
+	// OpenComputers methods
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "rbmk_gauge";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGaugeInfo(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {null, "Invalid index (1-4)"};
+		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("active", gauges[idx].active);
+		map.put("polling", gauges[idx].polling);
+		map.put("color", gauges[idx].color);
+		map.put("label", gauges[idx].label);
+		map.put("channel", gauges[idx].rtty);
+		map.put("min", gauges[idx].min);
+		map.put("max", gauges[idx].max);
+		map.put("value", gauges[idx].value);
+		return new Object[] {map};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeActive(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].active = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugePolling(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].polling = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeColor(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].color = MathHelper.clamp_int(args.checkInteger(1), 0, 0xffffff);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeLabel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].label = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeChannel(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].rtty = args.checkString(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeMin(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].min = (long) args.checkInteger(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeMax(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].max = (long) args.checkInteger(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setGaugeValue(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 4) return new Object[] {false, "Invalid index (1-4)"};
+		gauges[idx].value = (long) args.checkInteger(1);
+		markDirty();
+		return new Object[] {true};
 	}
 }

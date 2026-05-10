@@ -437,6 +437,22 @@ public class TileEntityCraneConsole extends TileEntityLoadedBase implements Simp
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRodInfo(Context context, Arguments args) {
+		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+			map.put("coreSkinTemp", ItemRBMKRod.getHullHeat(loadedItem));
+			map.put("coreTemp", ItemRBMKRod.getCoreHeat(loadedItem));
+			map.put("enrichment", ItemRBMKRod.getEnrichment(loadedItem));
+			map.put("xenon", ItemRBMKRod.getPoisonLevel(loadedItem));
+			map.put("rodName", loadedItem.getItem().getUnlocalizedName());
+		} else {
+			return new Object[] {false, "No rod loaded"};
+		}
+		return new Object[] {map};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
 			return new Object[] {ItemRBMKRod.getEnrichment(loadedItem)};

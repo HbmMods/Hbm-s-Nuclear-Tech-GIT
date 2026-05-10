@@ -25,6 +25,15 @@ public class ParticleSpark extends EntityFX {
 	public int getFXLayer() {
 		return 3;
 	}
+	
+	public ParticleSpark makeSmall(boolean small) {
+		if(!small) return this;
+		this.setSize(0.01F, 0.01F);
+		this.thresh = 3;
+		this.particleMaxAge = 2 + rand.nextInt(3);
+		this.motionY = -Math.abs(motionY);
+		return this;
+	}
 
 	public void onUpdate() {
 

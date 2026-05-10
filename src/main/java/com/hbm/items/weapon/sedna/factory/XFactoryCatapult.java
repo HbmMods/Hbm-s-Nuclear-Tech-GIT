@@ -48,6 +48,8 @@ public class XFactoryCatapult {
 	public static BulletConfig nuke_tots;
 	public static BulletConfig nuke_hive;
 	public static BulletConfig nuke_balefire;
+	
+	public static BulletConfig cluster_submunition;
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_STANDARD = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3 && mop.entityHit == bullet.getThrower()) return;
@@ -153,6 +155,17 @@ public class XFactoryCatapult {
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();
 	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_SUBMUNITION = (bullet, mop) -> {
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 7.5F, bullet.getThrower());
+		vnt.setBlockAllocator(new BlockAllocatorStandard());
+		vnt.setBlockProcessor(new BlockProcessorStandard());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+		bullet.setDead();
+	};
 
 	public static void init() {
 
@@ -162,6 +175,8 @@ public class XFactoryCatapult {
 		nuke_tots = new BulletConfig().setItem(EnumAmmo.NUKE_TOTS).setProjectiles(8).setLife(300).setVel(3F).setGrav(0.025F).setSpread(0.1F).setDamage(0.35F).setOnImpact(LAMBDA_NUKE_TINYTOT);
 		nuke_hive = new BulletConfig().setItem(EnumAmmo.NUKE_HIVE).setProjectiles(12).setLife(300).setVel(1F).setGrav(0.025F).setSpread(0.15F).setDamage(0.25F).setOnImpact(LAMBDA_NUKE_HIVE);
 		nuke_balefire = new BulletConfig().setItem(EnumAmmo.NUKE_BALEFIRE).setDamage(2.5F).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_BALEFIRE);
+
+		cluster_submunition = new BulletConfig().setLife(1_200).setGrav(0.025F).setOnImpact(LAMBDA_SUBMUNITION);
 
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)

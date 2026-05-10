@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -217,7 +216,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AStack[] {new OreDictStack(IRON.plate(), 2), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)},
 				new AnvilOutput(new ItemStack(ModItems.motor, 2))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new ComparableStack(ModItems.motor), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(DESH.ingot(), 2), new ComparableStack(ModItems.coil_gold_torus)},
+				new AStack[] {new ComparableStack(ModItems.motor), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(DESH.ingot(), 2), new OreDictStack(GOLD.wireDense())},
 				new AnvilOutput(new ItemStack(ModItems.motor_desh, 1))).setTier(3));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -532,7 +531,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AStack[] {new OreDictStack(ALLOY.plate(), 4), new ComparableStack(ModItems.plate_armor_titanium, 1), new OreDictStack(W.wireFine(), 8)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_hev))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(OreDictManager.getReflector(), 4), new OreDictStack(STAR.ingot(), 1), new OreDictStack(MAGTUNG.wireFine(), 8)},
+				new AStack[] {new OreDictStack(WEAPONSTEEL.plate(), 4), new OreDictStack(STAR.ingot(), 1), new OreDictStack(MAGTUNG.wireFine(), 8)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_lunar))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.ingot_meteorite_forged, 4), new OreDictStack(DESH.ingot(), 1), new ComparableStack(ModItems.billet_yharonite, 1)},
@@ -1025,6 +1024,19 @@ public class AnvilRecipes extends SerializableRecipe {
 						new AnvilOutput(new ItemStack(ModItems.glyphid_meat, 1), 0.5F),
 						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
 						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
+				}).setTier(1));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.fusion_heater), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_STEEL.id)),
+						new AnvilOutput(new ItemStack(ModItems.pipe, 2, Mats.MAT_COPPER.id)),
+						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 0.5F)
+				}).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.fusion_hatch), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_STEEL.id)),
+						new AnvilOutput(new ItemStack(ModItems.pipe, 4, Mats.MAT_COPPER.id)),
+						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 0.75F)
 				}).setTier(1));
 	}
 

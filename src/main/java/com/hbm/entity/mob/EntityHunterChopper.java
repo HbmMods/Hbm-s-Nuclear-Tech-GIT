@@ -59,7 +59,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 
-		if(!(source == ModDamageSource.shrapnel || source == ModDamageSource.nuclearBlast || source == ModDamageSource.blackhole || source.isExplosion() || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source) || ModDamageSource.getIsDischarge(source)))
+		if(!(source == ModDamageSource.shrapnel || source == ModDamageSource.nuclearBlast || source == ModDamageSource.blackhole || source.isExplosion() || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source)))
 			amount *= 0.1F;
 
 		if(this.isEntityInvulnerable() || source instanceof EntityDamageSource || this.getHealth() <= 0.1F) {

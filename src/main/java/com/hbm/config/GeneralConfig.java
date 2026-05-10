@@ -27,7 +27,6 @@ public class GeneralConfig {
 	public static boolean enableGuns = true;
 	public static boolean enableVirus = true;
 	public static boolean enableCrosshairs = true;
-	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
 	public static boolean enableSilentCompStackErrors = true;
 	public static boolean enableSkyboxes = true;
@@ -57,11 +56,13 @@ public class GeneralConfig {
 	public static boolean enable528NetherBurn = true;
 	public static boolean enable528PressurizedRecipes = true;
 	public static boolean enable528ExplosiveEnergistics = true;
+	public static boolean enable528MachineGravity = true;
 	public static int coltanRate = 2;
 	
 	public static boolean true528() {
 		return enable528 && enable528ReasimBoilers && !enable528ColtanSpawn && enable528BosniaSimulator &&
-				enable528NetherBurn && enable528PressurizedRecipes && enable528ExplosiveEnergistics && coltanRate <= 2;
+				enable528NetherBurn && enable528PressurizedRecipes && enable528ExplosiveEnergistics &&
+				enable528MachineGravity && coltanRate <= 2;
 	}
 
 	public static boolean enableLBSM = false;
@@ -110,7 +111,6 @@ public class GeneralConfig {
 		enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true, "Prevents new system guns to be fired").getBoolean(true);
 		enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false, "Allows virus blocks to spread").getBoolean(false);
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true, "Shows custom crosshairs when an NTM gun is being held").getBoolean(true);
-		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false, "Enable old reflector oredict name (\"plateDenseLead\") instead of new \"plateTungCar\"").getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true, "Check invalid render distances (over 16, without OptiFine) and fix it").getBoolean(true);
 		enableSilentCompStackErrors = config.get(CATEGORY_GENERAL, "1.28_enableSilentCompStackErrors", false, "Enabling this will disable log spam created by unregistered items in ComparableStack instances.").getBoolean(false);
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
@@ -145,6 +145,7 @@ public class GeneralConfig {
 		enable528NetherBurn = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528NetherBurn", "Whether players burn in the nether", true);
 		enable528PressurizedRecipes = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528PressurizedRecipes", "Sets some recipes to require pressurized input fluid", true);
 		enable528ExplosiveEnergistics = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528ExplosiveEnergistics", "Renders AE2 unusable.", true);
+		enable528MachineGravity = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enable528MachineGravity", "Requires most large machines to have a proper foundation, or else they tilt and break.", true);
 		coltanRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_oreColtanFrequency", "Determines how many coltan ore veins are to be expected in a chunk. These values do not affect the frequency in deposits, and only apply if random coltan spanwing is enabled.", 2);
 
 		final String CATEGORY_LBSM = CommonConfig.CATEGORY_LBSM;
@@ -177,6 +178,7 @@ public class GeneralConfig {
 			enable528NetherBurn = false;
 			enable528PressurizedRecipes = false;
 			enable528ExplosiveEnergistics = false;
+			enable528MachineGravity = false;
 		}
 	}
 }

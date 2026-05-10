@@ -1,19 +1,28 @@
 package com.hbm.tileentity;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBufPacketReceiver {
 
 	public boolean isLoaded = true;
 	public boolean muffled = false;
+	public boolean tilted = false;
+	public int tiltBlocksChecked = 0;
+	public int tiltBlocksValid = 0;
 
 	@Override
 	public boolean isLoaded() {
@@ -24,6 +33,11 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
+	}
+
+	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	public AudioWrapper createAudioLoop() { return null; }
@@ -39,12 +53,14 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.muffled = nbt.getBoolean("muffled");
+		this.tilted = nbt.getBoolean("tilted");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("muffled", muffled);
+		nbt.setBoolean("tilted", tilted);
 	}
 
 	public float getVolume(float baseVolume) {
@@ -56,11 +72,13 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBoolean(muffled);
+		buf.writeBoolean(tilted);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.muffled = buf.readBoolean();
+		this.tilted = buf.readBoolean();
 	}
 
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
@@ -84,5 +102,60 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 		PacketThreading.createAllAroundThreadedPacket(packet, new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
+	
+	public void checkTilt(boolean extraHeavy) {
+		if(!GeneralConfig.enable528MachineGravity) { this.tilted = false; return; }
+		if(this.getFloorCount() <= 0) { this.tilted = false; return; }
+		if(this.worldObj.getTotalWorldTime() % 20 != 0) return;
+		
+		if(this.tiltBlocksChecked >= this.getFloorCount()) {
+			
+			if(this.tiltBlocksValid >= this.tiltBlocksChecked * 0.95) {
+				this.tilted = false;
+			} else {
+				// if(!this.tiled) play sound
+				this.tilted = true;
+			}
+			
+			this.markChanged();
+			this.tiltBlocksChecked = 0;
+			this.tiltBlocksValid = 0;
+		}
+		
+		BlockPos pos = getFloorPosFromIndex(this.tiltBlocksChecked);
+		if(pos == null) return;
+		
+		Block ground = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
+		this.tiltBlocksChecked++;
+		
+		// for extra heavy machines, the ground needs to:
+		// * be a fully solid block (side UP is checked for custom behavior)
+		// * be opaque
+		// * NOT be sand, cloth or ground material
+		// * have an explosion resistance of stone or greater
+		if(extraHeavy) {
+			if(!ground.isBlockSolid(worldObj, pos.getX(), pos.getY(), pos.getZ(), 1)) return;
+			if(!ground.isNormalCube()) return;
+			if(ground.getMaterial() == Material.sand || ground.getMaterial() == Material.cloth || ground.getMaterial() == Material.ground) return;
+			if(ground.getExplosionResistance(null) < Blocks.stone.getExplosionResistance(null)) return;
+			this.tiltBlocksValid++;
+		// for standard machines, the ground needs to:
+		// * be solid at the top
+		// * NOT be sand
+		} else {
+			if(!ground.isSideSolid(worldObj, pos.getX(), pos.getY(), pos.getZ(), ForgeDirection.UP)) return;
+			if(ground.getMaterial() == Material.sand) return;
+			this.tiltBlocksValid++;
+		}
+	}
+	
+	public int getFloorCount() { return 0; }
+	public BlockPos getFloorPosFromIndex(int index) { return null; }
 
+	public BlockPos standardFloor3x3(int index) {
+		return new BlockPos(xCoord - 1 + (index / 2) * 2, yCoord - 1, zCoord - 2 + (index % 2) * 2);
+	}
+	public BlockPos standardFloor5x5(int index) {
+		return new BlockPos(xCoord - 2 + (index / 3) * 2, yCoord - 1, zCoord - 2 + (index % 3) * 2);
+	}
 }

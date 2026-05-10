@@ -16,6 +16,8 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -47,6 +49,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public float angle;
 	public float prevAngle;
+	private AudioWrapper audio;
 
 	public FluidTank tank;
 
@@ -113,6 +116,29 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				if(worldObj.rand.nextInt(20) == 0 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 6, zCoord + 0.5) < 50) {
 					worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextDouble(), yCoord + 6.5D, zCoord + worldObj.rand.nextDouble(), 0.0, 0.1, 0.0);
 				}
+				
+				if(MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 25) {
+					if(audio == null) {
+						audio = createAudioLoop();
+						audio.startSound();
+					} else if(!audio.isPlaying()) {
+						audio = rebootAudio(audio);
+					}
+					audio.keepAlive();
+					audio.updateVolume(this.getVolume(1F));
+					audio.updatePitch(0.75F);
+					
+				} else {
+					if(audio != null) {
+						audio.stopSound();
+						audio = null;
+					}
+				}
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
 			}
 		}
 
@@ -132,6 +158,19 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
+	}
+
+	@Override public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.CHEMPLANT_LOOP, xCoord, yCoord, zCoord, 1F, 15F, 0.75F, 15);
+	}
+
+	@Override public void onChunkUnload() {
+		if(audio != null) { audio.stopSound(); audio = null; }
+	}
+
+	@Override public void invalidate() {
+		super.invalidate();
+		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 
 	protected DirPos[] getConPos() {

@@ -23,7 +23,6 @@ public class DispenserBehaviorHandler {
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_universal, new BehaviorDefaultDispenseItem() {
 			@Override protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
 
-				IPosition iposition = BlockDispenser.func_149939_a(source);
 				EnumFacing enumfacing = BlockDispenser.func_149937_b(source.getBlockMetadata());
 				
 				EntityGrenadeUniversal grenade = new EntityGrenadeUniversal(source.getWorld(), stack);
@@ -41,19 +40,14 @@ public class DispenserBehaviorHandler {
 			}
 		});
 
-		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.nuclear_waste_pearl, new BehaviorProjectileDispense() {
-			protected IProjectile getProjectileEntity(World world, IPosition position) {
-				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
-			}
-		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.stick_dynamite, new BehaviorProjectileDispense() {
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
-				return new EntityGrenadeDynamite(world, position.getX(), position.getY(), position.getZ());
+				return new EntityGrenadeBouncyGeneric(world, position.getX(), position.getY(), position.getZ()).setType((ItemGenericGrenade) ModItems.stick_dynamite);
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.stick_dynamite_fishing, new BehaviorProjectileDispense() {
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
-				return new EntityGrenadeImpactGeneric(world, position.getX(), position.getY(), position.getZ()).setType((ItemGenericGrenade) ModItems.stick_dynamite_fishing);
+				return new EntityGrenadeBouncyGeneric(world, position.getX(), position.getY(), position.getZ()).setType((ItemGenericGrenade) ModItems.stick_dynamite_fishing);
 			}
 		});
 		

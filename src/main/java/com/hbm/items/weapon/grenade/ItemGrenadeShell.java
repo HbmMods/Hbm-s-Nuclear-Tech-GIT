@@ -33,7 +33,7 @@ public class ItemGrenadeShell extends ItemEnumMulti {
 		FRAG(4, 30, 0.5D, 1D),		// bonus fragmentation
 		STICK(4, 43, 0.25D, 1.5D),	// thrown farther
 		TECH(2, 30, 0.5D, 1D),		// casing with electronics for EMP/plasma
-		NUKE(1, 20, 0.25D, 1.5D);	// nuka grenade casing for high yield grenades
+		NUKE(1, 43, 0.25D, 1.5D);	// nuka grenade casing for high yield grenades
 		
 		private int stackLimit;
 		private int drawDuration;

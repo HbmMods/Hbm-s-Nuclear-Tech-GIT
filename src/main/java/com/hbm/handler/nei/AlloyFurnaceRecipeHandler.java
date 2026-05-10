@@ -48,12 +48,12 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler implements 
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] { input1, input2 }));
+			return getCycledIngredients(cycleticks / 20, Arrays.asList(new PositionedStack[] { input1, input2 }));
 		}
 
 		@Override
 		public PositionedStack getOtherStack() {
-			return fuels.get((cycleticks / 48) % fuels.size()).stack;
+			return fuels.get((cycleticks / 20) % fuels.size()).stack;
 		}
 
 		@Override

@@ -3,15 +3,14 @@ package com.hbm.entity.effect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityCloudFleija extends Entity {
-	
+
 	public int maxAge = 100;
 	public int age;
-    public float scale = 0;
+	public float scale = 0;
 
 	public EntityCloudFleija(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -19,7 +18,7 @@ public class EntityCloudFleija extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.age = 0;
-    	scale = 0;
+		scale = 0;
 	}
 
 	@Override
@@ -27,18 +26,16 @@ public class EntityCloudFleija extends Entity {
 		this.dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public int getBrightnessForRender(float p_70070_1_)
-    {
-        return 15728880;
-    }
+	public int getBrightnessForRender(float p_70070_1_) {
+		return 15728880;
+	}
 
-    @Override
-	public float getBrightness(float p_70013_1_)
-    {
-        return 1.0F;
-    }
+	@Override
+	public float getBrightness(float p_70013_1_) {
+		return 1.0F;
+	}
 
 	public EntityCloudFleija(World p_i1582_1_, int maxAge) {
 		super(p_i1582_1_);
@@ -47,45 +44,43 @@ public class EntityCloudFleija extends Entity {
 		this.setMaxAge(maxAge);
 	}
 
-    @Override
+	@Override
 	public void onUpdate() {
-        this.age++;
-        this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY + 200, this.posZ));
-        
-        if(this.age >= this.getMaxAge())
-        {
-    		this.age = 0;
-        	this.setDead();
-        }
-        
-        this.scale++;
-    }
+		this.age++;
+		this.worldObj.lastLightningBolt = 2;
 
-	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		age = p_70037_1_.getShort("age");
-		scale = p_70037_1_.getShort("scale");
+		if(!worldObj.isRemote && this.age >= this.getMaxAge()) {
+			this.age = 0;
+			this.setDead();
+		}
+
+		this.scale++;
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		p_70014_1_.setShort("age", (short)age);
-		p_70014_1_.setShort("scale", (short)scale);
-		
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		age = nbt.getShort("age");
+		scale = nbt.getShort("scale");
 	}
-	
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setShort("age", (short) age);
+		nbt.setShort("scale", (short) scale);
+
+	}
+
 	public void setMaxAge(int i) {
 		this.dataWatcher.updateObject(16, Integer.valueOf(i));
 	}
-	
+
 	public int getMaxAge() {
 		return this.dataWatcher.getWatchableObjectInt(16);
 	}
-	
-    @Override
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
-        return distance < 25000;
-    }
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 25000;
+	}
 }

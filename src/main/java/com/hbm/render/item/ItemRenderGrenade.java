@@ -129,13 +129,15 @@ public class ItemRenderGrenade implements IItemRenderer {
 		}
 		
 		if(shell == EnumGrenadeShell.NUKE) {
-			//GL11.glRotated(bodyTurn[2], 1, 0, 0);
+			GL11.glRotated(bodyTurn[2], 0, 0, 1);
 			renderNukeBody(stack);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_nuka_tex);
 			ResourceManager.grenades.renderPart("NukaSpoon");
 			if(renderRing[0] != 0) {
 				GL11.glTranslated(ringMove[0], ringMove[1], ringMove[2]);
-				//GL11.glRotated(ringTurn[2], 1, 0, 0);
+				GL11.glTranslated(-1, 5, 0);
+				GL11.glRotated(ringTurn[2], 0, 0, -1);
+				GL11.glTranslated(1, -5, 0);
 				ResourceManager.grenades.renderPart("NukaRing");
 			}
 		}

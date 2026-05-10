@@ -49,8 +49,8 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityBarrel(capacity);
 	}
-    
-    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){

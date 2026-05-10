@@ -24,6 +24,7 @@ import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -104,6 +105,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			this.checkTilt(false);
 
 			this.fluidUsed = 0;
 			this.output = 0;
@@ -227,10 +229,28 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					}
 
 					MainRegistry.proxy.effectNT(data);
+					
+					/*NBTTagCompound smokeData = new NBTTagCompound();
+					smokeData.setString("type", "tower");
+					smokeData.setFloat("lift", 2F);
+					smokeData.setFloat("base", 0.5F);
+					smokeData.setFloat("max", 2F);
+					smokeData.setFloat("strafe", 0.025F);
+					smokeData.setInteger("life", 150 + worldObj.rand.nextInt(20));
+					smokeData.setInteger("color", 0x202020);
+
+					smokeData.setDouble("posX", xCoord + 0.5);
+					smokeData.setDouble("posZ", zCoord + 0.5);
+					smokeData.setDouble("posY", yCoord + 11);
+
+					MainRegistry.proxy.effectNT(smokeData);*/
 				}
 			}
 		}
 	}
+	
+	@Override public int getFloorCount() { return 2 * 2; }
+	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor3x3(index); }
 
 	public DirPos[] getConPos() {
 		return new DirPos[] {

@@ -1,34 +1,25 @@
 ## Added
-* New grenades
-  * Universal system where there's only one grenade item
-  * A grenade is composed of a shell, filling and fuze, which can be mixed and matched as needed
-  * Instead of having dedicated grenades with impact or long timers, the desired fuze can simply be put into any grenade configuration
-  * Comes with proper 3D models and animations
-  * Grenade max stacksize has been drastically reduced (and now depends on the shell used)
+* Redstone-over-Radio Terminal
+  * Allows commands to be sent manually, command line style
+  * Supports single commands and repeated ones (polling)
 
 ## Changed
-* Removed the euphemium and DNT compound plate recipes from the anvil, they are now plasma forge exclusive
-* More RoR integration
-  * PWRs can now output the control rod position
-  * Industrial turbines and leviathans can now output their current energy production
-  * Industrial turbines can output their current flywheel speed in %
-  * The ZIRNOX now outputs its heat and pressure
-  * The CCGT can output the turbine setting in percent, the turbine's RPM and the produced energy
-  * The fusion reactor plasma vessel can output its output plasma energy and fuel consumption in percent
-* Cast plate foundry molds now have a triple variant
-* Zombies now have a chance to drop copper, aluminium and titanium ingots (1:200 each)
-* The burner press now has nine additional storage slots for things like stamps and reserve fuel
+* RoR graphs can now have their min and max bounds set to a fixed number
+  * This should make it easier to accurately tell the difference/scale of values when they exist in an expected range (for example, RBMK temperatures)
+* RoR controllers now use polling by default, since state change is unable to actually perform a function unless the state changes, preventing repeated commands
+* HE/RF converters now have a tooltip showing their buffered energy
+* Updated the models of the cage lamp, fluorescent light and halogen lamp
+* 528 mode now has a new config for enabling gravity on machines
+  * Machines not on solid ground will tilt, causing them to break
+  * Still a work in progress, not all machines make use of it yet
+  * The ZIRNOX for example will continue to operate when tilted, however the pipes will disconnect, resulting in a fatal loss of cooling
+* Slightly adjusted the automatic buzzsaw's texture
+* Mobs can no longer spawn on most versions of concrete
+  * Notable exceptions are mossy and cracked concrete bricks
 
 ## Fixed
-* Fixed euphemium compound plate recipe not yielding four items as it should in the plasma forge
-* Fixed NTM rare item drops ignoring the mob loot gamerule
-* Fixed flamethrowers not properly igniting entities on direct hit, only via lingering fire
-* Fixed PWR RoR components not properly showing the possible values/functions when connected to ports
-* Fixed missing ports on the plasma forge
-* Fixed wrong texture being bound in the crucible for the molten metal gauge
-* Fixed RoR panels having no hardness at all
-* Undid the change to the crucible where using no recipe would fill up the recipe stack anyway because people would NOT STOP smelting stuff then setting the recipe after the fact which DOES NOT WORK.
-  * This change however introduced yet another inconsistency with external pouring behavior that I simply cannot be assed to fix, so we are just rolling all that back
-  * If you're still to dumb, old or irradiated to use the crucible correctly, please bother LITERALLY ANOYNE EXCEPT ME.
-  * This basically fixes the aforementioned inconsistency
-* Fixed meteorite sword progression having some issues ever since the fusion reactor rework
+* Fixed RoR graph showing the wrong name in the GUI
+* Fixed polling option in RoR controllers reading dead signals
+* Fixed state change in RoR controllers not allowing repeat commands
+* Fixed blast furnace NEI handler not cycling through all valid material shapes
+* Fixed RoR transmitter sending empty signals when unused mappings apply

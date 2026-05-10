@@ -10,12 +10,13 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
-import com.hbm.tileentity.network.TileEntityPneumoTube;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.uninos.NodeNet;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Triplet;
 
+import api.hbm.ntl.ISlotMonitorProvider;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -39,6 +40,8 @@ public class PneumaticNetwork extends NodeNet {
 	// while the system has parts that expects IInventires to be TileEntities to work properly (mostly range checks),
 	// it can actually handle non-TileEntities just fine.
 	public HashMap<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> receivers = new HashMap();
+	
+	public HashMap<ISlotMonitorProvider, Long> storages = new HashMap();
 
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));

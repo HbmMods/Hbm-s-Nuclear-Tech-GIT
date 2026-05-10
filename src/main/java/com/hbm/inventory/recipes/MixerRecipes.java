@@ -101,6 +101,7 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.PERFLUOROMETHYL, new MixerRecipe(1000, 20).setStack1(new FluidStack(Fluids.PETROLEUM, 1000)).setStack2(new FluidStack(Fluids.UNSATURATEDS, 500)).setSolid(new OreDictStack(F.dust())));
 
+		register(Fluids.BITUMEN, new MixerRecipe(50, 20).setSolid(new OreDictStack(ANY_TAR.any())));
 	}
 
 	public static void register(FluidType type, MixerRecipe... rec) {

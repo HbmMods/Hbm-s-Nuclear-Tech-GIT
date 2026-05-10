@@ -291,22 +291,14 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		tank.writeToNBT(nbt, "tank");
 	}
 
-	@Override public boolean canConnect(FluidType fluid, ForgeDirection dir) { return true; }
-
 	@Override
-	public FluidTank[] getSendingTanks() {
-		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
+	public boolean canConnect(FluidType fluid, ForgeDirection dir) {
+		return fluid == tank.getTankType();
 	}
 
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
-	}
+	@Override public FluidTank[] getSendingTanks() { return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getReceivingTanks() { return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
 
 	@Override
 	public ConnectionPriority getFluidPriority() {
@@ -409,8 +401,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				PREFIX_VALUE + "type",
 				PREFIX_VALUE + "fill",
 				PREFIX_VALUE + "fillpercent",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode (0-3)",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback (0-3)",
 		};
 	}
 

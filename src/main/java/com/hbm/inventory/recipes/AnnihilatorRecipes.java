@@ -84,6 +84,7 @@ public class AnnihilatorRecipes extends SerializableRecipe {
 	@Override public String getFileName() { return "hbmAnnihilator.json"; }
 	@Override public Object getRecipeObject() { return recipes; }
 	@Override public void deleteRecipes() { recipes.clear(); }
+	@Override public boolean allowEmptyRecipeList() { return true; }
 
 	public static HashMap getRecipes() {
 

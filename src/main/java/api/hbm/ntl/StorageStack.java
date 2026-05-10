@@ -3,6 +3,7 @@ package api.hbm.ntl;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 public class StorageStack implements Comparable {
 
 	private int cachedItemId;
