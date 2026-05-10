@@ -16,6 +16,10 @@
 * Slightly adjusted the automatic buzzsaw's texture
 * Mobs can no longer spawn on most versions of concrete
   * Notable exceptions are mossy and cracked concrete bricks
+* Increased the yield of lye from wood ash
+* All fluid tanks larger than barrels now have dynamic IO speed instead of providing their entire contents instantly
+  * Tank fill will slow down the fuller the tank becomes, tank drain also slow downs as it gets emptier
+  * This means that multiple tanks in IO mode in the same network will still ping pong, but instead of firing their entire contents over the network, they will even out
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
