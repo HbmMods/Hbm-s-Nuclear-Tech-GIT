@@ -76,7 +76,8 @@
     "block.assemblerCut": {"category": "block", "sounds": [{"name": "block/assemblerCut", "stream": false}]},
     "block.leverStart": {"category": "block", "sounds": [{"name": "block/leverStart", "stream": false}]},
     "block.leverStop": {"category": "block", "sounds": [{"name": "block/leverStop", "stream": false}]},
-    "block.spark": {"category": "block", "sounds": ["block/spark1", "block/spark2", "block/spark3", "block/spark4", "block/spark5", "block/spar6"]},
+    "block.spark": {"category": "block", "sounds": ["block/spark1", "block/spark2", "block/spark3", "block/spark4", "block/spark5", "block/spark6"]},
+    "block.metalImpact": {"category": "block", "sounds": ["block/metalImpact1", "block/metalImpact2"]},
 
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

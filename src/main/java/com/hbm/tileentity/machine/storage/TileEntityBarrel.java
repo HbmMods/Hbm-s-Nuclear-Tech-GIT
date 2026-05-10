@@ -81,6 +81,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public long getDemand(FluidType type, int pressure) {
+		if(this.tilted) return 0;
 		if(this.mode == 2 || this.mode == 3) return 0;
 		if(tank.getPressure() != pressure) return 0;
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
@@ -126,7 +127,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 					this.node = null;
 				}
 
-				for(DirPos pos : getConPos()) {
+				if(!this.tilted) for(DirPos pos : getConPos()) {
 					FluidNode dirNode = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), tank.getTankType().getNetworkProvider());
 
 					if(mode == 2) {

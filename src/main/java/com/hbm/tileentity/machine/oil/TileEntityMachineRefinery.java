@@ -133,7 +133,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			this.checkTilt(false);
+			this.checkTilt(TiltType.CONFIG_528, false);
 			
 			this.isOn = false;
 			
