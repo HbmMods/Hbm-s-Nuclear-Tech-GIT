@@ -146,6 +146,7 @@ public class NTMSounds {
 	public static final String BANG = "hbm:weapon.bang"; // frying pan
 	public static final String SLICE = "hbm:weapon.slice";
 	public static final String KAPENG = "hbm:weapon.kapeng"; // third degree
+	public static final String METAL_IMPACT = "hbm:block.metalImpact"; // ow
 	
 	/// VANILLA CRAP I CANNOT BE ASSED TO REMEMBER ///
 	public static final String VANILLA_ORB = "random.orb"; // xp orb ping
@@ -158,4 +159,6 @@ public class NTMSounds {
 	public static final String VANILLA_GIB = "mob.zombie.woodbreak"; // zombie breaks door down
 	public static final String VANILLA_TELEPORT = "mob.endermen.portal"; // enderman teleports
 	public static final String VANILLA_ANVIL = "random.anvil_land"; // falling anvil lands
+	public static final String VANILLA_PISTON_OUT = "tile.piston.out"; // falling anvil lands
+	public static final String VANILLA_PISTON_IN = "tile.piston.in"; // falling anvil lands
 }

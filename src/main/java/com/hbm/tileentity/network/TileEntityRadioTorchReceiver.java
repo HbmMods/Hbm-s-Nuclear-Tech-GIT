@@ -1,5 +1,9 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 
 import net.minecraft.util.MathHelper;
@@ -19,6 +23,16 @@ public class TileEntityRadioTorchReceiver extends TileEntityRadioTorchBase {
 					String msg = "" + chan.signal;
 					this.lastUpdate = worldObj.getTotalWorldTime();
 					int nextState = 0; //if no remap apply, default to 0
+					
+					if("selfdestruct".equals(msg)) {
+						worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+						ExplosionVNT vnt = new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, null);
+						vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 50).setupPiercing(5F, 0.5F));
+						vnt.setPlayerProcessor(new PlayerProcessorStandard());
+						vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+						vnt.explode();
+						return;
+					}
 					
 					if(this.customMap) {
 						for(int i = 15; i >= 0; i--) { // highest to lowest, if duplicates exist for some reason

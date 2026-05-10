@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +19,9 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	public String getName() {
 		return "container.orbus";
 	}
+
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return Math.max(1_000, (tank.getMaxFill() - tank.getFill()) / 100); }
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return Math.max(1_000, tank.getFill() / 100); }
 	
 	@Override
 	public void checkFluidInteraction() { } //NO!
