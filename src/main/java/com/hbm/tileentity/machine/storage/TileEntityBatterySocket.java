@@ -210,11 +210,13 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		if(stack.getItem() instanceof IBatteryItem) {
-			if(i == mode_input && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0) return true;
-			if(i == mode_output && ((IBatteryItem)stack.getItem()).getCharge(stack) == ((IBatteryItem)stack.getItem()).getMaxCharge(stack)) return true;
+			if(i == mode_output && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0) return true;
+			if(i == mode_input && ((IBatteryItem)stack.getItem()).getCharge(stack) == ((IBatteryItem)stack.getItem()).getMaxCharge(stack)) return true;
 		}
 		return false;
 	}
+
+	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return stack.getItem() instanceof IBatteryItem; }
 
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {0}; }
 

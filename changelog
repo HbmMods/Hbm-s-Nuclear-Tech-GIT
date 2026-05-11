@@ -27,3 +27,4 @@
 * Fixed state change in RoR controllers not allowing repeat commands
 * Fixed blast furnace NEI handler not cycling through all valid material shapes
 * Fixed RoR transmitter sending empty signals when unused mappings apply
+* Fixed hopper IO for battery sockets being entirely broken

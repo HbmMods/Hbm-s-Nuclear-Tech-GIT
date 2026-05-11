@@ -106,19 +106,18 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	}
 	
 	public static enum TiltType {
-		UNAVOIDABLE, CONFIG_NORMAL, CONFIG_528
+		UNAVOIDABLE, CONFIG;
 	}
 	
 	public void checkTilt(TiltType cfg, boolean extraHeavy) {
 		boolean doesTilt = false;
 		if(cfg == TiltType.UNAVOIDABLE) doesTilt = true;
-		if(cfg == TiltType.CONFIG_NORMAL && GeneralConfig.enableMachineGravity) doesTilt = true;
-		if(cfg == TiltType.CONFIG_NORMAL && GeneralConfig.enable528MachineGravity) doesTilt = true;
-		if(cfg == TiltType.CONFIG_528 && GeneralConfig.enable528MachineGravity) doesTilt = true;
+		if(cfg == TiltType.CONFIG && GeneralConfig.enableMachineGravity) doesTilt = true;
+		if(cfg == TiltType.CONFIG && GeneralConfig.enable528MachineGravity) doesTilt = true;
 		
 		if(!doesTilt) { this.tilted = false; return; }
 		if(this.getFloorCount() <= 0) { this.tilted = false; return; }
-		if(this.worldObj.getTotalWorldTime() % 20 != 0) return;
+		if(this.worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord) % 20 != 0) return;
 		
 		if(this.tiltBlocksChecked >= this.getFloorCount()) {
 			

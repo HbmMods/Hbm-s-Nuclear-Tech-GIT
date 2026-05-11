@@ -17,6 +17,12 @@ public class ContainerPneumoStorageAccess extends Container {
 	public ContainerPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		this.access = access;
 		
+		for(int i = 0; i < 6; i++) {
+			for(int j = 0; j < 8; j++) {
+				this.addSlotToContainer(new SlotNonRetarded(inventory, j + i * 8, 8 + j * 18, 17 + i * 18));
+			}
+		}
+		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new SlotNonRetarded(invPlayer, j + i * 9 + 9, 8 + j * 18, 169 + i * 18));

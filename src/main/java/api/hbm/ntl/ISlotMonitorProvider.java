@@ -8,8 +8,11 @@ public interface ISlotMonitorProvider {
 	/** Returns an array of available slot monitors, which should ideally mirror the available slots of that container */
 	public SlotMonitor[] getMonitors();
 	
-	/** Returns the slot contents of that index, so that the monitors cna detect changes */
+	/** Returns the slot contents of that index, so that the monitors can detect changes */
 	public ItemStack getSlotAt(int index);
+	
+	/** Returns the amount of that slot at that index. Some storages may use int64 datatypes so we have to account for those too somehow, since ItemStacks cannot handle that. */
+	public long getAmountAt(int index);
 	
 	/** Whether this storage unit is reachable by the access point on the provided location */
 	public boolean isAvailableToTerminal(int termX, int termY, int termZ);

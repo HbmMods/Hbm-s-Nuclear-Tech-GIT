@@ -98,7 +98,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			this.checkTilt(TiltType.CONFIG_NORMAL, true);
+			this.checkTilt(TiltType.CONFIG, true);
 
 			for(int i = 0; i < 4; i++) {
 				if(klystronNodes[i] == null || klystronNodes[i].expired) klystronNodes[i] = createNode(KlystronNetworkProvider.THE_PROVIDER, ForgeDirection.getOrientation(i + 2));

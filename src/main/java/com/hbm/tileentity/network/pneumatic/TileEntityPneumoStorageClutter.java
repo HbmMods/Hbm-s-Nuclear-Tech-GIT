@@ -106,6 +106,7 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 
 	@Override public SlotMonitor[] getMonitors() { return monitors; }
 	@Override public ItemStack getSlotAt(int index) { return this.getStackInSlot(index); }
+	@Override public long getAmountAt(int index) { ItemStack stack = getSlotAt(index); return stack != null ? stack.stackSize : 0; }
 
 	@Override
 	public boolean isAvailableToTerminal(int termX, int termY, int termZ) {

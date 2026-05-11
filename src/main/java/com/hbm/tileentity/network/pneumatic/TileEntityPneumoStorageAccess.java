@@ -11,17 +11,21 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.ntl.IPneumaticConnector;
+import api.hbm.ntl.StackCache;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-// throwing the towel - for now. there's a test i could run, but it's a lot of work and will likely just confirm my suspicions about performance
-// this demands another sidequest: fucking multi threading
 public class TileEntityPneumoStorageAccess extends TileEntity implements IPneumaticConnector, IGUIProvider {
 	
 	protected PneumaticNode node;
+	public StackCache cache;
+	
+	public TileEntityPneumoStorageAccess() {
+		this.cache = new StackCache();
+	}
 
 	@Override
 	public void updateEntity() {

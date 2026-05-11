@@ -188,7 +188,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			this.checkTilt(TiltType.CONFIG_NORMAL, true);
+			this.checkTilt(TiltType.CONFIG, true);
 			
 			if (redstonePowered) {
 				isOn = true;
