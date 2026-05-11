@@ -1,0 +1,15 @@
+{
+    "name": "Heavy Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 12],
+    "trigger": [["hbm:item.fluid_icon", 1, 12]],
+    "title": {
+        "en_US": "Heavy Oil",
+        "ru_RU": "Тяжёлая нефть",
+        "zh_CN": "重油"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] crude oil. Heavy oil is a byproduct that is typically voided early on or used in the later production of [[tar|Oil Tar]], [[coke|Petroleum Coke]], [[engine lubricant|Engine Lubricant]] or to be further refined to create asphalt.<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+        "ru_RU": "Получается после [[переработки|Oil Refinery]] [[нагретой|Boiler]] сырой нефти. Тяжёлая нефть является побочным продуктом, который на начальном этапе обычно утилизируется, а позже используется для производства [[смолы|Oil Tar]], [[кокса|Petroleum Coke]], [[моторной смазки|Engine Lubricant]], либо подвергается дальнейшей переработке для получения асфальта.<br><br>См. также:<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]",
+        "zh_CN": "在[[炼油厂|Oil Refinery]][[加热|Boiler]]原油后获得。重油是一种副产品，在早期通常被废弃，在后期则用于生产[[焦油|Oil Tar]]、[[焦炭|Petroleum Coke]]、[[发动机润滑油|Engine Lubricant]]，也可进一步精炼以制造沥青。<br><br>另见：<br>[[基础石油处理|Basic Oil Processing]]<br>[[高级石油处理|Advanced Oil Processing]]<br>[[真空石油处理|Vacuum Oil Processing]]"
+    }
+}
