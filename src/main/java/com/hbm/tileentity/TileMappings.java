@@ -207,6 +207,7 @@ public class TileMappings {
 		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
+		put(TileEntityMachineBigAssTank.class, "tileentity_bigasstank");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		put(TileEntityGlpyhidSpawner.class, "tileentity_glyphid_spawner");
 		put(TileEntityCustomMachine.class, "tileentity_custom_machine");

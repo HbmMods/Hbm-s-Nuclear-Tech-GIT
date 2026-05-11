@@ -73,8 +73,11 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 	public TileEntityMachineFluidTank() {
 		super(6);
-		tank = new FluidTank(Fluids.NONE, 256000);
+		tank = new FluidTank(Fluids.NONE, 256_000);
 	}
+
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return Math.max(500, (tank.getMaxFill() - tank.getFill()) / 100); }
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return Math.max(500, tank.getFill() / 100); }
 
 	@Override
 	public String getName() {

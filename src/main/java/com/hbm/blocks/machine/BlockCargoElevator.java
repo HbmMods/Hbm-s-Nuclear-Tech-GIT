@@ -21,7 +21,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCargoElevator extends BlockDummyable {
 
@@ -144,8 +143,6 @@ public class BlockCargoElevator extends BlockDummyable {
 		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		float exp = 0.002F;
-
-		ForgeDirection rot = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP);
 
 		ICustomBlockHighlight.setup();
 		for(AxisAlignedBB aabb : getAABBs(elevator, x, y, z)) RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(-dX, -dY, -dZ), -1);
