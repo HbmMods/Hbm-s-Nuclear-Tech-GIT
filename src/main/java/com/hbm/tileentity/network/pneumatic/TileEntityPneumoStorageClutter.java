@@ -9,6 +9,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube.PneumaticNode;
 import com.hbm.uninos.UniNodespace;
+import com.hbm.uninos.networkproviders.PneumaticNetwork;
 import com.hbm.uninos.networkproviders.PneumaticNetworkProvider;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -16,6 +17,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.ntl.ISlotMonitorProvider;
 import api.hbm.ntl.SlotMonitor;
+import api.hbm.ntl.StackCache;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -65,7 +67,8 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 			if(node != null && !node.expired && node.hasValidNet()) {
 				this.node.net.storages.put(this, worldObj.getTotalWorldTime());
 			}
-
+			
+			this.updateMonitors();
 			this.networkPackNT(15);
 		}
 	}
@@ -109,7 +112,13 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 	@Override public long getAmountAt(int index) { ItemStack stack = getSlotAt(index); return stack != null ? stack.stackSize : 0; }
 
 	@Override
-	public boolean isAvailableToTerminal(int termX, int termY, int termZ) {
+	public PneumaticNetwork getRelevantNetwork() {
+		if(this.node == null || this.node.expired || !this.node.hasValidNet()) return null;
+		return this.node.net;
+	}
+
+	@Override
+	public boolean isAvailableToCache(StackCache cache) {
 		return true;
 	}
 }

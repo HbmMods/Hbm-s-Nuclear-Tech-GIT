@@ -22,13 +22,11 @@ public class TileEntityPneumoStorageAccess extends TileEntity implements IPneuma
 	
 	protected PneumaticNode node;
 	public StackCache cache;
-	
-	public TileEntityPneumoStorageAccess() {
-		this.cache = new StackCache();
-	}
 
 	@Override
 	public void updateEntity() {
+		
+		if(this.cache == null) this.cache = new StackCache(xCoord, yCoord, zCoord);
 		
 		if(!worldObj.isRemote) {
 			

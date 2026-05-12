@@ -1,5 +1,6 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -79,6 +81,23 @@ public class BlockCargoElevator extends BlockDummyable {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		int[] pos = ((BlockDummyable) ModBlocks.cargo_elevator).findCore(world, x, y, z);
+		if(pos != null) {
+			TileEntityCargoElevator elevator = (TileEntityCargoElevator) world.getTileEntity(pos[0], pos[1], pos[2]);
+			int toDrop = elevator.height + 1;
+			ArrayList<ItemStack> drops = new ArrayList();
+			while(toDrop > 0) {
+				int perStack = Math.min(toDrop, 64);
+				toDrop -= perStack;
+				drops.add(new ItemStack(this, perStack));
+			}
+			return drops;
+		}
+		return super.getDrops(world, x, y, z, metadata, fortune);
 	}
 
 	@Override
