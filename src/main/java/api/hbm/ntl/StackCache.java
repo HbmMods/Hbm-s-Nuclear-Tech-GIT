@@ -95,13 +95,16 @@ public class StackCache {
 		
 		public void addMonitor(SlotMonitor monitor) {
 			if(this.monitors.add(monitor)) {
+				monitor.viewedBy.add(this);
 				this.changeAmounts(monitor.stacksize);
 			}
 		}
 		
 		public void removeMonitor(SlotMonitor monitor) {
+			System.out.println("Trying to remove...");
 			if(this.monitors.remove(monitor)) {
 				this.changeAmounts(-monitor.stacksize);
+				System.out.println("Removed!");
 			}
 		}
 		

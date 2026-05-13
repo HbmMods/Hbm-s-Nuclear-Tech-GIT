@@ -13,15 +13,17 @@ import com.hbm.uninos.networkproviders.PneumaticNetworkProvider;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.ntl.IPneumaticConnector;
 import api.hbm.ntl.ISlotMonitorProvider;
 import api.hbm.ntl.SlotMonitor;
 import api.hbm.ntl.StackCache;
+import api.hbm.ntl.StackCache.CacheSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implements IFluidStandardReceiverMK2, ISlotMonitorProvider, IGUIProvider {
+public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implements IPneumaticConnector, IFluidStandardReceiverMK2, ISlotMonitorProvider, IGUIProvider {
 	
 	public FluidTank compair;
 	public SlotMonitor[] monitors;
@@ -81,7 +83,17 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 		super.invalidate();
 
 		if(!worldObj.isRemote) {
+			
+			for(SlotMonitor monitor : this.monitors) {
+				for(CacheSlot cache : monitor.viewedBy) cache.removeMonitor(monitor);
+			}
+			
 			if(this.node != null) {
+				
+				if(node.hasValidNet()) {
+					this.node.net.storages.remove(this);
+				}
+				
 				UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
 			}
 		}
@@ -90,7 +102,12 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		if(node != null && !node.expired && node.hasValidNet()) {
+		
+		for(SlotMonitor monitor : this.monitors) {
+			for(CacheSlot cache : monitor.viewedBy) cache.removeMonitor(monitor);
+		}
+		
+		if(node != null && node.hasValidNet()) {
 			this.node.net.storages.remove(this);
 		}
 	}

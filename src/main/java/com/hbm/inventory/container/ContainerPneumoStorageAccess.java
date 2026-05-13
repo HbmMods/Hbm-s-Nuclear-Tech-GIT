@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
+import com.hbm.util.ItemStackUtil;
 
 import api.hbm.ntl.StackCache;
 import api.hbm.ntl.StackCache.CacheSlot;
@@ -70,13 +71,17 @@ public class ContainerPneumoStorageAccess extends Container {
 			if(this.cache == null) return;
 			List<CacheSlot> cacheSlots = new ArrayList(cache.cacheSlots.size());
 			cacheSlots.addAll(cache.cacheSlots.values());
+			cacheSlots.removeIf(x -> { return x.stacksize <= 0; });
 			Collections.sort(cacheSlots, SORT_BY_STACK_SIZE);
 			int size = cacheSlots.size();
 			
 			for(int i = 0; i < slots.length; i++) {
 				if(i < size) {
 					CacheSlot cache = cacheSlots.get(i);
-					slots[i] = cache.displayStack;
+					if(cache.displayStack != null) {
+						slots[i] = cache.displayStack.copy();
+						ItemStackUtil.addTooltipToStack(slots[i], "x" + cache.stacksize, "in " + cache.monitors.size() + " stacks");
+					}
 				}
 			}
 		}
