@@ -40,6 +40,9 @@ public class ContainerPneumoStorageAccess extends Container {
 		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new SlotNonRetarded(invPlayer, i, 8 + i * 18, 227));
 		}
+		
+		inventory.updateListing();
+		this.detectAndSendChanges();
 	}
 
 	@Override
@@ -64,6 +67,7 @@ public class ContainerPneumoStorageAccess extends Container {
 		}
 		
 		public void updateListing() { // DEMO
+			if(this.cache == null) return;
 			List<CacheSlot> cacheSlots = new ArrayList(cache.cacheSlots.size());
 			cacheSlots.addAll(cache.cacheSlots.values());
 			Collections.sort(cacheSlots, SORT_BY_STACK_SIZE);

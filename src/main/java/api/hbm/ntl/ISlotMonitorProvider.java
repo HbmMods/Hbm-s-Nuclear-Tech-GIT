@@ -27,6 +27,15 @@ public interface ISlotMonitorProvider {
 	/** This allows slot monitors to find the network, and by extension all cached slots */
 	public PneumaticNetwork getRelevantNetwork();
 	
+	/** Runs whenever a new stack cache user (i.e. an access point) joins the network in order to grab all the stack monitors */
+	public default void onNewCacheHasJoined(StackCache stackCache, PneumaticNetwork network) {
+		for(SlotMonitor monitor : getMonitors()) {
+			if(!stackCache.hasExpired && isAvailableToCache(stackCache)) {
+				stackCache.addToCache(monitor);
+			}
+		}
+	}
+	
 	public default void updateMonitors() {
 		for(SlotMonitor monitor : getMonitors()) monitor.checkUpdate();
 	}

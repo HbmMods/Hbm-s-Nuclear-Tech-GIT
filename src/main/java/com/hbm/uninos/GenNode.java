@@ -1,5 +1,6 @@
 package com.hbm.uninos;
 
+import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -23,6 +24,16 @@ public class GenNode<N extends NodeNet> {
 	public GenNode<N> setConnections(DirPos... connections) {
 		this.connections = connections;
 		return this;
+	}
+	
+	public GenNode<N> setStandardConnections(int xCoord, int yCoord, int zCoord) {
+		return this.setConnections(
+			new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+			new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+			new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+			new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+			new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z));
 	}
 	
 	public GenNode<N> addConnection(DirPos connection) {
