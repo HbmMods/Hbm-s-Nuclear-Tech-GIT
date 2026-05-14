@@ -912,6 +912,41 @@ public class Orchestras {
 		}
 	};
 
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_MK108 = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == GunAnimation.CYCLE) {
+			if(timer == 0) {
+				PacketDispatcher.wrapper.sendToAllAround(new MuzzleFlashPacket(entity), new TargetPoint(entity.worldObj.provider.dimensionId, entity.posX, entity.posY, entity.posZ, 100));
+			}
+
+			if(timer == 2) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.5, aiming ? -0.125 : -0.3125, aiming ? -0.375 : -0.3125D, 0, 0.18, -0.12, 0.01, -10F + (float)entity.getRNG().nextGaussian() * 2.5F, (float)entity.getRNG().nextGaussian() * -20F + 15F, casing.getName(), true, 60, 0.5D, 10);
+			}
+		}
+		
+		if(type == GunAnimation.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_DRY_FIRE, 1F, 0.75F);
+		}
+		
+		if(type == GunAnimation.RELOAD) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_REVOLVER_CLOSE, 1F, 0.65F);
+			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_MAG_SMALL_REMOVE, 1F, 0.75F);
+			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_MAG_REMOVE, 1F, 0.75F);
+			if(timer == 60) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_IMPACT, 0.5F, 1F);
+			if(timer == 90) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_MAG_INSERT, 1F, 0.75F);
+			if(timer == 100) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_MAG_SMALL_INSERT, 1F, 0.75F);
+			if(timer == 125) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_REVOLVER_CLOSE, 1F, 0.65F);
+
+			if(timer == 60) ctx.config.getReceivers(stack)[0].getMagazine(stack).reloadAction(stack, ctx.inventory);
+		}
+	};
+
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_CHEMTHROWER = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		GunAnimation type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);

@@ -194,7 +194,7 @@ public class XFactoryRocket {
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_PANERSCHRECK)
 				).setDefaultAmmo(EnumAmmo.ROCKET_HE, 3).setUnlocalizedName("gun_panzerschreck");
 
-		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.A_SIDE, new GunConfig()
+		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
 				.rec(new Receiver(0)
 						.dmg(35F).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)

@@ -2122,6 +2122,7 @@ item.gun_minigun.name=Minigun
 item.gun_minigun_dual.name=Doppelete Miniguns
 item.gun_minigun_lacunae.name=Lacunae
 item.gun_missile_launcher.name=Raketenwerfer
+item.gun_mk108.name=Granaten-MG
 item.gun_n_i_4_n_i.name=N I 4 N I
 item.gun_pa_melee.name=Powerrüstung - Nahkampfcontroller
 item.gun_pa_ranged.name=Powerrüstung - Fernkampfcontroller

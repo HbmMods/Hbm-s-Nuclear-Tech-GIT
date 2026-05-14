@@ -78,6 +78,7 @@ public class NTMSounds {
 	public static final String GUN_TAU_LOOP = "hbm:weapon.fire.tauLoop";
 	public static final String GUN_TESLA_FIRE = "hbm:weapon.fire.tesla";
 	public static final String GUN_TESLA_BLAST = "hbm:entity.ufoBlast"; // electric crackle sound explosion
+	public static final String GUN_MK108_FIRE = "hbm:weapon.fire.mk108";
 	public static final String GUN_ROCKET_FIRE = "hbm:weapon.rpgShoot";
 	public static final String GUN_EXTINGUISHER_FIRE = "hbm:weapon.extinguisher";
 	public static final String GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS = "hbm:weapon.fire.loudestNoiseOnEarth"; // folly fires

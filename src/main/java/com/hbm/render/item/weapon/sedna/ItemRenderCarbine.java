@@ -19,7 +19,7 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 	@Override
 	public float getViewFOV(ItemStack stack, float fov) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
-		return  fov * (1 - aimingProgress * 0.33F);
+		return  fov * (1 - aimingProgress * (isScoped(stack) ? 0.66F : 0.33F));
 	}
 
 	@Override
@@ -27,13 +27,22 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 0, 0.875);
 		
 		float offset = 0.8F;
-		standardAimingTransform(stack,
-				-1.5F * offset, -1.5F * offset, 0.875F * offset,
-				0, -6.25 / 8D, 0.25);
+		
+		if(this.isScoped(stack)) {
+			standardAimingTransform(stack,
+					-1.5F * offset, -1.5F * offset, 0.875F * offset,
+					0, -8 / 8D, 0.25);
+		} else {
+			standardAimingTransform(stack,
+					-1.5F * offset, -1.5F * offset, 0.875F * offset,
+					0, -6.25 / 8D, 0.25);
+		}
 	}
 
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
+		boolean isScoped = isScoped(stack);
+		if(isScoped && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_tex);
@@ -76,6 +85,13 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glTranslated(rel[0], rel[1], rel[2]);
 		if(bullet[0] != 1) ResourceManager.carbine.renderPart("Bullet");
 		GL11.glPopMatrix();
+		
+		if(!isScoped(stack)) {
+			ResourceManager.carbine.renderPart("IronSight");
+		} else {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_scope_tex);
+			ResourceManager.carbine.renderPart("Scope");
+		}
 		
 		if(hasBayonet(stack)) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_bayonet_tex);
@@ -143,6 +159,12 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		ResourceManager.carbine.renderPart("Gun");
 		ResourceManager.carbine.renderPart("Slide");
 		ResourceManager.carbine.renderPart("Magazine");
+		if(!isScoped(stack)) {
+			ResourceManager.carbine.renderPart("IronSight");
+		} else {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_scope_tex);
+			ResourceManager.carbine.renderPart("Scope");
+		}
 		if(hasBayonet(stack)) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.carbine_bayonet_tex);
 			ResourceManager.carbine.renderPart("Bayonet");
@@ -170,6 +192,10 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 			this.renderMuzzleFlash(shot, 75, 7.5);
 			GL11.glPopMatrix();
 		}
+	}
+	
+	public boolean isScoped(ItemStack stack) {
+		return XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_SCOPE);
 	}
 	
 	public boolean hasBayonet(ItemStack stack) {

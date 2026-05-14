@@ -2,6 +2,9 @@
 * Redstone-over-Radio Terminal
   * Allows commands to be sent manually, command line style
   * Supports single commands and repeated ones (polling)
+* Grenade machinegun
+  * 30rnd automatic 40mm grenade weapon firing at 120 RPS
+  * Can be upgraded with an auxiliary electric engine to double the firerate
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
@@ -20,6 +23,8 @@
 * All fluid tanks larger than barrels now have dynamic IO speed instead of providing their entire contents instantly
   * Tank fill will slow down the fuller the tank becomes, tank drain also slow downs as it gets emptier
   * This means that multiple tanks in IO mode in the same network will still ping pong, but instead of firing their entire contents over the network, they will even out
+* The stinger is now classified as a special weapon
+* The carbine can now take a scope
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

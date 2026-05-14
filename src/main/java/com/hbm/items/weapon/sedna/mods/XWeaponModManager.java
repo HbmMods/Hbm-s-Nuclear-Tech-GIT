@@ -94,6 +94,7 @@ public class XWeaponModManager {
 				ModItems.gun_star_f, ModItems.gun_star_f_akimbo,
 				ModItems.gun_g3, ModItems.gun_g3_zebra,
 				ModItems.gun_stinger,
+				ModItems.gun_mk108,
 				ModItems.gun_chemthrower };
 		Item[] ferroGuns = new Item[] {
 				ModItems.gun_amat,
@@ -132,7 +133,7 @@ public class XWeaponModManager {
 
 		new WeaponModDefinition(EnumModSpecial.SPEEDLOADER).addMod(ModItems.gun_liberator, new WeaponModLiberatorSpeedloader(200));
 		new WeaponModDefinition(EnumModSpecial.SILENCER).addMod(new Item[] {ModItems.gun_am180, ModItems.gun_uzi, ModItems.gun_uzi_akimbo, ModItems.gun_star_f, ModItems.gun_star_f_akimbo, ModItems.gun_g3, ModItems.gun_amat}, new WeaponModSilencer(ID_SILENCER));
-		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_g3, ModItems.gun_mas36, ModItems.gun_charge_thrower}, new WeaponModScope(ID_SCOPE));
+		new WeaponModDefinition(EnumModSpecial.SCOPE).addMod(new Item[] {ModItems.gun_heavy_revolver, ModItems.gun_carbine, ModItems.gun_g3, ModItems.gun_mas36, ModItems.gun_charge_thrower}, new WeaponModScope(ID_SCOPE));
 		new WeaponModDefinition(EnumModSpecial.SAW)
 			.addMod(new Item[] {ModItems.gun_maresleg, ModItems.gun_double_barrel}, new WeaponModSawedOff(ID_SAWED_OFF))
 			.addMod(ModItems.gun_panzerschreck, new WeaponModPanzerschreckSawedOff(ID_NO_SHIELD))
@@ -141,7 +142,7 @@ public class XWeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.SLOWDOWN).addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModSlowdown(207));
 		new WeaponModDefinition(EnumModSpecial.SPEEDUP)
 			.addMod(new Item[] {ModItems.gun_minigun, ModItems.gun_minigun_dual}, new WeaponModMinigunSpeedup(ID_MINIGUN_SPEED))
-			.addMod(new Item[] {ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder}, new WeaponModShredderSpeedup(209));
+			.addMod(new Item[] {ModItems.gun_autoshotgun, ModItems.gun_autoshotgun_shredder, ModItems.gun_mk108}, new WeaponModShredderSpeedup(209));
 		new WeaponModDefinition(EnumModSpecial.CHOKE).addMod(new Item[] {ModItems.gun_pepperbox, ModItems.gun_maresleg, ModItems.gun_double_barrel, ModItems.gun_liberator, ModItems.gun_spas12, ModItems.gun_autoshotgun_sexy, ModItems.gun_autoshotgun_heretic}, new WeaponModChoke(210));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_GREEN).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_GREEN));
 		new WeaponModDefinition(EnumModSpecial.FURNITURE_BLACK).addMod(ModItems.gun_g3, new WeaponModPolymerFurniture(ID_FURNITURE_BLACK));

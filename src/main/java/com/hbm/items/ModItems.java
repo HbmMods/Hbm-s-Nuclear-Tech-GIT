@@ -1396,6 +1396,7 @@ public class ModItems {
 	public static Item gun_g3;
 	public static Item gun_g3_zebra;
 	public static Item gun_stinger;
+	public static Item gun_mk108;
 	public static Item gun_chemthrower;
 	public static Item gun_amat;
 	public static Item gun_amat_subtlety;
@@ -5778,7 +5779,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_star_f_akimbo, gun_star_f_akimbo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_g3, gun_g3.getUnlocalizedName());
 		GameRegistry.registerItem(gun_g3_zebra, gun_g3_zebra.getUnlocalizedName());
-		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
+		GameRegistry.registerItem(gun_mk108, gun_mk108.getUnlocalizedName());
 		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
 		GameRegistry.registerItem(gun_amat, gun_amat.getUnlocalizedName());
 		GameRegistry.registerItem(gun_amat_subtlety, gun_amat_subtlety.getUnlocalizedName());
@@ -5802,6 +5803,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_tau, gun_tau.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lasrifle, gun_lasrifle.getUnlocalizedName());
+		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hangman, gun_hangman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mas36, gun_mas36.getUnlocalizedName());

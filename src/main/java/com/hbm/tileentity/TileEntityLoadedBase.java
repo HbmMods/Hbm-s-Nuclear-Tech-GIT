@@ -117,7 +117,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		
 		if(!doesTilt) { this.tilted = false; return; }
 		if(this.getFloorCount() <= 0) { this.tilted = false; return; }
-		if(this.worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord) % 20 != 0) return;
+		if((this.worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord)) % 20 != 0) return;
 		
 		if(this.tiltBlocksChecked >= this.getFloorCount()) {
 			
