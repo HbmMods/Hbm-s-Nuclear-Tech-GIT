@@ -147,7 +147,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.FURNITURE_BLACK.ordinal()), new Object[] { "PDS", "  G", 'P', ANY_PLASTIC.ingot(), 'D', KEY_BLACK, 'S', ANY_PLASTIC.stock(), 'G', ANY_PLASTIC.grip() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.SKIN_SATURNITE.ordinal()), new Object[] { "BRM", " P ", 'B', BIGMT.lightBarrel(), 'R', BIGMT.lightReceiver(), 'M', BIGMT.mechanism(), 'P', BIGMT.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.STACK_MAG.ordinal()), new Object[] { "P P", "P P", "PMP", 'P', WEAPONSTEEL.plate(), 'M', BIGMT.mechanism() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.BAYONET.ordinal()), new Object[] { "  P", "BBB", 'P', WEAPONSTEEL.plate(), 'B', STEEL.bolt() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.BAYONET.ordinal()), new Object[] { "  P", "BBB", 'P', STEEL.plate(), 'B', STEEL.bolt() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.LAS_SHOTGUN.ordinal()), new Object[] { "PPP", "RCR", "PPP", 'P', ANY_HARDPLASTIC.ingot(), 'R', ModItems.crystal_redstone, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.LAS_CAPACITOR.ordinal()), new Object[] { "CCC", "PIP", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR_TANTALIUM), 'P', ANY_HARDPLASTIC.ingot(), 'I', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_BISMOID) });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.weapon_mod_special, 1, EnumModSpecial.LAS_AUTO.ordinal()), new Object[] { " C ", "RFR", " C ", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_BISMOID), 'R', ModItems.crystal_redstone, 'F', ANY_BISMOIDBRONZE.heavyReceiver() });
@@ -169,7 +169,7 @@ public class WeaponRecipes {
 		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.ammo_secret, EnumAmmoSecret.BMG50_EQUESTRIAN, 6), new Object[] { DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_FMJ), DictFrame.fromOne(ModItems.item_secret, EnumSecretType.SELENIUM_STEEL) });
 		
 		//Missiles
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_taint, 1), new Object[] { ModItems.missile_assembly, ModItems.bucket_mud, ModItems.powder_spark_mix, ModItems.powder_magic });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_taint, 1), new Object[] { ModItems.missile_assembly, Fluids.WATZ.getDict(1_000), ModItems.powder_spark_mix, ModItems.powder_magic });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_micro, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_bhole, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.black_hole, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.QUANTUM) });

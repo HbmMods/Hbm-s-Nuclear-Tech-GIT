@@ -269,7 +269,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.machine_turbine, 1), new Object[] { "SMS", "PTP", "SMS", 'S', STEEL.ingot(), 'T', ModItems.turbine_titanium, 'M', ModItems.coil_copper, 'P', ANY_PLASTIC.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_converter_he_rf, 1), new Object[] { "RRR", "WWW", "III", 'R', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR), 'W', REDSTONE.dust(), 'I', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_converter_rf_he, 1), new Object[] { "RRR", "WWW", "III", 'R', REDSTONE.dust(), 'W', MINGRADE.wireFine(), 'I', STEEL.ingot() });
-		addRecipeAuto(new ItemStack(ModBlocks.crate_template, 1), new Object[] { "IPI", "P P", "IPI", 'I', IRON.ingot(), 'P', Items.paper });
 		addRecipeAuto(new ItemStack(ModBlocks.crate_iron, 1), new Object[] { "PPP", "I I", "III", 'P', IRON.plate(), 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.crate_steel, 1), new Object[] { "PPP", "I I", "III", 'P', STEEL.plate(), 'I', STEEL.ingot() });
 

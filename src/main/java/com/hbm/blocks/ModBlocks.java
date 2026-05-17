@@ -624,7 +624,6 @@ public class ModBlocks {
 	public static Block crate_steel;
 	public static Block crate_desh;
 	public static Block crate_tungsten;
-	public static Block crate_template;
 	public static Block safe;
 	public static Block mass_storage;
 
@@ -2170,7 +2169,6 @@ public class ModBlocks {
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_desh = new BlockStorageCrate(Material.iron).setBlockName("crate_desh").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_tungsten = new BlockStorageCrate(Material.iron).setBlockName("crate_tungsten").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(300.0F).setCreativeTab(MainRegistry.machineTab);
-		crate_template = new BlockStorageCrate(Material.iron).setBlockName("crate_template").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(300.0F).setCreativeTab(MainRegistry.machineTab);
 		safe = new BlockStorageCrate(Material.iron).setBlockName("safe").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
 		mass_storage = new BlockMassStorage().setBlockName("mass_storage").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
@@ -2991,7 +2989,6 @@ public class ModBlocks {
 		register(crate_steel, ItemBlockStorageCrate.class);
 		register(crate_desh, ItemBlockStorageCrate.class);
 		register(crate_tungsten, ItemBlockStorageCrate.class);
-		register(crate_template, ItemBlockStorageCrate.class);
 		register(safe, ItemBlockStorageCrate.class);
 		register(mass_storage, ItemBlockStorageCrate.class);
 

@@ -25,6 +25,11 @@
   * This means that multiple tanks in IO mode in the same network will still ping pong, but instead of firing their entire contents over the network, they will even out
 * The stinger is now classified as a special weapon
 * The carbine can now take a scope
+* The battery socket now renders supports when a block is placed on top of it, allowing somewhat aesthetic stacking of sockets
+* The bayonet weapon attachment now uses regular steel plates instead of weapon steel, making them available as early as the blast furnace
+* Adjusted some 528 mode recipes
+* Removed the template crates entirely for being literally useless
+* Oil bubbles can no longer go down to Y:0, they now have a minimum center height of Y:15
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

@@ -1605,6 +1605,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.weapon_bat_nail");
 		ignoreMappings.add("hbm:item.weapon_golf_club");
 		ignoreMappings.add("hbm:item.weapon_pipe_rusty");
+		ignoreMappings.add("hbm:tile.crate_template");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

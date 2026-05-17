@@ -483,7 +483,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.setPools528(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"));
 		this.register(new GenericRecipe("ass.rbmkautoloader").setup(100, 100).outputItems(new ItemStack(ModBlocks.rbmk_autoloader, 1))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 4), new OreDictStack(PB.plateCast(), 4), new OreDictStack(B.ingot(), 4), new ComparableStack(ModItems.motor, 3))
-				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.FERRO_PLATING), new ComparableStack(ModItems.motor_desh, 3))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.FERRO_PLATING), new ComparableStack(ModItems.motor_desh, 3))
 				.setPools528(GenericRecipes.POOL_PREFIX_528 + "ferrouranium"));
 
 		// PWR

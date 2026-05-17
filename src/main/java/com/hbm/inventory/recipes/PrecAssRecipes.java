@@ -53,24 +53,24 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 							new ComparableStack(ModItems.plate_polymer, 8),
 							new OreDictStack(ANY_BISMOID.nugget(), 2),
 							new OreDictStack(GOLD.wireFine(), 4))
-					.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 1_000)).setPools(POOL_PREFIX_528 + "chip_bismoid"),
+					.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 500)).setPools(POOL_PREFIX_528 + "chip_bismoid"),
 					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_BISMOID), 75, GeneralConfig.enableExpensiveMode ? 50 : 75);
 			
 			registerPair(new GenericRecipe("precass.chip_quantum").setup(300, 20_000L)
 					.inputItems(new ComparableStack(ModItems.circuit, 8, EnumCircuitType.SILICON),
 							new OreDictStack(BSCCO.wireDense(), 2),
-							new OreDictStack(ANY_HARDPLASTIC.ingot(), 8),
+							new OreDictStack(ANY_HARDPLASTIC.ingot(), 4),
 							new ComparableStack(ModItems.pellet_charged, 4),
 							new OreDictStack(GOLD.wireFine(), 8))
-					.inputFluids(new FluidStack(Fluids.HELIUM4, 1_000)).setPools(POOL_PREFIX_528 + "chip_quantum"),
-					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_QUANTUM), 90, GeneralConfig.enableExpensiveMode ? 50 : 50);
+					.inputFluids(new FluidStack(Fluids.HELIUM4, 250)).setPools(POOL_PREFIX_528 + "chip_quantum"),
+					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_QUANTUM), 90, GeneralConfig.enableExpensiveMode ? 50 : 75);
 			
 			registerPair(new GenericRecipe("precass.atomic_clock").setup(200, 2_000L)
 					.inputItems(new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CHIP),
 							new OreDictStack(ANY_PLASTIC.ingot(), 4),
 							new OreDictStack(ZR.wireFine(), 8),
 							new OreDictStack(SR.dust(), 1)).setPools(POOL_PREFIX_528 + "strontium"),
-					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK), 50, GeneralConfig.enableExpensiveMode ? 50 : 50);
+					DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK), 50, GeneralConfig.enableExpensiveMode ? 50 : 75);
 			
 			registerPair(new GenericRecipe("precass.controller").setup(400, 15_000L)
 					.inputItems(new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),

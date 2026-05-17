@@ -44,6 +44,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityBatterySocket extends TileEntityBatteryBase implements IRORValueProvider, IRORInteractive, IInfoProviderEC {
+
+	public boolean frame = false;
 	
 	public static BulletConfig discharge;
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> BEAM_DISCHARGE_HIT = (beam, mop) -> {
@@ -111,6 +113,11 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 			}
 
 			this.log[19] = avg;
+		} else {
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				frame = !worldObj.getBlock(xCoord, yCoord + 2, zCoord).isAir(worldObj, xCoord, yCoord + 2, zCoord);
+			}
 		}
 	}
 	
