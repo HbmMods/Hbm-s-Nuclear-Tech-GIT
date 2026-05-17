@@ -2,6 +2,8 @@ package com.hbm.render.anim;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
 
+import com.hbm.main.MainRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,19 +36,27 @@ public class AnimationLoader {
 
 	public static final Gson gson = new Gson();
 
+	private static Boolean devEnv;
+
+	private static boolean isDevEnv() {
+		if(devEnv == null) {
+			devEnv = new File(Minecraft.getMinecraft().mcDataDir,
+				"../src/main/resources/assets/hbm/models/weapons/animations").exists();
+		}
+		return devEnv;
+	}
 
 	public static HashMap<String, BusAnimation> load(ResourceLocation file) {
-		HashMap<String, BusAnimation> animations = new HashMap<String, BusAnimation>();
+		HashMap<String, BusAnimation> animations = new HashMap<>();
 
-		InputStream in;
-		try {
-			in = Minecraft.getMinecraft().getResourceManager().getResource(file).getInputStream();
+		JsonObject json;
+		try (InputStream in = openStream(file);
+			 InputStreamReader reader = new InputStreamReader(in)) {
+			json = gson.fromJson(reader, JsonObject.class);
 		} catch (IOException ex) {
+			MainRegistry.logger.error("Failed to load animation: {}", file, ex);
 			return null;
 		}
-
-		InputStreamReader reader = new InputStreamReader(in);
-		JsonObject json = gson.fromJson(reader, JsonObject.class);
 
 		// Load our model offsets, we'll place these into all the sequences that share the name of the offset
 		// The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
@@ -190,4 +201,22 @@ public class AnimationLoader {
 		return keyframe;
 	}
 
+
+	/** Tries to read the file from disk first ,
+	 *  then falls back to Minecraft resource system (JAR-bundled resources). */
+	private static InputStream openStream(ResourceLocation file) throws IOException {
+		String fileName = file.getResourcePath();
+		fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
+
+		if(isDevEnv()) {
+			File devFile = new File(Minecraft.getMinecraft().mcDataDir,
+				"../src/main/resources/assets/hbm/models/weapons/animations/" + fileName);
+			if(devFile.exists()) {
+				MainRegistry.logger.info("Loading animation from file: {}", devFile.getAbsolutePath());
+				return new FileInputStream(devFile);
+			}
+		}
+
+		return Minecraft.getMinecraft().getResourceManager().getResource(file).getInputStream();
+	}
 }
