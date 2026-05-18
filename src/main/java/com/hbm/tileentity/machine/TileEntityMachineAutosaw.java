@@ -20,7 +20,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,7 +41,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiver, IFluidCopiable {
+public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiverMK2, IFluidCopiable {
 
 	private static final int MIN_DIST = 2;
 	private static final int MAX_DIST = 9;
@@ -105,8 +105,10 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				} else {
 					this.isOn = false;
 				}
-
-				this.subscribeToAllAround(tank.getTankType(), this);
+				
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+					if(dir != ForgeDirection.UP) trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				}
 			}
 
 			if(isOn && !isSuspended) {

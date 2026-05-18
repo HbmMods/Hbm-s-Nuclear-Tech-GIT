@@ -8,6 +8,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineAutosaw;
+import com.hbm.tileentity.machine.TileEntityMachineThresher;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.block.IToolable;
@@ -23,15 +24,15 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineAutosaw extends BlockContainer implements ILookOverlay, ITooltipProvider, IToolable {
+public class MachineThresher extends BlockContainer implements ILookOverlay, ITooltipProvider, IToolable {
 
-	public MachineAutosaw() {
+	public MachineThresher() {
 		super(Material.iron);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityMachineAutosaw();
+		return new TileEntityMachineThresher();
 	}
 
 	@Override public int getRenderType() { return -1; }
@@ -45,10 +46,10 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 				
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
 				
-				TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) world.getTileEntity(x, y, z);
+				TileEntityMachineThresher saw = (TileEntityMachineThresher) world.getTileEntity(x, y, z);
 				
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
-				if(saw.acceptedFuels.contains(type)) {
+				if(TileEntityMachineAutosaw.acceptedFuels.contains(type)) {
 					saw.tank.setTankType(type);
 					saw.markDirty();
 					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
@@ -68,8 +69,8 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityMachineAutosaw)) return false;
-		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
+		if(!(te instanceof TileEntityMachineThresher)) return false;
+		TileEntityMachineThresher saw = (TileEntityMachineThresher) te;
 
 		saw.isSuspended = !saw.isSuspended;
 		saw.markDirty();
@@ -81,9 +82,9 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
-		if(!(te instanceof TileEntityMachineAutosaw)) return;
+		if(!(te instanceof TileEntityMachineThresher)) return;
 		
-		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
+		TileEntityMachineThresher saw = (TileEntityMachineThresher) te;
 		
 		List<String> text = new ArrayList();
 		text.add(saw.tank.getTankType().getLocalizedName() + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");

@@ -175,6 +175,7 @@ public class ResourceManager {
 
 	//Big Man Johnson
 	public static final IModelCustom autosaw = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/autosaw.obj")).noSmooth().asVBO();
+	public static final IModelCustom thresher = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/thresher.obj")).asVBO();
 
 	//Mining Drill
 	public static final IModelCustom mining_drill = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mining_drill.obj")).asVBO();
@@ -628,6 +629,7 @@ public class ResourceManager {
 
 	//Big Man Johnson
 	public static final ResourceLocation autosaw_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/autosaw.png");
+	public static final ResourceLocation thresher_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/thresher.png");
 
 	//Mining Drill
 	public static final ResourceLocation mining_drill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mining_drill.png");
