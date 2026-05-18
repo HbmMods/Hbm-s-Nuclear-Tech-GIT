@@ -15,8 +15,11 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
@@ -27,7 +30,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -88,6 +90,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 	public float spin;
 	public float lastSpin;
+	private AudioWrapper audio;
 
 	public TileEntityMachineAutosaw() {
 		this.tank = new FluidTank(Fluids.WOODOIL, 100);
@@ -231,6 +234,24 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 				worldObj.spawnParticle("smoke", xCoord + 0.5 + vec.xCoord, yCoord + 2.0625, zCoord + 0.5 + vec.zCoord, 0, 0, 0);
 			}
+			
+			if(isOn && !isSuspended && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 15 * 15) {
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
+				
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 
 			if(this.spin >= 360F) {
 				this.spin -= 360F;
@@ -253,16 +274,33 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 		}
 	}
 
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.ENGINE_LOOP, xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F + worldObj.rand.nextFloat() * 0.1F, 10);
+	}
+
+	@Override
+	public void onChunkUnload() {
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
 	/** Anything additionally that the detector nor the blades should pick up on, like non-mature willows */
 	public static boolean shouldIgnore(World world, int x, int y, int z, Block b, int meta) {
 		if(b == ModBlocks.plant_tall) {
 			return meta == EnumTallFlower.CD2.ordinal() + 8 || meta == EnumTallFlower.CD3.ordinal() + 8;
 		}
-
-		if((b instanceof IGrowable)) {
-			return ((IGrowable) b).func_149851_a(world, x, y, z, world.isRemote);
-		}
-
 		return false;
 	}
 
@@ -291,8 +329,6 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 	protected void cutCrop(int x, int y, int z) {
 
-		Block soil = worldObj.getBlock(x, y - 1, z);
-
 		Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 
@@ -303,19 +339,8 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 
 		if (!worldObj.isRemote && !worldObj.restoringBlockSnapshots) {
 			ArrayList<ItemStack> drops = b.getDrops(worldObj, x, y, z, meta, 0);
-			boolean replanted = false;
 
 			for (ItemStack drop : drops) {
-				if (!replanted && drop.getItem() instanceof IPlantable) {
-					IPlantable seed = (IPlantable) drop.getItem();
-
-					if(soil.canSustainPlant(worldObj, x, y - 1, z, ForgeDirection.UP, seed)) {
-						replacementBlock = seed.getPlant(worldObj, x, y, z);
-						replacementMeta = seed.getPlantMetadata(worldObj, x, y, z);
-						replanted = true;
-						drop.stackSize -= 1;
-					}
-				}
 
 				float delta = 0.7F;
 				double dx = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
@@ -325,14 +350,6 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				EntityItem entityItem = new EntityItem(worldObj, x + dx, y + dy, z + dz, drop);
 				entityItem.delayBeforeCanPickup = 10;
 				worldObj.spawnEntityInWorld(entityItem);
-			}
-
-			// Apparently, until 1.14 full-grown wheat could sometimes drop no seeds at all
-			// This is a quick and dirty workaround for that.
-			if (b == Blocks.wheat && !replanted) {
-				replacementBlock = b;
-				replacementMeta = 0;
-				replanted = true;
 			}
 		}
 

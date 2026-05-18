@@ -22,19 +22,19 @@ public class RenderThresher extends TileEntitySpecialRenderer implements IItemRe
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		switch(tile.getBlockMetadata()) {
-		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
-		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 2: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
 		
 		TileEntityMachineThresher thresher = (TileEntityMachineThresher) tile;
 
 		double angle = thresher.prevAngle + (thresher.angle - thresher.prevAngle) * interp;
-		double spin = thresher.lastSpin + (thresher.spin - thresher.spin) * interp;
+		double spin = thresher.lastSpin + (thresher.spin - thresher.lastSpin) * interp;
 		double engine = thresher.isOn ? Math.sin(thresher.getWorldObj().getTotalWorldTime() * 2 % (Math.PI * 2) + interp) : 0;
 
-		renderCommon(82.5, spin, engine);
+		renderCommon(82.5 - angle, spin, engine);
 		
 		GL11.glPopMatrix();
 	}

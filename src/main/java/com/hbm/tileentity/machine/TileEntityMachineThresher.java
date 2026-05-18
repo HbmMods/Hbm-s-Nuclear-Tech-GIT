@@ -1,27 +1,40 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.TrackerUtil;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -31,6 +44,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 
 	public boolean isOn;
 	public boolean isSuspended;
+	public int delay;
 
 	private int turnProgress;
 	public float syncAngle;
@@ -42,6 +56,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 
 	public float spin;
 	public float lastSpin;
+	private AudioWrapper audio;
 
 	public TileEntityMachineThresher() {
 		this.tank = new FluidTank(Fluids.WOODOIL, 100);
@@ -51,6 +66,91 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			if(!isSuspended && worldObj.getTotalWorldTime() % 20 == 0) {
+				if(tank.getFill() > 0) {
+					tank.setFill(tank.getFill() - 1);
+					this.isOn = true;
+				} else {
+					this.isOn = false;
+				}
+
+				trySubscribe(tank.getTankType(), worldObj, xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot);
+				trySubscribe(tank.getTankType(), worldObj, xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite());
+			}
+
+			if(isOn && !isSuspended) {
+				
+				if(this.state == 0) {
+					this.delay--;
+					if(delay <= 0) this.state = 1;
+				}
+				
+				if(this.state == 1) {
+					this.angle += 82.5F / 60F;
+					
+					if(this.angle >= 82.5F) {
+						this.angle = 82.5F;
+						this.state = 2;
+					}
+				} else if(this.state == 2) {
+					this.angle -= 82.5F / 60F;
+					
+					if(this.angle <= 0F) {
+						this.angle = 0F;
+						this.state = 0;
+						this.delay = 200 + worldObj.rand.nextInt(100);
+					}
+				}
+				
+				if(this.angle != 0) {
+					Vec3 pivot = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX, yCoord + 0.5, zCoord + 0.5);
+					Vec3 upperArm = Vec3.createVectorHelper(-dir.offsetX * 4, 0, -dir.offsetZ * 4);
+					upperArm.rotateAroundX((float) Math.toRadians(82.5 - angle));
+					Vec3 lowerArm = Vec3.createVectorHelper(-dir.offsetX * 4, 0, -dir.offsetZ * 4);
+					lowerArm.rotateAroundX((float) -Math.toRadians(82.5 - angle));
+					Vec3 armTip = Vec3.createVectorHelper(-dir.offsetX * 3, 0, -dir.offsetZ * 3);
+	
+					double endX = pivot.xCoord + upperArm.xCoord + lowerArm.xCoord + armTip.xCoord;
+					double endZ = pivot.zCoord + upperArm.zCoord + lowerArm.zCoord + armTip.zCoord;
+					
+					for(int i = -3; i <= 3; i++) {
+						int hitX = (int) Math.floor(endX + rot.offsetX * i);
+						int hitZ = (int) Math.floor(endZ + rot.offsetZ * i);
+						
+						Block b = worldObj.getBlock(hitX, yCoord, hitZ);
+						int meta = worldObj.getBlockMetadata(hitX, yCoord, hitZ);
+						
+						if(b.isNormalCube()) {
+							this.state = 2;
+							break;
+						}
+						
+						if(!this.shouldIgnore(worldObj, hitX, yCoord, hitZ, b, meta)) {
+							this.cutCrop(hitX, yCoord, hitZ);
+						}
+					}
+					
+					List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(endX, yCoord + 0.5, endZ, endX, yCoord + 0.5, endZ).expand(Math.abs(dir.offsetX * 0.5) + Math.abs(rot.offsetX * 4.5), 0.5, Math.abs(dir.offsetZ * 0.5) + Math.abs(rot.offsetZ * 4.5)));
+					
+					for(EntityLivingBase e : affected) {
+						if(e.isEntityAlive() && e.attackEntityFrom(ModDamageSource.turbofan, 100)) {
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+							int count = Math.min((int)Math.ceil(e.getMaxHealth() / 4), 250);
+							NBTTagCompound data = new NBTTagCompound();
+							data.setString("type", "vanillaburst");
+							data.setInteger("count", count * 4);
+							data.setDouble("motion", 0.1D);
+							data.setString("mode", "blockdust");
+							data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+							PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
+						}
+					}
+				}
+			}
 
 			networkPackNT(100);
 			
@@ -59,12 +159,30 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 			this.lastSpin = this.spin;
 
 			if(isOn && !isSuspended) {
-				this.spin += 15F;
+				if(this.angle > 0) this.spin += 15F;
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-				Vec3 vec = Vec3.createVectorHelper(0.625, 0, 1.625);
-				vec.rotateAroundY(-(float) Math.toRadians(angle));
+				worldObj.spawnParticle("smoke", xCoord + 0.5 + dir.offsetX * 0.8125 + rot.offsetX * 0.375, yCoord + 1.5625, zCoord + 0.5 + dir.offsetZ * 0.8125 + rot.offsetZ * 0.375, 0, 0, 0);
+			}
+			
+			if(isOn && !isSuspended && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 15 * 15) {
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
 
-				worldObj.spawnParticle("smoke", xCoord + 0.5 + vec.xCoord, yCoord + 2.0625, zCoord + 0.5 + vec.zCoord, 0, 0, 0);
+				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
+				
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
 			}
 
 			if(this.spin >= 360F) {
@@ -81,6 +199,28 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 			} else {
 				this.angle = this.syncAngle;
 			}
+		}
+	}
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound(NTMSounds.ENGINE_LOOP, xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F + worldObj.rand.nextFloat() * 0.1F, 10);
+	}
+
+	@Override
+	public void onChunkUnload() {
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
@@ -119,15 +259,20 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 						drop.stackSize -= 1;
 					}
 				}
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				double spawnX = xCoord + 0.5 - dir.offsetX * 0.75;
+				double spawnZ = zCoord + 0.5 - dir.offsetZ * 0.75;
 
-				float delta = 0.7F;
-				double dx = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
-				double dy = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
-				double dz = (double)(worldObj.rand.nextFloat() * delta) + (double)(1.0F - delta) * 0.5D;
-
-				EntityItem entityItem = new EntityItem(worldObj, x + dx, y + dy, z + dz, drop);
+				EntityItem entityItem = new EntityItem(worldObj, spawnX, yCoord, spawnZ, drop);
 				entityItem.delayBeforeCanPickup = 10;
 				worldObj.spawnEntityInWorld(entityItem);
+				
+				entityItem.motionX = dir.offsetX * -0.2 + 0.2;
+				entityItem.motionZ = dir.offsetZ * -0.2;
+				EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, entityItem.getEntityId());
+				entry.func_151259_a(new S12PacketEntityVelocity(entityItem.getEntityId(), entityItem.motionX, entityItem.motionY, entityItem.motionZ));
+
 			}
 
 			// Apparently, until 1.14 full-grown wheat could sometimes drop no seeds at all
