@@ -184,6 +184,8 @@ armorMod.type.leggings=Поножи
 armorMod.type.servo=Сервоприводы
 armorMod.type.special=Особое
 
+ass.nitra=Из нитры в аммуницию
+
 autoswitch=Часть группы автоматического переключения "%s"$Рецепта изменяется в зависимости от первого ингредиента
 autoswitch.pile=Переработка стержней Чикагской поленницы 
 autoswitch.plate=Переработка топливных пластин
@@ -1424,7 +1426,7 @@ hbmfluid.watz=Токсичные отходы
 hbmfluid.woodoil=Древесное масло
 hbmfluid.xenon=Ксенон
 hbmfluid.xpjuice=Жидкий опыт
-hbmfluid.xylene=Бензол-толуол-ксилол (BTX)
+hbmfluid.xylene=БТК
 
 hbmpseudofluid.none=Пусто
 hbmpseudofluid.heuf6=Высокообогащённый UF6
@@ -2772,6 +2774,7 @@ item.gun_minigun.name=Персональный миниган
 item.gun_minigun_dual.name=Двойные миниганы
 item.gun_minigun_lacunae.name=Миниган "Lacunae"
 item.gun_missile_launcher.name=Ракетная пусковая установка
+item.gun_mk108.name=Автоматический гранатомёт
 item.gun_n_i_4_n_i.name=Энергетический револьвер "N I 4 N I"
 item.gun_pepperbox.name=Револьвер "Pepperbox"
 item.gun_pa_melee.name=Силовая броня - Контроллер ближнего боя
@@ -5609,6 +5612,9 @@ tile.machine_storage_drum.name=Бочка для захоронения ядер
 tile.machine_strand_caster.name=Машина непрерывного литья заготовок
 tile.machine_telelinker.name=Стол телелинка
 tile.machine_teleporter.name=Телепорт
+tile.machine_thresher.name=Автоматическая молотилка
+tile.machine_thresher.desc=Сбор урожая и повторная посадка культур.$Принимает:$-Древесное масло$-Этанол$-Рыбное масло$-Тяжёлую нефть$-Креозот из угольной смолы
+tile.machine_thresher.suspended=Suspended
 tile.machine_tower_large.name=Градирня
 tile.machine_tower_small.name=Вспомогательная градирня
 tile.machine_transformer.name=Трансформатор 10k-20Гц
