@@ -14,6 +14,9 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class ResourceManager {
 
@@ -779,7 +782,7 @@ public class ResourceManager {
 
 	//Elevator
 	public static final ResourceLocation cargo_elevator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/elevator.png");
-	
+
 	//Vault Door
 	public static final ResourceLocation vault_cog_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault_cog.png");
 	public static final ResourceLocation vault_frame_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault_frame.png");
@@ -851,7 +854,7 @@ public class ResourceManager {
 	//Pipes
 	public static final ResourceLocation pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor.png");
 	public static final ResourceLocation fluid_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/fluid_diode.png");
-	
+
 	//Barrels
 	public static ResourceLocation barrel_plastic_tex  = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_plastic.png");
 	public static ResourceLocation barrel_steel_tex    = new ResourceLocation(RefStrings.MODID, "textures/blocks/barrel_steel.png");
@@ -938,12 +941,12 @@ public class ResourceManager {
 	public static final IModelCustom drill = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/drill.obj")).asVBO();
 	public static final IModelCustom n_i_4_n_i = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/n_i_4_n_i.obj")).asVBO();
 
-	public static final HashMap<String, BusAnimation> spas_12_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/spas12.json"));
-	public static final HashMap<String, BusAnimation> congolake_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/congolake.json"));
-	public static final HashMap<String, BusAnimation> am180_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/am180.json"));
-	public static final HashMap<String, BusAnimation> flamethrower_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/flamethrower.json"));
-	public static final HashMap<String, BusAnimation> stg77_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/stg77.json"));
-	public static final HashMap<String, BusAnimation> lag_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/lag.json"));
+	public static HashMap<String, BusAnimation> spas_12_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/spas12.json"));
+	public static HashMap<String, BusAnimation> congolake_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/congolake.json"));
+	public static HashMap<String, BusAnimation> am180_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/am180.json"));
+	public static HashMap<String, BusAnimation> flamethrower_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/flamethrower.json"));
+	public static HashMap<String, BusAnimation> stg77_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/stg77.json"));
+	public static HashMap<String, BusAnimation> lag_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/lag.json"));
 
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -1685,5 +1688,49 @@ public class ResourceManager {
 	public static final IModelCustom deb_zirnox_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/zirnox/deb_element.obj"));
 	public static final IModelCustom deb_zirnox_exchanger = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/zirnox/deb_exchanger.obj"));
 	public static final IModelCustom deb_zirnox_shrapnel = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/zirnox/deb_shrapnel.obj"));
+
+
+		// === Animation reload support for /ntmreload animations ===
+		private static class AnimPath {
+			final ResourceLocation location;
+			final Consumer<HashMap<String, BusAnimation>> setter;
+
+			AnimPath(String path, Consumer<HashMap<String, BusAnimation>> setter) {
+				this.location = new ResourceLocation(RefStrings.MODID, path);
+				this.setter = setter;
+			}
+		}
+
+		private static final Map<String, AnimPath> ANIM_RELOAD_MAP = new HashMap<>();
+		static {
+			ANIM_RELOAD_MAP.put("spas12",       new AnimPath("models/weapons/animations/spas12.json",       m -> spas_12_anim = m));
+			ANIM_RELOAD_MAP.put("congolake",    new AnimPath("models/weapons/animations/congolake.json",    m -> congolake_anim = m));
+			ANIM_RELOAD_MAP.put("am180",        new AnimPath("models/weapons/animations/am180.json",        m -> am180_anim = m));
+			ANIM_RELOAD_MAP.put("flamethrower", new AnimPath("models/weapons/animations/flamethrower.json", m -> flamethrower_anim = m));
+			ANIM_RELOAD_MAP.put("stg77",        new AnimPath("models/weapons/animations/stg77.json",        m -> stg77_anim = m));
+			ANIM_RELOAD_MAP.put("lag",          new AnimPath("models/weapons/animations/lag.json",          m -> lag_anim = m));
+		}
+
+		public static boolean reloadAnimation(String name) {
+			AnimPath entry = ANIM_RELOAD_MAP.get(name);
+			if(entry == null) return false;
+			HashMap<String, BusAnimation> result = AnimationLoader.load(entry.location);
+			if(result == null) return false;
+			entry.setter.accept(result);
+			return true;
+		}
+
+		public static int reloadAllAnimations() {
+			int count = 0;
+			for(String name : ANIM_RELOAD_MAP.keySet()) {
+				if(reloadAnimation(name)) count++;
+			}
+			return count;
+		}
+
+		public static Set<String> getAnimationReloadNames() {
+			return ANIM_RELOAD_MAP.keySet();
+		}
+
 
 }
