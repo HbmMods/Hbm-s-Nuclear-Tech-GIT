@@ -1,0 +1,11 @@
+{
+	"name": "Automatic Thresher",
+	"icon": ["hbm:tile.machine_thresher", 1, 0],
+	"trigger": [["hbm:tile.machine_thresher"]],
+	"title": {
+		"en_US": "Automatic Thresher"
+	},
+	"content": {
+		"en_US": "Automatic machine that will harvest crops and plants in a 7x7 area. When supplied with fuel (like wood oil), it will extend in intervals between 10-15 seconds, even if no blocks can be harvested. Crops like wheat and carrots will be replanted automatically when harvested. Sugar cane and cacti can be harvested too, if the lowest block is hit by the thresher then it will be kept, and only the upper blocks are broken. Also works on double plants like hemp and mustard willow, where only the upper block is removed, regardless of where the thresher hits the plant. Mustard willows are only harvested when mature. Sunflowers and tall grass also yield items, but due to them not being growable crops, they aren't broken at all, only yielding sunflowers and wheat seeds respectively at a low rate. Unlike the [[automatic buzzsaw|Automatic Buzzsaw]], the thresher will collect the harvested items and eject them at the back of the machine.<br><br>Hostile mobs struck by the thresher's reel will yield small piles of nitra on death. The operating parts are still dangerous to players and passive mobs, though."
+	}
+}

@@ -32,6 +32,8 @@ import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
+import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
+import com.hbm.items.weapon.grenade.ItemGrenadeShell.EnumGrenadeShell;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 
@@ -992,6 +994,22 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.thruster_small, 1),
 						new ComparableStack(ModItems.photo_panel, 12),
 						new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LITHIUM)));
+
+		this.register(new GenericRecipe("ass.nitra").setupNamed(200, 500)
+				.inputItems(new ComparableStack(ModItems.nitra))
+				.setIconToFirstIngredient()
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(ModItems.casing, 1, EnumCasingType.SHOTSHELL.ordinal()), 20),
+						new ChanceOutput(new ItemStack(ModItems.casing, 1, EnumCasingType.BUCKSHOT.ordinal()), 10),
+						new ChanceOutput(new ItemStack(ModItems.casing, 2, EnumCasingType.SMALL.ordinal()), 20),
+						new ChanceOutput(new ItemStack(ModItems.casing, 1, EnumCasingType.LARGE.ordinal()), 10),
+						new ChanceOutput(new ItemStack(Items.gunpowder), 30),
+						new ChanceOutput(new ItemStack(ModItems.cordite), 20),
+						new ChanceOutput(new ItemStack(ModItems.ballistite), 20),
+						new ChanceOutput(new ItemStack(ModItems.grenade_shell, 1, EnumGrenadeShell.FRAG.ordinal()), 5),
+						new ChanceOutput(new ItemStack(ModItems.grenade_shell, 1, EnumGrenadeShell.STICK.ordinal()), 5),
+						new ChanceOutput(new ItemStack(ModItems.grenade_fuze, 1, EnumGrenadeFuze.S3.ordinal()), 10)
+				)));
 
 		this.register(new GenericRecipe("ass.emptypackage").setup(40, 100).outputItems(new ItemStack(ModItems.fluid_pack_empty, 1))
 				.inputItems(new OreDictStack(TI.plate(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 2)));

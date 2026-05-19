@@ -7,8 +7,11 @@
   * Can be upgraded with an auxiliary electric engine to double the firerate
 * Automatic thresher
   * A specialized machine for automatically harvesting crops in a 7x7 area
-  * Replaces the buzzsaw's temporary functiionality to do just that (the buzzsaw now loses that ability)
+  * Replaces the buzzsaw's temporary functionality to do just that (the buzzsaw now loses that ability)
   * Drops harvested items using a chute instead of leaving them on the farmland
+  * When cutting down hemp, willows, and other NTM double plants, only the top part will be cut off, no matter where the thresher touches it
+  * Can also harvest items from sunflowers and tall grass without breaking the blocks
+  * Can also handle tall plants like cacti and sugar cane
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
@@ -35,6 +38,8 @@
 * Removed the template crates entirely for being literally useless
 * Oil bubbles can no longer go down to Y:0, they now have a minimum center height of Y:15
 * The automatic buzzsaw and thresher now have sound loops when active
+* The shredder auto shotgun now uses the plasma damage type instead of laser
+* Added "nitra to ammunition" recipe in the assembly machine, turning large piles of nitra into random casings/propellants
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

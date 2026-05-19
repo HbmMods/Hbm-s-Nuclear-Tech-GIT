@@ -3,9 +3,12 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.generic.BlockTallPlant;
+import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
@@ -26,7 +29,9 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
@@ -107,15 +112,23 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 				}
 				
 				if(this.angle != 0) {
-					Vec3 pivot = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX, yCoord + 0.5, zCoord + 0.5);
+					Vec3 pivot = Vec3.createVectorHelper(xCoord + 0.5 - dir.offsetX, yCoord + 0.5, zCoord + 0.5 - dir.offsetZ);
 					Vec3 upperArm = Vec3.createVectorHelper(-dir.offsetX * 4, 0, -dir.offsetZ * 4);
-					upperArm.rotateAroundX((float) Math.toRadians(82.5 - angle));
 					Vec3 lowerArm = Vec3.createVectorHelper(-dir.offsetX * 4, 0, -dir.offsetZ * 4);
-					lowerArm.rotateAroundX((float) -Math.toRadians(82.5 - angle));
-					Vec3 armTip = Vec3.createVectorHelper(-dir.offsetX * 3, 0, -dir.offsetZ * 3);
+					if(dir.offsetZ != 0) {
+						upperArm.rotateAroundX((float) Math.toRadians(82.5 - angle));
+						lowerArm.rotateAroundX((float) -Math.toRadians(82.5 - angle));
+					}
+					if(dir.offsetX != 0) {
+						upperArm.rotateAroundZ((float) Math.toRadians(82.5 - angle));
+						lowerArm.rotateAroundZ((float) -Math.toRadians(82.5 - angle));
+					}
+					Vec3 armTip = Vec3.createVectorHelper(-dir.offsetX * 2, 0, -dir.offsetZ * 2);
 	
 					double endX = pivot.xCoord + upperArm.xCoord + lowerArm.xCoord + armTip.xCoord;
 					double endZ = pivot.zCoord + upperArm.zCoord + lowerArm.zCoord + armTip.zCoord;
+					
+					//ParticleUtil.spawnGasFlame(worldObj, endX, yCoord, endZ, 0, 0.2, 0);
 					
 					for(int i = -3; i <= 3; i++) {
 						int hitX = (int) Math.floor(endX + rot.offsetX * i);
@@ -128,16 +141,41 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 							this.state = 2;
 							break;
 						}
-						
-						if(!this.shouldIgnore(worldObj, hitX, yCoord, hitZ, b, meta)) {
-							this.cutCrop(hitX, yCoord, hitZ);
+							
+						if(b == Blocks.double_plant) {
+							// sunflower
+							if((meta & 7) == 0 && worldObj.rand.nextInt(250) == 0) {
+								worldObj.playAuxSFX(2001, hitX, yCoord, hitZ, Block.getIdFromBlock(b) + (meta << 12));
+								this.dropItem(new ItemStack(Blocks.double_plant, 1, 0));
+							}
+							// tall grass
+							if((meta & 7) == 2 && worldObj.rand.nextInt(100) == 0) {
+								worldObj.playAuxSFX(2001, hitX, yCoord, hitZ, Block.getIdFromBlock(b) + (meta << 12));
+								this.dropItem(new ItemStack(Items.wheat_seeds, 1, 0));
+							}
+							continue;
 						}
+
+						// NTM tall plants like hemp
+						if(b instanceof BlockTallPlant) {
+							this.cutTallPlant(b, meta, hitX, yCoord, hitZ);
+							continue;
+						}
+
+						if(b == Blocks.reeds || b == Blocks.cactus) {
+							this.cutCane(b, hitX, yCoord, hitZ);
+							continue;
+						}
+						// IGrowable also covers anything that accepts bone
+						// meal, so we have to handle actual crops last
+						if(b instanceof IGrowable && !this.shouldIgnore(worldObj, hitX, yCoord, hitZ, b, meta)) this.cutCrop(b, meta, hitX, yCoord, hitZ);
 					}
 					
 					List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(endX, yCoord + 0.5, endZ, endX, yCoord + 0.5, endZ).expand(Math.abs(dir.offsetX * 0.5) + Math.abs(rot.offsetX * 4.5), 0.5, Math.abs(dir.offsetZ * 0.5) + Math.abs(rot.offsetZ * 4.5)));
 					
 					for(EntityLivingBase e : affected) {
 						if(e.isEntityAlive() && e.attackEntityFrom(ModDamageSource.turbofan, 100)) {
+							if(e instanceof IMob && !e.isEntityAlive()) this.dropItem(new ItemStack(ModItems.nitra_small));
 							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 							int count = Math.min((int)Math.ceil(e.getMaxHealth() / 4), 250);
 							NBTTagCompound data = new NBTTagCompound();
@@ -225,19 +263,54 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 	}
 
 	public static boolean shouldIgnore(World world, int x, int y, int z, Block b, int meta) {
-
+		
 		if((b instanceof IGrowable)) {
 			return ((IGrowable) b).func_149851_a(world, x, y, z, world.isRemote);
 		}
 		return false;
 	}
+	
+	protected void cutTallPlant(Block b, int meta, int x, int y, int z) {
+		
+		// if we hit the lower block, shift focus one block up
+		if(meta <= 7) {
+			y++;
+			// if it's a lower block and the block above isn't the same, cancel
+			if(worldObj.getBlock(x, y, z) != b) return;
+			meta = worldObj.getBlockMetadata(x, y, z);
+		}
+		
+		// ignore immature willow
+		if(meta == EnumTallFlower.CD2.ordinal() + 8 || meta == EnumTallFlower.CD3.ordinal() + 8) return;
 
-	protected void cutCrop(int x, int y, int z) {
+		worldObj.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(b) + (meta << 12));
+		ArrayList<ItemStack> drops = b.getDrops(worldObj, x, y, z, meta, 0);
+		for(ItemStack drop : drops) dropItem(drop);
+		worldObj.setBlock(x, y, z, Blocks.air);
+	}
+	
+	/** Removes the to two blocks from a three block crop like cacti and sugar cane */
+	protected void cutCane(Block target, int x, int y, int z) {
+		
+		// people may be inclined to incorrectly place this thing one block above
+		// the intended operating level, so we compensate for that
+		int offset = worldObj.getBlock(x, y - 1, z) == target ? -1 : 0;
+		
+		// top to bottom
+		for(int i = 2 + offset; i > 0 + offset; i--) {
+			Block b = worldObj.getBlock(x, y + i, z);
+			int meta = worldObj.getBlockMetadata(x, y + i, z);
+			worldObj.playAuxSFX(2001, x, y + i, z, Block.getIdFromBlock(b) + (meta << 12));
+			ArrayList<ItemStack> drops = b.getDrops(worldObj, x, y + i, z, meta, 0);
+			for(ItemStack drop : drops) dropItem(drop);
+			worldObj.setBlock(x, y + i, z, Blocks.air);
+		}
+	}
+
+	/** Harvests and re-plants crops like wheat */
+	protected void cutCrop(Block b, int meta, int x, int y, int z) {
 
 		Block soil = worldObj.getBlock(x, y - 1, z);
-
-		Block b = worldObj.getBlock(x, y, z);
-		int meta = worldObj.getBlockMetadata(x, y, z);
 
 		worldObj.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(b) + (meta << 12));
 
@@ -260,19 +333,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 					}
 				}
 				
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				double spawnX = xCoord + 0.5 - dir.offsetX * 0.75;
-				double spawnZ = zCoord + 0.5 - dir.offsetZ * 0.75;
-
-				EntityItem entityItem = new EntityItem(worldObj, spawnX, yCoord, spawnZ, drop);
-				entityItem.delayBeforeCanPickup = 10;
-				worldObj.spawnEntityInWorld(entityItem);
-				
-				entityItem.motionX = dir.offsetX * -0.2 + 0.2;
-				entityItem.motionZ = dir.offsetZ * -0.2;
-				EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, entityItem.getEntityId());
-				entry.func_151259_a(new S12PacketEntityVelocity(entityItem.getEntityId(), entityItem.motionX, entityItem.motionY, entityItem.motionZ));
-
+				dropItem(drop);
 			}
 
 			// Apparently, until 1.14 full-grown wheat could sometimes drop no seeds at all
@@ -285,6 +346,22 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 		}
 
 		worldObj.setBlock(x, y, z, replacementBlock, replacementMeta, 3);
+	}
+	
+	protected void dropItem(ItemStack drop) {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+		double spawnX = xCoord + 0.5 - dir.offsetX * 0.75;
+		double spawnZ = zCoord + 0.5 - dir.offsetZ * 0.75;
+
+		EntityItem entityItem = new EntityItem(worldObj, spawnX, yCoord, spawnZ, drop);
+		entityItem.delayBeforeCanPickup = 10;
+		worldObj.spawnEntityInWorld(entityItem);
+		
+		entityItem.motionX = dir.offsetX * -0.2 + 0.2;
+		entityItem.motionZ = dir.offsetZ * -0.2;
+		EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, entityItem.getEntityId());
+		entry.func_151259_a(new S12PacketEntityVelocity(entityItem.getEntityId(), entityItem.motionX, entityItem.motionY, entityItem.motionZ));
 	}
 
 	@Override

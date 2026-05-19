@@ -184,6 +184,8 @@ armorMod.type.leggings=Leggings
 armorMod.type.servo=Servos
 armorMod.type.special=Special
 
+ass.nitra=Nitra to Ammunition
+
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
 autoswitch.pile=Reprocessing Chicago Pile Rods
 autoswitch.plate=Reprocessing Plate Fuel
