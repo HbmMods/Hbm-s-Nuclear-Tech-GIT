@@ -4762,6 +4762,7 @@ tile.pwr_port.desc=Erlaubt IO für Items und Flüssigkeiten$Platzierung: Hülle
 tile.pwr_reflector.name=PWR Neutronenreflektor
 tile.pwr_reflector.desc=Reflektier Neutronen auf Brennstäbe zurück$Platzierung: Hülle, für höhere Reaktivität$Gültiger Block für Hülle
 tile.radar_screen.name=Radarbildschirm
+tile.radio_autocal.name=AUTOCAL-Rechenautomat
 tile.radio_telex.name=Telex-Maschine
 tile.radio_torch_controller.name=Redstone-over-Radio Controller
 tile.radio_torch_controller.desc=Empfängt Steuersignale und gibt$sie an die verbundene Maschine weiter

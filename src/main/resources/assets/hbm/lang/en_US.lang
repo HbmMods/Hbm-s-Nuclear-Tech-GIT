@@ -6028,6 +6028,7 @@ tile.pwr_reflector.name=PWR Neutron Reflector
 tile.pwr_reflector.desc=Reflects neutrons back to fuel rods$Placement: Grid, for increased reactivity$Valid casing material
 tile.rad_lava_block.name=Volcanic Lava
 tile.radar_screen.name=Radar Screen
+tile.radio_autocal.name=AUTOCAL Automatic Calculator
 tile.radio_telex.name=Telex Machine
 tile.radio_torch_controller.name=Redstone-over-Radio Controller
 tile.radio_torch_controller.desc=Can receive command signals and relays$them to the connected machine

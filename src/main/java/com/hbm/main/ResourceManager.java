@@ -421,6 +421,7 @@ public class ResourceManager {
 
 	//TELEX
 	public static final IModelCustom telex = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/telex.obj"));
+	public static final IModelCustom autocal = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/autocal.obj"));
 
 	////Textures TEs
 
@@ -877,6 +878,7 @@ public class ResourceManager {
 
 	//TELEX
 	public static final ResourceLocation telex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/telex.png");
+	public static final ResourceLocation autocal_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/autocal.png");
 
 	////Obj Items
 

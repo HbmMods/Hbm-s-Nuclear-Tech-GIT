@@ -22,7 +22,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiScreenRadioTelex extends GuiScreen {
+public class GUIScreenRadioTelex extends GuiScreen {
 	
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_telex.png");
 	protected TileEntityRadioTelex telex;
@@ -37,7 +37,7 @@ public class GuiScreenRadioTelex extends GuiScreen {
 	protected String[] txBuffer;
 	protected int cursorPos = 0;
 	
-	public GuiScreenRadioTelex(TileEntityRadioTelex tile) {
+	public GUIScreenRadioTelex(TileEntityRadioTelex tile) {
 		this.telex = tile;
 		this.txBuffer = new String[tile.txBuffer.length];
 		
