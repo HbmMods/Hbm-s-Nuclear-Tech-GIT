@@ -480,6 +480,7 @@ public class TileMappings {
 		put(TileEntityRadioTorchReader.class, "tileentity_rtty_reader");
 		put(TileEntityRadioTorchController.class, "tileentity_rtty_controller");
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
+		put(TileEntityRadioAUTOCAL.class, "tileentity_rtty_autocal");
 
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
 		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
