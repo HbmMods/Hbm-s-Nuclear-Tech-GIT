@@ -12,6 +12,10 @@
   * When cutting down hemp, willows, and other NTM double plants, only the top part will be cut off, no matter where the thresher touches it
   * Can also harvest items from sunflowers and tall grass without breaking the blocks
   * Can also handle tall plants like cacti and sugar cane
+* New big-ass tank
+  * Successor to the BAT9k
+  * Larger footprint, way more storage space
+  * Needs to be placed on a proper foundation or else it'll sink into the ground
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
@@ -29,7 +33,7 @@
 * Increased the yield of lye from wood ash
 * All fluid tanks larger than barrels now have dynamic IO speed instead of providing their entire contents instantly
   * Tank fill will slow down the fuller the tank becomes, tank drain also slow downs as it gets emptier
-  * This means that multiple tanks in IO mode in the same network will still ping pong, but instead of firing their entire contents over the network, they will even out
+  * This means that multiple tanks in IO mode in the same network will still ping pong, but only a small portion of fluid will be "lost" (i.e. invisible due to subtick transfer operations)
 * The stinger is now classified as a special weapon
 * The carbine can now take a scope
 * The battery socket now renders supports when a block is placed on top of it, allowing somewhat aesthetic stacking of sockets
