@@ -16,6 +16,9 @@
   * Successor to the BAT9k
   * Larger footprint, way more storage space
   * Needs to be placed on a proper foundation or else it'll sink into the ground
+* AUTOCAL Automatic Calculator
+  * Highly advanced programmable RoR device
+  * Can send and receive signals and do calculations with the same system as NTM's calculator
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
