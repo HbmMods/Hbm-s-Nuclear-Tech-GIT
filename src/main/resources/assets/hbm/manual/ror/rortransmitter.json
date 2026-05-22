@@ -4,7 +4,7 @@
 	"trigger": [["hbm:tile.radio_torch_sender"]],
 	"title": {
 		"en_US": "Redstone-over-Radio Transmitter",
-		"ru_RU": "Редстоун-по-радио контроллер",
+		"ru_RU": "Редстоун-по-радио передатчик",
 		"zh_CN": "无线红石信号发射器"
 	},
 	"content": {
