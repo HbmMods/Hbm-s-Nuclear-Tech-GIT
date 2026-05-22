@@ -184,7 +184,7 @@ armorMod.type.leggings=Поножи
 armorMod.type.servo=Сервоприводы
 armorMod.type.special=Особое
 
-ass.nitra=Из нитры в аммуницию
+ass.nitra=Аммуниция из нитры
 
 autoswitch=Часть группы автоматического переключения "%s"$Рецепта изменяется в зависимости от первого ингредиента
 autoswitch.pile=Переработка стержней Чикагской поленницы
