@@ -33,7 +33,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+			this.networkPackNT(15);
 		}
 	}
 
@@ -63,6 +63,10 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("on")) this.isOn = !this.isOn;
+		if(data.hasKey("ignore")) this.ignoreError = !this.ignoreError;
+		if(data.hasKey("auto")) this.autoReboot = !this.autoReboot;
 		
+		this.markChanged();
 	}
 }
