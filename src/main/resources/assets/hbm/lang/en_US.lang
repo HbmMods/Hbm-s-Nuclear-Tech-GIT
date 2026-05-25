@@ -187,6 +187,7 @@ armorMod.type.special=Special
 ass.nitra=Nitra to Ammunition
 
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
+autoswitch.cyclotron=Cyclotron Powder Boxes
 autoswitch.pile=Reprocessing Chicago Pile Rods
 autoswitch.plate=Reprocessing Plate Fuel
 autoswitch.plates=Metal Plates

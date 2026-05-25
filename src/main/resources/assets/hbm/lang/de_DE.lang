@@ -132,6 +132,7 @@ armorMod.type.special=Spezial
 ass.nitra=Nitra zu Munition
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
+autoswitch.cyclotron=Zyklotron-Pulverkisten
 autoswitch.pile=Wiederaufbereitung Chicago-Pile-Brennstoff
 autoswitch.plate=Wiederaufbereitung Plattenbrennstoff
 autoswitch.plates=Metallplatten
