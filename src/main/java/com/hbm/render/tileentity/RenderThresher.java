@@ -65,6 +65,7 @@ public class RenderThresher extends TileEntitySpecialRenderer implements IItemRe
 		GL11.glTranslated(0, 0.5, -9);
 		GL11.glRotated(angle, 1, 0, 0);
 		GL11.glTranslated(0, -0.5, 9);
+		GL11.glTranslated(0.01, 0, 0);
 		ResourceManager.thresher.renderPart("Front");
 
 		GL11.glTranslated(0, 0.5, -11);
