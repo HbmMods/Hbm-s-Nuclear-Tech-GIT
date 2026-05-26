@@ -2,9 +2,9 @@ package com.hbm.module;
 
 import java.util.Locale;
 
+import com.hbm.config.ServerConfig;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
-import com.hbm.tileentity.network.TileEntityRadioAUTOCAL;
 import com.hbm.util.Calculator;
 
 public class ParseMSES1 implements IParse {
@@ -28,7 +28,7 @@ public class ParseMSES1 implements IParse {
 			if(line.length() <= 11) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
 				int speed = Integer.parseInt(line.substring(11));
-				if(speed < 1 || speed > TileEntityRadioAUTOCAL.MAX_CLOCK_SPEED) return EnumStatementReturn.PARAMETER_ERROR;
+				if(speed < 1 || speed > ServerConfig.AUTOCAL_MAX_CLOCK.get()) return EnumStatementReturn.PARAMETER_ERROR;
 				ctx.clockSpeed = speed;
 			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.SKIP;
@@ -37,7 +37,7 @@ public class ParseMSES1 implements IParse {
 		// sets the script index to the jump point
 		if(lower.startsWith("jmp ")) {
 			if(line.length() <= 4) return EnumStatementReturn.PARAMETER_ERROR;
-			String jmpKey = line.substring(4);
+			String jmpKey = substitute(ctx, line.substring(4));
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -49,7 +49,7 @@ public class ParseMSES1 implements IParse {
 		if(lower.startsWith("jmpif ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
 			if(!ctx.buffer.equals("true")) return EnumStatementReturn.OK;
-			String jmpKey = line.substring(6);
+			String jmpKey = substitute(ctx, line.substring(6));
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -61,7 +61,7 @@ public class ParseMSES1 implements IParse {
 		if(lower.startsWith("jmpnot ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
 			if(ctx.buffer.equals("true")) return EnumStatementReturn.OK;
-			String jmpKey = line.substring(7);
+			String jmpKey = substitute(ctx, line.substring(7));
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -225,14 +225,14 @@ public class ParseMSES1 implements IParse {
 		// sends an RoR signal using the buffer's contents as the message over the supplied channel
 		if(lower.startsWith("send ")) {
 			if(line.length() <= 5 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			RTTYSystem.broadcast(ctx.world, line.substring(5), ctx.buffer);
+			RTTYSystem.broadcast(ctx.world, substitute(ctx, line.substring(5)), ctx.buffer);
 			return EnumStatementReturn.OK;
 		}
 		
-		// listnes to an RoR signal using the buffer as the channel, then saves the signal to the buffer
-		if(lower.equals("listen")) {
-			// this picks up expired signals too, so polling has to be implemented by the user
-			RTTYChannel chan = RTTYSystem.listen(ctx.world, ctx.buffer);
+		// listens to an RoR signal using the supplied channel name and saves it to the buffer
+		if(lower.startsWith("listen ")) {
+			if(line.length() <= 7 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(7)));
 			if(chan != null) ctx.buffer = chan.signal + "";
 			return EnumStatementReturn.OK;
 		}

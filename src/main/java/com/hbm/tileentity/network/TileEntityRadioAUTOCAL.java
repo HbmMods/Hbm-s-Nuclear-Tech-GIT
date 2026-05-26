@@ -23,8 +23,6 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public boolean ignoreError = false;
 	public boolean autoReboot = false;
 	
-	public static final int MAX_CLOCK_SPEED = 5;
-	
 	public String[] script = new String[0];
 	public IParse msesv1 = new ParseMSES1();
 	public ParseContext ctx;
