@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -71,10 +70,7 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 				if(!uploadFolder.exists()) uploadFolder.mkdir();
 				if(!script.exists()) script.createNewFile();
 				script.setExecutable(false);
-				Class oclass = Class.forName("java.awt.Desktop");
-				Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
-				oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { script.toURI() });
-				//oclass.getMethod("edit", File.class).invoke(object, new Object[] { script });
+				Desktop.getDesktop().browse(script.toURI());
 			} catch(Throwable ex) { MainRegistry.logger.error("Couldn't open link", ex); }
 		}
 		

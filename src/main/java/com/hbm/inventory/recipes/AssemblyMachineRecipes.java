@@ -141,16 +141,17 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(STEEL.shell(), 4), new OreDictStack(PB.plateCast(), 4), new ComparableStack(ModItems.rod_quad_empty, 10), new OreDictStack(KEY_BROWN, 3)));
 
 		// powders
+		String autoCyclotron = "autoswitch.cyclotron";
 		this.register(new GenericRecipe("ass.partlith").setup(40, 100).outputItems(new ItemStack(ModItems.part_lithium, 8))
-				.inputItems(new OreDictStack(LI.dust(), 1)));
+				.inputItems(new OreDictStack(LI.dust(), 1)).setGroup(autoCyclotron, INSTANCE));
 		this.register(new GenericRecipe("ass.partberyl").setup(40, 100).outputItems(new ItemStack(ModItems.part_beryllium, 8))
-				.inputItems(new OreDictStack(BE.dust(), 1)));
+				.inputItems(new OreDictStack(BE.dust(), 1)).setGroup(autoCyclotron, INSTANCE));
 		this.register(new GenericRecipe("ass.partcoal").setup(40, 100).outputItems(new ItemStack(ModItems.part_carbon, 8))
-				.inputItems(new OreDictStack(COAL.dust(), 1)));
+				.inputItems(new OreDictStack(COAL.dust(), 1)).setGroup(autoCyclotron, INSTANCE));
 		this.register(new GenericRecipe("ass.partcop").setup(40, 100).outputItems(new ItemStack(ModItems.part_copper, 8))
-				.inputItems(new OreDictStack(CU.dust(), 1)));
+				.inputItems(new OreDictStack(CU.dust(), 1)).setGroup(autoCyclotron, INSTANCE));
 		this.register(new GenericRecipe("ass.partplut").setup(40, 100).outputItems(new ItemStack(ModItems.part_plutonium, 8))
-				.inputItems(new OreDictStack(PU.dust(), 1)));
+				.inputItems(new OreDictStack(PU.dust(), 1)).setGroup(autoCyclotron, INSTANCE));
 
 		// bunker blocks
 		this.register(new GenericRecipe("ass.cmbtile").setup(100, 100).outputItems(new ItemStack(ModBlocks.cmb_brick, 8))

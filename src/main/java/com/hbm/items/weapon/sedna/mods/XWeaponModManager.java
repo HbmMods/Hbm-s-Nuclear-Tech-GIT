@@ -93,7 +93,6 @@ public class XWeaponModManager {
 		Item[] wsteelGuns = new Item[] {
 				ModItems.gun_star_f, ModItems.gun_star_f_akimbo,
 				ModItems.gun_g3, ModItems.gun_g3_zebra,
-				ModItems.gun_stinger,
 				ModItems.gun_mk108,
 				ModItems.gun_chemthrower };
 		Item[] ferroGuns = new Item[] {

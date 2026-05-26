@@ -945,6 +945,16 @@ public class Orchestras {
 
 			if(timer == 60) ctx.config.getReceivers(stack)[0].getMagazine(stack).reloadAction(stack, ctx.inventory);
 		}
+		
+		if(type == GunAnimation.INSPECT) {
+			int yeetHorizontal = 750;
+			int untilImpact = yeetHorizontal * 9 / 15;
+			int delay = 250;
+
+			for(int i = 0; i < 3; i++) {
+				if(timer == (untilImpact + delay * i) / 50) entity.worldObj.playSoundAtEntity(entity, NTMSounds.GUN_IMPACT, 0.5F, 1.5F);
+			}
+		}
 	};
 
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_CHEMTHROWER = (stack, ctx) -> {

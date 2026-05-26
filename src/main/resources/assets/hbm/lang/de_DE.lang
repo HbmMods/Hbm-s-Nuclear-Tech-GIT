@@ -132,6 +132,7 @@ armorMod.type.special=Spezial
 ass.nitra=Nitra zu Munition
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
+autoswitch.cyclotron=Zyklotron-Pulverkisten
 autoswitch.pile=Wiederaufbereitung Chicago-Pile-Brennstoff
 autoswitch.plate=Wiederaufbereitung Plattenbrennstoff
 autoswitch.plates=Metallplatten
@@ -4409,7 +4410,7 @@ tile.machine_autocrafter.name=Automatische Werkbank
 tile.machine_autosaw.name=Automatische Kreissäge
 tile.machine_autosaw.desc=Schneidet Pflanzen nieder, pflanzt Bäume nach$Akzeptiert:$-Holzöl$-Ethanol$-Fischöl$-Schweröl$-Kohleteer-Kreosot
 tile.machine_autosaw.suspended=Angehalten
-tile.machine_bat9000.name=Big-Ass Tank 9000
+tile.machine_bat9000.name=Big-Ass Tank 9000 (LEGACY)
 tile.machine_battery.name=Energiespeicherblock (LEGACY)
 tile.machine_battery_potato.name=Kartoffelbatterieblock (LEGACY)
 tile.machine_battery_redd.name=FEnSU

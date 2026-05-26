@@ -187,6 +187,7 @@ armorMod.type.special=Special
 ass.nitra=Nitra to Ammunition
 
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
+autoswitch.cyclotron=Cyclotron Powder Boxes
 autoswitch.pile=Reprocessing Chicago Pile Rods
 autoswitch.plate=Reprocessing Plate Fuel
 autoswitch.plates=Metal Plates
@@ -5657,7 +5658,7 @@ tile.machine_autocrafter.name=Automatic Crafting Table
 tile.machine_autosaw.name=Automatic Buzz Saw
 tile.machine_autosaw.desc=Cuts down nearby plants, re-plants trees$Accepts:$-Wood oil$-Ethanol$-Fish oil$-Heavy oil$-Coal Tar Creosote
 tile.machine_autosaw.suspended=Suspended
-tile.machine_bat9000.name=Big-Ass Tank 9000
+tile.machine_bat9000.name=Big-Ass Tank 9000 (LEGACY)
 tile.machine_battery.name=Energy Storage Block (LEGACY)
 tile.machine_battery_potato.name=Potato Battery Block (LEGACY)
 tile.machine_battery_redd.name=FEnSU

@@ -40,7 +40,8 @@ public class ItemRenderMK108 extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.mk108_tex);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
-		
+
+		boolean doesYeet = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("GRENH1") != null;
 		boolean doesCycle = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("CYCLE") != null;
 		boolean reloading = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("BELT") != null;
 		boolean useShellCount = HbmAnimations.getRelevantAnim(0) != null && HbmAnimations.getRelevantAnim(0).animation.getBus("SHELLS") != null;
@@ -55,6 +56,36 @@ public class ItemRenderMK108 extends ItemRenderWeaponBase {
 		double[] shellCount = HbmAnimations.getRelevantTransformation("SHELLS");
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		if(doesYeet) {
+			double[][] horizontal = new double[][] {
+				HbmAnimations.getRelevantTransformation("GRENH1"),
+				HbmAnimations.getRelevantTransformation("GRENH2"),
+				HbmAnimations.getRelevantTransformation("GRENH3"),
+			};
+			double[][] vertical = new double[][] {
+				HbmAnimations.getRelevantTransformation("GRENV1"),
+				HbmAnimations.getRelevantTransformation("GRENV2"),
+				HbmAnimations.getRelevantTransformation("GRENV3"),
+			};
+			double[][] spin = new double[][] {
+				HbmAnimations.getRelevantTransformation("GRENS1"),
+				HbmAnimations.getRelevantTransformation("GRENS2"),
+				HbmAnimations.getRelevantTransformation("GRENS3"),
+			};
+			
+			for(int i = 0; i < 3; i++) {
+				if(horizontal[i][0] <= -4) continue;
+				GL11.glPushMatrix();
+				GL11.glTranslated(horizontal[i][0], vertical[i][1], 0);
+				GL11.glTranslated(0, 0, -2.3125);
+				GL11.glRotated(-90, 1, 0, 0);
+				GL11.glRotated(-spin[i][0], 0, 1, 0);
+				GL11.glTranslated(0, 0, 2.3125);
+				ResourceManager.mk108.renderPart("Grenade");
+				GL11.glPopMatrix();
+			}
+		}
 		
 		GL11.glTranslated(0, -1, -8);
 		GL11.glRotated(equip[0], 1, 0, 0);
