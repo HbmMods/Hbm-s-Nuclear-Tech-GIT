@@ -1,12 +1,69 @@
 ## Added
 * Redstone-over-Radio Terminal
   * Allows commands to be sent manually, command line style
+  * Supports single commands and repeated ones (polling)
+* Grenade machinegun
+  * 30rnd automatic 40mm grenade weapon firing at 120 RPS
+  * Can be upgraded with an auxiliary electric engine to double the firerate
+* Automatic thresher
+  * A specialized machine for automatically harvesting crops in a 7x7 area
+  * Replaces the buzzsaw's temporary functionality to do just that (the buzzsaw now loses that ability)
+  * Drops harvested items using a chute instead of leaving them on the farmland
+  * When cutting down hemp, willows, and other NTM double plants, only the top part will be cut off, no matter where the thresher touches it
+  * Can also harvest items from sunflowers and tall grass without breaking the blocks
+  * Can also handle tall plants like cacti and sugar cane
+* New big-ass tank
+  * Successor to the BAT9k
+  * Larger footprint, way more storage space
+  * Needs to be placed on a proper foundation or else it'll sink into the ground
+  * Legacy BAT9ks can be recycled in a tier 3 anvil
+* AUTOCAL Automatic Calculator
+  * Highly advanced programmable RoR device
+  * Can send and receive signals and do calculations with the same system as NTM's calculator
+* Vending machines
+  * Comes in snack machine and soda machine variants
+  * The machines can be purchased off of bobmazon for 64 caps each
+  * Use vending machine tokens as currency, which can be found occasionally in most structures
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
   * This should make it easier to accurately tell the difference/scale of values when they exist in an expected range (for example, RBMK temperatures)
 * RoR controllers now use polling by default, since state change is unable to actually perform a function unless the state changes, preventing repeated commands
+* HE/RF converters now have a tooltip showing their buffered energy
+* Updated the models of the cage lamp, fluorescent light and halogen lamp
+* 528 mode now has a new config for enabling gravity on machines
+  * Machines not on solid ground will tilt, causing them to break
+  * Still a work in progress, not all machines make use of it yet
+  * The ZIRNOX for example will continue to operate when tilted, however the pipes will disconnect, resulting in a fatal loss of cooling
+* Slightly adjusted the automatic buzzsaw's texture
+* Mobs can no longer spawn on most versions of concrete
+  * Notable exceptions are mossy and cracked concrete bricks
+* Increased the yield of lye from wood ash
+* All fluid tanks larger than barrels now have dynamic IO speed instead of providing their entire contents instantly
+  * Tank fill will slow down the fuller the tank becomes, tank drain also slow downs as it gets emptier
+  * This means that multiple tanks in IO mode in the same network will still ping pong, but only a small portion of fluid will be "lost" (i.e. invisible due to subtick transfer operations)
+* The stinger is now classified as a special weapon
+* The carbine can now take a scope
+* The battery socket now renders supports when a block is placed on top of it, allowing somewhat aesthetic stacking of sockets
+* The bayonet weapon attachment now uses regular steel plates instead of weapon steel, making them available as early as the blast furnace
+* Adjusted some 528 mode recipes
+* Removed the template crates entirely for being literally useless
+* Oil bubbles can no longer go down to Y:0, they now have a minimum center height of Y:15
+* The automatic buzzsaw and thresher now have sound loops when active
+* The shredder auto shotgun now uses the plasma damage type instead of laser
+* Added "nitra to ammunition" recipe in the assembly machine, turning large piles of nitra into random casings/propellants
+* Removed more unused blocks to free up block IDs
+  * Removed the old iron barrel
+  * Removed the factory hull blocks
+  * Removed the vacuum block that has been unused for like 5 years at this point
+  * Removed five of the 10 stuurdy ladder variants because they were hella ugly anyway
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
 * Fixed polling option in RoR controllers reading dead signals
+* Fixed state change in RoR controllers not allowing repeat commands
+* Fixed blast furnace NEI handler not cycling through all valid material shapes
+* Fixed RoR transmitter sending empty signals when unused mappings apply
+* Fixed hopper IO for battery sockets being entirely broken
+* Fixed cargo elevators not dropping the correct amount of segments
+* Fixed broken config check causing smithing recipes in anvils to always be tier 1

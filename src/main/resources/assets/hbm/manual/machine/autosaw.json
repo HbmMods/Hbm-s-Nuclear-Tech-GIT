@@ -1,0 +1,11 @@
+{
+	"name": "Automatic Buzzsaw",
+	"icon": ["hbm:tile.machine_autosaw", 1, 0],
+	"trigger": [["hbm:tile.machine_autosaw"]],
+	"title": {
+		"en_US": "Automatic Buzzsaw"
+	},
+	"content": {
+		"en_US": "Automatic machine that will cut down trees and plants in a 10 block radius. When supplied with fuel (like wood oil), it will constantly revolve at a slow pace, and only extend if plant or wood blocks are detected. Trees can be felled in full and are replanted if leaves were present. The buzzsaw is designed to be placed on the same level as the trees, so the sawblade should strike the second lowest log block of the tree, however hitting the lowest still works. Sugar cane and cacti can be harvested too, assuming the saw is placed at the same height, so that the blade doesn't break the lowest block. Mustard willows are only cut when mature. Harvested plants will be dropped on the spot, unlike the [[automatic thresher|Automatic Thresher]] which dispenses them from the machine, so a collection system has to be set up, for example employing fans.<br><br>Do note that touching the spinning sawblade is not healthy."
+	}
+}

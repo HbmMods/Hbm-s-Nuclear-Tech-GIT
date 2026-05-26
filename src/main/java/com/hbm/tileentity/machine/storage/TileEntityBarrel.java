@@ -15,7 +15,6 @@ import com.hbm.inventory.container.ContainerBarrel;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
@@ -81,6 +80,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public long getDemand(FluidType type, int pressure) {
+		if(this.tilted) return 0;
 		if(this.mode == 2 || this.mode == 3) return 0;
 		if(tank.getPressure() != pressure) return 0;
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
@@ -126,7 +126,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 					this.node = null;
 				}
 
-				for(DirPos pos : getConPos()) {
+				if(!this.tilted) for(DirPos pos : getConPos()) {
 					FluidNode dirNode = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), tank.getTankType().getNetworkProvider());
 
 					if(mode == 2) {
@@ -240,23 +240,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
 
-		//for when you fill corrosive liquid into an iron tank
-		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
-				(b == ModBlocks.barrel_steel && tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).getRating() > 50)) {
-			ItemStack[] copy = this.slots.clone();
-			this.slots = new ItemStack[6];
-			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
-			TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
-
-			if(barrel != null) {
-				barrel.tank.setTankType(tank.getTankType());
-				barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
-				barrel.slots = copy;
-			}
-
-			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
-		}
-
 		if(b == ModBlocks.barrel_corroded ) {
 			if(worldObj.rand.nextInt(3) == 0) {
 				tank.setFill(tank.getFill() - 1);
@@ -296,20 +279,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		return fluid == tank.getTankType();
 	}
 
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
-	}
+	@Override public FluidTank[] getSendingTanks() { return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getReceivingTanks() { return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
 
 	@Override
 	public ConnectionPriority getFluidPriority() {

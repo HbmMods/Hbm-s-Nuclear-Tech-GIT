@@ -34,20 +34,9 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 		return new TileEntityMachineAutosaw();
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType() { return -1; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -75,14 +64,11 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
-		if(tool != ToolType.SCREWDRIVER)
-			return false;
+		if(tool != ToolType.SCREWDRIVER) return false;
 
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityMachineAutosaw))
-			return false;
-		
+		if(!(te instanceof TileEntityMachineAutosaw)) return false;
 		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
 
 		saw.isSuspended = !saw.isSuspended;
@@ -95,16 +81,14 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
-		
-		if(!(te instanceof TileEntityMachineAutosaw))
-			return;
+		if(!(te instanceof TileEntityMachineAutosaw)) return;
 		
 		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
 		
 		List<String> text = new ArrayList();
 		text.add(saw.tank.getTankType().getLocalizedName() + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
 
-		if (saw.isSuspended) {
+		if(saw.isSuspended) {
 			text.add(EnumChatFormatting.RED + "! " + I18nUtil.resolveKey(getUnlocalizedName() + ".suspended") + " !");
 		}
 		

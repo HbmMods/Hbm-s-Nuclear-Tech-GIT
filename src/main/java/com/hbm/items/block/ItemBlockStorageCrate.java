@@ -82,7 +82,6 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		if(block == ModBlocks.crate_steel) return new ContainerCrateSteel(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.crate_desh) return new ContainerCrateDesh(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.crate_tungsten) return new ContainerCrateTungsten(player.inventory, new InventoryCrate(player, player.getHeldItem()));
-		if(block == ModBlocks.crate_template) return new ContainerCrateTemplate(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.safe) return new ContainerSafe(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		throw new NullPointerException();
 	}
@@ -95,7 +94,6 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 		if(block == ModBlocks.crate_steel) return new GUICrateSteel(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.crate_desh) return new GUICrateDesh(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.crate_tungsten) return new GUICrateTungsten(player.inventory, new InventoryCrate(player, player.getHeldItem()));
-		if(block == ModBlocks.crate_template) return new GUICrateTemplate(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		if(block == ModBlocks.safe) return new GUISafe(player.inventory, new InventoryCrate(player, player.getHeldItem()));
 		throw new NullPointerException();
 	}
@@ -125,7 +123,6 @@ public class ItemBlockStorageCrate extends ItemBlockBase implements IGUIProvider
 			if(block == ModBlocks.crate_steel) return new TileEntityCrateSteel();
 			if(block == ModBlocks.crate_desh) return new TileEntityCrateDesh();
 			if(block == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
-			if(block == ModBlocks.crate_template) return new TileEntityCrateTemplate();
 			if(block == ModBlocks.safe) return new TileEntitySafe();
 			throw new NullPointerException();
 		}

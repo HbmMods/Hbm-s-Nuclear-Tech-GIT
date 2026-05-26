@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -17,6 +18,7 @@ import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Triplet;
 
 import api.hbm.ntl.ISlotMonitorProvider;
+import api.hbm.ntl.StackCache;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -40,11 +42,18 @@ public class PneumaticNetwork extends NodeNet {
 	// while the system has parts that expects IInventires to be TileEntities to work properly (mostly range checks),
 	// it can actually handle non-TileEntities just fine.
 	public HashMap<IInventory, Triplet<ForgeDirection, Long, TileEntityPneumoTube>> receivers = new HashMap();
-	
-	public HashMap<ISlotMonitorProvider, Long> storages = new HashMap();
+
+	public LinkedHashSet<StackCache> accessors = new LinkedHashSet();
+	public LinkedHashSet<ISlotMonitorProvider> storages = new LinkedHashSet();
 
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));
+	}
+	
+	public void addStackCache(StackCache accessor) {
+		if(accessors.add(accessor)) {
+			for(ISlotMonitorProvider storage : storages) storage.onNewCacheHasJoined(accessor, this);
+		}
 	}
 
 	@Override public void update() {
@@ -54,6 +63,7 @@ public class PneumaticNetwork extends NodeNet {
 		// but we still want to reap garbage data that would otherwise accumulate
 		long timestamp = System.currentTimeMillis();
 		receivers.entrySet().removeIf(x -> { return (timestamp - x.getValue().getY() > timeout) || NodeNet.isBadLink(x.getKey()); });
+		accessors.removeIf(x -> { return x.hasExpired; });
 	}
 
 	public boolean send(IInventory source, TileEntityPneumoTube tube, ForgeDirection accessDir, int sendOrder, int receiveOrder, int maxRange, int nextReceiver) {

@@ -2,26 +2,24 @@ package com.hbm.tileentity.network.pneumatic;
 
 import com.hbm.inventory.container.ContainerPneumoStorageAccess;
 import com.hbm.inventory.gui.GUIPneumoStorageAccess;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube.PneumaticNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PneumaticNetworkProvider;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.ntl.IPneumaticConnector;
+import api.hbm.ntl.StackCache;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-// throwing the towel - for now. there's a test i could run, but it's a lot of work and will likely just confirm my suspicions about performance
-// this demands another sidequest: fucking multi threading
-public class TileEntityPneumoStorageAccess extends TileEntity implements IPneumaticConnector, IGUIProvider {
+public class TileEntityPneumoStorageAccess extends TileEntityLoadedBase implements IPneumaticConnector, IGUIProvider {
 	
 	protected PneumaticNode node;
+	public StackCache cache;
 
 	@Override
 	public void updateEntity() {
@@ -29,19 +27,22 @@ public class TileEntityPneumoStorageAccess extends TileEntity implements IPneuma
 		if(!worldObj.isRemote) {
 			
 			if(this.node == null || this.node.expired) {
+				if(this.cache != null) this.cache.dissolveCache();
+				
 				this.node = (PneumaticNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
 				
 				if(this.node == null || this.node.expired) {
-					this.node = (PneumaticNode) new PneumaticNode(new BlockPos(xCoord, yCoord, zCoord)).setConnections(
-							new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-							new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-							new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
-							new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-							new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-							new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
-							);
+					this.node = (PneumaticNode) new PneumaticNode(new BlockPos(xCoord, yCoord, zCoord)).setStandardConnections(xCoord, yCoord, zCoord);
 					UniNodespace.createNode(worldObj, this.node);
 				}
+			}
+			
+			if(this.cache == null) {
+				this.cache = new StackCache(xCoord, yCoord, zCoord);
+			}
+			
+			if(this.node != null && this.node.hasValidNet()) {
+				this.node.net.addStackCache(cache);
 			}
 		}
 	}
@@ -50,11 +51,22 @@ public class TileEntityPneumoStorageAccess extends TileEntity implements IPneuma
 	public void invalidate() {
 		super.invalidate();
 
-		if(!worldObj.isRemote) {
-			if(this.node != null) {
-				UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
-			}
+		if(!worldObj.isRemote && this.node != null) {
+			UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
 		}
+		
+		if(this.cache != null) this.cache.dissolveCache();
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(!worldObj.isRemote && this.node != null) {
+			UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, PneumaticNetworkProvider.THE_PROVIDER);
+		}
+		
+		if(this.cache != null) this.cache.dissolveCache();
 	}
 
 	@Override

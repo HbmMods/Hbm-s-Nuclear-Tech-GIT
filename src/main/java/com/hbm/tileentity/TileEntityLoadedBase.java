@@ -1,16 +1,22 @@
 package com.hbm.tileentity;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.fluidmk2.IFluidUserMK2;
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBufPacketReceiver {
 
@@ -29,8 +35,6 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
-		
-		if(this instanceof IFluidUserMK2) markChanged();
 	}
 
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
@@ -101,8 +105,72 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		PacketThreading.createAllAroundThreadedPacket(packet, new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	
-	public void checkTilt(BlockPos[] floor, boolean extraHeavy) {
-		if(this.worldObj.getTotalWorldTime() % 20 != 0) return;
-		// TBI i need a break
+	public static enum TiltType {
+		UNAVOIDABLE, CONFIG;
+	}
+	
+	public void checkTilt(TiltType cfg, boolean extraHeavy) {
+		boolean doesTilt = false;
+		if(cfg == TiltType.UNAVOIDABLE) doesTilt = true;
+		if(cfg == TiltType.CONFIG && GeneralConfig.enableMachineGravity) doesTilt = true;
+		if(cfg == TiltType.CONFIG && GeneralConfig.enable528MachineGravity) doesTilt = true;
+		
+		if(!doesTilt) { this.tilted = false; return; }
+		if(this.getFloorCount() <= 0) { this.tilted = false; return; }
+		if((this.worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord)) % 20 != 0) return;
+		
+		if(this.tiltBlocksChecked >= this.getFloorCount()) {
+			
+			if(this.tiltBlocksValid >= this.tiltBlocksChecked * 0.95) {
+				this.tilted = false;
+			} else {
+				if(!this.tilted) worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.METAL_IMPACT, 3F, 1F);
+				this.tilted = true;
+			}
+			
+			this.markChanged();
+			this.tiltBlocksChecked = 0;
+			this.tiltBlocksValid = 0;
+		}
+		
+		BlockPos pos = getFloorPosFromIndex(this.tiltBlocksChecked);
+		if(pos == null) return;
+		
+		Block ground = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
+		this.tiltBlocksChecked++;
+		
+		// for extra heavy machines, the ground needs to:
+		// * be a fully solid block (side UP is checked for custom behavior)
+		// * be opaque
+		// * NOT be sand, cloth or ground material
+		// * have an explosion resistance of stone or greater
+		if(extraHeavy) {
+			if(!ground.isBlockSolid(worldObj, pos.getX(), pos.getY(), pos.getZ(), 1)) return;
+			if(!ground.isNormalCube()) return;
+			if(ground.getMaterial() == Material.sand || ground.getMaterial() == Material.cloth || ground.getMaterial() == Material.ground) return;
+			if(ground.getExplosionResistance(null) < Blocks.stone.getExplosionResistance(null)) return;
+			this.tiltBlocksValid++;
+		// for standard machines, the ground needs to:
+		// * be solid at the top
+		// * NOT be sand
+		} else {
+			if(!ground.isSideSolid(worldObj, pos.getX(), pos.getY(), pos.getZ(), ForgeDirection.UP)) return;
+			if(ground.getMaterial() == Material.sand) return;
+			if(ground == ModBlocks.dirt_dead || ground == ModBlocks.dirt_oily || ground == ModBlocks.stone_cracked) return;
+			this.tiltBlocksValid++;
+		}
+	}
+	
+	public int getFloorCount() { return 0; }
+	public BlockPos getFloorPosFromIndex(int index) { return null; }
+
+	public BlockPos standardFloor3x3(int index) {
+		return new BlockPos(xCoord - 1 + (index / 2) * 2, yCoord - 1, zCoord - 1 + (index % 2) * 2);
+	}
+	public BlockPos standardFloor5x5(int index) {
+		return new BlockPos(xCoord - 2 + (index / 3) * 2, yCoord - 1, zCoord - 2 + (index % 3) * 2);
+	}
+	public BlockPos standardFloor7x7(int index) {
+		return new BlockPos(xCoord - 3 + (index / 4) * 2, yCoord - 1, zCoord - 3 + (index % 4) * 2);
 	}
 }

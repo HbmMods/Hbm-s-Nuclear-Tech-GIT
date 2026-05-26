@@ -1,8 +1,11 @@
 package com.hbm.items.block;
 
+import java.util.List;
+
 import com.hbm.blocks.generic.BlockConcreteColored;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 
@@ -20,5 +23,10 @@ public class ItemBlockColoredConcrete extends ItemBlockBlastInfo {
 	
 	public String getUnlocalizedName(ItemStack stack) {
 		return super.getUnlocalizedName() + "." + ItemDye.field_150923_a[BlockConcreteColored.func_150032_b(stack.getItemDamage())];
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		super.addInformation(stack, player, list, bool);
 	}
 }

@@ -51,6 +51,10 @@ public class RenderBatterySocket extends TileEntitySpecialRenderer implements II
 		bindTexture(ResourceManager.battery_socket_tex);
 		ResourceManager.battery_socket.renderPart("Socket");
 		
+		if(socket.frame) {
+			ResourceManager.battery_socket.renderPart("Supports");
+		}
+		
 		ItemStack render = socket.syncStack;
 		if(render != null) {
 			

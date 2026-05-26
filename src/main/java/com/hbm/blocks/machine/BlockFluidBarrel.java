@@ -47,28 +47,18 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		if(this == ModBlocks.barrel_corroded) return null;
 		return new TileEntityBarrel(capacity);
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-	
-	@Override
-	public int getRenderType(){
-		return renderID;
-	}
-	
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType(){ 	return renderID; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(this == ModBlocks.barrel_corroded) return false;
 		if(world.isRemote) {
 			return true;
 			
@@ -111,6 +101,8 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
+		if(this == ModBlocks.barrel_corroded) return;
+		
 		if(!keepInventory) {
 			ISidedInventory tileentityfurnace = (ISidedInventory) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
@@ -187,12 +179,8 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-
 		TileEntity te = world.getTileEntity(x, y, z);
-
-		if(!(te instanceof TileEntityBarrel))
-			return 0;
-
+		if(!(te instanceof TileEntityBarrel)) return 0;
 		TileEntityBarrel barrel = (TileEntityBarrel) te;
 		return barrel.getComparatorPower();
 	}
@@ -220,13 +208,6 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
 			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 			list.add(EnumChatFormatting.RED + "Leaky");
-		}
-		
-		if(this == ModBlocks.barrel_iron) {
-			list.add(EnumChatFormatting.AQUA + "Capacity: 8,000mB");
-			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
-			list.add(EnumChatFormatting.YELLOW + "Cannot store corrosive fluids properly");
-			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this == ModBlocks.barrel_steel) {

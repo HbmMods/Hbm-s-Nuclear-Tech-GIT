@@ -1,0 +1,15 @@
+{
+    "name": "Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 21],
+    "trigger": [["hbm:item.fluid_icon", 1, 21]],
+    "title": {
+        "en_US": "Light Oil",
+        "ru_RU": "Лёгкая нефть",
+        "zh_CN": "轻油"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] crude oil. Light oil is primarily used to make [[desh|Desh]]. It can also be used to obtain fuels such as [[solid fuel|Solid Fuel]], [[diesel|Diesel]] or [[kerosene|Kerosene]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+        "ru_RU": "Получается после [[переработки|Oil Refinery]] [[нагретой|Boiler]] сырой нефти. Лёгкая нефть в первую очередь используется для получения [[деша|Desh]]. Также может применяться для производства топлива, такого как [[твёрдое топливо|Solid Fuel]], [[дизель|Diesel]] или [[керосин|Kerosene]].<br><br>См. также:<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]",
+        "zh_CN": "在[[炼油厂|Oil Refinery]][[加热|Boiler]]原油后获得。轻油主要用于制造[[戴什合金|Desh]]。也可用于获取燃料，例如[[固体燃料|Solid Fuel]]、[[柴油|Diesel]]或[[煤油|Kerosene]]。<br><br>另见：<br>[[基础石油处理|Basic Oil Processing]]<br>[[高级石油处理|Advanced Oil Processing]]<br>[[真空石油处理|Vacuum Oil Processing]]"
+    }
+}
