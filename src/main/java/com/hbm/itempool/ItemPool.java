@@ -26,6 +26,7 @@ public class ItemPool {
 		ItemPoolsSatellite.init();
 		ItemPoolsPile.init();
 		ItemPoolsC130.init();
+		ItemPoolsVendingMachine.init();
 	}
 	
 	public static HashMap<String, ItemPool> pools = new HashMap();
