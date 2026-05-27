@@ -28,6 +28,7 @@ import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
+import com.hbm.blocks.machine.BlockVendingMachine.TileEntityVendingMachine;
 import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
@@ -219,6 +220,7 @@ public class TileMappings {
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
 		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityPlushie.class, "tileentity_ntm_plushie");
+		put(TileEntityVendingMachine.class, "tileentity_vending_machine");
 		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
 
 		put(TileEntityCargoElevator.class, "tileentity_cargo_elevator");

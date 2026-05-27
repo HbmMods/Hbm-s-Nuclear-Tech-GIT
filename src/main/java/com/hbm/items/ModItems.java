@@ -936,6 +936,7 @@ public class ModItems {
 	public static Item coin_maskman;
 	public static Item coin_worm;
 	public static Item coin_ufo;
+	public static Item coin_token;
 	//public static Item coin_siege;
 	//public static Item source;
 
@@ -2972,6 +2973,7 @@ public class ModItems {
 		coin_maskman = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_maskman").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_maskman");
 		coin_worm = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_worm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_worm");
 		coin_ufo = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_ufo").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_ufo");
+		coin_token = new Item().setUnlocalizedName("coin_token").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_token");
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod = (ItemEnumMulti) new ItemBreedingRod().setUnlocalizedName("rod").setContainerItem(ModItems.rod_empty).setCreativeTab(MainRegistry.controlTab);
@@ -6086,6 +6088,7 @@ public class ModItems {
 		GameRegistry.registerItem(coin_maskman, coin_maskman.getUnlocalizedName());
 		GameRegistry.registerItem(coin_worm, coin_worm.getUnlocalizedName());
 		GameRegistry.registerItem(coin_ufo, coin_ufo.getUnlocalizedName());
+		GameRegistry.registerItem(coin_token, coin_token.getUnlocalizedName());
 		GameRegistry.registerItem(medal_liquidator, medal_liquidator.getUnlocalizedName());
 		GameRegistry.registerItem(bottled_cloud, bottled_cloud.getUnlocalizedName());
 		GameRegistry.registerItem(protection_charm, protection_charm.getUnlocalizedName());

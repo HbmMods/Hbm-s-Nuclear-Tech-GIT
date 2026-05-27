@@ -70,7 +70,8 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 					weighted(ModItems.gas_mask_m65, 60, 1, 1, 2),
 					weighted(ModItems.gas_mask_filter, 0, 1, 1, 3),
-					weighted(ModItems.blueprint_folder, 0, 1, 1, 1)
+					weighted(ModItems.blueprint_folder, 0, 1, 1, 1),
+					weighted(ModItems.coin_token, 0, 1, 1, 2)
 			};
 		}};
 

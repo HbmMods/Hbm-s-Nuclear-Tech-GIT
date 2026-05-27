@@ -15,7 +15,6 @@ import com.hbm.inventory.container.ContainerBarrel;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
@@ -238,23 +237,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		//for when you fill hot or corrosive liquids into a plastic tank
 		if(b == ModBlocks.barrel_plastic && (tank.getTankType().isCorrosive() || tank.getTankType().isHot())) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
-		}
-
-		//for when you fill corrosive liquid into an iron tank
-		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
-				(b == ModBlocks.barrel_steel && tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).getRating() > 50)) {
-			ItemStack[] copy = this.slots.clone();
-			this.slots = new ItemStack[6];
-			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
-			TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
-
-			if(barrel != null) {
-				barrel.tank.setTankType(tank.getTankType());
-				barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
-				barrel.slots = copy;
-			}
-
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
 

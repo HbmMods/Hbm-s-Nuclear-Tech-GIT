@@ -20,6 +20,10 @@
 * AUTOCAL Automatic Calculator
   * Highly advanced programmable RoR device
   * Can send and receive signals and do calculations with the same system as NTM's calculator
+* Vending machines
+  * Comes in snack machine and soda machine variants
+  * The machines can be purchased off of bobmazon for 64 caps each
+  * Use vending machine tokens as currency, which can be found occasionally in most structures
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
@@ -48,6 +52,11 @@
 * The automatic buzzsaw and thresher now have sound loops when active
 * The shredder auto shotgun now uses the plasma damage type instead of laser
 * Added "nitra to ammunition" recipe in the assembly machine, turning large piles of nitra into random casings/propellants
+* Removed more unused blocks to free up block IDs
+  * Removed the old iron barrel
+  * Removed the factory hull blocks
+  * Removed the vacuum block that has been unused for like 5 years at this point
+  * Removed five of the 10 stuurdy ladder variants because they were hella ugly anyway
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
@@ -57,3 +66,4 @@
 * Fixed RoR transmitter sending empty signals when unused mappings apply
 * Fixed hopper IO for battery sockets being entirely broken
 * Fixed cargo elevators not dropping the correct amount of segments
+* Fixed broken config check causing smithing recipes in anvils to always be tier 1

@@ -630,23 +630,8 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
 
-		EntityPlayer player = MainRegistry.proxy.me();
 		Minecraft mc = Minecraft.getMinecraft();
-
-		if(player != null && mc.theWorld != null) {
-			int i = MathHelper.floor_double(player.posX);
-			int j = MathHelper.floor_double(player.posY);
-			int k = MathHelper.floor_double(player.posZ);
-			Block block = mc.theWorld.getBlock(i, j, k);
-
-			if(block == ModBlocks.vacuum) {
-				e.result = null;
-				return;
-			}
-		}
-
 		ResourceLocation r = e.sound.getPositionedSoundLocation();
-
 		WorldClient wc = mc.theWorld;
 
 		//Alright, alright, I give the fuck up, you've wasted my time enough with this bullshit. You win.

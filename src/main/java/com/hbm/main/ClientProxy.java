@@ -9,6 +9,7 @@ import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
 import com.hbm.blocks.generic.BlockSkeletonHolder.TileEntitySkeletonHolder;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.BlockWandStructure.TileEntityWandStructure;
+import com.hbm.blocks.machine.BlockVendingMachine.TileEntityVendingMachine;
 import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
@@ -212,6 +213,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBobble.class, new RenderBobble());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySnowglobe.class, new RenderSnowglobe());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlushie.class, new RenderPlushie());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVendingMachine.class, new RenderVendingMachine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmitter.class, new RenderEmitter());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLantern.class, new RenderLantern());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLanternBehemoth.class, new RenderLanternBehemoth());

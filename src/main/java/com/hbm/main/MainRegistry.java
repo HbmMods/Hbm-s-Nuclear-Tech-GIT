@@ -1606,6 +1606,15 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.weapon_golf_club");
 		ignoreMappings.add("hbm:item.weapon_pipe_rusty");
 		ignoreMappings.add("hbm:tile.crate_template");
+		ignoreMappings.add("hbm:tile.barrel_iron");
+		ignoreMappings.add("hbm:tile.factory_titanium_hull");
+		ignoreMappings.add("hbm:tile.factory_advanced_hull");
+		ignoreMappings.add("hbm:tile.vacuum");
+		ignoreMappings.add("hbm:tile.ladder_iron");
+		ignoreMappings.add("hbm:tile.ladder_aluminium");
+		ignoreMappings.add("hbm:tile.ladder_lead");
+		ignoreMappings.add("hbm:tile.ladder_cobalt");
+		ignoreMappings.add("hbm:tile.ladder_tungsten");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

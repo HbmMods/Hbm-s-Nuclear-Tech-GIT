@@ -90,7 +90,7 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	@Override
 	public void onServerTick() {
 		this.spin = (double) flywheel_energy / FLYWHEEL_MAX_ENERGY; //because dense steams have way lower energy output, turbines running them take a lot longer to spool up
-		this.lastPowerTarget = (long) (this.spin * maxPower);
+		this.lastPowerTarget = Math.min((long) (Math.max(this.spin, 0.1) * maxPower), this.flywheel_energy);
 		this.flywheel_energy -= this.lastPowerTarget;
 		this.powerBuffer = (long) (this.lastPowerTarget);
 	}
