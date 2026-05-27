@@ -855,15 +855,25 @@ public class NBTStructure {
 			this.minHeight = spawn.minHeight;
 			this.maxHeight = spawn.maxHeight;
 
-			switch(this.coordBaseMode) {
-				case 1:
-				case 3:
-					this.boundingBox = new StructureBoundingBox(x, y, z, x + piece.structure.size.z - 1, y + piece.structure.size.y - 1, z + piece.structure.size.x - 1);
-					break;
-				default:
-					this.boundingBox = new StructureBoundingBox(x, y, z, x + piece.structure.size.x - 1, y + piece.structure.size.y - 1, z + piece.structure.size.z - 1);
-					break;
-			}
+			   if (piece == null) {
+				   MainRegistry.logger.error("[NBTStructure] Tried to create Component with null piece at x=" + x + ", y=" + y + ", z=" + z);
+				   this.boundingBox = null;
+				   return;
+			   }
+			   if (piece.structure == null) {
+				   MainRegistry.logger.error("[NBTStructure] Tried to create Component with null structure in piece '" + piece.name + "' at x=" + x + ", y=" + y + ", z=" + z);
+				   this.boundingBox = null;
+				   return;
+			   }
+			   switch(this.coordBaseMode) {
+			   case 1:
+			   case 3:
+				   this.boundingBox = new StructureBoundingBox(x, y, z, x + piece.structure.size.z - 1, y + piece.structure.size.y - 1, z + piece.structure.size.x - 1);
+				   break;
+			   default:
+				   this.boundingBox = new StructureBoundingBox(x, y, z, x + piece.structure.size.x - 1, y + piece.structure.size.y - 1, z + piece.structure.size.z - 1);
+				   break;
+			   }
 		}
 
 		public Component connectedFrom(JigsawConnection connection) {

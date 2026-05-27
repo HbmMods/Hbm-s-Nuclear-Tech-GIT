@@ -66,6 +66,8 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ModItems {
+	public static Item gun_pa_melee;
+	public static Item gun_pa_ranged;
 
 	public static HashSet<Item> excludeNEI = new HashSet();
 	public static Item billet_uzh;

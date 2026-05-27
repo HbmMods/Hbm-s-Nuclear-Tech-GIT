@@ -28,8 +28,6 @@ import net.minecraft.item.ItemStack;
 public class XFactoryPA {
 
 	public static void init() {
-		// DISABLED: ItemGunPA class not found - commented out to enable compilation
-		/*
 		ModItems.gun_pa_melee = new ItemGunPA(WeaponQuality.UTILITY, new GunConfig()
 				.draw(10).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0))
@@ -42,7 +40,6 @@ public class XFactoryPA {
 				.rec(new Receiver(0))
 				.pp(LAMBDA_CLICK_RANGED_PRIMARY).ps(LAMBDA_CLICK_RANGED_SENONDARY).decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				).setUnlocalizedName("gun_pa_ranged").setFull3D().setTextureName(RefStrings.MODID + ":gun_pa_ranged");
-		*/
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA = (stack, ctx) -> {

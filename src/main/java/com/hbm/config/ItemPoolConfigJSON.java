@@ -113,14 +113,19 @@ public class ItemPoolConfigJSON {
 	}
 	
 	public static void writeItemStack(ItemStack stack, JsonWriter writer) throws IOException {
-		writer.beginArray();
-		writer.setIndent("");
-		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));
-		if(stack.stackSize != 1 || stack.getItemDamage() != 0 || stack.hasTagCompound()) writer.value(stack.stackSize);
-		if(stack.getItemDamage() != 0 || stack.hasTagCompound()) writer.value(stack.getItemDamage());
-		if(stack.hasTagCompound()) writer.value(stack.stackTagCompound.toString());
-		writer.endArray();
-		writer.setIndent("  ");
+		   if (stack == null || stack.getItem() == null) {
+			   // Skip or log null items to prevent crash
+			   writer.value("null");
+			   return;
+		   }
+		   writer.beginArray();
+		   writer.setIndent("");
+		   writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));
+		   if(stack.stackSize != 1 || stack.getItemDamage() != 0 || stack.hasTagCompound()) writer.value(stack.stackSize);
+		   if(stack.getItemDamage() != 0 || stack.hasTagCompound()) writer.value(stack.getItemDamage());
+		   if(stack.hasTagCompound()) writer.value(stack.stackTagCompound.toString());
+		   writer.endArray();
+		   writer.setIndent("  ");
 	}
 	
 	public static ItemStack readItemStack(JsonArray array) {
