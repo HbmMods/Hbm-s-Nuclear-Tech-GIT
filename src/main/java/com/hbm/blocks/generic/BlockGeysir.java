@@ -60,16 +60,6 @@ public class BlockGeysir extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand) {
 
-		int l = p_149734_1_.getBlockMetadata(x, y, z);
-		
-		if(this == ModBlocks.geysir_vapor && l == 1) {
-			float f = x + 0.5F;
-			float f1 = y + 1.0F;
-			float f2 = z + 0.5F;
-	
-			p_149734_1_.spawnParticle("cloud", f, f1, f2, 0.0D, 0.1D, 0.0D);
-		}
-		
 		if(this == ModBlocks.geysir_nether) {
 			p_149734_1_.spawnParticle("flame", x + 0.5F, y + 1.0625F, z + 0.5F, 0.0D, 0.0D, 0.0D);
 		}

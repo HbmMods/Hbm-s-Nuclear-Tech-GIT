@@ -57,6 +57,9 @@
   * Removed the factory hull blocks
   * Removed the vacuum block that has been unused for like 5 years at this point
   * Removed five of the 10 stuurdy ladder variants because they were hella ugly anyway
+* Added a new alternate recipe "instant aggregate" in the chemical plant, turning 16 cobblestone into 8 gravel and 8 sand
+* Added a new alternate recipe for making obsidian in the chemical plant
+* Removed the water and steam geysers, which were so obscenely rare most people have never seen either one of them, and became functionally useless without the old geothermal generator
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

@@ -525,9 +525,7 @@ public class ModBlocks {
 	public static Block ore_sellafield_schrabidium;
 	public static Block ore_sellafield_radgem;
 
-	public static Block geysir_water;
 	public static Block geysir_chlorine;
-	public static Block geysir_vapor;
 	public static Block geysir_nether;
 
 	public static Block flame_war;
@@ -694,8 +692,8 @@ public class ModBlocks {
 
 	public static Block machine_furnace_brick_off;
 	public static Block machine_furnace_brick_on;
-	public static Block machine_rtg_furnace_off;
-	public static Block machine_rtg_furnace_on;
+	@Deprecated public static Block machine_rtg_furnace_off;
+	@Deprecated public static Block machine_rtg_furnace_on;
 
 	public static Block machine_industrial_generator;
 
@@ -1685,9 +1683,7 @@ public class ModBlocks {
 		ore_sellafield_schrabidium = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_schrabidium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_schrabidium");
 		ore_sellafield_radgem = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_radgem").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_radgem");
 
-		geysir_water = new BlockGeysir(Material.rock).setBlockName("geysir_water").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_chlorine = new BlockGeysir(Material.rock).setBlockName("geysir_chlorine").setStepSound(Block.soundTypeStone).setHardness(5.0F);
-		geysir_vapor = new BlockGeysir(Material.rock).setBlockName("geysir_vapor").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_nether = new BlockGeysir(Material.rock).setBlockName("geysir_nether").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F);
 
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
@@ -2840,9 +2836,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sellafield, ItemBlockNamedMeta.class, sellafield.getUnlocalizedName());
 
 		//Geysirs
-		GameRegistry.registerBlock(geysir_water, geysir_water.getUnlocalizedName());
 		GameRegistry.registerBlock(geysir_chlorine, geysir_chlorine.getUnlocalizedName());
-		GameRegistry.registerBlock(geysir_vapor, geysir_vapor.getUnlocalizedName());
 		GameRegistry.registerBlock(geysir_nether, geysir_nether.getUnlocalizedName());
 
 		//Nukes

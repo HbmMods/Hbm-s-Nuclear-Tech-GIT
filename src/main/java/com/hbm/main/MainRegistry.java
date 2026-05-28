@@ -1615,6 +1615,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.ladder_lead");
 		ignoreMappings.add("hbm:tile.ladder_cobalt");
 		ignoreMappings.add("hbm:tile.ladder_tungsten");
+		ignoreMappings.add("hbm:tile.geysir_water");
+		ignoreMappings.add("hbm:tile.geysir_vapor");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

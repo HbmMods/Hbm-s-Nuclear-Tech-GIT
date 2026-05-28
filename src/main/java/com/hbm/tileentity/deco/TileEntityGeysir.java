@@ -1,24 +1,18 @@
 package com.hbm.tileentity.deco;
 
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.projectile.EntityShrapnel;
-import com.hbm.entity.projectile.EntityWaterSplash;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -50,17 +44,6 @@ public class TileEntityGeysir extends TileEntity {
 		}
 	}
 
-	private void water() {
-
-		EntityWaterSplash fx = new EntityWaterSplash(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
-
-		fx.motionX = worldObj.rand.nextGaussian() * 0.35;
-		fx.motionZ = worldObj.rand.nextGaussian() * 0.35;
-		fx.motionY = 2;
-
-		worldObj.spawnEntityInWorld(fx);
-	}
-
 	private void chlorine() {
 
 		for(int i = 0; i < 3; i++) {
@@ -73,21 +56,6 @@ public class TileEntityGeysir extends TileEntity {
 			worldObj.spawnEntityInWorld(fx);
 		}
 
-	}
-
-	private void vapor() {
-
-		List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord + 0.5, this.zCoord - 0.5, this.xCoord + 1.5,
-						this.yCoord + 2, this.zCoord + 1.5));
-
-		if (!entities.isEmpty()) {
-			for (Entity e : entities) {
-
-				if(e instanceof EntityLivingBase)
-				((EntityLivingBase)e).addPotionEffect(new PotionEffect(Potion.regeneration.id, 20, 0));
-			}
-		}
 	}
 
 	private void fire() {
@@ -121,22 +89,10 @@ public class TileEntityGeysir extends TileEntity {
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		Random rand = worldObj.rand;
 
-		if(b == ModBlocks.geysir_water) {
-
-			return (meta == 0 ? 30 : 100 + rand.nextInt(40));
-
-		} else if(b == ModBlocks.geysir_chlorine) {
-
+		if(b == ModBlocks.geysir_chlorine) {
 			return (meta == 0 ? 20 : 400 + rand.nextInt(100));
-
-		} else if(b == ModBlocks.geysir_vapor) {
-
-			return (meta == 0 ? 20 : 30 + rand.nextInt(20));
-
 		} else if(b == ModBlocks.geysir_nether) {
-
 			return (meta == 0 ? (rand.nextBoolean() ? 300 : 450) : 80 + rand.nextInt(60));
-
 		}
 
 		return 0;
@@ -146,18 +102,8 @@ public class TileEntityGeysir extends TileEntity {
 
 		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
 
-		if(b == ModBlocks.geysir_water) {
-			water();
-
-		} else if(b == ModBlocks.geysir_chlorine) {
-			chlorine();
-
-		} else if(b == ModBlocks.geysir_vapor) {
-			vapor();
-
-		} else if(b == ModBlocks.geysir_nether) {
-			fire();
-		}
+		if(b == ModBlocks.geysir_chlorine) chlorine();
+		else if(b == ModBlocks.geysir_nether) fire();
 	}
 
 }

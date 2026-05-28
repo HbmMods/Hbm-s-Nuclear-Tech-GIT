@@ -592,6 +592,7 @@ chem.reoil=Reclaimed Oil
 chem.gasoline=Gasoline
 chem.tarsand=Bitumen from Tar Sand
 chem.meatprocessing=Glyphid Meat Processing
+chem.aggregate=Instant Aggregate
 chem.birkeland=Nitric Acid from Air
 chem.biooilsolidfuel=Solid Fuel from Oil and Biomass
 chem.biosolidfuel=Solid Fuel from Biomass
