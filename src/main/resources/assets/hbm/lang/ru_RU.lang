@@ -592,6 +592,7 @@ chem.reoil=Регенерированное масло
 chem.gasoline=Газолин
 chem.tarsand=Битум из битумозного песка
 chem.meatprocessing=Переработка мяса глифидов
+chem.aggregate=Мгновенный агрегат
 chem.birkeland=Азотная кислота из воздуха
 chem.biooilsolidfuel=Твёрдое топливо из нефти и биомассы
 chem.biosolidfuel=Твёрдое топливо из биомассы
