@@ -8,6 +8,7 @@ import com.hbm.module.IParse.ParseContext;
 import com.hbm.module.ParseMSES1;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityTickingBase;
+import com.hbm.util.BufferUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,6 +30,8 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public String[] script = new String[0];
 	public IParse msesv1 = new ParseMSES1();
 	public ParseContext ctx;
+	
+	public String[] history = new String[] {"", "", "", "", "", ""};
 
 	@Override
 	public String getInventoryName() {
@@ -63,7 +66,10 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 					try {
 						int index = this.ctx.current;
 						this.ctx.current ++;
-						EnumStatementReturn ret = msesv1.eval(ctx, this.script[index]);
+						String line = this.script[index];
+						EnumStatementReturn ret = msesv1.eval(ctx, line);
+						if(ret != EnumStatementReturn.SKIP) pushMsg(index + ": " + line);
+						this.history[0] = "Buffer: " + ctx.buffer;
 						if(ret == EnumStatementReturn.END_TICK) break;
 						if(ret == EnumStatementReturn.SHUTDOWN) this.stop("Program requested shutdown");
 						if(!this.ignoreError) {
@@ -82,9 +88,19 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		}
 	}
 	
+	public void pushMsg(String msg) {
+		
+		for(int i = 2; i < history.length; i++) {
+			history[i - 1] = history[i];
+		}
+		
+		history[history.length - 1] = msg;
+	}
+	
 	public void stop(String reason) {
 		this.isOn = false;
 		this.ctx.turnOff();
+		this.pushMsg(reason);
 	}
 
 	@Override
@@ -93,6 +109,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		buf.writeBoolean(isOn);
 		buf.writeBoolean(ignoreError);
 		buf.writeBoolean(autoReboot);
+		for(int i = 0; i < history.length; i++) BufferUtil.writeString(buf, this.history[i]);
 	}
 
 	@Override
@@ -101,6 +118,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		this.isOn = buf.readBoolean();
 		this.ignoreError = buf.readBoolean();
 		this.autoReboot = buf.readBoolean();
+		for(int i = 0; i < history.length; i++) this.history[i] = BufferUtil.readString(buf);
 	}
 
 	@Override

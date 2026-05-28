@@ -29,7 +29,7 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 	protected TileEntityRadioAUTOCAL autocal;
 	
 	protected int xSize = 170;
-	protected int ySize = 90;
+	protected int ySize = 138;
 	protected int guiLeft;
 	protected int guiTop;
 
@@ -143,6 +143,12 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 	}
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
+		
+		for(int i = 0; i < autocal.history.length; i++) {
+			String line = autocal.history[i];
+			if(line == null || line.isEmpty()) continue;
+			this.fontRendererObj.drawString(line, guiLeft + 7, guiTop + 73 + i * 10, 0x00ff00);
+		}
 
 		if(checkClick(x, y, 8, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.RED + "ON/OFF"}), x, y);
 		if(checkClick(x, y, 28, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.RED + "Ignore Errors", "Skips instructions that error,", "leaving the computer turned on.", "May cause unintended behavior", "and inconsistencies."}), x, y);
