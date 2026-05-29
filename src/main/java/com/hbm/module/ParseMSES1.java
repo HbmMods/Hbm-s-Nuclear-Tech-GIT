@@ -13,8 +13,8 @@ public class ParseMSES1 implements IParse {
 	public EnumStatementReturn eval(ParseContext ctx, String line) {
 		String lower = line.toLowerCase(Locale.US);
 		
-		// jump point destination, skip
-		if(lower.startsWith("dest ") || lower.startsWith("# ")) {
+		// jump point destination or comment, skip
+		if(line.isEmpty() || lower.startsWith("dest ") || lower.startsWith("# ")) {
 			return EnumStatementReturn.SKIP;
 		}
 		

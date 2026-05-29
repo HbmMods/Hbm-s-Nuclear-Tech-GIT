@@ -56,7 +56,7 @@
   * Removed the old iron barrel
   * Removed the factory hull blocks
   * Removed the vacuum block that has been unused for like 5 years at this point
-  * Removed five of the 10 stuurdy ladder variants because they were hella ugly anyway
+  * Removed five of the 10 sturdy ladder variants because they were hella ugly anyway
 * Added a new alternate recipe "instant aggregate" in the chemical plant, turning 16 cobblestone into 8 gravel and 8 sand
 * Added a new alternate recipe for making obsidian in the chemical plant
 * Removed the water and steam geysers, which were so obscenely rare most people have never seen either one of them, and became functionally useless without the old geothermal generator
@@ -70,3 +70,4 @@
 * Fixed hopper IO for battery sockets being entirely broken
 * Fixed cargo elevators not dropping the correct amount of segments
 * Fixed broken config check causing smithing recipes in anvils to always be tier 1
+* Fixed potential client desync when placing or removing lids on a hot RBMK

@@ -134,7 +134,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("chem.obsidian").setup(60, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER + ".stone")
 				.inputFluids(new FluidStack(Fluids.WATER, 1_000), new FluidStack(Fluids.LAVA, 500), new FluidStack(Fluids.AIR, 4_000))
 				.outputItems(new ItemStack(Blocks.obsidian)));
-		this.register(new GenericRecipe("chem.aggregate").setup(320, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER + ".stone")
+		this.register(new GenericRecipe("chem.aggregate").setupNamed(320, 500).setPools(GenericRecipes.POOL_PREFIX_DISCOVER + ".stone")
 				.inputItems(new ComparableStack(Blocks.cobblestone, 16))
 				.outputItems(new ItemStack(Blocks.gravel, 8), new ItemStack(Blocks.sand, 8)));
 		this.register(new GenericRecipe("chem.concrete").setup(100, 100)
