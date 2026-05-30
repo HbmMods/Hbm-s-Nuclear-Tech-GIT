@@ -669,11 +669,12 @@ public class ModBlocks {
 	public static Block foundry_slagtap;
 	public static Block slag;
 
-	public static Block machine_difurnace_off;
-	public static Block machine_difurnace_on;
-	public static Block machine_difurnace_extension;
-	public static Block machine_difurnace_rtg_off;
-	public static Block machine_difurnace_rtg_on;
+	@Deprecated public static Block machine_difurnace_off;
+	@Deprecated public static Block machine_difurnace_on;
+	@Deprecated public static Block machine_difurnace_extension;
+	@Deprecated public static Block machine_difurnace_rtg_off;
+	@Deprecated public static Block machine_difurnace_rtg_on;
+	public static Block machine_blast_furnace;
 	//public static final int guiID_test_difurnace = 1; historical
 
 	public static Block machine_centrifuge;
@@ -1767,6 +1768,7 @@ public class ModBlocks {
 		machine_difurnace_extension = new MachineDiFurnaceExtension().setBlockName("machine_difurnace_extension").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_off = new MachineDiFurnaceRTG(false).setBlockName("machine_difurnace_rtg_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_on = new MachineDiFurnaceRTG(true).setBlockName("machine_difurnace_rtg_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(1.0F).setCreativeTab(null);
+		machine_blast_furnace = new MachineBlastFurnace().setBlockName("machine_blast_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 
 		machine_centrifuge = new MachineCentrifuge(Material.iron).setBlockName("machine_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_gascent = new MachineGasCent(Material.iron).setBlockName("machine_gascent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3030,6 +3032,7 @@ public class ModBlocks {
 		register(machine_difurnace_off);
 		register(machine_difurnace_on);
 		register(machine_difurnace_extension);
+		register(machine_blast_furnace);
 		GameRegistry.registerBlock(machine_difurnace_rtg_off, machine_difurnace_rtg_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_rtg_on, machine_difurnace_rtg_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());

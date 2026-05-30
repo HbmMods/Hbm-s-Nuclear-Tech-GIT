@@ -26,6 +26,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+@Deprecated
 public class MachineDiFurnace extends BlockContainer {
 
     private final Random rand = new Random();

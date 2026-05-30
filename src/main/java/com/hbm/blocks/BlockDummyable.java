@@ -310,24 +310,14 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
-		if(i >= 12) {
-			// ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset);
-			// MultiblockHandler.emptySpace(world, x, y, z, getDimensions(), this, d);
-		} else if(!safeRem) {
+		if(i >= 12) { } else if(!safeRem) {
 
-			if(i >= extra)
-				i -= extra;
-
-			// ForgeDirection dir = ForgeDirection.getOrientation(i).getOpposite();
-			// int[] pos = findCore(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-
-			// if(pos != null) {
+			if(i >= extra) i -= extra;
 
 			ForgeDirection d = ForgeDirection.getOrientation(i);
 
 			if(world.getBlock(x - d.offsetX, y - d.offsetY, z - d.offsetZ) == this)
 				world.setBlockToAir(x - d.offsetX, y - d.offsetY, z - d.offsetZ);
-			// }
 		}
 
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -390,6 +380,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return false;
 	}
 
+	/**
+	 * @returns an int array with six fields, describing the amount of dummy blocks in each direction around the core. order is UP, DOWN, FORWARD, BACKWARD, LEFT, RIGHT
+	 */
 	public abstract int[] getDimensions();
 
 	public abstract int getOffset();

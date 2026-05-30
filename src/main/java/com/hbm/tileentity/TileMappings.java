@@ -73,6 +73,7 @@ public class TileMappings {
 
 	public static void writeMappings() {
 		put(TileEntityDiFurnace.class, "tilentity_diFurnace");
+		put(TileEntityMachineBlastFurnace.class, "tilentity_blast_furnace");
 		put(TileEntityTestStorage.class, "tilentity_test_storage");
 		put(TileEntityObjTester.class, "tilentity_objtester");
 		put(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");

@@ -4444,6 +4444,17 @@ public class ModItems {
 	private static void registerItem() {
 
 		excludeNEI.add(item_secret);
+		excludeNEI.add(meteorite_sword_seared);
+		excludeNEI.add(meteorite_sword_reforged);
+		excludeNEI.add(meteorite_sword_hardened);
+		excludeNEI.add(meteorite_sword_alloyed);
+		excludeNEI.add(meteorite_sword_machined);
+		excludeNEI.add(meteorite_sword_treated);
+		excludeNEI.add(meteorite_sword_etched);
+		excludeNEI.add(meteorite_sword_bred);
+		excludeNEI.add(meteorite_sword_irradiated);
+		excludeNEI.add(meteorite_sword_fused);
+		excludeNEI.add(meteorite_sword_baleful);
 
 		//Weapons
 		GameRegistry.registerItem(redstone_sword, redstone_sword.getUnlocalizedName());

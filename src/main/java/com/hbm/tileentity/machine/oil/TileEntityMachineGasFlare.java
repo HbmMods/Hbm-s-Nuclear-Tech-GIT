@@ -121,7 +121,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			int maxVent = 50;
 			int maxBurn = 10;
 
-			if(isOn && tank.getFill() > 0) {
+			if(isOn && tank.getFill() > 0 && !this.tilted) {
 
 				upgradeManager.checkSlots(this, slots, 4, 5);
 				int burn = upgradeManager.getLevel(UpgradeType.SPEED);

@@ -24,6 +24,13 @@
   * Comes in snack machine and soda machine variants
   * The machines can be purchased off of bobmazon for 64 caps each
   * Use vending machine tokens as currency, which can be found occasionally in most structures
+* New blast furnace
+  * 3x3 base, 7 blocks tall
+  * Can be accelerated with hot air blast (just compressed air in a boiler)
+  * The faster it is supplied with hot air blast, the faster it gets
+  * Uses smarter IO, one port can supply all slots without needing to configure anything or have multiple item inputs
+  * A firebox burning coal can already take the blast furnace to 130% speed (default speed with no blast at all is 50%)
+  * Produces flue gas, a new type of exhaust that can be burned
 
 ## Changed
 * RoR graphs can now have their min and max bounds set to a fixed number
@@ -60,6 +67,7 @@
 * Added a new alternate recipe "instant aggregate" in the chemical plant, turning 16 cobblestone into 8 gravel and 8 sand
 * Added a new alternate recipe for making obsidian in the chemical plant
 * Removed the water and steam geysers, which were so obscenely rare most people have never seen either one of them, and became functionally useless without the old geothermal generator
+* Moved the napalm recipe to the chemical plant
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
