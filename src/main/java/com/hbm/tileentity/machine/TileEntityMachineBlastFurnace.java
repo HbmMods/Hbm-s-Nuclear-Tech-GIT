@@ -55,7 +55,7 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 		super(5);
 		this.tanks = new FluidTank[2];
 		this.tanks[0] = new FluidTank(Fluids.AIRBLAST, 4_000);
-		this.tanks[1] = new FluidTank(Fluids.GAS, 1_000); // TEMP
+		this.tanks[1] = new FluidTank(Fluids.FLUE, 1_000); // TEMP
 	}
 
 	@Override

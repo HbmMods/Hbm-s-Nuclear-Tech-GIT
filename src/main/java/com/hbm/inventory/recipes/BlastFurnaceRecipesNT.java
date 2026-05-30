@@ -9,6 +9,7 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class BlastFurnaceRecipesNT extends GenericRecipes<GenericRecipe> {
@@ -69,6 +70,13 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("blast.paa").setDuration(600)
 				.inputItems(new OreDictStack(GOLD.ingot()), new ComparableStack(ModItems.plate_mixed, 1))
 				.outputItems(new ItemStack(ModItems.plate_paa, 1)));
+
+		this.register(new GenericRecipe("blast.firebrick").setDuration(800)
+				.inputItems(new OreDictStack(AL.dust()), new ComparableStack(Items.clay_ball, 7))
+				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
+		this.register(new GenericRecipe("blast.firebrickLimestone").setDuration(800)
+				.inputItems(new OreDictStack(LIMESTONE.ore()), new ComparableStack(Items.clay_ball, 6))
+				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
 	}
 
 	@Override

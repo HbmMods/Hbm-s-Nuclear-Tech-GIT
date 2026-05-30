@@ -222,7 +222,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(Blocks.stonebrick, 4),
-						new ComparableStack(ModItems.ingot_firebrick, 12),
+						new ComparableStack(ModItems.ingot_firebrick, 32),
 						new OreDictStack(CU.plate(), 8)
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_blast_furnace))).setTier(1));
