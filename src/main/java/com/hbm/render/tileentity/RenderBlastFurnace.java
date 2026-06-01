@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityMachineBlastFurnace;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -26,6 +27,14 @@ public class RenderBlastFurnace extends TileEntitySpecialRenderer implements IIt
 		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
+		
+		TileEntityMachineBlastFurnace furnace = (TileEntityMachineBlastFurnace) tile;
+		
+		if(furnace.tilted) {
+			GL11.glTranslated(0, -0.25, 0);
+			GL11.glRotated(10, 0, 0, 1);
+			GL11.glRotated(5, 0, 1, 0);
 		}
 		
 		bindTexture(ResourceManager.blast_furnace_tex);
