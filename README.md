@@ -24,6 +24,26 @@ For further ports, try:
 
 Simply navigate to "Releases" on the right side of the page, download links for the compiled JAR as well as the corresponding source code are under the "Assets" category below the changelog. Make sure to review all changelogs when updating!
 
+## Using in your project
+
+To include the mod as a dependency in a project of your own, you can adjust your Gradle buildscript according to the following example:
+
+```groovy
+repositories {
+		maven {
+				name "NTM Releases"
+				url "https://maven.ntmr.dev/releases"
+		}
+}
+
+dependencies {
+		def ntmBuildNumber = "5687" // Change this value according to the release you wish to use
+
+		implementation "com.hbm:HBM-NTM:1.0.27_X${ntmBuildNumber}:dev"
+		compileOnly "com.hbm:HBM-NTM:1.0.27_X${ntmBuildNumber}:src"
+}
+```
+
 ## Building from source
 
 Tired of waiting until the next version comes out? Here is a tutorial on how to compile the very newest version yourself:
