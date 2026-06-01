@@ -129,6 +129,9 @@ armorMod.type.leggings=Beinschienen
 armorMod.type.servo=Servos
 armorMod.type.special=Spezial
 
+ass.analogAlt=Simple Analogschaltkreise
+ass.atomicClockAlt=Caesium-Atomuhr
+ass.factorioChip=Minimalisten-Schaltkreise
 ass.nitra=Nitra zu Munition
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
