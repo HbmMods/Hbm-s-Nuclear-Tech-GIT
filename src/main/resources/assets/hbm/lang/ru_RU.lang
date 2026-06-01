@@ -184,6 +184,9 @@ armorMod.type.leggings=Поножи
 armorMod.type.servo=Сервоприводы
 armorMod.type.special=Особое
 
+ass.analogAlt=Простая аналоговая схема
+ass.atomicClockAlt=Цезиевые атомные часы
+ass.factorioChip=Минималистичные микрочип
 ass.nitra=Амуниция из нитры
 
 autoswitch=Часть группы автоматического переключения "%s"$Рецепта изменяется в зависимости от первого ингредиента
