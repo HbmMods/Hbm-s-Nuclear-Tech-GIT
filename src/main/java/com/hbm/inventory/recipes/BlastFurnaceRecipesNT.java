@@ -64,7 +64,7 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<GenericRecipe> {
 				.outputItems(new ItemStack(ModItems.meteorite_sword_alloyed, 1)));
 
 		this.register(new GenericRecipe("blast.starmetal").setDuration(600)
-				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))
+				.inputItems(new OreDictStack(BIGMT.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))
 				.outputItems(new ItemStack(ModItems.ingot_starmetal, 1)));
 
 		this.register(new GenericRecipe("blast.paa").setDuration(600)

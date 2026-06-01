@@ -75,6 +75,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.plateweaponsteel").setup(60, 100).outputItems(new ItemStack(ModItems.plate_weaponsteel, 1)).inputItems(new OreDictStack(WEAPONSTEEL.ingot())).setPools(GenericRecipes.POOL_PREFIX_ALT + "plates").setGroup(autoPlate, this));
 		this.register(new GenericRecipe("ass.platesaturnite").setup(60, 100).outputItems(new ItemStack(ModItems.plate_saturnite, 1)).inputItems(new OreDictStack(BIGMT.ingot())).setPools(GenericRecipes.POOL_PREFIX_ALT + "plates").setGroup(autoPlate, this));
 		this.register(new GenericRecipe("ass.platedura").setup(60, 100).outputItems(new ItemStack(ModItems.plate_dura_steel, 1)).inputItems(new OreDictStack(DURA.ingot())).setPools(GenericRecipes.POOL_PREFIX_ALT + "plates").setGroup(autoPlate, this));
+		
 		this.register(new GenericRecipe("ass.platemixed").setup(50, 100).outputItems(new ItemStack(ModItems.plate_mixed, 4))
 				.inputItems(new OreDictStack(ALLOY.plate(), 2), new ComparableStack(ModItems.neutron_reflector, 1), new OreDictStack(BIGMT.plate(), 1)));
 		this.register(new GenericRecipe("ass.dalekanium").setup(200, 100).outputItems(new ItemStack(ModItems.plate_dalekanium, 1))
@@ -118,6 +119,26 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(ASBESTOS.ingot(), 1), new ComparableStack(Items.string, 8)));
 		this.register(new GenericRecipe("ass.filtercoal").setup(50, 100).outputItems(new ItemStack(ModItems.filter_coal, 1))
 				.inputItems(new OreDictStack(COAL.dust(), 4), new ComparableStack(Items.string, 2), new ComparableStack(Items.paper, 1)));
+		
+		// crafting parts
+		if(!GeneralConfig.enable528) { // precass otherwise
+			this.register(new GenericRecipe("ass.chip").setup(100, 250).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP))
+					.inputItems(new ComparableStack(ModItems.plate_polymer), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.SILICON), new OreDictStack(GOLD.wireFine())));
+			this.register(new GenericRecipe("ass.chipBismoid").setup(100, 1_500).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_BISMOID))
+					.inputItems(new ComparableStack(ModItems.plate_polymer, 2), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.SILICON), new OreDictStack(ANY_BISMOID.nugget()), new OreDictStack(GOLD.wireFine(), 2)));
+			this.register(new GenericRecipe("ass.chipQuantum").setup(200, 15_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_QUANTUM))
+					.inputItems(new OreDictStack(ANY_HARDPLASTIC.ingot(), 2), new OreDictStack(BSCCO.wireDense()), new ComparableStack(ModItems.pellet_charged), new OreDictStack(GOLD.wireFine(), 8)));
+			this.register(new GenericRecipe("ass.atomicClock").setup(300, 1_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK))
+					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 2), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CHIP), new OreDictStack(SR.dust(), 1)));
+
+			// alternates
+			this.register(new GenericRecipe("ass.analogAlt").setupNamed(200, 250).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ANALOG))
+					.inputItems(new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new OreDictStack(ANY_PLASTIC.ingot(), 4), new OreDictStack(W.wireFine(), 8), new OreDictStack(NB.ingot())).setPools(POOL_PREFIX_ALT + ".circuit"));
+			this.register(new GenericRecipe("ass.factorioChip").setupNamed(300, 20_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC))
+					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 4), new OreDictStack(IRON.plate(), 4), new OreDictStack(CU.wireFine(), 8)).setPools(POOL_PREFIX_ALT + ".circuit"));
+			this.register(new GenericRecipe("ass.atomicClockAlt").setupNamed(300, 20_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK, 4))
+					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 4), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CHIP), new OreDictStack(CS137.dust(), 1)).setPools(POOL_PREFIX_ALT + ".circuit"));
+		}
 
 		// machine parts
 		this.register(new GenericRecipe("ass.centrifugetower").setup(100, 100).outputItems(new ItemStack(ModItems.centrifuge_element, 1))
