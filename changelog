@@ -84,3 +84,4 @@
 * Fixed potential client desync when placing or removing lids on a hot RBMK
 * Fixed custom missile launch pad cores not being obtainable in 528 mode
 * Fixed industrial turbines never fully spinning down
+* Fixed bricked furnace IO not working right
