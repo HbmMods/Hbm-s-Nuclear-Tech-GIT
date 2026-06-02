@@ -81,6 +81,8 @@
 * The steel recipe in the crucible now requires flux
   * The recipe is also now a fair bit slower (still faster than a blast furnace overall)
 * Remodeled the catalytic reformer
+* Crane structure
+  * Crane structure
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI
