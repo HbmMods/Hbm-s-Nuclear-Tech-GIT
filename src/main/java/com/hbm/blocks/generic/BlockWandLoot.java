@@ -302,6 +302,7 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 				((TileEntityLockableBase) te).setPins(lockCode);
 				((TileEntityLockableBase) te).setMod(lockMod);
 				((TileEntityLockableBase) te).cheesable = lockMod != 0;
+				((TileEntityLockableBase) te).lock();
 			}
 			if(te instanceof IInventory) {
 				int count = minItems;
