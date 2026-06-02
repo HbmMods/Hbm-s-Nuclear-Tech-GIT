@@ -16,7 +16,8 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 	protected int lock;
 	private boolean isLocked = false;
 	protected double lockMod = 0.1D;
-
+	/** Whether a counterfeit lock can be made out of it*/
+	public boolean cheesable = true;
 	public boolean isLocked() {
 		return isLocked;
 	}
@@ -44,6 +45,7 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		super.readFromNBT(nbt);
 
 		lock = nbt.getInteger("lock");
+		cheesable = nbt.getBoolean("cheesable");
 		isLocked = nbt.getBoolean("isLocked");
 		lockMod = nbt.getDouble("lockMod");
 	}
@@ -53,6 +55,7 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		super.writeToNBT(nbt);
 
 		nbt.setInteger("lock", lock);
+		nbt.setBoolean("cheesable", cheesable);
 		nbt.setBoolean("isLocked", isLocked);
 		nbt.setDouble("lockMod", lockMod);
 	}
@@ -62,6 +65,7 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		super.serialize(buf);
 
 		buf.writeInt(lock);
+		buf.writeBoolean(cheesable);
 		buf.writeBoolean(isLocked);
 		buf.writeDouble(lockMod);
 	}
@@ -71,6 +75,7 @@ public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 		super.deserialize(buf);
 
 		lock = buf.readInt();
+		cheesable = buf.readBoolean();
 		isLocked = buf.readBoolean();
 		lockMod = buf.readDouble();
 	}
