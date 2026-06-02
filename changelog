@@ -72,6 +72,9 @@
 * The analog and integrated circuit boards now have alternate recipes in the assembler
 * Removed two of the older motor recipes in the arc welder
   * The only remaining recipe is the dense red copper one
+* Using state of the art anti-leave-the-screen technology, recipe tooltips (and most tooltips used by `GuiInfoScreen`) should no longer leave the screen
+  * This means that the recipe selector can now have the tooltip follow the mouse instead of being eternally stuck in the corner
+  * Recipe selector tooltips now have a nice orange and yellow border
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

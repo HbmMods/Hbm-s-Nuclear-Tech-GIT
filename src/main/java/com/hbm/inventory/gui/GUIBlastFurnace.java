@@ -5,8 +5,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerBlastFurnace;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.TileEntityMachineBlastFurnace;
 
 import net.minecraft.client.Minecraft;
@@ -71,7 +71,7 @@ public class GUIBlastFurnace extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 81, guiTop + 64, 176, 0, 14, 14);
 		}
 
-		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 80, this.zLevel, (double) furnace.tanks[0].getFill() / (double) furnace.tanks[0].getMaxFill(), 5, 2, 1, 0x800000);
-		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 26, this.zLevel, (double) furnace.tanks[1].getFill() / (double) furnace.tanks[1].getMaxFill(), 5, 2, 1, 0x800000);
+		GUIElements.drawSmoothGauge(guiLeft + 34, guiTop + 80, this.zLevel, (double) furnace.tanks[0].getFill() / (double) furnace.tanks[0].getMaxFill(), 5, 2, 1, 0x800000);
+		GUIElements.drawSmoothGauge(guiLeft + 34, guiTop + 26, this.zLevel, (double) furnace.tanks[1].getFill() / (double) furnace.tanks[1].getMaxFill(), 5, 2, 1, 0x800000);
 	}
 }

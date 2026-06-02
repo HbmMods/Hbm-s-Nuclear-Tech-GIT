@@ -5,11 +5,11 @@ import java.util.Arrays;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerPneumoTube;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 import com.hbm.uninos.networkproviders.PneumaticNetwork;
 
@@ -112,7 +112,7 @@ public class GUIPneumoTube extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 151, guiTop + 52, 215, 18 * tube.sendOrder, 18, 18);
 			
 			drawTexturedModalRect(guiLeft + 6 + 4 * (tube.compair.getPressure() - 1), guiTop + 36, 179, 18, 4, 8);
-			GaugeUtil.drawSmoothGauge(guiLeft + 16, guiTop + 25, this.zLevel, (double) tube.compair.getFill() / (double) tube.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);
+			GUIElements.drawSmoothGauge(guiLeft + 16, guiTop + 25, this.zLevel, (double) tube.compair.getFill() / (double) tube.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);
 		}
 	}
 }
