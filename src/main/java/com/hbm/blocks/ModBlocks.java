@@ -723,7 +723,7 @@ public class ModBlocks {
 
 	public static Block machine_battery_socket;
 	public static Block machine_battery_redd;
-  
+
 	@Deprecated public static Block machine_battery_potato;
 	@Deprecated public static Block machine_battery;
 	@Deprecated public static Block machine_lithium_battery;
@@ -1212,6 +1212,7 @@ public class ModBlocks {
 	public static Block wand_structure;
 
 	public static Block logic_block;
+	public static Block logic_block_invis;
 
 	public static Material materialGas = new MaterialGas();
 
@@ -1816,7 +1817,7 @@ public class ModBlocks {
 
 		machine_battery_socket = new MachineBatterySocket().setBlockName("machine_battery_socket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_battery_redd = new MachineBatteryREDD().setBlockName("machine_battery_redd").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		
+
 		machine_battery_potato = new MachineBattery(Material.iron, 10_000).setBlockName("machine_battery_potato").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		machine_battery = new MachineBattery(Material.iron, 1_000_000).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
@@ -2348,6 +2349,7 @@ public class ModBlocks {
 		wand_structure = new BlockWandStructure().setBlockName("wand_structure");
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
+		logic_block_invis = new LogicBlockInvis().setBlockName("logic_block_invis").setBlockTextureName(RefStrings.MODID + ":logic_block");
 
 	}
 
@@ -3485,6 +3487,7 @@ public class ModBlocks {
 		register(wand_structure);
 
 		register(logic_block);
+		register(logic_block_invis);
 	}
 
 	private static void register(Block b) {

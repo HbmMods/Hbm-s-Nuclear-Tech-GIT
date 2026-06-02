@@ -5,12 +5,15 @@ import com.hbm.blocks.generic.BlockPedestal;
 import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.bomb.TileEntityCharge;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -19,7 +22,7 @@ import java.util.function.Function;
 
 public class LogicBlockConditions {
 
-	public static LinkedHashMap<String, Function<LogicBlock.TileEntityLogicBlock, Boolean>> conditions = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Function<LogicBlock.TileEntityLogicBlock, Boolean>> conditions;
 
 	/**For use with interactions, for having them handle all conditional tasks*/
 	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> EMPTY = (tile) -> false;
@@ -96,18 +99,49 @@ public class LogicBlockConditions {
 			&& ((BlockPedestal.TileEntityPedestal) pedestal).item.getItem() == ModItems.big_sword;
 	};
 
+	public static Function<LogicBlock.TileEntityLogicBlock, Boolean> BOMB_CRANE = (tile) -> {
+		World world = tile.getWorldObj();
+		int x = tile.xCoord;
+		int y = tile.yCoord;
+		int z = tile.zCoord;
+
+		if(tile.phase == 0) {
+			world.setBlock(x, y + 1, z, ModBlocks.charge_c4, ForgeDirection.UP.ordinal(), 3);
+
+			TileEntity te = world.getTileEntity(x, y + 1, z);
+			if (te instanceof TileEntityCharge) {
+				TileEntityCharge bomb = (TileEntityCharge) te;
+				bomb.timer = 200;
+			}
+		}
+
+		return !world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(10, 10, 10)).isEmpty();
+	};
+
+
+
+
 	public static List<String> getConditionNames(){
 		return new ArrayList<>(conditions.keySet());
 	}
 
 	//register new conditions here
 	static {
-		//example conditions
+		initialize();
+	}
+
+	public static void initialize() {
+		conditions = new LinkedHashMap<>();
+
 		conditions.put("EMPTY", EMPTY);
-		conditions.put("ABERRATOR", ABERRATOR);
 		conditions.put("PLAYER_CUBE_3", PLAYER_CUBE_3);
 		conditions.put("PLAYER_CUBE_5", PLAYER_CUBE_5);
 		conditions.put("PLAYER_CUBE_25", PLAYER_CUBE_25);
+
+		conditions.put("BOMB_CRANE", BOMB_CRANE);
+
+		//example conditions
+		conditions.put("ABERRATOR", ABERRATOR);
 		conditions.put("REDSTONE", REDSTONE);
 		conditions.put("PUZZLE_TEST", PUZZLE_TEST);
 	}

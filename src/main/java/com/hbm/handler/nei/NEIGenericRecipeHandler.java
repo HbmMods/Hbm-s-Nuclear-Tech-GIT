@@ -320,4 +320,10 @@ public abstract class NEIGenericRecipeHandler extends TemplateRecipeHandler impl
 			drawTexturedModalRect(74 + this.getMachineXOffset(rec.recipe), 7, 77, 87, 18, 50);
 		}
 	}
+
+	@Override
+	public void drawExtras(int recipe) {
+		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
+		rec.recipe.printNEIExtras();
+	}
 }

@@ -9,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCrucible;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
@@ -52,7 +53,7 @@ public class GUICrucible extends GuiInfoContainer {
 		if(guiLeft + 106 <= x && guiLeft + 106 + 18 > x && guiTop + 80 < y && guiTop + 80 + 18 >= y) {
 			if(this.crucible.recipe != null && CrucibleRecipes.INSTANCE.recipeNameMap.containsKey(this.crucible.recipe)) {
 				CrucibleRecipe recipe = (CrucibleRecipe) CrucibleRecipes.INSTANCE.recipeNameMap.get(this.crucible.recipe);
-				this.func_146283_a(recipe.print(), x, y);
+				GUIElements.drawHoveringTextRecipe(recipe.print(), x, y, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), x, y);
 			}

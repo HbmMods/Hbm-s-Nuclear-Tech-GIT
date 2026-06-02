@@ -59,7 +59,7 @@ public class RedBarrel extends BlockDetonatable {
 		} else if(this == ModBlocks.lox_barrel) {
 			world.newExplosion(entity, x, y, z, 1F, false, false);
 
-			ExplosionThermo.freeze(world, ix, iy, iz, 7);
+			ExplosionThermo.freezer(world, ix, iy, iz, 7);
 		} else if(this == ModBlocks.taint_barrel) {
 			world.newExplosion(entity, x, y, z, 1F, false, false);
 

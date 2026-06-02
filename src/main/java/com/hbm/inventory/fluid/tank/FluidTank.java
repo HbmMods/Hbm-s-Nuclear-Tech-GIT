@@ -11,6 +11,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.util.BobMathUtil;
@@ -247,7 +248,7 @@ public class FluidTank implements Cloneable {
 			}
 			
 			type.addInfo(list);
-			gui.drawInfo(list.toArray(new String[0]), mouseX, mouseY);
+			GUIElements.drawHoveringTextFluid(list, mouseX, mouseY, gui.getFontRenderer(), gui.getItemRenderer(), gui.width, gui.height, this.type);
 		}
 	}
 

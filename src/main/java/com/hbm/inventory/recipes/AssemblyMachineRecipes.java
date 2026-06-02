@@ -946,7 +946,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.satellitebase").setup(600, 100).outputItems(new ItemStack(ModItems.sat_base, 1))
 				.inputItems(new OreDictStack(RUBBER.ingot(), 12),
 						new OreDictStack(TI.shell(), 3),
-						new ComparableStack(ModItems.thruster_large, 1),
+						new ComparableStack(ModItems.thruster_medium, 1),
 						new ComparableStack(ModItems.part_generic, 8, EnumPartType.LDE),
 						new ComparableStack(ModItems.plate_desh, 4),
 						new ComparableStack(ModItems.fluid_barrel_full, 1, Fluids.KEROSENE.getID()),

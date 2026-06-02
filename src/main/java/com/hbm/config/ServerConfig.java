@@ -21,6 +21,7 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Boolean> CRATE_KEEP_CONTENTS =			new ConfigWrapper(true);
 	public static ConfigWrapper<Integer> ITEM_HAZARD_DROP_TICKRATE =	new ConfigWrapper(2);
 	public static ConfigWrapper<Boolean> ENABLE_MKU =					new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> STRUCTURE_DEBUG =				new ConfigWrapper(false);
 	public static ConfigWrapper<Integer> AUTOCAL_MAX_CLOCK =			new ConfigWrapper(20);
 
 	private static void initDefaults() {
@@ -35,6 +36,7 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("CRATE_KEEP_CONTENTS", CRATE_KEEP_CONTENTS);
 		configMap.put("ITEM_HAZARD_DROP_TICKRATE", ITEM_HAZARD_DROP_TICKRATE);
 		configMap.put("ENABLE_MKU", ENABLE_MKU);
+		configMap.put("STRUCTURE_DEBUG", STRUCTURE_DEBUG);
 		configMap.put("AUTOCAL_MAX_CLOCK", AUTOCAL_MAX_CLOCK);
 	}
 

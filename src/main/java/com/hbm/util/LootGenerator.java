@@ -30,6 +30,8 @@ public class LootGenerator {
 	public static final String LOOT_METEOR = "LOOT_METEOR";
 	public static final String LOOT_FLAREGUN = "LOOT_FLAREGUN";
 	public static final String LOOT_SHIT = "LOOT_SHIT";
+	public static final String LOOT_MECHANICAL = "LOOT_MECHANICAL";
+	public static final String LOOT_GEAR = "LOOT_GEAR";
 
 	public static void applyLoot(World world, int x, int y, int z, String name) {
 		switch(name) {
@@ -44,6 +46,8 @@ public class LootGenerator {
 			case LOOT_METEOR: lootBookMeteor(world, x, y, z);
 			case LOOT_FLAREGUN: lootFlareGun(world, x, y, z);
 			case LOOT_SHIT: lootShit(world, x, y, z);
+			case LOOT_MECHANICAL: lootMechanical(world, x, y, z);
+			case LOOT_GEAR: lootMechanical(world, x, y, z);
 			default: lootBones(world, x, y, z); break;
 		}
 	}
@@ -60,6 +64,9 @@ public class LootGenerator {
 			LOOT_GLYPHID_HIVE,
 			LOOT_METEOR,
 			LOOT_FLAREGUN,
+			LOOT_MECHANICAL,
+			LOOT_GEAR,
+			LOOT_SHIT,
 		};
 	}
 
@@ -244,6 +251,32 @@ public class LootGenerator {
 			int limit = world.rand.nextInt(3) + 3;
 			for(int i = 0; i < limit; i++) {
 				addItemWithDeviation(loot, world.rand, ItemPool.getStack(ItemPool.getPool(ItemPoolsPile.POOL_PILE_OF_GARBAGE), world.rand), world.rand.nextDouble() - 0.5, i * 0.03125, world.rand.nextDouble() - 0.5);
+			}
+		}
+	}
+
+	public static void lootMechanical(World world, int x, int y, int z) {
+
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+
+		if(loot != null && loot.items.isEmpty()) {
+
+			int limit = world.rand.nextInt(6) + 1;
+			for(int i = 0; i < limit; i++) {
+				addItemWithDeviation(loot, world.rand, ItemPool.getStack(ItemPool.getPool(ItemPoolsPile.POOL_PILE_MECHANICAL), world.rand), world.rand.nextDouble() - 0.5, i * 0.03125, world.rand.nextDouble() - 0.5);
+			}
+		}
+	}
+
+	public static void lootGear(World world, int x, int y, int z) {
+
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+
+		if(loot != null && loot.items.isEmpty()) {
+
+			int limit = world.rand.nextInt(6) + 1;
+			for(int i = 0; i < limit; i++) {
+				addItemWithDeviation(loot, world.rand, ItemPool.getStack(ItemPool.getPool(ItemPoolsPile.POOL_PILE_GEAR), world.rand), world.rand.nextDouble() - 0.5, i * 0.03125, world.rand.nextDouble() - 0.5);
 			}
 		}
 	}
