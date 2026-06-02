@@ -60,19 +60,19 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 		int n = MaterialShapes.NUGGET.q(1);
 		int i = MaterialShapes.INGOT.q(1);
 		
-		this.register(new CrucibleRecipe("crucible.steel").setup(2, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+		this.register(new CrucibleRecipe("crucible.steel").setup(20, new ItemStack(ModItems.ingot_steel))
+				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
 		
 		if(Compat.isModLoaded(Compat.MOD_GT6)) {
-			this.register(new CrucibleRecipe("crucible.steelWrought").setup(2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+			this.register(new CrucibleRecipe("crucible.steelWrought").setup(20, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
-			this.register(new CrucibleRecipe("crucible.steelPig").setup(2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_PIGIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+			this.register(new CrucibleRecipe("crucible.steelPig").setup(20, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_PIGIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
-			this.register(new CrucibleRecipe("crucible.steelMeteoric").setup(2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+			this.register(new CrucibleRecipe("crucible.steelMeteoric").setup(20, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n * 3), new MaterialStack(Mats.MAT_FLUX, n))
 					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
 		}
 		

@@ -1,12 +1,12 @@
 package com.hbm.handler.nei;
 
 import java.awt.Rectangle;
-import java.util.Locale;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUIMachineArcWelder;
 import com.hbm.inventory.recipes.ArcWelderRecipes;
 import com.hbm.inventory.recipes.ArcWelderRecipes.ArcWelderRecipe;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -48,11 +48,11 @@ public class ArcWelderHandler extends NEIUniversalHandler {
 				}
 
 				FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-				String duration = String.format(Locale.US, "%,d", arc.duration) + " ticks";
-				String consumption = String.format(Locale.US, "%,d", arc.consumption) + " HE/t";
-				int side = 160;
-				fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 43, 0x404040);
-				fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 55, 0x404040);
+				String duration = BobMathUtil.getShortNumber(arc.duration) + " ticks";
+				String consumption =  BobMathUtil.getShortNumber(arc.consumption) + "HE/t";
+				int side = 164;
+				fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 45, 0x404040);
+				fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 57, 0x404040);
 				return;
 			}
 		}

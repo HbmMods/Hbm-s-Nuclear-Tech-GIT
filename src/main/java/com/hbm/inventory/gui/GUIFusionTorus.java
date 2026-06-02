@@ -59,7 +59,7 @@ public class GUIFusionTorus extends GuiInfoContainer {
 
 		if(guiLeft + 43 <= mouseX && guiLeft + 43 + 18 > mouseX && guiTop + 80 < mouseY && guiTop + 80 + 18 >= mouseY) {
 			if(recipe != null) {
-				this.func_146283_a(recipe.print(), mouseX, mouseY);
+				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
 			}

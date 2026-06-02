@@ -75,6 +75,12 @@
 * Using state of the art anti-leave-the-screen technology, recipe tooltips (and most tooltips used by `GuiInfoScreen`) should no longer leave the screen
   * This means that the recipe selector can now have the tooltip follow the mouse instead of being eternally stuck in the corner
   * Recipe selector tooltips now have a nice orange and yellow border
+* The nuclear charge and demolition nuclear grenade charge now need neutron reflectors
+* Schrabidium grenade charges now use CMB steel instead of bronze
+* The satellite base now only uses a medium thruster instead of a large one, making it no longer post pyrolysis
+* The steel recipe in the crucible now requires flux
+  * The recipe is also now a fair bit slower (still faster than a blast furnace overall)
+* Remodeled the catalytic reformer
 
 ## Fixed
 * Fixed RoR graph showing the wrong name in the GUI

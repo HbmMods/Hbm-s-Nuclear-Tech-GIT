@@ -71,6 +71,10 @@ public class ColorUtil {
 		}
 	}
 	
+	public static int color(int r, int g, int b) {
+		return ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
+	}
+	
 	public static int ir(int color) {
 		return (color & 0xff0000) >> 16;
 	}

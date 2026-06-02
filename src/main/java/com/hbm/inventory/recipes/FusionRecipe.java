@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Clock;
 import com.hbm.util.i18n.I18nUtil;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FusionRecipe extends GenericRecipe {
@@ -42,5 +45,23 @@ public class FusionRecipe extends GenericRecipe {
 		output(list);
 
 		return list;
+	}
+	
+	@Override
+	public void printNEIExtras() {
+
+		int side = 164;
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		
+		String duration = BobMathUtil.getShortNumber(this.duration) + " ticks";
+		fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 45, 0x404040);
+		
+		if(Clock.get_ms() % 2000 < 1000) {
+			String consumption = BobMathUtil.getShortNumber(this.power) + "HE/t";
+			fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 57, 0x404040);
+		} else {
+			String temp = BobMathUtil.getShortNumber(this.ignitionTemp) + "Ky/t";
+			fontRenderer.drawString(temp, side - fontRenderer.getStringWidth(temp), 57, 0xa000a0);
+		}
 	}
 }

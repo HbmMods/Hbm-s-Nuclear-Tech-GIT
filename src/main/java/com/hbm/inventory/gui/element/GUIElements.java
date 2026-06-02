@@ -6,7 +6,9 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.ColorUtil;
 import com.hbm.util.Vec3NT;
 
 import net.minecraft.client.Minecraft;
@@ -97,6 +99,18 @@ public class GUIElements {
 	}
 	public static void drawHoveringTextRecipe(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight) {
 		drawHoveringText(lines, x, y, font, itemRender, guiWidth, guiHeight, 6, STANDARD_LINE_DIST, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND, RECIPE_COLOR_LINE0, RECIPE_COLOR_LINE1);
+	}
+
+	public static void drawHoveringTextFluid(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, FluidType type) {
+		int color0 = type.getColor();
+		int r = ColorUtil.ir(color0);
+		int g = ColorUtil.ig(color0);
+		int b = ColorUtil.ib(color0);
+		int add = (r + g + b) / 3 > 0x80 ? -0x40 : 0x40;
+		int color1 = ColorUtil.color(MathHelper.clamp_int(r + add, 0, 255), MathHelper.clamp_int(g + add, 0, 255), MathHelper.clamp_int(b + add, 0, 255));
+		color0 |= 0xff000000;
+		color1 |= 0xff000000;
+		drawHoveringText(lines, x, y, font, itemRender, guiWidth, guiHeight, 6, STANDARD_LINE_DIST, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND, color0, color1);
 	}
 
 	public static void drawHoveringText(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, int headerOffset, int lineDist, int colBG0, int colBG1, int colLine0, int colLine1) {
