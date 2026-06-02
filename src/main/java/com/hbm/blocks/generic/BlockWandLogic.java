@@ -5,6 +5,7 @@ import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.ICopiable;
@@ -116,6 +117,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 					return true;
 				}
 			}
+
 		}
 		return super.onBlockActivated(world, x, y, z, player, side, fX, fY, fZ);
 	}
@@ -218,7 +220,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 		public int placedRotation;
 
 		Block disguise;
-		int disguiseMeta = -1;
+		int disguiseMeta = 0;
 
 		public String actionID = "FODDER_WAVE";
 		public String conditionID = "PLAYER_CUBE_5";
@@ -237,35 +239,38 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 		}
 
 		private void replace() {
-			if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLogic)) {
-				MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
-				return;
-			}
-			worldObj.setBlock(xCoord,yCoord,zCoord, ModBlocks.logic_block);
+			if(!worldObj.isRemote) {
+				if (!(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof BlockWandLogic)) {
+					MainRegistry.logger.warn("Somehow the block at: " + xCoord + ", " + yCoord + ", " + zCoord + " isn't a logic block but we're doing a TE update as if it is, cancelling!");
+					return;
+				}
 
-			TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+				worldObj.setBlock(xCoord, yCoord, zCoord, disguise == null ? ModBlocks.logic_block_invis : ModBlocks.logic_block, 0, 3);
 
-			if(te == null || te instanceof BlockWandLoot.TileEntityWandLoot) {
-				MainRegistry.logger.warn("TE for logic block set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
-				te = ModBlocks.wand_logic.createTileEntity(worldObj, 0);
-				worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
-			}
+				TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
 
-			if(te instanceof LogicBlock.TileEntityLogicBlock){
-				LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock)	te;
-				logic.actionID = actionID;
-				logic.conditionID = conditionID;
-				logic.interactionID = interactionID;
-				logic.direction = ForgeDirection.getOrientation(placedRotation);
-				logic.disguise = disguise;
-				logic.disguiseMeta = disguiseMeta;
+				if (te == null || te instanceof BlockWandLoot.TileEntityWandLoot) {
+					MainRegistry.logger.warn("TE for logic block set incorrectly at: " + xCoord + ", " + yCoord + ", " + zCoord + ". If you're using some sort of world generation mod, report it to the author!");
+					te = ModBlocks.wand_logic.createTileEntity(worldObj, 0);
+					worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
+				}
+
+				if (te instanceof LogicBlock.TileEntityLogicBlock) {
+					LogicBlock.TileEntityLogicBlock logic = (LogicBlock.TileEntityLogicBlock) te;
+					logic.actionID = actionID;
+					logic.conditionID = conditionID;
+					logic.interactionID = interactionID;
+					logic.direction = ForgeDirection.getOrientation(placedRotation);
+					logic.disguise = disguise;
+					logic.disguiseMeta = disguiseMeta;
+				}
 			}
 
 		}
 
 		@Override
 		public void transformTE(World world, int coordBaseMode) {
-			triggerReplace = !StructureConfig.debugStructures;
+			triggerReplace = !ServerConfig.STRUCTURE_DEBUG.get();
 		}
 
 		@Override
@@ -323,6 +328,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			nbt.setString("conditionID", conditionID);
 			if(interactionID != null)
 				nbt.setString("interactionID", interactionID);
+			nbt.setInteger("rotation", placedRotation);
 			if(disguise != null){
 				nbt.setString("disguise", GameRegistry.findUniqueIdentifierFor(disguise).toString());
 				nbt.setInteger("disguiseMeta", disguiseMeta);
@@ -336,6 +342,7 @@ public class BlockWandLogic extends BlockContainer implements ILookOverlay, IToo
 			actionID = nbt.getString("actionID");
 			conditionID = nbt.getString("conditionID");
 			interactionID = nbt.getString("interactionID");
+			placedRotation = nbt.getInteger("disguiseMeta");
 			if(nbt.hasKey("disguise")){
 				disguise = Block.getBlockFromName(nbt.getString("disguise"));
 				disguiseMeta = nbt.getInteger("disguiseMeta");

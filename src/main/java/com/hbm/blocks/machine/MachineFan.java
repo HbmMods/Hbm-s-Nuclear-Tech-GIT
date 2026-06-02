@@ -47,22 +47,22 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
-	
+
 	@Override
 	public int getRenderType(){
 		return -1;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
 		int meta = world.getBlockMetadata(x, y, z);
@@ -70,48 +70,49 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		if(side == ForgeDirection.UP || side == ForgeDirection.DOWN) return meta != 0 && meta != 1;
 		if(side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH) return meta != 2 && meta != 3;
 		if(side == ForgeDirection.EAST || side == ForgeDirection.WEST) return meta != 4 && meta != 5;
-		
+
 		return false;
 	}
-	
+
 	public static class TileEntityFan extends TileEntityLoadedBase {
 
 		public float spin;
 		public float prevSpin;
 		public boolean falloff = true;
+		public boolean suck = false;
 
 		@Override
 		public void updateEntity() {
-			
+
 			this.prevSpin = this.spin;
-			
+
 			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				
+
 				int range = 10;
 				int effRange = 0;
 				double push = 0.1;
-				
+
 				for(int i = 1; i <= range; i++) {
 					Block block = worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i);
 					boolean blowable = block instanceof IBlowable;
-					
+
 					if(block.isNormalCube() || blowable) {
 						if(!worldObj.isRemote && blowable)
 							((IBlowable) block).applyFan(worldObj, xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i, dir, i);
-						
+
 						break;
 					}
-					
+
 					effRange = i;
 				}
 
 				int x = dir.offsetX * effRange;
 				int y = dir.offsetY * effRange;
 				int z = dir.offsetZ * effRange;
-				
+
 				List<Entity> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5 + Math.min(x, 0), yCoord + 0.5 + Math.min(y, 0), zCoord + 0.5 + Math.min(z, 0), xCoord + 0.5 + Math.max(x, 0), yCoord + 0.5 + Math.max(y, 0), zCoord + 0.5 + Math.max(z, 0)).expand(0.5, 0.5, 0.5));
-				
+
 				for(Entity e : affected) {
 
 					double coeff = push;
@@ -120,20 +121,21 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 						double dist = e.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
 						coeff *= 1.5 * (1 - dist / range / 2);
 					}
-					
+					if(suck) coeff *= -1;
+
 					e.motionX += dir.offsetX * coeff;
 					e.motionY += dir.offsetY * coeff;
 					e.motionZ += dir.offsetZ * coeff;
 				}
-				
+
 				if(worldObj.isRemote && worldObj.rand.nextInt(30) == 0) {
-					double speed = 0.2;
+					double speed = suck ? -0.2 : 0.2;
 					worldObj.spawnParticle("cloud", xCoord + 0.5 + dir.offsetX * 0.5, yCoord + 0.5 + dir.offsetY * 0.5, zCoord + 0.5 + dir.offsetZ * 0.5, dir.offsetX * speed, dir.offsetY * speed, dir.offsetZ * speed);
 				}
-				
+
 				this.spin += 30;
 			}
-			
+
 			if(this.spin >= 360) {
 				this.prevSpin -= 360;
 				this.spin -= 360;
@@ -143,7 +145,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 				networkPackNT(150);
 			}
 		}
-		
+
 		@Override
 		@SideOnly(Side.CLIENT)
 		public double getMaxRenderDistanceSquared() {
@@ -154,22 +156,26 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			this.falloff = nbt.getBoolean("falloff");
+			this.suck = nbt.getBoolean("suck");
 		}
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
 			nbt.setBoolean("falloff", falloff);
+			nbt.setBoolean("suck", suck);
 		}
 
 		@Override
 		public void serialize(ByteBuf buf) {
 			buf.writeBoolean(falloff);
+			buf.writeBoolean(suck);
 		}
 
 		@Override
 		public void deserialize(ByteBuf buf) {
 			falloff = buf.readBoolean();
+			suck = buf.readBoolean();
 		}
 	}
 
@@ -184,7 +190,7 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 			if(meta == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
 			if(meta == 4) world.setBlockMetadataWithNotify(x, y, z, 5, 3);
 			if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
-			
+
 			return true;
 		}
 
@@ -201,6 +207,24 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.click", 0.5F, 0.5F);
 				}
 			}
+
+			return true;
+		}
+		if(tool == ToolType.DEFUSER) {
+			TileEntityFan tile = (TileEntityFan) world.getTileEntity(x, y, z);
+
+			if(tile != null) {
+				tile.suck = !tile.suck;
+				tile.markDirty();
+
+				if(!world.isRemote) {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(this.getUnlocalizedName() + (tile.suck ? ".suckOn" : ".suckOff")).color(EnumChatFormatting.GOLD).flush(), MainRegistry.proxy.ID_FAN_MODE), (EntityPlayerMP) player);
+
+					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.click", 0.5F, 0.5F);
+				}
+			}
+
+
 
 			return true;
 		}

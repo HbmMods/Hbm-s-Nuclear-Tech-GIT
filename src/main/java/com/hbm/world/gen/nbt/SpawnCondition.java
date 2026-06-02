@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.hbm.config.ServerConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Quartet;
@@ -109,7 +110,7 @@ public class SpawnCondition {
 	// Make sure structure debug is enabled, or it will no-op
 	// Do not use in generation
 	public void buildAll(World world, int x, int y, int z) {
-		if(!StructureConfig.debugStructures) return;
+		if(!ServerConfig.STRUCTURE_DEBUG.get()) return;
 
 		int padding = 5;
 		int oz = 0;

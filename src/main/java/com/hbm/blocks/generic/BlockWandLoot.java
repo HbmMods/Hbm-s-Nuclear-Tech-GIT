@@ -9,11 +9,16 @@ import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
 import com.hbm.config.StructureConfig;
+import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.itempool.ItemPool;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.LootGenerator;
 import com.hbm.util.i18n.I18nUtil;
@@ -33,6 +38,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -47,7 +53,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
-public class BlockWandLoot extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation {
+public class BlockWandLoot extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider, IBlockSideRotation, IBomb {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
@@ -110,6 +116,11 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			text.add("Maximum items: " + loot.maxItems);
 		}
 
+		if(loot.lockCode != 0){
+			text.add("Container will be locked");
+			text.add("Lockpicking chance:" + loot.lockMod);
+		}
+
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
@@ -146,6 +157,12 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 
 				return true;
 			}
+		}
+
+		ItemStack held = player.getHeldItem();
+		if(held != null && held.getItem() instanceof ItemLock){
+			loot.lockMod = (float) ((ItemLock)held.getItem()).lockMod;
+			loot.lockCode = ItemLock.getPins(held);
 		}
 
 		return false;
@@ -212,11 +229,22 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 	}
 
 	@Override
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof BlockWandLoot.TileEntityWandLoot)) return null;
+
+		((BlockWandLoot.TileEntityWandLoot) te).triggerReplace = true;
+
+		return BombReturnCode.TRIGGERED;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityWandLoot();
 	}
 
-	public static class TileEntityWandLoot extends TileEntityLoadedBase implements INBTTileEntityTransformable {
+	public static class TileEntityWandLoot extends TileEntityLoadedBase implements INBTTileEntityTransformable, ICopiable {
 
 		private boolean triggerReplace;
 
@@ -228,6 +256,10 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 		private int maxItems = 1;
 
 		private float placedRotation;
+
+		private float lockMod = 0;
+		private int lockCode = 0;
+		private boolean cheesable = true;
 
 		private static final GameProfile FAKE_PROFILE = new GameProfile(UUID.fromString("839eb18c-50bc-400c-8291-9383f09763e7"), "[NTM]");
 		private static FakePlayer fakePlayer;
@@ -266,6 +298,12 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 				worldObj.setTileEntity(xCoord, yCoord, zCoord, te);
 			}
 
+			if(te instanceof TileEntityLockableBase && lockCode != 0){
+				((TileEntityLockableBase) te).setPins(lockCode);
+				((TileEntityLockableBase) te).setMod(lockMod);
+				((TileEntityLockableBase) te).cheesable = lockMod != 0;
+				((TileEntityLockableBase) te).lock();
+			}
 			if(te instanceof IInventory) {
 				int count = minItems;
 				if(maxItems - minItems > 0) count += worldObj.rand.nextInt(maxItems - minItems);
@@ -303,7 +341,7 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 
 		@Override
 		public void transformTE(World world, int coordBaseMode) {
-			triggerReplace = !StructureConfig.debugStructures;
+			triggerReplace = !ServerConfig.STRUCTURE_DEBUG.get();
 			placedRotation = MathHelper.wrapAngleTo180_float(placedRotation + coordBaseMode * 90);
 		}
 
@@ -317,6 +355,10 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			nbt.setInteger("max", maxItems);
 			nbt.setString("pool", poolName);
 			nbt.setFloat("rot", placedRotation);
+
+			nbt.setInteger("lockCode", lockCode);
+			nbt.setFloat("lockMod", lockMod);
+			nbt.setBoolean("cheesable", cheesable);
 
 			nbt.setBoolean("trigger", triggerReplace);
 		}
@@ -333,6 +375,10 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 
 			if(replaceBlock == null) replaceBlock = ModBlocks.deco_loot;
 
+			lockCode = nbt.getInteger("lockCode");
+			lockMod = nbt.getFloat("lockMod");
+			cheesable = nbt.getBoolean("cheesable");
+
 			triggerReplace = nbt.getBoolean("trigger");
 		}
 
@@ -343,6 +389,11 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			buf.writeInt(minItems);
 			buf.writeInt(maxItems);
 			BufferUtil.writeString(buf, poolName);
+
+			buf.writeInt(lockCode);
+			buf.writeFloat(lockMod);
+			buf.writeBoolean(cheesable);
+
 		}
 
 		@Override
@@ -352,8 +403,43 @@ public class BlockWandLoot extends BlockContainer implements ILookOverlay, ITool
 			minItems = buf.readInt();
 			maxItems = buf.readInt();
 			poolName = BufferUtil.readString(buf);
+
+			lockCode = buf.readInt();
+			lockMod = buf.readFloat();
+			cheesable = buf.readBoolean();
 		}
 
+		@Override
+		public NBTTagCompound getSettings(World world, int x, int y, int z) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			Block block = replaceBlock != null ? replaceBlock : ModBlocks.deco_loot;
+
+			nbt.setInteger("replaceBlock", Block.getIdFromBlock(block));
+			nbt.setInteger("replaceMeta", replaceMeta);
+			nbt.setInteger("minItems", minItems);
+			nbt.setInteger("maxItems", maxItems);
+			nbt.setString("poolName", poolName);
+
+			nbt.setInteger("lockCode", lockCode);
+			nbt.setFloat("lockMod", lockMod);
+			nbt.setBoolean("cheesable", cheesable);
+
+			return nbt;
+		}
+
+		@Override
+		public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+			replaceBlock =  Block.getBlockById(nbt.getInteger("replaceBlock"));
+			replaceMeta = nbt.getInteger("replaceMeta");
+			minItems = nbt.getInteger("minItems");
+			maxItems = nbt.getInteger("maxItems");
+			poolName = nbt.getString("poolName");
+
+			lockCode = nbt.getInteger("lockCode");
+			lockMod = nbt.getFloat("lockMod");
+			cheesable = nbt.getBoolean("cheesable");
+
+		}
 	}
 
 }
