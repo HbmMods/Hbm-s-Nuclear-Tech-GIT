@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.gui.GuiScreenRadioTelex;
+import com.hbm.inventory.gui.GUIScreenRadioTelex;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
@@ -234,7 +234,7 @@ public class TileEntityRadioTelex extends TileEntityLoadedBase implements IContr
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GuiScreenRadioTelex(this);
+		return new GUIScreenRadioTelex(this);
 	}
 
 	AxisAlignedBB bb = null;

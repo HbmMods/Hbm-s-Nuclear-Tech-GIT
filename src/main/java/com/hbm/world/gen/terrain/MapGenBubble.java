@@ -24,7 +24,7 @@ public class MapGenBubble extends MapGenBaseMeta {
 	private int minSize = 8;
 	private int maxSize = 64;
 
-	public int minY = 0;
+	public int minY = 15;
 	public int rangeY = 25;
 
 	public boolean fuzzy;

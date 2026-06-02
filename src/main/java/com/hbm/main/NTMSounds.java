@@ -78,6 +78,7 @@ public class NTMSounds {
 	public static final String GUN_TAU_LOOP = "hbm:weapon.fire.tauLoop";
 	public static final String GUN_TESLA_FIRE = "hbm:weapon.fire.tesla";
 	public static final String GUN_TESLA_BLAST = "hbm:entity.ufoBlast"; // electric crackle sound explosion
+	public static final String GUN_MK108_FIRE = "hbm:weapon.fire.mk108";
 	public static final String GUN_ROCKET_FIRE = "hbm:weapon.rpgShoot";
 	public static final String GUN_EXTINGUISHER_FIRE = "hbm:weapon.extinguisher";
 	public static final String GUN_PLEASE_REMOVE_MY_EARDRUMS_THANKS = "hbm:weapon.fire.loudestNoiseOnEarth"; // folly fires
@@ -146,6 +147,7 @@ public class NTMSounds {
 	public static final String BANG = "hbm:weapon.bang"; // frying pan
 	public static final String SLICE = "hbm:weapon.slice";
 	public static final String KAPENG = "hbm:weapon.kapeng"; // third degree
+	public static final String METAL_IMPACT = "hbm:block.metalImpact"; // ow
 	
 	/// VANILLA CRAP I CANNOT BE ASSED TO REMEMBER ///
 	public static final String VANILLA_ORB = "random.orb"; // xp orb ping
@@ -158,4 +160,6 @@ public class NTMSounds {
 	public static final String VANILLA_GIB = "mob.zombie.woodbreak"; // zombie breaks door down
 	public static final String VANILLA_TELEPORT = "mob.endermen.portal"; // enderman teleports
 	public static final String VANILLA_ANVIL = "random.anvil_land"; // falling anvil lands
+	public static final String VANILLA_PISTON_OUT = "tile.piston.out"; // falling anvil lands
+	public static final String VANILLA_PISTON_IN = "tile.piston.in"; // falling anvil lands
 }

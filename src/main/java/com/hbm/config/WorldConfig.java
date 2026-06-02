@@ -88,7 +88,6 @@ public class WorldConfig {
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
 	public static int barrelStructure = 5000;
-	public static int geyserWater = 3000;
 	public static int geyserChlorine = 3000;
 	public static int geyserVapor = 250;
 	public static int capsuleStructure = 100;
@@ -212,7 +211,6 @@ public class WorldConfig {
 		minefreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.14_landmineSpawn", "Spawn AP landmine on every nTH chunk", 64);
 		radfreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.15_radHotspotSpawn", "Spawn radiation hotspot on every nTH chunk", 5000);
 		vaultfreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.16_vaultSpawn", "Spawn locked safe on every nTH chunk", 2500);
-		geyserWater = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.17_geyserWaterSpawn", "Spawn water geyser on every nTH chunk", 3000);
 		geyserChlorine = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.18_geyserChlorineSpawn", "Spawn poison geyser on every nTH chunk", 3000);
 		geyserVapor = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", "Spawn vapor geyser on every nTH chunk", 250);
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
@@ -246,7 +244,6 @@ public class WorldConfig {
 		dudStructure = CommonConfig.setDefZero(dudStructure, 1000);
 		spaceshipStructure = CommonConfig.setDefZero(spaceshipStructure, 1000);
 		barrelStructure = CommonConfig.setDefZero(barrelStructure, 1000);
-		geyserWater = CommonConfig.setDefZero(geyserWater, 1000);
 		geyserChlorine = CommonConfig.setDefZero(geyserChlorine, 1000);
 		geyserVapor = CommonConfig.setDefZero(geyserVapor, 1000);
 		broadcaster = CommonConfig.setDefZero(broadcaster, 1000);

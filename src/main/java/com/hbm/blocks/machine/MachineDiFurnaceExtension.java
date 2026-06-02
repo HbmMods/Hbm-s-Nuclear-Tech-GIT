@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+@Deprecated 
 public class MachineDiFurnaceExtension extends BlockContainer implements IProxyController {
 
 	@SideOnly(Side.CLIENT) private IIcon iconTop;

@@ -25,7 +25,7 @@ public class ItemSwordMeteorite extends ItemSwordAbility {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		super.addInformation(stack, player, list, ext);
 		
-		String[] lines = I18nUtil.resolveKeyArray(this.getUnlocalizedName()+ "desc");
+		String[] lines = I18nUtil.resolveKeyArray(this.getUnlocalizedName()+ ".desc");
 		for(String line : lines) {
 			list.add(EnumChatFormatting.ITALIC + line);
 		}

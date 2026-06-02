@@ -18,11 +18,16 @@ buildscript {
 
 apply plugin: 'forge'
 apply plugin: 'curseforge'
+apply plugin: 'maven-publish'
 
 
 if(Files.exists(Paths.get("curseforge.properties"))) {
 	// Load CurseForge configuration
 	ext.cfprops = parseConfig(file("curseforge.properties"))
+}
+
+if(Files.exists(Paths.get("maven.properties"))) {
+	ext.mavenprops = parseConfig(file("maven.properties"))
 }
 
 def version_name = version = mod_version
@@ -45,7 +50,7 @@ minecraft {
 eclipse.classpath.file.whenMerged { cp ->
 	// Find all codechicken source jars
 	def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
-	
+
 	// Remove them from classpath
 	cp.entries.removeAll srcent
 
@@ -55,10 +60,10 @@ eclipse.classpath.file.whenMerged { cp ->
 		def file = new File(entry.path)
 		srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
 	}
-	
+
 	// Create file reference factory
 	def fileref = new FileReferenceFactory()
-	
+
 	// Find all codechicken development jars
 	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
 		File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
@@ -99,20 +104,20 @@ repositories {
 }
 
 dependencies {
-	implementation 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
-	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
-	
-	implementation 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
-	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
-	
-	implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
-	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
+	implementation('codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev') { transitive = false }
+	compileOnly('codechicken:CodeChickenCore:1.7.10-1.0.4.29:src') { transitive = false }
 
-	compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
+	implementation('codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev') { transitive = false }
+	compileOnly('codechicken:CodeChickenLib:1.7.10-1.1.3.140:src') { transitive = false }
 
-	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+	implementation('codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev') { transitive = false }
+	compileOnly('codechicken:NotEnoughItems:1.7.10-1.0.3.74:src') { transitive = false }
 
-	compileOnly "com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev"
+	compileOnly("inventorytweaks:InventoryTweaks:1.59-dev:deobf") { transitive = false }
+
+	compileOnly("li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api") { transitive = false }
+
+	compileOnly("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev") { transitive = false }
 }
 
 processResources {
@@ -123,7 +128,7 @@ processResources {
 	// replace stuff in mcmod.info, nothing else
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		
+
 		// replace version and mcversion
 		filesMatching('mcmod.info') {
 			// replace version, mcversion and credits
@@ -133,7 +138,7 @@ processResources {
 			])
 		}
 	}
-		
+
 	// copy everything else, thats not the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
@@ -145,6 +150,27 @@ jar {
     manifest {
         attributes 'FMLAT': 'HBM_at.cfg'
     }
+}
+
+task sourceJar(type: Jar) {
+	from sourceSets.main.allJava
+
+	classifier "src"
+
+	manifest {
+		attributes 'FMLAT': 'HBM_at.cfg'
+	}
+}
+
+task devJar(type: Jar) {
+	from(sourceSets.main.output) {
+		include "**"
+	}
+	classifier "dev"
+
+	manifest {
+		attributes 'FMLAT': 'HBM_at.cfg'
+	}
 }
 
 task version {
@@ -174,6 +200,49 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 			doLast {
 				Files.move(Paths.get("changelog"), Paths.get("changelog.bak"), StandardCopyOption.REPLACE_EXISTING)
 				Files.createFile(Paths.get("changelog"))
+			}
+		}
+	}
+}
+
+if(Files.exists(Paths.get("maven.properties"))) {
+	publishing {
+		publications {
+			release(MavenPublication) {
+				artifactId archivesBaseName
+				version version_name
+
+				from components.java
+
+				artifact sourceJar {
+					classifier "src"
+				}
+
+				artifact devJar {
+					classifier "dev"
+				}
+
+				pom.withXml {
+					// NTM doesn't really feature any special runtime dependencies anyone would need, so blast those away
+					def node = asNode()
+					def dependencies = node.get("dependencies")
+					node.remove(dependencies)
+					node
+				}
+			}
+		}
+		repositories {
+			maven {
+				name "Nuggies"
+				url "https://maven.ntmr.dev/releases"
+
+				credentials {
+					username mavenprops.username
+					password mavenprops.password
+				}
+				authentication {
+					basic(BasicAuthentication)
+				}
 			}
 		}
 	}

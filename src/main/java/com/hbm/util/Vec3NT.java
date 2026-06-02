@@ -6,17 +6,10 @@ import net.minecraft.util.Vec3;
 
 public class Vec3NT extends Vec3 {
 
-	public Vec3NT(double x, double y, double z) {
-		super(x, y, z);
-	}
-
-	public Vec3NT(Vec3 vec) {
-		super(vec.xCoord, vec.yCoord, vec.zCoord);
-	}
-
-	public Vec3NT(Entity e) {
-		super(e.posX, e.posY, e.posZ);
-	}
+	public Vec3NT() {								super(0, 0, 0); }
+	public Vec3NT(double x, double y, double z) {	super(x, y, z); }
+	public Vec3NT(Vec3 vec) {						super(vec.xCoord, vec.yCoord, vec.zCoord); }
+	public Vec3NT(Entity e) {						super(e.posX, e.posY, e.posZ); }
 
 	public Vec3NT eyeHeight(Entity e) { return this.add(0, e.getEyeHeight(), 0); }
 	public Vec3NT halfHeight(Entity e) { return this.add(0, e.height / 2D, 0); }

@@ -154,8 +154,34 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidSt
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
-		return new Object[]{heat};
+		return new Object[] {heat};
 	}
-	
-	// don't know shit about OC - someone else has to add those back
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoolant(Context context, Arguments args) {
+		return new Object[] {
+			tanks[0].getFill(), tanks[0].getMaxFill(),
+			tanks[1].getFill(), tanks[1].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoordinates(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {
+			heat,
+
+			tanks[0].getFill(), tanks[0].getMaxFill(),
+			tanks[1].getFill(), tanks[1].getMaxFill(),
+
+			xCoord, yCoord, zCoord
+		};
+	}
 }

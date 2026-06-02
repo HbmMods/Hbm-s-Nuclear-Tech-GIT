@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+@Deprecated 
 public class MachineDiFurnaceRTG extends BlockContainer {
 
 	private final Random rand = new Random();

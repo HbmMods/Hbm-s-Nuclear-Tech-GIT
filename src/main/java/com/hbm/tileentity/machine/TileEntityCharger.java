@@ -6,6 +6,8 @@ import java.util.Random;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+
+import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import io.netty.buffer.ByteBuf;
@@ -58,7 +60,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 				lastOp--;
 
 				if(worldObj.getTotalWorldTime() % 20 == 0)
-					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 0.2F, 0.5F);
+					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.VANILLA_HISS, 0.2F, 0.5F);
 			}
 
 			networkPackNT(50);
@@ -69,12 +71,12 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 		if((charge > 0 || particles) && usingTicks < delay) {
 			usingTicks++;
 			if(usingTicks == 2)
-				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "tile.piston.out", 0.5F, 0.5F);
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.VANILLA_PISTON_OUT, 0.5F, 0.5F);
 		}
 		if((charge <= 0 && !particles) && usingTicks > 0) {
 			usingTicks--;
 			if(usingTicks == 4)
-				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "tile.piston.in", 0.5F, 0.5F);
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.VANILLA_PISTON_IN, 0.5F, 0.5F);
 		}
 
 		if(particles) {

@@ -139,7 +139,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
 			}
 			
-			if(this.didProcess && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 50) {
+			if(this.didProcess && MainRegistry.proxy.me().getDistance(xCoord , yCoord, zCoord) < 30) {
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();

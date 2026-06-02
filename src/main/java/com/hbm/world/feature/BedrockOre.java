@@ -12,7 +12,9 @@ import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOreBase;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.util.WeightedRandomGeneric;
 
 import net.minecraft.block.Block;
@@ -59,6 +61,37 @@ public class BedrockOre {
 
 	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier) {
 		generate(world, x, z, stack, acid, color, tier, ModBlocks.stone_depth);
+	}
+
+	public static void generateAuto(World world, int x, int z) {
+		double totalLevel = 0;
+		for(BedrockOreType type : BedrockOreType.values()) {
+			totalLevel += ItemBedrockOreBase.getOreLevel(x, z, type);
+		}
+		
+		totalLevel /= BedrockOreType.values().length;
+		FluidStack acid = getBoreFluid(totalLevel);
+		int tier = getTier(totalLevel);
+		
+		generate(world, x, z, new ItemStack(ModItems.bedrock_ore_base), acid, 0xD78A16, tier, ModBlocks.stone_depth);
+	}
+
+	public static final FluidStack BORE_TIER_1 = null;
+	public static final FluidStack BORE_TIER_2 = new FluidStack(Fluids.WATER, 1_000);
+	public static final FluidStack BORE_TIER_3 = new FluidStack(Fluids.SULFURIC_ACID, 1_000);
+	public static final FluidStack BORE_TIER_4 = new FluidStack(Fluids.SOLVENT, 2_000);
+
+	public static FluidStack getBoreFluid(double density) {
+		if(density > 1.5) return BORE_TIER_4;
+		if(density > 1) return BORE_TIER_3;
+		if(density > 0.75) return BORE_TIER_2;
+		return BORE_TIER_1;
+	}
+	public static int getTier(double density) {
+		if(density > 1.5) return 4;
+		if(density > 1) return 3;
+		if(density > 0.75) return 2;
+		return 1;
 	}
 
 	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier, Block depthRock) {

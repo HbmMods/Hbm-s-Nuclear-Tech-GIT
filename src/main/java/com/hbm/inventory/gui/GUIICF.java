@@ -1,8 +1,8 @@
 package com.hbm.inventory.gui;
 
 import com.hbm.inventory.container.ContainerICF;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.TileEntityICF;
 import com.hbm.util.BobMathUtil;
 
@@ -54,7 +54,7 @@ public class GUIICF extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 8, guiTop + 88 - p, 212, 192 - p, 16, p);
 		}
 		
-		GaugeUtil.drawSmoothGauge(guiLeft + 196, guiTop + 98, this.zLevel, (double) icf.heat / (double) icf.maxHeat, 5, 2, 1, 0xFF00AF);
+		GUIElements.drawSmoothGauge(guiLeft + 196, guiTop + 98, this.zLevel, (double) icf.heat / (double) icf.maxHeat, 5, 2, 1, 0xFF00AF);
 
 		icf.tanks[0].renderTank(guiLeft + 44, guiTop + 88, this.zLevel, 16, 70);
 		icf.tanks[1].renderTank(guiLeft + 188, guiTop + 88, this.zLevel, 16, 70);

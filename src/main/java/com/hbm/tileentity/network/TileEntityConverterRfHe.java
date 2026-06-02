@@ -8,6 +8,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -26,7 +27,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 	@Override
 	public void updateEntity() {
 		
-		if (!worldObj.isRemote) {
+		if(!worldObj.isRemote) {
 			
 			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) * rfInput / heOutput);
 			storage.setEnergyStored((int) (storage.getEnergyStored() - rfCreated));
@@ -37,6 +38,8 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
+
+			networkPackNT(15);
 		}
 	}
 	
@@ -64,6 +67,22 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(storage.getEnergyStored());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		power = buf.readLong();
+		storage.setEnergyStored(buf.readInt());
 	}
 
 	@Override

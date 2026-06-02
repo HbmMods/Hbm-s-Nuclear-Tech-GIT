@@ -88,6 +88,12 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 		public long[] values = new long[30]; // 2 values/s for 15 seconds
 		/** Whether this graph is visible on the panel */
 		public boolean active;
+		/** Fixed min value */
+		public long min;
+		public boolean minBound = false;
+		/** Fixed max value */
+		public long max;
+		public boolean maxBound = false;
 		
 		public GraphUnit(int initialIndex) {
 			label = "Graph " + (initialIndex + 1);
@@ -125,6 +131,10 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			buf.writeBoolean(polling);
 			BufferUtil.writeString(buf, label);
 			BufferUtil.writeString(buf, rtty);
+			buf.writeBoolean(minBound);
+			if(minBound) buf.writeLong(min);
+			buf.writeBoolean(maxBound);
+			if(maxBound) buf.writeLong(max);
 			// original idea had the system send the min value, max value, and all values
 			// crunched down to single bytes because the graph simply doesn't need this much resolution
 			if(active) for(int i = 0; i < values.length; i++) buf.writeLong(values[i]);
@@ -136,6 +146,10 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
 			rtty = BufferUtil.readString(buf);
+			minBound = buf.readBoolean();
+			if(minBound) min = buf.readLong();
+			maxBound = buf.readBoolean();
+			if(maxBound) max = buf.readLong();
 			if(active) for(int i = 0; i < values.length; i++) values[i] = buf.readLong();
 		}
 
@@ -144,6 +158,10 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
 			this.rtty = nbt.getString("rtty" + index);
+			this.minBound = nbt.getBoolean("minBound" + index);
+			this.min = nbt.getLong("min" + index);
+			this.maxBound = nbt.getBoolean("maxBound" + index);
+			this.max = nbt.getLong("max" + index);
 			for(int i = 0; i < values.length; i++) this.values[i] = nbt.getLong("value" + index + "_" + i);
 		}
 
@@ -152,6 +170,10 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
 			nbt.setString("rtty" + index, rtty);
+			nbt.setBoolean("minBound" + index, minBound);
+			nbt.setLong("min" + index, min);
+			nbt.setBoolean("maxBound" + index, maxBound);
+			nbt.setLong("max" + index, max);
 			for(int i = 0; i < values.length; i++) nbt.setLong("value" + index + "_" + i, values[i]);
 		}
 	}
@@ -178,7 +200,27 @@ public class TileEntityRBMKGraph extends TileEntityLoadedBase implements IGUIPro
 			GraphUnit graph = this.graphs[i];
 			graph.label = data.getString("label" + i);
 			graph.rtty = data.getString("rtty" + i);
+			if(data.hasKey("min" + i)) {
+				graph.min = data.getLong("min" + i);
+				graph.minBound = true;
+			} else {
+				graph.minBound = false;
+			}
+			if(data.hasKey("max" + i)) {
+				graph.max = data.getLong("max" + i);
+				graph.maxBound = true;
+			} else {
+				graph.maxBound = false;
+			}
+			
+			if(graph.max < graph.min) {
+				long temp = graph.max;
+				graph.max = graph.min;
+				graph.min = temp;
+			}
 		}
+		
+		this.markChanged();
 	}
 
 	// OpenComputers methods

@@ -36,6 +36,7 @@ import net.minecraft.item.ItemStack;
  * 
  * @author UFFR
  */
+@Deprecated
 public class BlastFurnaceRecipes extends SerializableRecipe {
 
 	private static final ArrayList<Triplet<Object, Object, ItemStack>> blastFurnaceRecipes = new ArrayList();
@@ -150,7 +151,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 					else {
 						in1.remove(nothing);
 						in1.addAll(stack.extractForNEI());
-						break;
+						continue;
 					}
 				}
 				if(in1.contains(nothing)) {
@@ -162,7 +163,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 					} else {
 						in2.remove(nothing);
 						in2.addAll(stack.extractForNEI());
-						break;
+						continue;
 					}
 				}
 				if(in2.contains(nothing)) {
@@ -188,7 +189,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 
 	@Override
 	public String getFileName() {
-		return "hbmBlastFurnace.json";
+		return "hbmBlastFurnaceLegacy.json";
 	}
 	
 	@Override

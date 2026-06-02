@@ -52,8 +52,8 @@ public class RenderRBMKGraph extends TileEntitySpecialRenderer {
 			FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 			int height = font.FONT_HEIGHT;
 
-			long lowest = BobMathUtil.min(unit.values);
-			long highest = BobMathUtil.max(unit.values);
+			long lowest = unit.minBound ? unit.min : BobMathUtil.min(unit.values);
+			long highest = unit.maxBound ? unit.max : BobMathUtil.max(unit.values);
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawing(GL11.GL_LINES);
@@ -63,6 +63,8 @@ public class RenderRBMKGraph extends TileEntitySpecialRenderer {
 				for(int j = 0; j < 2; j++) {
 					int k = v + j;
 					long flux = unit.values[k];
+					if(flux < lowest) flux = lowest;
+					if(flux > highest) flux = highest;
 					double dx = 0.03225;
 					double dy = 0.5 - 0.03125 + (flux - lowest) * 0.1875D / Math.max(range, 1);
 					double dz = 0.375 - k * 0.75 / (unit.values.length - 1);

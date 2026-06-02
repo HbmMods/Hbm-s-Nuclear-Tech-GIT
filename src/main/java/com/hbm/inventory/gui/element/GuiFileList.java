@@ -85,15 +85,10 @@ public class GuiFileList extends GuiListExtended {
 			if(hoverY < 0 || hoverY > height) return false;
 
 			onSelect.accept(file);
-
 			return true;
 		}
 
 		@Override
-		public void mouseReleased(int id, int mouseX, int mouseY, int button, int hoverX, int hoverY) {
-
-		}
-
+		public void mouseReleased(int id, int mouseX, int mouseY, int button, int hoverX, int hoverY) { }
 	}
-
 }

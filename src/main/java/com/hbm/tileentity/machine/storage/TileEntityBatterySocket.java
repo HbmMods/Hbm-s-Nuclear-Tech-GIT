@@ -44,6 +44,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityBatterySocket extends TileEntityBatteryBase implements IRORValueProvider, IRORInteractive, IInfoProviderEC {
+
+	public boolean frame = false;
 	
 	public static BulletConfig discharge;
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> BEAM_DISCHARGE_HIT = (beam, mop) -> {
@@ -111,6 +113,11 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 			}
 
 			this.log[19] = avg;
+		} else {
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				frame = !worldObj.getBlock(xCoord, yCoord + 2, zCoord).isAir(worldObj, xCoord, yCoord + 2, zCoord);
+			}
 		}
 	}
 	
@@ -210,11 +217,13 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		if(stack.getItem() instanceof IBatteryItem) {
-			if(i == mode_input && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0) return true;
-			if(i == mode_output && ((IBatteryItem)stack.getItem()).getCharge(stack) == ((IBatteryItem)stack.getItem()).getMaxCharge(stack)) return true;
+			if(i == mode_output && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0) return true;
+			if(i == mode_input && ((IBatteryItem)stack.getItem()).getCharge(stack) == ((IBatteryItem)stack.getItem()).getMaxCharge(stack)) return true;
 		}
 		return false;
 	}
+
+	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return stack.getItem() instanceof IBatteryItem; }
 
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {0}; }
 
@@ -312,11 +321,11 @@ public class TileEntityBatterySocket extends TileEntityBatteryBase implements IR
 				PREFIX_VALUE + "fill",
 				PREFIX_VALUE + "fillpercent",
 				PREFIX_VALUE + "delta",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
-				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
-				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode",
-				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback",
-				PREFIX_FUNCTION + "setpriority" + NAME_SEPARATOR + "priority",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode (0-3)",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback (0-3)",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode (0-3)",
+				PREFIX_FUNCTION + "setredmode" + NAME_SEPARATOR + "mode" + PARAM_SEPARATOR + "fallback (0-3)",
+				PREFIX_FUNCTION + "setpriority" + NAME_SEPARATOR + "priority (0-2)",
 		};
 	}
 

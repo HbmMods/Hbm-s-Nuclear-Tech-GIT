@@ -16,18 +16,19 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-// Literally just GUIScreenRBMKDisplay but with three lines switched out - this sucks ass
 public class GUIScreenRBMKGraph extends GuiScreen {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rbmk_graph.png");
 	public TileEntityRBMKGraph graph;
 	protected int xSize = 256;
-	protected int ySize = 114;
+	protected int ySize = 150;
 	protected int guiLeft;
 	protected int guiTop;
 
 	protected GuiTextField[] label = new GuiTextField[2];
 	protected GuiTextField[] rtty = new GuiTextField[2];
+	protected GuiTextField[] min = new GuiTextField[2];
+	protected GuiTextField[] max = new GuiTextField[2];
 	protected boolean[] active = new boolean[2];
 	protected boolean[] polling = new boolean[2];
 	
@@ -47,10 +48,14 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 		int oY = 4;
 		
 		for(int i = 0; i < 2; i++) {
-			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 36, 72 - oX * 2, 14);
+			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 73 + oY + i * 54, 72 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 30, graph.graphs[i].label);
-			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 36, 72 - oX * 2, 14);
+			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, graph.graphs[i].rtty);
+			min[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(min[i], 15, graph.graphs[i].minBound ? graph.graphs[i].min + "" : "");
+			max[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 73 + oY + i * 54, 72 - oX * 2, 14);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(max[i], 15, graph.graphs[i].maxBound ? graph.graphs[i].max + "" : "");
 
 			active[i] = graph.graphs[i].active;
 			polling[i] = graph.graphs[i].polling;
@@ -67,7 +72,7 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 	}
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
-		String name = I18nUtil.resolveKey("container.rbmkNumitron");
+		String name = I18nUtil.resolveKey("container.rbmkGraph");
 		this.fontRendererObj.drawString(name, this.guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, this.guiTop + 6, 4210752);
 	}
 
@@ -77,13 +82,15 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		for(int i = 0; i < 2; i++) {
-			if(this.active[i]) drawTexturedModalRect(guiLeft + 111, guiTop + i * 36 + 54, 18, 114, 16, 16);
-			if(this.polling[i]) drawTexturedModalRect(guiLeft + 128, guiTop + i * 36 + 53, 0, 114, 18, 18);
+			if(this.active[i]) drawTexturedModalRect(guiLeft + 111, guiTop + i * 54 + 54, 18, 150, 16, 16);
+			if(this.polling[i]) drawTexturedModalRect(guiLeft + 128, guiTop + i * 54 + 53, 0, 150, 18, 18);
 		}
 		
 		for(int i = 0; i < 2; i++) {
 			this.label[i].drawTextBox();
 			this.rtty[i].drawTextBox();
+			this.min[i].drawTextBox();
+			this.max[i].drawTextBox();
 		}
 	}
 
@@ -92,13 +99,13 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 		super.mouseClicked(x, y, b);
 		
 		for(int i = 0; i < 2; i++) {
-			if(guiLeft + 111 <= x && guiLeft + 111 + 16 > x && guiTop + i * 36 + 54 < y && guiTop + i * 36 + 54 + 16 >= y) {
+			if(guiLeft + 111 <= x && guiLeft + 111 + 16 > x && guiTop + i * 54 + 54 < y && guiTop + i * 54 + 54 + 16 >= y) {
 				this.active[i] = !this.active[i];
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.5F + (this.active[i] ? 0.25F : 0F)));
 				return;
 			}
 			
-			if(guiLeft + 128 <= x && guiLeft + 128 + 18 > x && guiTop + i * 36 + 53 < y && guiTop + i * 36 + 53 + 18 >= y) {
+			if(guiLeft + 128 <= x && guiLeft + 128 + 18 > x && guiTop + i * 54 + 53 < y && guiTop + i * 54 + 53 + 18 >= y) {
 				this.polling[i] = !this.polling[i];
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.5F + (this.polling[i] ? 0.25F : 0F)));
 				return;
@@ -120,6 +127,8 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 			for(int i = 0; i < 2; i++) {
 				data.setString("label" + i, this.label[i].getText());
 				data.setString("rtty" + i, this.rtty[i].getText());
+				try { if(!min[i].getText().isEmpty()) data.setLong("min" + i, Long.parseLong(this.min[i].getText())); } catch(Exception ex) { }
+				try { if(!max[i].getText().isEmpty()) data.setLong("max" + i, Long.parseLong(this.max[i].getText())); } catch(Exception ex) { }
 			}
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, graph.xCoord, graph.yCoord, graph.zCoord));
 			return;
@@ -128,6 +137,8 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 		for(int i = 0; i < 2; i++) {
 			this.label[i].mouseClicked(x, y, b);
 			this.rtty[i].mouseClicked(x, y, b);
+			this.min[i].mouseClicked(x, y, b);
+			this.max[i].mouseClicked(x, y, b);
 		}
 	}
 
@@ -137,6 +148,8 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 		for(int i = 0; i < 2; i++) {
 			if(this.label[i].textboxKeyTyped(c, b)) return;
 			if(this.rtty[i].textboxKeyTyped(c, b)) return;
+			if(this.min[i].textboxKeyTyped(c, b)) return;
+			if(this.max[i].textboxKeyTyped(c, b)) return;
 		}
 		
 		if(b == 1 || b == this.mc.gameSettings.keyBindInventory.getKeyCode()) {

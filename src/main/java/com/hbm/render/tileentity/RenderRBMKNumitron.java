@@ -55,16 +55,47 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 			double h = 13D / scale;
 			double yOffset = 0.5625D;
 			
-			String value = BobMathUtil.getShortNumber(unit.value);
-			while(value.length() < 7) value = "0" + value;
+			String value = "";
+			if (unit.shorten_number) {
+				value = BobMathUtil.getShortNumber(unit.value);
+			} else {
+				// Overflow handling
+				if (unit.value > 9999999) {
+					value = "9999999";
+				}
+				// Underflow handling
+				else if (unit.value < -999999) {
+					value = "-999999";
+				}
+				else {
+					value = Long.toString(unit.value);
+				}
+			}
+
+			//** Fill up to 7 characters */
+			//** For negative numbers when zeroes are added: put the zeroes between the '-' and the number */
+			if ((value.length() < 7) && (value.charAt(0) == '-') && unit.leading_zeroes) {
+				value = value.substring(1);
+				while(value.length() < 6) value = "0" + value;
+				value = "-" + value;
+			} else {
+				String fill_char = unit.leading_zeroes?"0":" ";
+				while(value.length() < 7) value = fill_char + value;
+			}
 			
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			for(int j = 0; j < 7; j++) {
+
+				//** Check if this digit is active */
+				//** 0x40 is the bit for the left-most digit, with which this starts */
+				if((unit.active_digits & (0x40L>>j)) == 0) continue;
+
 				double zOffset = (j - 3) * 0.1D;
 				char c = value.charAt(j);
 				double u = -1;
 				double v = 0;
+				if(c == ' ') continue;
 				if(c == '.') {u = 0.9; v = 0.5;}
 				if(c == '-') {u = 0.8; v = 0.5;}
 				else if(c == 'k') {u = 0.0; v = 0.5;}
@@ -73,7 +104,7 @@ public class RenderRBMKNumitron extends TileEntitySpecialRenderer {
 				else if(c == 'T') {u = 0.3; v = 0.5;}
 				else if(c == 'P') {u = 0.4; v = 0.5;}
 				else if(c == 'E') {u = 0.5; v = 0.5;} // i would love to say this sucks, but this is actually surprisingly easy to read and probably the most performant way of doing it
-				int charVal = c - '0'; // no string operations, no int parsing, no nothing, we just rawdog shit shit
+				int charVal = c - '0'; // no string operations, no int parsing, no nothing, we just rawdog this shit
 				if(charVal >= 0 && charVal <= 9) {u = 0.1 * charVal; v = 0.0;}
 				if(u == -1) {u = 0.8; v = 0.5;}
 				tess.setNormal(0F, 1F, 0F);

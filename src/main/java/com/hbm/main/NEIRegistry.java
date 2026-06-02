@@ -22,7 +22,7 @@ public class NEIRegistry {
 		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new PressRecipeHandler());
-		handlers.add(new AlloyFurnaceRecipeHandler());
+		handlers.add(new BlastFurnaceHandler());
 		handlers.add(new ShredderRecipeHandler());
 		handlers.add(new CrucibleSmeltingHandler());
 		handlers.add(new CrucibleAlloyingHandler());

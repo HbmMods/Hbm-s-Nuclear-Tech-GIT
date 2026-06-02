@@ -6,12 +6,12 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachinePlasmaForge;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.inventory.recipes.PlasmaForgeRecipe;
 import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionPlasmaForge;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
@@ -49,7 +49,7 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 80 < mouseY && guiTop + 80 + 18 >= mouseY) {
 			if(this.forge.plasmaModule.recipe != null && PlasmaForgeRecipes.INSTANCE.recipeNameMap.containsKey(this.forge.plasmaModule.recipe)) {
 				GenericRecipe recipe = (GenericRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(this.forge.plasmaModule.recipe);
-				this.func_146283_a(recipe.print(), mouseX, mouseY);
+				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
 			}
@@ -147,9 +147,9 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 		double boosterGauge = forge.maxBooster <= 0 ? 0 : (double) forge.booster / (double) forge.maxBooster;
 		
 		// input energy
-		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 124, this.zLevel, inputGauge, 5, 2, 1, 0xA00000);
+		GUIElements.drawSmoothGauge(guiLeft + 34, guiTop + 124, this.zLevel, inputGauge, 5, 2, 1, 0xA00000);
 		// output genergy
-		GaugeUtil.drawSmoothGauge(guiLeft + 70, guiTop + 124, this.zLevel, boosterGauge, 5, 2, 1, 0xA00000);
+		GUIElements.drawSmoothGauge(guiLeft + 70, guiTop + 124, this.zLevel, boosterGauge, 5, 2, 1, 0xA00000);
 
 		this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 8, 81);
 

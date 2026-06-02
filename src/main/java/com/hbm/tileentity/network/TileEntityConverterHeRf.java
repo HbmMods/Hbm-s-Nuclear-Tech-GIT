@@ -11,6 +11,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -31,7 +32,7 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 	@Override
 	public void updateEntity() {
 		
-		if (!worldObj.isRemote) {
+		if(!worldObj.isRemote) {
 			
 			long rfCreated = Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), power / heInput * rfOutput);
 			this.power -= rfCreated * heInput / rfOutput;
@@ -39,13 +40,13 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 			if(power > 0) this.power *= (1D - inputDecay);
 			if(rfCreated > 0) this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			
-			for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				
 				BlockPos loc = new BlockPos(xCoord, yCoord, zCoord).offset(dir);
 				TileEntity entity = Compat.getTileStandard(worldObj, loc.getX(), loc.getY(), loc.getZ());
 			
-				if (entity != null && entity instanceof IEnergyReceiver) {
+				if(entity != null && entity instanceof IEnergyReceiver) {
 					IEnergyReceiver receiver = (IEnergyReceiver) entity;
 					
 					int maxExtract = storage.getMaxExtract();
@@ -55,6 +56,8 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 					storage.extractEnergy(energyTransferred, false);
 				}
 			}
+
+			networkPackNT(15);
 		}
 	}
 
@@ -83,6 +86,22 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(storage.getEnergyStored());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		power = buf.readLong();
+		storage.setEnergyStored(buf.readInt());
 	}
 
 	@Override

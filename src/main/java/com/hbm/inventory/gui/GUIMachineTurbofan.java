@@ -3,9 +3,9 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineTurbofan;
+import com.hbm.inventory.gui.element.GUIElements;
+import com.hbm.inventory.gui.element.GUIElements.Gauge;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.GaugeUtil;
-import com.hbm.render.util.GaugeUtil.Gauge;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.client.Minecraft;
@@ -57,7 +57,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 98, guiTop + 44, 176, (a - 1) * 16, 16, 16);
 		}
 
-		if(turbofan.showBlood) GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 97, guiTop + 16, this.zLevel, (double) turbofan.blood.getFill() / (double) turbofan.blood.getMaxFill());
+		if(turbofan.showBlood) GUIElements.renderGauge(Gauge.ROUND_SMALL, guiLeft + 97, guiTop + 16, this.zLevel, (double) turbofan.blood.getFill() / (double) turbofan.blood.getMaxFill());
 		turbofan.tank.renderTank(guiLeft + 35, guiTop + 69, this.zLevel, 34, 52);
 	}
 }

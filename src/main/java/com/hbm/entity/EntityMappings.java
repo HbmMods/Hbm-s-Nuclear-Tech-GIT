@@ -104,7 +104,6 @@ public class EntityMappings {
 		addEntity(EntityDuchessGambit.class, "entity_duchessgambit", 1000);
 		addEntity(EntityMissileEMPStrong.class, "entity_missile_emp_strong", 1000);
 		addEntity(EntityEMP.class, "entity_emp_logic", 1000);
-		addEntity(EntityWaterSplash.class, "entity_water_splash", 1000);
 		addEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 1000);
 		addEntity(EntityMissileCustom.class, "entity_custom_missile", 1000);
 		addEntity(EntityBalefire.class, "entity_balefire", 1000);

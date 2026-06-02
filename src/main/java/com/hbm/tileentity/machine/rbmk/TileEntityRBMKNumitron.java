@@ -88,9 +88,18 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		public long value;
 		/** Whether this display is visible on the panel */
 		public boolean active;
+		/** If leading zeros should not be added */
+		public boolean leading_zeroes;
+		/** Which digits are activated (bit mask, msb ignored) */
+		public long active_digits;
+		/** Display mode 0=normal, 1=integer */
+		public boolean shorten_number;
 		
 		public DisplayUnit(int initialIndex) {
 			label = "Display " + (initialIndex + 1);
+			active_digits = 0b01111111;
+			shorten_number = true;
+			leading_zeroes = true;
 		}
 		
 		public void update() {
@@ -113,6 +122,9 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void serialize(ByteBuf buf) {
+			buf.writeBoolean(shorten_number);
+			buf.writeLong(active_digits);
+			buf.writeBoolean(leading_zeroes);
 			buf.writeBoolean(active);
 			buf.writeBoolean(polling);
 			BufferUtil.writeString(buf, label);
@@ -121,6 +133,9 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void deserialize(ByteBuf buf) {
+			shorten_number = buf.readBoolean();
+			active_digits = buf.readLong();
+			leading_zeroes = buf.readBoolean();
 			active = buf.readBoolean();
 			polling = buf.readBoolean();
 			label = BufferUtil.readString(buf);
@@ -129,6 +144,9 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void readFromNBT(NBTTagCompound nbt, int index) {
+			this.shorten_number = nbt.getBoolean("shorten_number" + index);
+			this.active_digits = nbt.getLong("active_digits" + index);
+			this.leading_zeroes = nbt.getBoolean("leading_zeroes" + index);
 			this.active = nbt.getBoolean("active" + index);
 			this.polling = nbt.getBoolean("polling" + index);
 			this.label = nbt.getString("label" + index);
@@ -137,6 +155,9 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		}
 
 		public void writeToNBT(NBTTagCompound nbt, int index) {
+			nbt.setBoolean("shorten_number" + index, shorten_number);
+			nbt.setLong("active_digits" + index, active_digits);
+			nbt.setBoolean("leading_zeroes" + index, leading_zeroes);
 			nbt.setBoolean("active" + index, active);
 			nbt.setBoolean("polling" + index, polling);
 			nbt.setString("label" + index, label);
@@ -158,9 +179,13 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		
 		int active = data.getByte("active");
 		int polling = data.getByte("polling");
+		int shorten_number = data.getByte("shorten_number");
+		int leading_zeroes = data.getByte("leading_zeroes");
 		for(int i = 0; i < 2; i++) {
 			this.displays[i].active = (active & (1 << i)) != 0;
 			this.displays[i].polling = (polling & (1 << i)) != 0;
+			this.displays[i].shorten_number = (shorten_number & (1 << i)) != 0;
+			this.displays[i].leading_zeroes = (leading_zeroes & (1 << i)) != 0;
 		}
 		
 		for(int i = 0; i < 2; i++) {
@@ -183,6 +208,9 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		int idx = args.checkInteger(0) - 1;
 		if(idx < 0 || idx >= 2) return new Object[] {null, "Invalid index (1-2)"};
 		java.util.LinkedHashMap<String, Object> map = new java.util.LinkedHashMap<>();
+		map.put("shorten_number", displays[idx].shorten_number);
+		map.put("active_digits", displays[idx].active_digits);
+		map.put("leading_zeroes", displays[idx].leading_zeroes);
 		map.put("active", displays[idx].active);
 		map.put("polling", displays[idx].polling);
 		map.put("label", displays[idx].label);
@@ -238,6 +266,38 @@ public class TileEntityRBMKNumitron extends TileEntityLoadedBase implements IGUI
 		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
 		long val = (long) args.checkInteger(1);
 		displays[idx].value = val;
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayLeadingZeroes(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		displays[idx].leading_zeroes = args.checkBoolean(1);
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayActiveDigits(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		long val = (long) args.checkInteger(1);
+		if(val < 0 || val >= 128) throw new IllegalArgumentException("Invalid value (0-127)");
+		displays[idx].active_digits = val;
+		markDirty();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 2)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setDisplayShortenNumber(Context context, Arguments args) {
+		int idx = args.checkInteger(0) - 1;
+		if(idx < 0 || idx >= 2) return new Object[] {false, "Invalid index (1-2)"};
+		displays[idx].shorten_number = args.checkBoolean(1);
 		markDirty();
 		return new Object[] {true};
 	}
