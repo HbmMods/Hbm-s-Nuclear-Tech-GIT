@@ -4,10 +4,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.inventory.container.ContainerFusionKlystron;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionKlystron;
 import com.hbm.tileentity.machine.fusion.TileEntityFusionTorus;
 import com.hbm.util.BobMathUtil;
@@ -99,11 +99,11 @@ public class GUIFusionKlystron extends GuiInfoContainer {
 		else if(klystron.output > 0) drawTexturedModalRect(guiLeft + 180, guiTop + 71, 210, 0, 8, 8);
 		
 		// output energy
-		GaugeUtil.drawSmoothGauge(guiLeft + 52, guiTop + 80, this.zLevel, outputGauge, 5, 2, 1, 0xA00000);
+		GUIElements.drawSmoothGauge(guiLeft + 52, guiTop + 80, this.zLevel, outputGauge, 5, 2, 1, 0xA00000);
 		// air cooling
-		GaugeUtil.drawSmoothGauge(guiLeft + 88, guiTop + 80, this.zLevel, airGauge, 5, 2, 1, 0xA00000);
+		GUIElements.drawSmoothGauge(guiLeft + 88, guiTop + 80, this.zLevel, airGauge, 5, 2, 1, 0xA00000);
 		// power consumption
-		GaugeUtil.drawSmoothGauge(guiLeft + 124, guiTop + 80, this.zLevel, powerGauge, 5, 2, 1, 0xA00000);
+		GUIElements.drawSmoothGauge(guiLeft + 124, guiTop + 80, this.zLevel, powerGauge, 5, 2, 1, 0xA00000);
 		
 		this.field.drawTextBox();
 	}

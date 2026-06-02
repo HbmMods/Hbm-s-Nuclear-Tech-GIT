@@ -141,6 +141,11 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 	}
 
 	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot >= 2;
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeInt(burnTime);

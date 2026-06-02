@@ -3,8 +3,8 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachinePress;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
 import net.minecraft.client.Minecraft;
@@ -55,6 +55,6 @@ public class GUIMachinePress extends GuiInfoContainer {
 		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 14, 202, 18, k);
 		
 		double i = (double) press.speed / (double) press.maxSpeed;
-		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 25, this.zLevel, i, 5, 2, 1, 0x7f0000);
+		GUIElements.drawSmoothGauge(guiLeft + 34, guiTop + 25, this.zLevel, i, 5, 2, 1, 0x7f0000);
 	}
 }

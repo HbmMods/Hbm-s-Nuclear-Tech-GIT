@@ -133,9 +133,9 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
 			// alternates
 			this.register(new GenericRecipe("ass.analogAlt").setupNamed(200, 250).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ANALOG))
-					.inputItems(new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new OreDictStack(ANY_PLASTIC.ingot(), 4), new OreDictStack(W.wireFine(), 8), new OreDictStack(NB.ingot())).setPools(POOL_PREFIX_ALT + ".circuit"));
+					.inputItems(new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB), new OreDictStack(ANY_PLASTIC.ingot(), 4), new OreDictStack(W.wireFine(), 8), new OreDictStack(NB.ingot())).setPools(POOL_PREFIX_ALT + ".circuit"));
 			this.register(new GenericRecipe("ass.factorioChip").setupNamed(300, 20_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC))
-					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 4), new OreDictStack(IRON.plate(), 4), new OreDictStack(CU.wireFine(), 8)).setPools(POOL_PREFIX_ALT + ".circuit"));
+					.inputItems(new OreDictStack(RUBBER.ingot(), 2), new OreDictStack(IRON.plate(), 4), new OreDictStack(CU.wireFine(), 8)).setPools(POOL_PREFIX_ALT + ".circuit"));
 			this.register(new GenericRecipe("ass.atomicClockAlt").setupNamed(300, 20_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK, 4))
 					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 4), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CHIP), new OreDictStack(CS137.dust(), 1)).setPools(POOL_PREFIX_ALT + ".circuit"));
 		}
@@ -370,8 +370,6 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 4, EnumExpensiveType.HEAVY_FRAME), new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8), new OreDictStack(ANY_RUBBER.ingot(), 24), new ComparableStack(ModItems.magnetron, 16), new ComparableStack(ModItems.motor_desh, 3), new ComparableStack(ModItems.item_expensive, 6, EnumExpensiveType.CIRCUIT), new ComparableStack(ModItems.crt_display, 4)));
 		this.register(new GenericRecipe("ass.forcefield").setup(600, 100).outputItems(new ItemStack(ModBlocks.machine_forcefield, 1))
 				.inputItems(new OreDictStack(ALLOY.plate(), 8), new ComparableStack(ModItems.plate_desh, 4), new ComparableStack(ModItems.coil_gold_torus, 6), new ComparableStack(ModItems.coil_magnetized_tungsten, 12), new ComparableStack(ModItems.motor, 1), new ComparableStack(ModItems.upgrade_radius, 1), new ComparableStack(ModItems.upgrade_health, 1), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED), new ComparableStack(ModBlocks.machine_transformer, 1)));
-		this.register(new GenericRecipe("ass.difurnacertg").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_difurnace_rtg_off, 1))
-				.inputItems(new ComparableStack(ModItems.rtg_unit, 3), new OreDictStack(DESH.ingot(), 4), new OreDictStack(PB.plate(), 6), new OreDictStack(DURA.plate(), 8)));
 		this.register(new GenericRecipe("ass.strandcaster").setup(200, 100).outputItems(new ItemStack(ModBlocks.machine_strand_caster, 1))
 				.inputItems(new ComparableStack(ModItems.ingot_firebrick, 16), new OreDictStack(STEEL.plateCast(), 6), new OreDictStack(CU.plateWelded(), 2), new OreDictStack(STEEL.shell(), 2), new OreDictStack(ANY_CONCRETE.any(), 8))
 				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.HEAVY_FRAME), new ComparableStack(ModItems.ingot_firebrick, 16), new OreDictStack(STEEL.shell(), 4), new OreDictStack(ANY_CONCRETE.any(), 8)));

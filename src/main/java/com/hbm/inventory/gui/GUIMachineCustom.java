@@ -3,11 +3,11 @@ package com.hbm.inventory.gui;
 import java.util.Arrays;
 import java.util.Locale;
 
-import com.hbm.render.util.GaugeUtil;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerMachineCustom;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.module.ModulePatternMatcher;
@@ -79,7 +79,7 @@ public class GUIMachineCustom extends GuiInfoContainer {
 		}
 		if(custom.maxHeat > 0) {
 			drawTexturedModalRect(guiLeft + 61, guiTop + 53, 236, 0, 18, 18);
-			GaugeUtil.drawSmoothGauge(guiLeft + 70, guiTop + 62, this.zLevel, (double) custom.heat / (double) custom.config.maxHeat, 5, 2, 1, 0x7F0000);
+			GUIElements.drawSmoothGauge(guiLeft + 70, guiTop + 62, this.zLevel, (double) custom.heat / (double) custom.config.maxHeat, 5, 2, 1, 0x7F0000);
 		}
 		int p = custom.progress * 90 / custom.maxProgress;
 		drawTexturedModalRect(guiLeft + 78, guiTop + 119, 192, 0, Math.min(p, 44), 16);

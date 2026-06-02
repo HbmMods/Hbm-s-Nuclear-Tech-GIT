@@ -7,6 +7,7 @@ import codechicken.nei.api.INEIGuiHandler;
 import codechicken.nei.api.TaggedInventoryArea;
 import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerBase;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 
@@ -59,6 +60,11 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 
 	public void drawInfo(String[] text, int x, int y) {
 		this.func_146283_a(Arrays.asList(text), x, y);
+	}
+
+	@Override
+	protected void func_146283_a(List lines, int x, int y) {
+		GUIElements.drawHoveringText(lines, x, y, fontRendererObj, itemRender, width, height);
 	}
 
 	/** Automatically grabs upgrade info out of the tile entity if it's a IUpgradeInfoProvider and crams the available info into a list for display. Automation, yeah! */
