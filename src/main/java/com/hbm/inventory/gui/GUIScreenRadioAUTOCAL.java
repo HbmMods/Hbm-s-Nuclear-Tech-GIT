@@ -48,11 +48,9 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			if (Sys.getVersion().charAt(0) == '3') {
 				// probably a LWJGL3ify user, open the folder instead since that somehow seems to work
 				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
-				if (uploadFolder.exists()) {
-					org.lwjgl.Sys.openURL(uploadFolder.toString());
-				}
+				if (uploadFolder.exists()) Sys.openURL(uploadFolder.toString());
 			} else {
-				org.lwjgl.Sys.openURL(uri.toString());
+				Sys.openURL(uri.toString());
 			}
 		}
 	}
