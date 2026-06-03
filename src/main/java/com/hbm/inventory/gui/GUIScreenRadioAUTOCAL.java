@@ -9,8 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Objects;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
@@ -45,8 +45,14 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 		if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
 			Desktop.getDesktop().browse(uri);
 		} else {
-			if (Runtime.getRuntime().exec(new String[] { "which", "xdg-open" }).getInputStream().read() != -1) {
-				Runtime.getRuntime().exec(new String[] { "xdg-open", uri.toString() });
+			if (Sys.getVersion().charAt(0) == '3') {
+				// probably a LWJGL3ify user, open the folder instead since that somehow seems to work
+				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
+				if (uploadFolder.exists()) {
+					org.lwjgl.Sys.openURL(uploadFolder.toString());
+				}
+			} else {
+				org.lwjgl.Sys.openURL(uri.toString());
 			}
 		}
 	}
