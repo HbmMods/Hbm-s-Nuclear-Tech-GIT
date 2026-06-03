@@ -231,7 +231,7 @@ public class ParseMSES1 implements IParse {
 		
 		// listens to an RoR signal using the supplied channel name and saves it to the buffer
 		if(lower.startsWith("listen ")) {
-			if(line.length() <= 7 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
 			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(7)));
 			if(chan != null) ctx.buffer = chan.signal + "";
 			return EnumStatementReturn.OK;

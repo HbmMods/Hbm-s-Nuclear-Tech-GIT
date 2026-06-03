@@ -81,19 +81,23 @@ public class ModuleBurnTime {
 		writer.name("D:heatBalefie").value(modHeat[modBalefire]);
 	}
 
-	public int getBurnTime(ItemStack stack) {
-		//int fuel = TileEntityFurnace.getItemBurnTime(stack);
+	public int getBurnTime(ItemStack stack, double def) {
 		int fuel = FuelHandler.getBurnTimeFromCache(stack);
+		if(fuel == 0) return 0;
+		return (int) (fuel * getMod(stack, modTime, def));
+	}
 
-		if(fuel == 0)
-			return 0;
+	public int getBurnTime(ItemStack stack) {
+		return getBurnTime(stack, 1D);
+	}
 
-		return (int) (fuel * getMod(stack, modTime));
+	public int getBurnHeat(int base, ItemStack stack, double def) {
+		if(base <= 0) return 0;
+		return (int) (base * getMod(stack, modHeat));
 	}
 
 	public int getBurnHeat(int base, ItemStack stack) {
-		if(base <= 0) return 0;
-		return (int) (base * getMod(stack, modHeat));
+		return getBurnHeat(base, stack, 1D);
 	}
 
 	public double getMod(ItemStack stack, double[] mod, double def) {

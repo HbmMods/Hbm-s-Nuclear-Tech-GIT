@@ -199,7 +199,8 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 	}
 	
 	public int getBurnTime(ItemStack stack) {
-		return burnModule.getBurnHeat(burnModule.getBurnTime(stack), stack);
+		if(stack.getItem().hasContainerItem(stack)) return 0;
+		return burnModule.getBurnHeat(burnModule.getBurnTime(stack, 0D), stack, 0D);
 	}
 
 	@Override

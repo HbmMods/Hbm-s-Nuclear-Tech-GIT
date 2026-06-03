@@ -6,7 +6,6 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
-import com.hbm.config.StructureConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.lib.RefStrings;

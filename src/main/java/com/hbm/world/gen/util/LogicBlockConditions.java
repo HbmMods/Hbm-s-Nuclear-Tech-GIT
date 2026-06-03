@@ -6,7 +6,6 @@ import com.hbm.blocks.generic.LogicBlock;
 import com.hbm.entity.mob.EntityUndeadSoldier;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.TileEntityCharge;
-import com.hbm.tileentity.machine.TileEntityLockableBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;

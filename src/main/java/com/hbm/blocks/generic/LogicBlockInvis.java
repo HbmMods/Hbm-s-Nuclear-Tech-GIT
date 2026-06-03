@@ -1,8 +1,5 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blocks.IBlockSideRotation;
-import net.minecraft.block.material.Material;
-
 public class LogicBlockInvis extends LogicBlock{
 
 	public LogicBlockInvis() {

@@ -1,7 +1,5 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blocks.IBlockSideRotation;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.world.gen.util.LogicBlockActions;
 import com.hbm.world.gen.util.LogicBlockConditions;
 import com.hbm.world.gen.util.LogicBlockInteractions;
