@@ -183,7 +183,6 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler implements ICom
 
 	public static ArrayList<ItemStack> getBlades() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
-		fuels.add(new ItemStack(ModItems.blades_advanced_alloy));
 		fuels.add(new ItemStack(ModItems.blades_steel));
 		fuels.add(new ItemStack(ModItems.blades_titanium));
 		fuels.add(new ItemStack(ModItems.blades_desh));

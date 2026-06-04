@@ -219,15 +219,14 @@ public class ItemPoolsLegacy {
 		new ItemPool(POOL_SPACESHIP) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.battery_pack, EnumBatteryPack.BATTERY_LEAD.ordinal(), 1, 1, 2),
-					weighted(ModItems.ingot_advanced_alloy, 0, 2, 16, 5),
-					weighted(ModItems.wire_fine, Mats.MAT_ALLOY.id, 8, 32, 5),
-					weighted(ModItems.coil_advanced_alloy, 0, 2, 16, 5),
+					weighted(ModItems.coil_copper, 0, 2, 16, 5),
+					weighted(ModItems.wire_fine, Mats.MAT_MINGRADE.id, 8, 32, 5),
 					weighted(ModItems.cell_deuterium, 0, 1, 8, 5),
 					weighted(ModItems.cell_tritium, 0, 1, 8, 5),
 					weighted(ModItems.cell_antimatter, 0, 1, 1, 1),
 					weighted(ModItems.powder_neodymium, 0, 1, 1, 1),
 					weighted(ModItems.powder_niobium, 0, 1, 1, 1),
-					weighted(ModItems.wire_dense, Mats.MAT_ALLOY.id, 2, 4, 5),
+					weighted(ModItems.wire_dense, Mats.MAT_MINGRADE.id, 2, 4, 5),
 					weighted(ModItems.wire_dense, Mats.MAT_GOLD.id, 1, 3, 5),
 					weighted(ModBlocks.pwr_fuel, 0, 1, 2, 5),
 					weighted(ModBlocks.block_tungsten, 0, 3, 8, 5),

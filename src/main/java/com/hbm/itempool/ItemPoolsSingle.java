@@ -34,7 +34,7 @@ public class ItemPoolsSingle {
 					weighted(ModItems.pin, 0, 8, 8, 1),
 					weighted(ModItems.gun_am180, 0, 1, 1, 1),
 					weighted(ModItems.bottle_quantum, 0, 1, 3, 1),
-					weighted(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
+					weighted(ModItems.ingot_cobalt, 0, 4, 12, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.BMG50_FMJ.ordinal(), 24, 48, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.P9_JHP.ordinal(), 48, 64, 2),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 3, 6, 1),

@@ -27,8 +27,8 @@ public class LemegetonRecipes {
 		recipes.put(new OreDictStack(BIGMT.ingot()), new ItemStack(ModItems.ingot_starmetal));
 
 		recipes.put(new OreDictStack(CU.ingot()), new ItemStack(ModItems.ingot_red_copper));
-		recipes.put(new OreDictStack(MINGRADE.ingot()), new ItemStack(ModItems.ingot_advanced_alloy));
-		recipes.put(new OreDictStack(ALLOY.ingot()), new ItemStack(ModItems.ingot_desh));
+		recipes.put(new OreDictStack(MINGRADE.ingot()), new ItemStack(ModItems.ingot_desh));
+		recipes.put(new OreDictStack(DESH.ingot()), new ItemStack(ModItems.ingot_bscco));
 
 		recipes.put(new OreDictStack(PB.ingot()), new ItemStack(Items.gold_ingot));
 		recipes.put(new OreDictStack(GOLD.ingot()), new ItemStack(ModItems.ingot_bismuth));

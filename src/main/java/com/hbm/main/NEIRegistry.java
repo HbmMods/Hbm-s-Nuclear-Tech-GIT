@@ -19,10 +19,10 @@ public class NEIRegistry {
 		handlers.add(new ConstructionHandler());
 		handlers.add(new AnnihilatorHandler());
 		handlers.add(new SolderingStationHandler());
+		handlers.add(new BlastFurnaceHandler());
 		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new PressRecipeHandler());
-		handlers.add(new BlastFurnaceHandler());
 		handlers.add(new ShredderRecipeHandler());
 		handlers.add(new CrucibleSmeltingHandler());
 		handlers.add(new CrucibleAlloyingHandler());

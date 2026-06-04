@@ -1,4 +1,18 @@
+## Changed
+* Removed advanced alloy
+  * All recipes that used to have AA in it now use something else
+  * AA tools and armor remain for now, although they are uncraftable
+  * Steel and titanium armor now have some DT and DR, making them roughly on-par with the old AA
+  * Buffed durability for steel and titanium tool materials
+  * Steel tools now deal more damage (still not as much as titanium) and has diamond harvest level
+  * AA custom machine blocks have been replaced with bronze ones which make more sense in progression, since AA was too close to steel anyway
+* Renamed "worker's alloy" to "desh" to avoid confusion
+  * Seriously why did this have two names?
+* Industrial grade and minecraft grade copper ingots now have the "ingot" suffix
+
 ## Fixed
 * Fixed AUTOCAL's `listen` command failing if the buffer is empty
 * Fixed things not intended to be used in the blast furnace (scrap, lava) being usable fuels
 * Fixed blast furnace swallowing container items left behind by fuels, instead fuels with containers will not be accepted at all
+* Fixed the blast furnace NEI screen listing "0 HE" for every recipe even though it's not an electric machine
+* Fixed flue gas not having an inventory texture

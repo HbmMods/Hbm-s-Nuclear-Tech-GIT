@@ -88,10 +88,6 @@ public class CrucibleRecipes extends GenericRecipes<CrucibleRecipe> {
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))
 				.outputs(new MaterialStack(Mats.MAT_MINGRADE, n * 2)));
 		
-		this.register(new CrucibleRecipe("crucible.aa").setup(2, new ItemStack(ModItems.ingot_advanced_alloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_MINGRADE, n))
-				.outputs(new MaterialStack(Mats.MAT_ALLOY, n * 2)));
-		
 		this.register(new CrucibleRecipe("crucible.hss").setup(9, new ItemStack(ModItems.ingot_dura_steel))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));

@@ -58,8 +58,7 @@ public class ItemMold extends Item {
 		
 		registerMold(new MoldMulti(		6, S, "blades", MaterialShapes.INGOT.q(4),
 				Mats.MAT_STEEL,			new ItemStack(ModItems.blades_steel),
-				Mats.MAT_TITANIUM,		new ItemStack(ModItems.blades_titanium),
-				Mats.MAT_ALLOY,			new ItemStack(ModItems.blades_advanced_alloy)));
+				Mats.MAT_TITANIUM,		new ItemStack(ModItems.blades_titanium)));
 		
 		registerMold(new MoldMulti(		7, S, "stamp", MaterialShapes.INGOT.q(4),
 				Mats.MAT_STONE,			new ItemStack(ModItems.stamp_stone_flat),

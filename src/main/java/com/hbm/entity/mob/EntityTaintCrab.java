@@ -58,7 +58,7 @@ public class EntityTaintCrab extends EntityCyberCrab {
 
 	@Override
 	protected Item getDropItem() {
-		return ModItems.coil_advanced_alloy;
+		return ModItems.coil_copper;
 	}
 
 	protected void dropRareDrop(int p_70600_1_) {

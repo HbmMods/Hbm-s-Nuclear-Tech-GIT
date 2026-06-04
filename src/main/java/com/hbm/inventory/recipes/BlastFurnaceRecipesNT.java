@@ -12,7 +12,7 @@ import com.hbm.items.ModItems;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class BlastFurnaceRecipesNT extends GenericRecipes<GenericRecipe> {
+public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 	
 	public static final BlastFurnaceRecipesNT INSTANCE = new BlastFurnaceRecipesNT();
 
@@ -22,59 +22,59 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<GenericRecipe> {
 	@Override public int outputFluidLimit() { return 0; }
 
 	@Override
-	public GenericRecipe instantiateRecipe(String name) {
-		return new GenericRecipe(name);
+	public BlastFurnaceRecipe instantiateRecipe(String name) {
+		return new BlastFurnaceRecipe(name);
 	}
 
 	@Override
 	public void registerDefaults() {
 
 		// 20s per ingot of steel produced
-		this.register(new GenericRecipe("blast.steelFromIngot").setDuration(800)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.steelFromIngot").setDuration(800)
 				.inputItems(new OreDictStack(IRON.ingot(), 2), new OreDictStack(KEY_SAND))
 				.outputItems(new ItemStack(ModItems.ingot_steel, 2), new ItemStack(ModItems.ingot_raw, 1, Mats.MAT_SLAG.id)));
-		this.register(new GenericRecipe("blast.steelFromDust").setDuration(800)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.steelFromDust").setDuration(800)
 				.inputItems(new OreDictStack(IRON.dust(), 2), new OreDictStack(KEY_SAND))
 				.outputItems(new ItemStack(ModItems.ingot_steel, 2), new ItemStack(ModItems.ingot_raw, 1, Mats.MAT_SLAG.id)));
-		this.register(new GenericRecipe("blast.steelFromOre").setDuration(800)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.steelFromOre").setDuration(800)
 				.inputItems(new OreDictStack(IRON.ore()), new OreDictStack(KEY_SAND))
 				.outputItems(new ItemStack(ModItems.ingot_steel, 2), new ItemStack(ModItems.ingot_raw, 2, Mats.MAT_SLAG.id)));
-		this.register(new GenericRecipe("blast.steelWithFlux").setDuration(1_200)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.steelWithFlux").setDuration(1_200)
 				.inputItems(new OreDictStack(IRON.ore()), new ComparableStack(ModItems.powder_flux))
 				.outputItems(new ItemStack(ModItems.ingot_steel, 3), new ItemStack(ModItems.ingot_raw, 2, Mats.MAT_SLAG.id)));
 
-		this.register(new GenericRecipe("blast.mingrade").setDuration(400)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.mingrade").setDuration(400)
 				.inputItems(new OreDictStack(CU.ingot()), new OreDictStack(REDSTONE.dust()))
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 2)));
-		this.register(new GenericRecipe("blast.mingradeDust").setDuration(400)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.mingradeDust").setDuration(400)
 				.inputItems(new OreDictStack(CU.dust()), new OreDictStack(REDSTONE.dust()))
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 2)));
-		this.register(new GenericRecipe("blast.mingradeIngot").setDuration(400)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.mingradeIngot").setDuration(400)
 				.inputItems(new OreDictStack(CU.ingot()), new OreDictStack(REDSTONE.ingot()))
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 2)));
-		this.register(new GenericRecipe("blast.mingradeCursed").setDuration(400)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.mingradeCursed").setDuration(400)
 				.inputItems(new OreDictStack(CU.dust()), new OreDictStack(REDSTONE.ingot()))
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 2)));
-		this.register(new GenericRecipe("blast.mingradeOre").setDuration(1_200)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.mingradeOre").setDuration(1_200)
 				.inputItems(new OreDictStack(CU.ore()), new OreDictStack(REDSTONE.dust(), 6))
 				.outputItems(new ItemStack(ModItems.ingot_red_copper, 6), new ItemStack(ModItems.ingot_raw, 1, Mats.MAT_SLAG.id)));
 
-		this.register(new GenericRecipe("blast.meteorSword").setDuration(1_200)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteorSword").setDuration(1_200)
 				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_sword_hardened, 1))
 				.outputItems(new ItemStack(ModItems.meteorite_sword_alloyed, 1)));
 
-		this.register(new GenericRecipe("blast.starmetal").setDuration(600)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.starmetal").setDuration(600)
 				.inputItems(new OreDictStack(BIGMT.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))
 				.outputItems(new ItemStack(ModItems.ingot_starmetal, 1)));
 
-		this.register(new GenericRecipe("blast.paa").setDuration(600)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.paa").setDuration(600)
 				.inputItems(new OreDictStack(GOLD.ingot()), new ComparableStack(ModItems.plate_mixed, 1))
 				.outputItems(new ItemStack(ModItems.plate_paa, 1)));
 
-		this.register(new GenericRecipe("blast.firebrick").setDuration(800)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.firebrick").setDuration(800)
 				.inputItems(new OreDictStack(AL.dust()), new ComparableStack(Items.clay_ball, 7))
 				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
-		this.register(new GenericRecipe("blast.firebrickLimestone").setDuration(800)
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.firebrickLimestone").setDuration(800)
 				.inputItems(new OreDictStack(LIMESTONE.ore()), new ComparableStack(Items.clay_ball, 6))
 				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
 	}

@@ -78,7 +78,6 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.PLATE, new OreDictStack(STEEL.ingot()),		ModItems.plate_steel);
 		makeRecipe(StampType.PLATE, new OreDictStack(PB.ingot()),			ModItems.plate_lead);
 		makeRecipe(StampType.PLATE, new OreDictStack(CU.ingot()),			ModItems.plate_copper);
-		makeRecipe(StampType.PLATE, new OreDictStack(ALLOY.ingot()),		ModItems.plate_advanced_alloy);
 		makeRecipe(StampType.PLATE, new OreDictStack(SA326.ingot()),		ModItems.plate_schrabidium);
 		makeRecipe(StampType.PLATE, new OreDictStack(CMB.ingot()),			ModItems.plate_combine_steel);
 		makeRecipe(StampType.PLATE, new OreDictStack(GUNMETAL.ingot()),		ModItems.plate_gunmetal);
