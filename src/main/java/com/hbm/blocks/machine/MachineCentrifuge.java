@@ -5,15 +5,23 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
+import java.util.Arrays;
 
-public class MachineCentrifuge extends BlockDummyable {
+public class MachineCentrifuge extends BlockDummyable implements ILookOverlay {
 
 	public MachineCentrifuge(Material mat) {
 		super(mat);
@@ -62,5 +70,49 @@ public class MachineCentrifuge extends BlockDummyable {
 	
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null)
+			return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityMachineCentrifuge))
+			return;
+
+		TileEntityMachineCentrifuge cent = (TileEntityMachineCentrifuge) te;
+
+		String powerClr = (cent.power < TileEntityMachineCentrifuge.maxPower / 20 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN).toString();
+		String powerTxt = powerClr + "Power: " + BobMathUtil.getShortNumber(cent.power) + " / " + BobMathUtil.getShortNumber(TileEntityMachineCentrifuge.maxPower) + "HE";
+
+		String inputTxt = getSlotText(cent.clientSlotData[0], "In");
+		String out1 = getSlotText(cent.clientSlotData[1], "Out1");
+		String out2 = getSlotText(cent.clientSlotData[2], "Out2");
+		String out3 = getSlotText(cent.clientSlotData[3], "Out3");
+		String out4 = getSlotText(cent.clientSlotData[4], "Out4");
+
+		int percent = 0;
+		if(TileEntityMachineCentrifuge.processingSpeed > 0) {
+			percent = (int) (cent.progress * 100L / (long) TileEntityMachineCentrifuge.processingSpeed);
+			if(percent < 0) percent = 0;
+			if(percent > 100) percent = 100;
+		}
+		String progTxt = EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + percent + "%";
+
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, Arrays.asList(powerTxt, inputTxt, out1, out2, out3, out4, progTxt));
+	}
+
+	private String getSlotText(int packed, String label) {
+		if(packed == 0) {
+			return EnumChatFormatting.GRAY + label + ": " + EnumChatFormatting.RESET + "empty";
+		} else {
+			int itemId = packed >> 16;
+			int size = packed & 0xFFFF;
+			Item item = Item.getItemById(itemId);
+			String name = item == null ? "unknown" : item.getItemStackDisplayName(new ItemStack(item));
+			return EnumChatFormatting.YELLOW + label + ": " + EnumChatFormatting.RESET + name + " x" + size;
+		}
 	}
 }
