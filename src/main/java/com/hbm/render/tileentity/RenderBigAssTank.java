@@ -25,18 +25,18 @@ public class RenderBigAssTank extends TileEntitySpecialRenderer implements IItem
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
 
 		TileEntityMachineBigAssTank bat = (TileEntityMachineBigAssTank) te;
-		
+
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
 		if(bat.tilted) {
 			GL11.glTranslated(0, -1, 0);
 			GL11.glRotated(10, 0, 0, 1);
 			GL11.glRotated(5, 0, 1, 0);
 		}
-		
+
 		switch(te.getBlockMetadata() - 10) {
 		case 2: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
@@ -49,11 +49,11 @@ public class RenderBigAssTank extends TileEntitySpecialRenderer implements IItem
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.bigasstank.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
-		
+
 		GL11.glDisable(GL11.GL_LIGHTING);
-		
+
 		FluidType type = bat.tank.getTankType();
-		
+
 		if(type != null && type != Fluids.NONE) {
 
 			GL11.glPushMatrix();
@@ -61,11 +61,11 @@ public class RenderBigAssTank extends TileEntitySpecialRenderer implements IItem
 			int flammability = type.flammability;
 			int reactivity = type.reactivity;
 			EnumSymbol symbol = type.symbol;
-			
+
 			GL11.glRotatef(22.5F, 0, 1, 0);
-			
+
 			for(int j = 0; j < 2; j++) {
-				
+
 				GL11.glPushMatrix();
 				GL11.glTranslated(5.5, 2, 0);
 				DiamondPronter.pront(poison, flammability, reactivity, symbol);
@@ -76,7 +76,7 @@ public class RenderBigAssTank extends TileEntitySpecialRenderer implements IItem
 		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
-		
+
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
@@ -84,33 +84,34 @@ public class RenderBigAssTank extends TileEntitySpecialRenderer implements IItem
 		GL11.glColor3f(1F, 1F, 1F);
 
 		bindTexture(bat.tank.getTankType().getTexture());
-		
+
 		Tessellator tess = Tessellator.instance;
-		
+
 		double height = bat.tank.getFill() * 1.5D / bat.tank.getMaxFill();
 		double off = 5.9375;
 		double speed = 250D;
-		
+		double scaleFactor = 0.5D; // small number make it zoom in, big number make it zoom out
+
 		double minU = -((te.getWorldObj().getTotalWorldTime() % speed + interp) / speed) % 1D;
-		double maxU = minU + 1;
-		
+		double maxU = minU + 1 * scaleFactor;
+
 		tess.startDrawingQuads();
-		
+
 		tess.addVertexWithUV(-off, 1.75, -0.25, minU, 0);
-		tess.addVertexWithUV(-off, 1.75 + height, -0.25, minU, -height * 2);
-		tess.addVertexWithUV(-off, 1.75 + height, 0.25, maxU, -height * 2);
+		tess.addVertexWithUV(-off, 1.75 + height, -0.25, minU, -height * 2 * scaleFactor);
+		tess.addVertexWithUV(-off, 1.75 + height, 0.25, maxU, -height * 2 * scaleFactor);
 		tess.addVertexWithUV(-off, 1.75, 0.25, maxU, 0);
 
 		tess.addVertexWithUV(off, 1.75, -0.25, maxU, 0);
-		tess.addVertexWithUV(off, 1.75 + height, -0.25, maxU, -height * 2);
-		tess.addVertexWithUV(off, 1.75 + height, 0.25, minU, -height * 2);
+		tess.addVertexWithUV(off, 1.75 + height, -0.25, maxU, -height * 2 * scaleFactor);
+		tess.addVertexWithUV(off, 1.75 + height, 0.25, minU, -height * 2 * scaleFactor);
 		tess.addVertexWithUV(off, 1.75, 0.25, minU, 0);
-		
+
 		tess.draw();
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
 		GL11.glPopMatrix();
 	}
 
