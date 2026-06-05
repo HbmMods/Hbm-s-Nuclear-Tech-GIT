@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.Compat;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -141,7 +142,8 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 
-		int h = 1 + this.height;
+		// workaround for angelica, extend AABB to build height by default instead of dynamically scaling
+		int h = Compat.isModLoaded(Compat.MOD_ANG) ? 256 - yCoord : 1 + this.height;
 		
 		if(bb == null || bb.maxY - bb.minY < h) {
 			bb = AxisAlignedBB.getBoundingBox(

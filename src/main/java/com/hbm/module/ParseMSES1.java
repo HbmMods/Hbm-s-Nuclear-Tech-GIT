@@ -244,13 +244,11 @@ public class ParseMSES1 implements IParse {
 		if(!statement.contains("$")) return statement;
 		
 		String[] frags = statement.split("\\$");
-		if(frags.length % 2 == 0 || frags.length < 3) return statement; 
 		
-		// since var names are enclosed with $ signs, we assume that every evenly numbered fragment is a var name
-		// example: 5 + $val1$ * $val2$ / (-$val3$)
-		// equals "5 + ", "val1", "* ", "val2", "/ (-", "val3", ")"
-		//         1       2       3     4       5       6       7
-		for(int i = 1; i < frags.length; i += 2) {
+		// the initial assumption about frag order doesn't work since String.split() doesn't include leading or trailing ""s.
+		// therefore, we have to figure out whether a leading "" exists and shift the starting index accordingly
+		int startingIndex = statement.startsWith("$") ? 0 : 1;
+		for(int i = startingIndex; i < frags.length; i += 2) {
 			// special case, if we try to substitute $buffer$ then read the literal buffer
 			if(frags[i].equals("buffer")) {
 				frags[i] = ctx.buffer;

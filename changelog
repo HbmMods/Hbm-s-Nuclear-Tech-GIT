@@ -11,8 +11,11 @@
 * Industrial grade and minecraft grade copper ingots now have the "ingot" suffix
 
 ## Fixed
-* Fixed AUTOCAL's `listen` command failing if the buffer is empty
+* AUTOCAL
+  * Fixed `listen` command failing if the buffer is empty
+  * Fixed variable substitution failing when there is a trailing $ sign
 * Fixed things not intended to be used in the blast furnace (scrap, lava) being usable fuels
 * Fixed blast furnace swallowing container items left behind by fuels, instead fuels with containers will not be accepted at all
 * Fixed the blast furnace NEI screen listing "0 HE" for every recipe even though it's not an electric machine
 * Fixed flue gas not having an inventory texture
+* Potentially fixed issue with Angelica where tile entity culling would cause cargo elevators to not render on certain angles
