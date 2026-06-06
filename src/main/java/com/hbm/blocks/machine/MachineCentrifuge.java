@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
+import com.hbm.config.ClientConfig;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,6 +75,7 @@ public class MachineCentrifuge extends BlockDummyable implements ILookOverlay {
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
+		if(!ClientConfig.MACHINE_OVERLAY_ENABLED.get()) return;
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null)
 			return;
