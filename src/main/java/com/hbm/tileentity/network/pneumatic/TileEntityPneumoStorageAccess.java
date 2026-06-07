@@ -37,7 +37,7 @@ public class TileEntityPneumoStorageAccess extends TileEntityLoadedBase implemen
 				}
 			}
 			
-			if(this.cache == null) {
+			if(this.cache == null || this.cache.hasExpired) {
 				this.cache = new StackCache(xCoord, yCoord, zCoord);
 			}
 			

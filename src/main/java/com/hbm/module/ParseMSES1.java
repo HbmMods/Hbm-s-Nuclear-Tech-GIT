@@ -37,7 +37,7 @@ public class ParseMSES1 implements IParse {
 		// sets the script index to the jump point
 		if(lower.startsWith("jmp ")) {
 			if(line.length() <= 4) return EnumStatementReturn.PARAMETER_ERROR;
-			String jmpKey = substitute(ctx, line.substring(4));
+			String jmpKey = substitute(ctx, line.substring(4), false);
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -49,7 +49,7 @@ public class ParseMSES1 implements IParse {
 		if(lower.startsWith("jmpif ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
 			if(!ctx.buffer.equals("true")) return EnumStatementReturn.OK;
-			String jmpKey = substitute(ctx, line.substring(6));
+			String jmpKey = substitute(ctx, line.substring(6), false);
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -61,7 +61,7 @@ public class ParseMSES1 implements IParse {
 		if(lower.startsWith("jmpnot ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
 			if(ctx.buffer.equals("true")) return EnumStatementReturn.OK;
-			String jmpKey = substitute(ctx, line.substring(7));
+			String jmpKey = substitute(ctx, line.substring(7), false);
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
 				return EnumStatementReturn.OK;
@@ -103,7 +103,7 @@ public class ParseMSES1 implements IParse {
 		// runs the calculation, allows string substitution, saves result to buffer
 		if(lower.startsWith("eval ")) {
 			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
-			String statement = substitute(ctx, line.substring(5));
+			String statement = substitute(ctx, line.substring(5), true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
 				ctx.buffer = "" + result;
@@ -114,7 +114,7 @@ public class ParseMSES1 implements IParse {
 		// runs the calculation, allows string substitution, rounds, saves result to buffer,
 		if(lower.startsWith("evalr ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
-			String statement = substitute(ctx, line.substring(6));
+			String statement = substitute(ctx, line.substring(6), true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
 				ctx.buffer = "" + (int) Math.round(result);
@@ -125,7 +125,7 @@ public class ParseMSES1 implements IParse {
 		// runs the calculation from the buffer, allows string substitution, saves result to buffer
 		if(lower.equals("evalr")) {
 			if(ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			String statement = substitute(ctx, ctx.buffer);
+			String statement = substitute(ctx, ctx.buffer, true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
 				ctx.buffer = "" + (int) Math.round(result);
@@ -166,7 +166,7 @@ public class ParseMSES1 implements IParse {
 		// concatenate, same as buffer but evaluates $var$ substitutions
 		if(lower.startsWith("concat ")) {
 			if(line.length() <= 7 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			String concat = substitute(ctx, line.substring(5));
+			String concat = substitute(ctx, line.substring(7), false);
 			ctx.buffer = concat;
 			return EnumStatementReturn.OK;
 		}
@@ -174,7 +174,7 @@ public class ParseMSES1 implements IParse {
 		// compares the buffer with a value, allows substitutions
 		if(lower.startsWith("eq ")) {
 			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			ctx.buffer = ctx.buffer.equals(substitute(ctx, line.substring(3))) ? "true" : "false";
+			ctx.buffer = ctx.buffer.equals(substitute(ctx, line.substring(3), false)) ? "true" : "false";
 			return EnumStatementReturn.OK;
 		}
 		
@@ -225,14 +225,14 @@ public class ParseMSES1 implements IParse {
 		// sends an RoR signal using the buffer's contents as the message over the supplied channel
 		if(lower.startsWith("send ")) {
 			if(line.length() <= 5 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			RTTYSystem.broadcast(ctx.world, substitute(ctx, line.substring(5)), ctx.buffer);
+			RTTYSystem.broadcast(ctx.world, substitute(ctx, line.substring(5), false), ctx.buffer);
 			return EnumStatementReturn.OK;
 		}
 		
 		// listens to an RoR signal using the supplied channel name and saves it to the buffer
 		if(lower.startsWith("listen ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
-			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(7)));
+			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(7), false));
 			if(chan != null) ctx.buffer = chan.signal + "";
 			return EnumStatementReturn.OK;
 		}
@@ -240,24 +240,39 @@ public class ParseMSES1 implements IParse {
 		return EnumStatementReturn.UNRECOGNIZED_COMMAND;
 	}
 	
-	public String substitute(ParseContext ctx, String statement) {
+	public String substitute(ParseContext ctx, String statement, boolean forceNumber) {
 		if(!statement.contains("$")) return statement;
 		
-		String[] frags = statement.split("\\$");
+		StringBuilder joined = new StringBuilder("");
+		StringBuilder var = new StringBuilder("");
+		boolean readingVar = false;
 		
-		// the initial assumption about frag order doesn't work since String.split() doesn't include leading or trailing ""s.
-		// therefore, we have to figure out whether a leading "" exists and shift the starting index accordingly
-		int startingIndex = statement.startsWith("$") ? 0 : 1;
-		for(int i = startingIndex; i < frags.length; i += 2) {
-			// special case, if we try to substitute $buffer$ then read the literal buffer
-			if(frags[i].equals("buffer")) {
-				frags[i] = ctx.buffer;
+		for(char c : statement.toCharArray()) {
+			
+			if(c == '$') {
+				if(!readingVar) {
+					readingVar = true;
+				} else {
+					if("buffer".equals(var)) {
+						joined.append(ctx.buffer);
+					} else {
+						String variable = ctx.variables.getString(var.toString());
+						if(forceNumber && variable.isEmpty()) variable = "0";
+						joined.append(variable);
+						var.delete(0, var.length());
+						readingVar = false;
+					}
+				}
 			} else {
-				frags[i] = ctx.variables.getString(frags[i]);
+				if(readingVar) {
+					var.append(c);
+				} else {
+					joined.append(c);
+				}
 			}
 		}
 		
-		return String.join("", frags);
+		return joined.toString();
 	}
 
 	@Override
