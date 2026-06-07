@@ -9,15 +9,20 @@
 * Renamed "worker's alloy" to "desh" to avoid confusion
   * Seriously why did this have two names?
 * Industrial grade and minecraft grade copper ingots now have the "ingot" suffix
+* Changed the microchip assembler recipe duration so that it matches with the demand of one soldering station
+* Blast furnace speed with hot air blast can now be increased to 500% (uses the same amount of hot air blast as before)
 
 ## Fixed
 * AUTOCAL
   * Fixed `listen` command failing if the buffer is empty
   * Fixed variable substitution failing when there is a trailing $ sign
   * Fixed concat prefixing all output with "t " for some reason
-  * Eval(r) now uses a special mod for variable substitution that forces empty variables to be interpreted as "0"
+  * Eval(r) now uses a special mode for variable substitution that forces empty variables to be interpreted as "0"
 * Fixed things not intended to be used in the blast furnace (scrap, lava) being usable fuels
 * Fixed blast furnace swallowing container items left behind by fuels, instead fuels with containers will not be accepted at all
 * Fixed the blast furnace NEI screen listing "0 HE" for every recipe even though it's not an electric machine
 * Fixed flue gas not having an inventory texture
 * Potentially fixed issue with Angelica where tile entity culling would cause cargo elevators to not render on certain angles
+* Fixed the blast furnace not performing stack size checks correctly, outputting items when it shouldn't
+* Fixed cargo elevators not rendering past a distance of 100 blocks
+* Fixed cargo elevator syncing range being only 100 blocks, meaning that elevators taller than that don't work properly

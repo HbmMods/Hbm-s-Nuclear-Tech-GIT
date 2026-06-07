@@ -7,6 +7,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Compat;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,7 +62,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 			// exist for at least one tick before the main portion gets rendered, fixes the short flickering platform that instantly despawns
 			renderPlatform = true;
 			
-			this.networkPackNT(100);
+			this.networkPackNT(300);
 		} else {
 
 			if(this.sync > 0) {
@@ -157,5 +159,11 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 		}
 
 		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

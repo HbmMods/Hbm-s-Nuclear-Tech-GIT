@@ -121,7 +121,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		
 		// crafting parts
 		if(!GeneralConfig.enable528) { // precass otherwise
-			this.register(new GenericRecipe("ass.chip").setup(100, 250).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP))
+			this.register(new GenericRecipe("ass.chip").setup(50, 250).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP))
 					.inputItems(new ComparableStack(ModItems.plate_polymer), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.SILICON), new OreDictStack(GOLD.wireFine())));
 			this.register(new GenericRecipe("ass.chipBismoid").setup(100, 1_500).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP_BISMOID))
 					.inputItems(new ComparableStack(ModItems.plate_polymer, 2), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.SILICON), new OreDictStack(ANY_BISMOID.nugget()), new OreDictStack(GOLD.wireFine(), 2)));

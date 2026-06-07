@@ -61,10 +61,11 @@ public class GUIBlastFurnace extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int prog = (int) Math.round(furnace.progress * 88D);
-		drawTexturedModalRect(guiLeft + 62, guiTop + 106 - prog, 176, 102 - prog, 56, prog);
-		
 		int fuel = (int) Math.round((double) furnace.fuel * 26D / (double) furnace.MAX_FUEL);
+		int prog = (int) Math.round(furnace.progress * (88D - fuel));
+		
+		drawTexturedModalRect(guiLeft + 62, guiTop + 106 - prog - fuel, 176, 102 - prog - fuel, 56, prog);
+		
 		drawTexturedModalRect(guiLeft + 62, guiTop + 106 - fuel, 176, 128 - fuel, 56, fuel);
 		
 		if(furnace.isProgressing) {
