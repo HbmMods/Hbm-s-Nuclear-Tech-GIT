@@ -45,6 +45,15 @@ public class PneumaticNetwork extends NodeNet {
 
 	public LinkedHashSet<StackCache> accessors = new LinkedHashSet();
 	public LinkedHashSet<ISlotMonitorProvider> storages = new LinkedHashSet();
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		receivers.clear();
+		for(StackCache cache : accessors) cache.dissolveCache();
+		accessors.clear();
+		storages.clear();
+	}
 
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));

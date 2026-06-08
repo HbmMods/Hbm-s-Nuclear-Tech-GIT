@@ -101,10 +101,8 @@ public class StackCache {
 		}
 		
 		public void removeMonitor(SlotMonitor monitor) {
-			System.out.println("Trying to remove...");
 			if(this.monitors.remove(monitor)) {
 				this.changeAmounts(-monitor.stacksize);
-				System.out.println("Removed!");
 			}
 		}
 		

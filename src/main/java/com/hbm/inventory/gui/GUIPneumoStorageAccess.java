@@ -1,14 +1,21 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
+import static com.hbm.inventory.gui.element.GUIElements.*;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIPneumoStorageAccess extends GuiInfoContainer {
@@ -47,5 +54,22 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+	}
+
+	@Override
+	protected void renderToolTip(ItemStack stack, int x, int y) {
+		List list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+
+		for(int line = 0; line < list.size(); ++line) {
+			if(line == 0) {
+				list.set(line, stack.getRarity().rarityColor + (String) list.get(line));
+			} else {
+				list.set(line, EnumChatFormatting.GRAY + (String) list.get(line));
+			}
+		}
+
+		FontRenderer font = stack.getItem().getFontRenderer(stack);
+		if(font == null) font = this.fontRendererObj;
+		GUIElements.drawHoveringText(list, x, y, font, itemRender, width, height, STANDARD_HEADER_OFFSET, STANDARD_LINE_DIST, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND, 0xD57C4F, 0xAB4223);
 	}
 }

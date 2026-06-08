@@ -5,7 +5,10 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.Compat;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,7 +62,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 			// exist for at least one tick before the main portion gets rendered, fixes the short flickering platform that instantly despawns
 			renderPlatform = true;
 			
-			this.networkPackNT(100);
+			this.networkPackNT(300);
 		} else {
 
 			if(this.sync > 0) {
@@ -141,7 +144,8 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 
-		int h = 1 + this.height;
+		// workaround for angelica, extend AABB to build height by default instead of dynamically scaling
+		int h = Compat.isModLoaded(Compat.MOD_ANG) ? 256 - yCoord : 1 + this.height;
 		
 		if(bb == null || bb.maxY - bb.minY < h) {
 			bb = AxisAlignedBB.getBoundingBox(
@@ -155,5 +159,11 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 		}
 
 		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }
