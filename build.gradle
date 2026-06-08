@@ -163,6 +163,9 @@ task sourceJar(type: Jar) {
 }
 
 task devJar(type: Jar) {
+	// hack: artificially depend on the reobf task here to get the normal jar to be overwritten before publishing
+	dependsOn reobf
+
 	from(sourceSets.main.output) {
 		include "**"
 	}
@@ -212,8 +215,6 @@ if(Files.exists(Paths.get("maven.properties"))) {
 				artifactId archivesBaseName
 				version version_name
 
-				from components.java
-
 				artifact sourceJar {
 					classifier "src"
 				}
@@ -222,13 +223,7 @@ if(Files.exists(Paths.get("maven.properties"))) {
 					classifier "dev"
 				}
 
-				pom.withXml {
-					// NTM doesn't really feature any special runtime dependencies anyone would need, so blast those away
-					def node = asNode()
-					def dependencies = node.get("dependencies")
-					node.remove(dependencies)
-					node
-				}
+				artifact jar
 			}
 		}
 		repositories {
