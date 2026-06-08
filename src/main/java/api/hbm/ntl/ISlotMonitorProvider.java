@@ -21,6 +21,9 @@ public interface ISlotMonitorProvider {
 	/** Returns the amount of that slot at that index. Some storages may use int64 datatypes so we have to account for those too somehow, since ItemStacks cannot handle that. */
 	public long getAmountAt(int index);
 	
+	/** Removes the given number of items from that slot, returns the amount left to remove if the stack was smaller than the supplied amount */
+	public long useUpItem(int index, long amount);
+	
 	/** Whether this storage unit is reachable by the access point */
 	public boolean isAvailableToCache(StackCache cache);
 	

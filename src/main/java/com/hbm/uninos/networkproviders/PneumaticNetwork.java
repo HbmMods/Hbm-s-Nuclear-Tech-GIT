@@ -54,6 +54,17 @@ public class PneumaticNetwork extends NodeNet {
 		accessors.clear();
 		storages.clear();
 	}
+	
+	@Override
+	public void joinNetworks(NodeNet network) {
+		super.joinNetworks(network);
+		
+		PneumaticNetwork net = (PneumaticNetwork) network;
+		for(StackCache cache : accessors) cache.dissolveCache();
+		
+		for(Object connector : net.accessors) this.accessors.add((StackCache) connector);
+		for(Object connector : net.storages) this.storages.add((ISlotMonitorProvider) connector);
+	}
 
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));

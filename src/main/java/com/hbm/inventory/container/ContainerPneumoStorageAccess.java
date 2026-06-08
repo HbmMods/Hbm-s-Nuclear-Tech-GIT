@@ -15,12 +15,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerPneumoStorageAccess extends Container {
 	
 	protected TileEntityPneumoStorageAccess access;
 	protected InventoryPneumoStorageAccess inventory;
+	
+	public static final String STACK_SIZE_KEY = "PNEUMO_STACK_SIZE";
 
 	public ContainerPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		this.access = access;
@@ -28,7 +31,7 @@ public class ContainerPneumoStorageAccess extends Container {
 		
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 8; j++) {
-				this.addSlotToContainer(new SlotNonRetarded(inventory, j + i * 8, 8 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new SlotNonRetarded(inventory, j + i * 8, 8 + j * 18, 17 + i * 18)); // TODO: add a new slot type that holds a long for the amount
 			}
 		}
 		
@@ -49,6 +52,38 @@ public class ContainerPneumoStorageAccess extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return access.getDistanceFrom(player.posX, player.posY, player.posZ) <= 15 * 15;
+	}
+
+	@Override
+	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
+		
+		if(index >= 0 && index < 6 * 8) {
+			boolean client = player.worldObj.isRemote;
+			Slot slot = this.getSlot(index);
+			ItemStack held = player.inventory.getItemStack();
+			
+			if(held == null && slot.getHasStack() && slot.getStack().hasTagCompound()) {
+				ItemStack stack = slot.getStack().copy();
+				
+				if(button == 0) {
+					int toGrab = (int) Math.min(stack.getMaxStackSize(), stack.stackTagCompound.getLong(STACK_SIZE_KEY));
+					
+					if(client) {
+						stack.stackSize = toGrab;
+						player.inventory.setItemStack(stack);
+					} else {
+						if(this.access.cache == null || this.access.cache.hasExpired) return stack;
+						StackCache cache = this.access.cache;
+						stack.stackSize = (int) cache.consumeItemsAndReturnQuantity(stack, toGrab); // this can't work because the stack got altered with the description NBT.....
+						player.inventory.setItemStack(stack);
+					}
+				}
+				
+				return slot.getStack().copy();
+			}
+		}
+		
+		return super.slotClick(index, button, mode, player);
 	}
 
 	@Override
@@ -81,6 +116,7 @@ public class ContainerPneumoStorageAccess extends Container {
 					if(cache.displayStack != null) {
 						slots[i] = cache.displayStack.copy();
 						ItemStackUtil.addTooltipToStack(slots[i], "x" + cache.stacksize, "in " + cache.monitors.size() + " stacks");
+						slots[i].stackTagCompound.setLong(STACK_SIZE_KEY, cache.stacksize); // TODO instead of altering the stacks so we can't resolve anything anymore, hijack the progress bar system
 					}
 				}
 			}

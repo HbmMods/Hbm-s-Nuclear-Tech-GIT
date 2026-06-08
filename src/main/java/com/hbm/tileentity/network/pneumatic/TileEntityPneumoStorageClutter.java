@@ -141,4 +141,16 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 	public boolean isAvailableToCache(StackCache cache) {
 		return this.isLoaded && !this.isInvalid();
 	}
+
+	@Override
+	public long useUpItem(int index, long amount) {
+		
+		if(slots[index] != null) {
+			int toRemove = (int) Math.min(slots[index].stackSize, amount);
+			this.decrStackSize(index, toRemove);
+			return amount - toRemove;
+		}
+		
+		return amount;
+	}
 }

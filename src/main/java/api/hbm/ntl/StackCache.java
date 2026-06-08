@@ -46,6 +46,29 @@ public class StackCache {
 		cache.addMonitor(monitor);
 	}
 	
+	public CacheSlot getSlotFromStack(ItemStack stack) {
+		return getSlotFromStack(stack.getItem(), stack.getItemDamage(), stack.stackTagCompound);
+	}
+	
+	public CacheSlot getSlotFromStack(Item item, int meta, NBTTagCompound nbt) {
+		long monitorIdentity = getStackIdentity(item, meta, nbt);
+		return cacheSlots.get(monitorIdentity);
+	}
+	
+	/** Uses up items and returns how many of the requested items could be removed, with no desyncs that number should always be equal to the supplied amount */
+	public long consumeItemsAndReturnQuantity(ItemStack stack, long amount) {
+		CacheSlot cache = getSlotFromStack(stack);
+		if(cache == null) return 0;
+		long originalAmount = amount;
+		
+		for(SlotMonitor monitor : cache.monitors) {
+			amount = monitor.parent.useUpItem(monitor.index, amount);
+			if(amount <= 0) break;
+		}
+		
+		return originalAmount - amount;
+	}
+	
 	public void dissolveCache() {
 		for(Entry<Long, CacheSlot> cacheEntry : cacheSlots.entrySet()) {
 			cacheEntry.getValue().destroy();

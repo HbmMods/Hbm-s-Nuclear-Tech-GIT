@@ -103,8 +103,6 @@ public class SlotMonitor {
 		
 		if(hasTypeChanged) {
 			
-			System.out.println("Type changed!");
-			
 			// remove from all existing monitors
 			Iterator<CacheSlot> iterator = viewedBy.iterator();
 			while(iterator.hasNext()) {
@@ -129,8 +127,6 @@ public class SlotMonitor {
 
 			// find new monitors
 			if(pneumoNet != null) {
-				
-				System.out.println("Adding to new network...");
 				
 				for(StackCache cache : pneumoNet.accessors) {
 					System.out.println("Adding to cache...");
