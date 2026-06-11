@@ -237,6 +237,8 @@ public class ModBlocks {
 	public static Block block_graphite_lithium;
 	public static Block block_graphite_tritium;
 	public static Block block_graphite_detector;
+	public static Block block_graphite_thorium;
+	public static Block block_graphite_thorium_fuel;
 	public static Block block_boron;
 	public static Block block_lanthanium;
 	public static Block block_ra226;
@@ -1404,6 +1406,8 @@ public class ModBlocks {
 		block_graphite_lithium = new BlockGraphiteBreedingFuel().setBlockName("block_graphite_lithium");
 		block_graphite_tritium = new BlockGraphiteBreedingProduct().setBlockName("block_graphite_tritium");
 		block_graphite_detector = new BlockGraphiteNeutronDetector().setBlockName("block_graphite_detector");
+		block_graphite_thorium = new BlockGraphiteThorium().setBlockName("block_graphite_thorium");
+		block_graphite_thorium_fuel = new BlockGraphiteThoriumFuel().setBlockName("block_graphite_thorium_fuel");
 		block_boron = new BlockBeaconable(Material.iron).setBlockName("block_boron").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_boron");
 		block_lanthanium = new BlockBeaconable(Material.iron).setBlockName("block_lanthanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lanthanium");
 		block_ra226 = new BlockHazard().makeBeaconable().setBlockName("block_ra226").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_ra226");
@@ -2527,6 +2531,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_graphite_lithium, block_graphite_lithium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_tritium, block_graphite_tritium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_detector, block_graphite_detector.getUnlocalizedName());
+		GameRegistry.registerBlock(block_graphite_thorium, block_graphite_thorium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_graphite_thorium_fuel, block_graphite_thorium_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_boron, block_boron.getUnlocalizedName());
 		GameRegistry.registerBlock(block_insulator, block_insulator.getUnlocalizedName());
 		GameRegistry.registerBlock(block_fiberglass, block_fiberglass.getUnlocalizedName());
