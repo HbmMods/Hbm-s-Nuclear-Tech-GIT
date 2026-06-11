@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess;
+import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
@@ -14,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -34,6 +36,13 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+		
+		Slot slot = this.getSlotAtPosition(x, y);
+		
+		if(slot instanceof SlotPneumo) {
+			SlotPneumo pneumo = (SlotPneumo) slot;
+			if(pneumo.getHasStack()) this.drawInfo(new String[] {"x" + pneumo.amount}, x, y - 15);
+		}
 	}
 
 	@Override
