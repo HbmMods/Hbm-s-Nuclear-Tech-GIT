@@ -1,3 +1,10 @@
 ## Changed
 * Updated chinese localization
 * Watz powerplant now has OC and RoR integration
+* The automatic thresher now has a fluid port on the bottom as well
+* The foundry basins and outlet filters now use the properly translated name instead of the internal name for the material
+
+## Fixed
+* Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
+* Fixed broken thorium ore centrifuging recipe shown in NEI
+* Fixed industrial turbine not properly saving its energy values, causing the flywheel to stop on relog

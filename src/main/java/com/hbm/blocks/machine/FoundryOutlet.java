@@ -204,7 +204,7 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, 
 		List<String> text = new ArrayList();
 		
 		if(outlet.filter != null) {
-			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.filter", outlet.filter.names[0]));
+			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.filter", outlet.filter.getLocalizedName()));
 		}
 		if(outlet.invertFilter) {
 			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.invertFilter"));

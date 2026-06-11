@@ -180,10 +180,10 @@ public class ParseMSES1 implements IParse {
 		
 		// greater than buffer
 		if(lower.startsWith("gtb ")) {
-			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
 				double buffer = Double.parseDouble(ctx.buffer);
-				double val =  Double.parseDouble(line.substring(3));
+				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
 				ctx.buffer = val > buffer ? "true" : "false";
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
@@ -191,10 +191,10 @@ public class ParseMSES1 implements IParse {
 		
 		// lower than buffer
 		if(lower.startsWith("ltb ")) {
-			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
 				double buffer = Double.parseDouble(ctx.buffer);
-				double val =  Double.parseDouble(line.substring(3));
+				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
 				ctx.buffer = val < buffer ? "true" : "false";
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
@@ -202,10 +202,10 @@ public class ParseMSES1 implements IParse {
 		
 		// greater than or equal buffer
 		if(lower.startsWith("geb ")) {
-			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
 				double buffer = Double.parseDouble(ctx.buffer);
-				double val =  Double.parseDouble(line.substring(3));
+				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
 				ctx.buffer = val >= buffer ? "true" : "false";
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
@@ -213,10 +213,10 @@ public class ParseMSES1 implements IParse {
 		
 		// lower than or equal buffer
 		if(lower.startsWith("leb ")) {
-			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
 				double buffer = Double.parseDouble(ctx.buffer);
-				double val =  Double.parseDouble(line.substring(3));
+				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
 				ctx.buffer = val <= buffer ? "true" : "false";
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
