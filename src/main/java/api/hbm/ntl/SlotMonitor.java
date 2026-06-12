@@ -109,7 +109,6 @@ public class SlotMonitor {
 				CacheSlot slot = iterator.next();
 				slot.removeMonitor(this);
 				iterator.remove();
-				System.out.println("Removing");
 			}
 			
 			// set updated traits
@@ -129,10 +128,8 @@ public class SlotMonitor {
 			if(pneumoNet != null) {
 				
 				for(StackCache cache : pneumoNet.accessors) {
-					System.out.println("Adding to cache...");
 					if(!cache.hasExpired && parent.isAvailableToCache(cache)) {
 						cache.addToCache(this);
-						System.out.println("Added!");
 					}
 				}
 			}

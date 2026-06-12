@@ -11,6 +11,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.ContainerCustomPayloadPacket;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.InventoryUtil;
 
 import api.hbm.ntl.StackCache;
 import api.hbm.ntl.StackCache.CacheSlot;
@@ -54,9 +55,41 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			this.addSlotToContainer(new SlotNonRetarded(invPlayer, i, 8 + i * 18, 227));
 		}
 		
-		inventory.updateListing();
+		updateListing();
 		this.detectAndSendChanges();
 	}
+	
+	public void updateListing() { // DEMO
+		if(this.access.cache == null || this.access.cache.hasExpired) return;
+		StackCache cache = this.access.cache;
+		List<CacheSlot> cacheSlots = new ArrayList(cache.cacheSlots.size());
+		cacheSlots.addAll(cache.cacheSlots.values());
+		cacheSlots.removeIf(x -> { return x.stacksize <= 0; });
+		Collections.sort(cacheSlots, SORT_BY_STACK_SIZE);
+		int size = cacheSlots.size();
+		
+		for(int i = 0; i < inventory.slots.length; i++) {
+			if(i < size) {
+				CacheSlot cacheSlot = cacheSlots.get(i);
+				if(cacheSlot.displayStack != null) {
+					inventory.slots[i] = cacheSlot.displayStack.copy();
+				}
+			} else {
+				inventory.slots[i] = null;
+			}
+		}
+	}
+	
+	public static final Comparator<CacheSlot> SORT_BY_STACK_SIZE = new Comparator<CacheSlot>() {
+		@Override
+		public int compare(CacheSlot o1, CacheSlot o2) {
+			if(o1.stacksize > o2.stacksize)			return -1;	if(o1.stacksize < o2.stacksize)			return 1;
+			if(o1.itemId < o2.itemId)				return -1;	if(o1.itemId > o2.itemId)				return 1;
+			if(o1.meta < o2.meta)					return -1;	if(o1.meta > o2.meta)					return 1;
+			if(o1.nbt == null && o2.nbt != null)	return -1;	if(o1.nbt != null && o2.nbt == null)	return 1;
+			return 0;
+		}
+	};
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
@@ -70,22 +103,44 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			boolean client = player.worldObj.isRemote;
 			SlotPneumo slot = (SlotPneumo) this.getSlot(index);
 			ItemStack held = player.inventory.getItemStack();
+
+			boolean standardClick = button == 0 && mode == 0;
+			boolean shiftClick = button == 0 && mode == 1;
 			
-			if(held == null && slot.getHasStack()) {
-				ItemStack stack = slot.getStack().copy();
+			if(slot.getHasStack()) {
 				
-				if(button == 0) {
-					int toGrab = (int) Math.min(stack.getMaxStackSize(), slot.amount);
+				// left click, can't hold an item and provides a full stack to the held item
+				if(standardClick && held == null) {
+					ItemStack stack = slot.getStack().copy();
 					
-					if(client) {
-						stack.stackSize = toGrab;
-						player.inventory.setItemStack(stack);
-					} else {
-						if(this.access.cache == null || this.access.cache.hasExpired) return stack;
-						StackCache cache = this.access.cache;
-						stack.stackSize = (int) cache.consumeItemsAndReturnQuantity(stack, toGrab); // this can't work because the stack got altered with the description NBT.....
-						player.inventory.setItemStack(stack);
+					if(standardClick) {
+						int toGrab = (int) Math.min(stack.getMaxStackSize(), slot.amount);
+						
+						if(client) {
+							stack.stackSize = toGrab;
+							player.inventory.setItemStack(stack);
+							//slot.amount -= toGrab;
+							//if(slot.amount <= 0) slot.putStack(null);
+						} else {
+							if(this.access.cache == null || this.access.cache.hasExpired) return stack;
+							StackCache cache = this.access.cache;
+							stack.stackSize = (int) cache.consumeItemsAndReturnQuantity(stack, toGrab); // this can't work because the stack got altered with the description NBT.....
+							player.inventory.setItemStack(stack);
+						}
 					}
+					
+				// shift click, works even if there's a held stack, serverside only and the nwe just sync
+				} else if(shiftClick && !client) {
+					ItemStack stack = slot.getStack().copy();
+					if(this.access.cache == null || this.access.cache.hasExpired) return stack;
+					StackCache cache = this.access.cache;
+					int originalStacksize = (int) Math.min(stack.getMaxStackSize(), slot.amount);
+					stack.stackSize = originalStacksize;
+					ItemStack ret = InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, stack);
+					int remainder = ret == null ? 0 : ret.stackSize;
+					int itemsUsed = originalStacksize - remainder;
+					cache.consumeItemsAndReturnQuantity(stack, itemsUsed);
+					detectAndSendChanges();
 				}
 			}
 			
@@ -118,6 +173,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	 */
 	@Override
 	public void detectAndSendChanges() {
+		this.updateListing();
 		
 		// skip the first 6*8 slots, i.e. all the ones visible in the access grid
 		for(int i = GRID_SIZE; i < this.inventorySlots.size(); i++) {
@@ -233,35 +289,6 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			this.slots = new ItemStack[getSizeInventory()];
 			this.cache = access.cache;
 		}
-		
-		public void updateListing() { // DEMO
-			if(this.cache == null) return;
-			List<CacheSlot> cacheSlots = new ArrayList(cache.cacheSlots.size());
-			cacheSlots.addAll(cache.cacheSlots.values());
-			cacheSlots.removeIf(x -> { return x.stacksize <= 0; });
-			Collections.sort(cacheSlots, SORT_BY_STACK_SIZE);
-			int size = cacheSlots.size();
-			
-			for(int i = 0; i < slots.length; i++) {
-				if(i < size) {
-					CacheSlot cache = cacheSlots.get(i);
-					if(cache.displayStack != null) {
-						slots[i] = cache.displayStack.copy();
-					}
-				}
-			}
-		}
-		
-		public static final Comparator<CacheSlot> SORT_BY_STACK_SIZE = new Comparator<CacheSlot>() {
-			@Override
-			public int compare(CacheSlot o1, CacheSlot o2) {
-				if(o1.stacksize > o2.stacksize)			return -1;	if(o1.stacksize < o2.stacksize)			return 1;
-				if(o1.itemId < o2.itemId)				return -1;	if(o1.itemId > o2.itemId)				return 1;
-				if(o1.meta < o2.meta)					return -1;	if(o1.meta > o2.meta)					return 1;
-				if(o1.nbt == null && o2.nbt != null)	return -1;	if(o1.nbt != null && o2.nbt == null)	return 1;
-				return 0;
-			}
-		};
 
 		@Override public int getSizeInventory() { return GRID_SIZE; }
 		@Override public ItemStack getStackInSlot(int slot) { return slots[slot]; }
