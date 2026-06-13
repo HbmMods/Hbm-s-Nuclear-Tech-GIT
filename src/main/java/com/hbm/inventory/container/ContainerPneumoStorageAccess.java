@@ -98,41 +98,46 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 
 	@Override
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
+		if(mode == 6) return null;
+
+		boolean leftClick = button == 0 && mode == 0;
+		boolean rightClick = button == 1 && mode == 0;
+		boolean shiftClick = button == 0 && mode == 1;
 		
 		if(index >= 0 && index < GRID_SIZE) {
 			boolean client = player.worldObj.isRemote;
 			SlotPneumo slot = (SlotPneumo) this.getSlot(index);
 			ItemStack held = player.inventory.getItemStack();
-
-			boolean standardClick = button == 0 && mode == 0;
-			boolean shiftClick = button == 0 && mode == 1;
 			
 			if(slot.getHasStack()) {
 				
 				// left click, can't hold an item and provides a full stack to the held item
-				if(standardClick && held == null) {
+				if(leftClick || rightClick) {
 					ItemStack stack = slot.getStack().copy();
+
+					int alreadyHeld = held == null ? 0 : held.stackSize;
+					int capacity = stack.getMaxStackSize() - alreadyHeld;
+					if(rightClick && capacity > 1) capacity = 1;
+					int toGrab = (int) Math.min(capacity, slot.amount);
 					
-					if(standardClick) {
-						int toGrab = (int) Math.min(stack.getMaxStackSize(), slot.amount);
-						
+					if(capacity > 0 && (held == null || StackCache.getStackIdentity(held) == StackCache.getStackIdentity(stack))) {
 						if(client) {
-							stack.stackSize = toGrab;
+							stack.stackSize = toGrab + alreadyHeld;
 							player.inventory.setItemStack(stack);
-							//slot.amount -= toGrab;
-							//if(slot.amount <= 0) slot.putStack(null);
 						} else {
-							if(this.access.cache == null || this.access.cache.hasExpired) return stack;
+							if(this.access.cache == null || this.access.cache.hasExpired) return null;
 							StackCache cache = this.access.cache;
-							stack.stackSize = (int) cache.consumeItemsAndReturnQuantity(stack, toGrab); // this can't work because the stack got altered with the description NBT.....
+							stack.stackSize = (int) cache.consumeItemsAndReturnQuantity(stack, toGrab) + alreadyHeld;
 							player.inventory.setItemStack(stack);
 						}
+						
+						return null; // for some reason we gotta terminate here and not below
 					}
 					
 				// shift click, works even if there's a held stack, serverside only and the nwe just sync
 				} else if(shiftClick && !client) {
 					ItemStack stack = slot.getStack().copy();
-					if(this.access.cache == null || this.access.cache.hasExpired) return stack;
+					if(this.access.cache == null || this.access.cache.hasExpired) return null;
 					StackCache cache = this.access.cache;
 					int originalStacksize = (int) Math.min(stack.getMaxStackSize(), slot.amount);
 					stack.stackSize = originalStacksize;
@@ -144,7 +149,37 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 				}
 			}
 			
+			if(held != null) {
+				int toDeposit = rightClick ? 1 : held.stackSize;
+				player.inventory.getItemStack().stackSize -= toDeposit;
+				if(player.inventory.getItemStack().stackSize <= 0) player.inventory.setItemStack(null);
+				if(this.access.cache == null || this.access.cache.hasExpired) return null;
+				StackCache cache = this.access.cache;
+				int remainder = (int) cache.addItemsAndReturnQuantity(held, toDeposit);
+				if(remainder > 0) {
+					ItemStack copy = held.copy();
+					copy.stackSize = remainder;
+					InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, copy);
+				}
+			}
+			
 			return slot.getHasStack() ? slot.getStack().copy() : null;
+			
+		// shift clicking an item from the player inv to the storage
+		} else if(index >= GRID_SIZE && index < this.inventorySlots.size()) {
+
+			Slot slot = this.getSlot(index);
+			
+			if(shiftClick && slot.getHasStack()) {
+				ItemStack stack = slot.getStack().copy();
+				if(this.access.cache == null || this.access.cache.hasExpired) return null;
+				StackCache cache = this.access.cache;
+				int remainder = (int) cache.addItemsAndReturnQuantity(stack, stack.stackSize);
+				slot.decrStackSize(stack.stackSize - remainder);
+				if(remainder <= 0) slot.putStack(null);
+				slot.onSlotChanged();
+				detectAndSendChanges();
+			}
 		}
 		
 		return super.slotClick(index, button, mode, player);
@@ -276,6 +311,11 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 
 		public SlotPneumo(IInventory inventory, int id, int x, int y) {
 			super(inventory, id, x, y);
+		}
+
+		@Override
+		public boolean canTakeStack(EntityPlayer player) {
+			return true;
 		}
 	}
 	

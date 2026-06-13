@@ -144,13 +144,33 @@ public class TileEntityPneumoStorageClutter extends TileEntityMachineBase implem
 
 	@Override
 	public long useUpItem(int index, long amount) {
-		
-		if(slots[index] != null) {
-			int toRemove = (int) Math.min(slots[index].stackSize, amount);
+		ItemStack stack = slots[index];
+		if(stack != null) {
+			int toRemove = (int) Math.min(stack.stackSize, amount);
 			this.decrStackSize(index, toRemove);
 			return amount - toRemove;
 		}
-		
 		return amount;
+	}
+
+	@Override
+	public long addItem(int index, long amount) {
+		ItemStack stack = slots[index];
+		if(stack != null) {
+			int capacity = Math.min(stack.getMaxStackSize(), this.getInventoryStackLimit());
+			int toAdd = (int) Math.min(amount, capacity - stack.stackSize);
+			stack.stackSize += toAdd;
+			return amount - toAdd;
+		}
+		return amount;
+	}
+
+	@Override
+	public long setupType(int index, ItemStack zeroStack, long amount) {
+		int capacity = Math.min(zeroStack.getMaxStackSize(), this.getInventoryStackLimit());
+		int finalSize = (int) Math.min(amount, capacity);
+		slots[index] = zeroStack.copy();
+		slots[index].stackSize = finalSize;
+		return amount - finalSize;
 	}
 }

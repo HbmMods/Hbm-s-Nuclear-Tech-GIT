@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess;
@@ -10,9 +11,11 @@ import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -36,13 +39,6 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
-		
-		Slot slot = this.getSlotAtPosition(x, y);
-		
-		if(slot instanceof SlotPneumo) {
-			SlotPneumo pneumo = (SlotPneumo) slot;
-			if(pneumo.getHasStack()) this.drawInfo(new String[] {"x" + pneumo.amount}, x, y - 15);
-		}
 	}
 
 	@Override
@@ -52,10 +48,31 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = "container.pneumpStorageAccess";
+		String name = "container.pneumoStorageAccess";
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		
+		GL11.glPushMatrix();
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		double scale = 0.5D;
+		GL11.glScaled(scale, scale, 1);
+		
+		for(Object o : this.inventorySlots.inventorySlots) {
+			if(!(o instanceof SlotPneumo)) continue;
+			SlotPneumo pneumoSlot = (SlotPneumo) o;
+			if(pneumoSlot.getHasStack()) {
+				String label = BobMathUtil.getShortNumber(pneumoSlot.amount);
+				int ix = (int) ((pneumoSlot.xDisplayPosition + 16) / scale) - this.fontRendererObj.getStringWidth(label);
+				int iy = (int) ((pneumoSlot.yDisplayPosition + 16) / scale) - this.fontRendererObj.FONT_HEIGHT;
+				this.fontRendererObj.drawStringWithShadow(label, ix, iy, -1);
+			}
+		}
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glPopMatrix();
+		
+		RenderHelper.enableGUIStandardItemLighting();
 	}
 
 	@Override

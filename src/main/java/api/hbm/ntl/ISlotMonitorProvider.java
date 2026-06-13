@@ -15,7 +15,7 @@ public interface ISlotMonitorProvider {
 	/** Returns an array of available slot monitors, which should ideally mirror the available slots of that container */
 	public SlotMonitor[] getMonitors();
 	
-	/** Returns the slot contents of that index, so that the monitors can detect changes */
+	/** Returns the ORIGIANL ItemStack of that index, so that the monitors can detect changes */
 	public ItemStack getSlotAt(int index);
 	
 	/** Returns the amount of that slot at that index. Some storages may use int64 datatypes so we have to account for those too somehow, since ItemStacks cannot handle that. */
@@ -23,6 +23,12 @@ public interface ISlotMonitorProvider {
 	
 	/** Removes the given number of items from that slot, returns the amount left to remove if the stack was smaller than the supplied amount */
 	public long useUpItem(int index, long amount);
+	
+	/** Adds the given number of items to that slot, returns the amount that couldn't be added due to stack limits */
+	public long addItem(int index, long amount);
+	
+	/** Sets the slot contents, returns the number of items that couldn't be added */
+	public long setupType(int index, ItemStack zeroStack, long amount);
 	
 	/** Whether this storage unit is reachable by the access point */
 	public boolean isAvailableToCache(StackCache cache);
