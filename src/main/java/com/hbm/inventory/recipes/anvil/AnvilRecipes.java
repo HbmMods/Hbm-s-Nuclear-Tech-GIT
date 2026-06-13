@@ -851,6 +851,11 @@ public class AnvilRecipes extends SerializableRecipe {
 						new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
 						}).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.pile_rod_thorium), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.billet_th232, 3)),
+						new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+						}).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.pile_rod_source), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.billet_ra226be, 3)),
 						new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
@@ -968,6 +973,12 @@ public class AnvilRecipes extends SerializableRecipe {
 							new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 0.5F),
 					}).setTier(4));
 			constructionRecipes.add(new AnvilConstructionRecipe(
+					new ComparableStack(ModItems.pile_rod_thorium_fuel), new AnvilOutput[] {
+							new AnvilOutput(new ItemStack(ModItems.billet_thorium_fuel, 2)),
+							new AnvilOutput(new ItemStack(ModItems.billet_th232, 1)),
+							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+					}).setTier(2));
+			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
 							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),
 							new AnvilOutput(new ItemStack(ModItems.billet_uranium, 1)),
@@ -982,6 +993,12 @@ public class AnvilRecipes extends SerializableRecipe {
 					}).setTier(2));
 
 		} else {
+			constructionRecipes.add(new AnvilConstructionRecipe(
+					new ComparableStack(ModItems.pile_rod_thorium_fuel), new AnvilOutput[] {
+							new AnvilOutput(new ItemStack(ModItems.billet_thorium_fuel, 2)),
+							new AnvilOutput(new ItemStack(ModItems.billet_nuclear_waste, 1)),
+							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
+					}).setTier(2));
 			constructionRecipes.add(new AnvilConstructionRecipe(
 					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
 							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),

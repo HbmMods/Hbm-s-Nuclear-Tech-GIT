@@ -134,6 +134,8 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 		if(item == ModItems.pile_rod_lithium) return new MetaBlock(ModBlocks.block_graphite_lithium);
 		if(item == ModItems.cell_tritium) return new MetaBlock(ModBlocks.block_graphite_tritium);
 		if(item == ModItems.pile_rod_detector) return new MetaBlock(ModBlocks.block_graphite_detector);
+		if(item == ModItems.pile_rod_thorium) return new MetaBlock(ModBlocks.block_graphite_thorium);
+		if(item == ModItems.pile_rod_thorium_fuel) return new MetaBlock(ModBlocks.block_graphite_thorium_fuel);
 		return null;
 	}
 	

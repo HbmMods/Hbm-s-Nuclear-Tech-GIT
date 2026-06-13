@@ -345,6 +345,8 @@ public class HazardRegistry {
 		registerRTGPellet(pellet_rtg_americium, am241 * rtg, 0);
 		HazardSystem.register(new ItemStack(pellet_rtg_depleted, 1, DepletedRTGMaterial.NEPTUNIUM.ordinal()), makeData(RADIATION, np237 * rtg));
 		
+		HazardSystem.register(pile_rod_thorium, makeData(RADIATION, th232 * billet * 3));
+		HazardSystem.register(pile_rod_thorium_fuel, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet + thf * billet + th232 * billet : purg * billet + thf * billet + wst * billet));
 		HazardSystem.register(pile_rod_uranium, makeData(RADIATION, u * billet * 3));
 		HazardSystem.register(pile_rod_pu239, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet + pu239 * billet + u * billet : purg * billet + pu239 * billet + wst * billet));
 		HazardSystem.register(pile_rod_plutonium, makeData(RADIATION, !GeneralConfig.enable528 ? purg * billet * 2 + u * billet : purg * billet * 2 + wst * billet));

@@ -980,6 +980,8 @@ public class ModItems {
 	public static Item pile_rod_boron;
 	public static Item pile_rod_lithium;
 	public static Item pile_rod_detector;
+	public static Item pile_rod_thorium;
+	public static Item pile_rod_thorium_fuel;
 
 	public static Item plate_fuel_u233;
 	public static Item plate_fuel_u235;
@@ -3009,6 +3011,8 @@ public class ModItems {
 		pile_rod_boron = new ItemPileRod().setUnlocalizedName("pile_rod_boron").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_boron");
 		pile_rod_lithium = new ItemPileRod().setUnlocalizedName("pile_rod_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_lithium");
 		pile_rod_detector = new ItemPileRod().setUnlocalizedName("pile_rod_detector").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_detector");
+		pile_rod_thorium = new ItemPileRod().setUnlocalizedName("pile_rod_thorium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_thorium");
+		pile_rod_thorium_fuel = new ItemPileRod().setUnlocalizedName("pile_rod_thorium_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_thorium_fuel");
 
 		plate_fuel_u233 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 50).setUnlocalizedName("plate_fuel_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_u233");
 		plate_fuel_u235 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 40).setUnlocalizedName("plate_fuel_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_u235");
@@ -5388,6 +5392,8 @@ public class ModItems {
 		GameRegistry.registerItem(pile_rod_boron, pile_rod_boron.getUnlocalizedName());
 		GameRegistry.registerItem(pile_rod_lithium, pile_rod_lithium.getUnlocalizedName());
 		GameRegistry.registerItem(pile_rod_detector, pile_rod_detector.getUnlocalizedName());
+		GameRegistry.registerItem(pile_rod_thorium, pile_rod_thorium.getUnlocalizedName());
+		GameRegistry.registerItem(pile_rod_thorium_fuel, pile_rod_thorium_fuel.getUnlocalizedName());
 
 		//Plate Fuels
 		GameRegistry.registerItem(plate_fuel_u233, plate_fuel_u233.getUnlocalizedName());
