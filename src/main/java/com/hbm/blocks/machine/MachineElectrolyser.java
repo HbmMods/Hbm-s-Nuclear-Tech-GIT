@@ -2,15 +2,26 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.inventory.material.Mats;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityElectrolyser;
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
+import com.hbm.config.ClientConfig;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MachineElectrolyser extends BlockDummyable {
+public class MachineElectrolyser extends BlockDummyable implements ILookOverlay {
 
 	public MachineElectrolyser() {
 		super(Material.iron);
@@ -93,4 +104,85 @@ public class MachineElectrolyser extends BlockDummyable {
 		return true;
 	}
 
+	private String getSlotText(int packed, String label) {
+		if(packed == 0) return null;
+		int itemId = packed >> 16;
+		int size = packed & 0xFFFF;
+		Item item = Item.getItemById(itemId);
+		String name = item == null ? "unknown" : item.getItemStackDisplayName(new ItemStack(item));
+		return EnumChatFormatting.YELLOW + label + ": " + EnumChatFormatting.RESET + name + " x" + size;
+	}
+
+	private String getFluidText(String label, String name, int fill, int max) {
+		return EnumChatFormatting.YELLOW + label + ": " + EnumChatFormatting.RESET + name + " " + fill + "/" + max + "mB";
+	}
+
+	private String getMetalText(Mats.MaterialStack stack, String label, EnumChatFormatting color) {
+		if(stack == null || stack.material == null) {
+			return color + label + ": " + EnumChatFormatting.RESET + "empty";
+		} else {
+			String name = I18nUtil.resolveKey(stack.material.getUnlocalizedName());
+			String formatted = Mats.formatAmount(stack.amount, false);
+			return color + label + ": " + EnumChatFormatting.RESET + name + " " + formatted;
+		}
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		if(!ClientConfig.MACHINE_OVERLAY_ENABLED.get()) return;
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null)
+			return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(te instanceof TileEntityElectrolyser))
+			return;
+
+		TileEntityElectrolyser elec = (TileEntityElectrolyser) te;
+
+		List<String> lines = new ArrayList<>();
+
+		String powerClr = (elec.power < TileEntityElectrolyser.maxPower / 20 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN).toString();
+		lines.add(powerClr + "Power: " + BobMathUtil.getShortNumber(elec.power) + " / " + BobMathUtil.getShortNumber(TileEntityElectrolyser.maxPower) + "HE");
+
+		boolean isFluidMode = elec.progressFluid > 0 || elec.canProcessFluid();
+		boolean isMetalMode = elec.progressOre > 0 || elec.canProcessMetal();
+
+		if(isFluidMode || (!isMetalMode && elec.lastSelectedGUI == 0)) {
+			lines.add(EnumChatFormatting.AQUA + "Mode: Fluid Electrolysis");
+			lines.add(getFluidText("Input", elec.tanks[0].getTankType().getLocalizedName(), elec.tanks[0].getFill(), elec.tanks[0].getMaxFill()));
+			lines.add(getFluidText("Out1", elec.tanks[1].getTankType().getLocalizedName(), elec.tanks[1].getFill(), elec.tanks[1].getMaxFill()));
+			lines.add(getFluidText("Out2", elec.tanks[2].getTankType().getLocalizedName(), elec.tanks[2].getFill(), elec.tanks[2].getMaxFill()));
+
+			for(int i = 0; i < 3; i++) {
+				String by = getSlotText(elec.clientSlotData[i], "By" + (i+1));
+				if(by != null) lines.add(EnumChatFormatting.GREEN + by);
+			}
+
+			int percent = (elec.progressFluid * 100 / elec.getDurationFluid());
+			lines.add(EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + percent + "%");
+		} else {
+			lines.add(EnumChatFormatting.AQUA + "Mode: Metal Electrolysis");
+			lines.add(getFluidText("Acid", elec.tanks[3].getTankType().getLocalizedName(), elec.tanks[3].getFill(), elec.tanks[3].getMaxFill()));
+
+			if(elec.clientSlotData[3] == 0) {
+				lines.add(EnumChatFormatting.GRAY + "Crystal: " + EnumChatFormatting.RESET + "empty");
+			} else {
+				lines.add(getSlotText(elec.clientSlotData[3], "Crystal"));
+			}
+
+			lines.add(getMetalText(elec.leftStack, "Red", EnumChatFormatting.RED));
+			lines.add(getMetalText(elec.rightStack, "Green", EnumChatFormatting.GREEN));
+
+			for(int i = 0; i < 6; i++) {
+				String out = getSlotText(elec.clientSlotData[4 + i], "Out" + (i+1));
+				if(out != null) lines.add(EnumChatFormatting.GOLD + out);
+			}
+
+			int percent = (elec.progressOre * 100 / elec.getDurationMetal());
+			lines.add(EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + percent + "%");
+		}
+
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, lines);
+	}
 }

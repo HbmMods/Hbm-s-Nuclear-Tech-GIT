@@ -31,6 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -52,6 +53,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	private AudioWrapper audio;
 
 	public FluidTank tank;
+
+	public int[] clientSlotData = new int[2]; // [input, output]
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
@@ -99,6 +102,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					progress = 0;
 				}
 			}
+
+			clientSlotData[0] = (slots[0] == null) ? 0 : (Item.getIdFromItem(slots[0].getItem()) << 16) | slots[0].stackSize;
+			clientSlotData[1] = (slots[2] == null) ? 0 : (Item.getIdFromItem(slots[2].getItem()) << 16) | slots[2].stackSize;
 
 			this.networkPackNT(25);
 		} else {
@@ -195,6 +201,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		buf.writeLong(power);
 		buf.writeBoolean(isOn);
 		tank.serialize(buf);
+		for(int i = 0; i < 2; i++) buf.writeInt(clientSlotData[i]);
 	}
 
 	@Override
@@ -205,6 +212,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		power = buf.readLong();
 		isOn = buf.readBoolean();
 		tank.deserialize(buf);
+		for(int i = 0; i < 2; i++) clientSlotData[i] = buf.readInt();
 	}
 
 	private void processItem() {

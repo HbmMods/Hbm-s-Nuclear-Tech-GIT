@@ -31,6 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -47,6 +48,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	private int audioDuration = 0;
 
 	private AudioWrapper audio;
+
+	public int[] clientSlotData = new int[5];
 
 	//configurable values
 	public static int maxPower = 100000;
@@ -226,6 +229,11 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				progress = 0;
 			}
 
+			clientSlotData[0] = (slots[0] == null) ? 0 : (Item.getIdFromItem(slots[0].getItem()) << 16) | slots[0].stackSize;
+			for(int i = 0; i < 4; i++) {
+				clientSlotData[i+1] = (slots[i+2] == null) ? 0 : (Item.getIdFromItem(slots[i+2].getItem()) << 16) | slots[i+2].stackSize;
+			}
+
 			this.networkPackNT(50);
 		} else {
 
@@ -266,6 +274,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		buf.writeLong(power);
 		buf.writeInt(progress);
 		buf.writeBoolean(isProgressing);
+		for(int i = 0; i < 5; i++) buf.writeInt(clientSlotData[i]);
 	}
 
 	@Override
@@ -274,6 +283,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		power = buf.readLong();
 		progress = buf.readInt();
 		isProgressing = buf.readBoolean();
+		for(int i = 0; i < 5; i++) clientSlotData[i] = buf.readInt();
 	}
 
 	@Override

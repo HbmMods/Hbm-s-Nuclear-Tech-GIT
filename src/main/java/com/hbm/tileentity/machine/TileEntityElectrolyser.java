@@ -41,6 +41,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -67,9 +68,11 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public MaterialStack rightStack;
 	public int maxMaterial = MaterialShapes.BLOCK.q(16);
 	
-	private int lastSelectedGUI = 0;
+	public int lastSelectedGUI = 0;
 
 	public FluidTank[] tanks;
+
+	public int[] clientSlotData = new int[10]; // [by1, by2, by3, inputCrystal, out1, out2, out3, out4, out5, out6]
 
 	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
@@ -165,6 +168,16 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 
+			for(int i = 0; i < 3; i++) {
+				clientSlotData[i] = (slots[11 + i] == null) ? 0 : (Item.getIdFromItem(slots[11 + i].getItem()) << 16) | slots[11 + i].stackSize;
+			}
+
+			clientSlotData[3] = (slots[14] == null) ? 0 : (Item.getIdFromItem(slots[14].getItem()) << 16) | slots[14].stackSize;
+
+			for(int i = 0; i < 6; i++) {
+				clientSlotData[4 + i] = (slots[15 + i] == null) ? 0 : (Item.getIdFromItem(slots[15 + i].getItem()) << 16) | slots[15 + i].stackSize;
+			}
+
 			if(this.leftStack != null) {
 
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
@@ -251,6 +264,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			buf.writeInt(rightStack.amount);
 		}
 		buf.writeInt(lastSelectedGUI);
+		for(int i = 0; i < 10; i++) buf.writeInt(clientSlotData[i]);
 	}
 
 	@Override
@@ -269,6 +283,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		this.leftStack = left ? new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt()) : null;
 		this.rightStack = right ? new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt()) : null;
 		this.lastSelectedGUI = buf.readInt();
+		for(int i = 0; i < 10; i++) clientSlotData[i] = buf.readInt();
 	}
 
 	public boolean canProcessFluid() {
