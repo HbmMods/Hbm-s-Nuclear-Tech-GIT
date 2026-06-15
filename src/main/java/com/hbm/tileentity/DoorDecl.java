@@ -641,6 +641,56 @@ public abstract class DoorDecl {
 
 	};
 
+	public static final DoorDecl CARGO_DOOR = new DoorDecl() {
+
+		@Override public String getCloseSoundLoop() { return "hbm:door.garage_move"; }
+		@Override public String getCloseSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundEnd() { return "hbm:door.garage_stop"; }
+		@Override public String getOpenSoundLoop() { return "hbm:door.garage_move"; }
+		@Override public float getSoundVolume() { return 2; }
+
+		@Override
+		public IRenderDoors getSEDNARenderer() {
+			return RenderCargoDoor.INSTANCE;
+		}
+
+		@Override
+		public BusAnimation getBusAnimation(byte state, byte skinIndex) {
+			int half = this.timeToOpen() * 25;
+			if(state == TileEntityDoorGeneric.STATE_OPENING) return new BusAnimation()
+				.addBus("BOT", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 1, 0, half * 2))
+				.addBus("TOP", new BusAnimationSequence().setPos(0, 0, 0).addPos(0, 0, 0, half).addPos(0, 1, 0, half));
+			if(state == TileEntityDoorGeneric.STATE_CLOSING) return new BusAnimation()
+				.addBus("BOT", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 0, 0, half * 2))
+				.addBus("TOP", new BusAnimationSequence().setPos(0, 1, 0).addPos(0, 1, 0, half).addPos(0, 0, 0, half));
+			return null;
+		}
+
+		@Override public int timeToOpen() { return 120; }
+
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, -1, 0, 3, 3, 1 } }; }
+		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 1, 1 }; }
+
+		@Override
+		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
+			if(!open) return AxisAlignedBB.getBoundingBox(0, 0, 0.375, 1, 1, 0.625);
+			if(y > 1) return AxisAlignedBB.getBoundingBox(0, 0.25, 0.375, 1, 1, 0.625);
+			else if(y == 0) return AxisAlignedBB.getBoundingBox(0, 0, 0.375, 1, forCollision ? 0 : 0.125, 0.625);
+			return super.getBlockBound(x, y, z, open, forCollision);
+		}
+
+		public ResourceLocation[] skins;
+
+		@Override
+		public ResourceLocation[] getSEDNASkins() {
+			if(skins == null) skins = new ResourceLocation[] {
+				ResourceManager.pheo_cargo_door_tex
+			};
+			return skins;
+		}
+
+		@Override public int getSkinCount() { return 1; }
+	};
 	// TODO: bash drillgon to death for making this method like that, and for fucking up the documentation, like genuinely what the fuck is this
 	/** Format: x, y, z, tangent amount 1 (how long the door would be if it moved
 		up), tangent amount 2 (door places blocks in this direction), axis (0-x,
