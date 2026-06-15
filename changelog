@@ -3,8 +3,15 @@
 * Watz powerplant now has OC and RoR integration
 * The automatic thresher now has a fluid port on the bottom as well
 * The foundry basins and outlet filters now use the properly translated name instead of the internal name for the material
+* Removed config for new bedrock ores
+  * New ores are the default anyway and old bedrock ores are now properly deprecated
+  * Existing setups will continue to work for now
+* Removed recipe for the small single block steam turbine
+  * We have steam engines and industrial turbines are really not that expensive
+* Updated light brick texture
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
 * Fixed broken thorium ore centrifuging recipe shown in NEI
 * Fixed industrial turbine not properly saving its energy values, causing the flywheel to stop on relog
+* Fixed lapis dust to cobalt shredder recipe not using oredict
