@@ -223,13 +223,14 @@ public class ItemRenderLibraryDoors {
 			}});
 		ItemRenderLibrary.renderers.put(Item.getItemFromBlock(ModBlocks.cargo_door), new ItemRenderBase(){
 			public void renderInventory() {
-				GL11.glTranslated(0, -3.75, 0);
-				GL11.glScaled(2.4, 2.4, 2.4);
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(4, 4, 4);
 			}
 			public void renderCommon() {
 				bindTexture(ResourceManager.pheo_cargo_door_tex);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				GL11.glTranslated(0, 1, 0);
+				GL11.glScaled(0.9, 0.9, 0.9);
+				GL11.glTranslated(0, 0.3, 0);
 				ResourceManager.pheo_cargo_door.renderPart("Frame");
 				ResourceManager.pheo_cargo_door.renderPart("DoorTop");
 				ResourceManager.pheo_cargo_door.renderPart("DoorBot");
