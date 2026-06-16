@@ -199,7 +199,8 @@ public class StackCache {
 	public static long getStackIdentity(Item item, int meta, NBTTagCompound nbt) {
 		if(item == null) return getNullIdentity();
 		long identity = Item.getIdFromItem(item) * 27644437;
-		identity += meta * 27644437;
+		identity += meta;
+		identity *= 27644437;
 		if(nbt != null) identity += nbt.toString().hashCode();
 		return identity;
 	}
