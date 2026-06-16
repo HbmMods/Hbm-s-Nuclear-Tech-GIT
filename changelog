@@ -6,8 +6,10 @@
 * Removed config for new bedrock ores
   * New ores are the default anyway and old bedrock ores are now properly deprecated
   * Existing setups will continue to work for now
+  * Old bedrock ore items still exist but are no longer listed in the creative tab
 * Removed recipe for the small single block steam turbine
   * We have steam engines and industrial turbines are really not that expensive
+  * "oh no, i have to build an actually good looking setup now if i want to build a zirnox!" yeah you do
 * Updated light brick texture
 
 ## Fixed

@@ -34,6 +34,8 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	
 	public static final int GRID_SIZE = 6 * 8;
 	public static final String STACK_SIZE_KEY = "PNEUMO_STACK_SIZE";
+	
+	public int itemCountForClient = 0; // TODO
 
 	public ContainerPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		this.access = access;
@@ -265,6 +267,9 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 
 		if(list.tagCount() > 0) {
 			NBTTagCompound masterTag = new NBTTagCompound();
+			// if a null stack is indiced, skip
+			boolean hasNullStack = this.access.cache.cacheSlots.containsKey(this.access.cache.getNullIdentity());
+			masterTag.setInteger("itemCount", this.access.cache.cacheSlots.size() - (hasNullStack ? 1 : 0));
 			masterTag.setTag("list", list);
 			for(Object o : this.crafters) {
 				if(o instanceof EntityPlayerMP) {
@@ -287,6 +292,8 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	@Override
 	public void acceptData(int windowId, NBTTagCompound data) {
 		if(windowId != this.windowId) return;
+		
+		this.itemCountForClient = data.getInteger("itemCount");
 		
 		NBTTagList list = data.getTagList("list", 10);
 		

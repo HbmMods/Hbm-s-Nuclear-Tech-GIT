@@ -25,6 +25,11 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_access.png");
 	protected TileEntityPneumoStorageAccess access;
+	
+	protected int scrollIndex = 0;
+	protected int scrollBounds = 0;
+	protected boolean wasClicking = false;
+	protected boolean draggingScroll = false;
 
 	public GUIPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		super(new ContainerPneumoStorageAccess(invPlayer, access));
@@ -36,6 +41,13 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	
 	@Override
 	public void drawScreen(int x, int y, float interp) {
+		
+		ContainerPneumoStorageAccess container = (ContainerPneumoStorageAccess) this.inventorySlots;
+		this.scrollBounds = (container.itemCountForClient / 8 - 7);
+		if(this.scrollBounds < 0) this.scrollBounds = 0;
+		if(this.scrollIndex < 0) this.scrollIndex = 0;
+		if(this.scrollIndex > scrollBounds) this.scrollIndex = scrollBounds;
+		
 		super.drawScreen(x, y, interp);
 	}
 
