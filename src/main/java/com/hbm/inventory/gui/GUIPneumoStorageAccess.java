@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
@@ -19,6 +20,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIPneumoStorageAccess extends GuiInfoContainer {
@@ -43,10 +45,27 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	public void drawScreen(int x, int y, float interp) {
 		
 		ContainerPneumoStorageAccess container = (ContainerPneumoStorageAccess) this.inventorySlots;
-		this.scrollBounds = (container.itemCountForClient / 8 - 7);
-		if(this.scrollBounds < 0) this.scrollBounds = 0;
-		if(this.scrollIndex < 0) this.scrollIndex = 0;
-		if(this.scrollIndex > scrollBounds) this.scrollIndex = scrollBounds;
+		this.scrollBounds = (int) Math.ceil(container.itemCountForClient / 8D - 6D);
+		if(this.scrollBounds < 1) this.scrollBounds = 1;
+		if(this.scrollIndex < 0) this.setScroll(0);
+		if(this.scrollIndex > scrollBounds) this.setScroll(scrollBounds);
+
+		boolean isClicking = Mouse.isButtonDown(0);
+		if(!isClicking) this.draggingScroll = false;
+		
+		if(!wasClicking && isClicking && guiLeft + 153 <= x && guiLeft + 153 + 14 > x && guiTop + 16 < y && guiTop + 16 + 108 >= y) {
+			draggingScroll = true;
+		}
+		
+		if(draggingScroll) {
+			int range = 92; // 106 scroll bar size, -7 pixels on top and bottom
+			int sY = MathHelper.clamp_int(y - guiTop - 24, 0, 92);
+			double scrollFrac = (double) sY / (double) range;
+			int row = (int) Math.round(scrollBounds * scrollFrac);
+			this.setScroll(row);
+		}
+		
+		this.wasClicking = isClicking;
 		
 		super.drawScreen(x, y, interp);
 	}
@@ -54,6 +73,20 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+	}
+
+	@Override
+	public void handleMouseInput() {
+		super.handleMouseInput();
+		
+		int scrollDir = Mouse.getEventDWheel();
+
+		if(scrollDir != 0) {
+
+			if(scrollDir > 0) scrollDir = 1;
+			if(scrollDir < 0) scrollDir = -1;
+			this.setScroll(this.getScroll() - scrollDir);
+		}
 	}
 	
 	@Override
@@ -90,6 +123,34 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		drawTexturedModalRect(guiLeft + getScrollBarXPos(), guiTop + getScrollBarYPos(), draggingScroll ? 188 : 176, 0, 12, 15);
+	}
+
+	public int getScrollBarXPos() {
+		return 154;
+	}
+	
+	public int getScrollBarYPos() {
+		ContainerPneumoStorageAccess container = (ContainerPneumoStorageAccess) this.inventorySlots;
+		int scrollArea = 106 - 15; // bar height minus the scroll knob's height
+		double scrollProgress = (double) container.listingStart / (double) scrollBounds;
+		int scrollYPos = 17 + (int) (scrollProgress * scrollArea);
+		return scrollYPos;
+	}
+	
+	public int getScroll() {
+		return MathHelper.clamp_int(scrollIndex, 0, scrollBounds);
+	}
+	
+	public void setScroll(int scroll) {
+		int prevScroll = getScroll();
+		this.scrollIndex = MathHelper.clamp_int(scroll, 0, scrollBounds);
+		if(prevScroll != this.scrollIndex) refreshContainer();
+	}
+	
+	public void refreshContainer() {
+		this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccess.SLOT_CLICK_ID_REFRESH, 0, this.scrollIndex, this.mc.thePlayer);
 	}
 
 	@Override

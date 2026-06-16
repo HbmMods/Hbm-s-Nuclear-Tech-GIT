@@ -32,10 +32,12 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	protected TileEntityPneumoStorageAccess access;
 	protected InventoryPneumoStorageAccess inventory;
 	
+	public static final int SLOT_CLICK_ID_REFRESH = -666;
 	public static final int GRID_SIZE = 6 * 8;
 	public static final String STACK_SIZE_KEY = "PNEUMO_STACK_SIZE";
 	
-	public int itemCountForClient = 0; // TODO
+	public int itemCountForClient = 0;
+	public int listingStart = 0;
 
 	public ContainerPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		this.access = access;
@@ -57,11 +59,11 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			this.addSlotToContainer(new SlotNonRetarded(invPlayer, i, 8 + i * 18, 227));
 		}
 		
-		updateListing();
+		updateListing(0);
 		this.detectAndSendChanges();
 	}
 	
-	public void updateListing() { // DEMO
+	public void updateListing(int startingIndex) { // DEMO
 		if(this.access.cache == null || this.access.cache.hasExpired) return;
 		StackCache cache = this.access.cache;
 		List<CacheSlot> cacheSlots = new ArrayList(cache.cacheSlots.size());
@@ -70,11 +72,16 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 		Collections.sort(cacheSlots, SORT_BY_STACK_SIZE);
 		int size = cacheSlots.size();
 		
+		int offset = startingIndex * 8;
+		
 		for(int i = 0; i < inventory.slots.length; i++) {
-			if(i < size) {
-				CacheSlot cacheSlot = cacheSlots.get(i);
+			int grabIndex = offset + i;
+			if(grabIndex < size) {
+				CacheSlot cacheSlot = cacheSlots.get(grabIndex);
 				if(cacheSlot.displayStack != null) {
 					inventory.slots[i] = cacheSlot.displayStack.copy();
+				} else {
+					inventory.slots[i] = null;
 				}
 			} else {
 				inventory.slots[i] = null;
@@ -101,6 +108,13 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	@Override
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		if(mode == 6) return null;
+		
+		if(index == SLOT_CLICK_ID_REFRESH) {
+			if(player.worldObj.isRemote) return null;
+			this.listingStart = mode;
+			this.detectAndSendChanges();
+			return null;
+		}
 
 		boolean leftClick = button == 0 && mode == 0;
 		boolean rightClick = button == 1 && mode == 0;
@@ -162,6 +176,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 					ItemStack copy = held.copy();
 					copy.stackSize = remainder;
 					InventoryUtil.tryAddItemToInventory(player.inventory.mainInventory, copy);
+					detectAndSendChanges();
 				}
 			}
 			
@@ -210,7 +225,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	 */
 	@Override
 	public void detectAndSendChanges() {
-		this.updateListing();
+		this.updateListing(listingStart);
 		
 		// skip the first 6*8 slots, i.e. all the ones visible in the access grid
 		for(int i = GRID_SIZE; i < this.inventorySlots.size(); i++) {
@@ -270,6 +285,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			// if a null stack is indiced, skip
 			boolean hasNullStack = this.access.cache.cacheSlots.containsKey(this.access.cache.getNullIdentity());
 			masterTag.setInteger("itemCount", this.access.cache.cacheSlots.size() - (hasNullStack ? 1 : 0));
+			masterTag.setInteger("listingStart", this.listingStart);
 			masterTag.setTag("list", list);
 			for(Object o : this.crafters) {
 				if(o instanceof EntityPlayerMP) {
@@ -294,6 +310,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 		if(windowId != this.windowId) return;
 		
 		this.itemCountForClient = data.getInteger("itemCount");
+		this.listingStart = data.getInteger("listingStart");
 		
 		NBTTagList list = data.getTagList("list", 10);
 		
