@@ -7,20 +7,18 @@ import com.hbm.util.BufferUtil;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ContainerCustomPayloadPacket implements IMessage {
+public class ContainerNBTCommsPacket implements IMessage {
 	
 	int windowId;
 	NBTTagCompound data;
 	
-	public ContainerCustomPayloadPacket() { }
+	public ContainerNBTCommsPacket() { }
 
-	public ContainerCustomPayloadPacket(int windowId, NBTTagCompound data) {
+	public ContainerNBTCommsPacket(int windowId, NBTTagCompound data) {
 		this.windowId = windowId;
 		this.data = data;
 	}
@@ -37,14 +35,15 @@ public class ContainerCustomPayloadPacket implements IMessage {
 		BufferUtil.writeNBT(buf, this.data);
 	}
 	
-	public static class Handler implements IMessageHandler<ContainerCustomPayloadPacket, IMessage> {
+	public static class Handler implements IMessageHandler<ContainerNBTCommsPacket, IMessage> {
 		
-		@SideOnly(Side.CLIENT) @Override
-		public IMessage onMessage(ContainerCustomPayloadPacket m, MessageContext ctx) {
-			EntityPlayer player = MainRegistry.proxy.me();
+		@Override
+		public IMessage onMessage(ContainerNBTCommsPacket m, MessageContext ctx) {
+			
+			EntityPlayer player = ctx.side.isClient() ? MainRegistry.proxy.me() : ctx.getServerHandler().playerEntity;
 			if(player.openContainer instanceof ICustomPayloadReceiver) {
 				ICustomPayloadReceiver cus = (ICustomPayloadReceiver) player.openContainer;
-				cus.acceptData(m.windowId, m.data);
+				cus.acceptData(ctx.side, m.windowId, m.data);
 			}
 			return null;
 		}

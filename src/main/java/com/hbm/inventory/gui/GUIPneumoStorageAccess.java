@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -10,15 +11,19 @@ import com.hbm.inventory.container.ContainerPneumoStorageAccess;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.ContainerNBTCommsPacket;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +32,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_access.png");
 	protected TileEntityPneumoStorageAccess access;
+	protected GuiTextField search;
 	
 	protected int scrollIndex = 0;
 	protected int scrollBounds = 0;
@@ -39,6 +45,19 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		
 		this.xSize = 176;
 		this.ySize = 251;
+	}
+
+	@Override
+	public void initGui() {
+		super.initGui();
+		
+		Keyboard.enableRepeatEvents(true);
+		search = new GuiTextField(this.fontRendererObj, guiLeft + 43, guiTop + 127, 90, 12);
+		search.setTextColor(0xffffff);
+		search.setDisabledTextColour(0xa0a0a0);
+		search.setEnableBackgroundDrawing(false);
+		search.setMaxStringLength(50);
+		search.setText("");
 	}
 	
 	@Override
@@ -73,6 +92,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+		search.mouseClicked(x, y, i);
 	}
 
 	@Override
@@ -125,6 +145,8 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		drawTexturedModalRect(guiLeft + getScrollBarXPos(), guiTop + getScrollBarYPos(), draggingScroll ? 188 : 176, 0, 12, 15);
+		
+		search.drawTextBox();
 	}
 
 	public int getScrollBarXPos() {
@@ -168,5 +190,24 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		FontRenderer font = stack.getItem().getFontRenderer(stack);
 		if(font == null) font = this.fontRendererObj;
 		GUIElements.drawHoveringText(list, x, y, font, itemRender, width, height, STANDARD_HEADER_OFFSET, STANDARD_LINE_DIST, STANDARD_COLOR_BACKGROUND, STANDARD_COLOR_BACKGROUND, 0xD57C4F, 0xAB4223);
+	}
+
+	@Override
+	protected void keyTyped(char c, int b) {
+		
+		if(search.textboxKeyTyped(c, b)) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("search", search.getText());
+			PacketDispatcher.wrapper.sendToServer(new ContainerNBTCommsPacket(this.inventorySlots.windowId, data));
+			return;
+		}
+		
+		super.keyTyped(c, b);
+	}
+	
+	@Override
+	public void onGuiClosed() {
+		super.onGuiClosed();
+		Keyboard.enableRepeatEvents(false);
 	}
 }

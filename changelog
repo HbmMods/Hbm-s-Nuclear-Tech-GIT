@@ -11,9 +11,12 @@
   * We have steam engines and industrial turbines are really not that expensive
   * "oh no, i have to build an actually good looking setup now if i want to build a zirnox!" yeah you do
 * Updated light brick texture
+* The maximum character limit on RoR channels is now the same for all RoR devices, being 15
+  * This does not include special RoR interactive devices that don't use GUI text fields like the RoR terminal or the AUTOCAL units
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
 * Fixed broken thorium ore centrifuging recipe shown in NEI
 * Fixed industrial turbine not properly saving its energy values, causing the flywheel to stop on relog
 * Fixed lapis dust to cobalt shredder recipe not using oredict
+* Fixed AUTOCAL's file opening buttons not working on some systems, it will fall back to opening the folder instead

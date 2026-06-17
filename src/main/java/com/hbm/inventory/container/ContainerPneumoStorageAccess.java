@@ -8,13 +8,14 @@ import java.util.List;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.ContainerCustomPayloadPacket;
+import com.hbm.packet.toclient.ContainerNBTCommsPacket;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.ntl.StackCache;
 import api.hbm.ntl.StackCache.CacheSlot;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -28,6 +29,19 @@ import net.minecraft.nbt.NBTTagList;
 
 @NotableComments // i long for the day when i never have to look at this fucking horseshit ever again
 public class ContainerPneumoStorageAccess extends Container implements ICustomPayloadReceiver {
+	
+	/*
+	 * time wasted on this fucking class: a lot
+	 * 
+	 * this approach was great right until it just stopped working.
+	 * a proper search requires the client to decide if the item matches
+	 * the criteria, and we have to process all items in the network, so
+	 * this entire approach of only sending 48 items at once to the client
+	 * just absolutely will not work.
+	 * 
+	 * i may have to rewrite absolutely everything here now, but at least i
+	 * finally know what i am up against. didn't hear no bell.
+	 */
 	
 	protected TileEntityPneumoStorageAccess access;
 	protected InventoryPneumoStorageAccess inventory;
@@ -290,7 +304,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 			for(Object o : this.crafters) {
 				if(o instanceof EntityPlayerMP) {
 					EntityPlayerMP playerMP = (EntityPlayerMP) o;
-					PacketDispatcher.wrapper.sendTo(new ContainerCustomPayloadPacket(playerMP.currentWindowId, masterTag), playerMP);
+					PacketDispatcher.wrapper.sendTo(new ContainerNBTCommsPacket(playerMP.currentWindowId, masterTag), playerMP);
 				}
 			}
 		}
@@ -306,21 +320,25 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 	}
 	
 	@Override
-	public void acceptData(int windowId, NBTTagCompound data) {
+	public void acceptData(Side side, int windowId, NBTTagCompound data) {
 		if(windowId != this.windowId) return;
 		
-		this.itemCountForClient = data.getInteger("itemCount");
-		this.listingStart = data.getInteger("listingStart");
-		
-		NBTTagList list = data.getTagList("list", 10);
-		
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound listEntry = list.getCompoundTagAt(i);
-			PneumoMesageType msg = EnumUtil.grabEnumSafely(PneumoMesageType.class, listEntry.getByte(KEY_TYPE));
-			int slotIndex = listEntry.getByte(KEY_SLOT_INDEX);
-			SlotPneumo slot = (SlotPneumo) this.inventorySlots.get(slotIndex);
-			if(msg == PneumoMesageType.UPDATE_ALL || msg == PneumoMesageType.UPDATE_COUNT) slot.amount = listEntry.getLong(KEY_LONG_COUNT);
-			if(msg == PneumoMesageType.UPDATE_ALL || msg == PneumoMesageType.UPDATE_TYPE) slot.putStack(ItemStack.loadItemStackFromNBT(listEntry));
+		if(side.isClient()) {
+			this.itemCountForClient = data.getInteger("itemCount");
+			this.listingStart = data.getInteger("listingStart");
+			
+			NBTTagList list = data.getTagList("list", 10);
+			
+			for(int i = 0; i < list.tagCount(); i++) {
+				NBTTagCompound listEntry = list.getCompoundTagAt(i);
+				PneumoMesageType msg = EnumUtil.grabEnumSafely(PneumoMesageType.class, listEntry.getByte(KEY_TYPE));
+				int slotIndex = listEntry.getByte(KEY_SLOT_INDEX);
+				SlotPneumo slot = (SlotPneumo) this.inventorySlots.get(slotIndex);
+				if(msg == PneumoMesageType.UPDATE_ALL || msg == PneumoMesageType.UPDATE_COUNT) slot.amount = listEntry.getLong(KEY_LONG_COUNT);
+				if(msg == PneumoMesageType.UPDATE_ALL || msg == PneumoMesageType.UPDATE_TYPE) slot.putStack(ItemStack.loadItemStackFromNBT(listEntry));
+			}
+		} else {
+			
 		}
 	}
 
