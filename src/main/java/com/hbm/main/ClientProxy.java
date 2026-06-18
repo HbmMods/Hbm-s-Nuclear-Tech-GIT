@@ -190,6 +190,9 @@ public class ClientProxy extends ServerProxy {
 	}
 
 	@Override
+	public boolean advancedTooltips() { return Minecraft.getMinecraft().gameSettings.advancedItemTooltips; }
+
+	@Override
 	public void registerTileEntitySpecialRenderer() {
 		//test crap
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObjTester.class, new RendererObjTester());

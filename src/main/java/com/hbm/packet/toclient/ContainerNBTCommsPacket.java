@@ -39,7 +39,7 @@ public class ContainerNBTCommsPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ContainerNBTCommsPacket m, MessageContext ctx) {
-			
+
 			EntityPlayer player = ctx.side.isClient() ? MainRegistry.proxy.me() : ctx.getServerHandler().playerEntity;
 			if(player.openContainer instanceof ICustomPayloadReceiver) {
 				ICustomPayloadReceiver cus = (ICustomPayloadReceiver) player.openContainer;

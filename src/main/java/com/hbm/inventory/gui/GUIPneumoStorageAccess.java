@@ -8,11 +8,10 @@ import org.lwjgl.opengl.GL11;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
 import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2;
-import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2.SlotPneumo;
+import com.hbm.inventory.container.ContainerPneumoStorageAccess;
+import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.ContainerNBTCommsPacket;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageAccess;
 import com.hbm.util.BobMathUtil;
 
@@ -23,7 +22,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -32,18 +30,24 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_access.png");
 	protected TileEntityPneumoStorageAccess access;
+	protected ContainerPneumoStorageAccessMK2 container;
 	protected GuiTextField search;
 	
 	protected int scrollIndex = 0;
-	protected int scrollBounds = 0;
+	protected int scrollBounds = 1;
 	protected boolean wasClicking = false;
 	protected boolean draggingScroll = false;
+	protected boolean wasMouseinGUI = false;
+
+	protected static int sorting = 0;
+	protected static boolean startFocussed = false;
 
 	public GUIPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
 		super(new ContainerPneumoStorageAccessMK2(invPlayer, access));
+		this.container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
 		this.access = access;
 		
-		this.xSize = 176;
+		this.xSize = 176 + 34;
 		this.ySize = 251;
 	}
 
@@ -52,18 +56,21 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		super.initGui();
 		
 		Keyboard.enableRepeatEvents(true);
-		search = new GuiTextField(this.fontRendererObj, guiLeft + 43, guiTop + 127, 90, 12);
+		search = new GuiTextField(this.fontRendererObj, guiLeft + 45 + 34, guiTop + 127, 86, 12);
 		search.setTextColor(0xffffff);
 		search.setDisabledTextColour(0xa0a0a0);
 		search.setEnableBackgroundDrawing(false);
 		search.setMaxStringLength(50);
 		search.setText("");
+		
+		if(this.startFocussed) search.setFocused(true);
 	}
 	
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		
-		ContainerPneumoStorageAccessMK2 container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
+		this.wasMouseinGUI = this.checkClick(x, y, 0, 0, xSize, ySize);
+		
 		this.scrollBounds = (int) Math.ceil(container.getStackCount() / 8D - 6D);
 		if(this.scrollBounds < 1) this.scrollBounds = 1;
 		if(this.scrollIndex < 0) this.setScroll(0);
@@ -72,7 +79,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		boolean isClicking = Mouse.isButtonDown(0);
 		if(!isClicking) this.draggingScroll = false;
 		
-		if(!wasClicking && isClicking && guiLeft + 153 <= x && guiLeft + 153 + 14 > x && guiTop + 16 < y && guiTop + 16 + 108 >= y) {
+		if(!wasClicking && isClicking && guiLeft + 153 + 34 <= x && guiLeft + 153 + 34 + 14 > x && guiTop + 16 < y && guiTop + 16 + 108 >= y) {
 			draggingScroll = true;
 		}
 		
@@ -87,34 +94,54 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 		this.wasClicking = isClicking;
 		
 		super.drawScreen(x, y, interp);
+
+		//TODO localization
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 7, 18, 18, x, y, "Sorting: " + EnumChatFormatting.YELLOW + "Amount");
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 25, 18, 18, x, y, "Sorting: " + EnumChatFormatting.YELLOW + "Item ID");
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 43, 18, 18, x, y, "Sorting: " + EnumChatFormatting.YELLOW + "Name");
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 61, 18, 18, x, y, "Sorting: " + EnumChatFormatting.YELLOW + "Internal Name");
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 79, 18, 18, x, y, "Focus search by default: " + (this.startFocussed ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
+		this.drawCustomInfoStat(x, y, guiLeft + 7, guiTop + 97, 18, 18, x, y, "Inlude tooltips in search: " + (this.container.detailedSearch ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF"));
 	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+
+		if(this.checkClick(x, y, 7, 7, 18, 18)) { this.click(); this.sorting = 0; this.scrollIndex = 0; this.container.setSorter(this.container.SORT_BY_STACK_SIZE); }
+		if(this.checkClick(x, y, 7, 25, 18, 18)) { this.click(); this.sorting = 1; this.scrollIndex = 0; this.container.setSorter(this.container.SORT_BY_ID); }
+		if(this.checkClick(x, y, 7, 43, 18, 18)) { this.click(); this.sorting = 2; this.scrollIndex = 0; this.container.setSorter(this.container.SORT_BY_LOCALIZED); }
+		if(this.checkClick(x, y, 7, 61, 18, 18)) { this.click(); this.sorting = 3; this.scrollIndex = 0; this.container.setSorter(this.container.SORT_BY_INTERNAL); }
+
+		if(this.checkClick(x, y, 7, 79, 18, 18)) { this.click(); this.startFocussed = !this.startFocussed; }
+		if(this.checkClick(x, y, 7, 97, 18, 18)) { this.click(); this.container.detailedSearch = !this.container.detailedSearch; container.setSearchString(search.getText()); }
+		
 		search.mouseClicked(x, y, i);
 	}
 
 	@Override
 	public void handleMouseInput() {
-		super.handleMouseInput();
 		
 		int scrollDir = Mouse.getEventDWheel();
 
-		if(scrollDir != 0) {
+		if(scrollDir != 0 && wasMouseinGUI) {
 
 			if(scrollDir > 0) scrollDir = 1;
 			if(scrollDir < 0) scrollDir = -1;
 			this.setScroll(this.getScroll() - scrollDir);
+			return;
 		}
+		
+		super.handleMouseInput();
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = "container.pneumoStorageAccess";
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(name, 34 + 176 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 34 + 8, this.ySize - 96 + 2, 4210752);
 		
 		GL11.glPushMatrix();
 		RenderHelper.disableStandardItemLighting();
@@ -142,11 +169,20 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft + 34, guiTop, 0, 0, 176, ySize);
 		
-		drawTexturedModalRect(guiLeft + getScrollBarXPos(), guiTop + getScrollBarYPos(), draggingScroll ? 188 : 176, 0, 12, 15);
+		drawTexturedModalRect(guiLeft, guiTop, 176, 15, 32, 122);
+
+		drawTexturedModalRect(guiLeft + 7, guiTop + 7 + this.sorting * 18, 208, 0, 18, 18);
+		if(this.startFocussed) drawTexturedModalRect(guiLeft + 7, guiTop + 79, 208, 18, 18, 18);
+		if(this.container.detailedSearch) drawTexturedModalRect(guiLeft + 7, guiTop + 97, 208, 18, 18, 18);
 		
+		drawTexturedModalRect(guiLeft + 34 + getScrollBarXPos(), guiTop + getScrollBarYPos(), draggingScroll ? 188 : 176, 0, 12, 15);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, 0);
 		search.drawTextBox();
+		GL11.glPopMatrix();
 	}
 
 	public int getScrollBarXPos() {
@@ -154,9 +190,13 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	}
 	
 	public int getScrollBarYPos() {
-		ContainerPneumoStorageAccessMK2 container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
 		int scrollArea = 106 - 15; // bar height minus the scroll knob's height
 		double scrollProgress = (double) container.listingStart / (double) scrollBounds;
+		if(scrollProgress > 1) {
+			scrollProgress = 1;
+			this.setScroll(scrollBounds);
+			refreshContainer();
+		}
 		int scrollYPos = 17 + (int) (scrollProgress * scrollArea);
 		return scrollYPos;
 	}
@@ -172,7 +212,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	}
 	
 	public void refreshContainer() {
-		//this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccessMK2.SLOT_CLICK_ID_REFRESH, 0, this.scrollIndex, this.mc.thePlayer);
+		this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccess.SLOT_CLICK_ID_REFRESH, 0, this.scrollIndex, this.mc.thePlayer);
 	}
 
 	@Override
@@ -196,9 +236,8 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	protected void keyTyped(char c, int b) {
 		
 		if(search.textboxKeyTyped(c, b)) {
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("search", search.getText());
-			PacketDispatcher.wrapper.sendToServer(new ContainerNBTCommsPacket(this.inventorySlots.windowId, data));
+			this.scrollIndex = 0;
+			container.setSearchString(search.getText());
 			return;
 		}
 		
