@@ -44,8 +44,6 @@ public class StackCache {
 		}
 		
 		cache.addMonitor(monitor);
-		
-		System.out.println(monitor.toZeroStack() + " " + cache.monitors.size());
 	}
 	
 	public CacheSlot getSlotFromStack(ItemStack stack) {

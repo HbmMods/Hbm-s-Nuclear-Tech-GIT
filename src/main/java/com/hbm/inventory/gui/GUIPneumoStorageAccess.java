@@ -7,8 +7,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
-import com.hbm.inventory.container.ContainerPneumoStorageAccess;
-import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
+import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2;
+import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -40,7 +40,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	protected boolean draggingScroll = false;
 
 	public GUIPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
-		super(new ContainerPneumoStorageAccess(invPlayer, access));
+		super(new ContainerPneumoStorageAccessMK2(invPlayer, access));
 		this.access = access;
 		
 		this.xSize = 176;
@@ -63,8 +63,8 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		
-		ContainerPneumoStorageAccess container = (ContainerPneumoStorageAccess) this.inventorySlots;
-		this.scrollBounds = (int) Math.ceil(container.itemCountForClient / 8D - 6D);
+		ContainerPneumoStorageAccessMK2 container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
+		this.scrollBounds = (int) Math.ceil(container.getStackCount() / 8D - 6D);
 		if(this.scrollBounds < 1) this.scrollBounds = 1;
 		if(this.scrollIndex < 0) this.setScroll(0);
 		if(this.scrollIndex > scrollBounds) this.setScroll(scrollBounds);
@@ -154,7 +154,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	}
 	
 	public int getScrollBarYPos() {
-		ContainerPneumoStorageAccess container = (ContainerPneumoStorageAccess) this.inventorySlots;
+		ContainerPneumoStorageAccessMK2 container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
 		int scrollArea = 106 - 15; // bar height minus the scroll knob's height
 		double scrollProgress = (double) container.listingStart / (double) scrollBounds;
 		int scrollYPos = 17 + (int) (scrollProgress * scrollArea);
@@ -172,7 +172,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	}
 	
 	public void refreshContainer() {
-		this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccess.SLOT_CLICK_ID_REFRESH, 0, this.scrollIndex, this.mc.thePlayer);
+		//this.mc.playerController.windowClick(this.inventorySlots.windowId, ContainerPneumoStorageAccessMK2.SLOT_CLICK_ID_REFRESH, 0, this.scrollIndex, this.mc.thePlayer);
 	}
 
 	@Override

@@ -13,6 +13,7 @@
 * Updated light brick texture
 * The maximum character limit on RoR channels is now the same for all RoR devices, being 15
   * This does not include special RoR interactive devices that don't use GUI text fields like the RoR terminal or the AUTOCAL units
+* Pile output rods like the bred uranium and the plutonium rods can no longer be dismantled using the anvil, the PUREX is now mandatory
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

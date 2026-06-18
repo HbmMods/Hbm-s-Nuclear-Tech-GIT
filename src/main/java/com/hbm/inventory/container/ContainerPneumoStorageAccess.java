@@ -77,6 +77,10 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 		this.detectAndSendChanges();
 	}
 	
+	public int getStackCount() {
+		return itemCountForClient;
+	}
+	
 	public void updateListing(int startingIndex) { // DEMO
 		if(this.access.cache == null || this.access.cache.hasExpired) return;
 		StackCache cache = this.access.cache;
