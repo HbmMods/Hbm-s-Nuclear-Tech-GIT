@@ -7,7 +7,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import static com.hbm.inventory.gui.element.GUIElements.*;
-import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess;
 import com.hbm.inventory.container.ContainerPneumoStorageAccess.SlotPneumo;
 import com.hbm.inventory.gui.element.GUIElements;
@@ -30,7 +29,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_pneumatic_access.png");
 	protected TileEntityPneumoStorageAccess access;
-	protected ContainerPneumoStorageAccessMK2 container;
+	protected ContainerPneumoStorageAccess container;
 	protected GuiTextField search;
 	
 	protected int scrollIndex = 0;
@@ -43,8 +42,8 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	protected static boolean startFocussed = false;
 
 	public GUIPneumoStorageAccess(InventoryPlayer invPlayer, TileEntityPneumoStorageAccess access) {
-		super(new ContainerPneumoStorageAccessMK2(invPlayer, access));
-		this.container = (ContainerPneumoStorageAccessMK2) this.inventorySlots;
+		super(new ContainerPneumoStorageAccess(invPlayer, access));
+		this.container = (ContainerPneumoStorageAccess) this.inventorySlots;
 		this.access = access;
 		
 		this.xSize = 176 + 34;

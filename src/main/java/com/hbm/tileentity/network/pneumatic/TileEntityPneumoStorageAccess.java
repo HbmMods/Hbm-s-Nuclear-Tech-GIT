@@ -1,6 +1,6 @@
 package com.hbm.tileentity.network.pneumatic;
 
-import com.hbm.inventory.container.ContainerPneumoStorageAccessMK2;
+import com.hbm.inventory.container.ContainerPneumoStorageAccess;
 import com.hbm.inventory.gui.GUIPneumoStorageAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -75,6 +75,6 @@ public class TileEntityPneumoStorageAccess extends TileEntityLoadedBase implemen
 		return dir == selfdir.getOpposite();
 	}
 
-	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPneumoStorageAccessMK2(player.inventory, this); }
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPneumoStorageAccess(player.inventory, this); }
 	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIPneumoStorageAccess(player.inventory, this); }
 }

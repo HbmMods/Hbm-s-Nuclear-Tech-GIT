@@ -179,7 +179,6 @@ public class TileMappings {
 		put(TileEntityMachineMiningLaser.class, "tileentity_mining_laser");
 		put(TileEntityNukeBalefire.class, "tileentity_nuke_fstbmb");
 		put(TileEntityMicrowave.class, "tileentity_microwave");
-		put(TileEntityMachineMiniRTG.class, "tileentity_mini_rtg");
 		put(TileEntityBlockICF.class, "tileentity_block_icf");
 		put(TileEntityICFPress.class, "tileentity_icf_press");
 		put(TileEntityICFController.class, "tileentity_icf_controller");

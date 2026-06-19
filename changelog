@@ -14,6 +14,12 @@
 * The maximum character limit on RoR channels is now the same for all RoR devices, being 15
   * This does not include special RoR interactive devices that don't use GUI text fields like the RoR terminal or the AUTOCAL units
 * Pile output rods like the bred uranium and the plutonium rods can no longer be dismantled using the anvil, the PUREX is now mandatory
+* If too many conveyor item entities intersect with one another, they explode
+  * The conveyor belt the items were on is broken, preventing further item buildup
+* Items that leave the covneyor belt, usually by trying to enter a full inserter, now have a shortened lifespan of 1 minute instead of 5
+* Base steam production per consumed heat has been increased by 50% on the ZIRNOX
+* Both radioisotope cell variants have been finally removed after being deprecated for a while
+* Selfchargers now have a tooltip explaining the hazards of using them in a battery socket
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
