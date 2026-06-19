@@ -121,6 +121,8 @@ dependencies {
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
 	// this will ensure that this task is redone when the versions change.
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
@@ -133,8 +135,8 @@ processResources {
 		filesMatching('mcmod.info') {
 			// replace version, mcversion and credits
 			expand([
-					version: version_name,
-					credits: project.credits
+				version: version_name,
+				credits: project.credits
 			])
 		}
 	}
