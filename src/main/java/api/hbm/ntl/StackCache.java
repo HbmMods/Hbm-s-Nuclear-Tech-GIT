@@ -90,6 +90,7 @@ public class StackCache {
 			CacheSlot nullCache = this.cacheSlots.get(getNullIdentity());
 			if(nullCache != null) { // quite ironic, isn't it?
 				for(SlotMonitor monitor : nullCache.monitors) {
+					if(!monitor.parent.allowTypeSetting()) continue;
 					if(monitor.parent.getSlotAt(monitor.index) != null) continue;
 					amount = monitor.parent.setupType(monitor.index, stack, amount);
 					if(amount <= 0) break;

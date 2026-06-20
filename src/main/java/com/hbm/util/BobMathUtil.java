@@ -193,32 +193,34 @@ public class BobMathUtil {
 	}
 
 	public static String getShortNumber(long l) {
+		
 		double res;
-		String magnitude_letter = "";
+		String suffix = "";
+		long abs = Math.abs(l);
 
-		if(Math.abs(l) >= Math.pow(10, 18)) {
+		if(abs >= Math.pow(10, 18)) {
 			res = l / Math.pow(10, 18);
-			magnitude_letter = "E";
+			suffix = "E";
 		}
-		else if(Math.abs(l) >= Math.pow(10, 15)) {
+		else if(abs >= Math.pow(10, 15)) {
 			res = l / Math.pow(10, 15);
-			magnitude_letter = "P";
+			suffix = "P";
 		}
-		else if(Math.abs(l) >= Math.pow(10, 12)) {
+		else if(abs >= Math.pow(10, 12)) {
 			res = l / Math.pow(10, 12);
-			magnitude_letter = "T";
+			suffix = "T";
 		}
-		else if(Math.abs(l) >= Math.pow(10, 9)) {
+		else if(abs >= Math.pow(10, 9)) {
 			res = l / Math.pow(10, 9);
-			magnitude_letter = "G";
+			suffix = "G";
 		}
-		else if(Math.abs(l) >= Math.pow(10, 6)) {
+		else if(abs >= Math.pow(10, 6)) {
 			res = l / Math.pow(10, 6);
-			magnitude_letter = "M";
+			suffix = "M";
 		}
-		else if(Math.abs(l) >= Math.pow(10, 3)) {
+		else if(abs >= Math.pow(10, 3)) {
 			res = l / Math.pow(10, 3);
-			magnitude_letter = "k";
+			suffix = "k";
 		}
 		else {
 			return Long.toString(l);
@@ -231,7 +233,7 @@ public class BobMathUtil {
 			res = Math.round(res * 100.0) / 100.0;
 		}
 
-		return res + magnitude_letter;
+		return res + suffix;
 	}
 
 	/**
