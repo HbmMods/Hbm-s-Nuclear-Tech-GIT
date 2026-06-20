@@ -137,7 +137,7 @@ public class GUIPneumoStorageAccess extends GuiInfoContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = "container.pneumoStorageAccess";
+		String name = I18n.format("container.pneumoStorageAccess");
 		
 		this.fontRendererObj.drawString(name, 34 + 176 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 34 + 8, this.ySize - 96 + 2, 4210752);
