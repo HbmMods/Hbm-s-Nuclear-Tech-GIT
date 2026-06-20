@@ -254,6 +254,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.WATER, 1000))
 				.outputItems(new ItemStack(ModBlocks.deco_rusty_steel, 8)));
 		
+		
 		this.register(new GenericRecipe("chem.biosolidfuel").setupNamed(40, 100)
 				.inputItems(new ComparableStack(ModItems.biomass_compressed, 4))
 				.outputItems(new ItemStack(ModItems.solid_fuel, 1)).setPools(GenericRecipes.POOL_PREFIX_ALT + ".biosolidfuel"));

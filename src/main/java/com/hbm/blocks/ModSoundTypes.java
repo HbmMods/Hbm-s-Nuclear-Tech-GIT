@@ -10,4 +10,6 @@ public class ModSoundTypes {
 		if(type == ModSoundType.SubType.BREAK) in -= 0.15F;
 		return in + rand.nextFloat() * 0.2F;
 	});
+	public static final ModSoundType flesh = ModSoundType.placeBreakStep("hbm:block.flesh", "hbm:block.flesh", "hbm:block.flesh", 0.5F, 1.0F);
+	public static final ModSoundType platemetal = ModSoundType.placeBreakStep("hbm:block.platemetalPlace", "hbm:block.platemetalPlace", "hbm:step.platemetal", 1.0F, 1.0F);
 }
