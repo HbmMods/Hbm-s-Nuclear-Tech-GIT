@@ -35,8 +35,8 @@ public class GUIToolBox extends GuiContainer {
 
 		// if the open box has changed or disappeared, close the inventory
 		} else if(this.mc.thePlayer.getHeldItem() != firstHeld) {
-			//this.mc.thePlayer.closeScreen();
-			//return;
+			this.mc.thePlayer.closeScreen();
+			return;
 		}
 
 		super.drawScreen(x, y, interp);
