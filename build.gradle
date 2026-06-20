@@ -12,7 +12,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {changing = true}
+		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {changing = true}
 	}
 }
 
@@ -39,7 +39,7 @@ group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-convention
 archivesBaseName = "HBM-NTM"
 compileJava.options.encoding = 'UTF-8'
 
-sourceCompatibility = targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
 	version = "1.7.10-10.13.4.1614-1.7.10"
@@ -121,8 +121,6 @@ dependencies {
 }
 
 processResources {
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-
 	// this will ensure that this task is redone when the versions change.
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
@@ -157,7 +155,7 @@ jar {
 task sourceJar(type: Jar) {
 	from sourceSets.main.allJava
 
-	archiveClassifier = "src"
+	classifier "src"
 
 	manifest {
 		attributes 'FMLAT': 'HBM_at.cfg'
@@ -171,7 +169,7 @@ task devJar(type: Jar) {
 	from(sourceSets.main.output) {
 		include "**"
 	}
-	archiveClassifier = "dev"
+	classifier "dev"
 
 	manifest {
 		attributes 'FMLAT': 'HBM_at.cfg'
@@ -190,7 +188,7 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 		projectId = cfprops.project_id
 		releaseType = "release"
 
-		displayName = "Hbm's Nuclear Tech Mod ${version_name.replace("_", "")} for Minecraft 1.7.10"
+		displayName = "Hbm's Nuclear Tech Mod " + version_name.replace("_", "") + " for Minecraft 1.7.10"
 
 		gameVersions.addAll([
 				"Forge",

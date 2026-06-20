@@ -29,7 +29,7 @@ Your refactors suck ass and usually something ends up breaking.
 
 If you're planning on adding some new thing or doing a grand change, it's best to ask whether that's a good idea before spending 50 hours on a project that won't end up getting merged, due to issues that could have been entirely avoidable with communication.
 
-## No guarantee
+## No guarantees
 
 This ties together with the previous point - there's no guarantees that your PR gets merged no matter how hard or long you've worked on it. However, if you follow these guidelines, there's a good chance that your PR will be accepted.
 
