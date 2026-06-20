@@ -30,6 +30,9 @@ public interface ISlotMonitorProvider {
 	/** Sets the slot contents, returns the number of items that couldn't be added */
 	public long setupType(int index, ItemStack zeroStack, long amount);
 	
+	/** Whether this container allows types to be set via the access terminal */
+	public boolean allowTypeSetting();
+	
 	/** Whether this storage unit is reachable by the access point */
 	public boolean isAvailableToCache(StackCache cache);
 	

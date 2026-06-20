@@ -74,8 +74,8 @@ public class RenderRBMKGauge extends TileEntitySpecialRenderer {
 			int height = font.FONT_HEIGHT;
 			
 			double lineScale = 0.0025D;
-			String lineLower = unit.min <= 10_000 ? unit.min + "" : BobMathUtil.getShortNumber(unit.min);
-			String lineUpper = unit.max <= 10_000 ? unit.max + "" : BobMathUtil.getShortNumber(unit.max);
+			String lineLower = Math.abs(unit.min) <= 10_000 ? unit.min + "" : BobMathUtil.getShortNumber(unit.min);
+			String lineUpper = Math.abs(unit.max) <= 10_000 ? unit.max + "" : BobMathUtil.getShortNumber(unit.max);
 			
 			for(int j = 0; j < 2; j++) {
 				GL11.glPushMatrix();
