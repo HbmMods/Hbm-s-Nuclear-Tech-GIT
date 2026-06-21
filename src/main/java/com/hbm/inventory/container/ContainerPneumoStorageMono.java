@@ -36,11 +36,11 @@ public class ContainerPneumoStorageMono extends ContainerBase {
 		if(index < 0 || index >= 3) {
 			return super.slotClick(index, button, mode, player);
 		}
-		
-		TileEntityPneumoStorageMono mono = (TileEntityPneumoStorageMono) this.tile;
-		if(mono.amounts[index] > 0) return null;
+
 		
 		Slot slot = this.getSlot(index);
+		TileEntityPneumoStorageMono mono = (TileEntityPneumoStorageMono) this.tile;
+		if(mono.amounts[index] > 0 && slot.getHasStack()) return null;
 		
 		ItemStack ret = null;
 		ItemStack held = player.inventory.getItemStack();
