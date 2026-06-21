@@ -5,6 +5,8 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
+import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -594,5 +596,47 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		return meta;
 	}
+	public int[][] getAllDimensions() {
+    return new int[][] { getDimensions() };
+}
+@SideOnly(Side.CLIENT)
+public void drawPlacementHighlight(EntityPlayer player, float interp) {
+    MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
+    
+    if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+        double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
+        double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
+        double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) interp;
+
+        int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+        int o = -getOffset();
+        int py = mop.blockY + getHeightOffset();
+
+        ForgeDirection facing = ForgeDirection.NORTH;
+        if(i == 0) facing = ForgeDirection.getOrientation(2);
+        if(i == 1) facing = ForgeDirection.getOrientation(5);
+        if(i == 2) facing = ForgeDirection.getOrientation(3);
+        if(i == 3) facing = ForgeDirection.getOrientation(4);
+        
+        facing = getDirModified(facing);
+
+        double originX = mop.blockX - dX + facing.offsetX * o;
+        double originY = py - dY + (mop.sideHit == 1 ? 1 : 0);
+        double originZ = mop.blockZ - dZ + facing.offsetZ * o;
+
+        float exp = 0.002F;
+        ICustomBlockHighlight.setup();
+        boolean canPlace = checkRequirement(player.worldObj, mop.blockX, py + 1, mop.blockZ, facing, o);
+        int color = canPlace ? 0x008000 : 0x800000;
+
+        for(int[] dims : getAllDimensions()) {
+            int[] rot = MultiblockHandlerXR.rotate(dims, facing);
+            AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-rot[4], -rot[1], -rot[2], rot[5] + 1, rot[0] + 1, rot[3] + 1);
+            RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(originX, originY, originZ), color);
+        }
+
+        ICustomBlockHighlight.cleanup();
+    }
+}
 
 }
