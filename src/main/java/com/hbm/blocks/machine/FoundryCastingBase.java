@@ -202,7 +202,7 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 		}
 
 		if(cast.type != null && cast.amount > 0) {
-			text.add(EnumChatFormatting.YELLOW + cast.type.names[0] + ": " + cast.amount + " / " + cast.getCapacity());
+			text.add(EnumChatFormatting.YELLOW + cast.type.getLocalizedName() + ": " + cast.amount + " / " + cast.getCapacity());
 		}
 
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(this.getUnlocalizedName() + ".name"), 0xFF4000, 0x401000, text);

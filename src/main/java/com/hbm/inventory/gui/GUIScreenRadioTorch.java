@@ -20,6 +20,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenRadioTorch extends GuiScreen {
+	
+	public static final int MAX_CHAN_LENGTH = 15;
 
 	protected ResourceLocation texture;
 	protected static final ResourceLocation textureSender = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rtty_sender.png");
@@ -61,7 +63,7 @@ public class GUIScreenRadioTorch extends GuiScreen {
 		this.frequency.setTextColor(0x00ff00);
 		this.frequency.setDisabledTextColour(0x00ff00);
 		this.frequency.setEnableBackgroundDrawing(false);
-		this.frequency.setMaxStringLength(10);
+		this.frequency.setMaxStringLength(MAX_CHAN_LENGTH);
 		this.frequency.setText(radio.channel == null ? "" : radio.channel);
 		
 		this.remap = new GuiTextField[16];

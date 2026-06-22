@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.hbm.inventory.OreDictManager.DictFrame;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,6 +49,10 @@ public class NTMMaterial {
 	
 	public String getUnlocalizedName() {
 		return "hbmmat." + this.names[0].toLowerCase(Locale.US);
+	}
+	
+	public String getLocalizedName() {
+		return I18nUtil.resolveKey(getUnlocalizedName());
 	}
 	
 	public NTMMaterial setConversion(NTMMaterial mat, int in, int out) {

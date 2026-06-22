@@ -104,7 +104,7 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), 6);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_wood_burner), 10);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_diesel), 8);
-		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_rtg_grey), 4);
+		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_rtg), 4);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.red_pylon), 9);
 		BlockCrate.addToListWithWeight(metalList, new ItemStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD.ordinal()), 10);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 8);

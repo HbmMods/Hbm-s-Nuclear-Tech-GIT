@@ -140,26 +140,10 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 16, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
 
-			if(WorldConfig.newBedrockOres) {
-
-				if(rand.nextInt(10) == 0) {
-					int randPosX = i + rand.nextInt(2) + 8;
-					int randPosZ = j + rand.nextInt(2) + 8;
-
-					BedrockOre.generateAuto(world, randPosX, randPosZ);
-				}
-
-			} else {
-
-				if(rand.nextInt(3) == 0) {
-					@SuppressWarnings("unchecked")
-					WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
-					BedrockOreDefinition def = item.get();
-
-					int randPosX = i + rand.nextInt(2) + 8;
-					int randPosZ = j + rand.nextInt(2) + 8;
-					BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
-				}
+			if(rand.nextInt(10) == 0) {
+				int randPosX = i + rand.nextInt(2) + 8;
+				int randPosZ = j + rand.nextInt(2) + 8;
+				BedrockOre.generateAuto(world, randPosX, randPosZ);
 			}
 
 			if(GeneralConfig.enable528ColtanSpawn) {

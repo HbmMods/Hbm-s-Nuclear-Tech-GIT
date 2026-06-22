@@ -9,6 +9,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
@@ -85,6 +86,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 
 				trySubscribe(tank.getTankType(), worldObj, xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot);
 				trySubscribe(tank.getTankType(), worldObj, xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite());
+				trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			}
 
 			if(isOn && !isSuspended) {

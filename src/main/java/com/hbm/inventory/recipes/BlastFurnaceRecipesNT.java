@@ -63,8 +63,11 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.meteorite_sword_hardened, 1))
 				.outputItems(new ItemStack(ModItems.meteorite_sword_alloyed, 1)));
 
+		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.meteor").setDuration(600)
+				.inputItems(new OreDictStack(CO.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))
+				.outputItems(new ItemStack(ModItems.ingot_meteorite, 1)));
 		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.starmetal").setDuration(600)
-				.inputItems(new OreDictStack(BIGMT.ingot()), new ComparableStack(ModItems.powder_meteorite, 1))
+				.inputItems(new OreDictStack(BIGMT.ingot()), new ComparableStack(ModItems.ingot_meteorite, 1))
 				.outputItems(new ItemStack(ModItems.ingot_starmetal, 1)));
 
 		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.paa").setDuration(600)

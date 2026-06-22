@@ -9,7 +9,7 @@ public class RTGRecipeHandler extends NEIUniversalHandler {
 
 	public RTGRecipeHandler() {
 		super("RTG", new ItemStack[] {
-				new ItemStack(ModBlocks.machine_rtg_grey),
+				new ItemStack(ModBlocks.machine_rtg),
 				new ItemStack(ModBlocks.machine_difurnace_rtg_off)
 			}, ItemRTGPellet.getRecipeMap());
 	}

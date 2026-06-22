@@ -46,6 +46,61 @@ public class StackCache {
 		cache.addMonitor(monitor);
 	}
 	
+	public CacheSlot getSlotFromStack(ItemStack stack) {
+		return getSlotFromStack(stack.getItem(), stack.getItemDamage(), stack.stackTagCompound);
+	}
+	
+	public CacheSlot getSlotFromStack(Item item, int meta, NBTTagCompound nbt) {
+		long monitorIdentity = getStackIdentity(item, meta, nbt);
+		return cacheSlots.get(monitorIdentity);
+	}
+	
+	/** Uses up items and returns how many of the requested items could be removed, with no desyncs that number should always be equal to the supplied amount */
+	public long consumeItemsAndReturnQuantity(ItemStack stack, long amount) {
+		long stackIdentity = getStackIdentity(stack.getItem(), stack.getItemDamage(), stack.stackTagCompound);
+		CacheSlot cache = this.cacheSlots.get(stackIdentity);
+		if(cache == null) return 0;
+		long originalAmount = amount;
+		
+		for(SlotMonitor monitor : cache.monitors) {
+			ItemStack original = monitor.parent.getSlotAt(monitor.index);
+			long checkIdentity = getStackIdentity(original);
+			if(checkIdentity != stackIdentity) continue;
+			amount = monitor.parent.useUpItem(monitor.index, amount);
+			if(amount <= 0) break;
+		}
+		
+		return originalAmount - amount;
+	}
+	
+	/** Adds a stack to the system and returns the amount that did not fit */
+	public long addItemsAndReturnQuantity(ItemStack stack, long amount) {
+		long stackIdentity = getStackIdentity(stack.getItem(), stack.getItemDamage(), stack.stackTagCompound);
+		CacheSlot cache = this.cacheSlots.get(stackIdentity);
+		
+		if(cache != null) for(SlotMonitor monitor : cache.monitors) {
+			ItemStack original = monitor.parent.getSlotAt(monitor.index);
+			long checkIdentity = getStackIdentity(original);
+			if(checkIdentity != stackIdentity) continue;
+			amount = monitor.parent.addItem(monitor.index, amount);
+			if(amount <= 0) break;
+		}
+		
+		if(amount > 0) {
+			CacheSlot nullCache = this.cacheSlots.get(getNullIdentity());
+			if(nullCache != null) { // quite ironic, isn't it?
+				for(SlotMonitor monitor : nullCache.monitors) {
+					if(!monitor.parent.allowTypeSetting()) continue;
+					if(monitor.parent.getSlotAt(monitor.index) != null) continue;
+					amount = monitor.parent.setupType(monitor.index, stack, amount);
+					if(amount <= 0) break;
+				}
+			}
+		}
+		
+		return amount;
+	}
+	
 	public void dissolveCache() {
 		for(Entry<Long, CacheSlot> cacheEntry : cacheSlots.entrySet()) {
 			cacheEntry.getValue().destroy();
@@ -131,10 +186,21 @@ public class StackCache {
 		}
 	}
 	
+	public static long getNullIdentity() {
+		return 0; //getStackIdentity(null, 0, null);
+	}
+	
+	public static long getStackIdentity(ItemStack stack) {
+		if(stack == null) return getNullIdentity();
+		return getStackIdentity(stack.getItem(), stack.getItemDamage(), stack.stackTagCompound);
+	}
+	
 	public static long getStackIdentity(Item item, int meta, NBTTagCompound nbt) {
+		if(item == null) return getNullIdentity();
 		long identity = Item.getIdFromItem(item) * 27644437;
-		identity += meta * 27644437;
-		if(nbt != null) identity += nbt.toString().hashCode();
+		identity += meta;
+		identity *= 27644437;
+		if(nbt != null) identity += nbt.hashCode();
 		return identity;
 	}
 }

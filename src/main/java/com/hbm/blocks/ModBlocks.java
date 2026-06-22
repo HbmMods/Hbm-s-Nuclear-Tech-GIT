@@ -914,9 +914,7 @@ public class ModBlocks {
 	public static Block teleanchor;
 	public static Block field_disturber;
 
-	public static Block machine_rtg_grey;
-	@Deprecated public static Block machine_minirtg;
-	@Deprecated public static Block machine_powerrtg;
+	public static Block machine_rtg;
 	public static Block machine_radiolysis;
 	public static Block machine_hephaestus;
 
@@ -1840,9 +1838,7 @@ public class ModBlocks {
 		teleanchor = new MachineTeleanchor().setBlockName("teleanchor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		field_disturber = new MachineFieldDisturber().setBlockName("field_disturber").setHardness(5.0F).setResistance(200.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":field_disturber");
 
-		machine_rtg_grey = new MachineRTG(Material.iron).setBlockName("machine_rtg_grey").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rtg");
-		machine_minirtg = new MachineMiniRTG(Material.iron).setBlockName("machine_minirtg").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rtg_cell");
-		machine_powerrtg = new MachineMiniRTG(Material.iron).setBlockName("machine_powerrtg").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rtg_polonium");
+		machine_rtg = new MachineRTG(Material.iron).setBlockName("machine_rtg_grey").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rtg");
 		machine_radiolysis = new MachineRadiolysis(Material.iron).setBlockName("machine_radiolysis").setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		machine_hephaestus = new MachineHephaestus(Material.iron).setBlockName("machine_hephaestus").setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 
@@ -1910,11 +1906,11 @@ public class ModBlocks {
 		drone_crate_provider = new DroneDock().setBlockName("drone_crate_provider").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_crate_provider");
 		drone_crate_requester = new DroneDock().setBlockName("drone_crate_requester").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_crate_requester");
 
-		pneumatic_tube = new PneumoTube().setBlockName("pneumatic_tube").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_tube");
+		pneumatic_tube = new PneumoTube().setBlockName("pneumatic_tube").setStepSound(ModSoundTypes.pipe).setHardness(2F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pneumatic_tube");
 		pneumatic_tube_paintable = new PneumoTubePaintableBlock().setBlockName("pneumatic_tube_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		pneumatic_storage_access = new PneumoStorageAccess().setBlockName("pneumatic_storage_access").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_access");
-		pneumatic_storage_clutter = new PneumoStorageClutter().setBlockName("pneumatic_storage_clutter").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_clutter");
-		pneumatic_storage_mono = new PneumoStorageMono().setBlockName("pneumatic_storage_mono").setStepSound(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_mono");
+		pneumatic_storage_access = new PneumoStorageAccess().setBlockName("pneumatic_storage_access").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_access");
+		pneumatic_storage_clutter = new PneumoStorageClutter().setBlockName("pneumatic_storage_clutter").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_clutter");
+		pneumatic_storage_mono = new PneumoStorageMono().setBlockName("pneumatic_storage_mono").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_mono");
 
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -2348,7 +2344,6 @@ public class ModBlocks {
 
 		logic_block = new LogicBlock().setBlockName("logic_block").setBlockTextureName(RefStrings.MODID + ":logic_block");
 		logic_block_invis = new LogicBlockInvis().setBlockName("logic_block_invis").setBlockTextureName(RefStrings.MODID + ":logic_block");
-
 	}
 
 	private static void registerBlock() {
@@ -3056,9 +3051,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_radgen, machine_radgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_exposure_chamber, machine_exposure_chamber.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_minirtg, machine_minirtg.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_powerrtg, machine_powerrtg.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_rtg, machine_rtg.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_radiolysis, machine_radiolysis.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_hephaestus, machine_hephaestus.getUnlocalizedName());
 
