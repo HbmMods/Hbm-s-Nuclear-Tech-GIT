@@ -1,6 +1,7 @@
 package com.hbm.blocks.network.pneumatic;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageImporter;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
@@ -17,7 +18,7 @@ public class PneumoStorageImporter extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return null;
+		return new TileEntityPneumoStorageImporter();
 	}
 
 	@Override
