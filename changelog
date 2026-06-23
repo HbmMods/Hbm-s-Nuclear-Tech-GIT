@@ -3,8 +3,35 @@
 * Watz powerplant now has OC and RoR integration
 * The automatic thresher now has a fluid port on the bottom as well
 * The foundry basins and outlet filters now use the properly translated name instead of the internal name for the material
+* Removed config for new bedrock ores
+  * New ores are the default anyway and old bedrock ores are now properly deprecated
+  * Existing setups will continue to work for now
+  * Old bedrock ore items still exist but are no longer listed in the creative tab
+* Removed recipe for the small single block steam turbine
+  * We have steam engines and industrial turbines are really not that expensive
+  * "oh no, i have to build an actually good looking setup now if i want to build a zirnox!" yeah you do
+* Updated light brick texture
+* The maximum character limit on RoR channels is now the same for all RoR devices, being 15
+  * This does not include special RoR interactive devices that don't use GUI text fields like the RoR terminal or the AUTOCAL units
+* Pile output rods like the bred uranium and the plutonium rods can no longer be dismantled using the anvil, the PUREX is now mandatory
+* If too many conveyor item entities intersect with one another, they explode
+  * The conveyor belt the items were on is broken, preventing further item buildup
+* Items that leave the covneyor belt, usually by trying to enter a full inserter, now have a shortened lifespan of 1 minute instead of 5
+* Base steam production per consumed heat has been increased by 50% on the ZIRNOX
+* Both radioisotope cell variants have been finally removed after being deprecated for a while
+* Selfchargers now have a tooltip explaining the hazards of using them in a battery socket
+* The alternate recipe for the assembler in the assembler now uses integrated circuits instead of analog ones
+* Added an alternate chemical plant recipe that uses a smaller selection of items and ICs instead of ACs
+* Flashgold and flashlead are now made in the PUREX instead of the crafting table
+  * The flashgold recipe now yields two billets instead of one
+* Slightly changed the HSS ingot texture to not look identical to steel except slightly greenish
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
 * Fixed broken thorium ore centrifuging recipe shown in NEI
 * Fixed industrial turbine not properly saving its energy values, causing the flywheel to stop on relog
+* Fixed lapis dust to cobalt shredder recipe not using oredict
+* Fixed AUTOCAL's file opening buttons not working on some systems, it will fall back to opening the folder instead
+* Fixed some recipes not using ore dict when they should
+* Fixed `anyBismoid` group not being a proper group, causing other mods' bismuth and arsenic to not be included
+* Fixed RoR gauge not using SI suffixes on values below 0

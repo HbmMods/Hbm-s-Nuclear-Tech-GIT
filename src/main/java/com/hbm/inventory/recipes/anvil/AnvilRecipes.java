@@ -967,19 +967,6 @@ public class AnvilRecipes extends SerializableRecipe {
 							new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal())),
 							new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 0.5F),
 					}).setTier(4));
-			constructionRecipes.add(new AnvilConstructionRecipe(
-					new ComparableStack(ModItems.pile_rod_plutonium), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 2)),
-							new AnvilOutput(new ItemStack(ModItems.billet_uranium, 1)),
-							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
-					}).setTier(2));
-			constructionRecipes.add(new AnvilConstructionRecipe(
-					new ComparableStack(ModItems.pile_rod_pu239), new AnvilOutput[] {
-							new AnvilOutput(new ItemStack(ModItems.billet_pu239, 1)), //Might need to be cut to 3 nuggets, but a full billet is nice and round
-							new AnvilOutput(new ItemStack(ModItems.billet_pu_mix, 1)),
-							new AnvilOutput(new ItemStack(ModItems.billet_uranium, 1)),
-							new AnvilOutput(new ItemStack(ModItems.plate_iron, 2))
-					}).setTier(2));
 
 		} else {
 			constructionRecipes.add(new AnvilConstructionRecipe(

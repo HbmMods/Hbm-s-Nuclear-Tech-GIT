@@ -108,7 +108,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.reactor_research, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_radgen, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_grey, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembly_machine, 3));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemical_plant, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_fluidtank, 1));

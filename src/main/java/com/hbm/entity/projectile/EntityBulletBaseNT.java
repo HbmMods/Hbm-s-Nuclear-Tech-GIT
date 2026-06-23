@@ -5,12 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.bomb.BlockDetonatable;
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
-import com.hbm.entity.effect.EntityEMPBlast;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
@@ -25,7 +19,6 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
-import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
 
@@ -34,7 +27,6 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -182,29 +174,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			return;
 		}
 
-		if(worldObj.isRemote && config.style == BulletConfiguration.STYLE_TAU) {
-			if(trailNodes.isEmpty()) {
-				this.ignoreFrustumCheck = true;
-				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(-motionX * 2, -motionY * 2, -motionZ * 2), 0D));
-			} else {
-				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), 1D));
-			}
-		}
-
-		if(worldObj.isRemote && this.config.blackPowder && this.ticksExisted == 1) {
-
-			for(int i = 0; i < 15; i++) {
-				double mod = rand.nextDouble();
-				this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ,
-						(this.motionX + rand.nextGaussian() * 0.05) * mod,
-						(this.motionY + rand.nextGaussian() * 0.05) * mod,
-						(this.motionZ + rand.nextGaussian() * 0.05) * mod);
-			}
-
-			double mod = 0.5;
-			this.worldObj.spawnParticle("flame", this.posX + this.motionX * mod, this.posY + this.motionY * mod, this.posZ + this.motionZ * mod, 0, 0, 0);
-		}
-
 		if(!worldObj.isRemote) {
 
 			if(config.maxAge == 0) {
@@ -251,7 +220,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			boolean hRic = rand.nextInt(100) < config.HBRC;
 			boolean doesRic = config.doesRicochet && hRic;
 
-			if(!config.isSpectral && !doesRic) {
+			if(!doesRic) {
 				this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				this.onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 			}
@@ -293,7 +262,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 							worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
 
 						this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-						onRicochet(mop.blockX, mop.blockY, mop.blockZ);
 
 						//worldObj.setBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), Blocks.dirt);
 
@@ -303,10 +271,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 							onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 						}
 					}
-
-					/*this.posX += (mop.hitVec.xCoord - this.posX) * 0.6;
-					this.posY += (mop.hitVec.yCoord - this.posY) * 0.6;
-					this.posZ += (mop.hitVec.zCoord - this.posZ) * 0.6;*/
 
 					this.motionX *= config.bounceMod;
 					this.motionY *= config.bounceMod;
@@ -380,7 +344,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			config.bntImpact.behaveBlockHit(this, bX, bY, bZ, sideHit);
 
 		if(!worldObj.isRemote) {
-			if(!config.liveAfterImpact && !config.isSpectral && bY > -1 && !this.inGround) this.setDead();
+			if(bY > -1 && !this.inGround) this.setDead();
 			if(!config.doesPenetrate && bY == -1) this.setDead();
 		}
 
@@ -394,24 +358,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ - 1) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ - 1, Blocks.fire);
 		}
 
-		if(config.emp > 0)
-			ExplosionNukeGeneric.empBlast(this.worldObj, (int)(this.posX + 0.5D), (int)(this.posY + 0.5D), (int)(this.posZ + 0.5D), config.emp);
-
-		if(config.emp > 3) {
-			if (!this.worldObj.isRemote) {
-
-				EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
-				cloud.posX = this.posX;
-				cloud.posY = this.posY + 0.5F;
-				cloud.posZ = this.posZ;
-
-				this.worldObj.spawnEntityInWorld(cloud);
-			}
-		}
-
-		if(config.jolt > 0 && !worldObj.isRemote)
-			ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
-
 		if(config.explosive > 0 && !worldObj.isRemote) {
 			//worldObj.newExplosion(this.thrower, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
 			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, config.explosive, this.thrower);
@@ -422,32 +368,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();
-		}
-
-		if(config.shrapnel > 0 && !worldObj.isRemote)
-			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
-
-		if(config.rainbow > 0 && !worldObj.isRemote) {
-			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow);
-			if(!ex.isDead) {
-				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-				worldObj.spawnEntityInWorld(ex);
-
-				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
-				cloud.posX = this.posX;
-				cloud.posY = this.posY;
-				cloud.posZ = this.posZ;
-				this.worldObj.spawnEntityInWorld(cloud);
-			}
-		}
-
-		if(config.nuke > 0 && !worldObj.isRemote) {
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, config.nuke, posX, posY, posZ));
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "muke");
-			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
-			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
-			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}
 
 		if(config.destroysBlocks && !worldObj.isRemote) {
@@ -463,29 +383,14 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		}
 	}
 
-	//for when a bullet dies by hitting a block
-	private void onRicochet(int bX, int bY, int bZ) {
-
-		if(config.bntRicochet != null)
-			config.bntRicochet.behaveBlockRicochet(this, bX, bY, bZ);
-	}
-
 	//for when a bullet dies by hitting an entity
 	private void onEntityImpact(Entity e) {
 		onEntityHurt(e);
 		onBlockImpact(-1, -1, -1, -1);
-
-		if(config.bntHit != null)
-			config.bntHit.behaveEntityHit(this, e);
-
-		//this.setDead();
 	}
 
 	//for when a bullet hurts an entity, not necessarily dying
 	private void onEntityHurt(Entity e) {
-
-		if(config.bntHurt != null)
-			config.bntHurt.behaveEntityHurt(this, e);
 
 		if(config.incendiary > 0 && !worldObj.isRemote) {
 			e.setFire(config.incendiary);
@@ -501,29 +406,11 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 				((EntityLivingBase)e).addPotionEffect(new PotionEffect(effect));
 			}
 		}
-
-		if(config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
-
-			if(!(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode))
-				((EntityLivingBase)e).setHealth(0.0F);
-		}
-
-		if(config.caustic > 0 && e instanceof EntityPlayer){
-			ArmorUtil.damageSuit((EntityPlayer)e, 0, config.caustic);
-			ArmorUtil.damageSuit((EntityPlayer)e, 1, config.caustic);
-			ArmorUtil.damageSuit((EntityPlayer)e, 2, config.caustic);
-			ArmorUtil.damageSuit((EntityPlayer)e, 3, config.caustic);
-		}
 	}
 
 	@Override
 	public boolean doesPenetrate() {
 		return this.config.doesPenetrate;
-	}
-
-	@Override
-	public boolean isSpectral() {
-		return this.config.isSpectral;
 	}
 
 	@Override

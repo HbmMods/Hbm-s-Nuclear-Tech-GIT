@@ -59,7 +59,7 @@ public class GUIScreenRadioTorchReader extends GuiScreen {
 			this.frequencies[i].setTextColor(0x00ff00);
 			this.frequencies[i].setDisabledTextColour(0x00ff00);
 			this.frequencies[i].setEnableBackgroundDrawing(false);
-			this.frequencies[i].setMaxStringLength(15);
+			this.frequencies[i].setMaxStringLength(GUIScreenRadioTorch.MAX_CHAN_LENGTH);
 			this.frequencies[i].setText(rtty.channels[i] == null ? "" : rtty.channels[i]);
 
 			this.names[i] = new GuiTextField(this.fontRendererObj, guiLeft + 119 + oX, guiTop + 53 + i * 18 + oY, 126 - oX * 2, 14);

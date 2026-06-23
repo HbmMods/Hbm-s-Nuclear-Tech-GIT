@@ -18,7 +18,7 @@ public class VersatileConfig {
 	
 	public static int getSchrabOreChance() {
 		if(GeneralConfig.enableLBSM) return GeneralConfig.schrabRate;
-		return 100;
+		return 250;
 	}
 
 	public static void applyPotionSickness(EntityLivingBase entity, int duration) {

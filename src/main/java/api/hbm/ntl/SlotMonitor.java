@@ -35,11 +35,13 @@ public class SlotMonitor {
 	public long stacksize;
 	public int meta;
 	public NBTTagCompound nbt;
-	
+
 	protected boolean hasAvailabilityChanged = false;
+	protected boolean forceTypeUpdate = false;
 	
 	public SlotMonitor(int index, ISlotMonitorProvider parent) {
 		this.hasAvailabilityChanged = true;
+		this.forceTypeUpdate = true;
 		this.index = index;
 		this.parent = parent;
 	}
@@ -101,7 +103,7 @@ public class SlotMonitor {
 			else if(nbt != null && stack.hasTagCompound() && !nbt.equals(stack.stackTagCompound)) hasTypeChanged = true;
 		}
 		
-		if(hasTypeChanged) {
+		if(hasTypeChanged || forceTypeUpdate) {
 			
 			// remove from all existing monitors
 			Iterator<CacheSlot> iterator = viewedBy.iterator();
@@ -134,6 +136,7 @@ public class SlotMonitor {
 				}
 			}
 			
+			forceTypeUpdate = false;
 			return;
 		}
 		

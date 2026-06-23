@@ -51,7 +51,7 @@ public class GUIScreenRBMKGraph extends GuiScreen {
 			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 73 + oY + i * 54, 72 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 30, graph.graphs[i].label);
 			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
-			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, graph.graphs[i].rtty);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], GUIScreenRadioTorch.MAX_CHAN_LENGTH, graph.graphs[i].rtty);
 			min[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(min[i], 15, graph.graphs[i].minBound ? graph.graphs[i].min + "" : "");
 			max[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 73 + oY + i * 54, 72 - oX * 2, 14);
