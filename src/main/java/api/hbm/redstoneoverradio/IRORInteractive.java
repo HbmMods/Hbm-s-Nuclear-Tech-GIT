@@ -34,7 +34,9 @@ public interface IRORInteractive extends IRORInfo {
 	
 	public static int parseInt(String val, int min, int max) {
 		int result = 0;
-		try { result = Integer.parseInt(val); } catch(Exception x) { throw new RORFunctionException(EX_FORMAT); };
+		try { result = Integer.parseInt(val); } catch(Exception x) {
+			try { result = (int) Math.round(Double.parseDouble(val)); } catch(Exception y) { throw new RORFunctionException(EX_FORMAT); }
+		}
 		if(result < min || result > max) throw new RORFunctionException(EX_FORMAT);
 		return result;
 	}
