@@ -20,6 +20,11 @@
 * Base steam production per consumed heat has been increased by 50% on the ZIRNOX
 * Both radioisotope cell variants have been finally removed after being deprecated for a while
 * Selfchargers now have a tooltip explaining the hazards of using them in a battery socket
+* The alternate recipe for the assembler in the assembler now uses integrated circuits instead of analog ones
+* Added an alternate chemical plant recipe that uses a smaller selection of items and ICs instead of ACs
+* Flashgold and flashlead are now made in the PUREX instead of the crafting table
+  * The flashgold recipe now yields two billets instead of one
+* Slightly changed the HSS ingot texture to not look identical to steel except slightly greenish
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

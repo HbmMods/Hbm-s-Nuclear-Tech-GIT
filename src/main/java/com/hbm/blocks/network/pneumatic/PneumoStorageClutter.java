@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,6 +43,11 @@ public class PneumoStorageClutter extends BlockContainer {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
 	}
 
 	@Override
