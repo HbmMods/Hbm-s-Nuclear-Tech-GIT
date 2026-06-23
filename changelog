@@ -25,6 +25,10 @@
 * Flashgold and flashlead are now made in the PUREX instead of the crafting table
   * The flashgold recipe now yields two billets instead of one
 * Slightly changed the HSS ingot texture to not look identical to steel except slightly greenish
+* The AUTOCAL's buffer is now limited to 256 characters instead of being infinite
+* Increased the blast furnace's fuel buffer by 50%, allowing coke blocks to be used
+* If an RoR controller tries to parse an integer, but the supplied string represents a decimal, instead of canceling the operation, the system will now interpret decimals and round them to be integers
+  * This means that the AUTOCAL can now send RoR commands using calculated values directly without the use of `round` or `evalr`
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

@@ -27,6 +27,8 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public boolean ignoreError = false;
 	public boolean autoReboot = false;
 	
+	public static final int MAX_BUFFER_LENGTH = 256;
+	
 	public String[] script = new String[0];
 	public IParse msesv1 = new ParseMSES1();
 	public ParseContext ctx;
@@ -68,6 +70,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 						this.ctx.current ++;
 						String line = this.script[index];
 						EnumStatementReturn ret = msesv1.eval(ctx, line);
+						if(ctx.buffer.length() > MAX_BUFFER_LENGTH) ctx.buffer = ctx.buffer.substring(0, MAX_BUFFER_LENGTH);
 						if(ret != EnumStatementReturn.SKIP) pushMsg(index + ": " + line);
 						this.history[0] = "Buffer: " + ctx.buffer;
 						if(ret == EnumStatementReturn.END_TICK) break;
