@@ -579,7 +579,7 @@ public class ModBlocks {
 	public static Block seal_hatch;
 
 	public static Block cargo_elevator;
-	
+
 	public static Block vault_door;
 	public static Block blast_door;
 	public static Block sliding_blast_door;
@@ -596,6 +596,7 @@ public class ModBlocks {
 	public static Block round_airlock_door;
 	public static Block sliding_seal_door;
 	public static Block water_door;
+	public static Block cargo_door;
 
 	public static Block door_metal;
 	public static Block door_office;
@@ -2018,7 +2019,7 @@ public class ModBlocks {
 		seal_hatch = new BlockHatch(Material.iron).setBlockName("seal_hatch").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":seal_hatch_3");
 
 		cargo_elevator = new BlockCargoElevator().setBlockName("cargo_elevator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		
+
 		vault_door = new BlockDoorGeneric(Material.iron, DoorDecl.VAULT_DOOR).setBlockName("vault_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		blast_door = new BlastDoor(Material.iron).setBlockName("blast_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":blast_door");
 
@@ -2034,6 +2035,7 @@ public class ModBlocks {
 		round_airlock_door = new BlockDoorGeneric(Material.iron, DoorDecl.ROUND_AIRLOCK_DOOR).setBlockName("round_airlock_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		sliding_seal_door = new BlockDoorGeneric(Material.iron, DoorDecl.SLIDING_SEAL_DOOR).setBlockName("sliding_seal_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		water_door = new BlockDoorGeneric(Material.iron, DoorDecl.WATER_DOOR).setBlockName("water_door").setHardness(5.0F).setResistance(50.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		cargo_door = new BlockDoorGeneric(Material.iron, DoorDecl.CARGO_DOOR).setBlockName("cargo_door").setHardness(5.0F).setResistance(50.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
@@ -2941,7 +2943,7 @@ public class ModBlocks {
 
 		//Hooh
 		GameRegistry.registerBlock(cargo_elevator, cargo_elevator.getUnlocalizedName());
-		
+
 		//Vault Door
 		GameRegistry.registerBlock(vault_door, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(blast_door, blast_door.getUnlocalizedName());
@@ -2963,6 +2965,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(round_airlock_door, round_airlock_door.getUnlocalizedName());
 		GameRegistry.registerBlock(sliding_seal_door, sliding_seal_door.getUnlocalizedName());
 		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
+		GameRegistry.registerBlock(cargo_door, cargo_door.getUnlocalizedName());
 
 		//Crates
 		register(crate_iron, ItemBlockStorageCrate.class);
