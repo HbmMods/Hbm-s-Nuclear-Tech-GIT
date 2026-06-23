@@ -90,6 +90,7 @@ public class StackCache {
 			CacheSlot nullCache = this.cacheSlots.get(getNullIdentity());
 			if(nullCache != null) { // quite ironic, isn't it?
 				for(SlotMonitor monitor : nullCache.monitors) {
+					if(!monitor.parent.allowTypeSetting()) continue;
 					if(monitor.parent.getSlotAt(monitor.index) != null) continue;
 					amount = monitor.parent.setupType(monitor.index, stack, amount);
 					if(amount <= 0) break;
@@ -195,9 +196,11 @@ public class StackCache {
 	}
 	
 	public static long getStackIdentity(Item item, int meta, NBTTagCompound nbt) {
+		if(item == null) return getNullIdentity();
 		long identity = Item.getIdFromItem(item) * 27644437;
-		identity += meta * 27644437;
-		if(nbt != null) identity += nbt.toString().hashCode();
+		identity += meta;
+		identity *= 27644437;
+		if(nbt != null) identity += nbt.hashCode();
 		return identity;
 	}
 }

@@ -134,7 +134,7 @@ public class PneumaticNetwork extends NodeNet {
 		TileEntity tile1 = source instanceof TileEntity ? (TileEntity) source : null;
 
 		int attempts = 0;
-		int maxAttempts = receiverList.size();
+		int maxAttempts = Math.min(receiverList.size(), 5);
 
 		// try all receivers for both modes, in an attempts based system.
 		// instead of bailing out of trying after the first failure (which means you have to wait 0.25 seconds), we just try the next one.

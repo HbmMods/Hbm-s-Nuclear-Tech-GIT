@@ -3,11 +3,14 @@ package com.hbm.inventory.gui;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.net.URI;
 import java.util.Arrays;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
@@ -24,10 +27,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenRadioAUTOCAL extends GuiScreen {
-	
+
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rtty_autocal.png");
 	protected TileEntityRadioAUTOCAL autocal;
-	
+
 	protected int xSize = 170;
 	protected int ySize = 138;
 	protected int guiLeft;
@@ -35,6 +38,21 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 	public GUIScreenRadioAUTOCAL(TileEntityRadioAUTOCAL autocal) {
 		this.autocal = autocal;
+	}
+
+	private void browse(URI uri) throws IOException {
+		// workaround for Java not supporting all platforms, mostly for Linux
+		if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+			Desktop.getDesktop().browse(uri);
+		} else {
+			if (Sys.getVersion().charAt(0) == '3') {
+				// probably a LWJGL3ify user, open the folder instead since that somehow seems to work
+				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
+				if (uploadFolder.exists()) Sys.openURL(uploadFolder.toString());
+			} else {
+				Sys.openURL(uri.toString());
+			}
+		}
 	}
 
 	@Override
@@ -56,13 +74,13 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
-		
+
 		NBTTagCompound data = null;
 
 		if(checkClick(x, y, 8, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("on", true); }
 		if(checkClick(x, y, 28, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("ignore", true); }
 		if(checkClick(x, y, 48, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("auto", true); }
-		
+
 		// open folder and generate new script file
 		if(checkClick(x, y, 104, 36, 18, 18)) {
 			try {
@@ -71,10 +89,10 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 				if(!uploadFolder.exists()) uploadFolder.mkdir();
 				if(!script.exists()) script.createNewFile();
 				script.setExecutable(false);
-				Desktop.getDesktop().browse(script.toURI());
+				browse(script.toURI());
 			} catch(Throwable ex) { MainRegistry.logger.error("Couldn't open link", ex); }
 		}
-		
+
 		// open folder and generate new doc file
 		if(checkClick(x, y, 144, 36, 18, 18)) {
 			try {
@@ -89,10 +107,10 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 						printer.close();
 					} catch(Throwable e) { }
 				}
-				Desktop.getDesktop().browse(doc.toURI());
+				browse(doc.toURI());
 			} catch(Throwable ex) { MainRegistry.logger.error("Couldn't open link", ex); }
 		}
-		
+
 		if(checkClick(x, y, 84, 36, 18, 18)) {
 			try {
 				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
@@ -118,10 +136,10 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 				byte[] bytes = Files.readAllBytes(Paths.get(script.toURI()));
 				data = new NBTTagCompound();
 				data.setString("payload", new String(bytes, StandardCharsets.UTF_8));
-				
+
 			} catch(Throwable ex) { }
 		}
-		
+
 		// this thing can both upload and download files so let's be careful about this
 		// the upload is simple, it's just text that is handled by the AUTOCAL, so doing anything malicious isn't more likely than with any other package
 		// download is iffy, because we take text from the server, fully user-definable, and save it to disk. it's stored as a txt so accudentally running it
@@ -131,19 +149,19 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 		//           but we can add some extra crap that would either halt common scripting langs entirely or at least disrupt them into not functioning
 		// option 3: enforce validation so only MS-ES1 script can be received by the client. this means that info such as comments or incorrectly written commands
 		//           are lost, however this is the safest way because it becomes impossible to send malicious code, but it also interferes with regular user operation more
-		
+
 		if(data != null) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, autocal.xCoord, autocal.yCoord, autocal.zCoord));
 		}
 	}
-	
+
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
 	}
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
-		
+
 		for(int i = 0; i < autocal.history.length; i++) {
 			String line = autocal.history[i];
 			if(line == null || line.isEmpty()) continue;
@@ -176,15 +194,15 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 	}
-	
+
 	@Override public boolean doesGuiPauseGame() { return false; }
-	
-	
+
+
 	public static final String[] DOCS = new String[] {
 			"# AUTOCAL - The Automatic Calculator",
 			"",
 			"## About this document",
-			"This documentation is designed to be understandable even by people with no programming background. This documentation extends to the AUTOCAL unit as well as the MS-ES1 script language it is programmed with.",	
+			"This documentation is designed to be understandable even by people with no programming background. This documentation extends to the AUTOCAL unit as well as the MS-ES1 script language it is programmed with.",
 			"",
 			"Read this document carefully as all the described concepts are vital for using the AUTOCAL unit.",
 			"",

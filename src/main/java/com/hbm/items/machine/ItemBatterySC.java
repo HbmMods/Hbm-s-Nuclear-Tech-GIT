@@ -6,6 +6,7 @@ import com.hbm.items.ItemEnumMulti;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,5 +59,9 @@ public class ItemBatterySC extends ItemEnumMulti implements IBatteryItem {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		EnumBatterySC pack = EnumUtil.grabEnumSafely(EnumBatterySC.class, stack.getItemDamage());
 		if(pack.power > 0) list.add(EnumChatFormatting.YELLOW + "Discharge rate: " + BobMathUtil.getShortNumber(pack.power) + "HE/t");
+		
+		for(String line : I18nUtil.resolveKeyArray(this.getUnlocalizedName() + ".desc")) {
+			list.add(EnumChatFormatting.RED + line);
+		}
 	}
 }

@@ -51,7 +51,7 @@ public class GUIScreenRBMKDisplay extends GuiScreen {
 			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 73 + oY + i * 54, 85 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 30, display.displays[i].label);
 			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 54, 85 - oX * 2, 14);
-			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, display.displays[i].rtty);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], GUIScreenRadioTorch.MAX_CHAN_LENGTH, display.displays[i].rtty);
 
 			active[i] = display.displays[i].active;
 			polling[i] = display.displays[i].polling;
