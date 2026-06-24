@@ -22,7 +22,7 @@ public class RadioAUTOCAL extends BlockDummyable {
 		return null;
 	}
 
-	@Override public int[] getDimensions() { return new int[] {1, 0, 0, 0, 0 ,0}; }
+	@Override public int[] getDimensions() { return new int[] {1, 0, 0, 0, 0, 0}; }
 	@Override public int getOffset() { return 0; }
 
 	@Override

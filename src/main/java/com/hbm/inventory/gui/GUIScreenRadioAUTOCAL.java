@@ -64,6 +64,12 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
+		
+		if(this.autocal == null || this.autocal.isInvalid()) {
+			Minecraft.getMinecraft().thePlayer.closeScreen();
+			return;
+		}
+		
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
 		GL11.glDisable(GL11.GL_LIGHTING);

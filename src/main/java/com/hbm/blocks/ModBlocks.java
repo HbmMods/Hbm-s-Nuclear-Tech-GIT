@@ -12,12 +12,7 @@ import com.hbm.blocks.machine.fusion.*;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
-import com.hbm.blocks.network.pneumatic.PneumoStorageAccess;
-import com.hbm.blocks.network.pneumatic.PneumoStorageClutter;
-import com.hbm.blocks.network.pneumatic.PneumoStorageImporter;
-import com.hbm.blocks.network.pneumatic.PneumoStorageMono;
-import com.hbm.blocks.network.pneumatic.PneumoTube;
-import com.hbm.blocks.network.pneumatic.PneumoTubePaintableBlock;
+import com.hbm.blocks.network.pneumatic.*;
 import com.hbm.blocks.rail.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
@@ -810,6 +805,7 @@ public class ModBlocks {
 	public static Block pneumatic_storage_clutter;
 	public static Block pneumatic_storage_mono;
 	public static Block pneumatic_storage_importer;
+	public static Block pneumatic_storage_exporter;
 
 	public static Block fan;
 	public static Block piston_inserter;
@@ -1915,6 +1911,7 @@ public class ModBlocks {
 		pneumatic_storage_clutter = new PneumoStorageClutter().setBlockName("pneumatic_storage_clutter").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_clutter");
 		pneumatic_storage_mono = new PneumoStorageMono().setBlockName("pneumatic_storage_mono").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_mono");
 		pneumatic_storage_importer = new PneumoStorageImporter().setBlockName("pneumatic_storage_importer").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_importer");
+		pneumatic_storage_exporter = new PneumoStorageExporter().setBlockName("pneumatic_storage_exporter").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pneumatic_storage_exporter");
 
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -3183,6 +3180,7 @@ public class ModBlocks {
 		register(pneumatic_storage_clutter);
 		register(pneumatic_storage_mono);
 		register(pneumatic_storage_importer);
+		register(pneumatic_storage_exporter);
 		register(fan);
 		register(piston_inserter);
 

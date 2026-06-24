@@ -5,7 +5,7 @@ import com.hbm.inventory.gui.GUIScreenRadioAUTOCAL;
 import com.hbm.module.IParse;
 import com.hbm.module.IParse.EnumStatementReturn;
 import com.hbm.module.IParse.ParseContext;
-import com.hbm.module.ParseMSES1;
+import com.hbm.module.ParseMSES1Ext1;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.BufferUtil;
@@ -27,10 +27,8 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public boolean ignoreError = false;
 	public boolean autoReboot = false;
 	
-	public static final int MAX_BUFFER_LENGTH = 256;
-	
 	public String[] script = new String[0];
-	public IParse msesv1 = new ParseMSES1();
+	public IParse msesv1ext = new ParseMSES1Ext1();
 	public ParseContext ctx;
 	
 	public String[] history = new String[] {"", "", "", "", "", ""};
@@ -69,16 +67,16 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 						int index = this.ctx.current;
 						this.ctx.current ++;
 						String line = this.script[index];
-						EnumStatementReturn ret = msesv1.eval(ctx, line);
-						if(ctx.buffer.length() > MAX_BUFFER_LENGTH) ctx.buffer = ctx.buffer.substring(0, MAX_BUFFER_LENGTH);
+						EnumStatementReturn ret = msesv1ext.eval(ctx, line);
 						if(ret != EnumStatementReturn.SKIP) pushMsg(index + ": " + line);
-						this.history[0] = "Buffer: " + ctx.buffer;
+						this.history[0] = "Buffer: " + ctx.readBuffer();
 						if(ret == EnumStatementReturn.END_TICK) break;
 						if(ret == EnumStatementReturn.SHUTDOWN) this.stop("Program requested shutdown");
 						if(!this.ignoreError) {
 							if(ret == EnumStatementReturn.UNRECOGNIZED_COMMAND) this.stop("Unrecognized command");
 							if(ret == EnumStatementReturn.PARAMETER_ERROR) this.stop("Parameter error");
 							if(ret == EnumStatementReturn.UNDEFINED) this.stop("Undefined behavior");
+							if(ret == EnumStatementReturn.STACK_EXCEEDED) this.stop("Stack exceeded capacity");
 						}
 						if(ret == EnumStatementReturn.SKIP) i--;
 					} catch(Exception ex) {
@@ -132,19 +130,14 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		this.ignoreError = nbt.getBoolean("ignoreError");
 		this.autoReboot = nbt.getBoolean("autoReboot");
 		
-		this.ctx = new ParseContext(null);
-		this.ctx.current = nbt.getInteger("current");
-		this.ctx.clockSpeed = nbt.getInteger("clockSpeed");
-		this.ctx.buffer = nbt.getString("buffer");
-		
 		NBTTagList lineList = nbt.getTagList("script", 8);
 		this.script = new String[lineList.tagList.size()];
 		for(int i = 0; i < script.length; i++) {
 			this.script[i] = lineList.getStringTagAt(i);
-			this.msesv1.generateJumpPoints(ctx, script[i], i);
 		}
-		
-		this.ctx.variables = nbt.getCompoundTag("variables");
+
+		this.ctx = new ParseContext(null);
+		this.ctx.readFromNBT(nbt, script, msesv1ext);
 	}
 
 	@Override
@@ -154,17 +147,14 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		nbt.setBoolean("isOn", isOn);
 		nbt.setBoolean("ignoreError", ignoreError);
 		nbt.setBoolean("autoReboot", autoReboot);
-
-		nbt.setInteger("current", ctx.current);
-		nbt.setInteger("clockSpeed", ctx.clockSpeed);
-		nbt.setString("buffer", ctx.buffer);
 		
 		NBTTagList lineList = new NBTTagList();
 		for(String line : this.script) {
 			lineList.appendTag(new NBTTagString(line));
 		}
 		nbt.setTag("script", lineList);
-		nbt.setTag("variables", this.ctx.variables);
+		
+		this.ctx.writeToNBT(nbt);
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
@@ -189,7 +179,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 			this.script = data.getString("payload").split("\n");
 			for(int i = 0; i < script.length; i++) {
 				script[i] = script[i].trim();
-				this.msesv1.generateJumpPoints(ctx, script[i], i);
+				this.msesv1ext.generateJumpPoints(ctx, script[i], i);
 			}
 			if(this.isOn) stop("Script has changed");
 		}

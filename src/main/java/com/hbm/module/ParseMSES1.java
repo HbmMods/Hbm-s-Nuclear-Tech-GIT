@@ -48,7 +48,7 @@ public class ParseMSES1 implements IParse {
 		// sets the script index to the jump point, if the buffer is the string 'true'
 		if(lower.startsWith("jmpif ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
-			if(!ctx.buffer.equals("true")) return EnumStatementReturn.OK;
+			if(!ctx.readBuffer().equals("true")) return EnumStatementReturn.OK;
 			String jmpKey = substitute(ctx, line.substring(6), false);
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
@@ -60,7 +60,7 @@ public class ParseMSES1 implements IParse {
 		// sets the script index to the jump point, if the buffer is the NOT 'true'
 		if(lower.startsWith("jmpnot ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
-			if(ctx.buffer.equals("true")) return EnumStatementReturn.OK;
+			if(ctx.readBuffer().equals("true")) return EnumStatementReturn.OK;
 			String jmpKey = substitute(ctx, line.substring(7), false);
 			if(ctx.jmp.containsKey(jmpKey)) {
 				ctx.current = ctx.jmp.get(jmpKey);
@@ -82,21 +82,21 @@ public class ParseMSES1 implements IParse {
 		// loads the requested variable into the buffer
 		if(lower.startsWith("load ")) {
 			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
-			ctx.buffer = ctx.variables.getString(line.substring(5));
+			ctx.writeBuffer(ctx.variables.getString(line.substring(5)));
 			return EnumStatementReturn.OK;
 		}
 		
 		// saves the buffer with the specified name
 		if(lower.startsWith("save ")) {
-			if(line.length() <= 5 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			ctx.variables.setString(line.substring(5), ctx.buffer);
+			if(line.length() <= 5 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			ctx.variables.setString(line.substring(5), ctx.readBuffer());
 			return EnumStatementReturn.OK;
 		}
 		
 		// stores the specified value in the buffer
 		if(lower.startsWith("buffer ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
-			ctx.buffer = line.substring(7);
+			ctx.writeBuffer(line.substring(7));
 			return EnumStatementReturn.OK;
 		}
 		
@@ -106,7 +106,7 @@ public class ParseMSES1 implements IParse {
 			String statement = substitute(ctx, line.substring(5), true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
-				ctx.buffer = "" + result;
+				ctx.writeBuffer("" + result);
 			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
@@ -117,115 +117,115 @@ public class ParseMSES1 implements IParse {
 			String statement = substitute(ctx, line.substring(6), true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
-				ctx.buffer = "" + (int) Math.round(result);
+				ctx.writeBuffer("" + (int) Math.round(result));
 			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// runs the calculation from the buffer, allows string substitution, saves result to buffer
 		if(lower.equals("evalr")) {
-			if(ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			String statement = substitute(ctx, ctx.buffer, true);
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			String statement = substitute(ctx, ctx.readBuffer(), true);
 			try {
 				double result = Calculator.evaluateExpression(statement);
-				ctx.buffer = "" + (int) Math.round(result);
+				ctx.writeBuffer("" + (int) Math.round(result));
 			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// rounds the buffer down to the nearest integer
 		if(lower.equals("rounddown") || lower.equals("floor")) {
-			if(ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double d = Double.parseDouble(ctx.buffer);
-				ctx.buffer = "" + (int) Math.floor(d);
+				double d = Double.parseDouble(ctx.readBuffer());
+				ctx.writeBuffer("" + (int) Math.floor(d));
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 
 		// rounds the buffer up to the nearest integer
 		if(lower.equals("roundup") || lower.equals("ceil")) {
-			if(ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double d = Double.parseDouble(ctx.buffer);
-				ctx.buffer = "" + (int) Math.ceil(d);
+				double d = Double.parseDouble(ctx.readBuffer());
+				ctx.writeBuffer("" + (int) Math.ceil(d));
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 
 		// rounds the buffer to the nearest integer (.5 cutoff rule)
 		if(lower.equals("round") || lower.equals("nearest")) {
-			if(ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double d = Double.parseDouble(ctx.buffer);
-				ctx.buffer = "" + (int) Math.round(d);
+				double d = Double.parseDouble(ctx.readBuffer());
+				ctx.writeBuffer("" + (int) Math.round(d));
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// concatenate, same as buffer but evaluates $var$ substitutions
 		if(lower.startsWith("concat ")) {
-			if(line.length() <= 7 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 7 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			String concat = substitute(ctx, line.substring(7), false);
-			ctx.buffer = concat;
+			ctx.writeBuffer(concat);
 			return EnumStatementReturn.OK;
 		}
 		
 		// compares the buffer with a value, allows substitutions
 		if(lower.startsWith("eq ")) {
-			if(line.length() <= 3 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			ctx.buffer = ctx.buffer.equals(substitute(ctx, line.substring(3), false)) ? "true" : "false";
+			if(line.length() <= 3 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			ctx.writeBuffer(ctx.readBuffer().equals(substitute(ctx, line.substring(3), false)) ? "true" : "false");
 			return EnumStatementReturn.OK;
 		}
 		
 		// greater than buffer
 		if(lower.startsWith("gtb ")) {
-			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double buffer = Double.parseDouble(ctx.buffer);
+				double buffer = Double.parseDouble(ctx.readBuffer());
 				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
-				ctx.buffer = val > buffer ? "true" : "false";
+				ctx.writeBuffer(val > buffer ? "true" : "false");
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// lower than buffer
 		if(lower.startsWith("ltb ")) {
-			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double buffer = Double.parseDouble(ctx.buffer);
+				double buffer = Double.parseDouble(ctx.readBuffer());
 				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
-				ctx.buffer = val < buffer ? "true" : "false";
+				ctx.writeBuffer(val < buffer ? "true" : "false");
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// greater than or equal buffer
 		if(lower.startsWith("geb ")) {
-			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double buffer = Double.parseDouble(ctx.buffer);
+				double buffer = Double.parseDouble(ctx.readBuffer());
 				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
-				ctx.buffer = val >= buffer ? "true" : "false";
+				ctx.writeBuffer(val >= buffer ? "true" : "false");
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// lower than or equal buffer
 		if(lower.startsWith("leb ")) {
-			if(line.length() <= 4 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			if(line.length() <= 4 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				double buffer = Double.parseDouble(ctx.buffer);
+				double buffer = Double.parseDouble(ctx.readBuffer());
 				double val =  Double.parseDouble(substitute(ctx, line.substring(4), false));
-				ctx.buffer = val <= buffer ? "true" : "false";
+				ctx.writeBuffer(val <= buffer ? "true" : "false");
 			} catch(Exception ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 			return EnumStatementReturn.OK;
 		}
 		
 		// sends an RoR signal using the buffer's contents as the message over the supplied channel
 		if(lower.startsWith("send ")) {
-			if(line.length() <= 5 || ctx.buffer.isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
-			RTTYSystem.broadcast(ctx.world, substitute(ctx, line.substring(5), false), ctx.buffer);
+			if(line.length() <= 5 || ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			RTTYSystem.broadcast(ctx.world, substitute(ctx, line.substring(5), false), ctx.readBuffer());
 			return EnumStatementReturn.OK;
 		}
 		
@@ -233,7 +233,7 @@ public class ParseMSES1 implements IParse {
 		if(lower.startsWith("listen ")) {
 			if(line.length() <= 7) return EnumStatementReturn.PARAMETER_ERROR;
 			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(7), false));
-			if(chan != null) ctx.buffer = chan.signal + "";
+			if(chan != null) ctx.writeBuffer(chan.signal + "");
 			return EnumStatementReturn.OK;
 		}
 		
@@ -254,7 +254,7 @@ public class ParseMSES1 implements IParse {
 					readingVar = true;
 				} else {
 					if("buffer".equals(var)) {
-						joined.append(ctx.buffer);
+						joined.append(ctx.readBuffer());
 					} else {
 						String variable = ctx.variables.getString(var.toString());
 						if(forceNumber && variable.isEmpty()) variable = "0";
