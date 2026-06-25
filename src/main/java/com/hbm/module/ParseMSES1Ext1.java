@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  * Additions compared to v1 Standard:
  * * Support for splitter chars, splitting and split count
  * * Support for the stack, a secondary buffer that can push, pop and peek
+ * * Support for getting string length and substring using first and last
  * 
  * @author hbm
  */
@@ -75,6 +76,36 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			if(val == null) return EnumStatementReturn.UNDEFINED;
 			ctx.writeBuffer(val);
 			return EnumStatementReturn.OK;
+		}
+		
+		// figures out buffer string's length
+		if(lower.equals("length")) {
+			ctx.writeBuffer("" + ctx.readBuffer().length());
+			return EnumStatementReturn.OK;
+		}
+		
+		// grabs the first x characters from the buffer and writes them back to the buffer
+		if(lower.startsWith("first ")) {
+			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
+			try {
+				int length = Integer.parseInt(line.substring(6));
+				int max = ctx.readBuffer().length();
+				if(length > max) length = max;
+				ctx.writeBuffer(ctx.readBuffer().substring(0, length));
+				return EnumStatementReturn.OK;
+			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
+		}
+
+		// grabs the last x characters from the buffer and writes them back to the buffer
+		if(lower.startsWith("last ")) {
+			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
+			try {
+				int length = Integer.parseInt(line.substring(5));
+				int max = ctx.readBuffer().length();
+				if(length > max) length = max;
+				ctx.writeBuffer(ctx.readBuffer().substring(max - length, max));
+				return EnumStatementReturn.OK;
+			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
 		}
 		
 		return super.eval(ctx, line);
