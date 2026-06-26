@@ -3,6 +3,9 @@ package com.hbm.module;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
+
 /**
  * MSES1-FEIS: Machine Script, Equestrian Standard - First Extended Instruction Set (v1.1)
  * 
@@ -10,6 +13,7 @@ import java.util.regex.Pattern;
  * * Support for splitter chars, splitting and split count
  * * Support for the stack, a secondary buffer that can push, pop and peek
  * * Support for getting string length and substring using first and last
+ * * Support for listening only to recent RoR signals using poll
  * 
  * @author hbm
  */
@@ -106,6 +110,14 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 				ctx.writeBuffer(ctx.readBuffer().substring(max - length, max));
 				return EnumStatementReturn.OK;
 			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
+		}
+		
+		// listens to an RoR signal using the supplied channel name and saves it to the buffer
+		if(lower.startsWith("poll ")) {
+			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
+			RTTYChannel chan = RTTYSystem.listen(ctx.world, substitute(ctx, line.substring(5), false));
+			if(chan != null && chan.timeStamp >= ctx.world.getTotalWorldTime() - 1) ctx.writeBuffer(chan.signal + "");
+			return EnumStatementReturn.OK;
 		}
 		
 		return super.eval(ctx, line);

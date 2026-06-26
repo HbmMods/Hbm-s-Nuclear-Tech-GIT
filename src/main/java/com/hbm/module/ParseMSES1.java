@@ -111,6 +111,17 @@ public class ParseMSES1 implements IParse {
 			return EnumStatementReturn.OK;
 		}
 		
+		// runs the calculation from the buffer, allows string substitution, saves result to buffer
+		if(lower.equals("eval")) {
+			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
+			String statement = substitute(ctx, ctx.readBuffer(), true);
+			try {
+				double result = Calculator.evaluateExpression(statement);
+				ctx.writeBuffer("" + result);
+			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
+			return EnumStatementReturn.OK;
+		}
+		
 		// runs the calculation, allows string substitution, rounds, saves result to buffer,
 		if(lower.startsWith("evalr ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
@@ -122,7 +133,7 @@ public class ParseMSES1 implements IParse {
 			return EnumStatementReturn.OK;
 		}
 		
-		// runs the calculation from the buffer, allows string substitution, saves result to buffer
+		// runs the calculation from the buffer, allows string substitution, saves rounded result to buffer
 		if(lower.equals("evalr")) {
 			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			String statement = substitute(ctx, ctx.readBuffer(), true);
