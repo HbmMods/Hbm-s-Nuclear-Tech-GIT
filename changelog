@@ -39,3 +39,4 @@
 * Fixed some recipes not using ore dict when they should
 * Fixed `anyBismoid` group not being a proper group, causing other mods' bismuth and arsenic to not be included
 * Fixed RoR gauge not using SI suffixes on values below 0
+* Fixed AUTOCAL units not closing their GUI when the unit is destroyed
