@@ -9,7 +9,7 @@ public interface IRORInteractive extends IRORInfo {
 	public static String EX_NAME = "Exception: Multiple Name Separators";
 	public static String EX_FORMAT = "Exception: Parameter in Invalid Format";
 
-	/** Runs a function on the ROR component, usually causing the component to change or do something. Returns are optional. */
+	/** Runs a function on the ROR component, usually causing the component to change or do something. Returns are unused for now. */
 	public String runRORFunction(String name, String[] params);
 	
 	/** Extracts the command name from a full command string */

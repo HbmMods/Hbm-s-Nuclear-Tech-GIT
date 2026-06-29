@@ -29,7 +29,7 @@ public class SlotPattern extends Slot {
 	
 	@Override
 	public int getSlotStackLimit() {
-		return 1;
+		return allowStackSize ? 64 : 1;
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class SlotPattern extends Slot {
 		if (stack != null) {
 			stack = stack.copy();
 			
-			if (!allowStackSize)
+			if(!allowStackSize)
 				stack.stackSize = 1;
 		}
 		super.putStack(stack);
