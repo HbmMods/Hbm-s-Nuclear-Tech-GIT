@@ -16,7 +16,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePlasmaForge;
 import com.hbm.inventory.recipes.PlasmaForgeRecipe;
-import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -156,7 +155,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			if(receiverNode != null && receiverNode.hasValidNet()) receiverNode.net.addReceiver(this);
 			if(providerNode != null && providerNode.hasValidNet()) providerNode.net.addProvider(this); // technically unused, but good to have when we do something else with the plasma nets
 			
-			PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(plasmaModule.recipe);
+			PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) plasmaModule.getRecipe();
 			if(recipe != null) this.maxPower = recipe.power * 100;
 			
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
@@ -364,7 +363,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index == 0) {
-				this.plasmaModule.recipe = selection;
+				this.plasmaModule.setRecipe(selection, false);
 				this.markChanged();
 			}
 		}

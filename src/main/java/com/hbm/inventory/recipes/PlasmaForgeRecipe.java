@@ -23,8 +23,8 @@ public class PlasmaForgeRecipe extends GenericRecipe {
 
 	public List<String> print() {
 		List<String> list = new ArrayList();
-		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
+		header(list);
 		autoSwitch(list);
 		duration(list);
 		power(list);

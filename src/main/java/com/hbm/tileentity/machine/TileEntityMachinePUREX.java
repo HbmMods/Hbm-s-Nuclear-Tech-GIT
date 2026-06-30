@@ -10,7 +10,6 @@ import com.hbm.inventory.container.ContainerMachinePUREX;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePUREX;
-import com.hbm.inventory.recipes.PUREXRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -80,7 +79,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		
 		if(!worldObj.isRemote) {
 			
-			GenericRecipe recipe = PUREXRecipes.INSTANCE.recipeNameMap.get(purexModule.recipe);
+			GenericRecipe recipe = purexModule.getRecipe();
 			if(recipe != null) {
 				this.maxPower = recipe.power * 100;
 			}
@@ -235,7 +234,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index == 0) {
-				this.purexModule.recipe = selection;
+				this.purexModule.setRecipe(selection, false);
 				this.markChanged();
 			}
 		}

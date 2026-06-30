@@ -43,8 +43,8 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, chemplant.power, chemplant.maxPower);
 
 		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 125 < mouseY && guiTop + 125 + 18 >= mouseY) {
-			if(this.chemplant.chemplantModule.recipe != null && ChemicalPlantRecipes.INSTANCE.recipeNameMap.containsKey(this.chemplant.chemplantModule.recipe)) {
-				GenericRecipe recipe = (GenericRecipe) ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(this.chemplant.chemplantModule.recipe);
+			if(this.chemplant.chemplantModule.getRecipe() != null && ChemicalPlantRecipes.INSTANCE.recipeNameMap.containsKey(this.chemplant.chemplantModule.getRecipeName())) {
+				GenericRecipe recipe = this.chemplant.chemplantModule.getRecipe();
 				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
@@ -56,7 +56,7 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 
-		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, chemplant.chemplantModule.recipe, 0, ItemBlueprints.grabPool(chemplant.slots[1]), this);
+		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, chemplant.chemplantModule.getRecipeName(), 0, ItemBlueprints.grabPool(chemplant.slots[1]), this);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
 		}
 
-		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplant.chemplantModule.recipe);
+		GenericRecipe recipe = chemplant.chemplantModule.getRecipe();
 
 		/// LEFT LED
 		if(chemplant.didProcess) {

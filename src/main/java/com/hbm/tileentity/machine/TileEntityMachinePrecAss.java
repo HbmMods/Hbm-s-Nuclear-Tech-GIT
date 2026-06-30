@@ -10,7 +10,6 @@ import com.hbm.inventory.container.ContainerMachinePrecAss;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePrecAss;
-import com.hbm.inventory.recipes.PrecAssRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -93,7 +92,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 		
 		if(!worldObj.isRemote) {
 			
-			GenericRecipe recipe = PrecAssRecipes.INSTANCE.recipeNameMap.get(assemblerModule.recipe);
+			GenericRecipe recipe = assemblerModule.getRecipe();
 			if(recipe != null) {
 				this.maxPower = recipe.power * 100;
 			}
@@ -352,7 +351,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index == 0) {
-				this.assemblerModule.recipe = selection;
+				this.assemblerModule.setRecipe(selection, false);
 				this.markChanged();
 			}
 		}

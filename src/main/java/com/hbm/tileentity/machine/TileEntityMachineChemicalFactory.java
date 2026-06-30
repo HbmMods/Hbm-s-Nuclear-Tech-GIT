@@ -10,7 +10,6 @@ import com.hbm.inventory.container.ContainerMachineChemicalFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalFactory;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -158,7 +157,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
-				GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplantModule[i].recipe);
+				GenericRecipe recipe = chemplantModule[i].getRecipe();
 				if(recipe != null) {
 					nextMaxPower += recipe.power * 100;
 				}
@@ -400,7 +399,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index >= 0 && index < 4) {
-				this.chemplantModule[index].recipe = selection;
+				this.chemplantModule[index].setRecipe(selection, false);
 				this.markChanged();
 			}
 		}

@@ -120,6 +120,12 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			return EnumStatementReturn.OK;
 		}
 		
+		// writes the total world time to the buffer
+		if(lower.equals("worldtime")) {
+			ctx.writeBuffer("" + ctx.world.getTotalWorldTime());
+			return EnumStatementReturn.OK;
+		}
+		
 		return super.eval(ctx, line);
 	}
 }

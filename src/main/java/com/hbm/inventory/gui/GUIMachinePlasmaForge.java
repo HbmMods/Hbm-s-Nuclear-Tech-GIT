@@ -47,15 +47,15 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 62, forge.power, forge.maxPower);
 
 		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 80 < mouseY && guiTop + 80 + 18 >= mouseY) {
-			if(this.forge.plasmaModule.recipe != null && PlasmaForgeRecipes.INSTANCE.recipeNameMap.containsKey(this.forge.plasmaModule.recipe)) {
-				GenericRecipe recipe = (GenericRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(this.forge.plasmaModule.recipe);
+			if(this.forge.plasmaModule.getRecipeName() != null && PlasmaForgeRecipes.INSTANCE.recipeNameMap.containsKey(this.forge.plasmaModule.getRecipeName())) {
+				GenericRecipe recipe = this.forge.plasmaModule.getRecipe();
 				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
 			}
 		}
 
-		PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(forge.plasmaModule.recipe);
+		PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) forge.plasmaModule.getRecipe();
 		
 		if(recipe != null) {
 			drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(forge.plasmaEnergySync) + "TU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "TU");
@@ -102,7 +102,7 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 
-		if(this.checkClick(x, y, 7, 80, 18, 18)) GUIScreenRecipeSelector.openSelector(PlasmaForgeRecipes.INSTANCE, forge, forge.plasmaModule.recipe, 0, ItemBlueprints.grabPool(forge.slots[1]), this);
+		if(this.checkClick(x, y, 7, 80, 18, 18)) GUIScreenRecipeSelector.openSelector(PlasmaForgeRecipes.INSTANCE, forge, forge.plasmaModule.getRecipeName(), 0, ItemBlueprints.grabPool(forge.slots[1]), this);
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class GUIMachinePlasmaForge extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 62, guiTop + 81, 176, 62, j, 16);
 		}
 
-		PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(forge.plasmaModule.recipe);
+		PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) forge.plasmaModule.getRecipe();
 
 		/// LEFT LED
 		if(forge.didProcess) {

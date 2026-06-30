@@ -29,6 +29,18 @@
 * Increased the blast furnace's fuel buffer by 50%, allowing coke blocks to be used
 * If an RoR controller tries to parse an integer, but the supplied string represents a decimal, instead of canceling the operation, the system will now interpret decimals and round them to be integers
   * This means that the AUTOCAL can now send RoR commands using calculated values directly without the use of `round` or `evalr`
+* Assembly machines now support Redstone-over-Radio
+  * Active state (0 or 1), progress (0-100) and current recipe (internal name) can now be read
+  * The recipe can be set using a controller
+  * Do note that setting a recipe that needs a blueprint without that blueprint will not work
+  * RoR set recipes cause the assembler to go into low power mode, making it run at only 25% speed (visible through the blue progress bar)
+  * The speed penalty is removed as soon as a recipe is assigned manually again
+* The AUTOCAL's script interpreter now runs MS-ES v1.1 (First Extended Instruction Set)
+  * Allows the use of a global stack, similar to the buffer which can hold 256 values
+  * Allows splitting of strings and counting of string fragments
+  * Adds substring operations
+  * Polling for receiving only fresh RoR signals
+  * A command for writing the world time to the buffer, allowing for more precise timers
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

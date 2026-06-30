@@ -14,7 +14,7 @@ public class ContainerPneumoStorageExporter extends ContainerBase {
 		super(invPlayer, exporter);
 		
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new SlotPattern(exporter, i, 17 + (i % 3) * 18, 17 + (i / 3) * 18, true));
+			this.addSlotToContainer(new SlotPattern(exporter, i, 17 + (i % 3) * 18, 17 + (i / 3) * 18).allowStackSize());
 		}
 		
 		addSlots(exporter, 9, 80, 17, 3, 3);

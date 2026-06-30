@@ -12,7 +12,6 @@ import com.hbm.inventory.container.ContainerMachineAssemblyFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineAssemblyFactory;
-import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -158,7 +157,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
-				GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assemblerModule[i].recipe);
+				GenericRecipe recipe = assemblerModule[i].getRecipe();
 				if(recipe != null) {
 					nextMaxPower += recipe.power * 100;
 				}
@@ -374,7 +373,7 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index >= 0 && index < 4) {
-				this.assemblerModule[index].recipe = selection;
+				this.assemblerModule[index].setRecipe(selection, false);
 				this.markChanged();
 			}
 		}

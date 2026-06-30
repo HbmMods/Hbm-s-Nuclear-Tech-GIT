@@ -41,7 +41,7 @@ public class GUIFusionTorus extends GuiInfoContainer {
 		torus.coolantTanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 188, guiTop + 46, 16, 52);
 		torus.coolantTanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 206, guiTop + 46, 16, 52);
 		
-		FusionRecipe recipe = (FusionRecipe) FusionRecipes.INSTANCE.recipeNameMap.get(this.torus.fusionModule.recipe);
+		FusionRecipe recipe = (FusionRecipe) this.torus.fusionModule.getRecipe();
 		
 		if(recipe != null) {
 			drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 115, 18, 18, mouseX, mouseY, EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(torus.klystronEnergy) + "KyU / " + BobMathUtil.getShortNumber(recipe.ignitionTemp) + "KyU");
@@ -70,7 +70,7 @@ public class GUIFusionTorus extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 
-		if(this.checkClick(x, y, 43, 80, 18, 18)) GUIScreenRecipeSelector.openSelector(FusionRecipes.INSTANCE, torus, torus.fusionModule.recipe, 0, ItemBlueprints.grabPool(torus.slots[1]), this);
+		if(this.checkClick(x, y, 43, 80, 18, 18)) GUIScreenRecipeSelector.openSelector(FusionRecipes.INSTANCE, torus, torus.fusionModule.getRecipeName(), 0, ItemBlueprints.grabPool(torus.slots[1]), this);
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public class GUIFusionTorus extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 98, guiTop + 91, 0, 250, j, 6);
 		}
 
-		FusionRecipe recipe = FusionRecipes.INSTANCE.recipeNameMap.get(torus.fusionModule.recipe);
+		FusionRecipe recipe = (FusionRecipe) torus.fusionModule.getRecipe();
 
 		// power LED
 		if(recipe != null && torus.power >= recipe.power) drawTexturedModalRect(guiLeft + 160, guiTop + 115, 246, 14, 8, 8);

@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
@@ -62,7 +61,7 @@ public class RenderFusionPlasmaForge extends TileEntitySpecialRenderer implement
 		bindTexture(ResourceManager.fusion_plasma_forge_tex);
 		ResourceManager.fusion_plasma_forge.renderPart("Body");
 
-		GenericRecipe recipe = PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(forge.plasmaModule.recipe);
+		GenericRecipe recipe = forge.plasmaModule.getRecipe();
 		
 		renderPlasma(forge);
 		renderItem(forge, recipe, interp);

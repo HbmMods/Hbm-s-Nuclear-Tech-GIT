@@ -16,10 +16,10 @@ public class SlotPattern extends Slot {
 	public SlotPattern(IInventory inv, int index, int x, int y) {
 		super(inv, index, x, y);
 	}
-
-	public SlotPattern(IInventory inv, int index, int x, int y, boolean allowStackSize) {
-		super(inv, index, x, y);
-		this.allowStackSize = allowStackSize;
+	
+	public SlotPattern allowStackSize() {
+		this.allowStackSize = true;
+		return this;
 	}
 	
 	@Override
