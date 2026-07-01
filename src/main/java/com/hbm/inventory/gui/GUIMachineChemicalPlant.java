@@ -78,7 +78,7 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 
 		if(chemplant.chemplantModule.progress > 0) {
 			int j = (int) Math.ceil(70 * chemplant.chemplantModule.progress);
-			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
+			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61 + (chemplant.chemplantModule.restrictedMode ? 16 : 0), j, 16);
 		}
 
 		GenericRecipe recipe = chemplant.chemplantModule.getRecipe();

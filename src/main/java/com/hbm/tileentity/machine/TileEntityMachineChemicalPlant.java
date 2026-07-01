@@ -28,6 +28,8 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -39,7 +41,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider {
+public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IRORValueProvider, IRORInteractive {
 
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
@@ -324,5 +326,35 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		upgrades.put(UpgradeType.POWER, 3);
 		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress",
+				PREFIX_VALUE + "recipe",
+				PREFIX_VALUE + "active",
+				PREFIX_FUNCTION + "setrecipe" + NAME_SEPARATOR + "name",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if("progress".equals(name))	return "" + (int) Math.round(this.chemplantModule.progress * 100);
+		if("recipe".equals(name))	return this.chemplantModule.getRecipeName();
+		if("active".equals(name))	return "" + (this.didProcess ? 1 : 0);
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if("setrecipe".equals(name) && params.length == 1) {
+			this.chemplantModule.setRecipe(params[0], true);
+			this.markChanged();
+			return null;
+		}
+		
+		return null;
 	}
 }
