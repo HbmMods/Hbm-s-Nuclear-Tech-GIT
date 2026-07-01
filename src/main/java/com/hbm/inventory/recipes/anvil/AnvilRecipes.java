@@ -177,6 +177,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AStack[] {new ComparableStack(Blocks.stonebrick, 16), new ComparableStack(ModItems.ingot_firebrick, 16), new OreDictStack(IRON.ingot(), 8), new OreDictStack(CU.ingot(), 8)},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_annihilator))).setTier(2));
 		
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(IRON.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.platemetal, 4, 0))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.ingot(), 1), new AnvilOutput(new ItemStack(ModBlocks.deco_aluminium, 4))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(BE.ingot(), 1), new AnvilOutput(new ItemStack(ModBlocks.deco_beryllium, 4))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(PB.ingot(), 1), new AnvilOutput(new ItemStack(ModBlocks.deco_lead, 4))).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
@@ -657,6 +658,7 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.deco_lead, 4), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_lead, 1))}).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.deco_beryllium, 4), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_beryllium, 1))}).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.deco_asbestos, 4), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.ingot_asbestos, 1))}).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.platemetal, 4, 0), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.plate_iron, 1))}).setTier(1));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.heater_firebox),

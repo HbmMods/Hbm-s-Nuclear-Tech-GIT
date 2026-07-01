@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -43,6 +44,8 @@ public class BlockStalagmite extends BlockEnumMulti {
 		switch(meta) {
 		case 0: return ModItems.sulfur;
 		case 1: return ModItems.powder_asbestos;
+		case 2: return ModItems.powder_ice;
+		case 3: return Items.snowball;
 		}
 		
 		return null;

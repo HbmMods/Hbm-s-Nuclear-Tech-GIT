@@ -115,6 +115,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.dishSpawnWeight;
 		}});
 
+		NBTStructure.registerStructure(0, new SpawnCondition("water_pump") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.PLAINS) || BiomeDictionary.isBiomeOfType(biome, Type.SWAMP);
+			structure = new JigsawPiece("water_pump", StructureManager.water_pump, -10);
+			spawnWeight = StructureConfig.waterPumpSpawnWeight;
+		}});
+
 		NBTStructure.registerStructure(0, new SpawnCondition("forestchem") {{
 			canSpawn = biome -> biome.heightVariation <= 0.3F && !isInvalidBiome(biome);
 			structure = new JigsawPiece("forest_chem", StructureManager.forest_chem, -9);
@@ -187,6 +193,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SANDY);
 			structure = new JigsawPiece("desert_shack_3", StructureManager.desert_shack_3, -5);
 			spawnWeight = StructureConfig.desertShack3SpawnWeight;
+		}});
+
+		NBTStructure.registerStructure(0, new SpawnCondition("dead_dish_small") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SANDY);
+			structure = new JigsawPiece("dead_dish_small", StructureManager.dead_dish_small, -5);
+			spawnWeight = StructureConfig.deadDishSmallSpawnWeight;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition("ruinA") {{

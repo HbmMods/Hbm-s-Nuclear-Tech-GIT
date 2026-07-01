@@ -27,6 +27,7 @@
     "block.debris": {"category": "block", "sounds": ["block/debris1", "block/debris2", "block/debris3"]},
     "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": false}]},
     "block.pipePlaced": {"category": "block", "sounds": [{"name": "block/pipePlaced", "stream": false}]},
+    "block.flesh": {"category": "block", "sounds": ["block/flesh1", "block/flesh2", "block/flesh4", "block/flesh5"]},
     "block.missileAssembly": {"category": "block", "sounds": [{"name": "block/missileAssembly", "stream": false}]},
     "block.missileAssembly2": {"category": "block", "sounds": [{"name": "block/missileAssembly2", "stream": false}]},
 	"block.openDoor": {"category": "block", "sounds": ["block/door_open_1", "block/door_open_2"]},
@@ -324,6 +325,8 @@
     "step.iron_land": {"category": "player", "sounds": [{"name": "footsteps/iron_land", "stream": false}]},
     "step.iron": {"category": "player", "sounds": ["footsteps/iron1", "footsteps/iron2", "footsteps/iron3", "footsteps/iron4"]},
     "step.metalBlock": {"category": "block", "sounds": ["footsteps/metalStep1", "footsteps/metalStep2", "footsteps/metalStep3", "footsteps/metalStep4"]},
+    "step.platemetal": {"category": "block", "sounds": ["block/platemetal_step"]},
+    "block.platemetalPlace": {"category": "block", "sounds": ["block/platemetal_bar1", "block/platemetal_bar2", "block/platemetal_bar3", "block/platemetal_bar4", "block/platemetal_bar5", "block/platemetal_bar6"]},
     "step.powered": {"category": "player", "sounds": ["footsteps/powered1", "footsteps/powered2", "footsteps/powered3"]},
 
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
