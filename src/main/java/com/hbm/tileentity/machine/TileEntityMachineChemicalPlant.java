@@ -340,16 +340,16 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 
 	@Override
 	public String provideRORValue(String name) {
-		if("progress".equals(name))	return "" + (int) Math.round(this.chemplantModule.progress * 100);
-		if("recipe".equals(name))	return this.chemplantModule.getRecipeName();
-		if("active".equals(name))	return "" + (this.didProcess ? 1 : 0);
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.chemplantModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.chemplantModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
 		return null;
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
-		if("setrecipe".equals(name) && params.length == 1) {
+
+		if((PREFIX_FUNCTION + "setrecipe").equals(name) && params.length == 1) {
 			this.chemplantModule.setRecipe(params[0], true);
 			this.markChanged();
 			return null;

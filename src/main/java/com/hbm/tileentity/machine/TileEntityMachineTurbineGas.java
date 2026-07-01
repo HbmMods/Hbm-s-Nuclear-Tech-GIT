@@ -737,16 +737,16 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				PREFIX_VALUE + "turbinespeed",
 				PREFIX_VALUE + "output",
 				PREFIX_VALUE + "state",
-				PREFIX_VALUE + "autoMode",
+				PREFIX_VALUE + "automode",
 				PREFIX_VALUE + "temp",
 				PREFIX_VALUE + "power",
 				PREFIX_VALUE + "fuel",
 				PREFIX_VALUE + "lubricant",
 				PREFIX_VALUE + "water",
 				PREFIX_VALUE + "steam",
-				PREFIX_FUNCTION + "setAuto" + NAME_SEPARATOR + "auto",
-				PREFIX_FUNCTION + "setThrottle" + NAME_SEPARATOR + "percent",
-				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "state"
+				PREFIX_FUNCTION + "setauto" + NAME_SEPARATOR + "auto",
+				PREFIX_FUNCTION + "setthrottle" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "state"
 		};
 	}
 	
@@ -756,7 +756,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		if((PREFIX_VALUE + "turbinespeed").equals(name))	return	"" + this.rpm;
 		if((PREFIX_VALUE + "output").equals(name))			return	"" + (int) (this.instantPowerOutput * 20);
 		if((PREFIX_VALUE + "state").equals(name))			return	"" + this.state;
-		if((PREFIX_VALUE + "autoMode").equals(name))		return	"" + (this.autoMode ? 1 : 0);
+		if((PREFIX_VALUE + "automode").equals(name))		return	"" + (this.autoMode ? 1 : 0);
 		if((PREFIX_VALUE + "temp").equals(name))			return	"" + this.temp;
 		if((PREFIX_VALUE + "power").equals(name))			return	"" + this.power;
 		if((PREFIX_VALUE + "fuel").equals(name))			return	"" + tanks[0].getFill();
@@ -768,7 +768,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		if((PREFIX_FUNCTION + "setAuto").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "setauto").equals(name) && params.length > 0) {
 			try {
 				int val = Integer.parseInt(params[0]);
 				this.autoMode = (val == 1);
@@ -776,7 +776,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			} catch(NumberFormatException e) {}
 			return null;
 		}
-		if((PREFIX_FUNCTION + "setThrottle").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "setthrottle").equals(name) && params.length > 0) {
 			try {
 				int percent = Integer.parseInt(params[0]);
 				if(percent < 0) percent = 0;
@@ -786,7 +786,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			} catch(NumberFormatException e) {}
 			return null;
 		}
-		if((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length > 0) {
 			try {
 				int newState = Integer.parseInt(params[0]);
 				if(newState == 1) {

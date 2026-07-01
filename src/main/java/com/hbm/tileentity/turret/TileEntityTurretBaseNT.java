@@ -1062,40 +1062,40 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
-				PREFIX_FUNCTION + "setActive" + NAME_SEPARATOR + "active (0 or 1)",
-				PREFIX_FUNCTION + "targetPlayers" + NAME_SEPARATOR + "enabled (0 or 1)",
-				PREFIX_FUNCTION + "targetAnimals" + NAME_SEPARATOR + "enabled (0 or 1)",
-				PREFIX_FUNCTION + "targetMobs" + NAME_SEPARATOR + "enabled (0 or 1)",
-				PREFIX_FUNCTION + "targetMachines" + NAME_SEPARATOR + "enabled (0 or 1)",
-				PREFIX_FUNCTION + "addWhitelist" + NAME_SEPARATOR + "name",
-				PREFIX_FUNCTION + "removeWhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "setactive" + NAME_SEPARATOR + "active (0 or 1)",
+				PREFIX_FUNCTION + "targetplayers" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetanimals" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmobs" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmachines" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "addwhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "removewhitelist" + NAME_SEPARATOR + "name",
 		};
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		if((PREFIX_FUNCTION + "setActive").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "setactive").equals(name) && params.length > 0) {
 			try { this.isOn = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
 		}
-		if((PREFIX_FUNCTION + "targetPlayers").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "targetplayers").equals(name) && params.length > 0) {
 			try { this.targetPlayers = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
 		}
-		if((PREFIX_FUNCTION + "targetAnimals").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "targetanimals").equals(name) && params.length > 0) {
 			try { this.targetAnimals = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
 		}
-		if((PREFIX_FUNCTION + "targetMobs").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "targetmobs").equals(name) && params.length > 0) {
 			try { this.targetMobs = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
 		}
-		if((PREFIX_FUNCTION + "targetMachines").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "targetmachines").equals(name) && params.length > 0) {
 			try { this.targetMachines = (Integer.parseInt(params[0]) == 1); this.markChanged(); } catch(NumberFormatException e) {}
 		}
-		if((PREFIX_FUNCTION + "addWhitelist").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "addwhitelist").equals(name) && params.length > 0) {
 			String playerName = params[0];
 			List<String> whitelist = this.getWhitelist();
 			if(!whitelist.contains(playerName)) this.addName(playerName);
 			this.markChanged();
 		}
-		if((PREFIX_FUNCTION + "removeWhitelist").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "removewhitelist").equals(name) && params.length > 0) {
 			String playerName = params[0];
 			List<String> whitelist = this.getWhitelist();
 			if(whitelist.contains(playerName)) this.removeName(whitelist.indexOf(playerName));

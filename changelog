@@ -24,7 +24,7 @@
 * Added an alternate chemical plant recipe that uses a smaller selection of items and ICs instead of ACs
 * Flashgold and flashlead are now made in the PUREX instead of the crafting table
   * The flashgold recipe now yields two billets instead of one
-* Slightly changed the HSS ingot texture to not look identical to steel except slightly greenish
+* Slightly changed the HSS ingot and plate textures to not look identical to steel except slightly greenish
 * The AUTOCAL's buffer is now limited to 256 characters instead of being infinite
 * Increased the blast furnace's fuel buffer by 50%, allowing coke blocks to be used
 * If an RoR controller tries to parse an integer, but the supplied string represents a decimal, instead of canceling the operation, the system will now interpret decimals and round them to be integers
@@ -35,13 +35,16 @@
   * Do note that setting a recipe that needs a blueprint without that blueprint will not work
   * RoR set recipes cause the assembler to go into low power mode, making it run at only 25% speed (visible through the blue progress bar)
   * The speed penalty is removed as soon as a recipe is assigned manually again
-* Assembly recipes and chemical factories can now be read (but not configured) using Redstone-over-Radio
-* The factories script interpreter now runs MS-ES v1.1 (First Extended Instruction Set)
+* Assembly factories, chemical factories, PUREX and plasma forges can now be read (but not configured) using Redstone-over-Radio
+* Fusion reactor vessels can now be read and configured using RoR
+  * Unlike assemblers and chemplants, remote recipe configuration does not cause a speed penalty
+* The AUTOCAL's script interpreter now runs MS-ES v1.1 (First Extended Instruction Set)
   * Allows the use of a global stack, similar to the buffer which can hold 256 values
   * Allows splitting of strings and counting of string fragments
   * Adds substring operations
   * Polling for receiving only fresh RoR signals
   * A command for writing the world time to the buffer, allowing for more precise timers
+* All RoR values/commands are now case-insensitive
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

@@ -33,6 +33,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -44,7 +45,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider {
+public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IRORValueProvider {
 
 	public FluidTank inputTank;
 	
@@ -591,5 +592,26 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public static void choosePosition(ForgeArm arm, double[][] positions) {
 		double[] newPos = positions[rand.nextInt(positions.length)];
 		for(int i = 0; i < newPos.length; i++) arm.targetAngles[i] = newPos[i];
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress",
+				PREFIX_VALUE + "recipe",
+				PREFIX_VALUE + "active",
+				PREFIX_VALUE + "booster",
+				PREFIX_VALUE + "plasma",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.plasmaModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.plasmaModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
+		if((PREFIX_VALUE + "booster").equals(name))		return "" + this.booster;
+		if((PREFIX_VALUE + "plasma").equals(name))		return "" + this.plasmaEnergy;
+		return null;
 	}
 }

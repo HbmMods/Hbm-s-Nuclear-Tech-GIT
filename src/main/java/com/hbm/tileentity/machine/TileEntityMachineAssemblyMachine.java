@@ -496,16 +496,16 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 
 	@Override
 	public String provideRORValue(String name) {
-		if("progress".equals(name))	return "" + (int) Math.round(this.assemblerModule.progress * 100);
-		if("recipe".equals(name))	return this.assemblerModule.getRecipeName();
-		if("active".equals(name))	return "" + (this.didProcess ? 1 : 0);
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.assemblerModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.assemblerModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
 		return null;
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
-		if("setrecipe".equals(name) && params.length == 1) {
+
+		if((PREFIX_FUNCTION + "setrecipe").equals(name) && params.length == 1) {
 			this.assemblerModule.setRecipe(params[0], true);
 			this.markChanged();
 			return null;

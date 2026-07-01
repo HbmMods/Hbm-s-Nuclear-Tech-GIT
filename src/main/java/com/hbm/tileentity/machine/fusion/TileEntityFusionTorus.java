@@ -27,6 +27,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -46,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider {
+public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	public boolean didProcess = false;
 
@@ -589,7 +590,11 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public String[] getFunctionInfo() {
 		return new String[] {
 				PREFIX_VALUE + "plasma",
-				PREFIX_VALUE + "consumption"
+				PREFIX_VALUE + "consumption",
+				PREFIX_VALUE + "progress",
+				PREFIX_VALUE + "recipe",
+				PREFIX_VALUE + "active",
+				PREFIX_VALUE + "temp",
 		};
 	}
 
@@ -597,6 +602,22 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "plasma").equals(name))		return "" + this.plasmaEnergy;
 		if((PREFIX_VALUE + "consumption").equals(name))	return "" + (int) (this.fuelConsumption * 100);
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.fusionModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.fusionModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
+		if((PREFIX_VALUE + "temp").equals(name))		return "" + (int) this.temperature;
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "setrecipe").equals(name) && params.length == 1) {
+			this.fusionModule.setRecipe(params[0], false);
+			this.markChanged();
+			return null;
+		}
+		
 		return null;
 	}
 }

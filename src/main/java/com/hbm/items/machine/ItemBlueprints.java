@@ -121,7 +121,7 @@ public class ItemBlueprints extends Item {
 		}
 		
 		for(String name : pool) {
-			GenericRecipe recipe = GenericRecipes.pooledBlueprints.get(name);
+			GenericRecipe recipe = GenericRecipes.nameToRecipeGlobal.get(name);
 			if(recipe != null) {
 				list.add(recipe.getLocalizedName());
 			}
