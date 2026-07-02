@@ -140,7 +140,7 @@ public class TileEntityFluidCounterValve extends TileEntityPipeBaseNT implements
 			PREFIX_VALUE + "value",
 			PREFIX_VALUE + "state",
 			PREFIX_FUNCTION + "reset",
-			PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "state",
+			PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "state",
 		};
 	}
 
@@ -149,7 +149,7 @@ public class TileEntityFluidCounterValve extends TileEntityPipeBaseNT implements
 		if(name.equals(PREFIX_FUNCTION + "reset")) {
 			counter = 0;
 			markDirty();
-		} else if(name.equals(PREFIX_FUNCTION + "setState")) {
+		} else if(name.equals(PREFIX_FUNCTION + "setstate")) {
 			setState(IRORInteractive.parseInt(params[0], 0, 1));
 		}
 		return null;

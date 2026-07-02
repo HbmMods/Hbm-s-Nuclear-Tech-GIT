@@ -42,8 +42,8 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, assembler.power, assembler.maxPower);
 
 		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 125 < mouseY && guiTop + 125 + 18 >= mouseY) {
-			if(this.assembler.assemblerModule.recipe != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.assembler.assemblerModule.recipe)) {
-				GenericRecipe recipe = (GenericRecipe) AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.assembler.assemblerModule.recipe);
+			if(this.assembler.assemblerModule.getRecipeName() != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.assembler.assemblerModule.getRecipeName())) {
+				GenericRecipe recipe = this.assembler.assemblerModule.getRecipe();
 				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
@@ -55,7 +55,7 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 
-		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule.recipe, 0, ItemBlueprints.grabPool(assembler.slots[1]), this);
+		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule.getRecipeName(), 0, ItemBlueprints.grabPool(assembler.slots[1]), this);
 	}
 
 	@Override
@@ -77,10 +77,10 @@ public class GUIMachineAssemblyMachine extends GuiInfoContainer {
 
 		if(assembler.assemblerModule.progress > 0) {
 			int j = (int) Math.ceil(70 * assembler.assemblerModule.progress);
-			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
+			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61 + (assembler.assemblerModule.restrictedMode ? 16 : 0), j, 16);
 		}
 
-		GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assembler.assemblerModule.recipe);
+		GenericRecipe recipe = assembler.assemblerModule.getRecipe();
 
 		/// LEFT LED
 		if(assembler.didProcess) {

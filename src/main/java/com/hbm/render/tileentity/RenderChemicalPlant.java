@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -39,7 +38,7 @@ public class RenderChemicalPlant extends TileEntitySpecialRenderer implements II
 		
 		TileEntityMachineChemicalPlant chemplant = (TileEntityMachineChemicalPlant) tileEntity;
 		float anim = chemplant.prevAnim + (chemplant.anim - chemplant.prevAnim) * interp;
-		GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplant.chemplantModule.recipe);
+		GenericRecipe recipe = chemplant.chemplantModule.getRecipe();
 		
 		bindTexture(ResourceManager.chemical_plant_tex);
 		ResourceManager.chemical_plant.renderPart("Base");

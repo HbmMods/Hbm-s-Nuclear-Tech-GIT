@@ -22,7 +22,7 @@ public class GUIPneumoStorageImporter extends GuiContainer {
 		this.importer = importer;
 		
 		this.xSize = 176;
-		this.ySize = 186;
+		this.ySize = 185;
 	}
 	
 	@Override

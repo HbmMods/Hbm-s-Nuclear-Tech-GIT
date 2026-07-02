@@ -484,8 +484,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 				PREFIX_VALUE + "power",
 				PREFIX_VALUE + "fuel",
 				PREFIX_VALUE + "efficiency",
-				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "state",
-				PREFIX_FUNCTION + "setThrottle" + NAME_SEPARATOR + "throttle"
+				PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setthrottle" + NAME_SEPARATOR + "throttle"
 		};
 	}
 
@@ -509,7 +509,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		if ((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+		if ((PREFIX_FUNCTION + "setstate").equals(name) && params.length > 0) {
 			try {
 				int val = Integer.parseInt(params[0]);
 				this.isOn = (val == 1);
@@ -517,7 +517,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			} catch (NumberFormatException e) {}
 			return null;
 		}
-		if ((PREFIX_FUNCTION + "setThrottle").equals(name) && params.length > 0) {
+		if ((PREFIX_FUNCTION + "setthrottle").equals(name) && params.length > 0) {
 			try {
 				int val = Integer.parseInt(params[0]);
 				if (val < 0) val = 0;

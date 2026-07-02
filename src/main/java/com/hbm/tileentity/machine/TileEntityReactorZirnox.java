@@ -616,8 +616,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				PREFIX_VALUE + "steam",
 				PREFIX_VALUE + "co2",
 				PREFIX_VALUE + "state",
-				PREFIX_FUNCTION + "setState" + NAME_SEPARATOR + "active (0 or 1)",
-				PREFIX_FUNCTION + "ventCO2"
+				PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "active (0 or 1)",
+				PREFIX_FUNCTION + "ventco2"
 		};
 	}
 	
@@ -634,7 +634,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		if((PREFIX_FUNCTION + "setState").equals(name) && params.length > 0) {
+		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length > 0) {
 			if(redstonePowered) return null;
 			try {
 				int val = Integer.parseInt(params[0]);
@@ -643,7 +643,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			} catch(NumberFormatException e) {}
 			return null;
 		}
-		if ((PREFIX_FUNCTION + "ventCO2").equals(name)) {
+		if ((PREFIX_FUNCTION + "ventco2").equals(name)) {
 			int fill = this.carbonDioxide.getFill();
 			this.carbonDioxide.setFill(Math.max(fill - 1000, 0));
 			this.markDirty();

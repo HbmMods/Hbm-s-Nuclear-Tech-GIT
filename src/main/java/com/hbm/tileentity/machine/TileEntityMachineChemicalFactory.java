@@ -10,7 +10,6 @@ import com.hbm.inventory.container.ContainerMachineChemicalFactory;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineChemicalFactory;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -31,6 +30,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -43,7 +43,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess {
+public class TileEntityMachineChemicalFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess, IRORValueProvider {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
@@ -158,7 +158,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
-				GenericRecipe recipe = ChemicalPlantRecipes.INSTANCE.recipeNameMap.get(chemplantModule[i].recipe);
+				GenericRecipe recipe = chemplantModule[i].getRecipe();
 				if(recipe != null) {
 					nextMaxPower += recipe.power * 100;
 				}
@@ -400,7 +400,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index >= 0 && index < 4) {
-				this.chemplantModule[index].recipe = selection;
+				this.chemplantModule[index].setRecipe(selection, false);
 				this.markChanged();
 			}
 		}
@@ -479,5 +479,35 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {TileEntityMachineChemicalFactory.this.lps}; }
 
 		@Override public FluidTank[] getAllTanks() { return TileEntityMachineChemicalFactory.this.getAllTanks(); }
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress1",
+				PREFIX_VALUE + "progress2",
+				PREFIX_VALUE + "progress3",
+				PREFIX_VALUE + "progress4",
+				PREFIX_VALUE + "recipe1",
+				PREFIX_VALUE + "recipe2",
+				PREFIX_VALUE + "recipe3",
+				PREFIX_VALUE + "recipe4",
+				PREFIX_VALUE + "anyactive",
+				PREFIX_VALUE + "active1",
+				PREFIX_VALUE + "active2",
+				PREFIX_VALUE + "active3",
+				PREFIX_VALUE + "active4",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "anyactive").equals(name))			return "" + ((this.didProcess[0] || this.didProcess[1] || this.didProcess[2] || this.didProcess[3]) ? 1 : 0);
+		for(int i = 0; i < 4; i++) {
+			if((PREFIX_VALUE + "progress" + i).equals(name))	return "" + (int) Math.round(this.chemplantModule[i].progress * 100);
+			if((PREFIX_VALUE + "recipe" + i).equals(name))		return this.chemplantModule[i].getRecipeName();
+			if((PREFIX_VALUE + "active" + i).equals(name))		return "" + (this.didProcess[i] ? 1 : 0);
+		}
+		return null;
 	}
 }

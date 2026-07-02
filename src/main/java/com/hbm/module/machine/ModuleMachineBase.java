@@ -25,11 +25,12 @@ public abstract class ModuleMachineBase {
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
 	// running vars
-	public String recipe = "null";
+	protected String recipe = "null";
 	public double progress;
 	// return signals
 	public boolean didProcess = false;
 	public boolean markDirty = false;
+	public boolean restrictedMode = false;
 
 	public ModuleMachineBase(int index, IEnergyHandlerMK2 battery, ItemStack[] slots) {
 		this.index = index;
@@ -114,6 +115,7 @@ public abstract class ModuleMachineBase {
 	}
 	
 	public void process(GenericRecipe recipe, double speed, double power) {
+		if(this.restrictedMode) speed *= 0.25; // RoR controlled machines have a speed penalty
 		
 		this.battery.setPower(this.battery.getPower() - (power == 1 ? recipe.power : (long) (recipe.power * power)));
 		double step = Math.min(speed / recipe.duration, 1D); // can't do more than one recipe per tick, might look into that later
@@ -167,9 +169,18 @@ public abstract class ModuleMachineBase {
 		
 		this.markDirty = true;
 	}
+	
+	public String getRecipeName() {
+		return this.recipe;
+	}
 
 	public GenericRecipe getRecipe() {
 		return (GenericRecipe) getRecipeSet().recipeNameMap.get(this.recipe);
+	}
+	
+	public void setRecipe(String name, boolean ror) {
+		this.recipe = name;
+		this.restrictedMode = ror;
 	}
 	
 	public abstract GenericRecipes getRecipeSet();
@@ -232,21 +243,25 @@ public abstract class ModuleMachineBase {
 	
 	public void serialize(ByteBuf buf) {
 		buf.writeDouble(progress);
+		buf.writeBoolean(restrictedMode);
 		ByteBufUtils.writeUTF8String(buf, recipe);
 	}
 	
 	public void deserialize(ByteBuf buf) {
 		this.progress = buf.readDouble();
+		this.restrictedMode = buf.readBoolean();
 		this.recipe = ByteBufUtils.readUTF8String(buf);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.progress = nbt.getDouble("progress" + index);
 		this.recipe = nbt.getString("recipe" + index);
+		this.restrictedMode = nbt.getBoolean("restrictedMode");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setDouble("progress" + index, progress);
 		nbt.setString("recipe" + index, recipe);
+		nbt.setBoolean("restrictedMode", restrictedMode);
 	}
 }

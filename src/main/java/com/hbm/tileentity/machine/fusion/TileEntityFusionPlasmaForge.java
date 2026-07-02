@@ -16,7 +16,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePlasmaForge;
 import com.hbm.inventory.recipes.PlasmaForgeRecipe;
-import com.hbm.inventory.recipes.PlasmaForgeRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -34,6 +33,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -45,7 +45,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider {
+public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IRORValueProvider {
 
 	public FluidTank inputTank;
 	
@@ -156,7 +156,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			if(receiverNode != null && receiverNode.hasValidNet()) receiverNode.net.addReceiver(this);
 			if(providerNode != null && providerNode.hasValidNet()) providerNode.net.addProvider(this); // technically unused, but good to have when we do something else with the plasma nets
 			
-			PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) PlasmaForgeRecipes.INSTANCE.recipeNameMap.get(plasmaModule.recipe);
+			PlasmaForgeRecipe recipe = (PlasmaForgeRecipe) plasmaModule.getRecipe();
 			if(recipe != null) this.maxPower = recipe.power * 100;
 			
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
@@ -364,7 +364,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index == 0) {
-				this.plasmaModule.recipe = selection;
+				this.plasmaModule.setRecipe(selection, false);
 				this.markChanged();
 			}
 		}
@@ -592,5 +592,26 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 	public static void choosePosition(ForgeArm arm, double[][] positions) {
 		double[] newPos = positions[rand.nextInt(positions.length)];
 		for(int i = 0; i < newPos.length; i++) arm.targetAngles[i] = newPos[i];
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress",
+				PREFIX_VALUE + "recipe",
+				PREFIX_VALUE + "active",
+				PREFIX_VALUE + "booster",
+				PREFIX_VALUE + "plasma",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.plasmaModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.plasmaModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
+		if((PREFIX_VALUE + "booster").equals(name))		return "" + this.booster;
+		if((PREFIX_VALUE + "plasma").equals(name))		return "" + this.plasmaEnergy;
+		return null;
 	}
 }
