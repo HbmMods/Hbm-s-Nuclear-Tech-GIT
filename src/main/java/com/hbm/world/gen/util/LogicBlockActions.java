@@ -539,7 +539,7 @@ public class LogicBlockActions {
 		actions.put("BOMB_TRAP", BOMB_TRAP);
 		actions.put("BOMB_CRANE", BOMB_CRANE);
 		actions.put("DEAD_GUY_CRANE", DEAD_GUY_CRANE);
-		actions.put("DEAD_GUY_CRANE", DEAD_GUY_TOWER_BASE);
+		actions.put("DEAD_GUY_TOWER_BASE", DEAD_GUY_TOWER_BASE);
 
 		//Mob Block Actions
 		actions.put("SKELETON_GUN_TIER_1", SKELETONS_GUN_TIER_1);
