@@ -18,10 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver { // TODO: NBT serialization
-	// TODO: also maybe test all of this first
-	// TODO: more energy drincc
-	// TODO: the lion does not concern himself with chest pains, it's just the feeling of the heart screaming for more redbull
+public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver {
 	
 	/** If requests should be pulled repeatedly every tick */
 	public boolean continuousRequest = false;
@@ -101,7 +98,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 				int requestSize = filter[2];
 
 				int existingSize = 0;
-				ItemStack existingStack = slots[i];
+				ItemStack existingStack = slots[i + 9];
 				
 				if(existingStack != null) {
 					if(existingStack.getItem() == item && existingStack.getItemDamage() == meta && !existingStack.hasTagCompound()) {
@@ -132,7 +129,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 				int requestSize = filter[2];
 
 				int existingSize = 0;
-				ItemStack existingStack = slots[i];
+				ItemStack existingStack = slots[i + 9];
 				if(existingStack != null) existingSize = existingStack.stackSize;
 				
 				ItemStack newStack = new ItemStack(item, 1, meta);
@@ -143,8 +140,8 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 				CacheSlot cacheSlot = this.cache.cacheSlots.get(hash);
 				if(cacheSlot == null) continue; // safeguard
 				
-				slots[i] = newStack;
-				slots[i].stackSize = existingSize + (int) this.cache.consumeItemsAndReturnQuantity(newStack, requestSize);
+				slots[i + 9] = newStack;
+				slots[i + 9].stackSize = existingSize + (int) this.cache.consumeItemsAndReturnQuantity(newStack, requestSize);
 			}
 			
 			this.markChanged();
@@ -166,7 +163,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 		int requestSize = filter[2];
 		
 		int existingSize = 0;
-		ItemStack existingStack = slots[slot];
+		ItemStack existingStack = slots[slot + 9];
 		
 		if(existingStack != null) {
 			if(existingStack.getItem() == item && existingStack.getItemDamage() == meta && !existingStack.hasTagCompound()) {
@@ -192,8 +189,9 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 		if(cacheSlot.stacksize <= 0) return false;
 		
 		int toPull = (int) BobMathUtil.min(requestSize, cacheSlot.stacksize, capacityLeft);
-		slots[slot] = newStack;
-		slots[slot].stackSize = existingSize + (int) this.cache.consumeItemsAndReturnQuantity(newStack, toPull);
+		
+		slots[slot + 9] = newStack;
+		slots[slot + 9].stackSize = existingSize + (int) this.cache.consumeItemsAndReturnQuantity(newStack, toPull);
 		this.markChanged();
 		
 		return true;
@@ -246,6 +244,41 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 			rorFilters[i][1] = buf.readShort();
 			rorFilters[i][2] = buf.readShort();
 		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.continuousRequest = nbt.getBoolean("continuousRequest");
+		this.rorConfiguredMode = nbt.getBoolean("rorConfiguredMode");
+		this.requestMode = nbt.getByte("requestMode");
+		for(int i = 0; i < 9; i++) {
+			rorFilters[i][0] = nbt.getShort("filter_" + i + "_0");
+			rorFilters[i][1] = nbt.getShort("filter_" + i + "_1");
+			rorFilters[i][2] = nbt.getShort("filter_" + i + "_2");
+		}
+		
+		this.lastRedstone = nbt.getBoolean("lastRedstone");
+		this.slotDelay = nbt.getIntArray("slotDelay");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("continuousRequest", continuousRequest);
+		nbt.setBoolean("rorConfiguredMode", rorConfiguredMode);
+		nbt.setByte("requestMode", (byte) requestMode);
+		
+		for(int i = 0; i < 9; i++) {
+			nbt.setShort("filter_" + i + "_0", (short) rorFilters[i][0]);
+			nbt.setShort("filter_" + i + "_1", (short) rorFilters[i][1]);
+			nbt.setShort("filter_" + i + "_2", (short) rorFilters[i][2]);
+		}
+
+		nbt.setBoolean("lastRedstone", lastRedstone);
+		nbt.setIntArray("slotDelay", slotDelay);
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPneumoStorageExporter(player.inventory, this); }
