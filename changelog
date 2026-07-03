@@ -11,6 +11,7 @@
     * Filters can be set using items or RoR commands
     * Requests can be configured to take as much as possible, to only take full stacks, or to only take full requests
     * In combination with assembler recipe switching, using RoR logic, this means that on-demand recipe automation is now possible
+  * The budget didn't cover actually testing this so uh, you go figure it out
 
 ## Changed
 * Updated chinese localization
@@ -81,3 +82,4 @@
 * Fixed `anyBismoid` group not being a proper group, causing other mods' bismuth and arsenic to not be included
 * Fixed RoR gauge not using SI suffixes on values below 0
 * Fixed AUTOCAL units not closing their GUI when the unit is destroyed
+* Fixed AUTOCAL's $buffer$ substitution not working
