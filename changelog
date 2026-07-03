@@ -1,3 +1,17 @@
+## Added
+* Pneumatic Storage System
+  * Mass storage logistics system that can perform various automation tasks
+  * Items can be stored in clutter storages (steel crate equivalent) or mono type storages (ironically supports three types set using filters holding several thousand items)
+  * In order to be accessible, all storages need a supply of compressed air with the compression level dictating range
+  * Access points allow items to be retrieved and inserted manually
+  * Access points have a search function as well as several sorting options
+  * Importers allow hopper IO to add items to the network
+  * Exporters allow items to be retrieved and then taken using hopper IO, things like filters and request rules can be defined in several ways
+    * Allows continuous request and request on demand (redstone or RoR command)
+    * Filters can be set using items or RoR commands
+    * Requests can be configured to take as much as possible, to only take full stacks, or to only take full requests
+    * In combination with assembler recipe switching, using RoR logic, this means that on-demand recipe automation is now possible
+
 ## Changed
 * Updated chinese localization
 * Watz powerplant now has OC and RoR integration
@@ -45,6 +59,17 @@
   * Polling for receiving only fresh RoR signals
   * A command for writing the world time to the buffer, allowing for more precise timers
 * All RoR values/commands are now case-insensitive
+* Changed mask man spawning rules
+  * Instead of random checks and chances, if a player meets the requirements, a timer starts (timer exists per player)
+  * Once this timer runs out, mask man spawns
+  * Should the timer run out but the spawn be unsuccessful (spawn restrictions) then a different message appears
+  * If the requirements are no longer met, the timer immediately resets, making it easier to avoid him deliberately
+  * The default spawn timer is now 20 minutes, making it easier to spawn him deliberately
+  * One minute before the timer ends, a warning message appears
+* Changed normal mode control unit recipes
+  * Standard control units now use rubber instead of speed I upgrades
+  * Advanced control units now use hardplastics instead of speed III upgrades
+  * Quantum computers now use speed III upgrades instead of overdrive I
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised

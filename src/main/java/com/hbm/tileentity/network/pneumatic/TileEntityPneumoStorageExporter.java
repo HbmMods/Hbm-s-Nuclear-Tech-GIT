@@ -18,7 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver {
+public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver { // TODO: NBT serialization
+	// TODO: also maybe test all of this first
+	// TODO: more energy drincc
+	// TODO: the lion does not concern himself with chest pains, it's just the feeling of the heart screaming for more redbull
 	
 	/** If requests should be pulled repeatedly every tick */
 	public boolean continuousRequest = false;
@@ -38,6 +41,8 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	public static final int MODE_FULL_STACK = 1;
 	/** All request slots try to pull the desired quantities simultaneously */
 	public static final int MODE_FULL_REQUEST = 2;
+	
+	public boolean lastRedstone = false;
 
 	public TileEntityPneumoStorageExporter() {
 		super(18);
@@ -57,10 +62,16 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 			for(int i = 0; i < 9; i++) {
 				if(slotDelay[i] > 0) slotDelay[i]--;
 			}
+
+			boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 			
 			if(continuousRequest) {
 				this.doRequest(false);
+			} else {
+				if(redstone && !lastRedstone) this.doRequest(true);
 			}
+			
+			this.lastRedstone = redstone;
 			
 			this.networkPackNT(15);
 		}
