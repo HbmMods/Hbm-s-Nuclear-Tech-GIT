@@ -5,8 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 public class MobConfig {
 
 	public static boolean enableMaskman = true;
-	public static int maskmanDelay = 60 * 60 * 60;
-	public static int maskmanChance = 3;
+	public static int maskmanDelay = 20 * 60; // 20 minutes
 	public static int maskmanMinRad = 50;
 	public static boolean maskmanUnderground = true;
 	
@@ -78,8 +77,7 @@ public class MobConfig {
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
 
 		enableMaskman = CommonConfig.createConfigBool(config, CATEGORY, "12.M00_enableMaskman", "Whether mask man should spawn", true);
-		maskmanDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.M01_maskmanDelay", "How many world ticks need to pass for a check to be performed", 60 * 60 * 60);
-		maskmanChance = CommonConfig.createConfigInt(config, CATEGORY, "12.M02_maskmanChance", "1:x chance to spawn mask man, must be at least 1", 3);
+		maskmanDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.M01_maskmanTimer", "How many world seconds need to pass for mask man to spawn, if the requirements are met", 20 * 60);
 		maskmanMinRad = CommonConfig.createConfigInt(config, CATEGORY, "12.M03_maskmanMinRad", "The amount of radiation needed for mask man to spawn", 50);
 		maskmanUnderground = CommonConfig.createConfigBool(config, CATEGORY, "12.M04_maskmanUnderound", "Whether players need to be underground for mask man to spawn", true);
 

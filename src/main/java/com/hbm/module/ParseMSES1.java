@@ -264,10 +264,15 @@ public class ParseMSES1 implements IParse {
 				if(!readingVar) {
 					readingVar = true;
 				} else {
-					if("buffer".equals(var)) {
-						joined.append(ctx.readBuffer());
+					String varName = var.toString();
+					if("buffer".equals(varName)) {
+						String variable = ctx.readBuffer();
+						if(forceNumber && variable.isEmpty()) variable = "0";
+						joined.append(variable);
+						var.delete(0, var.length());
+						readingVar = false;
 					} else {
-						String variable = ctx.variables.getString(var.toString());
+						String variable = ctx.variables.getString(varName);
 						if(forceNumber && variable.isEmpty()) variable = "0";
 						joined.append(variable);
 						var.delete(0, var.length());
