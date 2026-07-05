@@ -40,6 +40,8 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	public static final int MODE_FULL_REQUEST = 2;
 	
 	public boolean lastRedstone = false;
+	
+	public int[] SLOT_ACCESS = new int[] {9, 10, 11, 12, 13, 14, 15, 16, 17};
 
 	public TileEntityPneumoStorageExporter() {
 		super(18);
@@ -49,6 +51,9 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	public String getName() {
 		return "container.pneumoStorageExporter";
 	}
+
+	@Override public boolean canExtractItem(int slot, ItemStack itemStack, int side) { return slot >= 9; }
+	@Override public int[] getAccessibleSlotsFromSide(int side) { return SLOT_ACCESS; }
 
 	@Override
 	public void updateEntity() {

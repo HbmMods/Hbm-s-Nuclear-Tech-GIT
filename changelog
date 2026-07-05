@@ -83,3 +83,4 @@
 * Fixed RoR gauge not using SI suffixes on values below 0
 * Fixed AUTOCAL units not closing their GUI when the unit is destroyed
 * Fixed AUTOCAL's $buffer$ substitution not working
+* Fixed meteorite sword localization still being broken
