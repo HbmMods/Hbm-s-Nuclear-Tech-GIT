@@ -51,7 +51,7 @@ public class EntityAIMaskmanMinigun extends EntityAIBase {
 		if(timer <= 0) {
 			timer = delay;
 
-			EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(this.owner, XFactory762mm.r762_fmj, 5F, 0.05F, 0, 0, 0); // TODO: test the offsets
+			EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(this.owner, XFactory762mm.r762_fmj, 5F, 0.075F, -1.5, -1.5, 0);
 			owner.worldObj.spawnEntityInWorld(bullet);
 			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}
