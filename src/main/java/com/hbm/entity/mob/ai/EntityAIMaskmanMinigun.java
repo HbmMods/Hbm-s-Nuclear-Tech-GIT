@@ -1,7 +1,7 @@
 package com.hbm.entity.mob.ai;
 
-import com.hbm.entity.projectile.EntityBulletBaseNT;
-import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.items.weapon.sedna.factory.XFactory762mm;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -51,11 +51,9 @@ public class EntityAIMaskmanMinigun extends EntityAIBase {
 		if(timer <= 0) {
 			timer = delay;
 
-			EntityBulletBaseNT bullet = new EntityBulletBaseNT(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_BULLET, owner, target, 1.0F, 0);
+			EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(this.owner, XFactory762mm.r762_fmj, 5F, 0.05F, 0, 0, 0); // TODO: test the offsets
 			owner.worldObj.spawnEntityInWorld(bullet);
 			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}
-
-		this.owner.rotationYaw = this.owner.rotationYawHead;
 	}
 }

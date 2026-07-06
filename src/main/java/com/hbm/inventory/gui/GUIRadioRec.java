@@ -65,7 +65,7 @@ public class GUIRadioRec extends GuiScreen {
 
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
-		String name = I18nUtil.resolveKey("container.radio");
+		String name = I18nUtil.resolveKey("container.radiorec");
 		this.fontRendererObj.drawString(name, this.guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, this.guiTop + 6, 4210752);
 
 		if(guiLeft + 137 <= x && guiLeft + 137 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
