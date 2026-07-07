@@ -86,7 +86,7 @@ public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBa
 			}
 			
 			if(this.compair.getFill() > 0) {
-				int consumption = (int) Math.ceil(this.compair.getFill() * 17 / this.compair.getMaxFill()) + 3;
+				int consumption = (int) Math.ceil(this.compair.getFill() * 9 / this.compair.getMaxFill()) + 1;
 				this.compair.setFill(Math.max(this.compair.getFill() - consumption, 0));
 			}
 			
