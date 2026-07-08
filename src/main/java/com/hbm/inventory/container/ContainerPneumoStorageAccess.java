@@ -225,7 +225,7 @@ public class ContainerPneumoStorageAccess extends Container implements ICustomPa
 					held = slot.getStack().copy();
 					held.stackSize = 1;
 				}
-				if(held.stackSize <= 0) held = null;
+				if(held != null && held.stackSize <= 0) held = null;
 				this.player.inventory.setItemStack(held);
 				sendClickToServer(ClickType.RIGHT_CLICK, hash);
 				return null;

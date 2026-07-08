@@ -23,7 +23,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		diFurnace = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 186;
 	}
 	
 	@Override
@@ -62,18 +62,19 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 			diFurnace = (TileEntityMachineElectricFurnace) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
 		
 		if(diFurnace.hasPower()) {
-			int i = (int)diFurnace.getPowerScaled(52);
-			drawTexturedModalRect(guiLeft + 20, guiTop + 69 - i, 200, 52 - i, 16, i);
+			int i = (int)diFurnace.getPowerScaled(34);
+			drawTexturedModalRect(guiLeft + 152, guiTop + 52 - i, 176, 64 - i, 16, i);
 		}
 		
 		if(diFurnace.getWorldObj().getBlock(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) == ModBlocks.machine_electric_furnace_on) {
-			drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 0, 16, 16);
+			drawTexturedModalRect(guiLeft + 45, guiTop + 20, 192, 12, 18, 16);
+			drawTexturedModalRect(guiLeft + 45, guiTop + 47, 192, 36, 18, 16);
 		}
 		
-		int j1 = diFurnace.getProgressScaled(24);
-		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 17, j1 + 1, 17);
+		int j1 = diFurnace.getProgressScaled(28);
+		drawTexturedModalRect(guiLeft + 43, guiTop + 36, 176, 0, j1, 12);
 		
-		this.drawInfoPanel(guiLeft + 151, guiTop + 19, 8, 8, 8);
+		this.drawInfoPanel(guiLeft + 116, guiTop + 20, 8, 8, 8);
 	}
 
 }

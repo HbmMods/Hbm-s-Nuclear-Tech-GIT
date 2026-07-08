@@ -103,7 +103,7 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 		if(checkClick(x, y, 144, 36, 18, 18)) {
 			try {
 				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
-				File doc = new File(uploadFolder, "documentation.md");
+				File doc = new File(uploadFolder, "documentation_v1.1.md");
 				if(!uploadFolder.exists()) uploadFolder.mkdir();
 				if(!doc.exists()) {
 					doc.createNewFile();
@@ -127,18 +127,7 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 					script.setExecutable(false);
 					return;
 				}
-				/*FileReader reader = new FileReader(script);
-				BufferedReader buffer = new BufferedReader(reader);
-				String[] lines = buffer.lines().toArray(String[]::new);
-				buffer.close();
-				// this is going to blow the fuck up once we hit the max packet size, but let's ignore that for now
-				data = new NBTTagCompound();
-				StringBuilder builder = new StringBuilder();
-				for(int l = 0; l < lines.length; l++) {
-					builder.append(lines[i]);
-					if(l < lines.length - 1) builder.append("\n"); // yeah why the fuck not
-				}
-				data.setString("payload", builder.toString());*/
+				
 				byte[] bytes = Files.readAllBytes(Paths.get(script.toURI()));
 				data = new NBTTagCompound();
 				data.setString("payload", new String(bytes, StandardCharsets.UTF_8));

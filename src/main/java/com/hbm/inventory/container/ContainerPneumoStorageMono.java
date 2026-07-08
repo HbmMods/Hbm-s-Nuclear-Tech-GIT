@@ -36,7 +36,6 @@ public class ContainerPneumoStorageMono extends ContainerBase {
 		if(index < 0 || index >= 3) {
 			return super.slotClick(index, button, mode, player);
 		}
-
 		
 		Slot slot = this.getSlot(index);
 		TileEntityPneumoStorageMono mono = (TileEntityPneumoStorageMono) this.tile;
