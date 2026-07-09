@@ -68,7 +68,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		
 		if(furnace.getWorldObj().getBlock(furnace.xCoord, furnace.yCoord, furnace.zCoord) == ModBlocks.machine_electric_furnace_on) {
 			drawTexturedModalRect(guiLeft + 45, guiTop + 20, 192, 12, 18, 16);
-			drawTexturedModalRect(guiLeft + 45, guiTop + 47, 192, 36, 18, 16);
+			drawTexturedModalRect(guiLeft + 46, guiTop + 47, 192, 28, 18, 16);
 		}
 		
 		int p = furnace.getProgressScaled(28);

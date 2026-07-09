@@ -412,7 +412,7 @@ public class Fluids {
 		CONCRETE =				new FluidType("CONCRETE",			0xA2A2A2, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		DHC =					new FluidType("DHC",				0xD2AFFF, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		AIRBLAST =				new FluidType("AIRBLAST",			0xFFDADA, 0, 3, 0, EnumSymbol.NONE).setTemp(1_200).addTraits(GASEOUS);
-		FLUE =					new FluidType(155, "FLUE",			0x131313, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS, new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.SOOT, SOOT_GAS * 25));
+		FLUE =					new FluidType(155, "FLUE",			0x131313, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(25_000), GASEOUS, new FT_Polluting().burn(PollutionType.SOOT, SOOT_GAS).release(PollutionType.SOOT, SOOT_GAS * 25));
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE

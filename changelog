@@ -73,7 +73,7 @@
   * Standard control units now use rubber instead of speed I upgrades
   * Advanced control units now use hardplastics instead of speed III upgrades
   * Quantum computers now use speed III upgrades instead of overdrive I
-* Updated electric furnace GUI
+* Updated electric furnace, burner press and electric press GUIs
 * The RoR terminal can now accept RoR controller input, allowing the terminal screen to be written directly and RoR terminal commands to be executed via incoming RoR signals
   * The last part seems redundant, why would you need to send RoR by sending RoR? The answer being, the terminal can be toggled to send polling signals, which will run independently of the source
   * For AUTOCALs, this means that they can now send polling signals "in parallel", i.e. independently of the code that actually runs on said AUTOCAL, by simply toggling polling on a terminal
@@ -82,6 +82,11 @@
   * 1/3 of glyphids do not have this behavior, this means that larger groups of glyphids cannot be trapped indefinitely by triggering target changes on purpose
 * Pedestal blocks fitted with charms now have a 200x200 block square area around them where the charm effect of repelling meteors applies to all players
 * Pedestal blocks fitted with golden defusers now have a 50x50 block area around them where creepers are automatically defused
+* Disabled GTNH-NEI filter drag functionality because GTNH-NEI breaks the pattern slots of the new pneumatics stuff and the person who added it originally was too bald to fix it despite being told multiple times
+  * 70k it's 70k and he's bald bald haha bald head
+  * baldie baldie hahaha he bald he has the no of hair
+  * follically challenged baldie bald head
+* Increased flue gas burn value from 10kTU to 25kTU
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
@@ -97,3 +102,4 @@
 * Fixed meteorite sword localization still being broken
 * Fixed missing localization on the FM radio
 * Fixed mufflers not working on large doors
+* Fixed the electric press not displaying the currently pressed item in the model

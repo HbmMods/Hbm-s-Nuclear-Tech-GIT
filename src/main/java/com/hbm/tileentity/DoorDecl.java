@@ -666,7 +666,7 @@ public abstract class DoorDecl {
 			return null;
 		}
 
-		@Override public int timeToOpen() { return 120; }
+		@Override public int timeToOpen() { return 60; }
 
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { -1, -1, 0, 3, 3, 1 } }; }
 		@Override public int[] getDimensions() { return new int[] { 2, 0, 0, 0, 1, 1 }; }

@@ -208,7 +208,7 @@ public class BlockPedestal extends BlockContainer {
 				if(this.item != null) {
 					if(item.getItem() == ModItems.protection_charm) pushPedestalEntry(worldObj, PedestalEntryType.CHARM_OF_PROTECTION, xCoord, yCoord, zCoord);
 					if(item.getItem() == ModItems.meteor_charm) pushPedestalEntry(worldObj, PedestalEntryType.METEORITE_CHARM, xCoord, yCoord, zCoord);
-					if(worldObj.getTotalWorldTime() % 60 == 0 && item.getItem() == ModItems.defuser) castrateCreepers();
+					if(worldObj.getTotalWorldTime() % 60 == 0 && item.getItem() == ModItems.defuser_gold) castrateCreepers();
 				}
 			}
 		}
