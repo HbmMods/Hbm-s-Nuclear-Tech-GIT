@@ -11,7 +11,9 @@
     * Filters can be set using items or RoR commands
     * Requests can be configured to take as much as possible, to only take full stacks, or to only take full requests
     * In combination with assembler recipe switching, using RoR logic, this means that on-demand recipe automation is now possible
-  * Still in testing, there's no recpes for any of the parts yet
+  * Still in testing, there's no recipes for any of the parts yet
+* Cargo door
+  * Steel grate door which goes well with the cargo elevators
 
 ## Changed
 * Updated chinese localization
@@ -71,6 +73,15 @@
   * Standard control units now use rubber instead of speed I upgrades
   * Advanced control units now use hardplastics instead of speed III upgrades
   * Quantum computers now use speed III upgrades instead of overdrive I
+* Updated electric furnace GUI
+* The RoR terminal can now accept RoR controller input, allowing the terminal screen to be written directly and RoR terminal commands to be executed via incoming RoR signals
+  * The last part seems redundant, why would you need to send RoR by sending RoR? The answer being, the terminal can be toggled to send polling signals, which will run independently of the source
+  * For AUTOCALs, this means that they can now send polling signals "in parallel", i.e. independently of the code that actually runs on said AUTOCAL, by simply toggling polling on a terminal
+  * Since AUTOCALs now have a proper screen to output things with, it is now theoretically possible to program a functioning arcade machine (with terminal graphics)
+* Glyphids will now try to target new players every 5 seconds if their current target is farther away than any other potential target
+  * 1/3 of glyphids do not have this behavior, this means that larger groups of glyphids cannot be trapped indefinitely by triggering target changes on purpose
+* Pedestal blocks fitted with charms now have a 200x200 block square area around them where the charm effect of repelling meteors applies to all players
+* Pedestal blocks fitted with golden defusers now have a 50x50 block area around them where creepers are automatically defused
 
 ## Fixed
 * Fixed AUTOCAL's number comparison functions not working with variable substitution as advertised
@@ -85,3 +96,4 @@
 * Fixed AUTOCAL's $buffer$ substitution not working
 * Fixed meteorite sword localization still being broken
 * Fixed missing localization on the FM radio
+* Fixed mufflers not working on large doors

@@ -38,11 +38,9 @@ public class ItemModMilk extends ItemArmorMod {
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
 		
 		List<Integer> ints = new ArrayList();
-
 		Iterator iterator = ((Collection) entity.getActivePotionEffects()).iterator();
 
 		while(iterator.hasNext()) {
-
 			PotionEffect eff = (PotionEffect) iterator.next();
 
 			if(HbmPotion.getIsBadEffect(Potion.potionTypes[eff.getPotionID()])) {
@@ -50,8 +48,6 @@ public class ItemModMilk extends ItemArmorMod {
 			}
 		}
 
-		for(Integer i : ints) {
-			entity.removePotionEffect(i);
-		}
+		for(Integer i : ints) entity.removePotionEffect(i);
 	}
 }

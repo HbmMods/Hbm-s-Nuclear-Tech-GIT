@@ -12,6 +12,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.BufferUtil;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
@@ -24,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent, IRORInteractive {
 	
 	public String[] history = new String[17];
 	public String channel = "";
@@ -248,5 +249,47 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 		for(int i = 0; i < history.length; i++) history[i] = "";
 		markDirty();
 		return new Object[] {true};
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "clear",
+				PREFIX_FUNCTION + "write" + NAME_SEPARATOR + "text",
+				PREFIX_FUNCTION + "set<line#>" + NAME_SEPARATOR + "text",
+				PREFIX_FUNCTION + "submit" + NAME_SEPARATOR + "command",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "clear").equals(name)) {
+			for(int i = 0; i < history.length; i++) history[i] = "";
+			this.markChanged();
+			return null;
+		}
+		
+		String allParams = String.join(" ", params);
+
+		if((PREFIX_FUNCTION + "write").equals(name)) {
+			this.push(allParams);
+			this.markChanged();
+			return null;
+		}
+		
+		if(name.startsWith(PREFIX_FUNCTION + "set")) {
+			int line = IRORInteractive.parseInt(name.substring(3), 1, 17) - 1;
+			this.history[line] = allParams;
+			this.markChanged();
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "submit").equals(name)) {
+			this.eval(allParams);
+			return null;
+		}
+		
+		return null;
 	}
 }

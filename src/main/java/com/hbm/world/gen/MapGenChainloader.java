@@ -116,7 +116,5 @@ public class MapGenChainloader extends MapGenBase {
 				blockMetas = event.metaArray;
 			}
 		}
-
 	}
-
 }

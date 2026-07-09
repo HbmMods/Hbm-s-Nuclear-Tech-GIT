@@ -1,8 +1,12 @@
 package com.hbm.handler;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockPedestal;
+import com.hbm.blocks.generic.BlockPedestal.PedestalEntry;
+import com.hbm.blocks.generic.BlockPedestal.PedestalEntryType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
@@ -231,9 +235,22 @@ public class BossSpawnHandler {
 							}
 						}
 					}
+					
+					// only check if either charm is not present
+					if(!repell || strike) {
+						int x = (int) Math.floor(p.posX);
+						int z = (int) Math.floor(p.posZ);
+						
+						List<PedestalEntry> entries = BlockPedestal.getEntriesForDimension(world.provider.dimensionId);
+						if(entries != null) for(PedestalEntry entry : entries) {
+							if(Math.abs(entry.pos.getX() - x) <= 100 && Math.abs(entry.pos.getZ() - z) <= 100) {
+								if(entry.type == PedestalEntryType.CHARM_OF_PROTECTION) repell = true;
+								if(entry.type == PedestalEntryType.METEORITE_CHARM) strike = false;
+							}
+						}
+					}
 
-					if(strike)
-						spawnMeteorAtPlayer(p, repell);
+					if(strike) spawnMeteorAtPlayer(p, repell);
 				}
 			}
 		}

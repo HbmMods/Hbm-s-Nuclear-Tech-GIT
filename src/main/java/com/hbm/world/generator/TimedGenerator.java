@@ -3,10 +3,12 @@ package com.hbm.world.generator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.interfaces.Spaghetti;
 
 import net.minecraft.world.World;
 
+@NotableComments
 @Deprecated
 @Spaghetti("this class should be destroyed")
 public class TimedGenerator {
@@ -46,7 +48,7 @@ public class TimedGenerator {
 		list.add(job);
 	}
 	
-	//should i be doing this? probably not, but watch me go
+	//should i be doing this? probably not, but watch me go // no for the love of fucking god don't do this
 	public interface ITimedJob {
 		
 		public void work();

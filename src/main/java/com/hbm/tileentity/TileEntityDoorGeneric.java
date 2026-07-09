@@ -243,18 +243,18 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 				}
 
 				if(doorType.getOpenSoundLoop() != null) {
-					audio = MainRegistry.proxy.getLoopedSound(doorType.getOpenSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
+					audio = MainRegistry.proxy.getLoopedSound(doorType.getOpenSoundLoop(), xCoord, yCoord, zCoord, getVolume(), 10F, 1F);
 					audio.startSound();
 				}
 
 				if(doorType.getOpenSoundStart() != null) {
-					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundStart(), doorType.getSoundVolume(), 1F, false);
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundStart(), getVolume(), 1F, false);
 				}
 
 				if(doorType.getSoundLoop2() != null) {
 					if(audio2 != null) audio2.stopSound();
 
-					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
+					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, getVolume(), 10F, 1F);
 					audio2.startSound();
 				}
 			}
@@ -265,18 +265,18 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 				}
 
 				if(doorType.getCloseSoundLoop() != null) {
-					audio = MainRegistry.proxy.getLoopedSound(doorType.getCloseSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
+					audio = MainRegistry.proxy.getLoopedSound(doorType.getCloseSoundLoop(), xCoord, yCoord, zCoord, getVolume(), 10F, 1F);
 					audio.startSound();
 				}
 
 				if(doorType.getCloseSoundStart() != null) {
-					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundStart(), doorType.getSoundVolume(), 1F, false);
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundStart(), getVolume(), 1F, false);
 				}
 
 				if(doorType.getSoundLoop2() != null) {
 					if(audio2 != null) audio2.stopSound();
 
-					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
+					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, getVolume(), 10F, 1F);
 					audio2.startSound();
 				}
 			}
@@ -294,13 +294,13 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 
 			if(this.state == STATE_OPENING && state == STATE_OPEN) { // Door finished transitioning to open
 				if(doorType.getOpenSoundEnd() != null) {
-					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundEnd(), doorType.getSoundVolume(), 1F, false);
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundEnd(), getVolume(), 1F, false);
 				}
 			}
 
 			if(this.state == STATE_CLOSING && state == STATE_CLOSED) { // Door finished transitioning to closed
 				if(doorType.getCloseSoundEnd() != null) {
-					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundEnd(), doorType.getSoundVolume(), 1F, false);
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundEnd(), getVolume(), 1F, false);
 				}
 			}
 
@@ -312,6 +312,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 				currentAnimation = this.doorType.getSEDNAAnim(state, this.skinIndex);
 			}
 		}
+	}
+	
+	public float getVolume() {
+		return getVolume(doorType.getSoundVolume());
 	}
 
 	public int getSkinIndex() {

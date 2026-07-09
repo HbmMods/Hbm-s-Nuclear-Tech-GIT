@@ -15,11 +15,6 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	
 	void nextMode(int i);
 
-	/*
-	default ModulePatternMatcher getMatcher(){
-
-	}*/
-
 	@Override
 	default void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("slot")) {
@@ -44,11 +39,11 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	}
 	/**
 	 * Used for the copy tool
-	 * @return The start and end (start inclusive, end exclusive) of the filter slots of the TE
+	 * @return The start and end (start inclusive, end exclusive) of the filter slots of the TE // seven, what the fuck?
 	 */
 	int[] getFilterSlots();
 
-    @Override
+	@Override
 	default NBTTagCompound getSettings(World world, int x, int y, int z) {
 		IInventory inv = (IInventory) this;
 		NBTTagCompound nbt = new NBTTagCompound();

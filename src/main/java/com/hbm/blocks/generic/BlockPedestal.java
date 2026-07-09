@@ -1,14 +1,19 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.recipes.PedestalRecipes;
 import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
+import com.hbm.items.ModItems;
+import com.hbm.items.armor.ItemModDefuser;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.util.Compat;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +23,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -194,8 +200,24 @@ public class BlockPedestal extends BlockContainer {
 
 		public ItemStack item;
 		
-		@Override public boolean canUpdate() { return false; }
-
+		@Override
+		public void updateEntity() {
+			
+			if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 20 == 0) {
+				
+				if(this.item != null) {
+					if(item.getItem() == ModItems.protection_charm) pushPedestalEntry(worldObj, PedestalEntryType.CHARM_OF_PROTECTION, xCoord, yCoord, zCoord);
+					if(item.getItem() == ModItems.meteor_charm) pushPedestalEntry(worldObj, PedestalEntryType.METEORITE_CHARM, xCoord, yCoord, zCoord);
+					if(worldObj.getTotalWorldTime() % 60 == 0 && item.getItem() == ModItems.defuser) castrateCreepers();
+				}
+			}
+		}
+		
+		public void castrateCreepers() {
+			List<EntityCreeper> creepers = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(25, 25, 25));
+			for(EntityCreeper creeper : creepers) ItemModDefuser.castrateCreeper(creeper, null, false);
+		}
+		
 		@Override
 		public Packet getDescriptionPacket() {
 			NBTTagCompound nbt = new NBTTagCompound();
@@ -223,5 +245,49 @@ public class BlockPedestal extends BlockContainer {
 				nbt.setTag("item", stack);
 			}
 		}
+	}
+	
+	public static HashMap<Integer, List<PedestalEntry>> pedestalEntries = new HashMap();
+	
+	public static void pushPedestalEntry(World world, PedestalEntryType type, int x, int y, int z) {
+		PedestalEntry entry = new PedestalEntry(type, x, y, z, world.getTotalWorldTime());
+		
+		int dim = world.provider.dimensionId;
+		List<PedestalEntry> entries = pedestalEntries.get(dim);
+		
+		if(entries == null) {
+			entries = new ArrayList();
+			pedestalEntries.put(dim, entries);
+		}
+		entries.add(entry);
+	}
+	
+	public static final int timeout = 60; //3 seconds
+	
+	public static void checkPedestalEntries(int dim, long currentTime) {
+		List<PedestalEntry> entries = getEntriesForDimension(dim);
+		if(entries == null) return;
+		entries.removeIf(x -> { return x.timestamp  < currentTime - timeout; });
+	}
+	
+	public static List<PedestalEntry> getEntriesForDimension(int dim) {
+		return pedestalEntries.get(dim);
+	}
+	
+	public static class PedestalEntry {
+		public PedestalEntryType type;
+		public BlockPos pos;
+		public long timestamp;
+		
+		public PedestalEntry(PedestalEntryType type, int x, int y, int z, long timestamp) {
+			this.type = type;
+			this.pos = new BlockPos(x, y, z);
+			this.timestamp = timestamp;
+		}
+	}
+	
+	public static enum PedestalEntryType {
+		CHARM_OF_PROTECTION,
+		METEORITE_CHARM
 	}
 }
