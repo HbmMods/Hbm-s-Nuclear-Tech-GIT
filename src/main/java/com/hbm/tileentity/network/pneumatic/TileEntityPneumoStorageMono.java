@@ -12,18 +12,20 @@ import api.hbm.ntl.ISlotMonitorProvider;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase implements IPneumaticConnector, IFluidStandardReceiverMK2, ISlotMonitorProvider, IControlReceiver, IGUIProvider, IControlReceiverFilter {
 
 	public static final int CAPACITY = 100_000;
 	public int[] amounts;
-	
+
 	public TileEntityPneumoStorageMono() {
 		super(3);
-		
+
 		this.amounts = new int[this.monitors.length];
 	}
 
@@ -65,9 +67,29 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIPneumoStorageMono(player.inventory, this);
 	}
-	
+
 	@Override public long getAmountAt(int index) { return amounts[index]; }
 	@Override public boolean allowTypeSetting() { return false; }
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		super.receiveControl(data);
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		TileEntity tile = (TileEntity) this;
+		IInventory inv = (IInventory) this;
+		int slot = nbt.getInteger("slot");
+		NBTTagCompound stack = nbt.getCompoundTag("stack");
+		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
+		inv.setInventorySlotContents(slot, item);
+		nextMode(slot);
+		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+	}
 
 	@Override
 	public long useUpItem(int index, long amount) {
