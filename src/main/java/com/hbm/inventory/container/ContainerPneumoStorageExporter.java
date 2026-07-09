@@ -17,7 +17,7 @@ public class ContainerPneumoStorageExporter extends ContainerBase {
 			this.addSlotToContainer(new SlotPattern(exporter, i, 17 + (i % 3) * 18, 17 + (i / 3) * 18).allowStackSize());
 		}
 		
-		addSlots(exporter, 9, 80, 17, 3, 3);
+		addTakeOnlySlots(exporter, 9, 80, 17, 3, 3);
 		playerInv(invPlayer, 103);
 	}
 
@@ -40,5 +40,34 @@ public class ContainerPneumoStorageExporter extends ContainerBase {
 		if(slot.getHasStack()) ret = slot.getStack().copy();
 		slot.putStack(held);
 		return ret;
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack slotOriginal = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
+
+		if(slot != null && slot.getHasStack()) {
+			ItemStack slotStack = slot.getStack();
+			slotOriginal = slotStack.copy();
+
+			if(index <= tile.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(slotStack, tile.getSizeInventory(), this.inventorySlots.size(), true)) {
+					return null;
+				}
+			} else {
+				return null;
+			}
+
+			if(slotStack.stackSize == 0) {
+				slot.putStack(null);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			slot.onPickupFromSlot(player, slotStack);
+		}
+
+		return slotOriginal;
 	}
 }

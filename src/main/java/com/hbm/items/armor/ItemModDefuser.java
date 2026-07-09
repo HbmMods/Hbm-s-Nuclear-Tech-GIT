@@ -42,10 +42,11 @@ public class ItemModDefuser extends ItemArmorMod {
 		
 		List<EntityCreeper> creepers = entity.worldObj.getEntitiesWithinAABB(EntityCreeper.class, entity.boundingBox.expand(5, 5, 5));
 		
-		for(EntityCreeper creeper : creepers) defuse(creeper, entity, true);
+		for(EntityCreeper creeper : creepers) castrateCreeper(creeper, entity, true);
 	}
 	
-	public static boolean defuse(EntityCreeper creeper, EntityLivingBase entity, boolean dropItem) {
+	/** my bualls */
+	public static boolean castrateCreeper(EntityCreeper creeper, EntityLivingBase entity, boolean dropItem) {
 		
 		creeper.setCreeperState(-1);
 		creeper.getDataWatcher().updateObject(18, new Byte((byte) 0));
@@ -66,7 +67,7 @@ public class ItemModDefuser extends ItemArmorMod {
 				if(dropItem) {
 					creeper.worldObj.playSoundEffect(creeper.posX, creeper.posY, creeper.posZ, "hbm:item.pinBreak", 1.0F, 1.0F);
 					creeper.dropItem(ModItems.safety_fuse, 1);
-					creeper.attackEntityFrom(DamageSource.causeMobDamage(entity), 1.0F);
+					creeper.attackEntityFrom(entity != null ? DamageSource.causeMobDamage(entity) : DamageSource.magic, 1.0F);
 					creeper.addPotionEffect(new PotionEffect(Potion.weakness.id, 0, 200));
 				}
 				creeper.getEntityData().setBoolean("hfr_defused", true);

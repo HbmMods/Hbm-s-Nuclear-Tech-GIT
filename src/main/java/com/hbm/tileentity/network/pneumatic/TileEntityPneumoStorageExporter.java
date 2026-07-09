@@ -4,6 +4,7 @@ package com.hbm.tileentity.network.pneumatic;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPneumoStorageExporter;
 import com.hbm.inventory.gui.GUIPneumoStorageExporter;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.BobMathUtil;
 
@@ -18,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver {
+public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver, IControlReceiverFilter {
 	
 	/** If requests should be pulled repeatedly every tick */
 	public boolean continuousRequest = false;
@@ -303,8 +304,19 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 		if(data.hasKey("ror")) {
 			this.rorConfiguredMode = !this.rorConfiguredMode;
 		}
+		if(data.hasKey("slot")) {
+			setFilterContents(data);
+		}
 		this.markChanged();
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[] {0, 9};
+	}
+
+	@Override
+	public void nextMode(int i) { }
 
 	@Override
 	public String[] getFunctionInfo() {

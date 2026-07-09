@@ -3,6 +3,7 @@ package com.hbm.tileentity.network.pneumatic;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPneumoStorageMono;
 import com.hbm.inventory.gui.GUIPneumoStorageMono;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -15,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase implements IPneumaticConnector, IFluidStandardReceiverMK2, ISlotMonitorProvider, IControlReceiver, IGUIProvider {
+public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase implements IPneumaticConnector, IFluidStandardReceiverMK2, ISlotMonitorProvider, IControlReceiver, IGUIProvider, IControlReceiverFilter {
 
 	public static final int CAPACITY = 100_000;
 	public int[] amounts;
@@ -86,4 +87,12 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 	}
 
 	@Override public long setupType(int index, ItemStack zeroStack, long amount) { return amount; }
+
+	@Override
+	public void nextMode(int i) { }
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[] {0, 3};
+	}
 }
