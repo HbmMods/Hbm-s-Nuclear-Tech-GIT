@@ -20,10 +20,10 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 
 	public static final int CAPACITY = 100_000;
 	public int[] amounts;
-	
+
 	public TileEntityPneumoStorageMono() {
 		super(3);
-		
+
 		this.amounts = new int[this.monitors.length];
 	}
 
@@ -65,9 +65,18 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIPneumoStorageMono(player.inventory, this);
 	}
-	
+
 	@Override public long getAmountAt(int index) { return amounts[index]; }
 	@Override public boolean allowTypeSetting() { return false; }
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		super.receiveControl(data);
+		
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
 
 	@Override
 	public long useUpItem(int index, long amount) {
