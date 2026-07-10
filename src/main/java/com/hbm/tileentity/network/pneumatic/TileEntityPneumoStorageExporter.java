@@ -1,6 +1,5 @@
 package com.hbm.tileentity.network.pneumatic;
 
-
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPneumoStorageExporter;
 import com.hbm.inventory.gui.GUIPneumoStorageExporter;
@@ -14,11 +13,9 @@ import api.hbm.redstoneoverradio.IRORInteractive;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineBase implements IRORInteractive, IControlReceiver, IControlReceiverFilter {
@@ -322,14 +319,11 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
-		TileEntity tile = (TileEntity) this;
-		IInventory inv = (IInventory) this;
 		int slot = nbt.getInteger("slot");
 		NBTTagCompound stack = nbt.getCompoundTag("stack");
 		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
-		inv.setInventorySlotContents(slot, item);
-		nextMode(slot);
-		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+		this.setInventorySlotContents(slot, item);
+		this.markChanged();
 	}
 
 	@Override
