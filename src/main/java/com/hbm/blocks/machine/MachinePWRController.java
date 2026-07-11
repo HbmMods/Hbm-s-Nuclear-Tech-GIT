@@ -187,7 +187,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 		errored = true;
 	}
 
-	private void sendError(World world, int x, int y, int z, String message, EntityPlayer player) {
+	public static void sendError(World world, int x, int y, int z, String message, EntityPlayer player) {
 
 		if(player instanceof EntityPlayerMP) {
 			NBTTagCompound data = new NBTTagCompound();

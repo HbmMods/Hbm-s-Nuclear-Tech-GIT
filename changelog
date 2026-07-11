@@ -1,2 +1,10 @@
+## Changed
+* Updated the trinitite ore textures
+  * The ore spots are now smaller and more shard-like
+  * Each trinitite ore block now has four randomized texture variants
+* Trinitite ores now spawn fewer particles
+* The radiation effect caused by walking on trinitite ore is now much shorter but more intense to compensate
+
 ## Fixed
 * Fixed burner press GUI offsets being incorrect
+* Potentially fixed an issue with journey map where slaked sellafite would sometimes get the wrong color in the minimap
