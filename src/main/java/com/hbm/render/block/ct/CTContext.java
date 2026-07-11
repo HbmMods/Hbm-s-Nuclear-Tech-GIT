@@ -96,7 +96,7 @@ public class CTContext {
 			int ibl = b | l | cornerType(cons[3], cons[5], cons[6]);
 			int ibr = b | r | cornerType(cons[4], cons[7], cons[6]);
 			
-			faces[i] = new CTFace(world, x, y, z, (IBlockCT)block, itl, itr, ibl, ibr);
+			faces[i] = new CTFace(world, x, y, z, i, (IBlockCT)block, itl, itr, ibl, ibr);
 		}
 	}
 	
@@ -152,6 +152,7 @@ public class CTContext {
 		int x;
 		int y;
 		int z;
+		int side;
 		IBlockCT ct;
 		int index_tl;
 		int index_tr;
@@ -160,11 +161,12 @@ public class CTContext {
 		
 		public CTFace() { }
 		
-		public CTFace(IBlockAccess world, int x, int y, int z, IBlockCT block, int i, int j, int k, int l) {
+		public CTFace(IBlockAccess world, int x, int y, int z, int side, IBlockCT block, int i, int j, int k, int l) {
 			this.world = world;
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			this.side = side;
 			this.ct = block;
 			this.index_tl = i;
 			this.index_tr = j;
@@ -172,9 +174,9 @@ public class CTContext {
 			this.index_br = l;
 		}
 		
-		public IIcon getTopLeft() { return ct.getFragments(world, x, y, z)[index_tl]; }
-		public IIcon getTopRight() { return ct.getFragments(world, x, y, z)[index_tr]; }
-		public IIcon getBottomLeft() { return ct.getFragments(world, x, y, z)[index_bl]; }
-		public IIcon getBottomRight() { return ct.getFragments(world, x, y, z)[index_br]; }
+		public IIcon getTopLeft() { return ct.getFragments(world, x, y, z, side)[index_tl]; }
+		public IIcon getTopRight() { return ct.getFragments(world, x, y, z, side)[index_tr]; }
+		public IIcon getBottomLeft() { return ct.getFragments(world, x, y, z, side)[index_bl]; }
+		public IIcon getBottomRight() { return ct.getFragments(world, x, y, z, side)[index_br]; }
 	}
 }

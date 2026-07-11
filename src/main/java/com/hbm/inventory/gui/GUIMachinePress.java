@@ -22,7 +22,7 @@ public class GUIMachinePress extends GuiInfoContainer {
 		press = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 202;
+		this.ySize = 214;
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class GUIMachinePress extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.press.hasCustomInventoryName() ? this.press.getInventoryName() : I18n.format(this.press.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	
@@ -48,11 +48,11 @@ public class GUIMachinePress extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(press.burnTime >= 20) {
-			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 0, 202, 14, 14);
+			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 0, 214, 14, 14);
 		}
 		
 		int k = (int) (press.renderPress * 16 / press.maxPress);
-		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 14, 202, 18, k);
+		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 15, 214, 18, k);
 		
 		double i = (double) press.speed / (double) press.maxSpeed;
 		GUIElements.drawSmoothGauge(guiLeft + 34, guiTop + 25, this.zLevel, i, 5, 2, 1, 0x7f0000);

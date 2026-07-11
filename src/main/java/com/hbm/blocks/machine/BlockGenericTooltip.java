@@ -9,9 +9,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class BlockGenericPWR extends BlockGeneric implements ITooltipProvider {
+public class BlockGenericTooltip extends BlockGeneric implements ITooltipProvider {
 
-	public BlockGenericPWR(Material material) {
+	public BlockGenericTooltip(Material material) {
 		super(material);
 	}
 

@@ -7,7 +7,7 @@ import net.minecraft.world.IBlockAccess;
 
 public interface IBlockCT {
 
-	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z);
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side);
 	
 	public default boolean canConnect(IBlockAccess world, int x, int y, int z, Block block) {
 		return this == block;
