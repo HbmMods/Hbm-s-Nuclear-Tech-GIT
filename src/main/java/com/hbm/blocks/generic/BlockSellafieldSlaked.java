@@ -41,7 +41,7 @@ public class BlockSellafieldSlaked extends Block {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		icons = new IIcon[4];
-		icons[0] = reg.registerIcon(RefStrings.MODID + ":sellafield_slaked");
+		this.blockIcon = icons[0] = reg.registerIcon(RefStrings.MODID + ":sellafield_slaked");
 		icons[1] = reg.registerIcon(RefStrings.MODID + ":sellafield_slaked_1");
 		icons[2] = reg.registerIcon(RefStrings.MODID + ":sellafield_slaked_2");
 		icons[3] = reg.registerIcon(RefStrings.MODID + ":sellafield_slaked_3");

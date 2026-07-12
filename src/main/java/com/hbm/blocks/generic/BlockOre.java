@@ -159,7 +159,7 @@ public class BlockOre extends Block {
 				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
 			}
 			if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
-				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
+				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 2));
 			}
 			if(this == ModBlocks.brick_jungle_ooze) {
 				living.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 9));
@@ -178,8 +178,12 @@ public class BlockOre extends Block {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 
-		if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red || this == ModBlocks.block_trinitite || this == ModBlocks.block_waste) {
-			world.spawnParticle("townaura", x + rand.nextFloat(), y + 1.1F, z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+		if(this == ModBlocks.block_trinitite || this == ModBlocks.block_waste) {
+			world.spawnParticle("townaura", x + rand.nextFloat(), y + 1.0625, z + rand.nextFloat(), 0, 0, 0);
+		}
+
+		if((this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) && rand.nextInt(5) == 0) {
+			world.spawnParticle("townaura", x + rand.nextFloat(), y + 1.0625, z + rand.nextFloat(), 0, 0, 0);
 		}
 	}
 

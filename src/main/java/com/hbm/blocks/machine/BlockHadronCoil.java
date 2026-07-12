@@ -43,7 +43,7 @@ public class BlockHadronCoil extends Block implements IBlockCT, ITooltipProvider
 	}
 
 	@Override
-	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z) {
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side) {
 		return rec.fragCache;
 	}
 	
