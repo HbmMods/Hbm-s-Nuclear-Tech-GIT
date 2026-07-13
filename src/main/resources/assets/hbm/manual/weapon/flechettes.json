@@ -6,10 +6,12 @@
 	],
 	"title": {
 		"en_US": "Flechettes",
-		"zh_CN": "箭形弹"
+		"zh_CN": "箭形弹",
+		"ru_RU": "Флешетты"
 	},
 	"content": {
 		"en_US": "Flechettes are small fin-stabilized projectiles, contrary to buckshot's round pellets. Flechette shells have less spread and better armor-piercing compared to standard buckshot.",
-		"zh_CN": "箭形弹是小型的鳍形弹药，而非普通鹿弹的圆形弹丸。箭形弹散布更小，且具 有比普通鹿弹更好的穿甲效果。"
+		"zh_CN": "箭形弹是小型的鳍形弹药，而非普通鹿弹的圆形弹丸。箭形弹散布更小，且具 有比普通鹿弹更好的穿甲效果。",
+		"ru_RU": "Флешетты представляют собой небольшие стреловидные снаряды с хвостовым оперением, в отличие от круглых дробин стандартной картечи. Патроны с флешеттами имеют меньшее рассеивание и повышенную бронепробиваемость по сравнению с обычной картечью."
 	}
 }

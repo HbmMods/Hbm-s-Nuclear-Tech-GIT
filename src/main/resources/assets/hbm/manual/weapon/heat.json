@@ -7,10 +7,12 @@
 	],
 	"title": {
 		"en_US": "Shaped Charges",
-		"zh_CN": "聚能装药"
+		"zh_CN": "聚能装药",
+		"ru_RU": "Кумулятивные"
 	},
 	"content": {
 		"en_US": "Special type of explosive munition with weaker splash damage compared to high-explosives, which deals massive extra damage on direct hit.",
-		"zh_CN": "特殊的爆炸性弹药，爆炸伤害低于高爆弹药，但直接击中目标时会造成高额 额外伤害。"
+		"zh_CN": "特殊的爆炸性弹药，爆炸伤害低于高爆弹药，但直接击中目标时会造成高额 额外伤害。",
+		"ru_RU": "Особый тип разрывных боеприпасов с меньшим уроном по площади по сравнению со стандартными, который наносит огромный дополнительный урон при прямом попадании."
 	}
 }

@@ -13,10 +13,12 @@
 	],
 	"title": {
 		"en_US": "Armor Piercing Bullet",
-		"zh_CN": "穿甲弹"
+		"zh_CN": "穿甲弹",
+		"ru_RU": "Бронебойные патроны"
 	},
 	"content": {
 		"en_US": "AP rounds are similar to FMJ rounds, but using hardened steel jackets and significantly higher powder load. Not only do APs deal more damage and pierce through armor more effectively, but they can also penetrate their target.",
-		"zh_CN": "穿甲弹（AP）类似全金属被甲弹，但使用硬化钢弹壳且装药略多。穿甲弹不 仅能造成更多伤害，而且能更高效地穿透护甲，还可以穿透目标。"
+		"zh_CN": "穿甲弹（AP）类似全金属被甲弹，但使用硬化钢弹壳且装药略多。穿甲弹不 仅能造成更多伤害，而且能更高效地穿透护甲，还可以穿透目标。",
+		"ru_RU": "Бронебойные патроны схожи с оболочечными патронами, но в них используется рубашка из закалённой стали и значительно больший пороховой заряд. Бронебойные пули не только наносят больше урона и эффективнее пробивают броню, но также способны прошивать цель насквозь."
 	}
 }

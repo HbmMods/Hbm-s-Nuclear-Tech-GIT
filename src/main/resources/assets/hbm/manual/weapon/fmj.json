@@ -13,10 +13,12 @@
 	],
 	"title": {
 		"en_US": "Full Metal Jacket Bullet",
-		"zh_CN": "全金属被甲弹"
+		"zh_CN": "全金属被甲弹",
+		"ru_RU": "Оболочечная пуля"
 	},
 	"content": {
 		"en_US": "FMJs do not deform when hitting a soft target, meaning they deliver less damage. However, it allows them to pierce armor more effectively. All FMJs have some armor-piercing properties, as well as added damage threshold negation based on the caliber size.",
-		"zh_CN": "全金属被甲弹（FMJ）在击中较软目标时不会解体，因此造成的伤害较低； 然而其特性使得其能够更高效地穿透护甲。所有种类的全金属被甲弹都有一定 的穿甲能力，以及因口径而异的无视伤害阈值的能力。"
+		"zh_CN": "全金属被甲弹（FMJ）在击中较软目标时不会解体，因此造成的伤害较低； 然而其特性使得其能够更高效地穿透护甲。所有种类的全金属被甲弹都有一定 的穿甲能力，以及因口径而异的无视伤害阈值的能力。",
+		"ru_RU": "Оболочечные пули не деформируются при попадании в мягкую цель, из-за чего наносят меньше урона. Однако это позволяет им эффективнее пробивать броню. Все оболочечные патроны обладают базовыми бронебойными свойствами, а также снижают порог защиты цели в зависимости от калибра."
 	}
 }
