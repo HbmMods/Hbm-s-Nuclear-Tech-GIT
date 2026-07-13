@@ -278,9 +278,11 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(tanks[0].getTankType());
 
 		if(recipe == null) return false;
+		tanks[1].setTankType(recipe.output1.type);
+		tanks[2].setTankType(recipe.output2.type);
 		if(recipe.amount > tanks[0].getFill()) return false;
-		if(recipe.output1.type == tanks[1].getTankType() && recipe.output1.fill + tanks[1].getFill() > tanks[1].getMaxFill()) return false;
-		if(recipe.output2.type == tanks[2].getTankType() && recipe.output2.fill + tanks[2].getFill() > tanks[2].getMaxFill()) return false;
+		if(recipe.output1.fill + tanks[1].getFill() > tanks[1].getMaxFill()) return false;
+		if(recipe.output2.fill + tanks[2].getFill() > tanks[2].getMaxFill()) return false;
 
 		if(recipe.byproduct != null) {
 

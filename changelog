@@ -5,6 +5,8 @@
 * Trinitite ores now spawn fewer particles
 * The radiation effect caused by walking on trinitite ore is now much shorter but more intense to compensate
 * Finally removed the old terra drill items after being deprecated for almost a year
+* The electrolysis machine now instantly annihilates all buffered fluid output when changing recipe
+  * This is a straight downgrade but people for some reason wanted it so sure why not
 
 ## Fixed
 * Fixed burner press GUI offsets being incorrect
