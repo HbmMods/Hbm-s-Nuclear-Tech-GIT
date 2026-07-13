@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.main.NTMSounds;
 import com.hbm.util.BobMathUtil;
@@ -20,21 +19,10 @@ public class ItemAnchorRemote extends ItemBattery {
 	}
 
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		long charge = maxCharge;
-		
-		if(itemstack.hasTagCompound())
-			charge = getCharge(itemstack);
-
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
-			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
-		} else {
-			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
-			list.add("Charge: " + charge1 + "%");
-			list.add("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE)");
-		}
-		
+		if(stack.hasTagCompound()) charge = getCharge(stack);
+		list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		list.add("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
 	}
 
