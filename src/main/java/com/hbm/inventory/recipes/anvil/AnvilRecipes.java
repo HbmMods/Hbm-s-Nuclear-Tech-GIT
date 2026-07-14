@@ -560,9 +560,9 @@ public class AnvilRecipes extends SerializableRecipe {
 		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.billet_pu238be, 1), new AnvilOutput(new ItemStack(ModItems.plate_fuel_pu238be))).setTier(4));
 
 		for(int i = 0; i < 15; i += 3) {
-			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(IRON.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 1, i))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
-			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 1, i + 1))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
-			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 1, i + 2))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(IRON.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 2, i))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 2, i + 1))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+			constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.plate(), 1), new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_box, 2, i + 2))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
 			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_box, 1, i), new AnvilOutput(new ItemStack(ModItems.plate_iron))).setTier(2).setOverlay(OverlayType.RECYCLING));
 			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_box, 1, i + 1), new AnvilOutput(new ItemStack(ModItems.plate_copper))).setTier(2).setOverlay(OverlayType.RECYCLING));
 			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_box, 1, i + 2), new AnvilOutput(new ItemStack(ModItems.plate_aluminium))).setTier(2).setOverlay(OverlayType.RECYCLING));
@@ -570,6 +570,10 @@ public class AnvilRecipes extends SerializableRecipe {
 			constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate(), 1), new ComparableStack(ModItems.plate_polymer)}, new AnvilOutput(new ItemStack(ModBlocks.fluid_duct_exhaust, 8, i))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
 			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_exhaust, 8, i), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.plate_iron)), new AnvilOutput(new ItemStack(ModItems.plate_polymer))}).setTier(2));
 		}
+		
+			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_neo, 6), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.plate_steel, 2)), new AnvilOutput(new ItemStack(ModItems.plate_aluminium))}).setTier(2).setOverlay(OverlayType.RECYCLING));
+			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_neo, 6, 1), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.plate_iron, 2)), new AnvilOutput(new ItemStack(ModItems.plate_aluminium))}).setTier(2).setOverlay(OverlayType.RECYCLING));
+			constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModBlocks.fluid_duct_neo, 6, 2), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 2)), new AnvilOutput(new ItemStack(ModItems.plate_steel))}).setTier(2).setOverlay(OverlayType.RECYCLING));
 
 		for(int i = 0; i < 5; i++) {
 			constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(MINGRADE.ingot(), 1), new ComparableStack(ModItems.plate_polymer)}, new AnvilOutput(new ItemStack(ModBlocks.red_cable_box, 16, i))).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
@@ -731,7 +735,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				}
 		).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModBlocks.machine_bat9000, 1, 1),
+				new ComparableStack(ModBlocks.machine_bat9000, 1),
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.plate_welded, 4, Mats.MAT_TCALLOY.id)),
 						new AnvilOutput(new ItemStack(ModItems.plate_steel, 16))
@@ -844,6 +848,16 @@ public class AnvilRecipes extends SerializableRecipe {
 
 				}
 		).setTier(1));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.canister_empty, 2),
+						new AnvilOutput(new ItemStack(ModItems.plate_aluminium, 2))
+						).setTier(2).setOverlay(OverlayType.RECYCLING));
+						
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.gas_empty, 2),
+						new AnvilOutput(new ItemStack(ModItems.plate_steel, 2))
+						).setTier(2).setOverlay(OverlayType.RECYCLING));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.pile_rod_uranium), new AnvilOutput[] {
