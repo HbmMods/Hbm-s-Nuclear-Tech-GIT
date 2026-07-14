@@ -1,10 +1,11 @@
 package com.hbm.tileentity;
 
+import com.hbm.interfaces.NotableComments;
+
+@NotableComments
 public abstract class TileEntityTickingBase extends TileEntityLoadedBase {
 
 	public TileEntityTickingBase() { }
-
-	public abstract String getInventoryName();
 
 	//abstracting this method forces child classes to implement it
 	//so i don't have to remember the fucking method name
@@ -12,8 +13,5 @@ public abstract class TileEntityTickingBase extends TileEntityLoadedBase {
 	//shit i don't know man
 	@Override
 	public abstract void updateEntity();
-
-	@Deprecated
-	public void handleButtonPacket(int value, int meta) { }
 
 }

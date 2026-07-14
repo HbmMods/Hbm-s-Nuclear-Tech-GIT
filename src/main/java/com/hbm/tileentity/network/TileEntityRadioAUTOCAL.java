@@ -34,11 +34,6 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	public String[] history = new String[] {"", "", "", "", "", ""};
 
 	@Override
-	public String getInventoryName() {
-		return "container.autocal";
-	}
-
-	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IToolable {
 	
 	@Override

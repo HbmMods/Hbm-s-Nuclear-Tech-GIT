@@ -3,6 +3,8 @@ package com.hbm.blocks.machine.pile;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.machine.pile.TileEntityPileCore;
+import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileOrientation;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
@@ -19,8 +21,6 @@ public class BlockPileBrick extends Block implements IToolable {
 	
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 	@SideOnly(Side.CLIENT) protected IIcon iconSide;
-	
-	public static int MAX_SIZE = 15;
 
 	public BlockPileBrick() {
 		super(Material.rock);
@@ -42,6 +42,12 @@ public class BlockPileBrick extends Block implements IToolable {
 		return this.blockIcon;
 	}
 
+
+	public static final int MIN_V_SIZE = 5;
+	public static final int MIN_H_SIZE = 5;
+	public static final int MAX_V_SIZE = 15;
+	public static final int MAX_H_SIZE = 15;
+
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
@@ -50,6 +56,7 @@ public class BlockPileBrick extends Block implements IToolable {
 			if(world.isRemote) return true;
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(side).getOpposite();
+			ForgeDirection dirLeft = dir.getRotation(ForgeDirection.DOWN);
 
 			int negHeight = 0;
 			int posHeight = 0;
@@ -57,32 +64,41 @@ public class BlockPileBrick extends Block implements IToolable {
 			int right = 0;
 			int depth = 0;
 
-			for(int i = 1; i <= MAX_SIZE; i++) { if(world.getBlock(x, y + i, z) != this) break; posHeight = i; }
-			for(int i = 1; i <= MAX_SIZE - posHeight - 1; i++) { if(world.getBlock(x, y - i, z) != this) break; negHeight = i; }
+			/// PROBE DIMENSIONS ///
+			// height
+			for(int i = 1; i <= MAX_V_SIZE - 1; i++) {				if(world.getBlock(x, y + i, z) != this) break; posHeight = i; }
+			for(int i = 1; i <= MAX_V_SIZE - posHeight - 1; i++) {	if(world.getBlock(x, y - i, z) != this) break; negHeight = i; }
+			// side width
+			for(int i = 1; i <= MAX_H_SIZE - 1; i++) {				if(world.getBlock(x + dirLeft.offsetX * i, y, z + dirLeft.offsetZ * i) != this) break; left = i; }
+			for(int i = 1; i <= MAX_H_SIZE - left - 1; i++) {		if(world.getBlock(x - dirLeft.offsetX * i, y, z - dirLeft.offsetZ * i) != this) break; right = i; }
+			// depth
+			for(int i = 1; i <= MAX_H_SIZE; i++) {					if(world.getBlock(x + dir.offsetX * i, y, z + dir.offsetZ * i) != this) break; depth = i; }
 			
-			ForgeDirection dirLeft = dir.getRotation(ForgeDirection.DOWN);
-			for(int i = 1; i <= MAX_SIZE; i++) { if(world.getBlock(x + dirLeft.offsetX * i, y, z + dirLeft.offsetZ * i) != this) break; left = i; }
-			for(int i = 1; i <= MAX_SIZE - left - 1; i++) { if(world.getBlock(x - dirLeft.offsetX * i, y, z - dirLeft.offsetZ * i) != this) break; right = i; }
+			/// SIZE CHECKS ///
+			if(posHeight + negHeight + 1 < MIN_V_SIZE) {
+				MachinePWRController.sendError(world, x, y + posHeight, z, "Height too low (<" + MIN_V_SIZE + ")", player);
+				MachinePWRController.sendError(world, x, y - negHeight, z, "Height too low (<" + MIN_V_SIZE + ")", player);
+				return true;
+			}
+			
+			if(left + right + 1 < MIN_H_SIZE) {
+				MachinePWRController.sendError(world, x + dirLeft.offsetX * left, y, z + dirLeft.offsetZ * right, "Width too low (<" + MIN_H_SIZE + ")", player);
+				MachinePWRController.sendError(world, x - dirLeft.offsetX * right, y, z - dirLeft.offsetZ * right, "Width too low (<" + MIN_H_SIZE + ")", player);
+				return true;
+			}
+			
+			if(depth + 1 < MIN_H_SIZE) {
+				MachinePWRController.sendError(world, x + dir.offsetX * depth, y, z + dir.offsetZ * depth, "Depth too low (<" + MIN_H_SIZE + ")", player);
+				return true;
+			}
 
-			for(int i = 1; i <= MAX_SIZE; i++) { if(world.getBlock(x + dir.offsetX * i, y, z + dir.offsetZ * i) != this) break; depth = i; }
-			
-			if(posHeight + negHeight + 1 < 5) {
-				MachinePWRController.sendError(world, x, y + posHeight, z, "Height too low (<5)", player);
-				MachinePWRController.sendError(world, x, y - negHeight, z, "Height too low (<5)", player);
+			/// CORE EDGE CHECK ///
+			if(posHeight == 0 || negHeight == 0 || left == 0 || right == 0) {
+				MachinePWRController.sendError(world, x, y, z, "Core cannot be on an edge", player);
 				return true;
 			}
-			
-			if(left + right + 1 < 5) {
-				MachinePWRController.sendError(world, x + dirLeft.offsetX * left, y, z + dirLeft.offsetZ * right, "Width too low (<5)", player);
-				MachinePWRController.sendError(world, x - dirLeft.offsetX * right, y, z - dirLeft.offsetZ * right, "Width too low (<5)", player);
-				return true;
-			}
-			
-			if(depth + 1 < 5) {
-				MachinePWRController.sendError(world, x + dir.offsetX * depth, y, z + dir.offsetZ * depth, "Depth too low (<5)", player);
-				return true;
-			}
-			
+
+			/// VOLUME CHECK ///
 			for(int h = -negHeight; h <= posHeight; h++) {
 				for(int v = -left; v <= right; v++) {
 					for(int d = 0; d <= depth; d++) {
@@ -97,14 +113,22 @@ public class BlockPileBrick extends Block implements IToolable {
 					}
 				}
 			}
-			
+
+			/// BUILD ///
 			for(int h = -negHeight; h <= posHeight; h++) {
 				for(int v = -left; v <= right; v++) {
 					for(int d = 0; d <= depth; d++) {
 						int iX = x - dirLeft.offsetX * v + dir.offsetX * d;
 						int iY = y + h;
 						int iZ = z - dirLeft.offsetZ * v + dir.offsetZ * d;
-						world.setBlock(iX, iY, iZ, ModBlocks.pile_block);
+						
+						if(x == iX && y == iY && z == iZ) {
+							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_CORE, 3);
+							TileEntityPileCore core = (TileEntityPileCore) world.getTileEntity(iX, iY, iZ);
+							core.orientation = PileOrientation.getOrientation(dir);
+						} else {
+							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_DUMMY, 3);
+						}
 					}
 				}
 			}

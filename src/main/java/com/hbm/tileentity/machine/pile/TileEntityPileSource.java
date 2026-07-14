@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 
+@Deprecated
 public class TileEntityPileSource extends TileEntityPileBase {
 
 	@Override

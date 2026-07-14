@@ -7,6 +7,8 @@
 * Finally removed the old terra drill items after being deprecated for almost a year
 * The electrolysis machine now instantly annihilates all buffered fluid output when changing recipe
   * This is a straight downgrade but people for some reason wanted it so sure why not
+* Cable diodes now have a GUI for configuration instead of requiring tools
+  * The throughput can now be configured more precisely instead of increments of powers of 10
 
 ## Fixed
 * Fixed burner press GUI offsets being incorrect

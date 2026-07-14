@@ -26,6 +26,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements IToolable, IInsertable {
 
 	@SideOnly(Side.CLIENT)
