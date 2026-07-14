@@ -33,19 +33,19 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 	/** The core, gets its own TE and runs the simulation, only one per pile */
 	public static final int META_CORE		= 1;
 	/** Channel mid segment for channel intersect checks */
-	public static final int META_CHANNEL	= 3;
+	public static final int META_CHANNEL	= 2;
 	/** Startpoint of the channel */
-	public static final int META_FUEL_IN	= 4;
+	public static final int META_FUEL_IN	= 3;
 	/** Endpoint of the fuel channel */
-	public static final int META_FUEL_OUT	= 5;
+	public static final int META_FUEL_OUT	= 4;
 	/** Startpoint of the ventilation channel */
-	public static final int META_AIR_IN		= 6;
+	public static final int META_AIR_IN		= 5;
 	/** Endpoint of the ventilation channel */
-	public static final int META_AIR_OUT	= 7;
+	public static final int META_AIR_OUT	= 6;
 	/** Control rod channel */
-	public static final int META_CONTROL	= 8;
+	public static final int META_CONTROL	= 7;
 	/** Edge of our pile "cube" to prevent channels from being drilled there */
-	public static final int META_EDGE		= 9;
+	public static final int META_EDGE		= 8;
 	
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
@@ -85,10 +85,10 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 		if(tile instanceof TileEntityPileBaseMK2) {
 			TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
 			world.removeTileEntity(x, y, z);
-			world.setBlock(x, y, z, ModBlocks.pile_brick);
+			if(pile.coreY >= 0) world.setBlock(x, y, z, ModBlocks.pile_brick);
 			
 			TileEntityPileCore core = pile.getCore();
-			if(core != null) core.destroy();
+			if(core != null && !core.isInvalid()) core.destroy();
 			
 		} else {
 			world.removeTileEntity(x, y, z);

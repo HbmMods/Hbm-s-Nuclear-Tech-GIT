@@ -97,7 +97,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	}
 	
 	public void destroy() {
-		
+		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.pile_brick);
 	}
 	
 	public static enum PileOrientation {

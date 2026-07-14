@@ -3,6 +3,7 @@ package com.hbm.blocks.machine.pile;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.machine.pile.TileEntityPileBaseMK2;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileOrientation;
 
@@ -128,6 +129,10 @@ public class BlockPileBrick extends Block implements IToolable {
 							core.orientation = PileOrientation.getOrientation(dir);
 						} else {
 							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_DUMMY, 3);
+							TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) world.getTileEntity(iX, iY, iZ);
+							pile.coreX = x;
+							pile.coreY = y;
+							pile.coreZ = z;
 						}
 					}
 				}

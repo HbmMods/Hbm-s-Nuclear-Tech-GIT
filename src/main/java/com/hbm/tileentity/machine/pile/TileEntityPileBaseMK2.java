@@ -11,14 +11,14 @@ public class TileEntityPileBaseMK2 extends TileEntityTickingBase {
 	
 	public TileEntityPileCore cachedCore;
 	public int coreX;
-	public int coreY;
+	public int coreY = -999;
 	public int coreZ;
 	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
+			if(coreY >= 0) {
 				
 				TileEntityPileCore controller = getCore();
 				
