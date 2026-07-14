@@ -19,11 +19,6 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 	public boolean isOn;
 
 	@Override
-	public String getInventoryName() {
-		return null;
-	}
-
-	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {

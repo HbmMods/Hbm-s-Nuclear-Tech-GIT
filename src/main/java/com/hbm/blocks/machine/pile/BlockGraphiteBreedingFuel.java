@@ -19,6 +19,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class BlockGraphiteBreedingFuel extends BlockGraphiteDrilledTE implements IToolable {
 	
 	@Override

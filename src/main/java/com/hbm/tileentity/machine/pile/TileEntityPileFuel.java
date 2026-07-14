@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 
+@Deprecated
 public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutronReceiver {
 
 	public int heat;

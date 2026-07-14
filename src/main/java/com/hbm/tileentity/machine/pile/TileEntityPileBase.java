@@ -10,6 +10,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
+@Deprecated
 public abstract class TileEntityPileBase extends TileEntity {
 
 	@Override

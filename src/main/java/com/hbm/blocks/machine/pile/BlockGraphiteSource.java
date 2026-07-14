@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+@Deprecated
 public class BlockGraphiteSource extends BlockGraphiteDrilledTE implements IToolable {
 
 	@Override
