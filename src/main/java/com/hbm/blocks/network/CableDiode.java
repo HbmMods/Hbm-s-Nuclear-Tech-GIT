@@ -9,6 +9,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIDiode;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
@@ -17,6 +18,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -59,6 +61,17 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
+
+		if(!player.isSneaking() && world.isRemote) {
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

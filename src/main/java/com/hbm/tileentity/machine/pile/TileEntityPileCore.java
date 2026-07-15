@@ -67,6 +67,15 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		for(int i = 0; i < ventCount; i++) ventilationChannels.add(readChannelFromNBT(nbt, "v" + i));
 		for(int i = 0; i < contCount; i++) controlChannels.add(readChannelFromNBT(nbt, "c" + i));
 	}
+
+	public PileChannel getFuelChannel(int x, int y, int z) { return getChannel(x, y, z, fuelChannels); }
+	public PileChannel getVentilationChannel(int x, int y, int z) { return getChannel(x, y, z, ventilationChannels); }
+	public PileChannel getControlChannel(int x, int y, int z) { return getChannel(x, y, z, controlChannels); }
+	
+	public PileChannel getChannel(int x, int y, int z, List<PileChannel> list) {
+		for(PileChannel channel : list) if(channel.entry.compare(x, y, z)) return channel;
+		return null;
+	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {

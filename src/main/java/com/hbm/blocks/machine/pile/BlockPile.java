@@ -46,6 +46,12 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 	public static final int META_CONTROL	= 7;
 	/** Edge of our pile "cube" to prevent channels from being drilled there */
 	public static final int META_EDGE		= 8;
+
+	@SideOnly(Side.CLIENT) public CTStitchReceiver rec;
+	@SideOnly(Side.CLIENT) public CTStitchReceiver recTop;
+	@SideOnly(Side.CLIENT) public CTStitchReceiver recChanIn;
+	@SideOnly(Side.CLIENT) public CTStitchReceiver recChanOut;
+	@SideOnly(Side.CLIENT) public CTStitchReceiver recCon;
 	
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
@@ -60,20 +66,24 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 	@Override public int getRenderType() { return CT.renderID; }
 	@Override public Item getItemDropped(int i, Random rand, int j)  { return null; }
 
-	@SideOnly(Side.CLIENT) public CTStitchReceiver rec;
-	@SideOnly(Side.CLIENT) public CTStitchReceiver recTop;
-
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
 		super.registerBlockIcons(reg);
 		this.iconTop = reg.registerIcon(RefStrings.MODID + ":pile_block_top");
+		
 		this.rec = IBlockCT.primeReceiver(reg, this.blockIcon.getIconName(), this.blockIcon);
 		this.recTop = IBlockCT.primeReceiver(reg, this.iconTop.getIconName(), this.iconTop);
+		this.recChanIn = IBlockCT.primeReceiver(reg, "pile_block_input", this.blockIcon);
+		this.recChanOut = IBlockCT.primeReceiver(reg, "pile_block_output", this.blockIcon);
+		this.recCon = IBlockCT.primeReceiver(reg, "pile_block_control_top", this.iconTop);
 	}
 
 	@Override
 	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side) {
-		if(side == 0 || side == 1) return recTop.fragCache;
+		int meta = world.getBlockMetadata(x, y, z);
+		if(side == 0 || side == 1) return meta == META_CONTROL ? recCon.fragCache : recTop.fragCache;
+		if(meta == META_FUEL_IN || meta == META_AIR_IN) return recChanIn.fragCache;
+		if(meta == META_FUEL_OUT || meta == META_AIR_OUT) return recChanOut.fragCache;
 		return rec.fragCache;
 	}
 

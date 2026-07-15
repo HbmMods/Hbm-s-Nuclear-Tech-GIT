@@ -419,7 +419,11 @@ public class DamageResistanceHandler {
 		LASER,
 		MICROWAVE,
 		SUBATOMIC,
-		OTHER
+		OTHER;
+		
+		public boolean isApplicable(String name) {
+			return name.toLowerCase(Locale.US).equals(this.name().toLowerCase(Locale.US));
+		}
 	}
 	
 	public static void setup(float dt, float dr) {
@@ -471,11 +475,11 @@ public class DamageResistanceHandler {
 		if(source.isExplosion()) return CATEGORY_EXPLOSION;
 		if(source.isFireDamage()) return CATEGORY_FIRE;
 		if(source.isProjectile()) return CATEGORY_PHYSICAL;
-		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.LASER.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
-		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.PLASMA.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
-		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.MICROWAVE.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
-		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.SUBATOMIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
-		if(source.damageType.toLowerCase(Locale.US).equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) return CATEGORY_ENERGY;
+		if(DamageClass.LASER.isApplicable(source.damageType)) return CATEGORY_ENERGY;
+		if(DamageClass.PLASMA.isApplicable(source.damageType)) return CATEGORY_ENERGY;
+		if(DamageClass.MICROWAVE.isApplicable(source.damageType)) return CATEGORY_ENERGY;
+		if(DamageClass.SUBATOMIC.isApplicable(source.damageType)) return CATEGORY_ENERGY;
+		if(DamageClass.ELECTRIC.isApplicable(source.damageType)) return CATEGORY_ENERGY;
 		if(source == DamageSource.cactus) return CATEGORY_PHYSICAL;
 		if(source == ModDamageSource.spikes) return CATEGORY_PHYSICAL;
 		if(source == ModDamageSource.electricity) return CATEGORY_ENERGY;
