@@ -101,7 +101,14 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool == tool.HAND_DRILL) {
+			
 			TileEntity tile = world.getTileEntity(x, y, z);
+			
+			if(tile instanceof TileEntityPileCore || world.getBlockMetadata(x, y, z) == META_CORE) {
+				MachinePWRController.sendError(world, x, y, z, "Cannot intersect core", player);
+				return false;
+			}
+			
 			if(tile instanceof TileEntityPileBaseMK2) {
 				TileEntityPileCore core = ((TileEntityPileBaseMK2) tile).getCore();
 				if(core != null) {
@@ -109,6 +116,7 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 					return core.drillChannel(x, y, z, dir, player);
 				}
 			}
+			
 			MachinePWRController.sendError(world, x, y, z, "No core found", player);
 		}
 		

@@ -225,14 +225,14 @@ public class ModBlocks {
 	public static Block block_foam;
 	public static Block block_coke;
 	public static Block block_graphite;
-	public static Block block_graphite_drilled;
-	public static Block block_graphite_fuel;
-	public static Block block_graphite_plutonium;
-	public static Block block_graphite_rod;
-	public static Block block_graphite_source;
-	public static Block block_graphite_lithium;
-	public static Block block_graphite_tritium;
-	public static Block block_graphite_detector;
+	@Deprecated public static Block block_graphite_drilled;
+	@Deprecated public static Block block_graphite_fuel;
+	@Deprecated public static Block block_graphite_plutonium;
+	@Deprecated public static Block block_graphite_rod;
+	@Deprecated public static Block block_graphite_source;
+	@Deprecated public static Block block_graphite_lithium;
+	@Deprecated public static Block block_graphite_tritium;
+	@Deprecated public static Block block_graphite_detector;
 	public static Block block_boron;
 	public static Block block_lanthanium;
 	public static Block block_ra226;
@@ -853,6 +853,7 @@ public class ModBlocks {
 
 	public static Block pile_brick;
 	public static Block pile_block;
+	public static Block pile_device;
 
 	public static Block pwr_fuel;
 	public static Block pwr_control;
@@ -1962,8 +1963,9 @@ public class ModBlocks {
 		custom_machine = new BlockCustomMachine().setBlockName("custom_machine").setCreativeTab(MainRegistry.machineTab).setLightLevel(1F).setHardness(5.0F).setResistance(10.0F);
 		cm_anchor = new BlockCMAnchor().setBlockName("custom_machine_anchor").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F);
 		
-		pile_brick = new BlockPileBrick().setBlockName("pile_brick").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pile_brick");
-		pile_block = new BlockPile().setBlockName("pile_block").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pile_block");
+		pile_brick = new BlockPileBrick().setBlockName("pile_brick").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pile_brick");
+		pile_device = new BlockPileDevice().setBlockName("pile_device").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		pile_block = new BlockPile().setBlockName("pile_block").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pile_block");
 
 		pwr_fuel = new BlockPillarPWR(Material.iron, RefStrings.MODID + ":pwr_fuel_top").setBlockName("pwr_fuel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_fuel_side");
 		pwr_control = new BlockPillarPWR(Material.iron, RefStrings.MODID + ":pwr_control_top").setBlockName("pwr_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_control_side");
@@ -3326,6 +3328,7 @@ public class ModBlocks {
 		
 		//Chicago Pile
 		register(pile_brick);
+		register(pile_device);
 		register(pile_block);
 
 		//PWR

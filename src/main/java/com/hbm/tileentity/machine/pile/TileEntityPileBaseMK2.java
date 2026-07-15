@@ -14,6 +14,13 @@ public class TileEntityPileBaseMK2 extends TileEntityTickingBase {
 	public int coreY = -999;
 	public int coreZ;
 	
+	public TileEntityPileBaseMK2 setCore(int x, int y, int z) {
+		this.coreX = x;
+		this.coreY = y;
+		this.coreZ = z;
+		return this;
+	}
+	
 	@Override
 	public void updateEntity() {
 		
