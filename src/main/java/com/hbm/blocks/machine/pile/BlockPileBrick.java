@@ -127,12 +127,12 @@ public class BlockPileBrick extends Block implements IToolable {
 							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_CORE, 3);
 							TileEntityPileCore core = (TileEntityPileCore) world.getTileEntity(iX, iY, iZ);
 							core.orientation = PileOrientation.getOrientation(dir);
+							core.setupSize(posHeight + negHeight + 1, left + right + 1, depth + 1);
 						} else {
-							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_DUMMY, 3);
+							boolean isEdge = h == -negHeight || h == posHeight || v == -left || v == right || d == 0 || d == depth;
+							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, isEdge ? BlockPile.META_EDGE : BlockPile.META_DUMMY, 3);
 							TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) world.getTileEntity(iX, iY, iZ);
-							pile.coreX = x;
-							pile.coreY = y;
-							pile.coreZ = z;
+							pile.setCore(x, y, z);
 						}
 					}
 				}

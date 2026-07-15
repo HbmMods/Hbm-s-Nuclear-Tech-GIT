@@ -11,10 +11,26 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @NotableComments
 public class TileEntityPileCore extends TileEntityTickingBase {
+	
+	/*
+	 *  ____,__,___
+	 * |\   I, I,   \
+	 * | \   I  I    \
+	 * -- \___________\
+	 * |--|           |
+	 * -- |  U  U  U  |
+	 * \--|     X     |
+	 *  \ |  U  U  U  |
+	 *   \|___________|
+	 *   
+	 *       BEHOLD
+	 *      THE CUBE
+	 */
 	
 	/**
 	 * Orientation is kind of important now. The "direction" the pile is facing in is now decided
@@ -31,6 +47,46 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	public List<PileChannel> fuelChannels = new ArrayList();
 	public List<PileChannel> ventilationChannels = new ArrayList();
 	public List<PileChannel> controlChannels = new ArrayList();
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		height = nbt.getInteger("height");
+		width = nbt.getInteger("width");
+		depth = nbt.getInteger("depth");
+		
+		int fuelCount = nbt.getByte("fc");
+		int ventCount = nbt.getByte("vc");
+		int contCount = nbt.getByte("cc");
+
+		fuelChannels.clear();
+		ventilationChannels.clear();
+		controlChannels.clear();
+
+		for(int i = 0; i < fuelCount; i++) fuelChannels.add(readChannelFromNBT(nbt, "f" + i));
+		for(int i = 0; i < ventCount; i++) ventilationChannels.add(readChannelFromNBT(nbt, "v" + i));
+		for(int i = 0; i < contCount; i++) controlChannels.add(readChannelFromNBT(nbt, "c" + i));
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("height", height);
+		nbt.setInteger("width", width);
+		nbt.setInteger("depth", depth);
+		
+		int fuelCount = fuelChannels.size();
+		int ventCount = ventilationChannels.size();
+		int contCount = controlChannels.size();
+
+		nbt.setByte("fc", (byte) fuelCount);
+		nbt.setByte("vc", (byte) ventCount);
+		nbt.setByte("cc", (byte) contCount);
+
+		for(int i = 0; i < fuelCount; i++) fuelChannels.get(i).writeChannelToNBT(nbt, "f" + i);
+		for(int i = 0; i < ventCount; i++) ventilationChannels.get(i).writeChannelToNBT(nbt, "v" + i);
+		for(int i = 0; i < contCount; i++) controlChannels.get(i).writeChannelToNBT(nbt, "c" + i);
+	}
 	
 	public TileEntityPileCore setupSize(int h, int w, int d) {
 		this.height = h;
@@ -131,6 +187,21 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			this.type = type;
 			this.length = length;
 		}
+		
+		public void writeChannelToNBT(NBTTagCompound nbt, String name) {
+			nbt.setInteger(name + "_x", entry.getX());
+			nbt.setInteger(name + "_y", entry.getY());
+			nbt.setInteger(name + "_z", entry.getZ());
+			nbt.setByte(name + "_d", (byte) entry.getDir().ordinal());
+		}
+	}
+	
+	public PileChannel readChannelFromNBT(NBTTagCompound nbt, String name) {
+		int x = nbt.getInteger(name + "_x");
+		int y = nbt.getInteger(name + "_y");
+		int z = nbt.getInteger(name + "_z");
+		ForgeDirection dir = ForgeDirection.getOrientation(nbt.getByte(name + "_d"));
+		return new PileChannel(x, y, z, dir);
 	}
 	
 	public static enum PileChannelType {
