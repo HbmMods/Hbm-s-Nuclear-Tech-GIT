@@ -13,6 +13,8 @@ import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +28,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.Blocks;
 
 // horribly written command so you can render more than fucking guns without having to decompile the JAR
+@SideOnly(Side.CLIENT) // make it clientside so bobcat would not come after me
 public class CommandWikiRender extends CommandBase {
     @Override
     public String getCommandName() {
@@ -35,7 +38,7 @@ public class CommandWikiRender extends CommandBase {
     @Override
     public String getCommandUsage(ICommandSender sender) {
         return String.format(Locale.US,
-			"%s/%s <name> %s- Render screenshots of a selected item type (e.g ItemGunBaseNT). Intended for developers and wiki editors only.",
+			"%s/%s <type> %s- Render screenshots of a selected item type (e.g ItemGunBaseNT). Intended for developers and wiki editors only.",
 			EnumChatFormatting.GREEN, getCommandName(), EnumChatFormatting.LIGHT_PURPLE
 		);
     }
