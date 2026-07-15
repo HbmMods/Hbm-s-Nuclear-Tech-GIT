@@ -66,14 +66,14 @@ public class ColladaLoader {
 				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(res.getInputStream());
 				return parse(doc.getDocumentElement(), flipV);
 			} catch(SAXException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			} catch(IOException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			} catch(ParserConfigurationException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			}
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 		}
 		MainRegistry.logger.log(Level.ERROR, "FAILED TO LOAD MODEL: " + file);
 		return null;
@@ -344,14 +344,14 @@ public class ColladaLoader {
 				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(res.getInputStream());
 				return parseAnim(doc.getDocumentElement(), length);
 			} catch(SAXException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			} catch(IOException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			} catch(ParserConfigurationException e) {
-				e.printStackTrace();
+				MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 			}
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ColladaLoader", e);
 		}
 		MainRegistry.logger.log(Level.ERROR, "FAILED TO LOAD MODEL: " + file);
 		return null;
@@ -390,8 +390,7 @@ public class ColladaLoader {
 				return parseTransformsFromText(e.getElementsByTagName("float_array").item(0).getTextContent());
 			}
 		}
-		System.out.println("Failed to parse transforms! This will not work!");
-		System.out.println("Node name: " + root.getTagName());
+		MainRegistry.logger.error("Failed to parse transforms for node " + root.getTagName());
 		return null;
 	}
 	
@@ -431,8 +430,7 @@ public class ColladaLoader {
 	
 	private static float[] flipMatrix(float[] f){
 		if(f.length != 16){
-			System.out.println("Error flipping matrix: array length not 16. This will not work!");
-			System.out.println("Matrix: " + f);
+			MainRegistry.logger.error("Cannot flip matrix with length " + f.length);
 		}
 		return new float[]{
 			f[0], f[4], f[8], f[12],

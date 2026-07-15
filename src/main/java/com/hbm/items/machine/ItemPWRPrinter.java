@@ -1,5 +1,6 @@
 package com.hbm.items.machine;
 
+import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.List;
 
@@ -10,13 +11,16 @@ import com.hbm.inventory.gui.GUIScreenSlicePrinter;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityPWRController;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.DecoderException;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -30,8 +34,9 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 
 	private static int x1, y1, z1;
 	private static int x2, y2, z2;
-	private static Block[] blockSync;
 	private static ForgeDirection dir;
+	private static final int MAX_PRINT_AXIS = 128;
+	private static final int MAX_PRINT_BLOCKS = 262_144;
 
 	private HashSet<BlockPos> fill = new HashSet<>();
 	private static HashSet<Block> whitelist = new HashSet<Block>() {{
@@ -40,20 +45,18 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 	}};
 
 	// Piggybacking functions using the bytebuf TE sync
-	public static void serialize(World world, ByteBuf buf) {
-		buf.writeInt(x1);
-		buf.writeInt(y1);
-		buf.writeInt(z1);
-		buf.writeInt(x2);
-		buf.writeInt(y2);
-		buf.writeInt(z2);
-		buf.writeInt(dir.ordinal());
+	public static void serialize(PrintData print, ByteBuf buf) {
+		buf.writeInt(print.x1);
+		buf.writeInt(print.y1);
+		buf.writeInt(print.z1);
+		buf.writeInt(print.x2);
+		buf.writeInt(print.y2);
+		buf.writeInt(print.z2);
+		buf.writeInt(print.direction.ordinal());
 
-		for(Block block : blockSync) {
+		for(Block block : print.blocks) {
 			buf.writeInt(Block.getIdFromBlock(block));
 		}
-
-		blockSync = null;
 	}
 
 	// idiot box for server crashes: 2
@@ -65,7 +68,16 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 		x2 = buf.readInt();
 		y2 = buf.readInt();
 		z2 = buf.readInt();
-		dir = ForgeDirection.values()[buf.readInt()];
+		dir = EnumUtil.getEnumOrDefault(ForgeDirection.class, buf.readInt(), ForgeDirection.UNKNOWN);
+
+		long sizeX = (long) x2 - x1 + 1L;
+		long sizeY = (long) y2 - y1 + 1L;
+		long sizeZ = (long) z2 - z1 + 1L;
+		long volume = sizeX * sizeY * sizeZ;
+		if(sizeX <= 0 || sizeY <= 0 || sizeZ <= 0 || sizeX > MAX_PRINT_AXIS || sizeY > MAX_PRINT_AXIS || sizeZ > MAX_PRINT_AXIS
+				|| volume > MAX_PRINT_BLOCKS || volume * 4L > buf.readableBytes()) {
+			throw new DecoderException("Invalid PWR print dimensions: " + sizeX + "x" + sizeY + "x" + sizeZ);
+		}
 
 		for(int x = x1; x <= x2; x++) {
 			for(int y = y1; y <= y2; y++) {
@@ -100,20 +112,24 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 	}
 
 	public void syncAndScreenshot(World world, TileEntityPWRController pwr) {
-		findBounds(world, pwr);
+		pwr.pendingPrint = null;
+		if(!findBounds(world, pwr)) return;
 
 		int sizeX = x2 - x1 + 1;
 		int sizeY = y2 - y1 + 1;
 		int sizeZ = z2 - z1 + 1;
+		long volume = (long) sizeX * sizeY * sizeZ;
+		if(sizeX > MAX_PRINT_AXIS || sizeY > MAX_PRINT_AXIS || sizeZ > MAX_PRINT_AXIS || volume > MAX_PRINT_BLOCKS) return;
 
-		blockSync = new Block[sizeX * sizeY * sizeZ];
+		Block[] blockSync = new Block[(int) volume];
 		int i = 0;
 
 		for(int x = x1; x <= x2; x++) {
 			for(int y = y1; y <= y2; y++) {
 				for(int z = z1; z <= z2; z++) {
+					blockSync[i] = Blocks.air;
 					TileEntity tile = world.getTileEntity(x, y, z);
-					if(tile instanceof TileEntityBlockPWR) {
+					if(tile instanceof TileEntityBlockPWR && ((TileEntityBlockPWR) tile).block != null) {
 						blockSync[i] = ((TileEntityBlockPWR) tile).block;
 					}
 					i++;
@@ -121,10 +137,10 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 			}
 		}
 
-		pwr.isPrinting = true;
+		pwr.pendingPrint = new PrintData(x1, y1, z1, x2, y2, z2, dir, blockSync);
 	}
 
-	public void findBounds(World world, TileEntityPWRController pwr) {
+	public boolean findBounds(World world, TileEntityPWRController pwr) {
 		dir = ForgeDirection.getOrientation(world.getBlockMetadata(pwr.xCoord, pwr.yCoord, pwr.zCoord)).getOpposite();
 
 		fill.clear();
@@ -132,29 +148,50 @@ public class ItemPWRPrinter extends Item implements IGUIProvider {
 		x1 = x2 = pwr.xCoord;
 		y1 = y2 = pwr.yCoord;
 		z1 = z2 = pwr.zCoord;
-		floodFill(world, pwr.xCoord + dir.offsetX, pwr.yCoord, pwr.zCoord + dir.offsetZ);
+		return floodFill(world, pwr.xCoord + dir.offsetX, pwr.yCoord, pwr.zCoord + dir.offsetZ);
 	}
 
-	public void floodFill(World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-		if(fill.contains(pos)) return;
+	public boolean floodFill(World world, int x, int y, int z) {
+		ArrayDeque<BlockPos> pending = new ArrayDeque<BlockPos>();
+		pending.add(new BlockPos(x, y, z));
+		while(!pending.isEmpty()) {
+			BlockPos pos = pending.removeFirst();
+			if(fill.contains(pos)) continue;
+			int px = pos.getX();
+			int py = pos.getY();
+			int pz = pos.getZ();
+			if(!(world.getBlock(px, py, pz) instanceof BlockPWR)) continue;
+			if(fill.size() >= MAX_PRINT_BLOCKS) return false;
 
-		if(world.getBlock(x, y, z) instanceof BlockPWR) {
 			fill.add(pos);
+			x1 = Math.min(x1, px);
+			y1 = Math.min(y1, py);
+			z1 = Math.min(z1, pz);
+			x2 = Math.max(x2, px);
+			y2 = Math.max(y2, py);
+			z2 = Math.max(z2, pz);
+			if(x2 - x1 + 1 > MAX_PRINT_AXIS || y2 - y1 + 1 > MAX_PRINT_AXIS || z2 - z1 + 1 > MAX_PRINT_AXIS) return false;
 
-			x1 = Math.min(x1, x);
-			y1 = Math.min(y1, y);
-			z1 = Math.min(z1, z);
-			x2 = Math.max(x2, x);
-			y2 = Math.max(y2, y);
-			z2 = Math.max(z2, z);
+			pending.add(pos.add(1, 0, 0));
+			pending.add(pos.add(-1, 0, 0));
+			pending.add(pos.add(0, 1, 0));
+			pending.add(pos.add(0, -1, 0));
+			pending.add(pos.add(0, 0, 1));
+			pending.add(pos.add(0, 0, -1));
+		}
+		return true;
+	}
 
-			floodFill(world, x + 1, y, z);
-			floodFill(world, x - 1, y, z);
-			floodFill(world, x, y + 1, z);
-			floodFill(world, x, y - 1, z);
-			floodFill(world, x, y, z + 1);
-			floodFill(world, x, y, z - 1);
+	public static class PrintData {
+		public final int x1, y1, z1, x2, y2, z2;
+		public final ForgeDirection direction;
+		public final Block[] blocks;
+
+		public PrintData(int x1, int y1, int z1, int x2, int y2, int z2, ForgeDirection direction, Block[] blocks) {
+			this.x1 = x1; this.y1 = y1; this.z1 = z1;
+			this.x2 = x2; this.y2 = y2; this.z2 = z2;
+			this.direction = direction;
+			this.blocks = blocks;
 		}
 	}
 

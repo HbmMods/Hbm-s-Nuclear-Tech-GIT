@@ -161,7 +161,14 @@ public abstract class SerializableRecipe {
 	}
 
 	public static void receiveRecipes(String filename, byte[] data) {
-		recipeSyncHandlers.put(filename, new ByteArrayInputStream(data));
+		if(filename == null || data == null) return;
+		for(SerializableRecipe recipe : recipeHandlers) {
+			if(filename.equals(recipe.getFileName())) {
+				recipeSyncHandlers.put(filename, new ByteArrayInputStream(data));
+				return;
+			}
+		}
+		MainRegistry.logger.warn("Ignoring recipe sync for unknown file {}", filename);
 	}
 
 	public static void clearReceivedRecipes() {
@@ -237,7 +244,7 @@ public abstract class SerializableRecipe {
 			writer.endObject();						//final '}'
 			writer.close();
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in SerializableRecipe", ex);
 		}
 	}
 	

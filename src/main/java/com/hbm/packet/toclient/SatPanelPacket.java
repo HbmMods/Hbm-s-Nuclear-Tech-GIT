@@ -3,6 +3,7 @@ package com.hbm.packet.toclient;
 import java.io.IOException;
 
 import com.hbm.items.tool.ItemSatInterface;
+import com.hbm.packet.IDiscardablePacket;
 import com.hbm.saveddata.satellites.Satellite;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -12,11 +13,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.EncoderException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
-public class SatPanelPacket implements IMessage {
+public class SatPanelPacket implements IMessage, IDiscardablePacket {
 
 	PacketBuffer buffer;
 	int type;
@@ -36,7 +38,7 @@ public class SatPanelPacket implements IMessage {
 			buffer.writeNBTTagCompoundToBuffer(nbt);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new EncoderException("Failed to serialize satellite data", e);
 		}
 	}
 
@@ -80,9 +82,14 @@ public class SatPanelPacket implements IMessage {
 
 			} catch (Exception x) {
 			} finally {
-				m.buffer.release();
+				m.discard();
 			}
 			return null;
 		}
+	}
+
+	@Override
+	public void discard() {
+		if(buffer != null && buffer.refCnt() > 0) buffer.release();
 	}
 }

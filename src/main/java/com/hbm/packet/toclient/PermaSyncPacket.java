@@ -1,6 +1,7 @@
 package com.hbm.packet.toclient;
 
 import com.hbm.packet.PermaSyncHandler;
+import com.hbm.packet.IDiscardablePacket;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -12,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class PermaSyncPacket implements IMessage {
+public class PermaSyncPacket implements IMessage, IDiscardablePacket {
 
 	EntityPlayerMP player;	//server only, for writing
 	ByteBuf out;			//client only, for reading
@@ -30,7 +31,7 @@ public class PermaSyncPacket implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.out = buf;
+		this.out = buf.copy();
 	}
 
 	public static class Handler implements IMessageHandler<PermaSyncPacket, IMessage> {
@@ -45,10 +46,15 @@ public class PermaSyncPacket implements IMessage {
 				if(player != null) PermaSyncHandler.readPacket(m.out, player.worldObj, player);
 
 			} catch(Exception x) { } finally {
-				m.out.release();
+				m.discard();
 			}
 
 			return null;
 		}
+	}
+
+	@Override
+	public void discard() {
+		if(out != null && out.refCnt() > 0) out.release();
 	}
 }

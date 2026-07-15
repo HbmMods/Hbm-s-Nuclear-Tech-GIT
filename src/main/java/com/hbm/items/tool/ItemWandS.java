@@ -53,6 +53,7 @@ public class ItemWandS extends Item {
 	// why the fuck ye'd leave this whole thing obfuscated is beyond me
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
+		if(!player.capabilities.isCreativeMode) return false;
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 		}
@@ -131,8 +132,9 @@ public class ItemWandS extends Item {
 		int[] metas = stack.stackTagCompound.getIntArray("metas");
 		Set<Pair<Block, Integer>> blocks = new HashSet<>(blockIds.length);
 
-		for(int i = 0; i < blockIds.length; i++) {
-			blocks.add(new Pair<Block, Integer>(Block.getBlockById(blockIds[i]), metas[i]));
+		for(int i = 0; i < Math.min(blockIds.length, metas.length); i++) {
+			Block block = Block.getBlockById(blockIds[i]);
+			if(block != null) blocks.add(new Pair<Block, Integer>(block, metas[i]));
 		}
 
 		return blocks;
@@ -150,6 +152,7 @@ public class ItemWandS extends Item {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if(!player.capabilities.isCreativeMode) return stack;
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 		}

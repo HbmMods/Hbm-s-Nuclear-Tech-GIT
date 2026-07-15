@@ -188,12 +188,12 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 		}
 
 		public void saveStructure(EntityPlayer player) {
-			if(name.isEmpty()) {
+			if(!NBTStructure.isSafeStructureFilename(name + ".nbt")) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: invalid name"));
 				return;
 			}
 
-			if(sizeX <= 0 || sizeY <= 0 || sizeZ <= 0) {
+			if(!NBTStructure.isSizeValid(sizeX, sizeY, sizeZ)) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not save: invalid dimensions"));
 				return;
 			}
@@ -218,26 +218,29 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 		}
 
 		public void loadStructure(EntityPlayer player) {
-			if(name.isEmpty()) {
+			if(!NBTStructure.isSafeStructureFilename(name + ".nbt")) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load: no filename specified"));
 				return;
 			}
-
-			File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
-			structureDirectory.mkdir();
-
-			File structureFile = new File(structureDirectory, name + ".nbt");
 
 			boolean debug = !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 			boolean previousDebug = ServerConfig.STRUCTURE_DEBUG.get();
 			ServerConfig.STRUCTURE_DEBUG.set(debug);
 
 			try {
+				File structureFile = NBTStructure.resolveStructureFile(worldObj, name + ".nbt");
 				NBTStructure structure = new NBTStructure(structureFile);
 
-				sizeX = structure.getSizeX();
-				sizeY = structure.getSizeY();
-				sizeZ = structure.getSizeZ();
+				int loadedSizeX = structure.getSizeX();
+				int loadedSizeY = structure.getSizeY();
+				int loadedSizeZ = structure.getSizeZ();
+				if(!NBTStructure.isSizeValid(loadedSizeX, loadedSizeY, loadedSizeZ)) {
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load: structure exceeds safety limits"));
+					return;
+				}
+				sizeX = loadedSizeX;
+				sizeY = loadedSizeY;
+				sizeZ = loadedSizeZ;
 
 				structure.build(worldObj, xCoord, yCoord + 1, zCoord, 0, false, true);
 
@@ -247,6 +250,9 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 			} catch (FileNotFoundException ex) {
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load: file not found"));
+			} catch (Exception ex) {
+				MainRegistry.logger.warn("Failed to load structure " + name, ex);
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not load structure"));
 			} finally {
 				ServerConfig.STRUCTURE_DEBUG.set(previousDebug);
 			}
@@ -298,8 +304,9 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 			int[] metas = nbt.getIntArray("metas");
 
 			blacklist = new HashSet<>();
-			for (int i = 0; i < blocks.length; i++) {
-				blacklist.add(new Pair<Block, Integer>(Block.getBlockById(blocks[i]), metas[i]));
+			for (int i = 0; i < Math.min(blocks.length, metas.length); i++) {
+				Block block = Block.getBlockById(blocks[i]);
+				if(block != null) blacklist.add(new Pair<Block, Integer>(block, metas[i]));
 			}
 		}
 
@@ -319,14 +326,37 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 		@Override
 		public boolean hasPermission(EntityPlayer player) {
-			return true;
+			return player != null && player.capabilities.isCreativeMode && worldObj != null
+					&& worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+					&& player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128.0D;
 		}
 
 		public void receiveControl(NBTTagCompound data) {}
 
 		@Override
 		public void receiveControl(EntityPlayer player, NBTTagCompound nbt) {
-			readFromNBT(nbt);
+			String requestedName = nbt.getString("name").trim();
+			if(requestedName.length() <= NBTStructure.MAX_STRUCTURE_FILENAME_LENGTH) name = requestedName;
+
+			int requestedX = nbt.getInteger("sizeX");
+			int requestedY = nbt.getInteger("sizeY");
+			int requestedZ = nbt.getInteger("sizeZ");
+			if(NBTStructure.isSizeValid(requestedX, requestedY, requestedZ)) {
+				sizeX = requestedX;
+				sizeY = requestedY;
+				sizeZ = requestedZ;
+			}
+
+			int[] blocks = nbt.getIntArray("blocks");
+			int[] metas = nbt.getIntArray("metas");
+			if(blocks.length == metas.length && blocks.length <= 4096) {
+				Set<Pair<Block, Integer>> requestedBlacklist = new HashSet<>();
+				for(int i = 0; i < blocks.length; i++) {
+					Block block = Block.getBlockById(blocks[i]);
+					if(block != null) requestedBlacklist.add(new Pair<Block, Integer>(block, metas[i]));
+				}
+				blacklist = requestedBlacklist;
+			}
 			markDirty();
 
 			if(nbt.getBoolean("save")) {
@@ -469,7 +499,7 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 		private boolean loadOnClose = false;
 
-		private static File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
+		private File structureDirectory;
 		private static String nameFilter = "";
 		private static final FileFilter structureFilter = new FileFilter() {
 
@@ -487,14 +517,15 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 		@Override
 		public void initGui() {
 			Keyboard.enableRepeatEvents(true);
+			structureDirectory = resolveStructureDirectory();
 
 			textName = new GuiTextField(fontRendererObj, width / 2 - 150, 50, 300, 20);
 			textName.setText(tile.name);
 			nameFilter = tile.name;
 
-			structureDirectory.mkdir();
+			if(!structureDirectory.exists()) structureDirectory.mkdirs();
 
-			fileList = new GuiFileList(mc, structureDirectory.listFiles(structureFilter), this::selectFile, nameFilter, width, height, 70, height - 90, 16);
+			fileList = new GuiFileList(mc, listStructureFiles(), this::selectFile, nameFilter, width, height, 70, height - 90, 16);
 
 			performAction = new GuiButton(0, width / 2 - 150, height - 70, 300, 20, "LOAD");
 		}
@@ -537,8 +568,21 @@ public class BlockWandStructure extends BlockContainer implements IBlockMulti, I
 
 			if(!nameFilter.equals(textName.getText())) {
 				nameFilter = textName.getText();
-				fileList = new GuiFileList(mc, structureDirectory.listFiles(structureFilter), this::selectFile, nameFilter, width, height, 70, height - 90, 16);
+				fileList = new GuiFileList(mc, listStructureFiles(), this::selectFile, nameFilter, width, height, 70, height - 90, 16);
 			}
+		}
+
+		private File resolveStructureDirectory() {
+			if(mc.isSingleplayer() && mc.getIntegratedServer() != null && tile.getWorldObj() != null) {
+				net.minecraft.world.WorldServer serverWorld = mc.getIntegratedServer().worldServerForDimension(tile.getWorldObj().provider.dimensionId);
+				if(serverWorld != null) return new File(serverWorld.getSaveHandler().getWorldDirectory(), "structures");
+			}
+			return new File(mc.mcDataDir, "structures");
+		}
+
+		private File[] listStructureFiles() {
+			File[] files = structureDirectory.listFiles(structureFilter);
+			return files != null ? files : new File[0];
 		}
 
 		@Override

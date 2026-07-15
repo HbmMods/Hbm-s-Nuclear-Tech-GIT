@@ -72,6 +72,11 @@ public class RTTYSystem {
 		broadcast.putAll(toAdd);
 		newMessages.clear();
 	}
+
+	public static void unloadWorld(World world) {
+		broadcast.keySet().removeIf(identifier -> identifier.getKey() == world);
+		newMessages.keySet().removeIf(identifier -> identifier.getKey() == world);
+	}
 	
 	@NotableComments
 	public static class RTTYChannel {

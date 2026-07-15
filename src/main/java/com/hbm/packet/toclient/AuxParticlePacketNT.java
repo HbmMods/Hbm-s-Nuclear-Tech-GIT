@@ -13,8 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class AuxParticlePacketNT extends ThreadedPacket {
 
-	ByteBuf buffer;
-
 	NBTTagCompound nbt;
 
 	public AuxParticlePacketNT() { }
@@ -29,7 +27,6 @@ public class AuxParticlePacketNT extends ThreadedPacket {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		this.nbt = BufferUtil.readNBT(buf);
-		this.buffer = buf;
 	}
 
 	@Override
@@ -47,8 +44,6 @@ public class AuxParticlePacketNT extends ThreadedPacket {
 
 			if(m.nbt != null)
 				MainRegistry.proxy.effectNT(m.nbt);
-
-			m.buffer.release();
 
 			return null;
 		}

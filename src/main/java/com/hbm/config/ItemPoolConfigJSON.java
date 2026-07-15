@@ -76,7 +76,7 @@ public class ItemPoolConfigJSON {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ItemPoolConfigJSON", e);
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class ItemPoolConfigJSON {
 			ItemPool.pools = newPools;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ItemPoolConfigJSON", ex);
 		}
 	}
 	

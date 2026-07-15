@@ -1,4 +1,5 @@
 import org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory
+import groovy.json.JsonSlurper
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -12,7 +13,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {changing = true}
+		classpath 'com.anatawa12.forge:ForgeGradle:1.2-1.0.12'
 	}
 }
 
@@ -115,10 +116,79 @@ dependencies {
 
 	compileOnly("inventorytweaks:InventoryTweaks:1.59-dev:deobf") { transitive = false }
 
-	compileOnly("li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api") { transitive = false }
+	compileOnly("li.cil.oc:OpenComputers:MC1.7.10-1.5.22.46:api") { transitive = false }
 
 	compileOnly("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev") { transitive = false }
+
+	testImplementation 'junit:junit:4.13.2'
 }
+
+task validateResources {
+	group = 'verification'
+	description = 'Validates JSON, localization syntax, resource path casing, and sound references.'
+	inputs.files(fileTree('src/main/resources'))
+
+	doLast {
+		def resourceRoot = file('src/main/resources')
+		def failures = []
+		def json = new JsonSlurper()
+
+		fileTree(resourceRoot).matching {
+			include '**/*.json'
+			include '**/*.mcmeta'
+			include '**/mcmod.info'
+		}.files.each { jsonFile ->
+			try {
+				json.parse(jsonFile, 'UTF-8')
+			} catch(Exception ex) {
+				failures << "Invalid JSON ${jsonFile}: ${ex.message}"
+			}
+		}
+
+		fileTree(new File(resourceRoot, 'assets/hbm/lang')).matching { include '*.lang'; exclude 'test.lang' }.files.each { langFile ->
+			def keys = new HashSet<String>()
+			langFile.readLines('UTF-8').eachWithIndex { line, index ->
+				def trimmed = line.trim()
+				if(trimmed.isEmpty() || trimmed.startsWith('#')) return
+				int separator = line.indexOf('=')
+				if(separator <= 0) {
+					failures << "Malformed localization ${langFile}:${index + 1}"
+					return
+				}
+				def key = line.substring(0, separator)
+				if(!keys.add(key)) failures << "Duplicate localization key ${key} in ${langFile}:${index + 1}"
+			}
+		}
+
+		def paths = [:]
+		fileTree(resourceRoot).files.each { resource ->
+			def relative = resourceRoot.toPath().relativize(resource.toPath()).toString().replace('\\', '/')
+			def folded = relative.toLowerCase(Locale.ROOT)
+			if(paths.containsKey(folded) && paths[folded] != relative) failures << "Case-insensitive resource collision: ${paths[folded]} and ${relative}"
+			paths[folded] = relative
+		}
+
+		def soundsFile = new File(resourceRoot, 'assets/hbm/sounds.json')
+		def soundDefinitions = json.parse(soundsFile, 'UTF-8')
+		soundDefinitions.each { eventName, definition ->
+			definition.sounds.each { sound ->
+				def soundName = sound instanceof Map ? sound.name : sound
+				if(!(soundName instanceof String)) {
+					failures << "Invalid sound entry in ${eventName}"
+					return
+				}
+				if(soundName.contains(':') && !soundName.startsWith('hbm:')) return
+				def localName = soundName.startsWith('hbm:') ? soundName.substring(4) : soundName
+				def soundFile = new File(resourceRoot, "assets/hbm/sounds/${localName}.ogg")
+				if(!soundFile.isFile()) failures << "Missing sound ${localName}.ogg referenced by ${eventName}"
+			}
+		}
+
+		if(!failures.isEmpty()) throw new GradleException("Resource validation failed:\n - " + failures.join('\n - '))
+	}
+}
+
+check.dependsOn validateResources
 
 processResources {
 	// this will ensure that this task is redone when the versions change.

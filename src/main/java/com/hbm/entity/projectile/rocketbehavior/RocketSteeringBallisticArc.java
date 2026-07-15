@@ -26,16 +26,6 @@ public class RocketSteeringBallisticArc implements IRocketSteeringBehavior {
 		double targetYaw = yaw(target);
 		double targetPitch = pitch(target);
 		
-		boolean debug = false;
-
-		if(debug) {
-			System.out.println("=== INITIAL ===");
-			System.out.println("Rocket Yaw: " + rocketYaw);
-			System.out.println("Rocket Pitch: " + rocketPitch);
-			System.out.println("Target Yaw: " + targetYaw);
-			System.out.println("Target Pitch: " + targetPitch);
-		}
-		
 		turnSpeed = Math.min(maxTurn, turnSpeed / stepsRequired);
 		
 		/* ...and then we just cheat */
@@ -47,11 +37,6 @@ public class RocketSteeringBallisticArc implements IRocketSteeringBehavior {
 			targetPitch = rocketPitch + ((targetPitch - rocketPitch) / stepsRequired);
 		}*/
 
-		if(debug) {
-			System.out.println("=== ADJUSTED ===");
-			System.out.println("Target Pitch: " + targetPitch);
-		}
-
 		/* shortest delta of α < 180° */
 		double deltaYaw = ((targetYaw - rocketYaw) + 180D) % 360D - 180D;
 		double deltaPitch = ((targetPitch - rocketPitch) + 180D) % 360D - 180D;
@@ -59,14 +44,6 @@ public class RocketSteeringBallisticArc implements IRocketSteeringBehavior {
 		double turnYaw = Math.min(Math.abs(deltaYaw), turnSpeed) * Math.signum(deltaYaw);
 		double turnPitch = Math.min(Math.abs(deltaPitch), turnSpeed) * Math.signum(deltaPitch);
 
-		if(debug) {
-			System.out.println("=== RESULTS ===");
-			System.out.println("Delta Yaw: " + deltaYaw);
-			System.out.println("Delta Pitch: " + deltaPitch);
-			System.out.println("Turn Yaw: " + turnYaw);
-			System.out.println("Turn Pitch: " + turnPitch);
-		}
-		
 		Vec3 velocity = Vec3.createVectorHelper(speed, 0, 0);
 		velocity.rotateAroundZ((float) -Math.toRadians(rocketPitch + turnPitch));
 		velocity.rotateAroundY((float) Math.toRadians(rocketYaw + turnYaw + 90));

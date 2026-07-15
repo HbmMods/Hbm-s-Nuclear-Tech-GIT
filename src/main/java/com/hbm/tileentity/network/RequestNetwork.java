@@ -40,7 +40,7 @@ public class RequestNetwork {
 	
 	public static void updateEntries() {
 		
-		if(timer < 0) {
+		if(timer > 0) {
 			timer--;
 			return;
 		}
@@ -83,6 +83,16 @@ public class RequestNetwork {
 			// it's probably an inconsequential memory leak but i'd rather we don't
 		}
 		
+	}
+
+	public static void unloadWorld(World world) {
+		HashMap<ChunkCoordIntPair, HashedSet<PathNode>> chunks = activeWaypoints.remove(world);
+		if(chunks == null) return;
+		for(HashedSet<PathNode> nodes : chunks.values()) {
+			for(PathNode node : nodes) node.reachableNodes.clear();
+			nodes.clear();
+		}
+		chunks.clear();
 	}
 	
 	/** Generic path node, contains nothing but a position and a timestamp */

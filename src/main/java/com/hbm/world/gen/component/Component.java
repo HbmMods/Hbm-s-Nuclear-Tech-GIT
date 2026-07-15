@@ -1,5 +1,7 @@
 package com.hbm.world.gen.component;
 
+import com.hbm.main.MainRegistry;
+
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
@@ -899,7 +901,7 @@ abstract public class Component extends StructureComponent {
 						count++;
 
 						if(count > 2000) {
-							System.out.println("component's fillspace: ded " + a + " " + b + " " + c + " " + x + " " + y + " " + z);
+							MainRegistry.logger.warn("Structure component fill exceeded its safety limit at " + a + " " + b + " " + c + " from " + x + " " + y + " " + z);
 
 							BlockDummyable.safeRem = false;
 							return;

@@ -337,12 +337,18 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public boolean hasPermission(EntityPlayer player) {
-			return true;
+			return player != null && player.capabilities.isCreativeMode && worldObj != null
+					&& worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+					&& player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128.0D;
 		}
 
 		@Override
 		public void receiveControl(NBTTagCompound nbt) {
-			readFromNBT(nbt);
+			String requestedPool = nbt.getString("pool");
+			String requestedTarget = nbt.getString("target");
+			pool = requestedPool.length() <= 128 ? requestedPool : requestedPool.substring(0, 128);
+			target = requestedTarget.length() <= 128 ? requestedTarget : requestedTarget.substring(0, 128);
+			isRollable = nbt.getBoolean("roll");
 			markDirty();
 		}
 

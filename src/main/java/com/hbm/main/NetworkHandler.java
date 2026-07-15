@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.packet.IDiscardablePacket;
 import com.hbm.packet.threading.ThreadedPacket;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -25,11 +26,21 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import java.lang.ref.WeakReference;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec.INBOUNDPACKETTRACKER;
 
 // Essentially the `SimpleNetworkWrapper` from FML but doesn't flush the packets immediately. Also now with a custom codec!
 public class NetworkHandler {
+
+	private static final int MAX_PENDING_MESSAGES = 8192;
+	private static final int MAX_MESSAGES_PER_TICK = 4096;
+	private static final Queue<Runnable> clientTasks = new ConcurrentLinkedQueue<>();
+	private static final Queue<Runnable> serverTasks = new ConcurrentLinkedQueue<>();
+	private static final AtomicInteger pendingClientTasks = new AtomicInteger();
+	private static final AtomicInteger pendingServerTasks = new AtomicInteger();
 
 	// Network codec for allowing packets to be "precompiled".
 	@ChannelHandler.Sharable
@@ -51,26 +62,28 @@ public class NetworkHandler {
 		@Override
 		protected void encode(ChannelHandlerContext ctx, Object msg, List<Object> out) {
 			ByteBuf outboundBuf = PooledByteBufAllocator.DEFAULT.heapBuffer();
-			byte discriminator;
-			Class<?> msgClass = msg.getClass();
-			discriminator = types.get(msgClass);
-			outboundBuf.writeByte(discriminator);
+			try {
+				Class<?> msgClass = msg.getClass();
+				if(!types.containsKey(msgClass)) throw new CodecException("Unregistered packet class " + msgClass.getName());
+				outboundBuf.writeByte(types.get(msgClass));
 
-			if(msg instanceof ThreadedPacket) // Precompiled packet to avoid race conditions/speed up serialization.
-				outboundBuf.writeBytes(((ThreadedPacket) msg).getCompiledBuffer());
-			else if(msg instanceof IMessage)
-				((IMessage) msg).toBytes(outboundBuf);
-			else
-				throw new CodecException("Unknown packet codec requested during encoding, expected IMessage/PrecompiledPacket, got " + msg.getClass().getName());
+				if(msg instanceof ThreadedPacket) {
+					ByteBuf compiled = ((ThreadedPacket) msg).getCompiledBuffer();
+					outboundBuf.writeBytes(compiled, compiled.readerIndex(), compiled.readableBytes());
+				} else if(msg instanceof IMessage) {
+					((IMessage) msg).toBytes(outboundBuf);
+				} else {
+					throw new CodecException("Unknown packet codec requested during encoding, expected IMessage, got " + msgClass.getName());
+				}
 
-			FMLProxyPacket proxy = new FMLProxyPacket(Unpooled.buffer().writeBytes(outboundBuf), ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
-			outboundBuf.release();
-			WeakReference<FMLProxyPacket> ref = ctx.attr(INBOUNDPACKETTRACKER).get().get();
-			FMLProxyPacket old = ref == null ? null : ref.get();
-			if (old != null) {
-				proxy.setDispatcher(old.getDispatcher());
+				FMLProxyPacket proxy = new FMLProxyPacket(Unpooled.buffer(outboundBuf.readableBytes()).writeBytes(outboundBuf), ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
+				WeakReference<FMLProxyPacket> ref = ctx.attr(INBOUNDPACKETTRACKER).get().get();
+				FMLProxyPacket old = ref == null ? null : ref.get();
+				if (old != null) proxy.setDispatcher(old.getDispatcher());
+				out.add(proxy);
+			} finally {
+				outboundBuf.release();
 			}
-			out.add(proxy);
 		}
 
 		@Override
@@ -117,8 +130,111 @@ public class NetworkHandler {
 			channel = serverChannel;
 		String type = channel.findChannelHandlerNameForType(PrecompilingNetworkCodec.class);
 		SimpleChannelHandlerWrapper<REQ, REPLY> handler;
-		handler = new SimpleChannelHandlerWrapper<>(messageHandler, side, requestMessageType);
+		IMessageHandler<REQ, REPLY> delegate;
+		try {
+			delegate = messageHandler.newInstance();
+		} catch(ReflectiveOperationException ex) {
+			throw new IllegalArgumentException("Could not instantiate packet handler " + messageHandler.getName(), ex);
+		}
+		handler = new SimpleChannelHandlerWrapper<>(new MainThreadMessageHandler<>(this, delegate, side), side, requestMessageType);
 		channel.pipeline().addAfter(type, messageHandler.getName(), handler);
+	}
+
+	private static class MainThreadMessageHandler<REQ extends IMessage, REPLY extends IMessage> implements IMessageHandler<REQ, REPLY> {
+
+		private final NetworkHandler network;
+		private final IMessageHandler<REQ, REPLY> delegate;
+		private final Side side;
+
+		private MainThreadMessageHandler(NetworkHandler network, IMessageHandler<REQ, REPLY> delegate, Side side) {
+			this.network = network;
+			this.delegate = delegate;
+			this.side = side;
+		}
+
+		@Override
+		public REPLY onMessage(final REQ message, final cpw.mods.fml.common.network.simpleimpl.MessageContext context) {
+			boolean queued = enqueue(side, new DiscardableRunnable() {
+				@Override
+				public void run() {
+					try {
+						REPLY reply = delegate.onMessage(message, context);
+						if(reply != null) {
+							if(side.isServer()) {
+								network.sendTo(reply, context.getServerHandler().playerEntity);
+							} else {
+								network.sendToServer(reply);
+							}
+						}
+					} catch(Throwable ex) {
+						MainRegistry.logger.error("Failed to process {} on the main {} thread", message.getClass().getName(), side.name().toLowerCase(), ex);
+					} finally {
+						discardTask();
+					}
+				}
+
+				@Override
+				public void discardTask() {
+					NetworkHandler.discard(message);
+				}
+			});
+
+			if(!queued) {
+				discard(message);
+				MainRegistry.logger.warn("Discarding {} because the {} packet queue reached {} entries", message.getClass().getSimpleName(), side.name().toLowerCase(), MAX_PENDING_MESSAGES);
+			}
+
+			// Replies are dispatched after the queued handler has run.
+			return null;
+		}
+	}
+
+	private interface DiscardableRunnable extends Runnable {
+		void discardTask();
+	}
+
+	private static boolean enqueue(Side side, Runnable task) {
+		Queue<Runnable> queue = side.isClient() ? clientTasks : serverTasks;
+		AtomicInteger count = side.isClient() ? pendingClientTasks : pendingServerTasks;
+		int pending = count.incrementAndGet();
+		if(pending > MAX_PENDING_MESSAGES) {
+			count.decrementAndGet();
+			return false;
+		}
+		queue.add(task);
+		return true;
+	}
+
+	private static void discard(IMessage message) {
+		if(message instanceof IDiscardablePacket) {
+			try {
+				((IDiscardablePacket) message).discard();
+			} catch(RuntimeException ex) {
+				MainRegistry.logger.warn("Failed to release resources owned by discarded packet " + message.getClass().getName(), ex);
+			}
+		}
+	}
+
+	public static void drainMainThreadQueue(Side side) {
+		Queue<Runnable> queue = side.isClient() ? clientTasks : serverTasks;
+		AtomicInteger count = side.isClient() ? pendingClientTasks : pendingServerTasks;
+
+		for(int processed = 0; processed < MAX_MESSAGES_PER_TICK; processed++) {
+			Runnable task = queue.poll();
+			if(task == null) break;
+			count.decrementAndGet();
+			task.run();
+		}
+	}
+
+	public static void clearMainThreadQueue(Side side) {
+		Queue<Runnable> queue = side.isClient() ? clientTasks : serverTasks;
+		AtomicInteger count = side.isClient() ? pendingClientTasks : pendingServerTasks;
+		Runnable task;
+		while((task = queue.poll()) != null) {
+			count.decrementAndGet();
+			if(task instanceof DiscardableRunnable) ((DiscardableRunnable) task).discardTask();
+		}
 	}
 
 	public static void flush() {

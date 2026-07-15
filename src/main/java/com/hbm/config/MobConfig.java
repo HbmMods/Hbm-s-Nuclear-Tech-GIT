@@ -82,17 +82,17 @@ public class MobConfig {
 		maskmanUnderground = CommonConfig.createConfigBool(config, CATEGORY, "12.M04_maskmanUnderound", "Whether players need to be underground for mask man to spawn", true);
 
 		enableRaids = CommonConfig.createConfigBool(config, CATEGORY, "12.F00_enableFBIRaids", "Whether there should be FBI raids", false);
-		raidDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F01_raidDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60);
-		raidChance = CommonConfig.createConfigInt(config, CATEGORY, "12.F02_raidChance", "1:x chance to spawn a raid, must be at least 1", 3);
+		raidDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F01_raidDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60, 1, Integer.MAX_VALUE);
+		raidChance = CommonConfig.createConfigInt(config, CATEGORY, "12.F02_raidChance", "1:x chance to spawn a raid, must be at least 1", 3, 1, Integer.MAX_VALUE);
 		raidAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.F03_raidAmount", "How many FBI agents are spawned each raid", 15);
-		raidAttackDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F04_raidAttackDelay", "Time between individual attempts to break machines", 40);
+		raidAttackDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F04_raidAttackDelay", "Time between individual attempts to break machines", 40, 1, Integer.MAX_VALUE);
 		raidAttackReach = CommonConfig.createConfigInt(config, CATEGORY, "12.F05_raidAttackReach", "How far away machines can be broken", 2);
 		raidAttackDistance = CommonConfig.createConfigInt(config, CATEGORY, "12.F06_raidAttackDistance", "How far away agents will spawn from the targeted player", 32);
 		raidDrones = CommonConfig.createConfigInt(config, CATEGORY, "12.F07_raidDrones", "How many quadcopter drones are spawned each raid", 5);
 
 		enableElementals = CommonConfig.createConfigBool(config, CATEGORY, "12.E00_enableMeltdownElementals", "Whether there should be radiation elementals", true);
-		elementalDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.E01_elementalDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60);
-		elementalChance = CommonConfig.createConfigInt(config, CATEGORY, "12.E02_elementalChance", "1:x chance to spawn elementals, must be at least 1", 2);
+		elementalDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.E01_elementalDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60, 1, Integer.MAX_VALUE);
+		elementalChance = CommonConfig.createConfigInt(config, CATEGORY, "12.E02_elementalChance", "1:x chance to spawn elementals, must be at least 1", 2, 1, Integer.MAX_VALUE);
 		elementalAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.E03_elementalAmount", "How many elementals are spawned each raid", 10);
 		elementalDistance = CommonConfig.createConfigInt(config, CATEGORY, "12.E04_elementalAttackDistance", "How far away elementals will spawn from the targeted player", 32);
 		
@@ -102,14 +102,14 @@ public class MobConfig {
 		mobWeaponSootReduction = CommonConfig.createConfigDouble(config, CATEGORY, "12.D03_mobWeaponSootReduction", "Reduces the amount of soot needed for skeleton guns to appear", 0D);
 
 		enableHives = CommonConfig.createConfigBool(config, CATEGORY, "12.G00_enableHives", "Whether glyphid hives should spawn", true);
-		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 256);
+		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 256, 1, Integer.MAX_VALUE);
 		scoutThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G02_scoutThreshold", "Minimum amount of soot for scouts to spawn", 1);
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
 
-		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 3);
+		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 3, 1, Integer.MAX_VALUE);
 
-		largeHiveChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G11_largeHiveChance", "The chance for a large hive to spawn, formula: 1/x", 5);
+		largeHiveChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G11_largeHiveChance", "The chance for a large hive to spawn, formula: 1/x", 5, 1, Integer.MAX_VALUE);
 		largeHiveThreshold = CommonConfig.createConfigInt(config, CATEGORY,"12.G12_largeHiveThreshold", "The soot threshold for a large hive to spawn", 20);
 
 		waypointDebug = CommonConfig.createConfigBool(config, CATEGORY,"12.G13_waypointDebug", "Allows glyphid waypoints to be seen, mainly used for debugging, also useful as an aid against them", false);
@@ -132,17 +132,17 @@ public class MobConfig {
 
 		baseSwarmSize =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS01_baseSwarmSize", "The basic, soot-less swarm size", 5);
 		swarmScalingMult =  CommonConfig.createConfigDouble(config, CATEGORY, "12.GS02_swarmScalingMult", "By how much should swarm size scale by per soot amount determined below", 1.2);
-		sootStep =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50);
-		swarmCooldown =  CommonConfig.createConfigInt(config, CATEGORY, "12.GS04_swarmCooldown", "How often do glyphid swarms spawn, in seconds", 120) * 20;
+		sootStep = CommonConfig.createConfigInt(config, CATEGORY, "12.GS03_sootStep", "The soot amount the above multiplier applies to the swarm size", 50, 1, Integer.MAX_VALUE);
+		swarmCooldown = CommonConfig.createConfigInt(config, CATEGORY, "12.GS04_swarmCooldown", "How often do glyphid swarms spawn, in seconds", 120, 1, Integer.MAX_VALUE / 20) * 20;
 
-		glyphidChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -45, 0});
-		brawlerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{10, 30, 1});
-		bombardierChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC03_bombardierChance", "Base Spawn chance and soot modifier for a glyphid bombardier", new int[]{20, -15, 1});
-		blasterChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot modifier for a glyphid blaster", new int[]{-5, 40, 5});
-		diggerChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC05_diggerChance", "Base Spawn chance and soot modifier for a glyphid digger", new int[]{-15, 25, 5});
-		behemothChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_behemothChance", "Base Spawn chance and soot modifier for a glyphid behemoth", new int[]{-30, 45, 10});
-		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-50, 60, 20});
-		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC08_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-50, 60, 50});
+		glyphidChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC01_glyphidChance", "Base Spawn chance and soot modifier for a glyphid grunt", new int[]{50, -45, 0}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		brawlerChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC02_brawlerChance", "Base Spawn chance and soot modifier for a glyphid brawler", new int[]{10, 30, 1}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		bombardierChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC03_bombardierChance", "Base Spawn chance and soot modifier for a glyphid bombardier", new int[]{20, -15, 1}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		blasterChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC04_blasterChance", "Base Spawn chance and soot modifier for a glyphid blaster", new int[]{-5, 40, 5}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		diggerChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC05_diggerChance", "Base Spawn chance and soot modifier for a glyphid digger", new int[]{-15, 25, 5}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		behemothChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC06_behemothChance", "Base Spawn chance and soot modifier for a glyphid behemoth", new int[]{-30, 45, 10}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		brendaChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC07_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-50, 60, 20}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		johnsonChance = CommonConfig.createFixedConfigIntList(config, CATEGORY, "12.GC08_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-50, 60, 50}, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 		String rampantDesc = "Rampant Mode changes glyphid behavior and spawning to be more aggressive, changes include:\n"
 				+ "\n"
@@ -161,7 +161,7 @@ public class MobConfig {
 
 		rampantNaturalScoutSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.R02_rampantScoutSpawn", "Whether scouts should spawn natually in highly polluted chunks", false);
 		rampantScoutSpawnThresh = CommonConfig.createConfigDouble(config, CATEGORY, "12.R02.1_rampantScoutSpawnThresh", "How much soot is needed for scouts to naturally spawn", 13);
-		rampantScoutSpawnChance = CommonConfig.createConfigInt(config, CATEGORY, "12.R02.2_rampantScoutSpawnChance", "How often scouts naturally spawn per mob population, 1/x format, the bigger the number, the more uncommon the scouts", 1400);
+		rampantScoutSpawnChance = CommonConfig.createConfigInt(config, CATEGORY, "12.R02.2_rampantScoutSpawnChance", "How often scouts naturally spawn per mob population, 1/x format, the bigger the number, the more uncommon the scouts", 1400, 1, Integer.MAX_VALUE);
 		rampantExtendedTargetting = CommonConfig.createConfigBool(config, CATEGORY,"12.R03_rampantExtendedTargeting", "Whether Glyphids should have the extended targetting always enabled", false);
 		rampantDig = CommonConfig.createConfigBool(config, CATEGORY,"12.R04_rampantDig", "Whether Glyphids should be able to dig to waypoints", false);
 		rampantGlyphidGuidance = CommonConfig.createConfigBool(config, CATEGORY,"12.R05_rampantGlyphidGuidance", "Whether Glyphids should always expand toward a player's spawnpoint", false);

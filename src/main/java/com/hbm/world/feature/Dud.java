@@ -64,7 +64,7 @@ public class Dud extends WorldGenerator {
 		world.setBlock(x, y, z, ModBlocks.crashed_balefire, rand.nextInt(EnumDudType.values().length), 3);
 
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned dud at " + x + " " + y + " " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned dud at " + x + " " + y + " " + z);
 		return true;
 
 	}

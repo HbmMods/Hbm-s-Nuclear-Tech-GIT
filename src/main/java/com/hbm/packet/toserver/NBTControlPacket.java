@@ -3,18 +3,25 @@ package com.hbm.packet.toserver;
 import java.io.IOException;
 
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.packet.IDiscardablePacket;
+import com.hbm.packet.PacketSecurity;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.EncoderException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 
-public class NBTControlPacket implements IMessage {
+public class NBTControlPacket implements IMessage, IDiscardablePacket {
+
+	private static final int MAX_PACKET_BYTES = 64 * 1024;
 
 	PacketBuffer buffer;
 	int x;
@@ -32,8 +39,13 @@ public class NBTControlPacket implements IMessage {
 
 		try {
 			buffer.writeNBTTagCompoundToBuffer(nbt);
+			if(buffer.readableBytes() > MAX_PACKET_BYTES) {
+				discard();
+				throw new EncoderException("NBT control packet exceeds " + MAX_PACKET_BYTES + " bytes");
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			discard();
+			throw new EncoderException("Failed to encode NBT control packet", e);
 		}
 	}
 
@@ -44,7 +56,8 @@ public class NBTControlPacket implements IMessage {
 		y = buf.readInt();
 		z = buf.readInt();
 
-		if(buffer == null) buffer = new PacketBuffer(Unpooled.buffer());
+		if(buf.readableBytes() > MAX_PACKET_BYTES) throw new DecoderException("NBT control packet exceeds " + MAX_PACKET_BYTES + " bytes");
+		if(buffer == null) buffer = new PacketBuffer(Unpooled.buffer(Math.min(buf.readableBytes(), MAX_PACKET_BYTES)));
 
 		buffer.writeBytes(buf);
 	}
@@ -68,10 +81,21 @@ public class NBTControlPacket implements IMessage {
 
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
 
-			if(p.worldObj == null)
+			if(p == null || p.worldObj == null || !PacketSecurity.allow(p, "nbt_control", 100)) {
+				m.discard();
 				return null;
+			}
+			if(m.y < 0 || m.y >= p.worldObj.getHeight()
+					|| p.getDistanceSq(m.x + 0.5D, m.y + 0.5D, m.z + 0.5D) > PacketSecurity.MAX_TILE_DISTANCE_SQ) {
+				m.discard();
+				return null;
+			}
 
 			TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
+			if(!PacketSecurity.canAccessTile(p, te)) {
+				m.discard();
+				return null;
+			}
 
 			try {
 
@@ -89,13 +113,18 @@ public class NBTControlPacket implements IMessage {
 					}
 				}
 
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				MainRegistry.logger.warn("Rejected malformed NBT control packet from " + p.getCommandSenderName(), e);
 			} finally {
-				m.buffer.release();
+				m.discard();
 			}
 
 			return null;
 		}
+	}
+
+	@Override
+	public void discard() {
+		if(buffer != null && buffer.refCnt() > 0) buffer.release();
 	}
 }

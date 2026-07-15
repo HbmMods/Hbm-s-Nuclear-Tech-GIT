@@ -140,7 +140,7 @@ public class CustomMachineConfigJSON {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in CustomMachineConfigJSON", e);
 		}
 	}
 
@@ -239,7 +239,7 @@ public class CustomMachineConfigJSON {
 			}
 
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in CustomMachineConfigJSON", ex);
 		}
 	}
 

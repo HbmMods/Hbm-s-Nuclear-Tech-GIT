@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
@@ -94,7 +95,7 @@ public class ModEntityList {
 			if(cls != null)
 				return cls.getConstructor(World.class).newInstance(world);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Failed to construct entity with ID " + id, e);
 		}
 
 		return null;

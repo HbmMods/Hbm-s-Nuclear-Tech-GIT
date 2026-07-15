@@ -1,5 +1,7 @@
 package com.hbm.handler.radiation;
 
+import com.hbm.main.MainRegistry;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -338,7 +340,7 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 		//Should ideally never happen because of the 20 ms limit, 
 		//but who knows, maybe it will, and it's nice to have debug output if it does
 		if(System.currentTimeMillis()-time > 50){
-			System.out.println("Rads took too long: " + (System.currentTimeMillis()-time));
+			MainRegistry.logger.warn("Radiation update took " + (System.currentTimeMillis() - time) + "ms");
 		}
 	}
 	

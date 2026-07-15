@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import com.hbm.main.MainRegistry;
+
 import com.hbm.blocks.BlockDummyable;
 
 import net.minecraft.block.Block;
@@ -36,7 +38,7 @@ public class MultiblockHandlerXR {
 					count++;
 					
 					if(count > 2000) {
-						System.out.println("checkspace: ded " + a + " " + b + " " + c + " " + x + " " + y + " " + z);
+						MainRegistry.logger.warn("Multiblock check exceeded 2000 blocks at " + a + " " + b + " " + c + " from " + x + " " + y + " " + z);
 						return false;
 					}
 				}
@@ -84,7 +86,7 @@ public class MultiblockHandlerXR {
 					count++;
 					
 					if(count > 2000) {
-						System.out.println("fillspace: ded " + a + " " + b + " " + c + " " + x + " " + y + " " + z);
+						MainRegistry.logger.warn("Multiblock fill exceeded 2000 blocks at " + a + " " + b + " " + c + " from " + x + " " + y + " " + z);
 						
 						BlockDummyable.safeRem = false;
 						return;
@@ -104,7 +106,7 @@ public class MultiblockHandlerXR {
 
 		int count = 0;
 		
-		System.out.println("emptyspace is deprecated and shouldn't even be executed");
+		MainRegistry.logger.warn("Deprecated MultiblockHandlerXR.emptyspace was invoked");
 		
 		int[] rot = rotate(dim, dir);
 
@@ -118,7 +120,7 @@ public class MultiblockHandlerXR {
 					count++;
 					
 					if(count > 2000) {
-						System.out.println("emptyspace: ded " + a + " " + b + " " + c);
+						MainRegistry.logger.warn("Multiblock empty exceeded 2000 blocks at " + a + " " + b + " " + c);
 						return;
 					}
 				}

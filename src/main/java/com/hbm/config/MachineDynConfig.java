@@ -3,6 +3,9 @@ package com.hbm.config;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,17 +41,27 @@ public class MachineDynConfig {
 		//it's a lit of dummy tile entity instances that are only used once in order to make the init work 
 		//not exactly a great solution but this little smear of ugliness carries all the good parts on its back so i will allow it
 		List<IConfigurableMachine> dummies = new ArrayList();
-		TileMappings.configurables.forEach(x -> { try { dummies.add(x.newInstance()); } catch(Exception ex) {} }); // <- lambda comes with a hidden little try/catch block hidden inside, like a kinder surprise egg that is filled with shit
+		for(Class<? extends IConfigurableMachine> configurable : TileMappings.configurables) {
+			try {
+				dummies.add(configurable.newInstance());
+			} catch(Exception ex) {
+				MainRegistry.logger.warn("Could not instantiate configurable machine " + configurable.getName(), ex);
+			}
+		}
 		File file = new File(dir.getAbsolutePath() + File.separatorChar + "hbmMachines.json");
 		
 		//dummies.forEach(x -> x.initDefaults());
 		
-		//and now for the good part
-		try { // <- useless overarching try/catch to make the reader shut up
+		File temporaryFile = new File(dir, "hbmMachines.json.tmp");
+		try {
 			
 			if(file.exists()) {
-				JsonObject json = gson.fromJson(new FileReader(file), JsonObject.class);
-				
+				JsonObject json;
+				try(FileReader reader = new FileReader(file)) {
+					json = gson.fromJson(reader, JsonObject.class);
+				}
+				if(json == null) json = new JsonObject();
+
 				for(IConfigurableMachine dummy : dummies) {
 					
 					try {
@@ -58,34 +71,45 @@ public class MachineDynConfig {
 						//defaults usually already exist at this point, if not we can declare them before the actual reading part
 						dummy.readIfPresent(obj);
 						
-					} catch(Exception ex) { } // <- individual try/catch blocks so a single config breaking doesn't affect other machines. we only got a few dozen of these and it only happens once on startup so who the hell cares
+					} catch(Exception ex) {
+						MainRegistry.logger.warn("Could not read dynamic config for " + dummy.getConfigName() + "; defaults will be used", ex);
+					}
 				}
 			}
 
-			JsonWriter writer = new JsonWriter(new FileWriter(file));
-			writer.setIndent("  ");
-			writer.beginObject();
-			
-			writer.name("info").beginArray();
-			for(String line : getComment()) writer.value(line);
-			writer.endArray();
-			
-			for(IConfigurableMachine dummy : dummies) {
+			try(FileWriter fileWriter = new FileWriter(temporaryFile); JsonWriter writer = new JsonWriter(fileWriter)) {
+				writer.setIndent("  ");
+				writer.beginObject();
 				
-				try {
-					writer.name(dummy.getConfigName()).beginObject();
-					dummy.writeConfig(writer);
-					writer.endObject();
-					
-				} catch(Exception ex) { } // <- more looped try/catch goodness because i hate myself
+				writer.name("info").beginArray();
+				for(String line : getComment()) writer.value(line);
+				writer.endArray();
+
+				for(IConfigurableMachine dummy : dummies) {
+					try {
+						writer.name(dummy.getConfigName()).beginObject();
+						dummy.writeConfig(writer);
+						writer.endObject();
+					} catch(Exception ex) {
+						MainRegistry.logger.warn("Could not write dynamic config for " + dummy.getConfigName(), ex);
+						throw ex;
+					}
+				}
+				writer.endObject();
 			}
-			
-			writer.endObject();
-			writer.close();
+
+			try {
+				Files.move(temporaryFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+			} catch(AtomicMoveNotSupportedException ex) {
+				Files.move(temporaryFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
 			
 			//and that was the entire magic, in a mere 50 lines
 			
-		} catch(Exception ex) { }
+		} catch(Exception ex) {
+			if(temporaryFile.exists() && !temporaryFile.delete()) temporaryFile.deleteOnExit();
+			MainRegistry.logger.error("Failed to load or write dynamic machine configuration " + file.getAbsolutePath(), ex);
+		}
 	}
 	
 	private static String[] getComment() {

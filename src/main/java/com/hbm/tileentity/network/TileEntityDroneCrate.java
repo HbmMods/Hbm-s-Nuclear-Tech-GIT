@@ -101,10 +101,12 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		int[] pos = BufferUtil.readIntArray(buf);
-		this.nextX = pos[0];
-		this.nextY = pos[1];
-		this.nextZ = pos[2];
+		int[] pos = BufferUtil.readIntArray(buf, 3);
+		if(pos.length == 3) {
+			this.nextX = pos[0];
+			this.nextY = pos[1];
+			this.nextZ = pos[2];
+		}
 		this.sendingMode = buf.readBoolean();
 		this.itemType = buf.readBoolean();
 		tank.deserialize(buf);

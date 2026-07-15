@@ -88,7 +88,8 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.polling = buf.readBoolean();
-		this.lastCount = BufferUtil.readIntArray(buf);
+		int[] receivedCounts = BufferUtil.readIntArray(buf, 3);
+		this.lastCount = receivedCounts.length == 3 ? receivedCounts : new int[3];
 		this.matcher.deserialize(buf);
 		for(int i = 0; i < 3; i++) this.channel[i] = BufferUtil.readString(buf);
 	}
@@ -126,7 +127,6 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 			this.polling = !this.polling;
 			this.markChanged();
 		} else {
-			System.out.println("guh");
 			for(int i = 0; i < 3; i++) {
 				this.channel[i] = data.getString("c" + i);
 			}

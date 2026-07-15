@@ -5,7 +5,6 @@ import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerRBMKControlAuto;
 import com.hbm.inventory.gui.GUIRBMKControlAuto;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -46,7 +45,11 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 			double lowerBound = Math.min(this.heatLower, this.heatUpper);
 			double upperBound = Math.max(this.heatLower, this.heatUpper);
 			
-			if(this.heat < lowerBound) {
+			if(this.function == null) this.function = RBMKFunction.LINEAR;
+
+			if(Math.abs(upperBound - lowerBound) < 0.000001D) {
+				fauxLevel = (this.levelLower + this.levelUpper) * 0.5D;
+			} else if(this.heat < lowerBound) {
 				fauxLevel = this.levelLower;
 				
 			} else if(this.heat > upperBound) {
@@ -88,10 +91,10 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		this.heatLower = nbt.getDouble("heatLower");
 		this.heatUpper = nbt.getDouble("heatUpper");
 		
-		if(nbt.hasKey("function"))
-			this.function = RBMKFunction.values()[nbt.getInteger("function")];
-		else
-			this.function = null;
+		this.function = nbt.hasKey("function")
+				? EnumUtil.getEnumOrDefault(RBMKFunction.class, nbt.getInteger("function"), RBMKFunction.LINEAR)
+				: RBMKFunction.LINEAR;
+		sanitizeSettings();
 	}
 	
 	@Override
@@ -114,7 +117,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		buf.writeDouble(this.levelUpper);
 		buf.writeDouble(this.heatLower);
 		buf.writeDouble(this.heatUpper);
-		if(function != null) buf.writeInt(function.ordinal());
+		buf.writeInt(function != null ? function.ordinal() : RBMKFunction.LINEAR.ordinal());
 	}
 
 	@Override
@@ -124,15 +127,15 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		this.levelUpper = buf.readDouble();
 		this.heatLower = buf.readDouble();
 		this.heatUpper = buf.readDouble();
-		this.function = RBMKFunction.values()[buf.readInt()];
+		this.function = EnumUtil.getEnumOrDefault(RBMKFunction.class, buf.readInt(), RBMKFunction.LINEAR);
+		sanitizeSettings();
 	}
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("function")) {
-			int c = Math.abs(data.getInteger("function")) % RBMKColor.values().length;
-			this.function = RBMKFunction.values()[c];
+			this.function = EnumUtil.getEnumOrDefault(RBMKFunction.class, data.getInteger("function"), this.function);
 			
 		} else {
 
@@ -140,9 +143,22 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 			this.levelUpper = data.getDouble("levelUpper");
 			this.heatLower = data.getDouble("heatLower");
 			this.heatUpper = data.getDouble("heatUpper");
+			sanitizeSettings();
 		}
 		
 		this.markDirty();
+	}
+
+	private void sanitizeSettings() {
+		levelLower = clampFinite(levelLower, 0D, 100D, 0D);
+		levelUpper = clampFinite(levelUpper, 0D, 100D, 0D);
+		heatLower = clampFinite(heatLower, 0D, 1_000_000D, 0D);
+		heatUpper = clampFinite(heatUpper, 0D, 1_000_000D, 0D);
+		if(function == null) function = RBMKFunction.LINEAR;
+	}
+
+	private static double clampFinite(double value, double min, double max, double fallback) {
+		return Double.isNaN(value) || Double.isInfinite(value) ? fallback : MathHelper.clamp_double(value, min, max);
 	}
 	
 	public static enum RBMKFunction {
@@ -174,7 +190,7 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		data.setDouble("levelUpper", levelUpper);
 		data.setDouble("heatLower", heatLower);
 		data.setDouble("heatUpper", heatUpper);
-		data.setInteger("function", function.ordinal());
+		data.setInteger("function", (function != null ? function : RBMKFunction.LINEAR).ordinal());
 		return data;
 	}
 
@@ -185,5 +201,6 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		if(nbt.hasKey("heatLower")) heatLower = nbt.getDouble("heatLower");
 		if(nbt.hasKey("heatUpper")) heatUpper = nbt.getDouble("heatUpper");
 		if(nbt.hasKey("function")) function = EnumUtil.grabEnumSafely(RBMKFunction.class, nbt.getInteger("function"));
+		sanitizeSettings();
 	}
 }

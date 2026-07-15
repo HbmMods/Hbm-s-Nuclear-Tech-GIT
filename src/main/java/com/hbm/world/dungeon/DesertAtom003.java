@@ -1769,7 +1769,7 @@ public class DesertAtom003
 		world.setBlock(x + 8, y + 8, z + 21, Blocks.wall_sign, 2, 3);
 		world.setBlock(x + 8, y + 9, z + 21, Blocks.wall_sign, 2, 3);
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned abandoned Power Plant at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned abandoned power plant at " + x + " " + y + " " + z);
 		return true;
 
 	}

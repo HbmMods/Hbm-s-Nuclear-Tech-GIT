@@ -175,7 +175,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 		this.water = buf.readByte();
 		this.level = buf.readDouble();
 		this.targetLevel = buf.readDouble();
-		this.slotFlux = BufferUtil.readIntArray(buf);
+		int[] receivedFlux = BufferUtil.readIntArray(buf, 12);
+		this.slotFlux = receivedFlux.length == 12 ? receivedFlux : new int[12];
 		this.totalFlux = buf.readInt();
 	}
 	

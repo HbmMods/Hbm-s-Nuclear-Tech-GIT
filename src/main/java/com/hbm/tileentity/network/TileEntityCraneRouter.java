@@ -68,7 +68,8 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 			pattern.deserialize(buf);
 		}
 
-		this.modes = BufferUtil.readIntArray(buf);
+		int[] receivedModes = BufferUtil.readIntArray(buf, 6);
+		this.modes = receivedModes.length == 6 ? receivedModes : new int[6];
 	}
 
 	@Override

@@ -168,7 +168,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 			
 		} catch(Exception ex) {
 			MainRegistry.logger.error(ex);
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in CyclotronRecipes", ex);
 		}
 	}
 

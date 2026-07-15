@@ -38,7 +38,7 @@ public abstract class ItemStructureTool extends Item implements ILookOverlay {
 			writer.write(message);
 			writer.flush();
 		} catch(IOException e) {
-			System.out.print("ItemStructureWand encountered an IOException!");
+			MainRegistry.logger.error("Failed to write structureOutput.txt", e);
 		}
 	}
 	

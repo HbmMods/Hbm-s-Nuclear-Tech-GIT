@@ -39,6 +39,7 @@ public class KeybindPacket implements IMessage {
 		public IMessage onMessage(KeybindPacket m, MessageContext ctx) {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
+			if(m.key < 0 || m.key >= EnumKeybind.values().length) return null;
 			HbmKeybindsServer.onPressedServer(p, EnumKeybind.values()[m.key], m.pressed);
 			return null;
 		}

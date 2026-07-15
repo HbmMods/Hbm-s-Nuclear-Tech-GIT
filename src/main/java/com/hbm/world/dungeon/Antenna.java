@@ -271,7 +271,7 @@ public class Antenna extends WorldGenerator
 		world.setBlock(x + 1, y + 20, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 20, z + 2, Blocks.air, 0, 3);
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned antenna at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned antenna at " + x + " " + y + " " + z);
 		return true;
 
 	}

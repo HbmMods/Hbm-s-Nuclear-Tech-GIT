@@ -116,7 +116,7 @@ public class ItemCMStructure extends Item implements ILookOverlay {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ItemCMStructure", e);
 		}
 
 	}

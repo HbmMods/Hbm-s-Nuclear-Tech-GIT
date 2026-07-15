@@ -13,6 +13,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import com.hbm.util.BufferUtil;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -134,12 +135,10 @@ public class TileEntityBatteryREDD extends TileEntityBatteryBase implements IPer
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 
-		byte[] array0 = new byte[buf.readInt()];
-		for(int i = 0 ; i < array0.length; i++) array0[i] = buf.readByte();
+		byte[] array0 = BufferUtil.readByteArray(buf, 4096);
 		this.power = new BigInteger(array0);
 
-		byte[] array1 = new byte[buf.readInt()];
-		for(int i = 0 ; i < array1.length; i++) array1[i] = buf.readByte();
+		byte[] array1 = BufferUtil.readByteArray(buf, 4096);
 		this.delta = new BigInteger(array1);
 	}
 

@@ -64,7 +64,7 @@ public class ShaderManager {
 		} catch(Exception x) {
 			GL20.glDeleteShader(vertexShader);
 			GL20.glDeleteShader(fragmentShader);
-			x.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in ShaderManager", x);
 		}
 		return new Shader(0);
 	}

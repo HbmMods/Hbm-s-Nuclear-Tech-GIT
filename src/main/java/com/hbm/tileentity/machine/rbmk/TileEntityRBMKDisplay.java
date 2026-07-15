@@ -5,6 +5,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
+import com.hbm.util.EnumUtil;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,8 +62,11 @@ public class TileEntityRBMKDisplay extends TileEntityLoadedBase {
 			byte ordinal = buf.readByte();
 			if(ordinal == -1)
 				this.columns[i] = null;
-			else
-				this.columns[i] = new RBMKColumn(ColumnType.values()[ordinal], BufferUtil.readNBT(buf));
+			else {
+				NBTTagCompound data = BufferUtil.readNBT(buf);
+				ColumnType type = EnumUtil.getEnumOrDefault(ColumnType.class, ordinal, null);
+				this.columns[i] = type != null ? new RBMKColumn(type, data) : null;
+			}
 		}
 	}
 

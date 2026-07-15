@@ -258,7 +258,7 @@ public class HazmatRegistry {
 			writer.endObject();						//final '}'
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in HazmatRegistry", e);
 		}
 	}
 	
@@ -288,7 +288,7 @@ public class HazmatRegistry {
 			return conf;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in HazmatRegistry", ex);
 		}
 		
 		return null;

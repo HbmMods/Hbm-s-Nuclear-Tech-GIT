@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class PacketThreading {
@@ -21,13 +22,17 @@ public class PacketThreading {
 
 	public static final ThreadFactory packetThreadFactory = new ThreadFactoryBuilder().setNameFormat(threadPrefix + "%d").build();
 
-	public static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, packetThreadFactory);
+	public static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
+			1, 1, 50L, TimeUnit.MILLISECONDS,
+			new ArrayBlockingQueue<Runnable>(2048), packetThreadFactory,
+			new ThreadPoolExecutor.CallerRunsPolicy());
 
 	public static int totalCnt = 0;
 
 	public static long nanoTimeWaited = 0;
 
 	public static final List<Future<?>> futureList = new ArrayList<>();
+	private static final List<PacketTask> packetTasks = new ArrayList<>();
 
 	public static ReentrantLock lock = new ReentrantLock();
 
@@ -37,18 +42,14 @@ public class PacketThreading {
 	public static void init() {
 		threadPool.setKeepAliveTime(50, TimeUnit.MILLISECONDS);
 		if (GeneralConfig.enablePacketThreading) {
-			if (GeneralConfig.packetThreadingCoreCount < 0 || GeneralConfig.packetThreadingMaxCount <= 0) {
-				MainRegistry.logger.error("0.02_packetThreadingCoreCount < 0 or 0.03_packetThreadingMaxCount is <= 0, defaulting to 1 each.");
-				threadPool.setCorePoolSize(1); // beugh
-				threadPool.setMaximumPoolSize(1);
-			} else if (GeneralConfig.packetThreadingMaxCount > GeneralConfig.packetThreadingCoreCount) {
-				MainRegistry.logger.error("0.03_packetThreadingMaxCount is > 0.02_packetThreadingCoreCount, defaulting to 1 each.");
-				threadPool.setCorePoolSize(1);
-				threadPool.setMaximumPoolSize(1);
-			} else {
-				threadPool.setCorePoolSize(GeneralConfig.packetThreadingCoreCount);
-				threadPool.setMaximumPoolSize(GeneralConfig.packetThreadingMaxCount);
+			int coreCount = GeneralConfig.packetThreadingCoreCount;
+			int maxCount = GeneralConfig.packetThreadingMaxCount;
+			if(coreCount <= 0 || maxCount < coreCount) {
+				MainRegistry.logger.error("Packet thread counts must satisfy 1 <= core <= max; defaulting to 1 each (core={}, max={}).", coreCount, maxCount);
+				coreCount = 1;
+				maxCount = 1;
 			}
+			configurePoolSizes(coreCount, maxCount);
 			threadPool.allowCoreThreadTimeOut(false);
 		} else {
 			threadPool.allowCoreThreadTimeOut(true);
@@ -61,6 +62,17 @@ public class PacketThreading {
 			} finally {
 				lock.unlock();
 			}
+		}
+	}
+
+	private static void configurePoolSizes(int coreCount, int maxCount) {
+		if(maxCount > threadPool.getMaximumPoolSize()) {
+			threadPool.setMaximumPoolSize(maxCount);
+			threadPool.setCorePoolSize(coreCount);
+		} else {
+			threadPool.setCorePoolSize(Math.min(coreCount, threadPool.getMaximumPoolSize()));
+			threadPool.setMaximumPoolSize(maxCount);
+			threadPool.setCorePoolSize(coreCount);
 		}
 	}
 
@@ -90,17 +102,16 @@ public class PacketThreading {
 
 		ThreadedPacket packet = (ThreadedPacket) message;
 
-		Runnable task = () -> {
+		Runnable action = () -> {
 			try {
 				lock.lock();
 				PacketDispatcher.wrapper.sendToAllAround(message, target);
-				packet.getCompiledBuffer().release();
 			} finally {
 				lock.unlock();
 			}
 		};
 
-		addTask(task);
+		addTask(new PacketTask(packet, action));
 	}
 
 	/**
@@ -116,25 +127,25 @@ public class PacketThreading {
 
 		ThreadedPacket packet = (ThreadedPacket) message;
 
-		Runnable task = () -> {
+		Runnable action = () -> {
 			try {
 				lock.lock();
 				PacketDispatcher.wrapper.sendTo(message, player);
-				packet.getCompiledBuffer().release();
 			} finally {
 				lock.unlock();
 			}
 		};
 
-		addTask(task);
+		addTask(new PacketTask(packet, action));
 	}
 
-	private static void addTask(Runnable task) {
+	private static void addTask(PacketTask task) {
 		if(isTriggered())
 			task.run();
-		else if(GeneralConfig.enablePacketThreading)
+		else if(GeneralConfig.enablePacketThreading) {
+			packetTasks.add(task);
 			futureList.add(threadPool.submit(task));
-		else
+		} else
 			task.run();
 	}
 
@@ -152,8 +163,8 @@ public class PacketThreading {
 					// this seems to cause big problems with large worlds, never mind...
 				}
 			}
-		} catch (ExecutionException ignored) {
-			// impossible
+		} catch (ExecutionException ex) {
+			MainRegistry.logger.error("Asynchronous packet serialization failed", ex.getCause());
 		} catch (TimeoutException e) {
 			if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
 				MainRegistry.logger.warn("A packet has taken >50ms to process, discarding {}/{} packets to prevent pausing of main thread ({} total futures).", threadPool.getQueue().size(), totalCnt, futureList.size());
@@ -161,12 +172,13 @@ public class PacketThreading {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt(); // maybe not the best thing but it's gotta be here
 		} finally {
-			futureList.clear();
 			if(!threadPool.getQueue().isEmpty()) {
 				if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
 					MainRegistry.logger.warn("Residual packets in packet threading queue detected, discarding {}/{} packets.", threadPool.getQueue().size(), totalCnt);
 				clearThreadPoolTasks();  // Just in case the thread somehow doesn't process all the tasks, we don't want this backing up too far.
 			}
+			futureList.clear();
+			packetTasks.clear();
 
 			totalCnt = 0;
 		}
@@ -183,6 +195,8 @@ public class PacketThreading {
 			return;
 		}
 
+		for(PacketTask task : packetTasks) task.discard();
+		for(Future<?> future : futureList) future.cancel(false);
 		threadPool.getQueue().clear();
 
 		if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
@@ -209,5 +223,31 @@ public class PacketThreading {
 
 	public static boolean isTriggered() {
 		return hasTriggered && !GeneralConfig.packetThreadingErrorBypass;
+	}
+
+	private static final class PacketTask implements Runnable {
+		private final ThreadedPacket packet;
+		private final Runnable action;
+		private final AtomicInteger state = new AtomicInteger(0); // queued, running, done, discarded
+
+		private PacketTask(ThreadedPacket packet, Runnable action) {
+			this.packet = packet;
+			this.action = action;
+		}
+
+		@Override
+		public void run() {
+			if(!state.compareAndSet(0, 1)) return;
+			try {
+				action.run();
+			} finally {
+				packet.releaseCompiledBuffer();
+				state.set(2);
+			}
+		}
+
+		private void discard() {
+			if(state.compareAndSet(0, 3)) packet.releaseCompiledBuffer();
+		}
 	}
 }

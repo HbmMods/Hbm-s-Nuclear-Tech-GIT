@@ -400,7 +400,7 @@ public class Barrel extends WorldGenerator {
 		world.setBlock(x + 2, y + 9, z + 5, Blocks.ladder, 3, 3);
 		
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned waste tank at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned waste tank at " + x + " " + y + " " + z);
 		
 		return true;
 

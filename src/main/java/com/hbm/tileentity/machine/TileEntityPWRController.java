@@ -389,14 +389,14 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
 	}
 
-	public boolean isPrinting;
+	public volatile ItemPWRPrinter.PrintData pendingPrint;
 
 	@Override
 	public void serialize(ByteBuf buf) {
-		buf.writeBoolean(isPrinting);
-		if(isPrinting) {
-			ItemPWRPrinter.serialize(worldObj, buf);
-			isPrinting = false;
+		buf.writeBoolean(pendingPrint != null);
+		if(pendingPrint != null) {
+			ItemPWRPrinter.serialize(pendingPrint, buf);
+			pendingPrint = null;
 			return;
 		}
 

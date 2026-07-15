@@ -13,6 +13,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.entity.mob.glyphid.EntityGlyphidDigger;
 import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -126,16 +127,17 @@ public class PollutionHandler {
 				if(pollutionFile != null) {
 					
 					if(pollutionFile.exists()) {
-						FileInputStream io = new FileInputStream(pollutionFile);
-						NBTTagCompound data = CompressedStreamTools.readCompressed(io);
-						io.close();
+						NBTTagCompound data;
+						try(FileInputStream io = new FileInputStream(pollutionFile)) {
+							data = CompressedStreamTools.readCompressed(io);
+						}
 						perWorld.put(event.world, new PollutionPerWorld(data));
 					} else {
 						perWorld.put(event.world, new PollutionPerWorld());
 					}
 				}
 			} catch(Exception ex) {
-				ex.printStackTrace();
+				MainRegistry.logger.error("Failed to load pollution data", ex);
 			}
 		}
 	}
@@ -158,11 +160,12 @@ public class PollutionHandler {
 				PollutionPerWorld ppw = perWorld.get(world);
 				if(ppw != null) {
 					NBTTagCompound data = ppw.writeToNBT();
-					CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
+					try(FileOutputStream output = new FileOutputStream(pollutionFile)) {
+						CompressedStreamTools.writeCompressed(data, output);
+					}
 				}
 			} catch(Exception ex) {
-				System.out.println("Failed to write " + pollutionFile.getAbsolutePath());
-				ex.printStackTrace();
+				MainRegistry.logger.error("Failed to write " + pollutionFile.getAbsolutePath(), ex);
 			}
 		}
 	}
