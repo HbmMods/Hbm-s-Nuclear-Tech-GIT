@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.item.Item;
@@ -30,7 +31,7 @@ import net.minecraft.init.Blocks;
 // horribly written command so you can render more than fucking guns without having to decompile the JAR
 @SideOnly(Side.CLIENT) // make it clientside so bobcat would not come after me
 public class CommandWikiRender extends CommandBase {
-    @Override
+	@Override
     public String getCommandName() {
         return "ntmwikirender";
     }
@@ -86,5 +87,11 @@ public class CommandWikiRender extends CommandBase {
 			
             Minecraft.getMinecraft().thePlayer.closeScreen();
             FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", slotScale));
-        }
-    }
+		}
+
+		public static void register() {
+        	if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            	ClientCommandHandler.instance.registerCommand(new CommandWikiRender());
+        	}
+    	}
+}
