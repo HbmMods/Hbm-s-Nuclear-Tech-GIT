@@ -176,12 +176,12 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			}
 
 			if(GeneralConfig.enableDebugMode) {
-				System.out.print("[Debug] StructureStart at " + i + ", 64, " + j + "\n[Debug] Components: ");
+				StringBuilder componentNames = new StringBuilder();
 				this.components.forEach((component) -> {
-					System.out.print(MapGenStructureIO.func_143036_a((StructureComponent) component) + " ");
+					if(componentNames.length() > 0) componentNames.append(' ');
+					componentNames.append(MapGenStructureIO.func_143036_a((StructureComponent) component));
 				});
-
-				System.out.print("\n");
+				com.hbm.main.MainRegistry.logger.debug("StructureStart at " + i + ", 64, " + j + "; components: " + componentNames);
 			}
 
 			this.updateBoundingBox();

@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -29,7 +32,6 @@ import com.hbm.world.gen.nbt.selector.BiomeBlockSelector;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -54,6 +56,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.common.util.Constants.NBT;
 
 public class NBTStructure {
+
+	public static final int MAX_STRUCTURE_AXIS = 256;
+	public static final long MAX_STRUCTURE_VOLUME = 262_144L;
+	public static final int MAX_STRUCTURE_FILENAME_LENGTH = 64;
 
 	/**
 	 * Now with structure support!
@@ -310,22 +316,60 @@ public class NBTStructure {
 
 	// Writes out a specified area to an .nbt file with a given name
 	public static File quickSaveArea(String filename, World world, int x1, int y1, int z1, int x2, int y2, int z2, Set<Pair<Block, Integer>> exclude) {
-		NBTTagCompound structure = saveArea(world, x1, y1, z1, x2, y2, z2, exclude);
-
+		File temporaryFile = null;
 		try {
-			File structureDirectory = new File(Minecraft.getMinecraft().mcDataDir, "structures");
-			structureDirectory.mkdir();
+			if(!isAreaSizeValid(x1, y1, z1, x2, y2, z2)) throw new IllegalArgumentException("Structure area exceeds configured safety limits");
+			NBTTagCompound structure = saveArea(world, x1, y1, z1, x2, y2, z2, exclude);
+			File structureFile = resolveStructureFile(world, filename);
+			temporaryFile = new File(structureFile.getParentFile(), structureFile.getName() + ".tmp");
 
-			File structureFile = new File(structureDirectory, filename);
-
-			CompressedStreamTools.writeCompressed(structure, new FileOutputStream(structureFile));
+			try(FileOutputStream output = new FileOutputStream(temporaryFile)) {
+				CompressedStreamTools.writeCompressed(structure, output);
+			}
+			try {
+				Files.move(temporaryFile.toPath(), structureFile.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+			} catch(AtomicMoveNotSupportedException ex) {
+				Files.move(temporaryFile.toPath(), structureFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
 
 			return structureFile;
 		} catch (Exception ex) {
+			if(temporaryFile != null && temporaryFile.exists() && !temporaryFile.delete()) temporaryFile.deleteOnExit();
 			MainRegistry.logger.warn("Failed to save NBT structure", ex);
 
 			return null;
 		}
+	}
+
+	public static boolean isSizeValid(int sizeX, int sizeY, int sizeZ) {
+		if(sizeX <= 0 || sizeY <= 0 || sizeZ <= 0) return false;
+		if(sizeX > MAX_STRUCTURE_AXIS || sizeY > MAX_STRUCTURE_AXIS || sizeZ > MAX_STRUCTURE_AXIS) return false;
+		return (long) sizeX * (long) sizeY * (long) sizeZ <= MAX_STRUCTURE_VOLUME;
+	}
+
+	private static boolean isAreaSizeValid(int x1, int y1, int z1, int x2, int y2, int z2) {
+		long sizeX = Math.abs((long) x1 - x2) + 1L;
+		long sizeY = Math.abs((long) y1 - y2) + 1L;
+		long sizeZ = Math.abs((long) z1 - z2) + 1L;
+		return sizeX <= Integer.MAX_VALUE && sizeY <= Integer.MAX_VALUE && sizeZ <= Integer.MAX_VALUE
+				&& isSizeValid((int) sizeX, (int) sizeY, (int) sizeZ);
+	}
+
+	public static boolean isSafeStructureFilename(String filename) {
+		if(filename == null || filename.length() < 5 || filename.length() > MAX_STRUCTURE_FILENAME_LENGTH + 4) return false;
+		return filename.matches("[A-Za-z0-9][A-Za-z0-9._-]*\\.nbt") && !filename.contains("..");
+	}
+
+	public static File resolveStructureFile(World world, String filename) throws IOException {
+		if(world == null || world.isRemote) throw new IOException("Structure files may only be accessed by the logical server");
+		if(!isSafeStructureFilename(filename)) throw new IOException("Invalid structure filename");
+
+		File structureDirectory = new File(world.getSaveHandler().getWorldDirectory(), "structures").getCanonicalFile();
+		if(!structureDirectory.exists() && !structureDirectory.mkdirs()) throw new IOException("Could not create structure directory");
+
+		File structureFile = new File(structureDirectory, filename).getCanonicalFile();
+		if(!structureDirectory.equals(structureFile.getParentFile())) throw new IOException("Structure path escapes the structure directory");
+		return structureFile;
 	}
 
 	private void loadStructure(InputStream inputStream) {

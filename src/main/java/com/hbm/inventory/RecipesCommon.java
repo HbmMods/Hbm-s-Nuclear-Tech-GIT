@@ -100,7 +100,7 @@ public class RecipesCommon {
 			} catch(Exception ex) {
 				this.item = ModItems.nothing;
 				if(!GeneralConfig.enableSilentCompStackErrors) {
-					ex.printStackTrace();
+					MainRegistry.logger.error("Unexpected error in RecipesCommon", ex);
 				}
 			}
 		}

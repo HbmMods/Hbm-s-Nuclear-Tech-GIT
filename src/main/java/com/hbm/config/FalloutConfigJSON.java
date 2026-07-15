@@ -138,7 +138,7 @@ public class FalloutConfigJSON {
 			writer.endObject();						//final '}'
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in FalloutConfigJSON", e);
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class FalloutConfigJSON {
 			return conf;
 			
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in FalloutConfigJSON", ex);
 		}
 		
 		return null;

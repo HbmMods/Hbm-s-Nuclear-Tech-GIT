@@ -580,6 +580,12 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onUnload(WorldEvent.Unload event) {
 		NeutronNodeWorld.streamWorlds.remove(event.world);
+		RequestNetwork.unloadWorld(event.world);
+		RTTYSystem.unloadWorld(event.world);
+		UniNodespace.unloadWorld(event.world);
+		if(event.world.isRemote || event.world.provider.dimensionId == 0) {
+			NetworkHandler.clearMainThreadQueue(event.world.isRemote ? Side.CLIENT : Side.SERVER);
+		}
 	}
 
 	public static boolean didSit = false;
@@ -1023,6 +1029,7 @@ public class ModEventHandler {
 	public void onServerTick(TickEvent.ServerTickEvent event) {
 
 		if(event.phase == Phase.START) {
+			NetworkHandler.drainMainThreadQueue(cpw.mods.fml.relauncher.Side.SERVER);
 
 			// Redstone over Radio
 			RTTYSystem.updateBroadcastQueue();

@@ -41,7 +41,7 @@ public class AnvilCraftPacket implements IMessage {
 		@Override
 		public IMessage onMessage(AnvilCraftPacket m, MessageContext ctx) {
 			
-			if(m.recipeIndex < 0 || m.recipeIndex >= AnvilRecipes.getConstruction().size()) //recipe is out of range -> bad
+			if(m.recipeIndex < 0 || m.recipeIndex >= AnvilRecipes.getConstruction().size() || (m.mode != 0 && m.mode != 1)) //recipe is out of range -> bad
 				return null;
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;

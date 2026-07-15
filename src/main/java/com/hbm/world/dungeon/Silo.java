@@ -2533,7 +2533,7 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 9, y + 1, z + 2, Blocks.ladder, 3, 3);
 		
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned missile silo at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned missile silo at " + x + " " + y + " " + z);
 		return true;
 
 	}

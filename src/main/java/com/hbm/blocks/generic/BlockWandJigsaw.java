@@ -258,13 +258,24 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 
 		@Override
 		public boolean hasPermission(EntityPlayer player) {
-			return true;
+			return player != null && player.capabilities.isCreativeMode && worldObj != null
+					&& worldObj.getTileEntity(xCoord, yCoord, zCoord) == this
+					&& player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128.0D;
 		}
 
 		@Override
 		public void receiveControl(NBTTagCompound nbt) {
-			readFromNBT(nbt);
+			selectionPriority = Math.max(-1_000_000, Math.min(1_000_000, nbt.getInteger("selection")));
+			placementPriority = Math.max(-1_000_000, Math.min(1_000_000, nbt.getInteger("placement")));
+			pool = limitControlString(nbt.getString("pool"));
+			name = limitControlString(nbt.getString("name"));
+			target = limitControlString(nbt.getString("target"));
+			isRollable = nbt.getBoolean("roll");
 			markDirty();
+		}
+
+		private static String limitControlString(String value) {
+			return value.length() <= 128 ? value : value.substring(0, 128);
 		}
 
 	}
@@ -372,7 +383,6 @@ public class BlockWandJigsaw extends BlockContainer implements IBlockSideRotatio
 			textPlacementPriority.mouseClicked(mouseX, mouseY, mouseButton);
 
 			if(jointToggle.mousePressed(mc, mouseX, mouseY)) {
-				System.out.println("displayString: " + jointToggle.displayString);
 				jointToggle.displayString = jointToggle.displayString == "Rollable" ? "Aligned" : "Rollable";
 			}
 		}

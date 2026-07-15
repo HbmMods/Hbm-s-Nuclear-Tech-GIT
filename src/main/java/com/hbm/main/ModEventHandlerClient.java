@@ -887,6 +887,7 @@ public class ModEventHandlerClient {
 	public void clientTick(ClientTickEvent event) {
 
 		Minecraft mc = Minecraft.getMinecraft();
+		if(event.phase == Phase.START) NetworkHandler.drainMainThreadQueue(Side.CLIENT);
 		ArmorNo9.updateWorldHook(mc.theWorld);
 
 		boolean supportsHighRenderDistance = FMLClientHandler.instance().hasOptifine() || Loader.isModLoaded(Compat.MOD_ANG);

@@ -1,6 +1,7 @@
 package com.hbm.saveddata.satellites;
 
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -84,7 +85,7 @@ public abstract class Satellite {
 			Class<? extends Satellite> c = satellites.get(id);
 			sat = c.newInstance();
 		} catch(Exception e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Failed to construct satellite with ID " + id, e);
 		}
 		
 		return sat;

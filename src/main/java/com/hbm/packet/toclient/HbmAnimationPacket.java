@@ -80,6 +80,7 @@ public class HbmAnimationPacket implements IMessage {
 				if(stack == null) return null;
 
 				if(stack.getItem() instanceof ItemGunBaseNT) {
+					if(m.type < 0 || m.type >= GunAnimation.values().length) return null;
 					handleSedna(player, stack, slot, GunAnimation.values()[m.type], m.receiverIndex, m.itemIndex);
 				} else if(stack.getItem() instanceof IAnimatedItem) {
 					handleItem(player, stack, slot, m.type, m.receiverIndex, m.itemIndex);

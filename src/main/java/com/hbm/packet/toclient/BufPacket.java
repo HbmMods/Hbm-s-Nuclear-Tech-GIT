@@ -1,6 +1,7 @@
 package com.hbm.packet.toclient;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.IDiscardablePacket;
 import com.hbm.packet.threading.PrecompiledPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 
@@ -11,7 +12,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class BufPacket extends PrecompiledPacket {
+public class BufPacket extends PrecompiledPacket implements IDiscardablePacket {
 
 	int x;
 	int y;
@@ -33,7 +34,7 @@ public class BufPacket extends PrecompiledPacket {
 		this.x = buf.readInt();
 		this.y = buf.readInt();
 		this.z = buf.readInt();
-		this.buf = buf;
+		this.buf = buf.copy();
 	}
 
 	@Override
@@ -49,24 +50,27 @@ public class BufPacket extends PrecompiledPacket {
 		@Override
 		public IMessage onMessage(BufPacket m, MessageContext ctx) {
 
-			if(Minecraft.getMinecraft().theWorld == null)
-				return null;
+			try {
+				if(Minecraft.getMinecraft().theWorld == null) return null;
 
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te instanceof IBufPacketReceiver) {
-				try {
+				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
+				if(te instanceof IBufPacketReceiver) {
 					((IBufPacketReceiver) te).deserialize(m.buf);
-				} catch(Exception e) { // just in case I fucked up
-					MainRegistry.logger.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
-					MainRegistry.logger.warn("Tile: {}", te.getBlockType().getUnlocalizedName());
-					MainRegistry.logger.warn(e.getMessage());
-				} finally {
-					m.buf.release();
 				}
+			} catch(Exception e) {
+					MainRegistry.logger.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
+					MainRegistry.logger.warn("Packet target: {}, {}, {}", m.x, m.y, m.z);
+					MainRegistry.logger.warn("Failed to deserialize tile packet", e);
+			} finally {
+				m.discard();
 			}
 
 			return null;
 		}
+	}
+
+	@Override
+	public void discard() {
+		if(buf != null && buf.refCnt() > 0) buf.release();
 	}
 }

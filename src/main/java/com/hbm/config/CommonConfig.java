@@ -59,6 +59,10 @@ public class CommonConfig {
 		return prop.getInt();
 	}
 
+	public static int createConfigInt(Configuration config, String category, String name, String comment, int def, int min, int max) {
+		return config.getInt(name, category, def, min, max, comment);
+	}
+
 	public static double createConfigDouble(Configuration config, String category, String name, String comment, double def) {
 		Property prop = config.get(category, name, def);
 		prop.comment = comment;
@@ -79,6 +83,10 @@ public class CommonConfig {
     public static int[] createConfigIntList(Configuration config, String category, String name, String comment, int[] def){
 		Property prop = config.get(category, name, def);
 		prop.comment = comment;
+		return prop.getIntList();
+	}
+	public static int[] createFixedConfigIntList(Configuration config, String category, String name, String comment, int[] def, int min, int max) {
+		Property prop = config.get(category, name, def, comment, min, max, true, def.length);
 		return prop.getIntList();
 	}
 	public static String[] createConfigStringList(Configuration config, String category, String name, String comment, String[] def) {

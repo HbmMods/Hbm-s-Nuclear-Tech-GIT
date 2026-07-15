@@ -89,8 +89,8 @@ public class GeneralConfig {
 
 		enablePacketThreading = config.get(CATEGORY_GENERAL, "0.01_enablePacketThreading", true, "Enables creation of a separate thread to increase packet processing speed on servers. Disable this if you are having anomalous crashes related to memory connections.").getBoolean(true);
 
-		packetThreadingCoreCount = config.get(CATEGORY_GENERAL, "0.02_packetThreadingCoreCount", 1, "Number of core threads to create for packets (recommended 1).").getInt(1);
-		packetThreadingMaxCount = config.get(CATEGORY_GENERAL, "0.03_packetThreadingMaxCount", 1, "Maximum number of threads to create for packet threading. Must be greater than or equal to 0.02_packetThreadingCoreCount.").getInt(1);
+		packetThreadingCoreCount = config.getInt("0.02_packetThreadingCoreCount", CATEGORY_GENERAL, 1, 1, 64, "Number of core threads to create for packets (recommended 1).");
+		packetThreadingMaxCount = config.getInt("0.03_packetThreadingMaxCount", CATEGORY_GENERAL, 1, 1, 64, "Maximum number of threads to create for packet threading. Must be greater than or equal to 0.02_packetThreadingCoreCount.");
 		packetThreadingErrorBypass = config.get(CATEGORY_GENERAL, "0.04_packetThreadingErrorBypass", false, "Forces the bypassing of most packet threading errors, only enable this if directed to or if you know what you're doing.").getBoolean(false);
 
 		enableServerRecipeSync = config.get(CATEGORY_GENERAL, "0.05_enableServerRecipeSync", false, "Syncs any recipes customised via JSON to clients connecting to the server.").getBoolean(false);

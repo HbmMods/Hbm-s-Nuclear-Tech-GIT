@@ -79,11 +79,13 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	@Override
 	public void deserialize(ByteBuf buf) {
 		this.power = buf.readLong();
-		int[] target = BufferUtil.readIntArray(buf);
-		this.targetX = target[0];
-		this.targetY = target[1];
-		this.targetZ = target[2];
-		this.targetDim = target[3];
+		int[] target = BufferUtil.readIntArray(buf, 4);
+		if(target.length == 4) {
+			this.targetX = target[0];
+			this.targetY = target[1];
+			this.targetZ = target[2];
+			this.targetDim = target[3];
+		}
 	}
 
 	@Override

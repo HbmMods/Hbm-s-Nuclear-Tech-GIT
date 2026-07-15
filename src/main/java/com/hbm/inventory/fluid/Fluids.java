@@ -798,7 +798,7 @@ public class Fluids {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in Fluids", e);
 		}
 	}
 
@@ -830,7 +830,7 @@ public class Fluids {
 			}
 
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in Fluids", ex);
 		}
 	}
 
@@ -856,7 +856,7 @@ public class Fluids {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in Fluids", e);
 		}
 	}
 
@@ -879,14 +879,14 @@ public class Fluids {
 							trait.deserializeJSON(entry.getValue().getAsJsonObject());
 							type.addTraits(trait);
 						} catch(Exception ex) {
-							ex.printStackTrace();
+							MainRegistry.logger.error("Unexpected error in Fluids", ex);
 						}
 					}
 				}
 			}
 
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in Fluids", ex);
 		}
 	}
 	

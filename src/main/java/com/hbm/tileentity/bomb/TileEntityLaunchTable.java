@@ -23,6 +23,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.EnumUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -252,7 +253,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Override public void deserialize(ByteBuf buf) {
 		this.power = buf.readLong();
 		this.solid = buf.readInt();
-		this.padSize = PartSize.values()[buf.readByte()];
+		this.padSize = EnumUtil.getEnumOrDefault(PartSize.class, buf.readByte(), PartSize.SIZE_10);
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
@@ -510,7 +511,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		tanks[1].readFromNBT(nbt, "oxidizer");
 		solid = nbt.getInteger("solidfuel");
 		power = nbt.getLong("power");
-		padSize = PartSize.values()[nbt.getInteger("padSize")];
+		padSize = EnumUtil.getEnumOrDefault(PartSize.class, nbt.getInteger("padSize"), PartSize.SIZE_10);
 
 		slots = new ItemStack[getSizeInventory()];
 

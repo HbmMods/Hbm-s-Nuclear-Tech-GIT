@@ -28,6 +28,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import com.hbm.util.BufferUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -221,8 +222,7 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.pool = ByteBufUtils.readUTF8String(buf);
-		byte[] array = new byte[buf.readInt()];
-		for(int i = 0 ; i < array.length; i++) array[i] = buf.readByte();
+		byte[] array = BufferUtil.readByteArray(buf, 4096);
 		this.monitorBigInt = new BigInteger(array);
 	}
 

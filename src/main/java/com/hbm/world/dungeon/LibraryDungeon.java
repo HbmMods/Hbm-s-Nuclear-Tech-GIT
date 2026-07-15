@@ -187,7 +187,7 @@ public class LibraryDungeon extends WorldGenerator
         }
         else
         {
-            System.err.println("Failed to fetch mob spawner entity at (" + (x + 6) + ", " + (y + 1) + ", " + (z + 2) + ")");
+            com.hbm.main.MainRegistry.logger.warn("Failed to fetch mob spawner entity at (" + (x + 6) + ", " + (y + 1) + ", " + (z + 2) + ")");
         }
 		world.setBlock(x + 7, y + 1, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + 1, z + 2, Blocks.stonebrick, getBrick(rand), 3);
@@ -265,7 +265,7 @@ public class LibraryDungeon extends WorldGenerator
         }
         else
         {
-            System.err.println("Failed to fetch mob spawner entity at (" + (x + 6) + ", " + (y + 1) + ", " + (z + 8) + ")");
+            com.hbm.main.MainRegistry.logger.warn("Failed to fetch mob spawner entity at (" + (x + 6) + ", " + (y + 1) + ", " + (z + 8) + ")");
         }
 		world.setBlock(x + 7, y + 1, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + 1, z + 8, Blocks.stonebrick, getBrick(rand), 3);
@@ -553,7 +553,7 @@ public class LibraryDungeon extends WorldGenerator
         }
         else
         {
-            System.err.println("Failed to fetch mob spawner entity at (" + (x + 3) + ", " + (y + 4) + ", " + (z + 5) + ")");
+            com.hbm.main.MainRegistry.logger.warn("Failed to fetch mob spawner entity at (" + (x + 3) + ", " + (y + 4) + ", " + (z + 5) + ")");
         }
 		world.setBlock(x + 4, y + 4, z + 5, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 4, z + 5, Blocks.air, 0, 3);
@@ -771,7 +771,7 @@ public class LibraryDungeon extends WorldGenerator
         }
         else
         {
-            System.err.println("Failed to fetch mob spawner entity at (" + (x + 5) + ", " + (y + 6) + ", " + (z + 4) + ")");
+            com.hbm.main.MainRegistry.logger.warn("Failed to fetch mob spawner entity at (" + (x + 5) + ", " + (y + 6) + ", " + (z + 4) + ")");
         }
 		world.setBlock(x + 6, y + 6, z + 4, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 6, z + 4, Blocks.chest, 4, 3);
@@ -1055,7 +1055,7 @@ public class LibraryDungeon extends WorldGenerator
 		world.setBlock(x + 3, y + 5, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 4, y + 5, z + 7, Blocks.air, 0, 3);
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned library at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned library at " + x + " " + y + " " + z);
 		return true;
 
 	}

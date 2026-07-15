@@ -229,20 +229,24 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				byte ordinal = buf.readByte();
 				if (ordinal == -1)
 					this.columns[i] = null;
-				else
-					this.columns[i] = new RBMKColumn(ColumnType.values()[ordinal], BufferUtil.readNBT(buf));
+				else {
+					NBTTagCompound columnData = BufferUtil.readNBT(buf);
+					ColumnType type = EnumUtil.getEnumOrDefault(ColumnType.class, ordinal, null);
+					this.columns[i] = type != null ? new RBMKColumn(type, columnData) : null;
+				}
 			}
 
-			this.fluxBuffer = BufferUtil.readIntArray(buf);
+			int[] receivedFlux = BufferUtil.readIntArray(buf, fluxDisplayBuffer);
+			this.fluxBuffer = receivedFlux.length == fluxDisplayBuffer ? receivedFlux : new int[fluxDisplayBuffer];
 
 			for (RBMKScreen screen : this.screens) {
-				screen.display = BufferUtil.readString(buf);
+				screen.display = BufferUtil.readString(buf, 32_768);
 			}
 
 		} else {
 
 			for (RBMKScreen screen : this.screens) {
-				screen.type = ScreenType.values()[buf.readByte()];
+				screen.type = EnumUtil.getEnumOrDefault(ScreenType.class, buf.readByte(), ScreenType.NONE);
 			}
 
 		}
@@ -257,6 +261,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	public void receiveControl(NBTTagCompound data) {
 
 		if(data.hasKey("level")) {
+			double requestedLevel = data.getDouble("level");
+			if(Double.isNaN(requestedLevel) || Double.isInfinite(requestedLevel)) requestedLevel = 0D;
 
 			Set<String> keys = data.func_150296_c();
 
@@ -265,6 +271,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				if(key.startsWith("sel_")) {
 
 					int index = data.getInteger(key);
+					if(!isValidColumnIndex(index)) continue;
 					int x = getXFromIndex(index);
 					int z = getZFromIndex(index);
 
@@ -273,7 +280,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					if(te instanceof TileEntityRBMKControlManual) {
 						TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
 						rod.startingLevel = rod.level;
-						rod.setTarget(MathHelper.clamp_double(data.getDouble("level"), 0, 1));
+						rod.setTarget(MathHelper.clamp_double(requestedLevel, 0, 1));
 						te.markDirty();
 					}
 				}
@@ -282,30 +289,38 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 		if(data.hasKey("toggle")) {
 			int slot = data.getByte("toggle");
-			int next = this.screens[slot].type.ordinal() + 1;
-			ScreenType type = ScreenType.values()[next % ScreenType.values().length];
-			this.screens[slot].type = type;
+			if(slot >= 0 && slot < this.screens.length) {
+				int next = this.screens[slot].type.ordinal() + 1;
+				ScreenType type = ScreenType.values()[next % ScreenType.values().length];
+				this.screens[slot].type = type;
+			}
 		}
 
 		if(data.hasKey("id")) {
 			int slot = data.getByte("id");
-			List<Integer> list = new ArrayList();
+			if(slot >= 0 && slot < this.screens.length) {
+				List<Integer> list = new ArrayList();
 
-			for(int i = 0; i < 15 * 15; i++) {
-				if(data.getBoolean("s" + i)) {
-					list.add(i);
+				for(int i = 0; i < 15 * 15; i++) {
+					if(data.getBoolean("s" + i)) {
+						list.add(i);
+					}
 				}
-			}
 
-			Integer[] cols = list.toArray(new Integer[0]);
-			this.screens[slot].columns = cols;
+				Integer[] cols = list.toArray(new Integer[0]);
+				this.screens[slot].columns = cols;
+			}
 		}
 
 		if(data.hasKey("assignColor")) {
 			int color = data.getByte("assignColor");
 			int[] cols = data.getIntArray("cols");
+			RBMKColor requestedColor = EnumUtil.getEnumOrDefault(RBMKColor.class, color, null);
 
-			for(int i : cols) {
+			for(int n = 0; n < Math.min(cols.length, columns.length); n++) {
+				if(requestedColor == null) break;
+				int i = cols[n];
+				if(!isValidColumnIndex(i)) continue;
 				int x = getXFromIndex(i);
 				int z = getZFromIndex(i);
 
@@ -313,7 +328,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 				if(te instanceof TileEntityRBMKControlManual) {
 					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
-					rod.color = EnumUtil.grabEnumSafely(RBMKColor.class, color);
+					rod.color = requestedColor;
 					te.markDirty();
 				}
 			}
@@ -322,7 +337,9 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		if(data.hasKey("compressor")) {
 			int[] cols = data.getIntArray("cols");
 
-			for(int i : cols) {
+			for(int n = 0; n < Math.min(cols.length, columns.length); n++) {
+				int i = cols[n];
+				if(!isValidColumnIndex(i)) continue;
 				int x = getXFromIndex(i);
 				int z = getZFromIndex(i);
 
@@ -334,6 +351,20 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				}
 			}
 		}
+
+		this.markDirty();
+	}
+
+	private boolean isValidColumnIndex(int index) {
+		return index >= 0 && index < columns.length;
+	}
+
+	private Integer[] sanitizeColumns(int[] requested) {
+		List<Integer> valid = new ArrayList<Integer>();
+		for(int i = 0; i < Math.min(requested.length, columns.length); i++) {
+			if(isValidColumnIndex(requested[i])) valid.add(requested[i]);
+		}
+		return valid.toArray(new Integer[valid.size()]);
 	}
 
 	@Override
@@ -363,8 +394,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		this.targetZ = nbt.getInteger("tZ");
 
 		for(int i = 0; i < this.screens.length; i++) {
-			this.screens[i].type = ScreenType.values()[nbt.getByte("t" + i)];
-			this.screens[i].columns = Arrays.stream(nbt.getIntArray("s" + i)).boxed().toArray(Integer[]::new);
+			this.screens[i].type = EnumUtil.getEnumOrDefault(ScreenType.class, nbt.getByte("t" + i), ScreenType.NONE);
+			this.screens[i].columns = sanitizeColumns(nbt.getIntArray("s" + i));
 		}
 		rotation = nbt.getByte("rotation");
 	}

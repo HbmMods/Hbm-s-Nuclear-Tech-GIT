@@ -115,7 +115,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
 		this.lastRedstone = nbt.getByte("lastRedstone");
-		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
+		this.priority = EnumUtil.getEnumOrDefault(ConnectionPriority.class, nbt.getByte("priority"), ConnectionPriority.LOW);
 
 		customName = nbt.getString("name");
 	}
@@ -285,7 +285,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		delta = buf.readLong();
 		redLow = buf.readShort();
 		redHigh = buf.readShort();
-		priority = ConnectionPriority.values()[buf.readByte()];
+		priority = EnumUtil.getEnumOrDefault(ConnectionPriority.class, buf.readByte(), ConnectionPriority.LOW);
 	}
 
 	@Override
@@ -353,7 +353,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.prevPowerState = data.getLong("prevPowerState");
 		this.redLow = data.getShort("redLow");
 		this.redHigh = data.getShort("redHigh");
-		this.priority = ConnectionPriority.values()[data.getInteger("priority")];
+		this.priority = EnumUtil.getEnumOrDefault(ConnectionPriority.class, data.getInteger("priority"), ConnectionPriority.LOW);
 	}
 
 	@Override

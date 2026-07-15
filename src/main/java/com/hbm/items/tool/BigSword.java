@@ -48,7 +48,6 @@ public class BigSword extends ItemSword {
 			world.setBlock(Coord.blockX, Coord.blockY, Coord.blockZ, Blocks.ice);
 			world.spawnEntityInWorld(plasma);
 		}
-		System.out.println(Coord.blockX + ", " + Coord.blockY + ", " + Coord.blockZ);
 		Entityplayer.addPotionEffect(new PotionEffect(6, 20, 5));
 		itemStack.damageItem(25, Entityplayer);
 	}*/

@@ -4,6 +4,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 
 import com.hbm.packet.threading.PrecompiledPacket;
+import com.hbm.packet.IDiscardablePacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -12,7 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 
-public class ExtPropPacket extends PrecompiledPacket {
+public class ExtPropPacket extends PrecompiledPacket implements IDiscardablePacket {
 
 	HbmLivingProps props;
 	HbmPlayerProps pprps;
@@ -27,7 +28,7 @@ public class ExtPropPacket extends PrecompiledPacket {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.buf = buf;
+		this.buf = buf.copy();
 	}
 
 	@Override
@@ -42,18 +43,24 @@ public class ExtPropPacket extends PrecompiledPacket {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(ExtPropPacket m, MessageContext ctx) {
 
-			if(Minecraft.getMinecraft().theWorld == null)
-				return null;
+			try {
+				if(Minecraft.getMinecraft().theWorld == null) return null;
 
-			HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
-			HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
+				HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
+				HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
 
-			props.deserialize(m.buf);
-			pprps.deserialize(m.buf);
-
-			m.buf.release();
+				props.deserialize(m.buf);
+				pprps.deserialize(m.buf);
+			} finally {
+				m.discard();
+			}
 
 			return null;
 		}
+	}
+
+	@Override
+	public void discard() {
+		if(buf != null && buf.refCnt() > 0) buf.release();
 	}
 }

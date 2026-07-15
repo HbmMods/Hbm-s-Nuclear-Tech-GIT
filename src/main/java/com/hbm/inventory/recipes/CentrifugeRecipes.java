@@ -401,7 +401,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 			writer.endArray();
 		} catch(Exception ex) {
 			MainRegistry.logger.error(ex);
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in CentrifugeRecipes", ex);
 		}
 	}
 

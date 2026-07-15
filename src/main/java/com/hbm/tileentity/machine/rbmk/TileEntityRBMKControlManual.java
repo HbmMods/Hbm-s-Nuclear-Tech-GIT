@@ -70,18 +70,20 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("level")) {
-			this.setTarget(data.getDouble("level"));
+			double requestedLevel = data.getDouble("level");
+			if(!Double.isNaN(requestedLevel) && !Double.isInfinite(requestedLevel)) this.setTarget(MathHelper.clamp_double(requestedLevel, 0.0D, 1.0D));
 		}
 		
 		if(data.hasKey("color")) {
-			int c = Math.abs(data.getInteger("color")) % RBMKColor.values().length; //to stop naughty kids from sending packets that crash the server
-			
-			RBMKColor newCol = RBMKColor.values()[c];
-			
-			if(newCol == this.color) {
-				this.color = null;
-			} else {
-				this.color = newCol;
+			int c = data.getInteger("color");
+			if(c >= 0 && c < RBMKColor.values().length) {
+				RBMKColor newCol = RBMKColor.values()[c];
+
+				if(newCol == this.color) {
+					this.color = null;
+				} else {
+					this.color = newCol;
+				}
 			}
 		}
 		
@@ -95,8 +97,10 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		if(nbt.hasKey("startingLevel"))
 			this.startingLevel = nbt.getDouble("startingLevel");
 
-		if(nbt.hasKey("color"))
-			this.color = RBMKColor.values()[nbt.getInteger("color")];
+		if(nbt.hasKey("color")) {
+			int savedColor = nbt.getInteger("color");
+			this.color = savedColor >= 0 && savedColor < RBMKColor.values().length ? RBMKColor.values()[savedColor] : null;
+		}
 		else
 			this.color = null;
 	}
@@ -127,8 +131,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		super.deserialize(buf);
 		this.startingLevel = buf.readDouble();
 		int color = buf.readInt();
-		this.color = RBMKColor.values()[MathHelper.clamp_int(color, 0, RBMKColor.values().length)];
-		if(color == -1) this.color = null;
+		this.color = color >= 0 && color < RBMKColor.values().length ? RBMKColor.values()[color] : null;
 	}
 	
 	public static enum RBMKColor {
@@ -159,7 +162,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getColor(Context context, Arguments args) {
-		return new Object[] {this.color.ordinal()};
+		return new Object[] {this.color == null ? -1 : this.color.ordinal()};
 	}
 
 	@Callback(direct = true)

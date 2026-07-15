@@ -102,7 +102,7 @@ public class DamageResistanceHandler {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in DamageResistanceHandler", e);
 		}
 	}
 	
@@ -117,7 +117,7 @@ public class DamageResistanceHandler {
 		} catch(FileNotFoundException ex) {
 			clearSystem();
 			initDefaults();
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in DamageResistanceHandler", ex);
 		}
 	}
 	

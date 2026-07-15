@@ -130,9 +130,12 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		this.progress = BufferUtil.readIntArray(buf);
-		this.maxProgress = BufferUtil.readIntArray(buf);
-		this.production = BufferUtil.readIntArray(buf);
+		int[] receivedProgress = BufferUtil.readIntArray(buf, 12);
+		int[] receivedMaxProgress = BufferUtil.readIntArray(buf, 12);
+		int[] receivedProduction = BufferUtil.readIntArray(buf, 12);
+		this.progress = receivedProgress.length == 12 ? receivedProgress : new int[12];
+		this.maxProgress = receivedMaxProgress.length == 12 ? receivedMaxProgress : new int[12];
+		this.production = receivedProduction.length == 12 ? receivedProduction : new int[12];
 		this.power = buf.readLong();
 		this.isOn = buf.readBoolean();
 	}
@@ -140,15 +143,9 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.progress = nbt.getIntArray("progress");
-		
-		if(progress.length != 12) {
-			progress = new int[12];
-			return;
-		}
-		
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.production = nbt.getIntArray("production");
+		this.progress = fixedLength(nbt.getIntArray("progress"), 12);
+		this.maxProgress = fixedLength(nbt.getIntArray("maxProgress"), 12);
+		this.production = fixedLength(nbt.getIntArray("production"), 12);
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 
@@ -162,6 +159,10 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 		}
 		
 		this.power = nbt.getLong("power");
+	}
+
+	private static int[] fixedLength(int[] values, int length) {
+		return values != null && values.length == length ? values : new int[length];
 	}
 	
 	@Override

@@ -130,8 +130,10 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		this.progress = BufferUtil.readIntArray(buf);
-		this.bonus = BufferUtil.readIntArray(buf);
+		int[] receivedProgress = BufferUtil.readIntArray(buf, 3);
+		int[] receivedBonus = BufferUtil.readIntArray(buf, 3);
+		this.progress = receivedProgress.length == 3 ? receivedProgress : new int[3];
+		this.bonus = receivedBonus.length == 3 ? receivedBonus : new int[3];
 		this.heat = buf.readInt();
 		this.wasOn = buf.readBoolean();
 	}

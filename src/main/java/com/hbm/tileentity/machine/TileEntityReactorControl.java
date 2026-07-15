@@ -9,6 +9,7 @@ import com.hbm.inventory.gui.GUIReactorControl;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -51,7 +52,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		levelUpper = nbt.getDouble("levelUpper");
 		heatLower = nbt.getDouble("heatLower");
 		heatUpper = nbt.getDouble("heatUpper");
-		function = RodFunction.values()[nbt.getInteger("function")];
+		function = EnumUtil.getEnumOrDefault(RodFunction.class, nbt.getInteger("function"), RodFunction.LINEAR);
+		sanitizeSettings();
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -76,7 +78,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		nbt.setDouble("levelUpper", levelUpper);
 		nbt.setDouble("heatLower", heatLower);
 		nbt.setDouble("heatUpper", heatUpper);
-		nbt.setInteger("function", function.ordinal());
+		nbt.setInteger("function", (function != null ? function : RodFunction.LINEAR).ordinal());
 
 		
 		for(int i = 0; i < slots.length; i++)
@@ -152,7 +154,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		buf.writeDouble(levelUpper);
 		buf.writeDouble(heatLower);
 		buf.writeDouble(heatUpper);
-		buf.writeByte(function.ordinal());
+		buf.writeByte((function != null ? function : RodFunction.LINEAR).ordinal());
 	}
 
 	@Override
@@ -166,7 +168,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		levelUpper = buf.readDouble();
 		heatLower = buf.readDouble();
 		heatUpper = buf.readDouble();
-		function = RodFunction.values()[buf.readByte()];
+		function = EnumUtil.getEnumOrDefault(RodFunction.class, buf.readByte(), RodFunction.LINEAR);
+		sanitizeSettings();
 	}
 	
 	private boolean establishLink() {
@@ -203,6 +206,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	
 	public double getTargetLevel(RodFunction function, int heat) {
 		double fauxLevel = 0;
+		if(function == null) function = RodFunction.LINEAR;
+		if(Math.abs(this.heatUpper - this.heatLower) < 0.000001D) return (this.levelLower + this.levelUpper) * 0.5D;
 		
 		switch(function) {
 		case LINEAR:
@@ -235,15 +240,28 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	public void receiveControl(NBTTagCompound data) {
 		
 		if(data.hasKey("function")) {
-			this.function = RodFunction.values()[data.getInteger("function")];
+			this.function = EnumUtil.getEnumOrDefault(RodFunction.class, data.getInteger("function"), this.function);
 		} else {
 			this.levelLower = data.getDouble("levelLower");
 			this.levelUpper = data.getDouble("levelUpper");
 			this.heatLower = data.getDouble("heatLower");
 			this.heatUpper = data.getDouble("heatUpper");
+			sanitizeSettings();
 		}
 		
 		this.markDirty();
+	}
+
+	private void sanitizeSettings() {
+		levelLower = clampFinite(levelLower, 0D, 100D, 0D);
+		levelUpper = clampFinite(levelUpper, 0D, 100D, 0D);
+		heatLower = clampFinite(heatLower, 0D, 1_000_000D, 0D);
+		heatUpper = clampFinite(heatUpper, 0D, 1_000_000D, 0D);
+		if(function == null) function = RodFunction.LINEAR;
+	}
+
+	private static double clampFinite(double value, double min, double max, double fallback) {
+		return Double.isNaN(value) || Double.isInfinite(value) ? fallback : MathHelper.clamp_double(value, min, max);
 	}
 	
 	@Override

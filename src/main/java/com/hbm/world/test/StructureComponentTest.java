@@ -29,7 +29,6 @@ public class StructureComponentTest extends StructureComponent {
 
 	@Override
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox boundingbox) {
-		System.out.println("aaaaaaa");
 		this.fillWithBlocks(world, boundingbox, 0, 0, 0, 4, 9, 4, Blocks.sandstone, Blocks.air, false);
 		return true;
 	}

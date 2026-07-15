@@ -108,7 +108,7 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 			} else {
 				this.limit = nbt.getLong("limit");
 			}
-			this.priority = ConnectionPriority.values()[nbt.getByte("p")];
+			this.priority = EnumUtil.getEnumOrDefault(ConnectionPriority.class, nbt.getByte("p"), ConnectionPriority.NORMAL);
 		}
 
 		@Override

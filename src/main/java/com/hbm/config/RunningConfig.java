@@ -51,13 +51,13 @@ public class RunningConfig {
 						//and a second time in the ConfigWrapper to add ease of reading the data without needing manual casts
 
 					} catch(Exception ex) {
-						ex.printStackTrace();
+						MainRegistry.logger.error("Unexpected error in RunningConfig", ex);
 					}
 				}
 			}
 
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in RunningConfig", ex);
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class RunningConfig {
 			writer.endObject();
 			writer.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			MainRegistry.logger.error("Unexpected error in RunningConfig", e);
 		}
 	}
 

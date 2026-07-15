@@ -445,7 +445,7 @@ public class Spaceship2
 		world.setBlock(x + 8, y + 4, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 4, z + 7, Blocks.air, 0, 3);
 		if(GeneralConfig.enableDebugMode)
-			System.out.print("[Debug] Successfully spawned spaceship at " + x + " " + y +" " + z + "\n");
+			com.hbm.main.MainRegistry.logger.debug("Successfully spawned spaceship at " + x + " " + y + " " + z);
 		return true;
 
 	}

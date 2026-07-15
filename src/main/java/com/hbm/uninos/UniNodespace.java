@@ -50,9 +50,21 @@ public class UniNodespace {
 	}
 
 	public static void destroyNode(World world, GenNode node) {
-		if(node != null) {
+		if(node != null && worlds.containsKey(world)) {
 			worlds.get(world).popNode(node);
 		}
+	}
+
+	public static void unloadWorld(World world) {
+		UniNodeWorld nodeWorld = worlds.remove(world);
+		if(nodeWorld == null) return;
+
+		Set<GenNode> uniqueNodes = new HashSet<>(nodeWorld.nodes.values());
+		for(GenNode node : uniqueNodes) {
+			if(node.net != null) node.net.destroy();
+			node.expired = true;
+		}
+		nodeWorld.nodes.clear();
 	}
 
 	private static int reapTimer = 0;

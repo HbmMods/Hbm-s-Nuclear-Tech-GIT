@@ -2,6 +2,7 @@ package com.hbm.tileentity;
 
 import java.util.ArrayList;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.util.CompatExternal;
 
 import net.minecraft.block.Block;
@@ -47,7 +48,7 @@ public interface IPersistentNBT {
 			IPersistentNBT persistent = (IPersistentNBT) tile;
 			persistent.readNBT(stack.stackTagCompound);
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			MainRegistry.logger.error("Failed to restore persistent tile data", ex);
 		}
 	}
 }

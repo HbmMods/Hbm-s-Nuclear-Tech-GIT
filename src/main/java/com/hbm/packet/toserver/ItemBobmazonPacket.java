@@ -52,8 +52,8 @@ public class ItemBobmazonPacket implements IMessage {
 			World world = p.worldObj;
 
 			Offer offer = null;
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon) offer = BobmazonOfferFactory.standard.get(m.offer);
-			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden) offer = BobmazonOfferFactory.special.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon && m.offer >= 0 && m.offer < BobmazonOfferFactory.standard.size()) offer = BobmazonOfferFactory.standard.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden && m.offer >= 0 && m.offer < BobmazonOfferFactory.special.size()) offer = BobmazonOfferFactory.special.get(m.offer);
 			
 			if(offer == null) {
 				p.addChatMessage(new ChatComponentText("[BOBMAZON] There appears to be a mismatch between the offer you have requested and the offers that exist."));
@@ -67,7 +67,7 @@ public class ItemBobmazonPacket implements IMessage {
 			
 			Achievement req = offer.requirement.achievement;
 			
-			if(req != null && p.func_147099_x().hasAchievementUnlocked(req) || p.capabilities.isCreativeMode) {
+			if(req == null || p.func_147099_x().hasAchievementUnlocked(req) || p.capabilities.isCreativeMode) {
 				
 				if(countCaps(p) >= offer.cost || p.capabilities.isCreativeMode) {
 					
