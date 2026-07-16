@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.item.Item;
@@ -88,10 +87,4 @@ public class CommandWikiRender extends CommandBase {
             Minecraft.getMinecraft().thePlayer.closeScreen();
             FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), prefix, "wiki-block-renders-256", slotScale));
 		}
-
-		public static void register() {
-        	if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            	ClientCommandHandler.instance.registerCommand(new CommandWikiRender());
-        	}
-    	}
 }
