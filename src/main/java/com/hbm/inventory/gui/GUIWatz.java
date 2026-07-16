@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.gui.element.GUIElements;
-import com.hbm.inventory.gui.element.GUIElements.Gauge;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;

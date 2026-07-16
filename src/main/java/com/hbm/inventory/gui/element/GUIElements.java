@@ -203,23 +203,23 @@ public class GUIElements {
 		Tessellator tess = Tessellator.instance;
 
 		tess.startDrawing(GL11.GL_TRIANGLES); // i should've used GL_POLYGON yes i know, too bad im either too retarded to understand it or OpenGL makes it funky, i already tried
-		tess.addVertexWithUV((double) (xDraw), (double) (yDraw + yDelta), (double) zDraw, (double) ((float) (xStart) * var7), (double) ((float) (yStart + yDelta) * var8));
-		tess.addVertexWithUV((double) (xDraw + xMid), (double) (yDraw + yMid), (double) zDraw, (double) ((float) (xStart + xMid) * var7), (double) ((float) (yStart + yMid) * var8));
+		tess.addVertexWithUV(xDraw, yDraw + yDelta, zDraw, ((float) (xStart) * var7), ((float) (yStart + yDelta) * var8));
+		tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
 		if (addons == 2 || addons == 1) {
-			tess.addVertexWithUV((double) (xDraw), (double) (yDraw), (double) zDraw, (double) ((float) (xStart) * var7), (double) ((float) (yStart) * var8));
+			tess.addVertexWithUV(xDraw, yDraw, zDraw, (float) (xStart) * var7, (float) (yStart) * var8);
 			tess.draw();
 			tess.startDrawing(GL11.GL_TRIANGLES);
-			tess.addVertexWithUV((double) (xDraw), (double) (yDraw), (double) zDraw, (double) ((float) (xStart) * var7), (double) ((float) (yStart) * var8));
-			tess.addVertexWithUV((double) (xDraw + xMid), (double) (yDraw + yMid), (double) zDraw, (double) ((float) (xStart + xMid) * var7), (double) ((float) (yStart + yMid) * var8));
+			tess.addVertexWithUV(xDraw, yDraw, zDraw, (float) (xStart) * var7, (float) (yStart) * var8);
+			tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
 		}
 		if (addons == 2) {
-			tess.addVertexWithUV((double) (xDraw + xDelta), (double) (yDraw), (double) zDraw, (double) ((float) (xStart + xDelta) * var7), (double) ((float) (yStart) * var8));
+			tess.addVertexWithUV(xDraw + xDelta, yDraw, zDraw, (float) (xStart + xDelta) * var7, (float) (yStart) * var8);
 			tess.draw();
 			tess.startDrawing(GL11.GL_TRIANGLES);
-			tess.addVertexWithUV((double) (xDraw + xDelta), (double) (yDraw), (double) zDraw, (double) ((float) (xStart + xDelta) * var7), (double) ((float) (yStart) * var8));
-			tess.addVertexWithUV((double) (xDraw + xMid), (double) (yDraw + yMid), (double) zDraw, (double) ((float) (xStart + xMid) * var7), (double) ((float) (yStart + yMid) * var8));
+			tess.addVertexWithUV(xDraw + xDelta, yDraw, (double) zDraw, (float) (xStart + xDelta) * var7, (float) (yStart) * var8);
+			tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
 		}
-		tess.addVertexWithUV((double) (xDraw + xTarget + xMid), (double) (yDraw - yTarget + yMid), (double) zDraw, (double) ((float) (xStart + xTarget + xMid) * var7), (double) ((float) (yStart - yTarget + yMid) * var8));
+		tess.addVertexWithUV(xDraw + xTarget + xMid, yDraw - yTarget + yMid, zDraw, (float) (xStart + xTarget + xMid) * var7, (float) (yStart - yTarget + yMid) * var8);
 		tess.draw();
 	}
 
