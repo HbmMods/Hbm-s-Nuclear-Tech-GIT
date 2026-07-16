@@ -37,9 +37,9 @@ public class GUIDiode extends GuiScreen {
 
 		textThroughput = new GuiTextField(fontRendererObj, this.width / 2 - 150, 100, 90, 20);
 		textThroughput.setText("" + diode.limit);
-		textThroughput.setMaxStringLength(10);
+		textThroughput.setMaxStringLength(11);
 
-		buttonPriority = new GuiButton(0, this.width / 2 + 50, 100, 90, 20, diode.priority.name());
+		buttonPriority = new GuiButton(0, this.width / 2 + 20, 100, 90, 20, diode.priority.name());
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class GUIDiode extends GuiScreen {
 		drawDefaultBackground();
 
 		drawString(fontRendererObj, "Throughput:", this.width / 2 - 150, 80, 0xA0A0A0);
-		drawString(fontRendererObj, "(max. 1,000,000,000 HE)", this.width / 2 - 150, 90, 0xA0A0A0);
+		drawString(fontRendererObj, "(max. 10,000,000,000 HE)", this.width / 2 - 150, 90, 0xA0A0A0);
 		textThroughput.drawTextBox();
 
-		drawString(fontRendererObj, "Priority:", this.width / 2 + 50, 80, 0xA0A0A0);
+		drawString(fontRendererObj, "Priority:", this.width / 2 + 20, 80, 0xA0A0A0);
 		buttonPriority.drawButton(mc, mouseX, mouseY);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -63,7 +63,7 @@ public class GUIDiode extends GuiScreen {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setByte("priority", (byte) priority);
 
-		try { data.setInteger("limit", Integer.parseInt(textThroughput.getText())); } catch(Exception ex) {}
+		try { data.setLong("limit", Long.parseLong(textThroughput.getText())); } catch(Exception ex) {}
 
 		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, diode.xCoord, diode.yCoord, diode.zCoord));
 	}

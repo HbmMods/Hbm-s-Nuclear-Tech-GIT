@@ -1,16 +1,24 @@
 package com.hbm.blocks.machine.pile;
 
+import java.util.List;
+
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.tileentity.machine.pile.TileEntityPileControl;
 import com.hbm.tileentity.machine.pile.TileEntityPileLoader;
 import com.hbm.tileentity.machine.pile.TileEntityPileVent;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockPileDevice extends BlockContainer {
+public class BlockPileDevice extends BlockContainer implements IBlockMulti {
 
 	public static final int ITEM_META_LOADER = 0;
 	public static final int ITEM_META_VENT = 1;
@@ -25,7 +33,21 @@ public class BlockPileDevice extends BlockContainer {
 	}
 
 	@Override
+	public int getSubCount() {
+		return 3;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < getSubCount(); ++i) {
+			list.add(new ItemStack(item, 1, i));
+		}
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+		meta -= meta % 4;
 		if(meta == BLOCK_META_LOADER) return new TileEntityPileLoader();
 		if(meta == BLOCK_META_VENT) return new TileEntityPileVent();
 		if(meta == BLOCK_META_CONTROL) return new TileEntityPileControl();
