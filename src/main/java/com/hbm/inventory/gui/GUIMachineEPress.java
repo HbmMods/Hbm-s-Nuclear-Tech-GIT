@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineEPress extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_epress.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_electric_press.png");
 	private TileEntityMachineEPress press;
 	
 	public GUIMachineEPress(InventoryPlayer invPlayer, TileEntityMachineEPress tedf) {
@@ -34,7 +34,7 @@ public class GUIMachineEPress extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.press.hasCustomInventoryName() ? this.press.getInventoryName() : I18n.format(this.press.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, 89 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	

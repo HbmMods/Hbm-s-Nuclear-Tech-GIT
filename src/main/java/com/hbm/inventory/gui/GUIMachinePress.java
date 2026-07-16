@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachinePress extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_press.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_press.png");
 	private TileEntityMachinePress press;
 	
 	public GUIMachinePress(InventoryPlayer invPlayer, TileEntityMachinePress tedf) {
@@ -48,7 +48,7 @@ public class GUIMachinePress extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(press.burnTime >= 20) {
-			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 0, 214, 14, 14);
+			this.drawTexturedModalRect(guiLeft + 26, guiTop + 36, 0, 214, 14, 14);
 		}
 		
 		int k = (int) (press.renderPress * 16 / press.maxPress);
