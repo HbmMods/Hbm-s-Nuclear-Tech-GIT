@@ -8,13 +8,13 @@ import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 
 /**
  * MSES1-FEIS: Machine Script, Equestrian Standard - First Extended Instruction Set (v1.1)
- * 
+ *
  * Additions compared to v1 Standard:
  * * Support for splitter chars, splitting and split count
  * * Support for the stack, a secondary buffer that can push, pop and peek
  * * Support for getting string length and substring using first and last
  * * Support for listening only to recent RoR signals using poll
- * 
+ *
  * @author hbm
  */
 public class ParseMSES1Ext1 extends ParseMSES1 {
@@ -22,7 +22,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 	@Override
 	public EnumStatementReturn eval(ParseContext ctx, String line) {
 		String lower = line.toLowerCase(Locale.US);
-		
+
 		// sets the splitter char
 		if(lower.startsWith("splitter ")) {
 			if(line.length() <= 9) return EnumStatementReturn.PARAMETER_ERROR;
@@ -30,12 +30,13 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			ctx.splitString = splitter;
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// grabs a fragment based on index
 		if(lower.startsWith("split ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				int index = Integer.parseInt(line.substring(6));
+				String statement = substitute(ctx, line.substring(6), true);
+				int index = Integer.parseInt(statement);
 				if(index < 1) return EnumStatementReturn.PARAMETER_ERROR;
 				String[] frags = ctx.readBuffer().split(Pattern.quote(ctx.splitString));
 				if(index > frags.length) return EnumStatementReturn.PARAMETER_ERROR;
@@ -43,7 +44,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 				return EnumStatementReturn.OK;
 			} catch(Throwable ex) { return EnumStatementReturn.PARAMETER_ERROR; }
 		}
-		
+
 		// counts the amount of fragments in this string
 		if(lower.equals("splitcount")) {
 			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
@@ -51,21 +52,21 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			ctx.writeBuffer(frags.length + "");
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// pushes the buffer to stack
 		if(lower.equals("push")) {
 			if(ctx.readBuffer().isEmpty()) return EnumStatementReturn.PARAMETER_ERROR;
 			boolean succ = ctx.push(ctx.readBuffer());
 			return succ ? EnumStatementReturn.OK : EnumStatementReturn.STACK_EXCEEDED;
 		}
-		
+
 		// pushes the supplied value (or variable) to stack
 		if(lower.startsWith("push ")) {
 			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
 			boolean succ = ctx.push(substitute(ctx, line.substring(5), false));
 			return succ ? EnumStatementReturn.OK : EnumStatementReturn.STACK_EXCEEDED;
 		}
-		
+
 		// removes the most recent element from stack and writes it to the buffer
 		if(lower.equals("pop")) {
 			String val = ctx.pop();
@@ -73,7 +74,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			ctx.writeBuffer(val);
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// writes the most recent element to the buffer
 		if(lower.equals("peek")) {
 			String val = ctx.peek();
@@ -81,13 +82,13 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			ctx.writeBuffer(val);
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// figures out buffer string's length
 		if(lower.equals("length")) {
 			ctx.writeBuffer("" + ctx.readBuffer().length());
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// grabs the first x characters from the buffer and writes them back to the buffer
 		if(lower.startsWith("first ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
@@ -111,7 +112,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 				return EnumStatementReturn.OK;
 			} catch(Exception x) { return EnumStatementReturn.PARAMETER_ERROR; }
 		}
-		
+
 		// listens to an RoR signal using the supplied channel name and saves it to the buffer
 		if(lower.startsWith("poll ")) {
 			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
@@ -119,13 +120,13 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 			if(chan != null && chan.timeStamp >= ctx.world.getTotalWorldTime() - 1) ctx.writeBuffer(chan.signal + "");
 			return EnumStatementReturn.OK;
 		}
-		
+
 		// writes the total world time to the buffer
 		if(lower.equals("worldtime")) {
 			ctx.writeBuffer("" + ctx.world.getTotalWorldTime());
 			return EnumStatementReturn.OK;
 		}
-		
+
 		return super.eval(ctx, line);
 	}
 }
