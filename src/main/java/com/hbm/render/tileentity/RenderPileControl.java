@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.pile.TileEntityPileControl;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -23,9 +24,12 @@ public class RenderPileControl extends TileEntitySpecialRenderer {
 		case 3: GL11.glRotated(0, 0, 1, 0); break;
 		}
 		
+		TileEntityPileControl control = (TileEntityPileControl) te;
+		double level = control.lastLevel + (control.level - control.lastLevel) * interp;
+		
 		bindTexture(ResourceManager.pile_control_tex);
 		ResourceManager.pile_control.renderPart("Base");
-		GL11.glTranslated(0, 0.5, 0);
+		GL11.glTranslated(0, level * 0.75, 0);
 		ResourceManager.pile_control.renderPart("Rod");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

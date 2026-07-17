@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -25,7 +26,7 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 	public int chanNum;
 	
 	public TileEntityPileVent() {
-		this.compair = new FluidTank(Fluids.AIR, 4_000);
+		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
 	}
 
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {compair}; }
@@ -35,7 +36,7 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		if(type != compair.getTankType()) return false;
 		ForgeDirection conDir = getOrientation();
-		return dir == conDir.getOpposite();
+		return dir == conDir;
 	}
 
 	@Override
@@ -44,17 +45,17 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 		if(!worldObj.isRemote) {
 			
 			ForgeDirection dir = getOrientation();
-			this.trySubscribe(compair.getTankType(), worldObj, xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, dir.getOpposite());
+			this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
 			
 			this.isActive = false;
 			
 			if(this.compair.getFill() > 0) {
-				int x = xCoord + dir.offsetX;
+				int x = xCoord - dir.offsetX;
 				int y = yCoord;
-				int z = zCoord + dir.offsetZ;
+				int z = zCoord - dir.offsetZ;
 				
 				if(worldObj.getBlock(x, y, z) == ModBlocks.pile_block && worldObj.getBlockMetadata(x, y, z) == BlockPile.META_AIR_IN) {
-					TileEntity tile = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+					TileEntity tile = Compat.getTileStandard(worldObj, x, y, z);
 					
 					if(tile instanceof TileEntityPileBaseMK2) {
 						TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
@@ -66,7 +67,9 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 							if(ventChan != null) {
 								this.isActive = true;
 								this.chanNum = core.getVentilationChannelNum(ventChan);
-								// compair stuff here
+								int toFill = BobMathUtil.min(compair.getFill(), 1_000 - ventChan.air);
+								ventChan.air += toFill;
+								this.compair.setFill(this.compair.getFill() - toFill);
 							}
 						}
 					}

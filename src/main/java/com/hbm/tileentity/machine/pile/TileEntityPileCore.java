@@ -193,8 +193,13 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(worldObj.getTotalWorldTime() % 3 == 0) for(PileChannel chan : this.ventilationChannels) {
+			for(PileChannel chan : this.ventilationChannels) {
 				if(chan.air <= 0) continue;
+				
+				int toUse = (int) Math.ceil(chan.air * 5D / 1_000);
+				chan.air -= toUse;
+				
+				if(worldObj.getTotalWorldTime() % 3 != 0) continue;
 
 				double x = chan.entry.getX() + 0.5 + chan.entry.getDir().offsetX * (this.width - 0.375);
 				double y = chan.entry.getY() + 0.5;

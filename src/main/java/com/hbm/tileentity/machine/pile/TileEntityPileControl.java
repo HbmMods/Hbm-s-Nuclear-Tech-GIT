@@ -6,16 +6,23 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.Compat;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileControl extends TileEntityTickingBase {
+public class TileEntityPileControl extends TileEntityTickingBase implements IRORInteractive {
 	
 	public double syncLevel;
 	public double level;
 	public double lastLevel;
 	
 	public int turnProgress;
+	
+	public double targetLevel;
+	public static final double SPEED = 1D / 60D; // full traverse takes 3s
+	public boolean wasRedstone;
 	
 	public int chanNum;
 
@@ -45,6 +52,24 @@ public class TileEntityPileControl extends TileEntityTickingBase {
 					}
 				}
 			}
+			
+			if(canMove) {
+				if(Math.abs(level - targetLevel) <= SPEED) {
+					this.level = this.targetLevel;
+				} else if(level < targetLevel) {
+					this.level += SPEED;
+				} else if(level > targetLevel) {
+					this.level -= SPEED;
+				}
+			}
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() % 4 + 2);
+			boolean redstone = worldObj.getIndirectPowerOutput(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite().ordinal());
+
+			if(redstone && !wasRedstone) this.setTarget(1D);
+			if(!redstone && wasRedstone) this.setTarget(0D);
+			
+			this.wasRedstone = redstone;
 			
 			this.networkPackNT(100);
 			
@@ -76,5 +101,37 @@ public class TileEntityPileControl extends TileEntityTickingBase {
 		this.chanNum = buf.readInt();
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
+				PREFIX_FUNCTION + "extendrods" + NAME_SEPARATOR + "percent"
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+
+		if((PREFIX_FUNCTION + "setrods").equals(name) && params.length > 0) {
+			int percent = IRORInteractive.parseInt(params[0], 0, 100);
+			this.setTarget(percent / 100D);
+			this.markChanged();
+			return null;
+		}
+
+		if((PREFIX_FUNCTION + "extendrods").equals(name) && params.length > 0) {
+			int percent = IRORInteractive.parseInt(params[0], -100, 100);
+			this.setTarget(MathHelper.clamp_double(this.targetLevel + percent / 100D, 0D, 1D));
+			this.markChanged();
+			return null;
+		}
+
+		return null;
+	}
+
+	public void setTarget(double target) {
+		this.targetLevel = target;
 	}
 }

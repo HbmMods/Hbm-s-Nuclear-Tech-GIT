@@ -17,7 +17,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockPileDevice extends BlockContainer implements IBlockMulti {
 
@@ -73,10 +75,10 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti {
 		if(world.getBlockMetadata(x, y, z) != BLOCK_META_CONTROL) return;
 		
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 1, 2);
-		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 2, 2);
-		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 0, 2);
-		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 3, 2);
+		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 0, 2);
+		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 3, 2);
+		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 1, 2);
+		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 2, 2);
 	}
 	
 	public static int itemMetaToBlockMeta(int meta) {
@@ -90,5 +92,13 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti {
 		if(meta >= BLOCK_META_CONTROL) return ITEM_META_CONTROL;
 		if(meta >= BLOCK_META_VENT) return ITEM_META_VENT;
 		return ITEM_META_LOADER;
+	}
+
+	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		int meta = world.getBlockMetadata(x, y, z);
+		if(meta < BLOCK_META_CONTROL) return false;
+		
+		return side.ordinal() == meta % 4 + 2;
 	}
 }

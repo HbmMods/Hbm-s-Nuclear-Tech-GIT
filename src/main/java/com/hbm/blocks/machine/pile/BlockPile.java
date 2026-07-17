@@ -52,6 +52,7 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 	@SideOnly(Side.CLIENT) public CTStitchReceiver recChanIn;
 	@SideOnly(Side.CLIENT) public CTStitchReceiver recChanOut;
 	@SideOnly(Side.CLIENT) public CTStitchReceiver recCon;
+	@SideOnly(Side.CLIENT) public CTStitchReceiver recCore;
 	
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 
@@ -76,6 +77,7 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 		this.recChanIn = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_input", this.blockIcon);
 		this.recChanOut = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_output", this.blockIcon);
 		this.recCon = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_control_top", this.iconTop);
+		this.recCore = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_core", this.iconTop);
 	}
 
 	@Override
@@ -84,6 +86,7 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 		if(side == 0 || side == 1) return meta == META_CONTROL ? recCon.fragCache : recTop.fragCache;
 		if(meta == META_FUEL_IN || meta == META_AIR_IN) return recChanIn.fragCache;
 		if(meta == META_FUEL_OUT || meta == META_AIR_OUT) return recChanOut.fragCache;
+		if(meta == META_CORE) return recCore.fragCache;
 		return rec.fragCache;
 	}
 
