@@ -1,23 +1,7 @@
 ## Changed
-* Updated russian and chinese localization
-* Updated the trinitite ore textures
-  * The ore spots are now smaller and more shard-like
-  * Each trinitite ore block now has four randomized texture variants
-* Trinitite ores now spawn fewer particles
-* The radiation effect caused by walking on trinitite ore is now much shorter but more intense to compensate
-* Finally removed the old terra drill items after being deprecated for almost a year
-* The electrolysis machine now instantly annihilates all buffered fluid output when changing recipe
-  * This is a straight downgrade but people for some reason wanted it so sure why not
-* Cable diodes now have a GUI for configuration instead of requiring tools
-  * The throughput can now be configured more precisely instead of increments of powers of 10
-* The magnetic storage barrel now uses BSCCO and has a new texture
+* Updated all oil well GUI textures
+  * There's now only two upgrade slots instead of three
+* All legacy pixel gauges have been replaced with smooth ones (watz, ZIRNOX, CCGT) making them more accurate
 
 ## Fixed
-* Fixed burner press GUI offsets being incorrect
-* Potentially fixed an issue with journey map where slaked sellafite would sometimes get the wrong color in the minimap
-* Finally fixed an issue making electric armor way worse than it should be, as well as preventing the vanilla armor points from working almost entirely
-* Fixed pneumatic storage exporter duping filter items when broken
-* Re-enabled the GTNH-NEI filter slot integration
-* Fixed various GUI title offsets
-* Fixed mask man announcement being sent 20 minutes before spawn (therefore never being sent at all) instead of one minute as intended
-* Fixed old BAT9000 recycling
+* Fixed held block being placed when not sneaking when opening the cable diode's GUI

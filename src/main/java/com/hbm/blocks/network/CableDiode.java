@@ -65,8 +65,8 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
 
-		if(!player.isSneaking() && world.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+		if(!player.isSneaking()) {
+			if(world.isRemote) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		}
 

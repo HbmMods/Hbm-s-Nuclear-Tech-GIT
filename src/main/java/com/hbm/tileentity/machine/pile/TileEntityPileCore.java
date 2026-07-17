@@ -15,6 +15,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -79,6 +80,14 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	public PileChannel getChannel(int x, int y, int z, List<PileChannel> list) {
 		for(PileChannel channel : list) if(channel.entry.compare(x, y, z)) return channel;
 		return null;
+	}
+
+	public int getFuelChannelNum(PileChannel chan) { return getChannelNum(chan, fuelChannels); }
+	public int getVentilationChannelNum(PileChannel chan) { return getChannelNum(chan, ventilationChannels); }
+	public int getControlChannelNum(PileChannel chan) { return getChannelNum(chan, controlChannels); }
+	
+	public int getChannelNum(PileChannel chan, List<PileChannel> list) {
+		return list.indexOf(chan); // more reliable when channels change and not that big of a deal because we have lists in single digit length
 	}
 	
 	@Override
@@ -185,6 +194,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 3 == 0) for(PileChannel chan : this.ventilationChannels) {
+				if(chan.air <= 0) continue;
 
 				double x = chan.entry.getX() + 0.5 + chan.entry.getDir().offsetX * (this.width - 0.375);
 				double y = chan.entry.getY() + 0.5;
@@ -227,18 +237,25 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		public final int length; // length of the channel, always equal to the h/w/d size of that axis
 		public final PileChannelType type;
 		
+		public final ItemStack[] rods;
+		public int air;
+		public double control = 1D; // pulled out by default, unlike me who never pulls out
+		
 		public PileChannel(int x, int y, int z, ForgeDirection dir) {
 			this.entry = new DirPos(x, y, z, dir);
 			this.type = PileChannelType.getChannelType(dir, orientation);
 			this.length =
 					type == PileChannelType.CONTROL ? height :
 					type == PileChannelType.FUEL ? depth : width;
+			
+			this.rods = new ItemStack[length];
 		}
 		
 		public PileChannel(int x, int y, int z, ForgeDirection dir, int length, PileChannelType type) {
 			this.entry = new DirPos(x, y, z, dir);
 			this.type = type;
 			this.length = length;
+			this.rods = new ItemStack[length];
 		}
 		
 		public void writeChannelToNBT(NBTTagCompound nbt, String name) {

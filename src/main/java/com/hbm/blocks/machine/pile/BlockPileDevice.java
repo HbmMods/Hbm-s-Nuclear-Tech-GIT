@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -65,6 +66,17 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti {
 		// therefore, all item metas (device subtypes) are neatly packed into 4 metas each
 		side = MathHelper.clamp_int(side - 2, 0, 3);
 		return metaOffset + side;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		if(world.getBlockMetadata(x, y, z) != BLOCK_META_CONTROL) return;
+		
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		if(i == 0) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 1, 2);
+		if(i == 1) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 2, 2);
+		if(i == 2) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 0, 2);
+		if(i == 3) world.setBlockMetadataWithNotify(x, y, z, BLOCK_META_CONTROL + 3, 2);
 	}
 	
 	public static int itemMetaToBlockMeta(int meta) {

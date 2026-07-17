@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.pile.TileEntityPileVent;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -23,9 +24,12 @@ public class RenderPileVent extends TileEntitySpecialRenderer {
 		case 3: GL11.glRotated(0, 0, 1, 0); break;
 		}
 		
+		TileEntityPileVent vent = (TileEntityPileVent) te;
+		float rot = vent.lastFan + (vent.fan - vent.lastFan) * interp;
+		
 		bindTexture(ResourceManager.pile_vent_tex);
 		ResourceManager.pile_vent.renderPart("Pipe");
-		GL11.glRotated((te.getWorldObj().getTotalWorldTime() % 360 + interp) * 45, 0, -1, 0);
+		GL11.glRotated(rot, 0, -1, 0);
 		ResourceManager.pile_vent.renderPart("Fan");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

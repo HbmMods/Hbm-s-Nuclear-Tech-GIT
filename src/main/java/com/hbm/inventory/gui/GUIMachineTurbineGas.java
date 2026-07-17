@@ -28,7 +28,6 @@ import net.minecraft.util.ResourceLocation;
 public class GUIMachineTurbineGas extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/generators/gui_turbinegas.png");
-	private static ResourceLocation gauge_tex = new ResourceLocation(RefStrings.MODID + ":textures/gui/gauges/button_big.png");
 	private TileEntityMachineTurbineGas turbinegas;
 
 	int yStart;
