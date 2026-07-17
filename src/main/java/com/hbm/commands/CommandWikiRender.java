@@ -48,6 +48,11 @@ public class CommandWikiRender extends CommandBase {
 	}
 
 	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+		return true;
+	}
+
+	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		if(!(sender instanceof EntityPlayer)) {
 			throw new PlayerNotFoundException();
