@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import com.hbm.inventory.gui.element.GUIElements;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerReactorZirnox;
@@ -39,10 +40,10 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		zirnox.water.renderTankInfo(this, mouseX, mouseY, guiLeft + 178, guiTop + 108, 18, 12);
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 160, guiTop + 33, 18, 17, new String[] { "Temperature:", "   " + Math.round((zirnox.heat) * 0.00001 * 780 + 20) + "°C" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 178, guiTop + 33, 18, 17, new String[] { "Pressure:", "   " + Math.round((zirnox.pressure) * 0.00001 * 30) + " bar" });
-		
+
 		String[] coolantText = I18nUtil.resolveKeyArray("desc.gui.zirnox.coolant");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, coolantText);
-		
+
 		String[] pressureText = I18nUtil.resolveKeyArray("desc.gui.zirnox.pressure");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 16, pressureText);
 
@@ -92,20 +93,12 @@ public class GUIReactorZirnox extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int s = zirnox.getGaugeScaled(6, 0);
-		drawTexturedModalRect(guiLeft + 160, guiTop + 108, 238, 0 + 12 * s, 18, 12);
+		GUIElements.drawSmoothLinearGauge(guiLeft + 162, guiTop + 114, this.zLevel, (double) zirnox.steam.getFill() / zirnox.steam.getMaxFill(), 2, 5, 0.75, 14, 0, 0x7F0000);
+		GUIElements.drawSmoothLinearGauge(guiLeft + 144, guiTop + 114, this.zLevel, (double) zirnox.carbonDioxide.getFill() / zirnox.carbonDioxide.getMaxFill(), 2, 5, 0.75, 14, 0, 0x7F0000);
+		GUIElements.drawSmoothLinearGauge(guiLeft + 180, guiTop + 114, this.zLevel, (double) zirnox.water.getFill() / zirnox.water.getMaxFill(), 2, 5, 0.75, 14, 0, 0x7F0000);
 
-		int c = zirnox.getGaugeScaled(6, 1);
-		drawTexturedModalRect(guiLeft + 142, guiTop + 108, 238, 0 + 12 * c, 18, 12);
-
-		int w = zirnox.getGaugeScaled(6, 2);
-		drawTexturedModalRect(guiLeft + 178, guiTop + 108, 238, 0 + 12 * w, 18, 12);
-
-		int h = zirnox.getGaugeScaled(12, 3);
-		drawTexturedModalRect(guiLeft + 160, guiTop + 33, 220, 0 + 18 * h, 18, 17);
-
-		int p = zirnox.getGaugeScaled(12, 4);
-		drawTexturedModalRect(guiLeft + 178, guiTop + 33, 220, 0 + 18 * p, 18, 17);
+		GUIElements.drawSmoothGauge(guiLeft + 169, guiTop + 42, this.zLevel, (double) zirnox.heat/100000, 5, 2, 1, 0x7F0000);
+		GUIElements.drawSmoothGauge(guiLeft + 187, guiTop + 42, this.zLevel, (double) zirnox.pressure/100000, 5, 2, 1, 0x7F0000);
 
 		if(zirnox.isOn) {
 			for(int x = 0; x < 4; x++)

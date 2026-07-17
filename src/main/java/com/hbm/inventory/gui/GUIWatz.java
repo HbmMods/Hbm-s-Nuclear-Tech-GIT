@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.gui.element.GUIElements;
-import com.hbm.inventory.gui.element.GUIElements.Gauge;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
@@ -28,11 +27,11 @@ public class GUIWatz extends GuiInfoContainer {
 	public GUIWatz(InventoryPlayer invPlayer, TileEntityWatz watz) {
 		super(new ContainerWatz(invPlayer, watz));
 		this.watz = watz;
-		
+
 		this.xSize = 176;
 		this.ySize = 229;
 	}
-	
+
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
@@ -44,11 +43,11 @@ public class GUIWatz extends GuiInfoContainer {
 		watz.tanks[1].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 23, 6, 45);
 		watz.tanks[2].renderTankInfo(this, x, y, guiLeft + 154, guiTop + 23, 6, 45);
 	}
-	
+
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 93, 4210752);
-		
+
 		double scale = 1.25;
 		String flux = String.format(Locale.US, "%,.1f", watz.fluxDisplay);
 		GL11.glScaled(1 / scale, 1 / scale, 1);
@@ -76,7 +75,7 @@ public class GUIWatz extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, col, col, 1.0F);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, 131, 122);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
+
 		drawTexturedModalRect(guiLeft + 131, guiTop, 131, 0, 36, 122);
 		drawTexturedModalRect(guiLeft, guiTop + 130, 0, 130, xSize, 99);
 		drawTexturedModalRect(guiLeft + 126, guiTop + 31, 176, 31, 9, 60);
@@ -85,8 +84,8 @@ public class GUIWatz extends GuiInfoContainer {
 
 		if(watz.isOn) drawTexturedModalRect(guiLeft + 147, guiTop + 8, 176, 0, 8, 8);
 		if(watz.isLocked) drawTexturedModalRect(guiLeft + 142, guiTop + 70, 210, 0, 18, 18);
-		
-		GUIElements.renderGauge(Gauge.ROUND_SMALL, guiLeft + 13, guiTop + 100, this.zLevel, 1 - col);
+
+		GUIElements.drawSmoothGauge(guiLeft + 22, guiTop + 109, this.zLevel, (double) 1 - col, 5, 2, 1, 0x7F0000);
 
 		watz.tanks[0].renderTank(guiLeft + 143, guiTop + 69, this.zLevel, 4, 43);
 		watz.tanks[1].renderTank(guiLeft + 149, guiTop + 69, this.zLevel, 4, 43);
