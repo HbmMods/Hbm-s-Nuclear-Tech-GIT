@@ -36,7 +36,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
 		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
 		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 116, guiTop + 20, 8, 8, mouseX, mouseY, upgradeText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 115, guiTop + 19, 8, 8, mouseX, mouseY, upgradeText);
 	}
 	
 	@Override
