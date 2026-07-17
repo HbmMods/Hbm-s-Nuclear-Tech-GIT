@@ -271,7 +271,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 		}
 		
 		String allParams = String.join(" ", params);
-
+		
 		if((PREFIX_FUNCTION + "write").equals(name)) {
 			this.push(allParams);
 			this.markChanged();
@@ -279,7 +279,7 @@ public class TileEntityRBMKTerminal extends TileEntityLoadedBase implements IGUI
 		}
 		
 		if(name.startsWith(PREFIX_FUNCTION + "set")) {
-			int line = IRORInteractive.parseInt(name.substring(3), 1, 17) - 1;
+			int line = IRORInteractive.parseInt(name.substring(PREFIX_FUNCTION.length() + 3), 1, 17) - 1;
 			this.history[line] = allParams;
 			this.markChanged();
 			return null;
