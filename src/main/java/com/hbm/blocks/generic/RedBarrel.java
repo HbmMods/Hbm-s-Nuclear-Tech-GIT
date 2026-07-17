@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class RedBarrel extends BlockDetonatable {
 
-	// Flammable barrels also explode when shot
 	public RedBarrel(Material material, boolean flammable) {
 		super(material, flammable ? 2 : 0,  flammable ? 15 : 0, 100, true, flammable);
 	}
