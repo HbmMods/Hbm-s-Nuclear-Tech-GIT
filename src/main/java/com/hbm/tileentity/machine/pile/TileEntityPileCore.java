@@ -2,14 +2,18 @@ package com.hbm.tileentity.machine.pile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.interfaces.NotableComments;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -111,27 +115,47 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	}
 	
 	public boolean drillChannel(int x, int y, int z, ForgeDirection dir, EntityPlayer player) {
+		int startMeta = worldObj.getBlockMetadata(x, y, z);
 		PileChannelType type = PileChannelType.getChannelType(dir, orientation);
+		
 		int size =
 				type == PileChannelType.CONTROL ? height :
 				type == PileChannelType.FUEL ? depth : width;
 		
+		List<PileChannel> list = getChannelList(type);
+		
+		if(startMeta == BlockPile.META_FUEL_IN || startMeta == BlockPile.META_AIR_IN || startMeta == BlockPile.META_CONTROL) {
+			for(int i = 0; i < list.size(); i++) {
+				PileChannel chan = list.get(i);
+				if(chan.entry.compare(x, y, z) && chan.entry.getDir() == dir) {
+					list.remove(i);
+					for(int j = 0; j < size; j++) {
+						int iX = x + dir.offsetX * j;
+						int iY = y + dir.offsetY * j;
+						int iZ = z + dir.offsetZ * j;
+						worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_DUMMY, 3);
+					}
+					return true;
+				}
+			}
+		}
+		
 		boolean error = false;
-		for(int i = 0; i <= size; i++) {
+		for(int i = 0; i < size; i++) {
 			int iX = x + dir.offsetX * i;
 			int iY = y + dir.offsetY * i;
 			int iZ = z + dir.offsetZ * i;
 			if(worldObj.getBlock(iX, iY, iZ) != ModBlocks.pile_block) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Foreign block in reactor", player); error = true; }
 			int meta = worldObj.getBlockMetadata(iX, iY, iZ);
 			if(meta == BlockPile.META_EDGE) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot drill along edge", player); error = true; }
-			if(meta == BlockPile.META_CORE) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect core", player); error = true; }
-			if(meta == BlockPile.META_CHANNEL) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect channel", player); error = true; }
-			if(meta != BlockPile.META_DUMMY) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect channel IO", player); error = true; }
+			else if(meta == BlockPile.META_CORE) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect core", player); error = true; }
+			else if(meta == BlockPile.META_CHANNEL) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect channel", player); error = true; }
+			else if(meta != BlockPile.META_DUMMY) { MachinePWRController.sendError(worldObj, iX, iY, iZ, "Cannot intersect channel IO", player); error = true; }
 		}
 		
 		if(error) return false;
 		
-		for(int i = 0; i <= size; i++) {
+		for(int i = 0; i < size; i++) {
 			int iX = x + dir.offsetX * i;
 			int iY = y + dir.offsetY * i;
 			int iZ = z + dir.offsetZ * i;
@@ -139,16 +163,15 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 				if(type == PileChannelType.FUEL) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_FUEL_IN, 3);
 				if(type == PileChannelType.VENTILATION) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_AIR_IN, 3);
 				if(type == PileChannelType.CONTROL) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_CONTROL, 3);
-			} else if(i == size) {
+			} else if(i == size - 1) {
 				if(type == PileChannelType.FUEL) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_FUEL_OUT, 3);
 				if(type == PileChannelType.VENTILATION) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_AIR_OUT, 3);
 				if(type == PileChannelType.CONTROL) worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_CONTROL, 3);
 			} else {
-				worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_DUMMY, 3);
+				worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_CHANNEL, 3);
 			}
 		}
 		
-		List<PileChannel> list = getChannelList(type);
 		list.add(new PileChannel(x, y, z, dir, size, type));
 		
 		this.markChanged();
@@ -159,6 +182,27 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			
+			if(worldObj.getTotalWorldTime() % 3 == 0) for(PileChannel chan : this.ventilationChannels) {
+
+				double x = chan.entry.getX() + 0.5 + chan.entry.getDir().offsetX * (this.width - 0.375);
+				double y = chan.entry.getY() + 0.5;
+				double z = chan.entry.getZ() + 0.5 + chan.entry.getDir().offsetZ * (this.width - 0.375);
+				Random rand = worldObj.rand;
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 1F);
+				data.setFloat("base", 0.125F + rand.nextFloat() * 0.125F);
+				data.setFloat("max", 1F);
+				data.setFloat("strafe", 0.0025F);
+				data.setBoolean("noWind", true);
+				data.setInteger("life", 20 + worldObj.rand.nextInt(30));
+				data.setInteger("color", 0xa0a0a0);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+		}
 	}
 	
 	public void destroy() {

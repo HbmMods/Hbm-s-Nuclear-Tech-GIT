@@ -26,7 +26,6 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 		this.chargeRate = chargeRate;
 		this.consumption = consumption;
 		this.drain = drain;
-		this.setMaxDamage(1);
 	}
 
 	@SideOnly(Side.CLIENT)

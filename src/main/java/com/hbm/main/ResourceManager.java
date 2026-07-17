@@ -394,6 +394,11 @@ public class ResourceManager {
 	public static final IModelCustom siege_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/siege_ufo.obj"));
 	public static final IModelCustom glyphid = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/glyphid.obj"));
 	public static final IModelCustom drone = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mobs/quadcopter.obj"));
+	
+	//PILE
+	public static final IModelCustom pile_loader = new HFRWavefrontObject("models/pile/pile_loader.obj").asVBO();
+	public static final IModelCustom pile_vent = new HFRWavefrontObject("models/pile/pile_vent.obj").asVBO();
+	public static final IModelCustom pile_control = new HFRWavefrontObject("models/pile/pile_control.obj").asVBO();
 
 	//ZIRNOX
 	public static final IModelCustom zirnox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/zirnox.obj")).asVBO();
@@ -841,6 +846,11 @@ public class ResourceManager {
 	public static final ResourceLocation glyphid_scout_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_scout.png");
 	public static final ResourceLocation glyphid_nuclear_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_nuclear.png");
 	public static final ResourceLocation glyphid_digger_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_digger.png");
+	
+	//PILE
+	public static final ResourceLocation pile_loader_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pile/pile_loader.png");
+	public static final ResourceLocation pile_vent_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pile/pile_vent.png");
+	public static final ResourceLocation pile_control_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pile/pile_control.png");
 
 	//ZIRNOX
 	public static final ResourceLocation zirnox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/zirnox.png");

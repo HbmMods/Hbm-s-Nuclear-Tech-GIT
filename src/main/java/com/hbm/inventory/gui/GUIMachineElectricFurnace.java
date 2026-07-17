@@ -15,7 +15,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 public class GUIMachineElectricFurnace extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIElectricFurnace.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_electric_furnace.png");
 	private TileEntityMachineElectricFurnace furnace;
 
 	public GUIMachineElectricFurnace(InventoryPlayer invPlayer, TileEntityMachineElectricFurnace furnace) {
@@ -43,7 +43,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.furnace.hasCustomInventoryName() ? this.furnace.getInventoryName() : I18n.format(this.furnace.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, 70 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -74,7 +74,7 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		int p = furnace.getProgressScaled(28);
 		drawTexturedModalRect(guiLeft + 43, guiTop + 36, 176, 0, p, 12);
 		
-		this.drawInfoPanel(guiLeft + 116, guiTop + 20, 8, 8, 8);
+		this.drawInfoPanel(guiLeft + 115, guiTop + 19, 8, 8, 8);
 	}
 
 }

@@ -731,7 +731,7 @@ public class AnvilRecipes extends SerializableRecipe {
 				}
 		).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new ComparableStack(ModBlocks.machine_bat9000, 1, 1),
+				new ComparableStack(ModBlocks.machine_bat9000, 1),
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.plate_welded, 4, Mats.MAT_TCALLOY.id)),
 						new AnvilOutput(new ItemStack(ModItems.plate_steel, 16))

@@ -32,7 +32,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -215,8 +214,10 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 
 		@Override
 		public void receiveControl(NBTTagCompound data) {
-			if(data.hasKey("capacity")) this.limit = MathHelper.clamp_int(data.getInteger("limit"), 0, 1_000_000_000);
+			if(data.hasKey("limit")) this.limit = data.getLong("limit");
 			if(data.hasKey("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, data.getByte("priority"));
+			if(limit < 0) limit = 0;
+			if(limit > 10_000_000_000L) limit = 10_000_000_000L;
 			this.markDirty();
 		}
 

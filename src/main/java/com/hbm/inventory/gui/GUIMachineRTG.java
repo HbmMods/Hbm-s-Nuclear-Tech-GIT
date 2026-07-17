@@ -52,7 +52,7 @@ public class GUIMachineRTG extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.rtg.hasCustomInventoryName() ? this.rtg.getInventoryName() : I18n.format(this.rtg.getInventoryName());
 
-		this.fontRendererObj.drawString(name, 13 ,7, 10925486);
+		this.fontRendererObj.drawString(name, 60 - this.fontRendererObj.getStringWidth(name) / 2, 7, 10925486);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 

@@ -46,7 +46,7 @@ public class BossSpawnHandler {
 	public static void rollTheDice(World world) {
 
 		/*
-		 * Spawns every 3 hours with a 33% chance if
+		 * Spawns every 20 minutes if
 		 * - the player is 3 blocks below the surface
 		 * - the player has at least 50 RAD
 		 * - the player has either crafted or placed an ore acidizer before
@@ -70,7 +70,7 @@ public class BossSpawnHandler {
 					
 					data.maskManTimer++;
 					
-					if(data.maskManTimer == MobConfig.maskmanDelay - 20 * 60) {
+					if(data.maskManTimer == MobConfig.maskmanDelay - 60) {
 						player.addChatComponentMessage(new ChatComponentText("The mask man draws near.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 					}
 					

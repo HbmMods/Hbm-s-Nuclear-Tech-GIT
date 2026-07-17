@@ -73,9 +73,9 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable {
 		
 		this.rec = IBlockCT.primeReceiver(reg, this.blockIcon.getIconName(), this.blockIcon);
 		this.recTop = IBlockCT.primeReceiver(reg, this.iconTop.getIconName(), this.iconTop);
-		this.recChanIn = IBlockCT.primeReceiver(reg, "pile_block_input", this.blockIcon);
-		this.recChanOut = IBlockCT.primeReceiver(reg, "pile_block_output", this.blockIcon);
-		this.recCon = IBlockCT.primeReceiver(reg, "pile_block_control_top", this.iconTop);
+		this.recChanIn = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_input", this.blockIcon);
+		this.recChanOut = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_output", this.blockIcon);
+		this.recCon = IBlockCT.primeReceiver(reg, RefStrings.MODID + ":pile_block_control_top", this.iconTop);
 	}
 
 	@Override
