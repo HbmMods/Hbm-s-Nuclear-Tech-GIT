@@ -29,7 +29,7 @@ public class RenderPileVent extends TileEntitySpecialRenderer {
 		
 		bindTexture(ResourceManager.pile_vent_tex);
 		ResourceManager.pile_vent.renderPart("Pipe");
-		GL11.glRotated(rot, 0, -1, 0);
+		GL11.glRotated(rot, 0, 1, 0);
 		ResourceManager.pile_vent.renderPart("Fan");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPileDevice;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.pile.TileEntityPileLoader;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -29,16 +30,21 @@ public class RenderPileLoader extends TileEntitySpecialRenderer implements IItem
 		case 3: GL11.glRotated(0, 0, 1, 0); break;
 		}
 		
+		TileEntityPileLoader loader = (TileEntityPileLoader) te;
+		double position = loader.lastLevel + (loader.level - loader.lastLevel) * interp;
+		
 		bindTexture(ResourceManager.pile_loader_tex);
 		ResourceManager.pile_loader.renderPart("Loader");
 		GL11.glPushMatrix(); {
 			GL11.glTranslated(-0.1875, 0.5, 0);
-			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(position * 90, 0, 0, 1);
 			GL11.glTranslated(0.1875, -0.5, 0);
 			ResourceManager.pile_loader.renderPart("Lever");
 		} GL11.glPopMatrix();
+		
+		GL11.glTranslated(position * -0.5, 0, 0);
 		ResourceManager.pile_loader.renderPart("Slider");
-		ResourceManager.pile_loader.renderPart("Rod");
+		if(loader.hasRod) ResourceManager.pile_loader.renderPart("Rod");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
@@ -54,10 +60,11 @@ public class RenderPileLoader extends TileEntitySpecialRenderer implements IItem
 		return new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3.5, 0);
-				double scale = 10;
+				double scale = 5;
 				GL11.glScaled(scale, scale, scale);
 			}
 			public void renderCommonWithStack(ItemStack item) {
+				GL11.glScaled(2, 2, 2);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				if(item.getItemDamage() == BlockPileDevice.ITEM_META_LOADER) {
 					bindTexture(ResourceManager.pile_loader_tex);

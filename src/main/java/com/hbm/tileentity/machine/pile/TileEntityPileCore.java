@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.interfaces.NotableComments;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityTickingBase;
@@ -144,6 +145,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 						int iZ = z + dir.offsetZ * j;
 						worldObj.setBlockMetadataWithNotify(iX, iY, iZ, BlockPile.META_DUMMY, 3);
 					}
+					worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.VANILLA_PLINK, 1F, 0.75F);
 					return true;
 				}
 			}
@@ -182,7 +184,8 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		}
 		
 		list.add(new PileChannel(x, y, z, dir, size, type));
-		
+
+		worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.VANILLA_PLINK, 1F, 1.25F);
 		this.markChanged();
 		
 		return true;

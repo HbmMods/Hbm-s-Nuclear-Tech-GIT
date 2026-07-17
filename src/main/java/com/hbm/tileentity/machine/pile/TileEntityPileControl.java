@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPile;
-import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.Compat;
 
@@ -12,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileControl extends TileEntityTickingBase implements IRORInteractive {
+public class TileEntityPileControl extends TileEntityPileDeviceBase implements IRORInteractive {
 	
 	public double syncLevel;
 	public double level;
@@ -24,8 +23,6 @@ public class TileEntityPileControl extends TileEntityTickingBase implements IROR
 	public static final double SPEED = 1D / 60D; // full traverse takes 3s
 	public boolean wasRedstone;
 	
-	public int chanNum;
-
 	@Override
 	public void updateEntity() {
 		
@@ -53,7 +50,7 @@ public class TileEntityPileControl extends TileEntityTickingBase implements IROR
 				}
 			}
 			
-			if(canMove) {
+			if(canMove && this.level != this.targetLevel) {
 				if(Math.abs(level - targetLevel) <= SPEED) {
 					this.level = this.targetLevel;
 				} else if(level < targetLevel) {
@@ -63,7 +60,7 @@ public class TileEntityPileControl extends TileEntityTickingBase implements IROR
 				}
 			}
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() % 4 + 2);
+			ForgeDirection dir = this.getOrientation();
 			boolean redstone = worldObj.getIndirectPowerOutput(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite().ordinal());
 
 			if(redstone && !wasRedstone) this.setTarget(1D);
@@ -90,7 +87,6 @@ public class TileEntityPileControl extends TileEntityTickingBase implements IROR
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeDouble(this.level);
-		buf.writeInt(this.chanNum);
 	}
 
 	@Override
@@ -98,7 +94,6 @@ public class TileEntityPileControl extends TileEntityTickingBase implements IROR
 		super.deserialize(buf);
 		double lastSync = this.syncLevel;
 		this.syncLevel = buf.readDouble();
-		this.chanNum = buf.readInt();
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
 	}

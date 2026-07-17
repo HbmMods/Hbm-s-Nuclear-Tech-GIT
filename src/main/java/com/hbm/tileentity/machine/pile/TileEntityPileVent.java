@@ -5,7 +5,6 @@ import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
@@ -15,15 +14,13 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileVent extends TileEntityTickingBase implements IFluidStandardReceiverMK2 {
+public class TileEntityPileVent extends TileEntityPileDeviceBase implements IFluidStandardReceiverMK2 {
 	
 	public FluidTank compair;
 	public boolean isActive = false;
 	
 	public float fan;
 	public float lastFan;
-	
-	public int chanNum;
 	
 	public TileEntityPileVent() {
 		this.compair = new FluidTank(Fluids.AIR, 4_000).withPressure(1);
@@ -49,28 +46,26 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 			
 			this.isActive = false;
 			
-			if(this.compair.getFill() > 0) {
-				int x = xCoord - dir.offsetX;
-				int y = yCoord;
-				int z = zCoord - dir.offsetZ;
-				
-				if(worldObj.getBlock(x, y, z) == ModBlocks.pile_block && worldObj.getBlockMetadata(x, y, z) == BlockPile.META_AIR_IN) {
-					TileEntity tile = Compat.getTileStandard(worldObj, x, y, z);
-					
-					if(tile instanceof TileEntityPileBaseMK2) {
-						TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
-						TileEntityPileCore core = pile.getCore();
-						
-						if(core != null) {
-							PileChannel ventChan = core.getVentilationChannel(x, y, z);
-							
-							if(ventChan != null) {
-								this.isActive = true;
-								this.chanNum = core.getVentilationChannelNum(ventChan);
-								int toFill = BobMathUtil.min(compair.getFill(), 1_000 - ventChan.air);
-								ventChan.air += toFill;
-								this.compair.setFill(this.compair.getFill() - toFill);
-							}
+			int x = xCoord - dir.offsetX;
+			int y = yCoord;
+			int z = zCoord - dir.offsetZ;
+
+			if(worldObj.getBlock(x, y, z) == ModBlocks.pile_block && worldObj.getBlockMetadata(x, y, z) == BlockPile.META_AIR_IN) {
+				TileEntity tile = Compat.getTileStandard(worldObj, x, y, z);
+
+				if(tile instanceof TileEntityPileBaseMK2) {
+					TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
+					TileEntityPileCore core = pile.getCore();
+
+					if(core != null) {
+						PileChannel ventChan = core.getVentilationChannel(x, y, z);
+
+						if(ventChan != null) {
+							this.chanNum = core.getVentilationChannelNum(ventChan);
+							int toFill = BobMathUtil.min(compair.getFill(), 1_000 - ventChan.air);
+							ventChan.air += toFill;
+							this.compair.setFill(this.compair.getFill() - toFill);
+							this.isActive = toFill > 0;
 						}
 					}
 				}
@@ -81,7 +76,10 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 		} else {
 			
 			this.lastFan = fan;
-			if(this.isActive) this.fan += 45;
+			if(this.isActive) {
+				this.fan += 45;
+				if(worldObj.rand.nextInt(20) == 0) worldObj.spawnParticle("cloud", xCoord + 0.5, yCoord + 1, zCoord + 0.5, 0, 0.05, 0);
+			}
 			
 			if(this.fan >= 360) {
 				this.lastFan -= 360;
@@ -89,22 +87,16 @@ public class TileEntityPileVent extends TileEntityTickingBase implements IFluidS
 			}
 		}
 	}
-	
-	public ForgeDirection getOrientation() {
-		return ForgeDirection.getOrientation(this.getBlockMetadata() % 4 + 2);
-	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(this.isActive);
-		buf.writeInt(this.chanNum);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.isActive = buf.readBoolean();
-		this.chanNum = buf.readInt();
 	}
 }
