@@ -471,7 +471,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		if((PREFIX_VALUE + "defocus").equals(name)) {
 			return this.particle != null ? "" + this.particle.defocus : "0";
 		}
-		if((PREFIX_VALUE + "temperature").equals(name))			return "" + this.temperature;
+		if((PREFIX_VALUE + "temperature").equals(name))	return "" + (int) this.temperature;
 		if((PREFIX_VALUE + "pfmcold").equals(name))		return "" + coolantTanks[0].getFill();
 		if((PREFIX_VALUE + "pfm").equals(name))			return "" + coolantTanks[1].getFill();
 		return null;

@@ -401,7 +401,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 
 	@Override
 	public String provideRORValue(String name) {
-		if((PREFIX_VALUE + "temperature").equals(name))			return "" + this.temperature;
+		if((PREFIX_VALUE + "temperature").equals(name))	return "" + (int) this.temperature;
 		if((PREFIX_VALUE + "pfmcold").equals(name))		return "" + coolantTanks[0].getFill();
 		if((PREFIX_VALUE + "pfm").equals(name))			return "" + coolantTanks[1].getFill();
 		return null;
