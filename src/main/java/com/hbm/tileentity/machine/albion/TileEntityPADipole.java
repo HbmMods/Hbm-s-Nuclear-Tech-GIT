@@ -392,14 +392,16 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
-				PREFIX_FUNCTION + "setthreshold" + NAME_SEPARATOR + "threshold",
-				PREFIX_VALUE + "pfmcold",
-				PREFIX_VALUE + "pfm"
+			PREFIX_VALUE + "temperature",
+			PREFIX_VALUE + "pfmcold",
+			PREFIX_VALUE + "pfm",
+			PREFIX_FUNCTION + "setthreshold" + NAME_SEPARATOR + "threshold"
 		};
 	}
 
 	@Override
 	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "temperature").equals(name))			return "" + this.temperature;
 		if((PREFIX_VALUE + "pfmcold").equals(name))		return "" + coolantTanks[0].getFill();
 		if((PREFIX_VALUE + "pfm").equals(name))			return "" + coolantTanks[1].getFill();
 		return null;
