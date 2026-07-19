@@ -44,7 +44,7 @@ public class RenderPileLoader extends TileEntitySpecialRenderer implements IItem
 		
 		GL11.glTranslated(position * -0.5, 0, 0);
 		ResourceManager.pile_loader.renderPart("Slider");
-		if(loader.hasRod) ResourceManager.pile_loader.renderPart("Rod");
+		if(loader.syncStack != null) ResourceManager.pile_loader.renderPart("Rod");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();

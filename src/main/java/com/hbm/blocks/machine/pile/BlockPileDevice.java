@@ -133,9 +133,10 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
 		int meta = world.getBlockMetadata(x, y, z);
-		if(meta < BLOCK_META_CONTROL) return false;
-		
-		return side.ordinal() == meta % 4 + 2;
+		if(meta >= BLOCK_META_CONTROL) return side.ordinal() == meta % 4 + 2;
+		if(meta >= BLOCK_META_VENT) return false;
+		if(meta >= BLOCK_META_LOADER) return side.ordinal() == meta % 4 + 2;
+		return false;
 	}
 
 	@Override
@@ -153,6 +154,7 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 		if(tile instanceof TileEntityPileLoader) {
 			TileEntityPileLoader device = (TileEntityPileLoader) tile;
 			text.add("Index: " + device.chanNum);
+			if(device.syncStack != null) text.add("Loading: " + device.syncStack.getDisplayName());
 		}
 		
 		if(tile instanceof TileEntityPileVent) {
@@ -162,8 +164,8 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 		
 		if(tile instanceof TileEntityPileControl) {
 			TileEntityPileControl device = (TileEntityPileControl) tile;
-			text.add("Extraction level: " + (int) + (device.level * 100) + "%");
 			text.add("Index: " + device.chanNum);
+			text.add("Extraction level: " + (int) + (device.level * 100) + "%");
 		}
 		
 		if(!text.isEmpty())

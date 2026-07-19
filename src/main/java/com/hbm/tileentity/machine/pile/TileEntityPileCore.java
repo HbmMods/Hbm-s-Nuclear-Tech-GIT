@@ -15,9 +15,11 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @NotableComments
@@ -246,6 +248,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		public final PileChannelType type;
 		
 		public final ItemStack[] rods;
+		public double heat = 0D;
 		public int air;
 		public double control = 1D; // pulled out by default, unlike me who never pulls out
 		
@@ -255,7 +258,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			this.length =
 					type == PileChannelType.CONTROL ? height :
 					type == PileChannelType.FUEL ? depth : width;
-			
+
 			this.rods = new ItemStack[length];
 		}
 		
@@ -271,6 +274,47 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			nbt.setInteger(name + "_y", entry.getY());
 			nbt.setInteger(name + "_z", entry.getZ());
 			nbt.setByte(name + "_d", (byte) entry.getDir().ordinal());
+
+			if(type == type.FUEL) {
+				NBTTagList list = new NBTTagList();
+				for(int i = 0; i < rods.length; i++) {
+					if(rods[i] != null) {
+						NBTTagCompound nbt1 = new NBTTagCompound();
+						nbt1.setByte("slot", (byte)i);
+						rods[i].writeToNBT(nbt1);
+						list.appendTag(nbt1);
+					}
+				}
+				nbt.setTag("items", list);
+			}
+		}
+		
+		public void loadItem(ItemStack stack) {
+			if(stack == null) return;
+			if(rods.length <= 0) { dropItem(stack, -1); return; }
+			
+			for(int i = 0; i < rods.length; i++) {
+				if(rods[i] == null) {
+					rods[i] = stack;
+					return;
+					
+				} else {
+					ItemStack prev = rods[i];
+					rods[i] = stack;
+					stack = prev;
+				}
+			}
+			
+			if(stack != null) dropItem(stack, length);
+		}
+		
+		public void dropItem(ItemStack stack, int depth) {
+			int x = entry.getX() + entry.getDir().offsetX * depth;
+			int y = entry.getY();
+			int z = entry.getZ() + entry.getDir().offsetZ * depth;
+			
+			EntityItem item = new EntityItem(worldObj, x + 0.5, y + 0.5, z + 0.5, stack);
+			worldObj.spawnEntityInWorld(item);
 		}
 	}
 	
@@ -279,7 +323,21 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		int y = nbt.getInteger(name + "_y");
 		int z = nbt.getInteger(name + "_z");
 		ForgeDirection dir = ForgeDirection.getOrientation(nbt.getByte(name + "_d"));
-		return new PileChannel(x, y, z, dir);
+		
+		PileChannel chan = new PileChannel(x, y, z, dir);
+
+		if(chan.type == chan.type.FUEL) {
+			NBTTagList list = nbt.getTagList("fuel", 10);
+			for(int i = 0; i < list.tagCount(); i++) {
+				NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+				byte b0 = nbt1.getByte("slot");
+				if(b0 >= 0 && b0 < chan.rods.length) {
+					chan.rods[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+				}
+			}
+		}
+		
+		return chan;
 	}
 	
 	public static enum PileChannelType {

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPile;
+import com.hbm.items.ModItems;
 import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.Compat;
@@ -9,6 +10,7 @@ import com.hbm.util.Compat;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,17 +27,17 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 	
 	public boolean loading = false;
 	public int delay = 0;
-	public boolean hasRod = false;
+	public ItemStack syncStack;
 	public ItemStack stack;
+	public boolean wasRedstone;
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
-			this.hasRod = this.stack != null;
-			
 			ForgeDirection dir = getOrientation();
+			PileChannel fuelChan = null;
 			
 			int x = xCoord - dir.offsetX;
 			int y = yCoord;
@@ -49,7 +51,7 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 					TileEntityPileCore core = pile.getCore();
 					
 					if(core != null) {
-						PileChannel fuelChan = core.getFuelChannel(x, y, z);
+						fuelChan = core.getFuelChannel(x, y, z);
 						
 						if(fuelChan != null) {
 							this.chanNum = core.getFuelChannelNum(fuelChan);
@@ -57,6 +59,10 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 					}
 				}
 			}
+			
+			boolean redstone = worldObj.getIndirectPowerOutput(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir.getOpposite().ordinal());
+			if(redstone && !wasRedstone && this.delay <= 0 && this.level <= 0) this.loading = true;
+			this.wasRedstone = redstone;
 			
 			if(this.delay > 0) {
 				this.delay--;
@@ -76,7 +82,10 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 					
 					if(this.level == 1) {
 						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, NTMSounds.GUN_BOLT_OPEN, this.getVolume(1F), 0.75F);
-						this.setInventorySlotContents(0, null);
+						if(fuelChan != null) {
+							fuelChan.loadItem(stack);
+							this.setInventorySlotContents(0, null);
+						}
 					}
 					
 					if(this.level > 0D) {
@@ -105,7 +114,12 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeDouble(this.level);
-		buf.writeBoolean(this.hasRod);
+		if(this.stack != null) {
+			buf.writeInt(Item.getIdFromItem(this.stack.getItem()));
+			buf.writeShort(this.stack.getItemDamage());
+		} else {
+			buf.writeInt(-1);
+		}
 	}
 
 	@Override
@@ -113,13 +127,15 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 		super.deserialize(buf);
 		double lastSync = this.syncLevel;
 		this.syncLevel = buf.readDouble();
-		this.hasRod = buf.readBoolean();
+		int itemId = buf.readInt();
+		if(itemId != -1) this.syncStack = new ItemStack(Item.getItemById(itemId), 1, buf.readShort());
+		else this.syncStack = null;
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
 	}
 	
 	public static boolean isItemLoadable(ItemStack stack) {
-		return true;
+		return stack.getItem() == ModItems.pile_rod;
 	}
 
 	@Override
