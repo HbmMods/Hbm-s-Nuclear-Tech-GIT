@@ -15,29 +15,33 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerCentrifuge extends Container {
 
-	private TileEntityMachineCentrifuge diFurnace;
+	private TileEntityMachineCentrifuge centrifuge;
 
 	public ContainerCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
 
-		diFurnace = tedf;
-
-		this.addSlotToContainer(new Slot(tedf, 0, 36, 50));
-		this.addSlotToContainer(new Slot(tedf, 1, 9, 50));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 63, 50));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 83, 50));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 103, 50));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 5, 123, 50));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 149, 22));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 7, 149, 40));
+		this.centrifuge = tedf;
+		
+		// Input
+		this.addSlotToContainer(new Slot(tedf, 0, 44, 57));
+		// Battery
+		this.addSlotToContainer(new Slot(tedf, 1, 8, 57));
+		// Outputs
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 70, 57));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 90, 57));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 110, 57));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 5, 130, 57));
+		// Upgrades
+		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 156, 31));
+		this.addSlotToContainer(new SlotUpgrade(tedf, 7, 156, 49));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 11 + j * 18, 107 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 162));
+			this.addSlotToContainer(new Slot(invPlayer, i, 11 + i * 18, 165));
 		}
 	}
 
@@ -83,7 +87,7 @@ public class ContainerCentrifuge extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return diFurnace.isUseableByPlayer(player);
+		return centrifuge.isUseableByPlayer(player);
 	}
 
 }

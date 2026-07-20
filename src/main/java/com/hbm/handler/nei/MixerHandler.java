@@ -20,7 +20,7 @@ public class MixerHandler extends NEIUniversalHandler {
 	@Override
 	public void loadTransferRects() {
 		super.loadTransferRects();
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(57, 25, 52, 44), "ntmMixer"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(66, 20, 52, 44), "ntmMixer"));
 		guiGui.add(GUIMixer.class);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
 	}

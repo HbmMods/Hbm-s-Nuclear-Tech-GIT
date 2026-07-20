@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerCentrifuge;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -18,25 +19,32 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 	
 	public GUIMachineCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
 		super(new ContainerCentrifuge(invPlayer, tedf));
-		centrifuge = tedf;
 		
-		this.xSize = 176;
-		this.ySize = 186;
+		this.centrifuge = tedf;
+		this.xSize = 182;
+		this.ySize = 189;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 9, guiTop + 13, 16, 34, centrifuge.power, centrifuge.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 18, 16, 37, centrifuge.power, centrifuge.maxPower);
+		
+		String[] upgradeText = new String[4];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.overdrive");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 160, guiTop + 16, 8, 8, mouseX, mouseY, upgradeText);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
-		//String name = this.centrifuge.hasCustomInventoryName() ? this.centrifuge.getInventoryName() : I18n.format(this.centrifuge.getInventoryName());
+		String name = this.centrifuge.hasCustomInventoryName() ? this.centrifuge.getInventoryName() : I18n.format(this.centrifuge.getInventoryName());
 		
-		//this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 + 36 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0xffffff);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 11, this.ySize - 96 + 2, 4210752);
 	}
 	
 	@Override
@@ -46,8 +54,8 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(centrifuge.hasPower()) {
-			int i1 = (int) centrifuge.getPowerRemainingScaled(35);
-			drawTexturedModalRect(guiLeft + 9, guiTop + 48 - i1, 176, 35 - i1, 16, i1);
+			int i1 = (int) centrifuge.getPowerRemainingScaled(37);
+			drawTexturedModalRect(guiLeft + 8, guiTop + 55 - i1, 182, 37 - i1, 16, i1);
 		}
 
 		if(centrifuge.isProcessing()) {
@@ -55,11 +63,13 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 			
 			for(int i = 0; i < 4; i++) {
 				int h = Math.min(p, 36);
-				drawTexturedModalRect(guiLeft + 65 + i * 20, guiTop + 50 - h, 176, 71 - h, 12, h);
+				drawTexturedModalRect(guiLeft + 72 + i * 20, guiTop + 57 - h, 182, 73 - h, 12, h);
 				p -= h;
 				if(p <= 0)
 					break;
 			}
 		}
+		
+		this.drawInfoPanel(guiLeft + 160, guiTop + 16, 8, 8, 8);
 	}
 }
