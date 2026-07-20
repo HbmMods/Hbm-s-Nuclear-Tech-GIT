@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.hbm.util.i18n.I18nUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,9 +26,9 @@ public class FT_Pheromone extends  FluidTrait{
 	public void addInfo(List<String> info) {
 
 		if(type == 1) {
-			info.add(EnumChatFormatting.AQUA + "[Glyphid Pheromones]");
+			info.add(EnumChatFormatting.AQUA + "[" + I18nUtil.resolveKey("hbmfluid.trait.glyphidPheromones") + "]");
 		} else {
-			info.add(EnumChatFormatting.BLUE + "[Modified Pheromones]");
+			info.add(EnumChatFormatting.BLUE + "[" + I18nUtil.resolveKey("hbmfluid.trait.modifiedPheromones") + "]");
 		}
 	}
 
