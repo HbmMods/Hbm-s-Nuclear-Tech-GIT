@@ -26,47 +26,53 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		super(new ContainerMachineRefinery(invPlayer, tedf));
 		refinery = tedf;
 		
-		this.xSize = 184;
-		this.ySize = 222;
+		this.xSize = 210;
+		this.ySize = 231;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		refinery.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 12, guiTop + 17, 16, 52); // Render tooltip for column.
-		refinery.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 66, guiTop + 17, 16, 52);
-		refinery.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 84, guiTop + 17, 16, 52);
-		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 102, guiTop + 17, 16, 52);
-		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 120, guiTop + 17, 16, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 160, guiTop + 18, 16, 70, refinery.power, refinery.maxPower);
+		refinery.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 30, guiTop + 27, 21, 104);    // Render tooltip for column.
+		refinery.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 86, guiTop + 42, 16, 52);
+		refinery.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 106, guiTop + 42, 16, 52);
+		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 126, guiTop + 42, 16, 52);
+		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 146, guiTop + 42, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 186, guiTop + 18, 16, 52, refinery.power, refinery.maxPower);
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.refinery.hasCustomInventoryName() ? this.refinery.getInventoryName() : I18n.format(this.refinery.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - 36 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 12, this.ySize - 96 + 4, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - 34/2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 4, 4210752);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		func_146110_a(guiLeft, guiTop, 0, 0, xSize, ySize, 350, 256);
 
 		// power
-		int j = (int)refinery.getPowerScaled(70);
-		drawTexturedModalRect(guiLeft + 160, guiTop + 88 - j, 184, 70 - j, 16, j);
+		int j = (int)refinery.getPowerScaled(50);
+		func_146110_a(guiLeft + 186, guiTop + 69 - j, 210, 52 - j, 16, j, 350, 256);
 
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0); // default
 
 		// input tank
 		FluidTank inputOil = refinery.tanks[0];
 		if (inputOil.getFill() != 0) {
-			refinery.tanks[0].renderTank(guiLeft + 12, guiTop + 70, this.zLevel, 16, 52);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+
+			int targetHeight = inputOil.getFill() * 101 / inputOil.getMaxFill();
+			Color color = new Color(inputOil.getTankType().getColor());
+
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
+			func_146110_a(guiLeft + 33, guiTop + 130 - targetHeight, 226, 101 - targetHeight, 16, targetHeight, 350, 256);
+			GL11.glDisable(GL11.GL_BLEND);
 		}
 
 		// fucking kgjhgdfjgdhjfg
@@ -74,14 +80,14 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		// 350x256 texture by behated (the pipes wouldn't fit)
 
 		// pipes
-		
+
 		RefineryRecipe recipe = RefineryRecipes.getRefinery(inputOil.getTankType());
 
 		if(recipe == null) {
-			func_146110_a(guiLeft + 60, guiTop + 54, 184, 104, 6, 2, 256, 256);
-			func_146110_a(guiLeft + 60, guiTop + 47, 184, 97, 24, 2, 256, 256);
-			func_146110_a(guiLeft + 60, guiTop + 40, 184, 90, 42, 2, 256, 256);
-			func_146110_a(guiLeft + 60, guiTop + 33, 184, 83, 60, 2, 256, 256);
+			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
+			func_146110_a(guiLeft + 52, guiTop + 32, 247, 50, 66, 52, 350, 256);
+			func_146110_a(guiLeft + 52, guiTop + 24, 247, 145, 86, 35, 350, 256);
+			func_146110_a(guiLeft + 36, guiTop + 16, 211, 119, 122, 25, 350, 256);
 		} else {
 
 			// Heavy Oil Products
@@ -89,31 +95,31 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
-			func_146110_a(guiLeft + 60, guiTop + 54, 184, 104, 6, 2, 256, 256);
+			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
 
 			// Naphtha Oil Products
 			color = new Color(recipe.outputs[1].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
-			func_146110_a(guiLeft + 60, guiTop + 47, 184, 97, 24, 2, 256, 256);
+			func_146110_a(guiLeft + 52, guiTop + 32, 247, 50, 66, 52, 350, 256);
 
 			// Light Oil Products
 			color = new Color(recipe.outputs[2].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
-			func_146110_a(guiLeft + 60, guiTop + 40, 184, 90, 42, 2, 256, 256);
+			func_146110_a(guiLeft + 52, guiTop + 24, 247, 145, 86, 35, 350, 256);
 
 			// Gaseous Products
 			color = new Color(recipe.outputs[3].type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
-			func_146110_a(guiLeft + 60, guiTop + 33, 184, 83, 60, 2, 256, 256);
+			func_146110_a(guiLeft + 36, guiTop + 16, 211, 119, 122, 25, 350, 256);
 			
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glColor4f(1F, 1F, 1F, 1F);
 		}
 
 		// output tanks
-		refinery.tanks[1].renderTank(guiLeft + 66, guiTop + 70, this.zLevel, 16, 52);
-		refinery.tanks[2].renderTank(guiLeft + 84, guiTop + 70, this.zLevel, 16, 52);
-		refinery.tanks[3].renderTank(guiLeft + 102, guiTop + 70, this.zLevel, 16, 52);
-		refinery.tanks[4].renderTank(guiLeft + 120, guiTop + 70, this.zLevel, 16, 52);
+		refinery.tanks[1].renderTank(guiLeft + 86, guiTop + 95, this.zLevel, 16, 52);
+		refinery.tanks[2].renderTank(guiLeft + 106, guiTop + 95, this.zLevel, 16, 52);
+		refinery.tanks[3].renderTank(guiLeft + 126, guiTop + 95, this.zLevel, 16, 52);
+		refinery.tanks[4].renderTank(guiLeft + 146, guiTop + 95, this.zLevel, 16, 52);
 	}
 }
