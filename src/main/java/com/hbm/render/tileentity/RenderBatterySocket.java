@@ -17,6 +17,9 @@ import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.machine.storage.TileEntityBatterySocket;
 import com.hbm.util.EnumUtil;
 
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,6 +31,8 @@ import net.minecraftforge.client.IItemRenderer;
 public class RenderBatterySocket extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	private static ResourceLocation blorbo = new ResourceLocation(RefStrings.MODID, "textures/models/horse/sunburst.png");
+	
+	public static EntityItem dummy;
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -78,6 +83,34 @@ public class RenderBatterySocket extends TileEntitySpecialRenderer implements II
 				Random rand = new Random(tile.getWorldObj().getTotalWorldTime() / 5);
 				rand.nextBoolean();
 
+				for(int i = -1; i <= 1; i += 2) for(int j = -1; j <= 1; j += 2) if(rand.nextInt(4) == 0) {
+					GL11.glPushMatrix();
+					GL11.glTranslated(0, 0.75, 0);
+					BeamPronter.prontBeam(Vec3.createVectorHelper(0.4375 * i, 1.1875, 0.4375 * j), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.0625F, 3, 0.025F);
+					BeamPronter.prontBeam(Vec3.createVectorHelper(0.4375 * i, 1.1875, 0.4375 * j), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.025F);
+					GL11.glPopMatrix();
+				}
+			} else {
+				GL11.glPushMatrix();
+				GL11.glTranslated(0, 0.5, 0); 
+				GL11.glScaled(1.5, 1.5, 1.5);
+				GL11.glRotated((socket.getWorldObj().getTotalWorldTime() % 360 + interp) * 25D, 0, -1, 0);
+				
+				if(dummy == null || dummy.worldObj != tile.getWorldObj()) {
+					dummy = new EntityItem(tile.getWorldObj(), 0, 0, 0, render);
+				}
+				dummy.setEntityItemStack(render);
+				dummy.hoverStart = 0.0F;
+				
+				RenderItem.renderInFrame = true;
+				RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+				RenderItem.renderInFrame = false;
+				
+				GL11.glPopMatrix();
+				
+				Random rand = new Random(tile.getWorldObj().getTotalWorldTime() / 5);
+				rand.nextBoolean();
+				
 				for(int i = -1; i <= 1; i += 2) for(int j = -1; j <= 1; j += 2) if(rand.nextInt(4) == 0) {
 					GL11.glPushMatrix();
 					GL11.glTranslated(0, 0.75, 0);
