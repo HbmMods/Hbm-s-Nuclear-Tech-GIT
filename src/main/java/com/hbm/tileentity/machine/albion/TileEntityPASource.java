@@ -168,8 +168,8 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, dir.getOpposite()),
 				new DirPos(xCoord + rot.offsetX * 5, yCoord, zCoord + rot.offsetZ * 5, rot),
 				new DirPos(xCoord, yCoord-2, zCoord, dir),
-				new DirPos(xCoord + rot.offsetX * 2, yCoord-2, zCoord + rot.offsetZ, dir),
-				new DirPos(xCoord - rot.offsetX * 2, yCoord-2, zCoord - rot.offsetZ, dir),
+				new DirPos(xCoord + rot.offsetX * 2, yCoord-2, zCoord + rot.offsetZ * 2, dir),
+				new DirPos(xCoord - rot.offsetX * 2, yCoord-2, zCoord - rot.offsetZ * 2, dir),
 		};
 	}
 

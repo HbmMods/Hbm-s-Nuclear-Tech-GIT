@@ -53,9 +53,9 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
 		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
 		this.makeExtra(world, x - dir.offsetX + rot.offsetX * 2, y, z - dir.offsetZ + rot.offsetZ * 2);
 		this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y, z - dir.offsetZ - rot.offsetZ * 2);
-		this.makeExtra(world, x, y-1, z);
-		this.makeExtra(world, x + dir.offsetX + rot.offsetX * 2, y-1, z + rot.offsetZ*2);
-		this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y-1, z - rot.offsetZ*2);
+		this.makeExtra(world, x,y - 1, z);
+		this.makeExtra(world, x + rot.offsetX * 2,  y - 1, z + rot.offsetZ * 2);
+		this.makeExtra(world, x - rot.offsetX * 2, y - 1, z - rot.offsetZ * 2);
 	}
 
 	@Override
