@@ -36,11 +36,12 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 			derrick.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 54, guiTop + 45, 6, 32);
 		}
 		
-		String[] upgradeText = new String[4];
+		String[] upgradeText = new String[5];
 		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
 		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
 		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
 		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.afterburner");
+		upgradeText[4] = I18nUtil.resolveKey("desc.gui.upgrade.overdrive");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 160, guiTop + 21, 8, 8, mouseX, mouseY, upgradeText);
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 22, 16, 34, derrick.power, derrick.getMaxPower());
