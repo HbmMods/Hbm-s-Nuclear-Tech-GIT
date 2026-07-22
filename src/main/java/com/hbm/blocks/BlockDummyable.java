@@ -6,7 +6,7 @@ import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.util.EntityDamageUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -34,10 +35,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.client.renderer.Tessellator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+
+import org.lwjgl.opengl.GL11;
 
 public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
 
@@ -596,47 +601,147 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		return meta;
 	}
+
 	public int[][] getAllDimensions() {
-    return new int[][] { getDimensions() };
-}
-@SideOnly(Side.CLIENT)
-public void drawPlacementHighlight(EntityPlayer player, float interp) {
-    MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
-    
-    if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-        double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
-        double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
-        double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) interp;
+    	return new int[][] { getDimensions() };
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void drawPlacementHighlight(EntityPlayer player, float interp) {
+		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
+		
+		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
+			double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
+			double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) interp;
 
-        int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-        int o = -getOffset();
-        int py = mop.blockY + getHeightOffset();
+			int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			int o = -getOffset();
+			int pY = mop.blockY + getHeightOffset();
 
-        ForgeDirection facing = ForgeDirection.NORTH;
-        if(i == 0) facing = ForgeDirection.getOrientation(2);
-        if(i == 1) facing = ForgeDirection.getOrientation(5);
-        if(i == 2) facing = ForgeDirection.getOrientation(3);
-        if(i == 3) facing = ForgeDirection.getOrientation(4);
+			ForgeDirection facing = ForgeDirection.NORTH;
+			if(i == 0) facing = ForgeDirection.getOrientation(2);
+			if(i == 1) facing = ForgeDirection.getOrientation(5);
+			if(i == 2) facing = ForgeDirection.getOrientation(3);
+			if(i == 3) facing = ForgeDirection.getOrientation(4);
+			
+			facing = getDirModified(facing);
+
+			double originX = mop.blockX + facing.offsetX * o;
+			double originY = pY + (mop.sideHit == 1 ? 1 : 0);
+			double originZ = mop.blockZ + facing.offsetZ * o;
+
+			//float exp = 0.002F;
+			//ICustomBlockHighlight.setup();
+			boolean canPlace = checkRequirement(player.worldObj, mop.blockX, pY + 1, mop.blockZ, facing, o);
+			//int color = canPlace ? 0x008000 : 0x800000;
+			Tessellator tess = Tessellator.instance;
+
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			//mc.renderEngine.bindTexture(EMPTY);
+        	OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			//GL11.glColor3f(1F, 1F, 1F);
+	        GL11.glLineWidth(2.0F);
+        	GL11.glDepthMask(false);
+			//tess.setTranslation(-dX, -dY, -dZ);
+			tess.startDrawing(GL11.GL_LINES);
+			tess.setBrightness(240);
+
+			if (canPlace) {
+				tess.setColorRGBA(0, 255, 0, 255);
+			} else {
+				tess.setColorRGBA(255, 0, 0, 255);
+			}
+			/*
+			for(int[] dims : getAllDimensions()) {
+				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
+				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-rot[4], -rot[1], -rot[2], rot[5] + 1, rot[0] + 1, rot[3] + 1);
+				RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(originX, originY, originZ), color);
+			}
+			*/
+			List<BlockPos> blocks = new java.util.ArrayList<>();
+			Set<BlockPos> set = new java.util.HashSet<>();
+
+			for(int[] dims : getAllDimensions()) {
+				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
+				for(int bx = -rot[4]; bx <= rot[5]; bx++) {
+					for(int by = -rot[1]; by <= rot[0]; by++) {
+						for(int bz = -rot[2]; bz <= rot[3]; bz++) {
+							BlockPos bp = new BlockPos(
+								MathHelper.floor_double(originX) + bx,
+								MathHelper.floor_double(originY) + by,
+								MathHelper.floor_double(originZ) + bz
+							);
+							blocks.add(bp);
+							set.add(bp);
+						}
+					}
+				
+				}
+			}
+            for(BlockPos pos : blocks) {
+                boolean px = set.contains(pos.add(1, 0, 0));
+                boolean nx = set.contains(pos.add(-1, 0, 0));
+                boolean ppy = set.contains(pos.add(0, 1, 0));
+                boolean ny = set.contains(pos.add(0, -1, 0));
+                boolean ppz = set.contains(pos.add(0, 0, 1));
+                boolean nz = set.contains(pos.add(0, 0, -1));
+
+				double minX = pos.getX() - dX;
+				double maxX = pos.getX() + 1 - dX;
+				double minY = pos.getY() - dY;
+				double maxY = pos.getY() + 1 - dY;
+				double minZ = pos.getZ() - dZ;
+				double maxZ = pos.getZ() + 1 - dZ;
+                if(!ppy) {
+                    if(!nx) { tess.addVertex(minX, maxY, minZ); tess.addVertex(minX, maxY, maxZ); }
+                    if(!ppz) { tess.addVertex(minX, maxY, maxZ); tess.addVertex(maxX, maxY, maxZ); }
+                    if(!px) { tess.addVertex(maxX, maxY, maxZ); tess.addVertex(maxX, maxY, minZ); }
+                    if(!nz) { tess.addVertex(maxX, maxY, minZ); tess.addVertex(minX, maxY, minZ); }
+                }
+                if(!ny) {
+                    if(!nx) { tess.addVertex(minX, minY, minZ); tess.addVertex(minX, minY, maxZ); }
+                    if(!ppz) { tess.addVertex(minX, minY, maxZ); tess.addVertex(maxX, minY, maxZ); }
+                    if(!px) { tess.addVertex(maxX, minY, maxZ); tess.addVertex(maxX, minY, minZ); }
+                    if(!nz) { tess.addVertex(maxX, minY, minZ); tess.addVertex(minX, minY, minZ); }
+                }
+                if(!nz) {
+                    if(!nx) { tess.addVertex(minX, minY, minZ); tess.addVertex(minX, maxY, minZ); }
+                    if(!ppy) { tess.addVertex(minX, maxY, minZ); tess.addVertex(maxX, maxY, minZ); }
+                    if(!px) { tess.addVertex(maxX, maxY, minZ); tess.addVertex(maxX, minY, minZ); }
+                    if(!ny) { tess.addVertex(maxX, minY, minZ); tess.addVertex(minX, minY, minZ); }
+                }
+                if(!ppz) {
+                    if(!nx) { tess.addVertex(minX, minY, maxZ); tess.addVertex(minX, maxY, maxZ); }
+                    if(!ppy) { tess.addVertex(minX, maxY, maxZ); tess.addVertex(maxX, maxY, maxZ); }
+                    if(!px) { tess.addVertex(maxX, maxY, maxZ); tess.addVertex(maxX, minY, maxZ); }
+                    if(!ny) { tess.addVertex(maxX, minY, maxZ); tess.addVertex(minX, minY, maxZ); }
+                }
+                if(!nx) {
+                    if(!nz) { tess.addVertex(minX, minY, minZ); tess.addVertex(minX, maxY, minZ); }
+                    if(!ppy) { tess.addVertex(minX, maxY, minZ); tess.addVertex(minX, maxY, maxZ); }
+                    if(!ppz) { tess.addVertex(minX, maxY, maxZ); tess.addVertex(minX, minY, maxZ); }
+                    if(!ny) { tess.addVertex(minX, minY, maxZ); tess.addVertex(minX, minY, minZ); }
+                }
+                if(!px) {
+                    if(!nz) { tess.addVertex(maxX, minY, minZ); tess.addVertex(maxX, maxY, minZ); }
+                    if(!ppy) { tess.addVertex(maxX, maxY, minZ); tess.addVertex(maxX, maxY, maxZ); }
+                    if(!ppz) { tess.addVertex(maxX, maxY, maxZ); tess.addVertex(maxX, minY, maxZ); }
+                    if(!ny) { tess.addVertex(maxX, minY, maxZ); tess.addVertex(maxX, minY, minZ); }
+                }
+            }
         
-        facing = getDirModified(facing);
+			tess.draw();
+			tess.setTranslation(0, 0, 0);
 
-        double originX = mop.blockX - dX + facing.offsetX * o;
-        double originY = py - dY + (mop.sideHit == 1 ? 1 : 0);
-        double originZ = mop.blockZ - dZ + facing.offsetZ * o;
-
-        float exp = 0.002F;
-        ICustomBlockHighlight.setup();
-        boolean canPlace = checkRequirement(player.worldObj, mop.blockX, py + 1, mop.blockZ, facing, o);
-        int color = canPlace ? 0x008000 : 0x800000;
-
-        for(int[] dims : getAllDimensions()) {
-            int[] rot = MultiblockHandlerXR.rotate(dims, facing);
-            AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-rot[4], -rot[1], -rot[2], rot[5] + 1, rot[0] + 1, rot[3] + 1);
-            RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(originX, originY, originZ), color);
-        }
-
-        ICustomBlockHighlight.cleanup();
-    }
-}
-
+			GL11.glDepthMask(true);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, OpenGlHelper.lastBrightnessX, OpenGlHelper.lastBrightnessY);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glPopMatrix();
+			//ICustomBlockHighlight.cleanup();
+		}
+	}
 }
