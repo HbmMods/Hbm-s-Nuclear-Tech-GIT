@@ -6,14 +6,17 @@ import java.util.List;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.machine.pile.TileEntityPileControl;
 import com.hbm.tileentity.machine.pile.TileEntityPileLoader;
 import com.hbm.tileentity.machine.pile.TileEntityPileVent;
 import com.hbm.util.i18n.I18nUtil;
 
+import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider {
+public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILookOverlay, ITooltipProvider, IToolable {
 
 	public static final int ITEM_META_LOADER = 0;
 	public static final int ITEM_META_VENT = 1;
@@ -79,6 +82,8 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(player.isSneaking()) return false;
+		
 		int meta = world.getBlockMetadata(x, y, z);
 		meta -= meta % 4;
 		
@@ -183,5 +188,28 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 		if(meta == ITEM_META_VENT)		return this.getUnlocalizedName() + ".vent";
 		if(meta == ITEM_META_CONTROL)	return this.getUnlocalizedName() + ".control";
 		return this.getUnlocalizedName();
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if(meta >= BLOCK_META_CONTROL) {
+			y -= 1;
+			side = 1;
+		} else {
+			ForgeDirection dir = ForgeDirection.getOrientation(meta % 4 + 2);
+			x -= dir.offsetX;
+			z -= dir.offsetZ;
+			side = dir.ordinal();
+		}
+		
+		Block b = world.getBlock(x, y, z);
+		if(b == ModBlocks.pile_block) {
+			return ((BlockPile) b).onScrew(world, player, x, y, z, side, fX, fY, fZ, tool);
+		}
+		
+		return false;
 	}
 }

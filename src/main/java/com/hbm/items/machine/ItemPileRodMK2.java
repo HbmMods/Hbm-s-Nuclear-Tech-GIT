@@ -29,18 +29,19 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 	}
 	
 	public static enum EnumPileRod {
-		RA226BE(1D),
-		PO210BE(1D),
-		ZR(		0D, 0D, 0D),
-		NU(		1D,	1_000D,	1D),
-		RGP(	1D,	1_000D,	1D),
-		PU239(	1D,	1_000D,	1D),
-		WASTE(	1D,	1_000D,	1D);
+		/* 0 */ RA226BE(1D),
+		/* 1 */ PO210BE(1D),
+		/* 2 */ ZR(		0D,     0D, 0D, 2),
+		/* 3 */ NU(		1D,	1_000D,	1D, 4),
+		/* 4 */ PU239(	1D,	1_000D,	1D, 5),
+		/* 5 */ RGP(	1D,	1_000D,	1D, 6),
+		/* 6 */ WASTE(	1D,	    0D,	1D, 6);
 
 		public double reactionMult = 1.0D;
 		public double life = 1_000D;
-		public double heatMult = 1.0D;
+		public double heatMult = 0.0D;
 		public double neutronSource = 0D;
+		public int turnsInto;
 		
 		private EnumPileRod(double neutronSource) {
 			this.neutronSource = neutronSource;
@@ -49,10 +50,11 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 			this.heatMult = 0;
 		}
 		
-		private EnumPileRod(double reaction, double life, double heat) {
+		private EnumPileRod(double reaction, double life, double heat, int turnsInto) {
 			this.reactionMult = reaction;
 			this.life = life;
 			this.heatMult = heat;
+			this.turnsInto = turnsInto;
 		}
 	}
 
@@ -86,5 +88,23 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 			outFlux += BobMathUtil.squirt(inFlux) * rod.reactionMult;
 		}
 		return outFlux;
+	}
+	
+	public static double getHeatPerNeutron(ItemStack stack) {
+		EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, stack.getItemDamage());
+		return rod.heatMult;
+	}
+	
+	public static ItemStack react(ItemStack stack, double inFlux) {
+		EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, stack.getItemDamage());
+		if(rod.life <= 0) return stack;
+		double dep = getDepletion(stack) + inFlux;
+		
+		if(dep < rod.life) {
+			setDepletion(stack, dep);
+			return stack;
+		} else {
+			return new ItemStack(stack.getItem(), 1, rod.turnsInto);
+		}
 	}
 }

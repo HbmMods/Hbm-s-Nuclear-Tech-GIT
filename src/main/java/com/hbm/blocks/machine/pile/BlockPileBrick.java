@@ -127,7 +127,7 @@ public class BlockPileBrick extends Block implements IToolable {
 							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_CORE, 3);
 							TileEntityPileCore core = (TileEntityPileCore) world.getTileEntity(iX, iY, iZ);
 							core.orientation = PileOrientation.getOrientation(dir);
-							core.setupSize(posHeight + negHeight + 1, left + right + 1, depth + 1);
+							core.setupSize(posHeight + negHeight + 1, left, right, depth + 1);
 						} else {
 							int edgeCount = 0;
 							if(h == -negHeight || h == posHeight) edgeCount++;
