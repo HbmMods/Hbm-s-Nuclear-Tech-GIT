@@ -1,11 +1,17 @@
 package com.hbm.items.machine;
 
+import java.util.List;
+
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.i18n.I18nUtil;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemPileRodMK2 extends ItemEnumMulti {
 	
@@ -55,6 +61,14 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 			this.life = life;
 			this.heatMult = heat;
 			this.turnsInto = turnsInto;
+		}
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		for(String loc : I18nUtil.autoBreak(Minecraft.getMinecraft().fontRenderer, I18nUtil.resolveKey(this.getUnlocalizedName(stack) + ".desc"), 225)) {
+			list.add(EnumChatFormatting.YELLOW + loc);
 		}
 	}
 

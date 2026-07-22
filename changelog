@@ -1,7 +1,26 @@
+## Added
+* New Chicago Pile
+  * Assembled multiblock, similar to the PWR
+  * Requires new chicago pile graphite bricks
+  * Assembled with a hand drill out of a box made from graphite bricks, at least 5x5x5, and at most 15x15x15 blocks large
+  * Drilling the assembled reactor will add channels at the selected locations
+    * Drilling along the reactor's orientation will add a fuel channel
+    * Drilling perpendicular to fuel channels will add a ventilation channel
+    * Drilling vertically will add a control rod channel
+  * Fuel insertion is now done with a dedicated fuel loader which can be operated by hand or automated with hopper IO and redstone
+  * Ventilation channels need chicago pile vents which are powered with compressed air at 1 PU
+  * Chicago pile control rods can either be fully withdrawn with redstone or fine tuned with RoR
+  * Additionally, channels can be drilled by right clicking a pile addon device with the hand drill, the addon doesn't need to be removed beforehand
+    * This is mainly for convenience when disassembling and reassembling the reactor, which requires all channels to be drilled again
+
 ## Changed
 * Updated all oil well GUI textures
   * There's now only two upgrade slots instead of three
 * All legacy pixel gauges have been replaced with smooth ones (watz, ZIRNOX, CCGT) making them more accurate
+* Updated the diesel generator's GUI
+  * The diesel gen now also has an in-GUI button for turning it on and off like the industrial combustion engine
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI
+* Fixed an issue where the diesel generator's fuel capacity is the original 4,000mB instead of the intended new 16,000mB
+  * This means that explosive barrels and universal barrels can now be loaded into the diesel generator

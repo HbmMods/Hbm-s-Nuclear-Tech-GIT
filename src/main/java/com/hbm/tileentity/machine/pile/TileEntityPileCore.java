@@ -504,7 +504,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		PileChannel chan = new PileChannel(x, y, z, dir);
 
 		if(chan.type == chan.type.FUEL) {
-			NBTTagList list = nbt.getTagList("fuel", 10);
+			NBTTagList list = nbt.getTagList("items", 10);
 			for(int i = 0; i < list.tagCount(); i++) {
 				NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 				byte b0 = nbt1.getByte("slot");

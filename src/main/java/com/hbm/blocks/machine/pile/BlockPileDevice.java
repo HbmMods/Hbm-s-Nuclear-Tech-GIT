@@ -9,6 +9,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.machine.pile.TileEntityPileControl;
+import com.hbm.tileentity.machine.pile.TileEntityPileDeviceBase;
 import com.hbm.tileentity.machine.pile.TileEntityPileLoader;
 import com.hbm.tileentity.machine.pile.TileEntityPileVent;
 import com.hbm.util.i18n.I18nUtil;
@@ -156,20 +157,18 @@ public class BlockPileDevice extends BlockContainer implements IBlockMulti, ILoo
 		List<String> text = new ArrayList();
 		TileEntity tile = world.getTileEntity(x, y, z);
 		
-		if(tile instanceof TileEntityPileLoader) {
-			TileEntityPileLoader device = (TileEntityPileLoader) tile;
-			text.add("Index: " + device.chanNum);
-			if(device.syncStack != null) text.add("Loading: " + device.syncStack.getDisplayName());
+		if(tile instanceof TileEntityPileDeviceBase) {
+			TileEntityPileDeviceBase device = (TileEntityPileDeviceBase) tile;
+			text.add("#" + (device.chanNum + 1));
 		}
 		
-		if(tile instanceof TileEntityPileVent) {
-			TileEntityPileVent device = (TileEntityPileVent) tile;
-			text.add("Index: " + device.chanNum);
+		if(tile instanceof TileEntityPileLoader) {
+			TileEntityPileLoader device = (TileEntityPileLoader) tile;
+			if(device.syncStack != null) text.add("Loading: " + device.syncStack.getDisplayName());
 		}
 		
 		if(tile instanceof TileEntityPileControl) {
 			TileEntityPileControl device = (TileEntityPileControl) tile;
-			text.add("Index: " + device.chanNum);
 			text.add("Extraction level: " + (int) + (device.level * 100) + "%");
 		}
 		
