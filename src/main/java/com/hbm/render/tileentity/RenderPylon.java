@@ -9,6 +9,7 @@ import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.network.TileEntityPylon;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -21,17 +22,29 @@ public class RenderPylon extends RenderPylonBase implements IItemRendererProvide
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
-		TileEntityPylon pyl = (TileEntityPylon)tile;
+		TileEntityPylon pylon = (TileEntityPylon)tile;
 		
-		bindTexture(ResourceManager.pylon_tex);
+		if(tile.getBlockType() == ModBlocks.red_pylon_steel)
+			bindTexture(ResourceManager.pylon_steel_tex);
+		else
+			bindTexture(ResourceManager.pylon_tex);
+		
 		ResourceManager.pylon.renderAll();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		this.renderLinesGeneric(pyl, x, y, z);
+		this.renderLinesGeneric(pylon, x, y, z);
 		GL11.glPopMatrix();
+	}
+	
+	@Override
+	public Item[] getItemsForRenderer() {
+		return new Item[] {
+				Item.getItemFromBlock(ModBlocks.red_pylon),
+				Item.getItemFromBlock(ModBlocks.red_pylon_steel),
+		};
 	}
 	
 	@Override
@@ -41,17 +54,22 @@ public class RenderPylon extends RenderPylonBase implements IItemRendererProvide
 
 	@Override
 	public IItemRenderer getRenderer() {
-		return new ItemRenderBase() {
+		return new ItemRenderBase( ) {
 			public void renderInventory() {
 				GL11.glTranslated(0, -5, 0);
 				GL11.glScaled(2.9, 2.9, 2.9);
 			}
-			public void renderCommon() {
+			public void renderCommonWithStack(ItemStack stack) {
 				GL11.glScaled(1, 1, 1);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.pylon_tex);
+				
+				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_steel))
+					bindTexture(ResourceManager.pylon_steel_tex);
+				else
+					bindTexture(ResourceManager.pylon_tex);
+				
 				ResourceManager.pylon.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}};
+				GL11.glShadeModel(GL11.GL_FLAT);	
+			}
+		};
 	}
 }

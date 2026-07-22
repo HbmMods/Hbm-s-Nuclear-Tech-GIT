@@ -861,6 +861,7 @@ public class ResourceManager {
 	public static final ResourceLocation connector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector.png");
 	public static final ResourceLocation connector_super_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector_super.png");
 	public static final ResourceLocation pylon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon.png");
+	public static final ResourceLocation pylon_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_steel.png");
 	public static final ResourceLocation pylon_medium_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_medium.png");
 	public static final ResourceLocation pylon_medium_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_medium_steel.png");
 	public static final ResourceLocation pylon_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_large.png");
