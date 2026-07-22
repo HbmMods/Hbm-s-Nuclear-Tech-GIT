@@ -7,10 +7,12 @@
 	],
 	"title": {
 		"en_US": "Incendiary Munitions",
-		"zh_CN": "燃烧弹"
+		"zh_CN": "燃烧弹",
+		"ru_RU": "Зажигательные боеприпасы"
 	},
 	"content": {
 		"en_US": "Incendiary explosives leave behind lingering fire, which can ignite targets. The afterburn does not last very long, and can be extinguished with water.<br><br>Use of incendiary weapons against or near civilians is forbidden by the Geneva Conventions.",
-		"zh_CN": "燃烧弹会残留下能够点燃目标的持续火焰。燃烧效果持续时间并不长，而且可 以用水扑灭。<br><br>日内瓦公约禁止对普通民众或在普通民众附近使用燃烧性武器。"
+		"zh_CN": "燃烧弹会残留下能够点燃目标的持续火焰。燃烧效果持续时间并不长，而且可 以用水扑灭。<br><br>日内瓦公约禁止对普通民众或在普通民众附近使用燃烧性武器。",
+		"ru_RU": "Зажигательные взрывные боеприпасы оставляют после себя остаточный огонь, который может поджечь цели. Горение длится недолго и может быть потушено водой.<br><br>Использование зажигательного оружия против гражданского населения или вблизи него запрещено Женевскими конвенциями."
 	}
 }

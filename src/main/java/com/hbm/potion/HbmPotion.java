@@ -176,7 +176,7 @@ public class HbmPotion extends Potion {
 	public static boolean getIsBadEffect(Potion potion) {
 		
 		try {
-			Field isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K");
+			Field isBadEffect = ReflectionHelper.findField(Potion.class, "isBadEffect", "field_76418_K"); //TODO: use an AT for this
 			boolean ret = isBadEffect.getBoolean(potion);
 			return ret;
 			

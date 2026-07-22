@@ -147,10 +147,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 		super.serialize(buf);
 		buf.writeLong(power);
 		buf.writeInt(press);
-		if (slots[2] == null)
-			buf.writeShort(-1); // indicate that the NBT doesn't actually exist to avoid null pointer errors.
-		else
-			BufferUtil.writeNBT(buf, slots[2].stackTagCompound);
+		BufferUtil.writeItemStack(buf, slots[2]);
 	}
 
 	@Override
@@ -158,9 +155,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 		super.deserialize(buf);
 		this.power = buf.readLong();
 		this.syncPress = buf.readInt();
-
-		NBTTagCompound stack = BufferUtil.readNBT(buf);
-		this.syncStack = ItemStack.loadItemStackFromNBT(stack);
+		this.syncStack = BufferUtil.readItemStack(buf);
 
 		this.turnProgress = 2;
 	}

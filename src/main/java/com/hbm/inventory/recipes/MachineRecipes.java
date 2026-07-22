@@ -47,9 +47,6 @@ public class MachineRecipes {
 
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
-		fuels.add(new ItemStack(ModItems.battery_potato));
-		fuels.add(new ItemStack(ModItems.battery_potatos));
-		fuels.add(new ItemStack(ModItems.energy_core));
 		for(EnumBatteryPack num : EnumBatteryPack.values()) fuels.add(new ItemStack(ModItems.battery_pack, 1, num.ordinal()));
 		for(EnumBatterySC num : EnumBatterySC.values()) fuels.add(new ItemStack(ModItems.battery_sc, 1, num.ordinal()));
 		fuels.add(new ItemStack(ModItems.battery_creative));

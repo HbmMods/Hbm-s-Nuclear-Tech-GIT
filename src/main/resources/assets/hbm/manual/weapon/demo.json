@@ -8,10 +8,12 @@
 	],
 	"title": {
 		"en_US": "Demolition Explosives",
-		"zh_CN": "破坏者弹药"
+		"zh_CN": "破坏者弹药",
+		"ru_RU": "Штурмовой заряд"
 	},
 	"content": {
 		"en_US": "Demolition explosives are similar to regular high-explosives, however they have a larger splash radius, slightly lower damage, and they break blocks. Not recommended for home defense.",
-		"zh_CN": "破坏者弹药与普通的高爆弹药相似，但爆炸半径更大且伤害略低，并且会破坏 方块。不建议用于守卫基地。"
+		"zh_CN": "破坏者弹药与普通的高爆弹药相似，但爆炸半径更大且伤害略低，并且会破坏 方块。不建议用于守卫基地。",
+		"ru_RU": "Штурмовые заряды похожи на обычные осколочно-фугасные боеприпасы, однако имеют больший радиус поражения, немного меньший урон и разрушают блоки. Не рекомендуется для самообороны дома."
 	}
 }

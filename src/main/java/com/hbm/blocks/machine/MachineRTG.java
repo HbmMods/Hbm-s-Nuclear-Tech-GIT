@@ -47,7 +47,7 @@ public class MachineRTG extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		
-		if(this == ModBlocks.machine_rtg_grey)
+		if(this == ModBlocks.machine_rtg)
 			return new TileEntityMachineRTG();
 		
 		return null;
@@ -60,7 +60,7 @@ public class MachineRTG extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			if(this == ModBlocks.machine_rtg_grey) {
+			if(this == ModBlocks.machine_rtg) {
 				TileEntityMachineRTG entity = (TileEntityMachineRTG) world.getTileEntity(x, y, z);
 				if(entity != null)
 				{
@@ -78,7 +78,7 @@ public class MachineRTG extends BlockContainer {
     {
         if (!keepInventory)
         {
-			if (this == ModBlocks.machine_rtg_grey) {
+			if (this == ModBlocks.machine_rtg) {
 				TileEntityMachineRTG tileentityfurnace = (TileEntityMachineRTG) p_149749_1_.getTileEntity(p_149749_2_,
 						p_149749_3_, p_149749_4_);
 

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
@@ -162,7 +161,7 @@ public class RenderAssemblyFactory extends TileEntitySpecialRenderer implements 
 				GL11.glRotated(90, 0, 1, 0);
 				GL11.glTranslated(0, 1.0625, 0);
 
-				GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assemfac.assemblerModule[i].recipe);
+				GenericRecipe recipe = assemfac.assemblerModule[i].getRecipe();
 				if(recipe != null) {
 					ItemStack stack = recipe.getIcon();
 					stack.stackSize = 1;

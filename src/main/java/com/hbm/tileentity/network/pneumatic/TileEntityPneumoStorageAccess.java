@@ -14,7 +14,6 @@ import api.hbm.ntl.StackCache;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPneumoStorageAccess extends TileEntityLoadedBase implements IPneumaticConnector, IGUIProvider {
 	
@@ -67,12 +66,6 @@ public class TileEntityPneumoStorageAccess extends TileEntityLoadedBase implemen
 		}
 		
 		if(this.cache != null) this.cache.dissolveCache();
-	}
-
-	@Override
-	public boolean canConnectPneumatic(ForgeDirection dir) {
-		ForgeDirection selfdir = ForgeDirection.getOrientation(getBlockMetadata());
-		return dir == selfdir.getOpposite();
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPneumoStorageAccess(player.inventory, this); }

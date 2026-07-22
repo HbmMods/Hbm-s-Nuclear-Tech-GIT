@@ -25,35 +25,43 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 
-	public boolean hasReceivedBook = false;
-
+	/* Toggles for keybind */
 	public boolean enableHUD = true;
 	public boolean enableBackpack = true;
 	public boolean enableMagnet = true;
 
+	/** Keybind tracking */
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 
+	
+	/* Dashes for bismuth armor/cloud in a bottle */
 	public boolean dashActivated = true;
-
-	public static final int dashCooldownLength = 5;
 	public int dashCooldown = 0;
-
 	public int totalDashCount = 0;
 	public int stamina = 0;
+	public static final int dashCooldownLength = 5;
 
-	public static final int plinkCooldownLength = 10;
+	/** Cooldown for armor plinking noise when canceling damage */
 	public int plinkCooldown = 0;
+	public static final int plinkCooldownLength = 10;
 
+	/** Shield infusion */
 	public float shield = 0;
 	public float maxShield = 0;
 	public int lastDamage = 0;
 	public static final float shieldCap = 100;
 
+	/** Latnern repair/destroy count */
 	public int reputation;
 
+	/** Hack for allowing ladders on multiblocks */
 	public boolean isOnLadder = false;
 	
+	/** Pulling the pin on a grenade - it's a player prop instead of an NBT trait */
 	public int grenadeDeployment;
+	
+	/** Maskman timer */
+	public int maskManTimer = 0;
 
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
@@ -187,7 +195,6 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public void init(Entity entity, World world) { }
 
 	public void serialize(ByteBuf buf) {
-		buf.writeBoolean(this.hasReceivedBook);
 		buf.writeFloat(this.shield);
 		buf.writeFloat(this.maxShield);
 		buf.writeBoolean(this.enableBackpack);
@@ -199,7 +206,6 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 
 	public void deserialize(ByteBuf buf) {
 		if(buf.readableBytes() > 0) {
-			this.hasReceivedBook = buf.readBoolean();
 			this.shield = buf.readFloat();
 			this.maxShield = buf.readFloat();
 			this.enableBackpack = buf.readBoolean();
@@ -216,7 +222,6 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 
 		NBTTagCompound props = new NBTTagCompound();
 
-		props.setBoolean("hasReceivedBook", hasReceivedBook);
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
 		props.setBoolean("enableBackpack", enableBackpack);
@@ -224,6 +229,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setBoolean("enableHUD", enableHUD);
 		props.setInteger("reputation", reputation);
 		props.setBoolean("isOnLadder", isOnLadder);
+		props.setInteger("maskManTimer", maskManTimer);
 
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -235,7 +241,6 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmPlayerProps");
 
 		if(props != null) {
-			this.hasReceivedBook = props.getBoolean("hasReceivedBook");
 			this.shield = props.getFloat("shield");
 			this.maxShield = props.getFloat("maxShield");
 			this.enableBackpack = props.getBoolean("enableBackpack");
@@ -243,6 +248,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.enableHUD = props.getBoolean("enableHUD");
 			this.reputation = props.getInteger("reputation");
 			this.isOnLadder = props.getBoolean("isOnLadder");
+			this.maskManTimer = props.getInteger("maskManTimer");
 		}
 	}
 }

@@ -5,7 +5,6 @@ import com.hbm.entity.mob.EntityDuck;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
@@ -144,10 +143,6 @@ public class AuxButtonPacket implements IMessage {
 				//no fuck off
 				if(te instanceof TileEntityMachineBase) {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
-					base.handleButtonPacket(m.value, m.id);
-				}
-				if(te instanceof TileEntityTickingBase) {
-					TileEntityTickingBase base = (TileEntityTickingBase)te;
 					base.handleButtonPacket(m.value, m.id);
 				}
 				

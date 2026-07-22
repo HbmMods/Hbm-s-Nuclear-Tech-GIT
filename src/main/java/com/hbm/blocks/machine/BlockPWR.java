@@ -62,7 +62,7 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 	}
 
 	@Override
-	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z) {
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if(meta == 1) return recPort.fragCache;
 		return rec.fragCache;

@@ -3,11 +3,14 @@ package com.hbm.inventory.gui;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.net.URI;
 import java.util.Arrays;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
@@ -24,10 +27,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenRadioAUTOCAL extends GuiScreen {
-	
+
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_rtty_autocal.png");
 	protected TileEntityRadioAUTOCAL autocal;
-	
+
 	protected int xSize = 170;
 	protected int ySize = 138;
 	protected int guiLeft;
@@ -35,6 +38,21 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 	public GUIScreenRadioAUTOCAL(TileEntityRadioAUTOCAL autocal) {
 		this.autocal = autocal;
+	}
+
+	private void browse(URI uri) throws IOException {
+		// workaround for Java not supporting all platforms, mostly for Linux
+		if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+			Desktop.getDesktop().browse(uri);
+		} else {
+			if (Sys.getVersion().charAt(0) == '3') {
+				// probably a LWJGL3ify user, open the folder instead since that somehow seems to work
+				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
+				if (uploadFolder.exists()) Sys.openURL(uploadFolder.toString());
+			} else {
+				Sys.openURL(uri.toString());
+			}
+		}
 	}
 
 	@Override
@@ -46,6 +64,12 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
+		
+		if(this.autocal == null || this.autocal.isInvalid()) {
+			Minecraft.getMinecraft().thePlayer.closeScreen();
+			return;
+		}
+		
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -56,13 +80,13 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
-		
+
 		NBTTagCompound data = null;
 
 		if(checkClick(x, y, 8, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("on", true); }
 		if(checkClick(x, y, 28, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("ignore", true); }
 		if(checkClick(x, y, 48, 36, 18, 18)) { data = new NBTTagCompound(); data.setBoolean("auto", true); }
-		
+
 		// open folder and generate new script file
 		if(checkClick(x, y, 104, 36, 18, 18)) {
 			try {
@@ -71,15 +95,15 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 				if(!uploadFolder.exists()) uploadFolder.mkdir();
 				if(!script.exists()) script.createNewFile();
 				script.setExecutable(false);
-				Desktop.getDesktop().browse(script.toURI());
+				browse(script.toURI());
 			} catch(Throwable ex) { MainRegistry.logger.error("Couldn't open link", ex); }
 		}
-		
+
 		// open folder and generate new doc file
 		if(checkClick(x, y, 144, 36, 18, 18)) {
 			try {
 				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
-				File doc = new File(uploadFolder, "documentation.md");
+				File doc = new File(uploadFolder, "documentation_v1.1.md");
 				if(!uploadFolder.exists()) uploadFolder.mkdir();
 				if(!doc.exists()) {
 					doc.createNewFile();
@@ -89,10 +113,10 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 						printer.close();
 					} catch(Throwable e) { }
 				}
-				Desktop.getDesktop().browse(doc.toURI());
+				browse(doc.toURI());
 			} catch(Throwable ex) { MainRegistry.logger.error("Couldn't open link", ex); }
 		}
-		
+
 		if(checkClick(x, y, 84, 36, 18, 18)) {
 			try {
 				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
@@ -103,25 +127,14 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 					script.setExecutable(false);
 					return;
 				}
-				/*FileReader reader = new FileReader(script);
-				BufferedReader buffer = new BufferedReader(reader);
-				String[] lines = buffer.lines().toArray(String[]::new);
-				buffer.close();
-				// this is going to blow the fuck up once we hit the max packet size, but let's ignore that for now
-				data = new NBTTagCompound();
-				StringBuilder builder = new StringBuilder();
-				for(int l = 0; l < lines.length; l++) {
-					builder.append(lines[i]);
-					if(l < lines.length - 1) builder.append("\n"); // yeah why the fuck not
-				}
-				data.setString("payload", builder.toString());*/
+				
 				byte[] bytes = Files.readAllBytes(Paths.get(script.toURI()));
 				data = new NBTTagCompound();
 				data.setString("payload", new String(bytes, StandardCharsets.UTF_8));
-				
+
 			} catch(Throwable ex) { }
 		}
-		
+
 		// this thing can both upload and download files so let's be careful about this
 		// the upload is simple, it's just text that is handled by the AUTOCAL, so doing anything malicious isn't more likely than with any other package
 		// download is iffy, because we take text from the server, fully user-definable, and save it to disk. it's stored as a txt so accudentally running it
@@ -131,19 +144,19 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 		//           but we can add some extra crap that would either halt common scripting langs entirely or at least disrupt them into not functioning
 		// option 3: enforce validation so only MS-ES1 script can be received by the client. this means that info such as comments or incorrectly written commands
 		//           are lost, however this is the safest way because it becomes impossible to send malicious code, but it also interferes with regular user operation more
-		
+
 		if(data != null) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, autocal.xCoord, autocal.yCoord, autocal.zCoord));
 		}
 	}
-	
+
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
 	}
 
 	private void drawGuiContainerForegroundLayer(int x, int y) {
-		
+
 		for(int i = 0; i < autocal.history.length; i++) {
 			String line = autocal.history[i];
 			if(line == null || line.isEmpty()) continue;
@@ -176,15 +189,15 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 	}
-	
+
 	@Override public boolean doesGuiPauseGame() { return false; }
-	
-	
+
+
 	public static final String[] DOCS = new String[] {
 			"# AUTOCAL - The Automatic Calculator",
 			"",
 			"## About this document",
-			"This documentation is designed to be understandable even by people with no programming background. This documentation extends to the AUTOCAL unit as well as the MS-ES1 script language it is programmed with.",	
+			"This documentation is designed to be understandable even by people with no programming background. This documentation extends to the AUTOCAL unit as well as the MS-ES1 script language it is programmed with.",
 			"",
 			"Read this document carefully as all the described concepts are vital for using the AUTOCAL unit.",
 			"",
@@ -210,8 +223,16 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			"",
 			"Example: `/ntmserver set AUTOCAL_MAX_CLOCK 10` -> Sets the max clock speed to 10.",
 			"",
+			"## About MS-ES v1.1",
+			"MS-ES v1.1 (or MS-ES1 FEID, \"First Extended Instruction Set\") is the second released version of the AUTOCAL's script interpreter. It features various useful additions such as text splitting, substrings, a stack-based buffer and world time grabbing. The stack for example allows for a call stack, which means that functions that were jumped to can now be nested without having to save the most recent jumping points in dedicated variables. The string split and substring operations now allow for reversing concat operations and potentially grabbing individual coordinates out of combined coordinate strings. A single RoR send operation can now send serialized data (i.e. multiple values in a single text string) which can now finally be de-serialized again.",
+			"",
+			"Programs witten in MS-ES1 are largely compatible with MS-ES1.1 interpreters, however, MS-ES1.1 now imposes a character limit of 256 on buffered values.",
+			"",
 			"## About the Buffer",
 			"The buffer is a single \"slot\" of information that can be used for many commands. Some commands produce an output which is saved to the buffer, some commands modify the contents of the buffer, and some commands use the buffer's contents. The buffer's contents can also be saved permanently as a named variable, and named variables can be written back into the buffer again if needed. The buffer persists as long as the AUTOCAL unit is running, should it restart or shut down, the buffer's contents are lost.",
+			"",
+			"## About the Stack (v1.1)",
+			"The stack functions similar to the buffer, as in there is only one single stack that can be accessed per AUTOCAL unit, and it can save arbitrary text data. The difference being, while the buffer can only store one value, the stack can store a list of up to 256 values. Values on a stack follow the last-in-first-out principle, i.e. the most recently added values are read first. The stack supports `push` (adding new elements), `pop` (reading and removing elements) and `peek` (reading but not removing elements).",
 			"",
 			"## About Variables",
 			"MS-ES1 allows named variables to be saved for later use. There is no limit to how many variables can be saved. All variables are text (\"Strings\"), however depending on the command and context, that text may be interpreted as a number (both full and decimal). Variables, much like the buffer, are also stored as long as the program is running, if the AUTOCAL unit shuts down, all stored variables are lost.",
@@ -301,6 +322,15 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			"",
 			"-> Will buffer the value `Horseshoe` and then save it to the variable called \"item\".",
 			"",
+			"### push (v1.1)",
+			"`push [value]` will add the supplied value to the stack. If no value is supplied, it will write the buffer's contents to the stack instead. Do note that the stack can only hold up to 256 values! Supports variable substitution!",
+			"",
+			"### pop (v1.1)",
+			"`pop` will remove the most recently added value from the stack and write it to the buffer.",
+			"",
+			"### peek (v1.1)",
+			"`peek` will write the most recently added value from the stack to the buffer, but without removing it from the stack like `pop` would.",
+			"",
 			"### eval",
 			"`eval [statement]` will evaluate the supplied statement as a mathematical expression. In short, anything NTM's calculator can make sense of (the one you open with N by default), this function can do the same. The statement is optional, if no statement is supplied, then it will try to use the buffer's contents as the statement. `eval` produces **decimal** values and not whole number **integers**, so for use in RoR signals, the output needs to be rounded! The result of the calculation is then saved to the buffer. Supports variable substitution!",
 			"",
@@ -363,6 +393,54 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			"### leb",
 			"`leb <value>` - less than or equal buffer.",
 			"",
+			"### splitter (v1.1)",
+			"`splitter <value>` sets the splitter character (or text) which is used for splitting operations. This value exists once per AUTOCAL, similar to the clockspeed. By default, the splitter is set to `;`. Supports variable substitution!",
+			"",
+			"### split (v1.1)",
+			"`split <index>` will split the buffer's contents, grab the fragment with the desired index, and write its contents to the buffer.",
+			"",
+			"Example:",
+			"`buffer cats;and;dogs`",
+			"`split 3`",
+			"",
+			"-> Will buffer the value of the third fragment, being `dogs`.",
+			"",
+			"### splitcount (v1.1)",
+			"`splitcount` will split the buffer's contents, count the number of fragments created, and write that value to the buffer.",
+			"",
+			"Example:",
+			"`buffer cats;and;dogs;and;birds`",
+			"`splitcount`",
+			"",
+			"-> Will buffer the number of fragments, being `5`.",
+			"",
+			"### length (v1.1)",
+			"`length` will count the number of characters in the buffer's stored text, and write that value to the buffer.",
+			"",
+			"Example:",
+			"`buffer cats and dogs`",
+			"`lenght`",
+			"",
+			"-> Will buffer the number of characters in `cats and dogs`, being `13`.",
+			"",
+			"### first (v1.1)",
+			"`first <amount>` will grab the first x characters from the buffer and write them to the buffer. This is a substring operation that always starts at the first letter.",
+			"",
+			"Example:",
+			"`buffer cats and dogs`",
+			"`first 4`",
+			"",
+			"-> Will buffer the first four characters of the buffer, `cats`.",
+			"",
+			"### last (v1.1)",
+			"`last <amount>` will grab the last x characters from the buffer and write them to the buffer. This is a substring operation that always ends at the last letter.",
+			"",
+			"Example:",
+			"`buffer cats and dogs`",
+			"`last 4`",
+			"",
+			"-> Will buffer the last four characters of the buffer, `dogs`.",
+			"",
 			"### send",
 			"`send <channel>` will send a Redstone-over-Radio signal over the supplied channel, with the signal's value being the current buffer's value. Sending repeatedly over the same channel requires waiting for a full game tick, so using `endtick` after sending is advised. Supports variable substitution!",
 			"",
@@ -387,6 +465,12 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 			"`send output`",
 			"",
 			"-> Will take the signal from the RoR channel \"input\", multiply it by 100, and send that value on the channel \"output\".",
+			"",
+			"### poll (v1.1)",
+			"`poll <channel>` will listen to the supplied RoR channel and write the signal to the buffer. Unlike `listen`, it will only detect signals from the last tick. Supports variable substitution!",
+			"",
+			"### worldtime (v1.1)",
+			"`worldtime` will save the amount of ticks since world creation to the buffer. If the result is saved to a variable, it can be compared later, allowing for precise and clockspeed-agnostic timers.",
 			"",
 			"## Advanced",
 			"",

@@ -22,20 +22,20 @@ public class ContainerElectricFurnace extends Container {
 
 		diFurnace = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 56, 53));
-		this.addSlotToContainer(new Slot(tedf, 1, 56, 17));
-		this.addSlotToContainer(new SlotSmelting(invPlayer.player, tedf, 2, 116, 35));
+		this.addSlotToContainer(new Slot(tedf, 0, 152, 54));
+		this.addSlotToContainer(new Slot(tedf, 1, 20, 35));
+		this.addSlotToContainer(new SlotSmelting(invPlayer.player, tedf, 2, 80, 35));
 		//Upgrades
-		this.addSlotToContainer(new SlotUpgrade(tedf, 3, 147, 34));
+		this.addSlotToContainer(new SlotUpgrade(tedf, 3, 111, 34));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 162));
 		}
 	}
 

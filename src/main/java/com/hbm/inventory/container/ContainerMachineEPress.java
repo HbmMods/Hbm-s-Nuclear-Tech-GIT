@@ -23,24 +23,24 @@ private TileEntityMachineEPress nukeBoy;
 		nukeBoy = tedf;
 
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 152, 54));
 		//Stamp
-		this.addSlotToContainer(new Slot(tedf, 1, 80, 17));
+		this.addSlotToContainer(new Slot(tedf, 1, 19, 15));
 		//Input
-		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
+		this.addSlotToContainer(new Slot(tedf, 2, 19, 51));
 		//Output
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 140, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 79, 33));
 		//Upgrade
-		this.addSlotToContainer(new SlotUpgrade(tedf, 4, 44, 21));
+		this.addSlotToContainer(new SlotUpgrade(tedf, 4, 111, 32));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 162));
 		}
 	}
 

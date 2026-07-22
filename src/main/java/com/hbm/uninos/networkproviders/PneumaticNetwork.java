@@ -54,6 +54,22 @@ public class PneumaticNetwork extends NodeNet {
 		accessors.clear();
 		storages.clear();
 	}
+	
+	@Override
+	public void joinNetworks(NodeNet network) {
+		super.joinNetworks(network);
+		
+		PneumaticNetwork net = (PneumaticNetwork) network;
+		//for(StackCache cache : accessors) cache.dissolveCache();
+		
+		for(Object acc : net.accessors) this.accessors.add((StackCache) acc);
+		
+		for(Object connector : net.storages) {
+			ISlotMonitorProvider monitor = (ISlotMonitorProvider) connector;
+			this.storages.add((ISlotMonitorProvider) connector);
+			for(Object acc : net.accessors) monitor.onNewCacheHasJoined((StackCache) acc, this);
+		}
+	}
 
 	public void addReceiver(IInventory inventory, ForgeDirection pipeDir, TileEntityPneumoTube endpoint) {
 		receivers.put(inventory, new Triplet(pipeDir, System.currentTimeMillis(), endpoint));
@@ -118,7 +134,7 @@ public class PneumaticNetwork extends NodeNet {
 		TileEntity tile1 = source instanceof TileEntity ? (TileEntity) source : null;
 
 		int attempts = 0;
-		int maxAttempts = receiverList.size();
+		int maxAttempts = Math.min(receiverList.size(), 5);
 
 		// try all receivers for both modes, in an attempts based system.
 		// instead of bailing out of trying after the first failure (which means you have to wait 0.25 seconds), we just try the next one.

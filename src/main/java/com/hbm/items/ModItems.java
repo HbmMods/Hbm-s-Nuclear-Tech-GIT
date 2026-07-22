@@ -188,19 +188,19 @@ public class ModItems {
 	public static Item ingot_mercury; //It's to prevent any ambiguity, as it was treated as a full ingot in the past anyway
 	public static Item bottle_mercury;
 
-	public static Item ore_byproduct; //byproduct of variable purity and quantity, can be treated as a nugget, might require shredding or acidizing, depends on the type
+	@Deprecated public static Item ore_byproduct;
 
-	public static Item ore_bedrock;
-	public static Item ore_centrifuged;
-	public static Item ore_cleaned;
-	public static Item ore_separated;
-	public static Item ore_purified;
-	public static Item ore_nitrated;
-	public static Item ore_nitrocrystalline;
-	public static Item ore_deepcleaned;
-	public static Item ore_seared;
-	//public static Item ore_radcleaned;
-	public static Item ore_enriched; //final stage
+	@Deprecated public static Item ore_bedrock;
+	@Deprecated public static Item ore_centrifuged;
+	@Deprecated public static Item ore_cleaned;
+	@Deprecated public static Item ore_separated;
+	@Deprecated public static Item ore_purified;
+	@Deprecated public static Item ore_nitrated;
+	@Deprecated public static Item ore_nitrocrystalline;
+	@Deprecated public static Item ore_deepcleaned;
+	@Deprecated public static Item ore_seared;
+	@Deprecated public static Item ore_enriched; //final stage
+	
 	public static Item bedrock_ore_base;
 	public static Item bedrock_ore;
 	public static Item bedrock_ore_fragment;
@@ -973,13 +973,15 @@ public class ModItems {
 	public static Item waste_plate_ra226be;
 	public static Item waste_plate_pu238be;
 
-	public static Item pile_rod_uranium;
-	public static Item pile_rod_pu239;
-	public static Item pile_rod_plutonium;
-	public static Item pile_rod_source;
-	public static Item pile_rod_boron;
-	public static Item pile_rod_lithium;
-	public static Item pile_rod_detector;
+	@Deprecated public static Item pile_rod_uranium;
+	@Deprecated public static Item pile_rod_pu239;
+	@Deprecated public static Item pile_rod_plutonium;
+	@Deprecated public static Item pile_rod_source;
+	@Deprecated public static Item pile_rod_boron;
+	@Deprecated public static Item pile_rod_lithium;
+	@Deprecated public static Item pile_rod_detector;
+
+	public static Item pile_rod;
 
 	public static Item plate_fuel_u233;
 	public static Item plate_fuel_u235;
@@ -1547,7 +1549,6 @@ public class ModItems {
 	public static Item battery_potatos;
 	public static Item hev_battery;
 	public static Item fusion_core;
-	@Deprecated public static Item energy_core;
 	public static Item fuse;
 	//by using these in crafting table recipes, i'm running the risk of making my recipes too greg-ian (which i don't like)
 	//in the event that i forget about the meaning of the word "sparingly", please throw a brick at my head
@@ -1793,9 +1794,6 @@ public class ModItems {
 	public static Item starmetal_hoe;
 	public static Item smashing_hammer;
 	public static Item centri_stick;
-	public static Item drax;
-	public static Item drax_mk2;
-	public static Item drax_mk3;
 	public static Item bismuth_pickaxe;
 	public static Item bismuth_axe;
 	public static Item volcanic_pickaxe;
@@ -2295,18 +2293,18 @@ public class ModItems {
 		ingot_mud = new Item().setUnlocalizedName("ingot_mud").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_mud");
 		ingot_cft = new Item().setUnlocalizedName("ingot_cft").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cft");
 
-		ore_byproduct = new ItemByproduct().setUnlocalizedName("ore_byproduct").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":byproduct");
+		ore_byproduct = new ItemByproduct().setUnlocalizedName("ore_byproduct").setCreativeTab(null).setTextureName(RefStrings.MODID + ":byproduct");
 
-		ore_bedrock = new ItemBedrockOre().setUnlocalizedName("ore_bedrock").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_bedrock");
-		ore_centrifuged = new ItemBedrockOre().setUnlocalizedName("ore_centrifuged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_centrifuged");
-		ore_cleaned = new ItemBedrockOre().setUnlocalizedName("ore_cleaned").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_cleaned");
-		ore_separated = new ItemBedrockOre().setUnlocalizedName("ore_separated").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_separated");
-		ore_purified = new ItemBedrockOre().setUnlocalizedName("ore_purified").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_purified");
-		ore_nitrated = new ItemBedrockOre().setUnlocalizedName("ore_nitrated").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_nitrated");
-		ore_nitrocrystalline = new ItemBedrockOre().setUnlocalizedName("ore_nitrocrystalline").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_nitrocrystalline");
-		ore_deepcleaned = new ItemBedrockOre().setUnlocalizedName("ore_deepcleaned").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_deepcleaned");
-		ore_seared = new ItemBedrockOre().setUnlocalizedName("ore_seared").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_seared");
-		ore_enriched = new ItemBedrockOre().setUnlocalizedName("ore_enriched").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_enriched");
+		ore_bedrock = new ItemBedrockOre().setUnlocalizedName("ore_bedrock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_bedrock");
+		ore_centrifuged = new ItemBedrockOre().setUnlocalizedName("ore_centrifuged").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_centrifuged");
+		ore_cleaned = new ItemBedrockOre().setUnlocalizedName("ore_cleaned").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_cleaned");
+		ore_separated = new ItemBedrockOre().setUnlocalizedName("ore_separated").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_separated");
+		ore_purified = new ItemBedrockOre().setUnlocalizedName("ore_purified").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_purified");
+		ore_nitrated = new ItemBedrockOre().setUnlocalizedName("ore_nitrated").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_nitrated");
+		ore_nitrocrystalline = new ItemBedrockOre().setUnlocalizedName("ore_nitrocrystalline").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_nitrocrystalline");
+		ore_deepcleaned = new ItemBedrockOre().setUnlocalizedName("ore_deepcleaned").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_deepcleaned");
+		ore_seared = new ItemBedrockOre().setUnlocalizedName("ore_seared").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_seared");
+		ore_enriched = new ItemBedrockOre().setUnlocalizedName("ore_enriched").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ore_enriched");
 		bedrock_ore_base = new ItemBedrockOreBase().setUnlocalizedName("bedrock_ore_base").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
 		bedrock_ore = new ItemBedrockOreNew().setUnlocalizedName("bedrock_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
 		bedrock_ore_fragment = new ItemAutogen(MaterialShapes.FRAGMENT).aot(Mats.MAT_BISMUTH, "bedrock_ore_fragment_bismuth").setUnlocalizedName("bedrock_ore_fragment").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_fragment");
@@ -3002,13 +3000,15 @@ public class ModItems {
 		waste_plate_ra226be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_ra226be").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_ra226be");
 		waste_plate_pu238be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_pu238be").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_pu238be");
 
-		pile_rod_uranium = new ItemPileRod().setUnlocalizedName("pile_rod_uranium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_uranium");
-		pile_rod_pu239 = new ItemPileRod().setUnlocalizedName("pile_rod_pu239").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_pu239");
-		pile_rod_plutonium = new ItemPileRod().setUnlocalizedName("pile_rod_plutonium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_plutonium");
-		pile_rod_source = new ItemPileRod().setUnlocalizedName("pile_rod_source").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_source");
-		pile_rod_boron = new ItemPileRod().setUnlocalizedName("pile_rod_boron").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_boron");
-		pile_rod_lithium = new ItemPileRod().setUnlocalizedName("pile_rod_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_lithium");
-		pile_rod_detector = new ItemPileRod().setUnlocalizedName("pile_rod_detector").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_detector");
+		pile_rod_uranium = new ItemPileRod().setUnlocalizedName("pile_rod_uranium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_uranium");
+		pile_rod_pu239 = new ItemPileRod().setUnlocalizedName("pile_rod_pu239").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_pu239");
+		pile_rod_plutonium = new ItemPileRod().setUnlocalizedName("pile_rod_plutonium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_plutonium");
+		pile_rod_source = new ItemPileRod().setUnlocalizedName("pile_rod_source").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_source");
+		pile_rod_boron = new ItemPileRod().setUnlocalizedName("pile_rod_boron").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_boron");
+		pile_rod_lithium = new ItemPileRod().setUnlocalizedName("pile_rod_lithium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_lithium");
+		pile_rod_detector = new ItemPileRod().setUnlocalizedName("pile_rod_detector").setCreativeTab(null).setTextureName(RefStrings.MODID + ":pile_rod_detector");
+		
+		pile_rod = new ItemPileRodMK2().setUnlocalizedName("pile_rod").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod");
 
 		plate_fuel_u233 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 50).setUnlocalizedName("plate_fuel_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_u233");
 		plate_fuel_u235 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 40).setUnlocalizedName("plate_fuel_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_u235");
@@ -3704,7 +3704,6 @@ public class ModItems {
 		battery_potatos = new ItemPotatos(500000, 0, 100).setUnlocalizedName("battery_potatos").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_potatos");
 		hev_battery = new ItemFusionCore(150000).setUnlocalizedName("hev_battery").setMaxStackSize(4).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":hev_battery");
 		fusion_core = new ItemFusionCore(2500000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_core");
-		energy_core = new ItemBattery(10000000, 0, 1000).setUnlocalizedName("energy_core").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":energy_core");
 		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fuse");
 		screwdriver = new ItemTooling(ToolType.SCREWDRIVER, 100).setUnlocalizedName("screwdriver");
 		screwdriver_desh = new ItemTooling(ToolType.SCREWDRIVER, 0).setUnlocalizedName("screwdriver_desh");
@@ -4133,31 +4132,6 @@ public class ModItems {
 				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0).setMaxDamage(50).setUnlocalizedName("centri_stick").setTextureName(RefStrings.MODID + ":centri_stick");
 		smashing_hammer = new ItemToolAbility(12F, -0.1, MainRegistry.tMatSteel, EnumToolType.MINER)
 				.addAbility(IToolHarvestAbility.SHREDDER, 0).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
-		drax = new ItemToolAbilityPower(10F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 500000000, 100000, 5000)
-				.addAbility(IToolHarvestAbility.SMELTER, 0)
-				.addAbility(IToolHarvestAbility.SHREDDER, 0)
-				.addAbility(IToolHarvestAbility.LUCK, 1)
-				.addAbility(IToolAreaAbility.HAMMER, 1)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 1)
-				.addAbility(IToolAreaAbility.RECURSION, 2).setUnlocalizedName("drax").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax");
-		drax_mk2 = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
-				.addAbility(IToolHarvestAbility.SMELTER, 0)
-				.addAbility(IToolHarvestAbility.SHREDDER, 0)
-				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0)
-				.addAbility(IToolHarvestAbility.LUCK, 2)
-				.addAbility(IToolAreaAbility.HAMMER, 2)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
-				.addAbility(IToolAreaAbility.RECURSION, 4).setUnlocalizedName("drax_mk2").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax_mk2");
-		drax_mk3 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 2500000000L, 500000, 10000)
-				.addAbility(IToolHarvestAbility.SMELTER, 0)
-				.addAbility(IToolHarvestAbility.SHREDDER, 0)
-				.addAbility(IToolHarvestAbility.CENTRIFUGE, 0)
-				.addAbility(IToolHarvestAbility.CRYSTALLIZER, 0)
-				.addAbility(IToolHarvestAbility.SILK, 0)
-				.addAbility(IToolHarvestAbility.LUCK, 3)
-				.addAbility(IToolAreaAbility.HAMMER, 3)
-				.addAbility(IToolAreaAbility.HAMMER_FLAT, 3)
-				.addAbility(IToolAreaAbility.RECURSION, 5).setUnlocalizedName("drax_mk3").setCreativeTab(null).setTextureName(RefStrings.MODID + ":drax_mk3");
 
 		ToolMaterial matBismuth = EnumHelper.addToolMaterial("HBM_BISMUTH", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.ingot_bismuth));
 		bismuth_pickaxe = new ItemToolAbility(15F, 0, matBismuth, EnumToolType.MINER)
@@ -5173,7 +5147,6 @@ public class ModItems {
 		GameRegistry.registerItem(battery_potatos, battery_potatos.getUnlocalizedName());
 		GameRegistry.registerItem(hev_battery, hev_battery.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
-		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
 
 		//Folders
 		GameRegistry.registerItem(blueprints, blueprints.getUnlocalizedName());
@@ -5388,6 +5361,8 @@ public class ModItems {
 		GameRegistry.registerItem(pile_rod_boron, pile_rod_boron.getUnlocalizedName());
 		GameRegistry.registerItem(pile_rod_lithium, pile_rod_lithium.getUnlocalizedName());
 		GameRegistry.registerItem(pile_rod_detector, pile_rod_detector.getUnlocalizedName());
+		
+		GameRegistry.registerItem(pile_rod, pile_rod.getUnlocalizedName());
 
 		//Plate Fuels
 		GameRegistry.registerItem(plate_fuel_u233, plate_fuel_u233.getUnlocalizedName());
@@ -5929,9 +5904,6 @@ public class ModItems {
 		GameRegistry.registerItem(dnt_sword, dnt_sword.getUnlocalizedName());
 		GameRegistry.registerItem(smashing_hammer, smashing_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(centri_stick, centri_stick.getUnlocalizedName());
-		GameRegistry.registerItem(drax, drax.getUnlocalizedName());
-		GameRegistry.registerItem(drax_mk2, drax_mk2.getUnlocalizedName());
-		GameRegistry.registerItem(drax_mk3, drax_mk3.getUnlocalizedName());
 		GameRegistry.registerItem(bismuth_pickaxe, bismuth_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(bismuth_axe, bismuth_axe.getUnlocalizedName());
 		GameRegistry.registerItem(volcanic_pickaxe, volcanic_pickaxe.getUnlocalizedName());
@@ -5939,7 +5911,8 @@ public class ModItems {
 		GameRegistry.registerItem(chlorophyte_pickaxe, chlorophyte_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(chlorophyte_axe, chlorophyte_axe.getUnlocalizedName());
 		GameRegistry.registerItem(mese_pickaxe, mese_pickaxe.getUnlocalizedName());
-		GameRegistry.registerItem(mese_axe, mese_axe.getUnlocalizedName());		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
+		GameRegistry.registerItem(mese_axe, mese_axe.getUnlocalizedName());
+		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
 		GameRegistry.registerItem(balefire_and_steel, balefire_and_steel.getUnlocalizedName());
 		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());

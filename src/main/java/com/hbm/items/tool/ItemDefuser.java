@@ -27,7 +27,7 @@ public class ItemDefuser extends ItemTooling {
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity) {
 		
 		if(entity instanceof EntityCreeper) {
-			return ItemModDefuser.defuse((EntityCreeper) entity, player, true);
+			return ItemModDefuser.castrateCreeper((EntityCreeper) entity, player, true);
 		}
 		
 		if(entity instanceof EntityGlyphidNuclear) {

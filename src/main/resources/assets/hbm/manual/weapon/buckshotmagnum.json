@@ -7,10 +7,12 @@
 	],
 	"title": {
 		"en_US": "Magnum Buckshot",
-		"zh_CN": "马格南鹿弹"
+		"zh_CN": "马格南鹿弹",
+		"ru_RU": "Магнум-картечь"
 	},
 	"content": {
 		"en_US": "Buckshot, but with fewer larger pellets which deal more damage. While black powder magnum shells don't perform that much better compared to buckshot, smokeless powder ones are noticably more powerful. Additionally, magnum buckshot shells have roughly half as much spread as standard buckshot.",
-		"zh_CN": "弹丸更少且更大，伤害更高的鹿弹。尽管黑火药马格南鹿弹的性能不比普通鹿 弹好很多，但是使用无烟火药的版本性能显著更好。另外，马格南鹿弹的散布 大约是普通鹿弹的一半。"
+		"zh_CN": "弹丸更少且更大，伤害更高的鹿弹。尽管黑火药马格南鹿弹的性能不比普通鹿 弹好很多，但是使用无烟火药的版本性能显著更好。另外，马格南鹿弹的散布 大约是普通鹿弹的一半。",
+		"ru_RU": "Картечь, но с меньшим количеством более крупных дробин, которые наносят больше урона. Если магнум-патроны на дымном порохе не сильно превосходят стандартную картечь, то варианты на бездымном порохе ощутимо мощнее. Кроме того, магнум-картечь имеет примерно вдвое меньшее рассеивание по сравнению со стандартной."
 	}
 }

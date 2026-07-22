@@ -33,7 +33,6 @@ public class GunNPCFactory {
 		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.velocity = 0.25F;
 		bullet.spread = 0.000F;
-		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.dmgMin = 100;
@@ -85,28 +84,11 @@ public class GunNPCFactory {
 		bullet.spread = 0.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
-		bullet.wear = 10;
 		bullet.leadChance = 0;
 		bullet.explosive = 0.5F;
 		bullet.setToBolt(BulletConfiguration.BOLT_LACUNAE);
 		bullet.vPFX = "reddust";
 		bullet.damageType = ModDamageSource.s_laser;
-
-		return bullet;
-	}
-
-	public static BulletConfiguration getMaskmanBullet() {
-
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
-
-		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
-		bullet.spread = 0.0F;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 10;
-		bullet.wear = 10;
-		bullet.leadChance = 15;
-		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
-		bullet.vPFX = "bluedust";
 
 		return bullet;
 	}
@@ -119,7 +101,6 @@ public class GunNPCFactory {
 		bullet.spread = 0.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
-		bullet.wear = 10;
 		bullet.leadChance = 0;
 		bullet.setToBolt(BulletConfiguration.BOLT_NIGHTMARE);
 		bullet.vPFX = "reddust";

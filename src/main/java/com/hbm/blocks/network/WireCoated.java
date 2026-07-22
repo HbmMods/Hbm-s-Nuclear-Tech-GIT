@@ -40,7 +40,7 @@ public class WireCoated extends BlockContainer implements IBlockCT {
 	}
 
 	@Override
-	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z) {
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side) {
 		return rec.fragCache;
 	}
 }

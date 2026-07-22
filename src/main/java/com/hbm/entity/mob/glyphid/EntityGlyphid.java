@@ -223,6 +223,13 @@ public class EntityGlyphid extends EntityMob implements IResistanceProvider {
 	@Override
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
+		
+		// re-scan for new targets every so often
+		// every third glyphid does not do this, so you cannot "juggle" hordes on purpose
+		if(this.getEntityId() % 3 > 0 && (this.getEntityId() + this.ticksExisted) % 100 == 0) {
+			Entity newTarget = this.findPlayerToAttack();
+			if(newTarget != null) this.setTarget(newTarget);
+		}
 
 		if(!this.isPotionActive(Potion.blindness)) {
 			if (!this.hasPath()) {

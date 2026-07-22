@@ -41,9 +41,11 @@ public class PressRecipeHandler extends TemplateRecipeHandler implements ICompat
 		return "pressing";
 	}
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
-	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
+	public LinkedList<RecipeTransferRect> transferRectsPress = new LinkedList<RecipeTransferRect>();
+	public LinkedList<RecipeTransferRect> transferRectsEPress = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
-	public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
+	public LinkedList<Class<? extends GuiContainer>> guiPress = new LinkedList<Class<? extends GuiContainer>>();
+	public LinkedList<Class<? extends GuiContainer>> guiEPress = new LinkedList<Class<? extends GuiContainer>>();
 
 	public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input;
@@ -130,21 +132,24 @@ public class PressRecipeHandler extends TemplateRecipeHandler implements ICompat
 
 	@Override
 	public Class<? extends GuiContainer> getGuiClass() {
-		// return GUIMachineShredder.class;
 		return null;
 	}
 
 	@Override
 	public void loadTransferRects() {
-		transferRectsGui = new LinkedList<RecipeTransferRect>();
-		guiGui = new LinkedList<Class<? extends GuiContainer>>();
+		transferRectsPress = new LinkedList<RecipeTransferRect>();
+		transferRectsEPress = new LinkedList<RecipeTransferRect>();
+		guiPress = new LinkedList<Class<? extends GuiContainer>>();
+		guiEPress = new LinkedList<Class<? extends GuiContainer>>();
 
 		transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6, 23, 24, 18), "pressing"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "pressing"));
-		guiGui.add(GUIMachinePress.class);
-		guiGui.add(GUIMachineEPress.class);
+		transferRectsPress.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "pressing"));
+		transferRectsEPress.add(new RecipeTransferRect(new Rectangle(13 + 6 + 18, 23, 24, 18), "pressing"));
+		guiPress.add(GUIMachinePress.class);
+		guiEPress.add(GUIMachineEPress.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
-		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
+		RecipeTransferRectHandler.registerRectsToGuis(guiPress, transferRectsPress);
+		RecipeTransferRectHandler.registerRectsToGuis(guiEPress, transferRectsEPress);
 	}
 
 	@Override

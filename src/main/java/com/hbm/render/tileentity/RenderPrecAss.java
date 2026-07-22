@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.recipes.PrecAssRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
@@ -71,7 +70,7 @@ public class RenderPrecAss extends TileEntitySpecialRenderer implements IItemRen
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
-		GenericRecipe recipe = PrecAssRecipes.INSTANCE.recipeNameMap.get(assembler.assemblerModule.recipe);
+		GenericRecipe recipe = assembler.assemblerModule.getRecipe();
 		if(recipe != null && MainRegistry.proxy.me().getDistanceSq(tileEntity.xCoord + 0.5, tileEntity.yCoord + 1, tileEntity.zCoord + 0.5) < 35 * 35) {
 
 			GL11.glRotated(90, 0, 1, 0);

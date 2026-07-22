@@ -16,7 +16,6 @@ public class BulletConfigSyncingUtil {
 
 	public static int TURBINE = i++;
 
-	public static int MASKMAN_BULLET = i++;
 	public static int MASKMAN_ORB = i++;
 	public static int MASKMAN_BOLT = i++;
 	public static int MASKMAN_ROCKET = i++;
@@ -32,7 +31,6 @@ public class BulletConfigSyncingUtil {
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
-		configSet.put(MASKMAN_BULLET, GunNPCFactory.getMaskmanBullet());
 		configSet.put(MASKMAN_ORB, GunNPCFactory.getMaskmanOrb());
 		configSet.put(MASKMAN_BOLT, GunNPCFactory.getMaskmanBolt());
 		configSet.put(MASKMAN_ROCKET, GunNPCFactory.getMaskmanRocket());

@@ -44,8 +44,8 @@ public class GUIMachinePUREX extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, purex.power, purex.maxPower);
 
 		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 125 < mouseY && guiTop + 125 + 18 >= mouseY) {
-			if(this.purex.purexModule.recipe != null && PUREXRecipes.INSTANCE.recipeNameMap.containsKey(this.purex.purexModule.recipe)) {
-				GenericRecipe recipe = (GenericRecipe) PUREXRecipes.INSTANCE.recipeNameMap.get(this.purex.purexModule.recipe);
+			if(this.purex.purexModule.getRecipe() != null && PUREXRecipes.INSTANCE.recipeNameMap.containsKey(this.purex.purexModule.getRecipe())) {
+				GenericRecipe recipe = this.purex.purexModule.getRecipe();
 				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
@@ -57,7 +57,7 @@ public class GUIMachinePUREX extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 
-		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(PUREXRecipes.INSTANCE, purex, purex.purexModule.recipe, 0, ItemBlueprints.grabPool(purex.slots[1]), this);
+		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(PUREXRecipes.INSTANCE, purex, purex.purexModule.getRecipeName(), 0, ItemBlueprints.grabPool(purex.slots[1]), this);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class GUIMachinePUREX extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
 		}
 
-		GenericRecipe recipe = PUREXRecipes.INSTANCE.recipeNameMap.get(purex.purexModule.recipe);
+		GenericRecipe recipe = purex.purexModule.getRecipe();
 
 		/// LEFT LED
 		if(purex.didProcess) {

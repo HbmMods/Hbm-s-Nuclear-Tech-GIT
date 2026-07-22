@@ -21,7 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIElements {
-	
+
 	@Deprecated public static enum Gauge {
 		ROUND_SMALL("small_round", 18, 18, 13);
 		ResourceLocation texture;
@@ -33,7 +33,7 @@ public class GUIElements {
 			this.count = count;
 		}
 	}
-	
+
 	@Deprecated public static void renderGauge(Gauge gauge, double x, double y, double z, double progress) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(gauge.texture);
 		int frameNum = (int) Math.round((gauge.count - 1) * progress);
@@ -47,7 +47,7 @@ public class GUIElements {
 		tess.addVertexWithUV(x, 				y, 					z, 	0, 	frameOffset);
 		tess.draw();
 	}
-	
+
 	public static void drawSmoothGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, int color) {
 		drawSmoothGauge(x, y, z, progress, tipLength, backLength, backSide, color, 0x000000);
 	}
@@ -55,12 +55,12 @@ public class GUIElements {
 	private static Vec3NT tip = new Vec3NT();
 	private static Vec3NT left = new Vec3NT();
 	private static Vec3NT right = new Vec3NT();
-	
+
 	public static void drawSmoothGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, int color, int colorOuter) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		
+
 		progress = MathHelper.clamp_double(progress, 0, 1);
-		
+
 		float angle = (float) Math.toRadians(-progress * 270 - 45);
 		tip.setComponents(0, tipLength, 0);
 		left.setComponents(backSide, -backLength, 0);
@@ -69,7 +69,7 @@ public class GUIElements {
 		tip.rotateAroundZ(angle);
 		left.rotateAroundZ(angle);
 		right.rotateAroundZ(angle);
-		
+
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawing(GL11.GL_TRIANGLES);
 		tess.setColorOpaque_I(colorOuter);
@@ -82,9 +82,145 @@ public class GUIElements {
 		tess.addVertex(x + left.xCoord, y + left.yCoord, z);
 		tess.addVertex(x + right.xCoord, y + right.yCoord, z);
 		tess.draw();
-		
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	public static void drawSmoothLinearGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, double scale, float rotation, int color) {
+		drawSmoothLinearGauge(x, y, z, progress, tipLength, backLength, backSide, scale, rotation, color, 0x000000);
+	}
+
+	private static Vec3NT Bleft = new Vec3NT();
+	private static Vec3NT Bright = new Vec3NT();
+
+	public static void drawSmoothLinearGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, double scale, float rotation, int color, int colorOuter) {
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+		scale = Math.max(scale, 1);
+		progress = MathHelper.clamp_double(progress, 0, 1) * scale;
+
+		tip.setComponents(0, -tipLength, 0);
+		right.setComponents(-backSide, 0, 0);
+		Bright.setComponents(-backSide, backLength, 0);
+		Bleft.setComponents(backSide, backLength, 0);
+		left.setComponents(backSide, 0, 0);
+
+		float angle = (float) Math.toRadians(-rotation);
+
+		tip.rotateAroundZ(angle);
+		right.rotateAroundZ(angle);
+		Bright.rotateAroundZ(angle);
+		Bleft.rotateAroundZ(angle);
+		left.rotateAroundZ(angle);
+
+		double deltaX = progress * MathHelper.cos(angle);
+		double deltaY = progress * MathHelper.sin(angle);
+
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_POLYGON);
+		tess.setColorOpaque_I(colorOuter);
+		double mult = 1.5;
+		tess.addVertex(x + deltaX + tip.xCoord * mult, y + deltaY + tip.yCoord * mult, z);
+		tess.addVertex(x + deltaX + right.xCoord * mult, y + deltaY + right.yCoord * mult, z);
+		tess.addVertex(x + deltaX + Bright.xCoord * mult, y + deltaY + Bright.yCoord, z);
+		tess.addVertex(x + deltaX + Bleft.xCoord * mult, y + deltaY + Bleft.yCoord, z);
+		tess.addVertex(x + deltaX + left.xCoord * mult, y + deltaY + left.yCoord * mult, z);
+		tess.draw();
+
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+		tess.startDrawing(GL11.GL_POLYGON);
+		tess.setColorOpaque_I(color);
+		tess.addVertex(x + deltaX + tip.xCoord, y + deltaY + tip.yCoord, z);
+		tess.addVertex(x + deltaX + right.xCoord, y + deltaY + right.yCoord, z);
+		tess.addVertex(x + deltaX + Bright.xCoord, y + deltaY + Bright.yCoord, z);
+		tess.addVertex(x + deltaX + Bleft.xCoord, y + deltaY + Bleft.yCoord, z);
+		tess.addVertex(x + deltaX + left.xCoord, y + deltaY + left.yCoord, z);
+		tess.draw();
+
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	public static void drawSmoothTextureModalCircle(int xDraw, int yDraw, float zDraw, int xStart, int yStart, int xDelta, int yDelta, double progress) {
+		float var7 = 0.00390625F;
+		float var8 = 0.00390625F;
+
+		progress = MathHelper.clamp_double(progress, 0, 1);
+		float angle = (float) (-progress * 270.0);
+		double theta = Math.toRadians(angle - 135);
+		int addons = 0;
+		double xTarget = 0;
+		double yTarget = 0;
+
+		// addons is just a numeric flag for how many fixed point to add, to generate the triangles
+		if (angle >= -180 && angle < -90) {
+			addons = 1;
+		} else if (angle >= -270 && angle < -180) {
+			addons = 2;
+		}
+
+		// the abysmal control under here is responsible for the positioning of the last point
+		// basically this whole function makes this shape:
+		// + - - - - - - - - - - - +
+		// | \ * * * * * * * * * / |
+		// | * \ * * * * * * * / * |
+		// | * * \ * * * * * / * * |
+		// | * * * \ * * * / * * * |
+		// | * * * * \ * / * * * * |
+		// | * * * * * + * * * * * |
+		// | * * * * /   \ * * * * |
+		// | * * * /       \ * * * |
+		// | * * /           \ * * |
+		// | * /               \ * |
+		// | /                   \ |
+		// + - - - - - - - - - - - +
+		// the "/, \" are the sides, "+" points and "*" rendered part (lower triangle isn't shown)
+		if (angle >= -90) {
+			xTarget = -1;
+			yTarget = -Math.tan(theta);
+		} else if (angle > -135 && angle < -90) {
+			xTarget = Math.tan(Math.PI/2 - theta);
+			yTarget = 1;
+		} else if (angle > -180 && angle < -135) {
+			xTarget = Math.tan(Math.PI/2 - theta);
+			yTarget = 1;
+		} else if (angle <= -180) {
+			xTarget = 1;
+			yTarget = Math.tan(theta);
+		} else if (angle == -135) {
+			xTarget = 0;
+			yTarget = 1;
+		}
+
+		double xMid = (double) xDelta / 2;
+		double yMid = (double) yDelta / 2;
+
+		xTarget *= xMid;
+		yTarget *= yMid;
+
+		Tessellator tess = Tessellator.instance;
+
+		tess.startDrawing(GL11.GL_TRIANGLES); // i should've used GL_POLYGON yes i know, too bad im either too retarded to understand it or OpenGL makes it funky, i already tried
+		tess.addVertexWithUV(xDraw, yDraw + yDelta, zDraw, ((float) (xStart) * var7), ((float) (yStart + yDelta) * var8));
+		tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
+		if (addons == 2 || addons == 1) {
+			tess.addVertexWithUV(xDraw, yDraw, zDraw, (float) (xStart) * var7, (float) (yStart) * var8);
+			tess.draw();
+			tess.startDrawing(GL11.GL_TRIANGLES);
+			tess.addVertexWithUV(xDraw, yDraw, zDraw, (float) (xStart) * var7, (float) (yStart) * var8);
+			tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
+		}
+		if (addons == 2) {
+			tess.addVertexWithUV(xDraw + xDelta, yDraw, zDraw, (float) (xStart + xDelta) * var7, (float) (yStart) * var8);
+			tess.draw();
+			tess.startDrawing(GL11.GL_TRIANGLES);
+			tess.addVertexWithUV(xDraw + xDelta, yDraw, (double) zDraw, (float) (xStart + xDelta) * var7, (float) (yStart) * var8);
+			tess.addVertexWithUV(xDraw + xMid, yDraw + yMid, zDraw, (float) (xStart + xMid) * var7, (float) (yStart + yMid) * var8);
+		}
+		tess.addVertexWithUV(xDraw + xTarget + xMid, yDraw - yTarget + yMid, zDraw, (float) (xStart + xTarget + xMid) * var7, (float) (yStart - yTarget + yMid) * var8);
+		tess.draw();
 	}
 
 	public static final int STANDARD_COLOR_BACKGROUND = -0xFEFFFF0;
@@ -114,7 +250,7 @@ public class GUIElements {
 	}
 
 	public static void drawHoveringText(List lines, int x, int y, FontRenderer font, RenderItem itemRender, int guiWidth, int guiHeight, int headerOffset, int lineDist, int colBG0, int colBG1, int colLine0, int colLine1) {
-		
+
 		if(!lines.isEmpty()) {
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			RenderHelper.disableStandardItemLighting();
@@ -154,7 +290,7 @@ public class GUIElements {
 			drawGradientRect(boundX - 3, boundY - 3, boundX + width + 3, boundY + height + 3, colBG0, colBG1);
 			drawGradientRect(boundX - 4, boundY - 3, boundX - 3, boundY + height + 3, colBG0, colBG1);
 			drawGradientRect(boundX + width + 3, boundY - 3, boundX + width + 4, boundY + height + 3, colBG0, colBG1);
-			
+
 			drawGradientRect(boundX - 3, boundY - 3 + 1, boundX - 3 + 1, boundY + height + 3 - 1, colLine0, colLine1);
 			drawGradientRect(boundX + width + 2, boundY - 3 + 1, boundX + width + 3, boundY + height + 3 - 1, colLine0, colLine1);
 			drawGradientRect(boundX - 3, boundY - 3, boundX + width + 3, boundY - 3 + 1, colLine0, colLine0);
@@ -163,7 +299,7 @@ public class GUIElements {
 			for(int i = 0; i < lines.size(); ++i) {
 				String line = (String) lines.get(i);
 				font.drawStringWithShadow(line, boundX, boundY, -1);
-				
+
 				if(i == 0) boundY += headerOffset;
 				boundY += lineDist;
 			}
@@ -175,7 +311,7 @@ public class GUIElements {
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
-	
+
 	/** Colors don't use the RGBA, but rather ARGB (evil route) */
 	protected static void drawGradientRect(int x0, int y0, int x1, int y1, int col0, int col1) {
 		float a0 = (float) (col0 >> 24	& 255) / 255F;

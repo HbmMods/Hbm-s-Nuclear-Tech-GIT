@@ -6,6 +6,7 @@ import com.hbm.blocks.machine.pile.BlockGraphiteNeutronDetector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class TileEntityPileNeutronDetector extends TileEntity implements IPileNeutronReceiver {
 	
 	public int lastNeutrons;

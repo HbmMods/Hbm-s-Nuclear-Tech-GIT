@@ -183,6 +183,8 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		lastPowerTarget = nbt.getLong("lastPowerTarget");
+		flywheel_energy = nbt.getLong("flywheel_energy");
+		maxPower = nbt.getLong("maxPower");
 		spin = nbt.getDouble("spin");
 	}
 
@@ -190,6 +192,8 @@ public class TileEntityMachineIndustrialTurbine extends TileEntityTurbineBase im
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("lastPowerTarget", lastPowerTarget);
+		nbt.setLong("flywheel_energy", flywheel_energy);
+		nbt.setLong("maxPower", maxPower);
 		nbt.setDouble("spin", spin);
 	}
 

@@ -16,10 +16,10 @@ public class SlotPattern extends Slot {
 	public SlotPattern(IInventory inv, int index, int x, int y) {
 		super(inv, index, x, y);
 	}
-
-	public SlotPattern(IInventory inv, int index, int x, int y, boolean allowStackSize) {
-		super(inv, index, x, y);
-		this.allowStackSize = allowStackSize;
+	
+	public SlotPattern allowStackSize() {
+		this.allowStackSize = true;
+		return this;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class SlotPattern extends Slot {
 	
 	@Override
 	public int getSlotStackLimit() {
-		return 1;
+		return allowStackSize ? 64 : 1;
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class SlotPattern extends Slot {
 		if (stack != null) {
 			stack = stack.copy();
 			
-			if (!allowStackSize)
+			if(!allowStackSize)
 				stack.stackSize = 1;
 		}
 		super.putStack(stack);

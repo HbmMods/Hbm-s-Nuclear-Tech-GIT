@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineEPress extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_epress.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_electric_press.png");
 	private TileEntityMachineEPress press;
 	
 	public GUIMachineEPress(InventoryPlayer invPlayer, TileEntityMachineEPress tedf) {
@@ -20,21 +20,21 @@ public class GUIMachineEPress extends GuiInfoContainer {
 		press = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 186;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 17, guiTop + 69 - 52, 16, 52, press.power, press.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 52 - 34, 16, 34, press.power, press.maxPower);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.press.hasCustomInventoryName() ? this.press.getInventoryName() : I18n.format(this.press.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, 89 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	
@@ -44,10 +44,10 @@ public class GUIMachineEPress extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int) (press.power * 52 / press.maxPower);
-		drawTexturedModalRect(guiLeft + 17, guiTop + 69 - i, 176, 52 - i, 16, i);
+		int i = (int) (press.power * 34 / press.maxPower);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 52 - i, 176, 34 - i, 16, i);
 		
 		int k = (int) (press.renderPress * 16 / press.maxPress);
-		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 192, 0, 18, k);
+		this.drawTexturedModalRect(guiLeft + 18, guiTop + 33, 192, 0, 18, k);
 	}
 }

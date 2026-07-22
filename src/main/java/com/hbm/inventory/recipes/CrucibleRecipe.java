@@ -41,8 +41,8 @@ public class CrucibleRecipe extends GenericRecipe {
 	@Override
 	public List<String> print() {
 		List<String> list = new ArrayList();
-		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
+		header(list);
 		input(list);
 		output(list);
 

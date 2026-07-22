@@ -103,11 +103,6 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 	}
 
 	@Override
-	public String getInventoryName() {
-		return "container.icfController";
-	}
-
-	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {

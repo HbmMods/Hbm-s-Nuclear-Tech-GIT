@@ -21,6 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolable, IBlowable {
 
 	@Override

@@ -19,33 +19,20 @@ public class BlockWand extends Block {
 		setBlockBounds(1F/16F, 1F/16F, 1F/16F, 15F/16F, 15F/16F, 15F/16F);
 	}
 
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType() { return renderID; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
-	@Override
-	public int getRenderType() {
-		return renderID;
-	}
-
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
 		Block block = world.getBlock(x, y, z);
-
 		return block != this;
 	}
-
 }

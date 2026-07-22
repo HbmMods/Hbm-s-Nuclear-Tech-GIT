@@ -36,7 +36,7 @@ public class BlockNTMGlassCT extends BlockNTMGlass implements IBlockCT {
 	}
 
 	@Override
-	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z) {
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z, int side) {
 		return rec.fragCache;
 	}
 }

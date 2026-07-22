@@ -3,8 +3,10 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerPneumoStorageClutter;
+import com.hbm.inventory.gui.element.GUIElements;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageClutter;
+import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -27,11 +29,15 @@ public class GUIPneumoStorageClutter extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 174, guiTop + 36, 20, 8, x, y, "Compressor: " + storage.compair.getPressure() + " PU", "Max range: " + TileEntityPneumoTube.getRangeFromPressure(storage.compair.getPressure()) + "m");
 	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+		
+		clickSendFlag(storage, x, y, 174, 36, 20, 8, "pressure");
 	}
 	
 	@Override
@@ -47,5 +53,8 @@ public class GUIPneumoStorageClutter extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		drawTexturedModalRect(guiLeft + 174 + 4 * (storage.compair.getPressure() - 1), guiTop + 36, 200, 0, 4, 8);
+		GUIElements.drawSmoothGauge(guiLeft + 184, guiTop + 25, this.zLevel, (double) storage.compair.getFill() / (double) storage.compair.getMaxFill(), 5, 2, 1, 0xCA6C43, 0xAB4223);
 	}
 }

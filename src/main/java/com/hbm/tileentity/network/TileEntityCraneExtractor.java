@@ -294,4 +294,3 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		return new int[] {0, 9};
 	}
 }
-

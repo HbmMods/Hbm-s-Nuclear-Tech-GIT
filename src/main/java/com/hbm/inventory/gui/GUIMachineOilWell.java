@@ -21,19 +21,19 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		super(new ContainerMachineOilWell(invPlayer, tedf));
 		derrick = tedf;
 		
-		this.xSize = 176;
-		this.ySize = 166;
+		this.xSize = 184;
+		this.ySize = 190;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		derrick.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
-		derrick.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 107, guiTop + 69 - 52, 16, 52);
+		derrick.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 76, guiTop + 74 - 52, 16, 52);
+		derrick.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 112, guiTop + 74 - 52, 16, 52);
 		
 		if(derrick.tanks.length >= 3) {
-			derrick.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 40, guiTop + 37, 6, 32);
+			derrick.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 54, guiTop + 45, 6, 32);
 		}
 		
 		String[] upgradeText = new String[4];
@@ -41,17 +41,17 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
 		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
 		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.afterburner");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 156, guiTop + 3, 8, 8, mouseX, mouseY, upgradeText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 160, guiTop + 21, 8, 8, mouseX, mouseY, upgradeText);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 34, derrick.power, derrick.getMaxPower());
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 22, 16, 34, derrick.power, derrick.getMaxPower());
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.derrick.hasCustomInventoryName() ? this.derrick.getInventoryName() : I18n.format(this.derrick.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(name, 126 - this.fontRendererObj.getStringWidth(name) / 2, 10, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 12, this.ySize - 96 + 2, 4210752);
 	}
 	
 	@Override
@@ -61,24 +61,24 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		int i = (int)(derrick.getPower() * 34 / derrick.getMaxPower());
-		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 56 - i, 184, 34 - i, 16, i);
 		
 		int k = derrick.indicator;
 		
 		if(k != 0)
-			drawTexturedModalRect(guiLeft + 35, guiTop + 17, 176 + (k - 1) * 16, 52, 16, 16);
+			drawTexturedModalRect(guiLeft + 50, guiTop + 19, 184 + (k - 1) * 14, 34, 14, 14);
 		
 		if(derrick.tanks.length < 3) {
-			drawTexturedModalRect(guiLeft + 34, guiTop + 36, 192, 0, 18, 34);
+			drawTexturedModalRect(guiLeft + 48, guiTop + 44, 200, 0, 18, 34);
 		}
 		
-		derrick.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
-		derrick.tanks[1].renderTank(guiLeft + 107, guiTop + 69, this.zLevel, 16, 52);
+		derrick.tanks[0].renderTank(guiLeft + 76, guiTop + 74, this.zLevel, 16, 52);
+		derrick.tanks[1].renderTank(guiLeft + 112, guiTop + 74, this.zLevel, 16, 52);
 		
 		if(derrick.tanks.length > 2) {
-			derrick.tanks[2].renderTank(guiLeft + 40, guiTop + 69, this.zLevel, 6, 32);
+			derrick.tanks[2].renderTank(guiLeft + 54, guiTop + 77, this.zLevel, 6, 32);
 		}
 		
-		this.drawInfoPanel(guiLeft + 156, guiTop + 3, 8, 8, 8);
+		this.drawInfoPanel(guiLeft + 160, guiTop + 21, 8, 8, 8);
 	}
 }

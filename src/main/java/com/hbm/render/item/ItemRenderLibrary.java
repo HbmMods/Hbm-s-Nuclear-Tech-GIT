@@ -43,7 +43,8 @@ public class ItemRenderLibrary {
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_cyclotron), new ItemRenderBase() {
 			public void renderInventory() {
-					GL11.glScaled(2.25, 2.25, 2.25);
+				GL11.glTranslated(0, -1, 0);
+					GL11.glScaled(2.75, 2.75, 2.75);
 			}
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);

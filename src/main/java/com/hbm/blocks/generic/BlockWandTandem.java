@@ -9,6 +9,7 @@ import com.hbm.blocks.IBlockSideRotation;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -73,6 +74,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  * @author hbm, Mellow
  */
+@NotableComments
 public class BlockWandTandem extends BlockContainer implements IBlockSideRotation, INBTBlockTransformable, IGUIProvider, ILookOverlay {
 
 	private IIcon iconTop;

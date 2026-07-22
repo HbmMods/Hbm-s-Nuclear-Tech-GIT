@@ -1,5 +1,9 @@
 package com.hbm.entity.item;
 
+import java.util.List;
+
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectTiny;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -75,6 +79,21 @@ public abstract class EntityMovingConveyorObject extends Entity {
 			
 			if(this.ticksExisted <= 5) {
 				return;
+			}
+			
+			// cram check every 20s
+			if((ticksExisted + this.getEntityId()) % 400 == 0) {
+				List<EntityMovingConveyorObject> objs = worldObj.getEntitiesWithinAABB(EntityMovingConveyorObject.class, this.boundingBox.expand(0.125, 0.125, 0.125));
+				if(objs.size() >= 25) {
+					for(EntityMovingConveyorObject obj : objs) obj.setDead();
+					ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY + 0.125, posZ, 1, this);
+					vnt.setSFX(new ExplosionEffectTiny());
+					vnt.explode();
+					int x = (int) Math.floor(posX);
+					int y = (int) Math.floor(posY);
+					int z = (int) Math.floor(posZ);
+					if(worldObj.getBlock(x, y, z) instanceof IConveyorBelt) worldObj.func_147480_a(x, y, z, false);
+				}
 			}
 
 			int blockX = (int) Math.floor(posX);

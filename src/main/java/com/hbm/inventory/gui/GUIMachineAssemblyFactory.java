@@ -47,8 +47,8 @@ public class GUIMachineAssemblyFactory extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 234, guiTop + 18, 16, 92, assembler.power, assembler.maxPower);
 
 		for(int i = 0; i < 4; i++) if(guiLeft + 6 + (i % 2) * 109 <= mouseX && guiLeft + 6 + (i % 2) * 109 + 18 > mouseX && guiTop + 53 + (i / 2) * 56 < mouseY && guiTop + 53 + (i / 2) * 56 + 18 >= mouseY) {
-			if(this.assembler.assemblerModule[i].recipe != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.assembler.assemblerModule[i].recipe)) {
-				GenericRecipe recipe = (GenericRecipe) AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.assembler.assemblerModule[i].recipe);
+			if(this.assembler.assemblerModule[i].getRecipeName() != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.assembler.assemblerModule[i].getRecipeName())) {
+				GenericRecipe recipe = this.assembler.assemblerModule[i].getRecipe();
 				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
 			} else {
 				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
@@ -60,7 +60,7 @@ public class GUIMachineAssemblyFactory extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
 		
-		for(int i = 0; i < 4; i++) if(this.checkClick(x, y, 6 + (i % 2) * 109, 53 + (i / 2) * 56, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule[i].recipe, i, ItemBlueprints.grabPool(assembler.slots[4 + i * 14]), this);
+		for(int i = 0; i < 4; i++) if(this.checkClick(x, y, 6 + (i % 2) * 109, 53 + (i / 2) * 56, 18, 18)) GUIScreenRecipeSelector.openSelector(AssemblyMachineRecipes.INSTANCE, assembler, assembler.assemblerModule[i].getRecipeName(), i, ItemBlueprints.grabPool(assembler.slots[4 + i * 14]), this);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class GUIMachineAssemblyFactory extends GuiInfoContainer {
 		}
 		
 		for(int g = 0; g < 4; g++) {
-			GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assembler.assemblerModule[g].recipe);
+			GenericRecipe recipe = assembler.assemblerModule[g].getRecipe();
 			
 			/// LEFT LED
 			if(assembler.didProcess[g]) {
@@ -105,7 +105,7 @@ public class GUIMachineAssemblyFactory extends GuiInfoContainer {
 		}
 		
 		for(int g = 0; g < 4; g++) {
-			GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(assembler.assemblerModule[g].recipe);
+			GenericRecipe recipe = assembler.assemblerModule[g].getRecipe();
 			
 			this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 7 + (g % 2) * 109, 54 + (g / 2) * 56);
 			

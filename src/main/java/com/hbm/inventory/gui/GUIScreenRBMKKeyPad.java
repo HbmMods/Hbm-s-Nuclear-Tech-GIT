@@ -66,7 +66,7 @@ public class GUIScreenRBMKKeyPad extends GuiScreen {
 			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 36, 72 - oX * 2, 14);
 			setupTextFieldStandard(label[i], 15, keypad.keys[i].label);
 			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 73 + oY + i * 36, 72 - oX * 2, 14);
-			setupTextFieldStandard(rtty[i], 10, keypad.keys[i].rtty);
+			setupTextFieldStandard(rtty[i], GUIScreenRadioTorch.MAX_CHAN_LENGTH, keypad.keys[i].rtty);
 			cmd[i] = new GuiTextField(this.fontRendererObj, guiLeft + 121 + oX, guiTop + 73 + oY + i * 36, 126 - oX * 2, 14);
 			setupTextFieldStandard(cmd[i], 32, keypad.keys[i].command);
 

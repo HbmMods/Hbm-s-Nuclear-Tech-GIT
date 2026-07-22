@@ -52,7 +52,7 @@ public class GUIScreenRBMKLever extends GuiScreen {
 		
 		for(int i = 0; i < 2; i++) {
 			rtty[i] = new GuiTextField(this.fontRendererObj, guiLeft + 27 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
-			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], 10, lever.levers[i].rtty);
+			GUIScreenRBMKKeyPad.setupTextFieldStandard(rtty[i], GUIScreenRadioTorch.MAX_CHAN_LENGTH, lever.levers[i].rtty);
 			label[i] = new GuiTextField(this.fontRendererObj, guiLeft + 175 + oX, guiTop + 55 + oY + i * 54, 72 - oX * 2, 14);
 			GUIScreenRBMKKeyPad.setupTextFieldStandard(label[i], 15, lever.levers[i].label);
 			cmdOn[i] = new GuiTextField(this.fontRendererObj, guiLeft + 45 + oX, guiTop + 73 + oY + i * 54, 81 - oX * 2, 14);

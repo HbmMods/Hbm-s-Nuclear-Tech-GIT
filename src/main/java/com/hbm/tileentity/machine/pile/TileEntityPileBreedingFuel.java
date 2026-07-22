@@ -6,6 +6,7 @@ import com.hbm.config.GeneralConfig;
 import api.hbm.block.IPileNeutronReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 
+@Deprecated
 public class TileEntityPileBreedingFuel extends TileEntityPileBase implements IPileNeutronReceiver {
 	
 	public int neutrons;

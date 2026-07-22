@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -148,8 +150,8 @@ public class GenericRecipe {
 
 	public List<String> print() {
 		List<String> list = new ArrayList();
-		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
 
+		header(list);
 		autoSwitch(list);
 		duration(list);
 		power(list);
@@ -157,6 +159,11 @@ public class GenericRecipe {
 		output(list);
 
 		return list;
+	}
+	
+	protected void header(List<String> list) {
+		list.add(EnumChatFormatting.YELLOW + this.getLocalizedName());
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) list.add(EnumChatFormatting.DARK_GRAY + "Internal: " + this.getInternalName());
 	}
 	
 	protected void autoSwitch(List<String> list) {

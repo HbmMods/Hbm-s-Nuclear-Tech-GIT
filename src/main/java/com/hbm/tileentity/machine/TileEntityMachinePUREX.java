@@ -10,7 +10,6 @@ import com.hbm.inventory.container.ContainerMachinePUREX;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachinePUREX;
-import com.hbm.inventory.recipes.PUREXRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -26,6 +25,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -37,7 +37,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider {
+public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IRORValueProvider {
 
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
@@ -80,7 +80,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		
 		if(!worldObj.isRemote) {
 			
-			GenericRecipe recipe = PUREXRecipes.INSTANCE.recipeNameMap.get(purexModule.recipe);
+			GenericRecipe recipe = purexModule.getRecipe();
 			if(recipe != null) {
 				this.maxPower = recipe.power * 100;
 			}
@@ -235,7 +235,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");
 			if(index == 0) {
-				this.purexModule.recipe = selection;
+				this.purexModule.setRecipe(selection, false);
 				this.markChanged();
 			}
 		}
@@ -282,5 +282,22 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 		upgrades.put(UpgradeType.POWER, 3);
 		upgrades.put(UpgradeType.OVERDRIVE, 3);
 		return upgrades;
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "progress",
+				PREFIX_VALUE + "recipe",
+				PREFIX_VALUE + "active",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "progress").equals(name))	return "" + (int) Math.round(this.purexModule.progress * 100);
+		if((PREFIX_VALUE + "recipe").equals(name))		return this.purexModule.getRecipeName();
+		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
+		return null;
 	}
 }

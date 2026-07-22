@@ -1,5 +1,7 @@
 package com.hbm.tileentity.network;
 
+import java.util.Locale;
+
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
@@ -44,7 +46,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 					if(channel == null || channel.isEmpty()) continue;
 					if(name == null || name.isEmpty()) continue;
 					
-					String value = prov.provideRORValue(IRORValueProvider.PREFIX_VALUE + name);
+					String value = prov.provideRORValue(IRORValueProvider.PREFIX_VALUE + name.toLowerCase(Locale.US));
 					if(value == null) continue;
 					
 					if(polling || !value.equals(previous)) {

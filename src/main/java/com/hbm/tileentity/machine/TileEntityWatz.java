@@ -35,12 +35,10 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -54,7 +52,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable, CompatHandler.OCComponent, IRORValueProvider {
 
 	public FluidTank[] tanks;
 	public FluidTank[] sharedTanks;
@@ -662,12 +660,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	@Override
 	public String[] getFunctionInfo() {
 		return ROR;
-	}
-
-	@Override
-	public String runRORFunction(String name, String[] params) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
