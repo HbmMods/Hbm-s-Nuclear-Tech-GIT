@@ -34,12 +34,12 @@ import net.minecraftforge.event.world.WorldEvent;
 public class NTMWorldGenerator implements IWorldGenerator {
 
 	boolean regTest = false;
-	
+
 	/** Includes all biomes tagged as ocean or river */
 	public static boolean isWaterBiome(BiomeGenBase biome) {
 		return BiomeDictionary.isBiomeOfType(biome, Type.WATER);
 	}
-	
+
 	/** Includes biomes with little height variation and sparse vegetation, excludes water biomes */
 	public static boolean isFlatBiome(BiomeGenBase biome) {
 		return biome.heightVariation <= 0.2F && !isWaterBiome(biome) && BiomeDictionary.isBiomeOfType(biome, Type.SPARSE);
@@ -144,17 +144,17 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition("factory") {{
-			canSpawn = biome -> isFlatBiome(biome);
+			canSpawn = biome -> biome.heightVariation <= 0.2F && !isWaterBiome(biome);
 			structure = new JigsawPiece("factory", StructureManager.factory, -10);
 			spawnWeight = StructureConfig.factorySpawnWeight;
 		}});
 
 		NBTStructure.registerStructure(0, new SpawnCondition("crane") {{
-			canSpawn = biome -> isFlatBiome(biome);
-			structure = new JigsawPiece("crane", StructureManager.crane, -9);
+			canSpawn = biome -> biome.heightVariation <= 0.2F && !isWaterBiome(biome);
+			structure = new JigsawPiece("crane", StructureManager.crane, -13);
 			spawnWeight = StructureConfig.craneSpawnWeight;
 		}});
-		
+
 		NBTStructure.registerStructure(0, new SpawnCondition("broadcaster_tower") {{
 			canSpawn = biome -> isFlatBiome(biome);
 			structure = new JigsawPiece("broadcaster_tower", StructureManager.broadcasting_tower, -9);
