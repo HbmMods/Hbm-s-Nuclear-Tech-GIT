@@ -619,6 +619,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			int o = -getOffset();
 			int pY = mop.blockY + getHeightOffset();
 
+			//Orientation
 			ForgeDirection facing = ForgeDirection.NORTH;
 			if(i == 0) facing = ForgeDirection.getOrientation(2);
 			if(i == 1) facing = ForgeDirection.getOrientation(5);
@@ -631,21 +632,15 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			double originY = pY + (mop.sideHit == 1 ? 1 : 0);
 			double originZ = mop.blockZ + facing.offsetZ * o;
 
-			//float exp = 0.002F;
-			//ICustomBlockHighlight.setup();
 			boolean canPlace = checkRequirement(player.worldObj, mop.blockX, pY + 1, mop.blockZ, facing, o);
-			//int color = canPlace ? 0x008000 : 0x800000;
 			Tessellator tess = Tessellator.instance;
 
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			//mc.renderEngine.bindTexture(EMPTY);
         	OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-			//GL11.glColor3f(1F, 1F, 1F);
 	        GL11.glLineWidth(2.0F);
         	GL11.glDepthMask(false);
-			//tess.setTranslation(-dX, -dY, -dZ);
 			tess.startDrawing(GL11.GL_LINES);
 			tess.setBrightness(240);
 
@@ -654,21 +649,21 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			} else {
 				tess.setColorRGBA(255, 0, 0, 255);
 			}
-			/*
-			for(int[] dims : getAllDimensions()) {
-				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
-				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-rot[4], -rot[1], -rot[2], rot[5] + 1, rot[0] + 1, rot[3] + 1);
-				RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(originX, originY, originZ), color);
-			}
-			*/
+
+			//Gets the list of different dimensions that each XLmultiblock has, and generates the list of blocks that needs to be highlighted.
+			//Each XL multiblock has the getAllDimensions overridden in its own class
 			List<BlockPos> blocks = new java.util.ArrayList<>();
 			Set<BlockPos> set = new java.util.HashSet<>();
 
 			for(int[] dims : getAllDimensions()) {
+				//Some of the multiblocks have offsets for the placements, so this allows for the ones that dont need it to have a bunch of 0s at the end.
 				int offFwd = dims.length > 6 ? dims[6] : 0;
 				int offUp  = dims.length > 7 ? dims[7] : 0;
 				int offLat = dims.length > 8 ? dims[8] : 0;
-				int worldOffX, worldOffY, worldOffZ;
+				int worldOffX;
+				int worldOffY;
+				int worldOffZ;
+				
 				worldOffY = offUp;
 				worldOffX = facing.offsetX * offFwd + facing.getRotation(ForgeDirection.UP).offsetX * offLat;
 				worldOffZ = facing.offsetZ * offFwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLat;
@@ -689,6 +684,8 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				
 				}
 			}
+			//This looks for the blocks nearby and draws lines between the vertexes to make different shaped boxes.
+			//Most of this was taken from Mellow (Thanks mellow) -Wolf
             for(BlockPos pos : blocks) {
                 boolean px = set.contains(pos.add(1, 0, 0));
                 boolean nx = set.contains(pos.add(-1, 0, 0));
@@ -703,6 +700,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				double maxY = pos.getY() + 1 - dY;
 				double minZ = pos.getZ() - dZ;
 				double maxZ = pos.getZ() + 1 - dZ;
+
                 if(!ppy) {
                     if(!nx) { tess.addVertex(minX, maxY, minZ); tess.addVertex(minX, maxY, maxZ); }
                     if(!ppz) { tess.addVertex(minX, maxY, maxZ); tess.addVertex(maxX, maxY, maxZ); }
@@ -749,7 +747,6 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glPopMatrix();
-			//ICustomBlockHighlight.cleanup();
 		}
 	}
 }
