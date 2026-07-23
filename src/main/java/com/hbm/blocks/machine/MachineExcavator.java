@@ -44,7 +44,15 @@ public class MachineExcavator extends BlockDummyable {
 	public int getHeightOffset() {
 		return 3;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {3, 0, 3, 3, 3, 3},
+			new int[] {-1, 3, 3, -2, 3, -2},
+			new int[] {-1, 3, 3, -2, -2, 3},
+			new int[] {-1, 3, -2, 3, 3, 3},
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		x += dir.offsetX * o;

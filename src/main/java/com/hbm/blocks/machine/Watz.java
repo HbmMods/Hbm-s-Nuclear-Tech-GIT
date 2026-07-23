@@ -53,7 +53,16 @@ public class Watz extends BlockDummyable {
 	public int getOffset() {
 		return 3;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {2, 0, 3, 3, 1, 1},
+			new int[] {2, 0, 2, 2, 2, -2},
+			new int[] {2, 0, 2, 2, -2, 2},
+			new int[] {2, 0, 1, 1, 3, -3},
+			new int[] {2, 0, 1, 1, -3, 3},
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
