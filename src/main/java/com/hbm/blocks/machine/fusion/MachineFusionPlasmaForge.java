@@ -48,6 +48,14 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 	}
 
 	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, 1, -1, 5.5, 5.5},
+			{1.5, 3.5, 1, -1, -5.5, -5.5}
+		};
+	}
+
+	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
 				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 3, -2, 4, 4}, x, y, z, dir) &&

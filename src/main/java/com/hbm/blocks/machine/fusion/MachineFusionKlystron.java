@@ -42,6 +42,14 @@ public class MachineFusionKlystron extends BlockDummyable implements ITooltipPro
 			new int[] { 4, -3, 4, 3, 1, 1 },
 		};
 	}
+
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, -4.5, -4.5, 1, -1}
+		};
+	}
+	
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&

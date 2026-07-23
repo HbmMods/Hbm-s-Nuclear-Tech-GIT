@@ -19,8 +19,14 @@
 * All legacy pixel gauges have been replaced with smooth ones (watz, ZIRNOX, CCGT) making them more accurate
 * Updated the diesel generator's GUI
   * The diesel gen now also has an in-GUI button for turning it on and off like the industrial combustion engine
+* MS-ESv1.1 `split` instruction now supports variable substitution
+* Multiblocks now display a wireframe preview of how much space they take up
+  * This preview is green if it can be placed and red if it can not
+  * On some machines, this preview might not be perfect, but the check on whether it can be placed should always be accurate
+  * This makes it easier to anticipate how much space a machine takes up, as well as lining up large parts like fusion reactor components which were notoriously hard to place down right
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI
 * Fixed an issue where the diesel generator's fuel capacity is the original 4,000mB instead of the intended new 16,000mB
   * This means that explosive barrels and universal barrels can now be loaded into the diesel generator
+* Fixed RoR terminal's `set` command not working

@@ -36,6 +36,13 @@ public class MachineFusionCollector extends BlockDummyable implements ITooltipPr
 	}
 
 	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, -2.5, -2.5, 1, -1}
+		};
+	}
+
+	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o);
 	}

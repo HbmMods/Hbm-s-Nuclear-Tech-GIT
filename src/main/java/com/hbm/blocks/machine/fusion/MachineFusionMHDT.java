@@ -44,6 +44,7 @@ public class MachineFusionMHDT extends BlockDummyable implements ILookOverlay, I
 	public int getOffset() {
 		return 7;
 	}
+	
 	@Override
 	public int[][] getAllDimensions() {
 		return new int[][] {
@@ -55,6 +56,14 @@ public class MachineFusionMHDT extends BlockDummyable implements ILookOverlay, I
 			new int[] { 1, 0, 0, 1, 3, 3, 3, 0, 0 },
 		};
 	}
+
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, -6.5, -6.5, 1, -1}
+		};
+	}
+	
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&
