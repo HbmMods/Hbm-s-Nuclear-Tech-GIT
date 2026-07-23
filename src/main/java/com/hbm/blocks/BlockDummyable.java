@@ -665,10 +665,18 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			Set<BlockPos> set = new java.util.HashSet<>();
 
 			for(int[] dims : getAllDimensions()) {
+				int offFwd = dims.length > 6 ? dims[6] : 0;
+				int offUp  = dims.length > 7 ? dims[7] : 0;
+				int offLat = dims.length > 8 ? dims[8] : 0;
+				int worldOffX, worldOffY, worldOffZ;
+				worldOffY = offUp;
+				worldOffX = facing.offsetX * offFwd + facing.getRotation(ForgeDirection.UP).offsetX * offLat;
+				worldOffZ = facing.offsetZ * offFwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLat;
+
 				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
-				for(int bx = -rot[4]; bx <= rot[5]; bx++) {
-					for(int by = -rot[1]; by <= rot[0]; by++) {
-						for(int bz = -rot[2]; bz <= rot[3]; bz++) {
+				for(int bx = -rot[4] + worldOffX; bx <= rot[5] + worldOffX; bx++) {
+					for(int by = -rot[1] + worldOffY; by <= rot[0] + worldOffY; by++) {
+						for(int bz = -rot[2] + worldOffZ; bz <= rot[3] + worldOffZ; bz++) {
 							BlockPos bp = new BlockPos(
 								MathHelper.floor_double(originX) + bx,
 								MathHelper.floor_double(originY) + by,

@@ -47,7 +47,16 @@ public class MachinePumpjack extends BlockDummyable implements IPersistentInfoPr
 	public int getOffset() {
 		return 0;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {3, 0, 0, 0, 0, 6},
+			new int[] {0, 0, -1, 1, -2, 4},
+			new int[] {0, 0, 1, -1, -1, 5},
+			new int[] {0, 0, -1, 1, 1, 1, 0, 0, -3},
+			new int[] {0, 0, 1, -1, 2, 2, 0, 0, -3},
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&

@@ -31,7 +31,13 @@ public class MachineAnnihilator extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] {2, 0, 4, 4, 1, 1}; }
 	@Override public int getOffset() { return 4; }
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {2, 0, 4, 4, 1, 1},
+			new int[] {8, -2, 1, 1, 1, 1, -3, 0, 0}
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) && 

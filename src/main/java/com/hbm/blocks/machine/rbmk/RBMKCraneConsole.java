@@ -38,7 +38,13 @@ public class RBMKCraneConsole extends BlockDummyable implements IToolable {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {1, 0, 0, 0, 1, 1},
+			new int[] {0, 0, 0, 1, 1, 1},
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
