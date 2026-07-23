@@ -651,7 +651,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			}
 
 			//Gets the list of different dimensions that each XLmultiblock has, and generates the list of blocks that needs to be highlighted.
-			//Each XL multiblock has the getAllDimensions overridden in its own class
+			//Each XL multiblock has the getAllDimensions overridden in its own class. Each NEEDS it or it will show the incorect shape.
 			List<BlockPos> blocks = new java.util.ArrayList<>();
 			Set<BlockPos> set = new java.util.HashSet<>();
 
