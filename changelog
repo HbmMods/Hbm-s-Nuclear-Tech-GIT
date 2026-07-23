@@ -12,6 +12,7 @@
   * Chicago pile control rods can either be fully withdrawn with redstone or fine tuned with RoR
   * Additionally, channels can be drilled by right clicking a pile addon device with the hand drill, the addon doesn't need to be removed beforehand
     * This is mainly for convenience when disassembling and reassembling the reactor, which requires all channels to be drilled again
+  * Piles that overheat will explode, throwing flaming graphite everywhere
 
 ## Changed
 * Updated all oil well GUI textures

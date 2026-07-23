@@ -33,6 +33,7 @@ import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.weapon.sedna.*;
+import com.hbm.tileentity.machine.pile.TileEntityPileCore;
 import com.hbm.tileentity.machine.storage.TileEntityBatterySocket;
 
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -249,6 +250,8 @@ public class GunFactoryClient {
 
 		setRendererBulk(LegoClient.RENDER_FRAGMENTATION, ItemGrenadeFilling.fragmentation, ItemGrenadeFilling.pellets, ItemGrenadeFilling.pellets_heavy);
 		ItemGrenadeFilling.laser.setRendererBeam(LegoClient.RENDER_LASER_RED);
+		
+		TileEntityPileCore.pile_debris.setRenderer(LegoClient.RENDER_GRAPHITE);
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);
