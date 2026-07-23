@@ -9,6 +9,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.albion.TileEntityPASource;
 
+import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -43,9 +44,8 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		this.makeExtra(world, x + rot.offsetX * 4, y, z + rot.offsetZ * 4);
 		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ);
 		this.makeExtra(world, x + dir.offsetX + rot.offsetX * 2, y, z + dir.offsetZ + rot.offsetZ * 2);
@@ -53,6 +53,9 @@ public class BlockPASource extends BlockDummyable implements ITooltipProvider {
 		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
 		this.makeExtra(world, x - dir.offsetX + rot.offsetX * 2, y, z - dir.offsetZ + rot.offsetZ * 2);
 		this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y, z - dir.offsetZ - rot.offsetZ * 2);
+		this.makeExtra(world, x,y - 1, z);
+		this.makeExtra(world, x + rot.offsetX * 2,  y - 1, z + rot.offsetZ * 2);
+		this.makeExtra(world, x - rot.offsetX * 2, y - 1, z - rot.offsetZ * 2);
 	}
 
 	@Override
