@@ -49,7 +49,7 @@ public class FT_Heatable extends FluidTrait {
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
-				info.add(EnumChatFormatting.YELLOW + "[" + type.name + "] " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("hbmfluid.trait.efficiency") + ": " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.YELLOW + "[" + type.getLocalizedName() + "] " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("hbmfluid.trait.efficiency") + ": " + ((int) (eff * 100D)) + "%");
 			}
 		}
 	}
@@ -69,16 +69,20 @@ public class FT_Heatable extends FluidTrait {
 	}
 	
 	public static enum HeatingType {
-		BOILER(I18nUtil.resolveKey("hbmfluid.trait.boilable")),
-		HEATEXCHANGER(I18nUtil.resolveKey("hbmfluid.trait.heatable")),
-		PWR(I18nUtil.resolveKey("hbmfluid.trait.coolantPWR")),
-		ICF(I18nUtil.resolveKey("hbmfluid.trait.coolantICF")),
-		PA(I18nUtil.resolveKey("hbmfluid.trait.coolantPA"));
+		BOILER("boilable"),
+		HEATEXCHANGER("heatable"),
+		PWR("coolantPWR"),
+		ICF("coolantICF"),
+		PA("coolantPA");
 		
-		public String name;
+		private String name;
 		
 		private HeatingType(String name) {
 			this.name = name;
+		}
+		
+		public String getLocalizedName() {
+			return I18nUtil.resolveKey("hbmfluid.trait." + this.name);
 		}
 	}
 

@@ -49,19 +49,23 @@ public class FT_Coolable extends FluidTrait {
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
-				info.add(EnumChatFormatting.YELLOW + "[" + type.name + "] " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("hbmfluid.trait.efficiency") + ": " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.YELLOW + "[" + type.getLocalizedName() + "] " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("hbmfluid.trait.efficiency") + ": " + ((int) (eff * 100D)) + "%");
 			}
 		}
 	}
 	
 	public static enum CoolingType {
-		TURBINE(I18nUtil.resolveKey("hbmfluid.trait.steam")),
-		HEATEXCHANGER(I18nUtil.resolveKey("hbmfluid.trait.coolable"));
+		TURBINE("steam"),
+		HEATEXCHANGER("coolable");
 		
-		public String name;
+		private String name;
 		
 		private CoolingType(String name) {
 			this.name = name;
+		}
+		
+		public String getLocalizedName() {
+			return I18nUtil.resolveKey("hbmfluid.trait." + this.name);
 		}
 	}
 
