@@ -24,12 +24,16 @@ public class RenderPylon extends RenderPylonBase implements IItemRendererProvide
 		
 		TileEntityPylon pylon = (TileEntityPylon)tile;
 		
-		if(tile.getBlockType() == ModBlocks.red_pylon_steel)
-			bindTexture(ResourceManager.pylon_steel_tex);
-		else
+		if(tile.getBlockType() == ModBlocks.red_pylon)
 			bindTexture(ResourceManager.pylon_tex);
+		else
+			bindTexture(ResourceManager.pylon_steel_tex);
 		
-		ResourceManager.pylon.renderAll();
+		if(tile.getBlockType() == ModBlocks.red_pylon )
+			ResourceManager.pylon.renderPart("Pylon");
+		else
+			ResourceManager.pylon.renderPart("Pylon_steel");
+		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();
@@ -62,13 +66,15 @@ public class RenderPylon extends RenderPylonBase implements IItemRendererProvide
 			public void renderCommonWithStack(ItemStack stack) {
 				GL11.glScaled(1, 1, 1);
 				
-				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon_steel))
-					bindTexture(ResourceManager.pylon_steel_tex);
-				else
+				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon))
 					bindTexture(ResourceManager.pylon_tex);
+				else
+					bindTexture(ResourceManager.pylon_steel_tex);
 				
-				ResourceManager.pylon.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);	
+				if(stack.getItem() == Item.getItemFromBlock(ModBlocks.red_pylon) )
+					ResourceManager.pylon.renderPart("Pylon");
+				else
+					ResourceManager.pylon.renderPart("Pylon_steel");	
 			}
 		};
 	}
