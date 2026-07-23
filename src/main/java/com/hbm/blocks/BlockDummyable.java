@@ -5,6 +5,7 @@ import com.hbm.handler.ThreeInts;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
+import com.hbm.util.Clock;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.gen.nbt.INBTBlockTransformable;
@@ -647,11 +648,15 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			GL11.glDepthMask(false);
 			tess.startDrawing(GL11.GL_LINES);
 			tess.setBrightness(240);
+			
+			double timer = (Clock.get_ms() % (1000D * Math.PI)) / 250D;
+			double sine = Math.sin(timer);
+			int color = (int) (255 * (sine * 0.25 + 0.75));
 
 			if(canPlace) {
-				tess.setColorRGBA(0, 255, 0, 255);
+				tess.setColorRGBA(0, color, 0, 255);
 			} else {
-				tess.setColorRGBA(255, 0, 0, 255);
+				tess.setColorRGBA(color, 0, 0, 255);
 			}
 
 			// Gets the list of different dimensions that each XLmultiblock has,
@@ -816,7 +821,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				}
 			}
 
-			tess.setColorRGBA(0, 0, 255, 255);
+			tess.setColorRGBA(0, 0, color, 255);
 			
 			// boo-yeah
 			for(double[] extra : this.getAABBExtras()) {
