@@ -9,20 +9,17 @@ import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.machine.ItemPileRodMK2;
-import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -65,10 +62,15 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 	
 	public int left;
 	public int right;
+	public int up;
 	/**
 	 * Segments are fuel and control channels grouped by vertical slices viewed from the front, this makes the simulation part easier.
 	 */
 	public PileSegment[] segments = new PileSegment[0];
+	
+	public double highestHeat;
+	public static final int MAX_HEAT = 800;
+	public static boolean meltingDown = false;
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -78,16 +80,19 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		depth = nbt.getInteger("depth");
 		left = nbt.getInteger("left");
 		right = nbt.getInteger("right");
+		up = nbt.getInteger("up");
+		
+		orientation = EnumUtil.grabEnumSafely(PileOrientation.class, nbt.getInteger("orientation"));
 		
 		segments = new PileSegment[width];
-		
-		int fuelCount = nbt.getByte("fc");
-		int ventCount = nbt.getByte("vc");
-		int contCount = nbt.getByte("cc");
 
 		fuelChannels.clear();
 		ventilationChannels.clear();
 		controlChannels.clear();
+		
+		int fuelCount = nbt.getByte("fc");
+		int ventCount = nbt.getByte("vc");
+		int contCount = nbt.getByte("cc");
 
 		for(int i = 0; i < fuelCount; i++) fuelChannels.add(readChannelFromNBT(nbt, "f" + i));
 		for(int i = 0; i < ventCount; i++) ventilationChannels.add(readChannelFromNBT(nbt, "v" + i));
@@ -104,6 +109,9 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		nbt.setInteger("depth", depth);
 		nbt.setInteger("left", left);
 		nbt.setInteger("right", right);
+		nbt.setInteger("up", up);
+		
+		nbt.setInteger("orientation", orientation.ordinal());
 		
 		int fuelCount = fuelChannels.size();
 		int ventCount = ventilationChannels.size();
@@ -135,12 +143,13 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		return list.indexOf(chan); // more reliable when channels change and not that big of a deal because we have lists in single digit length
 	}
 	
-	public TileEntityPileCore setupSize(int h, int l, int r, int d) {
-		this.height = h;
+	public TileEntityPileCore setupSize(int up, int down, int l, int r, int d) {
+		this.height = up + 1 + down;
 		this.width = l + 1 + r;
 		this.depth = d;
 		this.left = l;
 		this.right = r;
+		this.up = up;
 		this.segments = new PileSegment[width];
 		return this;
 	}
@@ -228,7 +237,22 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			
 			this.runSimulation();
 			this.handleVentilation();
+			this.handleMeltdown();
+			
+			this.networkPackNT(25);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.highestHeat);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.highestHeat = buf.readDouble();
 	}
 	
 	protected void runSimulation() {
@@ -237,7 +261,6 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		for(PileChannel chan : this.fuelChannels) {
 			if(chan.length <= 0) continue;
 			double producedNeutrons = 0;
-			double latestDepletion = 0D;
 			
 			for(int i = 0; i < chan.rods.length; i++) {
 				ItemStack stack = chan.rods[i];
@@ -246,25 +269,10 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 					producedNeutrons += neut;
 					chan.heat += neut * ItemPileRodMK2.getHeatPerNeutron(stack);
 					chan.rods[i] = ItemPileRodMK2.react(stack, neut);
-					EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, stack.getItemDamage());
-					double life = rod.life < 1 ? 1 : rod.life;
-					latestDepletion = ItemPileRodMK2.getDepletion(chan.rods[i]) / life;
 				}
 			}
 			chan.outgoingNeutrons = producedNeutrons;
 			chan.incomingNeutrons = 0;
-			
-			/// DEBUG ///
-			int hash = BlockPos.getIdentity(xCoord, yCoord, zCoord);
-			
-			for(Object o : worldObj.playerEntities) {
-				if(o instanceof EntityPlayerMP) {
-					EntityPlayerMP player = (EntityPlayerMP) o;
-					int index = this.getFuelChannelNum(chan);
-					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("#" + index + " " + Math.round(chan.heat) + "TU " + Math.round(chan.outgoingNeutrons) + "n " + Math.round(latestDepletion * 100) + "%", hash + index), player);
-				}
-			}
-			/// DEBUG ///
 		}
 		
 		// intra-segment propagation
@@ -313,7 +321,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			
 			for(PileChannel fuel : this.fuelChannels) {
 				if(Math.abs(fuel.entry.getY() - chan.entry.getY()) <= 1) {
-					fuel.heat *= (1D - airCap * 0.5D); // channel can hold up to 1000mB, turning into a 0.5 heat mult for connected fuel channels
+					fuel.heat *= (1D - airCap * 0.05D); // channel can hold up to 1000mB, turning into a 0.95 heat mult for connected fuel channels
 				}
 			}
 			
@@ -337,6 +345,34 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			data.setInteger("life", 20 + worldObj.rand.nextInt(30));
 			data.setInteger("color", 0xa0a0a0);
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+		}
+		
+		for(PileChannel chan : this.fuelChannels) {
+			chan.heat *= 0.999;
+			if(chan.heat < 20) chan.heat = 20;
+		}
+	}
+	
+	protected void handleMeltdown() {
+		
+		this.highestHeat = 0;
+		for(PileChannel chan : this.fuelChannels) {
+			if(chan.heat > this.highestHeat) this.highestHeat = chan.heat;
+		}
+		
+		if(this.highestHeat > this.MAX_HEAT) {
+			this.destroy();
+			double avgX = 0;
+			double avgZ = 0;
+			for(PileChannel chan : this.fuelChannels) {
+				avgX += chan.entry.getX() + 0.5 + chan.entry.getDir().offsetX * (chan.length - 1) / 2D;
+				avgZ += chan.entry.getZ() + 0.5 + chan.entry.getDir().offsetZ * (chan.length - 1) / 2D;
+			}
+			avgX /= this.fuelChannels.size();
+			avgZ /= this.fuelChannels.size();
+			meltingDown = true;
+			worldObj.newExplosion(null, avgX, yCoord + up, avgZ, 15F, true, true);
+			meltingDown= false;
 		}
 	}
 	
@@ -440,29 +476,29 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			nbt.setInteger(name + "_y", entry.getY());
 			nbt.setInteger(name + "_z", entry.getZ());
 			nbt.setByte(name + "_d", (byte) entry.getDir().ordinal());
-
+			
 			if(type == type.FUEL) {
 				NBTTagList list = new NBTTagList();
 				for(int i = 0; i < rods.length; i++) {
 					if(rods[i] != null) {
 						NBTTagCompound nbt1 = new NBTTagCompound();
-						nbt1.setByte("slot", (byte)i);
+						nbt1.setByte("slot", (byte) i);
 						rods[i].writeToNBT(nbt1);
 						list.appendTag(nbt1);
 					}
 				}
-				nbt.setTag("items", list);
+				nbt.setTag(name + "items", list);
 
-				nbt.setDouble("heat", heat);
-				nbt.setDouble("neutrons", incomingNeutrons);
+				nbt.setDouble(name + "heat", heat);
+				nbt.setDouble(name + "neutrons", incomingNeutrons);
 			}
 			
 			if(type == type.VENTILATION) {
-				nbt.setInteger("air", air);
+				nbt.setInteger(name + "air", air);
 			}
 			
 			if(type == type.CONTROL) {
-				nbt.setDouble("control", control);
+				nbt.setDouble(name + "control", control);
 			}
 		}
 		
@@ -490,6 +526,11 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			int y = entry.getY();
 			int z = entry.getZ() + entry.getDir().offsetZ * depth;
 			
+			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey(ItemPileRodMK2.KEY_NBT_DEPLETION)) {
+				stack.stackTagCompound.removeTag(ItemPileRodMK2.KEY_NBT_DEPLETION);
+				if(stack.stackTagCompound.hasNoTags()) stack.stackTagCompound = null;
+			}
+			
 			EntityItem item = new EntityItem(worldObj, x + 0.5, y + 0.5, z + 0.5, stack);
 			worldObj.spawnEntityInWorld(item);
 		}
@@ -502,9 +543,9 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 		ForgeDirection dir = ForgeDirection.getOrientation(nbt.getByte(name + "_d"));
 		
 		PileChannel chan = new PileChannel(x, y, z, dir);
-
+		
 		if(chan.type == chan.type.FUEL) {
-			NBTTagList list = nbt.getTagList("items", 10);
+			NBTTagList list = nbt.getTagList(name + "items", 10);
 			for(int i = 0; i < list.tagCount(); i++) {
 				NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 				byte b0 = nbt1.getByte("slot");
@@ -513,16 +554,16 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 				}
 			}
 
-			chan.heat = nbt.getDouble("heat");
-			chan.incomingNeutrons = nbt.getDouble("neutrons");
+			chan.heat = nbt.getDouble(name + "heat");
+			chan.incomingNeutrons = nbt.getDouble(name + "neutrons");
 		}
 		
 		if(chan.type == chan.type.VENTILATION) {
-			chan.air = nbt.getInteger("air");
+			chan.air = nbt.getInteger(name + "air");
 		}
 		
 		if(chan.type == chan.type.CONTROL) {
-			chan.control = nbt.getDouble("control");
+			chan.control = nbt.getDouble(name + "control");
 		}
 		
 		return chan;

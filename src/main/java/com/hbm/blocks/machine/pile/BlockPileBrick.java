@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockFlammable;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.pile.TileEntityPileBaseMK2;
@@ -10,7 +11,6 @@ import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileOrientation;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,13 +18,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPileBrick extends Block implements IToolable {
+public class BlockPileBrick extends BlockFlammable implements IToolable {
 	
 	@SideOnly(Side.CLIENT) protected IIcon iconTop;
 	@SideOnly(Side.CLIENT) protected IIcon iconSide;
 
 	public BlockPileBrick() {
-		super(Material.rock);
+		super(Material.rock, 30, 5);
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class BlockPileBrick extends Block implements IToolable {
 							world.setBlock(iX, iY, iZ, ModBlocks.pile_block, BlockPile.META_CORE, 3);
 							TileEntityPileCore core = (TileEntityPileCore) world.getTileEntity(iX, iY, iZ);
 							core.orientation = PileOrientation.getOrientation(dir);
-							core.setupSize(posHeight + negHeight + 1, left, right, depth + 1);
+							core.setupSize(posHeight, negHeight, left, right, depth + 1);
 						} else {
 							int edgeCount = 0;
 							if(h == -negHeight || h == posHeight) edgeCount++;

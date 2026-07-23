@@ -3,10 +3,14 @@ package com.hbm.tileentity.machine.pile;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPileRodMK2;
+import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
 import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.Compat;
+import com.hbm.util.EnumUtil;
 
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -15,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileLoader extends TileEntityPileDeviceBase implements ISidedInventory{
+public class TileEntityPileLoader extends TileEntityPileDeviceBase implements ISidedInventory, IRORValueProvider {
 	
 	public double syncLevel;
 	public double level;
@@ -30,6 +34,10 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 	public ItemStack syncStack;
 	public ItemStack stack;
 	public boolean wasRedstone;
+	
+	public ItemStack channelStack;
+	public double channelDepletion;
+	public double channelTemp;
 
 	@Override
 	public void updateEntity() {
@@ -38,6 +46,9 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 			
 			ForgeDirection dir = getOrientation();
 			PileChannel fuelChan = null;
+			this.channelStack = null;
+			this.channelDepletion = 0D;
+			this.channelTemp = 0D;
 			
 			int x = xCoord - dir.offsetX;
 			int y = yCoord;
@@ -55,6 +66,9 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 						
 						if(fuelChan != null) {
 							this.chanNum = core.getFuelChannelNum(fuelChan);
+							this.channelStack = fuelChan.rods[fuelChan.rods.length - 1];
+							this.channelDepletion = ItemPileRodMK2.getDepletionPercent(channelStack);
+							this.channelTemp = fuelChan.heat;
 						}
 					}
 				}
@@ -114,12 +128,23 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeDouble(this.level);
+		
 		if(this.stack != null) {
 			buf.writeInt(Item.getIdFromItem(this.stack.getItem()));
 			buf.writeShort(this.stack.getItemDamage());
 		} else {
 			buf.writeInt(-1);
 		}
+		
+		if(this.channelStack != null) {
+			buf.writeInt(Item.getIdFromItem(this.channelStack.getItem()));
+			buf.writeShort(this.channelStack.getItemDamage());
+		} else {
+			buf.writeInt(-1);
+		}
+		
+		buf.writeDouble(this.channelDepletion);
+		buf.writeDouble(this.channelTemp);
 	}
 
 	@Override
@@ -127,9 +152,17 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 		super.deserialize(buf);
 		double lastSync = this.syncLevel;
 		this.syncLevel = buf.readDouble();
+		
 		int itemId = buf.readInt();
 		if(itemId != -1) this.syncStack = new ItemStack(Item.getItemById(itemId), 1, buf.readShort());
 		else this.syncStack = null;
+		
+		int chanId = buf.readInt();
+		if(chanId != -1) this.channelStack = new ItemStack(Item.getItemById(chanId), 1, buf.readShort());
+		else this.channelStack = null;
+		
+		this.channelDepletion = buf.readDouble();
+		this.channelTemp = buf.readDouble();
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
 	}
@@ -169,4 +202,40 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return isItemLoadable(stack); }
 	@Override public boolean canInsertItem(int slot, ItemStack stack, int side) { return isItemLoadable(stack); }
 	@Override public boolean canExtractItem(int slot, ItemStack stack, int side) { return false; }
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "meta",
+				PREFIX_VALUE + "depletion",
+				PREFIX_VALUE + "deppercent",
+				PREFIX_VALUE + "lifetime",
+				PREFIX_VALUE + "temp",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		
+		if(name.equals(PREFIX_VALUE + "meta")) {
+			return this.channelStack == null ? "-1" : this.channelStack.getItemDamage() + "";
+		}
+		if(name.equals(PREFIX_VALUE + "deppercent")) {
+			return "" + (int) Math.round(this.channelDepletion);
+		}
+		if(name.equals(PREFIX_VALUE + "depletion")) {
+			if(this.channelStack == null) return "0";
+			return "" + (int) Math.round(ItemPileRodMK2.getDepletionPercent(this.channelStack));
+		}
+		if(name.equals(PREFIX_VALUE + "lifetime")) {
+			if(this.channelStack == null) return "0";
+			EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, this.channelStack.getItemDamage());
+			return "" + (int) Math.round(rod.life);
+		}
+		if(name.equals(PREFIX_VALUE + "meta")) {
+			return "" + (int) Math.round(this.channelTemp);
+		}
+		
+		return null;
+	}
 }

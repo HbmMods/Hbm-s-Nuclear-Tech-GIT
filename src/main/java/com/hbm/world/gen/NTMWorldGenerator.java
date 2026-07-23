@@ -242,7 +242,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			spawnWeight = StructureConfig.enableRuins ? StructureConfig.ruinsJSpawnWeight : 0;
 		}});
 		NBTStructure.registerStructure(0, new SpawnCondition("tower_base") {{
-			canSpawn = biome -> biome.heightVariation <= 0.3F && !isInvalidBiome(biome);
+			canSpawn = biome -> biome.heightVariation <= 0.3F && !isWaterBiome(biome);
 			structure = new JigsawPiece("tower_base", StructureManager.tower_base, -6);
 			spawnWeight = StructureConfig.towerBaseSpawnWeight;
 		}});
