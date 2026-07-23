@@ -18,23 +18,23 @@ public class ContainerSatDock extends Container {
 		tileSatelliteDock = tesd;
 
 		//Storage
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 0, 62, 17));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 1, 80, 17));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 2, 98, 17));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 3, 116, 17));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 4, 134, 17));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 5, 62, 35));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 6, 80, 35));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 7, 98, 35));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 8, 116, 35));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 9, 134, 35));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 10, 62, 53));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 11, 80, 53));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 12, 98, 53));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 13, 116, 53));
-		this.addSlotToContainer(new SlotTakeOnly(tesd, 14, 134, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 0, 71, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 1, 71 + 18, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 2, 71 + 18 * 2, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 3, 71 + 18 * 3, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 4, 71 + 18 * 4, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 5, 71, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 6, 71 + 18, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 7, 71 + 18 * 2, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 8, 71 + 18 * 3, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 9, 71 + 18 * 4, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 10, 71, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 11, 71 + 18, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 12, 71 + 18 * 2, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 13, 71 + 18 * 3, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tesd, 14, 71 + 18 * 4, 54));
 		//Chip
-		this.addSlotToContainer(new Slot(tesd, 15, 26, 35) {
+		this.addSlotToContainer(new Slot(tesd, 15, 26, 36) {
 			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return stack.getItem() instanceof ItemSatChip;
@@ -43,12 +43,12 @@ public class ContainerSatDock extends Container {
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 162));
 		}
 	}
 	
