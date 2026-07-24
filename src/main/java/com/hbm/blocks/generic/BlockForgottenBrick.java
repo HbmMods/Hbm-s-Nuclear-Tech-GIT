@@ -26,6 +26,7 @@ public class BlockForgottenBrick extends BlockMulti {
 	private IIcon iconHole;
 	private IIcon iconEmpty;
 	private IIcon iconPlanks;
+	private IIcon iconBricks;
 
 	public static final int META_DEFAULT = 0;
 	public static final int META_BW = 1;
@@ -33,6 +34,7 @@ public class BlockForgottenBrick extends BlockMulti {
 	public static final int META_HOLE = 3;
 	public static final int META_HOLE_EMPTY = 4;
 	public static final int META_NULLROOM_WOOD = 5;
+	public static final int META_NULLROOM_STONE = 6;
 
 	public BlockForgottenBrick() {
 		super(Material.rock);
@@ -49,6 +51,7 @@ public class BlockForgottenBrick extends BlockMulti {
 		this.iconHole = reg.registerIcon(RefStrings.MODID + ":brick_forgotten_hole");
 		this.iconEmpty = reg.registerIcon(RefStrings.MODID + ":brick_forgotten_hole_empty");
 		this.iconPlanks = reg.registerIcon(RefStrings.MODID + ":nr_planks");
+		this.iconBricks = reg.registerIcon(RefStrings.MODID + ":nr_stone");
 	}
 
 	@Override
@@ -73,6 +76,9 @@ public class BlockForgottenBrick extends BlockMulti {
 		if(meta == META_NULLROOM_WOOD) {
 			return this.iconPlanks;
 		}
+		if(meta == META_NULLROOM_STONE) {
+			return this.iconBricks;
+		}
 
 		if(side == 0 || side == 1) return this.iconTop;
 		return this.blockIcon;
@@ -94,7 +100,7 @@ public class BlockForgottenBrick extends BlockMulti {
 		return false;
 	}
 
-	@Override public int getSubCount() { return 6; }
+	@Override public int getSubCount() { return 7; }
 
 	@Override
 	@SideOnly(Side.CLIENT)
