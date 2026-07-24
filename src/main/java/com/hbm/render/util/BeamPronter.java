@@ -1,7 +1,11 @@
 package com.hbm.render.util;
 
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -20,6 +24,48 @@ public class BeamPronter {
 		SOLID, LINE
 	}
 	
+	/* Beams drawn mid-frame get the wrong occlusion against tile entity / entity models drawn later in the frame (#2383),
+	 * so beams pronted during world rendering are queued and replayed on RenderWorldLast, where the depth buffer is complete. */
+	private static boolean inWorldRender = false;
+	private static final List<QueuedBeam> deferredBeams = new ArrayList<QueuedBeam>();
+	private static final FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+
+	private static class QueuedBeam {
+		float[] matrix = new float[16];
+		Vec3 skeleton;
+		EnumWaveType wave;
+		EnumBeamType beam;
+		int outerColor, innerColor, start, segments, layers;
+		float size, thickness;
+	}
+
+	public static void beginWorldRender() {
+		inWorldRender = true;
+	}
+
+	public static void flushDeferred() {
+		inWorldRender = false;
+		if(deferredBeams.isEmpty()) return;
+
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+
+		for(QueuedBeam queued : deferredBeams) {
+			GL11.glPushMatrix();
+			matrixBuffer.rewind();
+			matrixBuffer.put(queued.matrix);
+			matrixBuffer.rewind();
+			GL11.glLoadMatrix(matrixBuffer);
+			// depth writes stay off: additive beams occlude nothing, the depth test alone handles occlusion correctly
+			depthMask = false;
+			prontBeam(queued.skeleton, queued.wave, queued.beam, queued.outerColor, queued.innerColor, queued.start, queued.segments, queued.size, queued.layers, queued.thickness);
+			GL11.glPopMatrix();
+		}
+
+		deferredBeams.clear();
+		GL11.glPopAttrib();
+	}
+
 	private static boolean depthMask = false;
 	public static void prontBeamwithDepth(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 		depthMask = true;
@@ -28,6 +74,25 @@ public class BeamPronter {
 	}
 
 	public static void prontBeam(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
+
+		if(inWorldRender) {
+			QueuedBeam queued = new QueuedBeam();
+			matrixBuffer.rewind();
+			GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, matrixBuffer);
+			matrixBuffer.get(queued.matrix);
+			queued.skeleton = skeleton;
+			queued.wave = wave;
+			queued.beam = beam;
+			queued.outerColor = outerColor;
+			queued.innerColor = innerColor;
+			queued.start = start;
+			queued.segments = segments;
+			queued.size = size;
+			queued.layers = layers;
+			queued.thickness = thickness;
+			deferredBeams.add(queued);
+			return;
+		}
 
 		GL11.glPushMatrix();
 		GL11.glDepthMask(depthMask);
