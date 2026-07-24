@@ -495,26 +495,21 @@ public class LogicBlockActions {
 		if(tile.phase == 1) {
 			world.setBlock(x, y, z, ModBlocks.skeleton_holder);
 			TileEntity te = world.getTileEntity(x, y, z);
-			EntityPlayer player = (EntityPlayer) world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y - 2, z + 1).expand(25, 25, 25)).get(0);
 
-			if (te instanceof BlockSkeletonHolder.TileEntitySkeletonHolder) {
+			if(te instanceof BlockSkeletonHolder.TileEntitySkeletonHolder) {
 				BlockSkeletonHolder.TileEntitySkeletonHolder skeleton = (BlockSkeletonHolder.TileEntitySkeletonHolder) te;
-			int roll = world.rand.nextInt(100);
+				int roll = world.rand.nextInt(100);
 
-			if (roll < 44) {
-   			 skeleton.item = new ItemStack(ModItems.ammo_standard, 3, 91);
-
-			} else if (roll < 71) {
-   			 skeleton.item = new ItemStack(ModItems.ammo_standard, 1, 92);
-
-			} else if (roll < 92) {
-   			 skeleton.item = new ItemStack(ModItems.ammo_standard, 1, 73);
-
-			} else if (roll < 96) {
-   			 skeleton.item = new ItemStack(ModItems.item_secret, 1, 3);
-
-			} else {
-   			 skeleton.item = new ItemStack(ModItems.item_secret, 1, 4);
+				if(roll < 44) {
+					skeleton.item = new ItemStack(ModItems.ammo_standard, 3, 91);
+				} else if(roll < 71) {
+					skeleton.item = new ItemStack(ModItems.ammo_standard, 1, 92);
+				} else if(roll < 92) {
+					skeleton.item = new ItemStack(ModItems.ammo_standard, 1, 73);
+				} else if(roll < 96) {
+					skeleton.item = new ItemStack(ModItems.item_secret, 1, 3);
+				} else {
+					skeleton.item = new ItemStack(ModItems.item_secret, 1, 4);
 				}
 			}
 		}
@@ -539,7 +534,7 @@ public class LogicBlockActions {
 		actions.put("BOMB_TRAP", BOMB_TRAP);
 		actions.put("BOMB_CRANE", BOMB_CRANE);
 		actions.put("DEAD_GUY_CRANE", DEAD_GUY_CRANE);
-		actions.put("DEAD_GUY_TOWER_BASE", DEAD_GUY_TOWER_BASE);
+		//actions.put("DEAD_GUY_TOWER_BASE", DEAD_GUY_TOWER_BASE);
 
 		//Mob Block Actions
 		actions.put("SKELETON_GUN_TIER_1", SKELETONS_GUN_TIER_1);

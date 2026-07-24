@@ -37,11 +37,11 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 	public static enum EnumPileRod {
 		/* 0 */ RA226BE(1D),
 		/* 1 */ PO210BE(1D),
-		/* 2 */ ZR(		0D,     0D, 0D, 2),
-		/* 3 */ NU(		1D,	1_000D,	1D, 4),
-		/* 4 */ PU239(	1D,	1_000D,	1D, 5),
-		/* 5 */ RGP(	1D,	1_000D,	1D, 6),
-		/* 6 */ WASTE(	1D,	    0D,	1D, 6);
+		/* 2 */ ZR(		0D,      0D, 0D,    2),
+		/* 3 */ NU(		1D, 25_000D, 0.25D, 4),
+		/* 4 */ PU239(	1D,    500D, 0.5D,  5),
+		/* 5 */ RGP(	1D,  1_000D, 0.5D,  6),
+		/* 6 */ WASTE(	1D,      0D, 1.5D,  6);
 
 		public double reactionMult = 1.0D;
 		public double life = 1_000D;
@@ -66,6 +66,13 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, stack.getItemDamage());
+		
+		if(rod.life > 0) {
+			list.add("Lifetime: " + (int) Math.round(rod.life));
+			double depletion = getDepletionPercent(stack);
+			if(depletion > 0) list.add("Depletion: " + (int) Math.round(depletion) + "%");
+		}
 		
 		for(String loc : I18nUtil.autoBreak(Minecraft.getMinecraft().fontRenderer, I18nUtil.resolveKey(this.getUnlocalizedName(stack) + ".desc"), 225)) {
 			list.add(EnumChatFormatting.YELLOW + loc);
@@ -83,6 +90,14 @@ public class ItemPileRodMK2 extends ItemEnumMulti {
 		double life = rod.life;
 		if(life <= 0) return 0D;
 		return getDepletion(stack) / life;
+	}
+	
+	public static double getDepletionPercent(ItemStack stack) {
+		if(stack == null) return 0D;
+		EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, stack.getItemDamage());
+		double life = rod.life;
+		if(life <= 0) return 0D;
+		return (getDepletion(stack) / life) * 100;
 	}
 	
 	public static double getDepletion(ItemStack stack) {
