@@ -46,7 +46,7 @@ public class ItemPistons extends ItemEnumMulti {
 
 		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
 		for(int i = 0; i < type.eff.length; i++) {
-			list.add(EnumChatFormatting.YELLOW + "-" + FuelGrade.values()[i].getGrade() + ": " + EnumChatFormatting.RED + "" + (int)(type.eff[i] * 100) + "%");
+			list.add(EnumChatFormatting.YELLOW + "-" + FuelGrade.values()[i].getLocalizedName() + ": " + EnumChatFormatting.RED + "" + (int)(type.eff[i] * 100) + "%");
 		}
 	}
 	

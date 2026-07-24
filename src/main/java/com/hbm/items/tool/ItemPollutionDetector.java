@@ -6,6 +6,7 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,9 +35,9 @@ public class ItemPollutionDetector extends Item {
 		heavymetal = ((int) (heavymetal * 100)) / 100F;
 		//fallout = ((int) (fallout * 100)) / 100F;
 		
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + soot).color(EnumChatFormatting.YELLOW).flush(), 100, 4000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + poison).color(EnumChatFormatting.YELLOW).flush(), 101, 4000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Heavy metal: " + heavymetal).color(EnumChatFormatting.YELLOW).flush(), 102, 4000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.soot") + ": " + soot).color(EnumChatFormatting.YELLOW).flush(), 100, 4000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.poison") + ": " + poison).color(EnumChatFormatting.YELLOW).flush(), 101, 4000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.heavymetal") + ": " + heavymetal).color(EnumChatFormatting.YELLOW).flush(), 102, 4000), (EntityPlayerMP) entity);
 		//PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + fallout).color(EnumChatFormatting.YELLOW).flush(), 103, 4000), (EntityPlayerMP) entity);
 	}
 }

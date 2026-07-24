@@ -28,7 +28,21 @@ public class MachineFusionKlystronCreative extends BlockDummyable implements ITo
 
 	@Override public int[] getDimensions() { return new int[] { 3, 0, 4, 3, 2, 2 }; }
 	@Override public int getOffset() { return 3; }
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] { 3, 0, 4, 3, 2, 2 },
+			new int[] { 4, -3, 4, 3, 1, 1 },
+		};
+	}
 
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, -4.5, -4.5, 1, -1}
+		};
+	}
+	
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&

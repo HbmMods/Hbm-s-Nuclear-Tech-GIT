@@ -62,7 +62,7 @@ public class TileEntityPileVent extends TileEntityPileDeviceBase implements IFlu
 
 						if(ventChan != null) {
 							this.chanNum = core.getVentilationChannelNum(ventChan);
-							int toFill = BobMathUtil.min(compair.getFill(), 1_000 - ventChan.air);
+							int toFill = BobMathUtil.min(compair.getFill(), ventChan.MAX_AIR - ventChan.air);
 							ventChan.air += toFill;
 							this.compair.setFill(this.compair.getFill() - toFill);
 							this.isActive = toFill > 0;

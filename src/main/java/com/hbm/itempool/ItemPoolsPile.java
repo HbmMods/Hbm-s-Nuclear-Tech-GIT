@@ -30,6 +30,7 @@ public class ItemPoolsPile {
 	public static final String POOL_PILE_OF_GARBAGE = "POOL_PILE_OF_GARBAGE";
 	public static final String POOL_PILE_MECHANICAL = "POOL_PILE_MECHANICAL";
 	public static final String POOL_PILE_GEAR = "POOL_PILE_GEAR";
+	public static final String POOL_PILE_SUPPLIES = "POOL_PILE_SUPPLIES";
 
 
 	public static void init() {
@@ -171,6 +172,18 @@ public class ItemPoolsPile {
 				weighted(ModItems.taurun_plate, 0, 1, 1, 20),
 				weighted(ModItems.taurun_legs, 0, 1, 1, 20),
 				weighted(ModItems.taurun_boots, 0, 1, 1, 20)
+			};
+		}};
+
+		new ItemPool(POOL_PILE_SUPPLIES) {{
+			this.pool = new WeightedRandomChestContent[] {
+				weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3, EnumGrenadeExtra.FRAG_SLEEVE), 3, 5, 10),
+				weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3, EnumGrenadeExtra.FRAG_SLEEVE), 3, 5, 10),
+				weighted(ItemGrenadeUniversal.make(EnumGrenadeShell.FRAG, EnumGrenadeFilling.HE, EnumGrenadeFuze.S3, EnumGrenadeExtra.FRAG_SLEEVE), 3, 5, 10),
+				weighted(ModItems.syringe_metal_stimpak, 0, 3, 5, 30),
+				weighted(ModItems.syringe_metal_psycho, 0, 3, 5, 30),
+				weighted(ModItems.syringe_antidote, 0, 1, 2, 30),
+				weighted(ModItems.ammo_container, 0, 2, 3, 40)
 			};
 		}};
 	}

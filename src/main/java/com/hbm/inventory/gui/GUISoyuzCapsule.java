@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUISoyuzCapsule extends GuiContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_soyuz_capsule.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_soyuz_capsule.png");
 	private TileEntitySoyuzCapsule diFurnace;
 	
 	public GUISoyuzCapsule(InventoryPlayer invPlayer, TileEntitySoyuzCapsule tedf) {
@@ -22,14 +22,14 @@ public class GUISoyuzCapsule extends GuiContainer {
 		diFurnace = tedf;
 
 		this.xSize = 176;
-		this.ySize = 168;
+		this.ySize = 186;
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		this.fontRendererObj.drawString(name, 115 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0x7daf71);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	

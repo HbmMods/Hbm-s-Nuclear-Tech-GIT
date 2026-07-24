@@ -31,7 +31,7 @@ public class FT_Toxin extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.LIGHT_PURPLE + "[Toxin]");
+		info.add(EnumChatFormatting.LIGHT_PURPLE + "[" + I18nUtil.resolveKey("hbmfluid.trait.toxin") + "]");
 		
 		for(ToxinEntry entry : entries) {
 			entry.addInfo(info);
@@ -101,7 +101,7 @@ public class FT_Toxin extends FluidTrait {
 
 		@Override
 		public void addInfo(List<String> info) {
-			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (requires hazmat suit)" : "") + ": " + EnumChatFormatting.YELLOW + String.format(Locale.US, "%,.1f", amount * 20 / delay) + " DPS");
+			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (" + I18nUtil.resolveKey("hbmfluid.trait.hazmat") + ")" : "") + ": " + EnumChatFormatting.YELLOW + String.format(Locale.US, "%,.1f", amount * 20 / delay) + " " + I18nUtil.resolveKey("hbmfluid.trait.perDamage"));
 		}
 	}
 
@@ -130,7 +130,7 @@ public class FT_Toxin extends FluidTrait {
 
 		@Override
 		public void addInfo(List<String> info) {
-			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (requires hazmat suit)" + EnumChatFormatting.YELLOW : "") + ":");
+			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (" + I18nUtil.resolveKey("hbmfluid.trait.hazmat") + ")" + EnumChatFormatting.YELLOW : "") + ":");
 			
 			for(PotionEffect eff : effects) {
 				info.add(EnumChatFormatting.YELLOW + "   - " + I18nUtil.resolveKey(eff.getEffectName()) + (eff.getAmplifier() > 0 ? " " + StatCollector.translateToLocal("potion.potency." + eff.getAmplifier()).trim() : "") + " " + StringUtils.ticksToElapsedTime(eff.getDuration()));
