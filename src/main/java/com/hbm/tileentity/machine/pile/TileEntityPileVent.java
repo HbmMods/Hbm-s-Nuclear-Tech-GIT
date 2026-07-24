@@ -11,6 +11,7 @@ import com.hbm.util.Compat;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -98,5 +99,17 @@ public class TileEntityPileVent extends TileEntityPileDeviceBase implements IFlu
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.isActive = buf.readBoolean();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		compair.readFromNBT(nbt, "t");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		compair.writeToNBT(nbt, "t");
 	}
 }

@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -165,6 +166,35 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 		this.channelTemp = buf.readDouble();
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.loading = nbt.getBoolean("loading");
+		this.level = nbt.getDouble("level");
+		this.delay = nbt.getInteger("delay");
+		this.wasRedstone = nbt.getBoolean("redstone");
+		
+		if(nbt.hasKey("stack")) {
+			this.stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("stack"));
+		}
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("loading", loading);
+		nbt.setDouble("level", level);
+		nbt.setInteger("delay", delay);
+		nbt.setBoolean("wasRedstone", wasRedstone);
+		
+		if(this.stack != null) {
+			NBTTagCompound stackTag = new NBTTagCompound();
+			this.stack.writeToNBT(stackTag);
+			nbt.setTag("stack", stackTag);
+		}
 	}
 	
 	public static boolean isItemLoadable(ItemStack stack) {

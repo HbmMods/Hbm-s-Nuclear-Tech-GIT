@@ -94,7 +94,7 @@ public class RenderBatterySocket extends TileEntitySpecialRenderer implements II
 				GL11.glPushMatrix();
 				GL11.glTranslated(0, 0.5, 0); 
 				GL11.glScaled(1.5, 1.5, 1.5);
-				GL11.glRotated((socket.getWorldObj().getTotalWorldTime() % 360 + interp) * 25D, 0, -1, 0);
+				GL11.glRotated((socket.getWorldObj().getTotalWorldTime() % 360 + interp) * 2.5D, 0, -1, 0);
 				
 				if(dummy == null || dummy.worldObj != tile.getWorldObj()) {
 					dummy = new EntityItem(tile.getWorldObj(), 0, 0, 0, render);

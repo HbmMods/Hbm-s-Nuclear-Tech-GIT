@@ -333,8 +333,8 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(STEEL.plate(), 16),
 						new OreDictStack(BE.ingot(), 6),
-						new OreDictStack(CU.ingot(), 8),
-						new ComparableStack(ModItems.coil_gold, 16),
+						new OreDictStack(CU.ingot(), 4),
+						new ComparableStack(ModItems.coil_gold, 8),
 						new ComparableStack(ModItems.gear_large, 1, 1)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_stirling_steel))).setTier(2));
 
@@ -698,8 +698,8 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.plate_steel, 16)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_beryllium, 6)),
-						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 8)),
-						new AnvilOutput(new ItemStack(ModItems.coil_gold, 16)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 4)),
+						new AnvilOutput(new ItemStack(ModItems.coil_gold, 8)),
 						new AnvilOutput(new ItemStack(ModItems.gear_large,1, 1)),
 
 				}
@@ -725,8 +725,8 @@ public class AnvilRecipes extends SerializableRecipe {
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.plate_steel, 16)),
 						new AnvilOutput(new ItemStack(ModItems.ingot_beryllium, 6)),
-						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 8)),
-						new AnvilOutput(new ItemStack(ModItems.coil_gold, 16)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 4)),
+						new AnvilOutput(new ItemStack(ModItems.coil_gold, 8)),
 
 				}
 		).setTier(2));
