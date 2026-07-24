@@ -34,8 +34,6 @@ public class RenderPylon extends RenderPylonBase implements IItemRendererProvide
 		else
 			ResourceManager.pylon.renderPart("Pylon_steel");
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
