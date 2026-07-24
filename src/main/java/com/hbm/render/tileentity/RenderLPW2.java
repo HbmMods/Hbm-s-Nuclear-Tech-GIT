@@ -29,7 +29,7 @@ public class RenderLPW2 extends TileEntitySpecialRenderer {
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 		
-		long time = te.getWorldObj().getTotalWorldTime();
+		long time = te.getWorldObj().getTotalWorldTime() % 1000000;
 		
 		double swayTimer = ((time + interp) / 3D) % (Math.PI * 4);
 		double sway = (Math.sin(swayTimer) + Math.sin(swayTimer * 2) + Math.sin(swayTimer * 4) + 2.23255D) * 0.5;

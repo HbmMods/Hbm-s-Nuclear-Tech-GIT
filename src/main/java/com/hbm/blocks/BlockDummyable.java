@@ -631,13 +631,14 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			if(i == 2) facing = ForgeDirection.getOrientation(3);
 			if(i == 3) facing = ForgeDirection.getOrientation(4);
 
+			ForgeDirection sideHit = ForgeDirection.getOrientation(mop.sideHit);
 			facing = getDirModified(facing);
 
-			double originX = mop.blockX + facing.offsetX * o;
-			double originY = pY + (mop.sideHit == 1 ? 1 : 0);
-			double originZ = mop.blockZ + facing.offsetZ * o;
+			double originX = mop.blockX + facing.offsetX * o + sideHit.offsetX;
+			double originY = pY + sideHit.offsetY;
+			double originZ = mop.blockZ + facing.offsetZ * o + sideHit.offsetZ;
 
-			boolean canPlace = checkRequirement(player.worldObj, mop.blockX, pY + 1, mop.blockZ, facing, o);
+			boolean canPlace = checkRequirement(player.worldObj, mop.blockX + sideHit.offsetX, pY + sideHit.offsetY, mop.blockZ + sideHit.offsetZ, facing, o);
 			Tessellator tess = Tessellator.instance;
 
 			GL11.glPushMatrix();
