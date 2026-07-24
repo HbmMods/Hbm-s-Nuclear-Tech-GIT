@@ -44,6 +44,7 @@ import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
+import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -1195,6 +1196,13 @@ public class ModEventHandlerClient {
 		}
 	}
 
+	// fires at the start of every world render pass, so beams pronted after this get deferred until RenderWorldLast
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onWorldRenderStart(EntityViewRenderEvent.FogColors event) {
+		BeamPronter.beginWorldRender();
+	}
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
@@ -1202,6 +1210,8 @@ public class ModEventHandlerClient {
 		Clock.update();
 
 		BlockRebar.renderRebar(Minecraft.getMinecraft().theWorld.loadedTileEntityList, event.partialTicks);
+
+		BeamPronter.flushDeferred();
 
 		GL11.glPushMatrix();
 
