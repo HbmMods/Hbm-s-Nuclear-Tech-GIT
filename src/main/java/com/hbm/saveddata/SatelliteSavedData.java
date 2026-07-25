@@ -23,18 +23,18 @@ public class SatelliteSavedData extends WorldSavedData {
 	/**
 	 * Default constructor for satellites map data.
 	 */
-    public SatelliteSavedData() {
-        super("satellites");
-        this.markDirty();
-    }
-    
-    public boolean isFreqTaken(int freq) {
-    	return getSatFromFreq(freq) != null;
-    }
-    
-    public Satellite getSatFromFreq(int freq) {
-    	return sats.get(freq);
-    }
+	public SatelliteSavedData() {
+		super("satellites");
+		this.markDirty();
+	}
+
+	public boolean isFreqTaken(int freq) {
+		return getSatFromFreq(freq) != null;
+	}
+
+	public Satellite getSatFromFreq(int freq) {
+		return sats.get(freq);
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -53,28 +53,28 @@ public class SatelliteSavedData extends WorldSavedData {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("satCount", sats.size());
-		
+
 		int i = 0;
 
-    	for(Entry<Integer, Satellite> struct : sats.entrySet()) {
-    		NBTTagCompound data = new NBTTagCompound();
-    		struct.getValue().writeToNBT(data);
-    		
-    		nbt.setInteger("sat_id_" + i, struct.getValue().getID());
-    		nbt.setTag("sat_data_" + i, data);
-    		nbt.setInteger("sat_freq_" + i, struct.getKey());
+		for(Entry<Integer, Satellite> struct : sats.entrySet()) {
+			NBTTagCompound data = new NBTTagCompound();
+			struct.getValue().writeToNBT(data);
+
+			nbt.setInteger("sat_id_" + i, struct.getValue().getID());
+			nbt.setTag("sat_data_" + i, data);
+			nbt.setInteger("sat_freq_" + i, struct.getKey());
 			i++;
-    	}
+		}
 	}
 	
 	public static SatelliteSavedData getData(World worldObj) {
-		SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-	    if(data == null) {
-	        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
-	        
-	        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-	    }
-	    
-	    return data;
+		SatelliteSavedData data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+		if(data == null) {
+			worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
+
+			data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+		}
+
+		return data;
 	}
 }
