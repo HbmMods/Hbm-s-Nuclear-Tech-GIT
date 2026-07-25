@@ -1,0 +1,12 @@
+{
+	"name": "Chicago Pile Vent",
+	"icon": ["hbm:tile.pile_device", 1, 1],
+	"trigger": [["hbm:tile.pile_device", 1, 1]],
+	"title": {
+		"en_US": "Chicago Pile Vent"
+	},
+	"content": {
+		"en_US": "The vent is needed to insert compressed air at 1 PU into the [[Chicago Pile's|Chicago Pile]] ventilation channels. Due to the pressure requirement, each Pile therefore needs at least one [[compressor|Compressor]]. Hot air will harmlessly exit the Pile at the output side of the ventilation channel.<br><br>The vent's cooling effect only applies to fuel channels that touch the ventilation channel, or rather, fuel channels exactly one block above and below that ventilation channel. Without sufficient cooling, the channel will surpass 800°C, causing the highly-flammable graphite bricks to ignite, forcefully disassembling the Pile.<br><br>See also:<br>* [[Chicago Pile Fuel Loader]]<br>* [[Chicago Pile Control Rod]]"
+	}
+}
+

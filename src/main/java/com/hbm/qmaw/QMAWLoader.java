@@ -217,6 +217,10 @@ public class QMAWLoader implements IResourceManagerReloadListener {
 				QMAWLoader.triggers.put(new ComparableStack(trigger).makeSingular(), qmaw);
 			}
 		}
+		
+		if(json.has("noindex") && json.get("noindex").getAsBoolean()) {
+			qmaw.noIndex();
+		}
 
 		if(!qmaw.contents.isEmpty()) {
 			QMAWLoader.qmaw.put(name, qmaw);
