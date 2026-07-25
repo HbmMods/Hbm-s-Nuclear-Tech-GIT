@@ -3,10 +3,12 @@
 	"icon": ["hbm:tile.pile_device", 1, 0],
 	"trigger": [["hbm:tile.pile_device", 1, 0]],
 	"title": {
-		"en_US": "Chicago Pile Fuel Loader"
+		"en_US": "Chicago Pile Fuel Loader",
+		"ru_RU": "Загрузчик топлива Чикагской поленницы"
 	},
 	"content": {
-		"en_US": "The fuel loader is required to load [[Chicago Pile]] fuel rods into the Pile's fuel channels. Right-clicking with a fuel rod will insert that rod into the loader, and right-clicking again will load it into the Pile manually. Fuel can also be supplied using hoppers or conveyors, and the loading action can be triggered by supplying a redstone signal to the loader's back side (where the light grey circle is).<br><br>Additionally, the loader can relay information about the connected channel to the [[RoR reader|Redstone-over-Radio Reader]], like the type (metadata) and depletion of the backmost loaded fuel rod or the channel's current temperature.<br><br>See also:<br>* [[Chicago Pile Vent]]<br>* [[Chicago Pile Control Rod]]"
+		"en_US": "The fuel loader is required to load [[Chicago Pile]] fuel rods into the Pile's fuel channels. Right-clicking with a fuel rod will insert that rod into the loader, and right-clicking again will load it into the Pile manually. Fuel can also be supplied using hoppers or conveyors, and the loading action can be triggered by supplying a redstone signal to the loader's back side (where the light grey circle is).<br><br>Additionally, the loader can relay information about the connected channel to the [[RoR reader|Redstone-over-Radio Reader]], like the type (metadata) and depletion of the backmost loaded fuel rod or the channel's current temperature.<br><br>See also:<br>* [[Chicago Pile Vent]]<br>* [[Chicago Pile Control Rod]]",
+		"ru_RU": "Загрузчик топлива необходим для загрузки топливных стержней [[Чикагской поленницы|Chicago Pile]] в топливные каналы реактора. Клик правой кнопкой мыши с топливным стержнем в руке вставит его в загрузчик, а повторный клик ПКМ загрузит его в реактор вручную. Топливо также можно подавать с помощью воронок или конвейеров, а сам процесс загрузки можно активировать подачей редстоун-сигнала на заднюю сторону загрузчика (туда, где находится светло-серый круг).<br><br>Кроме того, загрузчик может передавать информацию о подключенном канале на [[РпР считыватель|Redstone-over-Radio Reader]] — например, тип (метаданные) и степень истощения самого крайнего загруженного стержня, а также текущую температуру канала.<br><br>См. также:<br>* [[Вентель Чикагской поленницы|Chicago Pile Vent]]<br>* [[Регулирующие стержни Чикагской поленницы|Chicago Pile Control Rod]]"
 	}
 }
 

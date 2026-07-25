@@ -5791,7 +5791,7 @@ tile.part_emitter.name=Декоративный источник частиц
 tile.pedestal.name=Пьедестал
 tile.pile_block.name=Чикагская поленница
 tile.pile_brick.name=Графитовые блоки Чикагской поленницы
-tile.pile_device.control.name=Управляющий стержень Чикагской поленницы
+tile.pile_device.control.name=Регулирующие стержни Чикагской поленницы
 tile.pile_device.loader.name=Загрузчик топлива Чикагской поленницы
 tile.pile_device.vent.name=Вентель Чикагской поленницы
 tile.pink_barrel.name=Керосиновая бочка
@@ -6248,9 +6248,9 @@ pollution.soot=Сажа
 pollution.poison=Яд
 pollution.heavymetal=Тяжёлые металлы
 
-pollution.trait.soot=САЖА
-pollution.trait.poison=ЯД
-pollution.trait.heavymetal=ТЯЖЁЛЫЕ МЕТАЛЛЫ
+pollution.trait.soot=САЖИ
+pollution.trait.poison=ЯДА
+pollution.trait.heavymetal=ТЯЖЁЛЫХ МЕТАЛЛОВ
 
 trait.asbestos=Содержит асбест
 trait.blinding=Ослепление
