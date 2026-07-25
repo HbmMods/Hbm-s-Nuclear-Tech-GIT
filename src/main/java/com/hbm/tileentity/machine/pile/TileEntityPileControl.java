@@ -7,6 +7,7 @@ import com.hbm.util.Compat;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -96,6 +97,22 @@ public class TileEntityPileControl extends TileEntityPileDeviceBase implements I
 		this.syncLevel = buf.readDouble();
 
 		if(this.syncLevel != lastSync) this.turnProgress = 2;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.level = nbt.getDouble("level");
+		this.targetLevel = nbt.getDouble("targetLevel");
+		this.wasRedstone = nbt.getBoolean("redstone");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setDouble("level", level);
+		nbt.setDouble("targetLevel", targetLevel);
+		nbt.setBoolean("wasRedstone", wasRedstone);
 	}
 
 	@Override

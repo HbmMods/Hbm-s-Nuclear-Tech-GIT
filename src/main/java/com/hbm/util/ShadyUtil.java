@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -62,10 +61,6 @@ public class ShadyUtil {
 			"ccd9aa1c-26b9-4dde-8f37-b96f8d99de22", //kakseao
 			});
 
-	// simple cryptographic utils
-	@Deprecated public static String encode(String msg) { return Base64.getEncoder().encodeToString(msg.getBytes()); }
-	@Deprecated public static String decode(String msg) { return new String(Base64.getDecoder().decode(msg)); }
-
 	/** complete fucking shit */
 	public static String smoosh(String s1, String s2, String s3, String s4) {
 
@@ -81,18 +76,12 @@ public class ShadyUtil {
 
 		s += s1;
 		rand.setSeed(b1[0]);
-		s += rand.nextInt(0xffffff);
-		s += s2;
+		s += rand.nextInt(0xffffff) + s2;
 		rand.setSeed(rand.nextInt(0xffffff) + b2[0]);
-		rand.setSeed(b2[0]);
-		s += rand.nextInt(0xffffff);
-		s += s3;
+		s += rand.nextInt(0xffffff) + s3;
 		rand.setSeed(rand.nextInt(0xffffff) + b3[0]);
-		rand.setSeed(b3[0]);
-		s += rand.nextInt(0xffffff);
-		s += s4;
+		s += rand.nextInt(0xffffff) + s4;
 		rand.setSeed(rand.nextInt(0xffffff) + b4[0]);
-		rand.setSeed(b4[0]);
 		s += rand.nextInt(0xffffff);
 		return getHash(s);
 	}

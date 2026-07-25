@@ -18,12 +18,17 @@ public class TileEntityPylon extends TileEntityPylonBase {
 
 	@Override
 	public Vec3[] getMountPos() {
-		return new Vec3[] {Vec3.createVectorHelper(0.5, 5.4, 0.5)};
+		return new Vec3[] {Vec3.createVectorHelper(0.5, 5.5D, 0.5)};
 	}
 
 	@Override
 	public double getMaxWireLength() {
-		return 25D;
+		return 25;
+	}
+	
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+ 		return dir != ForgeDirection.DOWN;
 	}
 
 	@Override
@@ -33,8 +38,6 @@ public class TileEntityPylon extends TileEntityPylonBase {
 				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
 				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
-				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
 				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
 				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
 				);

@@ -3,27 +3,35 @@ package com.hbm.tileentity.machine.pile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePWRController;
 import com.hbm.blocks.machine.pile.BlockPile;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.machine.ItemPileRodMK2;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.particle.helper.FlameCreator;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @NotableComments
@@ -373,6 +381,12 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			meltingDown = true;
 			worldObj.newExplosion(null, avgX, yCoord + up, avgZ, 15F, true, true);
 			meltingDown= false;
+			
+			for(int i = 0; i < 15; i++) {
+				double mY = worldObj.rand.nextDouble() * 0.5 + 1D;
+				EntityBulletBaseMK4 fragment = new EntityBulletBaseMK4(worldObj, null, pile_debris, 100F, 0.35F, avgX, yCoord + up + 1, avgZ, 0, mY, 0);
+				worldObj.spawnEntityInWorld(fragment);
+			}
 		}
 	}
 	
@@ -609,5 +623,20 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			for(PileChannel chan : channels) total += chan.control;
 			return MathHelper.clamp_double(total / size, 0D, 0.5D);
 		}
+	}
+	
+	public static BulletConfig pile_debris;
+
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
+		bullet.worldObj.newExplosion(bullet, bullet.posX, bullet.posY, bullet.posZ, 5F, true, false);
+		bullet.setDead();
+	};
+
+	public static Consumer<Entity> LAMBDA_FIRE = (bullet) -> {
+		if(bullet.worldObj.isRemote && MainRegistry.proxy.me().getDistanceToEntity(bullet) < 100) FlameCreator.composeEffectClient(bullet.worldObj, bullet.posX, bullet.posY - 0.125, bullet.posZ, FlameCreator.META_FIRE);
+	};
+	
+	static {
+		pile_debris = new BulletConfig().setLife(200).setVel(1F).setGrav(0.1D).setOnUpdate(LAMBDA_FIRE).setOnImpact(LAMBDA_STANDARD_EXPLODE);
 	}
 }

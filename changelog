@@ -12,6 +12,7 @@
   * Chicago pile control rods can either be fully withdrawn with redstone or fine tuned with RoR
   * Additionally, channels can be drilled by right clicking a pile addon device with the hand drill, the addon doesn't need to be removed beforehand
     * This is mainly for convenience when disassembling and reassembling the reactor, which requires all channels to be drilled again
+  * Piles that overheat will explode, throwing flaming graphite everywhere
 
 ## Changed
 * Updated all oil well GUI textures
@@ -24,9 +25,17 @@
   * This preview is green if it can be placed and red if it can not
   * On some machines, this preview might not be perfect, but the check on whether it can be placed should always be accurate
   * This makes it easier to anticipate how much space a machine takes up, as well as lining up large parts like fusion reactor components which were notoriously hard to place down right
+* Updated the small pylon model
+  * The small pylon now has a steel variant
+* Items in the battery socket which previously didn't show up in the socket's model are now rendered
+* Reduced the cost for the heavy stirling engine
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI
 * Fixed an issue where the diesel generator's fuel capacity is the original 4,000mB instead of the intended new 16,000mB
   * This means that explosive barrels and universal barrels can now be loaded into the diesel generator
 * Fixed RoR terminal's `set` command not working
+* Fixed a longstanding issue where the transparent part of beams from tile entity models would often have incorrect render order, sometimes rendering things behind them invisible
+  * This also fixes the same phenomenon for other types of beams, such as those from hitscan laser and tesla weapons
+* Fixed some issues regarding the new crane structure
+* Fixed skeletonizer ashes floating over the floor after landing

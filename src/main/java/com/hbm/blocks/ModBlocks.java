@@ -745,6 +745,7 @@ public class ModBlocks {
 	public static Block red_connector;
 	public static Block red_connector_super;
 	public static Block red_pylon;
+	public static Block red_pylon_steel;
 	public static Block red_pylon_medium_wood;
 	public static Block red_pylon_medium_wood_transformer;
 	public static Block red_pylon_medium_steel;
@@ -1510,8 +1511,8 @@ public class ModBlocks {
 		reinforced_ducrete = new BlockNoSpawn(Material.rock).setBlockName("reinforced_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_ducrete");
 
 		lightstone = new BlockLightstone(Material.rock, LightstoneType.class, true, true).setBlockName("lightstone").setCreativeTab(MainRegistry.blockTab).setHardness(2F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":lightstone");
-		brick_forgotten = new BlockPillar(Material.rock, RefStrings.MODID + ":brick_forgotten_top").setBlockName("brick_forgotten").setBlockUnbreakable().setResistance(666_666F).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
-		brick_forgotten_lock = new BlockForgottenLock(Material.rock, RefStrings.MODID + ":brick_forgotten_top").setBlockName("brick_forgotten_lock").setBlockUnbreakable().setResistance(666_666F).setBlockTextureName(RefStrings.MODID + ":brick_forgotten_lock");
+		brick_forgotten = new BlockForgottenBrick().setBlockName("brick_forgotten").setBlockUnbreakable().setResistance(666_666F).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
+		brick_forgotten_lock = new BlockForgottenLock().setBlockName("brick_forgotten_lock").setBlockUnbreakable().setResistance(666_666F).setBlockTextureName(RefStrings.MODID + ":brick_forgotten_lock");
 
 		concrete_slab = new BlockMultiSlab(null, Material.rock, concrete_smooth, concrete, concrete_asbestos, ducrete_smooth, ducrete, asphalt).setBlockName("concrete_slab").setCreativeTab(MainRegistry.blockTab);
 		concrete_double_slab = new BlockMultiSlab(concrete_slab, Material.rock, concrete_smooth, concrete, concrete_asbestos, ducrete_smooth, ducrete, asphalt).setBlockName("concrete_double_slab").setCreativeTab(MainRegistry.blockTab);
@@ -1854,6 +1855,7 @@ public class ModBlocks {
 		red_connector = new ConnectorRedWire(Material.iron).setBlockName("red_connector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_connector");
 		red_connector_super = new ConnectorRedWireSuper(Material.iron).setBlockName("red_connector_super").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_connector");
 		red_pylon = new PylonRedWire(Material.iron).setBlockName("red_pylon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
+		red_pylon_steel = new PylonRedWire(Material.iron).setBlockName("red_pylon_steel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		red_pylon_medium_wood = new PylonMedium(Material.wood).setBlockName("red_pylon_medium_wood").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		red_pylon_medium_wood_transformer = new PylonMedium(Material.wood).setBlockName("red_pylon_medium_wood_transformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
 		red_pylon_medium_steel = new PylonMedium(Material.iron).setBlockName("red_pylon_medium_steel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
@@ -1900,7 +1902,7 @@ public class ModBlocks {
 		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
 		crane_partitioner = new CranePartitioner().setBlockName("crane_partitioner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_partitioner_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		drone_waypoint = new DroneWaypoint().setBlockName("drone_waypoint").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_waypoint");
 		drone_crate = new DroneCrate().setBlockName("drone_crate").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3130,6 +3132,7 @@ public class ModBlocks {
 		register(red_connector);
 		register(red_connector_super);
 		register(red_pylon);
+		register(red_pylon_steel);
 		register(red_pylon_medium_wood);
 		register(red_pylon_medium_wood_transformer);
 		register(red_pylon_medium_steel);

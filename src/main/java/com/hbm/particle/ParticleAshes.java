@@ -72,14 +72,15 @@ public class ParticleAshes extends EntityFXRotating {
 			float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
 			
 			Vec3NT vec = new Vec3NT(particleScale, 0, particleScale).rotateAroundYDeg(this.rotationPitch);
+			double yOff = 0.09;
 
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMaxV());
+			tess.addVertexWithUV(pX + vec.xCoord, pY - yOff, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMaxV());
 			vec.rotateAroundYDeg(90);
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMinV());
+			tess.addVertexWithUV(pX + vec.xCoord, pY - yOff, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMinV());
 			vec.rotateAroundYDeg(90);
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMinV());
+			tess.addVertexWithUV(pX + vec.xCoord, pY - yOff, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMinV());
 			vec.rotateAroundYDeg(90);
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMaxV());
+			tess.addVertexWithUV(pX + vec.xCoord, pY - yOff, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMaxV());
 		} else {
 			renderParticleRotated(tess, interp, sX, sY, sZ, dX, dZ, this.particleScale);
 		}
