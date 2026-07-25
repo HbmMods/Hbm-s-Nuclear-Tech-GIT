@@ -47,12 +47,12 @@ public class ContainerMachineRefinery extends Container {
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 150 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 11 + j * 18, 158 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 208));
+			this.addSlotToContainer(new Slot(invPlayer, i, 11 + i * 18, 216));
 		}
 	}
 	
