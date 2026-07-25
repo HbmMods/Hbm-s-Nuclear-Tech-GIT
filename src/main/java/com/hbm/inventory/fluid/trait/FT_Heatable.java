@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 
@@ -42,13 +43,13 @@ public class FT_Heatable extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.RED + "Thermal capacity: " + this.getFirstStep().heatReq + " TU per " + this.getFirstStep().amountReq + "mB");
+		info.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hbmfluid.trait.thermalCapacity") + ": " + this.getFirstStep().heatReq + " " + I18nUtil.resolveKey("hbmfluid.trait.perTU") + " " + this.getFirstStep().amountReq + "mB");
 		for(HeatingType type : HeatingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
-				info.add(EnumChatFormatting.YELLOW + "[" + type.name + "] " + EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.YELLOW + "[" + type.getLocalizedName() + "] " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("hbmfluid.trait.efficiency") + ": " + ((int) (eff * 100D)) + "%");
 			}
 		}
 	}
@@ -68,16 +69,20 @@ public class FT_Heatable extends FluidTrait {
 	}
 	
 	public static enum HeatingType {
-		BOILER("Boilable"),
-		HEATEXCHANGER("Heatable"),
-		PWR("PWR Coolant"),
-		ICF("ICF Coolant"),
-		PA("Particle Accelerator Coolant");
+		BOILER("boilable"),
+		HEATEXCHANGER("heatable"),
+		PWR("coolantPWR"),
+		ICF("coolantICF"),
+		PA("coolantPA");
 		
-		public String name;
+		private String name;
 		
 		private HeatingType(String name) {
 			this.name = name;
+		}
+		
+		public String getLocalizedName() {
+			return I18nUtil.resolveKey("hbmfluid.trait." + this.name);
 		}
 	}
 

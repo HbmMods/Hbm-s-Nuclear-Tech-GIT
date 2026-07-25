@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 
@@ -28,10 +29,10 @@ public class FT_Flammable extends FluidTrait {
 	public void addInfo(List<String> info) {
 		super.addInfo(info);
 		
-		info.add(EnumChatFormatting.YELLOW + "[Flammable]");
+		info.add(EnumChatFormatting.YELLOW + "[" + I18nUtil.resolveKey("hbmfluid.trait.flammable") + "]");
 		
 		if(energy > 0)
-			info.add(EnumChatFormatting.YELLOW + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(energy) + "TU " + EnumChatFormatting.YELLOW + "per bucket");
+			info.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hbmfluid.trait.provides") + " " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(energy) + "TU " + EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hbmfluid.trait.perBucket"));
 	}
 
 	@Override

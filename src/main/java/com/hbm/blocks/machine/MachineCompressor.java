@@ -34,7 +34,14 @@ public class MachineCompressor extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
-	
+		@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {2, 0, 1, 2, 1, 1},
+			new int[] {3, -3, 1, 1, 1, 1},
+			new int[] {8, -4, 0, 0, 1, 1}
+		};
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);

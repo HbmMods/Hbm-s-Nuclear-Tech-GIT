@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineSatLinker;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -13,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineSatLinker extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_linker.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_sat_linker.png");
 	private TileEntityMachineSatLinker siren;
 
 	public GUIMachineSatLinker(InventoryPlayer invPlayer, TileEntityMachineSatLinker tedf) {
@@ -21,25 +22,24 @@ public class GUIMachineSatLinker extends GuiInfoContainer {
 		siren = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 186;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		String[] text = new String[] { "The first slot will copy the satellite/chip's",
-				"frequency and paste it to the second slot." };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		String[] chipText = I18nUtil.resolveKeyArray("desc.gui.satlinker.chip");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28, 16, 16, guiLeft - 8, guiTop + 36 + 16, chipText);
 		
-		String[] text1 = new String[] { "The third slot will randomize the",
-				"satellite/chip's frequency."};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		String[] randomText = I18nUtil.resolveKeyArray("desc.gui.satlinker.random");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, randomText);
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.siren.hasCustomInventoryName() ? this.siren.getInventoryName() : I18n.format(this.siren.getInventoryName());
+		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -50,7 +50,7 @@ public class GUIMachineSatLinker extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
-		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
+		this.drawInfoPanel(guiLeft + 12, guiTop + 28, 16, 16, 2);
+		this.drawInfoPanel(guiLeft + 12, guiTop + 28 + 16, 16, 16, 3);
 	}
 }

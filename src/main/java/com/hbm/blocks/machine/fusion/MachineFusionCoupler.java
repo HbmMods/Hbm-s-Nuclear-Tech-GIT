@@ -35,6 +35,14 @@ public class MachineFusionCoupler extends BlockDummyable implements ITooltipProv
 	}
 
 	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, 1, -1, 1.5, 1.5},
+			{1.5, 3.5, 1, -1, -1.5, -1.5}
+		};
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		addStandardInfo(stack, player, list, ext);
 	}

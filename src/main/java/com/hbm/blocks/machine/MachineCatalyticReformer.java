@@ -68,7 +68,14 @@ public class MachineCatalyticReformer extends BlockDummyable implements IPersist
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {2, 0, 1, 1, 2, 2},
+			new int[] {3, -3, 1, 0, -1, 2},
+			new int[] {6, -3, 1, 1, 2, 0},
+		};
+	}
 	@Override
 	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
 

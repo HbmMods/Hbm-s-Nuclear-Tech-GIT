@@ -168,7 +168,18 @@ public class SoyuzLauncher extends BlockDummyable {
 	public int getOffset() {
 		return 0;
 	}
-	
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] { 0, 1, 6, 6, 6, 6 },
+			new int[] { -2, 4, -3, 6, -3, 6 },
+			new int[] { -2, 4, 6, -3, -3, 6 },
+			new int[] { -2, 4, 6, -3, 6, -3 },
+			new int[] { -2, 4, -3, 6, 6, -3 },
+			new int[] { 0, 4, 1, 1, -6, 8 },
+			new int[] { 0, 4, 2, 2, 9, -5 },
+		};
+	}
 	private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
 	

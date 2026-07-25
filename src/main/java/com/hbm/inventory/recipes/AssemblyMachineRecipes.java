@@ -30,6 +30,7 @@ import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
+import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.items.weapon.grenade.ItemGrenadeFuze.EnumGrenadeFuze;
@@ -160,6 +161,21 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.protoreactor").setup(200, 100).outputItems(new ItemStack(ModItems.dysfunctional_reactor, 1))
 				.inputItems(new OreDictStack(STEEL.shell(), 4), new OreDictStack(PB.plateCast(), 4), new ComparableStack(ModItems.rod_quad_empty, 10), new OreDictStack(KEY_BROWN, 3)));
 
+		// pile rods
+		String autoPileRod = "autoswitch.pilerod";
+		this.register(new GenericRecipe("ass.pilepabe").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.RA226BE.ordinal()))
+				.inputItems(new ComparableStack(ModItems.billet_ra226be, 3)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilepobe").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.PO210BE.ordinal()))
+				.inputItems(new ComparableStack(ModItems.billet_po210be, 3)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilezr").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 3, EnumPileRod.ZR.ordinal()))
+				.inputItems(new OreDictStack(ZR.billet(), 1)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilenu").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.NU.ordinal()))
+				.inputItems(new OreDictStack(U.billet(), 3)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilepu239").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.PU239.ordinal()))
+				.inputItems(new OreDictStack(PU239.billet(), 3)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilergp").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.RGP.ordinal()))
+				.inputItems(new OreDictStack(PURG.billet(), 3)).setGroup(autoPileRod, INSTANCE));
+		
 		// powders
 		String autoCyclotron = "autoswitch.cyclotron";
 		this.register(new GenericRecipe("ass.partlith").setup(40, 100).outputItems(new ItemStack(ModItems.part_lithium, 8))

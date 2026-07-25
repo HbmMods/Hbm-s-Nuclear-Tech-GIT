@@ -48,7 +48,7 @@ public class GUICalculator extends GuiScreen {
 		if (!inputField.textboxKeyTyped(p_73869_1_, p_73869_2_))
 			super.keyTyped(p_73869_1_, p_73869_2_);
 
-		String input = inputField.getText().replaceAll("[^\\d+\\-*/^!.()\\sA-Za-z]+", "");
+		String input = inputField.getText().replaceAll("[^\\d+\\-*/%^!.()\\sA-Za-z]+", "");
 
 		if (p_73869_1_ == 13 || p_73869_1_ == 10) { // when pressing enter (CR or LF)
 			if (selectedHist != -1) {

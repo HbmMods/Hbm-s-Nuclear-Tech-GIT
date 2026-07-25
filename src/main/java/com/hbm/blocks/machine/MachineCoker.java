@@ -43,7 +43,17 @@ public class MachineCoker extends BlockDummyable implements ITooltipProvider {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {22, 0, 1, 1, 1, 1},
+			new int[] {5, 0, 2, 2, 2, 2, 0, 1, 0},
+			new int[] {0, 1, 0, 0, 0, 0, 2, 1, 2},
+			new int[] {0, 1, 0, 0, 0, 0, 2, 1, -2},
+			new int[] {0, 1, 0, 0, 0, 0, -2, 1, 2},
+			new int[] {0, 1, 0, 0, 0, 0, -2, 1, -2},
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		if(super.checkRequirement(world, x, y, z, dir, o)) {

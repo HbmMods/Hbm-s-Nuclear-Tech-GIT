@@ -39,6 +39,7 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem() == Item.getItemFromBlock(ModBlocks.block_coke))	return single * 160;
 		if(fuel.getItem() == ModItems.book_guide)							return single;
 		if(fuel.getItem() == ModItems.coal_infernal)						return 4800;
+		if(fuel.getItem() == ModItems.coal_eternal)							return single * 16;
 		if(fuel.getItem() == ModItems.crystal_coal)							return 6400;
 		if(fuel.getItem() == ModItems.powder_sawdust)						return single / 2;
 		

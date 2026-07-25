@@ -98,19 +98,21 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable, IL
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		
-		TileEntity tile = world.getTileEntity(x, y, z);
-		
-		if(tile instanceof TileEntityPileBaseMK2) {
-			TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
-			world.removeTileEntity(x, y, z);
-			if(pile.coreY >= 0) world.setBlock(x, y, z, ModBlocks.pile_brick);
+		if(!TileEntityPileCore.meltingDown) {
+			TileEntity tile = world.getTileEntity(x, y, z);
 			
-			TileEntityPileCore core = pile.getCore();
-			if(core != null && !core.isInvalid()) core.destroy();
-			
-		} else {
-			world.removeTileEntity(x, y, z);
-			world.setBlock(x, y, z, ModBlocks.pile_brick);
+			if(tile instanceof TileEntityPileBaseMK2) {
+				TileEntityPileBaseMK2 pile = (TileEntityPileBaseMK2) tile;
+				world.removeTileEntity(x, y, z);
+				if(pile.coreY >= 0) world.setBlock(x, y, z, ModBlocks.pile_brick);
+	
+				TileEntityPileCore core = pile.getCore();
+				if(core != null && !core.isInvalid()) core.destroy();
+				
+			} else {
+				world.removeTileEntity(x, y, z);
+				world.setBlock(x, y, z, ModBlocks.pile_brick);
+			}
 		}
 		super.breakBlock(world, x, y, z, block, meta);
 	}
@@ -151,6 +153,15 @@ public class BlockPile extends BlockContainer implements IBlockCT, IToolable, IL
 		if(meta == META_AIR_IN) text.add("Air Inlet");
 		if(meta == META_AIR_OUT) text.add("Air Outlet");
 		if(meta == META_CONTROL) text.add("Control Rod Channel");
+		
+		if(meta == META_CORE) {
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if(tile instanceof TileEntityPileCore) {
+				TileEntityPileCore core = (TileEntityPileCore) tile;
+				text.add("Max Temp: " + (int) Math.round(core.highestHeat) + " / " + core.MAX_HEAT + "°C");
+			}
+		}
+		
 		if(!text.isEmpty()) ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

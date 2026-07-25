@@ -36,6 +36,13 @@ public class MachineFusionBreeder extends BlockDummyable implements ITooltipProv
 	public int getOffset() {
 		return 2;
 	}
+
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, -2.5, -2.5, 1, -1}
+		};
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

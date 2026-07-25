@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Locale;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
@@ -11,9 +12,11 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraft.util.StatCollector;
 
 public class FT_Polluting extends FluidTrait {
 
@@ -33,20 +36,20 @@ public class FT_Polluting extends FluidTrait {
 
 	@Override
 	public void addInfo(List<String> info) {
-		info.add(EnumChatFormatting.GOLD + "[Polluting]");
+		info.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("hbmfluid.trait.polluting") + "]");
 	}
 
 	@Override
 	public void addInfoHidden(List<String> info) {
 
 		if(!this.releaseMap.isEmpty()) {
-			info.add(EnumChatFormatting.GREEN + "When spilled:");
-			for(Entry<PollutionType, Float> entry : releaseMap.entrySet()) info.add(EnumChatFormatting.GREEN + " - " + entry.getValue() + " " + entry.getKey() + " per mB");
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("hbmfluid.trait.spilled") + ":");
+			for(Entry<PollutionType, Float> entry : releaseMap.entrySet()) info.add(EnumChatFormatting.GREEN + " - " + entry.getValue() + " " + StatCollector.translateToLocal("pollution.trait." + entry.getKey().name().toLowerCase(Locale.US)) + " " + I18nUtil.resolveKey("hbmfluid.trait.perMB"));
 		}
 
 		if(!this.burnMap.isEmpty()) {
-			info.add(EnumChatFormatting.RED + "When burned:");
-			for(Entry<PollutionType, Float> entry : burnMap.entrySet()) info.add(EnumChatFormatting.RED + " - " + entry.getValue() + " " + entry.getKey() + " per mB");
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hbmfluid.trait.burned") + ":");
+			for(Entry<PollutionType, Float> entry : burnMap.entrySet()) info.add(EnumChatFormatting.RED + " - " + entry.getValue() + " " + StatCollector.translateToLocal("pollution.trait." + entry.getKey().name().toLowerCase(Locale.US)) + " " + I18nUtil.resolveKey("hbmfluid.trait.perMB"));
 		}
 	}
 

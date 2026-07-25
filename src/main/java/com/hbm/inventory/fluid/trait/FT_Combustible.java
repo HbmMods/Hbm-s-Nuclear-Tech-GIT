@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.util.EnumChatFormatting;
 
@@ -25,11 +26,11 @@ public class FT_Combustible extends FluidTrait {
 	public void addInfo(List<String> info) {
 		super.addInfo(info);
 
-		info.add(EnumChatFormatting.GOLD + "[Combustible]");
+		info.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("hbmfluid.trait.combustible") + "]");
 		
 		if(combustionEnergy > 0) {
-			info.add(EnumChatFormatting.GOLD + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(combustionEnergy) + "HE " + EnumChatFormatting.GOLD + "per bucket");
-			info.add(EnumChatFormatting.GOLD + "Fuel grade: " + EnumChatFormatting.RED + this.fuelGrade.getGrade());
+			info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hbmfluid.trait.provides") + " " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(combustionEnergy) + "HE " + EnumChatFormatting.GOLD + I18nUtil.resolveKey("hbmfluid.trait.perBucket"));
+			info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("hbmfluid.trait.fuelGrade") + ": " + EnumChatFormatting.RED + this.fuelGrade.getLocalizedName());
 		}
 	}
 	
@@ -42,11 +43,11 @@ public class FT_Combustible extends FluidTrait {
 	}
 	
 	public static enum FuelGrade {
-		LOW("Low"),			//heating and industrial oil				< star engine, iGen
-		MEDIUM("Medium"),	//petroil									< diesel generator
-		HIGH("High"),		//diesel, gasoline							< HP engine
-		AERO("Aviation"),	//kerosene and other light aviation fuels	< turbofan
-		GAS("Gaseous");		//fuel gasses like NG, PG and syngas		< gas turbine
+		LOW("low"),			//heating and industrial oil				< star engine, iGen
+		MEDIUM("medium"),	//petroil									< diesel generator
+		HIGH("high"),		//diesel, gasoline							< HP engine
+		AERO("aviation"),	//kerosene and other light aviation fuels	< turbofan
+		GAS("gaseous");		//fuel gasses like NG, PG and syngas		< gas turbine
 		
 		private String grade;
 		
@@ -54,8 +55,8 @@ public class FT_Combustible extends FluidTrait {
 			this.grade = grade;
 		}
 		
-		public String getGrade() {
-			return this.grade;
+		public String getLocalizedName() {
+			return I18nUtil.resolveKey("hbmfluid.trait.fuel." + this.grade);
 		}
 	}
 

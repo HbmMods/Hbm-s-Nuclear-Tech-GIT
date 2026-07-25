@@ -47,7 +47,13 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
 	public int getOffset() {
 		return 0;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] { 0, 0, 6, 0, 1, 0 },
+			new int[] { 2, 0, 1, 0, 1, 0 }
+		};
+	}
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineStrandCaster();

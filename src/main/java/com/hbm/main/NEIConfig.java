@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 
@@ -91,6 +92,10 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.conveyor_express));
 		API.hideItem(new ItemStack(ModBlocks.conveyor_double));
 		API.hideItem(new ItemStack(ModBlocks.conveyor_triple));
+
+		API.hideItem(new ItemStack(ModBlocks.brick_forgotten, 1, OreDictionary.WILDCARD_VALUE));
+		API.hideItem(new ItemStack(ModBlocks.brick_forgotten_lock, 1, OreDictionary.WILDCARD_VALUE));
+		API.hideItem(new ItemStack(ModItems.coal_eternal));
 
 		API.registerHighlightIdentifier(ModBlocks.plushie, new IHighlightHandler() {
 			@Override public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {

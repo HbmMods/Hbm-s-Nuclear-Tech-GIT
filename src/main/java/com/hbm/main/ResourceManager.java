@@ -272,6 +272,7 @@ public class ResourceManager {
 	public static final IModelCustom radar = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar.obj")).noSmooth().asVBO();
 	public static final IModelCustom radar_large = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar_large.obj")).noSmooth().asVBO();
 	public static final IModelCustom radar_screen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar_screen.obj")).noSmooth().asVBO();
+	public static final IModelCustom satlink = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/satlink.obj")).noSmooth().asVBO();
 
 	//Forcefield
 	public static final IModelCustom forcefield_top = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/forcefield_top.obj"));
@@ -407,6 +408,7 @@ public class ResourceManager {
 	//Network
 	public static final IModelCustom connector = new HFRWavefrontObject("models/network/connector.obj").noSmooth().asVBO();
 	public static final IModelCustom connector_super = new HFRWavefrontObject("models/network/connector_super.obj").noSmooth().asVBO();
+	public static final IModelCustom pylon = new HFRWavefrontObject("models/network/pylon.obj").noSmooth().asVBO();
 	public static final IModelCustom pylon_medium = new HFRWavefrontObject("models/network/pylon_medium.obj").noSmooth().asVBO();
 	public static final IModelCustom pylon_large = new HFRWavefrontObject("models/network/pylon_large.obj").noSmooth().asVBO();
 	public static final IModelCustom substation = new HFRWavefrontObject("models/network/substation.obj").asVBO();
@@ -746,6 +748,7 @@ public class ResourceManager {
 	public static final ResourceLocation radar_dish_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_dish.png");
 	public static final ResourceLocation radar_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_large.png");
 	public static final ResourceLocation radar_screen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_screen.png");
+	public static final ResourceLocation satlink_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/satlink.png");
 
 	//Forcefield
 	public static final ResourceLocation forcefield_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/forcefield_base.png");
@@ -859,6 +862,8 @@ public class ResourceManager {
 	//Electricity
 	public static final ResourceLocation connector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector.png");
 	public static final ResourceLocation connector_super_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector_super.png");
+	public static final ResourceLocation pylon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon.png");
+	public static final ResourceLocation pylon_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_steel.png");
 	public static final ResourceLocation pylon_medium_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_medium.png");
 	public static final ResourceLocation pylon_medium_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_medium_steel.png");
 	public static final ResourceLocation pylon_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_large.png");

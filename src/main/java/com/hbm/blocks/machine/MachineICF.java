@@ -33,7 +33,14 @@ public class MachineICF extends BlockDummyable {
 	public int getOffset() {
 		return 1;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {5, 0, 1, 1, 8, 8},
+			new int[] {1, 1, -1, 2, 8, 8, 0, 3, 0},
+			new int[] {1, 1, 2, -1, 8, 8, 0, 3, 0},
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);

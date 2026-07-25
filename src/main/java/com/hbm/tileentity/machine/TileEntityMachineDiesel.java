@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.inventory.fluid.FluidType;
@@ -28,10 +29,8 @@ import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -40,8 +39,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IControlReceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
+	public boolean isOn = false;
 	public long power;
 	public long powerCap = maxPower;
 	public FluidTank tank;
@@ -50,8 +50,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	private AudioWrapper audio;
 	
 	/* CONFIGURABLE CONSTANTS */
-	public static long maxPower = 50000;
-	public static int fluidCap = 16000;
+	public static long maxPower = 50_000;
+	public static int fuelCap = 16_000;
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	static {
 		fuelEfficiency.put(FuelGrade.MEDIUM,	0.5D);
@@ -63,9 +63,45 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	private static final int[] slots_bottom = new int[] { 1, 2 };
 	private static final int[] slots_side = new int[] { 2 };
 
+	@Override
+	public String getConfigName() {
+		return "dieselgen";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
+		fuelCap = IConfigurableMachine.grab(obj, "I:fuelCap", fuelCap);
+		
+		if(obj.has("D[:efficiency")) {
+			JsonArray array = obj.get("D[:efficiency").getAsJsonArray();
+			for(FuelGrade grade : FuelGrade.values()) {
+				fuelEfficiency.put(grade, array.get(grade.ordinal()).getAsDouble());
+			}
+		}
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:powerCap").value(maxPower);
+		writer.name("I:fuelCap").value(fuelCap);
+		
+		String info = "Fuel grades in order: ";
+		for(FuelGrade grade : FuelGrade.values()) info += grade.name() + " ";
+		info = info.trim();
+		writer.name("INFO").value(info);
+		
+		writer.name("D[:efficiency").beginArray().setIndent("");
+		for(FuelGrade grade : FuelGrade.values()) {
+			double d = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0.0D;
+			writer.value(d);
+		}
+		writer.endArray().setIndent("  ");
+	}
+
 	public TileEntityMachineDiesel() {
-		super(5, 100);
-		tank = new FluidTank(Fluids.DIESEL, 4_000);
+		super(4, 100);
+		tank = new FluidTank(Fluids.DIESEL, fuelCap);
 	}
 
 	@Override
@@ -84,6 +120,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
+		this.isOn = nbt.getBoolean("isOn");
 		this.power = nbt.getLong("powerTime");
 		this.powerCap = nbt.getLong("powerCap");
 		tank.readFromNBT(nbt, "fuel");
@@ -92,7 +129,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
+		nbt.setBoolean("isOn", isOn);
 		nbt.setLong("powerTime", power);
 		nbt.setLong("powerCap", powerCap);
 		tank.writeToNBT(nbt, "fuel");
@@ -110,9 +148,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		return false;
 	}
 
-	public long getPowerScaled(long i) {
-		return (power * i) / powerCap;
-	}
+	public long getPowerScaled(long i) { return (power * i) / powerCap; }
 
 	@Override
 	public void updateEntity() {
@@ -120,29 +156,18 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		if(!worldObj.isRemote) {
 			
 			this.wasOn = false;
+
+			tank.setType(3, slots);
+			tank.loadTank(0, 1, slots);
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
-
-			//Tank Management
-			FluidType last = tank.getTankType();
-			if(tank.setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
-			tank.loadTank(0, 1, slots);
 			
-			this.subscribeToAllAround(tank.getTankType(), this);
-
-			FluidType type = tank.getTankType();
-			if(type == Fluids.NITAN)
-				powerCap = maxPower * 10;
-			else
-				powerCap = maxPower;
-			
-			// Battery Item
 			power = Library.chargeItemsFromTE(slots, 2, power, powerCap);
-
-			generate();
+			if(isOn) generate();
 
 			this.networkPackNT(50);
 		} else {
@@ -196,6 +221,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super.serialize(buf);
 		buf.writeInt((int) power);
 		buf.writeInt((int) powerCap);
+		buf.writeBoolean(isOn);
 		buf.writeBoolean(wasOn);
 		tank.serialize(buf);
 	}
@@ -205,17 +231,13 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super.deserialize(buf);
 		this.power = buf.readInt();
 		this.powerCap = buf.readInt();
+		this.isOn = buf.readBoolean();
 		this.wasOn = buf.readBoolean();
 		tank.deserialize(buf);
 	}
 
-	public boolean hasAcceptableFuel() {
-		return getHEFromFuel() > 0;
-	}
-	
-	public long getHEFromFuel() {
-		return getHEFromFuel(tank.getTankType());
-	}
+	public boolean hasAcceptableFuel() { return getHEFromFuel() > 0; }
+	public long getHEFromFuel() { return getHEFromFuel(tank.getTankType()); }
 	
 	public static long getHEFromFuel(FluidType type) {
 		
@@ -234,28 +256,36 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	public void generate() {
 		
+		if(!this.isOn) return;
 		if(this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) return;
+		if(!hasAcceptableFuel()) return;
+		if(tank.getFill() <= 0) return;
 		
-		if(hasAcceptableFuel()) {
-			if (tank.getFill() > 0) {
-				
-				this.wasOn = true;
-
-				tank.setFill(tank.getFill() - 1);
-				if(tank.getFill() < 0)
-					tank.setFill(0);
-				
-				if(worldObj.getTotalWorldTime() % 5 == 0) {
-					super.pollute(tank.getTankType(), FluidReleaseType.BURN, 5F);
-				}
-
-				if(power + getHEFromFuel() <= powerCap) {
-					power += getHEFromFuel();
-				} else {
-					power = powerCap;
-				}
-			}
+		this.wasOn = true;
+		tank.setFill(tank.getFill() - 1);
+		
+		if(tank.getFill() < 0) tank.setFill(0);
+		
+		if(worldObj.getTotalWorldTime() % 5 == 0) {
+			super.pollute(tank.getTankType(), FluidReleaseType.BURN, 5F);
 		}
+
+		if(power + getHEFromFuel() <= powerCap) {
+			power += getHEFromFuel();
+		} else {
+			power = powerCap;
+		}
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return player.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 25;
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("turnOn")) this.isOn = !this.isOn;
+		this.markChanged();
 	}
 
 	@Override public long getPower() { return power; }
@@ -265,57 +295,9 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {tank}; }
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
 
-	@Override
-	public String getConfigName() {
-		return "dieselgen";
-	}
-
-	@Override
-	public void readIfPresent(JsonObject obj) {
-		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
-		fluidCap = IConfigurableMachine.grab(obj, "I:fuelCap", fluidCap);
-		
-		if(obj.has("D[:efficiency")) {
-			JsonArray array = obj.get("D[:efficiency").getAsJsonArray();
-			for(FuelGrade grade : FuelGrade.values()) {
-				fuelEfficiency.put(grade, array.get(grade.ordinal()).getAsDouble());
-			}
-		}
-	}
-
-	@Override
-	public void writeConfig(JsonWriter writer) throws IOException {
-		writer.name("L:powerCap").value(maxPower);
-		writer.name("I:fuelCap").value(fluidCap);
-		
-		String info = "Fuel grades in order: ";
-		for(FuelGrade grade : FuelGrade.values()) info += grade.name() + " ";
-		info = info.trim();
-		writer.name("INFO").value(info);
-		
-		writer.name("D[:efficiency").beginArray().setIndent("");
-		for(FuelGrade grade : FuelGrade.values()) {
-			double d = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0.0D;
-			writer.value(d);
-		}
-		writer.endArray().setIndent("  ");
-	}
-
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerMachineDiesel(player.inventory, this);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIMachineDiesel(player.inventory, this);
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return this.getSmokeTanks();
-	}
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineDiesel(player.inventory, this); }
+	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineDiesel(player.inventory, this); }
+	@Override public FluidTank[] getSendingTanks() { return this.getSmokeTanks(); }
 
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {

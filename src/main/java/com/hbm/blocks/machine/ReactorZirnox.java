@@ -62,7 +62,15 @@ public class ReactorZirnox extends BlockDummyable {
 	public int getOffset() {
 		return 2;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {1, 0, 2, 2, 2, 2,},
+			new int[] {4, -2, 1, 1, 1, 1},
+			new int[] {4, -2, 0, 0, 2, -2},
+			new int[] {4, -2, 0, 0, -2, 2}
+		};
+	}
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return super.checkRequirement(world, x, y, z, dir, o) &&

@@ -31,6 +31,29 @@ public class MachineFusionPlasmaForge extends BlockDummyable {
 
 	@Override public int[] getDimensions() { return new int[] { 2, 0, 2, 2, 5, 5 }; }
 	@Override public int getOffset() { return 5; }
+	
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] { 2, 0, 2, 2, 5, 5 },
+			new int[] { 4, -3, 0, 0, 4, 4 },
+			new int[] { 2, 0, 3, -2, 4, 4 },
+			new int[] { 2, 0, -2, 3, 4, 4 },
+			new int[] { 2, 0, 4, -3, 3, 3 },
+			new int[] { 2, 0, -3, 4, 3, 3 },
+			new int[] { 2, 0, 5, -4, 2, 2 },
+			new int[] { 2, 0, -4, 5, 2, 2 },
+			new int[] { 3, -2, 1, 1, 5, 5 }
+		};
+	}
+
+	@Override
+	public double[][] getAABBExtras() {
+		return new double[][] {
+			{1.5, 3.5, 1, -1, 5.5, 5.5},
+			{1.5, 3.5, 1, -1, -5.5, -5.5}
+		};
+	}
 
 	@Override
 	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {

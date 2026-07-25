@@ -43,7 +43,18 @@ public class MachineBigAssTank extends BlockDummyable implements IPersistentInfo
 
 	@Override public int[] getDimensions() { return new int[] {5, 0, 4, 4, 4, 4}; }
 	@Override public int getOffset() { return 6; }
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {5, 0, 4, 4, 4, 4},
+			new int[] {4, 0, 5, -4, 2, 2},
+			new int[] {4, 0, -4, 5, 2, 2},
+			new int[] {4, 0, 2, 2, 5, -4},
+			new int[] {4, 0, 2, 2, -4, 5},
+			new int[] {3, 0, 6, -5, 0, 0},
+			new int[] {3, 0, -5, 6, 0, 0}
+		};
+	}
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);

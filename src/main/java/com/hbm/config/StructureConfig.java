@@ -50,6 +50,7 @@ public class StructureConfig {
 	public static int radioSpawnWeight = 30;
 	public static int forestChemSpawnWeight = 30;
 	public static int forestPostSpawnWeight = 30;
+	public static int towerBaseSpawnWeight = 30;
 
 	public static int spireSpawnWeight = 2;
 	public static int craneSpawnWeight = 20;
@@ -115,6 +116,7 @@ public class StructureConfig {
 		oceanNullWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.38_oceanNullWeight", "Null spawn weight for ocean biomes", 35);
 		craneSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.39_craneSpawnWeight", "Spawn weight for crane structure.", 20);
 		broadcastingTowerSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.40_broadcastingTowerSpawnWeight", "Spawn weight for broadcasting tower structure.", 25);
+		towerBaseSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.41_towerBaseSpawnWeight", "Spawn weight for tower base.", 30);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);

@@ -128,11 +128,8 @@ public class MultiblockHandlerXR {
 	
 	public static int[] rotate(int[] dim, ForgeDirection dir) {
 		
-		if(dim == null)
-			return null;
-		
-		if(dir == ForgeDirection.SOUTH)
-			return dim;
+		if(dim == null) return null;
+		if(dir == ForgeDirection.SOUTH) return dim;
 		
 		if(dir == ForgeDirection.NORTH) {
 			//                 U       D       N       S       W       E
@@ -151,5 +148,27 @@ public class MultiblockHandlerXR {
 		
 		return dim;
 	}
-
+	
+	public static double[] rotateDouble(double[] dim, ForgeDirection dir) {
+		
+		if(dim == null) return null;
+		if(dir == ForgeDirection.SOUTH) return dim;
+		
+		if(dir == ForgeDirection.NORTH) {
+			//                    U       D       N       S       W       E
+			return new double[] { dim[0], dim[1], dim[3], dim[2], dim[5], dim[4] };
+		}
+		
+		if(dir == ForgeDirection.EAST) {
+			//                    U       D       N       S       W       E
+			return new double[] { dim[0], dim[1], dim[5], dim[4], dim[2], dim[3] };
+		}
+		
+		if(dir == ForgeDirection.WEST) {
+			//                    U       D       N       S       W       E
+			return new double[] { dim[0], dim[1], dim[4], dim[5], dim[3], dim[2] };
+		}
+		
+		return dim;
+	}
 }

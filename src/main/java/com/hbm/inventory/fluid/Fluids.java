@@ -194,7 +194,7 @@ public class Fluids {
 	public static FluidType CONCRETE;
 	public static FluidType DHC;
 
-	/* Lagacy names for compatibility purposes */
+	/* Legacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
 
 	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();

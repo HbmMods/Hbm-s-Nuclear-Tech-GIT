@@ -17,29 +17,29 @@ public class ContainerSoyuzLauncher extends Container {
 		nukeBoy = tedf;
 
 		//Soyuz
-		this.addSlotToContainer(new Slot(tedf, 0, 62, 18));
+		this.addSlotToContainer(new Slot(tedf, 0, 98, 80));
 		//Designator
-		this.addSlotToContainer(new Slot(tedf, 1, 62, 36));
+		this.addSlotToContainer(new Slot(tedf, 1, 80, 80));
 		//Satellite
-		this.addSlotToContainer(new Slot(tedf, 2, 116, 18));
+		this.addSlotToContainer(new Slot(tedf, 2, 98, 26));
 		//Landing module
-		this.addSlotToContainer(new Slot(tedf, 3, 116, 36));
+		this.addSlotToContainer(new Slot(tedf, 3, 80, 26));
 		//Kerosene IN
-		this.addSlotToContainer(new Slot(tedf, 4, 8, 90));
+		this.addSlotToContainer(new Slot(tedf, 4, 152, 98));
 		//Kerosene OUT
-		this.addSlotToContainer(new Slot(tedf, 5, 8, 108));
-		//Peroxide IN
-		this.addSlotToContainer(new Slot(tedf, 6, 26, 90));
-		//Peroxide OUT
-		this.addSlotToContainer(new Slot(tedf, 7, 26, 108));
+		this.addSlotToContainer(new Slot(tedf, 5, 152, 116));
+		//Oxyden IN
+		this.addSlotToContainer(new Slot(tedf, 6, 170, 98));
+		//Oxyden OUT
+		this.addSlotToContainer(new Slot(tedf, 7, 170, 116));
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 8, 44, 108));
+		this.addSlotToContainer(new Slot(tedf, 8, 134, 98));
 		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 6; j++)
 			{
-				this.addSlotToContainer(new Slot(tedf, j + i * 6 + 9, 62 + j * 18, 72 + i * 18));
+				this.addSlotToContainer(new Slot(tedf, j + i * 6 + 9, 44 - i * 18, 26 + j * 18));
 			}
 		}
 		
@@ -47,13 +47,13 @@ public class ContainerSoyuzLauncher extends Container {
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 17 + j * 18, 162 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 56));
+			this.addSlotToContainer(new Slot(invPlayer, i, 17 + i * 18, 220));
 		}
 	}
 	
@@ -68,8 +68,8 @@ public class ContainerSoyuzLauncher extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 27) {
-				if (!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true))
+            if (par2 < 27) {
+				if (!this.mergeItemStack(var5, 27, this.inventorySlots.size(), true))
 				{
 					return null;
 				}

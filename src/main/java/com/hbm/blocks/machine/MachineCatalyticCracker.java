@@ -49,7 +49,16 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 	public int getOffset() {
 		return 3;
 	}
-
+	@Override
+	public int[][] getAllDimensions() {
+		return new int[][] {
+			new int[] {0, 0, 3, 3, 2, 3},
+			new int[]{8, -1, 3, -1, 2, 0},
+			new int[]{13, 0, 0, 3, 2, 1},
+			new int[]{14, -13, -1, 2, 1, 0},
+			new int[]{3, -1, 2, 3, -1, 3}
+		};
+	}
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 

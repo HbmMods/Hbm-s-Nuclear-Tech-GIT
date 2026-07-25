@@ -1,0 +1,12 @@
+{
+	"name": "Eternal Coal",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [["hbm:item.coal_eternal"]],
+    "noindex": true,
+	"title": {
+		"en_US": "█ █ █ █ █ █"
+	},
+	"content": {
+		"en_US": "████████████ ███ ███ ██ ████████ ████████ ██ ████ ████ ████████ ████ ███ ███████ █ ████ █████ ██████ ███████ █ ████ █████ ██ ██ ███ ██████"
+	}
+}
