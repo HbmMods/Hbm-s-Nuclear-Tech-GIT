@@ -46,15 +46,15 @@ public class GUIPASource extends GuiInfoContainer {
 		info.add(EnumChatFormatting.BLUE + "Last momentum: " + EnumChatFormatting.RESET + String.format(Locale.US, "%,d", source.lastSpeed));
 		String[] message = I18nUtil.resolveKeyArray("pa." + this.source.state.name().toLowerCase(Locale.US) + ".desc");
 		for(String s : message) info.add(EnumChatFormatting.YELLOW + s);
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 18, 10, 10, mouseX, mouseY, info);
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 30, 10, 10, mouseX, mouseY, EnumChatFormatting.RED + "Cancel operation");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 16, 10, 10, mouseX, mouseY, info);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 28, 10, 10, mouseX, mouseY, EnumChatFormatting.RED + "Cancel operation");
 	}
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(guiLeft + 105 <= x && guiLeft + 105 + 10 > x && guiTop + 30 < y && guiTop + 30 + 10 >= y) {
+		if(guiLeft + 105 <= x && guiLeft + 105 + 10 > x && guiTop + 28 < y && guiTop + 28 + 10 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("cancel", true);
@@ -66,7 +66,7 @@ public class GUIPASource extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		
 		String name = this.source.hasCustomInventoryName() ? this.source.getInventoryName() : I18n.format(this.source.getInventoryName());
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 4, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 4, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
 		this.fontRendererObj.drawString(EnumChatFormatting.AQUA + "/123K", 136, 22, 4210752);
@@ -88,8 +88,8 @@ public class GUIPASource extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - j, 184, 52 - j, 16, j);
 
 		int heat = (int) Math.ceil(source.temperature);
-		if(heat <= 123) drawTexturedModalRect(guiLeft + 44, guiTop + 18, 176, 8, 8, 8);
-		if(source.power >= source.usage) drawTexturedModalRect(guiLeft + 44, guiTop + 43, 176, 8, 8, 8);
+		if(heat <= 123) drawTexturedModalRect(guiLeft + 44, guiTop + 16, 176, 8, 8, 8);
+		if(source.power >= source.usage) drawTexturedModalRect(guiLeft + 44, guiTop + 41, 176, 8, 8, 8);
 
 		int color = source.state.color;
 		float red = (color & 0xff0000) >> 16;

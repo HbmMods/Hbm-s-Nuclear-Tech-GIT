@@ -22,11 +22,11 @@ public class ContainerPASource extends Container {
 		//Battery
 		this.addSlotToContainer(new Slot(tile, 0, 8, 72));
 		//Inputs
-		this.addSlotToContainer(new Slot(tile, 1, 62, 18));
-		this.addSlotToContainer(new Slot(tile, 2, 80, 18));
+		this.addSlotToContainer(new Slot(tile, 1, 62, 16));
+		this.addSlotToContainer(new Slot(tile, 2, 80, 16));
 		//Containers
-		this.addSlotToContainer(new SlotTakeOnly(tile, 3, 62, 45));
-		this.addSlotToContainer(new SlotTakeOnly(tile, 4, 80, 45));
+		this.addSlotToContainer(new SlotTakeOnly(tile, 3, 62, 43));
+		this.addSlotToContainer(new SlotTakeOnly(tile, 4, 80, 43));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
