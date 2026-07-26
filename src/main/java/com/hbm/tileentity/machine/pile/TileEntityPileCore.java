@@ -182,6 +182,7 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			for(int i = 0; i < list.size(); i++) {
 				PileChannel chan = list.get(i);
 				if(chan.entry.compare(x, y, z) && chan.entry.getDir() == dir) {
+					if(chan.type == chan.type.FUEL) chan.ejectAll();
 					list.remove(i);
 					for(int j = 0; j < size; j++) {
 						int iX = x + dir.offsetX * j;
@@ -249,6 +250,12 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			
 			this.networkPackNT(25);
 		}
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		for(PileChannel chan : this.fuelChannels) chan.ejectAll();
 	}
 
 	@Override
@@ -535,7 +542,15 @@ public class TileEntityPileCore extends TileEntityTickingBase {
 			if(stack != null) dropItem(stack, length);
 		}
 		
+		public void ejectAll() {
+			for(int i = 0; i < this.rods.length; i++) {
+				this.dropItem(rods[i], length);
+				this.rods[i] = null;
+			}
+		}
+		
 		public void dropItem(ItemStack stack, int depth) {
+			if(stack == null) return;
 			int x = entry.getX() + entry.getDir().offsetX * depth;
 			int y = entry.getY();
 			int z = entry.getZ() + entry.getDir().offsetZ * depth;

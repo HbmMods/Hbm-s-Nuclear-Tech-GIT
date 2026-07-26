@@ -1021,6 +1021,8 @@ public class ModBlocks {
 	public static Block machine_radgen;
 
 	public static Block machine_satlinker;
+	public static Block machine_satlink;
+	
 	public static Block machine_keyforge;
 
 	public static Block machine_armor_table;
@@ -1938,6 +1940,7 @@ public class ModBlocks {
 		machine_transformer = new MachineTransformer(Material.iron).setBlockName("machine_transformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer_iron");
 
 		machine_satlinker = new MachineSatLinker(Material.iron).setBlockName("machine_satlinker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_satlinker_side");
+		machine_satlink = new MachineSatLink().setBlockName("machine_satlink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_keyforge = new MachineKeyForge(Material.iron).setBlockName("machine_keyforge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":machine_keyforge_side");
 		machine_armor_table = new BlockArmorTable(Material.iron).setBlockName("machine_armor_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab);
 		machine_weapon_table = new BlockWeaponTable().setBlockName("machine_weapon_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab);
@@ -3292,6 +3295,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(teleanchor, teleanchor.getUnlocalizedName());
 		GameRegistry.registerBlock(field_disturber, field_disturber.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_satlinker, machine_satlinker.getUnlocalizedName());
+		register(machine_satlink);
 		GameRegistry.registerBlock(machine_keyforge, machine_keyforge.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_armor_table, machine_armor_table.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_weapon_table, machine_weapon_table.getUnlocalizedName());

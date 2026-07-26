@@ -655,6 +655,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		PREFIX_VALUE + "rods",
 		PREFIX_VALUE + "coreheat",
 		PREFIX_VALUE + "hullheat",
+		PREFIX_VALUE + "coldbuf",
+		PREFIX_VALUE + "hotbuf",
 		PREFIX_VALUE + "flux",
 		PREFIX_VALUE + "depletion",
 		PREFIX_FUNCTION + "setrods" + NAME_SEPARATOR + "percent",
@@ -671,6 +673,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		if((PREFIX_VALUE + "rods").equals(name))		return "" + (int) (100 - this.rodLevel); // why the fuck did i invert this again?
 		if((PREFIX_VALUE + "coreheat").equals(name))	return "" + this.coreHeat;
 		if((PREFIX_VALUE + "hullheat").equals(name))	return "" + this.hullHeat;
+		if((PREFIX_VALUE + "coldbuf").equals(name))	return "" + this.tanks[0].getFill();
+		if((PREFIX_VALUE + "hotbuf").equals(name))	return "" + this.tanks[1].getFill();
 		if((PREFIX_VALUE + "flux").equals(name))		return "" + (int) this.flux;
 		if((PREFIX_VALUE + "depletion").equals(name))	return "" + (int) (this.progress * 100 / this.processTime);
 		return null;
