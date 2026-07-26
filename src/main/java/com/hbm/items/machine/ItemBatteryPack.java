@@ -28,51 +28,61 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		this.setMaxStackSize(1);
 		this.setCreativeTab(MainRegistry.controlTab);
 	}
-	
-	public static enum EnumBatteryPack {
-		BATTERY_REDSTONE	("battery_redstone",	      100L, false),
-		BATTERY_LEAD		("battery_lead",		    1_000L, false),
-		BATTERY_LITHIUM		("battery_lithium",		   10_000L, false),
-		BATTERY_SODIUM		("battery_sodium",		   50_000L, false),
-		BATTERY_SCHRABIDIUM	("battery_schrabidium",	  250_000L, false),
-		BATTERY_QUANTUM		("battery_quantum",		1_000_000L, 20 * 60 * 60),
 
-		CAPACITOR_COPPER	("capacitor_copper",	     1_000L, true),
-		CAPACITOR_GOLD		("capacitor_gold",		    10_000L, true),
-		CAPACITOR_NIOBIUM	("capacitor_niobium",	   100_000L, true),
-		CAPACITOR_TANTALUM	("capacitor_tantalum",	   500_000L, true),
-		CAPACITOR_BISMUTH	("capacitor_bismuth",	 2_500_000L, true),
-		CAPACITOR_SPARK		("capacitor_spark",		10_000_000L, true);
-		
+	public static enum EnumBatteryPack {
+		BATTERY_REDSTONE       ("battery_redstone",         100L, false, false),
+		BATTERY_LEAD           ("battery_lead",           1_000L, false, false),
+		BATTERY_LITHIUM        ("battery_lithium",       10_000L, false, false),
+		BATTERY_SODIUM         ("battery_sodium",        50_000L, false, false),
+		BATTERY_SCHRABIDIUM    ("battery_schrabidium",  250_000L, false, false),
+		BATTERY_QUANTUM        ("battery_quantum",    1_000_000L, 20 * 60 * 60, false),
+
+		CAPACITOR_COPPER       ("capacitor_copper",       1_000L, true, false),
+		CAPACITOR_GOLD         ("capacitor_gold",        10_000L, true, false),
+		CAPACITOR_NIOBIUM      ("capacitor_niobium",    100_000L, true, false),
+		CAPACITOR_TANTALUM     ("capacitor_tantalum",   500_000L, true, false),
+		CAPACITOR_BISMUTH      ("capacitor_bismuth",  2_500_000L, true, false),
+		CAPACITOR_SPARK        ("capacitor_spark",   10_000_000L, true, false),
+
+		BATTERY_MERCURY        ("battery_mercury",      8_000L, false, true);
+
 		public ResourceLocation texture;
 		public long capacity;
 		public long chargeRate;
 		public long dischargeRate;
-		
-		private EnumBatteryPack(String tex, long dischargeRate, boolean capacitor) {
+		public boolean singleUse;
+
+		private EnumBatteryPack(String tex, long dischargeRate, boolean capacitor, boolean singleUse) {
 			this(tex,
 					capacitor ? (dischargeRate * 20 * 30) : (dischargeRate * 20 * 60 * 15),
 					capacitor ? dischargeRate : dischargeRate * 10,
-					dischargeRate);
+					dischargeRate,
+					singleUse);
 		}
-		
-		private EnumBatteryPack(String tex, long dischargeRate, long duration) {
-			this(tex, dischargeRate * duration, dischargeRate * 10, dischargeRate);
+
+		private EnumBatteryPack(String tex, long dischargeRate, long duration, boolean singleUse) {
+			this(tex, dischargeRate * duration, dischargeRate * 10, dischargeRate, singleUse);
 		}
-		
-		private EnumBatteryPack(String tex, long capacity, long chargeRate, long dischargeRate) {
+
+		private EnumBatteryPack(String tex, long capacity, long chargeRate, long dischargeRate, boolean singleUse) {
 			this.texture = new ResourceLocation(RefStrings.MODID, "textures/models/machines/" + tex + ".png");
 			this.capacity = capacity;
 			this.chargeRate = chargeRate;
 			this.dischargeRate = dischargeRate;
+			this.singleUse = singleUse;
 		}
-		
-		public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal(); }
+
+		public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal() && !this.singleUse; }
+		public boolean isSingleUse() { return this.singleUse; }
 		public ItemStack stack() { return new ItemStack(ModItems.battery_pack, 1, this.ordinal()); }
 	}
 
 	@Override
 	public void chargeBattery(ItemStack stack, long i) {
+		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, stack.getItemDamage());
+		if(pack.isSingleUse()) {
+			return;
+		}
 		if(stack.hasTagCompound()) {
 			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
 		} else {
@@ -83,6 +93,10 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 
 	@Override
 	public void setCharge(ItemStack stack, long i) {
+		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, stack.getItemDamage());
+		if(pack.isSingleUse()) {
+			return;
+		}
 		if(stack.hasTagCompound()) {
 			stack.stackTagCompound.setLong("charge", i);
 		} else {
@@ -107,7 +121,16 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 			return stack.stackTagCompound.getLong("charge");
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", 0);
+			EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, stack.getItemDamage());
+			long initialCharge;
+			if(pack.isSingleUse()) {
+				initialCharge = pack.capacity;
+			} else if(pack.isCapacitor()) {
+				initialCharge = 0;
+			} else {
+				initialCharge = (long)(pack.capacity * 0.25);
+			}
+			stack.stackTagCompound.setLong("charge", initialCharge);
 			return stack.stackTagCompound.getLong("charge");
 		}
 	}
@@ -121,6 +144,9 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 	@Override
 	public long getChargeRate(ItemStack stack) {
 		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, stack.getItemDamage());
+		if(pack.isSingleUse()) {
+			return 0;
+		}
 		return pack.chargeRate;
 	}
 
@@ -139,19 +165,28 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 		long chargeRate = this.getChargeRate(itemstack);
 		long dischargeRate = this.getDischargeRate(itemstack);
 		long charge = maxCharge;
-		
+
 		if(itemstack.hasTagCompound()) charge = getCharge(itemstack);
 
+		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, itemstack.getItemDamage());
+
+		if(pack.isSingleUse()) {
+			list.add(EnumChatFormatting.RED + "SINGLE USE BATTERY - CANNOT BE RECHARGED");
+		}
 		list.add(EnumChatFormatting.GREEN + "Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE (" + (charge * 1000 / maxCharge / 10D) + "%)");
-		list.add(EnumChatFormatting.YELLOW + "Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
+		if(!pack.isSingleUse()) {
+			list.add(EnumChatFormatting.YELLOW + "Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
+			list.add(EnumChatFormatting.GOLD + "Time for full charge: " + (maxCharge / chargeRate / 20 / 60D) + "min");
+		}
 		list.add(EnumChatFormatting.YELLOW + "Discharge rate: " + BobMathUtil.getShortNumber(dischargeRate) + "HE/t");
-		list.add(EnumChatFormatting.GOLD + "Time for full charge: " + (maxCharge / chargeRate / 20 / 60D) + "min");
 		list.add(EnumChatFormatting.GOLD + "Charge lasts for: " + (maxCharge / dischargeRate / 20 / 60D) + "min");
 	}
 
 	public static ItemStack makeEmptyBattery(ItemStack stack) {
 		stack.stackTagCompound = new NBTTagCompound();
-		stack.stackTagCompound.setLong("charge", 0);
+		EnumBatteryPack pack = EnumUtil.grabEnumSafely(EnumBatteryPack.class, stack.getItemDamage());
+		long initialCharge = pack.isSingleUse() ? pack.capacity : 0;
+		stack.stackTagCompound.setLong("charge", initialCharge);
 		return stack;
 	}
 
@@ -164,13 +199,21 @@ public class ItemBatteryPack extends ItemEnumMulti implements IBatteryItem {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		
+
 		Enum[] order = theEnum.getEnumConstants();
 		if(order[0] instanceof IOrderedEnum) order = ((IOrderedEnum) order[0]).getOrder();
-		
+
 		for(int i = 0; i < order.length; i++) {
-			list.add(makeEmptyBattery(new ItemStack(item, 1, order[i].ordinal())));
-			list.add(makeFullBattery(new ItemStack(item, 1, order[i].ordinal())));
+			EnumBatteryPack pack = (EnumBatteryPack) order[i];
+			if(pack.isSingleUse()) {
+				list.add(makeFullBattery(new ItemStack(item, 1, order[i].ordinal())));
+			} else if(pack.isCapacitor()) {
+				list.add(makeEmptyBattery(new ItemStack(item, 1, order[i].ordinal())));
+				list.add(makeFullBattery(new ItemStack(item, 1, order[i].ordinal())));
+			} else {
+				list.add(makeEmptyBattery(new ItemStack(item, 1, order[i].ordinal())));
+				list.add(makeFullBattery(new ItemStack(item, 1, order[i].ordinal())));
+			}
 		}
 	}
 }

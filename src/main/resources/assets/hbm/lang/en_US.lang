@@ -2009,6 +2009,7 @@ item.battery_pack.battery_quantum.name=Quantum Battery
 item.battery_pack.battery_redstone.name=Redstone Battery
 item.battery_pack.battery_schrabidium.name=Schrabidium Battery
 item.battery_pack.battery_sodium.name=Sodium-Iron Battery
+item.battery_pack.battery_mercury.name=Single use Mercury Battery
 item.battery_pack.capacitor_bismuth.name=Bismuth Capacitor
 item.battery_pack.capacitor_copper.name=Copper Capacitor
 item.battery_pack.capacitor_gold.name=Gold Capacitor

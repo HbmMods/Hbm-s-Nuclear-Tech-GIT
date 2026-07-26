@@ -168,6 +168,11 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 						new OreDictStack(PB.ingot(), 4))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputItems(new ItemStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD.ordinal())));
+		this.register(new GenericRecipe("chem.batterymercry").setup(100, 100)
+				.inputItems(new OreDictStack(STEEL.plate(), 4),
+						new OreDictStack(IRON.dust(), 4))
+				.inputFluids(new FluidStack(Fluids.MERCURY, 4_000))
+				.outputItems(new ItemStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_MERCURY.ordinal())));
 		this.register(new GenericRecipe("chem.batterylithium").setup(100, 1_000)
 				.inputItems(new OreDictStack(LI.dust(), 12),
 						new OreDictStack(CO.dust(), 8),
@@ -191,6 +196,9 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL_COLD, 8_000))
 				.outputItems(new ItemStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_QUANTUM.ordinal()))
 				.outputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 8_000)));
+		this.register(new GenericRecipe("chem.batterymercuryrecycle").setup(100, 100)
+				.inputItems(new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_MERCURY.ordinal()))
+				.outputFluids(new FluidStack(Fluids.MERCURY, 3_000)));
 		
 		/// SOLIDS ///
 		this.register(new GenericRecipe("chem.desh").setup(100, 100)
