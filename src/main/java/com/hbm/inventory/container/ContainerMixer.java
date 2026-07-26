@@ -18,15 +18,15 @@ public class ContainerMixer extends Container {
 	public ContainerMixer(InventoryPlayer player, TileEntityMachineMixer mixer) {
 		this.mixer = mixer;
 
-		//Battery
-		this.addSlotToContainer(new Slot(mixer, 0, 23, 77));
-		//Item Input
-		this.addSlotToContainer(new Slot(mixer, 1, 43, 77));
-		//Fluid ID
-		this.addSlotToContainer(new Slot(mixer, 2, 117, 77));
-		//Upgrades
-		this.addSlotToContainer(new Slot(mixer, 3, 137, 24));
-		this.addSlotToContainer(new Slot(mixer, 4, 137, 42));
+		// Battery
+		this.addSlotToContainer(new Slot(mixer, 0, 12, 72));
+		// Item Input
+		this.addSlotToContainer(new Slot(mixer, 1, 52, 72));
+		// Fluid ID
+		this.addSlotToContainer(new Slot(mixer, 2, 126, 72));
+		// Upgrades
+		this.addSlotToContainer(new Slot(mixer, 3, 148, 18));
+		this.addSlotToContainer(new Slot(mixer, 4, 148, 36));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
