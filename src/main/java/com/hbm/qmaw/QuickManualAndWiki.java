@@ -5,9 +5,12 @@ import java.util.HashMap;
 import net.minecraft.item.ItemStack;
 
 public class QuickManualAndWiki {
-
+	
 	public String name;
 	public ItemStack icon;
+
+	/** Removes this manual from the calculator search feature */
+	public boolean noIndex = false;
 
 	public HashMap<String, String> title = new HashMap();
 	public HashMap<String, String> contents = new HashMap();
@@ -28,6 +31,11 @@ public class QuickManualAndWiki {
 	
 	public QuickManualAndWiki addLang(String lang, String contents) {
 		this.contents.put(lang, contents);
+		return this;
+	}
+	
+	public QuickManualAndWiki noIndex() {
+		this.noIndex = true;
 		return this;
 	}
 }

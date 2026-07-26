@@ -1,0 +1,12 @@
+{
+	"name": "Chicago Pile Control Rod",
+	"icon": ["hbm:tile.pile_device", 1, 2],
+	"trigger": [["hbm:tile.pile_device", 1, 2]],
+	"title": {
+		"en_US": "Chicago Pile Control Rod"
+	},
+	"content": {
+		"en_US": "Control rods can be placed on top of the vertically drilled channels of the [[Chicago Pile]]. Control rods, when inserted, will reduce the reactivity between fuel channels. The control rods can be controlled with a redstone signal, causing it to fully withdraw when a signal is supplied, or via [[RoR controller|Redstone-over-Radio Controller]], which allows more precise settings.<br><br>See also:<br>* [[Chicago Pile Fuel Loader]]<br>* [[Chicago Pile Vent]]"
+	}
+}
+

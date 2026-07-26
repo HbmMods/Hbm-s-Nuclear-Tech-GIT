@@ -272,6 +272,7 @@ public class ResourceManager {
 	public static final IModelCustom radar = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar.obj")).noSmooth().asVBO();
 	public static final IModelCustom radar_large = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar_large.obj")).noSmooth().asVBO();
 	public static final IModelCustom radar_screen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/radar_screen.obj")).noSmooth().asVBO();
+	public static final IModelCustom satlink = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/satlink.obj")).noSmooth().asVBO();
 
 	//Forcefield
 	public static final IModelCustom forcefield_top = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/forcefield_top.obj"));
@@ -747,6 +748,7 @@ public class ResourceManager {
 	public static final ResourceLocation radar_dish_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_dish.png");
 	public static final ResourceLocation radar_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_large.png");
 	public static final ResourceLocation radar_screen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_screen.png");
+	public static final ResourceLocation satlink_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/satlink.png");
 
 	//Forcefield
 	public static final ResourceLocation forcefield_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/forcefield_base.png");

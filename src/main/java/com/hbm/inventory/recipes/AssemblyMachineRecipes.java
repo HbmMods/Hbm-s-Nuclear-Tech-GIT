@@ -167,8 +167,8 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.billet_ra226be, 3)).setGroup(autoPileRod, INSTANCE));
 		this.register(new GenericRecipe("ass.pilepobe").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.PO210BE.ordinal()))
 				.inputItems(new ComparableStack(ModItems.billet_po210be, 3)).setGroup(autoPileRod, INSTANCE));
-		this.register(new GenericRecipe("ass.pilezr").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.ZR.ordinal()))
-				.inputItems(new OreDictStack(ZR.billet(), 3)).setGroup(autoPileRod, INSTANCE));
+		this.register(new GenericRecipe("ass.pilezr").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 3, EnumPileRod.ZR.ordinal()))
+				.inputItems(new OreDictStack(ZR.billet(), 1)).setGroup(autoPileRod, INSTANCE));
 		this.register(new GenericRecipe("ass.pilenu").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.NU.ordinal()))
 				.inputItems(new OreDictStack(U.billet(), 3)).setGroup(autoPileRod, INSTANCE));
 		this.register(new GenericRecipe("ass.pilepu239").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.PU239.ordinal()))
