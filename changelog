@@ -29,6 +29,8 @@
   * The small pylon now has a steel variant
 * Items in the battery socket which previously didn't show up in the socket's model are now rendered
 * Reduced the cost for the heavy stirling engine
+* Removed the satellite interface item for being basically completely useless
+* Updated the satellite ID manager texture and recipe
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI

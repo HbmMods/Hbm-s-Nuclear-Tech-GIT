@@ -7,7 +7,7 @@ import com.hbm.inventory.gui.GUISatDock;
 import com.hbm.itempool.ItemPool;
 import com.hbm.items.ISatChip;
 import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.relauncher.Side;
@@ -147,7 +147,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 			if(slots[15] != null) {
 				int freq = ISatChip.getFreqS(slots[15]);
 
-				Satellite sat = data.getSatFromFreq(freq);
+				SatelliteBase sat = data.getSatFromFreq(freq);
 
 				int delay = 10 * 60 * 1000;
 
@@ -181,7 +181,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 				}
 
 				if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
-					Satellite sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
+					SatelliteBase sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
 					if(sat != null) unloadCargo((SatelliteMiner) sat);
 				}
 			}

@@ -2,22 +2,14 @@ package com.hbm.render.entity.effect;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.logic.EntityDeathBlast;
-import com.hbm.lib.RefStrings;
-
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
-public class RenderDeathBlast extends Render {
-
-	private static final IModelCustom sphere = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/Sphere.obj"));
+public class RenderOrbitalLaser extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f0, float interp) {
@@ -34,7 +26,7 @@ public class RenderDeathBlast extends Render {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
-		GL11.glColor3f(0F, 1F, 0F);
+		GL11.glColor3f(1F, 0F, 0F);
 
 		Vec3 vector = Vec3.createVectorHelper(0.5D, 0, 0);
 
@@ -50,8 +42,6 @@ public class RenderDeathBlast extends Render {
 			tessellator.addVertex(vector.xCoord, 250.0D, vector.zCoord);
 			tessellator.draw();
 		}
-
-		GL11.glColor3f(1.0F, 0, 1.0F);
 
 		for(int i = 0; i < 8; i++) {
 			tessellator.startDrawing(6);
@@ -69,47 +59,6 @@ public class RenderDeathBlast extends Render {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_FLAT);
-
-		GL11.glPopMatrix();
-
-		renderOrb(entity, x, y, z, f0, interp);
-	}
-
-	public void renderOrb(Entity entity, double x, double y, double z, float f0, float interp) {
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x, (float) y, (float) z);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0);
-
-		double scale = 10 - 10D * (((double) entity.ticksExisted + interp) / ((double) EntityDeathBlast.maxAge));
-		double alpha = (((double) entity.ticksExisted + interp) / ((double) EntityDeathBlast.maxAge));
-
-		if(scale < 0) scale = 0;
-
-		GL11.glColor4d(0.05, 1.0, 0.05, alpha);
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glScaled(scale, scale, scale);
-		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		sphere.renderAll();
-
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		GL11.glScaled(1.25, 1.25, 1.25);
-		GL11.glColor4d(0, 1, 0, alpha * 0.125);
-
-		for(int i = 0; i < 8; i++) {
-			sphere.renderAll();
-			GL11.glScaled(1.05, 1.05, 1.05);
-		}
-
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
-		GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
 
 		GL11.glPopMatrix();
 	}

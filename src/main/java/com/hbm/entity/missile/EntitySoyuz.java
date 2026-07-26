@@ -7,7 +7,7 @@ import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.XSatelliteRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -113,10 +113,8 @@ public class EntitySoyuz extends Entity {
 				}
 				
 				if(load.getItem() instanceof ISatChip) {
-					
-				    int freq = ISatChip.getFreqS(load);
-			    	
-			    	Satellite.orbit(worldObj, Satellite.getIDFromItem(load.getItem()), freq, posX, posY, posZ);
+					int freq = ISatChip.getFreqS(load);
+					XSatelliteRegistry.orbit(worldObj, load, freq, posX, posY, posZ);
 				}
 			}
 		}

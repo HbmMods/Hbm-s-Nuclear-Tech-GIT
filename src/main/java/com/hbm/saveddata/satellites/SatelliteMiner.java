@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.HashMap;
 
-public class SatelliteMiner extends Satellite {
+public class SatelliteMiner extends SatelliteBase {
 	/**
 	 * {@link WeightedRandomObject} array with loot the satellite will deliver.
 	 */
@@ -15,9 +15,9 @@ public class SatelliteMiner extends Satellite {
 
 	public long lastOp;
 
-	public SatelliteMiner() {
-		this.satIface = Interfaces.NONE;
-	}
+	public SatelliteMiner() { }
+
+	@Override public String getType() { return "ASTEROID_MINER"; }
 
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setLong("lastOp", lastOp);
@@ -49,7 +49,7 @@ public class SatelliteMiner extends Satellite {
 	 * @return - Returns {@link com.hbm.itempool.ItemPool} key or null if the item is not a mining satellite.
 	 */
 	public static String getCargoForItem(Item satelliteItem) {
-		Class<? extends Satellite> satelliteClass = itemToClass.getOrDefault(satelliteItem, null);
+		Class<? extends SatelliteBase> satelliteClass = XSatelliteRegistry.itemToClass.getOrDefault(satelliteItem, null);
 		return satelliteClass != null ? CARGO.getOrDefault(satelliteClass, null) : null;
 	}
 

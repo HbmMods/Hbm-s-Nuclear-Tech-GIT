@@ -4,17 +4,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
-public class SatelliteResonator extends Satellite {
+public class SatelliteResonator extends SatelliteBase {
 	
-	public SatelliteResonator() {
-		this.coordAcs.add(CoordActions.HAS_Y);
-		this.satIface = Interfaces.SAT_COORD;
-	}
+	public SatelliteResonator() { }
+
+	@Override public String getType() { return "XEN_RELAY"; }
 	
 	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) {
 
-		if(!(player instanceof EntityPlayerMP))
-			return;
+		if(!(player instanceof EntityPlayerMP)) return;
 
 		world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 		player.mountEntity(null);

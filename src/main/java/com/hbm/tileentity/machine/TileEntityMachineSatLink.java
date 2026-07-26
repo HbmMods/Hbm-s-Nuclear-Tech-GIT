@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
@@ -110,11 +111,45 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 	@Override
 	public String provideRORValue(String name) {
+		
+		if(name.equals(PREFIX_VALUE + connected)) {
+			return this.connected ? "TRUE" : "FALSE";
+		}
+		
+		if(name.equals(PREFIX_VALUE + "freq")) {
+			return "" + this.freq;
+		}
+		
+		if(name.equals(PREFIX_VALUE + "rx")) {
+			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+			SatelliteBase sat = dat.getSatFromFreq(this.freq);
+			if(sat != null) {
+				return sat.tx;
+			}
+			return "";
+		}
+		
 		return null;
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
+		
+		if(name.equals(PREFIX_FUNCTION + "setfreq") && params.length == 1) {
+			this.freq = IRORInteractive.parseInt(params[0], 0, 100_000);
+			this.markChanged();
+		}
+		
+		if(name.equals(PREFIX_FUNCTION + "tx")) {
+			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+			SatelliteBase sat = dat.getSatFromFreq(this.freq);
+			String[] cmd = String.join(IRORInteractive.PARAM_SEPARATOR, params).split(" ");
+			if(sat != null) {
+				sat.onCommand(worldObj, cmd);
+			}
+			this.markChanged();
+		}
+		
 		return null;
 	}
 }

@@ -34,6 +34,10 @@ public interface IRORInteractive extends IRORInfo {
 		return params;
 	}
 	
+	public static int parseInt(String val) {
+		return parseInt(val, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
 	public static int parseInt(String val, int min, int max) {
 		int result = 0;
 		try { result = Integer.parseInt(val); } catch(Exception x) {

@@ -3,8 +3,7 @@ package com.hbm.items.tool;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.saveddata.satellites.Satellite.Interfaces;
+import com.hbm.saveddata.satellites.SatelliteBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,7 @@ public class ItemSatDesignator extends ItemSatChip {
 		
 		if(!world.isRemote) {
 			
-			Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(this.getFreq(stack));
+			SatelliteBase sat = SatelliteSavedData.getData(world).getSatFromFreq(this.getFreq(stack));
 			
 			if(sat != null) {
 				MovingObjectPosition pos = Library.rayTrace(player, 300, 1);
@@ -29,11 +28,7 @@ public class ItemSatDesignator extends ItemSatChip {
 				int y = pos.blockY + dir.offsetY;
 				int z = pos.blockZ + dir.offsetZ;
 				
-				if(sat.satIface == Interfaces.SAT_COORD) {
-					sat.onCoordAction(world, player, x, y, z);
-				} else if(sat.satIface == Interfaces.SAT_PANEL) {
-					sat.onClick(world, x, z);
-				}
+				sat.onCoordAction(world, player, x, y, z);
 			}
 		}
 		

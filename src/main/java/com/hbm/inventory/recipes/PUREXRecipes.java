@@ -71,7 +71,7 @@ public class PUREXRecipes extends GenericRecipes<PUREXRecipe> {
 				.inputItems(new ComparableStack(ModItems.pile_rod, 1, EnumPileRod.RGP))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.billet_pu_mix, 2),
-						new ItemStack(ModItems.billet_uranium, 1))
+						new ItemStack(ModItems.billet_nuclear_waste, 1))
 				.setIconToFirstIngredient());
 		this.register((PUREXRecipe) new PUREXRecipe("purex.pilewaste").setup(40, pilePower).setNameWrapper("purex.recycle").setGroup(autoPile, this)
 				.inputItems(new ComparableStack(ModItems.pile_rod, 1, EnumPileRod.WASTE))
