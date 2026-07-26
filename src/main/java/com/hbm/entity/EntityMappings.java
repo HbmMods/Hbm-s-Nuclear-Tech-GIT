@@ -92,6 +92,7 @@ public class EntityMappings {
 		addEntity(EntityBombletZeta.class, "entity_zeta", 1000);
 		addEntity(EntityOrangeFX.class, "entity_agent_orange", 1000);
 		addEntity(EntityDeathBlast.class, "entity_laser_blast", 1000);
+		addEntity(EntityOrbitalLaser.class, "entity_orbital_laser", 1000);
 		addEntity(EntityBurningFOEQ.class, "entity_burning_foeq", 1000);
 		addEntity(EntityFallingNuke.class, "entity_falling_bomb", 1000);
 		addEntity(EntityBulletBaseNT.class, "entity_bullet_mk3", 250, false);

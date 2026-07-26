@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import com.hbm.blocks.BlockEnums.DecoCabinetEnum;
 import com.hbm.blocks.BlockEnums.LightstoneType;
+import com.hbm.blocks.BlockEnums.PlatemetalType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAbsorber.EnumAbsorberTier;
 import com.hbm.blocks.generic.BlockConcreteColoredExt.EnumConcreteType;
@@ -391,6 +392,13 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.concrete_smooth, 1), new Object[] { new ItemStack(ModBlocks.concrete_colored, 1, OreDictionary.WILDCARD_VALUE) });
 		addShapelessAuto(new ItemStack(ModBlocks.concrete_smooth, 1), new Object[] { new ItemStack(ModBlocks.concrete_colored_ext, 1, OreDictionary.WILDCARD_VALUE) });
 
+		String[] plateDyes = { "Black", "White", "Red", "Green", "LightGray", "Blue", "Purple", "Cyan", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange" };
+		for(int i = 0; i < 14; i++) {
+			String dyeName = "dye" + plateDyes[i];
+			addRecipeAuto(new ItemStack(ModBlocks.platemetal, 8, i + 1), new Object[] { "PPP", "PDP", "PPP", 'P', new ItemStack(ModBlocks.platemetal, 1, PlatemetalType.BASE.ordinal()), 'D', dyeName });
+		}
+		addShapelessAuto(new ItemStack(ModBlocks.platemetal, 1, PlatemetalType.BASE.ordinal()), new Object[] { new ItemStack(ModBlocks.platemetal, 1, OreDictionary.WILDCARD_VALUE) });
+
 		addRecipeAuto(new ItemStack(ModBlocks.concrete_colored_ext, 6, EnumConcreteType.MACHINE.ordinal()), new Object[] { "CCC", "1 2", "CCC", 'C', ModBlocks.concrete_smooth, '1', KEY_BROWN, '2', KEY_GRAY });
 		addRecipeAuto(new ItemStack(ModBlocks.concrete_colored_ext, 6, EnumConcreteType.MACHINE_STRIPE.ordinal()), new Object[] { "CCC", "1 2", "CCC", 'C', ModBlocks.concrete_smooth, '1', KEY_BROWN, '2', KEY_BLACK });
 		addRecipeAuto(new ItemStack(ModBlocks.concrete_colored_ext, 6, EnumConcreteType.INDIGO.ordinal()), new Object[] { "CCC", "1 2", "CCC", 'C', ModBlocks.concrete_smooth, '1', KEY_BLUE, '2', KEY_PURPLE });
@@ -593,12 +601,10 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.ams_core_wormhole, 1), new Object[] { "DPD", "PSP", "DPD", 'D', ModItems.plate_dineutronium, 'P', ModItems.powder_spark_mix, 'S', ModItems.singularity });
 		addRecipeAuto(new ItemStack(ModItems.ams_core_eyeofharmony, 1), new Object[] { "ALA", "LSL", "ALA", 'A', ModItems.plate_dalekanium, 'L', new ItemStack(ModItems.fluid_barrel_full, 1, Fluids.LAVA.getID()), 'S', ModItems.black_hole });
 		addRecipeAuto(new ItemStack(ModItems.ams_core_thingy), new Object[] { "NSN", "NGN", "G G", 'N', GOLD.nugget(), 'G', GOLD.ingot(), 'S', new ItemStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_QUANTUM.ordinal()) });
-		addRecipeAuto(new ItemStack(ModItems.photo_panel), new Object[] { " G ", "IPI", " C ", 'G', KEY_ANYPANE, 'I', ModItems.plate_polymer, 'P', NETHERQUARTZ.dust(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.PCB) });
-		addRecipeAuto(new ItemStack(ModBlocks.machine_satlinker), new Object[] { "PSP", "SCS", "PSP", 'P', STEEL.plate(), 'S', STAR.ingot(), 'C', ModItems.sat_chip });
+		addRecipeAuto(new ItemStack(ModItems.photo_panel), new Object[] { " G ", "IPI", " C ", 'G', KEY_ANYPANE, 'I', ModItems.plate_polymer, 'P', SI.billet(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.PCB) });
+		addRecipeAuto(new ItemStack(ModBlocks.machine_satlinker), new Object[] { "PSP", "SCS", "PSP", 'P', ANY_RESISTANTALLOY.ingot(), 'S', ANY_PLASTIC.ingot(), 'C', ModItems.sat_chip });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_keyforge), new Object[] { "PCP", "WSW", "WSW", 'P', STEEL.plate(), 'S', W.ingot(), 'C', ModItems.padlock, 'W', KEY_PLANKS });
-		addRecipeAuto(new ItemStack(ModItems.sat_chip), new Object[] { "WWW", "CIC", "WWW", 'W', MINGRADE.wireFine(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'I', ANY_PLASTIC.ingot() });
 		addShapelessAuto(new ItemStack(ModItems.geiger_counter), new Object[] { ModBlocks.geiger });
-		addRecipeAuto(new ItemStack(ModItems.sat_interface), new Object[] { "ISI", "PCP", "PAP", 'I', STEEL.ingot(), 'S', STAR.ingot(), 'P', ModItems.plate_polymer, 'C', ModItems.sat_chip, 'A', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });
 		addRecipeAuto(new ItemStack(ModItems.sat_coord), new Object[] { "SII", "SCA", "SPP", 'I', STEEL.ingot(), 'S', STAR.ingot(), 'P', ModItems.plate_polymer, 'C', ModItems.sat_chip, 'A', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_transformer), new Object[] { "SCS", "MDM", "SCS", 'S', IRON.ingot(), 'D', MINGRADE.ingot(), 'M',ModItems.coil_copper, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR) });
 		addRecipeAuto(new ItemStack(ModBlocks.radiobox), new Object[] { "PLP", "PSP", "PLP", 'P', STEEL.plate(), 'S', ModItems.ring_starmetal, 'C', ModItems.fusion_core, 'L', DURA.plate() });

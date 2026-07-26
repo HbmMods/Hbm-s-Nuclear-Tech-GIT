@@ -1,0 +1,11 @@
+{
+    "name": "Petroleum Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 24],
+    "trigger": [["hbm:item.fluid_icon", 1, 24]],
+    "title": {
+        "en_US": "Petroleum Gas"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] crude oil. Petroleum gas is the main ingredient in [[polymer|Polymer]], [[bakelite|Bakelite]], and [[perfluoromethyl|Perfluoromethyl]] making it a key ingredient for progression in all stages of the game. It is also the primary fluid used in [[fracking solution|Fracking Solution]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}

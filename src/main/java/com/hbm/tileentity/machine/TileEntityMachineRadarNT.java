@@ -19,10 +19,7 @@ import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.saveddata.satellites.SatelliteHorizons;
-import com.hbm.saveddata.satellites.SatelliteLaser;
-import com.hbm.saveddata.satellites.SatelliteResonator;
+import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
@@ -446,32 +443,14 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 			if(link != null && link.getItem() == ModItems.sat_relay) {
 				World world = player.getEntityWorld();
-				Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(ISatChip.getFreqS(link));
-				if(sat instanceof SatelliteLaser) {
-					if(data.hasKey("launchPosX")) {
-						int x = data.getInteger("launchPosX");
-						int z = data.getInteger("launchPosZ");
-						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-						sat.onClick(world, x, z);
-					}
-				}
-				if(sat instanceof SatelliteHorizons) {
-					if(data.hasKey("launchPosX")) {
-						int x = data.getInteger("launchPosX");
-						int z = data.getInteger("launchPosZ");
-						int y = 60; //one day I will make radars transmit Y coordinate as well and you will be butchered alhamdulila
-						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-						sat.onCoordAction(world, player, x, y, z);
-					}
-				}
-				if(sat instanceof SatelliteResonator) {
-					if(data.hasKey("launchPosX")) {
-						int x = data.getInteger("launchPosX");
-						int z = data.getInteger("launchPosZ");
-						int y = world.getTopSolidOrLiquidBlock(x, z); //the top fucking block because I will never make radars transmit Y coordinates as well!
-						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-						sat.onCoordAction(world, player, x, y, z);
-					}
+				SatelliteBase sat = SatelliteSavedData.getData(world).getSatFromFreq(ISatChip.getFreqS(link));
+				
+				if(data.hasKey("launchPosX")) {
+					int x = data.getInteger("launchPosX");
+					int z = data.getInteger("launchPosZ");
+					int y = 60; //one day I will make radars transmit Y coordinate as well and you will be butchered alhamdulila
+					worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+					sat.onCoordAction(world, player, x, y, z);
 				}
 			}
 			if(link != null && link.getItem() == ModItems.radar_linker) {

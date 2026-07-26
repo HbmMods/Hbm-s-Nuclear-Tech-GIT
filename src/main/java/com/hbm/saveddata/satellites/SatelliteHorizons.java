@@ -1,5 +1,7 @@
 package com.hbm.saveddata.satellites;
 
+import java.util.Locale;
+
 import com.hbm.entity.projectile.EntityTom;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
@@ -12,32 +14,59 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class SatelliteHorizons extends Satellite {
+public class SatelliteHorizons extends SatelliteBase {
+	
+	public static final String CMD_FIRE = "fire";
+	public static final String CMD_CANFIRE = "settarget";
 	
 	boolean used = false;
 	
-	public SatelliteHorizons() {
-		this.satIface = Interfaces.SAT_COORD;
-	}
+	public SatelliteHorizons() { }
 
+	@Override public String getType() { return "PAYLOAD_UNKNOWN"; }
+
+	@Override
 	public void onOrbit(World world, double x, double y, double z) {
+		super.onOrbit(world, x, y, z);
 
 		for(Object p : world.playerEntities)
 			((EntityPlayer)p).triggerAchievement(MainRegistry.horizonsStart);
 	}
-	
+
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setBoolean("used", used);
 	}
-	
+
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		used = nbt.getBoolean("used");
 	}
-	
-	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) {
+
+	@Override
+	public void onCommandImpl(World world, String... cmd) {
+		if(cmd.length <= 0) return;
 		
-		if(used)
+		if(cmd[0].equals(CMD_FIRE)) {
+			theHorizons(world, targetX, targetZ);
 			return;
+		}
+		
+		if(cmd[0].equals(CMD_CANFIRE)) {
+			this.tx = (!used) + "";
+			this.tx = this.tx.toUpperCase(Locale.US);
+			return;
+		}
+	}
+
+	@Override
+	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) {
+		this.setTarget(x, z);
+		this.theHorizons(world, x, z);
+	}
+	
+	public void theHorizons(World world, int x, int z) {
+		if(used) return;
 		
 		used = true;
 		SatelliteSavedData.getData(world).markDirty();

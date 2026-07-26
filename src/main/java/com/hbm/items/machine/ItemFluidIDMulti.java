@@ -64,7 +64,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 	}
 
 	@Override
-	public void receiveControl(ItemStack stack, NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, ItemStack stack, NBTTagCompound data) {
 		if(data.hasKey("primary")) {
 			setType(stack, Fluids.fromID(data.getInteger("primary")), true);
 		}

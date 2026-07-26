@@ -1,0 +1,11 @@
+{
+	"name": "Asteroid Mining Ship",
+	"icon": ["hbm:item.satellite", 1, 3],
+	"trigger": [["hbm:item.satellite", 1, 3]],
+	"title": {
+		"en_US": "Asteroid Mining Ship"
+	},
+	"content": {
+		"en_US": "The asteroid mining ship will, if connected to a satellite ID chip which is inserted into a cargo landing pad, land in regular intervals to deliver items mined in space. Do note that one mining ship can only supply a single cargo landing pad. Also keep the landing pad free of obstructions, as the drop ship may explode when impacting other blocks.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]"
+	}
+}

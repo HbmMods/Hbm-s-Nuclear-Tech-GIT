@@ -4,19 +4,18 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.ISatChip;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toserver.SatCoordPacket;
-import com.hbm.saveddata.satellites.Satellite.CoordActions;
-import com.hbm.saveddata.satellites.Satellite.Interfaces;
+import com.hbm.packet.toserver.NBTItemControlPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIScreenSatCoord extends GuiScreen {
@@ -27,14 +26,15 @@ public class GUIScreenSatCoord extends GuiScreen {
 	protected int guiLeft;
 	protected int guiTop;
 	private final EntityPlayer player;
+	protected ItemStack device;
 
 	private GuiTextField xField;
 	private GuiTextField yField;
 	private GuiTextField zField;
 
 	public GUIScreenSatCoord(EntityPlayer player) {
-
 		this.player = player;
+		this.device = player.getHeldItem();
 	}
 
 	public void initGui() {
@@ -63,37 +63,24 @@ public class GUIScreenSatCoord extends GuiScreen {
 	protected void mouseClicked(int i, int j, int k) {
 		super.mouseClicked(i, j, k);
 
-		if(ItemSatInterface.currentSat == null)
-			return;
+		if(!device.hasTagCompound() || !device.stackTagCompound.getBoolean(ItemSatInterface.KEY_NBT_CONNECTED)) return;
 
 		this.xField.mouseClicked(i, j, k);
-		if(ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y))
-			this.yField.mouseClicked(i, j, k);
+		this.yField.mouseClicked(i, j, k);
 		this.zField.mouseClicked(i, j, k);
 
 		if(i >= this.guiLeft + 133 && i < this.guiLeft + 133 + 18 && j >= this.guiTop + 52 && j < this.guiTop + 52 + 18 && player != null) {
 
 			if(NumberUtils.isNumber(xField.getText()) && NumberUtils.isNumber(zField.getText())) {
-
-				if(ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y)) {
-
-					if(NumberUtils.isNumber(yField.getText())) {
-
-						mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
-						PacketDispatcher.wrapper.sendToServer(new SatCoordPacket((int) Double.parseDouble(xField.getText()), (int) Double.parseDouble(yField.getText()),
-								(int) Double.parseDouble(zField.getText()), ISatChip.getFreqS(player.getHeldItem())));
-
-						this.mc.thePlayer.closeScreen();
-					}
-
-				} else {
-
-					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
-					PacketDispatcher.wrapper
-							.sendToServer(new SatCoordPacket((int) Double.parseDouble(xField.getText()), 0, (int) Double.parseDouble(zField.getText()), ISatChip.getFreqS(player.getHeldItem())));
-
-					this.mc.thePlayer.closeScreen();
-				}
+				
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				NBTTagCompound data = new NBTTagCompound();
+				data.setInteger("x", (int) Double.parseDouble(xField.getText()));
+				data.setInteger("z", (int) Double.parseDouble(zField.getText()));
+				if(NumberUtils.isNumber(yField.getText())) data.setInteger("y", (int) Double.parseDouble(yField.getText()));
+				PacketDispatcher.wrapper.sendToServer(new NBTItemControlPacket(data));
+				
+				this.mc.thePlayer.closeScreen();
 			}
 		}
 	}
@@ -108,16 +95,10 @@ public class GUIScreenSatCoord extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
-
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 
 		this.xField.drawTextBox();
-		if(ItemSatInterface.currentSat != null && ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y))
-			this.yField.drawTextBox();
+		this.yField.drawTextBox();
 		this.zField.drawTextBox();
 	}
 
@@ -126,48 +107,34 @@ public class GUIScreenSatCoord extends GuiScreen {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(xField.isFocused())
-			drawTexturedModalRect(guiLeft + 61, guiTop + 16, 0, 126, 54, 18);
+		if(xField.isFocused()) drawTexturedModalRect(guiLeft + 61, guiTop + 16, 0, 126, 54, 18);
+		if(yField.isFocused()) drawTexturedModalRect(guiLeft + 61, guiTop + 52, 0, 126, 54, 18);
+		if(zField.isFocused()) drawTexturedModalRect(guiLeft + 61, guiTop + 88, 0, 126, 54, 18);
 
-		if(yField.isFocused())
-			drawTexturedModalRect(guiLeft + 61, guiTop + 52, 0, 126, 54, 18);
-
-		if(zField.isFocused())
-			drawTexturedModalRect(guiLeft + 61, guiTop + 88, 0, 126, 54, 18);
-
-		if(ItemSatInterface.currentSat != null) {
-
-			if(!ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y))
-				drawTexturedModalRect(guiLeft + 61, guiTop + 52, 0, 144, 54, 18);
+		if(device.hasTagCompound() && device.stackTagCompound.getBoolean(ItemSatInterface.KEY_NBT_CONNECTED)) {
 
 			drawTexturedModalRect(guiLeft + 120, guiTop + 17, 194, 0, 7, 7);
-
-			if(ItemSatInterface.currentSat.satIface == Interfaces.SAT_COORD) {
-
-				drawTexturedModalRect(guiLeft + 120, guiTop + 25, 194, 0, 7, 7);
-			}
+			drawTexturedModalRect(guiLeft + 120, guiTop + 25, 194, 0, 7, 7);
 		}
 	}
 
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+	@Override
+	protected void keyTyped(char c, int k) {
 
-		if(this.xField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
-		} else if(ItemSatInterface.currentSat != null && ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y) && this.yField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
-		} else if(this.zField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
-		} else {
+		if(this.xField.textboxKeyTyped(c, k)) return;
+		if(this.yField.textboxKeyTyped(c, k)) return;
+		if(this.zField.textboxKeyTyped(c, k)) return;
+		
+		super.keyTyped(c, k);
+	}
 
-			super.keyTyped(p_73869_1_, p_73869_2_);
-		}
-
-		if(p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
-			this.mc.thePlayer.closeScreen();
-		}
-
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
 	}
 
 	@Override
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
-
 }

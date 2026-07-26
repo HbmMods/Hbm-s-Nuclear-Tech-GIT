@@ -1,0 +1,11 @@
+{
+	"name": "Satellite",
+	"icon": ["hbm:item.satellite"],
+	"trigger": [],
+	"title": {
+		"en_US": "Satellite"
+	},
+	"content": {
+		"en_US": "Satellites can be launched into earth orbit using a [[Soyuz]] rocket. Satellites communicate with items and blocks on earth using frequencies, so in order to actually use one, it's necessary to set a random frequency in the satellite ID manager, and then copying that ID to another item, for example a satellite chip.<br><br>Some satellites can perform minor tasks when linked with certain items, like the [[depth scanning satellite|Depth Scanning Satellite]] enabling the neutrino lens, or the [[xenium resonator satellite|Xenium Resonator Satellite]] connected to a satellite laser designator allowing for short range line of sight teleportation. Satellites however are the most powerful when paired with [[Redstone over Radio]] by linking them to a [[ground station|Satellite Ground Station]].<br><br>By using a [[RoR reader|Redstone-over-Radio Reader]], ground stations can receive the RX value, which is received from the connected satellite. Each satellite can only provide one RX value at a time, and the value persists until it changes. The contents of RX depend on what function the satellite has performed prior.<br><br>By using a ground station's TX command, commands can be relayed to the connected satellite. Most commands vary between satellite types, however all satellites have a ground target, i.e. the spot on the surface they are aiming at.<br><br>The common target commands are as follows:<br>* '§esettarget §ex §ez§r' (Example RoR: '§6tx!settarget §6200 §6300§r')<br>* '§egettarget§r' (Example RoR: '§6tx!gettarget§r'), writes the current target X and Z separated by semicolon to the ground station's RX<br>* '§egettargetx§r'<br>* '§egettargetz§r'<br><br>See also:<br>* [[Spy Satellite]]<br>* [[Depth Scanning Satellite]]<br>* [[Radar Satellite]]<br>* [[Asteroid Mining Ship]]<br>* [[Lunar Mining Ship]]<br>* [[Orbital Precision Laser]]<br>* [[Orbital Death Ray]]<br>* [[Xenium Resonator Satellite]]<br>* [[Relay Satellite]]"
+	}
+}

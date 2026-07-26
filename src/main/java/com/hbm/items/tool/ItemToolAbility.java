@@ -534,7 +534,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 	}
 
 	@Override
-	public void receiveControl(ItemStack stack, NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, ItemStack stack, NBTTagCompound data) {
 		Configuration config = new Configuration();
 		config.readFromNBT(data);
 		config.restrictTo(availableAbilities);

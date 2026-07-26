@@ -19,6 +19,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineSatLink extends BlockDummyable implements ILookOverlay {
 
@@ -35,6 +36,17 @@ public class MachineSatLink extends BlockDummyable implements ILookOverlay {
 
 	@Override public int[] getDimensions() { return new int[] {6, 0, 1, 0, 1, 0}; }
 	@Override public int getOffset() { return 0; }
+
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
+		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+		this.makeExtra(world, x - dir.offsetX + rot.offsetX, y, z - dir.offsetZ + rot.offsetZ);
+	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

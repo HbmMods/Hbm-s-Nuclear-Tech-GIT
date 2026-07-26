@@ -1,6 +1,7 @@
 package com.hbm.saveddata;
 
-import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.SatelliteBase;
+import com.hbm.saveddata.satellites.XSatelliteRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -10,7 +11,7 @@ import java.util.Map.Entry;
 
 public class SatelliteSavedData extends WorldSavedData {
 	
-	public final HashMap<Integer, Satellite> sats = new HashMap<>();
+	public final HashMap<Integer, SatelliteBase> sats = new HashMap<>();
 
 	/**
 	 * Constructor used for deserialization
@@ -28,24 +29,18 @@ public class SatelliteSavedData extends WorldSavedData {
 		this.markDirty();
 	}
 
-	public boolean isFreqTaken(int freq) {
-		return getSatFromFreq(freq) != null;
-	}
-
-	public Satellite getSatFromFreq(int freq) {
-		return sats.get(freq);
-	}
+	public boolean isFreqTaken(int freq) { return getSatFromFreq(freq) != null; }
+	public SatelliteBase getSatFromFreq(int freq) { return sats.get(freq); }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		int satCount = nbt.getInteger("satCount");
 		
 		for(int i = 0; i < satCount; i++) {
-			Satellite sat = Satellite.create(nbt.getInteger("sat_id_" + i));
+			SatelliteBase sat = XSatelliteRegistry.createFromId(nbt.getInteger("sat_id_" + i));
 			sat.readFromNBT((NBTTagCompound) nbt.getTag("sat_data_" + i));
 			
 			int freq = nbt.getInteger("sat_freq_" + i);
-			
 			sats.put(freq, sat);
 		}
 	}
@@ -56,7 +51,7 @@ public class SatelliteSavedData extends WorldSavedData {
 
 		int i = 0;
 
-		for(Entry<Integer, Satellite> struct : sats.entrySet()) {
+		for(Entry<Integer, SatelliteBase> struct : sats.entrySet()) {
 			NBTTagCompound data = new NBTTagCompound();
 			struct.getValue().writeToNBT(data);
 
@@ -74,7 +69,6 @@ public class SatelliteSavedData extends WorldSavedData {
 
 			data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 		}
-
 		return data;
 	}
 }

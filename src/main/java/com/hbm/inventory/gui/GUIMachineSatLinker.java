@@ -30,10 +30,10 @@ public class GUIMachineSatLinker extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		String[] chipText = I18nUtil.resolveKeyArray("desc.gui.satlinker.chip");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28, 16, 16, guiLeft - 8, guiTop + 36 + 16, chipText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28, 16, 16, guiLeft + 20, guiTop + 28 + 16, chipText);
 		
 		String[] randomText = I18nUtil.resolveKeyArray("desc.gui.satlinker.random");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, randomText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28 + 16, 16, 16, guiLeft + 20, guiTop + 28 + 32, randomText);
 	}
 	
 	@Override

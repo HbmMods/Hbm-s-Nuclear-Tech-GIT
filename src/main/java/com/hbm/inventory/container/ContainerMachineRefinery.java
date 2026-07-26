@@ -19,40 +19,40 @@ public class ContainerMachineRefinery extends Container {
 		testNuke = tedf;
 
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 186, 72));
+		this.addSlotToContainer(new Slot(tedf, 0, 158, 108));
 		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 8, 99));
+		this.addSlotToContainer(new Slot(tedf, 1, 12, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 8, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 12, 108));
 		//Heavy Oil Input
-		this.addSlotToContainer(new Slot(tedf, 3, 86, 99));
+		this.addSlotToContainer(new Slot(tedf, 3, 64, 90));
 		//Heavy Oil Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 86, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 64, 108));
 		//Naphtha Input
-		this.addSlotToContainer(new Slot(tedf, 5, 106, 99));
+		this.addSlotToContainer(new Slot(tedf, 5, 82, 90));
 		//Naphtha Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 106, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 82, 108));
 		//Light Oil Input
-		this.addSlotToContainer(new Slot(tedf, 7, 126, 99));
+		this.addSlotToContainer(new Slot(tedf, 7, 100, 90));
 		//Light Oil Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 126, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 100, 108));
 		//Petroleum Input
-		this.addSlotToContainer(new Slot(tedf, 9, 146, 99));
+		this.addSlotToContainer(new Slot(tedf, 9, 118, 90));
 		//Petroleum Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 146, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 118, 108));
 		//Sulfur Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 11, 58, 119));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 11, 38, 90));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(tedf, 12, 186, 106));
+		this.addSlotToContainer(new Slot(tedf, 12, 38, 108));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 150 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 11 + j * 18, 158 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 208));
+			this.addSlotToContainer(new Slot(invPlayer, i, 11 + i * 18, 216));
 		}
 	}
 	

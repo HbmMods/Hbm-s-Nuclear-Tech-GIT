@@ -13,6 +13,13 @@
   * Additionally, channels can be drilled by right clicking a pile addon device with the hand drill, the addon doesn't need to be removed beforehand
     * This is mainly for convenience when disassembling and reassembling the reactor, which requires all channels to be drilled again
   * Piles that overheat will explode, throwing flaming graphite everywhere
+* Satelllite Ground Station
+  * Can relay RoR commands to connected satellites and satellite info back to RoR
+* Platemetal
+  * Decorative connected texture metal block
+  * Comes in all colors except brown
+  * NTM poop theory debunked
+  * Make a nice clanking noise when placing and breaking
 
 ## Changed
 * Updated all oil well GUI textures
@@ -29,6 +36,19 @@
   * The small pylon now has a steel variant
 * Items in the battery socket which previously didn't show up in the socket's model are now rendered
 * Reduced the cost for the heavy stirling engine
+* Removed the satellite interface item for being basically completely useless
+* Updated the satellite ID manager texture and recipe
+* Satellite ID chips are now soldered
+* Overhauled all satellites
+  * Satellites now use one item ID with meta, most satellites now have new textures
+  * Satellites can now be connected to ground stations and controlled with RoR commands
+  * Satellites now have manual pages detailing the commands
+  * The recipes have been updated, they now use mostly common parts and no longer feature the satellite base and heads items which are welded together
+  * Legacy satellites still function and can still be launched
+* The PWR's coolant levels can now be read with RoR
+* Soyuz and related assembly recipes now use 25kHE/t instead of just 100
+* Updated the GUI textures for the refinery, various particle accelerator parts and a few other machines
+* Glyphid hive blocks now use state-of-the-fart flesh sounds
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI
@@ -39,3 +59,4 @@
   * This also fixes the same phenomenon for other types of beams, such as those from hitscan laser and tesla weapons
 * Fixed some issues regarding the new crane structure
 * Fixed skeletonizer ashes floating over the floor after landing
+* Fixed backface rendering of the capacitor frames when inserted in the battery socket

@@ -3,7 +3,7 @@ package com.hbm.commands;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.XSatelliteRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +38,7 @@ public class CommandSatellites extends CommandBase {
 		case "orbit":
 			EntityPlayer player = getCommandSenderAsPlayer(sender);
 			if(player.getHeldItem().getItem() instanceof ISatChip && player.getHeldItem().getItem() != ModItems.sat_chip) {
-				Satellite.orbit(player.worldObj, Satellite.getIDFromItem(player.getHeldItem().getItem()), ISatChip.getFreqS(player.getHeldItem()), player.posX, player.posY, player.posZ);
+				XSatelliteRegistry.orbit(player.worldObj, player.getHeldItem(), ISatChip.getFreqS(player.getHeldItem()), player.posX, player.posY, player.posZ);
 				player.getHeldItem().stackSize -= 1;
 				sender.addChatMessage(new ChatComponentTranslation("commands.satellite.satellite_orbited").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GREEN)));
 			} else {

@@ -34,7 +34,7 @@ import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.XSatelliteRegistry;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
@@ -271,7 +271,7 @@ public class MainRegistry {
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		BulletConfigSyncingUtil.loadConfigsForSync();
 		CellularDungeonFactory.init();
-		Satellite.register();
+		XSatelliteRegistry.register();
 		HTTPHandler.loadStats();
 		CraftingManager.mainRegistry();
 		SiegeTier.registerTiers();
@@ -1637,6 +1637,13 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.drax");
 		ignoreMappings.add("hbm:item.drax_mk2");
 		ignoreMappings.add("hbm:item.drax_mk3");
+		ignoreMappings.add("hbm:item.sat_base");
+		ignoreMappings.add("hbm:item.sat_head_mapper");
+		ignoreMappings.add("hbm:item.sat_head_scanner");
+		ignoreMappings.add("hbm:item.sat_head_radar");
+		ignoreMappings.add("hbm:item.sat_head_laser");
+		ignoreMappings.add("hbm:item.sat_head_resonator");
+		ignoreMappings.add("hbm:item.sat_interface");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

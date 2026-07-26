@@ -1,9 +1,8 @@
 package com.hbm.saveddata.satellites;
 
-public class SatelliteScanner extends Satellite {
+public class SatelliteScanner extends SatelliteBase {
 	
-	public SatelliteScanner() {
-		this.ifaceAcs.add(InterfaceActions.HAS_ORES);
-		this.satIface = Interfaces.SAT_PANEL;
-	}
+	public SatelliteScanner() { }
+
+	@Override public String getType() { return "DEPTH_SCANNER"; }
 }
