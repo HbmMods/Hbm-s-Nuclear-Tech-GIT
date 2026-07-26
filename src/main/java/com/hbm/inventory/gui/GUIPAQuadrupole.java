@@ -4,8 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerPAQuadrupole;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.albion.TileEntityPAQuadrupole;
+import com.hbm.util.EnumUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -39,7 +41,7 @@ public class GUIPAQuadrupole extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		
 		String name = this.quadrupole.hasCustomInventoryName() ? this.quadrupole.getInventoryName() : I18n.format(this.quadrupole.getInventoryName());
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 6, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
 		this.fontRendererObj.drawString(EnumChatFormatting.AQUA + "/123K", 118, 22, 4210752);
@@ -59,9 +61,16 @@ public class GUIPAQuadrupole extends GuiInfoContainer {
 
 		int heat = (int) Math.ceil(quadrupole.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 75, guiTop + 64, 176, 8, 8, 8);
-		if(quadrupole.slots[1] != null && quadrupole.slots[1].getItem() == ModItems.pa_coil) drawTexturedModalRect(guiLeft + 85, guiTop + 64, 176, 8, 8, 8);
+		if(quadrupole.slots[1] != null && quadrupole.slots[1].getItem() == ModItems.pa_coil){
+			drawTexturedModalRect(guiLeft + 85, guiTop + 64, 176, 8, 8, 8);
+			EnumCoilType type = null;
+			type = EnumUtil.grabEnumSafely(EnumCoilType.class, quadrupole.slots[1].getItemDamage());
+			if (type == EnumCoilType.GOLD) drawTexturedModalRect(guiLeft + 65, guiTop + 30, 200, 0, 28, 28);
+			if (type == EnumCoilType.NIOBIUM) drawTexturedModalRect(guiLeft + 65, guiTop + 30, 228, 0, 28, 28);
+			if (type == EnumCoilType.BSCCO) drawTexturedModalRect(guiLeft + 65, guiTop + 30, 200, 28, 28, 28);
+			if (type == EnumCoilType.CHLOROPHYTE) drawTexturedModalRect(guiLeft + 65, guiTop + 30, 228, 28, 28, 28);
+		}
 		if(quadrupole.power >= quadrupole.usage) drawTexturedModalRect(guiLeft + 65, guiTop + 64, 176, 8, 8, 8);
-		
 		quadrupole.coolantTanks[0].renderTank(guiLeft + 116, guiTop + 88, this.zLevel, 16, 52);
 		quadrupole.coolantTanks[1].renderTank(guiLeft + 134, guiTop + 88, this.zLevel, 16, 52);
 	}
