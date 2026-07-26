@@ -1,0 +1,11 @@
+{
+	"name": "Satellite Ground Station",
+	"icon": ["hbm:tile.machine_satlink"],
+	"trigger": [["hbm:tile.machine_satlink"]],
+	"title": {
+		"en_US": "Satellite Ground Station"
+	},
+	"content": {
+		"en_US": "The satellite ground station is an advanced [[Redstone over Radio]] component that allows indirect connection of traditional RoR components and [[satellites|Satellite]]. It doesn't send or receive RoR signals directly, instead, it needs an external [[receiver|Redstone-over-Radio Controller]] or [[transmitter|Redstone-over-Radio Reader]] to interface with RoR.<br><br>The ground station can only connect to one satellite at a time. The frequency can be set either by using a configured satellite ID chip on the ground station, or via RoR command.<br><br>The two most important RoR functions the ground station has are RX and TX.<br><br>RX is a readable value that is relayed from the satellite. The contents of that value depend on the satellite, and is usually set in response to a command. For example, on the [[orbital precision laser|Orbital Precision Laser]], the function 'canfire' will set the RX value to either 'TRUE' or 'FALSE' depending on whether the laser is ready to fire.<br><br>TX is a function that allows commands to be relayed from the ground station to the satellite to control it or to request data. For example, the RoR command 'tx!settarget 200 300' will relay the command 'settarget 200 300' to the connected satellite. Do note that satellite commands do not use parameter separators like RoR commands do, since the satellite command is technically just one big RoR parameter.<br><br>In conjunction with the [[AUTOCAL]], the ground station becomes incredibly powerful, as it allows for automated targeting of satellites, data processing and more. For example, a [[radar satellite|Radar Satellite]] could survey the airspace for airborne missiles, relay that data to the AUTOCAL which then sends a signal to a precision laser which intercepts the missile."
+	}
+}

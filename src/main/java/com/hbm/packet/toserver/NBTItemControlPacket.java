@@ -65,7 +65,7 @@ public class NBTItemControlPacket implements IMessage {
 					ItemStack held = p.getHeldItem();
 
 					if(held != null && held.getItem() instanceof IItemControlReceiver) {
-						((IItemControlReceiver) held.getItem()).receiveControl(held, nbt);
+						((IItemControlReceiver) held.getItem()).receiveControl(p, held, nbt);
 					}
 				}
 

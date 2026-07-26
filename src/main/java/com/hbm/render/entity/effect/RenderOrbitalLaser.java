@@ -43,6 +43,8 @@ public class RenderOrbitalLaser extends Render {
 			tessellator.draw();
 		}
 
+		GL11.glColor3f(1F, 1F, 1F);
+
 		for(int i = 0; i < 8; i++) {
 			tessellator.startDrawing(6);
 			tessellator.addVertex(vector.xCoord / 2, 250.0D, vector.zCoord / 2);

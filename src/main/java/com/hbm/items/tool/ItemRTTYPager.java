@@ -72,7 +72,7 @@ public class ItemRTTYPager extends Item implements IItemControlReceiver, IGUIPro
 	}
 
 	@Override
-	public void receiveControl(ItemStack stack, NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, ItemStack stack, NBTTagCompound data) {
 		if(data.hasKey("chan")) {
 			if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setString(KEY_CHANNEL, data.getString(KEY_CHANNEL));

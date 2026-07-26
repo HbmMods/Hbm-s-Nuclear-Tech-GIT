@@ -53,7 +53,8 @@ public class ItemSatInterface extends ItemSatChip implements IGUIProvider, IItem
 	}
 
 	@Override
-	public void receiveControl(ItemStack stack, NBTTagCompound data) {
-		
+	public void receiveControl(EntityPlayer player, ItemStack stack, NBTTagCompound data) {
+		SatelliteBase sat = SatelliteSavedData.getData(player.worldObj).getSatFromFreq(this.getFreq(stack));
+		if(sat != null) sat.onCoordAction(player.worldObj, player, data.getInteger("x"), data.hasKey("y") ? data.getInteger("y") : -1, data.getInteger("z"));
 	}
 }

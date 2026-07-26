@@ -9,6 +9,7 @@ import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineSatLink extends TileEntityTickingBase implements IRORValueProvider, IRORInteractive {
@@ -71,6 +72,18 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 		super.deserialize(buf);
 		this.connected = buf.readBoolean();
 		this.freq = buf.readInt();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.freq = nbt.getInteger("freq");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("power", freq);
 	}
 
 	AxisAlignedBB bb = null;
