@@ -42,6 +42,8 @@ public class StructureConfig {
 	public static int lighthouseSpawnWeight = 4;
 	public static int oilRigSpawnWeight = 5;
 	public static int broadcastingTowerSpawnWeight = 25;
+	public static int waterPumpSpawnWeight = 15;
+	public static int deadDishSmallSpawnWeight = 15;
 	public static int beachedPatrolSpawnWeight = 15;
 	public static int vertibirdSpawnWeight = 6;
 	public static int vertibirdCrashedSpawnWeight = 10;
@@ -117,6 +119,8 @@ public class StructureConfig {
 		craneSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.39_craneSpawnWeight", "Spawn weight for crane structure.", 20);
 		broadcastingTowerSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.40_broadcastingTowerSpawnWeight", "Spawn weight for broadcasting tower structure.", 25);
 		towerBaseSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.41_towerBaseSpawnWeight", "Spawn weight for tower base.", 30);
+		waterPumpSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.42_waterPumpSpawnWeight", "Spawn weight for water pump structure.", 15);
+		deadDishSmallSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.43_deadDishSmallSpawnWeight", "Spawn weight for dead dish small structure.", 15);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);

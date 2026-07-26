@@ -14,7 +14,7 @@ public class BlockEnumMulti extends BlockMulti {
 
 	public Class<? extends Enum> theEnum;
 	public boolean multiName;
-	private boolean multiTexture;
+	protected boolean multiTexture;
 
 	public BlockEnumMulti(Material mat, Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
 		super(mat);
