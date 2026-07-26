@@ -15,6 +15,11 @@
   * Piles that overheat will explode, throwing flaming graphite everywhere
 * Satelllite Ground Station
   * Can relay RoR commands to connected satellites and satellite info back to RoR
+* Platemetal
+  * Decorative connected texture metal block
+  * Comes in all colors except brown
+  * NTM poop theory debunked
+  * Make a nice clanking noise when placing and breaking
 
 ## Changed
 * Updated all oil well GUI textures
@@ -42,6 +47,8 @@
   * Legacy satellites still function and can still be launched
 * The PWR's coolant levels can now be read with RoR
 * Soyuz and related assembly recipes now use 25kHE/t instead of just 100
+* Updated the GUI textures for the refinery, various particle accelerator parts and a few other machines
+* Glyphid hive blocks now use state-of-the-fart flesh sounds
 
 ## Fixed
 * Fixed held block being placed when not sneaking when opening the cable diode's GUI
