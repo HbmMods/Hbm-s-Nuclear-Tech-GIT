@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidItemStorage;
 import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -38,42 +39,26 @@ public class ItemPipette extends Item implements IFillableItem {
 
 	public void initNBT(ItemStack stack) {
 		stack.stackTagCompound = new NBTTagCompound();
-		this.setFill(stack, Fluids.NONE, (short) 0); // sets "type" and "fill" NBT
-		stack.stackTagCompound.setShort("capacity", this.getMaxFill()); // set "capacity"
+		FluidItemStorage.setFill(stack, Fluids.NONE, (short) 0);
+		stack.stackTagCompound.setShort("capacity", this.getMaxFill());
 	}
 
 	public FluidType getType(ItemStack stack) {
-		if(!stack.hasTagCompound()) {
-			initNBT(stack);
-		}
-
-		return Fluids.fromID(stack.stackTagCompound.getShort("type"));
+		return FluidItemStorage.getType(stack);
 	}
 
 	public short getCapacity(ItemStack stack) {
-		if(!stack.hasTagCompound()) {
-			initNBT(stack);
-		}
-
+		if(!stack.hasTagCompound()) initNBT(stack);
 		return stack.stackTagCompound.getShort("capacity");
 	}
 
 	public void setFill(ItemStack stack, FluidType type, short fill) {
-		if(!stack.hasTagCompound()) {
-			initNBT(stack);
-		}
-
-		stack.stackTagCompound.setShort("type", (short) type.getID());
-		stack.stackTagCompound.setShort("fill", fill);
+		FluidItemStorage.setFill(stack, type, fill);
 	}
 
 	@Override
 	public int getFill(ItemStack stack) {
-		if(!stack.hasTagCompound()) {
-			initNBT(stack);
-		}
-
-		return stack.stackTagCompound.getShort("fill");
+		return FluidItemStorage.getFill(stack);
 	}
 
 	@Override
