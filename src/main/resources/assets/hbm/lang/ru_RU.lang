@@ -6323,7 +6323,7 @@ turret.on=ВКЛ
 turret.players=Целиться по игрокам: %s
 
 upgrade.acid=Требуется кислота %s
-upgrade.burn=Сжигает %sмб/тик за %sHE
+upgrade.burn=Сжигает %sмБ/тик за %sHE
 upgrade.consumption=Потребление %s
 upgrade.coolantConsumption=Потребление охладителя %s
 upgrade.delay=Время %s
