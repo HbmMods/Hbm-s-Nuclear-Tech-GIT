@@ -262,7 +262,7 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 			EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, this.channelStack.getItemDamage());
 			return "" + (int) Math.round(rod.life);
 		}
-		if(name.equals(PREFIX_VALUE + "meta")) {
+		if(name.equals(PREFIX_VALUE + "temp")) {
 			return "" + (int) Math.round(this.channelTemp);
 		}
 		
