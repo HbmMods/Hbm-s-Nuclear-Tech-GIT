@@ -569,7 +569,7 @@ public class ItemToolAbility extends ItemTool implements IDepthRockTool, IGUIPro
 			EntityPlayerMP playerMP = (EntityPlayerMP) player;
 			MovingObjectPosition mop = EntityDamageUtil.getMouseOver(playerMP, playerMP.theItemInWorldManager.getBlockReachDistance());
 			
-			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 				// this is horrifying and won't always produce the correct results, but it beats not having anything
 				// simply put, we check if we are aiming at a block, and if we do, we compare that block's onBlockActivated
 				// method to the one from Block.class. If the declaring class doesn't match, it's overridden, and we
