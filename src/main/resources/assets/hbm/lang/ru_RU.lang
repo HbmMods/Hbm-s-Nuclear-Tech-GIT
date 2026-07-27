@@ -5998,10 +5998,10 @@ tile.red_connector_super.name=Мощный электрический конне
 tile.red_pylon.name=Малая опора ЛЭП (Деревянная)
 tile.red_pylon_steel.name=Малая опора ЛЭП (Стальная)
 tile.red_pylon_large.name=Большая опора ЛЭП
-tile.red_pylon_medium_steel.name=Средния опора ЛЭП (Стальная)
-tile.red_pylon_medium_steel_transformer.name=Средния опора ЛЭП с трансформатором (Стальная)
-tile.red_pylon_medium_wood.name=Средния опора ЛЭП (Деревянная)
-tile.red_pylon_medium_wood_transformer.name=Средния опора ЛЭП с трансформатором (Деревянная)
+tile.red_pylon_medium_steel.name=Средняя опора ЛЭП (Стальная)
+tile.red_pylon_medium_steel_transformer.nameСредняя опора ЛЭП с трансформатором (Стальная)
+tile.red_pylon_medium_wood.name=Средняя опора ЛЭП (Деревянная)
+tile.red_pylon_medium_wood_transformer.name=Средняя опора ЛЭП с трансформатором (Деревянная)
 tile.red_wire_coated.name=Медный кабель с покрытием
 tile.refueler.name=Заправочная станция
 tile.reinforced_brick.name=Усиленный бетон
