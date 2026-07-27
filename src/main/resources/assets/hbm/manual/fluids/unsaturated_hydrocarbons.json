@@ -1,0 +1,11 @@
+{
+    "name": "Unsaturated Hydrocarbons",
+    "icon": ["hbm:item.fluid_icon", 1, 68],
+    "trigger": [["hbm:item.fluid_icon", 1, 68]],
+    "title": {
+        "en_US": "Unsaturated Hydrocarbons"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Unsaturated hydrocarbons are used in both [[rubber|Rubber]] and [[perfluoromethyl|Perfluoromethyl]]. It is also used in both [[PVC|PVC]] directly, and [[hard plastic|Hard Plastic]] through the production of [[phosgene|Phosgene]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}
