@@ -18,6 +18,8 @@ import com.hbm.explosion.ExplosionSolinium;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -141,6 +143,7 @@ public class EntityNukeExplosionMK3 extends EntityExplosionChunkloading {
 					sol = new ExplosionSolinium((int) this.posX, (int) this.posY, (int) this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
 			}
 
+			SatelliteDetector.reportEvent(worldObj, SatelliteDetector.DURATION_HIGH, BurstIntensity.HIGH, posX, posZ);
 			this.did = true;
 		}
 

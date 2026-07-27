@@ -19,16 +19,17 @@ public class XSatelliteRegistry {
 	
 	public static void register() {
 
-		registerSatellite(SatelliteMapper.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.SPY));
-		registerSatellite(SatelliteScanner.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.SCANNER));
-		registerSatellite(SatelliteRadar.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.RADAR));
-		registerSatellite(SatelliteDeathRay.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.DEATH_RAY));
-		registerSatellite(SatelliteResonator.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR));
-		registerSatellite(SatelliteRelay.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR));
-		registerSatellite(SatelliteMiner.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO));
-		registerSatellite(SatelliteLunarMiner.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR));
-		registerSatellite(SatelliteHorizons.class, ModItems.sat_gerald);
-		registerSatellite(SatellitePrecisionLaser.class, new ComparableStack(ModItems.satellite, 1, EnumSatType.PRECISION_LASER));
+		registerSatellite(SatelliteMapper.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SPY));
+		registerSatellite(SatelliteScanner.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.SCANNER));
+		registerSatellite(SatelliteRadar.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.RADAR));
+		registerSatellite(SatelliteDeathRay.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DEATH_RAY));
+		registerSatellite(SatelliteResonator.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR));
+		registerSatellite(SatelliteRelay.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.XENIUM_RESONATOR));
+		registerSatellite(SatelliteMiner.class,				new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO));
+		registerSatellite(SatelliteLunarMiner.class,		new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR));
+		registerSatellite(SatelliteHorizons.class,			ModItems.sat_gerald);
+		registerSatellite(SatellitePrecisionLaser.class,	new ComparableStack(ModItems.satellite, 1, EnumSatType.PRECISION_LASER));
+		registerSatellite(SatelliteDetector.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DETECTOR));
 		
 
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);
@@ -64,13 +65,22 @@ public class XSatelliteRegistry {
 	public static void orbit(World world, ItemStack stack, int freq, double x, double y, double z) {
 		if(world.isRemote) return;
 
-		SatelliteBase sat = createFromItem(stack);
+		SatelliteSavedData data = SatelliteSavedData.getData(world);
 		
-		if(sat != null) {
-			SatelliteSavedData data = SatelliteSavedData.getData(world);
-			data.sats.put(freq, sat);
-			sat.onOrbit(world, x, y, z);
-			data.markDirty();
+		SatelliteBase existing = data.sats.get(freq);
+		
+		if(existing != null) {
+			existing.onPartDelivered(world, stack);
+			
+		} else {
+			
+			SatelliteBase sat = createFromItem(stack);
+			
+			if(sat != null) {
+				data.sats.put(freq, sat);
+				sat.onOrbit(world, x, y, z);
+				data.markDirty();
+			}
 		}
 	}
 	

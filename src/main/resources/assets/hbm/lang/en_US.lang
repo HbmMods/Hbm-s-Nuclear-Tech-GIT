@@ -4410,6 +4410,7 @@ item.sat_radar.name=Radar Survey Satellite (LEGACY)
 item.sat_resonator.name=Xenium Resonator Satellite (LEGACY)
 item.sat_scanner.name=Satellite with Depth-Resource Scanning Module (LEGACY)
 item.satellite.death_ray.name=Orbital Death Ray
+item.satellite.detector.name=Wideband Radio Emission Detector Satellite
 item.satellite.miner_astro.name=Asteroid Mining Ship
 item.satellite.miner_lunar.name=Lunar Mining Ship
 item.satellite.precision_laser.name=Orbital Precision Laser

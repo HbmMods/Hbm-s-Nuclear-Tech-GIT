@@ -33,6 +33,8 @@ import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -245,6 +247,7 @@ public class ItemGrenadeFilling extends ItemEnumMulti {
 	}
 
 	public static void spawnMush(EntityGrenadeUniversal grenade) {
+		SatelliteDetector.reportEvent(grenade.worldObj, SatelliteDetector.DURATION_LOW, BurstIntensity.LOW, grenade.posX, grenade.posZ);
 		grenade.worldObj.playSoundEffect(grenade.posX, grenade.posY, grenade.posZ, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "muke");
