@@ -26,6 +26,7 @@ public class ItemSatellite extends ItemEnumMulti implements ISatChip {
 		XENIUM_RESONATOR,
 		RELAY,
 		DETECTOR,
+		RAY_SCAN,
 	}
 
 	@Override

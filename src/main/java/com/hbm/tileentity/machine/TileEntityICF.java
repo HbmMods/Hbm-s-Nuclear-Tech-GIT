@@ -14,6 +14,8 @@ import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -110,6 +112,10 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 					if(ItemICFPellet.getDepletion(slots[5]) >= ItemICFPellet.getMaxDepletion(slots[5])) {
 						slots[5] = new ItemStack(ModItems.icf_pellet_depleted);
 						markDirty = true;
+					}
+					
+					if(worldObj.getTotalWorldTime() % 20 == 15) {
+						SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_PARTICLE, 200);
 					}
 
 					tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 10D / this.maxHeat));

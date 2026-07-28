@@ -30,6 +30,7 @@ public class XSatelliteRegistry {
 		registerSatellite(SatelliteHorizons.class,			ModItems.sat_gerald);
 		registerSatellite(SatellitePrecisionLaser.class,	new ComparableStack(ModItems.satellite, 1, EnumSatType.PRECISION_LASER));
 		registerSatellite(SatelliteDetector.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.DETECTOR));
+		registerSatellite(SatelliteRayScan.class,			new ComparableStack(ModItems.satellite, 1, EnumSatType.RAY_SCAN));
 		
 
 		registerSatellite(SatelliteMapper.class, ModItems.sat_mapper);

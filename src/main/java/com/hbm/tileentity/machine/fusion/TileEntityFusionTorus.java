@@ -14,6 +14,8 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
 import com.hbm.module.machine.ModuleMachineFusion;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -188,6 +190,10 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				r = recipe.r;
 				g = recipe.g;
 				b = recipe.b;
+				
+				if(worldObj.getTotalWorldTime() % 20 == 15) {
+					SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_PARTICLE, 200);
+				}
 			}
 
 			double outputIntensity = this.getOuputIntensity(receiverCount);
