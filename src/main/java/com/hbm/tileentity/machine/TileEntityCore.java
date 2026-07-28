@@ -18,6 +18,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
@@ -136,8 +138,11 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 			else
 				color = 0;
 			
-			if(heat > 0)
+			if(heat > 0) {
 				radiation();
+				if(worldObj.getTotalWorldTime() % 100 == 0)
+					SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_PARTICLE, 200);
+			}
 
 			networkPackNT(250);
 			

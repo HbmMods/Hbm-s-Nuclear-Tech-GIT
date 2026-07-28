@@ -4415,6 +4415,7 @@ item.satellite.miner_astro.name=Asteroid Mining Ship
 item.satellite.miner_lunar.name=Lunar Mining Ship
 item.satellite.precision_laser.name=Orbital Precision Laser
 item.satellite.radar.name=Radar Satellite
+item.satellite.ray_scan.name=Narrowband Emission Scanning Satellite
 item.satellite.relay.name=Relay Satellite
 item.satellite.scanner.name=Depth Scanning Satellite
 item.satellite.spy.name=Spy Satellite

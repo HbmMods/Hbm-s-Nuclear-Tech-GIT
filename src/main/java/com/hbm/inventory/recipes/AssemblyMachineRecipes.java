@@ -1021,6 +1021,20 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.BISMOID),
 						new ComparableStack(ModItems.part_generic, 4, EnumPartType.LDE),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED)));
+		this.register(new GenericRecipe("ass.detectorsat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.DETECTOR.ordinal()))
+				.inputItems(new OreDictStack(GOLD.plateCast(), 16),
+						new ComparableStack(ModItems.photo_panel, 64),
+						new OreDictStack(BSCCO.wireDense(), 16),
+						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.BISMOID),
+						new ComparableStack(ModItems.part_generic, 16, EnumPartType.LDE),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED)));
+		this.register(new GenericRecipe("ass.detectorsat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.RAY_SCAN.ordinal()))
+				.inputItems(new OreDictStack(BIGMT.shell(), 16),
+						new ComparableStack(ModItems.photo_panel, 32),
+						new OreDictStack(SBD.wireDense(), 16),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.QUANTUM),
+						new ComparableStack(ModItems.part_generic, 16, EnumPartType.LDE),
+						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CONTROLLER_ADVANCED)));
 
 		this.register(new GenericRecipe("ass.satlink").setup(100, 1_000).outputItems(new ItemStack(ModBlocks.machine_satlink))
 				.inputItems(new ComparableStack(ModBlocks.steel_scaffold, 16),

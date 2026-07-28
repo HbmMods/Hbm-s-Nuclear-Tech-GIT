@@ -17,10 +17,7 @@ public class SatelliteDetector extends SatelliteBase {
 	
 	public SatelliteDetector() { }
 
-	@Override
-	public String getType() {
-		return "RAY_DETECTOR";
-	}
+	@Override public String getType() { return "UWB_EMISSION_DETECTOR"; }
 	
 	@Override
 	public void onCommandImpl(World world, String... cmd) {

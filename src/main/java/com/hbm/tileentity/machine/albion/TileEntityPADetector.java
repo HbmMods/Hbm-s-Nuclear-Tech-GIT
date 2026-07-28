@@ -11,7 +11,9 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
@@ -163,6 +165,7 @@ public class TileEntityPADetector extends TileEntityCooledBase implements IGUIPr
 			}
 
 			SatelliteDetector.reportEvent(worldObj, SatelliteDetector.DURATION_MEDIUM, BurstIntensity.MEDIUM, xCoord, zCoord);
+			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_PARTICLE, 600);
 			particle.crash(PAState.SUCCESS);
 			return;
 		}
