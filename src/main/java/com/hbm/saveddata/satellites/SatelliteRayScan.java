@@ -68,7 +68,7 @@ public class SatelliteRayScan extends SatelliteBase {
 	
 	public RayEvent getEventFromIndex(String cmd) {
 		if(cachedResults.size() <= 0) return null;
-		int index = IRORInteractive.parseInt(cmd, 0, cachedResults.size()) - 1;
+		int index = IRORInteractive.parseInt(cmd, 1, cachedResults.size()) - 1;
 		return cachedResults.get(index);
 	}
 	

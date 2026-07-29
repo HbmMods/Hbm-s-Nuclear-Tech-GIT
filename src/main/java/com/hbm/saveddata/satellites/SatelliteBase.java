@@ -24,7 +24,7 @@ public abstract class SatelliteBase {
 	public String tx = "";
 	
 	public int getID() {
-		return XSatelliteRegistry.satellites.indexOf(this.getClass());
+		return XSatelliteRegistry.idToClass.inverse().get(this.getClass());
 	}
 	
 	public abstract String getType();
