@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionData;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class SatelliteMapper extends SatelliteBase {
 
 	public static final String CMD_TARGET_LOADED = "targetloaded";
+	public static final String CMD_GETSMOG = "getsmog";
 	public static final String CMD_SPOT_PLAYER = "spotplayers";
 	
 	public static final int SPOT_PLAYER_MAX_RANGE = 250;
@@ -25,6 +30,16 @@ public class SatelliteMapper extends SatelliteBase {
 		if(cmd[0].equals(CMD_TARGET_LOADED)) {
 			this.tx = "" + world.getChunkProvider().chunkExists(targetX >> 4, targetZ >> 4);
 			this.tx = this.tx.toUpperCase(Locale.US);
+			return;
+		}
+		
+		if(cmd[0].equals(CMD_GETSMOG)) {
+
+			PollutionData data = PollutionHandler.getPollutionData(world, this.targetX, 255, this.targetZ);
+			if(data != null) {
+				float soot = data.pollution[PollutionType.SOOT.ordinal()];
+				this.tx = "" + (int) Math.ceil(soot);
+			}
 			return;
 		}
 		
