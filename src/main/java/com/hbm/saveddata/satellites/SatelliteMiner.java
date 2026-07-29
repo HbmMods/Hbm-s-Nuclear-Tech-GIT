@@ -1,8 +1,8 @@
 package com.hbm.saveddata.satellites;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.itempool.ItemPoolsSatellite;
 import com.hbm.util.WeightedRandomObject;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class SatelliteMiner extends SatelliteBase {
 	 * @param satelliteItem - Satellite item
 	 * @return - Returns {@link com.hbm.itempool.ItemPool} key or null if the item is not a mining satellite.
 	 */
-	public static String getCargoForItem(Item satelliteItem) {
+	public static String getCargoForItem(ComparableStack satelliteItem) {
 		Class<? extends SatelliteBase> satelliteClass = XSatelliteRegistry.itemToClass.getOrDefault(satelliteItem, null);
 		return satelliteClass != null ? CARGO.getOrDefault(satelliteClass, null) : null;
 	}

@@ -20,6 +20,10 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
+import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
@@ -358,6 +362,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					}
 				}
 			}
+		}
+		
+		if(worldObj.getTotalWorldTime() % 20 == 0) {
+			SatelliteDetector.reportEvent(worldObj, SatelliteDetector.DURATION_MEDIUM, BurstIntensity.MEDIUM, xCoord, zCoord);
+			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADAR, 200);
 		}
 	}
 

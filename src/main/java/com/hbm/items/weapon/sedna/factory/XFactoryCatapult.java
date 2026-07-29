@@ -33,6 +33,8 @@ import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
+import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.item.ItemStack;
@@ -103,6 +105,7 @@ public class XFactoryCatapult {
 
 		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1.5F);
 
+		SatelliteDetector.reportEvent(bullet.worldObj, SatelliteDetector.DURATION_LOW, BurstIntensity.LOW, bullet.posX, bullet.posZ);
 		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "muke");
@@ -120,6 +123,7 @@ public class XFactoryCatapult {
 	}
 
 	public static void spawnMush(EntityBulletBaseMK4 bullet, MovingObjectPosition mop) {
+		SatelliteDetector.reportEvent(bullet.worldObj, SatelliteDetector.DURATION_LOW, BurstIntensity.LOW, bullet.posX, bullet.posZ);
 		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "muke");
@@ -138,6 +142,7 @@ public class XFactoryCatapult {
 		vnt.explode();
 
 		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.25F);
+		SatelliteDetector.reportEvent(bullet.worldObj, SatelliteDetector.DURATION_LOW, BurstIntensity.LOW, bullet.posX, bullet.posZ);
 		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 15.0F, 1.0F);
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "tinytot");

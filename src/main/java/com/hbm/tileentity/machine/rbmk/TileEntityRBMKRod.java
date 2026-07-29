@@ -15,6 +15,8 @@ import com.hbm.inventory.container.ContainerRBMKRod;
 import com.hbm.inventory.gui.GUIRBMKRod;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
@@ -117,6 +119,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(!worldObj.isRemote) {
 
 			if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+				
+				if(this.fluxQuantity > 0 && worldObj.getTotalWorldTime() % 200 == 0)
+					SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_NUCLEAR, 300);
 
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 				this.rodColor = rod.colorTint;

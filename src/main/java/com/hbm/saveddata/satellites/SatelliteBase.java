@@ -4,6 +4,7 @@ import com.hbm.tileentity.network.RTTYSystem;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -23,7 +24,7 @@ public abstract class SatelliteBase {
 	public String tx = "";
 	
 	public int getID() {
-		return XSatelliteRegistry.satellites.indexOf(this.getClass());
+		return XSatelliteRegistry.idToClass.inverse().get(this.getClass());
 	}
 	
 	public abstract String getType();
@@ -40,11 +41,15 @@ public abstract class SatelliteBase {
 		this.tx = nbt.getString("tx");
 	}
 	
+	/** When a satellite is created, i.e. this frequency is occupied for the first time */
 	public void onOrbit(World world, double x, double y, double z) {
 		setTarget((int) Math.floor(x), (int) Math.floor(z));
 		
 		RTTYSystem.broadcast(world, CHAN_SATLINK, "Established connection to " + getType() + " at " + targetX + " / " + targetZ);
 	}
+	
+	/** For subsequent items sent under the same frequency as an existing satellite */
+	public void onPartDelivered(World world, ItemStack part) { }
 	
 	public void onCommand(World world, String... cmd) {
 		onCommandTarget(world, cmd);
