@@ -4170,11 +4170,11 @@ item.satellite.miner_astro.name=Астероидный шахтёрский ко
 item.satellite.miner_lunar.name=Лунный шахтёрский корабль
 item.satellite.precision_laser.name=Орбитальный прецизионный лазер
 item.satellite.radar.name=Радиолокационный спутник
-item.satellite.ray_scan.name=Спутник-сканер узкополосного радиоизлучения
-item.satellite.relay.name=Ретрансляционный спутник
+item.satellite.ray_scan.name=Спутник-сканер узкополосного излучения
+item.satellite.relay.name=Спутник-ретранслятор
 item.satellite.scanner.name=Спутник глубинного сканирования
 item.satellite.spy.name=Спутник-шпион
-item.satellite.xenium_resonator.name=Спутник с Зен-Резонатором
+item.satellite.xenium_resonator.name=Спутник с Зен-резонатором
 
 item.sawblade.name=Лезвие пилорамы
 item.schnitzel_vegan.name=Вегетарианский шницель
@@ -5973,7 +5973,7 @@ tile.red_pylon.name=Малая опора ЛЭП (Деревянная)
 tile.red_pylon_steel.name=Малая опора ЛЭП (Стальная)
 tile.red_pylon_large.name=Большая опора ЛЭП
 tile.red_pylon_medium_steel.name=Средняя опора ЛЭП (Стальная)
-tile.red_pylon_medium_steel_transformer.nameСредняя опора ЛЭП с трансформатором (Стальная)
+tile.red_pylon_medium_steel_transformer.name=Средняя опора ЛЭП с трансформатором (Стальная)
 tile.red_pylon_medium_wood.name=Средняя опора ЛЭП (Деревянная)
 tile.red_pylon_medium_wood_transformer.name=Средняя опора ЛЭП с трансформатором (Деревянная)
 tile.red_wire_coated.name=Медный кабель с покрытием
