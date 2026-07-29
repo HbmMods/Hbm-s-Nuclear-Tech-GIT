@@ -7,6 +7,7 @@
   * Can pinpoint exact locations, but is limited in its field of view
 
 ## Changed
+* Updated russian and chinese localization
 * AUTOCAL's `first` and `last` instructions now support variable substitution
 * Spy satellites now have the `getsmog` command, checking for soot pollution on the current target coordinate
 
@@ -17,3 +18,5 @@
 * Potentially fixed ID-shift affecting satellites launched pre-update
 * Fixed xenium resonator item mapping being incorrect, creating a relay satellite instead
 * Fixed a potential crash caused by accessing out-of-range data on the radar satellite
+* Fixed QMAW manual pages not being able to be overwritten by resource packs
+  * This feature was a major pain in the ass to actually make, and it apparently never even worked until now
