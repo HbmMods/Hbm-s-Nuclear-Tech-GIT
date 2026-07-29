@@ -10,6 +10,8 @@
 * Updated russian and chinese localization
 * AUTOCAL's `first` and `last` instructions now support variable substitution
 * Spy satellites now have the `getsmog` command, checking for soot pollution on the current target coordinate
+* The research reactor and breeding reactor have been deprecated
+  * The reactors and the plate fuel no longer have recipes, but existing ones will continue to function until they run out of fuel
 
 ## Fixed
 * Fixed pile fuel loader temperature reading not working
@@ -20,3 +22,5 @@
 * Fixed a potential crash caused by accessing out-of-range data on the radar satellite
 * Fixed QMAW manual pages not being able to be overwritten by resource packs
   * This feature was a major pain in the ass to actually make, and it apparently never even worked until now
+* Fixed satellite groundstation losing its frequency on relog
+* Added extra safeguarding preventing crashes caused by multiblock door tile entities not bound to the correct block

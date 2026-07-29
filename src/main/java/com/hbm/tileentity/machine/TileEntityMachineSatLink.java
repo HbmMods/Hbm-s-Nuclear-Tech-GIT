@@ -85,7 +85,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", freq);
+		nbt.setInteger("freq", freq);
 	}
 
 	AxisAlignedBB bb = null;

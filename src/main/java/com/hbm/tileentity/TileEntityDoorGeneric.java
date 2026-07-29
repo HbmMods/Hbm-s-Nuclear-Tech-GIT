@@ -49,6 +49,11 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 	public void updateEntity() {
 		if(this.getBlockMetadata() < 12) return;
 		
+		if(this.getDoorType() == null) {
+			this.invalidate();
+			return;
+		}
+		
 		if(getDoorType().onDoorUpdate() != null) {
 			getDoorType().onDoorUpdate().accept(this);
 		}
@@ -191,7 +196,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase {
 	public DoorDecl getDoorType() {
 
 		if(this.doorType == null && this.getBlockType() instanceof BlockDoorGeneric)
-			this.doorType = ((BlockDoorGeneric)this.getBlockType()).type;
+			this.doorType = ((BlockDoorGeneric) this.getBlockType()).type;
 
 		return this.doorType;
 	}
