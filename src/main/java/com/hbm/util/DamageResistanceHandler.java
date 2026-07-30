@@ -206,6 +206,8 @@ public class DamageResistanceHandler {
 				.setOther(2F, 0.15F);
 		registerSet(ModItems.bj_helmet, ModItems.bj_plate, ModItems.bj_legs, ModItems.bj_boots, bj);
 		registerSet(ModItems.bj_helmet, ModItems.bj_plate_jetpack, ModItems.bj_legs, ModItems.bj_boots, bj);
+		registerSet(ModItems.bj_eyepatch, ModItems.bj_plate_jetpack, ModItems.bj_legs, ModItems.bj_boots, bj);
+		registerSet(ModItems.bj_eyepatch, ModItems.bj_plate, ModItems.bj_legs, ModItems.bj_boots, bj);
 		registerSet(ModItems.envsuit_helmet, ModItems.envsuit_plate, ModItems.envsuit_legs, ModItems.envsuit_boots, new ResistanceStats()
 				.addCategory(CATEGORY_FIRE, 2F, 0.75F)
 				.addExact(DamageSource.drown.damageType, 0F, 1F)

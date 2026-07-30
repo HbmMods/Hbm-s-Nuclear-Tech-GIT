@@ -7,6 +7,7 @@ import com.hbm.items.special.ItemDrop;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
 
 import static com.hbm.items.ModItems.*;
@@ -220,9 +221,8 @@ public class ModItemsArmor {
 
 		ArmorMaterial aMatBJ = EnumHelper.addArmorMaterial("HBM_BLACKJACK", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatBJ.customCraftingMaterial = ModItems.plate_armor_lunar;
+		
 		bj_helmet = new ArmorBJ(aMatBJ, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100)
-				.enableVATS(true)
-				.enableThermalSight(true)
 				.setHasGeigerSound(true)
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
@@ -232,8 +232,15 @@ public class ModItemsArmor {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
-				.setRadResist(1D /*90%*/)
+				.setHazardClass(ArmorUtil.FULL_PACKAGE).setRadResist(1D /*90%*/)
 				.setUnlocalizedName("bj_helmet").setTextureName(RefStrings.MODID + ":bj_helmet");
+		bj_eyepatch = new ArmorBJEyepatch(aMatBJ, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100)
+				.cloneStats((ArmorFSB) bj_helmet)
+				.enableVATS(true)
+				.enableThermalSight(true)
+				.setHazardClass(HazardClass.LIGHT, HazardClass.SAND)
+				.setUnlocalizedName("bj_eyepatch").setTextureName(RefStrings.MODID + ":bj_helmet");
+				
 		bj_plate = new ArmorBJ(aMatBJ, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate").setTextureName(RefStrings.MODID + ":bj_plate");
 		bj_plate_jetpack = new ArmorBJJetpack(aMatBJ, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate_jetpack").setTextureName(RefStrings.MODID + ":bj_plate_jetpack");
 		bj_legs = new ArmorBJ(aMatBJ, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 1000, 100).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_legs").setTextureName(RefStrings.MODID + ":bj_legs");

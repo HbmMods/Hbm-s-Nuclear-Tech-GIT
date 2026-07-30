@@ -1130,6 +1130,7 @@ public class ResourceManager {
 	public static final ResourceLocation grenade_nuka_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/nuka_label.png");
 	public static final ResourceLocation grenade_nuka_fuze_tex = new ResourceLocation(RefStrings.MODID, "textures/models/grenades/nuka_fuze.png");
 
+	public static final ResourceLocation bj_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_helmet.png");
 	public static final ResourceLocation bj_eyepatch = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_eyepatch.png");
 	public static final ResourceLocation bj_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_leg.png");
 	public static final ResourceLocation bj_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_chest.png");
