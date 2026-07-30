@@ -38,7 +38,9 @@ public class ModelArmorBJ extends ModelArmorBase {
 
 		if(this.type == 0) {
 			bindTexture(ResourceManager.bj_helmet);
-			this.head.render(scaleFactor);	
+			this.head.render(scaleFactor);
+			bindTexture(ResourceManager.bj_eyepatch);
+			this.eyepatch.render(scaleFactor);
 		}
 		if (this.type == 6) {
 			bindTexture(ResourceManager.bj_eyepatch);

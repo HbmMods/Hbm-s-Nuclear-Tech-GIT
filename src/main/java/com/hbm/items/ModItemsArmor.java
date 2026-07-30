@@ -223,6 +223,8 @@ public class ModItemsArmor {
 		aMatBJ.customCraftingMaterial = ModItems.plate_armor_lunar;
 		
 		bj_helmet = new ArmorBJ(aMatBJ, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100)
+				.enableVATS(true)
+				.enableThermalSight(true)
 				.setHasGeigerSound(true)
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
@@ -236,8 +238,6 @@ public class ModItemsArmor {
 				.setUnlocalizedName("bj_helmet").setTextureName(RefStrings.MODID + ":bj_helmet");
 		bj_eyepatch = new ArmorBJEyepatch(aMatBJ, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000, 100)
 				.cloneStats((ArmorFSB) bj_helmet)
-				.enableVATS(true)
-				.enableThermalSight(true)
 				.setHazardClass(HazardClass.LIGHT, HazardClass.SAND)
 				.setUnlocalizedName("bj_eyepatch").setTextureName(RefStrings.MODID + ":bj_helmet");
 				
