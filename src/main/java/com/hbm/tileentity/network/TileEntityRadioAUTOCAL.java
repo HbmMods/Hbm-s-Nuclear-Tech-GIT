@@ -218,11 +218,76 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, doc = "function():string -- Reads current buffer")
+	@Callback(direct = true, limit = 4, doc = "function():string -- Reads current buffer")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getBuffer(Context context, Arguments args) {
 		if (ctx == null)
 			return new Object[] { "" };
 		return new Object[] { ctx.readBuffer() };
+	}
+
+	@Callback(direct = true, limit = 1, doc = "function(program: string) -- Changes the script")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setScript(Context context, Arguments args) {
+		String data = args.checkString(0);
+		this.ctx.jmp.clear();
+		this.script = data.split("\n");
+		for(int i = 0; i < script.length; i++) {
+			script[i] = script[i].trim();
+			this.msesv1ext.generateJumpPoints(ctx, script[i], i);
+		}
+		if(this.isOn) stop("Script has changed");
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 1, doc = "function():string -- Returns current script")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getScript(Context context, Arguments args) {
+		String joinedScript = "";
+		for(int i = 0; i < script.length; i++) {
+			joinedScript = joinedScript + script[i] + "\n";
+		}
+		return new Object[] { joinedScript };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(state: boolean) -- Turns on or off the machine")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setState(Context context, Arguments args) {
+		boolean state = args.checkBoolean(0);
+		if (state) isOn = true;
+		else stop("User requested shutdown");
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Whenever the machine is currently on")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getState(Context context, Arguments args) {
+		return new Object[] { isOn };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(state: boolean) -- Makes the machine ignore errors")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setIgnoreError(Context context, Arguments args) {
+		ignoreError = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Whenever the machine is currently ignoring errors")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getIgnoreError(Context context, Arguments args) {
+		return new Object[] { ignoreError };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(auto: boolean) -- Makes the machine automatically reboot")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setAutoReboot(Context context, Arguments args) {
+		autoReboot = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Whenever the machine automatically reboots")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAutoReboot(Context context, Arguments args) {
+		return new Object[] { autoReboot };
 	}
 }
