@@ -1,5 +1,6 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GUIScreenRadioAUTOCAL;
 import com.hbm.module.IParse;
@@ -10,9 +11,14 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.BufferUtil;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,43 +27,44 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	public boolean isOn = false;
 	public boolean ignoreError = false;
 	public boolean autoReboot = false;
-	
+
 	public String[] script = new String[0];
 	public IParse msesv1ext = new ParseMSES1Ext1();
 	public ParseContext ctx;
-	
+
 	public String[] history = new String[] {"", "", "", "", "", ""};
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(this.worldObj.getTotalWorldTime() % 60 == 0) this.markChanged(); // ensure we're always saved to disk
-			
+
 			if(this.ctx == null) {
 				this.ctx = new ParseContext(worldObj);
 			}
 			if(this.ctx.world != this.worldObj) this.ctx.world = this.worldObj;
-			
+
 			if(!this.isOn && this.autoReboot) {
 				this.isOn = true;
 			}
-			
+
 			if(this.isOn) {
-				
+
 				int emergencyBrake = 100;
 				for(int i = 0; i < this.ctx.clockSpeed && emergencyBrake > 0; i++) {
 					emergencyBrake--;
-					
+
 					if(this.ctx.current == this.script.length) { this.stop("Program has terminated"); break; }
 					if(this.ctx.current < 0 || this.ctx.current >= this.script.length) { this.stop("Program index is out of bounds"); break; }
-					
+
 					try {
 						int index = this.ctx.current;
 						this.ctx.current ++;
@@ -79,20 +86,20 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 					}
 				}
 			}
-			
+
 			this.networkPackNT(15);
 		}
 	}
-	
+
 	public void pushMsg(String msg) {
-		
+
 		for(int i = 2; i < history.length; i++) {
 			history[i - 1] = history[i];
 		}
-		
+
 		history[history.length - 1] = msg;
 	}
-	
+
 	public void stop(String reason) {
 		this.isOn = false;
 		this.ctx.turnOff();
@@ -124,7 +131,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		this.isOn = nbt.getBoolean("isOn");
 		this.ignoreError = nbt.getBoolean("ignoreError");
 		this.autoReboot = nbt.getBoolean("autoReboot");
-		
+
 		NBTTagList lineList = nbt.getTagList("script", 8);
 		this.script = new String[lineList.tagList.size()];
 		for(int i = 0; i < script.length; i++) {
@@ -142,13 +149,13 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		nbt.setBoolean("isOn", isOn);
 		nbt.setBoolean("ignoreError", ignoreError);
 		nbt.setBoolean("autoReboot", autoReboot);
-		
+
 		NBTTagList lineList = new NBTTagList();
 		for(String line : this.script) {
 			lineList.appendTag(new NBTTagString(line));
 		}
 		nbt.setTag("script", lineList);
-		
+
 		this.ctx.writeToNBT(nbt);
 	}
 
@@ -168,7 +175,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		}
 		if(data.hasKey("ignore")) this.ignoreError = !this.ignoreError;
 		if(data.hasKey("auto")) this.autoReboot = !this.autoReboot;
-		
+
 		if(data.hasKey("payload")) {
 			this.ctx.jmp.clear();
 			this.script = data.getString("payload").split("\n");
@@ -178,21 +185,44 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 			}
 			if(this.isOn) stop("Script has changed");
 		}
-		
+
 		this.markChanged();
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		if(bb == null) bb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2, zCoord + 1);
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	// yay opencomputer stuff
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "radio_autocal";
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(buffer: string):boolean -- Changes buffer. This can allow for inter-computer communication")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setBuffer(Context context, Arguments args) {
+		if (ctx != null)
+			return new Object[] { ctx.writeBuffer(args.checkString(0)) };
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():string -- Reads current buffer")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getBuffer(Context context, Arguments args) {
+		if (ctx == null)
+			return new Object[] { "" };
+		return new Object[] { ctx.readBuffer() };
 	}
 }
