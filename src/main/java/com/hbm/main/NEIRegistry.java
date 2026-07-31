@@ -80,6 +80,7 @@ public class NEIRegistry {
 		handlers.add(new CompressorHandler());
 		handlers.add(new ParticleAcceleratorHandler());
 		handlers.add(new DeuteriumHandler());
+		handlers.add(new RockMillRecipeHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());
