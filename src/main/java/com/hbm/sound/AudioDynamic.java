@@ -69,7 +69,14 @@ public class AudioDynamic extends MovingSound {
 	}
 	
 	public void start() {
-		Minecraft.getMinecraft().getSoundHandler().playSound(this);
+		try {
+			Minecraft.getMinecraft().getSoundHandler().playSound(this);
+		} catch(IllegalArgumentException e) {
+			// SoundManager's internal HashBiMap can already hold this instance as a value
+			// (e.g. evicted under channel pressure without notifying us) when isPlaying()
+			// wrongly reported false, making it try to insert the same value twice and crash.
+			// Skip the restart instead of taking the whole game down over one ambient sound.
+		}
 	}
 	
 	public void stop() {
