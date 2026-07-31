@@ -1,0 +1,11 @@
+{
+    "name": "Solvent",
+    "icon": ["hbm:item.fluid_icon", 1, 83],
+    "trigger": [["hbm:item.fluid_icon", 1, 83]],
+    "title": {
+        "en_US": "Solvent"
+    },
+    "content": {
+        "en_US": ""
+    }
+}
