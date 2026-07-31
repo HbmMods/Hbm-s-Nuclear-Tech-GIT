@@ -214,4 +214,34 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	public Object[] read(Context context, Arguments args) {
 		return new Object[] { provideRORValue(PREFIX_VALUE + "rx") };
 	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"isConnected",
+			"setFreq",
+			"getFreq",
+			"send",
+			"read"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("isConnected"):
+				return isConnected(context, args);
+			case ("setFreq"):
+				return setFreq(context, args);
+			case ("getFreq"):
+				return getFreq(context, args);
+			case ("send"):
+				return send(context, args);
+			case ("read"):
+				return read(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
 }
