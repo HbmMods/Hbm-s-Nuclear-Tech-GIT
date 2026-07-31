@@ -40,7 +40,6 @@ import net.minecraft.client.renderer.Tessellator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
@@ -49,7 +48,6 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 	public BlockDummyable(Material mat) {
 		super(mat);
-		this.setTickRandomly(true);
 	}
 
 	/// BLOCK METADATA ///
@@ -81,26 +79,17 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		overrideTileMeta = 0;
 	}
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-
 		super.onNeighborBlockChange(world, x, y, z, block);
 
-		if(safeRem)
-			return;
-
-		destroyIfOrphan(world, x, y, z);
-	}
-
-	public void updateTick(World world, int x, int y, int z, Random rand) {
-
-		super.updateTick(world, x, y, z, rand);
+		if(safeRem) return;
 
 		destroyIfOrphan(world, x, y, z);
 	}
 
 	private void destroyIfOrphan(World world, int x, int y, int z) {
-		if(world.isRemote)
-			return;
+		if(world.isRemote) return;
 
 		int metadata = world.getBlockMetadata(x, y, z);
 
@@ -194,18 +183,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		ForgeDirection dir = ForgeDirection.NORTH;
 
-		if(i == 0) {
-			dir = ForgeDirection.getOrientation(2);
-		}
-		if(i == 1) {
-			dir = ForgeDirection.getOrientation(5);
-		}
-		if(i == 2) {
-			dir = ForgeDirection.getOrientation(3);
-		}
-		if(i == 3) {
-			dir = ForgeDirection.getOrientation(4);
-		}
+		if(i == 0) dir = ForgeDirection.getOrientation(2);
+		if(i == 1) dir = ForgeDirection.getOrientation(5);
+		if(i == 2) dir = ForgeDirection.getOrientation(3);
+		if(i == 3) dir = ForgeDirection.getOrientation(4);
 
 		dir = getDirModified(dir);
 
@@ -373,20 +354,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		super.breakBlock(world, x, y, z, b, i);
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType() { return -1; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 
 	/**
 	 * @returns an int array with six fields, describing the amount of dummy blocks in each direction around the core. order is UP, DOWN, FORWARD, BACKWARD, LEFT, RIGHT

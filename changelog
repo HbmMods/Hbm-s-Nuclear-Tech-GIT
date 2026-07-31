@@ -12,6 +12,7 @@
 * Spy satellites now have the `getsmog` command, checking for soot pollution on the current target coordinate
 * The research reactor and breeding reactor have been deprecated
   * The reactors and the plate fuel no longer have recipes, but existing ones will continue to function until they run out of fuel
+* Removed orphaned multiblock dummies clearing themselves via random ticks, only block updates can do that now
 
 ## Fixed
 * Fixed pile fuel loader temperature reading not working
@@ -24,3 +25,7 @@
   * This feature was a major pain in the ass to actually make, and it apparently never even worked until now
 * Fixed satellite groundstation losing its frequency on relog
 * Added extra safeguarding preventing crashes caused by multiblock door tile entities not bound to the correct block
+* Fixed new pile rods now having radiation values
+* Potentially fixed a multiblock migration issue where standard electricity pylons would disappear due to changes in expected metadata
+* Fixed the pipe wrench assuming anchor pos 0/0/0 when NBT data is initialized as well as clearing all NBT data if a pipe connection is created
+* Fixed tower base structures spawning in sandy biomes
