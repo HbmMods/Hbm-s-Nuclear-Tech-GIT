@@ -76,6 +76,9 @@ public class ArmorBJ extends ArmorFSBPowered implements IItemRendererProvider {
 						GL11.glScaled(0.875, 0.875, 0.875);
 					}
 				}
+				if(armorType == 0) {
+					GL11.glScaled(1.1, 1.0, 1.0);
+				}
 				
 			ResourceLocation headTex = null;
 			String bodyPart = null;
@@ -92,7 +95,13 @@ public class ArmorBJ extends ArmorFSBPowered implements IItemRendererProvider {
 			renderStandard(ResourceManager.armor_bj, armorType,
 							headTex, ResourceManager.bj_chest, ResourceManager.bj_arm, ResourceManager.bj_leg,
 							bodyPart, "Body", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot");
-		
+			
+			// for rendering the eyepatch over the helmet.
+			if(headTex == ResourceManager.bj_helmet) {
+				Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.bj_eyepatch);
+				GL11.glScaled(1.1, 1.1, 1.1);
+				ResourceManager.armor_bj.renderPart("Eyepatch");
+			}
 				
 				if(ArmorBJ.this == ModItems.bj_plate_jetpack) {
 					GL11.glTranslated(0, 0, -0.1);
