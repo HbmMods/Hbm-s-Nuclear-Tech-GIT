@@ -250,7 +250,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	protected ForgeDirection getDirModified(ForgeDirection dir) {
 		return dir;
 	}
+	//TODO: Remove after converting all multiblocks
 
+	/* 
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		return MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir);
 	}
@@ -258,6 +260,8 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
 	}
+	*/
+
 
 	// "upgrades" regular dummy blocks to ones with the extra flag
 	public void makeExtra(World world, int x, int y, int z) {
@@ -573,8 +577,105 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return meta;
 	}
 
+	//Code for handling placing, checking, filling, and overlaying the outline
+	
+	//Note: To use override the getHull with the array of the blocks
+	//you can set the dimensions to null if you wish to use extra blocks, or setblocks to fill a shape 
+	
+	//To use setblock, fill in the dimension with null, extra blocks with 0, and the setBlock to true, the location is determined by the offset
+	
+	//All of these can be controlled with whether to use check or not, which determines if it should check that position to see if it can place
+	//This also determines whether the outline is red
+
+	public static class multiBlockHull{
+		public int[] dimensions;
+		public int[] extraBlocks;
+		public int[] offset;
+		public boolean checkThisOne;
+		public boolean setBlock;
+
+		// Presets for different types of multiblocks, makes it easier to create a new machine without having a bunch of 0's and false's
+		public multiBlockHull(int[] dimensions){
+			this(dimensions,true,new int[0],new int[] {0, 0, 0}, false);
+		}
+		public multiBlockHull(int[] dimensions, boolean checkThisOne){
+			this(dimensions,checkThisOne,new int[0],new int[] {0, 0, 0}, false);
+		}
+		public multiBlockHull(int[] dimensions, boolean checkThisOne, int[] extraBlocks){
+			this(dimensions,checkThisOne,extraBlocks,new int[] {0, 0, 0}, false);
+		}
+		public multiBlockHull(int[] dimensions, boolean checkThisOne, int[] extraBlocks, int[] offset){
+			this(dimensions,checkThisOne,extraBlocks,offset,false);
+		}
+		public multiBlockHull(int[] dimensions, boolean checkThisOne, int[] extraBlocks, int[] offset, boolean setBlock){
+			this.dimensions = dimensions;
+			this.extraBlocks = extraBlocks;
+			this.offset = offset;
+			this.checkThisOne = checkThisOne;
+			this.setBlock = setBlock;
+		}
+	}
+
+	public multiBlockHull[] getHulls() {
+		return new multiBlockHull[] {
+			new multiBlockHull(getDimensions())
+		};
+	}
+	//I am not writing thhis nonsense 3 times.
+	private int[] resolveOrigin(int dx, int dy, int dz, ForgeDirection dir, int[] offset) {
+		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
+		return new int[] {
+			dx + dir.offsetX * offset[0] + side.offsetX * offset[2],
+			dy + offset[1],
+			dz + dir.offsetZ * offset[0] + side.offsetZ * offset[2]
+		};
+	}
+
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		int dx = x + dir.offsetX * o;
+		int dy = y + dir.offsetY * o;
+		int dz = z + dir.offsetZ * o;
+
+		for(multiBlockHull hull : getHulls()) {
+			int[] origin = resolveOrigin(dx, dy, dz, dir, hull.offset);
+			if(hull.dimensions != null){
+				MultiblockHandlerXR.fillSpace(world, origin[0], origin[1], origin[2], hull.dimensions, this, dir);
+			}
+			else if(hull.setBlock){
+				int [] newOrigin = resolveOrigin(x, y, z, dir, hull.offset);
+				world.setBlock(newOrigin[0], newOrigin[1], newOrigin[2], this, dir.ordinal(), 3);
+				makeExtra(world, newOrigin[0], newOrigin[1], newOrigin[2]);
+			}
+			else{
+				makeExtra(world, origin[0], origin[1], origin[2]);
+			}
+		}
+	}
+
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		int dx = x + dir.offsetX * o;
+		int dy = y + dir.offsetY * o;
+		int dz = z + dir.offsetZ * o;
+
+		for(multiBlockHull hull : getHulls()) {
+			if(hull.checkThisOne && hull.dimensions != null) {
+				int[] origin = resolveOrigin(dx, dy, dz, dir, hull.offset);
+				if(!MultiblockHandlerXR.checkSpace(world, origin[0], origin[1], origin[2], hull.dimensions, x, y, z, dir)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public int[][] getAllDimensions() {
-		return new int[][] { getDimensions() };
+		multiBlockHull[] hulls = getHulls();
+		List<int[]> result = new ArrayList<>();
+		for(multiBlockHull hull : hulls) {
+			if(hull.dimensions != null)
+				result.add(hull.dimensions);
+		}
+		return result.toArray(new int[0][]);
 	}
 
 	public double[][] getAABBExtras() {
