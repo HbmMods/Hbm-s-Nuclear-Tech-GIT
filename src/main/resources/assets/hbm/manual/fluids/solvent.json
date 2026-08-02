@@ -1,0 +1,11 @@
+{
+    "name": "Solvent",
+    "icon": ["hbm:item.fluid_icon", 1, 83],
+    "trigger": [["hbm:item.fluid_icon", 1, 83]],
+    "title": {
+        "en_US": "Solvent"
+    },
+    "content": {
+        "en_US": "Solvent is obtained by combining both [[cracked naphtha|Cracked Naphtha]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It has multiple uses including [[bedrock ore processing|Bedrock Ore Processing]] and advanced circuit production.<br><br>See also:<br>[[Advanced Oil Processing]]"
+    }
+}
