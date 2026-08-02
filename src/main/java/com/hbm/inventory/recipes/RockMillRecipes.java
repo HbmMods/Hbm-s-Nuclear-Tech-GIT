@@ -34,31 +34,90 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 		int duraShort = 100;
 		int duraLong = 200;
 		
-		this.register(new GenericRecipe("rock.cobble").setupNamed(duraShort, consumption).setNameWrapper("rock.crushing")
+		String groupCrush = "autoswitch.crushing";
+		
+		this.register(new GenericRecipe("rock.cobble").setup(duraShort, consumption).setNameWrapper("rock.crushing")
 				.inputItems(new OreDictStack(KEY_COBBLESTONE))
 				.inputFluids(new FluidStack(Fluids.WATER, 250))
 				.outputItems(new ChanceOutputMulti(
 						new ChanceOutput(new ItemStack(Blocks.gravel), 95),
 						new ChanceOutput(new ItemStack(ModItems.powder_quartz), 5)
-				)).setIconToFirstIngredient());
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
 		
-		this.register(new GenericRecipe("rock.gravel").setupNamed(duraShort, consumption).setNameWrapper("rock.crushing")
+		this.register(new GenericRecipe("rock.gravel").setup(duraShort, consumption).setNameWrapper("rock.crushing")
 				.inputItems(new ComparableStack(Blocks.gravel))
 				.inputFluids(new FluidStack(Fluids.WATER, 250))
 				.outputItems(new ChanceOutputMulti(
 						new ChanceOutput(new ItemStack(Blocks.sand), 75),
 						new ChanceOutput(new ItemStack(Items.flint), 20),
 						new ChanceOutput(new ItemStack(ModItems.powder_boron), 5)
-				)).setIconToFirstIngredient());
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
 		
-		this.register(new GenericRecipe("rock.bauxite").setupNamed(duraLong, consumption).setNameWrapper("rock.crushing")
+		this.register(new GenericRecipe("rock.sand").setup(duraShort, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new OreDictStack(KEY_SAND))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(ModItems.dust), 90),
+						new ChanceOutput(new ItemStack(ModItems.powder_calcium), 5),
+						new ChanceOutput(new ItemStack(ModItems.fluorite), 5)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.netherrack").setup(duraShort, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new ComparableStack(Blocks.netherrack))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(Blocks.gravel), 50),
+						new ChanceOutput(new ItemStack(Blocks.soul_sand), 25),
+						new ChanceOutput(new ItemStack(Items.glowstone_dust), 15),
+						new ChanceOutput(new ItemStack(ModItems.powder_quartz), 10)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.soulsand").setup(duraShort, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new ComparableStack(Blocks.soul_sand))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(Blocks.sand), 50),
+						new ChanceOutput(new ItemStack(ModItems.powder_fire), 25),
+						new ChanceOutput(new ItemStack(ModItems.powder_uranium), 15),
+						new ChanceOutput(new ItemStack(Items.blaze_powder), 5),
+						new ChanceOutput(new ItemStack(Items.nether_wart), 5)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.schist").setup(duraLong, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new ComparableStack(ModBlocks.stone_gneiss))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(Blocks.gravel), 50),
+						new ChanceOutput(new ItemStack(Blocks.sand), 10),
+						new ChanceOutput(new ItemStack(ModItems.powder_lithium), 25),
+						new ChanceOutput(new ItemStack(ModItems.powder_niobium), 5),
+						new ChanceOutput(new ItemStack(ModItems.powder_uranium), 5),
+						new ChanceOutput(new ItemStack(ModItems.powder_gold), 5)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.hematite").setup(duraLong, consumption).setNameWrapper("rock.crushing")
+				.inputItems(new OreDictStack(HEMATITE.ore()))
+				.inputFluids(new FluidStack(Fluids.WATER, 250))
+				.outputItems(new ChanceOutputMulti(
+						new ChanceOutput(new ItemStack(Blocks.gravel), 65),
+						new ChanceOutput(new ItemStack(ModItems.powder_iron), 25),
+						new ChanceOutput(new ItemStack(ModItems.powder_titanium), 10)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.bauxite").setup(duraLong, consumption).setNameWrapper("rock.crushing")
 				.inputItems(new OreDictStack(BAUXITE.ore()))
 				.inputFluids(new FluidStack(Fluids.WATER, 250))
 				.outputItems(new ChanceOutputMulti(
 						new ChanceOutput(new ItemStack(Blocks.gravel), 25),
 						new ChanceOutput(new ItemStack(Items.clay_ball), 25),
 						new ChanceOutput(new ItemStack(ModBlocks.stone_resource, 1, 2), 25),
-						new ChanceOutput(new ItemStack(ModBlocks.ore_titanium, 1, 2), 25)
-				)).setIconToFirstIngredient());
+						new ChanceOutput(new ItemStack(ModBlocks.ore_titanium), 25)
+				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
+		
+		this.register(new GenericRecipe("rock.clay").setup(duraLong, consumption)
+				.inputItems(new OreDictStack(KEY_SAND),
+						new ComparableStack(ModItems.dust))
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000))
+				.outputItems(new ItemStack(Items.clay_ball, 4)));
 	}
 }

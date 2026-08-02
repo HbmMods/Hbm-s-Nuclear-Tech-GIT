@@ -135,6 +135,7 @@ ass.factorioChip=Minimalisten-Schaltkreise
 ass.nitra=Nitra zu Munition
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
+autoswitch.crushing=Fels-Zerkleinerung
 autoswitch.cyclotron=Zyklotron-Pulverkisten
 autoswitch.pile=Wiederaufbereitung Chicago-Pile-Brennstoff
 autoswitch.pilerod=Chicago-Pile-Brennstoff
@@ -323,6 +324,7 @@ container.machinePrecAss=Präzisions-Montagemaschine
 container.machinePUREX=PUREX
 container.machinePyroOven=Pyrolyseofen
 container.machineRefinery=Ölraffinerie
+container.machineRockMill=Steinmühle
 container.machineRotaryFurnace=Rotationshochofen
 container.machineSelenium=Hochleistungs-Sternmotor
 container.machineShredder=Brecher
@@ -3765,6 +3767,8 @@ rbmk.rod.xenon=Xenonvergiftung: %s
 rbmk.rod.coreTemp=Kerntemperatur: %s
 rbmk.rod.skinTemp=Außentemperatur: %s / %s
 
+rock.crushing=Zerkleinern von %s
+
 shape.barrelHeavy=Schwerer Lauf
 shape.barrelLight=Leichter Lauf
 shape.billet=Billet
@@ -4537,7 +4541,7 @@ tile.machine_radgen.name=Strahlenbetriebener Generator
 tile.machine_reactor.name=Brutreaktor (LEGACY)
 tile.machine_reactor_small.name=Atomreaktor (LEGACY)
 tile.machine_refinery.name=Ölraffinerie
-tile.machine_reix_mainframe.name=Rei-X Hauptrechner (WIP)
+tile.machine_rockmill.name=Steinmühle
 tile.machine_rotary_furnace.name=Rotationshochofen
 tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)

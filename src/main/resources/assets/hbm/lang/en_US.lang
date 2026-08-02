@@ -190,6 +190,7 @@ ass.factorioChip=Minimalist Circuits
 ass.nitra=Nitra to Ammunition
 
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
+autoswitch.crushing=Rock Crushing
 autoswitch.cyclotron=Cyclotron Powder Boxes
 autoswitch.pile=Reprocessing Chicago Pile Rods
 autoswitch.pilerod=Chicago Pile Rods
@@ -724,6 +725,7 @@ container.machinePrecAss=Precision Assembly Machine
 container.machinePUREX=PUREX
 container.machinePyroOven=Pyrolysis Oven
 container.machineRefinery=Oil Refinery
+container.machineRockMill=Rock Mill
 container.machineRotaryFurnace=Rotary Furnace
 container.machineSelenium=Radial Performance Engine
 container.machineShredder=Shredder
@@ -4964,6 +4966,8 @@ rbmk.screen.rod=Control: %s
 rbmk.screen.temp=Temp: %s
 rbmk.screen.xenon=Xenon: %s
 
+rock.crushing=Crushing of %s
+
 satchip.frequency=Satellite frequency
 satchip.foeq=Gives you an achievement. That's it.
 satchip.gerald.desc=Single use.$Requires orbital module.$Melter of CPUs, bane of every server owner.
@@ -5824,7 +5828,7 @@ tile.machine_radiolysis.name=Radioisotope Thermoelectric Generator and Radiolysi
 tile.machine_reactor.name=Breeding Reactor (LEGACY)
 tile.machine_reactor_small.name=Research Reactor (LEGACY)
 tile.machine_refinery.name=Oil Refinery
-tile.machine_reix_mainframe.name=Rei-X Mainframe (WIP)
+tile.machine_rockmill.name=Rock Mill
 tile.machine_rotary_furnace.name=Rotary Furnace
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
