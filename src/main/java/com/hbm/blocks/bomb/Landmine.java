@@ -11,8 +11,11 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.NTMSounds;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -205,7 +208,8 @@ public class Landmine extends BlockContainer implements IBomb {
 				data.setBoolean("balefire", MainRegistry.polaroidID == 11 || world.rand.nextInt(100) == 0);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
 
-				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.mukeExplosion", 25.0F, 0.9F); // this has to be the single worst solution ever
+				SatelliteDetector.reportEvent(world, SatelliteDetector.DURATION_LOW, BurstIntensity.LOW, x + 0.5, z + 0.5);
+				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, NTMSounds.GUN_MINI_NUKE_EXPLOSION, 25.0F, 0.9F); // this has to be the single worst solution ever
 			}
 		}
 

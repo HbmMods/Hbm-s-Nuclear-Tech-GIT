@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 65],
+    "trigger": [["hbm:item.fluid_icon", 1, 65]],
+    "title": {
+        "en_US": "Cracked Light Oil"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Cracked light oil has a variety of uses, it may be [[reformed|Catalytic Reformer]] or [[bred|Fusion Reactor Breeding Chamber]] to obtain [[reformate gas|Reformate Gas]] and other byproducts. It may also be used as an alternate to [[light oil|Light Oil]] in the production of [[desh|Desh]]. It can also be [[fractioned|Fractioning Tower]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}

@@ -93,7 +93,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 		if(lower.startsWith("first ")) {
 			if(line.length() <= 6) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				int length = Integer.parseInt(line.substring(6));
+				int length = Integer.parseInt(substitute(ctx, line.substring(6), true));
 				int max = ctx.readBuffer().length();
 				if(length > max) length = max;
 				ctx.writeBuffer(ctx.readBuffer().substring(0, length));
@@ -105,7 +105,7 @@ public class ParseMSES1Ext1 extends ParseMSES1 {
 		if(lower.startsWith("last ")) {
 			if(line.length() <= 5) return EnumStatementReturn.PARAMETER_ERROR;
 			try {
-				int length = Integer.parseInt(line.substring(5));
+				int length = Integer.parseInt(substitute(ctx, line.substring(5), true));
 				int max = ctx.readBuffer().length();
 				if(length > max) length = max;
 				ctx.writeBuffer(ctx.readBuffer().substring(max - length, max));

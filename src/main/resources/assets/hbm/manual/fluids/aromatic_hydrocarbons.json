@@ -1,0 +1,11 @@
+{
+    "name": "Aromatic Hydrocarbons",
+    "icon": ["hbm:item.fluid_icon", 1, 67],
+    "trigger": [["hbm:item.fluid_icon", 1, 67]],
+    "title": {
+        "en_US": "Aromatic Hydrocarbons"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Aromatic hydrocarbons are primarily used in the production of [[bakelite|Bakelite]] and [[solvent|Solvent]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}

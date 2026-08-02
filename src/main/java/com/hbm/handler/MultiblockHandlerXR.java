@@ -96,36 +96,6 @@ public class MultiblockHandlerXR {
 		BlockDummyable.safeRem = false;
 	}
 	
-	@Deprecated
-	public static void emptySpace(World world, int x, int y, int z, int[] dim, Block block, ForgeDirection dir) {
-		
-		if(dim == null || dim.length != 6)
-			return;
-
-		int count = 0;
-		
-		System.out.println("emptyspace is deprecated and shouldn't even be executed");
-		
-		int[] rot = rotate(dim, dir);
-
-		for(int a = x - rot[4]; a <= x + rot[5]; a++) {
-			for(int b = y - rot[1]; b <= y + rot[0]; b++) {
-				for(int c = z - rot[2]; c <= z + rot[3]; c++) {
-					
-					if(world.getBlock(a, b, c) == block)
-						world.setBlockToAir(a, b, c);
-					
-					count++;
-					
-					if(count > 2000) {
-						System.out.println("emptyspace: ded " + a + " " + b + " " + c);
-						return;
-					}
-				}
-			}
-		}
-	}
-	
 	public static int[] rotate(int[] dim, ForgeDirection dir) {
 		
 		if(dim == null) return null;
@@ -144,29 +114,6 @@ public class MultiblockHandlerXR {
 		if(dir == ForgeDirection.WEST) {
 			//                 U       D       N       S       W       E
 			return new int[] { dim[0], dim[1], dim[4], dim[5], dim[3], dim[2] };
-		}
-		
-		return dim;
-	}
-	
-	public static double[] rotateDouble(double[] dim, ForgeDirection dir) {
-		
-		if(dim == null) return null;
-		if(dir == ForgeDirection.SOUTH) return dim;
-		
-		if(dir == ForgeDirection.NORTH) {
-			//                    U       D       N       S       W       E
-			return new double[] { dim[0], dim[1], dim[3], dim[2], dim[5], dim[4] };
-		}
-		
-		if(dir == ForgeDirection.EAST) {
-			//                    U       D       N       S       W       E
-			return new double[] { dim[0], dim[1], dim[5], dim[4], dim[2], dim[3] };
-		}
-		
-		if(dir == ForgeDirection.WEST) {
-			//                    U       D       N       S       W       E
-			return new double[] { dim[0], dim[1], dim[4], dim[5], dim[3], dim[2] };
 		}
 		
 		return dim;

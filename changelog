@@ -1,62 +1,31 @@
 ## Added
-* New Chicago Pile
-  * Assembled multiblock, similar to the PWR
-  * Requires new chicago pile graphite bricks
-  * Assembled with a hand drill out of a box made from graphite bricks, at least 5x5x5, and at most 15x15x15 blocks large
-  * Drilling the assembled reactor will add channels at the selected locations
-    * Drilling along the reactor's orientation will add a fuel channel
-    * Drilling perpendicular to fuel channels will add a ventilation channel
-    * Drilling vertically will add a control rod channel
-  * Fuel insertion is now done with a dedicated fuel loader which can be operated by hand or automated with hopper IO and redstone
-  * Ventilation channels need chicago pile vents which are powered with compressed air at 1 PU
-  * Chicago pile control rods can either be fully withdrawn with redstone or fine tuned with RoR
-  * Additionally, channels can be drilled by right clicking a pile addon device with the hand drill, the addon doesn't need to be removed beforehand
-    * This is mainly for convenience when disassembling and reassembling the reactor, which requires all channels to be drilled again
-  * Piles that overheat will explode, throwing flaming graphite everywhere
-* Satelllite Ground Station
-  * Can relay RoR commands to connected satellites and satellite info back to RoR
-* Platemetal
-  * Decorative connected texture metal block
-  * Comes in all colors except brown
-  * NTM poop theory debunked
-  * Make a nice clanking noise when placing and breaking
+* Wideband Radio Emission Detector Satellite
+  * Detects high-energy events like nuclear explosions, particle accelerator operations and radar from the entire map
+  * Not terribly accurate, positioning may be off by hundreds or thousands of blocks depending on the emission intensity
+* Narrowband Emission Scanning Satellite
+  * Detects high-energy events like radar, particle accelerator operations, nuclear or fusion reactors
+  * Can pinpoint exact locations, but is limited in its field of view
 
 ## Changed
-* Updated all oil well GUI textures
-  * There's now only two upgrade slots instead of three
-* All legacy pixel gauges have been replaced with smooth ones (watz, ZIRNOX, CCGT) making them more accurate
-* Updated the diesel generator's GUI
-  * The diesel gen now also has an in-GUI button for turning it on and off like the industrial combustion engine
-* MS-ESv1.1 `split` instruction now supports variable substitution
-* Multiblocks now display a wireframe preview of how much space they take up
-  * This preview is green if it can be placed and red if it can not
-  * On some machines, this preview might not be perfect, but the check on whether it can be placed should always be accurate
-  * This makes it easier to anticipate how much space a machine takes up, as well as lining up large parts like fusion reactor components which were notoriously hard to place down right
-* Updated the small pylon model
-  * The small pylon now has a steel variant
-* Items in the battery socket which previously didn't show up in the socket's model are now rendered
-* Reduced the cost for the heavy stirling engine
-* Removed the satellite interface item for being basically completely useless
-* Updated the satellite ID manager texture and recipe
-* Satellite ID chips are now soldered
-* Overhauled all satellites
-  * Satellites now use one item ID with meta, most satellites now have new textures
-  * Satellites can now be connected to ground stations and controlled with RoR commands
-  * Satellites now have manual pages detailing the commands
-  * The recipes have been updated, they now use mostly common parts and no longer feature the satellite base and heads items which are welded together
-  * Legacy satellites still function and can still be launched
-* The PWR's coolant levels can now be read with RoR
-* Soyuz and related assembly recipes now use 25kHE/t instead of just 100
-* Updated the GUI textures for the refinery, various particle accelerator parts and a few other machines
-* Glyphid hive blocks now use state-of-the-fart flesh sounds
+* Updated russian and chinese localization
+* AUTOCAL's `first` and `last` instructions now support variable substitution
+* Spy satellites now have the `getsmog` command, checking for soot pollution on the current target coordinate
+* The research reactor and breeding reactor have been deprecated
+  * The reactors and the plate fuel no longer have recipes, but existing ones will continue to function until they run out of fuel
+* Removed orphaned multiblock dummies clearing themselves via random ticks, only block updates can do that now
 
 ## Fixed
-* Fixed held block being placed when not sneaking when opening the cable diode's GUI
-* Fixed an issue where the diesel generator's fuel capacity is the original 4,000mB instead of the intended new 16,000mB
-  * This means that explosive barrels and universal barrels can now be loaded into the diesel generator
-* Fixed RoR terminal's `set` command not working
-* Fixed a longstanding issue where the transparent part of beams from tile entity models would often have incorrect render order, sometimes rendering things behind them invisible
-  * This also fixes the same phenomenon for other types of beams, such as those from hitscan laser and tesla weapons
-* Fixed some issues regarding the new crane structure
-* Fixed skeletonizer ashes floating over the floor after landing
-* Fixed backface rendering of the capacitor frames when inserted in the battery socket
+* Fixed pile fuel loader temperature reading not working
+* Fixed mining satellite NEI handling
+* Fixed crash caused by non-miner satellite ID chips in the cargo landing pad
+* Potentially fixed ID-shift affecting satellites launched pre-update
+* Fixed xenium resonator item mapping being incorrect, creating a relay satellite instead
+* Fixed a potential crash caused by accessing out-of-range data on the radar satellite
+* Fixed QMAW manual pages not being able to be overwritten by resource packs
+  * This feature was a major pain in the ass to actually make, and it apparently never even worked until now
+* Fixed satellite groundstation losing its frequency on relog
+* Added extra safeguarding preventing crashes caused by multiblock door tile entities not bound to the correct block
+* Fixed new pile rods now having radiation values
+* Potentially fixed a multiblock migration issue where standard electricity pylons would disappear due to changes in expected metadata
+* Fixed the pipe wrench assuming anchor pos 0/0/0 when NBT data is initialized as well as clearing all NBT data if a pipe connection is created
+* Fixed tower base structures spawning in sandy biomes

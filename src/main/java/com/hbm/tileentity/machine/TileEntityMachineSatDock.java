@@ -182,7 +182,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 
 				if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
 					SatelliteBase sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
-					if(sat != null) unloadCargo((SatelliteMiner) sat);
+					if(sat instanceof SatelliteMiner) unloadCargo((SatelliteMiner) sat);
 				}
 			}
 

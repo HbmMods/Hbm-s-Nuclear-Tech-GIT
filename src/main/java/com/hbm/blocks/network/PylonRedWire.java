@@ -22,8 +22,7 @@ public class PylonRedWire extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-
-		if(meta >= 12) return new TileEntityPylon();
+		if(meta == 0 || meta >= 12) return new TileEntityPylon();
 		return null;
 	}
 

@@ -12,6 +12,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPylon extends TileEntityPylonBase {
 
 	@Override
+	public void updateEntity() {
+		
+		// migration
+		if(!worldObj.isRemote && this.getBlockMetadata() == 0) {
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 12, 3);
+		}
+		
+		super.updateEntity();
+	}
+
+	@Override
 	public ConnectionType getConnectionType() {
 		return ConnectionType.SINGLE;
 	}

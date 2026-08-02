@@ -5,13 +5,13 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.ICompatNHNEI;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.itempool.ItemPool;
-import com.hbm.itempool.ItemPoolsSatellite;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.lib.RefStrings;
 import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.util.ItemStackUtil;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -44,16 +44,25 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 	public String getGuiTexture() {
 		return RefStrings.MODID + ":textures/gui/nei/gui_nei_anvil.png";
 	}
+	
+	public static ComparableStack[] getMiningSatellites() {
+		return new ComparableStack[] {
+				new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO),
+				new ComparableStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR),
+				new ComparableStack(ModItems.sat_miner),
+				new ComparableStack(ModItems.sat_lunar_miner),
+		};
+	}
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if(outputId.equals("ntmSatellite")) {
-			for(Item satelliteItem : new Item[]{ModItems.sat_miner, ModItems.sat_lunar_miner}) {
+			for(ComparableStack satelliteItem : getMiningSatellites()) {
 				String poolName = SatelliteMiner.getCargoForItem(satelliteItem);
 				if(poolName == null) {
 					continue;
 				}
-				this.addRecipeToList(satelliteItem, ItemPool.getPool(poolName));
+				this.addRecipeToList(satelliteItem.toStack(), ItemPool.getPool(poolName));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -62,7 +71,7 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		for(Item satelliteItem : new Item[]{ModItems.sat_miner, ModItems.sat_lunar_miner}) {
+		for(ComparableStack satelliteItem : getMiningSatellites()) {
 			String poolName = SatelliteMiner.getCargoForItem(satelliteItem);
 			if(poolName == null) {
 				continue;
@@ -70,7 +79,7 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 			WeightedRandomChestContent[] pool = ItemPool.getPool(poolName);
 			for(WeightedRandomChestContent poolEntry : pool) {
 				if(NEIServerUtils.areStacksSameTypeCrafting(poolEntry.theItemId, result)) {
-					this.addRecipeToList(satelliteItem, pool);
+					this.addRecipeToList(satelliteItem.toStack(), pool);
 					break;
 				}
 			}
@@ -88,15 +97,18 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		if(ingredient.getItem() == ModItems.sat_miner) {
-			this.addRecipeToList(ModItems.sat_miner, ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_MINER));
-		} else if(ingredient.getItem() == ModItems.sat_lunar_miner) {
-			this.addRecipeToList(ModItems.sat_lunar_miner, ItemPool.getPool(ItemPoolsSatellite.POOL_SAT_LUNAR));
+		for(ComparableStack satelliteItem : getMiningSatellites()) {
+			if(satelliteItem.matchesRecipe(ingredient, true)) {
+				String poolName = SatelliteMiner.getCargoForItem(satelliteItem);
+				if(poolName == null) continue;
+				WeightedRandomChestContent[] pool = ItemPool.getPool(poolName);
+				this.addRecipeToList(satelliteItem.toStack(), pool);
+			}
 		}
 	}
 
 
-	private void addRecipeToList(Item poolItem, WeightedRandomChestContent[] poolEntries) {
+	private void addRecipeToList(ItemStack poolItem, WeightedRandomChestContent[] poolEntries) {
 		List<ItemStack> outs = new ArrayList<>();
 		int weight = Arrays.stream(poolEntries).mapToInt(poolEntry -> poolEntry.itemWeight).sum();
 
@@ -109,7 +121,7 @@ public class SatelliteHandler extends TemplateRecipeHandler implements ICompatNH
 			outs.add(stack);
 		}
 
-		this.arecipes.add(new RecipeSet(new ItemStack(poolItem), outs));
+		this.arecipes.add(new RecipeSet(poolItem, outs));
 	}
 
 	@Override

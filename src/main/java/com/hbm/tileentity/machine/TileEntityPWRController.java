@@ -22,6 +22,8 @@ import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemPWRPrinter;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -255,6 +257,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 							this.amountLoaded--;
 							this.markChanged();
 						}
+						
+						if(worldObj.getTotalWorldTime() % 100 == 0)
+							SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_NUCLEAR, 200);
 					}
 
 					if(this.amountLoaded <= 0) {

@@ -97,10 +97,6 @@ repositories {
 		name = "CurseMaven"
 		url = "https://cursemaven.com"
 	}
-	maven {
-        name = "OpenComputers"
-        url = "https://maven.cil.li/"
-    }
 }
 
 dependencies {
@@ -115,7 +111,7 @@ dependencies {
 
 	compileOnly("inventorytweaks:InventoryTweaks:1.59-dev:deobf") { transitive = false }
 
-	compileOnly("li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api") { transitive = false }
+	compileOnly("com.github.MightyPirates:OpenComputers:1.7.10-forge~1.8.9:api") { transitive = false }
 
 	compileOnly("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta.56-GTNH:dev") { transitive = false }
 }

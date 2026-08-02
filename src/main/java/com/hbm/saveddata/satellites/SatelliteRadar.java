@@ -103,7 +103,7 @@ public class SatelliteRadar extends SatelliteBase {
 	
 	public Entity getTargetFromIndex(String cmd) {
 		if(filteredRadarResults.size() <= 0) return null;
-		int index = IRORInteractive.parseInt(cmd, 0, filteredRadarResults.size()) - 1;
+		int index = IRORInteractive.parseInt(cmd, 1, filteredRadarResults.size()) - 1;
 		Entity target = filteredRadarResults.get(index);
 		if(target.isDead) return null;
 		return target;

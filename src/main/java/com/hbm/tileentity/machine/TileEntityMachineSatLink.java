@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
+import com.hbm.saveddata.satellites.SatelliteRayScan;
+import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
@@ -83,7 +85,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", freq);
+		nbt.setInteger("freq", freq);
 	}
 
 	AxisAlignedBB bb = null;
@@ -160,6 +162,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			if(sat != null) {
 				sat.onCommand(worldObj, cmd);
 			}
+			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
 			this.markChanged();
 		}
 		

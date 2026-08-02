@@ -1,0 +1,11 @@
+{
+	"name": "Wideband Radio Emission Detector Satellite",
+	"icon": ["hbm:item.satellite", 1, 9],
+	"trigger": [["hbm:item.satellite", 1, 9]],
+	"title": {
+		"en_US": "Wideband Radio Emission Detector Satellite"
+	},
+	"content": {
+		"en_US": "The wideband radio emission detector is a type of [[satellite|Satellite]] that can detect certain types of high-energy events from the entire map, albeit with low accuracy. The detector can only give a very rough idea of where such an event is taking place, for more accurate results, the area needs to be scanned wither with a [[spy satellite|Spy Satellite]] or [[narrowband scanner|Narrowband Emission Scanning Satellite]].<br><br>The types of events this satellite can pick up are as follows:<br>* Mini nuke explosions (low intensity, accuracy <10,000m)<br>* Radar (medium intensity, accuracy <2,500m)<br>* Particle accelerator operations (medium intensity, accuracy <2,500m)<br>Nuclear explosions (high intensity, accuracy <500m)<br><br>Events are timed, medium intense ones are the shortest lived as they only show up for half a second, while other events can show up for multiple seconds or even up to a minute. It is therefore important to scan any given area multiple times in rapid succession to get an accurate result.<br><br>* '§esurvey§r' will report any recent events that have not timed out yet. The detector's field of view covers the entire map, so there is no range limitations. All detected results are saved to an internal list.<br>* '§ecount§r' will write the amount of detected events to RX.<br>* '§egettype §eindex§r' will write the type (LOW/MEDIUM/HIGH) of the specified event to RX.<br>* '§egetposition §eindex§r' will write the estimated X/Z position of the specified event to RX. The coordinated are separated by semicolon.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]"
+	}
+}

@@ -33,7 +33,6 @@ public class NEIRegistry {
 		handlers.add(new RefineryRecipeHandler());
 		handlers.add(new CentrifugeRecipeHandler());
 		handlers.add(new GasCentrifugeRecipeHandler());
-		handlers.add(new BreederRecipeHandler());
 		handlers.add(new CyclotronRecipeHandler());
 		handlers.add(new VacuumRecipeHandler());
 		handlers.add(new CrackingHandler());
@@ -81,6 +80,7 @@ public class NEIRegistry {
 		handlers.add(new CompressorHandler());
 		handlers.add(new ParticleAcceleratorHandler());
 		handlers.add(new DeuteriumHandler());
+		handlers.add(new RockMillRecipeHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());
