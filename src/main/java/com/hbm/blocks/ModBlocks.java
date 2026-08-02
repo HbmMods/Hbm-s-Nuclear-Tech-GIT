@@ -972,6 +972,7 @@ public class ModBlocks {
 	public static Block machine_autosaw;
 	public static Block machine_thresher;
 
+	public static Block machine_rockmill;
 	public static Block machine_mining_laser;
 	public static Block barricade; // a sand bag that drops nothing, for automated walling purposes
 
@@ -2192,6 +2193,7 @@ public class ModBlocks {
 		machine_excavator = new MachineExcavator().setBlockName("machine_excavator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_ore_slopper = new MachineOreSlopper().setBlockName("machine_ore_slopper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_annihilator = new MachineAnnihilator().setBlockName("machine_annihilator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_rockmill = new MachineRockMill(Material.iron).setBlockName("machine_rockmill").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mining_laser = new MachineMiningLaser(Material.iron).setBlockName("machine_mining_laser").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_mining_laser");
 		barricade = new BlockNoDrop(Material.sand).setBlockName("barricade").setHardness(1.0F).setResistance(2.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barricade");
 		machine_assembly_machine = new MachineAssemblyMachine(Material.iron).setBlockName("machine_assembly_machine").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3234,6 +3236,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_electric_furnace_off, machine_electric_furnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_microwave, machine_microwave.getUnlocalizedName());
+		register(machine_rockmill);
 		register(machine_assembly_machine);
 		register(machine_assembly_factory);
 		register(machine_precass);
