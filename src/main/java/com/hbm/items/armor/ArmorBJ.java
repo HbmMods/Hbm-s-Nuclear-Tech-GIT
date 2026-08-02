@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -75,9 +76,33 @@ public class ArmorBJ extends ArmorFSBPowered implements IItemRendererProvider {
 						GL11.glScaled(0.875, 0.875, 0.875);
 					}
 				}
-				renderStandard(ResourceManager.armor_bj, armorType,
-						ResourceManager.bj_eyepatch, ResourceManager.bj_chest, ResourceManager.bj_arm, ResourceManager.bj_leg,
-						"Head", "Body", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot");
+				if(armorType == 0) {
+					GL11.glScaled(1.1, 1.0, 1.0);
+				}
+				
+			ResourceLocation headTex = null;
+			String bodyPart = null;
+			
+			if(ArmorBJ.this == ModItems.bj_helmet){
+				headTex = ResourceManager.bj_helmet;
+				bodyPart = "Head";
+			}
+			if(ArmorBJ.this == ModItems.bj_eyepatch){
+				headTex = ResourceManager.bj_eyepatch;
+				bodyPart = "Eyepatch";
+			}
+
+			renderStandard(ResourceManager.armor_bj, armorType,
+							headTex, ResourceManager.bj_chest, ResourceManager.bj_arm, ResourceManager.bj_leg,
+							bodyPart, "Body", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "LeftFoot", "RightFoot");
+			
+			// for rendering the eyepatch over the helmet.
+			if(headTex == ResourceManager.bj_helmet) {
+				Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.bj_eyepatch);
+				GL11.glScaled(1.1, 1.1, 1.1);
+				ResourceManager.armor_bj.renderPart("Eyepatch");
+			}
+				
 				if(ArmorBJ.this == ModItems.bj_plate_jetpack) {
 					GL11.glTranslated(0, 0, -0.1);
 					Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.bj_jetpack);

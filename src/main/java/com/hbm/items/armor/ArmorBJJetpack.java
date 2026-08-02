@@ -75,7 +75,7 @@ public class ArmorBJJetpack extends ArmorBJ {
 
 				if(player.motionY < -0.08) {
 
-					double mo = player.motionY * -0.4;
+					double mo = player.motionY * -0.65;
 					player.motionY += mo;
 
 					Vec3 vec = player.getLookVec();
