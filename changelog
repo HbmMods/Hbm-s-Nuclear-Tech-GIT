@@ -1,31 +1,8 @@
 ## Added
-* Wideband Radio Emission Detector Satellite
-  * Detects high-energy events like nuclear explosions, particle accelerator operations and radar from the entire map
-  * Not terribly accurate, positioning may be off by hundreds or thousands of blocks depending on the emission intensity
-* Narrowband Emission Scanning Satellite
-  * Detects high-energy events like radar, particle accelerator operations, nuclear or fusion reactors
-  * Can pinpoint exact locations, but is limited in its field of view
-
-## Changed
-* Updated russian and chinese localization
-* AUTOCAL's `first` and `last` instructions now support variable substitution
-* Spy satellites now have the `getsmog` command, checking for soot pollution on the current target coordinate
-* The research reactor and breeding reactor have been deprecated
-  * The reactors and the plate fuel no longer have recipes, but existing ones will continue to function until they run out of fuel
-* Removed orphaned multiblock dummies clearing themselves via random ticks, only block updates can do that now
-
-## Fixed
-* Fixed pile fuel loader temperature reading not working
-* Fixed mining satellite NEI handling
-* Fixed crash caused by non-miner satellite ID chips in the cargo landing pad
-* Potentially fixed ID-shift affecting satellites launched pre-update
-* Fixed xenium resonator item mapping being incorrect, creating a relay satellite instead
-* Fixed a potential crash caused by accessing out-of-range data on the radar satellite
-* Fixed QMAW manual pages not being able to be overwritten by resource packs
-  * This feature was a major pain in the ass to actually make, and it apparently never even worked until now
-* Fixed satellite groundstation losing its frequency on relog
-* Added extra safeguarding preventing crashes caused by multiblock door tile entities not bound to the correct block
-* Fixed new pile rods now having radiation values
-* Potentially fixed a multiblock migration issue where standard electricity pylons would disappear due to changes in expected metadata
-* Fixed the pipe wrench assuming anchor pos 0/0/0 when NBT data is initialized as well as clearing all NBT data if a pipe connection is created
-* Fixed tower base structures spawning in sandy biomes
+* Rock mill
+  * Earlygame post-steel crusher type machine
+  * Can grind down various stones, gravel and sand into finer items while yielding byproduct
+  * Mainly intended to serve as an easy way to automate/bulk craft certain elements in earlygame before BOP
+  * While the byproduct chances are rather low and the recipe times are slow, the mills are easily scalable due to their low cost
+  * Comes with convenient stacking frame
+  * Ideal for skyblock/seablock type challenge runs, as it can be configured to serve as an Ex Nihilo substitute
