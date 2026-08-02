@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Naphtha",
+    "icon": ["hbm:item.fluid_icon", 1, 64],
+    "trigger": [["hbm:item.fluid_icon", 1, 64]],
+    "title": {
+        "en_US": "Cracked Naphtha"
+    },
+    "content": {
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Cracked naphtha may be [[reformed|Catalytic Reformer]] to obtain [[reformate|Reformate]] and other byproducts. It is also a key ingredient in the production of [[solvent|Solvent]]. It can also be [[fractioned|Fractioning Tower]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}
