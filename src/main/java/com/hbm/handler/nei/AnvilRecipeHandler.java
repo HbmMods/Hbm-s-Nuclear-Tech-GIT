@@ -2,7 +2,6 @@ package com.hbm.handler.nei;
 
 import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -241,8 +240,8 @@ public class AnvilRecipeHandler extends TemplateRecipeHandler implements ICompat
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(11, 42, 36, 18), "ntmAnvil"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(65, 42, 36, 18), "ntmAnvil"));
+		//transferRectsGui.add(new RecipeTransferRect(new Rectangle(11, 42, 36, 18), "ntmAnvil"));
+		//transferRectsGui.add(new RecipeTransferRect(new Rectangle(65, 42, 36, 18), "ntmAnvil"));
 
 		guiGui.add(GUIAnvil.class);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
