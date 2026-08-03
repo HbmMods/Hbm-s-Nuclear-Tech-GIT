@@ -118,14 +118,14 @@ public class TileEntityRadioTorchController extends TileEntityLoadedBase impleme
 		return "radio_controller";
 	}
 
-	@Callback(direct = true, limit = 4, doc = "function(channel: string) -- Set the channel the torch is listening/broadcasting to")
+	@Callback(direct = true, limit = 4, doc = "function(channel: string) -- Set the channel the torch is broadcasting to")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setChannel(Context context, Arguments args) {
 		channel = args.checkString(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, doc = "function():boolean -- Gets current channel the torch is listening/broadcasting to")
+	@Callback(direct = true, doc = "function():string -- Gets current channel the torch is broadcasting to")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getChannel(Context context, Arguments args) {
 		return new Object[] { channel };
@@ -151,11 +151,5 @@ public class TileEntityRadioTorchController extends TileEntityLoadedBase impleme
 		if (channel != null && !channel.isEmpty() && cmd != null && !cmd.isEmpty())
 			RTTYSystem.broadcast(worldObj, channel, cmd);
 		return new Object[] {};
-	}
-
-	@Callback(direct = true, doc = "function():string -- Gets last received command. Includes recently sent commands")
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] read(Context context, Arguments args) {
-		return new Object[] { prev };
 	}
 }

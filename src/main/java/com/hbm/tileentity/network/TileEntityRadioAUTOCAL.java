@@ -210,7 +210,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		return "radio_autocal";
 	}
 
-	@Callback(direct = true, limit = 4, doc = "function(buffer: string):boolean -- Changes buffer. This can allow for inter-computer communication")
+	@Callback(direct = true, limit = 4, doc = "function(buffer: string):boolean -- Changes buffer. This can allow for inter-computer communication. Returns false if buffer was truncated")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setBuffer(Context context, Arguments args) {
 		if (ctx != null)
@@ -226,7 +226,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		return new Object[] { ctx.readBuffer() };
 	}
 
-	@Callback(direct = true, limit = 1, doc = "function(program: string) -- Changes the script")
+	@Callback(direct = true, limit = 1, doc = "function(script: string) -- Changes the script")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setScript(Context context, Arguments args) {
 		String data = args.checkString(0);
@@ -265,7 +265,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 		return new Object[] { isOn };
 	}
 
-	@Callback(direct = true, limit = 4, doc = "function(state: boolean) -- Makes the machine ignore errors")
+	@Callback(direct = true, limit = 4, doc = "function(ignore: boolean) -- Makes the machine ignore errors")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setIgnoreError(Context context, Arguments args) {
 		ignoreError = args.checkBoolean(0);
@@ -289,5 +289,13 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getAutoReboot(Context context, Arguments args) {
 		return new Object[] { autoReboot };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(index: number):string -- Returns a line in history")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHistory(Context context, Arguments args) {
+		int index = args.checkInteger(0);
+		if (index >= 0 && index < history.length) return new Object[] { history[index] };
+		else return new Object[] {};
 	}
 }
