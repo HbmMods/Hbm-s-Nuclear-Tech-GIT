@@ -1,0 +1,11 @@
+{
+    "name": "Antimatter",
+    "icon": ["hbm:item.fluid_icon", 1, 33],
+    "trigger": [["hbm:item.fluid_icon", 1, 33]],
+    "title": {
+        "en_US": "Antimatter"
+    },
+    "content": {
+        "en_US": "Antimatter can be produced using a [[particle accelerator|Particle Detector]] or as a byproduct from the [[cyclotron|Cyclotron]]. It can be used to produce some rbmk fuels, or as a component of [[balefire plasma|Balefire Plasma]] to be used in a [[fusion reactor vessel|Fusion Reactor Vessel]].<br><br>See also:<br>[[Particle Accelerator]]<br>[[Fusion Reactor]]"
+    }
+}
