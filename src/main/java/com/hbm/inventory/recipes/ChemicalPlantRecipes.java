@@ -270,7 +270,22 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("chem.lubeelectrodes").setupNamed(600, 100)
 				.inputFluids(new FluidStack(Fluids.LUBRICANT, 8_000))
 				.outputItems(new ItemStack(ModItems.arc_electrode, 1)).setPools(GenericRecipes.POOL_PREFIX_ALT + ".electrodes"));
-
+		
+		this.register(new GenericRecipe("chem.mineralclump").setupNamed(100, 250)
+		        .inputItems(new ComparableStack(ModItems.mineral_clump, 2))
+       			.inputFluids(new FluidStack(Fluids.WATER, 1_000))
+				.outputItems(new ChanceOutputMulti(
+                new ChanceOutput(new ItemStack(Blocks.gravel, 1), 30),
+                new ChanceOutput(new ItemStack(ModItems.sulfur, 1), 15),
+                new ChanceOutput(new ItemStack(ModItems.niter, 1), 15),
+                new ChanceOutput(new ItemStack(ModItems.powder_iron, 1), 10),
+                new ChanceOutput(new ItemStack(ModItems.powder_copper, 1), 10),
+                new ChanceOutput(new ItemStack(ModItems.powder_lead, 1), 10),
+                new ChanceOutput(new ItemStack(ModItems.powder_gold, 1), 5),
+                new ChanceOutput(new ItemStack(ModItems.powder_tungsten, 1), 5)
+        ))
+				.outputFluids(new FluidStack(Fluids.SLOP, 100))
+				.setIconToFirstIngredient());
 		/// ACIDS ///
 		this.register(new GenericRecipe("chem.peroxide").setup(50, 100)
 				.inputFluids(new FluidStack(Fluids.WATER, 1_000))
