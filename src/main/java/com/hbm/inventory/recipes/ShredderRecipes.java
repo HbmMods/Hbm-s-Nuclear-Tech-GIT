@@ -219,7 +219,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 		for(ItemStack dust : lapis) ShredderRecipes.setRecipe(dust, new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		
-		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+		for(EnumOre ore : EnumOre.values()) {
 			int i = ore.ordinal();
 			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_bedrock, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
 			ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_centrifuged, 1, i), new ItemStack(ModItems.ore_enriched, 1, i));
@@ -284,6 +284,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.bedrock_ore, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.gravel));
+		ShredderRecipes.setRecipe(ModItems.mineral_clump, new ItemStack(Blocks.gravel, 1));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
