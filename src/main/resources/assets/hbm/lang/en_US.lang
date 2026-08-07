@@ -2828,6 +2828,8 @@ item.fragment_lanthanium.name=Lanthanium Fragment
 item.fragment_meteorite.name=Meteorite Fragment
 item.fragment_neodymium.name=Neodymium Fragment
 item.fragment_niobium.name=Niobium Fragment
+item.mineral_clump.name=Mineral Clump
+
 item.fuel_additive.antiknock.name=Tetraethyllead Antiknock Agent
 item.fuel_additive.deicer.name=Deicer
 item.fuel_tank_large.name=Large Fuel Tank
