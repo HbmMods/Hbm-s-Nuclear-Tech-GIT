@@ -40,8 +40,9 @@ public class RockMillRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(KEY_COBBLESTONE))
 				.inputFluids(new FluidStack(Fluids.WATER, 250))
 				.outputItems(new ChanceOutputMulti(
-						new ChanceOutput(new ItemStack(Blocks.gravel), 95),
-						new ChanceOutput(new ItemStack(ModItems.powder_quartz), 5)
+						new ChanceOutput(new ItemStack(Blocks.gravel), 93),
+						new ChanceOutput(new ItemStack(ModItems.powder_quartz), 5),
+					new ChanceOutput(new ItemStack(ModItems.mineral_clump), 2)
 				)).setIconToFirstIngredient().setGroup(groupCrush, INSTANCE));
 		
 		this.register(new GenericRecipe("rock.gravel").setup(duraShort, consumption).setNameWrapper("rock.crushing")
