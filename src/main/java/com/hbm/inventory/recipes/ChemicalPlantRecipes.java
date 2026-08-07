@@ -271,7 +271,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.LUBRICANT, 8_000))
 				.outputItems(new ItemStack(ModItems.arc_electrode, 1)).setPools(GenericRecipes.POOL_PREFIX_ALT + ".electrodes"));
 		
-		this.register(new GenericRecipe("chem.mineralclump").setupNamed(1000, 250)
+		this.register(new GenericRecipe("chem.mineralclump").setupNamed(100, 250)
 		        .inputItems(new ComparableStack(ModItems.mineral_clump, 2))
        			.inputFluids(new FluidStack(Fluids.WATER, 1_000))
 				.outputItems(new ChanceOutputMulti(
