@@ -281,7 +281,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
                 new ChanceOutput(new ItemStack(ModItems.powder_iron, 1), 10),
                 new ChanceOutput(new ItemStack(ModItems.powder_copper, 1), 10),
                 new ChanceOutput(new ItemStack(ModItems.powder_lead, 1), 10),
-                new ChanceOutput(new ItemStack(ModItems.powder_coal, 1), 5),
+                new ChanceOutput(new ItemStack(ModItems.powder_gold, 1), 5),
                 new ChanceOutput(new ItemStack(ModItems.powder_tungsten, 1), 5)
         ))
 				.outputFluids(new FluidStack(Fluids.SLOP, 100))
