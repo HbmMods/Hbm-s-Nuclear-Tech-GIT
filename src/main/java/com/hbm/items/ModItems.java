@@ -544,6 +544,7 @@ public class ModItems {
 	public static Item fragment_meteorite;
 	public static Item fragment_coltan;
 	public static Item chunk_ore;
+	public static Item mineral_clump;
 
 	public static Item biomass;
 	public static Item biomass_compressed;
@@ -2544,6 +2545,7 @@ public class ModItems {
 		fragment_meteorite = new Item().setUnlocalizedName("fragment_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_meteorite");
 		fragment_coltan = new Item().setUnlocalizedName("fragment_coltan").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_coltan");
 		chunk_ore = new ItemEnumMulti(EnumChunkType.class, true, true).setUnlocalizedName("chunk_ore").setCreativeTab(MainRegistry.partsTab);
+		mineral_clump = new ItemCustomLore().setUnlocalizedName("mineral_clump").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mineral_clump");
 
 		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass");
 		biomass_compressed = new Item().setUnlocalizedName("biomass_compressed").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":biomass_compressed");
@@ -4784,6 +4786,7 @@ public class ModItems {
 		GameRegistry.registerItem(fragment_meteorite, fragment_meteorite.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_coltan, fragment_coltan.getUnlocalizedName());
 		GameRegistry.registerItem(chunk_ore, chunk_ore.getUnlocalizedName());
+		GameRegistry.registerItem(mineral_clump, mineral_clump.getUnlocalizedName());
 
 		//Things that look like rotten flesh but aren't
 		GameRegistry.registerItem(biomass, biomass.getUnlocalizedName());
