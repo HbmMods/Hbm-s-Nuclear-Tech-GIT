@@ -2,6 +2,7 @@ package com.hbm.tileentity.network;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -18,10 +19,10 @@ import net.minecraft.world.World;
 public class RTTYSystem {
 
 	/** Public frequency band for reading purposes, delayed by one tick */
-	public static HashMap<Pair<World, String>, RTTYChannel> broadcast = new HashMap();
+	public static ConcurrentHashMap<Pair<World, String>, RTTYChannel> broadcast = new ConcurrentHashMap();
 	/** New message queue for writing, gets written into readable Map later on */
-	public static HashMap<Pair<World, String>, Object> newMessages = new HashMap();
-	
+	public static ConcurrentHashMap<Pair<World, String>, Object> newMessages = new ConcurrentHashMap();
+
 	/** Pushes a new signal to be used next tick. Only the last signal pushed will be used. */
 	public static void broadcast(World world, String channelName, Object signal) {
 		Pair identifier = new Pair(world, channelName);
