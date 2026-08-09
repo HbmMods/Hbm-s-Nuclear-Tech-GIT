@@ -1,0 +1,11 @@
+{
+    "name": "Reformate Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 99],
+    "trigger": [["hbm:item.fluid_icon", 1, 99]],
+    "title": {
+        "en_US": "Reformate Gas"
+    },
+    "content": {
+        "en_US": "Reformate gas can be obtained by [[cracking|Catalytic Cracking Tower]], [[irradiating|Radiolysis Chamber]], [[breeding|Fusion Reactor Breeding Chamber]], [[fractioning|Fractioning Tower]] and multiple other methods. Its primary uses include the production of [[high-performance solvent|High-Performance Solvent]] and [[welding|Arc Welder]] [[cast combine steel plates|Combine Steel]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+    }
+}
