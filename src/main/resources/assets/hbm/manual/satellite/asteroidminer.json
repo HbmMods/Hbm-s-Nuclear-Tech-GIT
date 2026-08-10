@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.satellite", 1, 3],
 	"trigger": [["hbm:item.satellite", 1, 3]],
 	"title": {
-		"en_US": "Asteroid Mining Ship"
+		"en_US": "Asteroid Mining Ship",
+		"ru_RU": "Астероидный шахтёрский корабль"
 	},
 	"content": {
-		"en_US": "The asteroid mining ship will, if connected to a satellite ID chip which is inserted into a cargo landing pad, land in regular intervals to deliver items mined in space. Do note that one mining ship can only supply a single cargo landing pad. Also keep the landing pad free of obstructions, as the drop ship may explode when impacting other blocks.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]"
+		"en_US": "The asteroid mining ship will, if connected to a satellite ID chip which is inserted into a cargo landing pad, land in regular intervals to deliver items mined in space. Do note that one mining ship can only supply a single cargo landing pad. Also keep the landing pad free of obstructions, as the drop ship may explode when impacting other blocks.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]",
+		"ru_RU": "Астероидный шахтёрский корабль, если он связан с ID-чипом спутника, вставленным в грузовую посадочную площадку, будет регулярно приземляться для доставки ресурсов, добытых в космосе. Обратите внимание, что один добывающий корабль может снабжать только одну посадочную площадку. Также держите посадочную площадку свободной от препятствий, так как корабль может взорваться при столкновении с другими блоками.<br><br>См. также:<br>* [[Спутник|Satellite]]<br>* [[Спутниковая наземная станция|Satellite Ground Station]]"
 	}
 }

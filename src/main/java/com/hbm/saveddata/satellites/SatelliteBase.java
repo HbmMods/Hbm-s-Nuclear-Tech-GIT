@@ -17,7 +17,6 @@ public abstract class SatelliteBase {
 	public static final String CMD_GETTARGETX = "gettargetx";
 	public static final String CMD_GETTARGETZ = "gettargetz";
 	
-	public int range = 1_000;
 	public int targetX;
 	public int targetZ;
 	
