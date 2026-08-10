@@ -61,7 +61,7 @@ public class XFactoryDrill {
 				.anim(LAMBDA_DRILL_ANIMS).orchestra(Orchestras.ORCHESTRA_DRILL)
 				).setUnlocalizedName("gun_drill");
 	}
-	
+
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_DRILL_FIRE = (stack, ctx) -> {
 		doStandardFire(stack, ctx, GunAnimation.CYCLE, true);
 	};
@@ -73,7 +73,7 @@ public class XFactoryDrill {
 
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
-		
+
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), getModdableReach(stack, 5.0D));
 		if(mop != null) {
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
@@ -85,12 +85,12 @@ public class XFactoryDrill {
 				}
 			}
 			if(player != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-				
+
 				int aoe = player.isSneaking() ? 0 : getModdableAoE(stack, 1);
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
 					breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 				}
-				
+
 				didPlink = false;
 			}
 		}
@@ -98,9 +98,9 @@ public class XFactoryDrill {
 		int ammoToUse = 10;
 		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_ENGINE_ELECTRIC)) ammoToUse = 1_000; // that's 1,000 operations
 		mag.useUpAmmo(stack, ctx.inventory, ammoToUse);
-		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index), ctx.config.getDurability(stack)));
+		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1, ctx.config.getDurability(stack)));
 	}
-	
+
 	public static boolean didPlink = false;
 
 	public static void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
@@ -110,24 +110,24 @@ public class XFactoryDrill {
 		EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
-		
+
 		if(!block.canHarvestBlock(player, meta) || (block.getBlockHardness(world, x, y, z) == -1.0F && block.getPlayerRelativeBlockHardness(player, world, x, y, z) == 0.0F) || block == ModBlocks.stone_keyhole) {
 			if(!didPlink) {
 				world.playSoundAtEntity(player, NTMSounds.VANILLA_PLINK, 0.5F, 0.8F + world.rand.nextFloat() * 0.6F);
 				didPlink = true;
 			}
 			return;
-			
+
 		}
-		
+
 		// we are serverside and tryHarvestBlock already invokes the 2001 packet for every player except the user, so we manually send it for the user as well
 		player.theItemInWorldManager.tryHarvestBlock(x, y, z);
-		
+
 		if(world.getBlock(x, y, z) == Blocks.air) { // only do this when the block was destroyed. if the block doesn't create air when broken, this breaks, but it's no big deal
 			player.playerNetServerHandler.sendPacket(new S28PacketEffect(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12), false));
 		}
 	}
-	
+
 	// this system technically doesn't need to be part of the GunCfg or Receiver or anything, we can just do this and it works the exact same
 	public static double getModdableReach(ItemStack stack, double base) {		return XWeaponModManager.eval(base, stack, D_REACH, ModItems.gun_drill, 0); }
 	public static float getModdableDTNegation(ItemStack stack, float base) {	return XWeaponModManager.eval(base, stack, F_DTNEG, ModItems.gun_drill, 0); }
@@ -154,10 +154,10 @@ public class XFactoryDrill {
 		case INSPECT: return new BusAnimation()
 				.addBus("LIFT", new BusAnimationSequence().addPos(-45, 0, 0, 500, IType.SIN_FULL).hold(1000).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		}
-		
+
 		return null;
 	};
-	
+
 	/**
 	 * Called by the ModEventHandlerRenderer if the held item is a drill, cancels the tooltip so we an replace it with this.
 	 * Should probably make an interface for stuff like this
@@ -168,25 +168,25 @@ public class XFactoryDrill {
 	@SideOnly(Side.CLIENT)
 	public static void drawBlockHighlight(EntityPlayer player, ItemStack drill, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, getModdableReach(drill, 5.0D));
-		
+
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
 			double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
 			double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
-			
+
 			ICustomBlockHighlight.setup();
 
 			int aoe = player.isSneaking() ? 0 : getModdableAoE(drill, 1);
-			
+
 			float exp = 0.002F;
 			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 			RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(mop.blockX - dX, mop.blockY - dY, mop.blockZ - dZ), aoe > 0 ? -1 : 0x800000);
-			
+
 			if(aoe > 0) {
 				aabb = AxisAlignedBB.getBoundingBox(-aoe, -aoe, -aoe, 1 + aoe, 1 + aoe, 1 + aoe);
 				RenderGlobal.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(mop.blockX - dX, mop.blockY - dY, mop.blockZ - dZ), 0x800000);
 			}
-			
+
 			ICustomBlockHighlight.cleanup();
 		}
 	}
