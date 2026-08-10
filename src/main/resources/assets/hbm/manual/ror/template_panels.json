@@ -1,0 +1,13 @@
+{
+	"name": "Template:RoRPanels",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:RoRPanels"
+	},
+	"content": {
+		"en_US": "See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Indicator Lights]]<br>[[Redstone-over-Radio Numeric Display]]<br>[[Redstone-over-Radio Graph]]<br>[[Redstone-over-Radio Lever]]<br>[[Redstone-over-Radio Terminal]]",
+		"ru_RU": "См. также:<br>[[Редстоун-по-радио клавиатура|Redstone-over-Radio Keypad]]<br>[[Редстоун-по-радио измеритель|Redstone-over-Radio Gauge]]<br>[[Редстоун-по-радио индикаторные лампы|Redstone-over-Radio Indicator Lights]]<br>[[Редстоун-по-радио цифровой дисплей|Redstone-over-Radio Numeric Display]]<br>[[Редстоун-по-радио график|Redstone-over-Radio Graph]]<br>[[Редстоун-по-радио рычаг|Redstone-over-Radio Lever]]<br>[[Redstone-over-Radio Terminal]]"
+	}
+}
