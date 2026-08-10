@@ -2,6 +2,7 @@ package com.hbm.entity.item;
 
 import java.util.List;
 
+import com.hbm.config.ServerConfig;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectTiny;
 import com.hbm.lib.Library;
@@ -84,7 +85,7 @@ public abstract class EntityMovingConveyorObject extends Entity {
 			// cram check every 20s
 			if((ticksExisted + this.getEntityId()) % 400 == 0) {
 				List<EntityMovingConveyorObject> objs = worldObj.getEntitiesWithinAABB(EntityMovingConveyorObject.class, this.boundingBox.expand(0.125, 0.125, 0.125));
-				if(objs.size() >= 25) {
+				if(objs.size() >= ServerConfig.CONVEYOR_CRAM_MAX.get()) {
 					for(EntityMovingConveyorObject obj : objs) obj.setDead();
 					ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY + 0.125, posZ, 1, this);
 					vnt.setSFX(new ExplosionEffectTiny());
@@ -92,7 +93,9 @@ public abstract class EntityMovingConveyorObject extends Entity {
 					int x = (int) Math.floor(posX);
 					int y = (int) Math.floor(posY);
 					int z = (int) Math.floor(posZ);
-					if(worldObj.getBlock(x, y, z) instanceof IConveyorBelt) worldObj.func_147480_a(x, y, z, false);
+					
+					if(worldObj.getBlock(x, y, z) instanceof IConveyorBelt && this.ticksExisted > 400 && ServerConfig.CONVEYOR_CRAM_EXPLODE.get())
+						worldObj.func_147480_a(x, y, z, false);
 				}
 			}
 

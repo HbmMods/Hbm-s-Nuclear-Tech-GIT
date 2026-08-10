@@ -1,0 +1,11 @@
+{
+    "name": "Engine Lubricant",
+    "icon": ["hbm:item.fluid_icon", 1, 18],
+    "trigger": [["hbm:item.fluid_icon", 1, 18]],
+    "title": {
+        "en_US": "Engine Lubricant"
+    },
+    "content": {
+        "en_US": "Engine lubricant is primarily obtained from [[fractioning|Fractioning Tower]] [[industrial oil|Industrial Oil]]. It can be used to produce [[parrafin wax|Parrafin Wax]] which allows for early production of [[high-performance solvent|High-Performance Solvent]] or the production of [[petroil|Petroil]]. It is also required to lubricate the [[combined cycle gas turbine|Combined Cycle Gas Turbine]].<br><br>See also:<br>[[Basic Oil Processing]]"
+    }
+}
