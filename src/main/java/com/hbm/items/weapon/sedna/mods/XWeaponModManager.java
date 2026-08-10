@@ -33,20 +33,20 @@ import net.minecraft.util.MathHelper;
 /**
  * The mod manager operates by scraping upgrades from a gun, then iterating over them and evaluating the given value, passing the modified value to successive mods.
  * The way that mods stack (additive vs multiplicative) depends on the order the mod is installed in
- * 
+ *
  * @author hbm
  */
 public class XWeaponModManager {
-	
+
 	public static final String KEY_MOD_LIST = "KEY_MOD_LIST_";
-	
+
 	/** Mapping of mods to IDs, keep the register order consistent! */
 	public static HashBiMap<Integer, IWeaponMod> idToMod = HashBiMap.create();
 	/** Mapping of mod items to mod definitions */
 	public static HashMap<ComparableStack, WeaponModDefinition> stackToMod = new HashMap();
 	/** Map for turning individual mods back into their item form, used when uninstaling mods */
 	public static HashMap<IWeaponMod, ItemStack> modToStack = new HashMap();
-	
+
 	/** Assigns the IWeaponMod instances to items */
 	public static void init() {
 
@@ -56,7 +56,7 @@ public class XWeaponModManager {
 		IWeaponMod TEST_FIRERATE = new WeaponModTestFirerate(0, "FIRERATE");
 		IWeaponMod TEST_DAMAGE = new WeaponModTestDamage(1, "DAMAGE");
 		IWeaponMod TEST_MULTI = new WeaponModTestMulti(2, "MULTI");
-		
+
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.FIRERATE.ordinal())).addDefault(TEST_FIRERATE);
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.DAMAGE.ordinal())).addDefault(TEST_DAMAGE);
 		new WeaponModDefinition(new ItemStack(ModItems.weapon_mod_test, 1, EnumModTest.MULTI.ordinal())).addDefault(TEST_MULTI);
@@ -155,11 +155,11 @@ public class XWeaponModManager {
 		new WeaponModDefinition(EnumModSpecial.LAS_AUTO).addMod(new Item[] {ModItems.gun_lasrifle}, new WeaponModLasAuto(ID_LAS_AUTO));
 		new WeaponModDefinition(EnumModSpecial.NICKEL).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_NICKEL, "COIN1"));
 		new WeaponModDefinition(EnumModSpecial.DOUBLOONS).addMod(new Item[] {ModItems.gun_n_i_4_n_i}, new WeaponModNickel(ID_NI4NI_DOUBLOONS, "COIN2"));
-		
-		new WeaponModDefinition(EnumModSpecial.DRILL_HSS).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_HSS).damage(1.25F).dt(3F).pierce(0.15F).harvest(ToolMaterial.EMERALD.ordinal()));
-		new WeaponModDefinition(EnumModSpecial.DRILL_WEAPONSTEEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_WSTEEL).damage(1.5F).dt(5F).pierce(0.2F).aoe(2).harvest(ToolMaterial.EMERALD.ordinal()));
-		new WeaponModDefinition(EnumModSpecial.DRILL_TCALLOY).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_TCALLOY).damage(2F).dt(7.5F).pierce(0.2F).reach(2).aoe(3).harvest(ToolMaterial.EMERALD.ordinal() + 1));
-		new WeaponModDefinition(EnumModSpecial.DRILL_SATURNITE).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_SATURN).damage(3F).dt(10F).pierce(0.25F).reach(2).aoe(3).harvest(ToolMaterial.EMERALD.ordinal() + 2));
+
+		new WeaponModDefinition(EnumModSpecial.DRILL_HSS).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_HSS).damage(1.25F).dt(3F).pierce(0.15F).harvest(ToolMaterial.EMERALD.ordinal()).wear(0.9F));
+		new WeaponModDefinition(EnumModSpecial.DRILL_WEAPONSTEEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_WSTEEL).damage(1.5F).dt(5F).pierce(0.2F).aoe(2).harvest(ToolMaterial.EMERALD.ordinal()).wear(0.8F));
+		new WeaponModDefinition(EnumModSpecial.DRILL_TCALLOY).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_TCALLOY).damage(2F).dt(7.5F).pierce(0.2F).reach(2).aoe(3).harvest(ToolMaterial.EMERALD.ordinal() + 1).wear(0.75F));
+		new WeaponModDefinition(EnumModSpecial.DRILL_SATURNITE).addMod(new Item[] {ModItems.gun_drill}, new WeaponModDrill(ID_DRILL_SATURN).damage(3F).dt(10F).pierce(0.25F).reach(2).aoe(3).harvest(ToolMaterial.EMERALD.ordinal() + 2).wear(0.5F));
 		new WeaponModDefinition(EnumModSpecial.ENGINE_DIESEL).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_DIESEL).mag(WeaponModEngine.ENGINE_DIESEL).delay(15));
 		new WeaponModDefinition(EnumModSpecial.ENGINE_AVIATION).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_AVIATION).mag(WeaponModEngine.ENGINE_AVIATION).delay(10));
 		new WeaponModDefinition(EnumModSpecial.ENGINE_ELECTRIC).addMod(new Item[] {ModItems.gun_drill}, new WeaponModEngine(ID_ENGINE_ELECTRIC).mag(WeaponModEngine.ENGINE_ELECTRIC).delay(15));
@@ -232,7 +232,7 @@ public class XWeaponModManager {
 	public static final int ID_ENGINE_AVIATION = 227;
 	public static final int ID_ENGINE_ELECTRIC = 228;
 	public static final int ID_ENGINE_TURBO = 229;
-	
+
 	public static ItemStack[] getUpgradeItems(ItemStack stack, int cfg) {
 		if(!stack.hasTagCompound()) return new ItemStack[0];
 		int[] modIds = stack.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg);
@@ -247,7 +247,7 @@ public class XWeaponModManager {
 		}
 		return mods;
 	}
-	
+
 	public static boolean hasUpgrade(ItemStack stack, int cfg, int id) {
 		if(!stack.hasTagCompound()) return false;
 		int[] modIds = stack.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg);
@@ -256,15 +256,15 @@ public class XWeaponModManager {
 		}
 		return false;
 	}
-	
+
 	private static Object prevMagType;
 	private static int prevMagCount;
 	private static boolean changedMagState = false;
-	
+
 	public static void changedMagState() {
 		changedMagState = true;
 	}
-	
+
 	/** Saves the state on receiver 0 so that if the mag changes through upgrading, the state may potentially be restored, if compatible */
 	private static void saveMagState(ItemStack stack, int cfg) {
 		IMagazine mag = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, cfg).getReceivers(stack)[0].getMagazine(stack);
@@ -272,8 +272,8 @@ public class XWeaponModManager {
 		prevMagType = mag.getType(stack, null);
 		prevMagCount = mag.getAmount(stack, null);
 	}
-	
-	/* 
+
+	/*
 	 * TODO: as soon as there's guns that use more receivers, handle those as well
 	 * arising problem: assume there's three receivers, 0, 1, 2, and receiver 1 is removed by pulling a weapon mod.
 	 * the previous states of receivers 0 and 2 would need to be mapped to the new receivers 0 and 1.
@@ -293,7 +293,7 @@ public class XWeaponModManager {
 			mag.setAmount(stack, 0);
 		}
 	}
-	
+
 	/**
 	 * Saves the mag state on receiver 0, uninstalls all existing mods to ensure there's no double install calls,
 	 * then installs the mods. If a mag state change has been reported, the mag on receiver 0 is validated,
@@ -303,10 +303,10 @@ public class XWeaponModManager {
 		saveMagState(stack, cfg);
 		// we need to always clear things, so existing mods aren't installed twice, i.e. enchantment levels applied twice
 		uninstall(stack, cfg);
-		
+
 		List<IWeaponMod> toInstall = new ArrayList();
 		ComparableStack gun = new ComparableStack(stack);
-		
+
 		for(ItemStack mod : mods) {
 			if(mod == null) continue;
 			ComparableStack comp = new ComparableStack(mod);
@@ -333,7 +333,7 @@ public class XWeaponModManager {
 		stack.stackTagCompound.setIntArray(KEY_MOD_LIST + cfg, modIds);
 		restoreMagState(stack, cfg);
 	}
-	
+
 	/** Wipes all mods from the gun */
 	public static void uninstall(ItemStack stack, int cfg) {
 		if(stack != null && stack.hasTagCompound()) {
@@ -344,19 +344,19 @@ public class XWeaponModManager {
 			//no need to clean up empty stackTagCompound because gun NBT is never empty anyway
 		}
 	}
-	
+
 	public static void onInstallStack(ItemStack gun, ItemStack mod, int cfg) {
 		IWeaponMod newMod = modFromStack(gun, mod, cfg);
 		if(newMod == null) return;
 		newMod.onInstall(gun, mod, cfg);
 	}
-	
+
 	public static void onUninstallStack(ItemStack gun, ItemStack mod, int cfg) {
 		IWeaponMod newMod = modFromStack(gun, mod, cfg);
 		if(newMod == null) return;
 		newMod.onUninstall(gun, mod, cfg);
 	}
-	
+
 	public static IWeaponMod modFromStack(ItemStack gun, ItemStack mod, int cfg) {
 		if(gun == null || mod == null) return null;
 		WeaponModDefinition def = stackToMod.get(new ComparableStack(mod));
@@ -365,21 +365,21 @@ public class XWeaponModManager {
 		if(newMod == null) newMod = def.modByGun.get(null);
 		return newMod;
 	}
-	
+
 	public static boolean isApplicable(ItemStack gun, ItemStack mod, int cfg, boolean checkMutex) {
 		IWeaponMod newMod = modFromStack(gun, mod, cfg);
 		if(newMod == null) return false; //if there's just no mod applicable
-		
+
 		if(checkMutex) for(int i : gun.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg)) {
 			IWeaponMod iMod = idToMod.get(i);
 			if(iMod != null) for(String mutex0 : newMod.getSlots()) for(String mutex1 : iMod.getSlots()) {
 				if(mutex0.equals(mutex1)) return false; //if any of the mod's slots are already taken
 			}
 		}
-		
+
 		return true; //yippie!
 	}
-	
+
 	public static Comparator<IWeaponMod> modSorter = new Comparator<IWeaponMod>() {
 
 		@Override
@@ -387,41 +387,41 @@ public class XWeaponModManager {
 			return o2.getModPriority() - o1.getModPriority();
 		}
 	};
-	
+
 	/** Scrapes all upgrades, iterates over them and evaluates the given value. The parent (i.e. holder of the base value)
 	 * is passed for context (so upgrades can differentiate primary and secondary receivers for example). Passing a null
 	 * stack causes the base value to be returned. */
 	public static <T> T eval(T base, ItemStack stack, String key, Object parent, int cfg) {
 		if(stack == null) return base;
 		if(!stack.hasTagCompound()) return base;
-		
+
 		for(int i : stack.stackTagCompound.getIntArray(KEY_MOD_LIST + cfg)) {
 			IWeaponMod mod = idToMod.get(i);
 			if(mod != null) base = mod.eval(base, stack, key, parent);
 		}
-		
+
 		return base;
 	}
-	
+
 	public static class WeaponModDefinition {
-		
+
 		/** Holds the weapon mod handlers for each given gun. Key null refers to mods that apply to ALL guns that are otherwise not included. */
 		public HashMap<ComparableStack, IWeaponMod> modByGun = new HashMap();
 		public ItemStack stack;
-		
+
 		public WeaponModDefinition(ItemStack stack) {
 			this.stack = stack;
 			stackToMod.put(new ComparableStack(stack), this);
 		}
-		
+
 		public WeaponModDefinition(EnumModGeneric num) {
 			this(new ItemStack(ModItems.weapon_mod_generic, 1, num.ordinal()));
 		}
-		
+
 		public WeaponModDefinition(EnumModSpecial num) {
 			this(new ItemStack(ModItems.weapon_mod_special, 1, num.ordinal()));
 		}
-		
+
 		public WeaponModDefinition(EnumModCaliber num) {
 			this(new ItemStack(ModItems.weapon_mod_caliber, 1, num.ordinal()));
 		}
@@ -439,7 +439,7 @@ public class XWeaponModManager {
 			}
 			return this;
 		}
-		
+
 		public WeaponModDefinition addDefault(IWeaponMod mod) {
 			return addMod((ComparableStack) null, mod);
 		}

@@ -13,6 +13,7 @@ public class WeaponModDrill extends WeaponModBase {
 	protected float pierce = -1;
 	protected int aoe = -1;
 	protected int harvest = -1;
+	protected float wear = 1;
 
 	public WeaponModDrill(int id) {
 		super(id, "DRILL");
@@ -25,6 +26,7 @@ public class WeaponModDrill extends WeaponModBase {
 	public WeaponModDrill pierce(float pierce) { this.pierce = pierce; return this; }
 	public WeaponModDrill aoe(int aoe) { this.aoe = aoe; return this; }
 	public WeaponModDrill harvest(int harvest) { this.harvest = harvest; return this; }
+	public WeaponModDrill wear(float wear) { this.wear = wear; return this; }
 
 	@Override
 	public <T> T eval(T base, ItemStack gun, String key, Object parent) {
@@ -35,7 +37,8 @@ public class WeaponModDrill extends WeaponModBase {
 		if(key.equals(XFactoryDrill.F_PIERCE) && pierce >= 0) return cast((Float) pierce, base);
 		if(key.equals(XFactoryDrill.I_AOE) && aoe >= 0) return cast((Integer) aoe, base);
 		if(key.equals(XFactoryDrill.I_HARVEST) && harvest >= 0) return cast((Integer) harvest, base);
-		
+		if(key.equals(XFactoryDrill.I_WEAR) && wear >= 0) return cast((Float) base * wear, base);
+
 		return base;
 	}
 }

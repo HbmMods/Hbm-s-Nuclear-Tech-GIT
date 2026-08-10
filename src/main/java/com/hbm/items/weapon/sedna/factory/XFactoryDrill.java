@@ -47,6 +47,7 @@ public class XFactoryDrill {
 	public static final String F_PIERCE =	"F_PIERCE";
 	public static final String I_AOE =		"I_AOE";
 	public static final String I_HARVEST =	"I_HARVEST";
+	public static final String I_WEAR =		"I_WEAR";
 
 	public static void init() {
 
@@ -76,6 +77,8 @@ public class XFactoryDrill {
 
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), getModdableReach(stack, 5.0D));
 		if(mop != null) {
+			float wear = 0;
+
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 				float damage = primary.getBaseDamage(stack);
 				if(mop.entityHit instanceof EntityLivingBase) {
@@ -83,6 +86,9 @@ public class XFactoryDrill {
 				} else {
 					mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(ctx.getPlayer()), damage);
 				}
+				wear = ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 300);
+										// not designed for use with flesh and bone ^
+				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(wear, ctx.config.getDurability(stack)));
 			}
 			if(player != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 
@@ -91,6 +97,8 @@ public class XFactoryDrill {
 					breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 				}
 
+				wear = ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 1);
+				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(wear, ctx.config.getDurability(stack)));
 				didPlink = false;
 			}
 		}
@@ -98,9 +106,7 @@ public class XFactoryDrill {
 		int ammoToUse = 10;
 		if(XWeaponModManager.hasUpgrade(stack, 0, XWeaponModManager.ID_ENGINE_ELECTRIC)) ammoToUse = 1_000; // that's 1,000 operations
 		mag.useUpAmmo(stack, ctx.inventory, ammoToUse);
-		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1, ctx.config.getDurability(stack)));
 	}
-
 	public static boolean didPlink = false;
 
 	public static void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
@@ -134,6 +140,7 @@ public class XFactoryDrill {
 	public static float getModdablePiercing(ItemStack stack, float base) {		return XWeaponModManager.eval(base, stack, F_PIERCE, ModItems.gun_drill, 0); }
 	public static int getModdableAoE(ItemStack stack, int base) {				return XWeaponModManager.eval(base, stack, I_AOE, ModItems.gun_drill, 0); }
 	public static int getModdableHarvestLevel(ItemStack stack, int base) {		return XWeaponModManager.eval(base, stack, I_HARVEST, ModItems.gun_drill, 0); }
+	public static float getModdableWear(ItemStack stack, float base) {			return XWeaponModManager.eval(base, stack, I_WEAR, ModItems.gun_drill, 0); }
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_DRILL_ANIMS = (stack, type) -> {
 		switch(type) {
