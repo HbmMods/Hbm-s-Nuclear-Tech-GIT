@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class SatelliteDetector extends SatelliteBase {
@@ -98,8 +99,8 @@ public class SatelliteDetector extends SatelliteBase {
 					intensity == BurstIntensity.MEDIUM ? INACCURACY_MEDIUM :
 						INARRCURACY_HIGH;
 
-			this.x += world.rand.nextGaussian() * inaccuracy;
-			this.z += world.rand.nextGaussian() * inaccuracy;
+			this.x += MathHelper.clamp_double(world.rand.nextGaussian(), -1, 1) * inaccuracy;
+			this.z += MathHelper.clamp_double(world.rand.nextGaussian(), -1, 1) * inaccuracy;
 		}
 	}
 	
