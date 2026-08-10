@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.satellite", 1, 0],
 	"trigger": [["hbm:item.satellite", 1, 0]],
 	"title": {
-		"en_US": "Spy Satellite"
+		"en_US": "Spy Satellite",
+		"ru_RU": "Спутник-шпион"
 	},
 	"content": {
-		"en_US": "The spy satellite allows remote viewing of earth's surface. Due to RoR pixel displays not existing as of now, surface mapping functionality does not yet work. However, they can be used in detecting loaded chunks and spotting players in a small radius.<br><br>* '§etargetloaded§r' writes 'TRUE' or 'FALSE' to RX depending on if the chunk that the satellite is pointed at is loaded or not.<br>* '$egetsmog$r' writes the numeric value (rounded up) of the current target position's soot pollution to RX.<br>* '§espotplayers§r' detects surface players in a 250 block radius and writes all names separated by semicolon to RX.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]"
+		"en_US": "The spy satellite allows remote viewing of earth's surface. Due to RoR pixel displays not existing as of now, surface mapping functionality does not yet work. However, they can be used in detecting loaded chunks and spotting players in a small radius.<br><br>* '§etargetloaded§r' writes 'TRUE' or 'FALSE' to RX depending on if the chunk that the satellite is pointed at is loaded or not.<br>* '§egetsmog$r' writes the numeric value (rounded up) of the current target position's soot pollution to RX.<br>* '§espotplayers§r' detects surface players in a 250 block radius and writes all names separated by semicolon to RX.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]",
+		"ru_RU": "Спутник-шпион позволяет удаленно вести наблюдение за поверхностью Земли. Из-за отсутствия на данный момент пиксельных дисплеев РпР функция картографирования поверхности пока не работает. Однако их можно использовать для обнаружения прогруженных чанков и выслеживания игроков в небольшом радиусе.<br><br>* «§etargetloaded§r» записывает «TRUE» или «FALSE» в RX в зависимости от того, прогружен ли чанк, на который наведен спутник.<br>* «§egetsmog$r» записывает числовое значение (округленное в большую сторону) загрязнения сажей в текущей целевой позиции в RX.<br>* «§espotplayers§r» обнаруживает игроков на поверхности в радиусе 250 блоков и записывает все имена через точку с запятой в RX.<br><br>См. также:<br>* [[Спутник|Satellite]]<br>* [[Спутниковая наземная станция|Satellite Ground Station]]"
 	}
 }
