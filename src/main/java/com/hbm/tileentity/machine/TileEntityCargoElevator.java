@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -16,26 +17,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
-public class TileEntityCargoElevator extends TileEntityLoadedBase {
+public class TileEntityCargoElevator extends TileEntityLoadedBase implements IRORInteractive {
 
 	public int height = 0;
-	
+
+	public int targetExtension;
 	public double extension;
 	public double prevExtension;
 	public double syncExtension;
 	private int sync;
-	
-	public boolean isExtending;
+
 	public static final double speed = 2D / 20D; // 2 blocks per second
 	public boolean renderPlatform = false;
-	
+
 	@Override
 	public void updateEntity() {
 
 		this.prevExtension = this.extension;
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			// connect to lower elevator
 			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.cargo_elevator) {
 				int[] pos = ((BlockDummyable) ModBlocks.cargo_elevator).findCore(worldObj, xCoord, yCoord - 1, zCoord);
@@ -48,20 +49,21 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 					return;
 				}
 			}
-			
-			if(this.isExtending && this.extension < this.height) {
-				this.extension += this.speed;
+
+			if (this.extension < targetExtension) {  // go up
+				this.extension += speed;
+				this.extension = MathHelper.clamp_double(this.extension, 0, targetExtension);
+			} else if (this.extension > targetExtension) {  // go down
+				this.extension -= speed;
+				this.extension = MathHelper.clamp_double(this.extension, targetExtension, this.height);
 			}
-			
-			if(!this.isExtending && this.extension > 0) {
-				this.extension -= this.speed;
-			}
-			
+
+
 			this.extension = MathHelper.clamp_double(this.extension, 0, this.height);
-			
+
 			// exist for at least one tick before the main portion gets rendered, fixes the short flickering platform that instantly despawns
 			renderPlatform = true;
-			
+
 			this.networkPackNT(300);
 		} else {
 
@@ -72,12 +74,12 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 				this.extension = this.syncExtension;
 			}
 		}
-		
+
 		if(this.extension != this.prevExtension) {
 			double liftUpper = this.yCoord + 1 + Math.max(this.extension, this.prevExtension);
 			double liftLower = this.yCoord + 1 + Math.min(this.extension, this.prevExtension);
 			List<Entity> toLift = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 0.99, liftLower, zCoord - 0.99, xCoord + 1.99, liftUpper, zCoord + 1.99));
-			
+
 			for(Entity e : toLift) {
 				if(e instanceof EntityPlayer && !worldObj.isRemote) continue;
 				if(e.boundingBox.minY >= liftLower && e.boundingBox.minY <= liftUpper) {
@@ -89,15 +91,12 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 			}
 		}
 	}
-	
+
 	public void toggleElevator() {
-		
-		if(this.extension >= this.height) {
-			this.isExtending = false;
-		}
-		
-		if(this.extension <= 0) {
-			this.isExtending = true;
+		if (targetExtension == 0) {
+			targetExtension = this.height;
+		} else {
+			targetExtension = 0;
 		}
 	}
 
@@ -126,7 +125,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 		super.readFromNBT(nbt);
 
 		this.extension = nbt.getDouble("extension");
-		this.isExtending = nbt.getBoolean("isExtending");
+		this.targetExtension = nbt.getInteger("targetExtension");
 		this.height = nbt.getInteger("height");
 	}
 
@@ -135,10 +134,10 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 		super.writeToNBT(nbt);
 
 		nbt.setDouble("extension", extension);
-		nbt.setBoolean("isExtending", isExtending);
+		nbt.setInteger("targetExtension", this.targetExtension);
 		nbt.setInteger("height", height);
 	}
-	
+
 	AxisAlignedBB bb = null;
 
 	@Override
@@ -146,7 +145,7 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 
 		// workaround for angelica, extend AABB to build height by default instead of dynamically scaling
 		int h = Compat.isModLoaded(Compat.MOD_ANG) ? 256 - yCoord : 1 + this.height;
-		
+
 		if(bb == null || bb.maxY - bb.minY < h) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -160,10 +159,28 @@ public class TileEntityCargoElevator extends TileEntityLoadedBase {
 
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if ((PREFIX_FUNCTION + "setextension").equals(name) && params.length > 0) {
+			targetExtension = IRORInteractive.parseInt(params[0], 0, height);
+			return null;
+		}
+
+		return null;
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[]{
+			PREFIX_VALUE + "extension",
+			PREFIX_FUNCTION + "setextension"
+		};
 	}
 }
