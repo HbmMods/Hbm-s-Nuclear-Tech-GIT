@@ -6,6 +6,6 @@
         "en_US": "High-Performance Solvent"
     },
     "content": {
-        "en_US": "Obtained from either combining [[reformate gas|Reformate Gas]] with [[chlorine gas|Chlorine Gas]] or by [[breeding|Fusion Reactor Breeding Chamber]] [[chlorinated petroleum wax|Chlorinated Petroleum Wax]]. High-Performance Solvent is primarily used for advanced [[bedrock ore processing|Bedrock Ore Processing]] or the production of [[fullerene solution|Fullerene Solution]] for [[crystalline fullerite|Crystalline Fullerite]].<br><br>See also:<br>[[Vacuum Oil Processing]]"
+        "en_US": "Obtained from either combining [[reformate gas|Reformate Gas]] with [[chlorine gas|Chlorine Gas]] or by [[breeding|RBMK Irradiation Channel]] [[chlorinated petroleum wax|Chlorinated Petroleum Wax]]. Both methods of producing high-performance solvent require a RBMK reactor to produce due to the prerequisite of [[bismuth|Bismuth]] for [[reformate gas|Reformate Gas]]. High-Performance Solvent is primarily used for advanced [[bedrock ore processing|Bedrock Ore Processing]] or the production of [[fullerene solution|Fullerene Solution]] for [[crystalline fullerite|Crystalline Fullerite]].<br><br>See also:<br>[[Vacuum Oil Processing]]"
     }
 }
