@@ -4420,6 +4420,7 @@ item.satellite.radar.name=Radar Satellite
 item.satellite.ray_scan.name=Narrowband Emission Scanning Satellite
 item.satellite.relay.name=Relay Satellite
 item.satellite.scanner.name=Depth Scanning Satellite
+item.satellite.science.name=Space Laboratory
 item.satellite.spy.name=Spy Satellite
 item.satellite.xenium_resonator.name=Xenium Resonator Satellite
 item.sawblade.name=Sawblade

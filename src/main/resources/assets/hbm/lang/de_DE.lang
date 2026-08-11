@@ -3308,6 +3308,7 @@ item.satellite.radar.name=Radar-Überwachungssatellit
 item.satellite.ray_scan.name=Schmalband-Emissionsscan-Satellit
 item.satellite.relay.name=Relais-Satellit
 item.satellite.scanner.name=Tiefenscan-Satellit
+item.satellite.science.name=Weltraum-Labor
 item.satellite.spy.name=Spionagesatellit
 item.satellite.xenium_resonator.name=Xenium-Resonator-Satellit
 item.sawblade.name=Sägeblatt

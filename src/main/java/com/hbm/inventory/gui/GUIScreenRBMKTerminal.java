@@ -15,10 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public class GUIScreenRBMKTerminal extends GuiScreen {
 	
 	protected GuiTextField line;
-	protected TileEntityRBMKTerminal terminal;
+	protected static TileEntityRBMKTerminal lastTerminal;
 	
 	public GUIScreenRBMKTerminal(TileEntityRBMKTerminal terminal) {
-		this.terminal = terminal;
+		this.lastTerminal = terminal;
 	}
 
 	@Override
@@ -33,9 +33,10 @@ public class GUIScreenRBMKTerminal extends GuiScreen {
 		line.setFocused(true);
 	}
 
+	@Override
 	public void drawScreen(int x, int y, float f) {
 		
-		if(terminal.isInvalid()) { // for if the terminal blows up
+		if(lastTerminal.isInvalid()) { // for if the terminal blows up
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
 			return;
@@ -50,6 +51,7 @@ public class GUIScreenRBMKTerminal extends GuiScreen {
 		this.fontRendererObj.drawString("clear - Delete command history", 2, 52, 0xffffff);
 	}
 	
+	@Override
 	protected void keyTyped(char c, int b) {
 		if(b == 1) {
 			this.mc.displayGuiScreen((GuiScreen) null);
@@ -60,7 +62,7 @@ public class GUIScreenRBMKTerminal extends GuiScreen {
 		if(b == Keyboard.KEY_RETURN) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("cmd", this.line.getText());
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, terminal.xCoord, terminal.yCoord, terminal.zCoord));
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, lastTerminal.xCoord, lastTerminal.yCoord, lastTerminal.zCoord));
 			this.line.setText("");
 			return;
 		}
@@ -74,7 +76,9 @@ public class GUIScreenRBMKTerminal extends GuiScreen {
 		if(this.line.textboxKeyTyped(c, b)) return;
 	}
 	
-	public static String getWorkingLine() {
+	public static String getWorkingLine(TileEntityRBMKTerminal terminal) {
+		
+		if(terminal != lastTerminal) return "";
 		
 		if(Minecraft.getMinecraft().currentScreen instanceof GUIScreenRBMKTerminal) {
 			GUIScreenRBMKTerminal gui = (GUIScreenRBMKTerminal) Minecraft.getMinecraft().currentScreen;

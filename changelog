@@ -26,3 +26,5 @@
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
 * Fixed PSN bulk storage duping itself when broken
+* Fixed old lantern repair bonus not being applied when the player is too far away from the lantern or another player is in the detection area
+* Fixed an issue where the vast majority of fluid spilling machines would ignore all fluid trait spill actions except for the soot/poison polluting ones
