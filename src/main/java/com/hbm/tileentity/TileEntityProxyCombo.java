@@ -526,7 +526,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 				}
 			}
 			return (this.getBlockMetadata() >= 6 && this.getBlockMetadata() <= 11)
-					&& (power || fluid) &&
+					&& (power || fluid || getCoreObject() instanceof IRORInteractive) &&
 					((OCComponent) this.getCoreObject()).canConnectNode(side) &&
 					!isComponent;
 		}
