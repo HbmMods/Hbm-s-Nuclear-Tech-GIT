@@ -7,6 +7,7 @@
 		"en_US": "Template:Oil"
 	},
 	"content": {
-		"en_US": "§2[ §2Oil §2]<br>[[Oil Collection]]<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+		"en_US": "§2[ §2Oil §2]<br>[[Oil Collection]]<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+		"ru_RU": "§2[ §2Нефть §2]<br>[[Добыча нефти|Oil Collection]]<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]"
 	}
 }

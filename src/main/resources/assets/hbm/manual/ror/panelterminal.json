@@ -3,9 +3,11 @@
 	"icon": ["hbm:tile.rbmk_terminal", 1, 0],
 	"trigger": [["hbm:tile.rbmk_terminal"]],
 	"title": {
-		"en_US": "Redstone-over-Radio Terminal"
+		"en_US": "Redstone-over-Radio Terminal",
+		"ru_RU": "Редстоун-по-Радио терминал"
 	},
 	"content": {
-		"en_US": "Manual [[redstone over radio|Redstone over Radio]] transmitting device, allows signals to be sent via a command line.<br><br>Uses the following commands:<br>* '§echan §e<channel>§r' sets the terminal's RoR channel over which it should broadcast.<br>* '§esend §e<signal>§r' sends a single one-tick signal over the configured channel.<br>* '§estart §e<signal>§r' sends a repeat polling-type signal overy tick over the configured channel. The terminal's color will change if a repeat signal is active. Only one repeat signal can be active at once per terminal.<br>* '§estop§r' will stop a running repeat signal.<br>* '§eclear§r' deletes the command history shown on screen.<br><br>{{Template:RoRPanels}}"
+		"en_US": "Manual [[redstone over radio|Redstone over Radio]] transmitting device, allows signals to be sent via a command line.<br><br>Uses the following commands:<br>* '§echan §e<channel>§r' sets the terminal's RoR channel over which it should broadcast.<br>* '§esend §e<signal>§r' sends a single one-tick signal over the configured channel.<br>* '§estart §e<signal>§r' sends a repeat polling-type signal overy tick over the configured channel. The terminal's color will change if a repeat signal is active. Only one repeat signal can be active at once per terminal.<br>* '§estop§r' will stop a running repeat signal.<br>* '§eclear§r' deletes the command history shown on screen.<br><br>{{Template:RoRPanels}}",
+		"ru_RU": "Устройство для ручной передачи сигналов [[РпР|Redstone over Radio]], позволяет отправлять сигналы через командную строку.<br><br>Использует следующие команды:<br>* '§echan §e<channel>§r' устанавливает канал РпР терминала, по которому он должен передавать сигналы.<br>* '§esend §e<signal>§r' отправляет один однотактный сигнал по настроенному каналу.<br>* '§estart §e<signal>§r' отправляет сигнал повторного опроса по настроенному каналу. Цвет терминала изменится, если активный сигнал повтора. На одном терминале может быть активен только один сигнал повтора одновременно.<br>* '§estop§r' останавливает работающий сигнал повтора.<br>* '§eclear§r' удаляет историю команд, отображаемую на экране.<br><br>{{Template:RoRPanels}}"
 	}
 }

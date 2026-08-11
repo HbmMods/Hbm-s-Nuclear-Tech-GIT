@@ -4173,8 +4173,9 @@ item.satellite.miner_lunar.name=Лунный шахтёрский корабль
 item.satellite.precision_laser.name=Орбитальный прецизионный лазер
 item.satellite.radar.name=Радиолокационный спутник
 item.satellite.ray_scan.name=Спутник-сканер узкополосного излучения
-item.satellite.relay.name=Спутник-ретранслятор
+item.satellite.relay.name=Спутник-ретранслятор РпР
 item.satellite.scanner.name=Спутник глубинного сканирования
+item.satellite.science.name=Космическая лаборатория
 item.satellite.spy.name=Спутник-шпион
 item.satellite.xenium_resonator.name=Спутник с Зен-резонатором
 

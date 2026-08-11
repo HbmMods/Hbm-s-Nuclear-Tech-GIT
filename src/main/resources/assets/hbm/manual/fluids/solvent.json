@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 83],
     "trigger": [["hbm:item.fluid_icon", 1, 83]],
     "title": {
-        "en_US": "Solvent"
+        "en_US": "Solvent",
+        "ru_RU": "Растворитель"
     },
     "content": {
-        "en_US": "Solvent is obtained by combining any [[naphtha|Naphtha]] variant and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It has multiple uses including [[bedrock ore processing|Bedrock Ore Processing]] and advanced circuit production.<br><br>{{Template:Oil2}}"
+        "en_US": "Solvent is obtained by combining any [[naphtha|Naphtha]] variant and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It has multiple uses including [[bedrock ore processing|Bedrock Ore Processing]] and advanced circuit production.<br><br>{{Template:Oil2}}",
+        "ru_RU": "Растворитель получается путем объединения любого варианта [[нафты|Naphtha]] и [[ароматических углеводородов|Aromatic Hydrocarbons]]. Он имеет множество применений, включая [[обработку бедроковой руды|Bedrock Ore Processing]] и производство продвинутых микросхем.<br><br>{{Template:Oil2}}"
     }
 }
