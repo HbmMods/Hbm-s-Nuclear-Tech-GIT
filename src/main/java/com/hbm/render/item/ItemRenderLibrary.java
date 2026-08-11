@@ -485,6 +485,7 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				bindTexture(ResourceManager.radar_base_tex); ResourceManager.radar.renderPart("Base");
+				GL11.glRotated(System.currentTimeMillis() % 3600 * 0.1D, 0, -1, 0);
 				GL11.glTranslated(-0.125, 0, 0);
 				bindTexture(ResourceManager.radar_dish_tex); ResourceManager.radar.renderPart("Dish");
 				GL11.glEnable(GL11.GL_CULL_FACE);

@@ -1,0 +1,12 @@
+{
+	"name": "Template:Explosives",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Explosives"
+	},
+	"content": {
+		"en_US": "§2[ §2Grenades §2and §2Rockets §2]<br>[[High-Explosives]]<br>[[Shaped Charges]]<br>[[Demolition Explosives]]<br>[[Incendiary Munitions]]<br>[[White Phosphorus Munitions]]"
+	}
+}

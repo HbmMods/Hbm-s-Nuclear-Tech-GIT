@@ -119,28 +119,46 @@ public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IC
 		return "radio_torch";
 	}
 
-	@Callback(direct = true, limit = 4, doc = "setChannle(channel: string) -- Set the channel the torch is listening/broadcasting to")
+	@Callback(direct = true, limit = 4, doc = "function(channel: string) -- Set the channel the torch is listening/broadcasting to")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setChannel(Context context, Arguments args) {
 		channel = args.checkString(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, limit = 4, doc = "setPolling(value: boolean) -- Switches state change mode to tick-based polling")
+	@Callback(direct = true, doc = "function():boolean -- Gets current channel the torch is listening/broadcasting to")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getChannel(Context context, Arguments args) {
+		return new Object[] { channel };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(value: boolean) -- Switches state change mode to tick-based polling")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setPolling(Context context, Arguments args) {
 		polling = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, limit = 4, doc = "setCustomMap(value: boolean) -- Switches redstone passthrough to custom signal mapping")
+	@Callback(direct = true, doc = "function():boolean -- Whenever the torch is set to tick-based polling")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPolling(Context context, Arguments args) {
+		return new Object[] { polling };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(map: boolean) -- Switches redstone passthrough to custom signal mapping")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCustomMap(Context context, Arguments args) {
 		customMap = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, limit = 4, doc = "setCustomMapValues(value: table) -- Sets the custom signal mapping values with a table with indices corresponding to the redstone value (1-16)")
+	@Callback(direct = true, doc = "function():boolean -- Whenever the torch is set to custom signal mapping")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCustomMap(Context context, Arguments args) {
+		return new Object[] { customMap };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(values: table) -- Sets the custom signal mapping values with a table with indices corresponding to the redstone value (1-16)")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCustomMapValues(Context context, Arguments args){
 		Map values = args.checkTable(0);
@@ -152,5 +170,11 @@ public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IC
 		}
 
 		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():table -- Gets the custom signal mapping values as a table")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCustomMapValues(Context context, Arguments args) {
+		return new Object[] { mapping };
 	}
 }

@@ -11,8 +11,8 @@
 		"ru_RU": "Осколочно-фугасные"
 	},
 	"content": {
-		"en_US": "Standard ammunition for grenade and rocket launchers. Deals splash damage in a moderate area.",
-		"zh_CN": "榴弹和火箭弹的标准类型，在中等范围内造成爆炸伤害。",
-		"ru_RU": "Стандартные боеприпасы для гранатомётов и ракетных установок. Наносят урон по площади в умеренном радиусе."
+		"en_US": "Standard ammunition for grenade and rocket launchers. Deals splash damage in a moderate area.<br><br>{{Template:Explosives}}",
+		"zh_CN": "榴弹和火箭弹的标准类型，在中等范围内造成爆炸伤害。<br><br>{{Template:Explosives}}",
+		"ru_RU": "Стандартные боеприпасы для гранатомётов и ракетных установок. Наносят урон по площади в умеренном радиусе.<br><br>{{Template:Explosives}}"
 	}
 }

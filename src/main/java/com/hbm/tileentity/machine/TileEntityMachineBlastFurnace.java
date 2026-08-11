@@ -7,7 +7,7 @@ import com.hbm.inventory.container.ContainerBlastFurnace;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBlastFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipesNT;
@@ -102,7 +102,7 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 					if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) {
 						int spill = this.tanks[1].getFill() - this.tanks[1].getMaxFill();
 						this.tanks[1].getTankType().onFluidRelease(worldObj, xCoord, yCoord + 7, zCoord, tanks[1], spill);
-						FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tanks[1].getTankType(), FluidReleaseType.SPILL, spill);
+						FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tanks[1].getTankType(), tanks[1], FluidReleaseType.SPILL, spill);
 						this.tanks[1].setFill(this.tanks[1].getMaxFill());
 					}
 				}

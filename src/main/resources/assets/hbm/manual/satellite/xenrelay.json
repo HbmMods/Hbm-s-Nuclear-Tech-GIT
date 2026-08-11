@@ -7,7 +7,7 @@
 		"ru_RU": "Спутник с Зен-резонатором"
 	},
 	"content": {
-		"en_US": "The xenium resonator allows teleportation within the same dimension. It can be controlled either with a satellite designator or the satellite laser designator. When using the satellite designator, the Y value can be omitted, which will default it to surface level.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]",
-		"ru_RU": "Спутник с Зен-резонатором позволяет телепортироваться в пределах одного и того же измерения. Им можно управлять как с помощью спутникового целеуказателя, так и с помощью спутникового лазерного целеуказателя. При использовании спутникового целеуказателя значение Y можно опустить, по умолчанию оно будет установлено на уровень поверхности.<br><br>См. также:<br>* [[Спутник|Satellite]]<br>* [[Спутниковая наземная станция|Satellite Ground Station]]"
+		"en_US": "The xenium resonator allows teleportation within the same dimension. It can be controlled either with a satellite designator or the satellite laser designator. When using the satellite designator, the Y value can be omitted, which will default it to surface level.<br><br>{{Template:SatOverview}}",
+		"ru_RU": "Спутник с Зен-резонатором позволяет телепортироваться в пределах одного и того же измерения. Им можно управлять как с помощью спутникового целеуказателя, так и с помощью спутникового лазерного целеуказателя. При использовании спутникового целеуказателя значение Y можно опустить, по умолчанию оно будет установлено на уровень поверхности.<br><br>{{Template:SatOverview}}"
 	}
 }

@@ -282,7 +282,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
-				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, amount * 5);
+				FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.BURN, amount * 5);
 			}
 
 		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
@@ -299,7 +299,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			}
 
 			if(worldObj.getTotalWorldTime() % 5 == 0 ) {
-				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, amount * 5);
+				FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.SPILL, amount * 5);
 			}
 		}
 	}
@@ -492,7 +492,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void repair() {
+	public void repair(EntityPlayer player) {
 		this.hasExploded = false;
 		this.markChanged();
 	}

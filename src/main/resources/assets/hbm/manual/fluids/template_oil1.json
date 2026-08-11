@@ -1,0 +1,12 @@
+{
+	"name": "Template:Oil1",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Oil1"
+	},
+	"content": {
+		"en_US": "§2[ §2Basic §2Oil §2Processing §2]<br>[[Basic Oil Processing]]<br>[[Crude Oil]]<br>[[Heavy Oil]]<br>[[Naphtha]]<br>[[Light Oil]]<br>[[Bitumen]]<br>[[Industrial Oil]]<br>[[Lubricant]]<br>[[Heating Oil]]<br>[[Diesel]]<br>[[Kerosene]]<br>[[Polymer]]<br>[[Desh]]"
+	}
+}
