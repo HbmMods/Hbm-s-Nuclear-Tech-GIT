@@ -45,7 +45,7 @@ public class GUIAnvil extends GuiInfoContainer {
 	int selection;
 	private GuiTextField search;
 	private InventoryPlayer playerInventory;
-	private int state;
+	private AnvilRecipes.OverlayType state = AnvilRecipes.OverlayType.NONE;
 
 	public GUIAnvil(InventoryPlayer player, int tier) {
 		super(new ContainerAnvil(player, tier));
@@ -77,7 +77,6 @@ public class GUIAnvil extends GuiInfoContainer {
 		this.search.setDisabledTextColour(-1);
 		this.search.setEnableBackgroundDrawing(false);
 		this.search.setMaxStringLength(25);
-		this.state = 0;
 	}
 
 	/**
@@ -104,19 +103,7 @@ public class GUIAnvil extends GuiInfoContainer {
 		this.index = MathHelper.clamp_int(pos / 2, 0, this.size);
 	}
 	private boolean matchState(AnvilConstructionRecipe recipe) {
-		if(this.state == 0){ 
-			return true;
-		}
-		if(this.state == 1){ 
-			return recipe.getOverlay() == AnvilRecipes.OverlayType.SMITHING;
-		}
-		if(this.state == 2){ 
-			return recipe.getOverlay() == AnvilRecipes.OverlayType.CONSTRUCTION;
-		}
-		if(this.state == 3){ 
-			return recipe.getOverlay() == AnvilRecipes.OverlayType.RECYCLING;
-		}
-		return true;
+		return ((this.state == AnvilRecipes.OverlayType.NONE) || (recipe.getOverlay() == this.state));
 	}
 	private void regenerateRecipes() {
 
@@ -221,18 +208,8 @@ public class GUIAnvil extends GuiInfoContainer {
 
 		if(guiLeft + 88 <= x && guiLeft + 88 + 18 > x && guiTop + 53 < y && guiTop + 53 + 18 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			if(this.state == 0) {
-				this.state = 1;
-			}
-			else if (this.state == 1) {
-				this.state = 2;
-			}
-			else if (this.state == 2) {
-				this.state = 3;
-			} 
-			else {
-				this.state = 0;
-			}
+			AnvilRecipes.OverlayType[] values = AnvilRecipes.OverlayType.values();
+			this.state = values[(this.state.ordinal() + 1) % values.length];
 			regenerateRecipes();
 			return;
 		}
@@ -299,9 +276,9 @@ public class GUIAnvil extends GuiInfoContainer {
 		}
 		this.drawCustomInfoStat(
 			mX, mY, guiLeft + 88, guiTop + 53, 18, 18, mX - guiLeft, mY - guiTop, 
-			this.state == 0 ? "All recipes" :
-			this.state == 1 ? "Smithing" :
-			this.state == 2 ? "Construction" :
+			this.state == AnvilRecipes.OverlayType.NONE ? "All recipes" :
+			this.state == AnvilRecipes.OverlayType.SMITHING ? "Smithing" :
+			this.state == AnvilRecipes.OverlayType.CONSTRUCTION ? "Construction" :
 			"Recycling"
 		);
 	}
@@ -449,19 +426,19 @@ public class GUIAnvil extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 52, guiTop + 53, 176, 150, 18, 18);
 		}
 		
-		if(this.state == 1) {
+		if(this.state == AnvilRecipes.OverlayType.SMITHING) {
 			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 200, 0, 18, 18);
 			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
 				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 200, 18, 18, 18);
 			}
 		}
-		else if(this.state == 2) {
+		else if(this.state == AnvilRecipes.OverlayType.CONSTRUCTION) {
 			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 218, 0, 18, 18);
 			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
 				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 218, 18, 18, 18);
 			}
 		}
-		else if(this.state == 3) {
+		else if(this.state == AnvilRecipes.OverlayType.RECYCLING) {
 			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 236, 0, 18, 18);
 			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
 				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 236, 18, 18, 18);
