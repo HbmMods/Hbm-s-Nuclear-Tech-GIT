@@ -3,11 +3,9 @@
 	"icon": ["hbm:item.satellite", 1, 8],
 	"trigger": [["hbm:item.satellite", 1, 8]],
 	"title": {
-		"en_US": "RoR Relay Satellite",
-		"ru_RU": "Спутник-ретранслятор РпР"
+		"en_US": "RoR Relay Satellite"
 	},
 	"content": {
-		"en_US": "The relay satellite allows [[redstone-over-radio|Redstone over Radio]] signals to be sent to different dimensions. It only acts as a transmitter, it cannot receive signals from other dimensions.<br><br>* '§erelay §e<dimension> §e<channel> §e<signal>§r' will create a signal in the selected dimension using the supplied channel and signal contents. The dimension ID is numeric, the overworld uses ID 0, the nether -1 and the end 1.<br><br>{{Template:SatOverview}}",
-		"ru_RU": "Ретрансляционный спутник позволяет передавать сигналы [[РпР|Redstone over Radio]] в другие измерения. Он действует только как передатчик и не может принимать сигналы из других измерений.<br><br>* '§erelay §e<dimension> §e<channel> §e<signal>§r' создаст сигнал в выбранном измерении, используя предоставленный канал и содержимое сигнала. Идентификатор измерения — числовой, в обычном мире (0), в Нижнем мире (-1), а в Краю (1)."
+		"en_US": "The relay satellite allows [[redstone-over-radio|Redstone over Radio]] signals to be sent to different dimensions. It only acts as a transmitter, it cannot receive signals from other dimensions.<br><br>* '§erelay §e<dimension> §e<channel> §e<signal>§r' will create a signal in the selected dimension using the supplied channel and signal contents. The dimension ID is numeric, the overworld uses ID 0, the nether -1 and the end 1.<br><br>{{Template:SatOverview}}"
 	}
 }
