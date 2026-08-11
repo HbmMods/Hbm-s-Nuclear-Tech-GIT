@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.Random;
 
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ModBlocks;
@@ -49,6 +50,8 @@ public class XFactoryDrill {
 	public static final String I_HARVEST =	"I_HARVEST";
 	public static final String I_WEAR =		"I_WEAR";
 
+	private static Random rand = new Random();
+
 	public static void init() {
 
 		ModItems.gun_drill = new ItemGunDrill(WeaponQuality.UTILITY, new GunConfig()
@@ -77,28 +80,29 @@ public class XFactoryDrill {
 
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(ctx.getPlayer(), getModdableReach(stack, 5.0D));
 		if(mop != null) {
-			float wear = 0;
+			float wear = ItemGunBaseNT.getWear(stack, index) / ctx.config.getDurability(stack);
 
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-				float damage = primary.getBaseDamage(stack);
+				float damage = (float) Math.ceil(primary.getBaseDamage(stack) * (1 - (wear/4)));
+
 				if(mop.entityHit instanceof EntityLivingBase) {
 					EntityDamageUtil.attackEntityFromNT((EntityLivingBase) mop.entityHit, DamageSource.causePlayerDamage(ctx.getPlayer()), damage, true, true, 0.1F, getModdableDTNegation(stack, 2F), getModdablePiercing(stack, 0.15F));
 				} else {
 					mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(ctx.getPlayer()), damage);
 				}
-				wear = ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 300);
-										// not designed for use with flesh and bone ^
-				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(wear, ctx.config.getDurability(stack)));
+				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 3), ctx.config.getDurability(stack)));
+																						  // not designed for use with flesh and bone ^^^
 			}
 			if(player != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 
 				int aoe = player.isSneaking() ? 0 : getModdableAoE(stack, 1);
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
-					breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
+					if (wear <= 0.25 || rand.nextFloat() >= wear || aoe == 0) {
+						breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
+					}
 				}
 
-				wear = ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 1);
-				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(wear, ctx.config.getDurability(stack)));
+				if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + getModdableWear(stack, 1), ctx.config.getDurability(stack)));
 				didPlink = false;
 			}
 		}
