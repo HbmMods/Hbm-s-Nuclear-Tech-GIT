@@ -25,6 +25,7 @@ import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.Vec3NT;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -50,12 +51,12 @@ public class XFactoryDrill {
 	public static final String I_HARVEST =	"I_HARVEST";
 	public static final String I_WEAR =		"I_WEAR";
 
-	private static Random rand = new Random();
+	private static final Random rand = new Random();
 
 	public static void init() {
 
 		ModItems.gun_drill = new ItemGunDrill(WeaponQuality.UTILITY, new GunConfig()
-				.dura(3_000).draw(10).inspect(55).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
+				.dura(4_000).draw(10).inspect(55).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(20).dry(30).auto(true).jam(0)
 						.mag(new MagazineLiquidEngine(0, 4_000, Fluids.GASOLINE, Fluids.GASOLINE_LEADED, Fluids.COALGAS, Fluids.COALGAS_LEADED))
@@ -97,7 +98,9 @@ public class XFactoryDrill {
 
 				int aoe = player.isSneaking() ? 0 : getModdableAoE(stack, 1);
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
-					if (wear <= 0.25 || rand.nextFloat() >= wear || aoe == 0) {
+					boolean isInConfirmedRadius = Math.sqrt(3)*aoe * (1 - (wear - 0.25)) >= new Vec3NT().distanceTo(new Vec3NT(i, j, k)); 								// radius where blocks will be broken if their distance to the origin is shorter
+					boolean isInChanceRadius = Math.abs(rand.nextGaussian() * Math.sqrt(3)*aoe) * (1 - (wear - 0.25)) >= new Vec3NT().distanceTo(new Vec3NT(i, j, k));  // radius where blocks might be broken if their distance to the origin is shorter (intentionally randomized every iteration)
+					if (aoe == 0 || isInConfirmedRadius || isInChanceRadius) {
 						breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 					}
 				}
