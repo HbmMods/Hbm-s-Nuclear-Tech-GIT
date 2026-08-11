@@ -1,0 +1,12 @@
+{
+	"name": "Template:Shotshells",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Shotshells"
+	},
+	"content": {
+		"en_US": "§2[ §2Shotgun §2Shells §2]<br>[[Black Powder Ammunition]]<br>[[Buckshot]]<br>[[Magnum Buckshot]]<br>[[Shrapnel Buckshot]]<br>[[Flechettes]]<br>[[White Phosphorus Munitions]]<br>[[Slug]]<br>[[Depleted Uranium Bullet]]<br>[[High-Explosive Ammunition]]"
+	}
+}

@@ -6,3 +6,23 @@
   * While the byproduct chances are rather low and the recipe times are slow, the mills are easily scalable due to their low cost
   * Comes with convenient stacking frame
   * Ideal for skyblock/seablock type challenge runs, as it can be configured to serve as an Ex Nihilo substitute
+  * Can also perform the sand and colloid to clay recipe of the acidizer, but at a lower efficiency
+
+## Changed
+* Updated russian localization
+* The cargo elevator can now be controlled using RoR, allowing the platform to stop at certain heights
+* Updated the pepperbox textures
+  * The wood now looks more like wood and less like plastic
+  * The bronze parts now have more depth
+* Conveyor items being deleted due to cramming can now be configured with the server config `CONVEYOR_CRAM_MAX`, the default still being 25
+* Conveyor belts being destroyed due to item cramming can now be configured with the server config `CONVEYOR_CRAM_EXPLODE`, it is still on by default
+* Conveyor items will no longer break any belts, even with the config enabled, if the conveyor item entities have existed for less than one cram check cycle
+  * This means that items that have piled up due to chunk loading should now safely self-destruct without breaking conveyor lines
+* QMAW now has a composing feature, using double curly brackets and the internal name of another page, this page's contents can be imported
+  * This means that things like long "see also" lists can now be on a single shared page instead of being hand written for every article
+* QMAW links for pages you're already on now have a special color
+
+## Fixed
+* Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
+* Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
+* Fixed PSN bulk storage duping itself when broken

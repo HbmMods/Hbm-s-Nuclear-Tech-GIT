@@ -6,7 +6,6 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
-import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,9 +18,9 @@ public class ItemPollutionDetector extends Item {
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
-		
+
 		if(!(entity instanceof EntityPlayerMP) || world.getTotalWorldTime() % 10 != 0) return;
-		
+
 		PollutionData data = PollutionHandler.getPollutionData(world, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ));
 		if(data == null) data = new PollutionData();
 
@@ -34,10 +33,32 @@ public class ItemPollutionDetector extends Item {
 		poison = ((int) (poison * 100)) / 100F;
 		heavymetal = ((int) (heavymetal * 100)) / 100F;
 		//fallout = ((int) (fallout * 100)) / 100F;
-		
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.soot") + ": " + soot).color(EnumChatFormatting.YELLOW).flush(), 100, 4000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.poison") + ": " + poison).color(EnumChatFormatting.YELLOW).flush(), 101, 4000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start(I18nUtil.resolveKey("pollution.heavymetal") + ": " + heavymetal).color(EnumChatFormatting.YELLOW).flush(), 102, 4000), (EntityPlayerMP) entity);
+
+		PacketDispatcher.wrapper.sendTo(
+			new PlayerInformPacket(
+				ChatBuilder.startTranslation("pollution.soot")
+					.color(EnumChatFormatting.YELLOW)
+					.next(": " + soot)
+					.color(EnumChatFormatting.YELLOW)
+					.flush(), 100, 4000),
+				(EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(
+			new PlayerInformPacket(
+				ChatBuilder.startTranslation("pollution.poison")
+					.color(EnumChatFormatting.YELLOW)
+					.next(": " + poison)
+					.color(EnumChatFormatting.YELLOW)
+					.flush(), 101, 4000),
+			(EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(
+			new PlayerInformPacket(
+				ChatBuilder.startTranslation("pollution.heavymetal")
+					.color(EnumChatFormatting.YELLOW)
+					.next(": " + heavymetal)
+					.color(EnumChatFormatting.YELLOW)
+					.flush(), 102, 4000),
+			(EntityPlayerMP) entity);
+
 		//PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + fallout).color(EnumChatFormatting.YELLOW).flush(), 103, 4000), (EntityPlayerMP) entity);
 	}
 }
