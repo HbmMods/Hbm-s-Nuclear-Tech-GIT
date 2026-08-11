@@ -8,10 +8,13 @@ import com.hbm.inventory.gui.GUIMachineRockMill;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineRockMill;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Vec3NT;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -20,8 +23,11 @@ import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -79,7 +85,7 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 				this.maxPower = recipe.power * 100;
 			}
 			
-			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 1_000_000);
+			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 2_500);
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
@@ -92,6 +98,16 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 			this.rockMillModule.update(1D, 1D, true, slots[1]);
 			this.didProcess = this.rockMillModule.didProcess;
 			if(this.rockMillModule.markDirty) this.markDirty();
+				
+			if(this.didProcess && (worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord)) % 3 == 0) {
+				String sound = Blocks.stone.stepSound.getStepResourcePath();
+				
+				if(recipe != null && recipe.getIcon().getItem() instanceof ItemBlock && ((ItemBlock) recipe.getIcon().getItem()).field_150939_a != null) {
+					sound = ((ItemBlock) recipe.getIcon().getItem()).field_150939_a.stepSound.getStepResourcePath();
+				}
+				
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, sound, this.getVolume(1.0F), 0.75F);
+			}
 			
 			this.networkPackNT(100);
 			
@@ -111,6 +127,38 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				frame = !worldObj.getBlock(xCoord, yCoord + 3, zCoord).isAir(worldObj, xCoord, yCoord + 3, zCoord);
+			}
+			
+			if(this.didProcess && MainRegistry.proxy.me().getDistanceSq(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5) < 35 * 35) {
+				
+				GenericRecipe recipe = rockMillModule.getRecipe();
+				Block block = Blocks.gravel;
+				int meta = 0;
+				
+				if(recipe != null) {
+					if(recipe.getIcon().getItem() instanceof ItemBlock) {
+						block = Block.getBlockFromItem(recipe.getIcon().getItem());
+						meta = recipe.getIcon().getItemDamage();
+					}
+				}
+				
+				Vec3NT vec = new Vec3NT(1, 0, 0);
+				vec.rotateAroundYDeg(worldObj.rand.nextDouble() * 360);
+				
+				double speed = 0.125D;
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "blockdust");
+				data.setInteger("block", Block.getIdFromBlock(block));
+				data.setByte("meta", (byte) meta);
+				data.setDouble("mX", vec.xCoord * speed);
+				data.setDouble("mY", vec.yCoord * speed - 0.1D);
+				data.setDouble("mZ", vec.zCoord * speed);
+				data.setDouble("posX", xCoord + 0.5 + vec.xCoord * 2.25);
+				data.setDouble("posY", yCoord + 1.5);
+				data.setDouble("posZ", zCoord + 0.5 + vec.zCoord * 2.25);
+				MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}

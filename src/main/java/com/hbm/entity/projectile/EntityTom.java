@@ -18,7 +18,7 @@ public class EntityTom extends EntityThrowable {
 
 	@Override
 	public void onUpdate() {
-
+		
 		this.lastTickPosX = this.prevPosX = posX;
 		this.lastTickPosY = this.prevPosY = posY;
 		this.lastTickPosZ = this.prevPosZ = posZ;

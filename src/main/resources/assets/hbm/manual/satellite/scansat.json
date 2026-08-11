@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.satellite", 1, 1],
 	"trigger": [["hbm:item.satellite", 1, 1]],
 	"title": {
-		"en_US": "Depth Scanning Satellite"
+		"en_US": "Depth Scanning Satellite",
+		"ru_RU": "Спутник глубинного сканирования"
 	},
 	"content": {
-		"en_US": "The depth scanning satellite is required for the neutrino lens to work. It does not yet have any special interactions with the ground station.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]"
+		"en_US": "The depth scanning satellite is required for the neutrino lens to work. It does not yet have any special interactions with the ground station.<br><br>{{Template:SatOverview}}",
+		"ru_RU": "Спутник глубинного сканирования необходим для работы нейтринной линзы. На данный момент он не имеет никаких особых взаимодействий с наземной станцией.<br><br>{{Template:SatOverview}}"
 	}
 }

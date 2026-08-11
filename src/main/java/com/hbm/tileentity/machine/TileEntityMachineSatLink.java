@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.saveddata.satellites.SatelliteRayScan;
@@ -8,22 +9,28 @@ import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineSatLink extends TileEntityTickingBase implements IRORValueProvider, IRORInteractive {
-	
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineSatLink extends TileEntityTickingBase implements IRORValueProvider, IRORInteractive, SimpleComponent, CompatHandler.OCComponent {
+
 	public boolean connected;
 	public int freq;
-	
+
 	public float rot = INACTIVE_ROT;
 	public float prevRot = INACTIVE_ROT;
 	public float lift = INACTIVE_LIFT;
 	public float prevLift = INACTIVE_LIFT;
-	
+
 	public static final float SPEED = 0.25F;
 	public static final float ACTIVE_ROT = -15F;
 	public static final float ACTIVE_LIFT = -45F;
@@ -32,18 +39,18 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.connected = false;
-			
+
 			if(worldObj.getHeightValue(xCoord, zCoord) <= yCoord) {
-				
+
 				SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 				this.connected = dat.isFreqTaken(freq);
 			}
-			
+
 			this.networkPackNT(150);
-			
+
 		} else {
 
 			this.prevRot = this.rot;
@@ -51,11 +58,11 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 			float targetR = this.connected ? ACTIVE_ROT : INACTIVE_ROT;
 			float targetL = this.connected ? ACTIVE_LIFT : INACTIVE_LIFT;
-			
+
 			if(Math.abs(rot - targetR) <= SPEED) rot = targetR;
 			else if(rot < targetR) rot += SPEED;
 			else if(rot > targetR) rot -= SPEED;
-			
+
 			if(Math.abs(lift - targetL) <= SPEED) lift = targetL;
 			else if(lift < targetL) lift += SPEED;
 			else if(lift > targetL) lift -= SPEED;
@@ -126,15 +133,15 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 	@Override
 	public String provideRORValue(String name) {
-		
+
 		if(name.equals(PREFIX_VALUE + connected)) {
 			return this.connected ? "TRUE" : "FALSE";
 		}
-		
+
 		if(name.equals(PREFIX_VALUE + "freq")) {
 			return "" + this.freq;
 		}
-		
+
 		if(name.equals(PREFIX_VALUE + "rx")) {
 			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 			SatelliteBase sat = dat.getSatFromFreq(this.freq);
@@ -143,18 +150,17 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			}
 			return "";
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		
 		if(name.equals(PREFIX_FUNCTION + "setfreq") && params.length == 1) {
 			this.freq = IRORInteractive.parseInt(params[0], 0, 100_000);
 			this.markChanged();
 		}
-		
+
 		if(name.equals(PREFIX_FUNCTION + "tx")) {
 			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 			SatelliteBase sat = dat.getSatFromFreq(this.freq);
@@ -165,7 +171,77 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
 			this.markChanged();
 		}
-		
+
 		return null;
+	}
+
+	// yay opencomputer stuff
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_satlink";
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Returns connection state")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isConnected(Context context, Arguments args) {
+		return new Object[] { connected };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(freq: number) -- Sets satellite frequency")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setFreq(Context context, Arguments args) {
+		freq = args.checkInteger(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Gets satellite frequency")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFreq(Context context, Arguments args) {
+		return new Object[] { freq };
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(command: string) -- Transmits a command to the satellite")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] send(Context context, Arguments args) {
+		// would be easier to just trick it into thinking it ran a RoR function
+		runRORFunction(PREFIX_FUNCTION + "tx", new String[]{args.checkString(0)});
+		return new Object[] {};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function():string -- Gets received command from the satellite")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] read(Context context, Arguments args) {
+		return new Object[] { provideRORValue(PREFIX_VALUE + "rx") };
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+			"isConnected",
+			"setFreq",
+			"getFreq",
+			"send",
+			"read"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("isConnected"):
+				return isConnected(context, args);
+			case ("setFreq"):
+				return setFreq(context, args);
+			case ("getFreq"):
+				return getFreq(context, args);
+			case ("send"):
+				return send(context, args);
+			case ("read"):
+				return read(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

@@ -11,7 +11,7 @@ import com.hbm.inventory.container.ContainerMachineAnnihilator;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIMachineAnnihilator;
 import com.hbm.items.machine.IItemFluidIdentifier;
@@ -79,7 +79,7 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 					didSomething = true;
 				}
 				if(tank.getFill() > 0) {
-					FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, tank.getFill() * 2);
+					FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.BURN, tank.getFill() * 2);
 					tryAddPayout(data.pushToPool(pool, tank.getTankType(), tank.getFill(), false));
 					tank.setFill(0);
 					this.markChanged();

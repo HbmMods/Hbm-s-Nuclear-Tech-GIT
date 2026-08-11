@@ -31,6 +31,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 
 	public boolean isBroken = false;
 	public int comTimer = -1;
+	public int reputation = 0;
 
 	@Override
 	public void updateEntity() {
@@ -43,9 +44,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 			if(comTimer == 100) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornFarDual", 10000F, 1F);
 
 			if(comTimer == 0) {
-				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 10, yCoord - 10, zCoord - 10, xCoord + 11, yCoord + 11, zCoord + 11));
-				EntityPlayer first = players.isEmpty() ? null : players.get(0);
-				boolean bonus = first == null ? false : (HbmPlayerProps.getData(first).reputation >= 10);
+				boolean bonus = reputation >= 10;
 				EntityBobmazon shuttle = new EntityBobmazon(worldObj);
 				shuttle.posX = xCoord + 0.5 + worldObj.rand.nextGaussian() * 10;
 				shuttle.posY = 300;
@@ -93,6 +92,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 		super.readFromNBT(nbt);
 		isBroken = nbt.getBoolean("isBroken");
 		comTimer = nbt.getInteger("comTimer");
+		reputation = nbt.getInteger("reputation");
 	}
 
 	@Override
@@ -100,6 +100,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 		super.writeToNBT(nbt);
 		nbt.setBoolean("isBroken", isBroken);
 		nbt.setInteger("comTimer", comTimer);
+		nbt.setInteger("reputation", reputation);
 	}
 
 	@Override
@@ -120,9 +121,10 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 	}
 
 	@Override
-	public void repair() {
+	public void repair(EntityPlayer player) {
 		this.isBroken = false;
 		this.comTimer = 400;
+		this.reputation = HbmPlayerProps.getData(player).reputation;
 		this.markDirty();
 	}
 
