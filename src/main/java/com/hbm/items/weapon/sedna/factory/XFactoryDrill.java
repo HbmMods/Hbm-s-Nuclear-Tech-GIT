@@ -98,9 +98,11 @@ public class XFactoryDrill {
 
 				int aoe = player.isSneaking() ? 0 : getModdableAoE(stack, 1);
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
-					boolean isInConfirmedRadius = Math.sqrt(3)*aoe * (1 - (wear - 0.25)) >= new Vec3NT().distanceTo(new Vec3NT(i, j, k)); 								// radius where blocks will be broken if their distance to the origin is shorter
-					boolean isInChanceRadius = Math.abs(rand.nextGaussian() * Math.sqrt(3)*aoe) * (1 - (wear - 0.25)) >= new Vec3NT().distanceTo(new Vec3NT(i, j, k));  // radius where blocks might be broken if their distance to the origin is shorter (intentionally randomized every iteration)
-					if (aoe == 0 || isInConfirmedRadius || isInChanceRadius) {
+
+					double radius = Math.sqrt(3)*aoe * (1 - (wear - 0.25));
+					boolean isInConfirmedRadius = radius >= new Vec3NT().distanceTo(new Vec3NT(i, j, k)); 								// radius where blocks will be broken if their distance to the origin is shorter
+					boolean isInChancedRadius = Math.abs(rand.nextGaussian()) * radius >= new Vec3NT().distanceTo(new Vec3NT(i, j, k));  // radius where blocks might be broken if their distance to the origin is shorter (intentionally randomized every iteration)
+					if (aoe == 0 || isInConfirmedRadius || isInChancedRadius) {
 						breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 					}
 				}
