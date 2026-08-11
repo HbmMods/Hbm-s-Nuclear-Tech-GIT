@@ -1,5 +1,7 @@
 package com.hbm.blocks.network.pneumatic;
 
+import java.util.Random;
+
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoStorageMono;
 
@@ -9,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +36,11 @@ public class PneumoStorageMono extends BlockContainer {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
+		return null;
 	}
 
 	@Override

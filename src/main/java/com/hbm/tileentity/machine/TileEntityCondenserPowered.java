@@ -89,7 +89,7 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 	
 	@Override
 	public boolean extraCondition(int convert) {
-		return power >= convert * 10;
+		return power >= (convert * powerConsumption) * 0.95; // bit of tolerance
 	}
 
 	@Override

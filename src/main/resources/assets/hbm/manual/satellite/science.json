@@ -1,0 +1,11 @@
+{
+	"name": "Space Laboratory",
+	"icon": ["hbm:item.satellite", 1, 11],
+	"trigger": [["hbm:item.satellite", 1, 11]],
+	"title": {
+		"en_US": "Space Laboratory"
+	},
+	"content": {
+		"en_US": "<br><br>{{Template:SatOverview}}"
+	}
+}

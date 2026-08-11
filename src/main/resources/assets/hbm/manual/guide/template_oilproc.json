@@ -1,0 +1,12 @@
+{
+	"name": "Template:Oil",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Oil"
+	},
+	"content": {
+		"en_US": "§2[ §2Oil §2]<br>[[Oil Collection]]<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+	}
+}

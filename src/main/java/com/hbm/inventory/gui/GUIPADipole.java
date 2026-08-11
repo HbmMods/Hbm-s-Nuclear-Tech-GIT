@@ -6,11 +6,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerPADipole;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.albion.TileEntityPADipole;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.Vec3NT;
 
 import net.minecraft.client.Minecraft;
@@ -96,7 +98,7 @@ public class GUIPADipole extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		
 		String name = this.dipole.hasCustomInventoryName() ? this.dipole.getInventoryName() : I18n.format(this.dipole.getInventoryName());
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 6, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2 - 9, 6, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
 		this.fontRendererObj.drawString(EnumChatFormatting.AQUA + "/123K", 136, 22, 4210752);
@@ -116,7 +118,15 @@ public class GUIPADipole extends GuiInfoContainer {
 
 		int heat = (int) Math.ceil(dipole.temperature);
 		if(heat <= 123) drawTexturedModalRect(guiLeft + 93, guiTop + 54, 176, 8, 8, 8);
-		if(dipole.slots[1] != null && dipole.slots[1].getItem() == ModItems.pa_coil) drawTexturedModalRect(guiLeft + 103, guiTop + 54, 176, 8, 8, 8);
+		if(dipole.slots[1] != null && dipole.slots[1].getItem() == ModItems.pa_coil){
+			drawTexturedModalRect(guiLeft + 103, guiTop + 54, 176, 8, 8, 8);
+			EnumCoilType type = null;
+			type = EnumUtil.grabEnumSafely(EnumCoilType.class, dipole.slots[1].getItemDamage());
+			if (type == EnumCoilType.GOLD) drawTexturedModalRect(guiLeft + 83, guiTop + 20, 200, 96, 28, 28);
+			if (type == EnumCoilType.NIOBIUM) drawTexturedModalRect(guiLeft + 83, guiTop + 20, 228, 96, 28, 28);
+			if (type == EnumCoilType.BSCCO) drawTexturedModalRect(guiLeft + 83, guiTop + 20, 200, 124, 28, 28);
+			if (type == EnumCoilType.CHLOROPHYTE) drawTexturedModalRect(guiLeft + 83, guiTop + 20, 228, 124, 28, 28);
+		}
 		if(dipole.power >= dipole.usage) drawTexturedModalRect(guiLeft + 83, guiTop + 54, 176, 8, 8, 8);
 		
 		GL11.glPushMatrix();

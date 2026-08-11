@@ -439,7 +439,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void repair() {
+	public void repair(EntityPlayer player) {
 		this.hasExploded = false;
 		this.markChanged();
 	}

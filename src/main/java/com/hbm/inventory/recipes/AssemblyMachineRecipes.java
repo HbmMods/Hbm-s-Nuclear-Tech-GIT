@@ -1015,6 +1015,12 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.BISMOID),
 						new ComparableStack(ModItems.part_generic, 4, EnumPartType.LDE),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED)));
+		this.register(new GenericRecipe("ass.relaysat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.RELAY.ordinal()))
+				.inputItems(new OreDictStack(AL.shell(), 16),
+						new ComparableStack(ModItems.photo_panel, 16),
+						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.BASIC),
+						new ComparableStack(ModItems.part_generic, 16, EnumPartType.LDE),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER)));
 		this.register(new GenericRecipe("ass.detectorsat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.DETECTOR.ordinal()))
 				.inputItems(new OreDictStack(GOLD.plateCast(), 16),
 						new ComparableStack(ModItems.photo_panel, 64),

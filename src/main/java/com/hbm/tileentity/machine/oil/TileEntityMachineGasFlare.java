@@ -10,7 +10,7 @@ import com.hbm.inventory.container.ContainerMachineGasFlare;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
@@ -142,7 +142,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "random.fizz", getVolume(1.5F), 0.5F);
 
 						if(worldObj.getTotalWorldTime() % 5 == 0 && eject > 0) {
-							FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, eject * 5);
+							FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.SPILL, eject * 5);
 						}
 					}
 				} else {
@@ -178,7 +178,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", getVolume(1.5F), 0.75F);
 
 						if(worldObj.getTotalWorldTime() % 5 == 0 && eject > 0) {
-							FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, eject * 5);
+							FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), tank, FluidReleaseType.BURN, eject * 5);
 						}
 					}
 				}

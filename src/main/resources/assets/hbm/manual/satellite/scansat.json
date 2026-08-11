@@ -7,6 +7,7 @@
 		"ru_RU": "Спутник глубинного сканирования"
 	},
 	"content": {
-		"en_US": "The depth scanning satellite is required for the neutrino lens to work. It does not yet have any special interactions with the ground station.<br><br>See also:<br>* [[Satellite]]<br>* [[Satellite Ground Station]]",
-		"ru_RU": "Спутник глубинного сканирования необходим для работы нейтринной линзы. На данный момент он не имеет никаких особых взаимодействий с наземной станцией.<br><br>См. также:<br>* [[Спутник|Satellite]]<br>* [[Спутниковая наземная станция|Satellite Ground Station]]"
+		"en_US": "The depth scanning satellite is required for the neutrino lens to work. It does not yet have any special interactions with the ground station.<br><br>{{Template:SatOverview}}",
+		"ru_RU": "Спутник глубинного сканирования необходим для работы нейтринной линзы. На данный момент он не имеет никаких особых взаимодействий с наземной станцией.<br><br>{{Template:SatOverview}}"
+	}
 }
