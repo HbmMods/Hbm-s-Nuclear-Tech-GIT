@@ -313,6 +313,8 @@ public class GUIScreenRecipeSelector extends GuiScreen {
 		data.setString("selection", this.selection);
 		TileEntity te = (TileEntity) tile;
 		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, te.xCoord, te.yCoord, te.zCoord));
+		
+		this.click();
 	}
 
 	@Override
