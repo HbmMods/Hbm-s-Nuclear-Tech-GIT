@@ -23,7 +23,6 @@ import com.hbm.packet.toserver.AnvilCraftPacket;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -34,7 +33,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class GUIAnvil extends GuiContainer {
+public class GUIAnvil extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_anvil.png");
 
@@ -46,6 +45,7 @@ public class GUIAnvil extends GuiContainer {
 	int selection;
 	private GuiTextField search;
 	private InventoryPlayer playerInventory;
+	private AnvilRecipes.OverlayType state = AnvilRecipes.OverlayType.NONE;
 
 	public GUIAnvil(InventoryPlayer player, int tier) {
 		super(new ContainerAnvil(player, tier));
@@ -102,12 +102,16 @@ public class GUIAnvil extends GuiContainer {
 		this.selection = pos;
 		this.index = MathHelper.clamp_int(pos / 2, 0, this.size);
 	}
-
+	private boolean matchState(AnvilConstructionRecipe recipe) {
+		return ((this.state == AnvilRecipes.OverlayType.NONE) || (recipe.getOverlay() == this.state));
+	}
 	private void regenerateRecipes() {
 
 		this.recipes.clear();
-		this.recipes.addAll(this.originList);
-
+		for(AnvilConstructionRecipe recipe : this.originList) {
+			if(matchState(recipe))
+				this.recipes.add(recipe);
+		}
 		resetPaging();
 	}
 
@@ -118,8 +122,11 @@ public class GUIAnvil extends GuiContainer {
 		this.recipes.clear();
 
 		if(search.isEmpty()) {
-			this.recipes.addAll(this.originList);
-
+			for(AnvilConstructionRecipe recipe : this.originList) {
+				if(matchState(recipe)){
+					this.recipes.add(recipe);
+				}
+			}
 		} else {
 			for(AnvilConstructionRecipe recipe : this.originList) {
 				List<String> list = recipeToSearchList(recipe);
@@ -166,28 +173,12 @@ public class GUIAnvil extends GuiContainer {
 		}
 	}
 
-	private Slot getSlotAtPosition(int x, int y) {
-		for(int k = 0; k < this.inventorySlots.inventorySlots.size(); ++k) {
-			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(k);
-
-			if(this.isMouseOverSlot(slot, x, y)) {
-				return slot;
-			}
-		}
-
-		return null;
-	}
-
-	private boolean isMouseOverSlot(Slot slot, int x, int y) {
-		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
-	}
-
 	@Override
 	protected void mouseClicked(int x, int y, int k) {
 		super.mouseClicked(x, y, k);
 
 		this.search.mouseClicked(x, y, k);
-
+		
 		if(guiLeft + 7 <= x && guiLeft + 7 + 9 > x && guiTop + 71 < y && guiTop + 71 + 36 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if(this.index > 0)
@@ -195,7 +186,7 @@ public class GUIAnvil extends GuiContainer {
 
 			return;
 		}
-
+		
 		if(guiLeft + 106 <= x && guiLeft + 106 + 9 > x && guiTop + 71 < y && guiTop + 71 + 36 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if(this.index < this.size)
@@ -203,7 +194,7 @@ public class GUIAnvil extends GuiContainer {
 
 			return;
 		}
-
+		
 		if(guiLeft + 52 <= x && guiLeft + 52 + 18 > x && guiTop + 53 < y && guiTop + 53 + 18 >= y) {
 
 			if(this.selection == -1)
@@ -215,6 +206,13 @@ public class GUIAnvil extends GuiContainer {
 			return;
 		}
 
+		if(guiLeft + 88 <= x && guiLeft + 88 + 18 > x && guiTop + 53 < y && guiTop + 53 + 18 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			AnvilRecipes.OverlayType[] values = AnvilRecipes.OverlayType.values();
+			this.state = values[(this.state.ordinal() + 1) % values.length];
+			regenerateRecipes();
+			return;
+		}
 		/*if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			search(this.search.getText());
@@ -276,6 +274,13 @@ public class GUIAnvil extends GuiContainer {
 		} else {
 			this.lastSize = 0;
 		}
+		this.drawCustomInfoStat(
+			mX, mY, guiLeft + 88, guiTop + 53, 18, 18, mX - guiLeft, mY - guiTop, 
+			this.state == AnvilRecipes.OverlayType.NONE ? "All recipes" :
+			this.state == AnvilRecipes.OverlayType.SMITHING ? "Smithing" :
+			this.state == AnvilRecipes.OverlayType.CONSTRUCTION ? "Construction" :
+			"Recycling"
+		);
 	}
 
 	/**
@@ -419,6 +424,25 @@ public class GUIAnvil extends GuiContainer {
 		}
 		if(guiLeft + 52 <= mX && guiLeft + 52 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
 			drawTexturedModalRect(guiLeft + 52, guiTop + 53, 176, 150, 18, 18);
+		}
+		
+		if(this.state == AnvilRecipes.OverlayType.SMITHING) {
+			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 200, 0, 18, 18);
+			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
+				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 200, 18, 18, 18);
+			}
+		}
+		else if(this.state == AnvilRecipes.OverlayType.CONSTRUCTION) {
+			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 218, 0, 18, 18);
+			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
+				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 218, 18, 18, 18);
+			}
+		}
+		else if(this.state == AnvilRecipes.OverlayType.RECYCLING) {
+			drawTexturedModalRect(guiLeft + 88, guiTop + 53, 236, 0, 18, 18);
+			if(guiLeft + 88 <= mX && guiLeft + 88 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
+				drawTexturedModalRect(guiLeft + 88, guiTop + 53, 236, 18, 18, 18);
+			}
 		}
 		/*if(guiLeft + 97 <= mX && guiLeft + 97 + 18 > mX && guiTop + 107 < mY && guiTop + 107 + 18 >= mY) {
 			drawTexturedModalRect(guiLeft + 97, guiTop + 107, 176, 168, 18, 18);
