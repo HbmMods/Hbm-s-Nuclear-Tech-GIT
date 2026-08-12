@@ -1,0 +1,11 @@
+{
+    "name": "Bitumen",
+    "icon": ["hbm:item.fluid_icon", 1, 13],
+    "trigger": [["hbm:item.fluid_icon", 1, 13]],
+    "title": {
+        "en_US": "Bitumen"
+    },
+    "content": {
+        "en_US": "Bitumen can be primarily obtained through the [[fractioning|Fractioning Tower]] of [[heavy oil|Heavy Oil]]. It is primarily used for the production of asphalt, or the reproduction of [[crude oil|Crude Oil]] through [[cracking|Catalytic Cracking Tower]].<br><br>{{Template:Oil1}}"
+    }
+}
