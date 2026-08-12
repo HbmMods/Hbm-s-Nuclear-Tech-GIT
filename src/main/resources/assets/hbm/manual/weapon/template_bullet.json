@@ -1,0 +1,12 @@
+{
+	"name": "Template:Bullet",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Bullet"
+	},
+	"content": {
+		"en_US": "§2[ §2Bullets §2]<br>[[Black Powder Ammunition]]<br>[[Soft Point Bullet]]<br>[[Full Metal Jacket Bullet]]<br>[[Jacketed Hollow Point Bullet]]<br>[[FMJ Express Bullet]]<br>[[Armor Piercing Bullet]]<br>[[Depleted Uranium Bullet]]<br>[[Starmetal Bullet]]<br>[[High-Explosive Ammunition]]"
+	}
+}

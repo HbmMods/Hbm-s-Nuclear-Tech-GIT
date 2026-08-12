@@ -55,7 +55,7 @@ public class RenderRBMKTerminal extends TileEntitySpecialRenderer {
 		
 		for(int i = 0; i < 18; i++) {
 			
-			String label = i == 0 ? GUIScreenRBMKTerminal.getWorkingLine() : terminal.history[i - 1];
+			String label = i == 0 ? GUIScreenRBMKTerminal.getWorkingLine(terminal) : terminal.history[i - 1];
 			if(label == null) label = "";
 			
 			StringBuilder builder = new StringBuilder(40);

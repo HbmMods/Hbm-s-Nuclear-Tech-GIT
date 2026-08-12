@@ -1,0 +1,12 @@
+{
+	"name": "Template:Fusion",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Fusion"
+	},
+	"content": {
+		"en_US": "§2[ §2Fusion §2]<br>[[Fusion Reactor]]<br>[[Fusion Reactor Vessel]]<br>[[Klystron]]<br>[[Fusion Reactor Coupler]]<br>[[Fusion Reactor Boiler]]<br>[[MHD Turbine]]<br>[[Fusion Reactor Breeding Chamber]]<br>[[Fusion Reactor Collector Chamber]]"
+	}
+}

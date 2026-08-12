@@ -449,9 +449,10 @@ abstract public class Component extends StructureComponent {
 		int posZ = this.getZWithOffset(featureX, featureZ);
 
 		placeBlockAtCurrentPosition(world, ModBlocks.bobblehead, rand.nextInt(16), featureX, featureY, featureZ, box);
-		TileEntityBobble bobble = (TileEntityBobble) world.getTileEntity(posX, posY, posZ);
+		TileEntity tile = world.getTileEntity(posX, posY, posZ);
 
-		if(bobble != null) {
+		if(tile instanceof TileEntityBobble) {
+			TileEntityBobble bobble = (TileEntityBobble) tile;
 			bobble.type = BobbleType.values()[rand.nextInt(BobbleType.values().length - 1) + 1];
 			bobble.markDirty();
 		}
