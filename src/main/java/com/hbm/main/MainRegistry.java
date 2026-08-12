@@ -1645,6 +1645,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.sat_head_laser");
 		ignoreMappings.add("hbm:item.sat_head_resonator");
 		ignoreMappings.add("hbm:item.sat_interface");
+		ignoreMappings.add("hbm:item.cape_radiation");
+		ignoreMappings.add("hbm:item.cape_gasmask");
+		ignoreMappings.add("hbm:item.cape_schrabidium");
+		ignoreMappings.add("hbm:item.cape_hidden");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

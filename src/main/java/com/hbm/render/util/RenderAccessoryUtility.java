@@ -22,8 +22,6 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation dafnik = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDafnik.png");
 	private static ResourceLocation lpkukin = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeShield.png");
 	private static ResourceLocation vertice = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVertice_2.png");
-	private static ResourceLocation red = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRed.png");
-	private static ResourceLocation ayy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAyy.png");
 	private static ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia2.png");
 	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSam.png");
 	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy_mk3.png");
@@ -41,7 +39,6 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
 	private static ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
 	private static ResourceLocation frizzlefrazzle = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeFrizzleFrazzle.png");
-	//private static ResourceLocation pheo = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapePheo.png");
 	private static ResourceLocation vaer = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVaer.png");
 	private static ResourceLocation adam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAdam.png");
 	private static ResourceLocation alcater = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAlcater.png");
@@ -67,12 +64,6 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(ShadyUtil.LordVertice)) {
 			return vertice;
-		}
-		if(uuid.equals(ShadyUtil.CodeRed_)) {
-			return red;
-		}
-		if(uuid.equals(ShadyUtil.dxmaster769)) {
-			return ayy;
 		}
 		if(uuid.equals(ShadyUtil.Dr_Nostalgia)) {
 			return nostalgia2;
@@ -116,9 +107,6 @@ public class RenderAccessoryUtility {
 		if(uuid.equals(ShadyUtil.FrizzleFrazzle)) {
 			return frizzlefrazzle;
 		}
-		/*if(uuid.equals(ShadyUtil.Barnaby99_x)) {
-			return pheo;
-		}*/
 		if(uuid.equals(ShadyUtil.Ma118)) {
 			return vaer;
 		}
