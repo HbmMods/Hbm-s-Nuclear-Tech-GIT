@@ -21,6 +21,8 @@
 * QMAW now has a composing feature, using double curly brackets and the internal name of another page, this page's contents can be imported
   * This means that things like long "see also" lists can now be on a single shared page instead of being hand written for every article
 * QMAW links for pages you're already on now have a special color
+* The relay satellite can now send RoR signals to different dimensions
+  * It can only send, not receive. For bidirectional communication, two satellites are necessary, one in each dimension
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -28,3 +30,5 @@
 * Fixed PSN bulk storage duping itself when broken
 * Fixed old lantern repair bonus not being applied when the player is too far away from the lantern or another player is in the detection area
 * Fixed an issue where the vast majority of fluid spilling machines would ignore all fluid trait spill actions except for the soot/poison polluting ones
+* Fixed a potential issue regarding bobblehead world generation
+* The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain cirumstances, the power requirement can never be met
