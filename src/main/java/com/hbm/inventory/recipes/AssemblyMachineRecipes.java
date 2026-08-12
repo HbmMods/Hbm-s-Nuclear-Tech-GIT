@@ -178,7 +178,9 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new OreDictStack(ZR.billet(), 1)).setGroup(autoPileRod, INSTANCE));
 		this.register(new GenericRecipe("ass.pilenu").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.NU.ordinal()))
 				.inputItems(new OreDictStack(U.billet(), 3)).setGroup(autoPileRod, INSTANCE));
-		
+		this.register(new GenericRecipe("ass.pilethorium").setup(40, 200).outputItems(new ItemStack(ModItems.pile_rod, 1, EnumPileRod.THORIUM.ordinal()))
+				.inputItems(new OreDictStack(TH232.billet(), 3)).setGroup(autoPileRod, INSTANCE));
+
 		// powders
 		String autoCyclotron = "autoswitch.cyclotron";
 		this.register(new GenericRecipe("ass.partlith").setup(40, 100).outputItems(new ItemStack(ModItems.part_lithium, 8))
@@ -515,7 +517,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("ass.pileblock").setup(20, 250).outputItems(new ItemStack(ModBlocks.pile_brick, 1))
 				.inputItems(new OreDictStack(KEY_PLANKS, 1), new OreDictStack(GRAPHITE.ingot(), 4), new OreDictStack(STEEL.bolt(), 2))
 				.inputItemsEx(new OreDictStack(KEY_PLANKS, 1), new OreDictStack(GRAPHITE.ingot(), 8), new OreDictStack(STEEL.plate(), 1)));
-		
+
 		// reactors
 		this.register(new GenericRecipe("ass.cirnox").setup(600, 100).outputItems(new ItemStack(ModBlocks.reactor_zirnox, 1))
 				.inputItems(new OreDictStack(STEEL.shell(), 4), new OreDictStack(STEEL.pipe(), 8), new OreDictStack(B.ingot(), 8), new OreDictStack(GRAPHITE.ingot(), 16), new OreDictStack(RUBBER.ingot(), 16), new OreDictStack(ANY_CONCRETE.any(), 16), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC))
