@@ -95,18 +95,19 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 				this.isProgressing = true;
 				this.progress += speed / recipe.duration;
 
-				this.tanks[1].setFill(tanks[1].getFill() + FLUE_GAS);
-				if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) {
-					int spill = this.tanks[1].getFill() - this.tanks[1].getMaxFill();
-					this.tanks[1].getTankType().onFluidRelease(worldObj, xCoord, yCoord + 7, zCoord, tanks[1], spill);
-					FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tanks[1].getTankType(), tanks[1], FluidReleaseType.SPILL, spill);
-					this.tanks[1].setFill(this.tanks[1].getMaxFill());
-				}
 
 				if(this.progress >= 1F) {
 					this.process(recipe);
 					this.progress = 0F;
 					this.fuel -= FUEL_RATE;
+
+					this.tanks[1].setFill((int) (tanks[1].getFill() + FLUE_GAS * (recipe.duration/speed)));
+					if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) {
+						int spill = this.tanks[1].getFill() - this.tanks[1].getMaxFill();
+						this.tanks[1].getTankType().onFluidRelease(worldObj, xCoord, yCoord + 7, zCoord, tanks[1], spill);
+						FluidTrait.onRelease(worldObj, xCoord, yCoord, zCoord, tanks[1].getTankType(), tanks[1], FluidReleaseType.SPILL, spill);
+						this.tanks[1].setFill(this.tanks[1].getMaxFill());
+					}
 				}
 
 				if(worldObj.rand.nextInt(10) == 0 && !this.muffled) {
