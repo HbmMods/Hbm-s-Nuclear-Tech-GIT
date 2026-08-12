@@ -10,6 +10,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.EnchantmentUtil;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -110,6 +111,7 @@ public class ItemSimpleConsumable extends ItemCustomLore {
 
 		/// BLOOD BAGS ///
 		ModItems.iv_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			if(!EntityDamageUtil.isRealPlayer(user)) return;
 			giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_blood));
 			user.setHealth(Math.max(user.getHealth() - 5F, 0F));
 			if(user.getHealth() <= 0) user.onDeath(DamageSource.magic);
@@ -121,6 +123,7 @@ public class ItemSimpleConsumable extends ItemCustomLore {
 		}).setUnlocalizedName("iv_blood").setTextureName(RefStrings.MODID + ":iv_blood");
 
 		ModItems.iv_xp_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
+			if(!EntityDamageUtil.isRealPlayer(user)) return;
 			if(EnchantmentUtil.getTotalExperience(user) >= 100) {
 				giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_xp));
 				EnchantmentUtil.setExperience(user, EnchantmentUtil.getTotalExperience(user) - 100);

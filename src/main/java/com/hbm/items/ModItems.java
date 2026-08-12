@@ -570,6 +570,7 @@ public class ModItems {
 	public static Item parts_legendary;
 
 	public static Item circuit;
+	public static Item drive;
 
 	public static Item crt_display;
 	public static ItemEnumMulti circuit_star_piece;
@@ -2623,6 +2624,7 @@ public class ModItems {
 		entanglement_kit = new ItemCustomLore().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":entanglement_kit");
 
 		circuit = new ItemCircuit().setUnlocalizedName("circuit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit");
+		drive = new ItemDrive().setUnlocalizedName("drive").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":drive");
 		crt_display = new Item().setUnlocalizedName("crt_display").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crt_display");
 		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
 		circuit_star_component = (ItemEnumMulti) new ItemCircuitStarComponent().setUnlocalizedName("circuit_star_component").setCreativeTab(null);
@@ -4988,6 +4990,7 @@ public class ModItems {
 
 		//Circuits
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
+		GameRegistry.registerItem(drive, drive.getUnlocalizedName());
 		GameRegistry.registerItem(crt_display, crt_display.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_star_piece, circuit_star_piece.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_star_component, circuit_star_component.getUnlocalizedName());

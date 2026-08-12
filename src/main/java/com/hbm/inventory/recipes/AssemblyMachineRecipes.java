@@ -29,6 +29,7 @@ import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemBatterySC.EnumBatterySC;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
+import com.hbm.items.machine.ItemDrive.EnumDriveType;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
@@ -139,6 +140,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 					.inputItems(new OreDictStack(RUBBER.ingot(), 2), new OreDictStack(IRON.plate(), 4), new OreDictStack(CU.wireFine(), 8)).setPools(POOL_PREFIX_ALT + ".circuit"));
 			this.register(new GenericRecipe("ass.atomicClockAlt").setupNamed(300, 20_000).outputItems(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ATOMIC_CLOCK, 4))
 					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 4), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CHIP), new OreDictStack(CS137.dust(), 1)).setPools(POOL_PREFIX_ALT + ".circuit"));
+
+			this.register(new GenericRecipe("ass.flashdrive").setup(100, 250).outputItems(DictFrame.fromOne(ModItems.drive, EnumDriveType.FLASH_EMPTY))
+					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CHIP), new OreDictStack(GOLD.plate())));
+			this.register(new GenericRecipe("ass.diskdrive").setup(200, 250).outputItems(DictFrame.fromOne(ModItems.drive, EnumDriveType.DISK_EMPTY))
+					.inputItems(new OreDictStack(ANY_PLASTIC.ingot(), 8), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC), new OreDictStack(ND.wireDense())));
 		}
 
 		// machine parts

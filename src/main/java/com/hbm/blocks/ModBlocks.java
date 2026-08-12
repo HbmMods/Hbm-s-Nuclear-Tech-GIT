@@ -988,6 +988,8 @@ public class ModBlocks {
 	public static Block machine_purex;
 	public static Block machine_mixer;
 
+	public static Block machine_supercomputer;
+
 	public static Block machine_fluidtank;
 	@Deprecated public static Block machine_bat9000;
 	public static Block machine_bigasstank;
@@ -2205,6 +2207,7 @@ public class ModBlocks {
 		machine_chemical_factory = new MachineChemicalFactory(Material.iron).setBlockName("machine_chemical_factory").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_purex = new MachinePUREX(Material.iron).setBlockName("machine_purex").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mixer = new MachineMixer(Material.iron).setBlockName("machine_mixer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_supercomputer = new MachineSuperComputer(Material.iron).setBlockName("machine_supercomputer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fluidtank = new MachineFluidTank(Material.iron).setBlockName("machine_fluidtank").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_bat9000 = new MachineBigAssTank9000(Material.iron).setBlockName("machine_bat9000").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_bigasstank = new MachineBigAssTank().setBlockName("machine_bigasstank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3247,6 +3250,7 @@ public class ModBlocks {
 		register(machine_soldering_station);
 		register(machine_arc_furnace);
 		register(machine_mixer);
+		register(machine_supercomputer);
 		register(machine_fluidtank);
 		register(machine_bat9000);
 		register(machine_bigasstank);

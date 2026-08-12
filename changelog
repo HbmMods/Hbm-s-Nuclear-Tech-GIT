@@ -23,6 +23,7 @@
 * QMAW links for pages you're already on now have a special color
 * The relay satellite can now send RoR signals to different dimensions
   * It can only send, not receive. For bidirectional communication, two satellites are necessary, one in each dimension
+* Fake player entities can no longer use empty blood or xp bags
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
