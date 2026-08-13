@@ -1,0 +1,11 @@
+{
+    "name": "Industrial Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 14],
+    "trigger": [["hbm:item.fluid_icon", 1, 14]],
+    "title": {
+        "en_US": "Industrial Oil"
+    },
+    "content": {
+        "en_US": "Industrial Oil can be obtained through [[fractioning|Fractioning Tower]] [[heavy oil|Heavy Oil]]. It is primarily used to obtain [[engine lubricant|Engine Lubricant]] and [[heating oil|Heating Oil]] through [[fractioning|Fractioning Tower]]. It may also be used to produce additional [[naphtha|Naphtha]] or [[reclaimed industrial oil|Reclaimed Industrial Oil]].<br><br>{{Template:Oil1}}"
+    }
+}
