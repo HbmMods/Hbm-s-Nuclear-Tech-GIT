@@ -63,7 +63,7 @@ public class GUIMachineSuperComputer extends GuiInfoContainerProcessor {
 
 		if(computer.computerModule.progress > 0) {
 			int j = (int) Math.ceil(70 * computer.computerModule.progress);
-			drawTexturedModalRect(guiLeft + 62, guiTop + 126, 176, 61, j, 16);
+			drawTexturedModalRect(guiLeft + 62, guiTop + 81, 176, 61, j, 16);
 		}
 
 		GenericRecipe recipe = computer.computerModule.getRecipe();

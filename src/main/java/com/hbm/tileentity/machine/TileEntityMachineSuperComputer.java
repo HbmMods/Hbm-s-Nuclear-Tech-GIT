@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineSuperComputer extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IControlReceiver, IGUIProvider {
 
@@ -82,8 +83,16 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 	}
 	
 	public DirPos[] getConPos() {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
 		return new DirPos[] {
-				
+				new DirPos(xCoord + dir.offsetX * 9, yCoord, zCoord + dir.offsetZ * 9, dir),
+				new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 7 + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + dir.offsetX * 7 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 7 - rot.offsetZ * 2, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + dir.offsetX * 5 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ *  - rot.offsetZ * 2, rot.getOpposite()),
 		};
 	}
 
@@ -101,7 +110,6 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		boolean wasProcessing = this.didProcess;
 		this.inputTank.deserialize(buf);
 		this.outputTank.deserialize(buf);
 		this.power = buf.readLong();
