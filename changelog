@@ -7,6 +7,13 @@
   * Comes with convenient stacking frame
   * Ideal for skyblock/seablock type challenge runs, as it can be configured to serve as an Ex Nihilo substitute
   * Can also perform the sand and colloid to clay recipe of the acidizer, but at a lower efficiency
+* Supercomputer
+  * Does recipes involving data drives
+  * Can calculate flight paths for orbital rockets and particle simulation data for fusion reactors
+  * Can also process flight data which can be received from satellites
+  * Most recipes have multiple variants with different cooling options
+  * More expensive cooling makes the recipes faster, but more likely to fail
+  * Can also create blueprint booklets without the aid of pufferfish, the recipe takes longer and much more energy, but has double the success chance
 
 ## Changed
 * Updated russian localization
@@ -25,6 +32,8 @@
   * It can only send, not receive. For bidirectional communication, two satellites are necessary, one in each dimension
 * Fake player entities can no longer use empty blood or xp bags
 * Repairing old lanterns now grants vending machine tokens, with the amount of tokens representing the player's reputation (always at least 1, so negative rep is not shown)
+* The soyuz and related recipes no longer need blueprints in normal mode, instead they use flight simulation data from the supercomputer
+* The PUREX now has a sound loop
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -37,3 +46,4 @@
 * Fixed gamebreaking issue where the tooltip of the RoR terminal was misspelled
 * Fixed RoR pager only having a max channel length of 10 instead of 15
 * Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound
+* Fixed PRISM system blast resistance checks supplying incorrect position info to blocks for the resistance getter

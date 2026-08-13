@@ -21,6 +21,7 @@ public class RenderSuperComputer extends TileEntitySpecialRenderer implements II
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float interp) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {

@@ -319,45 +319,6 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 		public boolean needsRebuild = false;
 		public int checksum = 0;
 		
-		@Deprecated public void updateBlock(World world, int x, int y, int z) {
-			int cX = x >> 4;
-			int cY = MathHelper.clamp_int(y >> 4, 0, 15);
-			int cZ = z >> 4;
-			
-			if(!world.getChunkProvider().chunkExists(cX, cZ)) return;
-			
-			int tX = cX << 4;
-			int tY = cY << 4;
-			int tZ = cX << 4;
-			
-			int sX = MathHelper.clamp_int(x - tX, 0, 15);
-			int sY = MathHelper.clamp_int(y - tY, 0, 15);
-			int sZ = MathHelper.clamp_int(z - tZ, 0, 15);
-			
-			Chunk chunk = world.getChunkFromChunkCoords(cX, cZ);
-			ExtendedBlockStorage[] xbs = chunk.getBlockStorageArray();
-			ExtendedBlockStorage subChunk = xbs[cY];
-			
-			xResist[sX] =  yResist[sY] = zResist[sZ] = 0;
-			
-			for(int iX = 0; iX < 16; iX++) {
-				for(int iY = 0; iY < 16; iY ++) {
-					for(int iZ = 0; iZ < 16; iZ ++) {
-						
-						if(iX == sX || iY == sY || iZ == sZ) { //only redo the three affected slices by this position change
-							
-							Block b = subChunk.getBlockByExtId(iX, iY, iZ);
-							if(b.getMaterial() == Material.air) continue;
-							float resistance = Math.min(b.getExplosionResistance(null, world, tX + iX, tY + iY, tZ + iZ, x, y, z), 100);
-							if(iX == sX) xResist[iX] += resistance;
-							if(iY == sY) yResist[iY] += resistance;
-							if(iZ == sZ) zResist[iZ] += resistance;
-						}
-					}
-				}
-			}
-		}
-		
 		public SubChunk rebuild(World world, int x, int y, int z) {
 			needsRebuild = true;
 			int cX = x >> 4;
@@ -368,7 +329,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 			
 			int tX = cX << 4;
 			int tY = cY << 4;
-			int tZ = cX << 4;
+			int tZ = cZ << 4;
 			
 			for(int i = 0; i < 16; i++) xResist[i] = yResist[i] = zResist[i] = 0;
 			
