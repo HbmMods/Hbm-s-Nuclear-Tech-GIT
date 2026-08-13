@@ -41,7 +41,7 @@ public class MachineDiesel extends BlockMachineBase implements ITooltipProvider 
 		if(tile instanceof TileEntityMachineDiesel) {
 			TileEntityMachineDiesel diesel = (TileEntityMachineDiesel) tile;
 			
-			if(diesel.hasAcceptableFuel() && diesel.tank.getFill() > 0) {
+			if(diesel.isOn == true && diesel.hasAcceptableFuel() && diesel.tank.getFill() > 0) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(tile.getBlockMetadata());
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
