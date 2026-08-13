@@ -217,6 +217,8 @@ chem.oilelectrodes=Instant-Elektroden (Heizöl)
 chem.lubeelectrodes=Instant-Elektroden (Schmiermittel)
 chem.deshcracked=Desh aus Cracköl
 
+com.copy=Kopieren von %s
+
 container.ammoBag=Mun-Tasche
 container.annihilator=Vernichter
 container.anvil=Stufe %s Amboss
@@ -1907,6 +1909,14 @@ item.drillbit_steel_diamond.name=Stahl-Bohrspitze (Diamantbeschichtung)
 item.drillbit_tcalloy.name=Technetiumstahl-Bohrspitze
 item.drillbit_tcalloy_diamond.name=Technetiumstahl-Bohrspitze (Diamantbeschichtung)
 item.drill_titanium.name=Titanbohrer
+item.drive.disk_broken.name=Laufwerk (Defekt)
+item.drive.disk_empty.name=Laufwerk (Leer)
+item.drive.disk_flightdata.name=Laufwerk (Flugdaten)
+item.drive.disk_flightdata_processed.name=Laufwerk (prozessierte Flugdaten)
+item.drive.flash_broken.name=Speicherstick (Defekt)
+item.drive.flash_empty.name=Speicherstick (Leer)
+item.drive.flash_flightsim.name=Speicherstick (Flugsimulationsdaten)
+item.drive.flash_particlesim.name=Speicherstick (Teilchensimulationsdaten)
 item.drone.patrol.name=Transportdrone
 item.drone.patrol_chunkloading.name=Chunkladende Transportdrone
 item.drone.patrol_express.name=Express-Transportdrone

@@ -81,6 +81,7 @@ public class NEIRegistry {
 		handlers.add(new ParticleAcceleratorHandler());
 		handlers.add(new DeuteriumHandler());
 		handlers.add(new RockMillRecipeHandler());
+		handlers.add(new SuperComputerRecipeHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());

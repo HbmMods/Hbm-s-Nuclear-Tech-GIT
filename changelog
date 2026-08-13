@@ -24,6 +24,7 @@
 * The relay satellite can now send RoR signals to different dimensions
   * It can only send, not receive. For bidirectional communication, two satellites are necessary, one in each dimension
 * Fake player entities can no longer use empty blood or xp bags
+* Repairing old lanterns now grants vending machine tokens, with the amount of tokens representing the player's reputation (always at least 1, so negative rep is not shown)
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -33,3 +34,6 @@
 * Fixed an issue where the vast majority of fluid spilling machines would ignore all fluid trait spill actions except for the soot/poison polluting ones
 * Fixed a potential issue regarding bobblehead world generation
 * The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain cirumstances, the power requirement can never be met
+* Fixed gamebreaking issue where the tooltip of the RoR terminal was misspelled
+* Fixed RoR pager only having a max channel length of 10 instead of 15
+* Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound

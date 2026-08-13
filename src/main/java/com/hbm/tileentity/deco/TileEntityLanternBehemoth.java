@@ -52,6 +52,7 @@ public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements I
 				ItemStack payload = ItemKitCustom.create("Supplies", null, 0xffffff, 0x008000,
 						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC, 4 + worldObj.rand.nextInt(4)),
 						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED, 4 + worldObj.rand.nextInt(2)),
+						new ItemStack(ModItems.coin_token, Math.max(1, reputation)),
 						bonus ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
 						new ItemStack(Blocks.red_flower));
 				shuttle.payload = payload;

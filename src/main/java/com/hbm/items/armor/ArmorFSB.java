@@ -346,7 +346,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				}
 			}
 
-			if(chestplate.fall != null)
+			if(chestplate.fall != null && player.fallDistance > 0.5)
 				player.playSound(chestplate.fall, 0.5F, 1.0F);
 		}
 	}

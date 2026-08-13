@@ -151,6 +151,9 @@ public class ResourceManager {
 	public static final IModelCustom chemical_plant = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_plant.obj")).asVBO();
 	public static final IModelCustom chemical_factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chemical_factory.obj")).asVBO();
 	public static final IModelCustom purex = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/purex.obj")).asVBO();
+	
+	//Super Computer
+	public static final IModelCustom supercomputer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/supercomputer.obj")).asVBO();
 
 	//Mixer
 	public static final IModelCustom mixer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mixer.obj")).asVBO();
@@ -613,6 +616,10 @@ public class ResourceManager {
 	public static final ResourceLocation chemfac_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemfac.png");
 	public static final ResourceLocation chemical_factory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chemical_factory.png");
 	public static final ResourceLocation purex_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/purex.png");
+	
+	//Supercomputer
+	public static final ResourceLocation supercomputer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/supercomputer.png");
+	public static final ResourceLocation supercomputer_scan_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/supercomputer_scan.png");
 
 	//Mixer
 	public static final ResourceLocation mixer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mixer.png");

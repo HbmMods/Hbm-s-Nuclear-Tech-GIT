@@ -27,7 +27,7 @@ public class GUIMachineSuperComputer extends GuiInfoContainerProcessor {
 		this.processorModule[0] = computer.computerModule;
 
 		this.xSize = 176;
-		this.ySize = 256;
+		this.ySize = 211;
 	}
 
 	@Override public int[][] getSelectorPositions() { return new int[][] {{7, 80, 1}}; }
