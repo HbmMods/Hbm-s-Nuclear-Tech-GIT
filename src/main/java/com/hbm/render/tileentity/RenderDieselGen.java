@@ -34,7 +34,7 @@ public class RenderDieselGen extends TileEntitySpecialRenderer implements IItemR
 		TileEntityMachineDiesel engine = (TileEntityMachineDiesel) tile;
 		ResourceManager.dieselgen.renderPart("Generator");
 		
-		if(engine.hasAcceptableFuel() && engine.tank.getFill() > 0) {
+		if(engine.isOn == true && engine.hasAcceptableFuel() && engine.tank.getFill() > 0) {
 			double swingSide = Math.sin(System.currentTimeMillis() / 50D) * 0.005;
 			double swingFront = Math.sin(System.currentTimeMillis() / 25D) * 0.005;
 			GL11.glTranslated(swingFront, 0, swingSide);
