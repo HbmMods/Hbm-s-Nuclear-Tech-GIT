@@ -8,6 +8,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemSatellite extends ItemEnumMulti implements ISatChip {
 
@@ -32,6 +33,6 @@ public class ItemSatellite extends ItemEnumMulti implements ISatChip {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		list.add(I18nUtil.resolveKey("satchip.frequency") + ": " + getFreq(stack));
+		list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("satchip.frequency") + ": " + getFreq(stack));
 	}
 }

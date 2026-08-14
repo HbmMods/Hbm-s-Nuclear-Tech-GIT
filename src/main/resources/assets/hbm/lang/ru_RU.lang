@@ -3338,6 +3338,7 @@ item.ncrpa_helmet.name=Шлем силовой брони рейнджера Н�
 item.ncrpa_legs.name=Поножи силовой брони рейнджера НКР
 item.ncrpa_plate.name=Нагрудник силовой брони рейнджера НКР
 item.neutrino_lens.name=Нейтринные линзы
+item.neutrino_lens.description.frequency=Частота
 item.neutron_reflector.name=Отражатель нейтронов
 item.night_vision.name=Очки ночного зрения
 item.night_vision.description.item=Даёт ночное зрение (нуждается в полном электрическом сете)

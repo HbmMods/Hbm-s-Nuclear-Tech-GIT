@@ -3572,6 +3572,7 @@ item.ncrpa_helmet.name=NCR Ranger Power Armor Helmet
 item.ncrpa_legs.name=NCR Ranger Power Armor Leggings
 item.ncrpa_plate.name=NCR Ranger Power Armor Chestplate
 item.neutrino_lens.name=Neutrino Lens
+item.neutrino_lens.description.frequency=Freq
 item.neutron_reflector.name=Neutron Reflector
 item.night_vision.name=Night Vision Goggles
 item.night_vision.description.item=Grants you night vision (requires full electric set)
