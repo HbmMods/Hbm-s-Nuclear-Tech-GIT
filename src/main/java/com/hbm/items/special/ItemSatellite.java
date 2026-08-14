@@ -28,6 +28,8 @@ public class ItemSatellite extends ItemEnumMulti implements ISatChip {
 		DETECTOR,
 		RAY_SCAN,
 		SCIENCE,
+		SCIENCE_ASSEMBLER,
+		SCIENCE_SENSOR,
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.hbm.saveddata.satellites;
 import java.util.Locale;
 
 import com.hbm.entity.projectile.EntityTom;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 
@@ -10,7 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -24,6 +27,14 @@ public class SatelliteHorizons extends SatelliteBase {
 	public SatelliteHorizons() { }
 
 	@Override public String getType() { return "PAYLOAD_UNKNOWN"; }
+	
+	@Override
+	public IChatComponent[] getInfo(World world) {
+		return new IChatComponent[] {
+				new ChatComponentTranslation(ModItems.sat_gerald.getUnlocalizedName() + ".name"),
+				used ? new ChatComponentTranslation("satellite.spent") : new ChatComponentTranslation("satellite.ready")
+		};
+	}
 
 	@Override
 	public void onOrbit(World world, double x, double y, double z) {

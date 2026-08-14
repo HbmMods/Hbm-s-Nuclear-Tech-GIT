@@ -6,6 +6,7 @@ import api.hbm.redstoneoverradio.IRORInteractive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
 public abstract class SatelliteBase {
@@ -27,6 +28,8 @@ public abstract class SatelliteBase {
 	}
 	
 	public abstract String getType();
+	
+	public abstract IChatComponent[] getInfo(World world);
 	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("targetX", targetX);
