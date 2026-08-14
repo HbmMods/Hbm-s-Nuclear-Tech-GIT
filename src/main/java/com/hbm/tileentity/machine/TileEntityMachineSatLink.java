@@ -10,6 +10,7 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -19,6 +20,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IChatComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityMachineSatLink extends TileEntityTickingBase implements IRORValueProvider, IRORInteractive, SimpleComponent, CompatHandler.OCComponent {
@@ -36,6 +38,8 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	public static final float ACTIVE_LIFT = -45F;
 	public static final float INACTIVE_ROT = 0F;
 	public static final float INACTIVE_LIFT = -85F;
+	
+	public IChatComponent[] info = new IChatComponent[0];
 
 	@Override
 	public void updateEntity() {
@@ -48,7 +52,8 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 				SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 				this.connected = dat.isFreqTaken(freq);
 			}
-
+			
+			this.updateInfo(connected);
 			this.networkPackNT(150);
 
 		} else {
@@ -68,12 +73,33 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			else if(lift > targetL) lift -= SPEED;
 		}
 	}
+	
+	protected void updateInfo(boolean canConnect) {
+		
+		if(!canConnect) {
+			if(this.info.length > 0) this.info = new IChatComponent[0];
+			return;
+		}
+
+		SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+		SatelliteBase sat = dat.getSatFromFreq(freq);
+		
+		if(sat != null) {
+			this.info = sat.getInfo(worldObj);
+		}
+	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(connected);
 		buf.writeInt(freq);
+		
+		buf.writeInt(info.length);
+		
+		for(int i = 0; i < info.length; i++) {
+			ByteBufUtils.writeUTF8String(buf, IChatComponent.Serializer.func_150696_a(info[i]));
+		}
 	}
 
 	@Override
@@ -81,6 +107,13 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 		super.deserialize(buf);
 		this.connected = buf.readBoolean();
 		this.freq = buf.readInt();
+		
+		int length = buf.readInt();
+		if(this.info.length != length) this.info = new IChatComponent[length];
+		
+		for(int i = 0; i < info.length; i++) {
+			info[i] = IChatComponent.Serializer.func_150699_a(ByteBufUtils.readUTF8String(buf));
+		}
 	}
 
 	@Override
