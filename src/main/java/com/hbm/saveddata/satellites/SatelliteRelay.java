@@ -1,10 +1,15 @@
 package com.hbm.saveddata.satellites;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.RTTYSystem;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -23,6 +28,13 @@ public class SatelliteRelay extends SatelliteBase {
 	public SatelliteRelay() { }
 
 	@Override public String getType() { return "DIMENSIONAL_RELAY"; }
+	
+	@Override
+	public IChatComponent[] getInfo(World world) {
+		return new IChatComponent[] {
+				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.RELAY.ordinal())) + ".name")
+		};
+	}
 	
 	@Override
 	public void onOrbit(World world, double x, double y, double z) {

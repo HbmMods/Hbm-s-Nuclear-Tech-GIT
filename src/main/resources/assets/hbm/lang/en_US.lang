@@ -4437,6 +4437,8 @@ item.satellite.ray_scan.name=Narrowband Emission Scanning Satellite
 item.satellite.relay.name=RoR Relay Satellite
 item.satellite.scanner.name=Depth Scanning Satellite
 item.satellite.science.name=Space Laboratory
+item.satellite.science_assembler.name=Space Laboratory - 0G Assembler
+item.satellite.science_sensor.name=Space Laboratory - Sensor Relay
 item.satellite.spy.name=Spy Satellite
 item.satellite.xenium_resonator.name=Xenium Resonator Satellite
 item.sawblade.name=Sawblade
@@ -4995,6 +4997,10 @@ satchip.lunar_miner=Mines moon turf to deliver it to a cargo landing pad.
 satchip.radar=Shows a map of active entities.
 satchip.resonator=Allows for teleportation with no cooldown.
 satchip.scanner=Creates a topdown map of underground ores.
+
+satellite.cooldown=Cooldown: %s
+satellite.ready=READY
+satellite.spent=SPENT
 
 shape.barrelHeavy=Heavy Barrel
 shape.barrelLight=Light Barrel
