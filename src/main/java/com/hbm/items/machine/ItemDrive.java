@@ -13,5 +13,11 @@ public class ItemDrive extends ItemEnumMulti {
 		DISK_EMPTY,
 		FLASH_BROKEN,
 		DISK_BROKEN,
+		
+		FLASH_FLIGHTSIM,			// precalc for spaceflight
+		FLASH_PARTICLESIM,			// precalc for fusion
+		
+		DISK_FLIGHTDATA,			// raw data from satellite
+		DISK_FLIGHTDATA_PROCESSED,	// processed data from satellite
 	}
 }
