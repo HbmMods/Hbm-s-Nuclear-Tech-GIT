@@ -36,9 +36,9 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			case 5: GL11.glRotatef(180, 0F, 1F, 0F); break;
 			}
 			
-			this.bindTexture(ResourceManager.epress_body_tex);
+			this.bindTexture(ResourceManager.electric_press_tex);
 			
-			ResourceManager.epress_body.renderAll();
+			ResourceManager.electric_press.renderPart("Press");
 				
 		GL11.glPopMatrix();
 		
@@ -47,7 +47,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 
 	public void renderTileEntityAt2(TileEntity tileentity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
-			GL11.glTranslated(x + 0.5D, y + 1, z + 0.5D);
+			GL11.glTranslated(x + 0.5D, y - 0.75D, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
@@ -60,11 +60,11 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 
 			TileEntityMachineEPress press = (TileEntityMachineEPress)tileentity;
 			double p = (press.lastPress + (press.renderPress - press.lastPress) * f) /(double) press.maxPress;
-			GL11.glTranslated(0, MathHelper.clamp_double((1D - p), 0D, 1D) * 0.875D, 0);
+			GL11.glTranslated(0, MathHelper.clamp_double((1D - p), 0D, 1D) * 0.75D, 0);
 		
-			this.bindTexture(ResourceManager.epress_head_tex);
+			this.bindTexture(ResourceManager.electric_press_tex);
 		
-			ResourceManager.epress_head.renderAll();
+			ResourceManager.electric_press.renderPart("Piston");
 			
 		GL11.glPopMatrix();
 		
@@ -75,7 +75,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 		itemRenderer = new RenderDecoItem(this);
 		itemRenderer.setRenderManager(renderManager);
 		GL11.glPushMatrix();
-			GL11.glTranslated(x + 0.5D, y + 1, z + 0.5);
+			GL11.glTranslated(x + 0.5D, y + 1D, z + 0.5);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
@@ -89,7 +89,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			GL11.glRotatef(90, 0F, 1F, 0F);
 			GL11.glRotatef(-90, 1F, 0F, 0F);
 			GL11.glTranslatef(1.0F, 1.0F - 0.0625F * 165/100, 0.0F);
-			GL11.glTranslatef(-1, -1.15F, 0);
+			GL11.glTranslatef(-1, -1F, 0);
 			
 			TileEntityMachineEPress press = (TileEntityMachineEPress)tileentity;
 			if(press.syncStack != null) {
