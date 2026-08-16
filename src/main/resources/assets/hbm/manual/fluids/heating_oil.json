@@ -1,0 +1,11 @@
+{
+    "name": "Heating Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 15],
+    "trigger": [["hbm:item.fluid_icon", 1, 15]],
+    "title": {
+        "en_US": "Heating Oil"
+    },
+    "content": {
+        "en_US": "Heating oil can first be obtained by [[fractioning|Fractioning Tower]] [[naphtha|Naphtha]] or [[industrial oil|Industrial Oil]]. It is one of the primary ingredients in [[engine lubricant|Engine Lubricant]].<br><br>{{Template:Oil1}}"
+    }
+}
