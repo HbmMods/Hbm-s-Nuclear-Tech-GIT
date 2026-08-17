@@ -321,6 +321,8 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] { tanks[1] }; }
 	@Override public FluidTank[] getAllTanks() { return tanks; }
 
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return Math.max(tanks[1].getFill() * 50 / tanks[1].getMaxFill(), 8); }
+
 	@Override public FluidTank getTankToPaste() { return null; }
 
 	@Override public int getFloorCount() { return 2 * 2; }

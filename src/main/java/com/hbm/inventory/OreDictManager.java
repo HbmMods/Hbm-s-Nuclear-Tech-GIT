@@ -440,7 +440,7 @@ public class OreDictManager {
 		VOLCANIC						.gem(gem_volcanic)																				.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.GEM));
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE						.ingot(DictFrame.fromOne(chunk_ore, EnumChunkType.MALACHITE))									.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
-		LIMESTONE				.any(fromOne(stone_resource, EnumStoneType.LIMESTONE), powder_limestone)														.dust(powder_limestone)							.ore(fromOne(stone_resource, EnumStoneType.LIMESTONE));
+		LIMESTONE																		.dust(powder_limestone)							.ore(fromOne(stone_resource, EnumStoneType.LIMESTONE));
 		BAUXITE																															.ore(fromOne(stone_resource, EnumStoneType.BAUXITE));
 		CRYOLITE	.crystal(fromOne(chunk_ore, EnumChunkType.CRYOLITE));
 		SLAG																									.block(block_slag);
