@@ -29,7 +29,7 @@ public class GUISatDock extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 		
 		String[] text = I18nUtil.resolveKeyArray("desc.gui.satdock.desc");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 7, guiTop + 36, 16, 16, guiLeft - 7, guiTop + 36 + 16, text);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 7, guiTop + 36, 16, 16, guiLeft + 1, guiTop + 36 + 16, text);
 	}
 	
 	@Override
