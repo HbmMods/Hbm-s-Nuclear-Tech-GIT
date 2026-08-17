@@ -746,9 +746,9 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "anyactive").equals(name))			return "" + ((this.didProcess[0] || this.didProcess[1] || this.didProcess[2] || this.didProcess[3]) ? 1 : 0);
 		for(int i = 0; i < 4; i++) {
-			if((PREFIX_VALUE + "progress" + i).equals(name))	return "" + (int) Math.round(this.assemblerModule[i].progress * 100);
-			if((PREFIX_VALUE + "recipe" + i).equals(name))		return this.assemblerModule[i].getRecipeName();
-			if((PREFIX_VALUE + "active" + i).equals(name))		return "" + (this.didProcess[i] ? 1 : 0);
+			if((PREFIX_VALUE + "progress" + (i + 1)).equals(name))	return "" + (int) Math.round(this.assemblerModule[i].progress * 100);
+			if((PREFIX_VALUE + "recipe" + (i + 1)).equals(name))		return this.assemblerModule[i].getRecipeName();
+			if((PREFIX_VALUE + "active" + (i + 1)).equals(name))		return "" + (this.didProcess[i] ? 1 : 0);
 		}
 		return null;
 	}
