@@ -41,6 +41,12 @@
 * Satellite item descriptions now use translation keys
 * The centrifuge's item IO now only allows valid centrifugable items to be inserted
 * Removed the reactor remote control's recipe
+* Quadrupled the yield of helium-3 from moon turf, making it easier to make sustained helium-3 reactors
+* The ground station now has OpenComputers integration, as well as an RoR value that returns the satellite type
+* The ZIRNOX now has RoR integration allowing to select a monitor slot, which can provide values about the rod's type and depletion value
+* The pile now has thorium-232 rods which can be bred into thorium fuel
+* Updated yharonite billet texture
+* Item magnet armor mods are now 50% stronger
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -59,3 +65,5 @@
 * Fixed bauxite bedrock ore fragments not being able to be crafted into anything
 * Fixed issue where the collisions of the RoR panel blocks didn't work right
 * Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two
+* Fixed assembly factory and chemical factory RoR reader index offset
+* Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods

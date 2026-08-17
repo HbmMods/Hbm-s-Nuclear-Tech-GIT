@@ -15,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class GUIScreenRBMKTerminal extends GuiScreen {
 	
 	protected GuiTextField line;
-	protected static TileEntityRBMKTerminal lastTerminal;
+	public static TileEntityRBMKTerminal lastTerminal;
 	
 	public GUIScreenRBMKTerminal(TileEntityRBMKTerminal terminal) {
 		this.lastTerminal = terminal;
