@@ -68,6 +68,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	public FluidTank water;
 	protected int output;
 
+	// This is just for RoR to choose which slot to pull info from
+	private int rorSlot = 0;
+
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
@@ -191,7 +194,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 		if(!worldObj.isRemote) {
 			this.checkTilt(TiltType.CONFIG, true);
-			
+
 			if (redstonePowered) {
 				isOn = true;
 			}
@@ -241,7 +244,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			this.networkPackNT(150);
 		}
 	}
-	
+
 	@Override public int getFloorCount() { return 3 * 3; }
 	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor5x5(index); }
 
@@ -523,14 +526,28 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] isActive(Context context, Arguments args) {
-		return new Object[] {isOn};
+	public Object[] ventCarbonDioxide(Context context, Arguments args) {
+		int ventAmount = MathHelper.clamp_int(args.optInteger(0, 1000), 0, carbonDioxide.getMaxFill()); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
+		int fill = this.carbonDioxide.getFill();
+		this.carbonDioxide.setFill(Math.max(fill - ventAmount, 0)); // Make sure it isn't a negative number.
+		return new Object[] {};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {Math.round(heat * 1.0E-5D * 780.0D + 20.0D), Math.round(pressure * 1.0E-5D * 30.0D), water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
+	public Object[] getFuel(Context context, Arguments args) {
+		int i = args.checkInteger(0);
+		if (i >= 0 && i < 24 && hasFuelRod(i)) {
+			final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[i].getItemDamage());
+			return new Object[] { num.name(), ItemZirnoxRod.getLifeTime(slots[i]), num.maxLife };
+		}
+		return new Object[] { "", 0, 0, 0, false };
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {isOn};
 	}
 
 	@Callback(direct = true, limit = 4)
@@ -542,26 +559,24 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] ventCarbonDioxide(Context context, Arguments args) {
-		int ventAmount = MathHelper.clamp_int(args.optInteger(0, 1000), 0, carbonDioxide.getMaxFill()); // Get how much CO2 to vent in mB (1000mB default), clamp between 0 and carbonDioxide's max fill.
-		int fill = this.carbonDioxide.getFill();
-		this.carbonDioxide.setFill(Math.max(fill - ventAmount, 0)); // Make sure it isn't a negative number.
-		return new Object[] {};
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {Math.round(heat * 1.0E-5D * 780.0D + 20.0D), Math.round(pressure * 1.0E-5D * 30.0D), water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
 	}
 
 	@Override
 	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
-				"getTemp",
-				"getPressure",
-				"getWater",
-				"getSteam",
-				"getCarbonDioxide",
-				"isActive",
-				"getInfo",
-				"setActive",
-				"ventCarbonDioxide"
+			"getTemp",
+			"getPressure",
+			"getWater",
+			"getSteam",
+			"getCarbonDioxide",
+			"ventCarbonDioxide",
+			"getFuel",
+			"isActive",
+			"setActive",
+			"getInfo"
 		};
 	}
 
@@ -579,14 +594,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				return getSteam(context, args);
 			case ("getCarbonDioxide"):
 				return getCarbonDioxide(context, args);
-			case ("isActive"):
-				return isActive(context, args);
-			case ("getInfo"):
-				return getInfo(context, args);
-			case ("setActive"):
-				return setActive(context, args);
 			case ("ventCarbonDioxide"):
 				return ventCarbonDioxide(context, args);
+			case ("getFuel"):
+				return getFuel(context, args);
+			case ("isActive"):
+				return isActive(context, args);
+			case ("setActive"):
+				return setActive(context, args);
+			case ("getInfo"):
+				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
@@ -614,17 +631,21 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	@Override
 	public String[] getFunctionInfo() {
 		return new String[] {
-				PREFIX_VALUE + "heat",
-				PREFIX_VALUE + "pressure",
-				PREFIX_VALUE + "water",
-				PREFIX_VALUE + "steam",
-				PREFIX_VALUE + "co2",
-				PREFIX_VALUE + "state",
-				PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "active (0 or 1)",
-				PREFIX_FUNCTION + "ventco2"
+			PREFIX_VALUE + "heat",
+			PREFIX_VALUE + "pressure",
+			PREFIX_VALUE + "water",
+			PREFIX_VALUE + "steam",
+			PREFIX_VALUE + "co2",
+			PREFIX_VALUE + "state",
+			PREFIX_VALUE + "slottype",
+			PREFIX_VALUE + "slotdep",
+			PREFIX_VALUE + "slotmaxdep",
+			PREFIX_FUNCTION + "setslot" + NAME_SEPARATOR + "id (0 to 23)",
+			PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "active (0 or 1)",
+			PREFIX_FUNCTION + "ventco2"
 		};
 	}
-	
+
 	@Override
 	public String provideRORValue(String name) {
 		if((PREFIX_VALUE + "heat").equals(name))			return	"" + (int) Math.round(heat * 1.0E-5D * 780.0D + 20.0D);
@@ -633,11 +654,38 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		if((PREFIX_VALUE + "steam").equals(name))			return	"" + steam.getFill();
 		if((PREFIX_VALUE + "co2").equals(name))				return	"" + carbonDioxide.getFill();
 		if((PREFIX_VALUE + "state").equals(name))			return	"" + (isOn ? 1 : 0);
+
+		if((PREFIX_VALUE + "slottype").equals(name)) {
+			if (hasFuelRod(rorSlot)) {
+				final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[rorSlot].getItemDamage());
+				return num.name();
+			} else {
+				return "";
+			}
+		}
+		if((PREFIX_VALUE + "slotmaxdep").equals(name)) {
+			if (hasFuelRod(rorSlot)) {
+				final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[rorSlot].getItemDamage());
+				return "" + num.maxLife;
+			}
+		}
+		if((PREFIX_VALUE + "slotdep").equals(name)) {
+			if (hasFuelRod(rorSlot)) return "" + ItemZirnoxRod.getLifeTime(slots[rorSlot]);
+		}
+
 		return null;
 	}
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setslot").equals(name) && params.length > 0) {
+			if(redstonePowered) return null;
+			try {
+				int val = Integer.parseInt(params[0]);
+				if (val >= 0 && val < 24) this.rorSlot = val;
+			} catch(NumberFormatException e) {}
+			return null;
+		}
 		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length > 0) {
 			if(redstonePowered) return null;
 			try {
