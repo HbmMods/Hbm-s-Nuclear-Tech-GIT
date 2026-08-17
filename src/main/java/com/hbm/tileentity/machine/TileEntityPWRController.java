@@ -173,7 +173,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		if(!worldObj.isRemote) {
 
-			this.tanks[0].setType(2, slots);
+			if(this.amountLoaded <= 0) this.tanks[0].setType(2, slots);
 			setupTanks();
 
 			if(unloadDelay > 0) unloadDelay--;

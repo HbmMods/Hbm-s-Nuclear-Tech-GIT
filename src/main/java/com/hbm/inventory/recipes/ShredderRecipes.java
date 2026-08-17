@@ -18,6 +18,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemDrive.EnumDriveType;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
@@ -208,6 +209,9 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
 		ShredderRecipes.setRecipe(ModBlocks.block_slag, new ItemStack(ModItems.powder_cement, 4));
 		ShredderRecipes.setRecipe(ModBlocks.ore_aluminium, DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.CRYOLITE, 2));
+
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.drive, 1, EnumDriveType.FLASH_BROKEN.ordinal()), new ItemStack(ModItems.powder_polymer, 2));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.drive, 1, EnumDriveType.DISK_BROKEN.ordinal()), new ItemStack(ModItems.powder_polymer, 4));
 
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");

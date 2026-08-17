@@ -209,6 +209,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	
 	public void cyceCompressor() {
 		
+		if(this.heat > 50 && this.feed.getFill() > 0) return;
+		
 		FluidType type = steam.getTankType();
 		if(type == Fluids.STEAM) {			steam.setTankType(Fluids.HOTSTEAM);			steam.setFill(steam.getFill() / 10); }
 		if(type == Fluids.HOTSTEAM) {		steam.setTankType(Fluids.SUPERHOTSTEAM);	steam.setFill(steam.getFill() / 10); }

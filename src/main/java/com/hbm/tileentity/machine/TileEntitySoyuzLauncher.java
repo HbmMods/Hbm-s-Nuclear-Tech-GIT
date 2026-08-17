@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUISoyuzLauncher;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -354,7 +355,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		if(mode == 1)
 			return 0;
 		
-		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItem() == ModItems.sat_lunar_miner)) {
+		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItemDamage() == EnumSatType.MINER_LUNAR.ordinal())) {
 			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander)
 				return 2;
 			return 1;

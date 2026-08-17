@@ -34,6 +34,10 @@
 * Repairing old lanterns now grants vending machine tokens, with the amount of tokens representing the player's reputation (always at least 1, so negative rep is not shown)
 * The soyuz and related recipes no longer need blueprints in normal mode, instead they use flight simulation data from the supercomputer
 * The PUREX now has a sound loop
+* The PWR's coolant type can no longer be changed if fuel is loaded
+* RBMK steam channels and heat exchangers can no longer have their coolant type changed if the column temperature exceeds 50°C and the input buffer has fluid in it
+  * This means that RBMK columns remain configurable if added to an already hot reactor, right until the input accepts fluid
+* Satellite ground stations now display some more detailed information about the connected satellite, like the type and cooldown for orbital weapons
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names

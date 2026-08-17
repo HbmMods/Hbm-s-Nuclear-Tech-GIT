@@ -30,10 +30,10 @@ public class GUIMachineKeyForge extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		String[] keyText = I18nUtil.resolveKeyArray("desc.gui.keyforge.key");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28, 16, 16, guiLeft - 8, guiTop + 36 + 16, keyText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28, 16, 16, guiLeft + 20, guiTop + 28 + 16, keyText);
 		
 		String[] randomText = I18nUtil.resolveKeyArray("desc.gui.keyforge.random");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, randomText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 12, guiTop + 28 + 16, 16, 16, guiLeft + 20, guiTop + 28 + 32, randomText);
 	}
 	
 	@Override
