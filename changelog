@@ -58,3 +58,4 @@
 * Fixed issue with the counter valve not accounting for the final tick of transfer, letting too much fluid pass
 * Fixed bauxite bedrock ore fragments not being able to be crafted into anything
 * Fixed issue where the collisions of the RoR panel blocks didn't work right
+* Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two

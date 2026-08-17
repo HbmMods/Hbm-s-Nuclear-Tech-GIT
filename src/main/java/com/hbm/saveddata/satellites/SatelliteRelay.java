@@ -58,8 +58,8 @@ public class SatelliteRelay extends SatelliteBase {
 			if(targetWorld != null) {
 				
 				StringBuilder signal = new StringBuilder();
-				for(int i = 1; i < cmd.length; i++) {
-					if(i > 1) signal.append(" ");
+				for(int i = 3; i < cmd.length; i++) {
+					if(i > 3) signal.append(" ");
 					signal.append(cmd[i]);
 				}
 				
