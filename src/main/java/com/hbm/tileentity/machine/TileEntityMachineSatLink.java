@@ -168,7 +168,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	@Override
 	public String provideRORValue(String name) {
 
-		if(name.equals(PREFIX_VALUE + connected)) {
+		if(name.equals(PREFIX_VALUE + "connected")) {
 			return this.connected ? "TRUE" : "FALSE";
 		}
 
