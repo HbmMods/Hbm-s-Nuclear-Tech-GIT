@@ -67,8 +67,8 @@ public class Mats {
 	public static final NTMMaterial MAT_PIGIRON			= makeSmeltable(2603,			df("PigIron"),		0xFF8B59).m();
 	public static final NTMMaterial MAT_METEORICIRON	= makeSmeltable(2604,			df("MeteoricIron"),	0x715347).m();
 	public static final NTMMaterial MAT_MALACHITE		= makeAdditive(	2901,			MALACHITE,			0xA2F0C8, 0x227048, 0x61AF87).m();
-	public static final NTMMaterial MAT_BAUXITE			= makeNonSmeltable(2902,			BAUXITE,			0xF4BA30, 0xAA320A, 0xE2560F).setAutogen(FRAGMENT).n();
-	public static final NTMMaterial MAT_CRYOLITE		= makeNonSmeltable(2903,			CRYOLITE,			0xCBC2A4, 0x8B711F, 0x8B701A).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_BAUXITE			= makeNonSmeltable(2902,		BAUXITE,			0xF4BA30, 0xAA320A, 0xE2560F).setAutogen(FRAGMENT).n();
+	public static final NTMMaterial MAT_CRYOLITE		= makeNonSmeltable(2903,		CRYOLITE,			0xCBC2A4, 0x8B711F, 0x8B701A).setAutogen(FRAGMENT).n();
 
 	//Radioactive
 	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0xC1C7BD, 0x2B3227, 0x9AA196).setAutogen(FRAGMENT, NUGGET, BILLET, DUST, BLOCK).m();

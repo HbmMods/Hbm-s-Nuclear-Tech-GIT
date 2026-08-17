@@ -38,6 +38,9 @@
 * RBMK steam channels and heat exchangers can no longer have their coolant type changed if the column temperature exceeds 50°C and the input buffer has fluid in it
   * This means that RBMK columns remain configurable if added to an already hot reactor, right until the input accepts fluid
 * Satellite ground stations now display some more detailed information about the connected satellite, like the type and cooldown for orbital weapons
+* Satellite item descriptions now use translation keys
+* The centrifuge's item IO now only allows valid centrifugable items to be inserted
+* Removed the reactor remote control's recipe
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -51,3 +54,7 @@
 * Fixed RoR pager only having a max channel length of 10 instead of 15
 * Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound
 * Fixed PRISM system blast resistance checks supplying incorrect position info to blocks for the resistance getter
+* Fixed lunar miner not requiring the orbital module
+* Fixed issue with the counter valve not accounting for the final tick of transfer, letting too much fluid pass
+* Fixed bauxite bedrock ore fragments not being able to be crafted into anything
+* Fixed issue where the collisions of the RoR panel blocks didn't work right
