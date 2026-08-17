@@ -41,8 +41,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-//TODO: fix reactor control;
 public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	@SideOnly(Side.CLIENT)

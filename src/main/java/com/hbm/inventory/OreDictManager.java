@@ -650,6 +650,7 @@ public class OreDictManager {
 				else if(!OreDictionary.getOres(MaterialShapes.CRYSTAL.name() + name).isEmpty()) MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), OreDictionary.getOres(MaterialShapes.CRYSTAL.name() + name).get(0).copy());
 				else if(!OreDictionary.getOres(MaterialShapes.INGOT.name() + name).isEmpty()) MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), OreDictionary.getOres(MaterialShapes.INGOT.name() + name).get(0).copy());
 				else if(!OreDictionary.getOres(MaterialShapes.BILLET.name() + name).isEmpty()) MineralRecipes.addBilletFragment(OreDictionary.getOres(MaterialShapes.BILLET.name() + name).get(0).copy(), mat.make(ModItems.bedrock_ore_fragment));
+				else if(!OreDictionary.getOres(MaterialShapes.ORE.name() + name).isEmpty()) MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), OreDictionary.getOres(MaterialShapes.ORE.name() + name).get(0).copy());
 				else MineralRecipes.add9To1(mat.make(ModItems.bedrock_ore_fragment), new ItemStack(ModItems.nothing));
 			}
 		}
