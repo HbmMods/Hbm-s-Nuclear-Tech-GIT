@@ -35,13 +35,34 @@ public class RenderTapeDrive extends TileEntitySpecialRenderer implements IItemR
 		
 		for(int i = 0; i < 12; i++) {
 			byte tape = tapeDrive.tapes[i];
+			if(tape == tapeDrive.SLOT_EMPTY) continue;
 			
 			GL11.glPushMatrix();
-			
-			//TBI
-			
+			GL11.glTranslated(0, 0.25 - 0.5 * (i / 6), 0.3125 - (i % 6) * 0.125);
+			ResourceManager.tape_drive.renderPart("Drive");
 			GL11.glPopMatrix();
 		}
+		
+		RenderArcFurnace.fullbright(true);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
+		for(int i = 0; i < 12; i++) {
+			byte tape = tapeDrive.tapes[i];
+			if(tape == tapeDrive.SLOT_EMPTY) continue;
+			
+			if(tape == tapeDrive.SLOT_ANY) GL11.glColor3f(1F, 0F, 0F);
+			if(tape == tapeDrive.SLOT_EMPTY_TAPE) GL11.glColor3f(1F, 0.75F, 0F);
+			if(tape == tapeDrive.SLOT_FILLED_TAPE) GL11.glColor3f(0F, 1F, 0F);
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0.25 - 0.5 * (i / 6), 0.3125 - (i % 6) * 0.125);
+			ResourceManager.tape_drive.renderPart("Light");
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glColor3f(1F, 1F, 1F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		RenderArcFurnace.fullbright(false);
 		
 		GL11.glPopMatrix();
 	}
@@ -55,7 +76,7 @@ public class RenderTapeDrive extends TileEntitySpecialRenderer implements IItemR
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -2.5, 0);
+				GL11.glTranslated(0, -3, 0);
 				double scale = 5;
 				GL11.glScaled(scale, scale, scale);
 			}

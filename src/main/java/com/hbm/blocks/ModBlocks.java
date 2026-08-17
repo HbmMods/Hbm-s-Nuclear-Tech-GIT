@@ -3308,6 +3308,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(field_disturber, field_disturber.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_satlinker, machine_satlinker.getUnlocalizedName());
 		register(machine_satlink);
+		register(machine_tape_drive);
 		GameRegistry.registerBlock(machine_keyforge, machine_keyforge.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_armor_table, machine_armor_table.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_weapon_table, machine_weapon_table.getUnlocalizedName());
