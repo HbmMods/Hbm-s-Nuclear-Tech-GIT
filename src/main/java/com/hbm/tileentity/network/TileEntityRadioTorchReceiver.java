@@ -14,11 +14,10 @@ public class TileEntityRadioTorchReceiver extends TileEntityRadioTorchBase {
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			if(!this.channel.isEmpty()) {
-				
-				RTTYChannel chan = RTTYSystem.listen(worldObj, this.channel);
-				
+
+			if(!this.channel.isEmpty() || this.polling) {
+				RTTYChannel chan = this.channel.isEmpty() ? null : RTTYSystem.listen(worldObj, this.channel);
+
 				if(chan != null && (this.polling || (chan.timeStamp > this.lastUpdate - 1 && chan.timeStamp != -1))) { // if we're either polling or a new message has come in
 					String msg = "" + chan.signal;
 					this.lastUpdate = worldObj.getTotalWorldTime();
@@ -57,6 +56,11 @@ public class TileEntityRadioTorchReceiver extends TileEntityRadioTorchBase {
 						worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlockType());
 						this.markDirty();
 					}
+				} else if(this.polling && this.lastState != 0) {
+					this.lastState = 0;
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+					worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlockType());
+					this.markDirty();
 				}
 			}
 		}

@@ -168,7 +168,7 @@ public class TileEntityFluidCounterValve extends TileEntityPipeBaseNT implements
 			updateCounter();
 			counter = 0;
 			markDirty();
-		} else if(name.equals(PREFIX_FUNCTION + "setstate")) {
+		} else if(name.equals(PREFIX_FUNCTION + "setstate") && params.length > 0) {
 			setState(IRORInteractive.parseInt(params[0], 0, 1));
 		}
 		return null;

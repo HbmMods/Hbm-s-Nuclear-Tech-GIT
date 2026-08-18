@@ -1,0 +1,11 @@
+{
+    "name": "Gasoline",
+    "icon": ["hbm:item.fluid_icon", 1, 46],
+    "trigger": [["hbm:item.fluid_icon", 1, 46]],
+    "title": {
+        "en_US": "Gasoline"
+    },
+    "content": {
+        "en_US": "Gasoline is obtained through [[processing|Chemical Plant]] [[naphtha|Naphtha]]. It is primarily used as a combustible fuel. It may also be mixed into [[leaded gasoline|Leaded Gasoline]] for more power production. <br><br>{{Template:Oil1}}"
+    }
+}
