@@ -75,7 +75,7 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 		itemRenderer = new RenderDecoItem(this);
 		itemRenderer.setRenderManager(renderManager);
 		GL11.glPushMatrix();
-			GL11.glTranslated(x + 0.5D, y + 1D, z + 0.5);
+			GL11.glTranslated(x + 0.5D, y + 1D, z + 0.5D + 0.1875D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			
