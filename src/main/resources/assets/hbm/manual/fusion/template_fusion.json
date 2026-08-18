@@ -7,6 +7,7 @@
 		"en_US": "Template:Fusion"
 	},
 	"content": {
-		"en_US": "§2[ §2Fusion §2]<br>[[Fusion Reactor]]<br>[[Fusion Reactor Vessel]]<br>[[Klystron]]<br>[[Fusion Reactor Coupler]]<br>[[Fusion Reactor Boiler]]<br>[[MHD Turbine]]<br>[[Fusion Reactor Breeding Chamber]]<br>[[Fusion Reactor Collector Chamber]]"
+		"en_US": "§2[ §2Fusion §2]<br>[[Fusion Reactor]]<br>[[Fusion Reactor Vessel]]<br>[[Klystron]]<br>[[Fusion Reactor Coupler]]<br>[[Fusion Reactor Boiler]]<br>[[MHD Turbine]]<br>[[Fusion Reactor Breeding Chamber]]<br>[[Fusion Reactor Collector Chamber]]",
+		"ru_RU": "§2[ §2Термоядерный синтез §2]<br>[[Термоядерный реактор|Fusion Reactor]]<br>[[Основная камера|Fusion Reactor Vessel]]<br>[[Клистрон|Klystron]]<br>[[Соединитель|Fusion Reactor Coupler]]<br>[[Плазменный бойлер|Fusion Reactor Boiler]]<br>[[МГД-турбина|MHD Turbine]]<br>[[Камера-размножитель|Fusion Reactor Breeding Chamber]]<br>[[Улавливающая камера|Fusion Reactor Collector Chamber]]"
 	}
 }
