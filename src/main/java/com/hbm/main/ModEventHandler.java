@@ -1317,6 +1317,24 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
+	public void onFoodEaten(PlayerUseItemEvent.Finish event) {
+
+		ItemStack stack = event.item;
+
+		if(stack != null && stack.getItem() instanceof ItemFood) {
+
+			if(stack.hasTagCompound()) {
+				if(stack.getTagCompound().getBoolean("ntmCyanide")) for(int i = 0; i < 10; i++) {
+					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
+				}
+				if(stack.getTagCompound().getBoolean("ntmRedPill")) for(int i = 0; i < 10; i++) {
+					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.femboy.id, 60 * 60 * 20, 0));
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
 	public void filterBrokenEntity(EntityJoinWorldEvent event) {
 
 		Entity entity = event.entity;
