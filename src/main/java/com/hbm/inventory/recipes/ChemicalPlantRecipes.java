@@ -65,7 +65,7 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		
 		this.register(new GenericRecipe("chem.helium3").setupNamed(25, 2_000).setIcon(ModItems.gas_full, Fluids.HELIUM3.getID())
 				.inputItems(new ComparableStack(ModBlocks.moon_turf, 1))
-				.outputFluids(new FluidStack(Fluids.HELIUM3, 125)));
+				.outputFluids(new FluidStack(Fluids.HELIUM3, 500)));
 		
 		this.register(new GenericRecipe("chem.co2").setup(60, 100)
 				.inputFluids(new FluidStack(Fluids.GAS, 1_000))
