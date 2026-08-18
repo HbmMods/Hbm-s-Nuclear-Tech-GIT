@@ -1,6 +1,8 @@
 package com.hbm.saveddata.satellites;
 
+import com.hbm.items.machine.ItemDrive.EnumDriveType;
 import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.util.EnumUtil;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +24,9 @@ public abstract class SatelliteBase {
 	public int targetZ;
 	
 	public String tx = "";
+
+	public EnumDriveType driveInput = null;
+	public EnumDriveType driveOutput = null;
 	
 	public int getID() {
 		return XSatelliteRegistry.idToClass.inverse().get(this.getClass());
@@ -35,12 +40,38 @@ public abstract class SatelliteBase {
 		nbt.setInteger("targetX", targetX);
 		nbt.setInteger("targetZ", targetZ);
 		nbt.setString("tx", tx);
+
+		if(driveInput != null) nbt.setInteger("driveInput", driveInput.ordinal());
+		if(driveOutput != null) nbt.setInteger("driveOutput", driveOutput.ordinal());
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.targetX = nbt.getInteger("targetX");
 		this.targetZ = nbt.getInteger("targetZ");
 		this.tx = nbt.getString("tx");
+
+		if(nbt.hasKey("driveInput")) this.driveInput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveInput")); else this.driveInput = null;
+		if(nbt.hasKey("driveOutput")) this.driveOutput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveOutput")); else this.driveOutput = null;
+	}
+	
+	/** The check for if there's data available, may also call produceData if a cooldown has elapsed */
+	public boolean hasData(World world) {
+		return this.driveInput != null && this.driveOutput != null;
+	}
+	
+	public EnumDriveType getOutputData(EnumDriveType input) {
+		if(input == this.driveInput) return this.driveOutput;
+		return null;
+	}
+	
+	public void produceData(EnumDriveType input, EnumDriveType output) {
+		this.driveInput = input;
+		this.driveOutput = output;
+	}
+	
+	public void consumeData() {
+		this.driveInput = null;
+		this.driveOutput = null;
 	}
 	
 	/** When a satellite is created, i.e. this frequency is occupied for the first time */
