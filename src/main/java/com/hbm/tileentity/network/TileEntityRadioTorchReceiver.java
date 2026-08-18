@@ -47,7 +47,7 @@ public class TileEntityRadioTorchReceiver extends TileEntityRadioTorchBase {
 						nextState = MathHelper.clamp_int(sig, 0, 15);
 					}
 					
-					if(chan.timeStamp < this.lastUpdate - 2 && this.polling) {
+					if(chan.timeStamp < this.lastUpdate - 1 && this.polling) {
 						nextState = 0;
 					}
 					

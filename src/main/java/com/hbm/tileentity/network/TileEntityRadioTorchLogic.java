@@ -50,7 +50,7 @@ public class TileEntityRadioTorchLogic extends TileEntityLoadedBase implements I
 					this.lastUpdate = worldObj.getTotalWorldTime();
 					int nextState = 0; //if no remap apply, default to 0
 
-					if(chan.timeStamp < this.lastUpdate - 2 && this.polling) {
+					if(chan.timeStamp < this.lastUpdate - 1 && this.polling) {
 						/* the vast majority use-case for this is going to be inequalities, NOT parsing, and the input is undefined - not the output
 						 * if no signal => 0 for polling, advanced users parsing strings can easily accommodate this fact instead of breaking numerical torches */
 						msg = "0";
