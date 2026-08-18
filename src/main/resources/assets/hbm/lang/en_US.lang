@@ -736,6 +736,7 @@ container.machineSolderingStation=Soldering Station
 container.machineSolidifier=Solidifier
 container.machineStrandCaster=Strand Caster
 container.machineSuperComputer=Supercomputer
+container.machineTapeDrive=Drive Enclosure
 container.machineTurbine=Steam Turbine
 container.machineTurbofan=Turbofan
 container.machineWoodBurner=Wood-Burner
@@ -4999,7 +5000,10 @@ satchip.resonator=Allows for teleportation with no cooldown.
 satchip.scanner=Creates a topdown map of underground ores.
 
 satellite.cooldown=Cooldown: %s
+satellite.data=DATA AVAILABLE
+satellite.pending=Measurements pending: %s
 satellite.ready=READY
+satellite.sensors=Sensor Relays installed: %s
 satellite.spent=SPENT
 
 shape.barrelHeavy=Heavy Barrel
@@ -5894,6 +5898,7 @@ tile.machine_stirling_steel.desc=Turns heat into energy. Requires external heat 
 tile.machine_storage_drum.name=Nuclear Waste Disposal Drum
 tile.machine_strand_caster.name=Strand Caster
 tile.machine_supercomputer.name=Supercomputer
+tile.machine_tape_drive.name=Drive Enclosure
 tile.machine_telelinker.name=Turret Telemetry Linker
 tile.machine_teleporter.name=Teleporter
 tile.machine_thresher.name=Automatic Thresher

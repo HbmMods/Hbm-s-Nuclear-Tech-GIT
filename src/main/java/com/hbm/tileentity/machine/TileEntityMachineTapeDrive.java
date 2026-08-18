@@ -68,6 +68,7 @@ public class TileEntityMachineTapeDrive extends TileEntityMachineBase implements
 								if(ret != null) {
 									satellite.consumeData();
 									slots[i] = new ItemStack(ModItems.drive, 1, ret.ordinal());
+									dat.markDirty();
 									break;
 								}
 							}
