@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 20],
     "trigger": [["hbm:item.fluid_icon", 1, 20]],
     "title": {
-        "en_US": "Diesel"
+        "en_US": "Diesel",
+        "ru_RU": "Дизель"
     },
     "content": {
-        "en_US": "Diesel can be obtained by [[fractioning|Fractioning Tower]] [[light oil|Light Oil]] or [[naphtha|Naphtha]]. It is primarily used as a combustible fuel source, however it may also be [[cracked|Catalytic Cracking Tower]] for additional [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]].<br><br>{{Template:Oil1}}"
+        "en_US": "Diesel can be obtained by [[fractioning|Fractioning Tower]] [[light oil|Light Oil]] or [[naphtha|Naphtha]]. It is primarily used as a combustible fuel source, however it may also be [[cracked|Catalytic Cracking Tower]] for additional [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]].<br><br>{{Template:Oil1}}",
+        "ru_RU": "Дизель можно получить [[ректификацией|Fractioning Tower]] [[лёгкой нефти|Light Oil]] или [[нафты|Naphtha]]. Он в основном используется как горючее топливо, однако его также можно подвергнуть [[каталитическому крекингу|Catalytic Cracking Tower]], чтобы получить дополнительный [[керосин|Kerosene]] и [[попутный нефтяной газ|Petroleum Gas]].<br><br>{{Template:Oil1}}"
     }
 }

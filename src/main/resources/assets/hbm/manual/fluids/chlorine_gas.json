@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 89],
     "trigger": [["hbm:item.fluid_icon", 1, 89]],
     "title": {
-        "en_US": "Chlorine Gas"
+        "en_US": "Chlorine Gas",
+        "ru_RU": "Хлор"
     },
     "content": {
-        "en_US": "Early methods of getting chlorine gas include using glowstone or [[sodalite|Sodalite]] obtained from lapis ore in the [[combination oven|Combination Oven]]. Alternatively, it can be made with an [[electrolysis machine|Electrolysis Machine]] or gradually over time with the chlorine pinwheel. It has many uses including [[bedrock ore processing|Bedrock Ore Processing]] and producing [[high-performance solvent|High-Performance Solvent]]. One of its primary uses is the production of [[PVC]], or [[hard plastic|Hard Plastic]] through [[phosgene|Phosgene]].<br><br>See also:<br>[[Vacuum Oil Processing]]"
+        "en_US": "Early methods of getting chlorine gas include using glowstone or [[sodalite|Sodalite]] obtained from lapis ore in the [[combination oven|Combination Oven]]. Alternatively, it can be made with an [[electrolysis machine|Electrolysis Machine]] or gradually over time with the chlorine pinwheel. It has many uses including [[bedrock ore processing|Bedrock Ore Processing]] and producing [[high-performance solvent|High-Performance Solvent]]. One of its primary uses is the production of [[PVC]], or [[hard plastic|Hard Plastic]] through [[phosgene|Phosgene]].<br><br>See also:<br>[[Vacuum Oil Processing]]",
+        "ru_RU": "На раннем этапе хлор можно получать из светокамня или [[содалита|Sodalite]], добываемого из лазуритовой руды, в [[коксовой печи|Combination Oven]]. Кроме того, его можно производить в [[электролизёре|Electrolysis Machine]] или постепенно получать с помощью хлорной вертушки. Он применяется во многих процессах, включая [[переработку бедроковой руды|Bedrock Ore Processing]] и производство [[высокоэффективного растворителя|High-Performance Solvent]]. Одно из его основных применений — производство [[ПВХ|PVC]], а также [[твёрдого пластика|Hard Plastic]] через [[фосген|Phosgene]].<br><br>См. также:<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]"
     }
 }

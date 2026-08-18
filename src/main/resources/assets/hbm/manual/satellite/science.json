@@ -3,9 +3,11 @@
 	"icon": ["hbm:item.satellite", 1, 11],
 	"trigger": [["hbm:item.satellite", 1, 11]],
 	"title": {
-		"en_US": "Space Laboratory"
+		"en_US": "Space Laboratory",
+		"ru_RU": "Космическая лаборатория"
 	},
 	"content": {
-		"en_US": "<br><br>{{Template:SatOverview}}"
+		"en_US": "<br><br>{{Template:SatOverview}}",
+		"ru_RU": "<br><br>{{Template:SatOverview}}"
 	}
 }

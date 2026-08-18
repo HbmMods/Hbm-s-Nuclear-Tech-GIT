@@ -4,7 +4,8 @@
 	"trigger": [],
     "noindex": true,
 	"title": {
-		"en_US": "Template:Oil2"
+		"en_US": "Template:Oil2",
+		"ru_RU": "Шаблон:Нефть2"
 	},
 	"content": {
 		"en_US": "§2[ §2Advanced §2Oil §2Processing §2]<br>[[Advanced Oil Processing]]<br>[[Cracked Oil]]<br>[[Cracked Naphtha]]<br>[[Cracked Light Oil]]<br>[[Cracked Diesel]]<br>[[Aromatic Hydrocarbons]]<br>[[Unsaturated Hydrocarbons]]<br>[[Solvent]]<br>[[Rubber]]<br>[[Bakelite]]",

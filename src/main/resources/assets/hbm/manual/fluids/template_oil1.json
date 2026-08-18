@@ -4,7 +4,8 @@
 	"trigger": [],
     "noindex": true,
 	"title": {
-		"en_US": "Template:Oil1"
+		"en_US": "Template:Oil1",
+		"ru_RU": "Шаблон:Нефть1"
 	},
 	"content": {
 		"en_US": "§2[ §2Basic §2Oil §2Processing §2]<br>[[Basic Oil Processing]]<br>[[Crude Oil]]<br>[[Heavy Oil]]<br>[[Naphtha]]<br>[[Light Oil]]<br>[[Bitumen]]<br>[[Industrial Oil]]<br>[[Engine Lubricant]]<br>[[Heating Oil]]<br>[[Diesel]]<br>[[Kerosene]]<br>[[Polymer]]<br>[[Desh]]",

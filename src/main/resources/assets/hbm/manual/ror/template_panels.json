@@ -4,7 +4,8 @@
 	"trigger": [],
     "noindex": true,
 	"title": {
-		"en_US": "Template:RoRPanels"
+		"en_US": "Template:RoRPanels",
+		"ru_RU": "Шаблон:Панели РпР"
 	},
 	"content": {
 		"en_US": "See also:<br>[[Redstone-over-Radio Keypad]]<br>[[Redstone-over-Radio Gauge]]<br>[[Redstone-over-Radio Indicator Lights]]<br>[[Redstone-over-Radio Numeric Display]]<br>[[Redstone-over-Radio Graph]]<br>[[Redstone-over-Radio Lever]]<br>[[Redstone-over-Radio Terminal]]",

@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 67],
     "trigger": [["hbm:item.fluid_icon", 1, 67]],
     "title": {
-        "en_US": "Aromatic Hydrocarbons"
+        "en_US": "Aromatic Hydrocarbons",
+        "ru_RU": "Ароматические углеводороды"
     },
     "content": {
-        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Aromatic hydrocarbons are primarily used in the production of [[bakelite|Bakelite]] and [[solvent|Solvent]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]"
+        "en_US": "Obtained after [[refining|Oil Refinery]] [[heated|Boiler]] cracked crude oil. Aromatic hydrocarbons are primarily used in the production of [[bakelite|Bakelite]] and [[solvent|Solvent]].<br><br>See also:<br>[[Basic Oil Processing]]<br>[[Advanced Oil Processing]]<br>[[Vacuum Oil Processing]]",
+        "ru_RU": "Получаются после [[переработки|Oil Refinery]] [[нагретой|Boiler]] крекированной сырой нефти. Ароматические углеводороды используются главным образом для производства [[бакелита|Bakelite]] и [[растворителя|Solvent]].<br><br>См. также:<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]<br>[[Вакуумная нефтепереработка|Vacuum Oil Processing]]"
     }
 }

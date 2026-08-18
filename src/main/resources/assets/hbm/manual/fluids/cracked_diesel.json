@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 66],
     "trigger": [["hbm:item.fluid_icon", 1, 66]],
     "title": {
-        "en_US": "Cracked Diesel"
+        "en_US": "Cracked Diesel",
+        "ru_RU": "Крекированный дизель"
     },
     "content": {
-        "en_US": "Cracked diesel can be obtained by [[fractioning|Fractioning Tower]] [[cracked naphtha|Cracked Naphtha]]. It is primarily used to obtain additional [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis Chamber]]. It may also be mixed to obtain [[high-cetane cracked diesel|High-Cetane Cracked Diesel]], a more powerful combustible fuel.<br><br>{{Template:Oil2}}"
+        "en_US": "Cracked diesel can be obtained by [[fractioning|Fractioning Tower]] [[cracked naphtha|Cracked Naphtha]]. It is primarily used to obtain additional [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis Chamber]]. It may also be mixed to obtain [[high-cetane cracked diesel|High-Cetane Cracked Diesel]], a more powerful combustible fuel.<br><br>{{Template:Oil2}}",
+        "ru_RU": "Крекированный дизель можно получить [[ректификацией|Fractioning Tower]] [[крекированной нафты|Cracked Naphtha]]. В основном он используется для получения дополнительного [[керосина|Kerosene]] и [[попутного нефтяного газа|Petroleum Gas]] посредством [[каталитического крекинга|Catalytic Cracking Tower]] или [[радиолиза|Radiolysis Chamber]]. Его также можно смешивать для получения [[высокоцетанового крекированного дизеля|High-Cetane Cracked Diesel]] — более мощного горючего топлива.<br><br>{{Template:Oil2}}"
     }
 }

@@ -4,7 +4,8 @@
 	"trigger": [],
     "noindex": true,
 	"title": {
-		"en_US": "Template:SatOverview"
+		"en_US": "Template:SatOverview",
+		"ru_RU": "Шаблон:Обзор спутника"
 	},
 	"content": {
 		"en_US": "See also:<br>[[Satellite]]<br>[[Satellite Ground Station]]",

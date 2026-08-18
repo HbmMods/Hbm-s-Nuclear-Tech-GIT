@@ -4,7 +4,8 @@
 	"trigger": [],
     "noindex": true,
 	"title": {
-		"en_US": "Template:Oil3"
+		"en_US": "Template:Oil3",
+		"ru_RU": "Шаблон:Нефть3"
 	},
 	"content": {
 		"en_US": "§2[ §2Vacuum §2Oil §2Processing §2]<br>[[Vacuum Oil Processing]]<br>[[Vacuum Heavy Oil]]<br>[[Reformate]]<br>[[Vacuum Light Oil]]<br>[[Sour Gas]]<br>[[Heavy Heating Oil]]<br>[[BTX]]<br>[[Reformate Gas]]<br>[[High-Cetane Diesel]]<br>[[High-Cetane Cracked Diesel]]<br>[[Jet Fuel]]<br>[[Hard Plastic]]<br>[[PVC]]",
