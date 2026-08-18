@@ -51,7 +51,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		
 		if(!worldObj.isRemote) {
 			
-			feed.setType(0, slots);
+			if(this.heat <= 50 || this.feed.getFill() <= 0) feed.setType(0, slots);
 
 			if(feed.getTankType().hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);

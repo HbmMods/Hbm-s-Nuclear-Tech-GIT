@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Diesel",
+    "icon": ["hbm:item.fluid_icon", 1, 66],
+    "trigger": [["hbm:item.fluid_icon", 1, 66]],
+    "title": {
+        "en_US": "Cracked Diesel"
+    },
+    "content": {
+        "en_US": "Cracked diesel can be obtained by [[fractioning|Fractioning Tower]] [[cracked naphtha|Cracked Naphtha]]. It is primarily used to obtain additional [[kerosene|Kerosene]] and [[petroleum gas|Petroleum Gas]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis Chamber]]. It may also be mixed to obtain [[high-cetane cracked diesel|High-Cetane Cracked Diesel]], a more powerful combustible fuel.<br><br>{{Template:Oil2}}"
+    }
+}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import api.hbm.energymk2.IBatteryItem;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
@@ -89,7 +90,10 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 0;
+		if(i == 0 && CentrifugeRecipes.getOutput(itemStack) != null) return true;
+		if(i == 1 && itemStack.getItem() instanceof IBatteryItem) return true;
+
+		return false;
 	}
 
 	@Override

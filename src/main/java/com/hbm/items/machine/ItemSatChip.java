@@ -9,13 +9,14 @@ import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemSatChip extends Item implements ISatChip {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add(I18nUtil.resolveKey("satchip.frequency") + ": " + getFreq(itemstack));
+		list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("satchip.frequency") + ": " + getFreq(itemstack));
 
 		if(this == ModItems.sat_foeq)
 			list.add(I18nUtil.resolveKey("satchip.foeq"));

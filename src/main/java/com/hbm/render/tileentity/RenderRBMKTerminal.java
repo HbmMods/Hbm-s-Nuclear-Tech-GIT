@@ -9,6 +9,7 @@ import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -48,7 +49,8 @@ public class RenderRBMKTerminal extends TileEntitySpecialRenderer {
 		
 		String suffix = "";
 		
-		if(Minecraft.getMinecraft().currentScreen instanceof GUIScreenRBMKTerminal && BobMathUtil.getBlink()) {
+		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+		if(gui instanceof GUIScreenRBMKTerminal && GUIScreenRBMKTerminal.lastTerminal == terminal && BobMathUtil.getBlink()) {
 			suffix = "_";
 		}
 		int suffixWidth = font.getStringWidth(suffix);

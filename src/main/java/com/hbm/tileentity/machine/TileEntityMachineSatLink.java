@@ -38,7 +38,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	public static final float ACTIVE_LIFT = -45F;
 	public static final float INACTIVE_ROT = 0F;
 	public static final float INACTIVE_LIFT = -85F;
-	
+
 	public IChatComponent[] info = new IChatComponent[0];
 
 	@Override
@@ -52,7 +52,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 				SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 				this.connected = dat.isFreqTaken(freq);
 			}
-			
+
 			this.updateInfo(connected);
 			this.networkPackNT(150);
 
@@ -73,9 +73,9 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			else if(lift > targetL) lift -= SPEED;
 		}
 	}
-	
+
 	protected void updateInfo(boolean canConnect) {
-		
+
 		if(!canConnect) {
 			if(this.info.length > 0) this.info = new IChatComponent[0];
 			return;
@@ -83,7 +83,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 		SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
 		SatelliteBase sat = dat.getSatFromFreq(freq);
-		
+
 		if(sat != null) {
 			this.info = sat.getInfo(worldObj);
 		}
@@ -94,9 +94,9 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 		super.serialize(buf);
 		buf.writeBoolean(connected);
 		buf.writeInt(freq);
-		
+
 		buf.writeInt(info.length);
-		
+
 		for(int i = 0; i < info.length; i++) {
 			ByteBufUtils.writeUTF8String(buf, IChatComponent.Serializer.func_150696_a(info[i]));
 		}
@@ -107,10 +107,10 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 		super.deserialize(buf);
 		this.connected = buf.readBoolean();
 		this.freq = buf.readInt();
-		
+
 		int length = buf.readInt();
 		if(this.info.length != length) this.info = new IChatComponent[length];
-		
+
 		for(int i = 0; i < info.length; i++) {
 			info[i] = IChatComponent.Serializer.func_150699_a(ByteBufUtils.readUTF8String(buf));
 		}
@@ -159,6 +159,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 				PREFIX_VALUE + "connected",
 				PREFIX_VALUE + "freq",
 				PREFIX_VALUE + "rx",
+				PREFIX_VALUE + "type",
 				PREFIX_FUNCTION + "setfreq" + NAME_SEPARATOR + "freq",
 				PREFIX_FUNCTION + "tx" + NAME_SEPARATOR + "payload"
 		};
@@ -173,6 +174,15 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 
 		if(name.equals(PREFIX_VALUE + "freq")) {
 			return "" + this.freq;
+		}
+
+		if(name.equals(PREFIX_VALUE + "type")) {
+			SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+			SatelliteBase sat = dat.getSatFromFreq(this.freq);
+			if(sat != null) {
+				return sat.getType();
+			}
+			return "";
 		}
 
 		if(name.equals(PREFIX_VALUE + "rx")) {
@@ -234,6 +244,12 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 		return new Object[] { freq };
 	}
 
+	@Callback(direct = true, doc = "function():string -- Gets satellite type")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return new Object[] { provideRORValue(PREFIX_VALUE + "type") };
+	}
+
 	@Callback(direct = true, limit = 4, doc = "function(command: string) -- Transmits a command to the satellite")
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] send(Context context, Arguments args) {
@@ -255,6 +271,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			"isConnected",
 			"setFreq",
 			"getFreq",
+			"getType",
 			"send",
 			"read"
 		};
@@ -270,6 +287,8 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 				return setFreq(context, args);
 			case ("getFreq"):
 				return getFreq(context, args);
+			case ("getType"):
+				return getType(context, args);
 			case ("send"):
 				return send(context, args);
 			case ("read"):

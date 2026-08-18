@@ -51,41 +51,39 @@ public abstract class BlockMachineBase extends BlockContainer implements INBTBlo
 		if(!keepInventory) {
 
 			TileEntity te = world.getTileEntity(x, y, z);
+			if(!(te instanceof ISidedInventory)) return;
 
-			if(!(te instanceof ISidedInventory))
-				return;
+			ISidedInventory inventory = (ISidedInventory) te;
 
-			ISidedInventory tileentityfurnace = (ISidedInventory) te;
+			if(inventory != null) {
 
-			if(tileentityfurnace != null) {
+				for(int i = 0; i < inventory.getSizeInventory(); ++i) {
 
-				for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
+					ItemStack stack = inventory.getStackInSlot(i);
 
-					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
+					if(stack != null) {
 
-					if(itemstack != null) {
+						float offsetX = world.rand.nextFloat() * 0.8F + 0.1F;
+						float offsetY = world.rand.nextFloat() * 0.8F + 0.1F;
+						float offsetZ = world.rand.nextFloat() * 0.8F + 0.1F;
 
-						float f = world.rand.nextFloat() * 0.8F + 0.1F;
-						float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
-						float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+						while(stack.stackSize > 0) {
 
-						while(itemstack.stackSize > 0) {
+							int stacksize = world.rand.nextInt(21) + 10;
 
-							int j1 = world.rand.nextInt(21) + 10;
+							if(stacksize > stack.stackSize)
+								stacksize = stack.stackSize;
 
-							if(j1 > itemstack.stackSize)
-								j1 = itemstack.stackSize;
+							stack.stackSize -= stacksize;
+							EntityItem entityitem = new EntityItem(world, x + offsetX, y + offsetY, z + offsetZ, new ItemStack(stack.getItem(), stacksize, stack.getItemDamage()));
 
-							itemstack.stackSize -= j1;
-							EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+							if(stack.hasTagCompound())
+								entityitem.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
 
-							if(itemstack.hasTagCompound())
-								entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-
-							float f3 = 0.05F;
-							entityitem.motionX = (float) world.rand.nextGaussian() * f3;
-							entityitem.motionY = (float) world.rand.nextGaussian() * f3 + 0.2F;
-							entityitem.motionZ = (float) world.rand.nextGaussian() * f3;
+							float motion = 0.05F;
+							entityitem.motionX = (float) world.rand.nextGaussian() * motion;
+							entityitem.motionY = (float) world.rand.nextGaussian() * motion + 0.2F;
+							entityitem.motionZ = (float) world.rand.nextGaussian() * motion;
 							world.spawnEntityInWorld(entityitem);
 						}
 					}
@@ -100,9 +98,7 @@ public abstract class BlockMachineBase extends BlockContainer implements INBTBlo
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-
-		if(!rotatable)
-			return;
+		if(!rotatable) return;
 
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 

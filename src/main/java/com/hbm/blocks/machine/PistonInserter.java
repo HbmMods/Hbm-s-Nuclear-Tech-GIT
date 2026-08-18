@@ -208,6 +208,8 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 	//		|___..---'			   _|____`-----..-----'\
 	//		|_____________________|	@	|			    )
 	// average coding session involving tile entities
+	
+	@Deprecated
 	public static class TileEntityPistonInserter extends TileEntityLoadedBase implements IInventory {
 
 		public ItemStack slot;

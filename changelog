@@ -34,6 +34,19 @@
 * Repairing old lanterns now grants vending machine tokens, with the amount of tokens representing the player's reputation (always at least 1, so negative rep is not shown)
 * The soyuz and related recipes no longer need blueprints in normal mode, instead they use flight simulation data from the supercomputer
 * The PUREX now has a sound loop
+* The PWR's coolant type can no longer be changed if fuel is loaded
+* RBMK steam channels and heat exchangers can no longer have their coolant type changed if the column temperature exceeds 50°C and the input buffer has fluid in it
+  * This means that RBMK columns remain configurable if added to an already hot reactor, right until the input accepts fluid
+* Satellite ground stations now display some more detailed information about the connected satellite, like the type and cooldown for orbital weapons
+* Satellite item descriptions now use translation keys
+* The centrifuge's item IO now only allows valid centrifugable items to be inserted
+* Removed the reactor remote control's recipe
+* Quadrupled the yield of helium-3 from moon turf, making it easier to make sustained helium-3 reactors
+* The ground station now has OpenComputers integration, as well as an RoR value that returns the satellite type
+* The ZIRNOX now has RoR integration allowing to select a monitor slot, which can provide values about the rod's type and depletion value
+* The pile now has thorium-232 rods which can be bred into thorium fuel
+* Updated yharonite billet texture
+* Item magnet armor mods are now 50% stronger
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -47,3 +60,10 @@
 * Fixed RoR pager only having a max channel length of 10 instead of 15
 * Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound
 * Fixed PRISM system blast resistance checks supplying incorrect position info to blocks for the resistance getter
+* Fixed lunar miner not requiring the orbital module
+* Fixed issue with the counter valve not accounting for the final tick of transfer, letting too much fluid pass
+* Fixed bauxite bedrock ore fragments not being able to be crafted into anything
+* Fixed issue where the collisions of the RoR panel blocks didn't work right
+* Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two
+* Fixed assembly factory and chemical factory RoR reader index offset
+* Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods
