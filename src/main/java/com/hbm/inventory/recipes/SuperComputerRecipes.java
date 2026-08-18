@@ -38,11 +38,13 @@ public class SuperComputerRecipes extends GenericRecipes<GenericRecipe> {
 		
 		// process
 		registerTriplet("com.processflight", 30 * min, 15 * min, 5 * min, EnumDriveType.DISK_FLIGHTDATA, EnumDriveType.DISK_FLIGHTDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 99, 95, 90);
+		registerTriplet("com.processorbit", 60 * min, 30 * min, 15 * min, EnumDriveType.DISK_ORBITDATA, EnumDriveType.DISK_ORBITDATA_PROCESSED, EnumDriveType.DISK_BROKEN, 90, 80, 65);
 		
 		// copy
 		registerCopy("com.copyflightcalc", 15 * min, EnumDriveType.FLASH_FLIGHTSIM, EnumDriveType.FLASH_EMPTY, EnumDriveType.FLASH_BROKEN, 95);
 		registerCopy("com.copyparticlecalc", 15 * min, EnumDriveType.FLASH_PARTICLESIM, EnumDriveType.FLASH_EMPTY, EnumDriveType.FLASH_BROKEN, 95);
 		registerCopy("com.copyfligthdata", 15 * min, EnumDriveType.DISK_FLIGHTDATA_PROCESSED, EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_BROKEN, 75);
+		registerCopy("com.copyorbitdata", 30 * min, EnumDriveType.DISK_ORBITDATA_PROCESSED, EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_BROKEN, 75);
 		
 		this.register(new GenericRecipe("com.blueprints").setup(15 * min, 50_000L)
 				.inputItems(new ComparableStack(Items.paper, 16),

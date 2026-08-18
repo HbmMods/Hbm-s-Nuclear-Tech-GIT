@@ -48,6 +48,8 @@ import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.packet.toclient.SerializableRecipePacket;
 import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.saveddata.satellites.SatelliteDetector;
 import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
@@ -637,6 +639,24 @@ public class ModEventHandler {
 			TimedGenerator.automaton(world, 100);
 
 			SatelliteDetector.updateSystem(world);
+			
+			SatelliteSavedData dat = SatelliteSavedData.getData(world);
+			
+			if(dat != null) {
+				boolean dirty = false;
+				
+				for(SatelliteBase sat : dat.sats.values()) {
+					sat.onUpdateTick(world);
+					
+					if(sat.isDirty) {
+						sat.isDirty = false;
+						dirty = true;
+					}
+				}
+				
+				if(dirty) dat.markDirty();
+			}
+			
 			if(world.getTotalWorldTime() % 20 == 10)
 				SatelliteRayScan.updateSystem(world);
 		}

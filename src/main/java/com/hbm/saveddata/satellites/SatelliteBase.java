@@ -23,6 +23,8 @@ public abstract class SatelliteBase {
 	public int targetX;
 	public int targetZ;
 	
+	public boolean isDirty = false;
+	
 	public String tx = "";
 
 	public EnumDriveType driveInput = null;
@@ -84,6 +86,8 @@ public abstract class SatelliteBase {
 	/** For subsequent items sent under the same frequency as an existing satellite */
 	public void onPartDelivered(World world, ItemStack part) { }
 	
+	public void onUpdateTick(World world) { }
+	
 	public void onCommand(World world, String... cmd) {
 		onCommandTarget(world, cmd);
 		onCommandImpl(world, cmd);
@@ -128,4 +132,8 @@ public abstract class SatelliteBase {
 	public void onCommandImpl(World world, String... cmd) { }
 	
 	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) { }
+	
+	public void markDirty() {
+		this.isDirty = true;
+	}
 }
