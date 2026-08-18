@@ -51,7 +51,11 @@ public class ItemPill extends ItemFood {
 			}
 
 			if(this == ModItems.pill_red) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0));
+				player.addPotionEffect(new PotionEffect(HbmPotion.femboy.id, 60 * 60 * 20, 0));
+			}
+
+			if(this == ModItems.pill_blue) {
+				player.addPotionEffect(new PotionEffect(HbmPotion.estrogen.id, 60 * 60 * 20, 0));
 			}
 
 			if(this == ModItems.radx) {

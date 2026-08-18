@@ -62,6 +62,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 
 		registerRecipe(WATER,		1000,			Blocks.ice);
+		registerRecipe(ESTRADIOL,	4,				ModItems.pill_blue);
 		registerRecipe(LAVA,		1000,			Blocks.obsidian);
 		registerRecipe(MERCURY,		125,			ModItems.ingot_mercury);
 		registerRecipe(BIOGAS,		250,			new ItemStack(ModItems.biomass_compressed, 4));
