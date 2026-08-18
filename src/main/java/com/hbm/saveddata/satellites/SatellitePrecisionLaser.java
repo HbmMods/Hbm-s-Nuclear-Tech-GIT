@@ -91,7 +91,7 @@ public class SatellitePrecisionLaser extends SatelliteBase {
 			return;
 		}
 		
-		if(cmd[0].equals(CMD_SETENTITYTARGET)) {
+		if(cmd[0].equals(CMD_SETENTITYTARGET) && cmd.length == 2) {
 			this.targetedEntity = IRORInteractive.parseInt(cmd[1]);
 			return;
 		}
