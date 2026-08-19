@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerMassStorage;
 import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
@@ -10,9 +11,14 @@ import com.hbm.util.ItemStackUtil;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -20,7 +26,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements IControlReceiverFilter, IRORValueProvider, IRORInteractive {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMassStorage extends TileEntityCrateBase implements IControlReceiverFilter, IRORValueProvider, IRORInteractive, SimpleComponent, CompatHandler.OCComponent {
 
 	private int stack = 0;
 	public boolean output = false;
@@ -400,5 +407,44 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IContr
 		}
 
 		return null;
+	}
+
+	// do some opencomputer stuff
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_mass_storage";
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns item amount")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFill(Context context, Arguments args) {
+		return new Object[] {this.stack};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns item capacity")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCapacity(Context context, Arguments args) {
+		return new Object[] {this.capacity};
+	}
+
+	@Callback(direct = true, doc = "function():string -- Returns item type")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		if(slots[1] == null) return new Object[] {"None"};
+		return new Object[] {slots[1].getDisplayName()};
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Returns output mode")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getOutputMode(Context context, Arguments args) {
+		return new Object[] {this.output};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function(mode: boolean) -- Sets output mode")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setOutputMode(Context context, Arguments args) {
+		this.output = args.checkBoolean(0);
+		return new Object[] {};
 	}
 }
