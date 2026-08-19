@@ -192,12 +192,16 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		tank.readFromNBT(nbt, "tank");
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		tank.writeToNBT(nbt, "tank");
+		nbt.setLong("power", power);
+		nbt.setInteger("progress", progress);
 	}
 
 	@Override
