@@ -27,6 +27,7 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.Compat;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
@@ -168,6 +169,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			boolean redstone = false;
 			
 			for(DirPos pos : getConPos()) {
+				if(!Compat.isPositionLoaded(worldObj, pos.getX(), pos.getZ())) continue;
 				if(this.worldObj.isBlockIndirectlyGettingPowered(pos.getX(), pos.getY(), pos.getZ())) {
 					redstone = true;
 					break;
@@ -192,13 +194,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			}
 
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			
+			this.autoPort(getConPos());
 
 			if(burnValue > 0 && amountToBurn > 0) {
 

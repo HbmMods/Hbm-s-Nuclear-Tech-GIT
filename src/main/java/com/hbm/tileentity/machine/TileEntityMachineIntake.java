@@ -40,10 +40,7 @@ public class TileEntityMachineIntake extends TileEntityLoadedBase implements IEn
 				this.power -= this.getMaxPower() / 20;
 			}
 			
-			for(DirPos pos : getConPos()) {
-				if(this.compair.getFill() > 0) this.tryProvide(compair, worldObj, pos);
-				this.trySubscribe(worldObj, pos);
-			}
+			this.autoPort(getConPos());
 			
 			this.networkPackNT(50);
 			
