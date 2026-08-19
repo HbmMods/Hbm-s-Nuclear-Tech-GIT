@@ -3633,7 +3633,6 @@ item.pill_iodine.name=Таблетка йода
 item.pill_iodine.desc=Убирает негативные эффекты
 item.pill_herbal.name=Травяная паста
 item.pill_herbal.desc=Эффективное средство против болезни лёгких $и небольшого радиационного отравления.$Имеет побочные эффекты.
-item.pill_red.name=Красная таблетка
 item.pill_blue.name=Blue Pill
 item.pin.name=Отмычка
 item.pin.desc="*Немодифицированный* вероятность успешного взлома обычного замка составляет ~10%%.

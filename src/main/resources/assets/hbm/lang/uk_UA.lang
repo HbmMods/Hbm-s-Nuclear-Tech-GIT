@@ -3935,7 +3935,6 @@ item.pill_iodine.name=Таблетка йоду
 item.pill_iodine.desc=Усуває негативні ефекти
 item.pill_herbal.name=Трав'яна паста
 item.pill_herbal.desc=Ефективне лікування захворювань легень та легкого радіаційного отруєння.$CМає побічні ефекти
-item.pill_red.name=Червона пігулка
 item.pill_blue.name=Blue Pill
 item.pin.name=Шпилька
 item.pin.desc=Стандартний рівень успішності злому звичайного замка становить ~10%%.

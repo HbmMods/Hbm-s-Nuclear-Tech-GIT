@@ -3833,7 +3833,6 @@ item.pill_iodine.name=Iodine Pill
 item.pill_iodine.desc=Removes negative effects
 item.pill_herbal.name=Herbal Paste
 item.pill_herbal.desc=Effective treatment against lung disease and mild radiation poisoning$Comes with side effects
-item.pill_red.name=Red Pill
 item.pill_blue.name=Blue Pill
 item.pin.name=Bobby Pin
 item.pin.desc=Standard success rate of picking a regular lock is ~10%%.

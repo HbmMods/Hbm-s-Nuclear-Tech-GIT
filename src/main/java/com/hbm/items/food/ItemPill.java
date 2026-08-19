@@ -50,10 +50,6 @@ public class ItemPill extends ItemFood {
 					player.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
 			}
 
-			if(this == ModItems.pill_red) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.femboy.id, 60 * 60 * 20, 0));
-			}
-
 			if(this == ModItems.pill_blue) {
 				player.addPotionEffect(new PotionEffect(HbmPotion.estrogen.id, 60 * 60 * 20, 0));
 			}

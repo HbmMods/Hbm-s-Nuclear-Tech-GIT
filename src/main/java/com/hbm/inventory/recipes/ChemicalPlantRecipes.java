@@ -400,11 +400,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.powder_paleogenite), new OreDictStack(F.dust(), 8), new ComparableStack(ModItems.nugget_bismuth, 4))
 				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1_000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1_000, 0)));
-		
-		this.register(new GenericRecipe("chem.red_pill").setup(100, 100)
-				.inputItems(new ComparableStack(ModItems.pill_blue, 1))
-				.inputFluids(new FluidStack(Fluids.ETHANOL, 1_000))
-				.outputItems(new ItemStack(ModItems.pill_red, 1)));
 	}
 	
 	public static HashMap getRecipes() {
