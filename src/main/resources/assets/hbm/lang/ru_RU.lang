@@ -4439,7 +4439,7 @@ item.turret_tau_ammo.name=Урановые боеприпасы Тау-туре�
 item.twinkie.name=Твинки
 item.twinkie.desc=Испортилось 600 лет назад!
 item.ullapool_caber.name=Аллапульское бревно
-item.undefined.name=Не определено
+item.undefined.name=Undefined
 item.upgrade_5g.name=Улучшение "5G излучение"
 item.upgrade_afterburn_1.name=Улучшение механизма "Форсаж" уровня I
 item.upgrade_afterburn_2.name=Улучшение механизма "Форсаж" уровня II
@@ -4776,7 +4776,7 @@ satellite.cooldown=Перезарядка: %
 satellite.data=ДОСТУПНЫ ДАННЫЕ
 satellite.pending=Замеры ожидаются: %s
 satellite.ready=ГОТОВ
-satellite.sensors=Установлены реле датчиков.: %s
+satellite.sensors=Установлено ретрансляторов: %s
 satellite.spent=ИЗРАСХОДОВАН
 
 shape.barrelHeavy=Тяжёлый ствол
