@@ -58,10 +58,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 			this.buf = Unpooled.buffer();
 
 			setupTanks();
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				this.updateConnections();
-			}
+			
+			this.autoPort(getConPos());
 
 			int height = (int) (worldObj.getTotalWorldTime() % 10);
 			int range = 7;
@@ -201,15 +199,6 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 		output.deserialize(buf);
 
 		this.bufferedHeat = buf.readInt();
-	}
-
-	private void updateConnections() {
-
-		if(input.getTankType() == Fluids.NONE) return;
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(input.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	private DirPos[] getConPos() {

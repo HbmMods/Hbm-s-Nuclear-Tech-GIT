@@ -3,7 +3,9 @@ package com.hbm.tileentity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
@@ -63,19 +65,28 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 			if(fluidRec != null) if(fluidRecDelay[i] > 0) { fluidRecDelay[i]--; } else {
 				for(FluidTank tank : fluidRec.getReceivingTanks()) {
-					int newDelay = fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
+					int newDelay = tank.getTankType() != Fluids.NONE ? 20 : fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
 					if(fluidRecDelay[i] <= 0 || newDelay < fluidRecDelay[i]) fluidRecDelay[i] = newDelay;
 				}
 			}
 
 			if(fluidPro != null) if(fluidProDelay[i] > 0) { fluidProDelay[i]--; } else {
 				for(FluidTank tank : fluidPro.getSendingTanks()) {
-					int newDelay = fluidPro.tryProvide(tank, worldObj, port).delay;
+					int newDelay = tank.getFill() <= 0 ? 20 : fluidPro.tryProvide(tank, worldObj, port).delay;
 					if(fluidProDelay[i] <= 0 || newDelay < fluidProDelay[i]) fluidProDelay[i] = newDelay;
 				}
 			}
 		}
 	}
+	
+	public final DirPos[] ALL_AROUND = new DirPos[] {
+			new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+			new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+			new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+			new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+			new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+	};
 
 	@Override
 	public boolean isLoaded() {

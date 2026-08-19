@@ -30,7 +30,6 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
 
@@ -176,8 +175,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-
-			if(worldObj.getTotalWorldTime() % 40 == 0) this.updateConnections();
+			
+			this.autoPort(this.ALL_AROUND);
 
 			this.consumption = 50;
 			this.maxProgress = 100;
@@ -246,12 +245,6 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		power = buf.readLong();
 		maxProgress = buf.readInt();
 		progress = buf.readInt();
-	}
-
-	private void updateConnections() {
-
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	@Override

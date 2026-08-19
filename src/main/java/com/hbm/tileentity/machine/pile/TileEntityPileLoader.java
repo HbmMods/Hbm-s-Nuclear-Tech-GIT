@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockPile;
+import com.hbm.handler.CompatHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPileRodMK2;
 import com.hbm.items.machine.ItemPileRodMK2.EnumPileRod;
@@ -11,7 +12,12 @@ import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
 
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -20,7 +26,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPileLoader extends TileEntityPileDeviceBase implements ISidedInventory, IRORValueProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityPileLoader extends TileEntityPileDeviceBase implements ISidedInventory, IRORValueProvider, SimpleComponent, CompatHandler.OCComponent {
 	
 	public double syncLevel;
 	public double level;
@@ -267,5 +274,60 @@ public class TileEntityPileLoader extends TileEntityPileDeviceBase implements IS
 		}
 		
 		return null;
+	}
+
+	// do some opencomputer stuff
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_pile_loader";
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns channel temperature")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTemp(Context context, Arguments args) {
+		return new Object[] {this.channelTemp};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns fuel depletion")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDepletion(Context context, Arguments args) {
+		if (this.channelStack == null) return new Object[] {0};
+		return new Object[] {this.channelDepletion};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns fuel lifetime")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLifetime(Context context, Arguments args) {
+		if (this.channelStack == null) return new Object[] {0};
+		EnumPileRod rod = EnumUtil.grabEnumSafely(EnumPileRod.class, this.channelStack.getItemDamage());
+		return new Object[] {rod.life};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns fuel type")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		if (this.channelStack == null) return new Object[] {-1};
+		return new Object[] {this.channelStack.getItemDamage()};
+	}
+
+	@Callback(direct = true, doc = "function():number -- Returns fuel type that will be loaded")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLoadingType(Context context, Arguments args) {
+		if (this.stack == null) return new Object[] {-1};
+		return new Object[] {this.stack.getItemDamage()};
+	}
+
+	@Callback(direct = true, doc = "function():boolean -- Fuel loading state")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isLoading(Context context, Arguments args) {
+		return new Object[] {loading};
+	}
+
+	@Callback(direct = true, limit = 4, doc = "function() -- Load fuel")
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] load(Context context, Arguments args) {
+		if(this.delay <= 0 && this.level <= 0) this.loading = true;
+		return new Object[] {};
 	}
 }

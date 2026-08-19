@@ -82,11 +82,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.consumption -= this.consumption * powerLevel * 0.25;
 			this.consumption *= (overLevel * 3 + 1);
 
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			this.autoPort(getConPos());
 
 			this.wasOn = this.canProcess();
 

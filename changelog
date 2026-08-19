@@ -69,3 +69,4 @@
 * Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods
 * Fixed long size 10 custom missile fuselages not being obtainable due to incorrectly set up recipes yielding the short variants instead
 * Fixed white crayon being uncraftable
+* Fixed solidifier and liquefactor not saving their power and progress to NBT

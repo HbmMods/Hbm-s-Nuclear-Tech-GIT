@@ -13,6 +13,17 @@ max_line_length = off
 ij_java_imports_layout = $*,|,java.**,|,javax.**,|,org.**,|,com.**,|,@*,*
 ij_java_names_count_to_use_import_on_demand = 99
 ij_java_class_count_to_use_import_on_demand = 99
+ij_java_space_before_if_parentheses = false
+ij_java_space_before_for_parentheses = false
+ij_java_space_before_catch_parentheses = false
+ij_java_space_before_array_initializer_left_brace = true
+ij_java_method_annotation_wrap = off
+ij_java_keep_simple_methods_in_one_line = true
+ij_java_keep_simple_blocks_in_one_line = true
+ij_java_blank_lines_around_method = 0
+ij_java_spaces_inside_block_braces_when_body_is_present = true
+ij_java_spaces_within_array_initializer_braces = false
+ij_java_case_statement_on_separate_line = false
 
 [{*.info,*.json,*.mcmeta,*.md,*.cfg,*.yml,*.toml}]
 tab_width = 2
