@@ -12,6 +12,7 @@ import com.hbm.entity.projectile.rocketbehavior.RocketTargetingPredictive;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.Vec3NT;
 
 import api.hbm.entity.IRadarDetectable;
@@ -19,6 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -50,6 +52,14 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	protected void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(!worldObj.isRemote && amount >= 250 && DamageResistanceHandler.CATEGORY_ENERGY.equals(DamageResistanceHandler.typeToCategory(source))) {
+			this.setDead();
+		}
+		return false;
 	}
 
 	@Override
