@@ -40,10 +40,6 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.igen_tex);
 		ResourceManager.igen.renderPart("Body");
 		
-		float rot = igen.prevRotation + (igen.rotation - igen.prevRotation) * f;
-		GL11.glTranslated(0, 1.5D, 0);
-		GL11.glRotatef(-rot, 0, 0, 1);
-		GL11.glTranslated(0, -1.5D, 0);
 		ResourceManager.igen.renderPart("Rotor");
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

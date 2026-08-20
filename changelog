@@ -55,7 +55,7 @@
 * Fixed old lantern repair bonus not being applied when the player is too far away from the lantern or another player is in the detection area
 * Fixed an issue where the vast majority of fluid spilling machines would ignore all fluid trait spill actions except for the soot/poison polluting ones
 * Fixed a potential issue regarding bobblehead world generation
-* The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain cirumstances, the power requirement can never be met
+* The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain circumstances, the power requirement can never be met
 * Fixed gamebreaking issue where the tooltip of the RoR terminal was misspelled
 * Fixed RoR pager only having a max channel length of 10 instead of 15
 * Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound
@@ -67,3 +67,6 @@
 * Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two
 * Fixed assembly factory and chemical factory RoR reader index offset
 * Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods
+* Fixed long size 10 custom missile fuselages not being obtainable due to incorrectly set up recipes yielding the short variants instead
+* Fixed white crayon being uncraftable
+* Fixed solidifier and liquefactor not saving their power and progress to NBT

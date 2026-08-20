@@ -199,10 +199,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				isOn = true;
 			}
 			this.output = 0;
-
-			if(!tilted && worldObj.getTotalWorldTime() % 20 == 0) {
-				this.updateConnections();
-			}
+			
+			if(!this.tilted) this.autoPort(getConPos());
 
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
@@ -233,10 +231,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 				if(worldObj.getTotalWorldTime() % 100 == 0)
 					SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_NUCLEAR, 200);
-			}
-
-			if(!this.tilted) for(DirPos pos : getConPos()) {
-				this.tryProvide(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			checkIfMeltdown();
@@ -411,13 +405,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
-		}
-	}
-
-	private void updateConnections() {
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(carbonDioxide.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 

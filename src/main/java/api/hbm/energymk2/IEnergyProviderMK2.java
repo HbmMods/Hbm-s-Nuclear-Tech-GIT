@@ -2,8 +2,10 @@ package api.hbm.energymk2;
 
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
+import api.hbm.tile.EnumTransferAction;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -22,10 +24,13 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 		return this.getMaxPower();
 	}
 
-	public default void tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
+	public default EnumTransferAction tryProvide(World world, DirPos pos) { return tryProvide(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+
+	public default EnumTransferAction tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
+		EnumTransferAction action = null;
 
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
@@ -35,6 +40,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
 				if(node != null && node.net != null) {
 					node.net.addProvider(this);
+					action = EnumTransferAction.CONNECT_NET;
 					red = true;
 				}
 			}
@@ -48,6 +54,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 				long toTransfer = Math.min(provides, receives);
 				toTransfer -= rec.transferPower(toTransfer);
 				this.usePower(toTransfer);
+				if(action == null) return action.PROVIDE_DIRECT;
 			}
 		}
 
@@ -63,5 +70,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 			data.setDouble("mZ", dir.offsetZ * (red ? 0.025 : 0.1));
 			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
+		
+		return action == null ? EnumTransferAction.NOTHING : action;
 	}
 }

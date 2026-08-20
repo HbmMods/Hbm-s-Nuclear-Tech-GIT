@@ -3,11 +3,19 @@ package com.hbm.tileentity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
@@ -25,6 +33,60 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public boolean tilted = false;
 	public int tiltBlocksChecked = 0;
 	public int tiltBlocksValid = 0;
+	
+	public int tickOffset = -1;
+	public int[] energyRecDelay;
+	public int[] energyProDelay;
+	public int[] fluidRecDelay;
+	public int[] fluidProDelay;
+	
+	/** Automatic handling of ports, including dynamic pauses for ports not currently in use */
+	public void autoPort(DirPos[] pos) {
+		
+		if(this.tickOffset == -1) {
+			this.tickOffset = Math.abs(BlockPos.getIdentity(xCoord, yCoord, zCoord) % 100);
+		}
+
+		if(this.energyRecDelay == null || this.energyRecDelay.length != pos.length) this.energyRecDelay = new int[pos.length];
+		if(this.energyProDelay == null || this.energyProDelay.length != pos.length) this.energyProDelay = new int[pos.length];
+		if(this.fluidRecDelay == null || this.fluidRecDelay.length != pos.length) this.fluidRecDelay = new int[pos.length];
+		if(this.fluidProDelay == null || this.fluidProDelay.length != pos.length) this.fluidProDelay = new int[pos.length];
+
+		IEnergyReceiverMK2 energyRec = this instanceof IEnergyReceiverMK2 ? (IEnergyReceiverMK2) this : null;
+		IEnergyProviderMK2 energyProv = this instanceof IEnergyProviderMK2 ? (IEnergyProviderMK2) this : null;
+		IFluidStandardReceiverMK2 fluidRec = this instanceof IFluidStandardReceiverMK2 ? (IFluidStandardReceiverMK2) this : null;
+		IFluidStandardSenderMK2 fluidPro = this instanceof IFluidStandardSenderMK2 ? (IFluidStandardSenderMK2) this : null;
+		
+		for(int i = 0; i < pos.length; i++) {
+			DirPos port = pos[i];
+
+			if(energyRec != null) { if(energyRecDelay[i] > 0) energyRecDelay[i]--; else energyRecDelay[i] = energyRec.trySubscribe(worldObj, pos[i]).delay; }
+			if(energyProv != null) { if(energyProDelay[i] > 0) energyProDelay[i]--; else energyProDelay[i] = energyProv.tryProvide(worldObj, pos[i]).delay; }
+
+			if(fluidRec != null) if(fluidRecDelay[i] > 0) { fluidRecDelay[i]--; } else {
+				for(FluidTank tank : fluidRec.getReceivingTanks()) {
+					int newDelay = tank.getTankType() != Fluids.NONE ? 20 : fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
+					if(fluidRecDelay[i] <= 0 || newDelay < fluidRecDelay[i]) fluidRecDelay[i] = newDelay;
+				}
+			}
+
+			if(fluidPro != null) if(fluidProDelay[i] > 0) { fluidProDelay[i]--; } else {
+				for(FluidTank tank : fluidPro.getSendingTanks()) {
+					int newDelay = tank.getFill() <= 0 ? 20 : fluidPro.tryProvide(tank, worldObj, port).delay;
+					if(fluidProDelay[i] <= 0 || newDelay < fluidProDelay[i]) fluidProDelay[i] = newDelay;
+				}
+			}
+		}
+	}
+	
+	public final DirPos[] ALL_AROUND = new DirPos[] {
+			new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+			new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+			new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+			new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+			new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+	};
 
 	@Override
 	public boolean isLoaded() {

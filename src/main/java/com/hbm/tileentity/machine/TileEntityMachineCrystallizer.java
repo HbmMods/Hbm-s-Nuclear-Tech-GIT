@@ -71,8 +71,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(!worldObj.isRemote) {
 
 			this.isOn = false;
-
-			this.updateConnections();
+			
+			this.autoPort(getConPos());
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.setType(7, slots);
@@ -149,14 +149,6 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		for(EntityPlayer player : players) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			props.isOnLadder = true;
-		}
-	}
-
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 

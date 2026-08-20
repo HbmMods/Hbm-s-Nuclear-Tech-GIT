@@ -33,8 +33,8 @@ public class EntitySoyuz extends Entity {
 	public EntitySoyuz(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
-        this.setSize(5.0F, 50.0F);
-        payload = new ItemStack[18];
+		this.setSize(5.0F, 50.0F);
+		payload = new ItemStack[18];
 	}
 	
 	@Override

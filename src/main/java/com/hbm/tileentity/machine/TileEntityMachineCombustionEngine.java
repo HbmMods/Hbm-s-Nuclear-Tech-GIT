@@ -22,7 +22,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
@@ -42,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -112,12 +112,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			data.setLong("power", Math.min(power, maxPower));
 
 			this.power = Library.chargeItemsFromTE(slots, 3, power, power);
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			
+			this.autoPort(getConPos());
 
 			if(power > maxPower)
 				power = maxPower;

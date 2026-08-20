@@ -1,11 +1,11 @@
 {
 	"name": "Space Laboratory",
 	"icon": ["hbm:item.satellite", 1, 11],
-	"trigger": [["hbm:item.satellite", 1, 11]],
+	"trigger": [["hbm:item.satellite", 1, 11], ["hbm:item.satellite", 1, 13]],
 	"title": {
 		"en_US": "Space Laboratory"
 	},
 	"content": {
-		"en_US": "<br><br>{{Template:SatOverview}}"
+		"en_US": "Scientific satellite that produces data. Data can be collected by placing a drive enclosure onto a port of a [[ground station|Satellite Ground Station]] and filling it with empty disk drives. The type and speed of the data produced depends on the satellite's configuration. An unmodified satellite will produce raw flight data every 15 minutes.<br><br>The space lab can be modified by attaching modules to it, which can be done by simply launching these modules under the same satellite frequency as the space lab. The installed modules are listed in the info text on every connected ground station.<br><br>Sensor relays can be attached to the space lab to perform an orbital scan, producing orbital data. With a single relay, a full scan takes 100 hours to perform. Luckily, the space lab is modular enough to accept many sensor relays, with no hard limit on how many can be installed. Two relays will make the scan twice as fast, three thrice as fast and so on. With one hundred installed sensor relays, a full scan only takes one hour.<br><br>{{Template:SatOverview}}"
 	}
 }
