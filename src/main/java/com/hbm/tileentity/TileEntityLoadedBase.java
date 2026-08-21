@@ -40,7 +40,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public int[] fluidRecDelay;
 	public int[] fluidProDelay;
 	
-	/** Automatic handling of ports, including dynamic pauses for ports not currently in use */
+	/** Automatic handling of ports, including dynamic pauses for ports not currently in use. Mainly a shitty bandaid fix. */
 	public void autoPort(DirPos[] pos) {
 		
 		if(this.tickOffset == -1) {
@@ -65,7 +65,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 
 			if(fluidRec != null) if(fluidRecDelay[i] > 0) { fluidRecDelay[i]--; } else {
 				for(FluidTank tank : fluidRec.getReceivingTanks()) {
-					int newDelay = tank.getTankType() != Fluids.NONE ? 20 : fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
+					int newDelay = tank.getTankType() == Fluids.NONE ? 20 : fluidRec.trySubscribe(tank.getTankType(), worldObj, port).delay;
 					if(fluidRecDelay[i] <= 0 || newDelay < fluidRecDelay[i]) fluidRecDelay[i] = newDelay;
 				}
 			}

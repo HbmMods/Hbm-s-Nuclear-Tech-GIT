@@ -68,11 +68,7 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
-				if(outputTank.getFill() > 0) this.tryProvide(outputTank, worldObj, pos);
-			}
+			this.autoPort(getConPos());
 			
 			this.computerModule.update(1D, 1D, true, slots[1]);
 			this.didProcess = this.computerModule.didProcess;

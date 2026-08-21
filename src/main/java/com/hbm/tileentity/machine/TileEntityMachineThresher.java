@@ -140,7 +140,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 						Block b = worldObj.getBlock(hitX, yCoord, hitZ);
 						int meta = worldObj.getBlockMetadata(hitX, yCoord, hitZ);
 						
-						if(b.isNormalCube()) {
+						if(b.isNormalCube() && !this.canCut(b)) {
 							this.state = 2;
 							break;
 						}
@@ -274,7 +274,8 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 
 	public static boolean shouldIgnore(World world, int x, int y, int z, Block b, int meta) {
 		
-		if(b instanceof BlockStem) return false;
+		if(b instanceof BlockStem) return true;
+		if(b == Blocks.nether_wart) return meta < 3;
 		
 		if((b instanceof IGrowable)) {
 			return ((IGrowable) b).func_149851_a(world, x, y, z, world.isRemote);
