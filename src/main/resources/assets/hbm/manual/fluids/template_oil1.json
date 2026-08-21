@@ -7,7 +7,7 @@
 		"en_US": "Template:Oil1"
 	},
 	"content": {
-		"en_US": "§2[ §2Basic §2Oil §2Processing §2]<br>[[Basic Oil Processing]]<br>[[Crude Oil]]<br>[[Heavy Oil]]<br>[[Naphtha]]<br>[[Light Oil]]<br>[[Bitumen]]<br>[[Industrial Oil]]<br>[[Engine Lubricant]]<br>[[Heating Oil]]<br>[[Diesel]]<br>[[Kerosene]]<br>[[Polymer]]<br>[[Desh]]",
-		"ru_RU": "§2[ §2Базовая §2нефтяная §2обработка §2]<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Сырая нефть|Crude Oil]]<br>[[Тяжёлая нефть|Heavy Oil]]<br>[[Нафта|Naphtha]]<br>[[Лёгкая нефть|Light Oil]]<br>[[Битум|Bitumen]]<br>[[Промышленное масло|Industrial Oil]]<br>[[Машинная смазка|Engine Lubricant]]<br>[[Мазут|Heating Oil]]<br>[[Дизель|Diesel]]<br>[[Керосин|Kerosene]]<br>[[Полимер|Polymer]]<br>[[Деш|Desh]]"
+		"en_US": "§2[ §2Basic §2Oil §2Processing §2]<br>[[Basic Oil Processing]]<br>[[Crude Oil]]<br>[[Heavy Oil]]<br>[[Naphtha]]<br>[[Light Oil]]<br>[[Petroleum Gas]]<br>[[Bitumen]]<br>[[Industrial Oil]]<br>[[Engine Lubricant]]<br>[[Heating Oil]]<br>[[Diesel]]<br>[[Kerosene]]<br>[[Polymer]]<br>[[Desh]]",
+		"ru_RU": "§2[ §2Базовая §2нефтяная §2обработка §2]<br>[[Базовая нефтепереработка|Basic Oil Processing]]<br>[[Сырая нефть|Crude Oil]]<br>[[Тяжёлая нефть|Heavy Oil]]<br>[[Нафта|Naphtha]]<br>[[Лёгкая нефть|Light Oil]]<br>[[Попутный нефтяной газ|Petroleum Gas]]<br>[[Битум|Bitumen]]<br>[[Промышленное масло|Industrial Oil]]<br>[[Машинная смазка|Engine Lubricant]]<br>[[Мазут|Heating Oil]]<br>[[Дизель|Diesel]]<br>[[Керосин|Kerosene]]<br>[[Полимер|Polymer]]<br>[[Деш|Desh]]"
 	}
 }
