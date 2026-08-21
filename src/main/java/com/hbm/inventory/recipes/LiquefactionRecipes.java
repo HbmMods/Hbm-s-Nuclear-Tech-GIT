@@ -32,20 +32,23 @@ public class LiquefactionRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
+		int wildcard = OreDictionary.WILDCARD_VALUE;
+		
 		//oil processing
-		recipes.put(COAL.gem(),											new FluidStack(100, Fluids.COALOIL));
-		recipes.put(COAL.dust(),										new FluidStack(100, Fluids.COALOIL));
-		recipes.put(LIGNITE.gem(),										new FluidStack(50, Fluids.COALOIL));
-		recipes.put(LIGNITE.dust(),										new FluidStack(50, Fluids.COALOIL));
-		recipes.put(KEY_OIL_TAR,										new FluidStack(75, Fluids.BITUMEN));
-		recipes.put(KEY_CRACK_TAR,										new FluidStack(100, Fluids.BITUMEN));
-		recipes.put(KEY_COAL_TAR,										new FluidStack(50, Fluids.BITUMEN));
-		recipes.put(KEY_LOG,											new FluidStack(100, Fluids.MUG));
-		recipes.put(NA.dust(),											new FluidStack(100, Fluids.SODIUM));
-		recipes.put(PB.ingot(),											new FluidStack(100, Fluids.LEAD));
-		recipes.put(PB.dust(),											new FluidStack(100, Fluids.LEAD));
-		recipes.put(PB.block(),											new FluidStack(900, Fluids.LEAD));
-		//general utility recipes because why not
+		recipes.put(COAL.gem(),											new FluidStack(Fluids.COALOIL, 250));
+		recipes.put(COAL.dust(),										new FluidStack(Fluids.COALOIL, 250));
+		recipes.put(LIGNITE.gem(),										new FluidStack(Fluids.COALOIL, 150));
+		recipes.put(LIGNITE.dust(),										new FluidStack(Fluids.COALOIL, 150));
+		recipes.put(KEY_OIL_TAR,										new FluidStack(Fluids.BITUMEN, 75));
+		recipes.put(KEY_CRACK_TAR,										new FluidStack(Fluids.BITUMEN, 100));
+		recipes.put(KEY_COAL_TAR,										new FluidStack(Fluids.BITUMEN, 50));
+		recipes.put(KEY_LOG,											new FluidStack(Fluids.MUG, 100));
+		recipes.put(NA.dust(),											new FluidStack(Fluids.SODIUM, 100));
+		recipes.put(PB.ingot(),											new FluidStack(Fluids.LEAD, 100));
+		recipes.put(PB.dust(),											new FluidStack(Fluids.LEAD, 100));
+		recipes.put(PB.block(),											new FluidStack(Fluids.LEAD, 900));
+		
+		// general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),				new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),			new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.stone),					new FluidStack(250, Fluids.LAVA));
@@ -57,24 +60,25 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(Items.ender_pearl),				new FluidStack(100, Fluids.ENDERJUICE));
 		recipes.put(new ComparableStack(ModBlocks.ore_oil_sand),		new FluidStack(100, Fluids.BITUMEN));
 
-		recipes.put(new ComparableStack(Items.sugar),					new FluidStack(100, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3),	new FluidStack(150, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4),	new FluidStack(50, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModItems.biomass),				new FluidStack(125, Fluids.BIOGAS));
-		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),	new FluidStack(2000, Fluids.BIOGAS));
-		recipes.put(new ComparableStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(100, Fluids.FISHOIL));
-		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),		new FluidStack(100, Fluids.SUNFLOWEROIL));
+		// biofuel
+		recipes.put(new ComparableStack(Items.sugar),					new FluidStack(Fluids.ETHANOL, 100));
+		recipes.put(new ComparableStack(Items.melon),					new FluidStack(Fluids.ETHANOL, 100));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3),	new FluidStack(Fluids.ETHANOL, 100));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4),	new FluidStack(Fluids.ETHANOL, 50));
+		recipes.put(new ComparableStack(ModItems.biomass),				new FluidStack(Fluids.BIOGAS, 125));
+		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),	new FluidStack(Fluids.BIOGAS, 2000));
+		recipes.put(new ComparableStack(Items.fish, 1, wildcard),		new FluidStack(Fluids.FISHOIL, 100));
+		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),		new FluidStack(Fluids.SUNFLOWEROIL, 100));
 
-		recipes.put(new ComparableStack(Items.wheat_seeds),				new FluidStack(50, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 1),		new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 2),		new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.vine),					new FluidStack(100, Fluids.SEEDSLURRY));
+		// plant gunk
+		recipes.put(new ComparableStack(Items.wheat_seeds),				new FluidStack(Fluids.SEEDSLURRY, 50));
+		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 1),		new FluidStack(Fluids.SEEDSLURRY, 100));
+		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 2),		new FluidStack(Fluids.SEEDSLURRY, 100));
+		recipes.put(new ComparableStack(Blocks.vine),					new FluidStack(Fluids.SEEDSLURRY, 100));
 	}
 	
 	public static FluidStack getOutput(ItemStack stack) {
-		
-		if(stack == null || stack.getItem() == null)
-			return null;
+		if(stack == null || stack.getItem() == null) return null;
 		
 		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
 		
@@ -120,24 +124,13 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		return recipes;
 	}
 
-	@Override
-	public String getFileName() {
-		return "hbmLiquefactor.json";
-	}
+	@Override public String getFileName() { return "hbmLiquefactor.json"; }
+	@Override public Object getRecipeObject() { return recipes; }
+	@Override public void deleteRecipes() { recipes.clear(); }
 	
 	@Override
 	public String getComment() {
 		return "As with most handlers, stacksizes for the inputs are ignored and default to 1.";
-	}
-
-	@Override
-	public Object getRecipeObject() {
-		return recipes;
-	}
-
-	@Override
-	public void deleteRecipes() {
-		recipes.clear();
 	}
 
 	@Override

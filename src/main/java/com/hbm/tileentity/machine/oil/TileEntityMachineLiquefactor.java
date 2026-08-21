@@ -39,11 +39,11 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 
 	public long power;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 100_000;
 	public static final int usageBase = 250;
 	public int usage;
 	public int progress;
-	public static final int processTimeBase = 100;
+	public static final int processTimeBase = 60;
 	public int processTime;
 
 	public FluidTank tank;

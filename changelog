@@ -50,6 +50,12 @@
 * Meteors can now be detected by radar and radar satellites
 * Meteors, artillery shells and artillery rockets can now be destroyed by damage with an "energy" type (lasers, plasma) exceeding 250 points
   * This means that the orbital precision laser can now intercept these entities
+* Updated the automatic thresher
+  * Nether wart, pumpkins and melons can now be harvested
+  * Pumpkin and melon stems are now ignored
+* The liquefactor and solidifier recipe time has been reduced from 5 seconds to 3 seconds
+* Melons can now be directly liquefacted into ethanol
+* Liquefacting coal and lignite now yields significantly more coal oil in order to compete with coal oil from the combination oven
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -74,3 +80,4 @@
 * Fixed white crayon being uncraftable
 * Fixed solidifier and liquefactor not saving their power and progress to NBT
 * Fixed orbital precision laser dealing no damage due to a quirk in the explosion VNT code
+* Pneumatic networks can no longer send items to the source inventory in a loop, fixing an issue where doing so would delete items

@@ -26,6 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStem;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -170,7 +171,7 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 						}
 						// IGrowable also covers anything that accepts bone
 						// meal, so we have to handle actual crops last
-						if(b instanceof IGrowable && !this.shouldIgnore(worldObj, hitX, yCoord, hitZ, b, meta)) this.cutCrop(b, meta, hitX, yCoord, hitZ);
+						if(canCut(b) && !this.shouldIgnore(worldObj, hitX, yCoord, hitZ, b, meta)) this.cutCrop(b, meta, hitX, yCoord, hitZ);
 					}
 					
 					List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(endX, yCoord + 0.5, endZ, endX, yCoord + 0.5, endZ).expand(Math.abs(dir.offsetX * 0.5) + Math.abs(rot.offsetX * 4.5), 0.5, Math.abs(dir.offsetZ * 0.5) + Math.abs(rot.offsetZ * 4.5)));
@@ -263,12 +264,22 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 			audio = null;
 		}
 	}
+	
+	public static boolean canCut(Block b) {
+		if(b instanceof IGrowable) return true;
+		if(b == Blocks.nether_wart) return true;
+		if(b == Blocks.melon_block || b == Blocks.pumpkin) return true;
+		return false;
+	}
 
 	public static boolean shouldIgnore(World world, int x, int y, int z, Block b, int meta) {
+		
+		if(b instanceof BlockStem) return false;
 		
 		if((b instanceof IGrowable)) {
 			return ((IGrowable) b).func_149851_a(world, x, y, z, world.isRemote);
 		}
+		
 		return false;
 	}
 	
