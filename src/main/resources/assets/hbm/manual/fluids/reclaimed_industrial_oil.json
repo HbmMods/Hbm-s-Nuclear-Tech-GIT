@@ -1,0 +1,11 @@
+{
+    "name": "Reclaimed Industrial Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 16],
+    "trigger": [["hbm:item.fluid_icon", 1, 16]],
+    "title": {
+        "en_US": "Reclaimed Industrial Oil"
+    },
+    "content": {
+        "en_US": "Reclaimed industrial oil can be obtained through [[processing|Chemical Plant]] [[industrial oil|Industrial Oil]]. It can be used as an ingredient in [[petroil|Petroil]] or as a fuel source for supplemental power.<br><br>{{Template:Oil1}}"
+    }
+}

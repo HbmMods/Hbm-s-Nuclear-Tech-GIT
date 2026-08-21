@@ -4951,6 +4951,7 @@ radar.target.custom15=Size 15 Custom Missile
 radar.target.custom1520=Size 15/20 Custom Missile
 radar.target.custom20=Size 20 Custom Missile
 radar.target.doomsday=Doomsday Missile
+radar.target.meteor=Meteor
 radar.target.shuttle=Reliant Robin Space Shuttle
 radar.target.tier0=Tier 0 Missile
 radar.target.tier1=Tier 1 Missile
