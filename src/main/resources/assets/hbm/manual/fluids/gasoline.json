@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 46],
     "trigger": [["hbm:item.fluid_icon", 1, 46]],
     "title": {
-        "en_US": "Gasoline"
+        "en_US": "Gasoline",
+        "ru_RU": "Газолин"
     },
     "content": {
-        "en_US": "Gasoline is obtained through [[processing|Chemical Plant]] [[naphtha|Naphtha]]. It is primarily used as a combustible fuel. It may also be mixed into [[leaded gasoline|Leaded Gasoline]] for more power production. <br><br>{{Template:Oil1}}"
+        "en_US": "Gasoline is obtained through [[processing|Chemical Plant]] [[naphtha|Naphtha]]. It is primarily used as a combustible fuel. It may also be mixed into [[leaded gasoline|Leaded Gasoline]] for more power production.<br><br>{{Template:Oil1}}",
+        "ru_RU": "Газолин получают путём [[переработки|Chemical Plant]] [[нафты|Naphtha]]. В основном он используется в качестве горючего топлива. Его также можно смешивать в [[этилированный газолин|Leaded Gasoline]] для увеличения выработки энергии.<br><br>{{Template:Oil1}}"
     }
 }
