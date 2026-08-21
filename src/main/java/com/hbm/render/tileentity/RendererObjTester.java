@@ -37,8 +37,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		
 		double progress = BobMathUtil.sps((System.currentTimeMillis() % 360000) / 1000D) / 2 + 0.5;
 		
-		double railOffset = 10 * progress;
+		double railOffset = 0; //19 * progress;
 		double lift = 180 * progress;
+		double rotorPivotHorizontalOffset = 18;
 
 		soyuz.renderPart("Launchpad");
 		
@@ -51,9 +52,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, 0, -railOffset);
 		soyuz.renderPart("Tower");
 
-		GL11.glTranslated(0, 24.5, -15.5);
+		GL11.glTranslated(0, 24.5, -rotorPivotHorizontalOffset);
 		GL11.glRotated(-lift, 1, 0, 0);
-		GL11.glTranslated(0, -24.5, 15.5);
+		GL11.glTranslated(0, -24.5, rotorPivotHorizontalOffset);
 
 		soyuz.renderPart("Rotor");
 

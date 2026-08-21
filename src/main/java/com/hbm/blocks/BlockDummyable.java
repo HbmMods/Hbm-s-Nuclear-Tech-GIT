@@ -580,7 +580,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	public double[][] getAABBExtras() {
 		return new double[0][0];
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
@@ -600,7 +600,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			if(i == 1) facing = ForgeDirection.getOrientation(5);
 			if(i == 2) facing = ForgeDirection.getOrientation(3);
 			if(i == 3) facing = ForgeDirection.getOrientation(4);
-
+			
 			ForgeDirection sideHit = ForgeDirection.getOrientation(mop.sideHit);
 			facing = getDirModified(facing);
 

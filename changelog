@@ -56,6 +56,9 @@
 * The liquefactor and solidifier recipe time has been reduced from 5 seconds to 3 seconds
 * Melons can now be directly liquefacted into ethanol
 * Liquefacting coal and lignite now yields significantly more coal oil in order to compete with coal oil from the combination oven
+* Added the server config `ULTRA_LARP_MODE`
+  * If enabled, most large doors can no longer be operated manually
+  * The exception bein the water door due to it having two large hand-operated cranks
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -81,3 +84,4 @@
 * Fixed solidifier and liquefactor not saving their power and progress to NBT
 * Fixed orbital precision laser dealing no damage due to a quirk in the explosion VNT code
 * Pneumatic networks can no longer send items to the source inventory in a loop, fixing an issue where doing so would delete items
+* Fixed the placement preview offset for the soyuz launcher

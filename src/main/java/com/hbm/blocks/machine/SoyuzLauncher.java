@@ -70,6 +70,16 @@ public class SoyuzLauncher extends BlockDummyable {
 	}
 	
 	public static final int height = 4;
+
+	@Override
+	public int getHeightOffset() {
+		return height;
+	}
+	
+	@Override
+	protected ForgeDirection getDirModified(ForgeDirection dir) {
+		return ForgeDirection.EAST;
+	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
