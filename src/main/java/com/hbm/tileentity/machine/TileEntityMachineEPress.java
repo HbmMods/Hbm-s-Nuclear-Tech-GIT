@@ -17,6 +17,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.i18n.I18nUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
@@ -173,10 +174,17 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 		return false;
 	}
 
-	private void updateConnections() {
+	protected void updateConnections() {
+		for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+	}
 
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+	protected DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+		};
 	}
 
 	@Override
@@ -235,6 +243,11 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.DOWN && dir != ForgeDirection.UP;
 	}
 
 	AxisAlignedBB aabb;
