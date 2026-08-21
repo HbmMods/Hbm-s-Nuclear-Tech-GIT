@@ -6,6 +6,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.Meteorite;
 
+import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -13,14 +14,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityMeteor extends Entity {
+public class EntityMeteor extends Entity implements IRadarDetectableNT {
 
 	public boolean safe = false;
 	private AudioWrapper audioFly;
@@ -30,6 +33,14 @@ public class EntityMeteor extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.setSize(4F, 4F);
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(!worldObj.isRemote && amount >= 250 && DamageResistanceHandler.CATEGORY_ENERGY.equals(DamageResistanceHandler.typeToCategory(source))) {
+			this.setDead();
+		}
+		return false;
 	}
 
 	public List<BlockPos> getBlocksInRadius(World world, int x, int y, int z, int radius) {
@@ -183,4 +194,10 @@ public class EntityMeteor extends Entity {
 	@Override protected void entityInit() { }
 	@Override protected void readEntityFromNBT(NBTTagCompound nbt) { this.safe = nbt.getBoolean("safe"); }
 	@Override protected void writeEntityToNBT(NBTTagCompound nbt) { nbt.setBoolean("safe", safe); }
+
+	@Override public String getUnlocalizedName() { return "radar.target.meteor"; }
+	@Override public int getBlipLevel() { return IRadarDetectableNT.SPECIAL; }
+	@Override public boolean canBeSeenBy(Object radar) { return true; }
+	@Override public boolean paramsApplicable(RadarScanParams params) { return params.scanMissiles; }
+	@Override public boolean suppliesRedstone(RadarScanParams params) { return params.scanMissiles; }
 }

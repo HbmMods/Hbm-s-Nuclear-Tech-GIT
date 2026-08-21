@@ -76,7 +76,11 @@ public class SatellitePrecisionLaser extends SatelliteBase {
 				double dZ = z - targetZ;
 				
 				if(dX * dX + dZ * dZ <= MAX_TARGET_RANGE * MAX_TARGET_RANGE) {
-					this.deathBlast(world, e.posX, e.posY, e.posZ);
+					// minor offset for slight damage variation and for skirting around an issue with ExVNT
+					double offX = world.rand.nextDouble() * 0.05 - 0.025;
+					double offY = world.rand.nextDouble() * 0.05 - 0.025;
+					double offZ = world.rand.nextDouble() * 0.05 - 0.025;
+					this.deathBlast(world, e.posX + offX, e.posY + offY, e.posZ + offZ);
 					return;
 				}
 			}
@@ -113,6 +117,7 @@ public class SatellitePrecisionLaser extends SatelliteBase {
 		if(lastShot + CHARGE_TIME < world.getTotalWorldTime()) {
 			lastShot = world.getTotalWorldTime();
 
+			// deals 1,000 fucking damage
 			EntityOrbitalLaser blast = new EntityOrbitalLaser(world);
 			blast.posX = x;
 			blast.posY = y;

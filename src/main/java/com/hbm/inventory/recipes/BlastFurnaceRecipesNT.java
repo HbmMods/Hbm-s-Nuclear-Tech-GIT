@@ -13,7 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
-	
+
 	public static final BlastFurnaceRecipesNT INSTANCE = new BlastFurnaceRecipesNT();
 
 	@Override public int inputItemLimit() { return 2; }
@@ -78,7 +78,7 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				.inputItems(new OreDictStack(AL.dust()), new ComparableStack(Items.clay_ball, 7))
 				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
 		this.register((BlastFurnaceRecipe) new BlastFurnaceRecipe("blast.firebrickLimestone").setDuration(800)
-				.inputItems(new OreDictStack(LIMESTONE.ore()), new ComparableStack(Items.clay_ball, 6))
+				.inputItems(new OreDictStack(LIMESTONE.dust()), new ComparableStack(Items.clay_ball, 6))
 				.outputItems(new ItemStack(ModItems.ingot_firebrick, 8)));
 	}
 
@@ -86,9 +86,9 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 	public String getFileName() {
 		return "hbmBlastFurnace.json";
 	}
-	
+
 	public GenericRecipe getRecipe(ItemStack s0, ItemStack s1) {
-		
+
 		for(GenericRecipe recipe : this.recipeOrderedList) {
 			if(recipe.inputItem.length == 1) {
 				if(s0 != null && s1 == null && recipe.inputItem[0].matchesRecipe(s0, false)) return recipe;
@@ -99,7 +99,7 @@ public class BlastFurnaceRecipesNT extends GenericRecipes<BlastFurnaceRecipe> {
 				if(recipe.inputItem[1].matchesRecipe(s0, true) && recipe.inputItem[0].matchesRecipe(s1, false)) return recipe;
 			}
 		}
-		
+
 		return null;
 	}
 }
