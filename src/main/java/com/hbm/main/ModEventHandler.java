@@ -1347,8 +1347,8 @@ public class ModEventHandler {
 				if(stack.getTagCompound().getBoolean("ntmCyanide")) for(int i = 0; i < 10; i++) {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
 				}
-				if(stack.getTagCompound().getBoolean("ntmRedPill")) for(int i = 0; i < 10; i++) {
-					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0));
+				if(stack.getTagCompound().getBoolean("ntmBluePill")) for(int i = 0; i < 10; i++) {
+					event.entityPlayer.addPotionEffect(new PotionEffect(HbmPotion.estrogen.id, 60 * 60 * 20, 0));
 				}
 			}
 		}
