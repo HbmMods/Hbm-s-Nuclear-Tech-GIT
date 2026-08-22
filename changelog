@@ -59,6 +59,7 @@
 * Added the server config `ULTRA_LARP_MODE`
   * If enabled, most large doors can no longer be operated manually
   * The exception bein the water door due to it having two large hand-operated cranks
+* Retextured the grenade fuze items so that the fuze type remains visible even with the stack size number enabled
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
