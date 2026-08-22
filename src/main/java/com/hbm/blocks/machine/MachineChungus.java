@@ -79,51 +79,30 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider, 
 		
 		return false;
 	}
+	@Override
+	public multiBlockHull[] getHulls() {
+		return new multiBlockHull[] {
+			new multiBlockHull(new int[] {3, 0,  0,  3, 2, 2}),
+			new multiBlockHull(new int[] {4,-4,  0,  3, 1, 1}, false),
+			new multiBlockHull(new int[] {3, 0,  6, -1, 1, 1}),
+			new multiBlockHull(new int[] {2, 0, 10, -7, 1, 1}),
+			new multiBlockHull(null, false, new int[] {-10, 0, 0}),
+			new multiBlockHull(null, false, new int[] {0, 0, 2}),
+			new multiBlockHull(null, false, new int[] {0, 0, -2}),
+			new multiBlockHull(null, false, new int[0], new int[] {1, 2, 0}, true)
+		};
 
+	}
+	
 	@Override
 	public int[] getDimensions() {
 		return new int[] { 3, 0, 0, 3, 2, 2 };
 	}
-
+	
 	@Override
 	public int getOffset() {
 		return 3;
 	}
-	@Override
-	public int[][] getAllDimensions() {
-		return new int[][] {
-			new int[] { 3, 0, 0, 3, 2, 2 },
-			new int[] { 4, -4, 0, 3, 1, 1 },
-			new int[] { 3, 0, 6, -1, 1, 1 },
-			new int[] { 2, 0, 10, -7, 1, 1 },
-		};
-	}
-	@Override
-	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		super.fillSpace(world, x, y, z, dir, o);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -4, 0, 3, 1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 6, -1, 1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 10, -7, 1, 1}, this, dir);
-		world.setBlock(x + dir.offsetX, y + 2, z + dir.offsetZ, this, dir.ordinal(), 3);
-
-		this.makeExtra(world, x + dir.offsetX, y + 2, z + dir.offsetZ); //front connector
-		this.makeExtra(world, x + dir.offsetX * (o - 10), y, z + dir.offsetZ * (o - 10)); //back connector
-		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * o + side.offsetX * 2 , y, z + dir.offsetZ * o + side.offsetZ * 2); //side connectors
-		this.makeExtra(world, x + dir.offsetX * o - side.offsetX * 2 , y, z + dir.offsetZ * o - side.offsetZ * 2);
-	}
-
-	@Override
-	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 6, -1, 1, 1}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 10, -7, 1, 1}, x, y, z, dir)) return false;
-		if(!world.getBlock(x + dir.offsetX, y + 2, z + dir.offsetZ).canPlaceBlockAt(world, x + dir.offsetX, y + 2, z + dir.offsetZ)) return false;
-		
-		return true;
-	}
-
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
