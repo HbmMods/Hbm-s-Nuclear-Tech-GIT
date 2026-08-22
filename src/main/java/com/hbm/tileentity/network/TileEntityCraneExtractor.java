@@ -235,7 +235,9 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i > 8 && i < 18;
+		boolean match = this.matchesFilter(itemStack);
+		
+		return i > 8 && i < 18 && ((isWhitelist && match) || (!isWhitelist && !match));
 	}
 
 	@Override
