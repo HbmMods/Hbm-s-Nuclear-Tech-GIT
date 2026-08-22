@@ -1,0 +1,11 @@
+{
+    "name": "Cracked Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 61],
+    "trigger": [["hbm:item.fluid_icon", 1, 61]],
+    "title": {
+        "en_US": "Cracked Oil"
+    },
+    "content": {
+        "en_US": "Cracked oil can first be obtained through [[cracking|Catalytic Cracking Tower]] [[heated|Boiler]] [[crude oil|Crude Oil]]. When [[refined|Oil Refinery]], it produces byproducts such as: <br>[[Cracked Naphtha]] <br>[[Cracked Light Oil]] <br>[[Aromatic Hydrocarbons]] <br>[[Unsaturated Hydrocarbons]]<br><br>It may also later be [[hydrotreated|Hydrotreater]] to obtain [[desfulfurized cracked oil|Desulfurized Cracked Oil]] for further processing.<br><br>{{Template:Oil2}}"
+    }
+}
