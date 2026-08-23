@@ -6,24 +6,15 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.util.SoyuzPronter;
-import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 
 	//private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/sunburst.png");
-	
-	public static final IModelCustom soyuz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/launchpad_soyuz.obj")).asVBO();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -31,7 +22,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		/*GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		GL11.glColor3f(0.5F, 0.5F, 0.5F);
@@ -100,7 +91,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		//soyuz.renderPart("Soyuz");
 
 		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
 		GL11.glPopMatrix();
 	}
 	

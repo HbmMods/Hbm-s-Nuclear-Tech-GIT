@@ -1004,7 +1004,8 @@ public class ModBlocks {
 	public static Block compact_launcher;
 	public static Block launch_table;
 
-	public static Block soyuz_launcher;
+	@Deprecated public static Block soyuz_launcher;
+	public static Block launchpad_soyuz;
 
 	public static Block machine_radar;
 	public static Block machine_radar_large;
@@ -2083,6 +2084,7 @@ public class ModBlocks {
 		compact_launcher = new CompactLauncher(Material.iron).setBlockName("compact_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":compact_launcher");
 		launch_table = new LaunchTable(Material.iron).setBlockName("launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_table");
 		soyuz_launcher = new SoyuzLauncher(Material.iron).setBlockName("soyuz_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":soyuz_launcher");
+		launchpad_soyuz = new LaunchpadSoyuz().setBlockName("launchpad_soyuz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		sat_dock = new MachineSatDock(Material.iron).setBlockName("sat_dock").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":sat_dock");
 		soyuz_capsule = new SoyuzCapsule(Material.iron).setBlockName("soyuz_capsule").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":soyuz_capsule");
@@ -3414,6 +3416,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(compact_launcher, compact_launcher.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_table, launch_table.getUnlocalizedName());
 		GameRegistry.registerBlock(soyuz_launcher, soyuz_launcher.getUnlocalizedName());
+		GameRegistry.registerBlock(launchpad_soyuz, launchpad_soyuz.getUnlocalizedName());
 		GameRegistry.registerBlock(sat_dock, sat_dock.getUnlocalizedName());
 		GameRegistry.registerBlock(soyuz_capsule, soyuz_capsule.getUnlocalizedName());
 		GameRegistry.registerBlock(crate_supply, crate_supply.getUnlocalizedName());
