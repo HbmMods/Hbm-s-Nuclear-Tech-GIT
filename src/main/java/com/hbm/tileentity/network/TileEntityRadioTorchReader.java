@@ -26,6 +26,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	public String[] channels = new String[8];
 	public String[] names = new String[8];
 	public String[] prev = new String[8];
+	private boolean[] forceUpdate = new boolean[8];
 	public boolean polling = false;
 
 	public TileEntityRadioTorchReader() {
@@ -56,9 +57,10 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 					String value = prov.provideRORValue(IRORValueProvider.PREFIX_VALUE + name.toLowerCase(Locale.US));
 					if(value == null) continue;
 
-					if(polling || !value.equals(previous)) {
+					if(polling || forceUpdate[i] || !value.equals(previous)) {
 						RTTYSystem.broadcast(worldObj, channel, value);
 						this.prev[i] = value;
+						this.forceUpdate[i] = false;
 					}
 				}
 			}
@@ -102,10 +104,24 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("p")) this.polling = data.getBoolean("p");
-		for(int i = 0; i < channels.length; i++) if(data.hasKey("c" + i)) channels[i] = data.getString("c" + i);
-		for(int i = 0; i < names.length; i++) if(data.hasKey("n" + i)) names[i] = data.getString("n" + i);
+		for(int i = 0; i < channels.length; i++) if(data.hasKey("c" + i)) this.setChannel(i, data.getString("c" + i));
+		for(int i = 0; i < names.length; i++) if(data.hasKey("n" + i)) this.setName(i, data.getString("n" + i));
 
 		this.markDirty();
+	}
+
+	private void setChannel(int index, String channel) {
+		if(!channel.equals(this.channels[index])) {
+			this.channels[index] = channel;
+			this.forceUpdate[index] = true;
+		}
+	}
+
+	private void setName(int index, String name) {
+		if(!name.equals(this.names[index])) {
+			this.names[index] = name;
+			this.forceUpdate[index] = true;
+		}
 	}
 
 	@Override
@@ -124,7 +140,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setChannel(Context context, Arguments args) {
 		int index = args.checkInteger(0);
-		if (index >= 0 && index < channels.length) channels[args.checkInteger(0)] = args.checkString(1);
+		if (index >= 0 && index < channels.length) this.setChannel(index, args.checkString(1));
 		return new Object[] {};
 	}
 
@@ -140,7 +156,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setName(Context context, Arguments args) {
 		int index = args.checkInteger(0);
-		if (index >= 0 && index < names.length) names[args.checkInteger(0)] = args.checkString(1);
+		if (index >= 0 && index < names.length) this.setName(index, args.checkString(1));
 		return new Object[] {};
 	}
 
