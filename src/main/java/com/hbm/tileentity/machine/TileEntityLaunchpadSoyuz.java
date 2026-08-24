@@ -7,6 +7,7 @@ import com.hbm.inventory.gui.GUILaunchpadSoyuz;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -19,9 +20,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider {
 
@@ -120,6 +123,26 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				} else {
 					this.positions[i] = this.syncPositions[i];
 				}
+			}
+			
+			if(this.positions[INDEX_CARRIAGE] == 1F && this.positions[INDEX_ROTOR] == 1F && this.loadedType >= 0) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 70 + worldObj.rand.nextInt(30));
+				data.setDouble("posX", xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4 + worldObj.rand.nextGaussian() * 0.75);
+				data.setDouble("posZ", zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4 + worldObj.rand.nextGaussian() * 0.75);
+				data.setDouble("posY", yCoord + 4);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", 2F);
+				data.setFloat("strafe", 0.075F);
+				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}
