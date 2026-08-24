@@ -18,6 +18,7 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	
 	public String[] channel;
 	public int[] lastCount;
+	private boolean[] forceUpdate = new boolean[3];
 	public boolean polling = false;
 	public ModulePatternMatcher matcher;
 
@@ -36,6 +37,13 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
+		this.forceUpdate[i] = true;
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		this.forceUpdate[i] = true;
 	}
 
 	@Override
@@ -63,8 +71,9 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 						}
 					}
 					
-					if(this.polling || this.lastCount[i] != count) {
+					if(this.polling || this.forceUpdate[i] || this.lastCount[i] != count) {
 						RTTYSystem.broadcast(worldObj, this.channel[i], count);
+						this.forceUpdate[i] = false;
 					}
 					
 					this.lastCount[i] = count;
@@ -128,7 +137,11 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 		} else {
 			System.out.println("guh");
 			for(int i = 0; i < 3; i++) {
-				this.channel[i] = data.getString("c" + i);
+				String channel = data.getString("c" + i);
+				if(!channel.equals(this.channel[i])) {
+					this.channel[i] = channel;
+					this.forceUpdate[i] = true;
+				}
 			}
 			this.markChanged();
 		}
