@@ -1922,6 +1922,7 @@ item.drive.flash_broken.name=Speicherstick (Defekt)
 item.drive.flash_empty.name=Speicherstick (Leer)
 item.drive.flash_flightsim.name=Speicherstick (Flugsimulationsdaten)
 item.drive.flash_particlesim.name=Speicherstick (Teilchensimulationsdaten)
+item.drive.klaus.name=Klaus
 item.drone.patrol.name=Transportdrone
 item.drone.patrol_chunkloading.name=Chunkladende Transportdrone
 item.drone.patrol_express.name=Express-Transportdrone

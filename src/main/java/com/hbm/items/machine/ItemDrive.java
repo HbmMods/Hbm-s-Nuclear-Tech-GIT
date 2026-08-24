@@ -21,5 +21,7 @@ public class ItemDrive extends ItemEnumMulti {
 		DISK_FLIGHTDATA_PROCESSED,	// processed data from satellite
 		DISK_ORBITDATA,				// raw sensor relay data
 		DISK_ORBITDATA_PROCESSED,	// processed data from sensor relay
+		
+		KLAUS,						// kkklanker
 	}
 }

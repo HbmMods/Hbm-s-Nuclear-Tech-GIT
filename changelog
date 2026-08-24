@@ -14,6 +14,7 @@
   * Most recipes have multiple variants with different cooling options
   * More expensive cooling makes the recipes faster, but more likely to fail
   * Can also create blueprint booklets without the aid of pufferfish, the recipe takes longer and much more energy, but has double the success chance
+  * Can also create Klaus
 
 ## Changed
 * Updated russian localization

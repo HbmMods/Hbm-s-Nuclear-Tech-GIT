@@ -44,7 +44,6 @@ public class SuperComputerRecipes extends GenericRecipes<GenericRecipe> {
 		registerCopy("com.copyflightcalc", 15 * min, EnumDriveType.FLASH_FLIGHTSIM, EnumDriveType.FLASH_EMPTY, EnumDriveType.FLASH_BROKEN, 95);
 		registerCopy("com.copyparticlecalc", 15 * min, EnumDriveType.FLASH_PARTICLESIM, EnumDriveType.FLASH_EMPTY, EnumDriveType.FLASH_BROKEN, 95);
 		registerCopy("com.copyfligthdata", 15 * min, EnumDriveType.DISK_FLIGHTDATA_PROCESSED, EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_BROKEN, 75);
-		//registerCopy("com.copyorbitdata", 30 * min, EnumDriveType.DISK_ORBITDATA_PROCESSED, EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_BROKEN, 75);
 		
 		this.register(new GenericRecipe("com.blueprints").setup(15 * min, 50_000L)
 				.inputItems(new ComparableStack(Items.paper, 16),
@@ -59,6 +58,14 @@ public class SuperComputerRecipes extends GenericRecipes<GenericRecipe> {
 				.outputItems(new ChanceOutputMulti(
 					new ChanceOutput(new ItemStack(ModItems.blueprint_folder, 1, 1), 10),
 					new ChanceOutput(new ItemStack(Items.paper, 24, 0), 90))
+				));
+		this.register(new GenericRecipe("com.klaus").setup(60 * min, 5_000_000L)
+				.inputItems(new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_EMPTY),
+						new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_EMPTY),
+						new ComparableStack(ModItems.drive, 64, EnumDriveType.DISK_EMPTY))
+				.inputFluids(new FluidStack(Fluids.WATER, 1_000_000))
+				.outputItems(new ItemStack(ModItems.drive, 1, EnumDriveType.KLAUS.ordinal()))
+				.outputFluids(new FluidStack(Fluids.SLOP, 1_000)
 				));
 	}
 	
