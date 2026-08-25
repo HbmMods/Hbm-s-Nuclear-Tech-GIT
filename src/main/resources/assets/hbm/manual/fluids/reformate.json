@@ -1,0 +1,11 @@
+{
+    "name": "Reformate",
+    "icon": ["hbm:item.fluid_icon", 1, 91],
+    "trigger": [["hbm:item.fluid_icon", 1, 91]],
+    "title": {
+        "en_US": "Reformate"
+    },
+    "content": {
+        "en_US": "Reformate can be obtained by [[vacuum refining|Vacuum Refinery]] [[pressurized|Compressor]] [[crude oil|Crude Oil]]. It has a diverse selection of uses including the production of [[reformate gas|Reformate Gas]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis Chamber]]. Another notable use is the production of [[BTX]] through [[fractioning|Fractioning Tower]]. Additionally, it is a key ingredient in both [[high-cetane diesel|High-Cetane Diesel]] and [[high-cetane cracked diesel|High-Cetane Cracked Diesel]].<br><br>{{Template:Oil3}}"
+    }
+}
