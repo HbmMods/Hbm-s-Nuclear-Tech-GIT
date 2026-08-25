@@ -115,6 +115,40 @@ public class GuiQMAW extends GuiScreen {
 				continue;
 			}
 
+			if(toParse.startsWith("<tb>")) {
+				toParse = toParse.substring(4);
+				QComponentText qText = new QComponentText("    ");
+				int width = qText.getWidth();
+				if(width + currentLineWidth <= maxLineLength) {
+					currentLine.add(qText);
+					currentLineWidth += width;
+				// new line
+				} else {
+					currentLine = new ArrayList();
+					this.lines.add(currentLine);
+					currentLine.add(qText);
+					currentLineWidth = width;
+				}
+				continue;
+			}
+
+			if(toParse.startsWith("<bt>")) {
+				toParse = toParse.substring(4);
+				QComponentText qText = new QComponentText("  • ");
+				int width = qText.getWidth();
+				if(width + currentLineWidth <= maxLineLength) {
+					currentLine.add(qText);
+					currentLineWidth += width;
+				// new line
+				} else {
+					currentLine = new ArrayList();
+					this.lines.add(currentLine);
+					currentLine.add(qText);
+					currentLineWidth = width;
+				}
+				continue;
+			}
+
 			// handle links
 			if(toParse.startsWith("[[")) {
 				int end = toParse.indexOf("]]");
@@ -160,6 +194,10 @@ public class GuiQMAW extends GuiScreen {
 			if(linkIndex != -1) delimit = Math.min(delimit, linkIndex);
 			int brIndex = toParse.indexOf("<br>");
 			if(brIndex != -1) delimit = Math.min(delimit, brIndex);
+			int tbIndex = toParse.indexOf("<tb>");
+			if(tbIndex != -1) delimit = Math.min(delimit, tbIndex);
+			int btIndex = toParse.indexOf("<bt>");
+			if(btIndex != -1) delimit = Math.min(delimit, btIndex);
 
 			if(delimit > 0) {
 				QComponentText textComponent = new QComponentText(toParse.substring(0, delimit) + (spaceIndex == delimit ? " " : ""));
