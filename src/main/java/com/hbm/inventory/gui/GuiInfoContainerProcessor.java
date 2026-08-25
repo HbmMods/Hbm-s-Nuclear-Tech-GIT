@@ -16,6 +16,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * For things that use the GUIScreenRecipeSelector, mainly for the preview rendering
+ * and certain other standardized GUI components.
+ * @author hbm
+ */
 public abstract class GuiInfoContainerProcessor extends GuiInfoContainer {
 	
 	protected ModuleMachineBase[] processorModule;
@@ -104,6 +109,9 @@ public abstract class GuiInfoContainerProcessor extends GuiInfoContainer {
 		}
 	}
 	
+	/**
+	 * Draws the half-opacity item icons over the slots as well as the recipe selector button
+	 */
 	protected void renderRecipeIcons() {
 
 		int[][] selectors = this.getSelectorPositions();

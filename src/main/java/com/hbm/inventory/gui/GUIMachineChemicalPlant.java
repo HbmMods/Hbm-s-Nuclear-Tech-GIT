@@ -2,34 +2,37 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineChemicalPlant;
-import com.hbm.inventory.gui.element.GUIElements;
-import com.hbm.inventory.recipes.ChemicalPlantRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
-import com.hbm.items.machine.ItemBlueprints;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.machine.ModuleMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalPlant;
 import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineChemicalPlant extends GuiInfoContainer {
+public class GUIMachineChemicalPlant extends GuiInfoContainerProcessor {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_chemplant.png");
 	private TileEntityMachineChemicalPlant chemplant;
 
 	public GUIMachineChemicalPlant(InventoryPlayer invPlayer, TileEntityMachineChemicalPlant tedf) {
 		super(new ContainerMachineChemicalPlant(invPlayer, tedf));
-		chemplant = tedf;
+		this.chemplant = tedf;
+		
+		this.processorModule = new ModuleMachineBase[1];
+		this.processorModule[0] = chemplant.chemplantModule;
 
 		this.xSize = 176;
 		this.ySize = 256;
 	}
+
+	@Override public int[][] getSelectorPositions() { return new int[][] {{7, 125, 1}}; }
+	@Override public IControlReceiver getControlReceiver() { return this.chemplant; }
+	@Override public ResourceLocation getTexture() { return this.texture; }
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
@@ -41,22 +44,6 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		}
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 61, chemplant.power, chemplant.maxPower);
-
-		if(guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX && guiTop + 125 < mouseY && guiTop + 125 + 18 >= mouseY) {
-			if(this.chemplant.chemplantModule.getRecipe() != null && ChemicalPlantRecipes.INSTANCE.recipeNameMap.containsKey(this.chemplant.chemplantModule.getRecipeName())) {
-				GenericRecipe recipe = this.chemplant.chemplantModule.getRecipe();
-				GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
-			} else {
-				this.drawCreativeTabHoveringText(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("gui.recipe.setRecipe"), mouseX, mouseY);
-			}
-		}
-	}
-
-	@Override
-	protected void mouseClicked(int x, int y, int button) {
-		super.mouseClicked(x, y, button);
-
-		if(this.checkClick(x, y, 7, 125, 18, 18)) GUIScreenRecipeSelector.openSelector(ChemicalPlantRecipes.INSTANCE, chemplant, chemplant.chemplantModule.getRecipeName(), 0, ItemBlueprints.grabPool(chemplant.slots[1]), this);
 	}
 
 	@Override
@@ -82,42 +69,8 @@ public class GUIMachineChemicalPlant extends GuiInfoContainer {
 		}
 
 		GenericRecipe recipe = chemplant.chemplantModule.getRecipe();
-
-		/// LEFT LED
-		if(chemplant.didProcess) {
-			drawTexturedModalRect(guiLeft + 51, guiTop + 121, 195, 0, 3, 6);
-		} else if(recipe != null) {
-			drawTexturedModalRect(guiLeft + 51, guiTop + 121, 192, 0, 3, 6);
-		}
-
-		/// RIGHT LED
-		if(chemplant.didProcess) {
-			drawTexturedModalRect(guiLeft + 56, guiTop + 121, 195, 0, 3, 6);
-		} else if(recipe != null && chemplant.power >= recipe.power) {
-			drawTexturedModalRect(guiLeft + 56, guiTop + 121, 192, 0, 3, 6);
-		}
-
-		this.renderItem(recipe != null ? recipe.getIcon() : TEMPLATE_FOLDER, 8, 126);
-
-		if(recipe != null && recipe.inputItem != null) {
-			for(int i = 0; i < recipe.inputItem.length; i++) {
-				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(chemplant.chemplantModule.inputSlots[i]);
-				if(!slot.getHasStack()) this.renderItem(recipe.inputItem[i].extractForCyclingDisplay(20), slot.xDisplayPosition, slot.yDisplayPosition, 10F);
-			}
-
-			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-			GL11.glColor4f(1F, 1F, 1F, 0.5F);
-			GL11.glEnable(GL11.GL_BLEND);
-			this.zLevel = 300F;
-			for(int i = 0; i < recipe.inputItem.length; i++) {
-				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(chemplant.chemplantModule.inputSlots[i]);
-				if(!slot.getHasStack()) drawTexturedModalRect(guiLeft + slot.xDisplayPosition, guiTop + slot.yDisplayPosition, slot.xDisplayPosition, slot.yDisplayPosition, 16, 16);
-			}
-			this.zLevel = 0F;
-			GL11.glColor4f(1F, 1F, 1F, 1F);
-			GL11.glDisable(GL11.GL_BLEND);
-		}
+		this.renderStandardLEDs(chemplant.didProcess, recipe, chemplant.power, 51, 121, 195, 0);
+		this.renderRecipeIcons();
 
 		for(int i = 0; i < 3; i++) {
 			chemplant.inputTanks[i].renderTank(guiLeft + 8 + i * 18, guiTop + 52, this.zLevel, 16, 34);
