@@ -305,7 +305,7 @@ public class Mats {
 			writer.beginObject();
 
 				writer.name("Bronze").beginObject();
-					//writer.name("id").value(34_000);
+					writer.name("id").value(20006);
 					writer.name("solidColorLight").value(0xFDCA88);
 					writer.name("solidColorDark").value(0x601E0D);
 					writer.name("moltenColor").value(0xC18336);
@@ -331,11 +331,23 @@ public class Mats {
 
 		try {
 			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8), JsonObject.class);
-			int i = 34_000;
+			
 			for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
 
-				JsonObject obj = (JsonObject) entry.getValue();
+				
 
+				JsonObject obj = (JsonObject) entry.getValue();
+				int id = obj.get("id").getAsInt();
+				
+				if(id > Short.MAX_VALUE) {
+					MainRegistry.logger.error("Too many custom materials in hbmMats.json! Material '" + entry.getKey() + "' and any after it could not be registered: material IDs must fit in a short (max " + Short.MAX_VALUE + ").");
+					break;
+				}
+				if(matById.containsKey(id)){
+					MainRegistry.logger.warn(entry.getKey() + "'s ID has already been taken.");
+					break;
+				}
+				
 				String name = entry.getKey();
 				DictFrame dict = df(name);
 				int solidColorLight = obj.get("solidColorLight").getAsInt();
@@ -345,16 +357,16 @@ public class Mats {
 				NTMMaterial mat;
 				switch (Behavior){
 					case SMELTABLE:
-						mat = makeSmeltable(i, dict, solidColorLight, solidColorDark, moltenColor);
+						mat = makeSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
 						break;
 					case NOT_SMELTABLE:
-						mat = makeNonSmeltable(i, dict, solidColorLight, solidColorDark, moltenColor);
+						mat = makeNonSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
 						break;
 					case ADDITIVE:
-						mat = makeAdditive(i, dict, solidColorLight, solidColorDark, moltenColor);
+						mat = makeAdditive(id, dict, solidColorLight, solidColorDark, moltenColor);
 						break;
 					default:
-						mat = make(i, dict);
+						mat = make(id, dict);
 						break;
 				}
 				NTMMaterial.MatTraits Trait = NTMMaterial.MatTraits.valueOf(obj.get("MatTraits").getAsString());
@@ -368,7 +380,6 @@ public class Mats {
 					MaterialShapes MaterialShape = prefixByName.get(shape.getAsString());
 					if(MaterialShape != null ) mat.setAutogen(MaterialShape);
 				}
-				i++;
 			}
 
 		} catch(Exception ex) {

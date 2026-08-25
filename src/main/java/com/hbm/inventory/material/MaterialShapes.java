@@ -165,14 +165,21 @@ public class MaterialShapes {
 				int quantity = obj.get("quantity").getAsInt();
 				MaterialShapes shape = new MaterialShapes(quantity,name);
 				customShapes.add(shape);
-				if(obj.get("mold").getAsBoolean()){
-					if(Objects.equals(obj.get("moldSize").getAsString(), "S")){S_moldShapes.add(shape);}
-					else{L_moldShapes.add(shape);}
+				JsonElement mold = obj.get("mold");
+				if(mold != null && mold.getAsBoolean()){
+					JsonElement moldSize = obj.get("moldSize");
+					if(moldSize != null){
+						if(Objects.equals(moldSize.getAsString(), "S")){S_moldShapes.add(shape);}
+						else{L_moldShapes.add(shape);}
+					}
 				}
-				JsonArray materials = obj.get("materials").getAsJsonArray();
-				for(JsonElement material : materials){
-					NTMMaterial mt = Mats.matByName.get(material.getAsString());
-					mt.setAutogen(shape);
+				JsonElement materialsElem = obj.get("materials");
+				if(materialsElem != null && materialsElem.isJsonArray()){
+					JsonArray materials = materialsElem.getAsJsonArray();
+					for(JsonElement material : materials){
+						NTMMaterial mt = Mats.matByName.get(material.getAsString());
+						if(mt != null) mt.setAutogen(shape);
+					}
 				}
 			}
 
