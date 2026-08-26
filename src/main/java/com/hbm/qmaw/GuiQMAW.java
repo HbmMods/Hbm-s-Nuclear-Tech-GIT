@@ -14,6 +14,7 @@ import com.hbm.qmaw.components.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.LanguageManager;
@@ -149,6 +150,28 @@ public class GuiQMAW extends GuiScreen {
 				continue;
 			}
 
+			if(toParse.startsWith("<ct>")) {
+				int end = toParse.indexOf("</ct>");
+				if(end != -1) {
+					String text = toParse.substring(4, end);
+					toParse = toParse.substring(end + 5);
+
+					QComponentText textComponent = new QComponentText(text);
+					int textWidth = (maxLineLength - textComponent.getWidth()) / 8;
+					//I did not know this existed until I googled it lol
+					String margin = String.format("%" + textWidth + "s", "");
+					textComponent = new QComponentText(margin + text);
+					int centerWidth = textComponent.getWidth();
+					currentLine = new ArrayList();
+					this.lines.add(currentLine);
+					currentLine.add(textComponent);
+					currentLineWidth = centerWidth;
+
+					prevToParse = "" + toParse;
+					continue;
+				}
+			}
+
 			// handle links
 			if(toParse.startsWith("[[")) {
 				int end = toParse.indexOf("]]");
@@ -198,7 +221,8 @@ public class GuiQMAW extends GuiScreen {
 			if(tbIndex != -1) delimit = Math.min(delimit, tbIndex);
 			int btIndex = toParse.indexOf("<bt>");
 			if(btIndex != -1) delimit = Math.min(delimit, btIndex);
-
+			int ctIndex = toParse.indexOf("<ct>");
+			if(ctIndex != -1) delimit = Math.min(delimit, ctIndex);
 			if(delimit > 0) {
 				QComponentText textComponent = new QComponentText(toParse.substring(0, delimit) + (spaceIndex == delimit ? " " : ""));
 				toParse = toParse.substring(delimit);
