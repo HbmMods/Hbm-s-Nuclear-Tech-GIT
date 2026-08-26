@@ -3,6 +3,7 @@ package com.hbm.inventory.container;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -31,12 +32,6 @@ public class ContainerBase extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return tile.isUseableByPlayer(player);
 	}
-	
-	/** Respects slot restrictions */
-	@Override
-	protected boolean mergeItemStack(ItemStack slotStack, int start, int end, boolean direction) {
-		return super.mergeItemStack(slotStack, start, end, direction); // overriding this with InventoryUtil.mergeItemStack breaks it but invoking it directly doesn't? wtf?
-	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
@@ -48,10 +43,10 @@ public class ContainerBase extends Container {
 			slotOriginal = slotStack.copy();
 
 			if(index <= tile.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(slotStack, tile.getSizeInventory(), this.inventorySlots.size(), true)) {
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, tile.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(slotStack, 0, tile.getSizeInventory(), false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, slotStack, 0, tile.getSizeInventory(), false)) {
 				return null;
 			}
 
