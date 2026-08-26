@@ -218,7 +218,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 
 		for(int i = 0; i < 15; i++) {
 			if(slots[i] == null) {
-				slots[i] = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+				slots[i] = new ItemStack(stack.getItem(), stack.stackSize, stack.getItemDamage());
 				return;
 			}
 		}
