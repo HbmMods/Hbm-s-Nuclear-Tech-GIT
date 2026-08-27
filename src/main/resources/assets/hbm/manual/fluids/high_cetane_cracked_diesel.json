@@ -1,0 +1,11 @@
+{
+    "name": "High-Cetane Cracked Diesel",
+    "icon": ["hbm:item.fluid_icon", 1, 97],
+    "trigger": [["hbm:item.fluid_icon", 1, 97]],
+    "title": {
+        "en_US": "High-Cetane Cracked Diesel"
+    },
+    "content": {
+        "en_US": "High-cetane cracked diesel is made by mixing [[reformate|Reformate]] and [[cracked diesel|Cracked Diesel]]. It is used as a combustible [[fuel|Fuels]] source. It may also be [[hydrotreated|Hydrotreater]] to obtain [[high-cetane diesel|High-Cetane Diesel]].<br><br>{{Template:Oil3}}"
+    }
+}

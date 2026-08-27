@@ -41,6 +41,7 @@ public class MachineICF extends BlockDummyable {
 			new int[] {1, 1, 2, -1, 8, 8, 0, 3, 0},
 		};
 	}
+	
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);

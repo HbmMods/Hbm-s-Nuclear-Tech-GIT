@@ -1,0 +1,11 @@
+{
+    "name": "Leaded Petroil",
+    "icon": ["hbm:item.fluid_icon", 1, 72],
+    "trigger": [["hbm:item.fluid_icon", 1, 72]],
+    "title": {
+        "en_US": "Leaded Petroil"
+    },
+    "content": {
+        "en_US": "Leaded petroil can be obtained from mixing [[petroil|Petroil]] and [[tetraethyllead antiknock agent|Tetraethyllead Antiknock Agent]]. It can only be used as a [[fuel|Fuels]] source for additional power.<br><br>See also:<br>[[Basic Oil Processing]]"
+    }
+}

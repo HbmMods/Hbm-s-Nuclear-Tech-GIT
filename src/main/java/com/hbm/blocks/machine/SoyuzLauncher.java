@@ -24,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class SoyuzLauncher extends BlockDummyable {
 
 	public SoyuzLauncher(Material p_i45386_1_) {

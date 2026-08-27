@@ -6,23 +6,15 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.util.HorsePronter;
-import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 
-	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/sunburst.png");
-	
-	public static final IModelCustom soyuz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/launchpad_soyuz.obj")).asVBO();
+	//private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/sunburst.png");
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -30,27 +22,56 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		/*GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		GL11.glColor3f(0.5F, 0.5F, 0.5F);
 		
-		double progress = BobMathUtil.sps((System.currentTimeMillis() % 360000) / 1000D) / 2 + 0.5;
+		double speed = 1_000;
+		double progress = BobMathUtil.sps((System.currentTimeMillis() % (360 * speed)) / speed) / 2 + 0.5;
+
+		double moveProgress = MathHelper.clamp_double(progress / 0.5 - 1, 0, 1);
+		double deployProgress = MathHelper.clamp_double(progress / 0.5, 0, 1);
 		
-		double railOffset = 0; //19 * progress;
-		double lift = 180 * progress;
+		double railOffset = 19.5D * moveProgress;
+		double lift = 180 * deployProgress;
 		double rotorPivotHorizontalOffset = 18;
+		double wheels = (moveProgress * 360 * 8) % 360D;
 
 		soyuz.renderPart("Launchpad");
 		
 		GL11.glPushMatrix(); {
 			GL11.glTranslated(0, 0, 3);
-			soyuz.renderPart("Supports");
+			soyuz.renderPart("Strut1");
+			soyuz.renderPart("Strut2");
+			soyuz.renderPart("Strut3");
+			soyuz.renderPart("Strut4");
+			soyuz.renderPart("Strut5");
 		} GL11.glPopMatrix();
 		
-		
 		GL11.glTranslated(0, 0, -railOffset);
-		soyuz.renderPart("Tower");
+		
+		GL11.glTranslated(0, 1.5, -32);
+		//GL11.glRotated(-5, 1, 0, 0); // tilt when ramming the buffer stop
+		GL11.glTranslated(0, -1.5, 32);
+		
+		soyuz.renderPart("Carriage");
+
+		double[] wheelsForward = new double[] {17D, 19D, 29D, 31D};
+		double[] wheelsSide = new double[] {6.75D, 5.25D, -5.25D, -6.75D};
+		
+		for(int i = 1; i <= 4; i++) for(int j = 1; j <= 4; j++) {
+			GL11.glPushMatrix();
+			double v0 = wheelsForward[i - 1];
+			double v1 = wheelsSide[j - 1];
+			
+			GL11.glTranslated(v1, 0, -v0);
+			GL11.glRotated(wheels * (j == 2 || j == 3 ? -1 : 1), 0, 1, 0);
+			GL11.glTranslated(-v1, 0, v0);
+			
+			soyuz.renderPart("Wheel_" + i + "_" + j);
+			GL11.glPopMatrix();
+		}
 
 		GL11.glTranslated(0, 24.5, -rotorPivotHorizontalOffset);
 		GL11.glRotated(-lift, 1, 0, 0);
@@ -65,10 +86,12 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		soyuz.renderPart("Mount");
 		
 		GL11.glColor3f(0.75F, 0.25F, 0.25F);
-		soyuz.renderPart("Soyuz");
+		GL11.glTranslated(0, 4, 0);
+		SoyuzPronter.prontSoyuz(0);
+		//soyuz.renderPart("Soyuz");
 
 		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
 		GL11.glPopMatrix();
 	}
 	
@@ -90,9 +113,6 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}*/
 
-        /*bindTexture(objTesterTexture);
-        objTesterModel.renderAll();*/
-        
 		//GL11.glScaled(5, 5, 5);
 		
         /*GL11.glEnable(GL11.GL_LIGHTING);
@@ -135,52 +155,10 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
 
-        /*ModelCalBarrel barrel = new ModelCalBarrel();
-        ModelCalStock stock = new ModelCalStock();
-        ModelCalDualStock saddle = new ModelCalDualStock();
-
-        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalDualStock.png"));
-        saddle.renderAll(1F/16F);
-        
-        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalBarrel.png"));
-        GL11.glTranslated(0, 0, -0.25);
-        barrel.renderAll(1F/16F);
-        GL11.glTranslated(0, 0, 0.5);
-        barrel.renderAll(1F/16F);
-        
-        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));*/
-        //stock.renderAll(1F/16F);
-        
-        //SoyuzPronter.prontSoyuz(2);
-        //TomPronter.prontTom();
-        //BeamPronter.prontBeam(Vec3.createVectorHelper(5, 5, 5), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xff8000, 0xff8000, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25, 25, 0.1F, 4, 0.05F);
-        //BeamPronter.prontBeam(Vec3.createVectorHelper(5, 5, 5), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xffff00, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25, 1, 0F, 4, 0.05F);
-        //BeamPronter.prontHelix(Vec3.createVectorHelper(0, 5, 0), 0.5, 0.5, 0.5, EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25 + 180, 25, 0.25F);
-
-        //DiamondPronter.pront(1, 2, 3, EnumSymbol.OXIDIZER);
-
         //GL11.glTranslatef(0.0F, -0.25F, 0.0F);
         //GL11.glRotatef(-25, 0, 1, 0);
         //GL11.glRotatef(15, 0, 0, 1);
         
-        /*long time = tileEntity.getWorldObj().getTotalWorldTime();
-        double sine = Math.sin(time * 0.05) * 5;
-        double sin3 = Math.sin(time * 0.05 + Math.PI * 0.5) * 5;
-        double sin2 = Math.sin(time * 0.05 + Math.PI);
-        int height = 7;
-        GL11.glTranslated(0.0F, height + sin2, 0.0F);
-        GL11.glRotated(sine, 0, 0, 1);
-        GL11.glRotated(sin3, 1, 0, 0);
-        GL11.glTranslated(0.0F, -height, 0.0F);
-        
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-        bindTexture(ResourceManager.soyuz_lander_tex);
-        ResourceManager.soyuz_lander.renderPart("Capsule");
-        bindTexture(ResourceManager.soyuz_chute_tex);
-        ResourceManager.soyuz_lander.renderPart("Chute");
-        GL11.glShadeModel(GL11.GL_FLAT);*/
-
         /*GL11.glRotatef(-90, 0, 1, 0);
         GL11.glTranslated(0, 3, 0);
         bindTexture(ResourceManager.nikonium_tex);

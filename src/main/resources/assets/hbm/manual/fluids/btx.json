@@ -1,0 +1,11 @@
+{
+    "name": "BTX",
+    "icon": ["hbm:item.fluid_icon", 1, 94],
+    "trigger": [["hbm:item.fluid_icon", 1, 94]],
+    "title": {
+        "en_US": "BTX"
+    },
+    "content": {
+        "en_US": "BTX can be obtained by [[fractioning|Fractioning Tower]] [[reformate|Reformate]] or [[desulfurized naphtha|Desulfurized Naphtha]]. It is primarily used to produce [[hard plastic|Hard Plastic]] when combined with [[phosgene]]. Later, it is used to produce [[crystalline fullerite|Crystalline Fullerite]] through [[acidizing|Ore Acidizer]] [[fullerine|Fullerine]]. It can be [[cracked|Catalytic Cracking Tower]] for additional [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[petroleum gas|Petroleum Gas]].<br><br>{{Template:Oil3}}"
+    }
+}
