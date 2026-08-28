@@ -1,0 +1,11 @@
+{
+    "name": "Heavy Heating Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 95],
+    "trigger": [["hbm:item.fluid_icon", 1, 95]],
+    "title": {
+        "en_US": "Heavy Heating Oil"
+    },
+    "content": {
+        "en_US": "Heavy heating oil can be obtained by [[fractioning|Fractioning]] [[vacuum heavy oil|Vacuum Heavy Oil]]. It is used to produce additional [[heating oil|Heating Oil]] and [[reformate gas|Reformate Gas]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis]].<br><br>{{Template:Oil3}}"
+    }
+}
