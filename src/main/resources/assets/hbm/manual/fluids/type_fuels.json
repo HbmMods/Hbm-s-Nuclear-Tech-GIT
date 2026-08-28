@@ -1,0 +1,11 @@
+{
+    "name": "Fuels",
+    "icon": ["hbm:item.fluid_icon", 1],
+    "trigger": [],
+    "title": {
+        "en_US": "Fuels"
+    },
+    "content": {
+        "en_US": "There are a variety of different fuels, available each with different characteristics. Each fuel has a §e[Flammable] and §6[Combustible] value. <br><br>The §e[Flammable] value corresponds to how much heat is gained from burning each fuel in either a [[fluid burner|Fluid Burner]] or [[flare stack|Flare Stack]]. <br><br>The §6[Combustible] value is how much power can be gained from igniting each fluid. This can be done with the [[diesel generator|Diesel Generator]], the [[industrial combustion engine|Industrial Combustion Engine]], or the [[combined cycle gas turbine|Combined Cycle Gas Turbine]]. <br><br>Each fuel is also associated with a combustion fuel grade. The fuel grade corresponds to which [[piston set|Piston Sets]] is the most efficient. There are five fuel grades available along with four [[piston sets|Piston Sets]] that have varying efficiencies. The piston set most optimal for each fuel can be used in an [[industrial combustion engine|Industrial Combustion Engine]] to generate power from the fuel. <br><br>§2[ §2Fuels §2]<br>[[Natural Gas]]<br>[[Diesel]]<br>[[Cracked Diesel]]<br>[[High-Cetane Diesel]]<br>[[High-Cetane Cracked Diesel]]<br>[[Kerosene]]<br>[[Jetfuel]]<br>[[Heating Oil]]<br>[[Heavy Heating Oil]]<br>[[Gasoline]]<br>[[Leaded Gasoline]]<br>[[Reclaimed Industrial Oil]]<br>[[Petroil]]<br>[[Leaded Petroil]]<br>[[LPG]]<br>[[Syngas]]<br>[[Oxyhydrogen]]<br>[[Coal Gasoline]]<br>[[Leaded Coal Gasoline]]<br>[[Biofuel]]<br>[[NITAN© 100 Octane Super Fuel]]<br>[[BF Rocket Fuel]]"
+    }
+}
