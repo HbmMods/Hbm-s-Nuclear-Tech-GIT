@@ -88,6 +88,7 @@ public class LaunchpadSoyuz extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y + 2, z - dir.offsetZ * 4, new int[] {6, -4, 3, 3, 7, -3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y + 2, z - dir.offsetZ * 4, new int[] {51, -7, 2, 2, 7, -3}, this, dir);
 
+		// FIXME
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y, z - dir.offsetZ * 4, new int[] {7, 0, -6, 7, 7, -3}, this, dir);
 	}
 

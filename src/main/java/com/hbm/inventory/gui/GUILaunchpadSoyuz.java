@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUILaunchpadSoyuz extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_soyuz.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_launchpad_soyuz.png");
 	private TileEntityLaunchpadSoyuz launcher;
 	
 	public GUILaunchpadSoyuz(InventoryPlayer invPlayer, TileEntityLaunchpadSoyuz tedf) {
