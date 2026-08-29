@@ -116,6 +116,7 @@ public class SatellitePrecisionLaser extends SatelliteBase {
 
 		if(lastShot + CHARGE_TIME < world.getTotalWorldTime()) {
 			lastShot = world.getTotalWorldTime();
+			this.markDirty();
 
 			// deals 1,000 fucking damage
 			EntityOrbitalLaser blast = new EntityOrbitalLaser(world);

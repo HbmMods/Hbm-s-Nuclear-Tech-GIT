@@ -76,6 +76,7 @@ public class SatelliteDeathRay extends SatelliteBase {
 
 		if(lastShot + CHARGE_TIME < world.getTotalWorldTime()) {
 			lastShot = world.getTotalWorldTime();
+			this.markDirty();
 
 			int y = world.getHeightValue(x, z);
 
