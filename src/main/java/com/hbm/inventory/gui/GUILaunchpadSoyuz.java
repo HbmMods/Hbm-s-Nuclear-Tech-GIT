@@ -34,6 +34,11 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 	}
 
 	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+	}
+
+	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.launcher.hasCustomInventoryName() ? this.launcher.getInventoryName() : I18n.format(this.launcher.getInventoryName());
 		
