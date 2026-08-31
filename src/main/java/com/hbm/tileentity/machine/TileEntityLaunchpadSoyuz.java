@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchpadSoyuz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -26,7 +27,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider {
+public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IControlReceiver {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -395,5 +396,13 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override public double getUseRange() { return 50D; }
+	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		// oaghe
 	}
 }

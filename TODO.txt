@@ -1,0 +1,32 @@
+A TODO list because this update is starting to get out of hand
+
+- Satellite stuff
+  - Finish soyuz launcher GUI controls, countdown, launch functionality
+  - Fix LOXY tank collisions for certain orientations
+  - Add lambda rocket launcher
+  - Add rocket assembler
+  - Add deployable itemstack array for satellites
+  - Implement 0G assembler
+  - Remodel dropships and landing pads
+  - Alclad?
+
+- AutoPort
+  - Kill current autoport test
+  - PortDef system
+  - Node-based ports
+
+- Copy tool
+  - Completely replace the entire system
+  - New HUD elements instead of reusing the info panel system
+  - Keybind instead of requiring an item? Configuration GUI?
+  - Proper setting type system
+  - Kill off everything regarding filters, start from scratch
+
+- Salvaged satellites
+  - DAMOCLES, Behemoth
+  - Structure for sat chips
+
+- Other
+  - Extend QMAW GUI screen and adjust scale
+  - Change red pill effect
+  - Review custom mats and autogen PR

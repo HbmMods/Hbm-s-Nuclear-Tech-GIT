@@ -306,10 +306,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IContr
 		return 1024.0D; // only render mass storage info 32 blocks away, for performance
 	}
 
-	@Override
-	public void nextMode(int i) {
-
-	}
+	@Override public void nextMode(int i) { }
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {

@@ -61,6 +61,8 @@
   * If enabled, most large doors can no longer be operated manually
   * The exception bein the water door due to it having two large hand-operated cranks
 * Retextured the grenade fuze items so that the fuze type remains visible even with the stack size number enabled
+* The remnants power armor is now made in the precision assembler using discoverable blueprints
+* Increased RPA resistance against physical, fire and energy damage types
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
