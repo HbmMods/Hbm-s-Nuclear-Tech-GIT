@@ -32,6 +32,7 @@ public class SatelliteScience extends SatelliteBase {
 		if(world.getTotalWorldTime() > this.lastScience + COOLDOWN) {
 			this.produceData(EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_FLIGHTDATA);
 			this.lastScience = world.getTotalWorldTime();
+			this.markDirty();
 		}
 		
 		return super.hasData(world);
@@ -50,7 +51,10 @@ public class SatelliteScience extends SatelliteBase {
 	public void onUpdateTick(World world) {
 		
 		if(this.sensorProgress < SENSOR_DURATION) {
-			this.sensorProgress += this.sensorCount;
+			if(this.sensorCount > 0) {
+				this.sensorProgress += this.sensorCount;
+				this.markDirty();
+			}
 		} else {
 			this.sensorProgress = 0;
 			this.produceData(EnumDriveType.DISK_EMPTY, EnumDriveType.DISK_ORBITDATA);
