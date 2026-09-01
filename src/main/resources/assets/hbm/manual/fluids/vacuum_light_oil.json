@@ -1,0 +1,11 @@
+{
+    "name": "Vacuum Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 92],
+    "trigger": [["hbm:item.fluid_icon", 1, 92]],
+    "title": {
+        "en_US": "Vacuum Light Oil"
+    },
+    "content": {
+        "en_US": "Vacuum light oil can be obtained by [[vacuum refining|Vacuum Refinery]] [[pressurized|Compressor]] [[crude oil|Crude Oil]]. It is primarily [[fractioned|Fractioning Tower]] into [[kerosene|Kerosene]] and [[reformate gas|Reformate Gas]].<br><br>{{Template:Oil3}}"
+    }
+}
