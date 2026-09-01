@@ -1,6 +1,7 @@
 package com.hbm.saveddata.satellites;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsSatellite;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemSatellite.EnumSatType;
@@ -10,17 +11,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
 
 public class SatelliteMiner extends SatelliteBase {
-	/**
-	 * {@link WeightedRandomObject} array with loot the satellite will deliver.
-	 */
+	
+	// maps satellite types to item pool names
 	private static final HashMap<Class<? extends SatelliteMiner>, String> CARGO = new HashMap<>();
-
-	public long lastOp;
+	
+	public double progress;
+	public static final double SPEED = 1D / (15 * 60 * 20); // 15 minutes
 
 	public SatelliteMiner() { }
 
@@ -33,12 +35,39 @@ public class SatelliteMiner extends SatelliteBase {
 		};
 	}
 
-	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setLong("lastOp", lastOp);
+	@Override
+	public void onUpdateTick(World world) {
+		
+		if(this.requestableSlots.length <= 0) {
+			this.progress += SPEED;
+			
+			if(this.progress >= 1D) {
+				this.progress = 0D;
+				
+				WeightedRandomChestContent[] pool = ItemPool.getPool(CARGO.get(this.getClass()));
+				
+				int itemAmount = 10 + world.rand.nextInt(6); // 10-15
+				this.requestableSlots = new ItemStack[itemAmount];
+				
+				for(int i = 0; i < itemAmount; i++) {
+					this.requestableSlots[i] = ItemPool.getStack(pool, world.rand);
+				}
+			}
+			
+			if(world.getTotalWorldTime() % 1200 == 0) this.markDirty(); // force a save every minute
+		}
 	}
 
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setDouble("progress", progress);
+	}
+
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		lastOp = nbt.getLong("lastOp");
+		super.readFromNBT(nbt);
+		this.progress = nbt.getDouble("progress");
 	}
 
 	/**

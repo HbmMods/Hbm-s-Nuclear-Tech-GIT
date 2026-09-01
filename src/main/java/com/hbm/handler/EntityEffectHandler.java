@@ -230,7 +230,7 @@ public class EntityEffectHandler {
 		/// EFFECTS ///
 		if(eRad >= 1000) {
 
-			entity.attackEntityFrom(ModDamageSource.radiation, 1000F);
+			//entity.attackEntityFrom(ModDamageSource.radiation, 1000F);
 			HbmLivingProps.setRadiation(entity, 0);
 
 			if(entity.getHealth() > 0) {

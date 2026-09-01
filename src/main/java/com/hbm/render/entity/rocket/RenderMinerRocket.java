@@ -2,7 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.missile.EntityMinerRocket;
+import com.hbm.entity.missile.EntitySatellitePod;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -18,7 +18,7 @@ public class RenderMinerRocket extends Render {
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 
-		if(entity instanceof EntityMinerRocket) {
+		if(entity instanceof EntitySatellitePod) {
 			bindTexture(ResourceManager.minerRocket_tex);
 		} else {
 			bindTexture(ResourceManager.bobmazon_tex);

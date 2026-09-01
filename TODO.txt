@@ -25,8 +25,12 @@ A TODO list because this update is starting to get out of hand
 - Salvaged satellites
   - DAMOCLES, Behemoth
   - Structure for sat chips
+  
+- Custom mats and autogen PR
+  - Fix formatting
+  - Change mold meta offset
+  - Update gear texture
 
 - Other
   - Extend QMAW GUI screen and adjust scale
   - Change red pill effect
-  - Review custom mats and autogen PR
