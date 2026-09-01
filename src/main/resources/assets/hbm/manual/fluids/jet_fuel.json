@@ -1,0 +1,11 @@
+{
+    "name": "Jet Fuel",
+    "icon": ["hbm:item.fluid_icon", 1, 98],
+    "trigger": [["hbm:item.fluid_icon", 1, 98]],
+    "title": {
+        "en_US": "Jet Fuel"
+    },
+    "content": {
+        "en_US": "Jet fuel is primarily obtained by mixing [[reformate|Reformate]] and [[kerosene|Kerosene]]. Jet fuel is primarily used as a combustible [[fuel|Fuels]] for additional power. It may also be obtained by [[fractioning|Fractioning Tower]] [[desulfurized light oil|Desulfurized Light Oil]].<br><br>{{Template:Oil3}}"
+    }
+}
