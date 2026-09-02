@@ -1,0 +1,11 @@
+{
+    "name": "Leaded Coal Gasoline",
+    "icon": ["hbm:item.fluid_icon", 1, 74],
+    "trigger": [["hbm:item.fluid_icon", 1, 74]],
+    "title": {
+        "en_US": "Leaded Coal Gasoline"
+    },
+    "content": {
+        "en_US": "Leaded coal gasoline can be obtained by mixing [[tetraethyllead antiknock agent|Tetraethyllead Antiknock Agent]] with [[coal gasoline|Coal Gasoline]]. It can be used as a combustible [[fuel|Fuels]].<br><br>See also:<br>[[Basic Oil Processing]]"
+    }
+}

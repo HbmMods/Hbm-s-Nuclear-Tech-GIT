@@ -1,0 +1,11 @@
+{
+    "name": "Coal Gasoline",
+    "icon": ["hbm:item.fluid_icon", 1, 47],
+    "trigger": [["hbm:item.fluid_icon", 1, 47]],
+    "title": {
+        "en_US": "Coal Gasoline"
+    },
+    "content": {
+        "en_US": "Coal gasoline is first obtained by [[fractioning|Fractioning Tower]] [[coal oil|Coal Oil]]. It is primarily used as a [[fuel|Fuels]] although it can be converted into [[leaded coal gasoline|Leaded Coal Gasoline]] for additional power output. It can also be obtained by performing [[pyrolysis|Pyrolysis Oven]] on [[heavy oil|Heavy Oil]] and coal.<br><br>See also:<br>[[Basic Oil Processing]]"
+    }
+}
