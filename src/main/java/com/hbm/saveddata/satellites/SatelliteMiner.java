@@ -52,6 +52,8 @@ public class SatelliteMiner extends SatelliteBase {
 				for(int i = 0; i < itemAmount; i++) {
 					this.requestableSlots[i] = ItemPool.getStack(pool, world.rand);
 				}
+				
+				this.markDirty();
 			}
 			
 			if(world.getTotalWorldTime() % 1200 == 0) this.markDirty(); // force a save every minute

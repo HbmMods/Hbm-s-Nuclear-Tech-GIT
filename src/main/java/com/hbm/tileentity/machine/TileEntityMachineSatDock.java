@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.container.ContainerSatDock;
 import com.hbm.inventory.gui.GUISatDock;
 import com.hbm.items.ISatChip;
@@ -18,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineSatDock extends TileEntityMachineBase implements IGUIProvider {
 	
@@ -31,7 +34,7 @@ public class TileEntityMachineSatDock extends TileEntityMachineBase implements I
 
 	@Override
 	public String getName() {
-		return null;
+		return "container.satDock";
 	}
 
 	@Override
@@ -53,6 +56,11 @@ public class TileEntityMachineSatDock extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.getBlockMetadata() < 12) {
+				MultiblockHandlerXR.fillSpace(worldObj, xCoord, yCoord, zCoord, new int[] {0, 0, 1, 1, 1, 1}, ModBlocks.sat_dock, ForgeDirection.NORTH);
+				return;
+			}
 			
 			long time = worldObj.getTotalWorldTime() + BlockPos.getIdentity(xCoord, yCoord, zCoord);
 

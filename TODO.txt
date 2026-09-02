@@ -8,6 +8,7 @@ A TODO list because this update is starting to get out of hand
   - Add deployable itemstack array for satellites
   - Implement 0G assembler
   - Remodel dropships and landing pads
+  - Make dropship attackable and a radar target
   - Alclad?
 
 - AutoPort

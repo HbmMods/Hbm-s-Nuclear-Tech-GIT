@@ -6,7 +6,6 @@ import com.hbm.inventory.fluid.Fluids;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.main.CraftingManager;
 
