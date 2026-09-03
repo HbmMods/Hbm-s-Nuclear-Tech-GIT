@@ -1,7 +1,7 @@
 {
     "name": "Cracked Oil",
     "icon": ["hbm:item.fluid_icon", 1, 61],
-    "trigger": [["hbm:item.fluid_icon", 1, 61]],
+    "trigger": [["hbm:item.fluid_icon", 1, 61], ["hbm:item.fluid_icon", 1, 63]],
     "title": {
         "en_US": "Cracked Oil"
     },
