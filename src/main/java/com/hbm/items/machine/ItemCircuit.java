@@ -36,6 +36,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.BISMOID.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.QUANTUM.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CRYSTAL.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_CHASSIS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()));
@@ -63,6 +64,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		CONTROLLER_QUANTUM,
 		ATOMIC_CLOCK,
 		NUMITRON,
+		CRYSTAL,
 	}
 	
 	@Override

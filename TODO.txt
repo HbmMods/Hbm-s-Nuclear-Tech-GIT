@@ -5,7 +5,6 @@ A TODO list because this update is starting to get out of hand
   - Fix LOXY tank collisions for certain orientations
   - Add lambda rocket launcher
   - Add rocket assembler
-  - Add deployable itemstack array for satellites
   - Implement 0G assembler
   - Remodel dropships and landing pads
   - Make dropship attackable and a radar target

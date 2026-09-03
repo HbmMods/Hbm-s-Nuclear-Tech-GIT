@@ -15,6 +15,13 @@
   * More expensive cooling makes the recipes faster, but more likely to fail
   * Can also create blueprint booklets without the aid of pufferfish, the recipe takes longer and much more energy, but has double the success chance
   * Can also create Klaus
+* Space laboratory
+  * New satellite that can provide data for drives
+  * By default, can produce flight data which has to be written to a drive using a drive enclosure
+  * The drive enclosure has to be placed onto one of the ground station's ports to receive data, which happens automatically if drive data is available
+  * Accepts sensor relays, which produces orbital data
+    * A single relay takes 100 hours to produce one drive worth of orbital data, this can be sped up by installing more relays on the same satellite
+    * Time taken scales linearly, a satellite with 100 sensor relays only takes one hour per data drive
 
 ## Changed
 * Updated russian localization
@@ -65,6 +72,7 @@
 * Increased RPA resistance against physical, fire and energy damage types
 * The satellite cargo pad no longer auto-pushes items out of its inventory
 * The satellite cargo pad now uses the current multiblock system, existing pads should convert automatically
+* The pyrolysis oven no longer requires fullerite (except in expensive mode)
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
