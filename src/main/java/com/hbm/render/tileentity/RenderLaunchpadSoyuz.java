@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.SoyuzPronter;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
+import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz.SoyuzStatus;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -19,13 +20,17 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		float rotation = 0F;
 
 		switch(tile.getBlockMetadata() - 10) {
-		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		case 2: rotation = 90F; break;
+		case 4: rotation = 180F; break;
+		case 3: rotation = 270F; break;
+		case 5: rotation = 0F; break;
 		}
+		
+		GL11.glRotatef(rotation, 0F, 1F, 0F);
 		
 		GL11.glTranslated(-4, 0, -4);
 		
@@ -35,6 +40,17 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer {
 		float carriage = MathHelper.clamp_float(launchpad.getInterpPos(launchpad.INDEX_CARRIAGE, interp) * -19.5F + 19.5F, 0F, 19.5F);
 		float wheels = (float) (carriage * 360D / Math.PI);
 		float tilt = launchpad.getInterpPos(launchpad.INDEX_TILT, interp) * 1;
+		
+		boolean renderSoyuz = launchpad.loadedType >= 0 && launchpad.soyuzStatus != SoyuzStatus.ABSENT;
+		boolean lockSoyuz = launchpad.soyuzStatus == SoyuzStatus.LAUNCHING;
+		
+		if(renderSoyuz && lockSoyuz) {
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 4, 0);
+			GL11.glRotatef(rotation, 0F, -1F, 0F);
+			SoyuzPronter.prontSoyuz(launchpad.loadedType);
+			GL11.glPopMatrix();
+		}
 		
 		bindTexture(ResourceManager.launchpad_soyuz_tex);
 
@@ -85,10 +101,11 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer {
 		
 		ResourceManager.launchpad_soyuz.renderPart("Mount");
 		
-		GL11.glTranslated(0, 4, 0);
-		
-		if(launchpad.loadedType >= 0)
+		if(renderSoyuz && !lockSoyuz) {
+			GL11.glTranslated(0, 4, 0);
+			GL11.glRotatef(rotation, 0F, -1F, 0F);
 			SoyuzPronter.prontSoyuz(launchpad.loadedType);
+		}
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();

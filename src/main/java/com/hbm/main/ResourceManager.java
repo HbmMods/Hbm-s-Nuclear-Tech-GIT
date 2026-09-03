@@ -306,7 +306,7 @@ public class ResourceManager {
 	public static final IModelCustom sat_foeq_fire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_foeq_fire.obj"));
 
 	//SatDock
-	public static final IModelCustom satDock = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sat_dock.obj"));
+	public static final IModelCustom satDock = new HFRWavefrontObject("models/machines/cargo_pad.obj").noSmooth().asVBO();
 
 	//Solar Tower
 	public static final IModelCustom solar_boiler = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/solar_boiler.obj")).asVBO();
@@ -795,7 +795,7 @@ public class ResourceManager {
 	public static final ResourceLocation sat_foeq_burning_tex = new ResourceLocation(RefStrings.MODID, "textures/models/sat_foeq_burning.png");
 
 	//SatDock
-	public static final ResourceLocation satdock_tex = new ResourceLocation(RefStrings.MODID, "textures/models/sat_dock.png");
+	public static final ResourceLocation satdock_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/cargo_pad.png");
 
 	//Elevator
 	public static final ResourceLocation cargo_elevator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/elevator.png");
@@ -1259,6 +1259,7 @@ public class ResourceManager {
 	public static final IModelCustom missileMicro = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_micro.obj")).asVBO();
 	public static final IModelCustom missileShuttle = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileShuttle.obj"));
 	public static final IModelCustom minerRocket = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/minerRocket.obj"));
+	public static final IModelCustom dropship = new HFRWavefrontObject("models/dropship.obj").asVBO();
 	public static final IModelCustom soyuz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/soyuz.obj")).asVBO();
 	public static final IModelCustom soyuz_lander = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/soyuz_lander.obj")).asVBO();
 	public static final IModelCustom soyuz_module = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/soyuz_module.obj")).asVBO();
@@ -1409,6 +1410,7 @@ public class ResourceManager {
 	public static final ResourceLocation missileMicroTest_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_test.png");
 	public static final ResourceLocation missileShuttle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_shuttle.png");
 	public static final ResourceLocation minerRocket_tex = new ResourceLocation(RefStrings.MODID, "textures/models/minerRocket.png");
+	public static final ResourceLocation dropship_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/dropship.png");
 	public static final ResourceLocation bobmazon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bobmazon.png");
 
 	public static final ResourceLocation soyuz_engineblock = new ResourceLocation(RefStrings.MODID, "textures/models/soyuz/engineblock.png");

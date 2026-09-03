@@ -22,76 +22,24 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		/*GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		
-		GL11.glColor3f(0.5F, 0.5F, 0.5F);
-		
-		double speed = 1_000;
-		double progress = BobMathUtil.sps((System.currentTimeMillis() % (360 * speed)) / speed) / 2 + 0.5;
 
-		double moveProgress = MathHelper.clamp_double(progress / 0.5 - 1, 0, 1);
-		double deployProgress = MathHelper.clamp_double(progress / 0.5, 0, 1);
-		
-		double railOffset = 19.5D * moveProgress;
-		double lift = 180 * deployProgress;
-		double rotorPivotHorizontalOffset = 18;
-		double wheels = (moveProgress * 360 * 8) % 360D;
+		bindTexture(ResourceManager.dropship_tex);
+		ResourceManager.dropship.renderPart("Pod");
 
-		soyuz.renderPart("Launchpad");
-		
-		GL11.glPushMatrix(); {
-			GL11.glTranslated(0, 0, 3);
-			soyuz.renderPart("Strut1");
-			soyuz.renderPart("Strut2");
-			soyuz.renderPart("Strut3");
-			soyuz.renderPart("Strut4");
-			soyuz.renderPart("Strut5");
-		} GL11.glPopMatrix();
-		
-		GL11.glTranslated(0, 0, -railOffset);
-		
-		GL11.glTranslated(0, 1.5, -32);
-		//GL11.glRotated(-5, 1, 0, 0); // tilt when ramming the buffer stop
-		GL11.glTranslated(0, -1.5, 32);
-		
-		soyuz.renderPart("Carriage");
-
-		double[] wheelsForward = new double[] {17D, 19D, 29D, 31D};
-		double[] wheelsSide = new double[] {6.75D, 5.25D, -5.25D, -6.75D};
-		
-		for(int i = 1; i <= 4; i++) for(int j = 1; j <= 4; j++) {
+		for(int i = 0; i < 4; i++) {
 			GL11.glPushMatrix();
-			double v0 = wheelsForward[i - 1];
-			double v1 = wheelsSide[j - 1];
-			
-			GL11.glTranslated(v1, 0, -v0);
-			GL11.glRotated(wheels * (j == 2 || j == 3 ? -1 : 1), 0, 1, 0);
-			GL11.glTranslated(-v1, 0, v0);
-			
-			soyuz.renderPart("Wheel_" + i + "_" + j);
+			GL11.glRotated(45 + 90 * i, 0, 1, 0);
+			GL11.glTranslated(0.5, 1.75, 0);
+			GL11.glRotated(150, 0, 0, 1);
+			GL11.glTranslated(-0.5, -1.75, 0);
+			ResourceManager.dropship.renderPart("Leg");
 			GL11.glPopMatrix();
 		}
-
-		GL11.glTranslated(0, 24.5, -rotorPivotHorizontalOffset);
-		GL11.glRotated(-lift, 1, 0, 0);
-		GL11.glTranslated(0, -24.5, rotorPivotHorizontalOffset);
-
-		soyuz.renderPart("Rotor");
-
-		GL11.glTranslated(0, 24.5, -6);
-		GL11.glRotated(lift, 1, 0, 0);
-		GL11.glTranslated(0, -24.5, 6);
 		
-		soyuz.renderPart("Mount");
-		
-		GL11.glColor3f(0.75F, 0.25F, 0.25F);
-		GL11.glTranslated(0, 4, 0);
-		SoyuzPronter.prontSoyuz(0);
-		//soyuz.renderPart("Soyuz");
-
 		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
+		
 		GL11.glPopMatrix();
 	}
 	

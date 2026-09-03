@@ -1,12 +1,10 @@
 A TODO list because this update is starting to get out of hand
 
 - Satellite stuff
-  - Finish soyuz launcher GUI controls, countdown, launch functionality
   - Fix LOXY tank collisions for certain orientations
   - Add lambda rocket launcher
   - Add rocket assembler
   - Implement 0G assembler
-  - Remodel dropships and landing pads
   - Make dropship attackable and a radar target
   - Alclad?
 

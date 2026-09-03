@@ -44,8 +44,12 @@ public class EntitySoyuz extends Entity {
 			acceleration += 0.00025D;
 			motionY += acceleration;
 		}
+
+		this.prevPosX = this.lastTickPosX = this.posX;
+		this.prevPosY = this.lastTickPosY = this.posY;
+		this.prevPosZ = this.lastTickPosZ = this.posZ;
 		
-		this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
+		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
 		
 		if(!worldObj.isRemote) {
 			

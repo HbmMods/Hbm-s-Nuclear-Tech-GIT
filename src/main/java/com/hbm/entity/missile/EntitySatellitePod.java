@@ -5,6 +5,7 @@ import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 import com.hbm.util.Compat;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.ParticleUtil;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,13 +33,13 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 
 	public float legs = 0F;
 	public float prevLegs = 0F;
-	public static final float LEG_SPEED = 1F / 40F; // 2 seconds
+	public static final float LEG_SPEED = 1F / 20F; // 1 second
 
 	public EntitySatellitePod(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
-		this.setSize(0.95F, 3F);
+		this.setSize(0.95F, 3.75F);
 	}
 	
 	public EntitySatellitePod setup(int caller, ItemStack... cargo) {
@@ -72,6 +73,8 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 				if(this.timer > 0) {
 					this.timer++;
 					
+					this.posY = Math.ceil(posY); // hack hack hackedy hack
+					
 					if(this.timer >= 100) {
 						this.unloadItems();
 					}
@@ -84,8 +87,8 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 					
 				// still descending
 				} else {
-					if(this.posY < this.callerYPos + 10 && !this.doesDeployLegs()) this.setDeployLegs(true);
-					if(this.posY < this.callerYPos + 20) this.speed -= 0.001;
+					if(this.posY < this.callerYPos + 17 && !this.doesDeployLegs()) this.setDeployLegs(true);
+					if(this.posY < this.callerYPos + 25) this.speed -= 0.01;
 					this.speed = MathHelper.clamp_double(this.speed, 0.025D, 0.75D);
 				}
 				
@@ -93,9 +96,9 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 				
 			} else {
 
-				this.speed += 0.001;
-				if(this.speed >= 0.05) this.setDeployLegs(false);
-				this.speed = MathHelper.clamp_double(this.speed, 0D, 1D);
+				this.speed += 0.01;
+				if(this.speed >= 0.2) this.setDeployLegs(false);
+				this.speed = MathHelper.clamp_double(this.speed, 0D, 2D);
 				this.motionY = this.speed;
 				
 				if(this.posY > 300) this.setDead();
@@ -112,6 +115,10 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 			}
 			
 			this.legs = MathHelper.clamp_float(this.legs, 0F, 1F);
+			
+			if(this.legs > 0 && this.motionY < 0 || this.motionY > 0) {
+				ParticleUtil.spawnGasFlame(worldObj, posX, posY + 0.5, posZ, 0, this.speed - 1, 0);
+			}
 		}
 	}
 	
@@ -192,7 +199,15 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 		nbt.setTag("items", items);
 	}
 
-	@Override protected void onImpact(MovingObjectPosition mop) { }
+	@Override
+	protected void onImpact(MovingObjectPosition mop) {
+		
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+			this.onGround = true;
+		}
+	}
+	
 	@Override protected boolean canTriggerWalking() { return false; }
 	@Override public boolean doesImpactEntities() { return false; }
 	

@@ -73,6 +73,9 @@
 * The satellite cargo pad no longer auto-pushes items out of its inventory
 * The satellite cargo pad now uses the current multiblock system, existing pads should convert automatically
 * The pyrolysis oven no longer requires fullerite (except in expensive mode)
+* Updated the model of the cargo landing pad as well as the drop ship
+  * The drop ship now brakes before landing, and now has landing struts which are extended
+  * The drop ship no longer fires its thrusters when landed, which means it no longer spams particles
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -100,3 +103,4 @@
 * Pneumatic networks can no longer send items to the source inventory in a loop, fixing an issue where doing so would delete items
 * Fixed the placement preview offset for the soyuz launcher
 * Fixed a bug where special revives would not work when dying from radiation, since radiation would deal fatal damage twice
+* Fixed the soyuz not using interpolation when launching, causing its movement to be fixed at 20 FPS

@@ -4,11 +4,15 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerLaunchpadSoyuz;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
+import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz.SoyuzStatus;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUILaunchpadSoyuz extends GuiInfoContainer {
@@ -36,6 +40,28 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+		
+		NBTTagCompound data = null;
+
+		if(guiLeft + 79 <= x && guiLeft + 79 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
+			data = new NBTTagCompound();
+			data.setBoolean("cargo", true);
+		}
+
+		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
+			data = new NBTTagCompound();
+			data.setBoolean("cargo", false);
+		}
+
+		if(guiLeft + 88 <= x && guiLeft + 88 + 18 > x && guiTop + 97 < y && guiTop + 97 + 18 >= y && launcher.soyuzStatus == SoyuzStatus.READY) {
+			data = new NBTTagCompound();
+			data.setBoolean("launch", true);
+		}
+		
+		if(data != null) {
+			this.click();
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, launcher.xCoord, launcher.yCoord, launcher.zCoord));
+		}
 	}
 
 	@Override
@@ -44,6 +70,39 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 4, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 17, this.ySize - 96 + 2, 4210752);
+		
+		if(launcher.soyuzStatus == SoyuzStatus.LAUNCHING) {
+			
+			int countdown = launcher.countdown;
+			
+			String secs = "" + countdown / 20;
+			String cents = "" + (countdown % 20) * 5;
+			if(secs.length() == 1) secs = "0" + secs;
+			if(cents.length() == 1) cents += "0";
+			
+			float scale = 1;
+			GL11.glScalef(scale, scale, 1);
+			this.fontRendererObj.drawString(secs + ":" + cents, (int)(85 / scale), (int)(121 / scale), 0xff0000);
+			GL11.glScalef(1/scale, 1/scale, 1);
+			
+		} else if(launcher.soyuzStatus == SoyuzStatus.ABSENT) {
+			drawIndicator("Idle", 0xff0000);
+		} else if(launcher.soyuzStatus == SoyuzStatus.LOADING) {
+			drawIndicator("Loading", 0xff8000);
+		} else if(launcher.soyuzStatus == SoyuzStatus.FUELING) {
+			drawIndicator("Fueling", 0xffff00);
+		} else if(launcher.soyuzStatus == SoyuzStatus.READY) {
+			drawIndicator("Ready", 0x00ff00);
+		}
+	}
+	
+	protected void drawIndicator(String label, int color) {
+
+		float scale = Math.min(1F, 22F / this.fontRendererObj.getStringWidth(label));
+		
+		GL11.glScalef(scale, scale, 1);
+		this.fontRendererObj.drawString(label, (int)(97 / scale - this.fontRendererObj.getStringWidth(label) / 2F), (int)(125 / scale - this.fontRendererObj.FONT_HEIGHT / 2F), color);
+		GL11.glScalef(1 / scale, 1 / scale, 1);
 	}
 	
 	@Override
@@ -51,6 +110,18 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int power = (int) (launcher.power * 52 / launcher.maxPower);
+		drawTexturedModalRect(guiLeft + 134, guiTop + 96 - power, 194, 52 - power, 16, power);
+		
+		drawTexturedModalRect(guiLeft + 97 - (launcher.cargoMode ? 18 : 0), guiTop + 52, 228 - (launcher.cargoMode ? 18 : 0), 26, 18, 18);
+		
+		drawTexturedModalRect(guiLeft + 157, guiTop + 31, launcher.hasJetFuel() ? 210 : 216, 0, 6, 8);
+		drawTexturedModalRect(guiLeft + 175, guiTop + 31, launcher.hasOxidizer() ? 210 : 216, 0, 6, 8);
+		drawTexturedModalRect(guiLeft + 139, guiTop + 31, launcher.power >= launcher.CONSUMPTION ? 210 : 216, 0, 6, 8);
+		
+		if(launcher.soyuzStatus == SoyuzStatus.LAUNCHING)
+			drawTexturedModalRect(guiLeft + 88, guiTop + 97, 210, 44, 18, 18);
 		
 		launcher.tanks[0].renderTank(guiLeft + 152, guiTop + 96, this.zLevel, 16, 52);
 		launcher.tanks[1].renderTank(guiLeft + 170, guiTop + 96, this.zLevel, 16, 52);

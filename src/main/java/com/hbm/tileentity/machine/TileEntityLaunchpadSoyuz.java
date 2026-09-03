@@ -1,5 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchpadSoyuz;
 import com.hbm.inventory.fluid.Fluids;
@@ -7,10 +11,12 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchpadSoyuz;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.EnumUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -60,6 +66,9 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	public int loadedType = -1;
 	public int fuelCountdown = 0;
 	public static final int FUEL_DURATION = 15 * 20;
+
+	public static final int COUNTDOWN_DURATION = 600;
+	public int countdown;
 	
 	public float getInterpPos(int index, float interp) {
 		return prevPositions[index] + (positions[index] - prevPositions[index]) * interp;
@@ -84,7 +93,8 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			
 			this.power = Library.chargeTEFromItems(slots, 8, power, maxPower);
 			
-			//System.out.println(this.soyuzStatus + " " + this.carriageStatus + " " + this.rotorStatus);
+			tanks[0].loadTank(4, 5, slots);
+			tanks[1].loadTank(6, 7, slots);
 			
 			if(!hasRocketLoaded()) {
 				
@@ -126,10 +136,13 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				}
 			}
 			
-			if(this.positions[INDEX_CARRIAGE] == 1F && this.positions[INDEX_ROTOR] == 1F && this.loadedType >= 0) {
-				
-				ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
-				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX;
+			double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
+			
+			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.LAUNCHING) && this.hasOxidizer()) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -137,13 +150,29 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				data.setFloat("base", 0.5F);
 				data.setFloat("max", 2F);
 				data.setInteger("life", 70 + worldObj.rand.nextInt(30));
-				data.setDouble("posX", xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4 + worldObj.rand.nextGaussian() * 0.75);
-				data.setDouble("posZ", zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4 + worldObj.rand.nextGaussian() * 0.75);
+				data.setDouble("posX", x + worldObj.rand.nextGaussian() * 0.75);
+				data.setDouble("posZ", z + worldObj.rand.nextGaussian() * 0.75);
 				data.setDouble("posY", yCoord + 4);
 				data.setBoolean("noWind", true);
 				data.setFloat("alphaMod", 2F);
 				data.setFloat("strafe", 0.075F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+			}
+			
+			List<EntitySoyuz> entities = worldObj.getEntitiesWithinAABB(EntitySoyuz.class, AxisAlignedBB.getBoundingBox(x - 1, yCoord + 4, z - 1, x + 1, yCoord + 14, z + 1));
+			
+			if(!entities.isEmpty()) {
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "smoke");
+				data.setString("mode", "shockRand");
+				data.setInteger("count", 50);
+				data.setDouble("strength", worldObj.rand.nextGaussian() * 3 + 6);
+				data.setDouble("posX", x);
+				data.setDouble("posY", yCoord + 1);
+				data.setDouble("posZ", z);
+				
+				MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}
@@ -239,20 +268,20 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		
 		if(this.soyuzStatus == SoyuzStatus.FUELING) {
 			
-			if(this.hasFuel()) {
+			if(this.hasAllFuel()) {
 				if(this.fuelCountdown > 0) {
 					this.fuelCountdown--;
 				} else {
-					this.soyuzStatus = SoyuzStatus.IDLE;
+					this.soyuzStatus = SoyuzStatus.READY;
 					return; // always return on status change
 				}
 			}
 		}
 		
-		if(this.soyuzStatus == SoyuzStatus.IDLE) {
+		if(this.soyuzStatus == SoyuzStatus.READY) {
 			
 			// should the fuel somehow not be present during this phase, reset phase back to fueling
-			if(!this.hasFuel()) {
+			if(!this.hasAllFuel()) {
 				this.fuelCountdown = FUEL_DURATION;
 				this.soyuzStatus = SoyuzStatus.FUELING;
 				return; // always return on status change
@@ -267,14 +296,36 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				this.setTarget(INDEX_CARRIAGE, false, 100); // 5 seconds
 				
 			// return rotor
-			} else {
-				if(this.rotorStatus == ComponentStatus.DEPLOY) {
+			}
+			
+			if(this.carriageStatus == ComponentStatus.RETRACT && this.finishedMoving(INDEX_CARRIAGE)) {
+				if(wasMoving(INDEX_CARRIAGE)) setTarget(INDEX_TILT, true, 3);
+				
+				if(this.target[INDEX_TILT] == 0 && this.rotorStatus == ComponentStatus.DEPLOY) {
 					this.rotorStatus = ComponentStatus.RETRACT;
-					this.setTarget(INDEX_ROTOR, false, 100); // 5 seconds
+					setTarget(INDEX_ROTOR, false, 100); // 5 seconds
+				}
+			}
+
+			if(this.target[INDEX_TILT] > 0 && this.finishedMoving(INDEX_TILT)) {
+				setTarget(INDEX_TILT, false, 3);
+			}
+			
+			if(this.countdown == 80) {
+				for(int i = 0; i <= INDEX_STRUT5; i++) {
+					setTarget(i, false, 60 + worldObj.rand.nextInt(21)); // 3-4 seconds
 				}
 			}
 			
-			// TBI: countdown, retracting the struts, launch
+			if(this.countdown > 0) {
+				this.countdown--;
+				
+				if(countdown % 100 == 0 && countdown > 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.hatch", 100F, 1.1F);
+				
+			} else {
+				this.soyuzStatus = SoyuzStatus.ABSENT;
+				this.liftOff();
+			}
 		}
 	}
 	
@@ -282,9 +333,12 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	public boolean finishedMoving(int index) { return this.positions[index] == this.target[index]; }
 	public boolean wasMoving(int index) { return this.positions[index] != this.prevPositions[index]; }
 	
-	public boolean hasFuel() {
-		return this.tanks[0].getFill() >= 100_000 && this.tanks[1].getFill() >= 100_000;
+	public boolean hasAllFuel() {
+		return hasJetFuel() && hasOxidizer();
 	}
+
+	public boolean hasJetFuel() { return this.tanks[0].getFill() >= 100_000; }
+	public boolean hasOxidizer() { return this.tanks[1].getFill() >= 100_000; }
 	
 	public void setTarget(int index, boolean deploy, int duration) {
 		this.target[index] = deploy ? 1F : 0F;
@@ -305,6 +359,53 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				this.positions[i] -= this.speed[i];
 			}
 		}
+	}
+	
+	public void liftOff() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4;
+		double y = yCoord + 4;
+		double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
+		
+		EntitySoyuz soyuz = new EntitySoyuz(worldObj);
+		soyuz.setSkin(this.loadedType);
+		soyuz.mode = this.cargoMode ? 1 : 0;
+		soyuz.setLocationAndAngles(x, y, z, 0, 0);
+		worldObj.spawnEntityInWorld(soyuz);
+
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
+
+		tanks[0].setFill(tanks[0].getFill() - 100_000);
+		tanks[1].setFill(tanks[1].getFill() - 100_000);
+		
+		if(!this.cargoMode) {
+			soyuz.setSat(slots[2]);
+			if(this.orbital() == 2) slots[3] = null;
+			slots[2] = null;
+			
+		} else {
+			
+			List<ItemStack> payload = new ArrayList();
+			for(int i = 9; i < 27; i++) { payload.add(slots[i]); slots[i] = null; }
+
+			soyuz.targetX = slots[1].stackTagCompound.getInteger("xCoord");
+			soyuz.targetZ = slots[1].stackTagCompound.getInteger("zCoord");
+			soyuz.setPayload(payload);
+		}
+		
+		slots[0] = null;
+	}
+	public int orbital() {
+		if(this.cargoMode) return 0;
+		
+		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItemDamage() == EnumSatType.MINER_LUNAR.ordinal())) {
+			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander) return 2;
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override
@@ -342,6 +443,9 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		tanks[1].serialize(buf);
 		buf.writeLong(power);
 		buf.writeInt(loadedType);
+		buf.writeBoolean(cargoMode);
+		buf.writeInt(countdown);
+		buf.writeByte((byte) this.soyuzStatus.ordinal());
 		
 		for(int i = 0; i < this.positions.length; i++) {
 			buf.writeFloat(this.positions[i]);
@@ -355,6 +459,9 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		tanks[1].deserialize(buf);
 		this.power = buf.readLong();
 		this.loadedType = buf.readInt();
+		this.cargoMode = buf.readBoolean();
+		this.countdown = buf.readInt();
+		this.soyuzStatus = EnumUtil.grabEnumSafely(SoyuzStatus.class, buf.readByte());
 
 		for(int i = 0; i < this.positions.length; i++) {
 			float newSync = buf.readFloat();
@@ -379,7 +486,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		ABSENT,		// no rocket is present, return all components to null position
 		LOADING,	// rocket is moved to launch pad
 		FUELING,	// rocket is on the launch pad, cooldown is active
-		IDLE,		// rocket is ready to launch
+		READY,		// rocket is ready to launch
 		LAUNCHING	// countdown is active
 	}
 	
@@ -403,6 +510,18 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		// oaghe
+		
+		if(data.hasKey("cargo")) {
+			this.cargoMode = data.getBoolean("cargo");
+			this.markChanged();
+		}
+		
+		if(data.hasKey("launch")) {
+			if(this.soyuzStatus == SoyuzStatus.READY) {
+				this.soyuzStatus = SoyuzStatus.LAUNCHING;
+				this.countdown = this.COUNTDOWN_DURATION;
+				this.markChanged();
+			}
+		}
 	}
 }
