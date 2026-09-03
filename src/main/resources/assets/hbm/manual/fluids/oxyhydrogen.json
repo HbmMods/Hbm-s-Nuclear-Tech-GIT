@@ -1,0 +1,11 @@
+{
+    "name": "Oxyhydrogen",
+    "icon": ["hbm:item.fluid_icon", 1, 87],
+    "trigger": [["hbm:item.fluid_icon", 1, 87]],
+    "title": {
+        "en_US": "Oxyhydrogen"
+    },
+    "content": {
+        "en_US": "Oxyhydrogen can be made by mixing [[liquid hydrogen|Liquid Hydrogen]] with [[liquid oxygen|Liquid Oxygen]] or [[compressed air|Compressed Air]]. It may be used as a [[fuel|Fuels]] source for supplemental power, although minimal."
+    }
+}

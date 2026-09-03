@@ -1,7 +1,7 @@
 {
 	"name": "Crude Oil",
 	"icon": ["hbm:item.fluid_icon", 1, 10],
-	"trigger": [["hbm:item.fluid_icon", 1, 10]],
+	"trigger": [["hbm:item.fluid_icon", 1, 10], ["hbm:item.fluid_icon", 1, 11]],
 	"title": {
 		"en_US": "Crude Oil",
 		"ru_RU": "Сырая нефть",
