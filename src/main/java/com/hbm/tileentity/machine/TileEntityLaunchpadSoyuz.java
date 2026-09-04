@@ -161,7 +161,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			
 			List<EntitySoyuz> entities = worldObj.getEntitiesWithinAABB(EntitySoyuz.class, AxisAlignedBB.getBoundingBox(x - 1, yCoord + 4, z - 1, x + 1, yCoord + 14, z + 1));
 			
-			if(!entities.isEmpty()) {
+			if(!entities.isEmpty() || (this.soyuzStatus == SoyuzStatus.LAUNCHING && this.countdown <= 20)) {
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "smoke");
@@ -311,16 +311,12 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				setTarget(INDEX_TILT, false, 3);
 			}
 			
-			if(this.countdown == 80) {
-				for(int i = 0; i <= INDEX_STRUT5; i++) {
-					setTarget(i, false, 60 + worldObj.rand.nextInt(21)); // 3-4 seconds
-				}
-			}
-			
 			if(this.countdown > 0) {
 				this.countdown--;
 				
 				if(countdown % 100 == 0 && countdown > 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.hatch", 100F, 1.1F);
+
+				if(countdown == 20) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
 				
 			} else {
 				
@@ -329,6 +325,10 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 					this.liftOff();
 				} else {
 					this.soyuzStatus = SoyuzStatus.READY;
+				}
+				
+				for(int i = 0; i <= INDEX_STRUT5; i++) {
+					setTarget(i, false, 18 + worldObj.rand.nextInt(8)); //1 second
 				}
 			}
 		}
@@ -405,8 +405,6 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		soyuz.mode = this.cargoMode ? 1 : 0;
 		soyuz.setLocationAndAngles(x, y, z, 0, 0);
 		worldObj.spawnEntityInWorld(soyuz);
-
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
 
 		tanks[0].setFill(tanks[0].getFill() - 100_000);
 		tanks[1].setFill(tanks[1].getFill() - 100_000);
@@ -549,7 +547,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		}
 		
 		if(data.hasKey("launch")) {
-			if(this.soyuzStatus == SoyuzStatus.READY) {
+			if(this.soyuzStatus == SoyuzStatus.READY && canLaunch()) {
 				this.soyuzStatus = SoyuzStatus.LAUNCHING;
 				this.countdown = this.COUNTDOWN_DURATION;
 				this.markChanged();

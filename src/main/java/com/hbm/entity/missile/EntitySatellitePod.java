@@ -2,20 +2,28 @@ package com.hbm.entity.missile;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityThrowableInterp;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
+import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import com.hbm.util.Compat;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ParticleUtil;
 
+import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntitySatellitePod extends EntityThrowableInterp {
+public class EntitySatellitePod extends EntityThrowableInterp implements IRadarDetectableNT {
 	
 	public ItemStack[] slots = new ItemStack[0];
 	
@@ -39,7 +47,7 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 		super(world);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
-		this.setSize(0.95F, 3.75F);
+		this.setSize(0.95F, 5.25F);
 	}
 	
 	public EntitySatellitePod setup(int caller, ItemStack... cargo) {
@@ -60,10 +68,35 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 	public void setDeployLegs(boolean deploy) {
 		this.dataWatcher.updateObject(DW_STATE, deploy ? STATE_LEGS_DOWN : STATE_LEGS_UP);
 	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return true;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(this.isEntityInvulnerable()) {
+			return false;
+		} else {
+			if(amount >= 5F && !this.worldObj.isRemote && !this.isDead) {
+				this.setDead();
+				
+				ExplosionVNT xnt = new ExplosionVNT(worldObj, posX, posY + 1.5, posZ, 15F);
+				xnt.setEntityProcessor(new EntityProcessorCrossSmooth(1D, 50));
+				xnt.setPlayerProcessor(new PlayerProcessorStandard());
+				xnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+				xnt.explode();
+				
+				if(this.motionY != 0) ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY + 1.5, posZ, motionX, motionY, motionZ, 15, 0.25);
+			}
+
+			return true;
+		}
+	}
 	
 	@Override
 	public void onUpdate() {
-		super.onUpdate();
 		
 		if(!worldObj.isRemote) {
 			
@@ -95,6 +128,8 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 				this.motionY = -this.speed;
 				
 			} else {
+				
+				this.onGround = false;
 
 				this.speed += 0.01;
 				if(this.speed >= 0.2) this.setDeployLegs(false);
@@ -120,6 +155,8 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 				ParticleUtil.spawnGasFlame(worldObj, posX, posY + 0.5, posZ, 0, this.speed - 1, 0);
 			}
 		}
+		
+		super.onUpdate();
 	}
 	
 	/** Tries to fill a sat dock that this pod is standing on. All items that cannot be added to a dock will be spilled and removed from the pod's inventory. */
@@ -205,6 +242,10 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 			this.onGround = true;
+			
+			if(this.speed < -0.02) {
+				this.attackEntityFrom(DamageSource.generic, 10F);
+			}
 		}
 	}
 	
@@ -214,4 +255,10 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 	@Override protected float getAirDrag() { return 1F; }
 	@Override protected float getWaterDrag() { return 1F; }
 	@Override public double getGravityVelocity() { return 0D; }
+
+	@Override public String getUnlocalizedName() { return "radar.target.dropship"; }
+	@Override public int getBlipLevel() { return IRadarDetectableNT.SPECIAL; }
+	@Override public boolean canBeSeenBy(Object radar) { return !(radar instanceof TileEntityTurretBaseNT); }
+	@Override public boolean paramsApplicable(RadarScanParams params) { return params.scanMissiles; }
+	@Override public boolean suppliesRedstone(RadarScanParams params) { return false; }
 }

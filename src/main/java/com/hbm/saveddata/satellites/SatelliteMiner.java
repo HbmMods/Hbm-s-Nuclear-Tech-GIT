@@ -30,8 +30,12 @@ public class SatelliteMiner extends SatelliteBase {
 	
 	@Override
 	public IChatComponent[] getInfo(World world) {
+		
+		int progress = (int) Math.round(this.progress * 100);
+		
 		return new IChatComponent[] {
-				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal())) + ".name")
+				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal())) + ".name"),
+				new ChatComponentTranslation("satellite.minerprogress", progress + "%")
 		};
 	}
 
@@ -44,7 +48,7 @@ public class SatelliteMiner extends SatelliteBase {
 			if(this.progress >= 1D) {
 				this.progress = 0D;
 				
-				WeightedRandomChestContent[] pool = ItemPool.getPool(CARGO.get(this.getClass()));
+				WeightedRandomChestContent[] pool = ItemPool.getPool(getCargo());
 				
 				int itemAmount = 10 + world.rand.nextInt(6); // 10-15
 				this.requestableSlots = new ItemStack[itemAmount];

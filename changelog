@@ -22,6 +22,10 @@
   * Accepts sensor relays, which produces orbital data
     * A single relay takes 100 hours to produce one drive worth of orbital data, this can be sped up by installing more relays on the same satellite
     * Time taken scales linearly, a satellite with 100 sensor relays only takes one hour per data drive
+  * Accepts 0G assemblers, which allow items to be produced in space
+    * More assemblers make the recipes run faster
+    * Needed for the crystal circuit board
+    * Input items have to be launched via rocket
 
 ## Changed
 * Updated russian localization
@@ -76,8 +80,11 @@
 * Updated the model of the cargo landing pad as well as the drop ship
   * The drop ship now brakes before landing, and now has landing struts which are extended
   * The drop ship no longer fires its thrusters when landed, which means it no longer spams particles
+  * Drop ships can now be damaged, any damage 5 or above will destroy the capsule
+  * Due to their landing struts, the drop ship can now safely land even if it does not reach a cargo pad, in which case it will simply spill the items before taking off
 * The soyuz landing capsule can now be emptied via hoppers
 * Changed the recipe of the flow control pump
+* Mining satellites now report their mining progress to the ground station's tooltip
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -107,3 +114,4 @@
 * Fixed a bug where special revives would not work when dying from radiation, since radiation would deal fatal damage twice
 * Fixed the soyuz not using interpolation when launching, causing its movement to be fixed at 20 FPS
 * Fixed the soyuz landing capsule's landing position being slightly offset on negative coordinates (yes it's another coordinate truncation error)
+* Fixed stinger ammo counter clipping into the durability display
