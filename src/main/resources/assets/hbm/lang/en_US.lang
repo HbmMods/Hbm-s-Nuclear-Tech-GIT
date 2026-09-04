@@ -5012,9 +5012,12 @@ satchip.radar=Shows a map of active entities.
 satchip.resonator=Allows for teleportation with no cooldown.
 satchip.scanner=Creates a topdown map of underground ores.
 
+satellite.assemblers=Assemblers installed: %s
 satellite.cooldown=Cooldown: %s
 satellite.data=DATA AVAILABLE
 satellite.pending=Measurements pending: %s
+satellite.progress=Assembly progress: %s
+satellite.queue=Recipes queued: %s
 satellite.ready=READY
 satellite.sensors=Sensor Relays installed: %s
 satellite.spent=SPENT

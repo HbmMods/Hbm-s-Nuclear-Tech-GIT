@@ -6,9 +6,9 @@ import com.hbm.util.BobMathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
-public class BlastFurnaceRecipe extends GenericRecipe {
+public class GenericRecipeNoPower extends GenericRecipe {
 
-	public BlastFurnaceRecipe(String name) {
+	public GenericRecipeNoPower(String name) {
 		super(name);
 	}
 	
