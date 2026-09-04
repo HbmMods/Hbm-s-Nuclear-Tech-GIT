@@ -128,9 +128,9 @@ public abstract class TileEntityInventoryBase extends TileEntity implements ISid
 	}
 
 	@Override
-    public boolean canUpdate() {
-        return false;
-    }
+	public boolean canUpdate() {
+		return false;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

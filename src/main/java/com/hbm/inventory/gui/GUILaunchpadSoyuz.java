@@ -8,6 +8,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz.SoyuzStatus;
+import com.hbm.util.i18n.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -35,6 +36,15 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		launcher.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 44, 16, 52);
 		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 170, guiTop + 44, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 44, 16, 52, launcher.power, launcher.maxPower);
+		
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.soyuz.desc");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 53, 16, 16, guiLeft - 8, guiTop + 53 + 16, descText);
+
+		String[] cargoText = I18nUtil.resolveKeyArray("desc.gui.soyuz.cargo");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 79, guiTop + 52, 18, 18, mouseX, mouseY, cargoText );
+		
+		String[] satelliteText = I18nUtil.resolveKeyArray("desc.gui.soyuz.satellite");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 97, guiTop + 52, 18, 18, mouseX, mouseY, satelliteText );
 	}
 
 	@Override
@@ -86,13 +96,13 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 			GL11.glScalef(1/scale, 1/scale, 1);
 			
 		} else if(launcher.soyuzStatus == SoyuzStatus.ABSENT) {
-			drawIndicator("Idle", 0xff0000);
+			drawIndicator(I18nUtil.resolveKey("desc.gui.soyuz.idle"), 0xff0000);
 		} else if(launcher.soyuzStatus == SoyuzStatus.LOADING) {
-			drawIndicator("Loading", 0xff8000);
+			drawIndicator(I18nUtil.resolveKey("desc.gui.soyuz.loading"), 0xff8000);
 		} else if(launcher.soyuzStatus == SoyuzStatus.FUELING) {
-			drawIndicator("Fueling", 0xffff00);
+			drawIndicator(I18nUtil.resolveKey("desc.gui.soyuz.fueling"), 0xffff00);
 		} else if(launcher.soyuzStatus == SoyuzStatus.READY) {
-			drawIndicator("Ready", 0x00ff00);
+			drawIndicator(I18nUtil.resolveKey("desc.gui.soyuz.ready"), 0x00ff00);
 		}
 	}
 	
@@ -120,10 +130,15 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 175, guiTop + 31, launcher.hasOxidizer() ? 210 : 216, 0, 6, 8);
 		drawTexturedModalRect(guiLeft + 139, guiTop + 31, launcher.power >= launcher.CONSUMPTION ? 210 : 216, 0, 6, 8);
 		
+		int l = launcher.orbital();
+		if(l > 0) drawTexturedModalRect(guiLeft + 79, guiTop + 25, 210 + (l - 1) * 18, 8, 18, 18);
+		
 		if(launcher.soyuzStatus == SoyuzStatus.LAUNCHING)
 			drawTexturedModalRect(guiLeft + 88, guiTop + 97, 210, 44, 18, 18);
 		
 		launcher.tanks[0].renderTank(guiLeft + 152, guiTop + 96, this.zLevel, 16, 52);
 		launcher.tanks[1].renderTank(guiLeft + 170, guiTop + 96, this.zLevel, 16, 52);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 53, 16, 16, 2);
 	}
 }

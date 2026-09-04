@@ -141,9 +141,9 @@ public class EntitySoyuz extends Entity {
 
 	@Override
 	protected void entityInit() {
-        this.dataWatcher.addObject(8, 0);
+		this.dataWatcher.addObject(8, 0);
 	}
-	
+
 	public void setSat(ItemStack stack) {
 		this.payload[0] = stack;
 	}
@@ -163,12 +163,11 @@ public class EntitySoyuz extends Entity {
 		return this.dataWatcher.getWatchableObjectInt(8);
 	}
 	
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
-        return distance < 500000;
-    }
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 500000;
+	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {

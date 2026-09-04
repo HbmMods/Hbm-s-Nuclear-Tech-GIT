@@ -323,8 +323,13 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				if(countdown % 100 == 0 && countdown > 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.hatch", 100F, 1.1F);
 				
 			} else {
-				this.soyuzStatus = SoyuzStatus.ABSENT;
-				this.liftOff();
+				
+				if(canLaunch()) {
+					this.soyuzStatus = SoyuzStatus.ABSENT;
+					this.liftOff();
+				} else {
+					this.soyuzStatus = SoyuzStatus.READY;
+				}
 			}
 		}
 	}
@@ -358,6 +363,31 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			} else {
 				this.positions[i] -= this.speed[i];
 			}
+		}
+	}
+	
+	public boolean canLaunch() {
+		
+		// prerequisites for all modes
+		if(this.loadedType < 0) return false;
+		if(!this.hasAllFuel()) return false;
+		if(this.power < this.CONSUMPTION) return false;
+		
+		// at least one cargo slot must be occupied
+		if(this.cargoMode) {
+			for(int i = 9; i < 27; i++) {
+				if(slots[i] != null) return true;
+			}
+			
+			return false;
+			
+		// checks for satellite and optional orbital module
+		} else {
+			
+			if(this.orbital() == 1) return false;
+			if(slots[2] == null) return false;
+			
+			return true;
 		}
 	}
 	
@@ -398,6 +428,8 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		
 		slots[0] = null;
 	}
+	
+	/** Returns 0 if no orbital module is required, 1 if it is and it's missing and 2 if the orbital module is required and loaded */
 	public int orbital() {
 		if(this.cargoMode) return 0;
 		

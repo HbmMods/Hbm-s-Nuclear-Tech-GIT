@@ -546,6 +546,10 @@ desc.gui.rtgBFurnace.desc=Benötigt mindestens 15 Hitze um zu starten$Je mehr Hi
 desc.gui.rtgBFurnace.heat=§eHitzelevel: %s
 desc.gui.rtgBFurnace.pellets=Akzeptierte Pellets:
 desc.gui.rtgBFurnace.pellet=%s (%s Hitze)
+desc.gui.soyuz.fueling=Tanken
+desc.gui.soyuz.idle=Idle
+desc.gui.soyuz.loading=Beladen
+desc.gui.soyuz.ready=Bereit
 
 digamma.playerDigamma=Digammabelastung:
 digamma.playerHealth=Digammaeinfluss:

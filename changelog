@@ -76,6 +76,8 @@
 * Updated the model of the cargo landing pad as well as the drop ship
   * The drop ship now brakes before landing, and now has landing struts which are extended
   * The drop ship no longer fires its thrusters when landed, which means it no longer spams particles
+* The soyuz landing capsule can now be emptied via hoppers
+* Changed the recipe of the flow control pump
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -104,3 +106,4 @@
 * Fixed the placement preview offset for the soyuz launcher
 * Fixed a bug where special revives would not work when dying from radiation, since radiation would deal fatal damage twice
 * Fixed the soyuz not using interpolation when launching, causing its movement to be fixed at 20 FPS
+* Fixed the soyuz landing capsule's landing position being slightly offset on negative coordinates (yes it's another coordinate truncation error)
