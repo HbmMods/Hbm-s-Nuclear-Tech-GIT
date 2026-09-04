@@ -30,8 +30,11 @@ public class SatelliteMiner extends SatelliteBase {
 	
 	@Override
 	public IChatComponent[] getInfo(World world) {
+		int seconds = (int) Math.ceil(Math.max(0D, 1D - this.progress) / SPEED / 20D);
+
 		return new IChatComponent[] {
-				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal())) + ".name")
+				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal())) + ".name"),
+				this.requestableSlots.length > 0 ? new ChatComponentTranslation("satellite.ready") : new ChatComponentTranslation("satellite.cooldown", (seconds / 60) + "m" + (seconds % 60) + "s")
 		};
 	}
 

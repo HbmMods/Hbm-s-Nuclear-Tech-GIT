@@ -15,9 +15,9 @@ public class SatelliteLunarMiner extends SatelliteMiner {
 	
 	@Override
 	public IChatComponent[] getInfo(World world) {
-		return new IChatComponent[] {
-				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR.ordinal())) + ".name")
-		};
+		IChatComponent[] info = super.getInfo(world);
+		info[0] = new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_LUNAR.ordinal())) + ".name");
+		return info;
 	}
 	
 	static {

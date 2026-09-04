@@ -159,6 +159,7 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 		dataWatcher.updateObject(DW_STATE, nbt.getInteger("state"));
 		timer = nbt.getInteger("timer");
 		speed = nbt.getDouble("speed");
+		callerYPos = nbt.getInteger("callerYPos");
 
 		int itemCount = nbt.getInteger("itemCount");
 		NBTTagList items = nbt.getTagList("items", 10);
@@ -182,6 +183,7 @@ public class EntitySatellitePod extends EntityThrowableInterp {
 		nbt.setInteger("state", dataWatcher.getWatchableObjectInt(DW_STATE));
 		nbt.setInteger("timer", timer);
 		nbt.setDouble("speed", speed);
+		nbt.setInteger("callerYPos", callerYPos);
 
 		nbt.setInteger("itemCount", this.slots.length);
 		NBTTagList items = new NBTTagList();
