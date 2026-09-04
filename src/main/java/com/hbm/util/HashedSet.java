@@ -21,7 +21,7 @@ import java.util.Set;
  *
  * @param <T>
  */
-public class HashedSet<T> implements Set<T> {
+public class HashedSet<T> implements Set<T> { // this fucking sucks
 
 	HashMap<Integer, T> map = new HashMap();
 

@@ -115,3 +115,4 @@
 * Fixed the soyuz not using interpolation when launching, causing its movement to be fixed at 20 FPS
 * Fixed the soyuz landing capsule's landing position being slightly offset on negative coordinates (yes it's another coordinate truncation error)
 * Fixed stinger ammo counter clipping into the durability display
+* Tom now force-loads the chunk when spawning, fixing an issue where activating Horizons in distant chunks may waste the android without working

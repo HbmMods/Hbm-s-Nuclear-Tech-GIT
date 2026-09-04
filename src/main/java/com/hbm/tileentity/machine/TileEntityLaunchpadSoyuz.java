@@ -14,9 +14,11 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemSatellite.EnumSatType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.Vec3NT;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -73,12 +75,16 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	public float getInterpPos(int index, float interp) {
 		return prevPositions[index] + (positions[index] - prevPositions[index]) * interp;
 	}
+	
+	private AudioWrapper[] audios;
 
 	public TileEntityLaunchpadSoyuz() {
 		super(27);
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.KEROSENE_REFORM, 128_000);
 		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
+		
+		this.audios = new AudioWrapper[3];
 	}
 
 	@Override
@@ -120,6 +126,17 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				this.power -= CONSUMPTION;
 			}
 			
+			for(int i = 0; i <= INDEX_STRUT5; i++) {
+				
+				if(this.finishedMoving(i) && this.wasMoving(i)) {
+					ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+					ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+					double x = xCoord + 0.5 - dir.offsetX * 4 + rot.offsetX * 2;
+					double z = zCoord + 0.5 - dir.offsetZ * 4 + rot.offsetZ * 2;
+					worldObj.playSoundEffect(x, yCoord + 25, z, "hbm:door.sliding_seal_stop", 35F, 0.75F);
+				}
+			}
+			
 			this.networkPackNT(300);
 			
 		} else {
@@ -142,7 +159,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX;
 			double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
 			
-			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.LAUNCHING) && this.hasOxidizer()) {
+			if((this.soyuzStatus == SoyuzStatus.FUELING || this.soyuzStatus == SoyuzStatus.READY || this.soyuzStatus == SoyuzStatus.LAUNCHING) && this.hasOxidizer()) {
 
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -174,7 +191,98 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				
 				MainRegistry.proxy.effectNT(data);
 			}
+			
+			if(this.soyuzStatus == soyuzStatus.LAUNCHING) {
+				
+				if(this.audios[0] != null && !this.audios[0].isPlaying()){
+					this.audios[0].stopSound();
+					this.audios[0] = null;
+				}
+				
+				if(this.audios[0] == null) {
+					this.audios[0] = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 2.0F, 100F, 1.0F, 10);
+					this.audios[0].startSound();
+					
+				}
+				
+				this.audios[0].keepAlive();
+			} else {
+				if(this.audios[0] != null) {
+					this.audios[0].stopSound();
+					this.audios[0] = null;
+				}
+			}
+			
+			handleSound(0, this.soyuzStatus == soyuzStatus.LAUNCHING);
+			handleSound(1, this.power >= CONSUMPTION && this.positions[INDEX_CARRIAGE] > 0 && this.positions[INDEX_CARRIAGE] < 1);
+			handleSound(2, this.power >= CONSUMPTION && this.positions[INDEX_ROTOR] > 0 && this.positions[INDEX_ROTOR] < 1);
 		}
+	}
+	
+	protected void handleSound(int index, boolean isRunning) {
+		
+		if(isRunning) {
+			
+			if(this.audios[index] != null && !this.audios[index].isPlaying()){
+				this.audios[index].stopSound();
+				this.audios[index] = null;
+			}
+			
+			if(this.audios[index] == null) {
+				this.audios[index] = createSound(index);
+				this.audios[index].startSound();
+				
+			}
+
+			Vec3NT pos = getSoundPosition(index);
+			this.audios[index].keepAlive();
+			this.audios[index].updatePosition((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord);
+			
+		} else {
+			if(this.audios[index] != null) {
+				this.audios[index].stopSound();
+				this.audios[index] = null;
+
+				Vec3NT pos = getSoundPosition(index);
+				if(index == 1) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.garage_stop", 35F, 1F);
+				if(index == 2) MainRegistry.proxy.playSoundClient((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, "hbm:door.wgh_big_stop", 35F, 0.75F);
+			}
+		}
+	}
+	
+	protected AudioWrapper createSound(int index) {
+		
+		Vec3NT pos = getSoundPosition(index);
+		
+		if(index == 0) return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 100F, 1.0F, 10);
+		if(index == 1) return MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 35F, 1.0F, 10);
+		if(index == 2) return MainRegistry.proxy.getLoopedSound("hbm:door.wgh_big_start", (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, 2.0F, 50F, 0.75F, 10);
+		
+		return null;
+	}
+	
+	protected Vec3NT getSoundPosition(int index) {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4;
+		double y = yCoord;
+		double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
+		
+		if(index == 1) {
+			double dist = 24 + 20.5 * (1 - this.positions[INDEX_CARRIAGE]);
+			x -= rot.offsetX * dist;
+			z -= rot.offsetZ * dist;
+		}
+		
+		if(index == 2) {
+			double dist = 18 + 20.5 * (1 - this.positions[INDEX_CARRIAGE]);
+			x -= rot.offsetX * dist;
+			z -= rot.offsetZ * dist;
+		}
+		
+		return new Vec3NT(x, y + 4, z);
 	}
 	
 	public void updateStates() {
@@ -496,8 +604,8 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		for(int i = 0; i < this.positions.length; i++) {
 			float newSync = buf.readFloat();
 			if(this.syncPositions[i] != newSync) {
-				this.syncPositions[i] = newSync; 
-				this.turnProgress = 2;
+				this.syncPositions[i] = newSync;
+				this.turnProgress = 3;
 			}
 		}
 	}

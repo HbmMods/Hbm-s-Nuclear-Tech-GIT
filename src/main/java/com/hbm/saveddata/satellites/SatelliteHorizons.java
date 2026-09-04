@@ -6,6 +6,7 @@ import com.hbm.entity.projectile.EntityTom;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.world.WorldUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,7 +89,7 @@ public class SatelliteHorizons extends SatelliteBase {
 		IChunkProvider provider = world.getChunkProvider();
 		provider.loadChunk(x >> 4, z >> 4);
 		
-		world.spawnEntityInWorld(tom);
+		WorldUtil.loadAndSpawnEntityInWorld(tom);
 
 		for(Object p : world.playerEntities)
 			((EntityPlayer)p).triggerAchievement(MainRegistry.horizonsEnd);

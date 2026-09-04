@@ -195,6 +195,7 @@ public class EntitySatellitePod extends EntityThrowableInterp implements IRadarD
 		super.readEntityFromNBT(nbt);
 		dataWatcher.updateObject(DW_STATE, nbt.getInteger("state"));
 		timer = nbt.getInteger("timer");
+		callerYPos = nbt.getInteger("callerYPos");
 		speed = nbt.getDouble("speed");
 
 		int itemCount = nbt.getInteger("itemCount");
@@ -218,6 +219,7 @@ public class EntitySatellitePod extends EntityThrowableInterp implements IRadarD
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("state", dataWatcher.getWatchableObjectInt(DW_STATE));
 		nbt.setInteger("timer", timer);
+		nbt.setInteger("callerYPos", callerYPos);
 		nbt.setDouble("speed", speed);
 
 		nbt.setInteger("itemCount", this.slots.length);

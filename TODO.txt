@@ -1,11 +1,8 @@
 A TODO list because this update is starting to get out of hand
 
 - Satellite stuff
-  - Fix LOXY tank collisions for certain orientations
   - Add lambda rocket launcher
   - Add rocket assembler
-  - Implement 0G assembler
-  - Make dropship attackable and a radar target
   - Alclad?
 
 - AutoPort

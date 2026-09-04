@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
 
 import net.minecraft.block.material.Material;
@@ -19,6 +20,7 @@ public class LaunchpadSoyuz extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityLaunchpadSoyuz();
+		if(meta >= 6) return new TileEntityProxyCombo().power().fluid().inventory();
 		return null;
 	}
 	
@@ -56,7 +58,7 @@ public class LaunchpadSoyuz extends BlockDummyable {
 			new int[] {6, -4, 3, 3, 7, -3,   -4, 2, 0},
 			new int[] {51, -7, 2, 2, 7, -3,   -4, 2, 0},
 
-			new int[] {7, 0, -6, 7, 7, -3,   -4, 0, 0},
+			new int[] {7, 0, -2, 3, 2, 2,   0, 0, 5},
 		};
 	}
 	
@@ -88,8 +90,9 @@ public class LaunchpadSoyuz extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y + 2, z - dir.offsetZ * 4, new int[] {6, -4, 3, 3, 7, -3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y + 2, z - dir.offsetZ * 4, new int[] {51, -7, 2, 2, 7, -3}, this, dir);
 
-		// FIXME
-		MultiblockHandlerXR.fillSpace(world, x - dir.offsetX * 4, y, z - dir.offsetZ * 4, new int[] {7, 0, -6, 7, 7, -3}, this, dir);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		MultiblockHandlerXR.fillSpace(world, x + rot.offsetX * 5, y, z + rot.offsetZ * 5, new int[] {7, 0, -2, 3, 2, 2}, this, dir);
 	}
 
 	@Override

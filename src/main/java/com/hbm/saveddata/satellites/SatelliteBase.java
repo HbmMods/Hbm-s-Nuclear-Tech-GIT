@@ -50,24 +50,6 @@ public abstract class SatelliteBase {
 		if(driveInput != null) nbt.setInteger("driveInput", driveInput.ordinal());
 		if(driveOutput != null) nbt.setInteger("driveOutput", driveOutput.ordinal());
 
-		int itemCount = nbt.getInteger("itemCount");
-		NBTTagList items = nbt.getTagList("requestableSlots", 10);
-		this.requestableSlots = new ItemStack[itemCount];
-		for(int i = 0; i < items.tagCount(); i++) {
-			NBTTagCompound itemTag = items.getCompoundTagAt(i);
-			int j = itemTag.getByte("slot") & 255;
-			if(j >= 0 && j < this.requestableSlots.length) this.requestableSlots[j] = ItemStack.loadItemStackFromNBT(itemTag);
-		}
-	}
-	
-	public void readFromNBT(NBTTagCompound nbt) {
-		this.targetX = nbt.getInteger("targetX");
-		this.targetZ = nbt.getInteger("targetZ");
-		this.tx = nbt.getString("tx");
-
-		if(nbt.hasKey("driveInput")) this.driveInput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveInput")); else this.driveInput = null;
-		if(nbt.hasKey("driveOutput")) this.driveOutput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveOutput")); else this.driveOutput = null;
-
 		nbt.setInteger("itemCount", this.requestableSlots.length);
 		NBTTagList items = new NBTTagList();
 		for(int i = 0; i < this.requestableSlots.length; i++) {
@@ -78,6 +60,24 @@ public abstract class SatelliteBase {
 			items.appendTag(itemTag);
 		}
 		nbt.setTag("requestableSlots", items);
+	}
+	
+	public void readFromNBT(NBTTagCompound nbt) {
+		this.targetX = nbt.getInteger("targetX");
+		this.targetZ = nbt.getInteger("targetZ");
+		this.tx = nbt.getString("tx");
+
+		if(nbt.hasKey("driveInput")) this.driveInput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveInput")); else this.driveInput = null;
+		if(nbt.hasKey("driveOutput")) this.driveOutput = EnumUtil.grabEnumSafely(EnumDriveType.class, nbt.getInteger("driveOutput")); else this.driveOutput = null;
+
+		int itemCount = nbt.getInteger("itemCount");
+		NBTTagList items = nbt.getTagList("requestableSlots", 10);
+		this.requestableSlots = new ItemStack[itemCount];
+		for(int i = 0; i < items.tagCount(); i++) {
+			NBTTagCompound itemTag = items.getCompoundTagAt(i);
+			int j = itemTag.getByte("slot") & 255;
+			if(j >= 0 && j < this.requestableSlots.length) this.requestableSlots[j] = ItemStack.loadItemStackFromNBT(itemTag);
+		}
 	}
 	
 	/** The check for if there's data available, may also call produceData if a cooldown has elapsed */
@@ -118,7 +118,9 @@ public abstract class SatelliteBase {
 		
 		EntitySatellitePod pod = new EntitySatellitePod(world).setup(y, requestableSlots);
 		pod.setPosition(x + 0.5, 300, z + 0.5);
-		world.spawnEntityInWorld(pod);
+		
+		//WorldUtil.loadAndSpawnEntityInWorld(pod); // maybe it's better to wait than to stack 5,000,000,000 drop pods in unloaded chunks
+		if(!world.spawnEntityInWorld(pod)) return false;
 		
 		this.requestableSlots = new ItemStack[0];
 		this.markDirty();
