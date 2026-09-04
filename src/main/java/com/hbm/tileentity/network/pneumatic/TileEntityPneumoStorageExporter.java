@@ -320,6 +320,8 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
 		int slot = nbt.getInteger("slot");
+		int[] range = getFilterSlots();
+		if(slot < range[0] || slot >= range[1]) return; // ### safe ###
 		NBTTagCompound stack = nbt.getCompoundTag("stack");
 		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
 		this.setInventorySlotContents(slot, item);
