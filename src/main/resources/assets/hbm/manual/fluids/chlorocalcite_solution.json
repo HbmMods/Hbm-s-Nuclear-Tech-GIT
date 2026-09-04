@@ -1,0 +1,11 @@
+{
+    "name": "Chlorocalcite Solution",
+    "icon": ["hbm:item.fluid_icon", 1, 114],
+    "trigger": [["hbm:item.fluid_icon", 1, 114], ["hbm:item.fluid_icon", 1, 115], ["hbm:item.fluid_icon", 1, 116], ["hbm:item.fluid_icon", 1, 117], ["hbm:item.fluid_icon", 1, 118], ["hbm:item.fluid_icon", 1, 119]],
+    "title": {
+        "en_US": "Chlorocalcite Solution"
+    },
+    "content": {
+        "en_US": "Chlorocalcite solution can be obtained by [[processing|Chemical Plant]] chlorocalcite into a liquid. It is used in a long process to produce [[chlorine gas|Chlorine Gas]] and calcium powder.<br><br>This process requires converting mixing chlorocalcite solution with [[sulfuric acid|Sulfuric Acid]] and flux to obtain mixed chlorocalcite solution. It can then be [[fractioned|Fractioning Tower]] into [[colloid|Colloid]] and cleaned chlorocalcite solution. By [[processing|Chemical Plant]] the cleaned chlorocalcite solution with [[sulfuric acid|Sulfuric Acid]] it will produce potassium chloride solution and calcium chloride solution. The potassium chloride solution can be [[electrolyzed|Electrolysis Machine]] into [[chlorine gas|Chlorine Gas]]. The calcium chloride is also [[electrolyzed|Electrolysis Machine]] to produce [[chlorine gas|Chlorine Gas]] as well as calcium solution. Lastly, the calcium solution may be [[coked|Coker Unit]] to produce calcium powder and [[low pressure steam|Steam]]."
+    }
+}
