@@ -90,6 +90,15 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		26, S, "mechanism", MaterialShapes.MECHANISM));
 		registerMold(new MoldShape(		27, S, "stock", MaterialShapes.STOCK));
 		registerMold(new MoldShape(		28, S, "grip", MaterialShapes.GRIP));
+		int i = 29;
+		for(MaterialShapes shape : MaterialShapes.S_moldShapes){
+			registerMold(new MoldShape(	i, S, shape.name(), shape));
+			i++;
+		}
+		for(MaterialShapes shape : MaterialShapes.L_moldShapes){
+			registerMold(new MoldShape(	i, L, shape.name(), shape));
+			i++;
+		}
 	}
 	
 	public void registerMold(Mold mold) {
