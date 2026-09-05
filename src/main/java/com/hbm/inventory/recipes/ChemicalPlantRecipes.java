@@ -407,7 +407,6 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.powder_paleogenite), new OreDictStack(F.dust(), 8), new ComparableStack(ModItems.nugget_bismuth, 4))
 				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1_000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1_000, 0)));
-		
 	}
 	
 	public static HashMap getRecipes() {
