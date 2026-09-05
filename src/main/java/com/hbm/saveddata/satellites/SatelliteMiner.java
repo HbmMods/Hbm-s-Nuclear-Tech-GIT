@@ -35,7 +35,7 @@ public class SatelliteMiner extends SatelliteBase {
 		
 		return new IChatComponent[] {
 				new ChatComponentTranslation(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.MINER_ASTRO.ordinal())) + ".name"),
-				new ChatComponentTranslation("satellite.minerprogress", progress + "%")
+				this.requestableSlots.length > 0 ? new ChatComponentTranslation("satellite.ready") : new ChatComponentTranslation("satellite.minerprogress", progress + "%")
 		};
 	}
 
