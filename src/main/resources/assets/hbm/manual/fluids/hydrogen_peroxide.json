@@ -1,0 +1,11 @@
+{
+    "name": "Hydrogen Peroxide",
+    "icon": ["hbm:item.fluid_icon", 1, 35],
+    "trigger": [["hbm:item.fluid_icon", 1, 35]],
+    "title": {
+        "en_US": "Hydrogen Peroxide"
+    },
+    "content": {
+        "en_US": "Hydrogen peroxide can be obtained through [[processing|Chemical Plant]] [[water|Water]]. It is one of the most vital fluids as it is used in every stage of progression. It is first used to process materials in the [[ore acidizer|Ore Acidizer]]. It is used in the production of [[sulfuric acid|Sulfuric Acid]], [[coltan processing|Tantalite Production]], and [[ferric schrabidate|Schrabidic Acid]] production. It may also be used to produce [[capacitor boards|Circuits]]."
+    }
+}
