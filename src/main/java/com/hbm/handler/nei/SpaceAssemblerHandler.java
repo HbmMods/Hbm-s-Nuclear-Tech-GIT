@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class SpaceAssemblerHandler extends NEIGenericRecipeHandler {
 
 	public SpaceAssemblerHandler() {
-		super(ModItems.satellite.getUnlocalizedName(new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE_ASSEMBLER.ordinal())),
+		super(new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE_ASSEMBLER.ordinal()).getDisplayName(),
 				SpaceAssemblerRecipes.INSTANCE, new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE_ASSEMBLER.ordinal()));
 	}
 

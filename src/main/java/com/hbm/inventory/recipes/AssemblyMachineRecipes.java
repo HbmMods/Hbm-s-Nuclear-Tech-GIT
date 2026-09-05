@@ -948,6 +948,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4_000)));
 
 		// space
+		this.register(new GenericRecipe("ass.alclad").setupNamed(200, 50_000).outputItems(new ItemStack(ModItems.part_generic, 1, EnumPartType.ALCLAD.ordinal()))
+				.inputItems(new OreDictStack(AL.dust(), 8), new OreDictStack(CU.plate(), 2)));
+		this.register(new GenericRecipe("ass.titaniumconstruction").setupNamed(600, 1_000).outputItems(new ItemStack(ModItems.part_generic, 1, EnumPartType.ALCLAD.ordinal()))
+				.inputItems(new OreDictStack(TI.plate(), 4), new OreDictStack(ANY_PLASTIC.ingot(), 8)));
+		
 		this.register(new GenericRecipe("ass.soyuzcore").setup(1_200, 25_000).outputItems(new ItemStack(ModBlocks.struct_soyuz_core, 1))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 16),
 						new ComparableStack(ModItems.upgrade_speed_3),
@@ -984,6 +989,13 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.coil_gold, 4),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.QUANTUM),
 						new ComparableStack(ModItems.part_generic, 1, EnumPartType.LDE)));
+		this.register(new GenericRecipe("ass.0gassembler").setup(600, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE_ASSEMBLER.ordinal()))
+				.inputItems(new OreDictStack(WEAPONSTEEL.shell(), 4),
+						new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
+						new OreDictStack(PURG.billet(), 16),
+						new ComparableStack(ModItems.motor_bismuth, 4),
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.QUANTUM),
+						new ComparableStack(ModItems.part_generic, 4, EnumPartType.LDE)));
 		this.register(new GenericRecipe("ass.spysat").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.SPY.ordinal()))
 				.inputItems(new OreDictStack(AL.shell(), 16),
 						new ComparableStack(ModItems.photo_panel, 32),

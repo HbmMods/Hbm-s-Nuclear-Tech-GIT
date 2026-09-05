@@ -129,10 +129,12 @@ armorMod.type.leggings=Beinschienen
 armorMod.type.servo=Servos
 armorMod.type.special=Spezial
 
+ass.alclad=Luftfahrt-Alclad
 ass.analogAlt=Simple Analogschaltkreise
 ass.atomicClockAlt=Caesium-Atomuhr
 ass.factorioChip=Minimalisten-Schaltkreise
 ass.nitra=Nitra zu Munition
+ass.titaniumconstruction=Luftfahrt-Titankonstruktion
 
 autoswitch=Teil der Rezeptgruppe "%s"$Rezept ändert sich basierend auf das erste Item
 autoswitch.crushing=Fels-Zerkleinerung
@@ -216,6 +218,8 @@ chem.heavylube=Schmiermittel aus Schweröl
 chem.oilelectrodes=Instant-Elektroden (Heizöl)
 chem.lubeelectrodes=Instant-Elektroden (Schmiermittel)
 chem.deshcracked=Desh aus Cracköl
+chem.lightconstruction=Luftfahrt-Leichtbau
+chem.carboncarbon=Luftfahrt-KFV-Kohlenstoff
 
 com.copy=Kopieren von %s
 
@@ -2758,6 +2762,7 @@ item.oil_tar.crack.name=Crackölteer
 item.oil_tar.paraffin.name=Paraffinwachs
 item.oil_tar.wax.name=Chloriertes Petroleumwachs
 item.oil_tar.wood.name=Holzteer
+item.orbital_assembly.crystal_circuit.name=Orbitalmontage: Kristall-Schaltkreis
 item.ore.asbestos=Asbest
 item.ore.borax=Borax
 item.ore.chlorocalcite=Chlorokalzit
@@ -2829,6 +2834,7 @@ item.part_barrel_light.name=Leichter %slauf
 item.part_beryllium.name=Berylliumstaubkiste
 item.part_carbon.name=Kohlenstoffstaubkiste
 item.part_copper.name=Kupferstaubkiste
+item.part_generic.alclad.name=Blechkonstruktion für Luftfahrt
 item.part_generic.glass_polarized.name=Polarisierte Linse
 item.part_generic.hde.name=Schwerlastkomponente
 item.part_generic.lde.name=Leichtbauteil

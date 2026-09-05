@@ -232,6 +232,13 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
 		this.register(new GenericRecipe("chem.kevlar").setup(60, 300)
 				.inputFluids(new FluidStack(Fluids.AROMATICS, 200), new FluidStack(Fluids.NITRIC_ACID, 100), new FluidStack(GeneralConfig.enable528PressurizedRecipes ? Fluids.PHOSGENE : Fluids.CHLORINE, 100))
 				.outputItems(new ItemStack(ModItems.plate_kevlar, 4)));
+
+		this.register(new GenericRecipe("chem.lightconstruction").setupNamed(400, 25_000).outputItems(new ItemStack(ModItems.part_generic, 1, EnumPartType.ALCLAD.ordinal()))
+				.inputItems(new OreDictStack(DURA.plate(), 2))
+				.inputFluids(new FluidStack(Fluids.XYLENE, 1_000), new FluidStack(Fluids.PHOSGENE, 1_000), new FluidStack(Fluids.SOURGAS, 4_000)));
+		this.register(new GenericRecipe("chem.carboncarbon").setupNamed(400, 100_000).outputItems(new ItemStack(ModItems.part_generic, 1, EnumPartType.ALCLAD.ordinal()))
+				.inputItems(new OreDictStack(ANY_COKE.gem(), 8), new OreDictStack(TI.plate(), 1))
+				.inputFluids(new FluidStack(Fluids.HEAVYOIL_VACUUM, 1_000), new FluidStack(Fluids.SYNGAS, 8_000)));
 		
 		this.register(new GenericRecipe("chem.meth").setup(60, 300)
 				.inputItems(new ComparableStack(Items.wheat), new ComparableStack(Items.dye, 2, 3))

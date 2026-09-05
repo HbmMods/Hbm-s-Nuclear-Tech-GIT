@@ -184,10 +184,12 @@ armorMod.type.leggings=Leggings
 armorMod.type.servo=Servos
 armorMod.type.special=Special
 
+ass.alclad=Aviation Grade Alclad
 ass.analogAlt=Simple Analog Circuit
 ass.atomicClockAlt=Caesium Atomic Clock
 ass.factorioChip=Minimalist Circuits
 ass.nitra=Nitra to Ammunition
+ass.titaniumconstruction=Aviation Grade Titanium Construction
 
 autoswitch=Part of auto switch group "%s"$Recipe changes based on first ingredient
 autoswitch.crushing=Rock Crushing
@@ -606,6 +608,8 @@ chem.heavylube=Lubricant from Heavy Oil
 chem.oilelectrodes=Instant Electrodes (Heating Oil)
 chem.lubeelectrodes=Instant Electrodes (Lubricant)
 chem.deshcracked=Desh from Cracked Oil
+chem.lightconstruction=Aviation Grade Light Construction
+chem.carboncarbon=Aviation Grade Carbon-Carbon Sheets
 
 com.copy=Copy of %s
 
@@ -3688,6 +3692,7 @@ item.oil_tar.crack.name=Crack Oil Tar
 item.oil_tar.paraffin.name=Paraffin Wax
 item.oil_tar.wax.name=Chlorinated Petroleum Wax
 item.oil_tar.wood.name=Wood Tar
+item.orbital_assembly.crystal_circuit.name=Orbital Assemmbly: Crystal Circuit Board
 item.ore.asbestos=Asbestos
 item.ore.borax=Borax
 item.ore.chlorocalcite=Chlorocalcite
@@ -3767,6 +3772,7 @@ item.part_barrel_light.name=Light %s Barrel
 item.part_beryllium.name=Box of Beryllium Dust
 item.part_carbon.name=Box of Carbon Dust
 item.part_copper.name=Box of Copper Dust
+item.part_generic.alclad.name=Aviation Grade Sheeting
 item.part_generic.glass_polarized.name=Polarized Lens
 item.part_generic.hde.name=Heavy Duty Element
 item.part_generic.lde.name=Low-Density Element

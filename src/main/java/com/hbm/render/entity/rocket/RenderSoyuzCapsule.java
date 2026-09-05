@@ -17,10 +17,13 @@ public class RenderSoyuzCapsule extends Render {
 		GL11.glTranslated(x, y, z);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		double intlet = j * 0.05D;
 
-		double time = (entity.worldObj.getTotalWorldTime() % (Math.PI * 20)) + j;
-		double sine = Math.sin(time * 0.05) * 5;
-		double sin3 = Math.sin(time * 0.05 + Math.PI * 0.5) * 5;
+		long worldtime = entity.worldObj.getTotalWorldTime();
+		double time = (worldtime * 0.05) % (Math.PI * 2) + intlet;
+		double sine = Math.sin(time) * 5;
+		double sin3 = Math.sin(time + Math.PI * 0.5) * 5;
 		
 		int height = 7;
 		

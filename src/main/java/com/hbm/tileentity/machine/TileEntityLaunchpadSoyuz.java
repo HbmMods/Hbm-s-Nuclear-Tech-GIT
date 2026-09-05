@@ -129,7 +129,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 			for(int i = 0; i <= INDEX_STRUT5; i++) {
 				
 				if(this.finishedMoving(i) && this.wasMoving(i)) {
-					ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 					ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 					double x = xCoord + 0.5 - dir.offsetX * 4 + rot.offsetX * 2;
 					double z = zCoord + 0.5 - dir.offsetZ * 4 + rot.offsetZ * 2;
@@ -153,7 +153,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				}
 			}
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX;
@@ -263,7 +263,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	
 	protected Vec3NT getSoundPosition(int index) {
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4;
@@ -501,7 +501,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	
 	public void liftOff() {
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.blockMetadata - 10);
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		double x = xCoord + 0.5 - dir.offsetX * 4 - rot.offsetX * 4;
@@ -533,6 +533,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		}
 		
 		slots[0] = null;
+		this.markChanged();
 	}
 	
 	/** Returns 0 if no orbital module is required, 1 if it is and it's missing and 2 if the orbital module is required and loaded */

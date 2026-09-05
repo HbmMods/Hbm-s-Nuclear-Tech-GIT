@@ -819,7 +819,7 @@ public class Fluids {
 				int p = obj.get("p").getAsInt();
 				int f = obj.get("f").getAsInt();
 				int r = obj.get("r").getAsInt();
-				EnumSymbol symbol = EnumSymbol.valueOf(obj.get("symbol").getAsString());
+				EnumSymbol symbol = obj.has("symbol") ? EnumSymbol.valueOf(obj.get("symbol").getAsString()) : EnumSymbol.NONE;
 				String texture = obj.get("texture").getAsString();
 				int temperature = obj.get("temperature").getAsInt();
 
