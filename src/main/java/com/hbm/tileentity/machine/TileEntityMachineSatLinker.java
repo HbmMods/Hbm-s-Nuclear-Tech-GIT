@@ -23,10 +23,11 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	//public static final int maxFill = 64 * 3;
 
 	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {1};
-	private static final int[] slots_side = new int[] {2};
+	private static final int[] slots_bottom = new int[] {2};
+	private static final int[] slots_side = new int[] {1};
 	
 	private String customName;
+	private boolean randomized;
 	
 	public TileEntityMachineSatLinker() {
 		slots = new ItemStack[3];
@@ -47,6 +48,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 		if(slots[i] != null) {
 			ItemStack itemStack = slots[i];
 			slots[i] = null;
+			markDirty();
 			return itemStack;
 		} else {
 			return null;
@@ -56,9 +58,11 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		slots[i] = itemStack;
+		if(i == 2) randomized = false;
 		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
+		markDirty();
 	}
 
 	@Override
@@ -97,7 +101,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
+		return stack != null && stack.getItem() instanceof ISatChip;
 	}
 	
 	@Override
@@ -106,12 +110,14 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 			if(slots[i].stackSize <= j) {
 				ItemStack itemStack = slots[i];
 				slots[i] = null;
+				markDirty();
 				return itemStack;
 			}
 			ItemStack itemStack1 = slots[i].splitStack(j);
 			if (slots[i].stackSize == 0) {
 				slots[i] = null;
 			}
+			markDirty();
 			
 			return itemStack1;
 		} else {
@@ -125,6 +131,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		slots = new ItemStack[getSizeInventory()];
+		randomized = false;
 		
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -169,6 +176,11 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		if(itemStack == null) return false;
+		if(!(itemStack.getItem() instanceof ISatChip)) return true;
+		// Automation may run before this tile has assigned the chip's ID.
+		if(i == 1) return slots[0] != null && slots[0].getItem() instanceof ISatChip && ISatChip.getFreqS(itemStack) == ISatChip.getFreqS(slots[0]);
+		if(i == 2) return randomized;
 		return true;
 	}
 	
@@ -176,7 +188,11 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ISatChip && slots[1].getItem() instanceof ISatChip) {
-				ISatChip.setFreqS(slots[1], ISatChip.getFreqS(slots[0]));
+				int freq = ISatChip.getFreqS(slots[0]);
+				if(!slots[1].hasTagCompound() || ISatChip.getFreqS(slots[1]) != freq) {
+					ISatChip.setFreqS(slots[1], freq);
+					markDirty();
+				}
 			}
 			
 			if(slots[2] != null && slots[2].getItem() instanceof ISatChip) {
@@ -184,6 +200,8 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 				int newId = worldObj.rand.nextInt(100000);
 				if(!satelliteData.isFreqTaken(newId)) {
 					ISatChip.setFreqS(slots[2], newId);
+					randomized = true;
+					markDirty();
 				}
 			}
 		}
