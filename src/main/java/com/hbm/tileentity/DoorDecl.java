@@ -418,12 +418,14 @@ public abstract class DoorDecl {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_sliding_door_tex,
 					ResourceManager.pheo_sliding_door_black_tex,
-					ResourceManager.pheo_sliding_door_grid_tex
+					ResourceManager.pheo_sliding_door_grid_tex,
+					ResourceManager.pheo_sliding_door_plate_tex,
+					ResourceManager.pheo_sliding_door_white_tex
 			};
 			return skins;
 		}
 
-		@Override public int getSkinCount() { return 3; }
+		@Override public int getSkinCount() { return 5; }
 
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open, boolean forCollision) {
@@ -678,12 +680,13 @@ public abstract class DoorDecl {
 			if(skins == null) skins = new ResourceLocation[] {
 					ResourceManager.pheo_vehicle_door_tex,
 					ResourceManager.pheo_vehicle_door_black_tex,
-					ResourceManager.pheo_vehicle_door_blue_tex
+					ResourceManager.pheo_vehicle_door_blue_tex,
+					ResourceManager.pheo_vehicle_door_red_tex
 			};
 			return skins;
 		}
 
-		@Override public int getSkinCount() { return 3; }
+		@Override public int getSkinCount() { return 4; }
 
 		@Override public int timeToOpen() { return 60; };
 		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 0, 0, 0, -4, 6, 2 }, { 0, 0, 0, 4, 6, 2 } }; }

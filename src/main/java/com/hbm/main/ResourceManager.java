@@ -358,10 +358,13 @@ public class ResourceManager {
 	public static final ResourceLocation pheo_sliding_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door.png");
 	public static final ResourceLocation pheo_sliding_door_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door_black.png");
 	public static final ResourceLocation pheo_sliding_door_grid_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door_grid.png");
+	public static final ResourceLocation pheo_sliding_door_plate_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door_plate.png");
+	public static final ResourceLocation pheo_sliding_door_white_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/sliding_door_white.png");
 	public static IModelCustomNamed pheo_sliding_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/sliding_door.obj")).asVBO();
 	public static final ResourceLocation pheo_vehicle_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vehicle_door.png");
 	public static final ResourceLocation pheo_vehicle_door_black_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vehicle_door_black.png");
 	public static final ResourceLocation pheo_vehicle_door_blue_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vehicle_door_blue.png");
+	public static final ResourceLocation pheo_vehicle_door_red_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/vehicle_door_red.png");
 	public static IModelCustomNamed pheo_vehicle_door = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pheodoors/vehicle_door.obj")).asVBO();
 	public static final ResourceLocation pheo_water_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/water_door.png");
 	public static final ResourceLocation pheo_water_door_clean_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pheodoors/water_door_clean.png");
