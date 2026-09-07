@@ -676,7 +676,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileVolcano.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsday.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsdayRusted.class, new RenderMissileNuclear());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySoyuz.class, new RenderSoyuz());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRocketSoyuz.class, new RenderSoyuz());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySoyuzCapsule.class, new RenderSoyuzCapsule());
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachuteCrate.class, new RenderParachuteCrate());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileTaint.class, new RenderMissileTaint());
@@ -1079,13 +1079,10 @@ public class ClientProxy extends ServerProxy {
 
 
 		if("exhaust".equals(type)) {
-
 			String mode = data.getString("mode");
 
 			if("soyuz".equals(mode)) {
-
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
+				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350) return;
 
 				int count = Math.max(1, data.getInteger("count"));
 				double width = data.getDouble("width");

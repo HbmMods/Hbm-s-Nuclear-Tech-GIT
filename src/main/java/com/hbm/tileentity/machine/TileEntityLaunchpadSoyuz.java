@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.missile.EntitySoyuz;
+import com.hbm.entity.missile.EntityRocketSoyuz;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchpadSoyuz;
 import com.hbm.inventory.fluid.Fluids;
@@ -172,7 +172,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
 			
-			List<EntitySoyuz> entities = worldObj.getEntitiesWithinAABB(EntitySoyuz.class, AxisAlignedBB.getBoundingBox(x - 1, yCoord + 4, z - 1, x + 1, yCoord + 14, z + 1));
+			List<EntityRocketSoyuz> entities = worldObj.getEntitiesWithinAABB(EntityRocketSoyuz.class, AxisAlignedBB.getBoundingBox(x - 1, yCoord + 4, z - 1, x + 1, yCoord + 14, z + 1));
 			
 			if(!entities.isEmpty() || (this.soyuzStatus == SoyuzStatus.LAUNCHING && this.countdown <= 20)) {
 				
@@ -508,7 +508,7 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		double y = yCoord + 4;
 		double z = zCoord + 0.5 - dir.offsetZ * 4 - rot.offsetZ * 4;
 		
-		EntitySoyuz soyuz = new EntitySoyuz(worldObj);
+		EntityRocketSoyuz soyuz = new EntityRocketSoyuz(worldObj);
 		soyuz.setSkin(this.loadedType);
 		soyuz.mode = this.cargoMode ? 1 : 0;
 		soyuz.setLocationAndAngles(x, y, z, 0, 0);

@@ -34,7 +34,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	public static final int INDEX_DOORS		= 0;
 	public static final int INDEX_ERECTOR	= 1;
 	public static final int INDEX_ROTOR		= 2;
-	public static final int INDEX_CLAPMS	= 3;
+	public static final int INDEX_CLAMPS	= 3;
 	public static final int INDEX_PISTONS	= 4;
 
 	public float[] positions		= new float[5];
@@ -81,6 +81,11 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 			tanks[0].loadTank(2, 3, slots);
 			tanks[1].loadTank(4, 5, slots);
 			
+			if(!this.hasRocketLoaded()) {
+				this.erected = false;
+				this.erecting = false;
+			}
+			
 			if(this.power >= CONSUMPTION) {
 				this.updateStates();
 				this.move();
@@ -107,6 +112,95 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	
 	public void updateStates() {
 		
+		// new animation phase but rocket is missing -> return to null pos
+		if(finishedAllMoving() && !this.hasRocketLoaded()) {
+			this.setTarget(INDEX_CLAMPS, 90F, 90F, 40);
+			this.setTarget(INDEX_PISTONS, 0.75F, 0.75F, 20);
+			if(this.finishedMoving(INDEX_CLAMPS)) {
+				this.setTarget(INDEX_DOORS, 0F, 3F, 60);
+				if(this.finishedMoving(INDEX_DOORS)) this.setTarget(INDEX_ERECTOR, 0F, 25F, 100);
+			}
+			this.erected = false;
+			this.animationProgress = 0;
+		}
+		
+		// if the doors are closed and the erector retracted, start the process if a rocket is loaded
+		if(finishedAllMoving() && this.hasRocketLoaded() && !this.erecting && this.positions[INDEX_ERECTOR] <= 0 && this.positions[INDEX_DOORS] <= 0) {
+			this.erecting = true;
+			this.animationProgress = 0;
+		}
+		
+		// rocket is being erected
+		if(finishedAllMoving() && this.hasRocketLoaded() && this.erecting) {
+			
+			// open doors
+			if(this.animationProgress == 0) {
+				this.setTarget(INDEX_DOORS, 3F, 3F, 60);
+				this.setTarget(INDEX_ERECTOR, 0F, 25F, 1);
+				this.setTarget(INDEX_ROTOR, 180F, 180F, 1);
+				this.setTarget(INDEX_CLAMPS, 0F, 90F, 1);
+				this.setTarget(INDEX_PISTONS, 0F, 0.75F, 1);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			// move erector up
+			} else if(this.animationProgress == 1) {
+				this.setTarget(INDEX_ERECTOR, 0F, 27F, 100);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			// rotate and close doors
+			} else if(this.animationProgress == 2) {
+				this.setTarget(INDEX_DOORS, 0F, 3F, 60);
+				this.setTarget(INDEX_ROTOR, 0F, 180F, 60);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			// set down
+			} else if(this.animationProgress == 3) {
+				this.setTarget(INDEX_ROTOR, 0F, 180F, 60);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			}
+		}
+		
+		// return erector when countdown hits T-0.5
+		if(this.countdown <= 10) {
+			this.erecting = false;
+			this.animationProgress = 0;
+		}
+		
+		// return erector post launch
+		if(finishedAllMoving() && !this.erecting) {
+
+			// disengage clamps
+			if(this.animationProgress == 0) {
+				this.setTarget(INDEX_PISTONS, 0.75F, 0.75F, 20);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			// fold clamps up
+			} else if(this.animationProgress == 1) {
+				this.setTarget(INDEX_CLAMPS, 90, 90, 60);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			// retract erector
+			} else if(this.animationProgress == 2) {
+				this.setTarget(INDEX_ERECTOR, 0, 25, 100);
+				if(this.finishedAllMoving()) {
+					this.animationDelay = 10;
+					this.animationProgress++;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -149,9 +243,12 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	
 	public void move() {
 		
+		if(this.animationDelay > 0) this.animationDelay--;
+		
 		for(int i = 0; i < this.positions.length; i++) {
 			
 			this.prevPositions[i] = this.positions[i];
+			if(this.animationDelay > 0) continue;
 			
 			if(Math.abs(this.positions[i] - this.target[i]) <= this.speed[i]) {
 				this.positions[i] = this.target[i];
@@ -161,6 +258,14 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 				this.positions[i] -= this.speed[i];
 			}
 		}
+	}
+
+	public boolean hasRocketLoaded() { return slots[0] != null && slots[0].getItem() == ModItems.missile_lambda; }
+	public boolean finishedMoving(int index) { return this.positions[index] == this.target[index]; }
+	
+	public boolean finishedAllMoving() {
+		for(int i = 0; i < this.positions.length; i++) if(!finishedMoving(i)) return false;
+		return true;
 	}
 	
 	public float getInterpPos(int index, float interp) {

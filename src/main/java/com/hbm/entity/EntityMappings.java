@@ -111,7 +111,7 @@ public class EntityMappings {
 		addEntity(EntityTom.class, "entity_tom_the_moonstone", 1000);
 		addEntity(EntityTomBlast.class, "entity_tom_bust", 1000);
 		addEntity(EntityBuilding.class, "entity_falling_building", 1000);
-		addEntity(EntitySoyuz.class, "entity_soyuz", 1000);
+		addEntity(EntityRocketSoyuz.class, "entity_soyuz", 1000);
 		addEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 1000);
 		addEntity(EntityParachuteCrate.class, "entity_parachute_crate", 1000);
 		addEntity(EntityMovingItem.class, "entity_c_item", 1000);

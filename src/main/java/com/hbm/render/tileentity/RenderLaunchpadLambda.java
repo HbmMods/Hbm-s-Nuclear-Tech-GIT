@@ -41,7 +41,7 @@ public class RenderLaunchpadLambda extends TileEntitySpecialRenderer {
 		double doors = launchpad.getInterpPos(launchpad.INDEX_DOORS, interp);
 		double erector = launchpad.getInterpPos(launchpad.INDEX_ERECTOR, interp) - 25D;
 		double rotor = launchpad.getInterpPos(launchpad.INDEX_ROTOR, interp);
-		double clamps = launchpad.getInterpPos(launchpad.INDEX_CLAPMS, interp);
+		double clamps = launchpad.getInterpPos(launchpad.INDEX_CLAMPS, interp);
 		double pistons = launchpad.getInterpPos(launchpad.INDEX_PISTONS, interp);
 
 		bindTexture(ResourceManager.launchpad_lambda_tex);
