@@ -29,5 +29,4 @@ public class RenderSoyuz extends Render {
 		//just so if there's a mod that is trying to pull a funny
 		return ResourceManager.soyuz_payload;
 	}
-
 }

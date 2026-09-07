@@ -677,6 +677,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsday.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsdayRusted.class, new RenderMissileNuclear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocketSoyuz.class, new RenderSoyuz());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRocketLambda.class, new RenderLambdaRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySoyuzCapsule.class, new RenderSoyuzCapsule());
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachuteCrate.class, new RenderParachuteCrate());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileTaint.class, new RenderMissileTaint());
@@ -1080,31 +1081,31 @@ public class ClientProxy extends ServerProxy {
 
 		if("exhaust".equals(type)) {
 			String mode = data.getString("mode");
+			int count = Math.max(1, data.getInteger("count"));
+			double width = data.getDouble("width");
+			if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350) return;
 
 			if("soyuz".equals(mode)) {
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350) return;
-
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
 
 				for(int i = 0; i < count; i++) {
-
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
 					fx.motionY = -0.75 + rand.nextDouble() * 0.5;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
 
-			if("meteor".equals(mode)) {
-
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
-
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
+			if("lambda".equals(mode)) {
 
 				for(int i = 0; i < count; i++) {
+					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width).setScale(1.5F);
+					fx.motionY = -1 + rand.nextDouble() * 0.25;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
 
+			if("meteor".equals(mode)) {
+
+				for(int i = 0; i < count; i++) {
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}

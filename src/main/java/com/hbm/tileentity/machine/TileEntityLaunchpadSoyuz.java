@@ -540,11 +540,15 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 	public int orbital() {
 		if(this.cargoMode) return 0;
 		
-		if(slots[2] != null && (slots[2].getItem() == ModItems.sat_gerald || slots[2].getItemDamage() == EnumSatType.MINER_LUNAR.ordinal())) {
+		if(needsOrbiter(slots[2])) {
 			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander) return 2;
 			return 1;
 		}
 		return 0;
+	}
+	
+	public static boolean needsOrbiter(ItemStack stack) {
+		return stack != null && (stack.getItem() == ModItems.sat_gerald || stack.getItemDamage() == EnumSatType.MINER_LUNAR.ordinal());
 	}
 
 	@Override

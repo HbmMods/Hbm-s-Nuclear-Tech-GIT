@@ -93,7 +93,7 @@ public class GUILaunchpadSoyuz extends GuiInfoContainer {
 			float scale = 1;
 			GL11.glScalef(scale, scale, 1);
 			this.fontRendererObj.drawString(secs + ":" + cents, (int)(85 / scale), (int)(121 / scale), 0xff0000);
-			GL11.glScalef(1/scale, 1/scale, 1);
+			GL11.glScalef(1 / scale, 1 / scale, 1);
 			
 		} else if(launcher.soyuzStatus == SoyuzStatus.ABSENT) {
 			drawConstrainedLabel(I18nUtil.resolveKey("desc.gui.soyuz.idle"), 97, 125, 0xff0000, 1F, 22F);

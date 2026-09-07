@@ -43,6 +43,18 @@ public class RenderLaunchpadLambda extends TileEntitySpecialRenderer {
 		double rotor = launchpad.getInterpPos(launchpad.INDEX_ROTOR, interp);
 		double clamps = launchpad.getInterpPos(launchpad.INDEX_CLAMPS, interp);
 		double pistons = launchpad.getInterpPos(launchpad.INDEX_PISTONS, interp);
+		
+		boolean renderRocket = launchpad.erecting || launchpad.erected;
+		boolean rocketFixed = launchpad.erected;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 2, 0);
+		if(rocketFixed) {
+			GL11.glRotatef(-rotation, 0F, 1F, 0F);
+			bindTexture(ResourceManager.lambda_rocket_tex);
+			ResourceManager.lambda_rocket.renderAll();
+		}
+		GL11.glPopMatrix();
 
 		bindTexture(ResourceManager.launchpad_lambda_tex);
 		ResourceManager.launchpad_lambda.renderPart("Silo");
@@ -118,8 +130,12 @@ public class RenderLaunchpadLambda extends TileEntitySpecialRenderer {
 		} GL11.glPopMatrix();
 
 		GL11.glTranslated(0, 2, 0);
-		bindTexture(ResourceManager.lambda_rocket_tex);
-		ResourceManager.lambda_rocket.renderAll();
+
+		if(renderRocket && !rocketFixed) {
+			GL11.glRotatef(-rotation, 0F, 1F, 0F);
+			bindTexture(ResourceManager.lambda_rocket_tex);
+			ResourceManager.lambda_rocket.renderAll();
+		}
 		
 		GL11.glDisable(GL11.GL_CLIP_PLANE0);
 		

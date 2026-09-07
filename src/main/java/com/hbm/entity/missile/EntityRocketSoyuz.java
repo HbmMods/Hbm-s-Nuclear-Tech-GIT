@@ -120,17 +120,6 @@ public class EntityRocketSoyuz extends EntityRocketBase {
 	protected void entityInit() {
 		this.dataWatcher.addObject(8, 0);
 	}
-
-	public void setSat(ItemStack stack) {
-		this.payload[0] = stack;
-	}
-	
-	public void setPayload(List<ItemStack> payload) {
-		
-		for(int i = 0; i < payload.size(); i++) {
-			this.payload[i] = payload.get(i);
-		}
-	}
 	
 	public void setSkin(int i) {
 		this.dataWatcher.updateObject(8, i);

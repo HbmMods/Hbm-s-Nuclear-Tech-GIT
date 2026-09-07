@@ -176,10 +176,10 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	}
 	
 	protected void spawnContrail() {
-		this.spawnContraolWithOffset(0, 0, 0);
+		this.spawnContrailWithOffset(0, 0, 0);
 	}
 	
-	protected void spawnContraolWithOffset(double offsetX, double offsetY, double offsetZ) {
+	protected void spawnContrailWithOffset(double offsetX, double offsetY, double offsetZ) {
 		Vec3 vec = Vec3.createVectorHelper(this.lastTickPosX - this.posX, this.lastTickPosY - this.posY, this.lastTickPosZ - this.posZ);
 		double len = vec.lengthVector();
 		vec = vec.normalize();

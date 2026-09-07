@@ -18,9 +18,9 @@ public class ContainerLaunchpadLambda extends ContainerBase {
 		//Kerosene IN
 		this.addSlotToContainer(new Slot(tedf, 2, 107, 80));
 		//Kerosene OUT
-		this.addSlotToContainer(new Slot(tedf, 3, 125, 98));
+		this.addSlotToContainer(new Slot(tedf, 3, 107, 98));
 		//Oxyden IN
-		this.addSlotToContainer(new Slot(tedf, 4, 107, 80));
+		this.addSlotToContainer(new Slot(tedf, 4, 125, 80));
 		//Oxyden OUT
 		this.addSlotToContainer(new Slot(tedf, 5, 125, 98));
 		//Battery

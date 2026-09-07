@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.entity.missile.EntityRocketLambda;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchpadLambda;
 import com.hbm.inventory.fluid.Fluids;
@@ -8,6 +9,8 @@ import com.hbm.inventory.gui.GUILaunchpadLambda;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -55,6 +58,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	public int animationDelay = 0;
 	
 	public boolean autolaunch = false;
+	
+	private AudioWrapper audio;
 
 	public static final int COUNTDOWN_DURATION = 200;
 	public int countdown;
@@ -84,12 +89,17 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 			if(!this.hasRocketLoaded()) {
 				this.erected = false;
 				this.erecting = false;
+				this.countdown = 0;
 			}
 			
 			if(this.power >= CONSUMPTION) {
 				this.updateStates();
 				this.move();
 				this.power -= CONSUMPTION;
+				
+				if(this.autolaunch && this.erected && this.canLaunch() && this.countdown <= 0) {
+					this.countdown = this.COUNTDOWN_DURATION;
+				}
 			}
 			
 			this.networkPackNT(300);
@@ -107,101 +117,144 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 					this.positions[i] = this.syncPositions[i];
 				}
 			}
+			
+			if(this.countdown > 0) {
+
+				if(this.audio != null && !this.audio.isPlaying()) {
+					this.audio.stopSound();
+					this.audio = null;
+				}
+				if(this.audio == null) {
+					this.audio = MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", xCoord + 0.5F, yCoord + 3F, zCoord + 0.5F, 10F, 50F, 1F, 20);
+					this.audio.startSound();
+
+				}
+				this.audio.keepAlive();
+
+			} else {
+				if(this.audio != null) {
+					this.audio.stopSound();
+					this.audio = null;
+				}
+			}
+			
+			if(this.erected && this.hasOxidizer()) {
+
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 70 + worldObj.rand.nextInt(30));
+				data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posY", yCoord + 2);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", 2F);
+				data.setFloat("strafe", 0.075F);
+				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+			}
 		}
 	}
 	
 	public void updateStates() {
 		
-		// new animation phase but rocket is missing -> return to null pos
-		if(finishedAllMoving() && !this.hasRocketLoaded()) {
-			this.setTarget(INDEX_CLAMPS, 90F, 90F, 40);
-			this.setTarget(INDEX_PISTONS, 0.75F, 0.75F, 20);
-			if(this.finishedMoving(INDEX_CLAMPS)) {
-				this.setTarget(INDEX_DOORS, 0F, 3F, 60);
-				if(this.finishedMoving(INDEX_DOORS)) this.setTarget(INDEX_ERECTOR, 0F, 25F, 100);
-			}
-			this.erected = false;
-			this.animationProgress = 0;
-		}
-		
-		// if the doors are closed and the erector retracted, start the process if a rocket is loaded
-		if(finishedAllMoving() && this.hasRocketLoaded() && !this.erecting && this.positions[INDEX_ERECTOR] <= 0 && this.positions[INDEX_DOORS] <= 0) {
-			this.erecting = true;
-			this.animationProgress = 0;
-		}
-		
 		// rocket is being erected
-		if(finishedAllMoving() && this.hasRocketLoaded() && this.erecting) {
+		if(finishedAllMoving() && this.erecting && !this.erected) {
 			
-			// open doors
-			if(this.animationProgress == 0) {
+			if(this.erectorDown() && this.doorsClosed()) {
 				this.setTarget(INDEX_DOORS, 3F, 3F, 60);
-				this.setTarget(INDEX_ERECTOR, 0F, 25F, 1);
+				this.setTarget(INDEX_PISTONS, 0F, 1F, 1);
+				this.setTarget(INDEX_CLAMPS, 0F, 1F, 1);
 				this.setTarget(INDEX_ROTOR, 180F, 180F, 1);
-				this.setTarget(INDEX_CLAMPS, 0F, 90F, 1);
-				this.setTarget(INDEX_PISTONS, 0F, 0.75F, 1);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
-			// move erector up
-			} else if(this.animationProgress == 1) {
-				this.setTarget(INDEX_ERECTOR, 0F, 27F, 100);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
-			// rotate and close doors
-			} else if(this.animationProgress == 2) {
+			} else if(this.erectorDown() && this.doorsOpen()) {
+				this.animationDelay = 20;
+				this.setTarget(INDEX_ERECTOR, 27F, 27F, 100);
+			} else if(this.erectorUp() && this.rotorDown()) {
+				this.animationDelay = 20;
+				this.setTarget(INDEX_ROTOR, 0F, 180F, 60);
 				this.setTarget(INDEX_DOORS, 0F, 3F, 60);
-				this.setTarget(INDEX_ROTOR, 0F, 180F, 60);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
-			// set down
-			} else if(this.animationProgress == 3) {
-				this.setTarget(INDEX_ROTOR, 0F, 180F, 60);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
+			} else if(this.erectorUp() && this.rotorUp() && this.doorsClosed()) {
+				this.animationDelay = 20;
+				this.setTarget(INDEX_ERECTOR, 25F, 2F, 60);
+			} else if(this.erectorCenter() && this.rotorUp() && this.doorsClosed()) {
+				this.erected = true;
+			} else {
+				// oops, we've gone off-script, just run everything back
+				this.erecting = false;
 			}
 		}
 		
-		// return erector when countdown hits T-0.5
-		if(this.countdown <= 10) {
+		// return erector when countdown hits T-1
+		if(this.erected && this.countdown <= 20 && this.countdown > 0) {
 			this.erecting = false;
-			this.animationProgress = 0;
 		}
 		
 		// return erector post launch
 		if(finishedAllMoving() && !this.erecting) {
-
-			// disengage clamps
-			if(this.animationProgress == 0) {
+			
+			// keep the fucking doors closed
+			this.setTarget(INDEX_DOORS, 0F, 3F, 60);
+			
+			if(this.clampsOn()) {
 				this.setTarget(INDEX_PISTONS, 0.75F, 0.75F, 20);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
-			// fold clamps up
-			} else if(this.animationProgress == 1) {
-				this.setTarget(INDEX_CLAMPS, 90, 90, 60);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
-				}
-			// retract erector
-			} else if(this.animationProgress == 2) {
-				this.setTarget(INDEX_ERECTOR, 0, 25, 100);
-				if(this.finishedAllMoving()) {
-					this.animationDelay = 10;
-					this.animationProgress++;
+			} else if(this.clampsOff() && this.clampsDown()) {
+				this.animationDelay = 10;
+				this.setTarget(INDEX_CLAMPS, 90F, 90F, 40);
+			} else if(this.clampsUp() && !this.erectorDown()) {
+				this.animationDelay = 20;
+				this.setTarget(INDEX_ERECTOR, 0F, 25F, 100);
+			} else if(this.erectorDown() && this.doorsClosed()) {
+				
+				if(this.hasRocketLoaded()) {
+					this.erecting = true;
 				}
 			}
 		}
+		
+		if(this.erected && this.countdown > 0) {
+			this.countdown--;
+			
+			if(this.countdown <= 0) {
+				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
+				this.liftOff();
+			}
+		}
 	}
+	
+	public void liftOff() {
+		
+		double x = xCoord + 0.5;
+		double y = yCoord + 2;
+		double z = zCoord + 0.5;
+		
+		EntityRocketLambda soyuz = new EntityRocketLambda(worldObj);
+		soyuz.setLocationAndAngles(x, y, z, 0, 0);
+		worldObj.spawnEntityInWorld(soyuz);
+
+		tanks[0].setFill(tanks[0].getFill() - 24_000);
+		tanks[1].setFill(tanks[1].getFill() - 24_000);
+		
+		soyuz.setSat(slots[1]);
+		
+		slots[0] = null;
+		slots[1] = null;
+		
+		this.markChanged();
+	}
+
+	// please kill me
+	public boolean doorsClosed() { return this.positions[INDEX_DOORS] == 0F; }
+	public boolean doorsOpen() { return this.positions[INDEX_DOORS] == 3F; }
+	public boolean erectorDown() { return this.positions[INDEX_ERECTOR] == 0F; }
+	public boolean erectorCenter() { return this.positions[INDEX_ERECTOR] == 25F; }
+	public boolean erectorUp() { return this.positions[INDEX_ERECTOR] == 27F; }
+	public boolean rotorUp() { return this.positions[INDEX_ROTOR] == 0F; }
+	public boolean rotorDown() { return this.positions[INDEX_ROTOR] == 180F; }
+	public boolean clampsOn() { return this.positions[INDEX_PISTONS] == 0F; }
+	public boolean clampsOff() { return this.positions[INDEX_PISTONS] == 0.75F; }
+	public boolean clampsUp() { return this.positions[INDEX_CLAMPS] == 90F; }
+	public boolean clampsDown() { return this.positions[INDEX_CLAMPS] == 0F; }
 
 	@Override
 	public void serialize(ByteBuf buf) {
@@ -209,7 +262,9 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		tanks[0].serialize(buf);
 		tanks[1].serialize(buf);
 		buf.writeLong(power);
+		buf.writeBoolean(erecting);
 		buf.writeBoolean(erected);
+		buf.writeBoolean(autolaunch);
 		buf.writeInt(countdown);
 		
 		for(int i = 0; i < this.positions.length; i++) {
@@ -223,7 +278,9 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 		this.power = buf.readLong();
+		this.erecting = buf.readBoolean();
 		this.erected = buf.readBoolean();
+		this.autolaunch = buf.readBoolean();
 		this.countdown = buf.readInt();
 
 		for(int i = 0; i < this.positions.length; i++) {
@@ -259,6 +316,17 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 			}
 		}
 	}
+	
+	public boolean canLaunch() {
+		if(!this.hasRocketLoaded()) return false;
+		if(!this.hasAllFuel()) return false;
+		if(this.power < this.CONSUMPTION) return false;
+		if(slots[1] == null) return false;
+		if(!this.isItemValidForSlot(1, slots[1])) return false;
+		if(TileEntityLaunchpadSoyuz.needsOrbiter(slots[1])) return false;
+		
+		return true;
+	}
 
 	public boolean hasRocketLoaded() { return slots[0] != null && slots[0].getItem() == ModItems.missile_lambda; }
 	public boolean finishedMoving(int index) { return this.positions[index] == this.target[index]; }
@@ -271,6 +339,13 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	public float getInterpPos(int index, float interp) {
 		return prevPositions[index] + (positions[index] - prevPositions[index]) * interp;
 	}
+	
+	public boolean hasAllFuel() {
+		return hasJetFuel() && hasOxidizer();
+	}
+
+	public boolean hasJetFuel() { return this.tanks[0].getFill() >= 24_000; }
+	public boolean hasOxidizer() { return this.tanks[1].getFill() >= 24_000; }
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
@@ -314,6 +389,8 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 
 		return bb;
 	}
+	
+	@Override public double getUseRange() { return 24D; }
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -323,5 +400,16 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		
+		if(data.hasKey("auto")) {
+			this.autolaunch = data.getBoolean("auto");
+			this.markChanged();
+		}
+		
+		if(data.hasKey("launch")) {
+			
+			if(canLaunch()) {
+				this.countdown = this.COUNTDOWN_DURATION;
+			}
+		}
 	}
 }

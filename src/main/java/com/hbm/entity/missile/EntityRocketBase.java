@@ -1,5 +1,7 @@
 package com.hbm.entity.missile;
 
+import java.util.List;
+
 import com.hbm.items.ISatChip;
 import com.hbm.saveddata.satellites.XSatelliteRegistry;
 
@@ -42,6 +44,17 @@ public abstract class EntityRocketBase extends Entity {
 		if(this.posY > 600) {
 			deployPayload();
 			this.setDead();
+		}
+	}
+
+	public void setSat(ItemStack stack) {
+		this.payload[0] = stack;
+	}
+	
+	public void setPayload(List<ItemStack> payload) {
+		
+		for(int i = 0; i < payload.size(); i++) {
+			this.payload[i] = payload.get(i);
 		}
 	}
 	
