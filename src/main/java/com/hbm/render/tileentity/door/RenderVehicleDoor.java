@@ -5,6 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ public class RenderVehicleDoor implements IRenderDoors {
 	@Override
 	public void render(TileEntityDoorGeneric door, DoubleBuffer buf) {
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.pheo_vehicle_door_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(DoorDecl.LARGE_VEHICLE_DOOR.getSkinFromIndex(door.getSkinIndex()));
 		
 		double maxOpen = 3;
 		double open = 0;
