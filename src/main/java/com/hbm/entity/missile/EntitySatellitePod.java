@@ -243,13 +243,11 @@ public class EntitySatellitePod extends EntityThrowableInterp implements IRadarD
 		
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-			
-			if(!this.isLanding() || this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) != ModBlocks.sat_dock) {
-				this.attackEntityFrom(DamageSource.generic, 10F);
-				return;
-			}
-
 			this.onGround = true;
+			
+			if(this.speed < -0.02) {
+				this.attackEntityFrom(DamageSource.generic, 10F);
+			}
 		}
 	}
 	
