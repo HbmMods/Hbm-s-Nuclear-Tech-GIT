@@ -1,0 +1,11 @@
+{
+    "name": "Sulfuric Acid",
+    "icon": ["hbm:item.fluid_icon", 1, 75],
+    "trigger": [["hbm:item.fluid_icon", 1, 75]],
+    "title": {
+        "en_US": "Sulfuric Acid"
+    },
+    "content": {
+        "en_US": "Sulfuric acid is first obtained my mixing [[hydrogen peroxide|Hydrogen Peroxide]] with [[water|Water]] and sulfur. It is one of the most vital fluids as it is used in every stage of progression. <br>It is first used to [[acidize|Ore Acidizer]] ores into crystals. It is also a key part of [[bedrock ore processing|Bedrock Ore Processing]]. Additionally, it is used to dissolve some radioactive fuels in the [[purex|Purex]]. Sulfuric acid is also used in the production of [[military grade circuit boards|Military Grade Circuit Boards]]. Lastly, it may be mixed to produce [[fracking solution|Fracking Solution]] or [[nitric acid|Nitric Acid]] for [[bedrock ore|Bedrock Ore Processing]] and [[bedrock oil|Bedrock Oil Processing]] processing. It may also be obtained by [[coking|Coker Unit]] or [[electrolysing|Electrolysis Machine]] [[vitriol|Vitriol]]."
+    }
+}

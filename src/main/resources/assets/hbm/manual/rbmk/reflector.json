@@ -4,10 +4,12 @@
 	"trigger": [["hbm:tile.rbmk_reflector"]],
 	"title": {
 		"en_US": "RBMK Tungsten Carbide Neutron Reflector",
+		"ru_RU": "Карбид-вольфрамовый отражатель нейтронов РБМК",
 		"zh_CN": "RBMK反应堆碳化钨中子反射器"
 	},
 	"content": {
 		"en_US": "The reflector can be used to utilize neutrons that would otherwise leave the [[RBMK]]. Path simulation for neutrons that hit the reflector is skipped, rather, neutrons will simply \"teleport\" directly back to their source fuel channel.",
+		"ru_RU": "Отражатель позволяет использовать нейтроны, которые иначе покинули бы [[РБМК|RBMK]]. Для попавших в отражатель нейтронов моделирование траектории пропускается: они просто «телепортируются» прямо обратно в исходный топливный канал.",
 		"zh_CN": "中子反射器可用于利用将要离开[[RBMK]]的中子。撞击到中子反射器 上的中子不会进行路径模拟，相反，这些中子会直接“传送”至发射它的燃料 通道上。"
 	}
 }

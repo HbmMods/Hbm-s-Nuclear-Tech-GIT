@@ -690,7 +690,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		if((PREFIX_FUNCTION + "setrods").equals(name) && params.length > 0) {
 			int percent = IRORInteractive.parseInt(params[0], 0, 100);
-			this.rodTarget = percent;
+			this.rodTarget = 100 - percent;
 			this.markChanged();
 			return null;
 		}

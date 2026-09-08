@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 88],
     "trigger": [["hbm:item.fluid_icon", 1, 88]],
     "title": {
-        "en_US": "High-Performance Solvent"
+        "en_US": "High-Performance Solvent",
+        "ru_RU": "Высокоэффективный растворитель"
     },
     "content": {
-        "en_US": "Obtained from either combining [[reformate gas|Reformate Gas]] with [[chlorine gas|Chlorine Gas]] or by [[breeding|RBMK Irradiation Channel]] [[chlorinated petroleum wax|Chlorinated Petroleum Wax]]. Both methods of producing high-performance solvent require a [[RBMK]] to produce due to the prerequisite of [[bismuth|Bismuth]] for [[reformate gas|Reformate Gas]] or the use of the [[irradiation channel|RBMK Irradiation Channel]]. High-Performance Solvent is primarily used for advanced [[bedrock ore processing|Bedrock Ore Processing]] or the production of [[fullerene solution|Fullerene Solution]] for [[crystalline fullerite|Crystalline Fullerite]].<br><br>{{Template:Oil3}}"
+        "en_US": "Obtained from either combining [[reformate gas|Reformate Gas]] with [[chlorine gas|Chlorine Gas]] or by [[breeding|RBMK Irradiation Channel]] [[chlorinated petroleum wax|Chlorinated Petroleum Wax]]. Both methods of producing high-performance solvent require a [[RBMK]] to produce due to the prerequisite of [[bismuth|Bismuth]] for [[reformate gas|Reformate Gas]] or the use of the [[irradiation channel|RBMK Irradiation Channel]]. High-Performance Solvent is primarily used for advanced [[bedrock ore processing|Bedrock Ore Processing]] or the production of [[fullerene solution|Fullerene Solution]] for [[crystalline fullerite|Crystalline Fullerite]].<br><br>{{Template:Oil3}}",
+        "ru_RU": "Получается либо путём смешивания [[реформированного газа|Reformate Gas]] с [[хлором|Chlorine Gas]], либо путём [[облучения|RBMK Irradiation Channel]] [[хлорированного нефтяного воска|Chlorinated Petroleum Wax]]. Оба метода производства высокоэффективного растворителя требуют наличия [[РБМК|RBMK]] из-за необходимости [[висмута|Bismuth]] для [[реформированного газа|Reformate Gas]] или использования [[канала облучения|RBMK Irradiation Channel]]. Высокоэффективный растворитель в основном используется для продвинутой [[переработки бедроковой руды|Bedrock Ore Processing]] или производства [[раствора фуллерена|Fullerene Solution]] для создания [[кристаллического фуллерита|Crystalline Fullerite]].<br><br>{{Template:Oil3}}"
     }
 }

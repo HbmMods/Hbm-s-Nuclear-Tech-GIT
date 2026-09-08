@@ -168,6 +168,8 @@ public class TileMappings {
 		put(TileEntityMultiblock.class, "tileentity_multi_core");
 		put(TileEntityChlorineSeal.class, "tileentity_chlorine_seal");
 		put(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
+		put(TileEntityLaunchpadSoyuz.class, "tileentity_launchpad_soyuz");
+		put(TileEntityLaunchpadLambda.class, "tileentity_launchpad_lambda");
 		put(TileEntityTesla.class, "tileentity_tesla_coil");
 		put(TileEntityBarrel.class, "tileentity_fluid_barrel");
 		put(TileEntityCyberCrab.class, "tileentity_crabs");

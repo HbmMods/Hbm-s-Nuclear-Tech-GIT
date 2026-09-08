@@ -573,6 +573,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return meta;
 	}
 
+	/**
+	 * Allows six int arrays with standard format (up, down, forward, backward, left, right)
+	 * or nine int arrays with extra offset info (backward, up, left)
+	 */
 	public int[][] getAllDimensions() {
 		return new int[][] { getDimensions() };
 	}
@@ -580,7 +584,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	public double[][] getAABBExtras() {
 		return new double[0][0];
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public void drawPlacementHighlight(EntityPlayer player, float interp) {
 		MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 5.0D);
@@ -600,7 +604,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			if(i == 1) facing = ForgeDirection.getOrientation(5);
 			if(i == 2) facing = ForgeDirection.getOrientation(3);
 			if(i == 3) facing = ForgeDirection.getOrientation(4);
-
+			
 			ForgeDirection sideHit = ForgeDirection.getOrientation(mop.sideHit);
 			facing = getDirModified(facing);
 
@@ -641,16 +645,16 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 				// Some of the multiblocks have offsets for the placements, so
 				// this allows for the ones that dont need it to have a bunch of
 				// 0s at the end.
-				int offFwd = dims.length > 6 ? dims[6] : 0;
+				int offBkwd = dims.length > 6 ? dims[6] : 0;
 				int offUp = dims.length > 7 ? dims[7] : 0;
-				int offLat = dims.length > 8 ? dims[8] : 0;
+				int offLeft = dims.length > 8 ? dims[8] : 0;
 				int worldOffX;
 				int worldOffY;
 				int worldOffZ;
 
 				worldOffY = offUp;
-				worldOffX = facing.offsetX * offFwd + facing.getRotation(ForgeDirection.UP).offsetX * offLat;
-				worldOffZ = facing.offsetZ * offFwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLat;
+				worldOffX = facing.offsetX * offBkwd + facing.getRotation(ForgeDirection.UP).offsetX * offLeft;
+				worldOffZ = facing.offsetZ * offBkwd + facing.getRotation(ForgeDirection.UP).offsetZ * offLeft;
 
 				int[] rot = MultiblockHandlerXR.rotate(dims, facing);
 				for(int bx = -rot[4] + worldOffX; bx <= rot[5] + worldOffX; bx++) {

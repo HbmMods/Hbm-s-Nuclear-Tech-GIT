@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public abstract class NodeNet<R, P, L extends GenNode> {
 	public boolean valid = true;
 	public Set<L> links = new LinkedHashSet();
 
-	public HashMap<R, Long> receiverEntries = new HashMap();
-	public HashMap<P, Long> providerEntries = new HashMap();
+	public Map<R, Long> receiverEntries = new HashMap();
+	public Map<P, Long> providerEntries = new HashMap();
 	
 	public NodeNet() {
 		UniNodespace.activeNodeNets.add(this);

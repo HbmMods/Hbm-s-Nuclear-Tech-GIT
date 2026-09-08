@@ -117,12 +117,9 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				tryEjectBuffer();
-
-				for(DirPos pos : getConPos()) {
-					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
 			}
+			
+			this.autoPort(getConPos());
 
 			if(chuteTimer > 0) chuteTimer--;
 

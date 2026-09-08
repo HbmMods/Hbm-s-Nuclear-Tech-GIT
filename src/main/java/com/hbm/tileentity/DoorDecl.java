@@ -451,6 +451,7 @@ public abstract class DoorDecl {
 
 	public static final DoorDecl WATER_DOOR = new DoorDecl() {
 
+		@Override public boolean neverDemandRedstone() { return true; }
 		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_big_stop"; };
 		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_big_start"; };
 		@Override public String getOpenSoundStart() { return "hbm:door.lever"; };
@@ -741,6 +742,7 @@ public abstract class DoorDecl {
 		return open ? AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0) : AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
 	}
 
+	public boolean neverDemandRedstone() { return false; }
 	public boolean isLadder(boolean open) { return false; }
 	public String getOpenSoundLoop() { return null; }
 

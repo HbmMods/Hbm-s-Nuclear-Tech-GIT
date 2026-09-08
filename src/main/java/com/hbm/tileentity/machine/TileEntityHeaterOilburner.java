@@ -260,12 +260,12 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 
 	@Override
 	public String runRORFunction(String name, String[] params) {
-		if((PREFIX_FUNCTION + "setstate").equals(name)) {
+		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length > 0) {
 			this.isOn = params[0].equals("1");
 			this.markChanged();
 			return null;
 		}
-		if((PREFIX_FUNCTION + "setburnrate").equals(name)) {
+		if((PREFIX_FUNCTION + "setburnrate").equals(name) && params.length > 0) {
 			int rate = IRORInteractive.parseInt(params[0], 1, 10);
 			this.setting = rate;
 			this.markChanged();

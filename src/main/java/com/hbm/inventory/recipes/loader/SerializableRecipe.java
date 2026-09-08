@@ -98,6 +98,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(BlastFurnaceRecipesNT.INSTANCE);
 		recipeHandlers.add(RockMillRecipes.INSTANCE);
 		recipeHandlers.add(SuperComputerRecipes.INSTANCE);
+		recipeHandlers.add(SpaceAssemblerRecipes.INSTANCE);
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());

@@ -90,10 +90,8 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 
 			this.isOn = false;
 			this.power = Library.chargeTEFromItems(slots, 5, power, maxPower);
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			
+			this.autoPort(getConPos());
 
 			upgradeManager.checkSlots(this, slots, 6, 7);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);

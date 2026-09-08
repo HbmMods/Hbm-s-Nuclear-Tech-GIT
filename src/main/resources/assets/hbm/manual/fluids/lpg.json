@@ -1,0 +1,13 @@
+{
+    "name": "LPG",
+    "icon": ["hbm:item.fluid_icon", 1, 25],
+    "trigger": [["hbm:item.fluid_icon", 1, 25]],
+    "title": {
+        "en_US": "LPG",
+        "ru_RU": "СПГ"
+    },
+    "content": {
+        "en_US": "LPG can be produced by [[compressing|Compressor]] [[petroleum gas|Petroleum Gas]] to '1PU'. It is primarily used as a combustible [[fuel|Fuels]] source.<br><br>See also:<br>[[Advanced Oil Processing]]",
+        "ru_RU": "СПГ можно получить путем [[сжатия|Compressor]] [[попутного нефтяного газа|Petroleum Gas]] до 1 PU. В основном он используется в качестве горючего источника [[топлива|Fuels]].<br><br>См.также:<br>[[Продвинутая нефтепереработка|Advanced Oil Processing]]"
+    }
+}

@@ -85,13 +85,8 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 
 			this.power = Library.chargeTEFromItems(slots, 7, this.getPower(), this.getMaxPower());
 			this.tank.setType(8, slots);
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : getConPos()) {
-					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
+			
+			this.autoPort(getConPos());
 
 			recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
 			long intendedMaxPower;

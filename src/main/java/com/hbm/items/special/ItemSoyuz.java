@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.util.i18n.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -50,12 +51,12 @@ public class ItemSoyuz extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Skin:");
+		String desc = I18nUtil.resolveKey("item.missile_soyuz.desc") + " ";
 		
 		switch(stack.getItemDamage()) {
-		case 0: list.add(EnumChatFormatting.GOLD + "Original"); break;
-		case 1: list.add(EnumChatFormatting.BLUE + "Luna Space Center"); break;
-		case 2: list.add(EnumChatFormatting.GREEN + "Post War"); break;
+		case 0: list.add(desc + EnumChatFormatting.GOLD + I18nUtil.resolveKey("item.missile_soyuz.orig.desc")); break;
+		case 1: list.add(desc + EnumChatFormatting.BLUE + I18nUtil.resolveKey("item.missile_soyuz.luna.desc")); break;
+		case 2: list.add(desc + EnumChatFormatting.GREEN + I18nUtil.resolveKey("item.missile_soyuz.war.desc")); break;
 		}
 	}
 

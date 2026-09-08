@@ -1,0 +1,11 @@
+{
+    "name": "Desulfurized Naphtha",
+    "icon": ["hbm:item.fluid_icon", 1, 137],
+    "trigger": [["hbm:item.fluid_icon", 1, 137]],
+    "title": {
+        "en_US": "Desulfurized Naphtha"
+    },
+    "content": {
+        "en_US": "Desulfurized naphtha can be obtained by [[refining|Oil Refinery]] hot desulfurized [[cracked|Desulfurized Cracked Oil]] or [[crude|Desulfurized Hot Crude Oil]] oil. It is primarily [[fractioned|Fractioning Tower]] to produce [[BTX]] and [[high-cetane diesel|High-Cetane Diesel]]. It may also be mixed with [[aromatic hydrocarbons|Aromatic Hydrocarbons]] to obtain additional [[solvent|Solvent]].<br><br>{{Template:Oil3.5}}"
+    }
+}

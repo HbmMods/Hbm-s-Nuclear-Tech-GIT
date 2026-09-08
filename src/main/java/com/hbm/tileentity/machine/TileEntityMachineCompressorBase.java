@@ -65,10 +65,6 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 		if(!worldObj.isRemote) {
 
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				this.updateConnections();
-			}
-
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
@@ -108,10 +104,8 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 				this.progress = 0;
 				this.isOn = false;
 			}
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			
+			this.autoPort(getConPos());
 
 			this.networkPackNT(100);
 
@@ -140,13 +134,6 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 		this.isOn = buf.readBoolean();
-	}
-
-	protected void updateConnections() {
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	public abstract DirPos[] getConPos();

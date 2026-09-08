@@ -894,12 +894,12 @@ public class OreDictManager {
 			for(Block b : blocks) registerStack(tag, new ItemStack(b));
 			return this;
 		}
-		
+
 		public DictFrame hazIngot() {
 			hazMult = HazardRegistry.ingot;
 			return autoRegHazard(INGOT);
 		}
-		
+
 		// TODO: rethink this. currently, keys are only registered on-demand if the dict frame has a valid entry, even though we can maximize compatibility
 		// by simply registereing all known shapes in the haz reg, whether it exists or not
 		public DictFrame autoRegHazard(MaterialShapes shape) {

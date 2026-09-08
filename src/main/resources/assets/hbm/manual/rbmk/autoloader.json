@@ -4,9 +4,11 @@
 	"trigger": [["hbm:tile.rbmk_autoloader"]],
 	"title": {
 		"en_US": "RBMK Autoloader",
+		"ru_RU": "Автозагрузчик стержней РБМК",
 		"zh_CN": "RBMK燃料自动装填机"
 	},
 	"content": {
-		"en_US": "The autoloader is an advanced component of an [[RBMK]] that can be placed on top of [[fuel channels|RBMK Fuel Channel]]. The autoloader has two inventory grids, one for fresh fuel, and one for spent fuel, as well as a selector for the fuel enrichment percentage (i.e. 100% - depletion percentage) which can be changed in 5% increments. If the [[fuel rod's|RBMK Fuel Rod]] enrichment of the connected fuel channel is lower than the configured percentage, the autoloader will drop down, remove the spent fuel and insert a new fuel rod. The autoloader can be automated using hoppers or conveyors, the item access ports are on the very top."
+		"en_US": "The autoloader is an advanced component of an [[RBMK]] that can be placed on top of [[fuel channels|RBMK Fuel Channel]]. The autoloader has two inventory grids, one for fresh fuel, and one for spent fuel, as well as a selector for the fuel enrichment percentage (i.e. 100% - depletion percentage) which can be changed in 5% increments. If the [[fuel rod's|RBMK Fuel Rod]] enrichment of the connected fuel channel is lower than the configured percentage, the autoloader will drop down, remove the spent fuel and insert a new fuel rod. The autoloader can be automated using hoppers or conveyors, the item access ports are on the very top.",
+		"ru_RU": "Автозагрузчик — продвинутый компонент [[РБМК|RBMK]], который можно установить поверх [[топливных каналов|RBMK Fuel Channel]]. В автозагрузчике есть две сетки инвентаря: для свежего и отработанного топлива, а также селектор процента обогащения топлива (то есть 100% минус процент обеднения), изменяемый с шагом 5%. Если обогащение [[топливного стержня|RBMK Fuel Rod]] в подключённом топливном канале падает ниже заданного значения, автозагрузчик опускается, извлекает отработанное топливо и вставляет новый топливный стержень. Автозагрузчик можно автоматизировать с помощью воронок или конвейеров; порты доступа к предметам расположены на самом верху."
 	}
 }

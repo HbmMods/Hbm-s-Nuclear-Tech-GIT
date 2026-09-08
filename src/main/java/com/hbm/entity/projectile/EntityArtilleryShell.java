@@ -8,6 +8,7 @@ import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.DamageResistanceHandler;
 
 import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
@@ -15,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -60,6 +62,14 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(!worldObj.isRemote && amount >= 250 && DamageResistanceHandler.CATEGORY_ENERGY.equals(DamageResistanceHandler.typeToCategory(source))) {
+			this.setDead();
+		}
+		return false;
 	}
 	
 	@Override

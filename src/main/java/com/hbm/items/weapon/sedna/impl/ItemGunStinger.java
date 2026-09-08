@@ -141,9 +141,9 @@ public class ItemGunStinger extends ItemGunBaseNT {
 		
 		for(int i = 0; i < confNo; i++) {
 			IHUDComponent[] components = gun.getConfig(stack, i).getHUDComponents(stack);
+			int bottomOffset = 0;
 			
 			if(components != null) for(IHUDComponent component : components) {
-				int bottomOffset = 0;
 				component.renderHUDComponent(event, type, player, stack, bottomOffset, i);
 				bottomOffset += component.getComponentHeight(player, stack);
 			}

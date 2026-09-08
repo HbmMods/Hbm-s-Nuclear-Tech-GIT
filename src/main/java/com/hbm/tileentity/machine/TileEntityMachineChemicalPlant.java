@@ -104,11 +104,7 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			outputTanks[1].unloadTank(17, 20, slots);
 			outputTanks[2].unloadTank(18, 21, slots);
 			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
-				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
-			}
+			this.autoPort(getConPos());
 
 			double speed = 1D;
 			double pow = 1D;

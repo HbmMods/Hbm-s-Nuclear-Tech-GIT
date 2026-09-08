@@ -101,11 +101,7 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 2, 3);
 			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
-				if(outputTank.getFill() > 0) this.tryProvide(outputTank, worldObj, pos);
-			}
+			this.autoPort(getConPos());
 
 			double speed = 1D;
 			double pow = 1D;

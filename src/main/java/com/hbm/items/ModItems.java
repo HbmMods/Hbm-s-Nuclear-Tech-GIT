@@ -1328,7 +1328,15 @@ public class ModItems {
 
 	public static Item missile_soyuz;
 	public static Item missile_soyuz_lander;
+	public static Item missile_lambda;
 	public static Item satellite;
+	public static Item orbital_assembly;
+	public static Item sat_gerald;
+	public static Item sat_chip;
+	public static Item sat_coord;
+	public static Item sat_designator;
+	public static Item sat_relay;
+	
 	@Deprecated public static Item sat_mapper;
 	@Deprecated public static Item sat_scanner;
 	@Deprecated public static Item sat_radar;
@@ -1337,11 +1345,6 @@ public class ModItems {
 	@Deprecated public static Item sat_resonator;
 	@Deprecated public static Item sat_miner;
 	@Deprecated public static Item sat_lunar_miner;
-	public static Item sat_gerald;
-	public static Item sat_chip;
-	public static Item sat_coord;
-	public static Item sat_designator;
-	public static Item sat_relay;
 
 	public static ItemEnumMulti ammo_misc;
 	public static ItemEnumMulti ammo_shell;
@@ -3410,8 +3413,10 @@ public class ModItems {
 		missile_test = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_test").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_soyuz = new ItemSoyuz().setUnlocalizedName("missile_soyuz").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz");
 		missile_soyuz_lander = new ItemCustomLore().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
+		missile_lambda = new Item().setUnlocalizedName("missile_lambda").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":lambda_rocket");
 		missile_custom = new ItemCustomMissile().setUnlocalizedName("missile_custom").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_custom");
 		satellite = new ItemSatellite().setUnlocalizedName("satellite").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":satellite");
+		orbital_assembly = new ItemOrbitalAssembly().setUnlocalizedName("orbital_assembly").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":orbital_assembly");
 		sat_mapper = new ItemSatChip().setUnlocalizedName("sat_mapper").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":sat_mapper");
 		sat_scanner = new ItemSatChip().setUnlocalizedName("sat_scanner").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":sat_scanner");
 		sat_radar = new ItemSatChip().setUnlocalizedName("sat_radar").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":sat_radar");
@@ -5554,6 +5559,7 @@ public class ModItems {
 		//Rockets
 		GameRegistry.registerItem(missile_soyuz, missile_soyuz.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz_lander, missile_soyuz_lander.getUnlocalizedName());
+		GameRegistry.registerItem(missile_lambda, missile_lambda.getUnlocalizedName());
 		GameRegistry.registerItem(missile_custom, missile_custom.getUnlocalizedName());
 
 		//Missile Parts
@@ -5695,6 +5701,7 @@ public class ModItems {
 		GameRegistry.registerItem(sat_coord, sat_coord.getUnlocalizedName());
 		GameRegistry.registerItem(sat_designator, sat_designator.getUnlocalizedName());
 		GameRegistry.registerItem(sat_relay, sat_relay.getUnlocalizedName());
+		GameRegistry.registerItem(orbital_assembly, orbital_assembly.getUnlocalizedName());
 
 		//Guns
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());

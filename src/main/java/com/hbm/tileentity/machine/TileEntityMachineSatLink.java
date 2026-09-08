@@ -168,7 +168,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 	@Override
 	public String provideRORValue(String name) {
 
-		if(name.equals(PREFIX_VALUE + connected)) {
+		if(name.equals(PREFIX_VALUE + "connected")) {
 			return this.connected ? "TRUE" : "FALSE";
 		}
 
@@ -210,6 +210,7 @@ public class TileEntityMachineSatLink extends TileEntityTickingBase implements I
 			String[] cmd = String.join(IRORInteractive.PARAM_SEPARATOR, params).split(" ");
 			if(sat != null) {
 				sat.onCommand(worldObj, cmd);
+				dat.markDirty();
 			}
 			SatelliteRayScan.reportEvent(worldObj, xCoord, yCoord, zCoord, RayEvent.INFO_RADIO, 300);
 			this.markChanged();

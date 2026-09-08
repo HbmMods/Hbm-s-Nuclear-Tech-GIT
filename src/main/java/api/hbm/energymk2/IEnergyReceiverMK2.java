@@ -1,11 +1,11 @@
 package api.hbm.energymk2;
 
 import com.hbm.handler.threading.PacketThreading;
-import com.hbm.interfaces.NotableComments;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
+import api.hbm.tile.EnumTransferAction;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /** If it receives energy, use this */
-@NotableComments
 public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
 	public default long transferPower(long power) {
@@ -34,21 +33,23 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	/** Whether a provider can provide power by touching the block (i.e. via proxies), bypassing the need for a network entirely */
 	public default boolean allowDirectProvision() { return true; }
 
-	public default void trySubscribe(World world, DirPos pos) { trySubscribe(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	public default EnumTransferAction trySubscribe(World world, DirPos pos) { return trySubscribe(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 
-	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
+	public default EnumTransferAction trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
+		EnumTransferAction action = EnumTransferAction.NOTHING;
 
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
-			if(!con.canConnect(dir.getOpposite())) return;
+			if(!con.canConnect(dir.getOpposite())) return action;
 
 			PowerNode node = Nodespace.getNode(world, x, y, z);
 
 			if(node != null && node.net != null) {
 				node.net.addReceiver(this);
+				action = EnumTransferAction.CONNECT_NET;
 				red = true;
 			}
 		}
@@ -65,6 +66,8 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 			data.setDouble("mZ", -dir.offsetZ * (red ? 0.025 : 0.1));
 			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
+		
+		return action;
 	}
 
 	public default void tryUnsubscribe(World world, int x, int y, int z) {

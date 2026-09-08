@@ -8,6 +8,7 @@ import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.tile.EnumTransferAction;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,17 +21,19 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 
-	public default void tryProvide(FluidTank tank, World world, DirPos pos) { tryProvide(tank.getTankType(), tank.getPressure(), world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
-	public default void tryProvide(FluidType type, World world, DirPos pos) { tryProvide(type, 0, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
-	public default void tryProvide(FluidType type, int pressure, World world, DirPos pos) { tryProvide(type, pressure, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	public default EnumTransferAction tryProvide(FluidTank tank, World world, DirPos pos) { return tryProvide(tank.getTankType(), tank.getPressure(), world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	public default EnumTransferAction tryProvide(FluidType type, World world, DirPos pos) { return tryProvide(type, 0, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	public default EnumTransferAction tryProvide(FluidType type, int pressure, World world, DirPos pos) { return tryProvide(type, pressure, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 
-	public default void tryProvide(FluidTank tank, World world, int x, int y, int z, ForgeDirection dir) { tryProvide(tank.getTankType(), tank.getPressure(), world, x, y, z, dir); }
-	public default void tryProvide(FluidType type, World world, int x, int y, int z, ForgeDirection dir) { tryProvide(type, 0, world, x, y, z, dir); }
+	public default EnumTransferAction tryProvide(FluidTank tank, World world, int x, int y, int z, ForgeDirection dir) { return tryProvide(tank.getTankType(), tank.getPressure(), world, x, y, z, dir); }
+	public default EnumTransferAction tryProvide(FluidType type, World world, int x, int y, int z, ForgeDirection dir) { return tryProvide(type, 0, world, x, y, z, dir); }
 
-	public default void tryProvide(FluidType type, int pressure, World world, int x, int y, int z, ForgeDirection dir) {
+	public default EnumTransferAction tryProvide(FluidType type, int pressure, World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
+		
+		EnumTransferAction action = null;
 
 		if(te instanceof IFluidConnectorMK2) {
 			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
@@ -41,6 +44,7 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 				if(node != null && node.net != null) {
 					node.net.addProvider(this);
 					red = true;
+					action = EnumTransferAction.CONNECT_NET;
 				}
 			}
 		}
@@ -53,6 +57,7 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 				long toTransfer = Math.min(provides, receives);
 				toTransfer -= rec.transferFluid(type, pressure, toTransfer);
 				this.useUpFluid(type, pressure, toTransfer);
+				if(action == null) action = EnumTransferAction.PROVIDE_DIRECT;
 			}
 		}
 
@@ -69,6 +74,8 @@ public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 			data.setDouble("mZ", dir.offsetZ * (red ? 0.025 : 0.1));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
+		
+		return action == null ? EnumTransferAction.NOTHING : action;
 	}
 
 	public FluidTank[] getSendingTanks();

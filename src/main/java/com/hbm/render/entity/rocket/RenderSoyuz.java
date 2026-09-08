@@ -16,11 +16,11 @@ public class RenderSoyuz extends Render {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        
-        int type = entity.getDataWatcher().getWatchableObjectInt(8);
-        SoyuzPronter.prontSoyuz(type);
-		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+
+		int type = entity.getDataWatcher().getWatchableObjectInt(8);
+		SoyuzPronter.prontSoyuz(type);
+
 		GL11.glPopMatrix();
 	}
 
@@ -29,5 +29,4 @@ public class RenderSoyuz extends Render {
 		//just so if there's a mod that is trying to pull a funny
 		return ResourceManager.soyuz_payload;
 	}
-
 }

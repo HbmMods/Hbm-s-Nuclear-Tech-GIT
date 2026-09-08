@@ -73,9 +73,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 		if(!worldObj.isRemote) {
 
-			this.updateConnections();
-
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
+			this.autoPort(getConPos());
 
 			upgradeManager.checkSlots(this, slots, 10, 11);
 
@@ -97,7 +96,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 				progress = 0;
 			}
 
-			this.sendFluid();
 			this.networkPackNT(25);
 		}
 	}
@@ -122,23 +120,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 		for(int i = 0; i < 3; i++)
 			tanks[i].deserialize(buf);
-	}
-
-	private void updateConnections()  {
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	private void sendFluid() {
-		for(int i = 1; i < 3; i++) {
-			if(tanks[i].getFill() > 0) {
-				for(DirPos pos : getConPos()) {
-					this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
-		}
 	}
 
 	public DirPos[] getConPos() {

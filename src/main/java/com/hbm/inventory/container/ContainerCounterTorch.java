@@ -44,7 +44,7 @@ public class ContainerCounterTorch extends ContainerBase {
 			ret = slot.getStack().copy();
 		
 		if(button == 1 && mode == 0 && slot.getHasStack()) {
-			radio.matcher.nextMode(radio.getWorldObj(), slot.getStack(), index);
+			radio.nextMode(index);
 			return ret;
 			
 		} else {

@@ -14,6 +14,18 @@
   * Most recipes have multiple variants with different cooling options
   * More expensive cooling makes the recipes faster, but more likely to fail
   * Can also create blueprint booklets without the aid of pufferfish, the recipe takes longer and much more energy, but has double the success chance
+  * Can also create Klaus
+* Space laboratory
+  * New satellite that can provide data for drives
+  * By default, can produce flight data which has to be written to a drive using a drive enclosure
+  * The drive enclosure has to be placed onto one of the ground station's ports to receive data, which happens automatically if drive data is available
+  * Accepts sensor relays, which produces orbital data
+    * A single relay takes 100 hours to produce one drive worth of orbital data, this can be sped up by installing more relays on the same satellite
+    * Time taken scales linearly, a satellite with 100 sensor relays only takes one hour per data drive
+  * Accepts 0G assemblers, which allow items to be produced in space
+    * More assemblers make the recipes run faster
+    * Needed for the crystal circuit board
+    * Input items have to be launched via rocket
 
 ## Changed
 * Updated russian localization
@@ -47,6 +59,32 @@
 * The pile now has thorium-232 rods which can be bred into thorium fuel
 * Updated yharonite billet texture
 * Item magnet armor mods are now 50% stronger
+* Meteors can now be detected by radar and radar satellites
+* Meteors, artillery shells and artillery rockets can now be destroyed by damage with an "energy" type (lasers, plasma) exceeding 250 points
+  * This means that the orbital precision laser can now intercept these entities
+* Updated the automatic thresher
+  * Nether wart, pumpkins and melons can now be harvested
+  * Pumpkin and melon stems are now ignored
+* The liquefactor and solidifier recipe time has been reduced from 5 seconds to 3 seconds
+* Melons can now be directly liquefacted into ethanol
+* Liquefacting coal and lignite now yields significantly more coal oil in order to compete with coal oil from the combination oven
+* Added the server config `ULTRA_LARP_MODE`
+  * If enabled, most large doors can no longer be operated manually
+  * The exception bein the water door due to it having two large hand-operated cranks
+* Retextured the grenade fuze items so that the fuze type remains visible even with the stack size number enabled
+* The remnants power armor is now made in the precision assembler using discoverable blueprints
+* Increased RPA resistance against physical, fire and energy damage types
+* The satellite cargo pad no longer auto-pushes items out of its inventory
+* The satellite cargo pad now uses the current multiblock system, existing pads should convert automatically
+* The pyrolysis oven no longer requires fullerite (except in expensive mode)
+* Updated the model of the cargo landing pad as well as the drop ship
+  * The drop ship now brakes before landing, and now has landing struts which are extended
+  * The drop ship no longer fires its thrusters when landed, which means it no longer spams particles
+  * Drop ships can now be damaged, any damage 5 or above will destroy the capsule
+  * Due to their landing struts, the drop ship can now safely land even if it does not reach a cargo pad, in which case it will simply spill the items before taking off
+* The soyuz landing capsule can now be emptied via hoppers
+* Changed the recipe of the flow control pump
+* Mining satellites now report their mining progress to the ground station's tooltip
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
@@ -55,7 +93,7 @@
 * Fixed old lantern repair bonus not being applied when the player is too far away from the lantern or another player is in the detection area
 * Fixed an issue where the vast majority of fluid spilling machines would ignore all fluid trait spill actions except for the soot/poison polluting ones
 * Fixed a potential issue regarding bobblehead world generation
-* The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain cirumstances, the power requirement can never be met
+* The powered condenser now has a bit more tolerance with its power consumption, preventing edge cases where due to power grid limitations in certain circumstances, the power requirement can never be met
 * Fixed gamebreaking issue where the tooltip of the RoR terminal was misspelled
 * Fixed RoR pager only having a max channel length of 10 instead of 15
 * Power armor fall sounds no longer trigger for falls 0.5m or less, hopefully fixing an issue where using cargo elevators would repeatedly trigger the fall sound
@@ -67,3 +105,15 @@
 * Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two
 * Fixed assembly factory and chemical factory RoR reader index offset
 * Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods
+* Fixed long size 10 custom missile fuselages not being obtainable due to incorrectly set up recipes yielding the short variants instead
+* Fixed white crayon being uncraftable
+* Fixed solidifier and liquefactor not saving their power and progress to NBT
+* Fixed orbital precision laser dealing no damage due to a quirk in the explosion VNT code
+* Pneumatic networks can no longer send items to the source inventory in a loop, fixing an issue where doing so would delete items
+* Fixed the placement preview offset for the soyuz launcher
+* Fixed a bug where special revives would not work when dying from radiation, since radiation would deal fatal damage twice
+* Fixed the soyuz not using interpolation when launching, causing its movement to be fixed at 20 FPS
+* Fixed the soyuz landing capsule's landing position being slightly offset on negative coordinates (yes it's another coordinate truncation error)
+* Fixed stinger ammo counter clipping into the durability display
+* Tom now force-loads the chunk when spawning, fixing an issue where activating Horizons in distant chunks may waste the android without working
+* Fixed sellafite ores using the sellafite base as the overlay instead of the ore overlay, making the ores impossible to tell apart from regular sellafite

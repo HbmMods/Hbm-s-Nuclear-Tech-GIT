@@ -3,8 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.missile.EntitySoyuz;
-import com.hbm.handler.MissileStruct;
+import com.hbm.entity.missile.EntityRocketSoyuz;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -38,6 +37,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
 
 	public long power;
@@ -52,8 +52,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	
 	private AudioWrapper audio;
 	
-	public MissileStruct load;
-
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
@@ -123,7 +121,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				countdown--;
 			}
 			
-			List<EntitySoyuz> entities = worldObj.getEntitiesWithinAABB(EntitySoyuz.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			List<EntityRocketSoyuz> entities = worldObj.getEntitiesWithinAABB(EntityRocketSoyuz.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
 			
 			if(!entities.isEmpty()) {
 				
@@ -220,7 +218,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		int req = this.getFuelRequired();
 		int pow = this.getPowerRequired();
 		
-		EntitySoyuz soyuz = new EntitySoyuz(worldObj);
+		EntityRocketSoyuz soyuz = new EntityRocketSoyuz(worldObj);
 		soyuz.setSkin(this.getType());
 		soyuz.mode = this.mode;
 		soyuz.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, 0, 0);

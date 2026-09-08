@@ -18,6 +18,8 @@ import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mags.MagazineLiquidEngine;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
 import com.hbm.main.NTMSounds;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.ParticleBurstPacket;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
@@ -32,7 +34,6 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S28PacketEffect;
 import net.minecraft.util.AxisAlignedBB;
@@ -87,7 +88,9 @@ public class XFactoryDrill {
 			if(player != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 				
 				int aoe = player.isSneaking() ? 0 : getModdableAoE(stack, 1);
+				breakExtraBlock(player.worldObj, mop.blockX, mop.blockY, mop.blockZ, player, mop.blockX, mop.blockY, mop.blockZ);
 				for(int i = -aoe; i <= aoe; i++) for(int j = -aoe; j <= aoe; j++) for(int k = -aoe; k <= aoe; k++) {
+					if(i == 0 && j == 0 && k == 0) continue;
 					breakExtraBlock(player.worldObj, mop.blockX + i, mop.blockY + j, mop.blockZ + k, player, mop.blockX, mop.blockY, mop.blockZ);
 				}
 				
@@ -120,11 +123,14 @@ public class XFactoryDrill {
 			
 		}
 		
-		// we are serverside and tryHarvestBlock already invokes the 2001 packet for every player except the user, so we manually send it for the user as well
-		player.theItemInWorldManager.tryHarvestBlock(x, y, z);
-		
-		if(world.getBlock(x, y, z) == Blocks.air) { // only do this when the block was destroyed. if the block doesn't create air when broken, this breaks, but it's no big deal
-			player.playerNetServerHandler.sendPacket(new S28PacketEffect(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12), false));
+		// we are serverside and tryHarvestBlock already invokes the 2001 packet for every player except the user, so manually send the break effect for the user
+		boolean harvested = player.theItemInWorldManager.tryHarvestBlock(x, y, z);
+		if(harvested) {
+			if(x == refX && y == refY && z == refZ) {
+				player.playerNetServerHandler.sendPacket(new S28PacketEffect(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12), false));
+			} else {
+				PacketDispatcher.wrapper.sendTo(new ParticleBurstPacket(x, y, z, Block.getIdFromBlock(block), meta), player);
+			}
 		}
 	}
 	

@@ -168,6 +168,15 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
 	}
+	
+	protected void drawConstrainedLabel(String label, int x, int y, int color, float maxScale, float divisor) {
+
+		float scale = Math.min(1F, 22F / this.fontRendererObj.getStringWidth(label));
+		
+		GL11.glScalef(scale, scale, 1);
+		this.fontRendererObj.drawString(label, (int)(x / scale - this.fontRendererObj.getStringWidth(label) / 2F), (int)(y / scale - this.fontRendererObj.FONT_HEIGHT / 2F), color);
+		GL11.glScalef(1 / scale, 1 / scale, 1);
+	}
 
 	/** Draws item with label, excludes all the GL state setup */
 	protected void drawItemStack(ItemStack stack, int x, int y, String label) {

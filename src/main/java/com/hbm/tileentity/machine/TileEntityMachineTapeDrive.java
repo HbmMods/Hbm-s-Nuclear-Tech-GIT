@@ -4,14 +4,21 @@ import com.hbm.inventory.container.ContainerTapeDrive;
 import com.hbm.inventory.gui.GUITapeDrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemDrive.EnumDriveType;
+import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityProxyBase;
+import com.hbm.util.Compat;
+import com.hbm.util.EnumUtil;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineTapeDrive extends TileEntityMachineBase implements IGUIProvider {
 	
@@ -34,6 +41,42 @@ public class TileEntityMachineTapeDrive extends TileEntityMachineBase implements
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+				TileEntity connected = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				
+				if(connected instanceof TileEntityProxyBase) {
+					connected = ((TileEntityProxyBase) connected).getTE();
+				}
+				
+				if(connected instanceof TileEntityMachineSatLink) {
+					TileEntityMachineSatLink link = (TileEntityMachineSatLink) connected;
+					if(link.connected) {
+						
+						SatelliteSavedData dat = SatelliteSavedData.getData(worldObj);
+						SatelliteBase satellite = dat.sats.get(link.freq);
+						
+						if(satellite != null && satellite.hasData(worldObj)) {
+							
+							for(int i = 0; i < 12; i++) {
+								if(slots[i] == null || slots[i].getItem() != ModItems.drive) continue;
+								EnumDriveType type = EnumUtil.grabEnumSafely(EnumDriveType.class, slots[i].getItemDamage());
+								EnumDriveType ret = satellite.getOutputData(type);
+								
+								if(ret != null) {
+									satellite.consumeData();
+									slots[i] = new ItemStack(ModItems.drive, 1, ret.ordinal());
+									dat.markDirty();
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			
 			this.networkPackNT(50);
 		}
 	}

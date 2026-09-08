@@ -1,0 +1,11 @@
+{
+    "name": "Cholesterol Solution",
+    "icon": ["hbm:item.fluid_icon", 1, 108],
+    "trigger": [["hbm:item.fluid_icon", 1, 108]],
+    "title": {
+        "en_US": "Cholesterol Solution"
+    },
+    "content": {
+        "en_US": "Cholesterol solution can be obtained by [[fractioning|Fractioning Tower]] [[dissolved egg|Dissolved Egg]]. It is primarily used in the production of [[estradiol solution|Estradiol Solution]] and additional [[reformate gas|Reformate Gas]] through [[reforming|Catalytic Reformer]]."
+    }
+}

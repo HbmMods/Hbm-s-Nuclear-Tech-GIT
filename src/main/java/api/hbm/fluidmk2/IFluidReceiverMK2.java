@@ -8,6 +8,7 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
+import api.hbm.tile.EnumTransferAction;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -23,21 +24,23 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 	
 	public default int[] getReceivingPressureRange(FluidType type) { return DEFAULT_PRESSURE_RANGE; }
 	
-	public default void trySubscribe(FluidType type, World world, DirPos pos) { trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	public default EnumTransferAction trySubscribe(FluidType type, World world, DirPos pos) { return trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	
-	public default void trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
+	public default EnumTransferAction trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;
+		EnumTransferAction action = EnumTransferAction.NOTHING;
 		
 		if(te instanceof IFluidConnectorMK2) {
 			IFluidConnectorMK2 con = (IFluidConnectorMK2) te;
-			if(!con.canConnect(type, dir.getOpposite())) return;
+			if(!con.canConnect(type, dir.getOpposite())) return action;
 			
 			GenNode node = UniNodespace.getNode(world, x, y, z, type.getNetworkProvider());
 			
 			if(node != null && node.net != null) {
 				node.net.addReceiver(this);
+				action = EnumTransferAction.CONNECT_NET;
 				red = true;
 			}
 		}
@@ -55,6 +58,8 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 			data.setDouble("mZ", -dir.offsetZ * (red ? 0.025 : 0.1));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
+		
+		return action;
 	}
 	
 	public default ConnectionPriority getFluidPriority() {

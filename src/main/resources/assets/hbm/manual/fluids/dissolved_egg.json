@@ -1,0 +1,11 @@
+{
+    "name": "Dissolved Egg",
+    "icon": ["hbm:item.fluid_icon", 1, 107],
+    "trigger": [["hbm:item.fluid_icon", 1, 107]],
+    "title": {
+        "en_US": "Dissolved Egg"
+    },
+    "content": {
+        "en_US": "Dissolved egg can be obtained by mixing [[high-performance solvent|High-Performance Solvent]] and an egg. It is used to produce [[cholesterol solution|Cholesterol Solution]] through [[fractioning|Fractioning Tower]]. It also returns some of the input [[high-performance solvent|High-Performance Solvent]]."
+    }
+}
