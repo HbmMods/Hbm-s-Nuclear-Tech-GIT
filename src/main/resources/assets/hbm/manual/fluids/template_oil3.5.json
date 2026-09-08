@@ -1,0 +1,12 @@
+{
+	"name": "Template:Oil3.5",
+	"icon": ["hbm:item.nothing"],
+	"trigger": [],
+    "noindex": true,
+	"title": {
+		"en_US": "Template:Oil3.5"
+	},
+	"content": {
+		"en_US": "§2[ §2Desulfurized §2Oil §2Processing §2]<br>[[Desulfurized Oil Processing]]<br>[[Desulfurized Crude Oil]]<br>[[Desulfurized Hot Crude Oil]]<br>[[Desulfurized Cracked Oil]]<br>[[Desulfurized Light Oil]]<br>[[Desulfurized Naphtha]]"
+	}
+}
