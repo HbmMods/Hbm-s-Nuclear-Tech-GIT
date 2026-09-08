@@ -1,0 +1,11 @@
+{
+    "name": "Desulfurized Hot Crude Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 134],
+    "trigger": [["hbm:item.fluid_icon", 1, 134]],
+    "title": {
+        "en_US": "Desulfurized Hot Crude Oil"
+    },
+    "content": {
+        "en_US": "Desulfurized hot crude oil can be produced by [[heating|Boiler]] [[desulfurized crude oil|Desulfurized Crude Oil]]. It can be [[refined|Oil Refinery]] to produce products such as: <br>[[Heavy Oil]] <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]] <br><br>{{Template:Oil3.5}}"
+    }
+}

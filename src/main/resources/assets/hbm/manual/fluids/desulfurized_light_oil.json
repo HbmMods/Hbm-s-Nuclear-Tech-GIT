@@ -1,0 +1,11 @@
+{
+    "name": "Desulfurized Light Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 138],
+    "trigger": [["hbm:item.fluid_icon", 1, 138]],
+    "title": {
+        "en_US": "Desulfurized Light Oil"
+    },
+    "content": {
+        "en_US": "Desulfurized light oil can be obtained by [[refining|Oil Refinery]] hot desulfurized [[cracked|Desulfurized Cracked Oil]] or [[crude|Desulfurized Hot Crude Oil]] oil. It may be [[fractioned|Fractioning Tower]] to produce [[high-cetane diesel|High-Cetane Diesel]] and [[kerosene|Kerosene]].<br><br>{{Template:Oil3.5}}"
+    }
+}

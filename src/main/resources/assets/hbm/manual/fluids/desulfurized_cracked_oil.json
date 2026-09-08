@@ -1,0 +1,11 @@
+{
+    "name": "Desulfurized Cracked Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 135],
+    "trigger": [["hbm:item.fluid_icon", 1, 135], ["hbm:item.fluid_icon", 1, 136]],
+    "title": {
+        "en_US": "Desulfurized Cracked Oil"
+    },
+    "content": {
+        "en_US": "Desulfurized cracked oil can be produced by [[hydrotreating|Hydrotreater]] [[cracked oil|Cracked Oil]] with [[pressurized|Compressor]] [[liquid hydrogen|Liquid Hydrogen]]. After [[heating|Boiler]], it can be [[refined|Oil Refinery]] to produce products such as: <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Aromatic Hydrocarbons]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]]<br><br>{{Template:Oil3.5}}"
+    }
+}
