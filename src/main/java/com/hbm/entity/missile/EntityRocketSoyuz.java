@@ -90,11 +90,6 @@ public class EntityRocketSoyuz extends EntityRocketBase {
 						((EntityPlayer)p).triggerAchievement(MainRegistry.achSpace);
 				}
 				
-				if(load.getItem() == ModItems.sat_foeq) {
-					for(Object p : worldObj.playerEntities)
-						((EntityPlayer)p).triggerAchievement(MainRegistry.achFOEQ);
-				}
-				
 				if(load.getItem() instanceof ISatChip) {
 					int freq = ISatChip.getFreqS(load);
 					XSatelliteRegistry.orbit(worldObj, load, freq, posX, posY, posZ);

@@ -976,6 +976,12 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CONTROLLER_ADVANCED),
 						new ComparableStack(ModItems.part_generic, 12, EnumPartType.LDE),
 						new ComparableStack(ModItems.drive, 8, EnumDriveType.FLASH_FLIGHTSIM)).setPools528(GenericRecipes.POOL_PREFIX_528 + "soyuz"));
+		this.register(new GenericRecipe("ass.lambdarocket").setup(1_200, 50_000).outputItems(new ItemStack(ModItems.missile_lambda, 1))
+				.inputItems(new ComparableStack(ModItems.part_generic, 64, EnumPartType.ALCLAD),
+						new ComparableStack(ModItems.ingot_tungsten_carbide, 24),
+						new ComparableStack(ModItems.rocket_fuel, 64),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER),
+						new ComparableStack(ModItems.drive, 1, EnumDriveType.DISK_FLIGHTDATA_PROCESSED)).setPools528(GenericRecipes.POOL_PREFIX_528 + "soyuz"));
 
 		this.register(new GenericRecipe("ass.spacelab").setup(1_200, 25_000).outputItems(new ItemStack(ModItems.satellite, 1, EnumSatType.SCIENCE.ordinal()))
 				.inputItems(new OreDictStack(AL.shell(), 16),
