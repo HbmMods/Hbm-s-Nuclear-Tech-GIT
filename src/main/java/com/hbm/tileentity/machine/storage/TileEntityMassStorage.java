@@ -309,7 +309,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IContr
 	@Override public void nextMode(int i) { }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("provide") && slots[1] != null) {
 

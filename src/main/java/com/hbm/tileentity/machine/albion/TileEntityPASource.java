@@ -243,7 +243,7 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("cancel")) {
 			this.particle = null;
 			this.state = PAState.IDLE;

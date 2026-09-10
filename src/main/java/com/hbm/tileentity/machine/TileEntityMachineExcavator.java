@@ -739,7 +739,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("drill")) this.enableDrill = !this.enableDrill;
 		if(data.hasKey("crusher")) this.enableCrusher = !this.enableCrusher;
 		if(data.hasKey("walling")) this.enableWalling = !this.enableWalling;

@@ -95,7 +95,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("valve")) this.isOn = !this.isOn;
 		if(data.hasKey("dial")) this.doesBurn = !this.doesBurn;
 		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);

@@ -278,7 +278,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}

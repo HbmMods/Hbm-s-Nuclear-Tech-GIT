@@ -239,7 +239,7 @@ public class TileEntityMachineAnnihilator extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("pool")) {
 			String pool = data.getString("pool");
 			if(pool != null && !pool.isEmpty()) {

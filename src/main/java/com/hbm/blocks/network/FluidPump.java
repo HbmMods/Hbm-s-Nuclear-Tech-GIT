@@ -204,7 +204,7 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 		}
 
 		@Override
-		public void receiveControl(NBTTagCompound data) {
+		public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 			if(data.hasKey("capacity")) {
 				this.bufferSize = MathHelper.clamp_int(data.getInteger("capacity"), 0, 10_000);
 			}

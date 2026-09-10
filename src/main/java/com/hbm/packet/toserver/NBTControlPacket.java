@@ -13,6 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 public class NBTControlPacket implements IMessage {
 
@@ -67,9 +70,7 @@ public class NBTControlPacket implements IMessage {
 		public IMessage onMessage(NBTControlPacket m, MessageContext ctx) {
 
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
-
-			if(p.worldObj == null)
-				return null;
+			if(p.worldObj == null) return null;
 
 			TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 
@@ -83,8 +84,8 @@ public class NBTControlPacket implements IMessage {
 						IControlReceiver tile = (IControlReceiver)te;
 
 						if(tile.hasPermission(p)) {
-							tile.receiveControl(p, nbt);
-							tile.receiveControl(nbt);
+							PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(p, Action.RIGHT_CLICK_BLOCK, m.x, m.y, m.z, 1, p.worldObj);
+							if(!event.isCanceled()) tile.receiveControl(p, nbt);
 						}
 					}
 				}

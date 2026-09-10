@@ -67,7 +67,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("level")) {
 			this.setTarget(data.getDouble("level"));

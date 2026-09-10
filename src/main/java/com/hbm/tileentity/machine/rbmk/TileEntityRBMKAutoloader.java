@@ -258,7 +258,7 @@ public class TileEntityRBMKAutoloader extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("minus") && this.cycle > 5) this.cycle -= 5;
 		if(data.hasKey("plus") && this.cycle < 95) this.cycle += 5;
 		this.cycle = MathHelper.clamp_int(cycle, 5, 95);

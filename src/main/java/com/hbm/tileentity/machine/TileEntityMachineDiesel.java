@@ -278,7 +278,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("turnOn")) this.isOn = !this.isOn;
 		this.markChanged();
 	}

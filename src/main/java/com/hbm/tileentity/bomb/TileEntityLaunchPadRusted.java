@@ -222,7 +222,7 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("release")) {
 			if(this.missileLoaded && slots[0] == null) {
 				this.missileLoaded = false;

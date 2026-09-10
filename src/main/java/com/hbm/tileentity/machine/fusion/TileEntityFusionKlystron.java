@@ -329,7 +329,7 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("amount")) {
 			this.outputTarget = data.getLong("amount");

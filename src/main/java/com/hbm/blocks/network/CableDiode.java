@@ -213,7 +213,7 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 		}
 
 		@Override
-		public void receiveControl(NBTTagCompound data) {
+		public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 			if(data.hasKey("limit")) this.limit = data.getLong("limit");
 			if(data.hasKey("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, data.getByte("priority"));
 			if(limit < 0) limit = 0;

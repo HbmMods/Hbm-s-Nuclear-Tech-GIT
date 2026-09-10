@@ -75,7 +75,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("del")) {
 			this.removeName(data.getInteger("del"));

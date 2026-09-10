@@ -45,7 +45,7 @@ public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBa
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("pressure")) {
 			int pressure = this.compair.getPressure() + 1;

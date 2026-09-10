@@ -133,7 +133,7 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	}
 	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("toggle")) {
 			int i = data.getInteger("toggle");
 			modes[i]++;

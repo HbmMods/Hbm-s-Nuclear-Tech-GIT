@@ -210,7 +210,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		int compression = data.getInteger("compression");
 
 		if(compression != tanks[0].getPressure()) {

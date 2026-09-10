@@ -243,7 +243,7 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("toCool")) this.amountToCool = MathHelper.clamp_int(data.getInteger("toCool"), 1, tanks[0].getMaxFill());
 		if(data.hasKey("delay")) this.tickDelay = Math.max(data.getInteger("delay"), 1);
 

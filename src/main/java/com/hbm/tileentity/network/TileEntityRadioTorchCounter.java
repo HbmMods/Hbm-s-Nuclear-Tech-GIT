@@ -130,7 +130,7 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("polling")) {
 			this.polling = !this.polling;
 			this.markChanged();

@@ -88,7 +88,7 @@ public class TileEntityRadioRec extends TileEntityLoadedBase implements IControl
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("channel")) this.channel = data.getString("channel");
 		if(data.hasKey("isOn")) this.isOn = data.getBoolean("isOn");
 

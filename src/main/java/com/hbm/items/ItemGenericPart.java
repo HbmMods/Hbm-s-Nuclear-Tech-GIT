@@ -1,5 +1,6 @@
 package com.hbm.items;
 
+import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,7 +10,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemGenericPart extends ItemEnumMulti {
 	
-	public static enum EnumPartType {
+	public static enum EnumPartType implements IOrderedEnum {
 		PISTON_PNEUMATIC("piston_pneumatic"),
 		PISTON_HYDRAULIC("piston_hydraulic"),
 		PISTON_ELECTRIC("piston_electric"),
@@ -22,6 +23,18 @@ public class ItemGenericPart extends ItemEnumMulti {
 		
 		private EnumPartType(String texName) {
 			this.texName = texName;
+		}
+
+		@Override
+		public Enum[] getOrder() {
+			return new Enum[] {
+					// pistons
+					PISTON_PNEUMATIC, PISTON_HYDRAULIC, PISTON_ELECTRIC,
+					// rocketry
+					LDE, HDE, ALCLAD,
+					// other
+					GLASS_POLARIZED,
+			};
 		}
 	}
 
@@ -36,7 +49,7 @@ public class ItemGenericPart extends ItemEnumMulti {
 		this.icons = new IIcon[enums.length];
 		
 		for(int i = 0; i < icons.length; i++) {
-			EnumPartType num = (EnumPartType)enums[i];
+			EnumPartType num = (EnumPartType) enums[i];
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + num.texName);
 		}
 	}

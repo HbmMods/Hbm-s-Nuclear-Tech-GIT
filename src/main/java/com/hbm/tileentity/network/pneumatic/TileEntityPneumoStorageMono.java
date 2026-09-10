@@ -70,8 +70,8 @@ public class TileEntityPneumoStorageMono extends TileEntityPneumaticStorageBase 
 	@Override public boolean allowTypeSetting() { return false; }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
-		super.receiveControl(data);
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+		super.receiveControl(player, data);
 		
 		if(data.hasKey("slot")){
 			setFilterContents(data);

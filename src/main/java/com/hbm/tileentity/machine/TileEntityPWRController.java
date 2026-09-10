@@ -581,7 +581,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("control")) {
 			this.rodTarget = MathHelper.clamp_int(data.getInteger("control"), 0, 100);

@@ -324,7 +324,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("turnOn")) this.isOn = !this.isOn;
 		if(data.hasKey("setting")) this.setting = data.getInteger("setting");
 

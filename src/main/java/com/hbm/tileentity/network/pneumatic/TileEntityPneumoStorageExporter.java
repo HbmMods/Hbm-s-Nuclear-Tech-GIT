@@ -292,7 +292,7 @@ public class TileEntityPneumoStorageExporter extends TileEntityPneumaticMachineB
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("continuous")) {
 			this.continuousRequest = !this.continuousRequest;
 		}

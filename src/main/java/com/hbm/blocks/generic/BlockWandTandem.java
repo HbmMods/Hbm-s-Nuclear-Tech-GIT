@@ -341,7 +341,7 @@ public class BlockWandTandem extends BlockContainer implements IBlockSideRotatio
 		}
 
 		@Override
-		public void receiveControl(NBTTagCompound nbt) {
+		public void receiveControl(EntityPlayer player, NBTTagCompound nbt) {
 			readFromNBT(nbt);
 			markDirty();
 		}

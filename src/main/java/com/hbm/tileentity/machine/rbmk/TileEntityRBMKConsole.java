@@ -254,7 +254,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("level")) {
 

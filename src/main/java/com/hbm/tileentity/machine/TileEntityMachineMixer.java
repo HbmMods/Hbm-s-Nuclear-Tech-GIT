@@ -324,7 +324,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("toggle")) this.recipeIndex++;
 	}
 

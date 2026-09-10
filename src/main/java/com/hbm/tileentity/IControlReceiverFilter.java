@@ -16,7 +16,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	void nextMode(int i);
 
 	@Override
-	default void receiveControl(NBTTagCompound data) {
+	default void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("slot")) {
 			setFilterContents(data);
 		}

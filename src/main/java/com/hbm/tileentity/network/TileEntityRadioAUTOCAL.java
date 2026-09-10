@@ -168,7 +168,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("on")) {
 			if(this.isOn) stop("User requested shutdown");
 			else this.isOn = true;

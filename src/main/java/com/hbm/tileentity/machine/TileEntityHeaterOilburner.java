@@ -178,7 +178,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("toggle")) {
 			this.isOn = !this.isOn;
 		}

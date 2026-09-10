@@ -397,7 +397,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		this.collisionPrevention = !this.collisionPrevention;
 		this.markDirty();
 	}

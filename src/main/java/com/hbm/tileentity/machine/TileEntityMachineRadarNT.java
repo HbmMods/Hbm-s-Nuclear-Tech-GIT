@@ -431,8 +431,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return this.isUseableByPlayer(player);
 	}
 
-	@Override public void receiveControl(NBTTagCompound data) { }
-
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 

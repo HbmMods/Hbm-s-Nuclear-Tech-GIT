@@ -244,7 +244,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}

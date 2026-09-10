@@ -395,7 +395,7 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("index") && data.hasKey("selection")) {
 			int index = data.getInteger("index");
 			String selection = data.getString("selection");

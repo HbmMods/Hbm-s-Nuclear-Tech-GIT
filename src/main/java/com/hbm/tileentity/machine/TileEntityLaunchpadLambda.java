@@ -398,7 +398,7 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("auto")) {
 			this.autolaunch = data.getBoolean("auto");

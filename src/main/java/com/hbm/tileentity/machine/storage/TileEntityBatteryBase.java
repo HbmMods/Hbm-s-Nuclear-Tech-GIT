@@ -175,7 +175,7 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 	@Override public boolean hasPermission(EntityPlayer player) { return this.isUseableByPlayer(player); }
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("low")) {
 			this.redLow++;
 			if(this.redLow > 3) this.redLow = 0;

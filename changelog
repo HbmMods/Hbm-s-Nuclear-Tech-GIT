@@ -117,3 +117,5 @@
 * Fixed stinger ammo counter clipping into the durability display
 * Tom now force-loads the chunk when spawning, fixing an issue where activating Horizons in distant chunks may waste the android without working
 * Fixed sellafite ores using the sellafite base as the overlay instead of the ore overlay, making the ores impossible to tell apart from regular sellafite
+* Client-only GUI screens no longer allow modification if the forge event that would prevent interaction serverside would cancel the operation
+  * This should hopefully fix an issue where certain devices in protected areas on servers were configurable even though the server forbids it

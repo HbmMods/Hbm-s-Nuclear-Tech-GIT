@@ -263,7 +263,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("mode")) {
 			this.sendingMode = !this.sendingMode;

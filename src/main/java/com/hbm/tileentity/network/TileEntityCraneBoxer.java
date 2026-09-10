@@ -201,7 +201,7 @@ public class TileEntityCraneBoxer extends TileEntityCraneBase implements IGUIPro
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("toggle")) {
 			this.mode = (byte) ((this.mode + 1) % 4);
 		}

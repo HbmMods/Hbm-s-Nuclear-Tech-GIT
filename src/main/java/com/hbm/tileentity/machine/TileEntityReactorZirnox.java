@@ -444,7 +444,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("control") && !redstonePowered) {
 			this.isOn = !this.isOn;
 		}

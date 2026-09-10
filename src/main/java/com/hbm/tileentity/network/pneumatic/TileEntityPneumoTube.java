@@ -266,7 +266,7 @@ public class TileEntityPneumoTube extends TileEntityMachineBase implements IGUIP
 	}
 	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.whitelist = !this.whitelist;
 		}

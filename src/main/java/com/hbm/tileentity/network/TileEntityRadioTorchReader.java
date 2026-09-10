@@ -102,7 +102,7 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("p")) this.polling = data.getBoolean("p");
 		for(int i = 0; i < channels.length; i++) if(data.hasKey("c" + i)) this.setChannel(i, data.getString("c" + i));
 		for(int i = 0; i < names.length; i++) if(data.hasKey("n" + i)) this.setName(i, data.getString("n" + i));

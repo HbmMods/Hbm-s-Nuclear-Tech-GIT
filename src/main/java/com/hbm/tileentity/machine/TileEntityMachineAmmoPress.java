@@ -197,7 +197,7 @@ public class TileEntityMachineAmmoPress extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		int newRecipe = data.getInteger("selection");
 		if(newRecipe == selectedRecipe) this.selectedRecipe = -1;
 		else this.selectedRecipe = newRecipe;

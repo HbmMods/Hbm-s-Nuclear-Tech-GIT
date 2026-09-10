@@ -200,7 +200,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		
 		if(data.hasKey("compression")) {
 			this.cyceCompressor();

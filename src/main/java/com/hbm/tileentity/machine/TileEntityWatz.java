@@ -410,7 +410,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
 		if(data.hasKey("lock")) {
 

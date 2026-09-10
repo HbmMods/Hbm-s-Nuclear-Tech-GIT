@@ -227,7 +227,7 @@ public class TileEntityPADipole extends TileEntityCooledBase implements IGUIProv
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.hasKey("lower")) this.dirLower++;
 		if(data.hasKey("upper")) this.dirUpper++;
 		if(data.hasKey("redstone")) this.dirRedstone++;

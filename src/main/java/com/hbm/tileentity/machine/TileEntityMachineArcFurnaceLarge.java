@@ -691,7 +691,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.getBoolean("liquid")) {
 			this.liquidMode = !this.liquidMode;
 			this.markDirty();
