@@ -1,0 +1,11 @@
+{
+    "name": "Coker Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 104],
+    "trigger": [["hbm:item.fluid_icon", 1, 104]],
+    "title": {
+        "en_US": "Coker Oil"
+    },
+    "content": {
+        "en_US": "Coker oil can be obtained by [[coking|Coker Unit]] various oils. It can be used to produce additional [[cracked oil|Cracked Oil]] and [[heating oil|Heating Oil]]."
+    }
+}
