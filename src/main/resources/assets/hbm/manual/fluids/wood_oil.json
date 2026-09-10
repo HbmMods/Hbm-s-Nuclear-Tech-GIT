@@ -1,0 +1,11 @@
+{
+    "name": "Wood Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 79],
+    "trigger": [["hbm:item.fluid_icon", 1, 79]],
+    "title": {
+        "en_US": "Wood Oil"
+    },
+    "content": {
+        "en_US": "Wood oil can be obtained by as a byproduct from logs, saplings, or sawdust briquettes in a [[combination oven|Combination Oven]]. It may be used to produce additional [[heating oil|Heating Oil]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]] through [[cracking|Catalytic Cracking Tower]] or [[radiolysis|Radiolysis Chamber]]. It can also be mixed with [[fish oil|Fish Oil]] or [[sunflower seed oil|Sunflower Seed Oil]] to make [[biofuel|Biofuel]]."
+    }
+}

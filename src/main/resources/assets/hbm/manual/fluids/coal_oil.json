@@ -1,0 +1,11 @@
+{
+    "name": "Coal Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 62],
+    "trigger": [["hbm:item.fluid_icon", 1, 62]],
+    "title": {
+        "en_US": "Coal Oil"
+    },
+    "content": {
+        "en_US": "Coal oil can first be obtained by [[liquifying|Liquification Machine]] coal or lignite. It is primarily used in the production of [[coal gasoline|Coal Gasoline]] through [[fractioning|Fractioning Tower]] or [[hydrotreating|Hydrotreater]]. Additionally, it is used in the production of [[syngas|Syngas]]. It can also be obtained by [[fractioning|Fractioning Tower]] [[coal tar creosote|Coal Tar Creosote]]. "
+    }
+}

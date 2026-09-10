@@ -1,0 +1,11 @@
+{
+    "name": "Sunflower Seed Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 111],
+    "trigger": [["hbm:item.fluid_icon", 1, 111]],
+    "title": {
+        "en_US": "Sunflower Seed Oil"
+    },
+    "content": {
+        "en_US": "Sunflower seed oil can be obtained by [[liquifying|Liquification Machine]] or mixing sunflowers. It is primarily used in the production of [[biofuel|Biofuel]] or [[engine lubricant|Engine Lubricant]] through mixing."
+    }
+}

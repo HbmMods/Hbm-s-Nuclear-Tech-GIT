@@ -1,0 +1,11 @@
+{
+    "name": "Fish Oil",
+    "icon": ["hbm:item.fluid_icon", 1, 110],
+    "trigger": [["hbm:item.fluid_icon", 1, 110]],
+    "title": {
+        "en_US": "Fish Oil"
+    },
+    "content": {
+        "en_US": "Fish oil can be made by mixing or [[liquifying|Liquification Machine]] any type of fish. It is primarily used to produce a variety of fluids such as [[nitroglycerin|Nitroglycerin]], [[engine lubricant|Engine Lubricant]], or [[biofuel|Biofuel]] through mixing."
+    }
+}
