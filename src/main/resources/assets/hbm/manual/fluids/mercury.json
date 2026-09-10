@@ -1,0 +1,11 @@
+{
+    "name": "Mercury",
+    "icon": ["hbm:item.fluid_icon", 1, 42],
+    "trigger": [["hbm:item.fluid_icon", 1, 42]],
+    "title": {
+        "en_US": "Mercury"
+    },
+    "content": {
+        "en_US": "Mercury can first be obtained by [[centrifuging|Centrifuge]] redstone ore. It is primarily used in the production of [[desh|Desh]]. It is also used in [[NITAN© 100 octane super fuel|NITAN© 100 Octane Super Fuel]]. Additionally, it is commonly made by inserting cinnabar into a [[combination over|Combination Oven]] or through [[red mud|Red Mud]] processing."
+    }
+}
