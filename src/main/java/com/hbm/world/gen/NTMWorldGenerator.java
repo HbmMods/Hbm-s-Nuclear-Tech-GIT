@@ -253,10 +253,15 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("NTMRuinsJ", StructureManager.ntmruinsJ, -1) {{conformToTerrain = true;}};
 			spawnWeight = StructureConfig.enableRuins ? StructureConfig.ruinsJSpawnWeight : 0;
 		}});
-		NBTStructure.registerStructure(0, new SpawnCondition("tower_base") {{
+			NBTStructure.registerStructure(0, new SpawnCondition("tower_base") {{
 			canSpawn = biome -> biome.heightVariation <= 0.3F && !isWaterBiome(biome) && !BiomeDictionary.isBiomeOfType(biome, Type.SANDY);
 			structure = new JigsawPiece("tower_base", StructureManager.tower_base, -6);
 			spawnWeight = StructureConfig.towerBaseSpawnWeight;
+		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("falloutshelter_house") {{
+		    canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.PLAINS);
+		    structure = new JigsawPiece("falloutshelter_house", StructureManager.falloutshelter_house, -8);
+		    spawnWeight = StructureConfig.falloutShelterHouseSpawnWeight;
 		}});
 
 		NBTStructure.registerNullWeight(0, StructureConfig.plainsNullWeight, biome -> biome == BiomeGenBase.plains);
