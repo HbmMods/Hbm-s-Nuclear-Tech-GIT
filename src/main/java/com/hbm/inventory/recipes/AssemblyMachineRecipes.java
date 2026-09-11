@@ -1095,6 +1095,11 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 						new ComparableStack(ModItems.magnetron, 3),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER)));
 
+		this.register(new GenericRecipe("ass.satdock").setup(100, 1_000).outputItems(new ItemStack(ModBlocks.sat_dock))
+				.inputItems(new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
+						new OreDictStack(ANY_PLASTIC.ingot(), 4),
+						new ComparableStack(ModBlocks.crate_iron)));
+
 		this.register(new GenericRecipe("ass.nitra").setupNamed(200, 500)
 				.inputItems(new ComparableStack(ModItems.nitra))
 				.setIconToFirstIngredient()

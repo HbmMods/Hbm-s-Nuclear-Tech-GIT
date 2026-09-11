@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemTurretBiometry extends Item {
@@ -17,7 +18,7 @@ public class ItemTurretBiometry extends Item {
 		String[] names = getNames(itemstack);
 		if(names != null)
 			for(int i = 0; i < names.length; i++)
-				list.add(names[i]);
+				list.add(EnumChatFormatting.YELLOW + names[i]);
 	}
 
 	@Override
