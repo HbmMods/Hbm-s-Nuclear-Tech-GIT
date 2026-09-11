@@ -2,16 +2,20 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.SoyuzPronter;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz;
 import com.hbm.tileentity.machine.TileEntityLaunchpadSoyuz.SoyuzStatus;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer {
+public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -109,5 +113,27 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer {
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.launchpad_soyuz);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(6, -1.5, 0);
+				GL11.glScaled(1.125, 1.125, 1.125);
+				GL11.glRotated(90, 0, 1, 0);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.launchpad_soyuz_tex);
+				ResourceManager.launchpad_soyuz.renderPart("Launchpad");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}};
 	}
 }
