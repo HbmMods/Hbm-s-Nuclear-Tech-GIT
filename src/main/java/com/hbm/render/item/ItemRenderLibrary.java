@@ -75,9 +75,8 @@ public class ItemRenderLibrary {
 			}
 
 			public void renderCommon() {
-				bindTexture(ResourceManager.epress_body_tex); ResourceManager.epress_body.renderAll();
-				GL11.glTranslated(0, 1.5, 0);
-				bindTexture(ResourceManager.epress_head_tex); ResourceManager.epress_head.renderAll();
+				bindTexture(ResourceManager.electric_press_tex); ResourceManager.electric_press.renderPart("Press");
+				bindTexture(ResourceManager.electric_press_tex); ResourceManager.electric_press.renderPart("Piston");
 			}});
 
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), new ItemRenderBase() {
