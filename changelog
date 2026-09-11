@@ -85,6 +85,8 @@
 * The soyuz landing capsule can now be emptied via hoppers
 * Changed the recipe of the flow control pump
 * Mining satellites now report their mining progress to the ground station's tooltip
+* Added a lot more MSESv1 return states, mainly replacing the generic and unspecific "parameter error" state, making debugging easier
+  * This includes missing parameters, parameter OOB, arithmetic errors, parse errors and missing jump points
 
 ## Fixed
 * Fixed pollution detector localization not working, showing only error messages instead of the pollution type names

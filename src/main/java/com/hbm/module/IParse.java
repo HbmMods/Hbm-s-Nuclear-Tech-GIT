@@ -107,8 +107,6 @@ public interface IParse {
 		OK,
 		/** The command hasn't been recognized */
 		UNRECOGNIZED_COMMAND,
-		/** The expected parameters aren't present, or the parameters couldn't be parsed (i.e. using an undefined jump point) */
-		PARAMETER_ERROR,
 		/** Requests the AUTOCAL unit to end the tick, regardless of how many clock cycles are left */
 		END_TICK,
 		/** Requests an AUTOCAL shutdown */
@@ -118,6 +116,18 @@ public interface IParse {
 		/** General undefined behavior */
 		UNDEFINED,
 		/** Stack ran full */
-		STACK_EXCEEDED
+		STACK_EXCEEDED,
+		/** Parameters expected but not supplied */
+		PARAMETER_MISSING,
+		/** Parameters not within expected numeric range */
+		PARAMETER_OOB,
+		/** Parameters not in expected format */
+		PARAMETER_PARSE_ERROR,
+		/** Jump to undefined destination */
+		NO_DESTINATION,
+		/** Calculation has failed, likely to values not being numbers or malformed statements */
+		ARITHMETIC_EXCEPTION,
+		/** Buffer contents are required, but not present */
+		BUFFER_EMPTY,
 	}
 }
