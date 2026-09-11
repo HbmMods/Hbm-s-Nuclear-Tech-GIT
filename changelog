@@ -89,7 +89,6 @@
   * This includes missing parameters, parameter OOB, arithmetic errors, parse errors and missing jump points
 
 ## Fixed
-* Fixed pollution detector localization not working, showing only error messages instead of the pollution type names
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
 * Fixed PSN bulk storage duping itself when broken
 * Fixed old lantern repair bonus not being applied when the player is too far away from the lantern or another player is in the detection area
@@ -105,7 +104,6 @@
 * Fixed bauxite bedrock ore fragments not being able to be crafted into anything
 * Fixed issue where the collisions of the RoR panel blocks didn't work right
 * Fixed balefire thruster custom missile part not having any recipes, and the shortened thruster having two
-* Fixed assembly factory and chemical factory RoR reader index offset
 * Item entities affected by magnets are now forced to send velocity updates, fixing a desync in multiplayer with magnet armor mods
 * Fixed long size 10 custom missile fuselages not being obtainable due to incorrectly set up recipes yielding the short variants instead
 * Fixed white crayon being uncraftable
@@ -121,3 +119,4 @@
 * Fixed sellafite ores using the sellafite base as the overlay instead of the ore overlay, making the ores impossible to tell apart from regular sellafite
 * Client-only GUI screens no longer allow modification if the forge event that would prevent interaction serverside would cancel the operation
   * This should hopefully fix an issue where certain devices in protected areas on servers were configurable even though the server forbids it
+* Fixed reinforced concrete recipe in the acidizer giving too many blocks

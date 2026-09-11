@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@Deprecated
 public class TileEntitySoyuzStruct extends TileEntity {
 	
 	int age;

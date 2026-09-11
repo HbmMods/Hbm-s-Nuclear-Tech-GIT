@@ -837,7 +837,7 @@ public class ModBlocks {
 	public static Block struct_scaffold;
 	public static Block struct_launcher_core;
 	public static Block struct_launcher_core_large;
-	public static Block struct_soyuz_core;
+	@Deprecated public static Block struct_soyuz_core;
 	public static Block struct_torus_core;
 	public static Block struct_watz_core;
 	public static Block struct_icf_core;

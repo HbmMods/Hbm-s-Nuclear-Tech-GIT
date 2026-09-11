@@ -41,8 +41,13 @@ public class PrecAssRecipes extends GenericRecipes<GenericRecipe> {
 				.inputItems(new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_QUANTUM),
 						new ComparableStack(ModItems.ingot_cft, 4),
 						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.PCB),
-						new OreDictStack(GOLD.wireFine(), 32)),
-				DictFrame.fromOne(ModItems.orbital_assembly, EnumOrbitalAssembly.CRYSTAL_CIRCUIT), 50, 100);
+						new OreDictStack(GOLD.wireFine(), 32))
+				.inputItemsEx(new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CHIP_QUANTUM),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_TANTALIUM),
+						new ComparableStack(ModItems.ingot_cft, 4),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.PCB),
+						new OreDictStack(BSCCO.wireDense(), 4)),
+				DictFrame.fromOne(ModItems.orbital_assembly, EnumOrbitalAssembly.CRYSTAL_CIRCUIT), GeneralConfig.enableExpensiveMode ? 25 : 50, 100);
 
 		// i cast: bleeding anus
 		// i cast: XL horse dildo (unlubed)
