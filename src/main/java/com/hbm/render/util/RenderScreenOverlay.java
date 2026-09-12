@@ -197,13 +197,15 @@ public class RenderScreenOverlay {
 		
 		int stamina = props.getStamina();
 		int dashes = props.getDashCount();
-		int rows = dashes / 3;
+		int rows = (int) Math.ceil(dashes / 3.0);
 		int finalColumns = dashes % 3;
 		
 		for(int y = 0; y < rows; y++) {
-			for(int x = 0; x < 3; x++) {
-				if(y == rows && x > finalColumns) 
-					break;
+			int columns = 3;
+			if(y+1 == rows){
+				columns = finalColumns;
+			}
+			for(int x = 0; x < columns; x++) {
 				gui.drawTexturedModalRect(posX + (width+2)*x, posY - 12*y, 76, 48, width, 10);
 				int staminaDiv = stamina / 30;
 				int staminaMod = stamina % 30;
