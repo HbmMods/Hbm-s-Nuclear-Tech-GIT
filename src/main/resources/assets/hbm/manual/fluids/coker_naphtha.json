@@ -1,0 +1,11 @@
+{
+    "name": "Coker Naphtha",
+    "icon": ["hbm:item.fluid_icon", 1, 105],
+    "trigger": [["hbm:item.fluid_icon", 1, 105]],
+    "title": {
+        "en_US": "Coker Naphtha"
+    },
+    "content": {
+        "en_US": "Coker naphtha can be obtained by [[coking|Coker Unit]] [[naphtha|Naphtha]] variants, various [[diesels|Diesel]], or [[reclaimed industrial oil|Reclaimed Industrial Oil]]. It can be [[fractioned|Fractioning Tower]] for [[cracked light oil|Cracked Light Oil]] and [[cracked naphtha|Cracked Naphtha]]. It may also be used as an ingredient in [[solvent|Solvent]] or [[reformed|Catalytic Reformer]] for [[reformate|Reformate]] and [[reformate gas|Reformate Gas]]."
+    }
+}
