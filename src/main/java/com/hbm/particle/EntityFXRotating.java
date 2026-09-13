@@ -1,14 +1,17 @@
 package com.hbm.particle;
 
+import com.hbm.util.Vec3NT;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
 public class EntityFXRotating extends EntityFX {
+	
+	protected static Vec3NT vec = new Vec3NT(0, 0, 0);
 
 	protected EntityFXRotating(World world, double x, double y, double z) {
 		super(world, x, y, z);
@@ -43,7 +46,7 @@ public class EntityFXRotating extends EntityFX {
 		double nY = ((z2 - z1) * (x3 - x1)) - ((x2 - x1) * (z3 - z1));
 		double nZ = ((x2 - x1) * (y3 - y1)) - ((y2 - y1) * (x3 - x1));
 		
-		Vec3 vec = Vec3.createVectorHelper(nX, nY, nZ).normalize();
+		vec.setComponents(nX, nY, nZ).normalize();
 		nX = vec.xCoord;
 		nY = vec.yCoord;
 		nZ = vec.zCoord;

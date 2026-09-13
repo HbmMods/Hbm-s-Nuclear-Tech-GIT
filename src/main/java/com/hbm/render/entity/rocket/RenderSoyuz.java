@@ -12,6 +12,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderSoyuz extends Render {
+	
+	protected static Vec3NT vec = new Vec3NT(0, 0, 0);
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float i, float j) {
@@ -22,8 +24,6 @@ public class RenderSoyuz extends Render {
 
 		int type = entity.getDataWatcher().getWatchableObjectInt(8);
 		SoyuzPronter.prontSoyuz(type);
-		
-		Vec3NT vec = new Vec3NT(0, 0, 0);
 		
 		vec.setComponents(x, y, z).normalizeSelf().multiply(-1.5);
 		GL11.glTranslated(vec.xCoord, vec.yCoord, vec.zCoord);

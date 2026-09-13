@@ -34,14 +34,14 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public int tiltBlocksChecked = 0;
 	public int tiltBlocksValid = 0;
 	
-	public int tickOffset = -1;
-	public int[] energyRecDelay;
-	public int[] energyProDelay;
-	public int[] fluidRecDelay;
-	public int[] fluidProDelay;
+	@Deprecated public int tickOffset = -1;
+	@Deprecated public int[] energyRecDelay;
+	@Deprecated public int[] energyProDelay;
+	@Deprecated public int[] fluidRecDelay;
+	@Deprecated public int[] fluidProDelay;
 	
-	/** Automatic handling of ports, including dynamic pauses for ports not currently in use. Mainly a shitty bandaid fix. */
-	public void autoPort(DirPos[] pos) {
+	/** you suck */
+	@Deprecated public void autoPort(DirPos[] pos) {
 		
 		if(this.tickOffset == -1) {
 			this.tickOffset = Math.abs(BlockPos.getIdentity(xCoord, yCoord, zCoord) % 100);

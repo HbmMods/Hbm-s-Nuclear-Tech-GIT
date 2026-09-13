@@ -18,15 +18,16 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	public static RenderBlocksCT instance = new RenderBlocksCT();
 
-	VertInfo tl;
-	VertInfo tc;
-	VertInfo tr;
-	VertInfo cl;
-	VertInfo cc;
-	VertInfo cr;
-	VertInfo bl;
-	VertInfo bc;
-	VertInfo br;
+	// pre-instantiated crap which we modify later on to reduce unnecessary allocations
+	VertInfo tl = new VertInfo(0, 0, 0, 0);
+	VertInfo tc = new VertInfo(0, 0, 0, 0);
+	VertInfo tr = new VertInfo(0, 0, 0, 0);
+	VertInfo cl = new VertInfo(0, 0, 0, 0);
+	VertInfo cc = new VertInfo(0, 0, 0, 0);
+	VertInfo cr = new VertInfo(0, 0, 0, 0);
+	VertInfo bl = new VertInfo(0, 0, 0, 0);
+	VertInfo bc = new VertInfo(0, 0, 0, 0);
+	VertInfo br = new VertInfo(0, 0, 0, 0);
 	
 	public RenderBlocksCT() {
 		super();
@@ -38,8 +39,7 @@ public class RenderBlocksCT extends RenderBlocks {
 	
 	private void initSideInfo(int side) {
 		
-		if(!this.enableAO)
-			return;
+		if(!this.enableAO) return;
 		
 		/*
 		 * so what's the actual solution here? instantiating the VertInfos with TL red being 1 causes all faces to be red on the top left, so there's
@@ -54,43 +54,43 @@ public class RenderBlocksCT extends RenderBlocks {
 		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;*/
 		
 		if(side == ForgeDirection.SOUTH.ordinal()) {
-			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.tl.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		} else if(side == ForgeDirection.NORTH.ordinal()) {
-			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.tr.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		} else if(side == ForgeDirection.EAST.ordinal()) {
-			this.bl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.tl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.br = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.tr = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.bl.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tl.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.br.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tr.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		} else if(side == ForgeDirection.WEST.ordinal()) {
-			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.tr.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		} else if(side == ForgeDirection.UP.ordinal()) {
-			this.br = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.bl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.tr = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.tl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.br.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.bl.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tr.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tl.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		} else {
-			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
-			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
-			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
-			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+			this.tl.setup(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr.setup(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl.setup(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br.setup(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
 		}
 
-		this.tc = VertInfo.avg(tl, tr);
-		this.bc = VertInfo.avg(bl, br);
-		this.cl = VertInfo.avg(tl, bl);
-		this.cr = VertInfo.avg(tr, br);
+		VertInfo.avg(tc, tl, tr);
+		VertInfo.avg(bc, bl, br);
+		VertInfo.avg(cl, tl, bl);
+		VertInfo.avg(cr, tr, br);
 		
-		this.cc = VertInfo.avg(tl, tr, bl, br);
+		VertInfo.avg(cr, tl, tr, bl, br);
 	}
 
 	@Override
@@ -278,13 +278,18 @@ public class RenderBlocksCT extends RenderBlocks {
 		int brightness;
 		
 		public VertInfo(float red, float green, float blue, int brightness) {
+			this.setup(red, green, blue, brightness);
+		}
+		
+		public VertInfo setup(float red, float green, float blue, int brightness) {
 			this.red = red;
 			this.green = green;
 			this.blue = blue;
 			this.brightness = brightness;
+			return this;
 		}
 		
-		public static VertInfo avg(VertInfo...infos) {
+		public static VertInfo avg(VertInfo writeTo, VertInfo...infos) {
 			float r = 0F;
 			float g = 0F;
 			float b = 0F;
@@ -302,7 +307,9 @@ public class RenderBlocksCT extends RenderBlocks {
 			b /= infos.length;
 			l /= infos.length;
 			
-			return new VertInfo(r, g, b, l);
+			writeTo.setup(r, g, b, l);
+			
+			return writeTo;
 		}
 	}
 
