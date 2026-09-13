@@ -695,6 +695,11 @@ public class EntityEffectHandler {
 
 			int armorDashCount = 0;
 			int armorModDashCount = 0;
+			int effectDashCount = 0;
+
+			if(player.isPotionActive(HbmPotion.estrogen.id)) {
+				effectDashCount = 1;
+			}
 
 			if(ArmorFSB.hasFSBArmor(player)) {
 				ItemStack plate = player.inventory.armorInventory[2];
@@ -721,7 +726,7 @@ public class EntityEffectHandler {
 				}
 			}
 
-			int dashCount = armorDashCount + armorModDashCount;
+			int dashCount = armorDashCount + armorModDashCount + effectDashCount;
 			boolean dashActivated = props.getKeyPressed(EnumKeybind.DASH);
 
 			if(dashCount * 30 < props.getStamina()) props.setStamina(dashCount * 30);
