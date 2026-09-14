@@ -1,6 +1,8 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.machine.ItemRTTYCard;
+import com.hbm.items.ModItems;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.Driver;
 import li.cil.oc.api.Items;
 import li.cil.oc.api.fs.FileSystem;
 import li.cil.oc.api.machine.Arguments;
@@ -180,6 +183,8 @@ public class CompatHandler {
      */
     public static void init() {
         if(Loader.isModLoaded("OpenComputers")) {
+            Driver.add(new ItemRTTYCard.Driver(ModItems.rtty_card));
+
             /*
             For anyone wanting to add their own floppy disks,
             read the README found in assets.hbm.disks.

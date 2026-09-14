@@ -1141,6 +1141,7 @@ public class ModItems {
 	public static Item drone_linker;
 	public static Item radar_linker;
 	public static Item settings_tool;
+	public static Item rtty_card;
 	public static Item rtty_pager;
 
 	public static Item blueprints;
@@ -3832,6 +3833,7 @@ public class ModItems {
 		drone_linker = new ItemDroneLinker().setUnlocalizedName("drone_linker").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":drone_linker");
 		radar_linker = new ItemRadarLinker().setUnlocalizedName("radar_linker").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":radar_linker");
 		settings_tool = new ItemSettingsTool().setUnlocalizedName("settings_tool").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":settings_tool");
+		rtty_card = new ItemRTTYCard().setUnlocalizedName("rtty_card").setMaxStackSize(1).setCreativeTab(MainRegistry.machineTab).setTextureName(RefStrings.MODID + ":rtty_card");
 		rtty_pager = new ItemRTTYPager().setUnlocalizedName("rtty_pager").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":rtty_pager");
 
 		key = new ItemKey().setUnlocalizedName("key").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key");
@@ -5494,6 +5496,7 @@ public class ModItems {
 		GameRegistry.registerItem(analysis_tool, analysis_tool.getUnlocalizedName());
 		GameRegistry.registerItem(coupling_tool, coupling_tool.getUnlocalizedName());
 		GameRegistry.registerItem(settings_tool, settings_tool.getUnlocalizedName());
+		GameRegistry.registerItem(rtty_card, rtty_card.getUnlocalizedName());
 		GameRegistry.registerItem(rtty_pager, rtty_pager.getUnlocalizedName());
 		GameRegistry.registerItem(dosimeter, dosimeter.getUnlocalizedName());
 		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
