@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 40],
     "trigger": [["hbm:item.fluid_icon", 1, 40]],
     "title": {
-        "en_US": "Xenon Gas"
+        "en_US": "Xenon Gas",
+        "ru_RU": "Ксеноновый газ"
     },
     "content": {
-        "en_US": "Xenon gas can be obtained by [[processing|Chemical Plant]] [[compressed air|Compressed Air]]. It is primarily used as an ingredient in the entanglement kit used in teleporters. It is also used as an ingredient in the [[ICF|Inertial Confinement Fusion Reactor]]. Additionally, it may also be used in the winged variant of [[lunar cybernetic armor|Lunar Cybernetic Armor]]."
+        "en_US": "Xenon gas can be obtained by [[processing|Chemical Plant]] [[compressed air|Compressed Air]]. It is primarily used as an ingredient in the entanglement kit used in teleporters. It is also used as an ingredient in the [[ICF|Inertial Confinement Fusion Reactor]]. Additionally, it may also be used in the winged variant of [[lunar cybernetic armor|Lunar Cybernetic Armor]].",
+        "ru_RU": "Ксеноновый газ можно получить путем [[переработки|Chemical Plant]] [[сжатого воздуха|Compressed Air]]. В основном он используется в качестве ингредиента для комплекта запутывания, применяемого в телепортах. Он также используется в качестве ингредиента в [[ICF|ICF]]. Кроме того, его можно использовать в варианте крылатой [[лунной кибернетической брони|Lunar Cybernetic Armor]]."
     }
 }

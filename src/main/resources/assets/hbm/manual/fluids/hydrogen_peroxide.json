@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 35],
     "trigger": [["hbm:item.fluid_icon", 1, 35]],
     "title": {
-        "en_US": "Hydrogen Peroxide"
+        "en_US": "Hydrogen Peroxide",
+        "ru_RU": "Пероксид водорода"
     },
     "content": {
-        "en_US": "Hydrogen peroxide can be obtained through [[processing|Chemical Plant]] [[water|Water]]. It is one of the most vital fluids as it is used in every stage of progression. It is first used to process materials in the [[ore acidizer|Ore Acidizer]]. It is used in the production of [[sulfuric acid|Sulfuric Acid]], [[coltan processing|Tantalite Production]], and [[ferric schrabidate|Schrabidic Acid]] production. It may also be used to produce [[capacitor boards|Circuits]]."
+        "en_US": "Hydrogen peroxide can be obtained through [[processing|Chemical Plant]] [[water|Water]]. It is one of the most vital fluids as it is used in every stage of progression. It is first used to process materials in the [[ore acidizer|Ore Acidizer]]. It is used in the production of [[sulfuric acid|Sulfuric Acid]], [[coltan processing|Tantalite Production]], and [[ferric schrabidate|Schrabidic Acid]] production. It may also be used to produce [[capacitor boards|Circuits]].",
+        "ru_RU": "Пероксид водорода можно получить путем [[переработки|Chemical Plant]] [[воды|Water]]. Это одна из важнейших жидкостей, так как она используется на каждом этапе развития. Сначала ее используют для обработки материалов в [[рудном окислителе|Ore Acidizer]]. Она применяется в производстве [[серной кислоты|Sulfuric Acid]], [[переработке колтана|Tantalite Production]] и производстве [[шрабидата железа|Schrabidic Acid]]. Ее также можно использовать для производства [[микроэлектроники|Circuits]]."
     }
 }

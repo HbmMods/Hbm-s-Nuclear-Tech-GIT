@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 137],
     "trigger": [["hbm:item.fluid_icon", 1, 137]],
     "title": {
-        "en_US": "Desulfurized Naphtha"
+        "en_US": "Desulfurized Naphtha",
+        "ru_RU": "Обессеренная нафта"
     },
     "content": {
-        "en_US": "Desulfurized naphtha can be obtained by [[refining|Oil Refinery]] hot desulfurized [[cracked|Desulfurized Cracked Oil]] or [[crude|Desulfurized Hot Crude Oil]] oil. It is primarily [[fractioned|Fractioning Tower]] to produce [[BTX]] and [[high-cetane diesel|High-Cetane Diesel]]. It may also be mixed with [[aromatic hydrocarbons|Aromatic Hydrocarbons]] to obtain additional [[solvent|Solvent]].<br><br>{{Template:Oil3.5}}"
+        "en_US": "Desulfurized naphtha can be obtained by [[refining|Oil Refinery]] hot desulfurized [[cracked|Desulfurized Cracked Oil]] or [[crude|Desulfurized Hot Crude Oil]] oil. It is primarily [[fractioned|Fractioning Tower]] to produce [[BTX]] and [[high-cetane diesel|High-Cetane Diesel]]. It may also be mixed with [[aromatic hydrocarbons|Aromatic Hydrocarbons]] to obtain additional [[solvent|Solvent]].<br><br>{{Template:Oil3.5}}",
+        "ru_RU": "Обессеренную нафту можно получить путем [[переработки|Oil Refinery]] горячей обессеренной [[крекированной нефти|Desulfurized Cracked Oil]] или [[сырой нефти|Desulfurized Hot Crude Oil]]. В основном ее [[ректифицируют|Fractioning Tower]] для получения [[БТК|BTX]] и [[высокоцетанового дизеля|High-Cetane Diesel]]. Ее также можно смешать с [[ароматическими углеводородами|Aromatic Hydrocarbons]] для получения дополнительного [[растворителя|Solvent]]."
     }
 }

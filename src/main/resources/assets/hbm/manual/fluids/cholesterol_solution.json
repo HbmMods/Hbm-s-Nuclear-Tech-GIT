@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 108],
     "trigger": [["hbm:item.fluid_icon", 1, 108]],
     "title": {
-        "en_US": "Cholesterol Solution"
+        "en_US": "Cholesterol Solution",
+        "ru_RU": "Раствор холестерина"
     },
     "content": {
-        "en_US": "Cholesterol solution can be obtained by [[fractioning|Fractioning Tower]] [[dissolved egg|Dissolved Egg]]. It is primarily used in the production of [[estradiol solution|Estradiol Solution]] and additional [[reformate gas|Reformate Gas]] through [[reforming|Catalytic Reformer]]."
+        "en_US": "Cholesterol solution can be obtained by [[fractioning|Fractioning Tower]] [[dissolved egg|Dissolved Egg]]. It is primarily used in the production of [[estradiol solution|Estradiol Solution]] and additional [[reformate gas|Reformate Gas]] through [[reforming|Catalytic Reformer]].",
+        "ru_RU": "Раствор холестерина можно получить путем [[ректификации|Fractioning Tower]] [[растворенного яйца|Dissolved Egg]]. В основном он используется в производстве [[раствора эстрадиола|Estradiol Solution]] и дополнительного [[риформата|Reformate Gas]] путем [[риформинга|Catalytic Reformer]]."
     }
 }

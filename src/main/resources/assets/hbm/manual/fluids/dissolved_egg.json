@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 107],
     "trigger": [["hbm:item.fluid_icon", 1, 107]],
     "title": {
-        "en_US": "Dissolved Egg"
+        "en_US": "Dissolved Egg",
+        "ru_RU": "Растворенное яйцо"
     },
     "content": {
-        "en_US": "Dissolved egg can be obtained by mixing [[high-performance solvent|High-Performance Solvent]] and an egg. It is used to produce [[cholesterol solution|Cholesterol Solution]] through [[fractioning|Fractioning Tower]]. It also returns some of the input [[high-performance solvent|High-Performance Solvent]]."
+        "en_US": "Dissolved egg can be obtained by mixing [[high-performance solvent|High-Performance Solvent]] and an egg. It is used to produce [[cholesterol solution|Cholesterol Solution]] through [[fractioning|Fractioning Tower]]. It also returns some of the input [[high-performance solvent|High-Performance Solvent]].",
+        "ru_RU": "Растворенное яйцо можно получить путем смешивания [[высокоэффективного растворителя|High-Performance Solvent]] и яйца. Оно используется для получения [[раствора холестерина|Cholesterol Solution]] путем [[ректификации|Fractioning Tower]]. Этот процесс также возвращает часть исходного [[высокоэффективного растворителя|High-Performance Solvent]]."
     }
 }

@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 134],
     "trigger": [["hbm:item.fluid_icon", 1, 134]],
     "title": {
-        "en_US": "Desulfurized Hot Crude Oil"
+        "en_US": "Desulfurized Hot Crude Oil",
+        "ru_RU": "Обессеренная горячая крекированная нефть"
     },
     "content": {
-        "en_US": "Desulfurized hot crude oil can be produced by [[heating|Boiler]] [[desulfurized crude oil|Desulfurized Crude Oil]]. It can be [[refined|Oil Refinery]] to produce products such as: <br>[[Heavy Oil]] <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]] <br><br>{{Template:Oil3.5}}"
+        "en_US": "Desulfurized hot crude oil can be produced by [[heating|Boiler]] [[desulfurized crude oil|Desulfurized Crude Oil]]. It can be [[refined|Oil Refinery]] to produce products such as: <br>[[Heavy Oil]] <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]] <br><br>{{Template:Oil3.5}}",
+        "ru_RU": "Обессеренную горячую сырую нефть можно получить путем [[нагрева|Boiler]] [[обессеренной сырой нефти|Desulfurized Crude Oil]]. Ее можно [[переработать|Oil Refinery]] для получения таких продуктов, как: <br>[[Мазут|Heavy Oil]] <br>[[Обессеренная нафта|Desulfurized Naphtha]] <br>[[Обессеренная легкая нефть|Desulfurized Light Oil]] <br>[[Непредельные углеводороды|Unsaturated Hydrocarbons]] <br>[[Парафиновый воск|Paraffin Wax]] <br><br>{{Template:Oil3.5}}"
     }
 }

@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 135],
     "trigger": [["hbm:item.fluid_icon", 1, 135], ["hbm:item.fluid_icon", 1, 136]],
     "title": {
-        "en_US": "Desulfurized Cracked Oil"
+        "en_US": "Desulfurized Cracked Oil",
+        "ru_RU": "Обессеренная крекированная нефть"
     },
     "content": {
-        "en_US": "Desulfurized cracked oil can be produced by [[hydrotreating|Hydrotreater]] [[cracked oil|Cracked Oil]] with [[pressurized|Compressor]] [[liquid hydrogen|Liquid Hydrogen]]. After [[heating|Boiler]], it can be [[refined|Oil Refinery]] to produce products such as: <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Aromatic Hydrocarbons]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]]<br><br>{{Template:Oil3.5}}"
+        "en_US": "Desulfurized cracked oil can be produced by [[hydrotreating|Hydrotreater]] [[cracked oil|Cracked Oil]] with [[pressurized|Compressor]] [[liquid hydrogen|Liquid Hydrogen]]. After [[heating|Boiler]], it can be [[refined|Oil Refinery]] to produce products such as: <br>[[Desulfurized Naphtha]] <br>[[Desulfurized Light Oil]] <br>[[Aromatic Hydrocarbons]] <br>[[Unsaturated Hydrocarbons]] <br>[[Paraffin Wax]]<br><br>{{Template:Oil3.5}}",
+        "ru_RU": "Обессеренную крекированную нефть можно получить путем [[гидроочистки|Hydrotreater]] [[крекированной нефти|Cracked Oil]] [[сжатым|Compressor]] [[жидким водородом|Liquid Hydrogen]]. После [[нагрева|Boiler]] ее можно [[переработать|Oil Refinery]] для получения таких продуктов, как:<br>[[Обессеренная нафта|Desulfurized Naphtha]]<br>[[Обессеренная лёгкая нефть|Desulfurized Light Oil]]<br>[[Ароматические углеводороды|Aromatic Hydrocarbons]]<br>[[Непредельные углеводороды|Unsaturated Hydrocarbons]]<br>[[Парафиновый воск|Paraffin Wax]]<br><br>{{Template:Oil3.5}}"
     }
 }

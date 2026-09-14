@@ -3,9 +3,11 @@
     "icon": ["hbm:item.fluid_icon", 1, 133],
     "trigger": [["hbm:item.fluid_icon", 1, 133]],
     "title": {
-        "en_US": "Desulfurized Crude Oil"
+        "en_US": "Desulfurized Crude Oil",
+        "ru_RU": "Обессеренная сырая нефть"
     },
     "content": {
-        "en_US": "Desulfurized crude oil can be produced by [[hydrotreating|Hydrotreater]] [[crude oil|Crude Oil]] with [[pressurized|Compressor]] [[liquid hydrogen|Liquid Hydrogen]]. It can be [[vacuum refined|Vacuum Refinery]] to produce products such as: <br>[[Vacuum Heavy Oil]] <br>[[Vacuum Light Oil]] <br>[[Reformate]] <br>[[Reformate Gas]] <br><br>It may also be [[heated|Boiler]] to obtain [[desulfurized hot crude oil|Desulfurized Hot Crude Oil]].<br><br>{{Template:Oil3.5}}"
+        "en_US": "Desulfurized crude oil can be produced by [[hydrotreating|Hydrotreater]] [[crude oil|Crude Oil]] with [[pressurized|Compressor]] [[liquid hydrogen|Liquid Hydrogen]]. It can be [[vacuum refined|Vacuum Refinery]] to produce products such as: <br>[[Vacuum Heavy Oil]] <br>[[Vacuum Light Oil]] <br>[[Reformate]] <br>[[Reformate Gas]] <br><br>It may also be [[heated|Boiler]] to obtain [[desulfurized hot crude oil|Desulfurized Hot Crude Oil]].<br><br>{{Template:Oil3.5}}",
+        "ru_RU": "Обессеренную сырую нефть можно получить путем [[гидроочистки|Hydrotreater]] [[сырой нефти|Crude Oil]] [[сжатым|Compressor]] [[жидким водородом|Liquid Hydrogen]]. Ее можно подвергнуть [[вакуумной переработке|Vacuum Refinery]] для получения таких продуктов, как: <br>[[Вакуумная тяжёлая нефть|Vacuum Heavy Oil]] <br>[[Вакуумная лёгкая нефть|Vacuum Light Oil]] <br>[[Реформированное топливо|Reformate]] <br>[[Реформированный газ|Reformate Gas]] <br><br>Ее также можно [[нагреть|Boiler]] для получения [[обессеренной горячей сырой нефти|Desulfurized Hot Crude Oil]].<br><br>{{Template:Oil3.5}}"
     }
 }
