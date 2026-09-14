@@ -1,0 +1,11 @@
+{
+    "name": "Steam",
+    "icon": ["hbm:item.fluid_icon", 1, 2],
+    "trigger": [["hbm:item.fluid_icon", 1, 2], ["hbm:item.fluid_icon", 1, 3], ["hbm:item.fluid_icon", 1, 4], ["hbm:item.fluid_icon", 1, 5], ["hbm:item.fluid_icon", 1, 48]],
+    "title": {
+        "en_US": "Steam"
+    },
+    "content": {
+        "en_US": "Steam can be obtained by [[heating|Boiler]] [[water|Water]]. This method can be done through the [[RBMK steam channel|RBMK Steam Channel]] or the [[boiler|Boiler]]. It also has many variants depending on how hot it is. Ultra dense steam is the hottest, followed by super dense steam, then dense steam, steam, and lastly low-pressure steam. Any level higher than low-pressure can be produced from [[water|Water]] in the [[RBMK steam channel|RBMK Steam Channel]].<br><br>It is impossible to increase the density and level of steam and it therefore must be produced in the desired tier. It is possible to lower the tier of the steam through the use of a [[steam turbine|Steam Turbine]]. Each turbine will lower the tier by one, meaning that ultra dense will require four [[turbines|Steam Turbine]] to go down to low-pressure steam.<br><br>Low-pressure steam may be converted back into [[water|Water]] through [[condensing|Condenser]] allowing for the creation of a complete cooling loop. Low-pressure steam is also produced from the [[cracking tower|Catalytic Cracking Tower]] as a byproduct from the required steam input.<br><br>Some machines only output certain tiers of steam, such as the [[ZIRNOX]] and [[fusion reactor boiler|Fusion Reactor Boiler]] only producing super dense steam."
+    }
+}
