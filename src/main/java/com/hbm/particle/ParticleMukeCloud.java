@@ -87,7 +87,7 @@ public class ParticleMukeCloud extends EntityFX {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 		GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		RenderHelper.disableStandardItemLighting();
 		
 		if(this.particleAge > this.particleMaxAge)
