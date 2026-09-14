@@ -1,0 +1,11 @@
+{
+    "name": "Plasma",
+    "icon": ["hbm:item.fluid_icon", 1, 52],
+    "trigger": [["hbm:item.fluid_icon", 1, 50], ["hbm:item.fluid_icon", 1, 51], ["hbm:item.fluid_icon", 1, 52], ["hbm:item.fluid_icon", 1, 53], ["hbm:item.fluid_icon", 1, 54], ["hbm:item.fluid_icon", 1, 56]],
+    "title": {
+        "en_US": "Plasma"
+    },
+    "content": {
+        "en_US": "There are a diverse selection of plasmas available. Each plasma has a unique set of inputs, outputs, ignition and heat values. <br><br>The ignition value corresponds to how much [[klystron|Klystron]] energy (KyU) is required to ignite that plasma. Output heat from each plasma may be chained using the [[fusion coupler|Fusion Reactor Coupler]] or used with a [[fusion boiler|Fusion Reactor Boiler]] or [[MHDT|MHD Turbine]] for power production. <br><br>{{Template:Fusion}}"
+    }
+}
