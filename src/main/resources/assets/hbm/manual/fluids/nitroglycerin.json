@@ -1,0 +1,11 @@
+{
+    "name": "Nitroglycerin",
+    "icon": ["hbm:item.fluid_icon", 1, 112],
+    "trigger": [["hbm:item.fluid_icon", 1, 112]],
+    "title": {
+        "en_US": "Nitroglycerin"
+    },
+    "content": {
+        "en_US": "Nitroglycerin can be produced by mixing [[nitric acid|Nitric Acid]] with either [[fish oil|Fish Oil]] or [[petroleum gas|Petroleum Gas]]. Through [[acidizing|Ore Acidizer]] it can be used to produce dynamite when mixed with quartz powder, or cordite when mixed with sawdust."
+    }
+}
