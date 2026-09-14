@@ -13,6 +13,7 @@ import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.ItemStackUtil;
+import net.minecraft.init.Items;
 
 import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
@@ -180,6 +181,9 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 			if(name.contains("Wood"))		return EnumAshType.WOOD;
 			if(name.contains("Sapling"))	return EnumAshType.WOOD;
 		}
+		
+		//extra check for charcoal since it doesnt have an ore dict 
+		if(stack.getItem() == Items.coal && stack.getItemDamage() == 1)	return EnumAshType.WOOD; 
 
 		return EnumAshType.MISC;
 	}
