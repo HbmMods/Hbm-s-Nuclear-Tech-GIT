@@ -87,6 +87,10 @@
 * Mining satellites now report their mining progress to the ground station's tooltip
 * Added a lot more MSESv1 return states, mainly replacing the generic and unspecific "parameter error" state, making debugging easier
   * This includes missing parameters, parameter OOB, arithmetic errors, parse errors and missing jump points
+* Ground stations now have the TXRX command
+  * Works like TX, but specifying an RoR return channel
+  * After the satellite processes the command, the RX is immediately broadcasted on the return channel
+  * This allows multiple satellite RX to be retrieved within a single tick
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
