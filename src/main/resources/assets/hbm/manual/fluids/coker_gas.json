@@ -1,0 +1,11 @@
+{
+    "name": "Coker Gas",
+    "icon": ["hbm:item.fluid_icon", 1, 106],
+    "trigger": [["hbm:item.fluid_icon", 1, 106]],
+    "title": {
+        "en_US": "Coker Gas"
+    },
+    "content": {
+        "en_US": "Coker gas can be obtained by [[coking|Coker Unit]] various fluids. It is primarily used to create [[weapon steel|Weapon Steel]] in the [[rotary furnace|Rotary Furnace]]. It may also be [[fractioned|Fractioning Tower]] for [[aromatic hydrocarbons|Aromatic Hydrocarbons]] and [[carbon dioxide|Carbon Dioxide]]."
+    }
+}
