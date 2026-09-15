@@ -75,11 +75,11 @@ public class ShadyUtil {
 		s += s1;
 		rand.setSeed(b1[0]);
 		s += rand.nextInt(0xffffff) + s2;
-		rand.setSeed(rand.nextInt(0xffffff) + b2[0]);
+		rand.setSeed(b2[0]);
 		s += rand.nextInt(0xffffff) + s3;
-		rand.setSeed(rand.nextInt(0xffffff) + b3[0]);
+		rand.setSeed(b3[0]);
 		s += rand.nextInt(0xffffff) + s4;
-		rand.setSeed(rand.nextInt(0xffffff) + b4[0]);
+		rand.setSeed(b4[0]);
 		s += rand.nextInt(0xffffff);
 		return getHash(s);
 	}
