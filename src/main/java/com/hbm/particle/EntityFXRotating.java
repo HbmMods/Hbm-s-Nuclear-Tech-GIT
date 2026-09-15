@@ -46,7 +46,7 @@ public class EntityFXRotating extends EntityFX {
 		double nY = ((z2 - z1) * (x3 - x1)) - ((x2 - x1) * (z3 - z1));
 		double nZ = ((x2 - x1) * (y3 - y1)) - ((y2 - y1) * (x3 - x1));
 		
-		vec.setComponents(nX, nY, nZ).normalize();
+		vec.setComponents(nX, nY, nZ).normalizeSelf();
 		nX = vec.xCoord;
 		nY = vec.yCoord;
 		nZ = vec.zCoord;
