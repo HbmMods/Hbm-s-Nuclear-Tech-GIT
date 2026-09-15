@@ -96,6 +96,7 @@ public class StructureManager {
 	public static final NBTStructure spire = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/spire.nbt"));
 	
 	public static final NBTStructure falloutshelter_house = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/falloutshelter_house.nbt"));
+	public static final NBTStructure abandoned_arcticstation = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/abandoned_arcticstation.nbt"));
 
 	// public static final NBTStructure test_rot = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-rot.nbt"));
 	// public static final NBTStructure test_jigsaw = new NBTStructure(new ResourceLocation(RefStrings.MODID, "structures/test-jigsaw.nbt"));
