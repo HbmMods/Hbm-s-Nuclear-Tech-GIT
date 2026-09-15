@@ -1,6 +1,8 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.machine.ItemRTTYCard;
+import com.hbm.items.ModItems;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.Driver;
 import li.cil.oc.api.Items;
 import li.cil.oc.api.fs.FileSystem;
 import li.cil.oc.api.machine.Arguments;
@@ -180,56 +183,63 @@ public class CompatHandler {
      */
     public static void init() {
         if(Loader.isModLoaded("OpenComputers")) {
-            /*
-            For anyone wanting to add their own floppy disks,
-            read the README found in assets.hbm.disks.
-            */
-
-            // Idea/Code by instantnootles
-            disks.put("PWRangler", new FloppyDisk("PWRangler", OCColors.CYAN.ordinal()));
-
-            // begin registering disks
-            Logger logger = LogManager.getLogger("HBM");
-            logger.info("Loading OpenComputers disks...");
-            if(disks.isEmpty()) {
-                logger.info("No disks registered; see com.hbm.handler.CompatHandler.disks");
-                return;
-            }
-            disks.forEach((s, disk) -> {
-
-                // Test if the disk path even exists.
-                FileSystem fs = fromClass(MainRegistry.class, RefStrings.MODID, "disks/" + disk.fs.name);
-
-                if (fs == null) { // Disk path does NOT exist, and it should not be loaded.
-
-					logger.error("Error loading disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
-                    logger.error("This is likely due to the path to the disk being non-existent.");
-
-                } else { // Disk path DOES exist, and it should be loaded.
-
-                    disk.item = Items.registerFloppy(s, disk.color, disk.fs); // The big part, actually registering the floppies!
-					logger.info("Registered disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
-
-                }
-            });
-            logger.info("OpenComputers disks registered.");
-
-            // OC disk recipes!
-            List<ItemStack> floppyDisks = new RecipesCommon.OreDictStack("oc:floppy").toStacks();
-
-            if(!floppyDisks.isEmpty()) { //check that floppy disks even exist in oredict.
-
-                // Recipes must be initialized here, since if they were initialized in `CraftingManager` then the disk item would not be created yet.
-                addShapelessAuto(disks.get("PWRangler").item, "oc:floppy", new ItemStack(ModBlocks.pwr_casing));
-
-                logger.info("OpenComputers disk recipe added for PWRangler.");
-            } else {
-                logger.info("OpenComputers floppy disk oredict not found, recipes cannot be loaded!");
-            }
-
-            // boom, OC disks loaded
-            logger.info("OpenComputers disks loaded.");
+            doInit();
         }
+    }
+
+    @Optional.Method(modid = "OpenComputers")
+    private static void doInit() {
+        Driver.add(new ItemRTTYCard.Driver(ModItems.rtty_card));
+
+        /*
+        For anyone wanting to add their own floppy disks,
+        read the README found in assets.hbm.disks.
+        */
+
+        // Idea/Code by instantnootles
+        disks.put("PWRangler", new FloppyDisk("PWRangler", OCColors.CYAN.ordinal()));
+
+        // begin registering disks
+        Logger logger = LogManager.getLogger("HBM");
+        logger.info("Loading OpenComputers disks...");
+        if(disks.isEmpty()) {
+            logger.info("No disks registered; see com.hbm.handler.CompatHandler.disks");
+            return;
+        }
+        disks.forEach((s, disk) -> {
+
+            // Test if the disk path even exists.
+            FileSystem fs = fromClass(MainRegistry.class, RefStrings.MODID, "disks/" + disk.fs.name);
+
+            if (fs == null) { // Disk path does NOT exist, and it should not be loaded.
+
+				logger.error("Error loading disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
+                logger.error("This is likely due to the path to the disk being non-existent.");
+
+            } else { // Disk path DOES exist, and it should be loaded.
+
+                disk.item = Items.registerFloppy(s, disk.color, disk.fs); // The big part, actually registering the floppies!
+				logger.info("Registered disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
+
+            }
+        });
+        logger.info("OpenComputers disks registered.");
+
+        // OC disk recipes!
+        List<ItemStack> floppyDisks = new RecipesCommon.OreDictStack("oc:floppy").toStacks();
+
+        if(!floppyDisks.isEmpty()) { //check that floppy disks even exist in oredict.
+
+            // Recipes must be initialized here, since if they were initialized in `CraftingManager` then the disk item would not be created yet.
+            addShapelessAuto(disks.get("PWRangler").item, "oc:floppy", new ItemStack(ModBlocks.pwr_casing));
+
+            logger.info("OpenComputers disk recipe added for PWRangler.");
+        } else {
+            logger.info("OpenComputers floppy disk oredict not found, recipes cannot be loaded!");
+        }
+
+        // boom, OC disks loaded
+        logger.info("OpenComputers disks loaded.");
     }
 
     // Null component name, default to this if broken to avoid NullPointerExceptions.
