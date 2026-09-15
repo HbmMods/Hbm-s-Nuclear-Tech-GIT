@@ -31,7 +31,7 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 	}
 	
 	/** Whether a provider can provide power by touching the block (i.e. via proxies), bypassing the need for a network entirely */
-	public default boolean allowDirectProvision() { return true; }
+	@Deprecated public default boolean allowDirectProvision() { return true; } // redundant since the direct prov system is gonna fucking die anyway
 
 	public default EnumTransferAction trySubscribe(World world, DirPos pos) { return trySubscribe(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 

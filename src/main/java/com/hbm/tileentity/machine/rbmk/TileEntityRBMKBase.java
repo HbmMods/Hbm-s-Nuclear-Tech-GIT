@@ -498,18 +498,18 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 		/* Hanlde overpressure event */
 		if(RBMKDials.getOverpressure(worldObj) && !pipes.isEmpty()) {
 			HashSet<FluidNode> pipeBlocks = new HashSet<>();
-			HashSet<Map.Entry<IFluidReceiverMK2, Long>> pipeReceivers = new HashSet<>();
+			HashSet<IFluidReceiverMK2> pipeReceivers = new HashSet<>();
 
 			//unify all parts into single sets to prevent redundancy
 			pipes.forEach(x -> {
 				pipeBlocks.addAll(x.links);
-				pipeReceivers.addAll(x.receiverEntries.entrySet());
+				pipeReceivers.addAll(x.receiverEntries);
 			});
 
 			int count = 0;
 			int max = Math.min(pipeBlocks.size() / 5, 100);
 			Iterator<FluidNode> itPipes = pipeBlocks.iterator();
-			Iterator<Map.Entry<IFluidReceiverMK2, Long>> itReceivers = pipeReceivers.iterator();
+			Iterator<IFluidReceiverMK2> itReceivers = pipeReceivers.iterator();
 
 			while(itPipes.hasNext() && count < max) {
 				FluidNode node = itPipes.next();
@@ -523,8 +523,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase {
 			}
 
 			while(itReceivers.hasNext()) {
-				Map.Entry<IFluidReceiverMK2, Long> e = itReceivers.next();
-				IFluidReceiverMK2 con = e.getKey();
+				IFluidReceiverMK2 con = itReceivers.next();
 				if(con instanceof TileEntity) {
 					TileEntity tile = (TileEntity) con;
 					if(con instanceof IOverpressurable) {

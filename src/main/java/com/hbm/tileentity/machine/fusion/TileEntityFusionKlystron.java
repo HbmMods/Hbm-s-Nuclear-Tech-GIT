@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.fusion;
 
-import java.util.Map.Entry;
-
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionKlystron;
@@ -181,10 +179,9 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 		if(klystronNode != null && klystronNode.net != null) {
 			KlystronNetwork net = (KlystronNetwork) klystronNode.net;
 
-			for(Object o : net.receiverEntries.entrySet()) {
-				Entry e = (Entry) o;
-				if(e.getKey() instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
-					TileEntityFusionTorus torus = (TileEntityFusionTorus) e.getKey();
+			for(Object o : net.receiverEntries) {
+				if(o instanceof TileEntityFusionTorus) { // replace this with an interface should we ever get more acceptors
+					TileEntityFusionTorus torus = (TileEntityFusionTorus) o;
 
 					if(torus.isLoaded() && !torus.isInvalid()) { // check against zombie network members
 						torus.klystronEnergy += output;

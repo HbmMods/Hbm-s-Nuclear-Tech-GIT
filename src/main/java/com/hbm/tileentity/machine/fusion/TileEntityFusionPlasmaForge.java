@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine.fusion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -183,11 +182,9 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 			
 			if(providerNode != null && providerNode.hasValidNet()) {
 
-				for(Object o : providerNode.net.receiverEntries.entrySet()) {
-					Entry<Object, Long> entry = (Entry<Object, Long>) o;
-
-					if(entry.getKey() instanceof IFusionPowerReceiver) {
-						if(powerReceived > 0) ((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
+				for(Object o : providerNode.net.receiverEntries) {
+					if(o instanceof IFusionPowerReceiver) {
+						if(powerReceived > 0) ((IFusionPowerReceiver) o).receiveFusionPower(powerReceived, this.neutronEnergy, plasmaRed, plasmaGreen, plasmaBlue);
 					}
 				}
 			}

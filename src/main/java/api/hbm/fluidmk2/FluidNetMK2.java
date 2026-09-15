@@ -3,7 +3,6 @@ package api.hbm.fluidmk2;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.uninos.NodeNet;
@@ -16,7 +15,6 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 	public long fluidTracker = 0L;
 	
 	protected static int timeout = 3_000;
-	protected static long currentTime = 0;
 	protected FluidType type;
 	
 	public FluidNetMK2(FluidType type) {
@@ -32,7 +30,6 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 		
 		if(providerEntries.isEmpty()) return;
 		if(receiverEntries.isEmpty()) return;
-		currentTime = System.currentTimeMillis();
 
 		setupFluidProviders();
 		setupFluidReceivers();
@@ -49,12 +46,11 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 	public long[] transfered = new long[IFluidUserMK2.HIGHEST_VALID_PRESSURE + 1];
 	
 	public void setupFluidProviders() {
-		Iterator<Entry<IFluidProviderMK2, Long>> iterator = providerEntries.entrySet().iterator();
+		Iterator<IFluidProviderMK2> iterator = providerEntries.iterator();
 		
 		while(iterator.hasNext()) {
-			Entry<IFluidProviderMK2, Long> entry = iterator.next();
-			if(currentTime - entry.getValue() > timeout || isBadLink(entry.getKey())) { iterator.remove(); continue; }
-			IFluidProviderMK2 provider = entry.getKey();
+			IFluidProviderMK2 provider = iterator.next();
+			if(isBadLink(provider)) { iterator.remove(); continue; }
 			int[] pressureRange = provider.getProvidingPressureRange(type);
 			for(int p = pressureRange[0]; p <= pressureRange[1]; p++) {
 				long available = Math.min(provider.getFluidAvailable(type, p), provider.getProviderSpeed(type, p));
@@ -65,12 +61,11 @@ public class FluidNetMK2 extends NodeNet<IFluidReceiverMK2, IFluidProviderMK2, F
 	}
 	
 	public void setupFluidReceivers() {
-		Iterator<Entry<IFluidReceiverMK2, Long>> iterator = receiverEntries.entrySet().iterator();
+		Iterator<IFluidReceiverMK2> iterator = receiverEntries.iterator();
 		
 		while(iterator.hasNext()) {
-			Entry<IFluidReceiverMK2, Long> entry = iterator.next();
-			if(currentTime - entry.getValue() > timeout || isBadLink(entry.getKey())) { iterator.remove(); continue; }
-			IFluidReceiverMK2 receiver = entry.getKey();
+			IFluidReceiverMK2 receiver = iterator.next();
+			if(isBadLink(receiver)) { iterator.remove(); continue; }
 			int[] pressureRange = receiver.getReceivingPressureRange(type);
 			for(int p = pressureRange[0]; p <= pressureRange[1]; p++) {
 				long required = Math.min(receiver.getDemand(type, p), receiver.getReceiverSpeed(type, p));

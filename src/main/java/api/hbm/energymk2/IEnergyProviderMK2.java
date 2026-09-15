@@ -24,9 +24,9 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 		return this.getMaxPower();
 	}
 
-	public default EnumTransferAction tryProvide(World world, DirPos pos) { return tryProvide(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	@Deprecated public default EnumTransferAction tryProvide(World world, DirPos pos) { return tryProvide(world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 
-	public default EnumTransferAction tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
+	@Deprecated public default EnumTransferAction tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;

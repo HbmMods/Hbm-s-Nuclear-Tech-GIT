@@ -1,10 +1,9 @@
 package com.hbm.uninos;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -19,21 +18,21 @@ public abstract class NodeNet<R, P, L extends GenNode> {
 	public boolean valid = true;
 	public Set<L> links = new LinkedHashSet();
 
-	public Map<R, Long> receiverEntries = new HashMap();
-	public Map<P, Long> providerEntries = new HashMap();
+	public Set<R> receiverEntries = new HashSet();
+	public Set<P> providerEntries = new HashSet();
 	
 	public NodeNet() {
 		UniNodespace.activeNodeNets.add(this);
 	}
 
 	/// SUBSCRIBER HANDLING ///
-	public boolean isSubscribed(R receiver) { return this.receiverEntries.containsKey(receiver); }
-	public void addReceiver(R receiver) { this.receiverEntries.put(receiver, System.currentTimeMillis()); }
+	public boolean isSubscribed(R receiver) { return this.receiverEntries.contains(receiver); }
+	public void addReceiver(R receiver) { this.receiverEntries.add(receiver); }
 	public void removeReceiver(R receiver) { this.receiverEntries.remove(receiver); }
 
 	/// PROVIDER HANDLING ///
-	public boolean isProvider(P provider) { return this.providerEntries.containsKey(provider); }
-	public void addProvider(P provider) { this.providerEntries.put(provider, System.currentTimeMillis()); }
+	public boolean isProvider(P provider) { return this.providerEntries.contains(provider); }
+	public void addProvider(P provider) { this.providerEntries.add(provider); }
 	public void removeProvider(P provider) { this.providerEntries.remove(provider); }
 	
 	/** Combines two networks into one */
@@ -46,8 +45,8 @@ public abstract class NodeNet<R, P, L extends GenNode> {
 		for(L conductor : oldNodes) forceJoinLink(conductor);
 		network.links.clear();
 
-		for(Object /*this is bullshit*/ connector : network.receiverEntries.keySet()) this.addReceiver((R) connector);
-		for(Object /*this is bullshit*/ connector : network.providerEntries.keySet()) this.addProvider((P) connector);
+		for(Object /*this is bullshit*/ connector : network.receiverEntries) this.addReceiver((R) connector);
+		for(Object /*this is bullshit*/ connector : network.providerEntries) this.addProvider((P) connector);
 		network.destroy();
 	}
 

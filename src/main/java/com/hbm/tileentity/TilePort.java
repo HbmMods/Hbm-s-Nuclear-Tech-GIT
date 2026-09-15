@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 /**
  * TilePort - each machine now has actual UNINOS nodes for ports, eliminating the need for in-world checks.
  * Connections are done once when the machine is placed or when the port type changes.
- * There are no timeouts or constant reconnects.
+ * There are no timeouts or constant reconnects. Yay.
  * 
  * @author hbm
  */

@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.fusion;
 
-import java.util.Map.Entry;
-
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerFusionTorus;
@@ -153,9 +151,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
 
-					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
-						Entry<Object, Long> entry = (Entry<Object, Long>) o;
-						Object thing = entry.getKey();
+					for(Object thing : plasmaNodes[i].net.receiverEntries) {
 						if(thing instanceof TileEntityLoadedBase && !((TileEntityLoadedBase) thing).isLoaded()) continue;
 						if(thing instanceof IFusionPowerReceiver && ((IFusionPowerReceiver) thing).receivesFusionPower()) receiverCount++;
 						if(thing instanceof TileEntityFusionCollector) collectors++;
@@ -203,12 +199,11 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 				if(plasmaNodes[i] != null && plasmaNodes[i].hasValidNet() && !plasmaNodes[i].net.receiverEntries.isEmpty()) {
 
-					for(Object o : plasmaNodes[i].net.receiverEntries.entrySet()) {
-						Entry<Object, Long> entry = (Entry<Object, Long>) o;
+					for(Object o : plasmaNodes[i].net.receiverEntries) {
 
-						if(entry.getKey() instanceof IFusionPowerReceiver) {
+						if(o instanceof IFusionPowerReceiver) {
 							long powerReceived = (long) Math.ceil(this.plasmaEnergy * outputIntensity);
-							((IFusionPowerReceiver) entry.getKey()).receiveFusionPower(powerReceived, outputFlux, r, g, b);
+							((IFusionPowerReceiver) o).receiveFusionPower(powerReceived, outputFlux, r, g, b);
 						}
 					}
 				}
