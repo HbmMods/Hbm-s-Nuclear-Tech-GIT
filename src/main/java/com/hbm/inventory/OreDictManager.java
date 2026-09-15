@@ -31,6 +31,7 @@ import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.special.ItemAutogen;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
@@ -557,6 +558,10 @@ public class OreDictManager {
 			if(mat.autogen.contains(MaterialShapes.MECHANISM)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.MECHANISM.name() + name, new ItemStack(ModItems.part_mechanism, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.STOCK)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.STOCK.name() + name, new ItemStack(ModItems.part_stock, 1, mat.id));
 			if(mat.autogen.contains(MaterialShapes.GRIP)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.GRIP.name() + name, new ItemStack(ModItems.part_grip, 1, mat.id));
+			for(Item custom : MaterialShapes.customShapesItem){
+				MaterialShapes customShape = ((ItemAutogen)custom).getShape();
+				if(mat.autogen.contains(customShape)) for(String name : mat.names) OreDictionary.registerOre(customShape.name() + name, new ItemStack(custom, 1, mat.id));
+			}
 		}
 
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
