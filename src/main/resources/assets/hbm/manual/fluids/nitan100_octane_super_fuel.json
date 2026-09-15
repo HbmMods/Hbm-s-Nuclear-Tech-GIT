@@ -1,0 +1,11 @@
+{
+    "name": "NITAN© 100 Octane Super Fuel",
+    "icon": ["hbm:item.fluid_icon", 1, 28],
+    "trigger": [["hbm:item.fluid_icon", 1, 28]],
+    "title": {
+        "en_US": "NITAN© 100 Octane Super Fuel"
+    },
+    "content": {
+        "en_US": "NITAN© 100 octane super fuel can be produced by mixing [[mercury|Mercury]], [[kerosene|Kerosene]], and nitanium blend together. It is used as a combustible [[fuel|Fuels]] source for power production."
+    }
+}
