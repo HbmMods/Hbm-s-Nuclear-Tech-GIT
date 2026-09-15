@@ -265,7 +265,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 		NBTStructure.registerStructure(0, new SpawnCondition("abandoned_arcticstation") {{
 			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SNOWY);
-			structure = new JigsawPiece("abandoned_arcticstation", StructureManager.falloutshelter_house, 0);
+			structure = new JigsawPiece("abandoned_arcticstation", StructureManager.abandoned_arcticstation, 0);
 			spawnWeight = StructureConfig.abandonedArcticStationSpawnWeight;
 		}});
 
