@@ -26,9 +26,18 @@
     * More assemblers make the recipes run faster
     * Needed for the crystal circuit board
     * Input items have to be launched via rocket
+* Lambda-98 rocket
+  * New orbital rocket that is simpler to mass produce
+  * The launch pad allows auto launch if the rocket is ready
+  * Unlike the Soyuz, can neither deliver cargo nor use the orbital module
+* OpenComputers RTTY card
+  * Tier 2 card that allows OC to interface with RoR directly
+* Redstone over radio designator
+  * Like a long range designator, but sends the aimed at position via RoR (coordinates separated by semicolon)
+* Added a new abandoned house structure
 
 ## Changed
-* Updated russian localization
+* Updated russian and ukrainian localization
 * The cargo elevator can now be controlled using RoR, allowing the platform to stop at certain heights
 * Updated the pepperbox textures
   * The wood now looks more like wood and less like plastic
@@ -91,6 +100,13 @@
   * Works like TX, but specifying an RoR return channel
   * After the satellite processes the command, the RX is immediately broadcasted on the return channel
   * This allows multiple satellite RX to be retrieved within a single tick
+* Deprecated the previous Soyuz launch pad and added a new one, including loading animations
+* Charcoal now produces wood ash in an ash pit
+* Certain doors now have new skins
+  * The sliding seal door now has a numberless version and skins with symbols on them
+  * The sliding door now has dark and metal mesh variants
+  * The vehicle door now has red and blue variants
+  * The sliding blast door now has a black variant with hazard stripes
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
@@ -124,3 +140,4 @@
 * Client-only GUI screens no longer allow modification if the forge event that would prevent interaction serverside would cancel the operation
   * This should hopefully fix an issue where certain devices in protected areas on servers were configurable even though the server forbids it
 * Fixed reinforced concrete recipe in the acidizer giving too many blocks
+* Fixed an issue where RoR readers would not properly update their values if unloaded

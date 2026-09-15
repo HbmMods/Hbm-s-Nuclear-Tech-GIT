@@ -26,13 +26,14 @@ public class TileEntityRadioTorchReader extends TileEntityLoadedBase implements 
 	public String[] channels = new String[8];
 	public String[] names = new String[8];
 	public String[] prev = new String[8];
-	private boolean[] forceUpdate = new boolean[] { true, true, true, true, true, true, true, true };
+	private boolean[] forceUpdate = new boolean[8];
 	public boolean polling = false;
 
 	public TileEntityRadioTorchReader() {
 		for(int i = 0; i < channels.length; i++) channels[i] = "";
 		for(int i = 0; i < names.length; i++) names[i] = "";
 		for(int i = 0; i < prev.length; i++) prev[i] = "";
+		for(int i = 0; i < forceUpdate.length; i++) forceUpdate[i] = true;
 	}
 
 	@Override
