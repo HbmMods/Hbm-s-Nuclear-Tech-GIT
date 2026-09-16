@@ -90,7 +90,7 @@ public class RenderBlocksCT extends RenderBlocks {
 		VertInfo.avg(cl, tl, bl);
 		VertInfo.avg(cr, tr, br);
 		
-		VertInfo.avg(cr, tl, tr, bl, br);
+		VertInfo.avg(cc, tl, tr, bl, br);
 	}
 
 	@Override
