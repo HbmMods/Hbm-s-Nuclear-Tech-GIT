@@ -12,7 +12,6 @@ import com.hbm.entity.projectile.rocketbehavior.RocketTargetingPredictive;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.Vec3NT;
 
 import api.hbm.entity.IRadarDetectable;
@@ -39,6 +38,7 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 
 	public IRocketTargetingBehavior targeting;
 	public IRocketSteeringBehavior steering;
+	public int health = 100;
 
 	public EntityArtilleryRocket(World world) {
 		super(world);
@@ -56,10 +56,18 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(!worldObj.isRemote && amount >= 250 && DamageResistanceHandler.CATEGORY_ENERGY.equals(DamageResistanceHandler.typeToCategory(source))) {
-			this.setDead();
+		if(this.isEntityInvulnerable()) {
+			return false;
+		} else {
+			if(this.health > 0 && !this.worldObj.isRemote) {
+				this.health -= (int) amount;
+				
+				if(this.health <= 0) {
+					this.setDead();
+				}
+			}
+			return true;
 		}
-		return false;
 	}
 
 	@Override

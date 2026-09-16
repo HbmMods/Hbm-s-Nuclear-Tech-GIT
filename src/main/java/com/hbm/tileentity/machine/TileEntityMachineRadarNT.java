@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.extprop.HbmLivingProps;
@@ -21,14 +23,16 @@ import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteBase;
 import com.hbm.saveddata.satellites.SatelliteDetector;
+import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
-import com.hbm.saveddata.satellites.SatelliteDetector.BurstIntensity;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.turret.TileEntityTurretBaseCIWS;
 import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.Vec3NT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.WorldUtil;
@@ -217,6 +221,26 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					}
 				}
 			}
+			
+			RadarEntry nearestEntry = getNearestEntry();
+			if(nearestEntry != null) {
+				for(int i = 0; i < 8; i++) {
+					ItemStack slot = slots[i];
+					if(slot == null || slot.getItem() != ModItems.radar_linker) continue;
+					BlockPos pos = ItemCoordinateBase.getPosition(slot);
+					if(pos != null) {
+						TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+						if(tile instanceof TileEntityTurretBaseCIWS) {
+							TileEntityTurretBaseCIWS turret = (TileEntityTurretBaseCIWS) tile;
+
+							Entity entity = worldObj.getEntityByID(nearestEntry.entityID);
+							if(entity != null && entity.isEntityAlive()) { 
+								turret.sendCommandEntity(entity);
+							}
+						}
+					}
+				}
+			}
 
 			this.networkPackNT(50);
 			if(this.clearFlag) {
@@ -370,6 +394,27 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		}
 	}
 
+	/**
+	 * Get the nearest {@link RadarEntry}
+	 * @return {@link RadarEntry} or {@code null} if no entry exists
+	 */
+	public @Nullable RadarEntry getNearestEntry() {
+		RadarEntry nearestEntry = null;
+		double nearestDist = this.getRange() * this.getRange();
+		if(this.entries.isEmpty()) return null;
+		for(RadarEntry entry : this.entries) {
+			double dist = new Vec3NT(entry.posX, entry.posY, entry.posZ).distanceTo(xCoord, yCoord, zCoord);
+			if(dist <= nearestDist) {
+				Entity entity = worldObj.getEntityByID(entry.entityID);
+				if(entity == null || !entity.isEntityAlive()) continue;
+				nearestDist = dist;
+				nearestEntry = entry;
+			}
+		}
+		
+		return nearestEntry;
+	}
+
 	public int getRedPower() {
 
 		if(!entries.isEmpty()) {
@@ -465,7 +510,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 				if(pos != null) {
 					TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-					if(tile instanceof IRadarCommandReceiver) {
+					if(tile instanceof IRadarCommandReceiver && !(tile instanceof TileEntityTurretBaseCIWS)) {
 						IRadarCommandReceiver rec = (IRadarCommandReceiver) tile;
 
 						if(data.hasKey("launchEntity")) {
