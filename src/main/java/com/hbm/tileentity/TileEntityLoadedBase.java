@@ -3,13 +3,16 @@ package com.hbm.tileentity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energymk2.Nodespace;
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
@@ -27,11 +30,60 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public boolean tilted = false;
 	public int tiltBlocksChecked = 0;
 	public int tiltBlocksValid = 0;
+
+	public TilePort[] powerPorts;
+	public TilePort[] fluidInPorts;
+	public TilePort[] fluidOutPorts;
+	
+	public void setupPowerPorts(PortDef[] ports) {
+		if(powerPorts != null) return;
+		powerPorts = TilePort.manyToMany(this, ports);
+		for(TilePort port : powerPorts) port.setupType(Nodespace.THE_POWER_PROVIDER);
+	}
+	
+	public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
+		if(fluidInPorts != null) return;
+		fluidInPorts = TilePort.oneToMany(this, tanks.length, ports);
+		for(int i = 0; i < fluidInPorts.length; i++) {
+			fluidInPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
+		}
+	}
+	
+	public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
+		if(fluidOutPorts != null) return;
+		fluidOutPorts = TilePort.oneToMany(this, tanks.length, ports);
+		for(int i = 0; i < fluidInPorts.length; i++) {
+			fluidOutPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
+		}
+	}
+	
+	public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(); }
+	public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(); }
+
+	public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
+	public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
+		if(ports == null || ports.length != tanks.length) return;
+		
+		for(int i = 0; i < ports.length; i++) {
+			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
+			if(!ports[i].needsRebuild) ports[i].checkProvide();
+		}
+	}
+
+	public void receiveFluid(FluidTank[] tanks) { receiveFluid(tanks, this.fluidInPorts); }
+	public void receiveFluid(FluidTank[] tanks, TilePort[] ports) {
+		if(ports == null || ports.length != tanks.length) return;
+		
+		for(int i = 0; i < ports.length; i++) {
+			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
+			if(!ports[i].needsRebuild) ports[i].checkSubscribe();
+		}
+	}
 	
 	/** you suck */
 	@Deprecated public void autoPort(DirPos[] pos) { }
 	
-	public final DirPos[] ALL_AROUND = new DirPos[] {
+	@Deprecated public final DirPos[] ALL_AROUND = new DirPos[] {
 			new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
 			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
 			new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),

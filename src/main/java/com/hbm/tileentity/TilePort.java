@@ -52,6 +52,18 @@ public class TilePort {
 		this.needsRebuild = true;
 		return this;
 	}
+	
+	// this will break the instant there are two ports on the same block, since one overrides the other, and this code does not support multiple directions on the same
+	// source block. this means that the original getConPos will cease to function entirely. have to rethink that.
+	@Deprecated
+	public TilePort setupPositionsLegacy(DirPos... pos) {
+		this.positions = new BlockPos[pos.length];
+		for(int i = 0; i < this.positions.length; i++) {
+			this.positions[i] = pos[i].offset(pos[i].getDir(), -1);
+		}
+		this.needsRebuild = true;
+		return this;
+	}
 
 	/** Ideally only run this once, ports shouldn't change connectivity (there is no handling for that unless a rebuild is forced) */
 	public TilePort setupConnections(DirPos... pos) {
@@ -123,5 +135,37 @@ public class TilePort {
 		if(type == null) return false;
 		if(type == Fluids.NONE.getNetworkProvider()) return false;
 		return true;
+	}
+	
+	/** Turns one PortDef into an array of ports with identical positions and connections. Ideal for passthrough fluid connections */
+	public static TilePort[] oneToMany(Object owner, int portCount, PortDef def) {
+		TilePort[] ports = new TilePort[portCount];
+		for(int i = 0; i < portCount; i++) {
+			ports[i] = new TilePort().setupOwner(owner).setupPositions(def.portPositions).setupConnections(def.portConnections);
+		}
+		return ports;
+	}
+	/** Turns an array of PortDefs into an array of ports with individual positions and connections. Ideal for non-passthrough power ports. */
+	public static TilePort[] manyToMany(Object owner, PortDef... defs) {
+		TilePort[] ports = new TilePort[defs.length];
+		for(int i = 0; i < defs.length; i++) {
+			ports[i] = new TilePort().setupOwner(owner).setupPositions(defs[i].portPositions).setupConnections(defs[i].portConnections);
+		}
+		return ports;
+	}
+	
+	public static class PortDef {
+		public BlockPos[] portPositions;
+		public DirPos[] portConnections;
+		
+		public PortDef atPos(BlockPos... pos) {
+			this.portPositions = pos;
+			return this;
+		}
+		
+		public PortDef withCon(DirPos... pos) {
+			this.portConnections = pos;
+			return this;
+		}
 	}
 }
