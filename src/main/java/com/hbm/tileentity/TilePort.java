@@ -1,5 +1,8 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -9,6 +12,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * TilePort - each machine now has actual UNINOS nodes for ports, eliminating the need for in-world checks.
@@ -28,6 +32,7 @@ public class TilePort {
 	protected DirPos[] connections;
 	
 	protected boolean needsRebuild = false;
+	protected int timeSinceNetworkChange = 0;
 	// usually a tile entity, can be a delegate/proxy type object too
 	protected Object owner;
 	
@@ -77,9 +82,22 @@ public class TilePort {
 		// if positions or connections are nulled, ticks are skipped
 		// if a node already exists, this may cause unintended behavior, so don't do that
 
+		NodeNet current = this.node != null ? this.node.net : null;
+		if(current != this.prevNet) {
+			this.timeSinceNetworkChange = 0;
+			// random bullshit go!
+			if(this.prevNet != null) this.prevNet.removeReceiver(owner);
+			if(this.prevNet != null) this.prevNet.removeProvider(owner);
+		} else {
+			this.timeSinceNetworkChange++;
+		}
+		
 		this.prevNet = this.node != null ? this.node.net : null;
 		
-		if(this.needsRebuild) disableIfPresent(world);
+		if(this.needsRebuild) {
+			disableIfPresent(world);
+			this.needsRebuild = false;
+		}
 		
 		// wording so clear and 8 year old could understand it
 		if(isEnabled()) {
@@ -105,23 +123,22 @@ public class TilePort {
 	
 	protected void createNode(World world) {
 		this.node = this.type.provideNode(positions);
+		this.node.setConnections(connections);
 		UniNodespace.createNode(world, this.node);
 	}
 	
 	public void checkSubscribe() {
 		if(this.node == null) return;
 		
-		if(this.prevNet != this.node.net) {
-			if(this.prevNet != null) this.prevNet.removeReceiver(owner);
+		if(timeSinceNetworkChange < 2) {
 			if(this.node.net != null) this.node.net.addReceiver(owner);
 		}
 	}
 	
 	public void checkProvide() {
 		if(this.node == null) return;
-		
-		if(this.prevNet != this.node.net) {
-			if(this.prevNet != null) this.prevNet.removeProvider(owner);
+
+		if(timeSinceNetworkChange < 2) {
 			if(this.node.net != null) this.node.net.addProvider(owner);
 		}
 	}
@@ -166,6 +183,28 @@ public class TilePort {
 		public PortDef withCon(DirPos... pos) {
 			this.portConnections = pos;
 			return this;
+		}
+		
+		public static PortDef make(int x, int y, int z, ForgeDirection... dirs) {
+			DirPos[] cons = new DirPos[dirs.length];
+			PortDef def = new PortDef().atPos(new BlockPos(x, y, z));
+			for(int i = 0; i < cons.length; i++) {
+				cons[i] = new DirPos(x + dirs[i].offsetX, y + dirs[i].offsetY, z + dirs[i].offsetZ, dirs[i]);
+			}
+			def.withCon(cons);
+			return def;
+		}
+		
+		public static PortDef combine(PortDef... defs) {
+			PortDef single = new PortDef();
+			List<BlockPos> pos = new ArrayList();
+			List<DirPos> con = new ArrayList();
+			for(PortDef def : defs) {
+				for(BlockPos p : def.portPositions) pos.add(p);
+				for(DirPos c : def.portConnections) con.add(c);
+			}
+			single.atPos(pos.toArray(new BlockPos[0])).withCon(con.toArray(new DirPos[0]));
+			return single;
 		}
 	}
 }

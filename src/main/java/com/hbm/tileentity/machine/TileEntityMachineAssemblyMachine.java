@@ -23,8 +23,8 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -76,6 +76,19 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 				.itemInput(4).itemOutput(16)
 				.fluidInput(inputTank).fluidOutput(outputTank);
 	}
+	
+	public PortDef[] getPorts() {
+		return new PortDef[] {
+				PortDef.make(xCoord - 1, yCoord, zCoord - 1, Library.NEG_X, Library.NEG_Z),
+				PortDef.make(xCoord + 0, yCoord, zCoord - 1, Library.NEG_Z),
+				PortDef.make(xCoord + 1, yCoord, zCoord - 1, Library.POS_X, Library.NEG_Z),
+				PortDef.make(xCoord + 1, yCoord, zCoord + 0, Library.POS_X),
+				PortDef.make(xCoord + 1, yCoord, zCoord + 1, Library.POS_X, Library.POS_Z),
+				PortDef.make(xCoord + 0, yCoord, zCoord + 1, Library.POS_Z),
+				PortDef.make(xCoord - 1, yCoord, zCoord + 1, Library.NEG_X, Library.POS_Z),
+				PortDef.make(xCoord - 1, yCoord, zCoord + 0, Library.NEG_X),
+		};
+	}
 
 	@Override
 	public String getName() {
@@ -88,6 +101,15 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		if(maxPower <= 0) this.maxPower = 1_000_000;
 		
 		if(!worldObj.isRemote) {
+
+			if(this.powerPorts == null) this.setupPowerPorts(getPorts());
+			if(this.fluidInPorts == null) this.setupFluidInPorts(getReceivingTanks(), PortDef.combine(getPorts()));
+			if(this.fluidOutPorts == null) this.setupFluidOutPorts(getSendingTanks(), PortDef.combine(getPorts()));
+			
+			this.updateAllPorts();
+			this.receivePower();
+			this.receiveFluid(getReceivingTanks());
+			this.provideFluid(getSendingTanks());
 			
 			GenericRecipe recipe = assemblerModule.getRecipe();
 			if(recipe != null) {
@@ -97,14 +119,6 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 2, 3);
-			
-			this.autoPort(getConPos());
-			
-			/*for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				if(inputTank.getTankType() != Fluids.NONE) this.trySubscribe(inputTank.getTankType(), worldObj, pos);
-				if(outputTank.getFill() > 0) this.tryProvide(outputTank, worldObj, pos);
-			}*/
 
 			double speed = 1D;
 			double pow = 1D;
@@ -202,23 +216,6 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	@Override public void invalidate() {
 		super.invalidate();
 		if(audio != null) { audio.stopSound(); audio = null; }
-	}
-	
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-		};
 	}
 
 	@Override

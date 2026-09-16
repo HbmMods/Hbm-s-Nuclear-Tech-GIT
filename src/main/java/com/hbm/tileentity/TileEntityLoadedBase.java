@@ -38,7 +38,9 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void setupPowerPorts(PortDef[] ports) {
 		if(powerPorts != null) return;
 		powerPorts = TilePort.manyToMany(this, ports);
-		for(TilePort port : powerPorts) port.setupType(Nodespace.THE_POWER_PROVIDER);
+		for(TilePort port : powerPorts) {
+			port.setupType(Nodespace.THE_POWER_PROVIDER);
+		}
 	}
 	
 	public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
@@ -80,6 +82,12 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 	
+	public void updateAllPorts() {
+		if(powerPorts != null) for(TilePort port : powerPorts) port.update(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.update(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.update(worldObj);
+	}
+	
 	/** you suck */
 	@Deprecated public void autoPort(DirPos[] pos) { }
 	
@@ -101,6 +109,19 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
+		
+		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.disableIfPresent(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.disableIfPresent(worldObj);
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		
+		if(powerPorts != null) for(TilePort port : powerPorts) port.disableIfPresent(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.disableIfPresent(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.disableIfPresent(worldObj);
 	}
 
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */

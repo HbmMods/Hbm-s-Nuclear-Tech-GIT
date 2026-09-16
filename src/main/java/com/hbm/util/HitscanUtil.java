@@ -61,9 +61,6 @@ public class HitscanUtil {
 		int sY = MathHelper.floor_double(start.yCoord);
 		int sZ = MathHelper.floor_double(start.zCoord);
 
-		Block block = world.getBlock(sX, sY, sZ);
-		int meta = world.getBlockMetadata(sX, sY, sZ);
-
 		MovingObjectPosition mop = collisions.tryCollide(world, sX, sY, sZ, 0, start, end, requiresBoundingBox, collideFluids, false);
 		if(mop != null) return mop;
 
@@ -169,8 +166,6 @@ public class HitscanUtil {
 				++vec.zCoord;
 			}
 
-			block = world.getBlock(sX, sY, sZ);
-			meta = world.getBlockMetadata(sX, sY, sZ);
 			mop = collisions.tryCollide(world, sX, sY, sZ, facing, start, end, requiresBoundingBox, collideFluids, true);
 
 			if(mop != null) {

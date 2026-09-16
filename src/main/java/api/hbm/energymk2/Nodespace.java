@@ -50,7 +50,6 @@ public class Nodespace {
 		
 		public PowerNode(BlockPos... positions) {
 			super(THE_POWER_PROVIDER, positions);
-			this.positions = positions;
 		}
 		
 		@Override
