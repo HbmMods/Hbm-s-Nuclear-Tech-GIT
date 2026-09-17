@@ -32,6 +32,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,7 +48,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 // TODO: make a base class because 90% of this is just copy pasted from the chemfac
 @NotableComments
-public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess, IRORValueProvider {
+public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IControlReceiver, IGUIProvider, IProxyDelegateProvider, IConditionalInvAccess, IRORValueProvider, IRORInteractive {
 
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
@@ -739,6 +740,10 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 				PREFIX_VALUE + "active2",
 				PREFIX_VALUE + "active3",
 				PREFIX_VALUE + "active4",
+				PREFIX_FUNCTION + "setrecipe1" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "setrecipe2" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "setrecipe3" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "setrecipe4" + NAME_SEPARATOR + "name",
 		};
 	}
 
@@ -750,6 +755,19 @@ public class TileEntityMachineAssemblyFactory extends TileEntityMachineBase impl
 			if((PREFIX_VALUE + "recipe" + (i + 1)).equals(name))		return this.assemblerModule[i].getRecipeName();
 			if((PREFIX_VALUE + "active" + (i + 1)).equals(name))		return "" + (this.didProcess[i] ? 1 : 0);
 		}
+		return null;
+	}
+	
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		for(int i = 0; i < 4; i++) {
+			if((PREFIX_FUNCTION + "setrecipe" + (i + 1)).equals(name) && params.length == 1) {
+				this.assemblerModule[i].setRecipe(params[0], true);
+				this.markChanged();
+				return null;
+			}
+		}
+		
 		return null;
 	}
 }

@@ -32,6 +32,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +45,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IRORValueProvider {
+public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implements IFusionPowerReceiver, IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IRORValueProvider, IRORInteractive {
 
 	public FluidTank inputTank;
 	
@@ -599,6 +600,7 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 				PREFIX_VALUE + "active",
 				PREFIX_VALUE + "booster",
 				PREFIX_VALUE + "plasma",
+				PREFIX_FUNCTION + "setrecipe" + NAME_SEPARATOR + "name",
 		};
 	}
 
@@ -609,6 +611,17 @@ public class TileEntityFusionPlasmaForge extends TileEntityMachineBase implement
 		if((PREFIX_VALUE + "active").equals(name))		return "" + (this.didProcess ? 1 : 0);
 		if((PREFIX_VALUE + "booster").equals(name))		return "" + this.booster;
 		if((PREFIX_VALUE + "plasma").equals(name))		return "" + this.plasmaEnergy;
+		return null;
+	}
+	
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setrecipe").equals(name) && params.length == 1) {
+			this.plasmaModule.setRecipe(params[0], false);
+			this.markChanged();
+			return null;
+		}
+		
 		return null;
 	}
 }

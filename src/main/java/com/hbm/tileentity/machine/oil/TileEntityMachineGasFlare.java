@@ -31,6 +31,8 @@ import com.hbm.util.i18n.I18nUtil;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,7 +47,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable, IRORInteractive, IRORValueProvider {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -377,5 +379,45 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 		tank.setTankType(Fluids.fromID(id));
 		if(nbt.hasKey("isOn")) isOn = nbt.getBoolean("isOn");
 		if(nbt.hasKey("doesBurn")) doesBurn = nbt.getBoolean("doesBurn");
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "flowstate",
+				PREFIX_VALUE + "ignitionstate",
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fluid",
+				PREFIX_FUNCTION + "setflowstate" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setignitionstate" + NAME_SEPARATOR + "state",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "flowstate").equals(name))		return this.isOn ? "1" : "0";
+		if((PREFIX_VALUE + "ignitionstate").equals(name))	return this.doesBurn ? "1" : "0";
+		if((PREFIX_VALUE + "output").equals(name))			return "" + this.output;
+		if((PREFIX_VALUE + "power").equals(name))			return "" + this.power;
+		if((PREFIX_VALUE + "fluid").equals(name))			return "" + this.tank.getFill();
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setflowstate").equals(name) && params.length == 1) {
+			this.isOn = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		
+		if((PREFIX_FUNCTION + "setignitionstate").equals(name) && params.length == 1) {
+			this.doesBurn = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		
+		return null;
 	}
 }

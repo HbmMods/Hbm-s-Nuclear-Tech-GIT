@@ -37,6 +37,8 @@ import com.hbm.util.i18n.I18nUtil;
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +60,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public static final long maxPower = 1_000_000;
 	public long power;
@@ -890,5 +892,69 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	@Override
 	public FluidTank getTankToPaste() {
 		return tank;
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fluid",
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "bedrock",
+				PREFIX_VALUE + "drill",
+				PREFIX_VALUE + "crusher",
+				PREFIX_VALUE + "walling",
+				PREFIX_VALUE + "veinminer",
+				PREFIX_VALUE + "silktouch",
+				PREFIX_FUNCTION + "setdrill" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setcrusher" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setwalling" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setveinminer" + NAME_SEPARATOR + "state",
+				PREFIX_FUNCTION + "setsilktouch" + NAME_SEPARATOR + "state",
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "power").equals(name))		return	"" + this.power;
+		if((PREFIX_VALUE + "fluid").equals(name))		return	"" + this.tank.getFill();
+		if((PREFIX_VALUE + "state").equals(name))		return	this.operational ? "1" : "0";
+		if((PREFIX_VALUE + "bedrock").equals(name))		return	this.bedrockDrilling ? "1" : "0";
+		if((PREFIX_VALUE + "drill").equals(name))		return	this.enableDrill ? "1" : "0";
+		if((PREFIX_VALUE + "crusher").equals(name))		return	this.enableCrusher ? "1" : "0";
+		if((PREFIX_VALUE + "walling").equals(name))		return	this.enableWalling ? "1" : "0";
+		if((PREFIX_VALUE + "veinminer").equals(name))	return	this.enableVeinMiner ? "1" : "0";
+		if((PREFIX_VALUE + "silktouch").equals(name))	return	this.enableSilkTouch ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setdrill").equals(name) && params.length == 1) {
+			this.enableDrill = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setcrusher").equals(name) && params.length == 1) {
+			this.enableCrusher = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setwalling").equals(name) && params.length == 1) {
+			this.enableWalling = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setveinminer").equals(name) && params.length == 1) {
+			this.enableVeinMiner = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		if((PREFIX_FUNCTION + "setsilktouch").equals(name) && params.length == 1) {
+			this.enableSilkTouch = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		return null;
 	}
 }
