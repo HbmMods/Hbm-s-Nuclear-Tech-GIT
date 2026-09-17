@@ -1,8 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -52,17 +51,21 @@ public class TileEntityMachineCompressor extends TileEntityMachineCompressorBase
 			}
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
 
-	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot),
+					PortDef.make(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	AxisAlignedBB bb = null;

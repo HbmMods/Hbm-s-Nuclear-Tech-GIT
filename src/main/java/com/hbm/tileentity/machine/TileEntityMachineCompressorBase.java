@@ -18,9 +18,9 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -65,6 +65,9 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 
 		if(!worldObj.isRemote) {
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
@@ -105,8 +108,6 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 				this.isOn = false;
 			}
 			
-			this.autoPort(getConPos());
-
 			this.networkPackNT(100);
 
 		}
@@ -136,7 +137,7 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 		this.isOn = buf.readBoolean();
 	}
 
-	public abstract DirPos[] getConPos();
+	public abstract PortDef[] getPorts();
 
 	public boolean canProcess() {
 
@@ -228,35 +229,12 @@ public abstract class TileEntityMachineCompressorBase extends TileEntityMachineB
 		}
 	}
 
-	@Override
-	public long getPower() {
-		return power;
-	}
-
-	@Override
-	public void setPower(long power) {
-		this.power = power;
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return tanks;
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tanks[1]};
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] {tanks[0]};
-	}
+	@Override public long getPower() { return power; }
+	@Override public void setPower(long power) { this.power = power; }
+	@Override public long getMaxPower() { return maxPower; }
+	@Override public FluidTank[] getAllTanks() { return tanks; }
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {tanks[1]}; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {tanks[0]}; }
 
 	@Override
 	@SideOnly(Side.CLIENT)

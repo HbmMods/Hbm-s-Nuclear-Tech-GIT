@@ -18,8 +18,8 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -74,6 +74,9 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 
 		if(!worldObj.isRemote) {
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
+
 			this.tank.loadTank(0, 1, slots);
 			if(this.tank.setType(4, slots)) {
 				this.tenth = 0;
@@ -113,8 +116,6 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 
 			this.power = Library.chargeItemsFromTE(slots, 3, power, power);
 			
-			this.autoPort(getConPos());
-
 			if(power > maxPower)
 				power = maxPower;
 
@@ -153,17 +154,21 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			}
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
 
-	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ, dir),
-				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ, dir),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite())
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, dir),
+					PortDef.make(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX, yCoord, zCoord - dir.offsetZ + rot.offsetZ, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override

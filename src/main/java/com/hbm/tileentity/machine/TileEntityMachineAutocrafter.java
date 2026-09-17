@@ -10,6 +10,8 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -61,6 +63,9 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 			slots[9] = null;
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -73,9 +78,11 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.setupPowerPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			this.power = Library.chargeTEFromItems(slots, 20, power, maxPower);
-			this.autoPort(this.ALL_AROUND);
 			
 			if(!this.recipes.isEmpty() && this.power >= this.consumption) {
 				IRecipe recipe = this.recipes.get(recipeIndex);

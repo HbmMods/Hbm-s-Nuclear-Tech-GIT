@@ -4,15 +4,15 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.lib.Library;
 import com.hbm.main.NTMSounds;
 import com.hbm.packet.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.Nodespace;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
@@ -35,12 +35,27 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public TilePort[] fluidInPorts;
 	public TilePort[] fluidOutPorts;
 	
+	/// PORTS START ///
+	
+	/** Sets up power, fluid in (if valid) and fluid out (if valid) ports */
+	public void setupAllPorts(PortDef[] ports) {
+		this.setupPowerPorts(ports);
+		this.setupFluidPorts(ports);
+	}
+	
+	/** Sets up only the power ports with M2M port rules (i.e. no passthrough, all ports are separate) */
 	public void setupPowerPorts(PortDef[] ports) {
 		if(powerPorts != null) return;
 		powerPorts = TilePort.manyToMany(this, ports);
 		for(TilePort port : powerPorts) {
 			port.setupType(Nodespace.THE_POWER_PROVIDER);
 		}
+	}
+
+	/** Sets up  fluid in (if valid) and fluid out (if valid) ports */
+	public void setupFluidPorts(PortDef[] ports) {
+		if(this instanceof IFluidStandardReceiverMK2) this.setupFluidInPorts(((IFluidStandardReceiverMK2) this).getReceivingTanks(), PortDef.combine(ports));
+		if(this instanceof IFluidStandardSenderMK2) this.setupFluidOutPorts(((IFluidStandardSenderMK2) this).getSendingTanks(), PortDef.combine(ports));
 	}
 	
 	public void setupFluidInPorts(FluidTank[] tanks, PortDef ports) {
@@ -58,6 +73,24 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 			fluidOutPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
 		}
 	}
+	
+	public void updateAllPorts() {
+		if(powerPorts != null) for(TilePort port : powerPorts) port.update(worldObj);
+		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.update(worldObj);
+		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.update(worldObj);
+	}
+	
+	/** Fluid in, fluid out */
+	public void updatePortFIFO() {
+		this.updateAllPorts();
+		if(this instanceof IFluidStandardReceiverMK2) this.receiveFluid(((IFluidStandardReceiverMK2) this).getReceivingTanks());
+		if(this instanceof IFluidStandardSenderMK2) this.provideFluid(((IFluidStandardSenderMK2) this).getSendingTanks());
+	}
+	
+	/** Power in, fluid in, fluid out */
+	public void updatePortPIFIFO() { this.updatePortFIFO(); this.receivePower(); }
+	/** Power out, fluid in, fluid out */
+	public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
 	
 	public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(); }
 	public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(); }
@@ -82,23 +115,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		}
 	}
 	
-	public void updateAllPorts() {
-		if(powerPorts != null) for(TilePort port : powerPorts) port.update(worldObj);
-		if(fluidInPorts != null) for(TilePort port : fluidInPorts) port.update(worldObj);
-		if(fluidOutPorts != null) for(TilePort port : fluidOutPorts) port.update(worldObj);
-	}
-	
-	/** you suck */
-	@Deprecated public void autoPort(DirPos[] pos) { }
-	
-	@Deprecated public final DirPos[] ALL_AROUND = new DirPos[] {
-			new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
-			new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-			new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-			new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-			new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-			new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-	};
+	/// PORTS END ///
 
 	@Override
 	public boolean isLoaded() {

@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineSuperComputer;
 import com.hbm.inventory.fluid.Fluids;
@@ -11,8 +12,8 @@ import com.hbm.lib.Library;
 import com.hbm.module.machine.ModuleMachineSuperComputer;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -48,6 +49,24 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 				.itemInput(2).itemOutput(5)
 				.fluidInput(inputTank).fluidOutput(outputTank);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 8, yCoord, zCoord + dir.offsetZ * 8, dir),
+					PortDef.make(xCoord + dir.offsetX * 7 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 7 + rot.offsetZ, rot),
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 7 - rot.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ, rot),
+					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX, yCoord, zCoord + dir.offsetZ *  - rot.offsetZ, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -60,6 +79,9 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 		if(maxPower <= 0) this.maxPower = 1_000_000;
 		
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			GenericRecipe recipe = computerModule.getRecipe();
 			if(recipe != null) {
@@ -68,28 +90,12 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 100_000);
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			this.autoPort(getConPos());
-			
 			this.computerModule.update(1D, 1D, true, slots[1]);
 			this.didProcess = this.computerModule.didProcess;
 			if(this.computerModule.markDirty) this.markDirty();
 			
 			this.networkPackNT(100);
 		}
-	}
-	
-	public DirPos[] getConPos() {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 9, yCoord, zCoord + dir.offsetZ * 9, dir),
-				new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 7 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 7 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 7 - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 5 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ *  - rot.offsetZ * 2, rot.getOpposite()),
-		};
 	}
 
 	@Override

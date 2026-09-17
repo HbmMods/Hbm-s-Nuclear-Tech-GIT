@@ -15,6 +15,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -49,6 +51,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	public TileEntityMachineElectricFurnace() {
 		super(4);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) return TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -57,14 +62,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0) {
-			return itemStack.getItem() instanceof IBatteryItem;
-		}
-
-		if(i == 1) {
-			return FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
-		}
-
+		if(i == 0) return itemStack.getItem() instanceof IBatteryItem;
+		if(i == 1) return FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
 		return false;
 	}
 
@@ -90,18 +89,10 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 0)
-			if(itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem) itemStack.getItem()).getCharge(itemStack) == 0)
-				return true;
-		if(i == 2)
-			return true;
-
-		return false;
+		return i == 2;
 	}
 
-	public int getProgressScaled(int i) {
-		return (progress * i) / maxProgress;
-	}
+	public int getProgressScaled(int i) { return (progress * i) / maxProgress; }
 
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
@@ -116,29 +107,13 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean canProcess() {
-
-		if(slots[1] == null || cooldown > 0) {
-			return false;
-		}
+		if(slots[1] == null || cooldown > 0) return false;
 		ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
-
-		if(itemStack == null) {
-			return false;
-		}
-
-		if(slots[2] == null) {
-			return true;
-		}
-
-		if(!slots[2].isItemEqual(itemStack)) {
-			return false;
-		}
-
-		if(slots[2].stackSize < getInventoryStackLimit() && slots[2].stackSize < slots[2].getMaxStackSize()) {
-			return true;
-		} else {
-			return slots[2].stackSize < itemStack.getMaxStackSize();
-		}
+		if(itemStack == null) return false;
+		if(slots[2] == null) return true;
+		if(!slots[2].isItemEqual(itemStack)) return false;
+		if(slots[2].stackSize < getInventoryStackLimit() && slots[2].stackSize < slots[2].getMaxStackSize()) return true;
+		return slots[2].stackSize < itemStack.getMaxStackSize();
 	}
 
 	private void processItem() {
@@ -170,14 +145,15 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 		if(!worldObj.isRemote) {
 
+			this.setupPowerPorts(getPorts());
+			this.updatePortPIFIFO();
+
 			if(cooldown > 0) {
 				cooldown--;
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			this.autoPort(this.ALL_AROUND);
-
 			this.consumption = 50;
 			this.maxProgress = 100;
 
@@ -247,22 +223,9 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		progress = buf.readInt();
 	}
 
-	@Override
-	public void setPower(long i) {
-		power = i;
-
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
-	}
+	@Override public void setPower(long i) { power = i; }
+	@Override public long getPower() { return power; }
+	@Override public long getMaxPower() { return maxPower; }
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

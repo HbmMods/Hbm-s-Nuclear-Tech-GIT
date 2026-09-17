@@ -22,8 +22,9 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -74,6 +75,9 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 				.fluidInput(inputTanks[0], inputTanks[1], inputTanks[2])
 				.fluidOutput(outputTanks[0], outputTanks[1], outputTanks[2]);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -86,6 +90,11 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 		if(maxPower <= 0) this.maxPower = 1_000_000;
 		
 		if(!worldObj.isRemote) {
+
+			this.setupPowerPorts(getPorts());
+			this.setupFluidInPorts(getReceivingTanks(), PortDef.combine(getPorts()));
+			this.setupFluidOutPorts(getSendingTanks(), PortDef.combine(getPorts()));
+			this.updatePortPIFIFO();
 			
 			GenericRecipe recipe = chemplantModule.getRecipe();
 			if(recipe != null) {
@@ -104,8 +113,6 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 			outputTanks[1].unloadTank(17, 20, slots);
 			outputTanks[2].unloadTank(18, 21, slots);
 			
-			this.autoPort(getConPos());
-
 			double speed = 1D;
 			double pow = 1D;
 
@@ -160,29 +167,13 @@ public class TileEntityMachineChemicalPlant extends TileEntityMachineBase implem
 	}
 
 	@Override public void onChunkUnload() {
+		super.onChunkUnload();
 		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 
 	@Override public void invalidate() {
 		super.invalidate();
 		if(audio != null) { audio.stopSound(); audio = null; }
-	}
-	
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-		};
 	}
 
 	@Override

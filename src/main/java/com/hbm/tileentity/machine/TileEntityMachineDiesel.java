@@ -25,6 +25,8 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -102,6 +104,9 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		super(4, 100);
 		tank = new FluidTank(Fluids.DIESEL, fuelCap);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -153,13 +158,15 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.setupPowerPorts(getPorts());
+			this.setupFluidInPorts(getReceivingTanks(), PortDef.combine(getPorts()));
+			this.updatePortPIFIFO();
 			
 			this.wasOn = false;
 
 			tank.setType(3, slots);
 			tank.loadTank(0, 1, slots);
-			
-			this.autoPort(this.ALL_AROUND);
 			
 			power = Library.chargeItemsFromTE(slots, 2, power, powerCap);
 			if(isOn) generate();

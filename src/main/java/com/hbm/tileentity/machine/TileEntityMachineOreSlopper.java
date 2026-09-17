@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.UpgradeManagerNT;
@@ -26,7 +27,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -83,6 +84,27 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 		tanks[0] = new FluidTank(Fluids.WATER, 16_000);
 		tanks[1] = new FluidTank(Fluids.SLOP, 16_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir),
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord, zCoord - dir.offsetZ * 3, dir.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot),
+					PortDef.make(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, rot),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -105,8 +127,6 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 			tanks[0].setType(1, slots);
 			FluidType conversion = this.getFluidOutput(tanks[0].getTankType());
 			if(conversion != null) tanks[1].setTankType(conversion);
-
-			this.autoPort(getConPos());
 
 			this.processing = false;
 
@@ -249,22 +269,6 @@ public class TileEntityMachineOreSlopper extends TileEntityMachineBase implement
 				}
 			}
 		}
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 4, yCoord, zCoord + dir.offsetZ * 4, dir),
-				new DirPos(xCoord - dir.offsetX * 4, yCoord, zCoord - dir.offsetZ * 4, dir.getOpposite()),
-				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, rot.getOpposite())
-		};
 	}
 
 	@Override

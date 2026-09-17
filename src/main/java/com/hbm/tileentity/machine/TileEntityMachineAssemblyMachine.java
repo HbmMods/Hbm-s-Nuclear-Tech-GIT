@@ -23,6 +23,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
@@ -77,18 +78,8 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 				.fluidInput(inputTank).fluidOutput(outputTank);
 	}
 	
-	public PortDef[] getPorts() {
-		return new PortDef[] {
-				PortDef.make(xCoord - 1, yCoord, zCoord - 1, Library.NEG_X, Library.NEG_Z),
-				PortDef.make(xCoord + 0, yCoord, zCoord - 1, Library.NEG_Z),
-				PortDef.make(xCoord + 1, yCoord, zCoord - 1, Library.POS_X, Library.NEG_Z),
-				PortDef.make(xCoord + 1, yCoord, zCoord + 0, Library.POS_X),
-				PortDef.make(xCoord + 1, yCoord, zCoord + 1, Library.POS_X, Library.POS_Z),
-				PortDef.make(xCoord + 0, yCoord, zCoord + 1, Library.POS_Z),
-				PortDef.make(xCoord - 1, yCoord, zCoord + 1, Library.NEG_X, Library.POS_Z),
-				PortDef.make(xCoord - 1, yCoord, zCoord + 0, Library.NEG_X),
-		};
-	}
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -102,14 +93,8 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 		
 		if(!worldObj.isRemote) {
 
-			if(this.powerPorts == null) this.setupPowerPorts(getPorts());
-			if(this.fluidInPorts == null) this.setupFluidInPorts(getReceivingTanks(), PortDef.combine(getPorts()));
-			if(this.fluidOutPorts == null) this.setupFluidOutPorts(getSendingTanks(), PortDef.combine(getPorts()));
-			
-			this.updateAllPorts();
-			this.receivePower();
-			this.receiveFluid(getReceivingTanks());
-			this.provideFluid(getSendingTanks());
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			GenericRecipe recipe = assemblerModule.getRecipe();
 			if(recipe != null) {
@@ -210,6 +195,7 @@ public class TileEntityMachineAssemblyMachine extends TileEntityMachineBase impl
 	}
 
 	@Override public void onChunkUnload() {
+		super.onChunkUnload();
 		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 

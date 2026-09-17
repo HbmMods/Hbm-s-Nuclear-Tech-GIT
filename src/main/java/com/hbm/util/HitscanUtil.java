@@ -267,8 +267,10 @@ public class HitscanUtil {
 			Block block = world.getBlock(x, y, z);
 			int meta = world.getBlockMetadata(x, y, z);
 			boolean canCollide = true;
-			
+
 			if(block == Blocks.iron_bars) canCollide = false;
+			if(block == ModBlocks.steel_grate) canCollide = false;
+			if(block == ModBlocks.steel_grate_wide) canCollide = false;
 			if(block == ModBlocks.fence_metal && !((BlockMetalFence) ModBlocks.fence_metal).hasPost(world, x, y, z, meta)) canCollide = false;
 
 			if(!requiresBoundingBox || block.getCollisionBoundingBoxFromPool(world, x, y, z) != null) {

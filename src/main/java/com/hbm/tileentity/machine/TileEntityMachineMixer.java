@@ -15,12 +15,12 @@ import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -32,7 +32,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineMixer extends TileEntityMachineBase implements IControlReceiver, IGUIProvider, IEnergyReceiverMK2, IFluidStandardTransceiver, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineMixer extends TileEntityMachineBase implements IControlReceiver, IGUIProvider, IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 10_000;
@@ -57,6 +57,9 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 		this.tanks[1] = new FluidTank(Fluids.NONE, 16_000);
 		this.tanks[2] = new FluidTank(Fluids.NONE, 24_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.mixer(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -67,6 +70,9 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[2].setType(2, slots);
@@ -81,8 +87,6 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 			this.consumption += speedLevel * 150;
 			this.consumption -= this.consumption * powerLevel * 0.25;
 			this.consumption *= (overLevel * 3 + 1);
-
-			this.autoPort(getConPos());
 
 			this.wasOn = this.canProcess();
 
@@ -102,10 +106,6 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 
 			} else {
 				this.progress = 0;
-			}
-
-			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			NBTTagCompound data = new NBTTagCompound();
@@ -208,16 +208,6 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements ICo
 
 	public int getConsumption() {
 		return consumption;
-	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-		};
 	}
 
 	@Override

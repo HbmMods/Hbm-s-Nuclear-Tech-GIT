@@ -15,6 +15,7 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerReactorZirnox;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIReactorZirnox;
@@ -26,10 +27,10 @@ import com.hbm.saveddata.satellites.SatelliteRayScan;
 import com.hbm.saveddata.satellites.SatelliteRayScan.RayEvent;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -188,6 +189,23 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 		return null;
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord + 1, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord + 3, zCoord + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord + 1, zCoord - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord + 3, zCoord - rot.offsetZ * 2, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -195,13 +213,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		if(!worldObj.isRemote) {
 			this.checkTilt(TiltType.CONFIG, true);
 
-			if (redstonePowered) {
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+
+			if(redstonePowered) {
 				isOn = true;
 			}
 			this.output = 0;
 			
-			if(!this.tilted) this.autoPort(getConPos());
-
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
 
@@ -238,6 +257,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			this.networkPackNT(150);
 		}
 	}
+
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return this.tilted ? 0 : 1_000_000; }
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return this.tilted ? 0 : 1_000_000; }
 
 	@Override public int getFloorCount() { return 3 * 3; }
 	@Override public BlockPos getFloorPosFromIndex(int index) { return this.standardFloor5x5(index); }
@@ -406,18 +428,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
-	}
-
-	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, rot),
-				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, rot),
-				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, rot.getOpposite()),
-				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, rot.getOpposite())
-		};
 	}
 
 	public List<FluidTank> getTanks() {

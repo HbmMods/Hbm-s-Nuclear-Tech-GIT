@@ -2,12 +2,11 @@ A TODO list because this update is starting to get out of hand
 
 - Satellite stuff
   - Soyuz laucher save to NBT
+  - Fix launch pads sound loops crashing the sound system
   - Add rocket assembler
 
 - AutoPort
-  - Kill current autoport test
   - PortDef system
-  - Node-based ports
 
 - Copy tool
   - Completely replace the entire system

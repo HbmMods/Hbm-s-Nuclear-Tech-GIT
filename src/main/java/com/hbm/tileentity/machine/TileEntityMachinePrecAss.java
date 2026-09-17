@@ -21,8 +21,9 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -79,6 +80,9 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 				.itemInput(4).itemOutput(13)
 				.fluidInput(inputTank).fluidOutput(outputTank);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -91,6 +95,9 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 		if(maxPower <= 0) this.maxPower = 1_000_000;
 		
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			GenericRecipe recipe = assemblerModule.getRecipe();
 			if(recipe != null) {
@@ -100,8 +107,6 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 2, 3);
-			
-			this.autoPort(getConPos());
 
 			double speed = 1D;
 			double pow = 1D;
@@ -242,29 +247,13 @@ public class TileEntityMachinePrecAss extends TileEntityMachineBase implements I
 	}
 
 	@Override public void onChunkUnload() {
+		super.onChunkUnload();
 		if(audio != null) { audio.stopSound(); audio = null; }
 	}
 
 	@Override public void invalidate() {
 		super.invalidate();
 		if(audio != null) { audio.stopSound(); audio = null; }
-	}
-	
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-		};
 	}
 
 	@Override

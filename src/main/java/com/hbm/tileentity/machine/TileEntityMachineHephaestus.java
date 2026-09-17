@@ -14,9 +14,9 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -27,7 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiverMK2, IFluidCopiable {
 
 	public FluidTank input;
 	public FluidTank output;
@@ -53,13 +53,13 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 
 		if(!worldObj.isRemote) {
 
-			if(this.buf != null)
-				this.buf.release();
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+
+			if(this.buf != null) this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			setupTanks();
-			
-			this.autoPort(getConPos());
 
 			int height = (int) (worldObj.getTotalWorldTime() % 10);
 			int range = 7;
@@ -76,16 +76,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 			}
 
 			input.serialize(buf);
-
 			heatFluid();
-
 			output.serialize(buf);
-
-			if(output.getFill() > 0) {
-				for(DirPos pos : getConPos()) {
-					this.sendFluid(output, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
 			buf.writeInt(this.getTotalHeat());
 			networkPackNT(150);
 
@@ -119,6 +111,23 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 				this.rot -= 360F;
 			}
 		}
+	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null)
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
+					PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+					PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+					PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+					PortDef.make(xCoord + 1, yCoord + 11, zCoord, Library.POS_X),
+					PortDef.make(xCoord - 1, yCoord + 11, zCoord, Library.NEG_X),
+					PortDef.make(xCoord, yCoord + 11, zCoord + 1, Library.POS_Z),
+					PortDef.make(xCoord, yCoord + 11, zCoord - 1, Library.NEG_Z),
+			};
+		return cachedPorts;
 	}
 
 	protected void heatFluid() {
@@ -201,20 +210,6 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 		this.bufferedHeat = buf.readInt();
 	}
 
-	private DirPos[] getConPos() {
-
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord + 2, yCoord + 11, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord + 11, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord + 11, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord + 11, zCoord - 2, Library.NEG_Z)
-		};
-	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -231,20 +226,9 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 		this.output.writeToNBT(nbt, "1");
 	}
 
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] {input, output};
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {output};
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] {input};
-	}
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {input, output}; }
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {output}; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {input}; }
 
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {

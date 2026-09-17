@@ -18,13 +18,13 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +39,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IConditionalInvAccess, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IGUIProvider, IConditionalInvAccess, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 100000000;
@@ -62,6 +62,28 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		this.tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 32000);
 		this.tanks[2] = new FluidTank(Fluids.AMAT, 8000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+					PortDef.make(xCoord + 2, yCoord, zCoord, Library.POS_X),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+					PortDef.make(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+					PortDef.make(xCoord, yCoord, zCoord - 2, Library.NEG_Z),
+					PortDef.make(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -73,8 +95,10 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 		if(!worldObj.isRemote) {
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
-			this.autoPort(getConPos());
 
 			upgradeManager.checkSlots(this, slots, 10, 11);
 
@@ -122,46 +146,21 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			tanks[i].deserialize(buf);
 	}
 
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 3, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord - 3, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord + 1, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z)
-		};
-	}
-
 	public boolean canProcess() {
 
-		if(power < getConsumption())
-			return false;
-
+		if(power < getConsumption()) return false;
 		int convert = getCoolantConsumption();
-
-		if(tanks[0].getFill() < convert)
-			return false;
-
-		if(tanks[1].getFill() + convert > tanks[1].getMaxFill())
-			return false;
+		if(tanks[0].getFill() < convert) return false;
+		if(tanks[1].getFill() + convert > tanks[1].getMaxFill()) return false;
 
 		for(int i = 0; i < 3; i++) {
 
 			Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
-
-			if(res == null)
-				continue;
+			if(res == null) continue;
 
 			ItemStack out = (ItemStack)res[0];
-
-			if(out == null)
-				continue;
-
-			if(slots[i + 6] == null)
-				return true;
+			if(out == null) continue;
+			if(slots[i + 6] == null) return true;
 
 			if(slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage() && slots[i + 6].stackSize < out.getMaxStackSize())
 				return true;
