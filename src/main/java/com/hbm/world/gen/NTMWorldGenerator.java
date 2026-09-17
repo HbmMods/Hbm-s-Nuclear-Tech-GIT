@@ -270,7 +270,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}});
 		NBTStructure.registerStructure(0, new SpawnCondition("military_base") {{
 			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SNOWY);
-			structure = new JigsawPiece("military_base", StructureManager.military_base, -1);
+			structure = new JigsawPiece("military_base", StructureManager.military_base, -5);
 			spawnWeight = StructureConfig.militaryBaseSpawnWeight;
 		}});
 
