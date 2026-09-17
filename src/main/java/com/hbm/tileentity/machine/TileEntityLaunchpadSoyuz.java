@@ -188,27 +188,6 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 				MainRegistry.proxy.effectNT(data);
 			}
 			
-			if(this.soyuzStatus == soyuzStatus.LAUNCHING) {
-				
-				if(this.audios[0] != null && !this.audios[0].isPlaying()){
-					this.audios[0].stopSound();
-					this.audios[0] = null;
-				}
-				
-				if(this.audios[0] == null) {
-					this.audios[0] = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 2.0F, 100F, 1.0F, 10);
-					this.audios[0].startSound();
-					
-				}
-				
-				this.audios[0].keepAlive();
-			} else {
-				if(this.audios[0] != null) {
-					this.audios[0].stopSound();
-					this.audios[0] = null;
-				}
-			}
-			
 			handleSound(0, this.soyuzStatus == soyuzStatus.LAUNCHING);
 			handleSound(1, this.power >= CONSUMPTION && this.positions[INDEX_CARRIAGE] > 0 && this.positions[INDEX_CARRIAGE] < 1);
 			handleSound(2, this.power >= CONSUMPTION && this.positions[INDEX_ROTOR] > 0 && this.positions[INDEX_ROTOR] < 1);
@@ -219,15 +198,14 @@ public class TileEntityLaunchpadSoyuz extends TileEntityMachineBase implements I
 		
 		if(isRunning) {
 			
-			if(this.audios[index] != null && !this.audios[index].isPlaying()){
-				this.audios[index].stopSound();
-				this.audios[index] = null;
-			}
-			
 			if(this.audios[index] == null) {
 				this.audios[index] = createSound(index);
 				this.audios[index].startSound();
 				
+			} else if(!this.audios[index].isPlaying()){
+				this.audios[index].stopSound();
+				this.audios[index] = createSound(index);
+				this.audios[index].startSound();
 			}
 
 			Vec3NT pos = getSoundPosition(index);

@@ -120,14 +120,14 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 			
 			if(this.countdown > 0) {
 
-				if(this.audio != null && !this.audio.isPlaying()) {
-					this.audio.stopSound();
-					this.audio = null;
-				}
+				
 				if(this.audio == null) {
 					this.audio = MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", xCoord + 0.5F, yCoord + 3F, zCoord + 0.5F, 10F, 50F, 1F, 20);
 					this.audio.startSound();
-
+				} else if(!this.audio.isPlaying()) {
+					this.audio.stopSound();
+					this.audio = MainRegistry.proxy.getLoopedSound("hbm:alarm.regularSiren", xCoord + 0.5F, yCoord + 3F, zCoord + 0.5F, 10F, 50F, 1F, 20);
+					this.audio.startSound();
 				}
 				this.audio.keepAlive();
 
