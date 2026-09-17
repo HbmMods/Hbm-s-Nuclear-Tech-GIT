@@ -865,7 +865,7 @@ public class BunkerComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.block_lead, 0, 8, 2, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_copper, 0, 8, 3, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 1, 1, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.machine_turbine, 0, 8, 2, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_condenser, 0, 8, 2, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 3, 1, box);
 				fillWithBlocks(world, box, 9, 1, 1, 9, 3, 1, ModBlocks.deco_steel);
 				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 10, 1, 1, box);

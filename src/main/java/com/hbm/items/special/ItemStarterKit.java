@@ -71,11 +71,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_blast_furnace, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_breeding, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembly_machine, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemical_plant, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.reactor_research, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 2));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_industrial_turbine, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.stamp_titanium_flat, 1));
@@ -104,9 +102,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_uf6_tank, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_puf6_tank, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_breeding, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.reactor_research, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.pile_brick, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.pile_brick, 61));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_industrial_turbine, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_radgen, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembly_machine, 3));
@@ -134,8 +132,8 @@ public class ItemStarterKit extends Item {
 		if(this == ModItems.nuke_commercially_kit)
 		{
 
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.reactor_research, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_breeding, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.pile_brick, 64));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.pile_brick, 61));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_fluidtank, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.billet_pu238be, 40));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u233, 40));

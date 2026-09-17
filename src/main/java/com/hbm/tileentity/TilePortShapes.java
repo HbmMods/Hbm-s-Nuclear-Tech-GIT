@@ -22,6 +22,13 @@ public class TilePortShapes {
 		};
 	}
 	
+	/** Like around, but only the horizontal commpass directions */
+	public static PortDef[] horizontal(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x, y, z, Library.POS_X, Library.NEG_X, Library.POS_Z, Library.NEG_Z, Library.NEG_Y),
+		};
+	}
+	
 	/** Assembler-like 8 port with 12 connections */
 	public static PortDef[] assembler(int x, int y, int z) {
 		return new PortDef[] {
@@ -43,6 +50,16 @@ public class TilePortShapes {
 				PortDef.make(x + 1, y, z - 1, Library.POS_X, Library.NEG_Z),
 				PortDef.make(x + 1, y, z + 1, Library.POS_X, Library.POS_Z),
 				PortDef.make(x - 1, y, z + 1, Library.NEG_X, Library.POS_Z),
+		};
+	}
+	
+	/** Flare stack-like 4 port with 4 connections */
+	public static PortDef[] flare(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x + 0, y, z - 1, Library.NEG_Z),
+				PortDef.make(x + 1, y, z + 0, Library.POS_X),
+				PortDef.make(x + 0, y, z + 1, Library.POS_Z),
+				PortDef.make(x - 1, y, z + 0, Library.NEG_X),
 		};
 	}
 	
@@ -71,6 +88,34 @@ public class TilePortShapes {
 				PortDef.make(x + dir.offsetX + rot.offsetX, y + 1, z + dir.offsetZ + rot.offsetZ, dir),
 				PortDef.make(x - dir.offsetX - rot.offsetX, y + 1, z - dir.offsetZ - rot.offsetZ, dir.getOpposite()),
 				PortDef.make(x - dir.offsetX + rot.offsetX, y + 1, z - dir.offsetZ + rot.offsetZ, dir.getOpposite()),
+		};
+	}
+	
+	/** Flare stack-like 4 port with 4 connections */
+	public static PortDef[] auxTower(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x + 0, y, z - 2, Library.NEG_Z),
+				PortDef.make(x + 2, y, z + 0, Library.POS_X),
+				PortDef.make(x + 0, y, z + 2, Library.POS_Z),
+				PortDef.make(x - 2, y, z + 0, Library.NEG_X),
+		};
+	}
+	
+	/** Flare stack-like 4 port with 4 connections */
+	public static PortDef[] bigTower(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x - 3, y, z - 4, Library.NEG_Z),
+				PortDef.make(x + 0, y, z - 4, Library.NEG_Z),
+				PortDef.make(x + 3, y, z - 4, Library.NEG_Z),
+				PortDef.make(x + 4, y, z - 3, Library.POS_X),
+				PortDef.make(x + 4, y, z + 0, Library.POS_X),
+				PortDef.make(x + 4, y, z + 3, Library.POS_X),
+				PortDef.make(x - 3, y, z + 4, Library.POS_Z),
+				PortDef.make(x + 0, y, z + 4, Library.POS_Z),
+				PortDef.make(x + 3, y, z + 4, Library.POS_Z),
+				PortDef.make(x - 4, y, z - 3, Library.NEG_X),
+				PortDef.make(x - 4, y, z + 0, Library.NEG_X),
+				PortDef.make(x - 4, y, z + 3, Library.NEG_X),
 		};
 	}
 }

@@ -8,10 +8,10 @@ import com.hbm.inventory.recipes.CrackingRecipes;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiverMK2, IFluidCopiable {
 
 	public FluidTank[] tanks;
 
@@ -36,27 +36,14 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
-			this.worldObj.theProfiler.startSection("catalyticCracker_setup_tanks");
 			setupTanks();
-			this.worldObj.theProfiler.endStartSection("catalyticCracker_update_connections");
-			updateConnections();
 
-			this.worldObj.theProfiler.endStartSection("catalyticCracker_do_recipe");
-			if(worldObj.getTotalWorldTime() % 5 == 0)
-				crack();
+			if(worldObj.getTotalWorldTime() % 5 == 0) crack();
 
-			this.worldObj.theProfiler.endStartSection("catalyticCracker_send_fluid");
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-
-				for(DirPos pos : getConPos()) {
-					for(int i = 2; i <= 4; i++) {
-						if(tanks[i].getFill() > 0) this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					}
-				}
-
-			}
-			this.worldObj.theProfiler.endSection();
 			networkPackNT(25);
 		}
 	}
@@ -71,14 +58,6 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	public void deserialize(ByteBuf buf) {
 		for(FluidTank tank : tanks)
 			tank.deserialize(buf);
-	}
-
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	private void crack() {
@@ -138,21 +117,25 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 			tanks[i].writeToNBT(nbt, "tank" + i);
 	}
 
-	protected DirPos[] getConPos() {
+	protected PortDef[] cachedPorts;
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 1, dir),
-				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 4 + rot.offsetZ * 1, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 4 - rot.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, rot),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite())
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 3 + rot.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 3 - rot.offsetZ * 2, dir),
+					PortDef.make(xCoord - dir.offsetX * 3 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, rot),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 3, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	AxisAlignedBB bb = null;

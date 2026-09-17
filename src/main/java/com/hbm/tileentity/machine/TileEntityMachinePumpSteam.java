@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import io.netty.buffer.ByteBuf;
 
@@ -18,21 +17,6 @@ public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 		lps = new FluidTank(Fluids.SPENTSTEAM, 10);
 	}
 	
-	public void updateEntity() {
-		
-		if(!worldObj.isRemote) {
-			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(lps.getFill() > 0) {
-					this.sendFluid(lps, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
-		}
-		
-		super.updateEntity();
-	}
-
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] {water, steam, lps};

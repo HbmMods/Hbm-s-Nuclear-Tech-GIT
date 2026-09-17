@@ -69,7 +69,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public void setupFluidOutPorts(FluidTank[] tanks, PortDef ports) {
 		if(fluidOutPorts != null) return;
 		fluidOutPorts = TilePort.oneToMany(this, tanks.length, ports);
-		for(int i = 0; i < fluidInPorts.length; i++) {
+		for(int i = 0; i < fluidOutPorts.length; i++) {
 			fluidOutPorts[i].setupType(tanks[i].getTankType().getNetworkProvider());
 		}
 	}

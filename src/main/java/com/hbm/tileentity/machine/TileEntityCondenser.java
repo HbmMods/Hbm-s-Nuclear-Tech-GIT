@@ -10,14 +10,16 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, IInfoProviderEC, IConfigurableMachine, IBufPacketReceiver, IFluidCopiable {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiverMK2, IInfoProviderEC, IConfigurableMachine, IBufPacketReceiver, IFluidCopiable {
 
 	public int age = 0;
 	public FluidTank[] tanks;
@@ -51,6 +53,9 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 		writer.name("I:inputTankSize").value(inputTankSize);
 		writer.name("I:outputTankSize").value(outputTankSize);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
@@ -78,8 +83,8 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 				postConvert(convert);
 			}
 
-			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1], this);
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			networkPackNT(150);
 		}

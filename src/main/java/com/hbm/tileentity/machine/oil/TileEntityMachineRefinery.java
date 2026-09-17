@@ -26,12 +26,12 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -46,7 +46,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyReceiverMK2, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyReceiverMK2, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiverMK2, IGUIProvider, IFluidCopiable {
 
 	public long power = 0;
 	public int sulfur = 0;
@@ -73,6 +73,9 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 24_000);
 		tanks[4] = new FluidTank(Fluids.PETROLEUM, 24_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.refinery(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -133,6 +136,10 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.checkTilt(TiltType.CONFIG, false);
 			
 			this.isOn = false;
@@ -150,8 +157,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			if(!this.hasExploded) {
 				
-				this.updateConnections();
-				
 				power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 				tanks[0].setType(12, slots);
 				tanks[0].loadTank(1, 2, slots);
@@ -163,13 +168,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				tanks[3].unloadTank(7, 8, slots);
 				tanks[4].unloadTank(9, 10, slots);
 				
-				for(DirPos pos : getConPos()) {
-					for(int i = 1; i < 5; i++) {
-						if(tanks[i].getFill() > 0) {
-							this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-						}
-					}
-				}
 			} else if(onFire){
 				
 				boolean hasFuel = false;
@@ -320,26 +318,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		this.power -= 5;
 	}
 	
-	private void updateConnections() {
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-	
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
-		};
-	}
-	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
@@ -370,6 +348,9 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+
+	@Override public long getProviderSpeed(FluidType type, int pressure) { return hasExploded ? 0 : 1_000_000_000; }
+	@Override public long getReceiverSpeed(FluidType type, int pressure) { return hasExploded ? 0 : 1_000_000_000; }
 
 	@Override
 	public FluidTank[] getSendingTanks() {

@@ -29,7 +29,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -42,7 +42,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
+public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiverMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
 
 	public String machineType;
 	public MachineConfiguration config;

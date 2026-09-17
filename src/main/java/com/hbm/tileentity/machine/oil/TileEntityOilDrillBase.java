@@ -11,13 +11,13 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public int indicator = 0;
 
@@ -44,6 +44,9 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		tanks[0] = new FluidTank(Fluids.OIL, 64_000);
 		tanks[1] = new FluidTank(Fluids.GAS, 64_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public abstract PortDef[] getPorts();
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -93,7 +96,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 		if (!worldObj.isRemote) {
 
-			this.updateConnections();
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 
 			this.tanks[0].unloadTank(1, 2, slots);
 			this.tanks[1].unloadTank(3, 4, slots);
@@ -115,13 +119,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
-
-			for (DirPos pos : getConPos()) {
-				if (tanks[0].getFill() > 0)
-					this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if (tanks[1].getFill() > 0)
-					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 
 			if (this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
 
@@ -310,14 +307,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
-	}
-
-	public abstract DirPos[] getConPos();
-
-	protected void updateConnections() {
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	@Override

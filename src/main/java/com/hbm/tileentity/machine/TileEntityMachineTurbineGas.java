@@ -25,7 +25,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.tile.IInfoProviderEC;
@@ -46,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiverMK2, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -165,7 +165,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
-			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
+			this.tryProvide(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 
 			this.networkPackNT(150);
 

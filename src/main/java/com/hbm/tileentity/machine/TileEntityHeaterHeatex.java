@@ -12,9 +12,9 @@ import com.hbm.inventory.gui.GUIHeaterHeatex;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +29,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, IFluidStandardTransceiver, IGUIProvider, IControlReceiver, IFluidCopiable, IRORValueProvider {
+public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, IFluidStandardTransceiverMK2, IGUIProvider, IControlReceiver, IFluidCopiable, IRORValueProvider {
 
 	public FluidTank[] tanks;
 	public int amountToCool = 24_000;
@@ -54,6 +54,9 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			if(this.buf != null)
 				this.buf.release();
@@ -61,7 +64,6 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
-			this.updateConnections();
 
 			this.heatEnergy *= 0.999;
 
@@ -72,10 +74,6 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 			tanks[1].serialize(buf);
 
 			networkPackNT(25);
-
-			for(DirPos pos : getConPos()) {
-				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 		}
 	}
 
@@ -110,13 +108,6 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 		tanks[1].setTankType(Fluids.NONE);
 	}
 
-	protected void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
 	protected void tryConvert() {
 
 		if(!tanks[0].getTankType().hasTrait(FT_Coolable.class)) return;
@@ -136,16 +127,21 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 		this.markChanged();
 	}
 
-	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+	protected PortDef[] cachedPorts;
 
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, dir),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite())
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, dir),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX, yCoord, zCoord + dir.offsetZ - rot.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX, yCoord, zCoord - dir.offsetZ + rot.offsetZ, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override

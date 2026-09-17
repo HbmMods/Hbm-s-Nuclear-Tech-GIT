@@ -686,7 +686,7 @@ public class ModBlocks {
 	public static Block machine_uf6_tank;
 	public static Block machine_puf6_tank;
 
-	public static Block machine_reactor_breeding;
+	@Deprecated public static Block machine_reactor_breeding;
 
 	public static Block machine_furnace_brick_off;
 	public static Block machine_furnace_brick_on;
@@ -945,7 +945,6 @@ public class ModBlocks {
 	public static Block machine_boiler_off;
 
 	public static Block machine_steam_engine;
-	public static Block machine_turbine;
 	@Deprecated public static Block machine_large_turbine;
 	public static Block machine_industrial_turbine;
 	public static Block machine_chungus;
@@ -2233,7 +2232,6 @@ public class ModBlocks {
 		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
 
 		machine_steam_engine = new MachineSteamEngine().setBlockName("machine_steam_engine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		machine_turbine = new MachineTurbine(Material.iron).setBlockName("machine_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_turbine");
 		machine_large_turbine = new MachineLargeTurbine(Material.iron).setBlockName("machine_large_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_large_turbine");
 		machine_industrial_turbine = new MachineIndustrialTurbine().setBlockName("machine_industrial_turbine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_chungus = new MachineChungus().setBlockName("machine_chungus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3261,7 +3259,6 @@ public class ModBlocks {
 		register(machine_orbus);
 		GameRegistry.registerBlock(machine_boiler_off, machine_boiler_off.getUnlocalizedName());
 		register(machine_steam_engine);
-		register(machine_turbine);
 		register(machine_large_turbine);
 		register(machine_industrial_turbine);
 		register(machine_chungus);

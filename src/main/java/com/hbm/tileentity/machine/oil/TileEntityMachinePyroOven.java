@@ -27,7 +27,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -40,7 +40,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 10_000_000;

@@ -29,11 +29,10 @@ import com.hbm.tileentity.*;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -49,7 +48,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IMetalCopiable {
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IMetalCopiable {
 
 	public long power;
 	public static final long maxPower = 20000000;
@@ -116,23 +115,14 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			// TODO ports
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.tanks[0].setType(3, 4, slots);
 			this.tanks[0].loadTank(5, 6, slots);
 			this.tanks[1].unloadTank(7, 8, slots);
 			this.tanks[2].unloadTank(9, 10, slots);
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : this.getConPos()) {
-					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.trySubscribe(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-
-					if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
 
 			upgradeManager.checkSlots(this, slots, 1, 2);
 			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
@@ -213,20 +203,6 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			this.networkPackNT(50);
 		}
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord - dir.offsetX * 6, yCoord, zCoord - dir.offsetZ * 6, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord + dir.offsetX * 6, yCoord, zCoord + dir.offsetZ * 6, dir),
-				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ, dir),
-				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ, dir)
-		};
 	}
 
 	@Override

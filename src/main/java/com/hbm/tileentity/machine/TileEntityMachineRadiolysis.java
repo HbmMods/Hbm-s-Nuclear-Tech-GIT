@@ -14,13 +14,14 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final int maxPower = 1000000;
@@ -52,6 +53,9 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		tanks[1] = new FluidTank(Fluids.NONE, 2_000);
 		tanks[2] = new FluidTank(Fluids.NONE, 2_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.flare(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -103,8 +107,11 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
+			
+			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
 			heat = RTGUtil.updateRTGs(slots, slot_rtg);
 			power += heat * 10;
 
@@ -122,13 +129,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 
 				if(heat >= 200 && worldObj.getTotalWorldTime() % 100 == 0)
 					sterilize();
-			}
-
-			for(DirPos pos : getConPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
 
 			this.networkPackNT(50);
@@ -153,15 +153,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 		tanks[2].deserialize(buf);
-	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
-		};
 	}
 
 	/* Processing Methods */

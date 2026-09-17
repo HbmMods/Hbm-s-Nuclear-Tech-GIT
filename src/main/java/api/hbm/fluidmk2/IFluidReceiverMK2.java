@@ -24,9 +24,9 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 	
 	public default int[] getReceivingPressureRange(FluidType type) { return DEFAULT_PRESSURE_RANGE; }
 	
-	public default EnumTransferAction trySubscribe(FluidType type, World world, DirPos pos) { return trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
+	@Deprecated public default EnumTransferAction trySubscribe(FluidType type, World world, DirPos pos) { return trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	
-	public default EnumTransferAction trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
+	@Deprecated public default EnumTransferAction trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = TileAccessCache.getTileOrCache(world, x, y, z);
 		boolean red = false;

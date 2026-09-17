@@ -1,7 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import api.hbm.block.ICrucibleAcceptor;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.container.ContainerMachineStrandCaster;
 import com.hbm.inventory.fluid.Fluids;
@@ -12,7 +13,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //god thank you bob for this base class
-public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, IInventory {
+public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiverMK2, IInventory {
 
 	public FluidTank water;
 	public FluidTank steam;
@@ -53,6 +54,9 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortFIFO();
 
 			if(this.lastType != this.type || this.lastAmount != this.amount) {
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -71,8 +75,6 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			if(this.amount == 0) {
 				this.type = null;
 			}
-
-			this.updateConnections();
 
 			int moldsToCast = maxProcessable();
 		
@@ -140,12 +142,21 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		return moldsToCast;
 	}
 
-	public DirPos[] getFluidConPos() {
+	protected PortDef[] cachedPorts;
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] { new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot), new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()), new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot), new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 5, rot.getOpposite()) };
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX * 1 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 1 - dir.offsetZ, rot),
+					PortDef.make(xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX * 1 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 1 - dir.offsetZ * 5, rot),
+					PortDef.make(xCoord - dir.offsetX * 5, yCoord, zCoord - dir.offsetZ * 5, rot.getOpposite()),
+			};
+		}
+		return cachedPorts;
 	}
 
 	public int[][] getMetalPourPos() {
@@ -203,13 +214,6 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	private int getWaterRequired() {
 		return getInstalledMold() != null ? 5 * getInstalledMold().getCost() : 50;
-	}
-
-	private void updateConnections() {
-		for(DirPos pos : getFluidConPos()) {
-			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
 	}
 
 	@Override

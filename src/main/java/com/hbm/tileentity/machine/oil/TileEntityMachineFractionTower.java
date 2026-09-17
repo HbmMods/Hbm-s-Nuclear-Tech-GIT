@@ -4,14 +4,14 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.FractionRecipes;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Tuple.Pair;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiverMK2, IFluidCopiable {
 
 	public FluidTank[] tanks;
 
@@ -29,11 +29,17 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 		tanks[1] = new FluidTank(Fluids.BITUMEN, 4000);
 		tanks[2] = new FluidTank(Fluids.SMEAR, 4000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.flare(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			TileEntity stack = worldObj.getTileEntity(xCoord, yCoord + 3, zCoord);
 
@@ -60,12 +66,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			}
 
 			setupTanks();
-			this.updateConnections();
-
-			if(worldObj.getTotalWorldTime() % 10 == 0)
-				fractionate();
-
-			this.sendFluid();
+			if(worldObj.getTotalWorldTime() % 10 == 0) fractionate();
 
 			networkPackNT(50);
 		}
@@ -81,30 +82,6 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	public void deserialize(ByteBuf buf) {
 		for(int i = 0; i < 3; i++)
 			tanks[i].deserialize(buf);
-	}
-
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	private void sendFluid() {
-
-		for(DirPos pos : getConPos()) {
-			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	private DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
-		};
 	}
 
 	private void setupTanks() {

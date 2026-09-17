@@ -14,10 +14,11 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IBufPacketReceiver, IConfigurableMachine, IFluidCopiable {
+public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IBufPacketReceiver, IConfigurableMachine, IFluidCopiable {
 
 	public long powerBuffer;
 
@@ -77,6 +78,9 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 
 			if(this.buf != null)
 				this.buf.release();
@@ -118,12 +122,6 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 			buf.writeFloat(this.rotor);
 			tanks[1].serialize(buf);
 
-			for(DirPos pos : getConPos()) {
-				if(this.powerBuffer > 0) this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
 			networkPackNT(150);
 		} else {
 			this.lastRotor = this.rotor;
@@ -147,6 +145,22 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 				new DirPos(xCoord + rot.offsetX * 2 + dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 2 + dir.offsetZ, rot),
 				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot)
 		};
+	}
+
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX * 1, yCoord + 1, zCoord + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + rot.offsetX * 1 + dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 1 + dir.offsetZ, rot),
+					PortDef.make(xCoord + rot.offsetX * 1 - dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 1 - dir.offsetZ, rot),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override

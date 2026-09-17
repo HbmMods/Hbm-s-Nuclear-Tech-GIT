@@ -29,7 +29,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +52,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable, CompatHandler.OCComponent, IRORValueProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiverMK2, IControlReceiver, IGUIProvider, IFluidCopiable, CompatHandler.OCComponent, IRORValueProvider {
 
 	public FluidTank[] tanks;
 	public FluidTank[] sharedTanks;
@@ -343,8 +343,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	protected void sendOutBottom() {
 
 		for(DirPos pos : getSendingPos()) {
-			if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 

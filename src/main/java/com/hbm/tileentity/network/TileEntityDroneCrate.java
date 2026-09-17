@@ -12,11 +12,13 @@ import com.hbm.inventory.gui.GUIDroneCrate;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IDroneLinkable, IFluidStandardTransceiverMK2, IFluidCopiable {
 	
 	public FluidTank tank;
 	
@@ -43,6 +45,9 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		super(19);
 		this.tank = new FluidTank(Fluids.NONE, 64_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -53,16 +58,12 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.setupFluidInPorts(this.getAllTanks(), getPorts()[0]);
+			this.updatePortPIFIFO();
+			
 			BlockPos pos = getCoord();
 			this.tank.setType(18, slots);
-			
-			if(sendingMode && !itemType && worldObj.getTotalWorldTime() % 20 == 0) {
-				this.subscribeToAllAround(tank.getTankType(), this);
-			}
-			
-			if(!sendingMode && !itemType && worldObj.getTotalWorldTime() % 20 == 0) {
-				this.sendFluidToAll(tank, this);
-			}
 			
 			if(nextY != -1) {
 				
@@ -283,11 +284,11 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return !sendingMode && !itemType ? new FluidTank[] { tank } : new FluidTank[0];
+		return !sendingMode && !itemType ? new FluidTank[] { tank } : FluidTank.EMPTY_ARRAY;
 	}
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return sendingMode && !itemType ? new FluidTank[] { tank } : new FluidTank[0];
+		return sendingMode && !itemType ? new FluidTank[] { tank } : FluidTank.EMPTY_ARRAY;
 	}
 }
