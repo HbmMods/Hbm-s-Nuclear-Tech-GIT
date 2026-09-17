@@ -387,7 +387,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			String[] array = ItemTurretBiometry.getNames(slots[0]);
 
 			if(array == null)
-				return null;
+				return new ArrayList<>();
 
 			return Arrays.asList(ItemTurretBiometry.getNames(slots[0]));
 		}
@@ -1092,14 +1092,18 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if((PREFIX_FUNCTION + "addwhitelist").equals(name) && params.length > 0) {
 			String playerName = params[0];
 			List<String> whitelist = this.getWhitelist();
-			if(!whitelist.contains(playerName)) this.addName(playerName);
-			this.markChanged();
+			if(whitelist != null) {
+				if(!whitelist.contains(playerName)) this.addName(playerName);
+				this.markChanged();
+			}
 		}
 		if((PREFIX_FUNCTION + "removewhitelist").equals(name) && params.length > 0) {
 			String playerName = params[0];
 			List<String> whitelist = this.getWhitelist();
-			if(whitelist.contains(playerName)) this.removeName(whitelist.indexOf(playerName));
-			this.markChanged();
+			if(whitelist != null) {
+				if(whitelist.contains(playerName)) this.removeName(whitelist.indexOf(playerName));
+				this.markChanged();
+			}
 		}
 		
 		return null;
