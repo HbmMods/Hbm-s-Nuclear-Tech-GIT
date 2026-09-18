@@ -43,6 +43,28 @@ public class TilePortShapes {
 		};
 	}
 	
+	/** Combination oven-like 16 port with 24 connections */
+	public static PortDef[] comboven(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x - 1, y, z - 1, Library.NEG_X, Library.NEG_Z),
+				PortDef.make(x + 0, y, z - 1, Library.NEG_Z),
+				PortDef.make(x + 1, y, z - 1, Library.POS_X, Library.NEG_Z),
+				PortDef.make(x + 1, y, z + 0, Library.POS_X),
+				PortDef.make(x + 1, y, z + 1, Library.POS_X, Library.POS_Z),
+				PortDef.make(x + 0, y, z + 1, Library.POS_Z),
+				PortDef.make(x - 1, y, z + 1, Library.NEG_X, Library.POS_Z),
+				PortDef.make(x - 1, y, z + 0, Library.NEG_X),
+				PortDef.make(x - 1, y + 1, z - 1, Library.NEG_X, Library.NEG_Z),
+				PortDef.make(x + 0, y + 1, z - 1, Library.NEG_Z),
+				PortDef.make(x + 1, y + 1, z - 1, Library.POS_X, Library.NEG_Z),
+				PortDef.make(x + 1, y + 1, z + 0, Library.POS_X),
+				PortDef.make(x + 1, y + 1, z + 1, Library.POS_X, Library.POS_Z),
+				PortDef.make(x + 0, y + 1, z + 1, Library.POS_Z),
+				PortDef.make(x - 1, y + 1, z + 1, Library.NEG_X, Library.POS_Z),
+				PortDef.make(x - 1, y + 1, z + 0, Library.NEG_X),
+		};
+	}
+	
 	/** Refinery-like 4 port with 8 connections */
 	public static PortDef[] refinery(int x, int y, int z) {
 		return new PortDef[] {

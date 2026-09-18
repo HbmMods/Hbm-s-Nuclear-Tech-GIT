@@ -16,11 +16,13 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -34,12 +36,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSender, IBufPacketReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSenderMK2, IBufPacketReceiver, IGUIProvider, IFluidCopiable {
 
 
 	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-	public int age = 0;
 
 	public TileEntityStorageDrum() {
 		super(24);
@@ -47,6 +48,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		tanks[0] = new FluidTank(Fluids.WASTEFLUID, 16000);
 		tanks[1] = new FluidTank(Fluids.WASTEGAS, 16000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -57,6 +61,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			float rad = 0;
 
@@ -138,14 +145,6 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					this.tanks[i].getTankType().onFluidRelease(this, this.tanks[i], overflow);
 				}
 			}
-
-			age++;
-
-			if(age >= 20)
-				age -= 20;
-
-			this.sendFluidToAll(tanks[0], this);
-			this.sendFluidToAll(tanks[1], this);
 
 			this.networkPackNT(25);
 

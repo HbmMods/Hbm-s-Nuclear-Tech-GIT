@@ -6,19 +6,18 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.main.NTMSounds;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class TileEntityMachinePolluting extends TileEntityMachineBase implements IFluidStandardSender {
+public abstract class TileEntityMachinePolluting extends TileEntityMachineBase implements IFluidStandardSenderMK2 {
 
 	public FluidTank smoke;
 	public FluidTank smoke_leaded;
@@ -56,12 +55,6 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 		for(Map.Entry<PollutionType, Float> entry : map.entrySet()) {
 			pollute(entry.getKey(), entry.getValue());
 		}
-	}
-	
-	public void sendSmoke(int x, int y, int z, ForgeDirection dir) {
-		if(this.smoke.getFill() > 0) this.sendFluid(smoke, worldObj, x, y, z, dir);
-		if(this.smoke_leaded.getFill() > 0) this.sendFluid(smoke_leaded, worldObj, x, y, z, dir);
-		if(this.smoke_poison.getFill() > 0) this.sendFluid(smoke_poison, worldObj, x, y, z, dir);
 	}
 	
 	public FluidTank[] getSmokeTanks() {

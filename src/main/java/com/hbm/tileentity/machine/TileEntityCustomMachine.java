@@ -22,6 +22,7 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.tileentity.TileEntityProxyBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -60,9 +61,10 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 	public boolean structureOK = false;
 	public CustomMachineRecipe cachedRecipe;
 
-	public List<DirPos> connectionPos = new ArrayList();
+	public PortDef[] ports = new PortDef[0];
 	public List<DirPos> fluxPos = new ArrayList();
 	public List<DirPos> heatPos = new ArrayList();
+	
 
 	public TileEntityCustomMachine() {
 		/*
@@ -107,9 +109,18 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 		if (!worldObj.isRemote) {
 
-			if (config == null) {
+			if(config == null) {
 				worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 				return;
+			}
+			
+			if(this.structureOK){
+				this.setupAllPorts(ports);
+				if(config.generatorMode) {
+					this.updatePortPIFIFO();
+				} else {
+					this.updatePortPOFIFO();
+				}
 			}
 
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.config.maxPower);
@@ -122,13 +133,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			if (this.structureCheckDelay <= 0) this.checkStructure();
 
 			if (this.worldObj.getTotalWorldTime() % 20 == 0) {
-				for (DirPos pos : this.connectionPos) {
-					for (FluidTank tank : this.inputTanks) {
-						this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					}
-					if (!config.generatorMode)
-						this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
 				for (byte d = 2; d < 6; d++) {
 					ForgeDirection dir = ForgeDirection.getOrientation(d);
 					for (DirPos pos : this.fluxPos) {
@@ -153,15 +157,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 						}
 					}
 				}
-			}
-
-			for (DirPos pos : this.connectionPos) {
-				if (config.generatorMode && power > 0)
-					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				for (FluidTank tank : this.outputTanks)
-					if (tank.getFill() > 0)
-						this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			if (this.structureOK) {
@@ -376,10 +371,11 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 	public boolean checkStructure() {
 
-		this.connectionPos.clear();
 		this.structureCheckDelay = 300;
 		this.structureOK = false;
 		if(this.config == null) return false;
+		
+		List<PortDef> portList = new ArrayList();
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -408,10 +404,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 				TileEntityProxyBase proxy = (TileEntityProxyBase) tile;
 				proxy.cachedPosition = new BlockPos(xCoord, yCoord, zCoord);
 				proxy.markDirty();
-
-				for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
-					this.connectionPos.add(new DirPos(x + facing.offsetX, y + facing.offsetY, z + facing.offsetZ, facing));
-				}
+				portList.add(PortDef.make(x, y, z, ForgeDirection.VALID_DIRECTIONS));
 			}
 			if(worldObj.getBlock(x,y,z) == ModBlocks.cm_flux){
 				for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
@@ -425,9 +418,9 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			}
 
 		}
-		for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
-			this.connectionPos.add(new DirPos(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ, facing));
-		}
+		
+		portList.add(PortDef.make(xCoord, yCoord, zCoord, ForgeDirection.VALID_DIRECTIONS));
+		this.ports = portList.toArray(new PortDef[0]);
 
 		this.structureOK = true;
 		return true;

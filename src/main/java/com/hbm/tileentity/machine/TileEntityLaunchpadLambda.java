@@ -13,7 +13,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -28,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IGUIProvider, IControlReceiver {
 
@@ -72,9 +72,25 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		tanks[0] = new FluidTank(Fluids.GASOLINE_LEADED, 64_000);
 		tanks[1] = new FluidTank(Fluids.PEROXIDE, 64_000);
 	}
-	
+
 	protected PortDef[] cachedPorts;
-	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX * 2, yCoord + 1, zCoord + dir.offsetZ * 7 - rot.offsetZ * 2, dir),
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX * 3, yCoord + 1, zCoord + dir.offsetZ * 7 - rot.offsetZ * 3, dir),
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX * 4, yCoord + 1, zCoord + dir.offsetZ * 7 - rot.offsetZ * 4, dir),
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX * 5, yCoord + 1, zCoord + dir.offsetZ * 7 - rot.offsetZ * 5, dir),
+					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX * 6, yCoord + 1, zCoord + dir.offsetZ * 7 - rot.offsetZ * 6, dir),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {

@@ -12,10 +12,12 @@ import com.hbm.main.NTMSounds;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.ItemStackUtil;
 import net.minecraft.init.Items;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IHeatSource {
+public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IHeatSource {
 
 	public int maxBurnTime;
 	public int burnTime;
@@ -45,6 +47,9 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 		super(2, 50);
 	}
 	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
+	
 	@Override
 	public void openInventory() {
 		if(!worldObj.isRemote) this.playersUsing++;
@@ -60,14 +65,8 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 		
 		if(!worldObj.isRemote) {
 			
-			for(int i = 2; i < 6; i++) {
-				ForgeDirection dir = ForgeDirection.getOrientation(i);
-				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-				
-				for(int j = -1; j <= 1; j++) {
-					this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
-				}
-			}
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 			
 			wasOn = false;
 			

@@ -13,9 +13,11 @@ import com.hbm.inventory.recipes.CombinationRecipes;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Tuple.Pair;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,9 +30,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IFluidCopiable {
+public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSenderMK2, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;
@@ -46,6 +47,9 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 		super(4, 50);
 		this.tank = new FluidTank(Fluids.NONE, 24_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.comboven(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -56,28 +60,11 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			this.tryPullHeat();
 			
-			if(this.worldObj.getTotalWorldTime() % 20 == 0) {
-				for(int i = 2; i < 6; i++) {
-					ForgeDirection dir = ForgeDirection.getOrientation(i);
-					ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-					
-					for(int y = yCoord; y <= yCoord + 1; y++) {
-						for(int j = -1; j <= 1; j++) {
-							if(tank.getFill() > 0) this.sendFluid(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
-							this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
-						}
-					}
-				}
-	
-				for(int x = xCoord - 1; x <= xCoord + 1; x++) {
-					for(int z = zCoord - 1; z <= zCoord + 1; z++) {
-						if(tank.getFill() > 0) this.sendFluid(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
-						this.sendSmoke(x, yCoord + 2, z, ForgeDirection.UP);
-					}
-				}
-			}
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+			
+			this.tryPullHeat();
 			
 			this.wasOn = false;
 			

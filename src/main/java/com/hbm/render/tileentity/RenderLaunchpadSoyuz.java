@@ -21,9 +21,6 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer implements I
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		float rotation = 0F;
 
@@ -55,6 +52,10 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer implements I
 			SoyuzPronter.prontSoyuz(launchpad.loadedType);
 			GL11.glPopMatrix();
 		}
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		bindTexture(ResourceManager.launchpad_soyuz_tex);
 
@@ -133,6 +134,12 @@ public class RenderLaunchpadSoyuz extends TileEntitySpecialRenderer implements I
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.launchpad_soyuz_tex);
 				ResourceManager.launchpad_soyuz.renderPart("Launchpad");
+				GL11.glTranslated(0, 0, 3.25);
+				ResourceManager.launchpad_soyuz.renderPart("Strut1");
+				ResourceManager.launchpad_soyuz.renderPart("Strut2");
+				ResourceManager.launchpad_soyuz.renderPart("Strut3");
+				ResourceManager.launchpad_soyuz.renderPart("Strut4");
+				ResourceManager.launchpad_soyuz.renderPart("Strut5");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
