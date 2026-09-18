@@ -30,7 +30,7 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.turret.TileEntityTurretBaseCIWS;
+import com.hbm.tileentity.turret.TileEntityTurretRadarCommandBase;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.Vec3NT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -230,8 +230,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					BlockPos pos = ItemCoordinateBase.getPosition(slot);
 					if(pos != null) {
 						TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-						if(tile instanceof TileEntityTurretBaseCIWS) {
-							TileEntityTurretBaseCIWS turret = (TileEntityTurretBaseCIWS) tile;
+						if(tile instanceof TileEntityTurretRadarCommandBase) {
+							TileEntityTurretRadarCommandBase turret = (TileEntityTurretRadarCommandBase) tile;
 
 							Entity entity = worldObj.getEntityByID(nearestEntry.entityID);
 							if(entity != null && entity.isEntityAlive()) { 
@@ -510,7 +510,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 
 				if(pos != null) {
 					TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-					if(tile instanceof IRadarCommandReceiver && !(tile instanceof TileEntityTurretBaseCIWS)) {
+					if(tile instanceof IRadarCommandReceiver && !(tile instanceof TileEntityTurretRadarCommandBase)) {
 						IRadarCommandReceiver rec = (IRadarCommandReceiver) tile;
 
 						if(data.hasKey("launchEntity")) {

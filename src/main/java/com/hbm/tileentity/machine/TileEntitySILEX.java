@@ -14,12 +14,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.WeightedRandomObject;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
+public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStandardReceiverMK2, IGUIProvider, IInfoProviderEC {
 
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean hasLaser;
@@ -55,6 +56,19 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStan
 		tank = new FluidTank(Fluids.PEROXIDE, 16000);
 	}
 
+	protected PortDef[] cachedPorts;
+	
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX, yCoord + 1, zCoord + dir.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX, yCoord + 1, zCoord - dir.offsetZ, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public String getName() {
 		return "container.machineSILEX";
@@ -64,20 +78,16 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStan
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			tank.setType(1, 1, slots);
 			tank.loadTank(2, 3, slots);
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2, yCoord + 1, zCoord + dir.offsetZ * 2, dir);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord - dir.offsetX * 2, yCoord + 1, zCoord - dir.offsetZ * 2, dir.getOpposite());
 
 			loadFluid();
 
-			if(!process()) {
-				this.progress = 0;
-			}
-
+			if(!process()) this.progress = 0;
 			dequeue();
 
 			if(currentFill <= 0) {

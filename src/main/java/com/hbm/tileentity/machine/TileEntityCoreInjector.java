@@ -7,8 +7,10 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreInjector;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiver, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiverMK2, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -38,6 +40,9 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000);
 		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -49,8 +54,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		
 		if(!worldObj.isRemote) {
 			
-			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.subscribeToAllAround(tanks[1].getTankType(), this);
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			tanks[0].setType(0, 1, slots);
 			tanks[1].setType(2, 3, slots);

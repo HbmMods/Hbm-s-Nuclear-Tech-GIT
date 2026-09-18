@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntityRocketSoyuz;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUISoyuzLauncher;
@@ -20,7 +19,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,7 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Deprecated
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -68,14 +66,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : getConPos()) {
-					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
-			}
 			
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);
@@ -429,21 +419,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return tanks;
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return tanks;
-	}
-	
-	@Override
-	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
 	}
 
 	@Override

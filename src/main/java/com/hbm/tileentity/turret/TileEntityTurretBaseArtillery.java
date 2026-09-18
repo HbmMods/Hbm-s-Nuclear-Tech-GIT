@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IRadarCommandReceiver;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
@@ -61,18 +63,24 @@ public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBase
 	}
 
 	@Override
-	protected void updateConnections() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			List<PortDef> ports = new ArrayList();
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < 4; j++) {
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * -3, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * -3, ForgeDirection.SOUTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * 2, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * 2, ForgeDirection.NORTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * -2 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * -2 + rot.offsetZ * (1 - j), ForgeDirection.EAST);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), ForgeDirection.WEST);
+			for(int i = 0; i < 2; i++) {
+				for(int j = 0; j < 4; j++) {
+					ports.add(PortDef.make(xCoord + dir.offsetX * (-1 + j) + rot.offsetX * -3, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * -3 - 1, Library.POS_Z));
+					ports.add(PortDef.make(xCoord + dir.offsetX * (-1 + j) + rot.offsetX * 2, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * 2 + 1, Library.NEG_Z));
+					ports.add(PortDef.make(xCoord + dir.offsetX * -2 + rot.offsetX * (1 - j) - 1, yCoord + i, zCoord + dir.offsetZ * -2 + rot.offsetZ * (1 - j), Library.POS_X));
+					ports.add(PortDef.make(xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j) + 1, yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), Library.NEG_X));
+				}
 			}
+			
+			cachedPorts = ports.toArray(new PortDef[0]);
 		}
+		return cachedPorts;
 	}
 
 	@Override

@@ -15,10 +15,11 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -29,7 +30,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFluidStandardReceiver, IBufPacketReceiver, IFluidCopiable {
+public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFluidStandardReceiverMK2, IBufPacketReceiver, IFluidCopiable {
 
 	public FluidTank tank;
 
@@ -41,10 +42,9 @@ public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFlu
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				for(DirPos pos : getConPos()) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			networkPackNT(50);
 
@@ -107,6 +107,21 @@ public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFlu
 				new DirPos(xCoord + dir1.offsetX, yCoord, zCoord + dir1.offsetZ, dir1),
 				new DirPos(xCoord + dir2.offsetX, yCoord, zCoord + dir2.offsetZ, dir2)
 		};
+	}
+
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir0 = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection dir1 = dir0.getRotation(ForgeDirection.UP);
+			ForgeDirection dir2 = dir0.getRotation(ForgeDirection.DOWN);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, dir0, dir1, dir2),
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override

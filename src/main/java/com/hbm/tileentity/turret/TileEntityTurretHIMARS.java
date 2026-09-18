@@ -149,6 +149,10 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
+			
 			if(this.mode == this.MODE_MANUAL) {
 				if(!this.targetQueue.isEmpty()) {
 					this.tPos = this.targetQueue.get(0);
@@ -158,8 +162,6 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			}
 			
 			this.aligned = false;
-			
-			this.updateConnections();
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;

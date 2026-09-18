@@ -159,9 +159,8 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		
 		if(!worldObj.isRemote) {
 
-			this.setupPowerPorts(getPorts());
-			this.setupFluidInPorts(getReceivingTanks(), PortDef.combine(getPorts()));
-			this.updatePortPIFIFO();
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 			
 			this.wasOn = false;
 

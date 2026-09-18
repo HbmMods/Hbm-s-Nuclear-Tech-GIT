@@ -1,11 +1,14 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -13,7 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidStandardReceiver, IBufPacketReceiver {
+public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidStandardReceiverMK2, IBufPacketReceiver {
 	
 	public FluidTank water;
 	
@@ -21,12 +24,16 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 		water = new FluidTank(Fluids.WATER, 32000);
 	}
 	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
+	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.subscribeToAllAround(water.getTankType(), this);
+
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 			
 			if(RBMKDials.getReasimBoilers(worldObj)) for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -80,5 +87,4 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {water};
 	}
-
 }

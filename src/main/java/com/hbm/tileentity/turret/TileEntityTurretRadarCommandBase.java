@@ -9,7 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.Vec3;
 
-public abstract class TileEntityTurretBaseCIWS extends TileEntityTurretBaseNT implements IRadarCommandReceiver {
+public abstract class TileEntityTurretRadarCommandBase extends TileEntityTurretBaseNT implements IRadarCommandReceiver {
 	
 	// if target was designated by radar
 	public boolean radarDesignatedTarget = false;
@@ -54,8 +54,10 @@ public abstract class TileEntityTurretBaseCIWS extends TileEntityTurretBaseNT im
 
 		if(!worldObj.isRemote) {
 
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+
 			this.aligned = false;
-			this.updateConnections();
 
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;

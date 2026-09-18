@@ -34,7 +34,9 @@
   * Tier 2 card that allows OC to interface with RoR directly
 * Redstone over radio designator
   * Like a long range designator, but sends the aimed at position via RoR (coordinates separated by semicolon)
-* Added a new abandoned house structure
+* Added new structures
+  * Abandoned house with shelter (plains)
+  * Military base (snowy biomes)
 
 ## Changed
 * Updated russian and ukrainian localization
@@ -69,8 +71,10 @@
 * Updated yharonite billet texture
 * Item magnet armor mods are now 50% stronger
 * Meteors can now be detected by radar and radar satellites
-* Meteors, artillery shells and artillery rockets can now be destroyed by damage with an "energy" type (lasers, plasma) exceeding 250 points
+* Meteors, artillery shells and artillery rockets can now be destroyed
   * This means that the orbital precision laser can now intercept these entities
+  * Meteors require damage with an "energy" type (lasers, plasma) exceeding 250 points
+  * Arty shells and rockets have 50 and 100 health respectively
 * Updated the automatic thresher
   * Nether wart, pumpkins and melons can now be harvested
   * Pumpkin and melon stems are now ignored
@@ -107,6 +111,9 @@
   * The sliding door now has dark and metal mesh variants
   * The vehicle door now has red and blue variants
   * The sliding blast door now has a black variant with hazard stripes
+* The CIWS turret can now be linked with a radar linker
+  * If the CIWS turret has its target set by a radar, its effective range is quadrupled
+  * This now makes it feasible to target artillery projectiles
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
@@ -141,3 +148,4 @@
   * This should hopefully fix an issue where certain devices in protected areas on servers were configurable even though the server forbids it
 * Fixed reinforced concrete recipe in the acidizer giving too many blocks
 * Fixed an issue where RoR readers would not properly update their values if unloaded
+* Fixed crashes caused by incorrect use of the turret AI chip's whitelist

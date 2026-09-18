@@ -118,4 +118,16 @@ public class TilePortShapes {
 				PortDef.make(x - 4, y, z + 3, Library.NEG_X),
 		};
 	}
+	
+	/** Six ports, each centered on the face of a 3x3 cube */
+	public static PortDef[] liquefactor(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x, y + 3, z, Library.POS_Y),
+				PortDef.make(x, y, z, Library.NEG_Y),
+				PortDef.make(x + 1, y + 1, z, Library.POS_X),
+				PortDef.make(x - 1, y + 1, z, Library.NEG_X),
+				PortDef.make(x, y + 1, z + 1, Library.POS_Z),
+				PortDef.make(x, y + 1, z - 1, Library.NEG_Z)
+		};
+	}
 }

@@ -8,7 +8,7 @@ import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -292,19 +292,22 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 		super.finalizeLaunch(missile);
 		this.erected = false;
 	}
-
+	
 	@Override
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 5, yCoord, zCoord - 2, Library.POS_X),
-				new DirPos(xCoord + 5, yCoord, zCoord + 2, Library.POS_X),
-				new DirPos(xCoord - 5, yCoord, zCoord - 2, Library.NEG_X),
-				new DirPos(xCoord - 5, yCoord, zCoord + 2, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 5, Library.POS_Z),
-				new DirPos(xCoord + 2, yCoord, zCoord + 5, Library.POS_Z),
-				new DirPos(xCoord - 2, yCoord, zCoord - 5, Library.NEG_Z),
-				new DirPos(xCoord + 2, yCoord, zCoord - 5, Library.NEG_Z)
-		};
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 4, yCoord, zCoord - 2, Library.POS_X),
+					PortDef.make(xCoord + 4, yCoord, zCoord + 2, Library.POS_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord - 2, Library.NEG_X),
+					PortDef.make(xCoord - 4, yCoord, zCoord + 2, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 4, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 4, Library.NEG_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord - 4, Library.NEG_Z),
+			};
+		}
+		return cachedPorts;
 	}
 
 	AxisAlignedBB bb = null;
