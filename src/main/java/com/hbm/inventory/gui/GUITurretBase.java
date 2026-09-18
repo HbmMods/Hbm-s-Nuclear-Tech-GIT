@@ -212,7 +212,7 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		if(index < 0)
 			index = 0;
 		
-		if(names != null) {
+		if(names != null && !names.isEmpty()) {
 			n = names.get(index);
 		}
 		
