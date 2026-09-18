@@ -3,16 +3,30 @@ package com.hbm.inventory.material;
 import static com.hbm.inventory.OreDictManager.*;
 import static com.hbm.inventory.material.MaterialShapes.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemScraps;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.i18n.I18nUtil;
 
@@ -33,7 +47,7 @@ public class Mats {
 	public static HashMap<String, NTMMaterial> matByName = new HashMap();
 	public static HashMap<ComparableStack, List<MaterialStack>> materialEntries = new HashMap();
 	public static HashMap<String, List<MaterialStack>> materialOreEntries = new HashMap();
-
+	public static final Gson gson = new Gson();
 	/*
 	 * ItemStacks are saved with their metadata being truncated to a short, so the max meta is 32767
 	 * Format for elements: Atomic number *100, plus the last two digits of the mass number. Mass number is 0 for generic/undefined/mixed materials.
@@ -165,6 +179,13 @@ public class Mats {
 	public static final NTMMaterial MAT_HARDPLASTIC	= makeNonSmeltable(_ES + 04, 		PC,				0xEDE7C4, 0x908A67, 0xE1DBB8).setAutogen(STOCK, GRIP).n();
 	public static final NTMMaterial MAT_PVC			= makeNonSmeltable(_ES + 05, 		PVC,			0xFCFCFC, 0x9F9F9F, 0xF0F0F0).setAutogen(STOCK, GRIP).n();
 
+	public static void customMatsInit(){
+		File folder = MainRegistry.configHbmDir;
+		File customMats = new File(folder.getAbsolutePath() + File.separatorChar + "hbmMats.json");
+		if (!customMats.exists()) initDefaultMats(customMats);
+		readCustomMats(customMats);
+	}
+
 	public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }
 
 	public static NTMMaterial make(int id, DictFrame dict) {
@@ -274,5 +295,95 @@ public class Mats {
 		if(quanta > 0) format += (quanta == 1 ? I18nUtil.resolveKey("matshape.quantum", quanta) : I18nUtil.resolveKey("matshape.quanta", quanta)) + " ";
 
 		return format.trim();
+	}
+
+	private static void initDefaultMats(File file) {
+
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");
+			writer.beginObject();
+
+				writer.name("Bronze").beginObject();
+					writer.name("id").value(20006);
+					writer.name("solidColorLight").value(0xFDCA88);
+					writer.name("solidColorDark").value(0x601E0D);
+					writer.name("moltenColor").value(0xC18336);
+					writer.name("SmeltingBehavior").value("SMELTABLE");
+					writer.name("MatTraits").value("METAL");
+					writer.name("shapes").beginArray();
+						writer.value("dust");writer.value("plate");
+						writer.value("wireDense");writer.value("plateTriple");
+						writer.value("plateSextuple");writer.value("shell");
+						writer.value("ntmpipe");writer.value("block");
+					writer.endArray();
+
+				writer.endObject();
+
+			writer.endObject();
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void readCustomMats(File file) {
+
+		try {
+			JsonObject json = gson.fromJson(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8), JsonObject.class);
+			
+			for(Map.Entry<String, JsonElement> entry : json.entrySet()) {
+
+				
+
+				JsonObject obj = (JsonObject) entry.getValue();
+				int id = obj.get("id").getAsInt();
+				
+				if(id > Short.MAX_VALUE) {
+					MainRegistry.logger.error("Too many custom materials in hbmMats.json! Material '" + entry.getKey() + "' and any after it could not be registered: material IDs must fit in a short (max " + Short.MAX_VALUE + ").");
+					break;
+				}
+				if(matById.containsKey(id)){
+					MainRegistry.logger.warn(entry.getKey() + "'s ID has already been taken.");
+					break;
+				}
+				
+				String name = entry.getKey();
+				DictFrame dict = df(name);
+				int solidColorLight = obj.get("solidColorLight").getAsInt();
+				int solidColorDark = obj.get("solidColorDark").getAsInt();
+				int moltenColor = obj.get("moltenColor").getAsInt();
+				SmeltingBehavior Behavior = SmeltingBehavior.valueOf(obj.get("SmeltingBehavior").getAsString());
+				NTMMaterial mat;
+				switch (Behavior){
+					case SMELTABLE:
+						mat = makeSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
+						break;
+					case NOT_SMELTABLE:
+						mat = makeNonSmeltable(id, dict, solidColorLight, solidColorDark, moltenColor);
+						break;
+					case ADDITIVE:
+						mat = makeAdditive(id, dict, solidColorLight, solidColorDark, moltenColor);
+						break;
+					default:
+						mat = make(id, dict);
+						break;
+				}
+				NTMMaterial.MatTraits Trait = NTMMaterial.MatTraits.valueOf(obj.get("MatTraits").getAsString());
+				if(Trait == NTMMaterial.MatTraits.NONMETAL){
+					mat.n();
+				} else {
+					mat.m();
+				}
+				JsonArray shapes = obj.get("shapes").getAsJsonArray();
+				for(JsonElement shape : shapes){
+					MaterialShapes MaterialShape = prefixByName.get(shape.getAsString());
+					if(MaterialShape != null ) mat.setAutogen(MaterialShape);
+				}
+			}
+
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
