@@ -64,6 +64,7 @@ public class StructureConfig {
 	
 	public static int falloutShelterHouseSpawnWeight = 15;
 	public static int abandonedArcticStationSpawnWeight = 5;
+	public static int militaryBaseSpawnWeight = 1;
 
 	// --- Null weights
 	public static int plainsNullWeight = 4;
@@ -126,6 +127,7 @@ public class StructureConfig {
 		deadDishSmallSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.43_deadDishSmallSpawnWeight", "Spawn weight for dead dish small structure.", 15);
 		falloutShelterHouseSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.44_falloutShelterHouseSpawnWeight", "Spawn weight for fallout shelter house.", 15);
 		abandonedArcticStationSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.45_abandonedArcticStationSpawnWeight", "Spawn weight for abandoned arctic station.", 5);
+		militaryBaseSpawnWeight = CommonConfig.createConfigInt(config, CATEGORY_STRUCTURES, "5.46_militaryBaseSpawnWeight", "Spawn weight for military base.", 1);
 
 
 		structureMinChunks = CommonConfig.setDef(structureMinChunks, 4);

@@ -268,6 +268,11 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			structure = new JigsawPiece("abandoned_arcticstation", StructureManager.abandoned_arcticstation, 0);
 			spawnWeight = StructureConfig.abandonedArcticStationSpawnWeight;
 		}});
+		NBTStructure.registerStructure(0, new SpawnCondition("military_base") {{
+			canSpawn = biome -> BiomeDictionary.isBiomeOfType(biome, Type.SNOWY);
+			structure = new JigsawPiece("military_base", StructureManager.military_base, -5);
+			spawnWeight = StructureConfig.militaryBaseSpawnWeight;
+		}});
 
 		NBTStructure.registerNullWeight(0, StructureConfig.plainsNullWeight, biome -> biome == BiomeGenBase.plains);
 		NBTStructure.registerNullWeight(0, StructureConfig.oceanNullWeight, biome -> BiomeDictionary.isBiomeOfType(biome, Type.OCEAN));
