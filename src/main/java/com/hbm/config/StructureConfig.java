@@ -66,8 +66,8 @@ public class StructureConfig {
 	public static int abandonedArcticStationSpawnWeight = 5;
 	public static int militaryBaseSpawnWeight = 1;
 
-	public static int campASpawnWeight = 10;
-	public static int campBSpawnWeight = 5;
+	public static int campASpawnWeight = 15;
+	public static int campBSpawnWeight = 10;
 
 	// --- Null weights
 	public static int plainsNullWeight = 4;
