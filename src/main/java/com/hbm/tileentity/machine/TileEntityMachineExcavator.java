@@ -37,6 +37,8 @@ import com.hbm.util.i18n.I18nUtil;
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +60,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
 	public static final long maxPower = 1_000_000;
 	public long power;
@@ -896,5 +898,33 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	@Override
 	public FluidTank getTankToPaste() {
 		return tank;
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fluid",
+				PREFIX_VALUE + "state",
+				PREFIX_FUNCTION + "setstate" + NAME_SEPARATOR + "state",
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "power").equals(name))	return	"" + this.power;
+		if((PREFIX_VALUE + "fluid").equals(name))	return	"" + this.tank.getFill();
+		if((PREFIX_VALUE + "state").equals(name))	return	this.operational ? "1" : "0";
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		if((PREFIX_FUNCTION + "setstate").equals(name) && params.length == 1) {
+			this.enableDrill = params[0].equals("1");
+			this.markChanged();
+			return null;
+		}
+		return null;
 	}
 }
