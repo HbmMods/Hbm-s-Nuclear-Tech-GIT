@@ -13,6 +13,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -70,6 +72,9 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 		tanks[0] = new FluidTank(Fluids.GASOLINE_LEADED, 64_000);
 		tanks[1] = new FluidTank(Fluids.PEROXIDE, 64_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.assembler(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -80,6 +85,9 @@ public class TileEntityLaunchpadLambda extends TileEntityMachineBase implements 
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			this.power = Library.chargeTEFromItems(slots, 6, power, maxPower);
 			

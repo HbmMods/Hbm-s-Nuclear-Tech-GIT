@@ -2373,6 +2373,7 @@ item.insert_xsapi.name=XSAPI-Einlage
 item.insert_yharonite.name=Yharoniteinlage
 item.item_expensive.bronze_tubes.name=Bronze-Strukturelement
 item.item_expensive.circuit.name=Umfangreiche Platine
+item.item_expensive.cmb_tubes.name=CMB-Strukturelement
 item.item_expensive.computer.name=Großrechner
 item.item_expensive.degenerate_matter.name=Entartete Materie
 item.item_expensive.ferro_plating.name=Verstärkte Ferrouraniumpanele

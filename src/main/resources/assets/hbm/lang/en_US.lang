@@ -3216,6 +3216,7 @@ item.insert_xsapi.name=XSAPI Insert
 item.insert_yharonite.name=Yharonite Insert
 item.item_expensive.bronze_tubes.name=Bronze Structural Elements
 item.item_expensive.circuit.name=Extensive Circuit Board
+item.item_expensive.cmb_tubes.name=CMB Structural Elements
 item.item_expensive.computer.name=Mainframe
 item.item_expensive.degenerate_matter.name=Degenerate Matter
 item.item_expensive.ferro_plating.name=Reinforced Ferrouranium Panels
