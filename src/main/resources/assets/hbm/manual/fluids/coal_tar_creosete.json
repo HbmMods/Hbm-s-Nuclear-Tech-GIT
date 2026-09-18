@@ -1,0 +1,11 @@
+{
+    "name": "Coal Tar Creosote",
+    "icon": ["hbm:item.fluid_icon", 1, 80],
+    "trigger": [["hbm:item.fluid_icon", 1, 80]],
+    "title": {
+        "en_US": "Coal Tar Creosote"
+    },
+    "content": {
+        "en_US": "Coal tar creosote can be made by coking any form of coal or lignite in a [[combination oven|Combination Oven]]. It is primarily [[fractioned|Fractioning Tower]] for [[coal oil|Coal Oil]] and [[bitumen|Bitumen]]."
+    }
+}
