@@ -101,6 +101,7 @@ public class SatelliteScience extends SatelliteBase {
 				}
 
 				this.assemblerProgress = 0;
+				this.assemblerTasks.remove(0);
 				this.markDirty();
 			}
 		}

@@ -197,7 +197,7 @@ public class PlasmaForgeRecipes extends GenericRecipes<PlasmaForgeRecipe> {
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfstructural").setInputEnergy(1_000_000).setup(800, 10_000_000).outputItems(new ItemStack(ModBlocks.icf_component, 1, 3))
 				.inputItems(new OreDictStack(STEEL.plateWelded(), 2), new OreDictStack(CU.plateWelded(), 2), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 1))
-				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.CMB_TUBES), new OreDictStack(STEEL.plateWelded(), 8))
+				.inputItemsEx(new ComparableStack(ModItems.item_expensive, 1, EnumExpensiveType.BRONZE_TUBES), new OreDictStack(STEEL.plateWelded(), 8))
 				.setPools528(PlasmaForgeRecipes.POOL_PREFIX_528 + "chlorophyte"));
 		this.register((PlasmaForgeRecipe) new PlasmaForgeRecipe("plsm.icfcore").setInputEnergy(1_000_000).setup(3_000, 10_000_000).outputItems(new ItemStack(ModBlocks.struct_icf_core, 1))
 				.inputItems(new OreDictStack(CMB.plateWelded(), 16), new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16), new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16), new OreDictStack(SBD.wireDense(), 32), new ComparableStack(ModItems.circuit, 32, EnumCircuitType.BISMOID), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.QUANTUM))
