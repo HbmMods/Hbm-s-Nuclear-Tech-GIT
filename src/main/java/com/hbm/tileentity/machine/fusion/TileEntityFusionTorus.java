@@ -596,6 +596,7 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 				PREFIX_VALUE + "recipe",
 				PREFIX_VALUE + "active",
 				PREFIX_VALUE + "temp",
+				PREFIX_FUNCTION + "setrecipe" + NAME_SEPARATOR + "name",
 		};
 	}
 

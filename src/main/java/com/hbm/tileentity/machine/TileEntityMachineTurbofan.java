@@ -35,6 +35,7 @@ import com.hbm.util.i18n.I18nUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +53,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable, IRORValueProvider {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -535,5 +536,28 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.output > 0);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "fuel",
+				PREFIX_VALUE + "blood",
+				PREFIX_VALUE + "afterburner",
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "state").equals(name))	return	wasOn ? "1" : "0";
+		if((PREFIX_VALUE + "output").equals(name))	return	"" + output;
+		if((PREFIX_VALUE + "power").equals(name))	return	"" + power;
+		if((PREFIX_VALUE + "fuel").equals(name))	return	"" + tank.getFill();
+		if((PREFIX_VALUE + "blood").equals(name))	return	"" + blood.getFill();
+		if((PREFIX_VALUE + "afterburner").equals(name))	return	"" + afterburner;
+		return null;
 	}
 }
