@@ -23,6 +23,7 @@ import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -42,7 +43,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiverMK2, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiverMK2, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider {
 
 	public long laser;
 	public long maxLaser;
@@ -297,6 +298,27 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		data.setLong(CompatEnergyControl.L_ENERGY_TU, this.heat);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, this.output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "laser",
+				PREFIX_VALUE + "heat",
+				PREFIX_VALUE + "coldfluid",
+				PREFIX_VALUE + "hotfluid",
+				PREFIX_VALUE + "stellarflux"
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "laser").equals(name))		return "" + this.laser;
+		if((PREFIX_VALUE + "heat").equals(name))		return "" + this.heat;
+		if((PREFIX_VALUE + "coldfluid").equals(name))	return "" + tanks[0].getFill();
+		if((PREFIX_VALUE + "hotfluid").equals(name))	return "" + tanks[1].getFill();
+		if((PREFIX_VALUE + "stellarflux").equals(name))	return "" + tanks[2].getFill();
+		return null;
 	}
 
 	//OC stuff
