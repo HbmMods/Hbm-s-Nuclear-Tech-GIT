@@ -1,0 +1,11 @@
+{
+    "name": "Deuterium",
+    "icon": ["hbm:item.fluid_icon", 1, 8],
+    "trigger": [["hbm:item.fluid_icon", 1, 8]],
+    "title": {
+        "en_US": "Deuterium"
+    },
+    "content": {
+        "en_US": "Deuterium can be made by [[electrolyzing|Electrolysis Machine]] [[heavy water|Heavy Water]]. It is primarily used to produce various plasmas inside the [[fusion reactor|Fusion Reactor]]."
+    }
+}
