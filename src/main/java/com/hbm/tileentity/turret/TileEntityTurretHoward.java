@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
+public class TileEntityTurretHoward extends TileEntityTurretBaseCIWS {
 
 	static List<Integer> configs = new ArrayList();
 

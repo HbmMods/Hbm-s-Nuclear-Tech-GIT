@@ -8,7 +8,8 @@ import java.util.function.BiFunction;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseNT;
-import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.projectile.EntityArtilleryRocket;
+import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.CasingEjector;
@@ -68,7 +69,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, IRORInteractive, CompatHandler.OCComponent {
-
+	
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return this.isUseableByPlayer(player);
@@ -133,7 +134,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public TileEntityTurretBaseNT() {
 		super(11);
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -563,7 +564,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		Vec3 ent = this.getEntityPos(e);
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
 		double length = delta.lengthVector();
-
+		
 		if(length < this.getDecetorGrace() || length > this.getDecetorRange() * 1.1) //the latter statement is only relevant for entities that have already been detected
 			return false;
 
@@ -635,10 +636,12 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 			if(e instanceof IRadarDetectableNT && !((IRadarDetectableNT)e).canBeSeenBy(this)) return false;
 			if(e instanceof EntityMissileBaseNT) return e.motionY < 0;
-			if(e instanceof EntityMissileCustom) return e.motionY < 0;
+//			if(e instanceof EntityMissileCustom) return e.motionY < 0; Is not needed as EntityMissileBaseNT already covers EntityMissileCustom
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;
 			if(e instanceof EntityBomber) return true;
+			if(e instanceof EntityArtilleryRocket) return true;
+			if(e instanceof EntityArtilleryShell) return true;
 			for(Class c : CompatExternal.turretTargetMachine) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 

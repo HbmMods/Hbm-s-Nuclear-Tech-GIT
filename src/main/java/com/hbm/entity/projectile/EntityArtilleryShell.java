@@ -8,7 +8,6 @@ import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.DamageResistanceHandler;
 
 import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
@@ -51,6 +50,8 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	
 	private ItemStack cargo = null;
 	
+	public int health = 50;
+	
 	public EntityArtilleryShell(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
@@ -66,10 +67,18 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(!worldObj.isRemote && amount >= 250 && DamageResistanceHandler.CATEGORY_ENERGY.equals(DamageResistanceHandler.typeToCategory(source))) {
-			this.setDead();
+		if(this.isEntityInvulnerable()) {
+			return false;
+		} else {
+			if(this.health > 0 && !this.worldObj.isRemote) {
+				this.health -= (int) amount;
+
+				if(this.health <= 0) {
+					this.setDead();
+				}
+			}
+			return true;
 		}
-		return false;
 	}
 	
 	@Override
