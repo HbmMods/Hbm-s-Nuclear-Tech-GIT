@@ -1,0 +1,11 @@
+{
+    "name": "Biogas",
+    "icon": ["hbm:item.fluid_icon", 1, 26],
+    "trigger": [["hbm:item.fluid_icon", 1, 26]],
+    "title": {
+        "en_US": "Biogas"
+    },
+    "content": {
+        "en_US": "Biogas can be obtained by [[combining|Chemical Plant]] biomass with [[compressed air|Compressed Air]]. Through [[mixing|Chemical Plant]] with [[ethanol|Ethanol]] it can be used to produce [[biofuel|Biofuel]]. Addtionally, it may also be used to create additional [[petroleum gas|Petroleum Gas]] and [[aromatic hydrocarbons|Aromatic Hydrocarbons]]. It may also be produced by [[liquifying|Liquification Machine]] biomass."
+    }
+}

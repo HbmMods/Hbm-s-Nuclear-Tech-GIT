@@ -1,0 +1,11 @@
+{
+    "name": "Biofuel",
+    "icon": ["hbm:item.fluid_icon", 1, 27],
+    "trigger": [["hbm:item.fluid_icon", 1, 27]],
+    "title": {
+        "en_US": "Biofuel"
+    },
+    "content": {
+        "en_US": "Biofuel can be obtained by combining [[biogas|Biogas]] and [[ethanol|Ethanol]] in a [[chemical plant|Chemical Plant]]. It is primarily used as a combustion [[fuel|Fuels]] for supplemental power production."
+    }
+}
