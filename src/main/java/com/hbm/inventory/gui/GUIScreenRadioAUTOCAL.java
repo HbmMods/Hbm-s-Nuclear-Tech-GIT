@@ -134,6 +134,21 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 			} catch(Throwable ex) { }
 		}
+		
+		// Download Skript File
+		if(checkClick(x, y, 124, 36, 18, 18)) {
+			try {
+				File uploadFolder = new File(MainRegistry.configDir.getParentFile(), "hbmComputerUpload");
+				File script = new File(uploadFolder, "script.txt");
+				if(!uploadFolder.exists()) uploadFolder.mkdir();
+				if(!script.exists()) {
+					script.createNewFile();
+					script.setExecutable(false);
+				}
+				
+				Files.write(script.toPath(), Arrays.asList(autocal.script));
+			} catch(Throwable ignore) {}
+		}
 
 		// this thing can both upload and download files so let's be careful about this
 		// the upload is simple, it's just text that is handled by the AUTOCAL, so doing anything malicious isn't more likely than with any other package
@@ -169,7 +184,7 @@ public class GUIScreenRadioAUTOCAL extends GuiScreen {
 
 		if(checkClick(x, y, 84, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.BLUE + "Upload Program"}), x, y);
 		if(checkClick(x, y, 104, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.BLUE + "Open Program File"}), x, y);
-		if(checkClick(x, y, 124, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.BLUE + "Download Program", EnumChatFormatting.RED + "Currently unsupported!"}), x, y);
+		if(checkClick(x, y, 124, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.BLUE + "Download Program"}), x, y);
 		if(checkClick(x, y, 144, 36, 18, 18)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.BLUE + "Open Documentation"}), x, y);
 	}
 

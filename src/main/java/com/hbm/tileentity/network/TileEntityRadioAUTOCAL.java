@@ -24,6 +24,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -36,7 +39,7 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 
 	public String[] script = new String[0];
 	public IParse msesv1ext = new ParseMSES1Ext1();
-	public ParseContext ctx;
+	public ParseContext ctx = new ParseContext(null);
 
 	public String[] history = new String[] {"", "", "", "", "", ""};
 
@@ -188,12 +191,23 @@ public class TileEntityRadioAUTOCAL extends TileEntityTickingBase implements ICo
 				script[i] = script[i].trim();
 				this.msesv1ext.generateJumpPoints(ctx, script[i], i);
 			}
+			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			if(this.isOn) stop("Script has changed");
 		}
 
 		this.markChanged();
 	}
 
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
+	}
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		this.readFromNBT(pkt.func_148857_g());
+	}
 	AxisAlignedBB bb = null;
 
 	@Override
