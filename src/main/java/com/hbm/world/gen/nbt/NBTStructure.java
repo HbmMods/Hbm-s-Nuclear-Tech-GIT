@@ -1262,7 +1262,7 @@ public class NBTStructure {
 			try {
 				func_151539_a(chunkProvider, world, chunkX, chunkZ, null);
 				generateStructuresInChunk(world, rand, chunkX, chunkZ);
-			} catch(Throwable t) {
+			} catch(Exception t) {
 				MainRegistry.logger.error("NTM structure gen failed at chunk {}, {} ({}) - chunk generates without it", chunkX, chunkZ, nextSpawn != null ? nextSpawn.name : "unknown", t);
 			}
 		}
