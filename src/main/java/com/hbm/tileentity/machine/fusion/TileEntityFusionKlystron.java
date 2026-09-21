@@ -21,6 +21,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionKlystron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityFusionKlystron extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider, IRORInteractive {
 
 	protected GenNode klystronNode;
 	public static final long MAX_OUTPUT = 1_000_000;
@@ -399,5 +401,32 @@ public class TileEntityFusionKlystron extends TileEntityMachineBase implements I
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "target",
+				PREFIX_FUNCTION + "settarget" + NAME_SEPARATOR + "target",
+		};
+	}
+
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "output").equals(name))  return "" + this.output;
+		if((PREFIX_VALUE + "target").equals(name))	return "" + this.outputTarget;
+		return null;
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		
+		if((PREFIX_FUNCTION + "settarget").equals(name) && params.length == 1) {
+			this.outputTarget = IRORInteractive.parseInt(params[0], 0, (int)MAX_OUTPUT);
+			return null;
+		}
+		
+		return null;
 	}
 }

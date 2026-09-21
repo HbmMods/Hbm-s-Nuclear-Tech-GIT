@@ -20,6 +20,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver, IConfigurableMachine, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiverMK2, IFusionPowerReceiver, IConfigurableMachine, SimpleComponent, CompatHandler.OCComponent, IRORValueProvider {
 
 	protected GenNode plasmaNode;
 
@@ -312,5 +313,18 @@ public class TileEntityFusionMHDT extends TileEntityLoadedBase implements IEnerg
 			case "getInfo": return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "output"
+		};
+	}
+	
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "output").equals(name)) return "" + this.power;
+		return null;
 	}
 }

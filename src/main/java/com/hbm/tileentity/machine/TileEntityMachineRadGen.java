@@ -16,6 +16,7 @@ import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Triplet;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +32,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyProviderMK2, IGUIProvider, IInfoProviderEC, IRORValueProvider {
 
 	public int[] progress = new int[12];
 	public int[] maxProgress = new int[12];
@@ -304,5 +305,51 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, output);
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_VALUE + "state",
+				PREFIX_VALUE + "power",
+				PREFIX_VALUE + "output",
+				PREFIX_VALUE + "output1",
+				PREFIX_VALUE + "output2",
+				PREFIX_VALUE + "output3",
+				PREFIX_VALUE + "output4",
+				PREFIX_VALUE + "output5",
+				PREFIX_VALUE + "output6",
+				PREFIX_VALUE + "output7",
+				PREFIX_VALUE + "output8",
+				PREFIX_VALUE + "output9",
+				PREFIX_VALUE + "output10",
+				PREFIX_VALUE + "output11",
+				PREFIX_VALUE + "output12",
+				PREFIX_VALUE + "progress1",
+				PREFIX_VALUE + "progress2",
+				PREFIX_VALUE + "progress3",
+				PREFIX_VALUE + "progress4",
+				PREFIX_VALUE + "progress5",
+				PREFIX_VALUE + "progress6",
+				PREFIX_VALUE + "progress7",
+				PREFIX_VALUE + "progress8",
+				PREFIX_VALUE + "progress9",
+				PREFIX_VALUE + "progress10",
+				PREFIX_VALUE + "progress11",
+				PREFIX_VALUE + "progress12",
+		};
+	}
+		
+	@Override
+	public String provideRORValue(String name) {
+		if((PREFIX_VALUE + "state").equals(name))	return	this.isOn ? "1" : "0";
+		if((PREFIX_VALUE + "power").equals(name))	return	"" + this.power;
+		if((PREFIX_VALUE + "output").equals(name))	return	"" + this.output;
+		for(int i = 0; i < 12; i++) {
+			if((PREFIX_VALUE + "output" + (i + 1)).equals(name)) 	return	"" + this.production[i];
+			if((PREFIX_VALUE + "progress" + (i + 1)).equals(name)) 	return	"" + (this.progress[i] * 100 / Math.max(this.maxProgress[i], 1));
+		}
+		
+		return null;
 	}
 }
