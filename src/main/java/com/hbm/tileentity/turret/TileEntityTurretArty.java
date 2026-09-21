@@ -15,6 +15,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.CasingCreator;
 import com.hbm.tileentity.IGUIProvider;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -527,5 +528,31 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		}
 		throw new NoSuchMethodException();
 	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setactive" + NAME_SEPARATOR + "active (0 or 1)",
+				PREFIX_FUNCTION + "targetplayers" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetanimals" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmobs" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmachines" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "addwhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "removewhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "setmode" + NAME_SEPARATOR + "mode",
+				PREFIX_FUNCTION + "enqueue" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "y" + PARAM_SEPARATOR + "z",
+		};
+	}
 
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		super.runRORFunction(name, params);
+
+		if((PREFIX_FUNCTION + "setmode").equals(name) && params.length == 1) {
+			this.mode = (short)IRORInteractive.parseInt(params[0], 0, 2);
+			this.markChanged();
+		}
+		
+		return null;
+	}
 }

@@ -9,6 +9,7 @@ import com.hbm.tileentity.IGUIProvider;
 
 import com.hbm.tileentity.network.RTTYSystem;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -37,9 +38,9 @@ public class ItemRTTYDesignator extends Item implements IItemControlReceiver, IG
 			int x = pos.blockX + dir.offsetX;
 			int y = pos.blockY + dir.offsetY;
 			int z = pos.blockZ + dir.offsetZ;
-			
-			String coords = x + ";" + y + ";" + z;
-			
+
+			String coords = x + IRORInteractive.PARAM_SEPARATOR + y + IRORInteractive.PARAM_SEPARATOR + z;
+
 			String chanFreq = stack.stackTagCompound.getString(KEY_CHANNEL);
 			RTTYSystem.broadcast(world, chanFreq, coords);
 		}

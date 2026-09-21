@@ -14,6 +14,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 
+import api.hbm.redstoneoverradio.IRORInteractive;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -383,5 +384,32 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		this.mode = MODE_MANUAL;
 		targetQueue.add(Vec3.createVectorHelper(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2)));
 		return new Object[] {};
+	}
+	
+	@Override
+	public String[] getFunctionInfo() {
+		return new String[] {
+				PREFIX_FUNCTION + "setactive" + NAME_SEPARATOR + "active (0 or 1)",
+				PREFIX_FUNCTION + "setmanual" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetplayers" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetanimals" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmobs" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "targetmachines" + NAME_SEPARATOR + "enabled (0 or 1)",
+				PREFIX_FUNCTION + "addwhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "removewhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "enqueue" + NAME_SEPARATOR + "x" + PARAM_SEPARATOR + "y" + PARAM_SEPARATOR + "z",
+		};
+	}
+
+	@Override
+	public String runRORFunction(String name, String[] params) {
+		super.runRORFunction(name, params);
+
+		if((PREFIX_FUNCTION + "setmanual").equals(name) && params.length == 1) {
+			this.mode = (short)IRORInteractive.parseInt(params[0], 0, 1);
+			this.markChanged();
+		}
+		
+		return null;
 	}
 }
