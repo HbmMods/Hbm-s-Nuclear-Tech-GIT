@@ -1068,6 +1068,8 @@ public class CraftingManager {
 
 		addRecipeAuto(new ItemStack(ModBlocks.plushie, 1, PlushieType.YOMI.ordinal()), "LCR", 'L', "cropCarrot", 'C', ModItems.rag, 'R', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE));
 		addRecipeAuto(new ItemStack(ModBlocks.plushie, 1, PlushieType.NUMBERNINE.ordinal()), " C ", "LCR", " C ", 'L', ModItems.cigarette, 'C', ModItems.rag, 'R', COAL.gem());
+
+		addRecipeAuto(new ItemStack(ModItems.turret_mob_filter, 1), "SCS", "TBT", "IRI", 'S', ModItems.plate_steel, 'C', Items.comparator, 'T', Blocks.redstone_block, 'B', ModItems.turret_chip, 'R', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CHIP), 'I', ModItems.plate_iron);
 	}
 
 	public static void crumple() {

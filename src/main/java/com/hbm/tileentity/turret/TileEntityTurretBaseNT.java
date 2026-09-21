@@ -44,6 +44,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.INpc;
@@ -56,11 +57,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -79,12 +84,42 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+		boolean changed = false;
 
 		if(data.hasKey("del")) {
 			this.removeName(data.getInteger("del"));
 
 		} else if(data.hasKey("name")) {
 			this.addName(data.getString("name"));
+		} else if (data.hasKey("addMobFilter")) {
+			String id = data.getString("addMobFilter");
+
+			if (!mobFilter.contains(id)) {
+				mobFilter.add(id);
+				changed = true;
+			}
+
+		} else if (data.hasKey("removeMobFilter")) {
+			String id = data.getString("removeMobFilter");
+
+			changed = mobFilter.remove(id);
+		} else if (data.hasKey("setMobFilter")) {
+			NBTTagList list = data.getTagList("setMobFilter", Constants.NBT.TAG_STRING);
+			mobFilter.clear();
+
+			for (int i = 0; i < list.tagCount(); i++) {
+				mobFilter.add(list.getStringTagAt(i));
+			}
+
+			changed = true;
+		}
+
+		if (changed) {
+			markDirty();
+
+			if (worldObj != null) {
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
 		}
 	}
 
@@ -113,12 +148,15 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public boolean targetMobs = true;
 	public boolean targetMachines = true;
 
+	public boolean isBlacklistMobFilter = true;
+
 	public Entity target;
 	public Vec3 tPos;
 
 	//tally marks!
 	public int stattrak;
 	public int casingDelay;
+	public List<String> mobFilter = new ArrayList<>();
 	protected SpentCasing cachedCasingConfig = null;
 
 	/**
@@ -146,11 +184,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
+		this.isBlacklistMobFilter = nbt.getBoolean("isBlacklistFilter");
 		this.targetPlayers = nbt.getBoolean("targetPlayers");
 		this.targetAnimals = nbt.getBoolean("targetAnimals");
 		this.targetMobs = nbt.getBoolean("targetMobs");
 		this.targetMachines = nbt.getBoolean("targetMachines");
 		this.stattrak = nbt.getInteger("stattrak");
+
+		mobFilter.clear();
+
+		NBTTagList list = nbt.getTagList("mobFilter", Constants.NBT.TAG_STRING);
+
+		for (int i = 0; i < list.tagCount(); i++) {
+			mobFilter.add(list.getStringTagAt(i));
+		}
 	}
 
 	@Override
@@ -159,11 +206,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 		nbt.setLong("power", this.power);
 		nbt.setBoolean("isOn", this.isOn);
+		nbt.setBoolean("isBlacklistFilter", this.isBlacklistMobFilter);
 		nbt.setBoolean("targetPlayers", this.targetPlayers);
 		nbt.setBoolean("targetAnimals", this.targetAnimals);
 		nbt.setBoolean("targetMobs", this.targetMobs);
 		nbt.setBoolean("targetMachines", this.targetMachines);
 		nbt.setInteger("stattrak", this.stattrak);
+
+		NBTTagList filter = new NBTTagList();
+
+		for (String id : mobFilter) {
+			filter.appendTag(new NBTTagString(id));
+		}
+
+		nbt.setTag("mobFilter", filter);
 	}
 
 	public void manualSetup() { }
@@ -274,6 +330,12 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		buf.writeBoolean(this.targetMobs);
 		buf.writeBoolean(this.targetMachines);
 		buf.writeInt(this.stattrak);
+		buf.writeBoolean(this.isBlacklistMobFilter);
+		buf.writeInt(mobFilter.size());
+
+		for (String id : mobFilter) {
+			BufferUtil.writeString(buf, id);
+		}
 	}
 
 	@Override
@@ -289,6 +351,17 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		this.targetMobs = buf.readBoolean();
 		this.targetMachines = buf.readBoolean();
 		this.stattrak = buf.readInt();
+		this.isBlacklistMobFilter = buf.readBoolean();
+
+		int size = buf.readInt();
+		List<String> syncedMobFilter = new ArrayList<>(size);
+
+		for (int i = 0; i < size; i++) {
+			syncedMobFilter.add(BufferUtil.readString(buf));
+		}
+
+		mobFilter.clear();
+		mobFilter.addAll(syncedMobFilter);
 	}
 
 	@Override
@@ -300,6 +373,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		case 2:this.targetAnimals = !this.targetAnimals; break;
 		case 3:this.targetMobs = !this.targetMobs; break;
 		case 4:this.targetMachines = !this.targetMachines; break;
+		case 6:this.isBlacklistMobFilter = !this.isBlacklistMobFilter; break;
 		}
 	}
 
@@ -602,6 +676,23 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				if(wl.contains(((EntityLiving)e).getCustomNameTag())) {
 					return false;
 				}
+			}
+		}
+
+		if (!mobFilter.isEmpty()) {
+			if (e instanceof EntityLiving) {
+				String id = EntityList.getEntityString(e);
+				
+				if (isBlacklistMobFilter) {
+					if (mobFilter.contains(id)) {
+						return false;
+					}
+				} else {
+					if (!mobFilter.contains(id)) {
+						return false;
+					}
+				}
+				
 			}
 		}
 
@@ -990,6 +1081,35 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] isBlacklistMobFilter(Context context, Arguments args) {
+		return new Object[]{this.isBlacklistMobFilter};
+	}
+
+	@Callback(direct = true, limit = 1)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] toggleBlacklistMobFilter(Context context, Arguments args) {
+		this.isBlacklistMobFilter = args.checkBoolean(0);
+		return new Object[]{};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] addMobFilter(Context context, Arguments args) {
+		if (mobFilter.contains(args.checkString(0))) return new Object[]{false};
+		mobFilter.add(args.checkString(0));
+		return new Object[]{true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] removeMobFilter(Context context, Arguments args) {
+		if (!mobFilter.contains(args.checkString(0))) return new Object[]{false};
+		mobFilter.remove(args.checkString(0));
+		return new Object[]{true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] getPos(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
@@ -1015,7 +1135,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				"hasTarget",
 				"getAngle",
 				"isAligned",
-				"getPos"
+				"getPos",
+				"isBlacklistMobFilter", 
+				"toggleBlacklistMobFilter", 
+				"addMobFilter", 
+				"removeMobFilter"
 		};
 	}
 
@@ -1047,6 +1171,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return isAligned(context, args);
 			case "getPos":
 				return getPos(context, args);
+			case "isBlacklistMobFilter": 
+				return isBlacklistMobFilter(context, args);
+			case "toggleBlacklistMobFilter": 
+				return toggleBlacklistMobFilter(context, args);
+			case "addMobFilter": 
+				return addMobFilter(context, args);
+			case "removeMobFilter": 
+				return removeMobFilter(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
@@ -1061,6 +1193,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				PREFIX_FUNCTION + "targetmachines" + NAME_SEPARATOR + "enabled (0 or 1)",
 				PREFIX_FUNCTION + "addwhitelist" + NAME_SEPARATOR + "name",
 				PREFIX_FUNCTION + "removewhitelist" + NAME_SEPARATOR + "name",
+				PREFIX_FUNCTION + "addmobfilter" + NAME_SEPARATOR + "name", 
+				PREFIX_FUNCTION + "removebobfilter" + NAME_SEPARATOR + "name", 
+				PREFIX_FUNCTION + "toggleblacklistmobfilter" + NAME_SEPARATOR + "enabled (0 or 1)"
 		};
 	}
 
@@ -1096,6 +1231,19 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				if(whitelist.contains(playerName)) this.removeName(whitelist.indexOf(playerName));
 				this.markChanged();
 			}
+		}
+		if ((PREFIX_FUNCTION + "toggleblacklistmobfilter").equals(name) && params.length > 0) {
+			this.isBlacklistMobFilter = IRORInteractive.parseInt(params[0], 0, 1) == 1;
+			this.markChanged();
+		}
+		if ((PREFIX_FUNCTION + "addmobfilter").equals(name) && params.length > 0) {
+			String mobName = params[0];
+			if (!mobFilter.contains(mobName)) mobFilter.add(mobName);
+			this.markChanged();
+		}
+		if ((PREFIX_FUNCTION + "removemobfilter").equals(name) && params.length > 0) {
+			mobFilter.remove(params[0]);
+			this.markChanged();
 		}
 		
 		return null;
