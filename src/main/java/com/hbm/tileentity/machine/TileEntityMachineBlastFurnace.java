@@ -20,8 +20,8 @@ import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -59,6 +59,25 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 		this.tanks[0] = new FluidTank(Fluids.AIRBLAST, 4_000);
 		this.tanks[1] = new FluidTank(Fluids.FLUE, 1_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
+					PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+					PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+					PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+					PortDef.make(xCoord + dir.offsetX, yCoord + 3, zCoord + dir.offsetZ, dir),
+					PortDef.make(xCoord + dir.offsetX, yCoord + 5, zCoord + dir.offsetZ, dir),
+					PortDef.make(xCoord, yCoord + 6, zCoord, Library.POS_Y)
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -69,12 +88,11 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			this.checkTilt(TiltType.CONFIG, false);
 
-			for(DirPos pos : this.getConPos()) {
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
-				if(this.tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
-			}
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+			
+			this.checkTilt(TiltType.CONFIG, false);
 
 			if(slots[0] != null) {
 				int capacity = MAX_FUEL - fuel;
@@ -147,18 +165,6 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase impleme
 				}
 			}
 		}
-	}
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + dir.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord + dir.offsetX * 2, yCoord + 5, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord, yCoord + 7, zCoord, Library.POS_Y)
-		};
 	}
 
 	public boolean hasQuantities(GenericRecipe recipe) {

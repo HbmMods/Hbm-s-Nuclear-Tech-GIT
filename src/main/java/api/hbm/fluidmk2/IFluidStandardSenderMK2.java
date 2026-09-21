@@ -22,7 +22,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 
 	@Deprecated public default EnumTransferAction tryProvide(FluidTank tank, World world, DirPos pos) { return tryProvide(tank.getTankType(), tank.getPressure(), world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
-	@Deprecated public default EnumTransferAction tryProvide(FluidType type, World world, DirPos pos) { return tryProvide(type, 0, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 	@Deprecated public default EnumTransferAction tryProvide(FluidType type, int pressure, World world, DirPos pos) { return tryProvide(type, pressure, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir()); }
 
 	@Deprecated public default EnumTransferAction tryProvide(FluidTank tank, World world, int x, int y, int z, ForgeDirection dir) { return tryProvide(tank.getTankType(), tank.getPressure(), world, x, y, z, dir); }

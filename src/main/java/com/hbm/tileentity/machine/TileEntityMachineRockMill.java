@@ -12,10 +12,10 @@ import com.hbm.main.MainRegistry;
 import com.hbm.module.machine.ModuleMachineRockMill;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Vec3NT;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -67,6 +67,24 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 				.itemInput(2).itemOutput(5)
 				.fluidInput(inputTanks[0]).fluidOutput(outputTanks[0]);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+					PortDef.make(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+					PortDef.make(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+					PortDef.make(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public String getName() {
@@ -79,6 +97,9 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 		if(maxPower <= 0) this.maxPower = 2_500;
 		
 		if(!worldObj.isRemote) {
+
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
 			
 			GenericRecipe recipe = rockMillModule.getRecipe();
 			if(recipe != null) {
@@ -86,14 +107,7 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 			}
 			
 			this.maxPower = BobMathUtil.max(this.power, this.maxPower, 2_500);
-			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
-				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
-			}
 			
 			this.rockMillModule.update(1D, 1D, true, slots[1]);
 			this.didProcess = this.rockMillModule.didProcess;
@@ -161,20 +175,6 @@ public class TileEntityMachineRockMill extends TileEntityMachineBase implements 
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
-	}
-	
-	public DirPos[] getConPos() {
-		return new DirPos[] {
-
-				new DirPos(xCoord + 3, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord - 3, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord + 1, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 3, Library.NEG_Z),
-		};
 	}
 
 	@Override
