@@ -119,6 +119,7 @@
   * Added CMB steel tubes as an upgraded version of bronze tubes
   * All expensive mode items from the assembler can now also be made in the plasma forge, with a higher energy demand but 5x base speed (not counting booster isotopes)
   * The ICF, all endgame recipes that used to use bismuth tubes and the particle accelerator now use CMB tubes
+* Artillery operating modes can now be configured with RoR
 
 ## Fixed
 * Fixed un-clamped gaussian random use on the wideband detector satellite, causing uncommon detections with inaccuracy exceeding the intended amount
@@ -154,3 +155,4 @@
 * Fixed reinforced concrete recipe in the acidizer giving too many blocks
 * Fixed an issue where RoR readers would not properly update their values if unloaded
 * Fixed crashes caused by incorrect use of the turret AI chip's whitelist
+* Fixed potential crashes caused by the structure system if structure .nbt files are missing or do not match the expected size

@@ -9,14 +9,14 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 
-import api.hbm.fluid.IFluidConnectorBlock;
+import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RBMKLoader extends BlockGeneric implements IFluidConnectorBlock, ITooltipProvider {
+public class RBMKLoader extends BlockGeneric implements IFluidConnectorBlockMK2, ITooltipProvider {
 
 	public RBMKLoader(Material material) {
 		super(material);

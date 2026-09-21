@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ItemEnums.EnumCasingType;
+import com.hbm.config.RunningConfig.ConfigWrapper;
+import com.hbm.config.ServerConfig;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -24,12 +26,25 @@ import net.minecraft.item.ItemStack;
 
 public class XFactory357 {
 
+	// TEST
+	public static ConfigWrapper<Float> GUN_LIGHT_REVOLVER_DAMAGE =	new ConfigWrapper(7.5F);
+	public static ConfigWrapper<Float> GUN_ATLAS_DAMAGE =			new ConfigWrapper(12.5F);
+	public static ConfigWrapper<Float> GUN_DANI_CELESTIAL_DAMAGE =	new ConfigWrapper(15F);
+	public static ConfigWrapper<Float> GUN_DANI_LUNAR_DAMAGE =		new ConfigWrapper(15F);
+
 	public static BulletConfig m357_bp;
 	public static BulletConfig m357_sp;
 	public static BulletConfig m357_fmj;
 	public static BulletConfig m357_jhp;
 	public static BulletConfig m357_ap;
 	public static BulletConfig m357_express;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_LIGHT_REVOLVER_DAMAGE", GUN_LIGHT_REVOLVER_DAMAGE);
+		ServerConfig.configMap.put("GUN_ATLAS_DAMAGE", GUN_ATLAS_DAMAGE);
+		ServerConfig.configMap.put("GUN_DANI_CELESTIAL_DAMAGE", GUN_DANI_CELESTIAL_DAMAGE);
+		ServerConfig.configMap.put("GUN_DANI_LUNAR_DAMAGE", GUN_DANI_LUNAR_DAMAGE);
+	}
 
 	public static void init() {
 		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setCasing(EnumCasingType.SMALL, 16).setDamage(0.75F).setBlackPowder(true);
@@ -42,7 +57,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_LIGHT_REVOLVER_DAMAGE).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
@@ -52,7 +67,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver_atlas = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12.5F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_ATLAS_DAMAGE).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
@@ -62,7 +77,7 @@ public class XFactory357 {
 		ModItems.gun_light_revolver_dani = new ItemGunBaseNT(WeaponQuality.LEGENDARY,
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.1F)
+						.dmg(GUN_DANI_CELESTIAL_DAMAGE).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 1.1F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
@@ -71,7 +86,7 @@ public class XFactory357 {
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 0.9F)
+						.dmg(GUN_DANI_LUNAR_DAMAGE).spreadHipfire(0F).delay(11).reload(55).jam(45).sound(NTMSounds.GUN_PISTOL_FIRE, 1.0F, 0.9F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
@@ -123,9 +138,8 @@ public class XFactory357 {
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_DANI_ANIMS = (stack, type) -> {
 		switch(type) {
-		case EQUIP: return new BusAnimation().addBus("EQUIP", new BusAnimationSequence().addPos(360 * 3, 0, 0, 1000, IType.SIN_DOWN));
+			case EQUIP: return new BusAnimation().addBus("EQUIP", new BusAnimationSequence().addPos(360 * 3, 0, 0, 1000, IType.SIN_DOWN));
 		}
-
 		return LAMBDA_ATLAS_ANIMS.apply(stack, type);
 	};
 }

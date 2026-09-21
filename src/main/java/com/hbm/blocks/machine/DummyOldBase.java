@@ -8,7 +8,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
 import api.hbm.energymk2.IEnergyConnectorBlock;
-import api.hbm.fluid.IFluidConnectorBlock;
+import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -18,7 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class DummyOldBase extends BlockContainer implements IDummy, IEnergyConnectorBlock, IFluidConnectorBlock {
+public abstract class DummyOldBase extends BlockContainer implements IDummy, IEnergyConnectorBlock, IFluidConnectorBlockMK2 {
 
 	public static boolean safeBreak = false;
 	private boolean port = false;

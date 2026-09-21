@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+import com.hbm.items.weapon.sedna.factory.GunValues;
 
 public class ServerConfig extends RunningConfig {
 
@@ -44,6 +45,8 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("CONVEYOR_CRAM_MAX", CONVEYOR_CRAM_MAX);
 		configMap.put("CONVEYOR_CRAM_EXPLODE", CONVEYOR_CRAM_EXPLODE);
 		configMap.put("ULTRA_LARP_MODE", ULTRA_LARP_MODE);
+		
+		GunValues.initDefaults();
 	}
 
 	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */
