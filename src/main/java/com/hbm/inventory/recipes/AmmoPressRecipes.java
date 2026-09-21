@@ -444,6 +444,13 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	he.copy(4),	null,
 				null,	pipe,		null,
 				null,	smokeless,	null));
+		
+		OreDictStack leadPlate = new OreDictStack(PB.plate());
+		recipes.add(new AmmoPressRecipe(new ItemStack(ModItems.ammo_dgk),
+			leadPlate, leadPlate, leadPlate,
+			smokeless, smokeless, smokeless,
+			copper, copper, copper
+			));
 	}
 	
 	public static HashMap getRecipes() {
