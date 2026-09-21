@@ -90,7 +90,7 @@ public class Receiver {
 	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
 	
 	/* GETTERS */
-	public float getBaseDamage(ItemStack stack) {				return XWeaponModManager.eval(this.baseDamage_DNA + this.baseDamageConfig_DNA.get(), stack, F_BASEDAMAGE, this, parent.index); }
+	public float getBaseDamage(ItemStack stack) {				return XWeaponModManager.eval(this.baseDamage_DNA + (this.baseDamageConfig_DNA != null ? this.baseDamageConfig_DNA.get() : 0), stack, F_BASEDAMAGE, this, parent.index); }
 	public int getDelayAfterFire(ItemStack stack) {				return XWeaponModManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this, parent.index); }
 	public int getDelayAfterDryFire(ItemStack stack) {			return XWeaponModManager.eval(this.delayAfterDryFire_DNA, stack, I_DELAYAFTERDRYFIRE, this, parent.index); }
 	public int getRoundsPerCycle(ItemStack stack) {				return XWeaponModManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this, parent.index); }

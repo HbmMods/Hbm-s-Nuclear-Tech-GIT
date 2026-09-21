@@ -26,7 +26,7 @@ import net.minecraft.item.ItemStack;
 
 public class XFactory357 {
 
-	// TEST
+	// yup this works
 	public static ConfigWrapper<Float> GUN_LIGHT_REVOLVER_DAMAGE =	new ConfigWrapper(7.5F);
 	public static ConfigWrapper<Float> GUN_ATLAS_DAMAGE =			new ConfigWrapper(12.5F);
 	public static ConfigWrapper<Float> GUN_DANI_CELESTIAL_DAMAGE =	new ConfigWrapper(15F);
