@@ -36,6 +36,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack flechette = new OreDictStack(PB.bolt());
 		OreDictStack steel = new OreDictStack(STEEL.ingot());
 		OreDictStack wSteel = new OreDictStack(WEAPONSTEEL.ingot());
+		OreDictStack gMetal = new OreDictStack(GUNMETAL.ingot());
 		OreDictStack copper = new OreDictStack(CU.ingot());
 		OreDictStack plastic = new OreDictStack(ANY_PLASTIC.ingot());
 		OreDictStack uranium = new OreDictStack(U238.ingot());
@@ -449,7 +450,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		recipes.add(new AmmoPressRecipe(new ItemStack(ModItems.ammo_dgk),
 			leadPlate, leadPlate, leadPlate,
 			smokeless, smokeless, smokeless,
-			copper, copper, copper
+			gMetal, gMetal, gMetal
 			));
 	}
 	
