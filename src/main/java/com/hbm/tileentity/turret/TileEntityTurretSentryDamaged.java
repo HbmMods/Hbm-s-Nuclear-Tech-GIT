@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory9mm;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -67,7 +68,7 @@ public class TileEntityTurretSentryDamaged extends TileEntityTurretSentry {
 
 				if(shotSide) {
 					this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.sentry_fire", 2.0F, 1.0F);
-					this.spawnBullet(conf, 5F);
+					this.spawnBullet(conf);
 
 					vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 					vec.rotateAroundZ((float) -this.rotationPitch);
@@ -103,4 +104,7 @@ public class TileEntityTurretSentryDamaged extends TileEntityTurretSentry {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_EDWIN_DAMAGE.get(); }
 }

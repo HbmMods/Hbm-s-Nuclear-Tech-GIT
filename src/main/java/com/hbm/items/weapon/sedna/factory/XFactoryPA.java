@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.IPAMelee;
 import com.hbm.items.armor.IPARanged;
@@ -26,6 +28,24 @@ import net.minecraft.item.ItemStack;
 
 /** Power-armor conditional weapons (melee controller and ranged attack remote) */
 public class XFactoryPA {
+
+	public static ConfigWrapper<Float> MELEE_RPA_SWINGS_DAMAGE =	new ConfigWrapper(15F);
+	public static ConfigWrapper<Float> MELEE_RPA_SLAP_DAMAGE =		new ConfigWrapper(35F);
+	public static ConfigWrapper<Float> MELEE_RPA_LARGE_MULT =		new ConfigWrapper(2.5F);
+	public static ConfigWrapper<Float> MELEE_NCRPA_SWINGS_DAMAGE =	new ConfigWrapper(15F);
+	public static ConfigWrapper<Float> MELEE_NCRPA_SWEEP_DAMAGE =	new ConfigWrapper(35F);
+	public static ConfigWrapper<Float> MELEE_NCRPA_LARGE_MULT =		new ConfigWrapper(2.5F);
+	public static ConfigWrapper<Float> RANGED_NCRPA_DAMAGE =		new ConfigWrapper(25F);
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("MELEE_RPA_SWINGS_DAMAGE", MELEE_RPA_SWINGS_DAMAGE);
+		ServerConfig.configMap.put("MELEE_RPA_SLAP_DAMAGE", MELEE_RPA_SLAP_DAMAGE);
+		ServerConfig.configMap.put("MELEE_RPA_LARGE_MULT", MELEE_RPA_LARGE_MULT);
+		ServerConfig.configMap.put("MELEE_NCRPA_SWINGS_DAMAGE", MELEE_NCRPA_SWINGS_DAMAGE);
+		ServerConfig.configMap.put("MELEE_NCRPA_SWEEP_DAMAGE", MELEE_NCRPA_SWEEP_DAMAGE);
+		ServerConfig.configMap.put("MELEE_NCRPA_LARGE_MULT", MELEE_NCRPA_LARGE_MULT);
+		ServerConfig.configMap.put("RANGED_NCRPA_DAMAGE", RANGED_NCRPA_DAMAGE);
+	}
 
 	public static void init() {
 

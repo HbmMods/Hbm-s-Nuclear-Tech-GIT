@@ -57,7 +57,7 @@ public class Receiver {
 	
 	protected int index;
 	protected GunConfig parent;
-	protected float baseDamage_DNA;
+	@Deprecated protected float baseDamage_DNA;
 	protected ConfigWrapper<Float> baseDamageConfig_DNA;
 	protected int delayAfterFire_DNA;
 	protected int delayAfterDryFire_DNA;
@@ -123,7 +123,7 @@ public class Receiver {
 	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return XWeaponModManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this, parent.index); }
 
 	/* SETTERS */
-	public Receiver dmg(float dmg) {								this.baseDamage_DNA = dmg;											return this; }
+	@Deprecated public Receiver dmg(float dmg) {					this.baseDamage_DNA = dmg;											return this; }
 	public Receiver dmg(ConfigWrapper<Float> dmg) {					this.baseDamageConfig_DNA = dmg;									return this; }
 	public Receiver delay(int delay) {								this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;		return this; }
 	public Receiver dry(int delay) {								this.delayAfterDryFire_DNA = delay;									return this; }

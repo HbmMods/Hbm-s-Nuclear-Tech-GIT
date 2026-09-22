@@ -9,6 +9,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretMaxwell;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
@@ -244,7 +245,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 				EntityPlayer living = (EntityPlayer) target;
 				living.addPotionEffect(new PotionEffect(HbmPotion.death.id, 30 * 60 * 20, 0, true));
 			} else {
-				EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.microwave, (this.blackLevel * 10 + this.redLevel + 1F) * 0.25F);
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.microwave, (this.blackLevel * 10 + this.redLevel + 1F) * getBaseDamage());
 			}
 
 			if(pinkLevel > 0)
@@ -269,6 +270,9 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 			this.shot = false;
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_MAXWELL_DAMAGE.get(); }
 
 	private boolean shot = false;
 

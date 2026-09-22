@@ -46,6 +46,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
 		OreDictStack rp = new OreDictStack(P_RED.dust());
 		OreDictStack pipe = new OreDictStack(STEEL.pipe());
+		OreDictStack gunmetal = new OreDictStack(GUNMETAL.plate());
 		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		ComparableStack rocket = new ComparableStack(ModItems.rocket_fuel);
 		ComparableStack cSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL);
@@ -444,6 +445,11 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	he.copy(4),	null,
 				null,	pipe,		null,
 				null,	smokeless,	null));
+		
+		recipes.add(new AmmoPressRecipe(new ItemStack(ModItems.ammo_dgk),
+				null,	steel.copy(5),		null,
+				null,	smokeless.copy(5),	null,
+				null,	gunmetal.copy(5),	null));
 	}
 	
 	public static HashMap getRecipes() {

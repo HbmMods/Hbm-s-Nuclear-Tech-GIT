@@ -5,6 +5,8 @@ import java.util.function.BiFunction;
 
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -43,18 +45,24 @@ import net.minecraft.world.World;
 
 public class XFactoryDrill {
 
+	public static ConfigWrapper<Float> GUN_DRILL_DAMAGE =	new ConfigWrapper(10F);
+
 	public static final String D_REACH =	"D_REACH";
 	public static final String F_DTNEG =	"F_DTNEG";
 	public static final String F_PIERCE =	"F_PIERCE";
 	public static final String I_AOE =		"I_AOE";
 	public static final String I_HARVEST =	"I_HARVEST";
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_DOUBLE_BARREL_DAMAGE", GUN_DRILL_DAMAGE);
+	}
 
 	public static void init() {
 
 		ModItems.gun_drill = new ItemGunDrill(WeaponQuality.UTILITY, new GunConfig()
 				.dura(3_000).draw(10).inspect(55).hideCrosshair(false).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(20).dry(30).auto(true).jam(0)
+						.dmg(GUN_DRILL_DAMAGE).delay(20).dry(30).auto(true).jam(0)
 						.mag(new MagazineLiquidEngine(0, 4_000, Fluids.GASOLINE, Fluids.GASOLINE_LEADED, Fluids.COALGAS, Fluids.COALGAS_LEADED))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(LAMBDA_DRILL_FIRE))

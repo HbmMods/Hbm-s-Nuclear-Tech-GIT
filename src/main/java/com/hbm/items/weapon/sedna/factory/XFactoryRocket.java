@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -46,6 +48,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryRocket {
 
+	public static ConfigWrapper<Float> GUN_PANZERSCHRECK_DAMAGE =		new ConfigWrapper(25F);
+	public static ConfigWrapper<Float> GUN_STINGER_DAMAGE =				new ConfigWrapper(35F);
+	public static ConfigWrapper<Float> GUN_QUADRO_DAMAGE =				new ConfigWrapper(40F);
+	public static ConfigWrapper<Float> GUN_MISSILE_LAUNCHER_DAMAGE =	new ConfigWrapper(50F);
+
 	public static BulletConfig[] rocket_template;
 
 	public static BulletConfig[] rocket_rpzb;
@@ -53,6 +60,13 @@ public class XFactoryRocket {
 	public static BulletConfig[] rocket_ml;
 	public static BulletConfig[] rocket_ncrpa;
 	public static BulletConfig[] rocket_ncrpa_steer;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_PANZERSCHRECK_DAMAGE", GUN_PANZERSCHRECK_DAMAGE);
+		ServerConfig.configMap.put("GUN_STINGER_DAMAGE", GUN_STINGER_DAMAGE);
+		ServerConfig.configMap.put("GUN_QUADRO_DAMAGE", GUN_QUADRO_DAMAGE);
+		ServerConfig.configMap.put("GUN_MISSILE_LAUNCHER_DAMAGE", GUN_MISSILE_LAUNCHER_DAMAGE);
+	}
 
 	// FLYING
 	public static Consumer<Entity> LAMBDA_STANDARD_ACCELERATE = (entity) -> {
@@ -186,7 +200,7 @@ public class XFactoryRocket {
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_PANZERSCHRECK_DAMAGE).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -197,7 +211,7 @@ public class XFactoryRocket {
 		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_STINGER_DAMAGE).delay(5).reload(50).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupLockonFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -208,7 +222,7 @@ public class XFactoryRocket {
 		ModItems.gun_quadro = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(40F).spreadHipfire(0F).delay(10).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_QUADRO_DAMAGE).spreadHipfire(0F).delay(10).reload(55).jam(40).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
@@ -219,7 +233,7 @@ public class XFactoryRocket {
 		ModItems.gun_missile_launcher = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(500).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(50F).spreadHipfire(0F).delay(5).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_MISSILE_LAUNCHER_DAMAGE).spreadHipfire(0F).delay(5).reload(48).jam(33).sound(NTMSounds.GUN_ROCKET_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))

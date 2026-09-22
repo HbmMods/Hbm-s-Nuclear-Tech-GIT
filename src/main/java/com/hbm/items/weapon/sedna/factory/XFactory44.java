@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityTorpedo;
@@ -39,6 +41,14 @@ public class XFactory44 {
 
 	public static final ResourceLocation scope_lilmac = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_44.png");
 
+	public static ConfigWrapper<Float> GUN_HENRY_DAMAGE =			new ConfigWrapper(10F);
+	public static ConfigWrapper<Float> GUN_LINCOLN_DAMAGE =			new ConfigWrapper(20F);
+	public static ConfigWrapper<Float> GUN_HEAVY_REVOLVER_DAMAGE =	new ConfigWrapper(15F);
+	public static ConfigWrapper<Float> GUN_LILMAC_DAMAGE =			new ConfigWrapper(30F);
+	public static ConfigWrapper<Float> GUN_PROTEGE_DAMAGE =			new ConfigWrapper(30F);
+	public static ConfigWrapper<Float> GUN_HANGMAN_DAMAGE =			new ConfigWrapper(25F);
+	public static ConfigWrapper<Float> GUN_HANGMAN_SMACK_DAMAGE =	new ConfigWrapper(10F);
+
 	public static BulletConfig m44_bp;
 	public static BulletConfig m44_sp;
 	public static BulletConfig m44_fmj;
@@ -47,6 +57,16 @@ public class XFactory44 {
 	public static BulletConfig m44_express;
 	public static BulletConfig m44_equestrian_pip;
 	public static BulletConfig m44_equestrian_mn7;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_HENRY_DAMAGE", GUN_HENRY_DAMAGE);
+		ServerConfig.configMap.put("GUN_LINCOLN_DAMAGE", GUN_LINCOLN_DAMAGE);
+		ServerConfig.configMap.put("GUN_HEAVY_REVOLVER_DAMAGE", GUN_HEAVY_REVOLVER_DAMAGE);
+		ServerConfig.configMap.put("GUN_LILMAC_DAMAGE", GUN_LILMAC_DAMAGE);
+		ServerConfig.configMap.put("GUN_PROTEGE_DAMAGE", GUN_PROTEGE_DAMAGE);
+		ServerConfig.configMap.put("GUN_HANGMAN_DAMAGE", GUN_HANGMAN_DAMAGE);
+		ServerConfig.configMap.put("GUN_HANGMAN_SMACK_DAMAGE", GUN_HANGMAN_SMACK_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_BOXCAR = (bullet, mop) -> {
 		EntityBoxcar pippo = new EntityBoxcar(bullet.worldObj);
@@ -89,7 +109,7 @@ public class XFactory44 {
 		ModItems.gun_henry = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_HENRY_DAMAGE).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 14).addConfigs(m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))
@@ -99,7 +119,7 @@ public class XFactory44 {
 		ModItems.gun_henry_lincoln = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(20F).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 1.25F)
+						.dmg(GUN_LINCOLN_DAMAGE).spreadHipfire(0F).delay(20).reload(25, 11, 14, 8).jam(45).sound(NTMSounds.GUN_RIFLE_FIRE, 1.0F, 1.25F)
 						.mag(new MagazineSingleReload(0, 14).addConfigs(m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_HENRY))
@@ -110,7 +130,7 @@ public class XFactory44 {
 		ModItems.gun_heavy_revolver = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_HEAVY_REVOLVER_DAMAGE).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
@@ -121,7 +141,7 @@ public class XFactory44 {
 		ModItems.gun_heavy_revolver_lilmac = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(31_000).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).scopeTexture(scope_lilmac).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(30F).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_LILMAC_DAMAGE).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m44_equestrian_pip, m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
@@ -131,7 +151,7 @@ public class XFactory44 {
 		ModItems.gun_heavy_revolver_protege = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(31_000).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(30F).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 0.8F)
+						.dmg(GUN_PROTEGE_DAMAGE).delay(14).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 0.8F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m44_equestrian_mn7, m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
@@ -142,7 +162,7 @@ public class XFactory44 {
 		ModItems.gun_hangman = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(600).draw(10).inspect(31).inspectCancel(false).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(10).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_HANGMAN_DAMAGE).delay(10).reload(46).jam(23).sound(NTMSounds.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 8).addConfigs(m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_HANGMAN))

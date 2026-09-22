@@ -9,6 +9,7 @@ import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretSentry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory9mm;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 
@@ -165,7 +166,7 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 
 			if(conf != null) {
 				this.cachedCasingConfig = conf.casing;
-				this.spawnBullet(conf, 5F);
+				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.sentry_fire", 2.0F, 1.0F);
 
@@ -193,6 +194,9 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_BROWN_DAMAGE.get(); }
 
 	@Override
 	protected Vec3 getCasingSpawnPos() {

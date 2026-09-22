@@ -40,6 +40,9 @@ public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBase
 		}
 	}
 	
+	// not applicable
+	@Override public float getBaseDamage() { return 0; }
+	
 	public abstract boolean doLOSCheck();
 	
 	@Override

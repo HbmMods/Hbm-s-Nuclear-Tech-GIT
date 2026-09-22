@@ -331,15 +331,17 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 		return null;
 	}
+	
+	public abstract float getBaseDamage();
 
-	public void spawnBullet(BulletConfig bullet, float baseDamage) {
+	public void spawnBullet(BulletConfig bullet) {
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, getBaseDamage(), bullet.spread, (float) rotationYaw, (float) rotationPitch);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		worldObj.spawnEntityInWorld(proj);
 

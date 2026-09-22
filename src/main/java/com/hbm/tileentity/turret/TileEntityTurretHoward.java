@@ -119,7 +119,7 @@ public class TileEntityTurretHoward extends TileEntityTurretRadarCommandBase {
 				if(conf != null) {
 					this.conusmeAmmo(conf.ammo);
 					this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_reload", 4.0F, 1F);
-					loaded = 200;
+					loaded = 100;
 				}
 			}
 		}
@@ -148,7 +148,7 @@ public class TileEntityTurretHoward extends TileEntityTurretRadarCommandBase {
 				loaded--;
 
 				if(worldObj.rand.nextInt(100) + 1 <= WeaponConfig.ciwsHitrate)
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, 2F + worldObj.rand.nextInt(2));
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, getBaseDamage() + worldObj.rand.nextInt(2));
 
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -177,6 +177,9 @@ public class TileEntityTurretHoward extends TileEntityTurretRadarCommandBase {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_HOWARD_DAMAGE.get(); }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

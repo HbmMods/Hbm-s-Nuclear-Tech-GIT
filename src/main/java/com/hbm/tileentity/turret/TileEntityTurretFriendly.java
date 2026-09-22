@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretFriendly;
 import com.hbm.items.weapon.sedna.factory.XFactory556mm;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,6 +38,9 @@ public class TileEntityTurretFriendly extends TileEntityTurretChekhov {
 	public int getDelay() {
 		return 5;
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_FRIENDLY_DAMAGE.get(); }
 
 	protected static CasingEjector ejector = new CasingEjector().setMotion(-0.3, 0.6, 0).setAngleRange(0.02F, 0.05F);
 	

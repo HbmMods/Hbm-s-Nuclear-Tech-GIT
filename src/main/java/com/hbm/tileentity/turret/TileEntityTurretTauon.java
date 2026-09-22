@@ -7,8 +7,9 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretTauon;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryAccelerator;
-import com.hbm.lib.ModDamageSource;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -127,7 +128,7 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 			BulletConfig conf = this.getFirstConfigLoaded();
 
 			if(conf != null && this.target != null) {
-				this.target.attackEntityFrom(ModDamageSource.electricity, 30F + worldObj.rand.nextInt(11));
+				this.target.attackEntityFrom(BulletConfig.getDamage(null, null, DamageClass.SUBATOMIC), getBaseDamage() * (1 + worldObj.rand.nextFloat() / 3F));
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.tauShoot", 4.0F, 0.9F + worldObj.rand.nextFloat() * 0.3F);
 
@@ -147,6 +148,9 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_TAUON_DAMAGE.get(); }
 
 	private boolean shot = false;
 

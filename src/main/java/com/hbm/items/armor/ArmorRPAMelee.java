@@ -48,14 +48,14 @@ public class ArmorRPAMelee implements IPAMelee {
 			
 			if(mop != null) {
 				if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-					float damage = swings ? 15F : 35F;
+					float damage = swings ? XFactoryPA.MELEE_RPA_SWINGS_DAMAGE.get() : XFactoryPA.MELEE_RPA_SLAP_DAMAGE.get();
 					float knockback = swings ? 0F : 1.5F;
 					float dt = swings ? 5F : 15F;
 					float pierce = swings ? 0.1F : 0.25F;
 					
 					if(mop.entityHit instanceof EntityLivingBase) {
 						EntityLivingBase living = (EntityLivingBase) mop.entityHit;
-						if(living.getMaxHealth() >= 100) damage *= 2.5;
+						if(living.getMaxHealth() >= 100) damage *= XFactoryPA.MELEE_RPA_LARGE_MULT.get();
 						EntityDamageUtil.attackEntityFromNT((EntityLivingBase) mop.entityHit, DamageSource.causePlayerDamage(ctx.getPlayer()), damage, true, false, knockback, dt, pierce);
 						if(living.getRNG().nextInt(slap ? 3 : 10) == 0 && !living.isEntityAlive()) ConfettiUtil.gib(living);
 					} else {

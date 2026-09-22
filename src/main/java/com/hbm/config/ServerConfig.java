@@ -17,7 +17,7 @@ public class ServerConfig extends RunningConfig {
 	public static ConfigWrapper<Float> MINE_SHRAP_DAMAGE =				new ConfigWrapper(7.5F);
 	public static ConfigWrapper<Float> MINE_NUKE_DAMAGE =				new ConfigWrapper(100F);
 	public static ConfigWrapper<Float> MINE_NAVAL_DAMAGE =				new ConfigWrapper(60F);
-	public static ConfigWrapper<Boolean> TAINT_TRAILS =					new ConfigWrapper(false);
+	public static ConfigWrapper<Boolean> ENTITY_TAINT_TRAILS =			new ConfigWrapper(false);
 	public static ConfigWrapper<Boolean> CRATE_OPEN_HELD =				new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> CRATE_KEEP_CONTENTS =			new ConfigWrapper(true);
 	public static ConfigWrapper<Integer> ITEM_HAZARD_DROP_TICKRATE =	new ConfigWrapper(2);
@@ -35,7 +35,7 @@ public class ServerConfig extends RunningConfig {
 		configMap.put("MINE_SHRAP_DAMAGE", MINE_SHRAP_DAMAGE);
 		configMap.put("MINE_NUKE_DAMAGE", MINE_NUKE_DAMAGE);
 		configMap.put("MINE_NAVAL_DAMAGE", MINE_NAVAL_DAMAGE);
-		configMap.put("TAINT_TRAILS", TAINT_TRAILS);
+		configMap.put("ENTITY_TAINT_TRAILS", ENTITY_TAINT_TRAILS);
 		configMap.put("CRATE_OPEN_HELD", CRATE_OPEN_HELD);
 		configMap.put("CRATE_KEEP_CONTENTS", CRATE_KEEP_CONTENTS);
 		configMap.put("ITEM_HAZARD_DROP_TICKRATE", ITEM_HAZARD_DROP_TICKRATE);

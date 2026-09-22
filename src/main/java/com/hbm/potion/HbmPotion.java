@@ -107,7 +107,7 @@ public class HbmPotion extends Potion {
 			if(!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
-			if(ServerConfig.TAINT_TRAILS.get() && !entity.worldObj.isRemote) {
+			if(ServerConfig.ENTITY_TAINT_TRAILS.get() && !entity.worldObj.isRemote) {
 				
 				int x = (int) Math.floor(entity.posX);
 				int y = (int) Math.floor(entity.posY);

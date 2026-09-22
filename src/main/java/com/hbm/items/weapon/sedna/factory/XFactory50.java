@@ -3,6 +3,8 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.projectile.EntityBuilding;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
@@ -33,6 +35,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class XFactory50 {
 
+	public static ConfigWrapper<Float> GUN_ANTI_MATERIEL_DAMAGE =	new ConfigWrapper(30F);
+	public static ConfigWrapper<Float> GUN_SUBTLETY_DAMAGE =		new ConfigWrapper(50F);
+	public static ConfigWrapper<Float> GUN_PENANCE_DAMAGE =			new ConfigWrapper(45F);
+	public static ConfigWrapper<Float> GUN_M2_DAMAGE =				new ConfigWrapper(7.5F);
+	
 	public static final ResourceLocation scope = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_amat.png");
 	public static final ResourceLocation scope_thermal = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_penance.png");
 
@@ -45,6 +52,13 @@ public class XFactory50 {
 	public static BulletConfig bmg50_sm;
 	public static BulletConfig bmg50_black;
 	public static BulletConfig bmg50_equestrian;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_ANTI_MATERIEL_DAMAGE", GUN_ANTI_MATERIEL_DAMAGE);
+		ServerConfig.configMap.put("GUN_SUBTLETY_DAMAGE", GUN_SUBTLETY_DAMAGE);
+		ServerConfig.configMap.put("GUN_PENANCE_DAMAGE", GUN_PENANCE_DAMAGE);
+		ServerConfig.configMap.put("GUN_M2_DAMAGE", GUN_M2_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_BUILDING = (bullet, mop) -> {
 		EntityBuilding silver = new EntityBuilding(bullet.worldObj);
@@ -84,7 +98,7 @@ public class XFactory50 {
 		ModItems.gun_amat = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(350).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(30F).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_ANTI_MATERIEL_DAMAGE).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
@@ -94,7 +108,7 @@ public class XFactory50 {
 		ModItems.gun_amat_subtlety = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(1_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(50F).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_SUBTLETY_DAMAGE).delay(25).dry(25).spreadHipfire(0.05F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_equestrian, bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
@@ -104,7 +118,7 @@ public class XFactory50 {
 		ModItems.gun_amat_penance = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(20).inspect(50).crosshair(Crosshair.CIRCLE).scopeTexture(scope_thermal).thermalSights(true).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(45F).delay(25).dry(25).spreadHipfire(0F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_SILENCER, 1.0F, 1.0F)
+						.dmg(GUN_PENANCE_DAMAGE).delay(25).dry(25).spreadHipfire(0F).reload(51).jam(43).sound(NTMSounds.GUN_AMAT_SILENCER, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 7).addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_sm, bmg50_he, bmg50_black))
 						.offset(1, -0.0625 * 1.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_AMAT))
@@ -115,7 +129,7 @@ public class XFactory50 {
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(2).dry(10).auto(true).spread(0.005F).sound(NTMSounds.TURRET_50BMG, 1.0F, 1.0F)
+						.dmg(GUN_M2_DAMAGE).delay(2).dry(10).auto(true).spread(0.005F).sound(NTMSounds.TURRET_50BMG, 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du, bmg50_he))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_M2))

@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.config.ServerConfig;
+import com.hbm.config.RunningConfig.ConfigWrapper;
 import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.logic.EntityC130;
 import com.hbm.entity.logic.EntityC130.C130PayloadType;
@@ -51,6 +53,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactory40mm {
 
+	public static ConfigWrapper<Float> GUN_FLARE_DAMAGE =		new ConfigWrapper(15F);
+	public static ConfigWrapper<Float> GUN_CONGO_LAKE_DAMAGE =	new ConfigWrapper(20F);
+	public static ConfigWrapper<Float> GUN_MK108_DAMAGE =		new ConfigWrapper(25F);
+
 	public static BulletConfig g26_flare;
 	public static BulletConfig g26_flare_supply;
 	public static BulletConfig g26_flare_weapon;
@@ -60,6 +66,12 @@ public class XFactory40mm {
 	public static BulletConfig g40_demo;
 	public static BulletConfig g40_inc;
 	public static BulletConfig g40_phosphorus;
+	
+	public static void initConfig() {
+		ServerConfig.configMap.put("GUN_FLARE_DAMAGE", GUN_FLARE_DAMAGE);
+		ServerConfig.configMap.put("GUN_CONGO_LAKE_DAMAGE", GUN_CONGO_LAKE_DAMAGE);
+		ServerConfig.configMap.put("GUN_MK108_DAMAGE", GUN_MK108_DAMAGE);
+	}
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_IGNITE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
@@ -158,7 +170,7 @@ public class XFactory40mm {
 		ModItems.gun_flaregun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(20).reload(28).jam(33).sound(NTMSounds.GUN_UNDERBARREL_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_FLARE_DAMAGE).delay(20).reload(28).jam(33).sound(NTMSounds.GUN_UNDERBARREL_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(g26_flare, g26_flare_supply, g26_flare_weapon))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_GL))
@@ -169,7 +181,7 @@ public class XFactory40mm {
 		ModItems.gun_congolake = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(39).reloadSequential(true).reloadChangeType(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(20F).delay(24).reload(16, 16, 16, 0).jam(0).sound(NTMSounds.GUN_CONGO_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_CONGO_LAKE_DAMAGE).delay(24).reload(16, 16, 16, 0).jam(0).sound(NTMSounds.GUN_CONGO_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 4).addConfigs(g40_he, g40_heat, g40_demo, g40_inc, g40_phosphorus))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_GL))
@@ -180,7 +192,7 @@ public class XFactory40mm {
 		ModItems.gun_mk108 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(5_000).draw(20).inspect(65).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(10).auto(true).dryfireAfterAuto(true).reload(135).jam(25).sound(NTMSounds.GUN_MK108_FIRE, 1.0F, 1.0F)
+						.dmg(GUN_MK108_DAMAGE).delay(10).auto(true).dryfireAfterAuto(true).reload(135).jam(25).sound(NTMSounds.GUN_MK108_FIRE, 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(g40_he, g40_heat, g40_demo, g40_inc, g40_phosphorus))
 						.offset(0.75, -0.125, -0.125)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MK108))

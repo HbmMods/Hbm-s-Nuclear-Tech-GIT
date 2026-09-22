@@ -8,6 +8,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.gui.GUITurretChekhov;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory50;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -76,7 +77,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 
 			if(conf != null) {
 				this.cachedCasingConfig = conf.casing;
-				this.spawnBullet(conf, 10F);
+				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.chekhov_fire", 2.0F, 1.0F);
 
@@ -94,6 +95,9 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 			}
 		}
 	}
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_CHEKHOV_DAMAGE.get(); }
 
 	@Override
 	protected Vec3 getCasingSpawnPos() {

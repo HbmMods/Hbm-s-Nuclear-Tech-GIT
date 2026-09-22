@@ -3572,7 +3572,7 @@ public class ModItems {
 		mp_chip_5 = new ItemCustomMissilePart().makeChip(0.0F)	.setUnlocalizedName("mp_c_5").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_5");
 
 		ammo_shell = (ItemEnumMulti) new ItemAmmo(Ammo240Shell.class).setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_shell");
-		ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk").setCreativeTab(MainRegistry.weaponTab);
+		ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk").setMaxStackSize(4).setCreativeTab(MainRegistry.weaponTab);
 		ammo_fireext = (ItemEnumMulti) new ItemAmmo(AmmoFireExt.class).setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_fireext");
 		ammo_misc = new ItemAmmo(AmmoMisc.class).setUnlocalizedName("ammo_misc");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");

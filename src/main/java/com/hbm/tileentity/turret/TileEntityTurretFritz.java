@@ -13,6 +13,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.gui.GUITurretFritz;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.XFactoryFlamer;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -70,6 +71,9 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override public long getMaxPower() { return 10000; }
 	@Override public double getBarrelLength() { return 2.25D; }
 	@Override public double getAcceptableInaccuracy() { return 15; }
+	
+	@Override
+	public float getBaseDamage() { return XFactoryTurret.TURRET_FRITZ_DAMAGE.get(); }
 
 	@Override
 	public void updateFiringTick() {
@@ -84,7 +88,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			vec.rotateAroundZ((float) -this.rotationPitch);
 			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 
-			float damage = Math.min((float) (trait.getHeatEnergy() / 500_000F), 20F);
+			float damage = Math.min((float) (trait.getHeatEnergy() / 500_000F), 20F) * getBaseDamage();
 			EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, tank.getTankType() == Fluids.BALEFIRE ? XFactoryFlamer.flame_nograv_bf : XFactoryFlamer.flame_nograv, damage, 0.05F, (float) rotationYaw, (float) rotationPitch);
 			proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 			worldObj.spawnEntityInWorld(proj);
