@@ -62,7 +62,7 @@ public class TileEntityMachineSuperComputer extends TileEntityMachineBase implem
 					PortDef.make(xCoord + dir.offsetX * 7 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 7 + rot.offsetZ, rot),
 					PortDef.make(xCoord + dir.offsetX * 7 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 7 - rot.offsetZ, rot.getOpposite()),
 					PortDef.make(xCoord + dir.offsetX * 5 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ, rot),
-					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX, yCoord, zCoord + dir.offsetZ *  - rot.offsetZ, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX * 5 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 5 - rot.offsetZ, rot.getOpposite()),
 			};
 		}
 		return cachedPorts;

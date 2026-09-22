@@ -56,7 +56,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineCompressorBase
 
 	public PortDef[] getPorts() {
 		if(cachedPorts == null) {
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 			
 			cachedPorts = new PortDef[] {

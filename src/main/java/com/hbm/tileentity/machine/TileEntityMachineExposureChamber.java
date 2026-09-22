@@ -84,7 +84,7 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public PortDef[] getPorts() {
 		if(cachedPorts == null) {
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 			
 			cachedPorts = new PortDef[] {
 					PortDef.make(xCoord + rot.offsetX * 7 + dir.offsetX, yCoord, zCoord + rot.offsetZ * 7 + dir.offsetZ, dir),
@@ -106,8 +106,8 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			this.setupAllPorts(getPorts());
+			
+			this.setupPowerPorts(getPorts());
 			this.updatePortPIFIFO();
 
 			this.isOn = false;

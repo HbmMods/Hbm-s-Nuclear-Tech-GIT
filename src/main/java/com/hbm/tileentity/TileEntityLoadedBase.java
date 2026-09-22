@@ -35,6 +35,8 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	public TilePort[] fluidInPorts;
 	public TilePort[] fluidOutPorts;
 	
+	public static final boolean particleDebug = true;
+	
 	/// PORTS START ///
 	
 	/** Sets up power, fluid in (if valid) and fluid out (if valid) ports */
@@ -92,8 +94,8 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 	/** Power out, fluid in, fluid out */
 	public void updatePortPOFIFO() { this.updatePortFIFO(); this.providePower(); }
 	
-	public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(); }
-	public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(); }
+	public void receivePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkSubscribe(worldObj); }
+	public void providePower() { if(powerPorts == null) return; for(TilePort port : powerPorts) port.checkProvide(worldObj); }
 
 	public void provideFluid(FluidTank[] tanks) { provideFluid(tanks, this.fluidOutPorts); }
 	public void provideFluid(FluidTank[] tanks, TilePort[] ports) {
@@ -101,7 +103,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		
 		for(int i = 0; i < ports.length; i++) {
 			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
-			if(!ports[i].needsRebuild) ports[i].checkProvide();
+			if(!ports[i].needsRebuild) ports[i].checkProvide(worldObj);
 		}
 	}
 
@@ -111,7 +113,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 		
 		for(int i = 0; i < ports.length; i++) {
 			ports[i].setupType(tanks[i].getTankType().getNetworkProvider());
-			if(!ports[i].needsRebuild) ports[i].checkSubscribe();
+			if(!ports[i].needsRebuild) ports[i].checkSubscribe(worldObj);
 		}
 	}
 	

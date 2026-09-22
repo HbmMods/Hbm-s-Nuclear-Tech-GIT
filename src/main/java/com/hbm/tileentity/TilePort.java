@@ -3,7 +3,9 @@ package com.hbm.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.NodeNet;
@@ -11,6 +13,8 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -127,19 +131,50 @@ public class TilePort {
 		UniNodespace.createNode(world, this.node);
 	}
 	
-	public void checkSubscribe() {
+	public void checkSubscribe(World world) {
 		if(this.node == null) return;
 		
 		if(timeSinceNetworkChange < 2) {
 			if(this.node.net != null) this.node.net.addReceiver(owner);
 		}
+		
+		if(TileEntityLoadedBase.particleDebug) for(DirPos pos : this.connections) {
+			ForgeDirection dir = pos.getDir();
+			BlockPos offset = pos.offset(dir);
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "network");
+			data.setString("mode", "power");
+			double posX = offset.getX() + 0.5 - dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posY = offset.getY() + 0.5 - dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posZ = offset.getZ() + 0.5 - dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			data.setDouble("mX", dir.offsetX * -0.1);
+			data.setDouble("mY", dir.offsetY * -0.1);
+			data.setDouble("mZ", dir.offsetZ * -0.1);
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
+		}
 	}
 	
-	public void checkProvide() {
+	public void checkProvide(World world) {
 		if(this.node == null) return;
 
 		if(timeSinceNetworkChange < 2) {
 			if(this.node.net != null) this.node.net.addProvider(owner);
+		}
+		
+		if(TileEntityLoadedBase.particleDebug) for(DirPos pos : this.connections) {
+			ForgeDirection dir = pos.getDir();
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "network");
+			data.setString("mode", "power");
+			double posX = pos.getX() + 0.5 - dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posY = pos.getY() + 0.5 - dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posZ = pos.getZ() + 0.5 - dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			data.setDouble("mX", dir.offsetX * 0.1);
+			data.setDouble("mY", dir.offsetY * 0.1);
+			data.setDouble("mZ", dir.offsetZ * 0.1);
+			PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
 	
