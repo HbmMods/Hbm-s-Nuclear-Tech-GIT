@@ -25,6 +25,7 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModGeneric;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumModSpecial;
 import com.hbm.main.CraftingManager;
 
+import cpw.mods.fml.common.Mod;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -173,6 +174,7 @@ public class WeaponRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_micro, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_bhole, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.black_hole, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.QUANTUM) });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_antimatter, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.pellet_antimatter, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_emp, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.emp_bomb });
 		
 		//Missile fins

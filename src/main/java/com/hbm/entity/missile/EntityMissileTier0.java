@@ -11,6 +11,7 @@ import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
@@ -21,6 +22,7 @@ import com.hbm.world.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -103,6 +105,28 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		}
 		@Override public ItemStack getDebrisRareDrop() { return null; }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_schrabidium); }
+	}
+	
+	public static class EntityMissileAntimatter extends EntityMissileTier0 {
+		public EntityMissileAntimatter(World world) { super(world); }
+		public EntityMissileAntimatter(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
+		@Override public void onMissileImpact(MovingObjectPosition mop) {
+			float radius = 20F;
+			List<EntityBlackHole> holes = worldObj.getEntitiesWithinAABB(EntityBlackHole.class,
+				AxisAlignedBB.getBoundingBox(
+					this.posX - radius / 2, this.posY - radius / 2, this.posZ - radius / 2,
+					this.posX + radius / 2, this.posY + radius / 2, this.posZ + radius / 2
+				));
+			if(!holes.isEmpty()) {
+				for(EntityBlackHole hole : holes) {
+					if(hole.isDead) continue;
+					hole.setDead();
+				}
+			}
+			new ExplosionVNT(worldObj, this.posX, this.posY, this.posZ, radius).makeAmat().explode();
+		}
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.pellet_antimatter, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_antimatter); }
 	}
 	
 	public static class EntityMissileBHole extends EntityMissileTier0 {

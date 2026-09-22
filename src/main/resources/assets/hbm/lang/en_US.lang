@@ -3427,6 +3427,7 @@ item.missile.part.type=Type
 item.missile.part.weight=Weight
 item.missile_rain.name=Bomblet Rain
 item.missile_schrabidium.name=Schrabidium Missile
+item.missile_antimatter.name=Antimatter Missile
 item.missile_shuttle.name=Reliant Robin Space Shuttle
 item.missile_soyuz.name=Soyuz-FG
 item.missile_soyuz.desc=Skin:

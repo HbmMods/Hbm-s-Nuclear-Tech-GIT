@@ -1185,6 +1185,7 @@ public class ModItems {
 	public static Item missile_micro;
 	public static Item missile_bhole;
 	public static Item missile_schrabidium;
+	public static Item missile_antimatter;
 	public static Item missile_emp;
 	public static Item missile_shuttle;
 	public static Item missile_stealth;
@@ -3410,6 +3411,7 @@ public class ModItems {
 		missile_micro = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_micro").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_bhole = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_bhole").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_bhole");
 		missile_schrabidium = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_schrabidium");
+		missile_antimatter = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_antimatter").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_antimatter");
 		missile_emp = new ItemMissile(MissileFormFactor.MICRO, MissileTier.TIER0).setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_emp");
 		missile_shuttle = new ItemMissile(MissileFormFactor.OTHER, MissileTier.TIER3, MissileFuel.KEROSENE_PEROXIDE).setUnlocalizedName("missile_shuttle").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_shuttle");
 		missile_stealth = new ItemMissile(MissileFormFactor.STRONG, MissileTier.TIER1).setUnlocalizedName("missile_stealth").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_stealth");
@@ -5538,6 +5540,7 @@ public class ModItems {
 		GameRegistry.registerItem(missile_micro, missile_micro.getUnlocalizedName());
 		GameRegistry.registerItem(missile_bhole, missile_bhole.getUnlocalizedName());
 		GameRegistry.registerItem(missile_schrabidium, missile_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(missile_antimatter, missile_antimatter.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
 		//Tier 1
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());

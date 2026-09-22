@@ -67,6 +67,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		missiles.put(new ComparableStack(ModItems.missile_test), EntityMissileTest.class);
 		missiles.put(new ComparableStack(ModItems.missile_micro), EntityMissileMicro.class);
 		missiles.put(new ComparableStack(ModItems.missile_schrabidium), EntityMissileSchrabidium.class);
+		missiles.put(new ComparableStack(ModItems.missile_antimatter), EntityMissileAntimatter.class);
 		missiles.put(new ComparableStack(ModItems.missile_bhole), EntityMissileBHole.class);
 		missiles.put(new ComparableStack(ModItems.missile_taint), EntityMissileTaint.class);
 		missiles.put(new ComparableStack(ModItems.missile_emp), EntityMissileEMP.class);
