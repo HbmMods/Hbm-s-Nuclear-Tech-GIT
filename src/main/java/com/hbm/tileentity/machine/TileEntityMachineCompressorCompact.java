@@ -7,28 +7,6 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineCompressorCompact extends TileEntityMachineCompressorBase {
 	
-	public float fanSpin;
-	public float prevFanSpin;
-
-	@Override
-	public void updateEntity() {
-		super.updateEntity();
-
-		if(worldObj.isRemote) {
-
-			this.prevFanSpin = this.fanSpin;
-
-			if(this.isOn) {
-				this.fanSpin += 45;
-
-				if(this.fanSpin >= 360) {
-					this.prevFanSpin -= 360;
-					this.fanSpin -= 360;
-				}
-			}
-		}
-	}
-	
 	protected PortDef[] cachedPorts;
 	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.condenser(xCoord, yCoord, zCoord, this.getBlockMetadata()); return cachedPorts; }
 	
