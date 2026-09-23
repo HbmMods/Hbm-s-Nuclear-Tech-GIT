@@ -1,12 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
-import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
-
-import java.util.HashSet;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
@@ -18,14 +15,13 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
-import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.uninos.UniNodespace;
-import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.tileentity.TilePort.PortDef;
+import com.hbm.tileentity.TilePortShapes;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -48,9 +44,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
 public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiverMK2, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable, IRORValueProvider, IRORInteractive {
 
-	protected FluidNode node;
-	protected FluidType lastType;
-
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
@@ -66,6 +59,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		super(6);
 		tank = new FluidTank(Fluids.NONE, capacity);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -90,11 +86,14 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
 			if(comp != this.lastRedstone) {
 				this.markDirty();
-				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+				for(PortDef port : getPorts()) for(DirPos pos : port.portConnections) this.updateRedstoneConnection(pos);
 			}
 			this.lastRedstone = comp;
 
@@ -102,77 +101,16 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
 
-			// In buffer mode, acts like a pipe block, providing fluid to its own node
-			// otherwise, it is a regular providing/receiving machine, blocking further propagation
-			if(mode == 1) {
-				if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
-
-					this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
-
-					if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
-						this.node = this.createNode(tank.getTankType());
-						UniNodespace.createNode(worldObj, this.node);
-						lastType = tank.getTankType();
-					}
-				}
-
-				if(node != null && node.hasValidNet()) {
-					node.net.addProvider(this);
-					node.net.addReceiver(this);
-				}
-			} else {
-				if(this.node != null) {
-					UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
-					this.node = null;
-				}
-
-				if(!this.tilted) for(DirPos pos : getConPos()) {
-					FluidNode dirNode = (FluidNode) UniNodespace.getNode(worldObj, pos.getX(), pos.getY(), pos.getZ(), tank.getTankType().getNetworkProvider());
-
-					if(mode == 2) {
-						tryProvide(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					} else {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
-					}
-
-					if(mode == 0) {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.addReceiver(this);
-					} else {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeReceiver(this);
-					}
-				}
-			}
-
 			if(tank.getFill() > 0) {
 				checkFluidInteraction();
 			}
 
-			this.networkPackNT(50);
+			this.networkPackNT(trackingRange());
 		}
 	}
-
-	protected FluidNode createNode(FluidType type) {
-		DirPos[] conPos = getConPos();
-
-		HashSet<BlockPos> posSet = new HashSet<>();
-		posSet.add(new BlockPos(this));
-		for(DirPos pos : conPos) {
-			ForgeDirection dir = pos.getDir();
-			posSet.add(new BlockPos(pos.getX() - dir.offsetX, pos.getY() - dir.offsetY, pos.getZ() - dir.offsetZ));
-		}
-
-		return new FluidNode(type.getNetworkProvider(), posSet.toArray(new BlockPos[posSet.size()])).setConnections(conPos);
-	}
-
-	@Override
-	public void invalidate() {
-		super.invalidate();
-
-		if(!worldObj.isRemote) {
-			if(this.node != null) {
-				UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, tank.getTankType().getNetworkProvider());
-			}
-		}
+	
+	public int trackingRange() {
+		return 50;
 	}
 
 	@Override
@@ -187,17 +125,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		super.deserialize(buf);
 		mode = buf.readShort();
 		tank.deserialize(buf);
-	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
-				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
-				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
-		};
 	}
 
 	@Override
@@ -279,9 +206,19 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		return fluid == tank.getTankType();
 	}
 
-	@Override public FluidTank[] getSendingTanks() { return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0]; }
-	@Override public FluidTank[] getReceivingTanks() { return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0]; }
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] { tank }; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tank }; }
 	@Override public FluidTank[] getAllTanks() { return new FluidTank[] { tank }; }
+
+	@Override
+	public long getProviderSpeed(FluidType type, int pressure) {
+		return (mode == 1 || mode == 2) ? 1_000_000_000 : 0;
+	}
+
+	@Override
+	public long getReceiverSpeed(FluidType type, int pressure) {
+		return (mode == 0 || mode == 1) ? 1_000_000_000 : 0;
+	}
 
 	@Override
 	public ConnectionPriority getFluidPriority() {

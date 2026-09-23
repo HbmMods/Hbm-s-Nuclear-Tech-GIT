@@ -13,6 +13,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PlasmaNetworkProvider;
@@ -57,6 +58,24 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 		tanks[1] = new FluidTank(Fluids.NONE, 16_000);
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 2, yCoord + 2, zCoord + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord + rot.offsetX * 1, yCoord, zCoord + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord - rot.offsetX * 1, yCoord, zCoord - rot.offsetZ * 1, rot.getOpposite()),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 1, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 1, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public String getName() {
 		return "container.fusionBreeder";
@@ -67,6 +86,9 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 		if(!worldObj.isRemote) {
 
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+
 			tanks[0].setType(0, slots);
 
 			if(!canProcessSolid() && !canProcessLiquid()) {
@@ -76,11 +98,6 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 			// because tile updates may happen in any order and the value that needs
 			// to be synced needs to persist until the next tick due to the batched packets
 			this.neutronEnergySync = this.neutronEnergy;
-
-			for(DirPos pos : getConPos()) {
-				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos);
-				if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos);
-			}
 
 			if(plasmaNode == null || plasmaNode.expired) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getOpposite();
@@ -205,19 +222,6 @@ public class TileEntityFusionBreeder extends TileEntityMachineBase implements IF
 
 	@Override public boolean canExtractItem(int slot, ItemStack itemStack, int side) { return slot == 2; }
 	@Override public int[] getAccessibleSlotsFromSide(int side) { return new int[] {1, 2}; }
-
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, dir),
-				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
-				new DirPos(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
-		};
-	}
 
 	@Override
 	public void invalidate() {

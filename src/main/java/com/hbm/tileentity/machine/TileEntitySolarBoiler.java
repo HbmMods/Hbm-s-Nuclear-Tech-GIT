@@ -8,6 +8,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -31,14 +32,26 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 		water = new FluidTank(Fluids.WATER, 100);
 		steam = new FluidTank(Fluids.STEAM, 10_000);
 	}
+	
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord + 2, zCoord, Library.POS_Y),
+			};
+		}
+		return cachedPorts;
+	}
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
-			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			int process = heat / 50;
 			this.display = process;
@@ -49,9 +62,6 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
-
-			this.tryProvide(steam, worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
-			this.tryProvide(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 
 			heat = 0;
 
@@ -106,20 +116,9 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 		return 65536.0D;
 	}
 
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { steam };
-	}
-
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] { water };
-	}
-
-	@Override
-	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { water, steam };
-	}
+	@Override public FluidTank[] getSendingTanks() { return new FluidTank[] {steam}; }
+	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {water}; }
+	@Override public FluidTank[] getAllTanks() { return new FluidTank[] {water, steam}; }
 
 	@Override
 	public void serialize(ByteBuf buf) {

@@ -9,9 +9,9 @@ import com.hbm.inventory.gui.GUIPASource;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
@@ -79,6 +79,11 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 
 			int steps = 1;
@@ -154,22 +159,27 @@ public class TileEntityPASource extends TileEntityCooledBase implements IGUIProv
 		this.lastSpeed = buf.readInt();
 	}
 
-	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, dir),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord + rot.offsetX * 5, yCoord, zCoord + rot.offsetZ * 5, rot),
-				new DirPos(xCoord, yCoord-2, zCoord, dir),
-				new DirPos(xCoord + rot.offsetX * 2, yCoord-2, zCoord + rot.offsetZ * 2, dir),
-				new DirPos(xCoord - rot.offsetX * 2, yCoord-2, zCoord - rot.offsetZ * 2, dir),
-		};
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1, dir),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, dir),
+					PortDef.make(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, dir),
+					PortDef.make(xCoord - dir.offsetX * 1, yCoord, zCoord - dir.offsetZ * 1, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord + rot.offsetX * 4, yCoord, zCoord + rot.offsetZ * 4, rot),
+					PortDef.make(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord + rot.offsetX * 2, yCoord - 1, zCoord + rot.offsetZ * 2, Library.NEG_Y),
+					PortDef.make(xCoord - rot.offsetX * 2, yCoord - 1, zCoord - rot.offsetZ * 2, Library.NEG_Y),
+			};
+		}
+		return cachedPorts;
 	}
 
 	//ISidedInventory

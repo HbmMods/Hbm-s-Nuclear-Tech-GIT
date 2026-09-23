@@ -8,8 +8,8 @@ import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -31,9 +31,13 @@ public abstract class TileEntityTurbineBase extends TileEntityLoadedBase impleme
 	public boolean operational = false;
 	
 	public abstract double getEfficiency();
-	public abstract DirPos[] getConPos();
-	public abstract DirPos[] getPowerPos();
 	public abstract double consumptionPercent();
+	
+	protected PortDef[] fluidPorts;
+	protected PortDef[] powerPorts;
+	
+	public abstract PortDef[] getFluidPorts();
+	public abstract PortDef[] getPowerPorts();
 	
 	public void generatePower(long power, int steamConsumed) {
 		this.powerBuffer += power;
@@ -43,6 +47,10 @@ public abstract class TileEntityTurbineBase extends TileEntityLoadedBase impleme
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.setupPowerPorts(getPowerPorts());
+			this.setupFluidPorts(getFluidPorts());
+			this.updatePortPOFIFO();
 
 			this.powerBuffer = 0;
 			this.info = new double[3];
@@ -83,14 +91,6 @@ public abstract class TileEntityTurbineBase extends TileEntityLoadedBase impleme
 
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 
-			for(DirPos pos : this.getPowerPos()) {
-				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
-
-			for(DirPos pos : this.getConPos()) {
-				this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 			networkPackNT(150);
 			
 		} else {

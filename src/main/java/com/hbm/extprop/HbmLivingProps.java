@@ -46,7 +46,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxBlacklung = 2 * 60 * 60 * 20;
 	private float radEnv;
 	private float radBuf;
-	private int bombTimer;
 	private int contagion;
 	private int oil;
 	public int fire;
@@ -251,15 +250,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		}
 	}
 
-	/// TIME BOMB ///
-	public static int getTimer(EntityLivingBase entity) {
-		return getData(entity).bombTimer;
-	}
-
-	public static void setTimer(EntityLivingBase entity, int bombTimer) {
-		getData(entity).bombTimer = bombTimer;
-	}
-
 	/// CONTAGION ///
 	public static int getContagion(EntityLivingBase entity) {
 		if(!ServerConfig.ENABLE_MKU.get()) return 0;
@@ -281,7 +271,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		buf.writeFloat(radiation);
 		buf.writeFloat(digamma);
 		buf.writeInt(asbestos);
-		buf.writeInt(bombTimer);
 		buf.writeInt(contagion);
 		buf.writeInt(blacklung);
 		buf.writeInt(oil);
@@ -296,7 +285,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			radiation = buf.readFloat();
 			digamma = buf.readFloat();
 			asbestos = buf.readInt();
-			bombTimer = buf.readInt();
 			contagion = buf.readInt();
 			blacklung = buf.readInt();
 			oil = buf.readInt();
@@ -316,7 +304,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setFloat("hfr_radiation", radiation);
 		props.setFloat("hfr_digamma", digamma);
 		props.setInteger("hfr_asbestos", asbestos);
-		props.setInteger("hfr_bomb", bombTimer);
 		if(ServerConfig.ENABLE_MKU.get()) props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
 		props.setInteger("hfr_oil", oil);
@@ -344,7 +331,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			radiation = props.getFloat("hfr_radiation");
 			digamma = props.getFloat("hfr_digamma");
 			asbestos = props.getInteger("hfr_asbestos");
-			bombTimer = props.getInteger("hfr_bomb");
 			if(ServerConfig.ENABLE_MKU.get()) contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
 			oil = props.getInteger("hfr_oil");

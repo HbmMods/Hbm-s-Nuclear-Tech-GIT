@@ -5,10 +5,10 @@ import com.hbm.inventory.container.ContainerPARFC;
 import com.hbm.inventory.gui.GUIPARFC;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
@@ -33,6 +33,24 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 
 	public TileEntityPARFC() {
 		super(1);
+	}
+
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord + 1, zCoord + dir.offsetZ * 3, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord + 1, zCoord - dir.offsetZ * 3, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 3, yCoord - 1, zCoord + dir.offsetZ * 3, Library.NEG_Y),
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord - 1, zCoord - dir.offsetZ * 3, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord - 1, zCoord, Library.NEG_Y)
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override
@@ -76,6 +94,10 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+			
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}
 
@@ -105,19 +127,6 @@ public class TileEntityPARFC extends TileEntityCooledBase implements IGUIProvide
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 3, yCoord + 2, zCoord + dir.offsetZ * 3, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 3, yCoord + 2, zCoord - dir.offsetZ * 3, Library.POS_Y),
-				new DirPos(xCoord, yCoord + 2, zCoord, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 3, yCoord - 2, zCoord + dir.offsetZ * 3, Library.NEG_Y),
-				new DirPos(xCoord - dir.offsetX * 3, yCoord - 2, zCoord - dir.offsetZ * 3, Library.NEG_Y),
-				new DirPos(xCoord, yCoord - 2, zCoord, Library.NEG_Y)
-		};
 	}
 
 	@Override

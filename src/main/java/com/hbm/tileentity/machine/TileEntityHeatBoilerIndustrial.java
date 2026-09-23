@@ -18,7 +18,7 @@ import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import api.hbm.redstoneoverradio.IRORValueProvider;
@@ -58,13 +58,15 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			if(this.buf != null)
 				this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			this.setupTanks();
-			this.updateConnections();
 			this.tryPullHeat();
 			int lastHeat = this.heat;
 
@@ -79,10 +81,6 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 			this.isOn = false;
 			this.tryConvert();
 			tanks[1].serialize(buf);
-
-			if(this.tanks[1].getFill() > 0) {
-				this.sendFluid();
-			}
 
 			buf.writeBoolean(this.isOn);
 			buf.writeBoolean(this.muffled);
@@ -224,29 +222,20 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 			}
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
 
-	private void updateConnections() {
-
-		for(DirPos pos : getConPos()) {
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
+					PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+					PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+					PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+			};
 		}
-	}
-
-	private void sendFluid() {
-
-		for(DirPos pos : getConPos()) {
-			this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	private DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord, yCoord + 5, zCoord, Library.POS_Y),
-		};
+		return cachedPorts;
 	}
 
 	@Override

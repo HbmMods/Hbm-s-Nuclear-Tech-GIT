@@ -7,11 +7,11 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPACoil.EnumCoilType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.PAState;
 import com.hbm.tileentity.machine.albion.TileEntityPASource.Particle;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import cpw.mods.fml.common.Optional;
@@ -35,6 +35,22 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 
 	public TileEntityPAQuadrupole() {
 		super(2);
+	}
+
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir),
+					PortDef.make(xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, dir.getOpposite())
+			};
+		}
+		return cachedPorts;
 	}
 
 	@Override
@@ -86,6 +102,10 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPIFIFO();
+			
 			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 		}
 
@@ -115,17 +135,6 @@ public class TileEntityPAQuadrupole extends TileEntityCooledBase implements IGUI
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		return new DirPos[] {
-				new DirPos(xCoord, yCoord + 2, zCoord, Library.POS_Y),
-				new DirPos(xCoord, yCoord - 2, zCoord, Library.NEG_Y),
-				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite())
-		};
 	}
 
 	@Override

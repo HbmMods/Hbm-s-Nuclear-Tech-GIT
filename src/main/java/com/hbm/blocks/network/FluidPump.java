@@ -20,6 +20,7 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.i18n.I18nUtil;
@@ -136,29 +137,48 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 			this.tank[0] = new FluidTank(Fluids.NONE, bufferSize);
 		}
 
+		protected PortDef cachedOutPort;
+		public PortDef getOutPort() {
+			if(cachedOutPort == null) {
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
+				cachedOutPort = PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
+			}
+			return cachedOutPort;
+		}
+
+		protected PortDef cachedInPort;
+		public PortDef getInPort() {
+			if(cachedInPort == null) {
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.UP);
+				cachedInPort = PortDef.make(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
+			}
+			return cachedInPort;
+		}
+
 		@Override
 		public void updateEntity() {
 
 			if(!worldObj.isRemote) {
 
+				this.setupFluidOutPorts(getSendingTanks(), getOutPort());
+				this.setupFluidInPortsHijack(getReceivingTanks(), getInPort());
+				this.updatePortFIFO();
+
 				// if the capacity were changed directly, any excess buffered fluid would be destroyed
 				// when running a closed loop or handling hard to get fluids, that's quite bad
-				if(this.bufferSize != this.tank[0].getMaxFill()) {
+				if(bufferMismatch()) {
 					int nextBuffer = Math.max(this.tank[0].getFill(), this.bufferSize);
 					this.tank[0].changeTankSize(nextBuffer);
 				}
 
 				this.redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				ForgeDirection in = dir.getRotation(ForgeDirection.UP);
-				ForgeDirection out = in.getOpposite();
-
-				this.trySubscribe(tank[0].getTankType(), worldObj, xCoord + in.offsetX, yCoord, zCoord + in.offsetZ, in);
-				if(!redstone) this.tryProvide(tank[0], worldObj, xCoord + out.offsetX, yCoord, zCoord + out.offsetZ, out);
-
 				this.networkPackNT(15);
 			}
+		}
+		
+		public boolean bufferMismatch() {
+			return this.bufferSize != this.tank[0].getMaxFill();
 		}
 
 		@Override
@@ -194,9 +214,12 @@ public class FluidPump extends BlockContainer implements INBTBlockTransformable,
 		}
 
 		@Override public ConnectionPriority getFluidPriority() { return priority; }
-		@Override public FluidTank[] getSendingTanks() { return redstone ? new FluidTank[0] : tank; }
-		@Override public FluidTank[] getReceivingTanks() { return this.bufferSize < this.tank[0].getFill() ? new FluidTank[0] : tank; }
+		@Override public FluidTank[] getSendingTanks() { return tank; }
+		@Override public FluidTank[] getReceivingTanks() { return tank; }
 		@Override public FluidTank[] getAllTanks() { return tank; }
+
+		@Override public long getReceiverSpeed(FluidType type, int pressure) { return redstone|| bufferMismatch() ?  0 : 1_000_000_000; }
+		@Override public long getProviderSpeed(FluidType type, int pressure) { return redstone ?  0 : 1_000_000_000; }
 
 		@Override
 		public boolean hasPermission(EntityPlayer player) {

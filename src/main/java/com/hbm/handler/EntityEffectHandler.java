@@ -11,7 +11,6 @@ import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityQuackos;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
@@ -98,14 +97,7 @@ public class EntityEffectHandler {
 		}
 
 		if(!entity.worldObj.isRemote) {
-			int timer = HbmLivingProps.getTimer(entity);
-			if(timer > 0) {
-				HbmLivingProps.setTimer(entity, timer - 1);
-
-				if(timer == 1) {
-					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
-				}
-			}
+			
 			//only sets players on fire so mod compatibility doesnt die
 			if(GeneralConfig.enable528NetherBurn && entity instanceof EntityPlayer && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);

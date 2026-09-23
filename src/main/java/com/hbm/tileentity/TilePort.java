@@ -34,7 +34,9 @@ public class TilePort {
 	protected INetworkProvider type;
 	protected BlockPos[] positions;
 	protected DirPos[] connections;
-	
+
+	// hijack ports will only wrap around existing nodes, and cannot create their own or destroy any nodes
+	protected boolean isHijackPort = false;
 	protected boolean needsRebuild = false;
 	protected int timeSinceNetworkChange = 0;
 	// usually a tile entity, can be a delegate/proxy type object too
@@ -62,18 +64,13 @@ public class TilePort {
 		return this;
 	}
 	
-	// this will break the instant there are two ports on the same block, since one overrides the other, and this code does not support multiple directions on the same
-	// source block. this means that the original getConPos will cease to function entirely. have to rethink that.
-	@Deprecated
-	public TilePort setupPositionsLegacy(DirPos... pos) {
-		this.positions = new BlockPos[pos.length];
-		for(int i = 0; i < this.positions.length; i++) {
-			this.positions[i] = pos[i].offset(pos[i].getDir(), -1);
-		}
-		this.needsRebuild = true;
+	/** Creates a hijack port which can only connect to existing nodes.
+	 * This becomes necessary for blocks where in and output nodes would land on the same position, but that have to explicitly not connect. */
+	public TilePort setHijack() {
+		this.isHijackPort = true;
 		return this;
 	}
-
+	
 	/** Ideally only run this once, ports shouldn't change connectivity (there is no handling for that unless a rebuild is forced) */
 	public TilePort setupConnections(DirPos... pos) {
 		this.connections = pos;
@@ -106,6 +103,7 @@ public class TilePort {
 		// wording so clear and 8 year old could understand it
 		if(isEnabled()) {
 			enableIfMissing(world);
+			if(this.isHijackPort) checkHijack();
 		} else {
 			disableIfPresent(world);
 		}
@@ -117,12 +115,15 @@ public class TilePort {
 			this.node = UniNodespace.getNode(world, pos.getX(), pos.getY(), pos.getZ(), type);
 		}
 		if(this.node == null || this.node.expired) {
-			this.createNode(world);
+			if(!this.isHijackPort) this.createNode(world);
 		}
 	}
 	
 	protected void disableIfPresent(World world) {
-		if(this.node != null) UniNodespace.destroyNode(world, node);
+		if(this.node != null) {
+			if(!this.isHijackPort) UniNodespace.destroyNode(world, node);
+			this.node = null;
+		}
 	}
 	
 	protected void createNode(World world) {
@@ -131,7 +132,19 @@ public class TilePort {
 		UniNodespace.createNode(world, this.node);
 	}
 	
-	public void checkSubscribe(World world) {
+	// check if any of the connections match, if not then release the hijacked node
+	protected void checkHijack() {
+		if(this.node != null && !this.node.expired) {
+			
+			for(DirPos dir : this.connections) {
+				if(UniNodespace.checkConnection(this.node, dir, false)) return;
+			}
+			
+			this.node = null;
+		}
+	}
+	
+	public void checkSubscribe() {
 		if(this.node == null) return;
 		
 		if(timeSinceNetworkChange < 2) {
