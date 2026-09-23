@@ -524,6 +524,16 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		return new Object[] {false};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launchEntity(Context context, Arguments args) {
+		Entity entity = worldObj.getEntityByID(args.checkInteger(0));
+		if(canLaunch() && entity != null && entity.isEntityAlive()) {
+			return new Object[] {sendCommandEntity(entity)};
+		}
+		return new Object[] {false};
+	}
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getPos(Context context, Arguments args) {
@@ -539,6 +549,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				"canLaunch",
 				"getTier",
 				"launch",
+				"launchEntity",
 				"getPos"
 		};
 	}
@@ -557,6 +568,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
+			case ("launchEntity"):
+				return launchEntity(context, args);
 			case ("getPos"):
 				return getPos(context, args);
 		}
