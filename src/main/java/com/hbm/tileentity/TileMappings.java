@@ -466,7 +466,9 @@ public class TileMappings {
 		put(TileEntityFluidCounterValve.class, "tileentity_pipe_counter_valve");
 		put(TileEntityFluidPump.class, "tileentity_pipe_pump");
 
-		put(TileEntityPipeAnchor.class, "tileentity_pioe_anchor");
+		put(TileEntityFluidPipeAnchor.class, "tileentity_pioe_anchor");
+		put(TileEntityPipeExhaustAnchor.class, "tileentity_pipe_exhaust_anchor");
+		put(TileEntityPneumaticPipeAnchor.class, "tileentity_pneumatic_pipe_anchor");
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");

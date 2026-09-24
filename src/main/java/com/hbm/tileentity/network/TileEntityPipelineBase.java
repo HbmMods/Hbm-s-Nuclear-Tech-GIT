@@ -2,16 +2,18 @@ package com.hbm.tileentity.network;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.uninos.GenNode;
+import com.hbm.uninos.INetworkProvider;
+import com.hbm.uninos.NodeNet;
 import com.hbm.uninos.UniNodespace;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluidmk2.FluidNode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -22,35 +24,59 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-// copy pasted crap class
-public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
+public abstract class TileEntityPipelineBase extends TileEntityLoadedBase {
 
 	protected List<int[]> connected = new ArrayList<>();
 
-	@Override
-	public FluidNode createNode(FluidType type) {
-		TileEntity tile = (TileEntity) this;
-		FluidNode node = new FluidNode(type.getNetworkProvider(), new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN));
+	protected abstract void addNodeConnection(int x, int y, int z);
+	protected abstract void destroyNode(int x, int y, int z);
+
+	protected <T extends NodeNet, N extends GenNode<T>> N ensureNode(N node, INetworkProvider<T> provider, Supplier<N> createNode) {
+		if(node == null || node.expired) {
+			node = (N)UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, provider);
+			if(node == null || node.expired) {
+				node = createNode.get();
+				UniNodespace.createNode(worldObj, node);
+			}
+		}
+		return node;
+	}
+
+	protected <N extends GenNode<?>> N initNode(N node) {
+		ForgeDirection dir = getOppositeDir();
+		node.setConnections(
+				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
+				new DirPos(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir));
 		for(int[] pos : this.connected) node.addConnection(new DirPos(pos[0], pos[1], pos[2], ForgeDirection.UNKNOWN));
 		return node;
 	}
 
+	protected void linkNode(GenNode<?> node, int x, int y, int z) {
+		node.recentlyChanged = true;
+		node.addConnection(new DirPos(x, y, z, ForgeDirection.UNKNOWN));
+	}
+
+	public ForgeDirection getOppositeDir() {
+		return ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+	}
+	
+	public abstract NetworkType getNetworkType();
+	
+	public ConnectionType getConnectionType() {
+		return ConnectionType.SMALL;
+	}
+
+	public Vec3 getMountPos() {
+		return Vec3.createVectorHelper(0.5D, 0.5D, 0.5D);
+	}
+
+	public double getMaxPipeLength() {
+		return 10;
+	}
+
 	public void addConnection(int x, int y, int z) {
-
-		connected.add(new int[] {x, y, z});
-
-		if(this.node == null || this.node.expired) {
-			if(this.shouldCreateNode()) {
-				this.node = (FluidNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, type.getNetworkProvider());
-				if(this.node == null || this.node.expired) {
-					this.node = this.createNode(type);
-					UniNodespace.createNode(worldObj, this.node);
-				}
-			}
-		}
-
-		this.node.recentlyChanged = true;
-		this.node.addConnection(new DirPos(x, y, z, ForgeDirection.UNKNOWN));
+		this.connected.add(new int[] {x, y, z});
+		addNodeConnection(x, y, z);
 
 		this.markDirty();
 
@@ -61,14 +87,13 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	}
 
 	public void disconnectAll() {
-
-		for(int[] pos : connected) {
+		for(int[] pos : this.connected) {
 			TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 			if(te == this) continue;
 
 			if(te instanceof TileEntityPipelineBase) {
 				TileEntityPipelineBase pipeline = (TileEntityPipelineBase) te;
-				UniNodespace.destroyNode(worldObj, pos[0], pos[1], pos[2], this.type.getNetworkProvider());
+				destroyNode(pos[0], pos[1], pos[2]);
 
 				for(int i = 0; i < pipeline.connected.size(); i++) {
 					int[] conPos = pipeline.connected.get(i);
@@ -88,7 +113,7 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 			}
 		}
 
-		UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, this.type.getNetworkProvider());
+		destroyNode(xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -106,15 +131,12 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	 * 4: Pipeline fluid types do not match
 	 */
 	public static int canConnect(TileEntityPipelineBase first, TileEntityPipelineBase second) {
-
+		if(first.getNetworkType() != second.getNetworkType()) return 1;
 		if(first.getConnectionType() != second.getConnectionType()) return 1;
 		if(first == second) return 2;
 
-		// connect with NONE type anchors
-		if(first.type == Fluids.NONE && second.type != first.type) first.setType(second.type);
-		if(second.type == Fluids.NONE && first.type != second.type) second.setType(first.type);
-		
-		if(first.type != second.type) return 4;
+		int ret = first.canConnect(second);
+		if(ret != 0) return ret;
 
 		double len = Math.min(first.getMaxPipeLength(), second.getMaxPipeLength());
 
@@ -130,15 +152,15 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 		return len >= delta.lengthVector() ? 0 : 3;
 	}
 
-	public abstract ConnectionType getConnectionType();
-	public abstract Vec3 getMountPos();
-	public abstract double getMaxPipeLength();
+	protected int canConnect(TileEntityPipelineBase other) {
+		return 0;
+	}
 
 	public Vec3 getConnectionPoint() {
 		Vec3 mount = this.getMountPos();
 		return mount.addVector(xCoord, yCoord, zCoord);
 	}
-	
+
 	public List<int[]> getConnected() {
 		return connected;
 	}
@@ -169,7 +191,6 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 
 	@Override
 	public Packet getDescriptionPacket() {
-
 		NBTTagCompound nbt = new NBTTagCompound();
 		this.writeToNBT(nbt);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
@@ -178,10 +199,6 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		this.readFromNBT(pkt.func_148857_g());
-	}
-
-	public enum ConnectionType {
-		SMALL
 	}
 
 	@Override
@@ -193,5 +210,15 @@ public abstract class TileEntityPipelineBase extends TileEntityPipeBaseNT {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	public enum ConnectionType {
+		SMALL
+	}
+
+	public enum NetworkType {
+		FLUID,
+		EXHAUST,
+		PNEUMATIC
 	}
 }

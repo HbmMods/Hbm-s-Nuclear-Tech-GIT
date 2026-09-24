@@ -891,6 +891,8 @@ public class ResourceManager {
 
 	//Pipes
 	public static final ResourceLocation pipe_anchor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor.png");
+	public static final ResourceLocation pipe_anchor_exhaust_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor_exhaust.png");
+	public static final ResourceLocation pipe_anchor_pneumatic_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pipe_anchor_pneumatic.png");
 	public static final ResourceLocation fluid_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/fluid_diode.png");
 
 	//Barrels

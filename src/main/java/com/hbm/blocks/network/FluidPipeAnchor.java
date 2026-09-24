@@ -1,81 +1,27 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ILookOverlay;
-import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.IAnalyzable;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.lib.Library;
-import com.hbm.tileentity.network.TileEntityPipeAnchor;
-import com.hbm.tileentity.network.TileEntityPipeBaseNT;
-import com.hbm.util.i18n.I18nUtil;
+import com.hbm.tileentity.network.TileEntityFluidPipeAnchor;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FluidPipeAnchor extends FluidDuctBase implements ITooltipProvider, ILookOverlay {
-
-	public FluidPipeAnchor() {
-		super(Material.iron);
-	}
+public class FluidPipeAnchor extends BasePipeAnchor implements IBlockFluidDuct, IAnalyzable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityPipeAnchor();
-	}
-
-	@Override public int getRenderType() { return -1; }
-	@Override public boolean isOpaqueCube() { return false; }
-	@Override public boolean renderAsNormalBlock() { return false; }
-
-	@Override
-	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
-		return side;
+		return new TileEntityFluidPipeAnchor();
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		setBlockBounds(world.getBlockMetadata(x, y, z));
-		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
-	}
-
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		setBlockBounds(world.getBlockMetadata(x, y, z));
-	}
-
-	private void setBlockBounds(int meta) {
-
-		float pixel = 0.0625F;
-		float min = pixel * 4F;
-		float max = pixel * 12F;
-
-		ForgeDirection dir = ForgeDirection.getOrientation(meta).getOpposite();
-
-		float minX = dir == Library.NEG_X ? 0F : min;
-		float maxX = dir == Library.POS_X ? 1F : max;
-		float minY = dir == Library.NEG_Y ? 0F : min;
-		float maxY = dir == Library.POS_Y ? 1F : max;
-		float minZ = dir == Library.NEG_Z ? 0F : min;
-		float maxZ = dir == Library.POS_Z ? 1F : max;
-
-		this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
-	}
-
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add(EnumChatFormatting.GOLD + "Connection Type: " + EnumChatFormatting.YELLOW + "Single");
-		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "10m");
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fX, float fY, float fZ) {
+		return FluidDuctBase.handleActivation(world, x, y, z, player, this);
 	}
 
 	@Override // didn't think this was overridable, that makes everything so much easier. good job martin
@@ -83,8 +29,8 @@ public class FluidPipeAnchor extends FluidDuctBase implements ITooltipProvider, 
 
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(te instanceof TileEntityPipeAnchor) {
-			TileEntityPipeAnchor pipe = (TileEntityPipeAnchor) te;
+		if(te instanceof TileEntityFluidPipeAnchor) {
+			TileEntityFluidPipeAnchor pipe = (TileEntityFluidPipeAnchor) te;
 
 			if(pipe.getType() == prevType && pipe.getType() != type) {
 				pipe.setType(type);
@@ -94,7 +40,7 @@ public class FluidPipeAnchor extends FluidDuctBase implements ITooltipProvider, 
 					Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 
 					if(b instanceof IBlockFluidDuct) ((IBlockFluidDuct) b).changeTypeRecursively(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, prevType, type, loopsRemaining - 1);
-					
+
 					for(int[] pos : pipe.getConnected()) {
 						Block c = world.getBlock(pos[0], pos[1], pos[2]);
 						if(c instanceof IBlockFluidDuct) ((IBlockFluidDuct) c).changeTypeRecursively(world, pos[0], pos[1], pos[2], prevType, type, loopsRemaining - 1);
@@ -105,17 +51,18 @@ public class FluidPipeAnchor extends FluidDuctBase implements ITooltipProvider, 
 	}
 
 	@Override
-	public void printHook(Pre event, World world, int x, int y, int z) {
+	public List<String> getDebugInfo(World world, int x, int y, int z) {
+		return FluidDuctBase.getDuctDebugInfo(world, x, y, z);
+	}
+
+	@Override
+	public void addHookText(List<String> text, World world, int x, int y, int z) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
 
-		if(!(te instanceof TileEntityPipeBaseNT))
-			return;
+		if(!(te instanceof TileEntityFluidPipeAnchor)) return;
+		TileEntityFluidPipeAnchor duct = (TileEntityFluidPipeAnchor) te;
 
-		TileEntityPipeBaseNT duct = (TileEntityPipeBaseNT) te;
-
-		List<String> text = new ArrayList();
 		text.add("&[" + duct.getType().getColor() + "&]" + duct.getType().getLocalizedName());
-		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

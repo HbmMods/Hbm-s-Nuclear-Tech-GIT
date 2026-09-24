@@ -764,6 +764,8 @@ public class ModBlocks {
 	public static Block fluid_duct_exhaust;
 	public static Block fluid_duct_paintable_block_exhaust;
 	public static Block pipe_anchor;
+	public static Block pipe_anchor_exhaust;
+	public static Block pipe_anchor_pneumatic;
 	public static Block fluid_valve;
 	public static Block fluid_switch;
 	public static Block fluid_counter_valve;
@@ -1879,6 +1881,8 @@ public class ModBlocks {
 		fluid_duct_exhaust = new FluidDuctBoxExhaust(Material.iron).setBlockName("fluid_duct_exhaust").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		fluid_duct_paintable_block_exhaust = new FluidDuctPaintableBlockExhaust().setBlockName("fluid_duct_paintable_block_exhaust").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		pipe_anchor = new FluidPipeAnchor().setBlockName("pipe_anchor").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		pipe_anchor_exhaust = new ExhaustPipeAnchor().setBlockName("pipe_anchor_exhaust").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		pipe_anchor_pneumatic = new PneumoPipeAnchor().setBlockName("pipe_anchor_pneumatic").setStepSound(ModSoundTypes.pipe).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fluid_duct_paintable = new FluidDuctPaintable().setBlockName("fluid_duct_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_duct_gauge = new FluidDuctGauge().setBlockName("fluid_duct_gauge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		fluid_valve = new FluidValve(Material.iron).setBlockName("fluid_valve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3163,6 +3167,8 @@ public class ModBlocks {
 		register(fluid_duct_paintable_block_exhaust);
 		register(fluid_duct_paintable);
 		register(pipe_anchor);
+		register(pipe_anchor_exhaust);
+		register(pipe_anchor_pneumatic);
 		register(fluid_duct_gauge);
 		register(fluid_valve);
 		register(fluid_counter_valve);

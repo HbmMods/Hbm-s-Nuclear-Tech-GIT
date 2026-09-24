@@ -84,6 +84,7 @@ import com.hbm.tileentity.machine.pile.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
+import com.hbm.tileentity.network.pneumatic.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ColorUtil;
@@ -411,7 +412,9 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonMedium.class, new RenderPylonMedium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonLarge.class, new RenderPylonLarge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySubstation.class, new RenderSubstation());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPipeAnchor.class, new RenderPipeAnchor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidPipeAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor), ResourceManager.pipe_anchor_tex));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPipeExhaustAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor_exhaust), ResourceManager.pipe_anchor_exhaust_tex));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPneumaticPipeAnchor.class, new RenderPipeAnchor(Item.getItemFromBlock(ModBlocks.pipe_anchor_pneumatic), ResourceManager.pipe_anchor_pneumatic_tex));
 		//chargers
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCharger.class, new RenderCharger());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRefueler.class, new RenderRefueler());
