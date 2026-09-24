@@ -5,6 +5,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.network.pneumatic.TileEntityPneumoTube.PneumaticNode;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.uninos.networkproviders.PneumaticNetwork;
@@ -21,7 +23,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBase implements IPneumaticConnector, IFluidStandardReceiverMK2, ISlotMonitorProvider, IControlReceiver, IGUIProvider {
 
@@ -55,11 +56,17 @@ public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBa
 			for(SlotMonitor monitor : this.monitors) monitor.availabilityHasChanged();
 		}
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 
 			boolean isAvailable = this.isAvailable();
 
@@ -79,10 +86,6 @@ public abstract class TileEntityPneumaticStorageBase extends TileEntityMachineBa
 
 			if(node != null && !node.expired && node.hasValidNet()) {
 				this.node.net.storages.add(this);
-			}
-
-			if(worldObj.getTotalWorldTime() % 10 == 0) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
 
 			if(this.compair.getFill() > 0) {

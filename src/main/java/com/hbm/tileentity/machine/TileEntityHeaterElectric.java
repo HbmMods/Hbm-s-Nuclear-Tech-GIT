@@ -7,6 +7,7 @@ import com.hbm.main.NTMSounds;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -31,15 +32,26 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 
 	private AudioWrapper audio;
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir)
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			if(worldObj.getTotalWorldTime() % 20 == 0) { //doesn't have to happen constantly
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir);
-			}
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 
 			this.heatEnergy *= 0.999;
 

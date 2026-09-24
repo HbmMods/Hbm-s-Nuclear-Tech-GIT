@@ -11,6 +11,7 @@ import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Triplet;
@@ -54,16 +55,30 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 		return "container.radGen";
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 3, yCoord, zCoord - dir.offsetZ * 3, dir.getOpposite()),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.providePower();
+			
 			this.output = 0;
 
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.tryProvide(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
-			
 			//check if reload necessary for any queues
 			for(int i = 0; i < 12; i++) {
 				

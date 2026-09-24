@@ -8,6 +8,8 @@ import com.hbm.lib.Library;
 import com.hbm.main.NTMSounds;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -21,7 +23,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider {
 
@@ -227,14 +228,19 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 	public boolean isProcessing() {
 		return this.progress > 0;
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public void updateEntity() {
 		boolean flag1 = false;
 
 		if(!worldObj.isRemote) {
-
-			this.updateConnections();
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 			
 			if(this.progress == 0) this.soundCycle = 0;
 
@@ -292,12 +298,6 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		power = buf.readLong();
-	}
-
-	private void updateConnections() {
-
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
 	public void processItem() {

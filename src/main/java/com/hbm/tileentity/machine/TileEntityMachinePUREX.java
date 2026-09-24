@@ -22,6 +22,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
@@ -74,30 +75,7 @@ public class TileEntityMachinePUREX extends TileEntityMachineBase implements IEn
 	}
 	
 	protected PortDef[] cachedPorts;
-
-	public PortDef[] getPorts() {
-		if(cachedPorts == null) {
-			cachedPorts = new PortDef[] {
-					PortDef.make(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-					PortDef.make(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
-					PortDef.make(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-					PortDef.make(xCoord + 2, yCoord, zCoord + 2, Library.POS_X, Library.POS_Z),
-					PortDef.make(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-					PortDef.make(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
-					PortDef.make(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-					PortDef.make(xCoord - 2, yCoord, zCoord + 2, Library.NEG_X, Library.POS_Z),
-					PortDef.make(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-					PortDef.make(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
-					PortDef.make(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-					PortDef.make(xCoord - 2, yCoord, zCoord - 2, Library.NEG_X, Library.NEG_Z),
-					PortDef.make(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
-					PortDef.make(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
-					PortDef.make(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-					PortDef.make(xCoord + 2, yCoord, zCoord - 2, Library.POS_X, Library.NEG_Z),
-			};
-		}
-		return cachedPorts;
-	}
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.purex(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {

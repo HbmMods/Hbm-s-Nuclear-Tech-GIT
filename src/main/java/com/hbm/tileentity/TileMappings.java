@@ -185,7 +185,6 @@ public class TileMappings {
 		put(TileEntityICFPress.class, "tileentity_icf_press");
 		put(TileEntityICFController.class, "tileentity_icf_controller");
 		put(TileEntityICF.class, "tileentity_icf");
-		put(TileEntityMachineFENSU.class, "tileentity_fensu");
 		put(TileEntityTrappedBrick.class, "tileentity_trapped_brick");
 		put(TileEntityWatzStruct.class, "tileentity_watz_struct");
 		put(TileEntityICFStruct.class, "tileentity_icf_struct");

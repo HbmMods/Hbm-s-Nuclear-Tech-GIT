@@ -24,6 +24,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.*;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -83,6 +84,39 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		return "container.machineRotaryFurnace";
 	}
 
+	public TilePort[] steamPorts;
+	public TilePort fluidTilePort;
+	public TilePort[] smokePorts;
+	
+	protected PortDef[] steamPortDef;
+	protected PortDef[] fluidPortDef;
+
+	public PortDef[] getSteamPorts() {
+		if(steamPortDef == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+			steamPortDef = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 1 - rot.offsetZ, dir.getOpposite())
+			};
+		}
+		return steamPortDef;
+	}
+	
+	public PortDef[] getFluidPorts() {
+		if(fluidPortDef == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+			fluidPortDef = new PortDef[] {
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot)
+			};
+		}
+		return fluidPortDef;
+	}
+
 	@Override
 	public void updateEntity() {
 
@@ -90,7 +124,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		if(!worldObj.isRemote) {
-
+			
 			tanks[0].setType(3, slots);
 
 			for(DirPos pos : getSteamPos()) {
@@ -280,26 +314,6 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			nbt.setInteger("outType", this.output.material.id);
 			nbt.setInteger("outAmount", this.output.amount);
 		}
-	}
-
-	public DirPos[] getSteamPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		return new DirPos[] {
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite())
-		};
-	}
-
-	public DirPos[] getFluidPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot)
-		};
 	}
 
 	public boolean canProcess(RotaryFurnaceRecipe recipe, float steamUseMult) {

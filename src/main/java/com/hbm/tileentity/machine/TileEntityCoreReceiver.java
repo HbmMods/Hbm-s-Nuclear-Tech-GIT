@@ -62,9 +62,6 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 			
 			power = joules * 5000;
 			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			
 			if(joules > 0) {
 
 				if(tank.getFill() >= 20) {

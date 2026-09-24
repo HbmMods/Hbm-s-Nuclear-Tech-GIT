@@ -21,6 +21,7 @@ import com.hbm.render.block.ISBRHUniversal;
 import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.uninos.GenNode;
 import com.hbm.uninos.INetworkProvider;
@@ -120,12 +121,29 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 			return this;
 		}
 
+		protected PortDef[] cachedPorts;
+		
+		public PortDef[] getPorts() {
+			if(cachedPorts == null) {
+				cachedPorts = new PortDef[] {
+						PortDef.make(xCoord + 1, yCoord, zCoord, Library.POS_X),
+						PortDef.make(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+						PortDef.make(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+						PortDef.make(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+						PortDef.make(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+						PortDef.make(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+				};
+			}
+			return cachedPorts;
+		}
+
 		@Override
 		public void updateEntity() {
 
-			long time = worldObj.getTotalWorldTime();
-
 			if(!worldObj.isRemote) {
+				
+				this.setupFluidInPortsHijack(getAllTanks(), getPorts());
+				this.updatePortFIFO();
 
 				if(prevProgress != progress) {
 					worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
@@ -141,12 +159,6 @@ public class BlockRebar extends BlockContainer implements ISBRHUniversal {
 					return;
 				}
 				
-				if(time % 60 == 0) {
-					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-						this.trySubscribe(Fluids.CONCRETE, worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-					}
-				}
-
 				if(this.node == null || this.node.expired) {
 
 					this.node = (RebarNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, RebarNetworkProvider.THE_PROVIDER);

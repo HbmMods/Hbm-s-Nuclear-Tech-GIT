@@ -58,6 +58,10 @@ public class TilePort {
 		return this;
 	}
 	
+	public TilePort setupPort(PortDef def) {
+		return this.setupPositions(def.portPositions).setupConnections(def.portConnections);
+	}
+	
 	/** Ideally only run this once, ports shouldn't change position (there is no handling for that unless a rebuild is forced). Multiple positions for one port means that this is a passthrough port group */
 	public TilePort setupPositions(BlockPos... pos) {
 		this.positions = pos;

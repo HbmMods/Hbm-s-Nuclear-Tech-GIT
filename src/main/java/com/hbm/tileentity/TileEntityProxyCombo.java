@@ -128,13 +128,6 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		return false;
 	}
 
-	@Override
-	public boolean allowDirectProvision() {
-		if(!power) return false;
-		if(getCoreObject() instanceof IEnergyReceiverMK2) return ((IEnergyReceiverMK2)getCoreObject()).allowDirectProvision();
-		return true;
-	}
-
 	public static final FluidTank[] EMPTY_TANKS = new FluidTank[0];
 
 	@Override

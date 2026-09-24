@@ -17,8 +17,8 @@ import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -62,21 +62,34 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		return "container.machineWoodBurner";
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ, dir.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX, yCoord, zCoord - dir.offsetZ + rot.offsetZ, dir.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.setupAllPorts(getPorts());
+			this.updatePortPOFIFO();
 			
 			powerGen = 0;
 			
 			this.tank.setType(2, slots);
 			this.tank.loadTank(3, 4, slots);
 			this.power = Library.chargeItemsFromTE(slots, 5, power, maxPower);
-			
-			for(DirPos pos : getConPos()) {
-				if(power > 0) this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
 			
 			if(!liquidBurn) {
 				
@@ -164,15 +177,6 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		liquidBurn = buf.readBoolean();
 		
 		tank.deserialize(buf);
-	}
-	
-	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite())
-		};
 	}
 	
 	@Override

@@ -9,7 +9,6 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.NTMSounds;
@@ -18,6 +17,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.TrackerUtil;
 
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
@@ -69,10 +69,27 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 		this.tank = new FluidTank(Fluids.WOODOIL, 100);
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, rot, rot.getOpposite())
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -84,10 +101,6 @@ public class TileEntityMachineThresher extends TileEntityLoadedBase implements I
 				} else {
 					this.isOn = false;
 				}
-
-				trySubscribe(tank.getTankType(), worldObj, xCoord + rot.offsetX, yCoord, zCoord + rot.offsetZ, rot);
-				trySubscribe(tank.getTankType(), worldObj, xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite());
-				trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			}
 
 			if(isOn && !isSuspended) {

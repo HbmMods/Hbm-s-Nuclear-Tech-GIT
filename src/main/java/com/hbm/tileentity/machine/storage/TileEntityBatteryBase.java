@@ -156,7 +156,6 @@ public abstract class TileEntityBatteryBase extends TileEntityMachineBase implem
 		nbt.setByte("priority", (byte) this.priority.ordinal());
 	}
 
-	@Override public boolean allowDirectProvision() { return false; }
 	@Override public ConnectionPriority getPriority() { return this.priority; }
 
 	public abstract BlockPos[] getPortPos();

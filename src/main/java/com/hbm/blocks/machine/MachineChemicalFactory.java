@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyDyn;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.TileEntityMachineChemicalFactory;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
@@ -73,10 +74,10 @@ public class MachineChemicalFactory extends BlockDummyable implements ITooltipPr
 		if(!(te instanceof TileEntityMachineChemicalFactory)) return;
 		TileEntityMachineChemicalFactory chemfac = (TileEntityMachineChemicalFactory) te;
 		
-		DirPos[] cool = chemfac.getCoolPos();
+		PortDef cool = chemfac.getCoolantPort();
 		DirPos[] io = chemfac.getIOPos();
 		
-		for(DirPos dirPos : cool) if(dirPos.compare(x + dirPos.getDir().offsetX, y, z + dirPos.getDir().offsetZ)) {
+		for(DirPos dirPos : cool.portConnections) if(dirPos.compare(x + dirPos.getDir().offsetX, y, z + dirPos.getDir().offsetZ)) {
 			List<String> text = new ArrayList();
 			
 			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + chemfac.water.getTankType().getLocalizedName());

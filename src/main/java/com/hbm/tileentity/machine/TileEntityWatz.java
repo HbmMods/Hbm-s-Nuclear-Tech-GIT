@@ -18,15 +18,16 @@ import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
@@ -49,7 +50,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiverMK2, IControlReceiver, IGUIProvider, IFluidCopiable, CompatHandler.OCComponent, IRORValueProvider {
@@ -91,17 +91,40 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		this.sharedTanks[2].setFill(tanks[2].getFill());
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord + 2, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord - 2, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord, zCoord + 2, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord, zCoord - 2, Library.NEG_Y),
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y),
+					PortDef.make(xCoord + 2, yCoord + 2, zCoord, Library.POS_Y),
+					PortDef.make(xCoord - 2, yCoord + 2, zCoord, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 2, zCoord + 2, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 2, zCoord - 2, Library.POS_Y),
+					PortDef.make(xCoord, yCoord + 2, zCoord, Library.POS_Y),
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 
-		if(!worldObj.isRemote) resetSharedTanks();
+		if(!worldObj.isRemote) {
+			this.setupFluidPorts(getPorts());
+			this.updatePortFIFO();
+			resetSharedTanks();
+		}
 
 		if(!worldObj.isRemote && !updateLock()) {
 
 			boolean turnedOn = worldObj.getBlock(xCoord, yCoord + 3, zCoord) == ModBlocks.watz_pump && worldObj.getIndirectPowerLevelTo(xCoord, yCoord + 5, zCoord, 0) > 0;
 			List<TileEntityWatz> segments = new ArrayList();
 			segments.add(this);
-			this.subscribeToTop();
 
 			/* accumulate all segments */
 			for(int y = yCoord - 3; y >= 0; y -= 3) {
@@ -158,8 +181,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 					segment.tanks[j].setFill(min);
 				}
 			}
-
-			segments.get(segments.size() - 1).sendOutBottom();
 
 			/* explode on mud overflow */
 			if(sharedTanks[2].getFill() > 0) {
@@ -330,32 +351,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	/** Prevent manual updates when another segment is above this one */
 	public boolean updateLock() {
 		return Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz;
-	}
-
-	protected void subscribeToTop() {
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + 2, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord - 2, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord + 2, ForgeDirection.UP);
-		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord - 2, ForgeDirection.UP);
-	}
-
-	protected void sendOutBottom() {
-
-		for(DirPos pos : getSendingPos()) {
-			if(tanks[1].getFill() > 0) this.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			if(tanks[2].getFill() > 0) this.tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-
-	protected DirPos[] getSendingPos() {
-		return new DirPos[] {
-				new DirPos(xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN),
-				new DirPos(xCoord + 2, yCoord - 1, zCoord, ForgeDirection.DOWN),
-				new DirPos(xCoord - 2, yCoord - 1, zCoord, ForgeDirection.DOWN),
-				new DirPos(xCoord, yCoord - 1, zCoord + 2, ForgeDirection.DOWN),
-				new DirPos(xCoord, yCoord - 1, zCoord - 2, ForgeDirection.DOWN)
-		};
 	}
 
 	@Override

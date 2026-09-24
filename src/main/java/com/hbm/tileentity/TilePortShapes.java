@@ -43,6 +43,28 @@ public class TilePortShapes {
 		};
 	}
 	
+	/** Assembler-like 8 port with 12 connections */
+	public static PortDef[] purex(int x, int y, int z) {
+		return new PortDef[] {
+				PortDef.make(x + 2, y, z - 1, Library.POS_X),
+				PortDef.make(x + 2, y, z + 0, Library.POS_X),
+				PortDef.make(x + 2, y, z + 1, Library.POS_X),
+				PortDef.make(x + 2, y, z + 2, Library.POS_X, Library.POS_Z),
+				PortDef.make(x + 1, y, z + 2, Library.POS_Z),
+				PortDef.make(x + 0, y, z + 2, Library.POS_Z),
+				PortDef.make(x - 1, y, z + 2, Library.POS_Z),
+				PortDef.make(x - 2, y, z + 2, Library.NEG_X, Library.POS_Z),
+				PortDef.make(x - 2, y, z + 1, Library.NEG_X),
+				PortDef.make(x - 2, y, z + 0, Library.NEG_X),
+				PortDef.make(x - 2, y, z - 1, Library.NEG_X),
+				PortDef.make(x - 2, y, z - 2, Library.NEG_X, Library.NEG_Z),
+				PortDef.make(x - 1, y, z - 2, Library.NEG_Z),
+				PortDef.make(x + 0, y, z - 2, Library.NEG_Z),
+				PortDef.make(x + 1, y, z - 2, Library.NEG_Z),
+				PortDef.make(x + 2, y, z - 2, Library.POS_X, Library.NEG_Z),
+		};
+	}
+	
 	/** Combination oven-like 16 port with 24 connections */
 	public static PortDef[] comboven(int x, int y, int z) {
 		return new PortDef[] {

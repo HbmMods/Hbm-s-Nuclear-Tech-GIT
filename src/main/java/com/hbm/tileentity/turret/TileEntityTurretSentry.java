@@ -10,8 +10,10 @@ import com.hbm.inventory.gui.GUITurretSentry;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactory9mm;
 import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
+import com.hbm.lib.Library;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TilePort.PortDef;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -23,7 +25,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IGUIProvider {
 
@@ -43,6 +44,15 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 		configs.add(XFactory9mm.p9_fmj.id);
 		configs.add(XFactory9mm.p9_jhp.id);
 		configs.add(XFactory9mm.p9_ap.id);
+	}
+
+	@Override
+	public PortDef[] getPorts() {
+		if(cachedPorts == null)
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, Library.NEG_Y)
+			};
+		return cachedPorts;
 	}
 
 	@Override
@@ -245,10 +255,6 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 		super.deserialize(buf);
 		this.retractingLeft = buf.readBoolean();
 		this.retractingRight = buf.readBoolean();
-	}
-
-	protected void updateConnections() {
-		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 	}
 
 	@Override

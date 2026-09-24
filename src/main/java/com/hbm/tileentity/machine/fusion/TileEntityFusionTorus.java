@@ -95,9 +95,6 @@ public class TileEntityFusionTorus extends TileEntityCooledBase implements IGUIP
 
 	public PortDef[] getPorts() {
 		if(cachedPorts == null) {
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
 			cachedPorts = new PortDef[] {
 					PortDef.make(xCoord, yCoord + 0, zCoord, Library.NEG_Y),
 					PortDef.make(xCoord, yCoord + 4, zCoord, Library.POS_Y),

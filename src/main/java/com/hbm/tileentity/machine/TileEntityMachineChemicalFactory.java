@@ -23,7 +23,10 @@ import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePort;
+import com.hbm.tileentity.TilePortShapes;
 import com.hbm.tileentity.TileEntityProxyDyn.IProxyDelegateProvider;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.i18n.I18nUtil;
@@ -48,6 +51,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 	public FluidTank[] allTanks;
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
+	
+	public TilePort coolantInPort;
+	public TilePort coolantOutPort;
 
 	public FluidTank water;
 	public FluidTank lps;
@@ -93,6 +99,9 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 				.fluidInput(inputTanks[0 + i * 3], inputTanks[1 + i * 3], inputTanks[2 + i * 3])
 				.fluidOutput(outputTanks[0 + i * 3], outputTanks[1 + i * 3], outputTanks[2 + i * 3]);
 	}
+	
+	protected PortDef[] powerPorts;
+	public PortDef[] getPowerPorts() { if(powerPorts == null) powerPorts = TilePortShapes.purex(xCoord, yCoord, zCoord); return powerPorts; }
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
@@ -156,6 +165,16 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupPowerPorts(getPowerPorts());
+			this.setupFluidPorts(getFluidPorts());
+			if(coolantInPort == null) coolantInPort = new TilePort().setupOwner(delegate).setupPort(getCoolantPort()).setupType(water.getTankType().getNetworkProvider());
+			if(coolantOutPort == null) coolantOutPort = new TilePort().setupOwner(delegate).setupPort(getCoolantPort()).setupType(lps.getTankType().getNetworkProvider());
+			this.updatePortPIFIFO();
+			coolantInPort.update(worldObj);
+			coolantInPort.checkSubscribe(worldObj);
+			coolantOutPort.update(worldObj);
+			coolantOutPort.checkProvide(worldObj);
+			
 			long nextMaxPower = 0;
 			for(int i = 0; i < 4; i++) {
 				GenericRecipe recipe = chemplantModule[i].getRecipe();
@@ -168,18 +187,6 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			upgradeManager.checkSlots(slots, 1, 3);
-			
-			for(DirPos pos : getConPos()) {
-				this.trySubscribe(worldObj, pos);
-				for(FluidTank tank : inputTanks) if(tank.getTankType() != Fluids.NONE) this.trySubscribe(tank.getTankType(), worldObj, pos);
-				for(FluidTank tank : outputTanks) if(tank.getFill() > 0) this.tryProvide(tank, worldObj, pos);
-			}
-			
-			for(DirPos pos : getCoolPos()) {
-				delegate.trySubscribe(worldObj, pos);
-				delegate.trySubscribe(water.getTankType(), worldObj, pos);
-				delegate.tryProvide(lps, worldObj, pos);
-			}
 
 			double speed = 1D;
 			double pow = 1D;
@@ -265,54 +272,60 @@ public class TileEntityMachineChemicalFactory extends TileEntityMachineBase impl
 		return water.getFill() >= 100 && lps.getFill() <= lps.getMaxFill() - 100;
 	}
 	
-	public DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new DirPos[] {
-				new DirPos(xCoord + 3, yCoord, zCoord - 2, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord, zCoord + 0, Library.POS_X),
-				new DirPos(xCoord + 3, yCoord, zCoord + 2, Library.POS_X),
-				new DirPos(xCoord - 3, yCoord, zCoord - 2, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord, zCoord + 0, Library.NEG_X),
-				new DirPos(xCoord - 3, yCoord, zCoord + 2, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord + 2, yCoord, zCoord + 3, Library.POS_Z),
-				new DirPos(xCoord - 2, yCoord, zCoord - 3, Library.NEG_Z),
-				new DirPos(xCoord + 0, yCoord, zCoord - 3, Library.NEG_Z),
-				new DirPos(xCoord + 2, yCoord, zCoord - 3, Library.NEG_Z),
-
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 0 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
-
-				new DirPos(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
-				new DirPos(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
-		};
+	protected PortDef coolantPort;
+	public PortDef getCoolantPort() {
+		if(coolantPort == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			coolantPort = PortDef.combine(
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 2, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
+			);
+		}
+		return coolantPort;
 	}
 
-	
-	public DirPos[] getCoolPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		return new DirPos[] {
-				new DirPos(xCoord + rot.offsetX + dir.offsetX * 3, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 3, dir),
-				new DirPos(xCoord - rot.offsetX + dir.offsetX * 3, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 3, dir),
-				new DirPos(xCoord + rot.offsetX - dir.offsetX * 3, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
-				new DirPos(xCoord - rot.offsetX - dir.offsetX * 3, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 3, dir.getOpposite()),
-		};
+	protected PortDef[] fluidPorts;
+	public PortDef[] getFluidPorts() {
+		if(fluidPorts == null) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			fluidPorts = new PortDef[] {
+					PortDef.make(xCoord + rot.offsetX + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord - rot.offsetX + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 2, dir),
+					PortDef.make(xCoord + rot.offsetX - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord - rot.offsetX - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ - dir.offsetZ * 2, dir.getOpposite()),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 0, Library.POS_X),
+					PortDef.make(xCoord + 2, yCoord, zCoord + 2, Library.POS_X, Library.POS_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord + 2, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 2, Library.NEG_X, Library.POS_Z),
+					PortDef.make(xCoord - 2, yCoord, zCoord + 0, Library.NEG_X),
+					PortDef.make(xCoord - 2, yCoord, zCoord - 2, Library.NEG_X, Library.NEG_Z),
+					PortDef.make(xCoord + 0, yCoord, zCoord - 2, Library.NEG_Z),
+					PortDef.make(xCoord + 2, yCoord, zCoord - 2, Library.POS_X, Library.NEG_Z),
+					PortDef.make(xCoord + dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 0 + rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 1 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 2 + rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 + rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX * 0 - rot.offsetX * 2, yCoord + 3, zCoord + dir.offsetZ * 0 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 1 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 1 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord + 3, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, Library.POS_Y),
+					PortDef.make(xCoord + dir.offsetX + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord - dir.offsetX + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 3, rot),
+					PortDef.make(xCoord + dir.offsetX - rot.offsetX * 3, yCoord, zCoord + dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+					PortDef.make(xCoord - dir.offsetX - rot.offsetX * 3, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 3, rot.getOpposite()),
+			};
+		}
+		return fluidPorts;
 	}
-	
+
 	public DirPos[] getIOPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);

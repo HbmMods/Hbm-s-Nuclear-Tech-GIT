@@ -5,6 +5,7 @@ import com.hbm.blocks.machine.pile.BlockPile;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.tileentity.machine.pile.TileEntityPileCore.PileChannel;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Compat;
@@ -37,13 +38,27 @@ public class TileEntityPileVent extends TileEntityPileDeviceBase implements IFlu
 		return dir == conDir;
 	}
 
+	protected PortDef[] cachedPorts;
+
+	public PortDef[] getPorts() {
+		if(cachedPorts == null) {
+			ForgeDirection dir = getOrientation();
+			cachedPorts = new PortDef[] {
+					PortDef.make(xCoord, yCoord, zCoord, dir)
+			};
+		}
+		return cachedPorts;
+	}
+
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
+			this.setupAllPorts(getPorts());
+			this.updatePortFIFO();
+			
 			ForgeDirection dir = getOrientation();
-			this.trySubscribe(compair.getTankType(), worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
 			
 			this.isActive = false;
 			

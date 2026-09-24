@@ -5,10 +5,10 @@ import java.util.List;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.BufferUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -39,6 +39,9 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	public TileEntityConveyorPress() {
 		super(1);
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.around(xCoord, yCoord, zCoord); return cachedPorts; }
 
 	@Override
 	public String getName() {
@@ -49,8 +52,10 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-
-			this.updateConnections();
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.receivePower();
 
 			if(delay <= 0) {
 
@@ -99,19 +104,6 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 				this.renderPress = this.syncPress;
 			}
 		}
-	}
-
-	protected void updateConnections() {
-		for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-	}
-
-	protected DirPos[] getConPos() {
-		return new DirPos[] {
-				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-		};
 	}
 
 	public boolean canExtend() {

@@ -726,7 +726,6 @@ public class ModBlocks {
 	@Deprecated public static Block machine_lithium_battery;
 	@Deprecated public static Block machine_schrabidium_battery;
 	@Deprecated public static Block machine_dineutronium_battery;
-	@Deprecated public static Block machine_fensu;
 
 	@Deprecated public static Block capacitor_bus;
 	public static Block capacitor_copper; // neat for structures
@@ -1831,7 +1830,6 @@ public class ModBlocks {
 		machine_lithium_battery = new MachineBattery(Material.iron, 50_000_000).setBlockName("machine_lithium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		machine_schrabidium_battery = new MachineBattery(Material.iron, 25_000_000_000L).setBlockName("machine_schrabidium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		machine_dineutronium_battery = new MachineBattery(Material.iron, 1_000_000_000_000L).setBlockName("machine_dineutronium_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
-		machine_fensu = new MachineFENSU(Material.iron).setBlockName("machine_fensu").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":machine_fensu");
 
 		capacitor_bus = new MachineCapacitorBus(Material.iron).setBlockName("capacitor_bus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		capacitor_copper = new MachineCapacitor(Material.iron, 1_000_000L, "copper").setBlockName("capacitor_copper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
@@ -3228,7 +3226,6 @@ public class ModBlocks {
 		register(machine_lithium_battery);
 		register(machine_schrabidium_battery);
 		register(machine_dineutronium_battery);
-		register(machine_fensu);
 		register(capacitor_bus);
 		register(capacitor_copper);
 		register(capacitor_gold);

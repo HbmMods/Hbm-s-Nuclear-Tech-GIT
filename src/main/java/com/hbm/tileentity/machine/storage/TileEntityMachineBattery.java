@@ -4,8 +4,6 @@ import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyConductorMK2;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.energymk2.Nodespace;
-import api.hbm.energymk2.Nodespace.PowerNode;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
 import api.hbm.tile.IInfoProviderEC;
@@ -18,7 +16,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.uninos.UniNodespace;
+import com.hbm.tileentity.TilePortShapes;
+import com.hbm.tileentity.TilePort.PortDef;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
 
@@ -46,8 +45,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public long power = 0;
 	public long prevPowerState = 0;
 
-	protected PowerNode node;
-
 	//0: input only
 	//1: buffer
 	//2: output only
@@ -67,31 +64,16 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	private static final int[] slots_bottom = new int[] {0, 1};
 	private static final int[] slots_side = new int[] {1};
 
-	private String customName;
-
 	public TileEntityMachineBattery() {
 		super(2);
-		slots = new ItemStack[2];
 	}
+	
+	protected PortDef[] cachedPorts;
+	public PortDef[] getPorts() { if(cachedPorts == null) cachedPorts = TilePortShapes.solderer(xCoord, yCoord, zCoord, this.getBlockMetadata()); return cachedPorts; }
 
 	@Override
 	public String getName() {
 		return "container.battery";
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : getName();
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-		markDirty();
 	}
 
 	@Override
@@ -116,8 +98,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		this.redHigh = nbt.getShort("redHigh");
 		this.lastRedstone = nbt.getByte("lastRedstone");
 		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
-
-		customName = nbt.getString("name");
 	}
 
 	@Override
@@ -129,15 +109,11 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		nbt.setShort("redHigh", redHigh);
 		nbt.setByte("lastRedstone", lastRedstone);
 		nbt.setByte("priority", (byte)this.priority.ordinal());
-
-		if (customName != null) {
-			nbt.setString("name", customName);
-		}
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
 	}
 
 	@Override
@@ -174,54 +150,19 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void updateEntity() {
 
 		if(!worldObj.isRemote && worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
+			
+			this.setupPowerPorts(getPorts());
+			this.updateAllPorts();
+			this.providePower();
+			this.receivePower();
 
 			if(priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
 				priority = ConnectionPriority.LOW;
 			}
 
-			int mode = this.getRelevantMode(false);
-
 			long prevPower = this.power;
 
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
-
-			// In buffer mode, becomes a cable block and provides power to itself
-			// otherwise, acts like a regular power providing/accepting machine
-			if(mode == mode_buffer) {
-				if(this.node == null || this.node.expired) {
-
-					this.node = (PowerNode) UniNodespace.getNode(worldObj, xCoord, yCoord, zCoord, Nodespace.THE_POWER_PROVIDER);
-
-					if(this.node == null || this.node.expired) {
-						this.node = this.createNode();
-						UniNodespace.createNode(worldObj, this.node);
-					}
-				}
-
-				this.tryProvide(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
-				if(node != null && node.hasValidNet()) node.net.addReceiver(this);
-			} else {
-				if(this.node != null) {
-					UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, Nodespace.THE_POWER_PROVIDER);
-					this.node = null;
-				}
-
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					PowerNode dirNode = (PowerNode) UniNodespace.getNode(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, Nodespace.THE_POWER_PROVIDER);
-
-					if(mode == mode_output) {
-						tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-					} else {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
-					}
-
-					if(mode == mode_input) {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.addReceiver(this);
-					} else {
-						if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeReceiver(this);
-					}
-				}
-			}
 
 			byte comp = this.getComparatorPower();
 			if(comp != this.lastRedstone)
@@ -242,17 +183,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			prevPowerState = power;
 
 			this.networkPackNT(20);
-		}
-	}
-
-	@Override
-	public void invalidate() {
-		super.invalidate();
-
-		if(!worldObj.isRemote) {
-			if(this.node != null) {
-				UniNodespace.destroyNode(worldObj, xCoord, yCoord, zCoord, Nodespace.THE_POWER_PROVIDER);
-			}
 		}
 	}
 
