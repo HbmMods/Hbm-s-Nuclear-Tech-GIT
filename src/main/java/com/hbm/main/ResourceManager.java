@@ -1425,6 +1425,9 @@ public class ResourceManager {
 	public static final ResourceLocation missileMicroSchrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_schrab.png");
 	public static final ResourceLocation missileMicroAMat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_amat.png");
 	public static final ResourceLocation missileMicroEMP_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_emp.png");
+	public static final ResourceLocation missileMicroEndo_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_endo.png");
+	public static final ResourceLocation missileMicroExo_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_exo.png");
+	public static final ResourceLocation missileMicroFloat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_micro_float.png");
 	public static final ResourceLocation missileMicroTest_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_test.png");
 	public static final ResourceLocation missileShuttle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile/missile_shuttle.png");
 	public static final ResourceLocation minerRocket_tex = new ResourceLocation(RefStrings.MODID, "textures/models/minerRocket.png");

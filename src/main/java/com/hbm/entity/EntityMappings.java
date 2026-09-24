@@ -85,6 +85,9 @@ public class EntityMappings {
 		addEntity(EntityMissileSchrabidium.class, "entity_missile_schrabidium", 1000);
 		addEntity(EntityMissileAntimatter.class, "entity_missile_antimatter", 1000);
 		addEntity(EntityMissileEMP.class, "entity_missile_emp", 1000);
+		addEntity(EntityMissileEndo.class, "entity_missile_endo", 1000);
+		addEntity(EntityMissileExo.class, "entity_missile_exo", 1000);
+		addEntity(EntityMissileFloat.class, "entity_missile_float", 1000);
 		addEntity(EntityChlorineFX.class, "entity_chlorine_fx", 1000);
 		addEntity(EntityPinkCloudFX.class, "entity_pink_cloud_fx", 1000);
 		addEntity(EntityCloudFX.class, "entity_cloud_fx", 1000);

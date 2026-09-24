@@ -51,6 +51,12 @@ public class RenderMissileTaint extends Render {
 			return ResourceManager.missileMicroAMat_tex;
 		if(entity instanceof EntityMissileEMP)
 			return ResourceManager.missileMicroEMP_tex;
+		if(entity instanceof EntityMissileEndo)
+			return ResourceManager.missileMicroEndo_tex;
+		if(entity instanceof EntityMissileExo)
+			return ResourceManager.missileMicroExo_tex;
+		if(entity instanceof EntityMissileFloat)
+			return ResourceManager.missileMicroFloat_tex;
 		if(entity instanceof EntityMissileTest)
 			return ResourceManager.missileMicroTest_tex;
 		

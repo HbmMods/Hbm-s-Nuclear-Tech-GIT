@@ -144,6 +144,9 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_schrabidium), generateStandard(ResourceManager.missileMicroSchrab_tex, ResourceManager.missileMicro));
 		renderers.put(new ComparableStack(ModItems.missile_antimatter), generateStandard(ResourceManager.missileMicroAMat_tex, ResourceManager.missileMicro));
 		renderers.put(new ComparableStack(ModItems.missile_emp), generateStandard(ResourceManager.missileMicroEMP_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_endo), generateStandard(ResourceManager.missileMicroEndo_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_exo), generateStandard(ResourceManager.missileMicroExo_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_float), generateStandard(ResourceManager.missileMicroFloat_tex, ResourceManager.missileMicro));
 		
 		renderers.put(new ComparableStack(ModItems.missile_stealth), x -> {
 			GL11.glShadeModel(GL11.GL_SMOOTH);

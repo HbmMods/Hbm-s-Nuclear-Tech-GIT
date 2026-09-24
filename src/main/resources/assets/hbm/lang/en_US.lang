@@ -3387,6 +3387,7 @@ item.missile_emp.name=EMP Missile
 item.missile_emp_strong.name=Strong EMP Missile
 item.missile_endo.name=Endothermic Missile
 item.missile_exo.name=Exothermic Missile
+item.missile_float.name=Levitation Missile
 item.missile.fuel.balefire=BF Rocket Fuel
 item.missile.fuel.ethanol_peroxide=Ethanol / Hydrogen Peroxide
 item.missile.fuel.hydrogen=Liquid Hydrogen / Liquid Oxygen

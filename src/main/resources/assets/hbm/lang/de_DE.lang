@@ -2510,6 +2510,7 @@ item.missile_emp.name=EMP-Rakete
 item.missile_emp_strong.name=Verbesserte EMP-Rakete
 item.missile_endo.name=Endothermische Rakete
 item.missile_exo.name=Exothermische Rakete
+item.missile_float.name=Anti Gravitations Rakete
 item.missile_generic.name=HE Rakete
 item.missile_incendiary.name=Brandrakete
 item.missile_incendiary_strong.name=Starke Brandrakete

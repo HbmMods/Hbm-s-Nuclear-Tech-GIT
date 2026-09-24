@@ -176,6 +176,9 @@ public class WeaponRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_schrabidium, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.cell_anti_schrabidium, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.QUANTUM) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_antimatter, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModItems.pellet_antimatter, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_ADVANCED) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_emp, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.emp_bomb });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_endo, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.therm_endo });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_exo, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.therm_exo });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.missile_float, 1), new Object[] { ModItems.missile_assembly, ModItems.ducttape, ModBlocks.float_bomb });
 		
 		//Missile fins
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mp_stability_10_flat, 1), new Object[] { "PSP", "P P", 'P', STEEL.plate(), 'S', ModBlocks.steel_scaffold });
