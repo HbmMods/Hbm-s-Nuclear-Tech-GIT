@@ -3,6 +3,8 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import api.hbm.fluidmk2.IFillableItem;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityMist;
@@ -21,7 +23,9 @@ import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.threading.PacketThreading;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -49,23 +53,26 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
-public class ItemAmmoArty extends Item {
+public class ItemAmmoArty extends Item implements IFillableItem {
+	public static final int FLUID_CAPACITY = 8_000;
 
 	public static Random rand = new Random();
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 12 /* <<< */ ];
+	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 14 /* <<< */ ];
 	/* item types */
-	public final int NORMAL = 0;
-	public final int CLASSIC = 1;
-	public final int EXPLOSIVE = 2;
-	public final int MINI_NUKE = 3;
-	public final int NUKE = 4;
-	public final int PHOSPHORUS = 5;
-	public final int MINI_NUKE_MULTI = 6;
-	public final int PHOSPHORUS_MULTI = 7;
-	public final int CARGO = 8;
-	public final int CHLORINE = 9;
-	public final int PHOSGENE = 10;
-	public final int MUSTARD = 11;
+	public static final int NORMAL = 0;
+	public static final int CLASSIC = 1;
+	public static final int EXPLOSIVE = 2;
+	public static final int MINI_NUKE = 3;
+	public static final int NUKE = 4;
+	public static final int PHOSPHORUS = 5;
+	public static final int MINI_NUKE_MULTI = 6;
+	public static final int PHOSPHORUS_MULTI = 7;
+	public static final int CARGO = 8;
+	public static final int CHLORINE = 9;
+	public static final int PHOSGENE = 10;
+	public static final int MUSTARD = 11;
+	public static final int FLUID = 12;
+	public static final int FLUID_MULTI = 13;
 	/* non-item shell types */
 
 	public ItemAmmoArty() {
@@ -89,6 +96,16 @@ public class ItemAmmoArty extends Item {
 		list.add(new ItemStack(item, 1, CHLORINE));
 		list.add(new ItemStack(item, 1, PHOSGENE));
 		list.add(new ItemStack(item, 1, MUSTARD));
+		list.add(new ItemStack(item, 1, FLUID));
+		list.add(new ItemStack(item, 1, FLUID_MULTI));
+	}
+	
+	public static boolean isShellType(ItemStack stack, int type) {
+		return stack != null && stack.getItemDamage() == type;
+	}
+	
+	public static boolean isFluidShell(ItemStack stack) {
+		return isShellType(stack, FLUID) || isShellType(stack, FLUID_MULTI);
 	}
 
 	@Override
@@ -145,6 +162,18 @@ public class ItemAmmoArty extends Item {
 				list.add(r + "Empty");
 			}
 			break;
+		case FLUID_MULTI:
+		case FLUID:
+			if(isShellType(stack, FLUID_MULTI)) {
+				list.add(r + "Splits x6");
+			}
+			if(stack.hasTagCompound()) {
+				FluidType type = Fluids.fromID(stack.stackTagCompound.getInteger("fluid"));
+				int fill = stack.stackTagCompound.getInteger("fill");
+				list.add(y + String.format("%s: %d/%dmb", type.getLocalizedName(), fill, isShellType(stack, FLUID) ? FLUID_CAPACITY : FLUID_CAPACITY * 6));
+			} else {
+				list.add(r + "Empty");
+			}
 		}
 	}
 
@@ -186,7 +215,7 @@ public class ItemAmmoArty extends Item {
 
 	protected static SpentCasing SIXTEEN_INCH_CASE = new SpentCasing(CasingType.STRAIGHT).setScale(15F, 15F, 10F).setupSmoke(1F, 1D, 200, 60).setMaxAge(300).setBounceMotion(1F, 0.5F);
 
-	public abstract class ArtilleryShell {
+	public abstract static class ArtilleryShell {
 
 		String name;
 		public SpentCasing casing;
@@ -232,6 +261,10 @@ public class ItemAmmoArty extends Item {
 		for(int i = 0; i < amount; i++) {
 			EntityArtilleryShell cluster = new EntityArtilleryShell(shell.worldObj);
 			cluster.setType(clusterType);
+			if(clusterType == FLUID || clusterType == FLUID_MULTI) {
+				int fill = shell.getFluidFill() / amount + (i == 0 ? shell.getFluidFill() % amount : 0);
+				cluster.setFluid(shell.getFluidType(), fill);
+			}
 			cluster.motionX = i == 0 ? shell.motionX : (shell.motionX + rand.nextGaussian() * deviation);
 			cluster.motionY = shell.motionY;
 			cluster.motionZ = i == 0 ? shell.motionZ : (shell.motionZ + rand.nextGaussian() * deviation);
@@ -304,6 +337,24 @@ public class ItemAmmoArty extends Item {
 				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 			}
 		}};
+		/* FLUID DELIVERY */
+		this.itemTypes[FLUID] = new ArtilleryShell("ammo_arty_fluid", SpentCasing.COLOR_CASE_16INCH) {
+			@Override
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				shell.killAndClear();
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.createExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 5F, false);
+				if(shell.getFluidType() != Fluids.NONE && shell.getFluidFill() > 0) {
+					EntityMist mist = new EntityMist(shell.worldObj);
+					mist.setType(shell.getFluidType());
+					mist.setPosition(mop.hitVec.xCoord - vec.xCoord,mop.hitVec.yCoord - vec.yCoord - 3, mop.hitVec.zCoord - vec.zCoord);
+					float size = 5f + 10f * Math.min(shell.getFluidFill(), FLUID_CAPACITY) / FLUID_CAPACITY;
+					mist.setArea(size, size / 2);
+					FluidTrait.onRelease(shell.worldObj,(int) (mop.hitVec.xCoord - vec.xCoord), (int) (mop.hitVec.yCoord - vec.yCoord), (int) (mop.hitVec.zCoord - vec.zCoord), shell.getFluidType(), null, FluidTrait.FluidReleaseType.SPILL, shell.getFluidFill());
+					shell.worldObj.spawnEntityInWorld(mist);
+				}
+			}
+		};
 
 		/* GAS */
 		this.itemTypes[CHLORINE] = new ArtilleryShell("ammo_arty_chlorine", SpentCasing.COLOR_CASE_16INCH) {
@@ -373,5 +424,67 @@ public class ItemAmmoArty extends Item {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[MINI_NUKE].onImpact(shell, mop); }
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, MINI_NUKE, 5, 300, 5); }
 		};
+		this.itemTypes[FLUID_MULTI] = new ArtilleryShell("ammo_arty_fluid_multi", SpentCasing.COLOR_CASE_16INCH) {
+			@Override public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.itemTypes[FLUID].onImpact(shell, mop); }
+			@Override public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, FLUID, 6, 300, 5); }
+		};
+	}
+
+	@Override
+	public boolean acceptsFluid(FluidType type, ItemStack stack) {
+		if(!isFluidShell(stack)) return false;
+		return getFill(stack) == 0 && !type.isAntimatter() && !type.hasNoContainer() || getFirstFluidType(stack) == type;
+	}
+
+	@Override
+	public int tryFill(FluidType type, int amount, ItemStack stack) {
+		if(!acceptsFluid(type, stack)) return amount;
+		int capacity = isShellType(stack, FLUID) ? FLUID_CAPACITY : FLUID_CAPACITY * 6;
+		int fill = getFill(stack);
+		int toFill = Math.min(amount, capacity - fill);
+		setFluid(stack, type, fill + toFill);
+		return amount - toFill;
+	}
+
+	@Override
+	public boolean providesFluid(FluidType type, ItemStack stack) {
+		return isFluidShell(stack) && getFill(stack) > 0 && getFirstFluidType(stack) == type;
+	}
+
+	@Override
+	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
+		if(!providesFluid(type, stack)) return 0;
+		int fill = getFill(stack);
+		int toEmpty = Math.min(amount, fill);
+		setFluid(stack, type, fill - toEmpty);
+		return toEmpty;
+	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		if(!isFluidShell(stack) || !stack.hasTagCompound()) return Fluids.NONE;
+		return Fluids.fromID(stack.stackTagCompound.getInteger("fluid"));
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		if(!isFluidShell(stack) || !stack.hasTagCompound()) return 0;
+		return stack.stackTagCompound.getInteger("fill");
+	}
+
+	public void setFluid(ItemStack stack, FluidType type, int fill) {
+		if(!isFluidShell(stack)) return;
+		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
+		if(fill <= 0) {
+			type = Fluids.NONE;
+			fill = 0;
+		}
+		stack.stackTagCompound.setInteger("fluid", type.getID());
+		stack.stackTagCompound.setInteger("fill", fill);
+	}
+
+	@Override
+	public int getItemStackLimit(ItemStack stack) {
+		return isFluidShell(stack) ? 1 : super.getItemStackLimit(stack);
 	}
 }
